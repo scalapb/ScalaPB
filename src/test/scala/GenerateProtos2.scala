@@ -1,5 +1,6 @@
 import java.io.{File, PrintWriter}
-import java.nio.file.{Files, Path}
+import java.nio.file.Files
+import javax.tools.ToolProvider
 
 import org.scalacheck.Prop.forAll
 import org.scalacheck.{Gen, Properties}
@@ -39,7 +40,24 @@ object FileGraph {
 
 object GenerateProtos2 extends Properties("Proto") {
 
-  val identifier = Gen.resize(2, Gen.identifier)
+  val RESERVED = Seq(
+    // JAVA_KEYWORDS
+    "abstract", "continue", "for", "new", "switch",
+    "assert", "default", "goto", "package", "synchronized",
+    "boolean", "do", "if", "private", "this",
+    "break", "double", "implements", "protected", "throw",
+    "byte", "else", "import", "public", "throws",
+    "case", "enum", "instanceof", "return", "transient",
+    "catch", "extends", "int", "short", "try", "char", "final",
+    "interface", "static", "void", "class", "finally",
+    "long", "strictfp", "volatile", "const", "float",
+    "native", "super", "while",
+
+    // Package names
+    "java", "com", "google")
+
+  // identifier must not have be of the Java keywords.
+  val identifier = Gen.resize(4, Gen.identifier).retryUntil(e => !RESERVED.contains(e))
 
   /** Generates an alphanumerical character */
   def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const("_")), (9, Gen.alphaChar))
@@ -134,16 +152,21 @@ object GenerateProtos2 extends Properties("Proto") {
   }
 
   def genProtoFile(name: String, existingFiles: Seq[ProtoFile]): Gen[ProtoFile] = {
-    val existingTopLevelNames = existingFiles.flatMap { ef =>
-      ef.protoPackage match {
+    val existingTopLevelNames: Seq[String] = existingFiles.flatMap { ef =>
+      (ef.protoPackage match {
         case Some(pkg) => Vector(pkg)
         case None => ef.topLevelNames
-      }
+      }) ++ (ef.javaPackage match {
+        case Some(str) =>
+          str.split('.').toSeq
+        case None => Seq.empty
+      })
     }
-    val namesGen = nonRepeating(identifier, existingTopLevelNames)
+    val namesGen = nonRepeatingStringIgnoreCase(identifier, existingTopLevelNames)
     for {
       protoPackage <- Gen.option(namesGen)
-      javaPackage <- Gen.option(Gen.resize(4, Gen.listOf(identifier)).map(_.mkString(".")))
+      javaPackageNames <- Gen.resize(4, Gen.nonEmptyListOf(namesGen))
+      javaPackage = Some(javaPackageNames mkString ".")
       typeNames <- Gen.resize(12, Gen.listOf(namesGen))
       enumNames <- Gen.resize(12, Gen.listOf(namesGen))
       baseName = protoPackage.fold("")(pkg => pkg + ".")
@@ -153,6 +176,7 @@ object GenerateProtos2 extends Properties("Proto") {
       enums <- Gen.sequence[Vector, ProtoEnum](enumNames.map(l => genEnum(l, namesGen)))
       avoidInner = existingTopLevelNames ++
         typeNames ++
+        javaPackageNames ++
         enumNames ++ enums.flatMap(_.values.map(_._1)) ++ protoPackage.toSeq
       types <- Gen.sequence[Vector, ProtoMessage](typeNames.map(l => genMessage(l, baseName + l,
         newMessageRefs, newEnumRefs, avoidInner, 0)))
@@ -169,11 +193,12 @@ object GenerateProtos2 extends Properties("Proto") {
     }
   }
 
-  def nonRepeating[A](gen: Gen[A], avoid: Traversable[A] = Nil): Gen[A] = {
-    val seen: mutable.Set[A] = mutable.Set.empty[A] ++ avoid
-    gen.retryUntil(x => !seen.contains(x)).map {
+  def nonRepeatingStringIgnoreCase(gen: Gen[String], avoid: Traversable[String] = Nil): Gen[String] = {
+    val seen: mutable.Set[String] =
+      mutable.Set.empty[String] ++ avoid.map(_.toLowerCase)
+    gen.retryUntil(x => !seen.contains(x.toLowerCase)).map {
       t =>
-        seen += t
+        seen += t.toLowerCase
         t
     }
   }
@@ -210,7 +235,7 @@ object GenerateProtos2 extends Properties("Proto") {
                  existingEnums: Vector[EnumReference],
                  namesToAvoid: Seq[String],
                  depth: Int = 0): Gen[ProtoMessage] = {
-    val names = nonRepeating(identifier, namesToAvoid :+ name)
+    val names = nonRepeatingStringIgnoreCase(identifier, namesToAvoid :+ name)
     for {
       typeNames <- if (depth < 2) Gen.resize(3, Gen.listOf(names)) else Gen.const(Nil)
       enumNames <- Gen.resize(3, Gen.listOf(names))
@@ -273,7 +298,7 @@ object GenerateProtos2 extends Properties("Proto") {
   }
 
   def genProtoFileSet: Gen[ProtoFileSet] = {
-    val namesGen = nonRepeating(identifier)
+    val namesGen = nonRepeatingStringIgnoreCase(identifier)
 
     def genProtoFiles(names: List[String], acc: List[ProtoFile]): Gen[Seq[ProtoFile]] = {
       names match {
@@ -289,41 +314,82 @@ object GenerateProtos2 extends Properties("Proto") {
       count <- Gen.resize(7, Gen.posNum[Int])
       names <- Gen.listOfN(count, namesGen)
       protoFiles <- genProtoFiles(names, acc = List())
-    } yield ProtoFileSet(protoFiles)
+    } yield ProtoFileSet(protoFiles.reverse)
   }
 
   def writeFileSet(fs: ProtoFileSet, size: Int) = {
-    val tmpDir: Path = Files.createTempDirectory(s"set_${size}_")
-    val tmpDirAbsolute = tmpDir.toAbsolutePath.toString
+    val tmpDir = Files.createTempDirectory(s"set_${size}_").toFile.getAbsoluteFile
     fs.files.foreach {
       protoFile =>
-        val file = new File(tmpDir.toFile, protoFile.fileName)
+        val file = new File(tmpDir, protoFile.fileName)
         val pw = new PrintWriter(file)
         val cp = new CodePrinter
         cp.print(protoFile)
         pw.write(cp.toString)
         pw.close()
     }
+    tmpDir
+  }
+
+  def compileProtos(fs: ProtoFileSet, tmpDir: File): Unit = {
     import scala.sys.process._
     fs.files.foreach {
       protoFile =>
-        val file = new File(tmpDir.toFile, protoFile.fileName)
+        val file = new File(tmpDir, protoFile.fileName)
         println(file.getAbsolutePath)
-        val cmd = Seq("protoc", file.getAbsolutePath, "--proto_path", tmpDirAbsolute, "--java_out", tmpDirAbsolute)
-        try {
-          cmd.!!
-        } catch {
-          case _ => System.exit(1)
+        val cmd = Seq("protoc", file.getAbsolutePath, "--proto_path",
+          tmpDir.toString,
+          "--plugin=protoc-gen-scala=/home/thesamet/Development/ScalaPB/ScalaPB",
+          "--java_out", tmpDir.toString,
+          "--scala_out", tmpDir.toString
+        )
+        cmd.!!
+    }
+  }
+
+  def getFileTree(f: File): Stream[File] =
+    f #:: (if (f.isDirectory) f.listFiles().toStream.flatMap(getFileTree)
+    else Stream.empty)
+
+  def compileJavaInDir(rootDir: File): Unit = {
+    val compiler = ToolProvider.getSystemJavaCompiler()
+    getFileTree(rootDir)
+      .filter(f => f.isFile && f.getName.endsWith(".java"))
+      .foreach {
+      file =>
+        println("Compiling " + file.getAbsolutePath)
+        if (compiler.run(null, null, null,
+          "-sourcepath", rootDir.toString,
+          "-d", rootDir.toString,
+          file.getAbsolutePath) != 0) {
+          throw new RuntimeException(s"Compilation of $file failed.")
         }
     }
   }
 
+  def compileScalaInDir(rootDir: File): Unit = {
+    import scala.tools.nsc._
+
+    val scalaFiles = getFileTree(rootDir)
+      .filter(f => f.isFile && f.getName.endsWith(".scala"))
+    val s = new Settings()
+    s.processArgumentString(s"""-usejavacp -cp "$rootDir"""")
+    val g = new Global(s)
+
+    val run = new g.Run
+    run.compile(scalaFiles.map(_.toString).toList)
+  }
+
   var z = 0
-  property("startsWith") = forAll(genProtoFileSet) { fileSet =>
-    writeFileSet(fileSet, z)
-    println("done " + z)
-    z += 1
-    true
+  property("startsWith") = forAll(genProtoFileSet) {
+    fileSet =>
+      val tmpDir = writeFileSet(fileSet, z)
+      compileProtos(fileSet, tmpDir)
+      compileJavaInDir(tmpDir)
+      compileScalaInDir(tmpDir)
+      println("done " + z)
+      z += 1
+      true
   }
 }
 
