@@ -18,7 +18,7 @@ object Nodes {
     def maxEnumId = Try(files.flatMap(_.maxEnumId).max).toOption
 
     def resolveTypeName(t: GenTypes.ProtoType): String = t match {
-      case Primitive(name) => name
+      case Primitive(name, _) => name
       case MessageReference(id) => fullMessageNameParts(id).mkString(".")
       case EnumReference(id) => fullEnumNameParts(id).mkString(".")
     }
@@ -59,13 +59,17 @@ object Nodes {
     lazy val minEnumId = Try(allEnums.map(_.id).min).toOption
     lazy val maxEnumId = Try(allEnums.map(_.id).max).toOption
 
-    def fileReferences(rootNode: RootNode): Set[String] = allMessages.flatMap(_.fields.map(_.fieldType).collect {
+    def fileReferences(rootNode: RootNode): Set[String] = (for {
+      message <- allMessages
+      field <- message.fields
+    } yield field.fieldType).collect({
       case MessageReference(id) => rootNode.messagesById(id).fileId
       case EnumReference(id) => rootNode.enumsById(id).fileId
     }).toSet.map(rootNode.filesById).map(_.baseFileName)
 
     def print(rootNode: RootNode, printer: FunctionalPrinter): FunctionalPrinter = {
-      val p1 = protoPackage.fold(printer)(pkg => printer.add(s"package $pkg;"))
+      val p0 = printer.add(s"// File id $fileId. messages: $minMessageId-$maxMessageId. Enums: $minEnumId-$maxEnumId")
+      val p1 = protoPackage.fold(p0)(pkg => p0.add(s"package $pkg;"))
       val p2 = javaPackage.fold(p1)(pkg => p1.add(s"""option java_package = "$pkg";"""))
       p2.add(fileReferences(rootNode).collect({
           case f if f != baseFileName => s"""import "${f}.proto";"""
@@ -88,7 +92,7 @@ object Nodes {
 
     def print(rootNode: RootNode, printer: FunctionalPrinter): FunctionalPrinter = {
       printer
-        .add(s"message $name {  // $id")
+        .add(s"message $name {  // message $id")
         .indent
         .printAll(enums)
         .print(messages)(_.print(rootNode, _))
@@ -103,13 +107,13 @@ object Nodes {
                        fieldOptions: GenTypes.FieldOptions.Value,
                        tag: Int) {
     def print(rootNode: RootNode, printer: FunctionalPrinter): FunctionalPrinter = {
-      printer.add(s"$fieldOptions ${rootNode.resolveTypeName(fieldType)} $name = $tag;")
+      printer.add(s"$fieldOptions ${rootNode.resolveTypeName(fieldType)} $name = $tag;  // $fieldType")
     }
   }
 
   case class EnumNode(id: Int, name: String, values: Seq[(String, Int)], parentMessageId: Option[Int], fileId: Int) extends FPrintable {
     override def print(printer: FunctionalPrinter): FunctionalPrinter = {
-      printer.add(s"enum $name {")
+      printer.add(s"enum $name {  // enum $id")
         .indent
         .add(values.map { case (s, v) => s"$s = $v;"}: _*)
         .outdent

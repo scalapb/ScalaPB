@@ -12,12 +12,12 @@ object GraphGen {
   case class Namespace(names: Set[String], parent: Option[Namespace]) {
     // Returns a new namespace nested in this one.
     // Adds the given name to the namespace.
-    def add(words: String*) = copy(names = names ++ words)
+    def add(words: String*) = copy(names = names ++ words.map(_.toLowerCase))
 
     def nest(name: String) =
       Namespace(Set(), parent = Some(add(name)))
 
-    def isNameAvailable(name: String): Boolean = !names.contains(name) && parent.forall(_.isNameAvailable(name))
+    def isNameAvailable(name: String): Boolean = !names.contains(name.toLowerCase) && parent.forall(_.isNameAvailable(name))
 
     def generateName: Gen[String] = GenerateProtos.identifier.retryUntil(isNameAvailable)
   }
@@ -35,7 +35,7 @@ object GraphGen {
     def nextEnumId = (_nextEnumId, copy(_nextEnumId = _nextEnumId + 1))
 
     def newFile: Gen[(String, Int, State)] = generateName.map {
-      case (name, state) => (name, _nextFileId, copy(
+      case (name, state) => (name, _nextFileId, state.copy(
         currentFileInitialMessageId = _nextMessageId,
         currentFileInitialEnumId = _nextEnumId,
         _nextFileId = _nextFileId + 1))
@@ -87,7 +87,7 @@ object GraphGen {
     s =>
       for {
         (baseName, fileId, state) <- state.newFile
-        (javaPackageNames, state) <- GenUtils.listWithStatefulGen(state, maxSize = 4)(_.generateName)
+        (javaPackageNames, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateName)
         javaPackage = javaPackageNames mkString "."
         javaPackageOption = if (javaPackage.nonEmpty) Some(javaPackage) else None
         (protoPackage, state) <- Gen.oneOf(state.generateSubspace, Gen.const(("", state)))
@@ -99,7 +99,9 @@ object GraphGen {
   }
 
   def genRootNode: Gen[RootNode] =
-    listWithStatefulGen(State(), maxSize = 12)(genFileNode).map {
-      case (files, state) => assert(state.namespace.parent.isEmpty); RootNode(files)
-    }
+    listWithStatefulGen(State(), maxSize = 15)(genFileNode).map {
+      case (files, state) =>
+        assert(state.namespace.parent.isEmpty)
+        RootNode(files)
+    }.suchThat(_.maxMessageId.isDefined)
 }

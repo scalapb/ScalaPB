@@ -1,28 +1,39 @@
-import org.scalacheck.Gen
 import GraphGen.State
+import org.scalacheck.{Arbitrary, Gen}
 
 /**
  * Created by thesamet on 9/28/14.
  */
 object GenTypes {
-  sealed trait ProtoType
-  case class Primitive(name: String) extends ProtoType
 
-  val ProtoSint32 = Primitive("sint32")
-  val ProtoUint32 = Primitive("uint32")
-  val ProtoInt32 = Primitive("int32")
-  val ProtoFixed32 = Primitive("fixed32")
-  val ProtoSfixed32 = Primitive("sfixed32")
-  val ProtoSint64 = Primitive("sint64")
-  val ProtoUint64 = Primitive("uint64")
-  val ProtoInt64 = Primitive("int64")
-  val ProtoFixed64 = Primitive("fixed64")
-  val ProtoSfixed64 = Primitive("sfixed64")
-  val ProtoDouble = Primitive("double")
-  val ProtoFloat = Primitive("float")
-  val ProtoBool = Primitive("bool")
-  val ProtoString = Primitive("string")
-  val ProtoBytes = Primitive("bytes")
+  sealed trait ProtoType {
+  }
+
+  case class Primitive(name: String, genValue: Gen[String]) extends ProtoType
+
+  private val uint32Gen = Gen.chooseNum[Long](0, 0xffffffffL)
+  private val uint64Gen = Gen.chooseNum[Long](0, Long.MaxValue) // TODO: fix high bit
+
+  private def escapeString(raw: String): String = {
+    import scala.reflect.runtime.universe._
+    Literal(Constant(raw)).toString
+  }
+
+  val ProtoSint32 = Primitive("sint32", Arbitrary.arbitrary[Int].map(_.toString))
+  val ProtoUint32 = Primitive("uint32", uint32Gen.map(_.toString))
+  val ProtoInt32 = Primitive("int32", Arbitrary.arbitrary[Int].map(_.toString))
+  val ProtoFixed32 = Primitive("fixed32", Arbitrary.arbitrary[Int].map(_.toString))
+  val ProtoSfixed32 = Primitive("sfixed32", Arbitrary.arbitrary[Int].map(_.toString))
+  val ProtoSint64 = Primitive("sint64", Arbitrary.arbitrary[Long].map(_.toString))
+  val ProtoUint64 = Primitive("uint64", uint64Gen.map(_.toString))
+  val ProtoInt64 = Primitive("int64", Arbitrary.arbitrary[Long].map(_.toString))
+  val ProtoFixed64 = Primitive("fixed64", Arbitrary.arbitrary[Long].map(_.toString))
+  val ProtoSfixed64 = Primitive("sfixed64", Arbitrary.arbitrary[Long].map(_.toString))
+  val ProtoDouble = Primitive("double", Arbitrary.arbitrary[Double].map(_.toString))
+  val ProtoFloat = Primitive("float", Arbitrary.arbitrary[Float].map(_.toString))
+  val ProtoBool = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
+  val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(escapeString))
+  val ProtoBytes = Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString))
 
   case class MessageReference(id: Int) extends ProtoType
 
