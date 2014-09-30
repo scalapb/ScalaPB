@@ -1,8 +1,28 @@
 
+import scala.collection.mutable
 import scala.util.Try
 
 object Nodes {
   import GenTypes._
+
+  private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
+    val b = new mutable.StringBuilder()
+    @annotation.tailrec
+    def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
+      val (r, capNext2) = name.head match {
+        case c if c.isLower => (Some(if (capNext) c.toUpper else c), false)
+        case c if c.isUpper =>
+          // force first letter to lower unless forced to capitalize it.
+          (Some(if (index == 0 && !capNext) c.toLower else c), false)
+        case c if c.isDigit => (Some(c), true)
+        case _ => (None, true)
+      }
+      r.foreach(b +=)
+      inner(name.tail, index + 1, capNext2)
+    }
+    inner(name, 0, upperInitial)
+    b.toString
+  }
 
   sealed trait Node {
     def allMessages: Stream[MessageNode]
@@ -17,7 +37,7 @@ object Nodes {
 
     def maxEnumId = Try(files.flatMap(_.maxEnumId).max).toOption
 
-    def resolveTypeName(t: GenTypes.ProtoType): String = t match {
+    def resolveProtoTypeName(t: GenTypes.ProtoType): String = t match {
       case Primitive(name, _) => name
       case MessageReference(id) => fullMessageNameParts(id).mkString(".")
       case EnumReference(id) => fullEnumNameParts(id).mkString(".")
@@ -37,6 +57,12 @@ object Nodes {
         case Some(parentId) => fullMessageNameParts(parentId) :+ m.name
         case None => filesById(m.fileId).protoPackage.toSeq :+ m.name
       }
+    }
+
+    def javaClassName(m: MessageNode) = {
+      val parts = fullMessageNameParts(m.id)
+      val file = filesById(m.fileId)
+      file.javaOuterClass + "$" + (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
     }
 
     lazy val messagesById: Map[Int, MessageNode] = files.flatMap(_.allMessages).map(m => (m.id, m)).toMap
@@ -77,6 +103,8 @@ object Nodes {
         .printAll(enums)
         .print(messages)(_.print(rootNode, _))
     }
+
+    def javaOuterClass = (javaPackage.orElse(protoPackage).toSeq :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString "."
   }
 
   case class MessageNode(id: Int,
@@ -107,7 +135,7 @@ object Nodes {
                        fieldOptions: GenTypes.FieldOptions.Value,
                        tag: Int) {
     def print(rootNode: RootNode, printer: FunctionalPrinter): FunctionalPrinter = {
-      printer.add(s"$fieldOptions ${rootNode.resolveTypeName(fieldType)} $name = $tag;  // $fieldType")
+      printer.add(s"$fieldOptions ${rootNode.resolveProtoTypeName(fieldType)} $name = $tag;  // $fieldType")
     }
   }
 

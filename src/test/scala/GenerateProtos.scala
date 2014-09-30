@@ -3,35 +3,18 @@ import java.net.{URL, URLClassLoader}
 import java.nio.file.Files
 import javax.tools.ToolProvider
 
+import com.google.protobuf.Message.Builder
+import com.google.protobuf.TextFormat
 import org.scalacheck.Prop.forAll
-import org.scalacheck.{Arbitrary, Gen, Properties}
+import org.scalacheck.{Gen, Properties}
 
-import scala.collection.mutable
+import scala.util.Try
 
 object GenerateProtos extends Properties("Proto") {
 
   import Nodes._
 
   val snakeRegex = "_[0-9][a-z]".r
-
-  def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
-    val b = new mutable.StringBuilder()
-    @annotation.tailrec
-    def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
-      val (r, capNext2) = name.head match {
-        case c if c.isLower => (Some(if (capNext) c.toUpper else c), false)
-        case c if c.isUpper =>
-          // force first letter to lower unless forced to capitalize it.
-          (Some(if (index == 0 && !capNext) c.toLower else c), false)
-        case c if c.isDigit => (Some(c), true)
-        case _ => (None, true)
-      }
-      r.foreach(b +=)
-      inner(name.tail, index + 1, capNext2)
-    }
-    inner(name, 0, upperInitial)
-    b.toString()
-  }
 
 
   val RESERVED = Seq(
@@ -46,6 +29,10 @@ object GenerateProtos extends Properties("Proto") {
     "interface", "static", "void", "class", "finally",
     "long", "strictfp", "volatile", "const", "float",
     "native", "super", "while",
+
+    // Java object methods
+    "clone", "equals", "finalize", "getclass", "hashcode", "notify",
+    "notifyall", "tostring", "wait",
 
     // Package names
     "java", "com", "google",
@@ -144,38 +131,32 @@ object GenerateProtos extends Properties("Proto") {
     run.compile(scalaFiles.map(_.toString).toList)
   }
 
-  def loadClasses(rootNode: RootNode, rootDir: File): Unit = {
+  def getBuilder(rootDir: File, rootNode: RootNode, m: MessageNode): Builder = {
     val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL))
-    // val message = rootNode.files.head.allMessages.head
-//    val className = message.javaClassName
-//    val cls = Class.forName(className, true, classLoader)
-    //    val builder = cls.getMethod("newBuilder").invoke(null).asInstanceOf[Builder]
-    //    TextFormat.merge("", builder)
-    //    println(builder.build())
-    //Class<?> cls = Class.forName("test.Test", true, classLoader); // Should print "hello".
-    //Object instance = cls.newInstance(); // Should print "world".
-    //System.out.println(instance); // Should print "test.Test@hashcode".
-    //    2
+    val className = rootNode.javaClassName(m)
+    val cls = Class.forName(className, true, classLoader)
+    val builder = cls.getMethod("newBuilder").invoke(null).asInstanceOf[Builder]
+    builder
   }
 
 
-//  property("startsWith") =
-//    forAll(genProtoFileSet) {
-//      fileSet =>
-//        forAll(genProtoAsciiInstance(fileSet)) {
-//          protoAscii =>
-//            val tmpDir = writeFileSet(fileSet)
-//            println(tmpDir)
-//            compileProtos(fileSet, tmpDir)
-//            compileJavaInDir(tmpDir)
-//            compileScalaInDir(tmpDir)
-//            loadClasses(fileSet, tmpDir)
-//            println(protoAscii)
-//            println("----")
-//            println("done ")
-//            true
-//        }
-//    }
+  //  property("startsWith") =
+  //    forAll(genProtoFileSet) {
+  //      fileSet =>
+  //        forAll(genProtoAsciiInstance(fileSet)) {
+  //          protoAscii =>
+  //            val tmpDir = writeFileSet(fileSet)
+  //            println(tmpDir)
+  //            compileProtos(fileSet, tmpDir)
+  //            compileJavaInDir(tmpDir)
+  //            compileScalaInDir(tmpDir)
+  //            loadClasses(fileSet, tmpDir)
+  //            println(protoAscii)
+  //            println("----")
+  //            println("done ")
+  //            true
+  //        }
+  //    }
 
   property("min and max id are consecutive over files") = forAll(GraphGen.genRootNode) {
     node =>
@@ -188,22 +169,24 @@ object GenerateProtos extends Properties("Proto") {
       validateMinMax(messageIdPairs) && validateMinMax(enumIdPairs)
   }
 
+  def rootNodeMessageAndAscii: Gen[(RootNode, MessageNode, String)] =
+    for {
+      rootNode <- GraphGen.genRootNode
+      (msg, ascii) <- GenData.genProtoAsciiInstance(rootNode)
+    } yield (rootNode, msg, ascii)
+
   property("protos compile") =
-    forAll(GraphGen.genRootNode) {
-      rootNode =>
+    forAll(rootNodeMessageAndAscii) {
+      case (rootNode, message, protoAscii) =>
         val tmpDir = writeFileSet(rootNode)
         println(tmpDir)
-        forAll(GenData.genProtoAsciiInstance(rootNode)) {
-          protoAscii =>
-            compileProtos(rootNode, tmpDir)
-            compileJavaInDir(tmpDir)
-            compileScalaInDir(tmpDir)
-            loadClasses(rootNode, tmpDir)
-            //        println(protoAscii)
-            println("----")
-            println("done ")
-            true
-        }
+        compileProtos(rootNode, tmpDir)
+        compileJavaInDir(tmpDir)
+        compileScalaInDir(tmpDir)
+        val builder = getBuilder(tmpDir, rootNode, message)
+        println(protoAscii)
+        println("----")
+        Try(TextFormat.merge(protoAscii, builder)).toOption.isDefined
     }
 }
 

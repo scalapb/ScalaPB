@@ -1,19 +1,21 @@
-import org.scalacheck.{Arbitrary, Gen}
+import org.scalacheck.Gen
 
 /**
  * Created by thesamet on 9/28/14.
  */
 object GenData {
-  import Nodes._
+
   import GenTypes._
-  import Gen._
+  import GenUtils._
+  import Nodes._
+  import org.scalacheck.Gen._
 
   private def genProtoAscii(rootNode: RootNode,
-                    message: MessageNode,
-                    enclose: Boolean = false,
-                    depth: Int = 0): Gen[Seq[String]] = {
+                            message: MessageNode,
+                            printer: FunctionalPrinter,
+                            depth: Int = 0): Gen[FunctionalPrinter] = {
 
-    def genFieldValueByOptions(field: FieldNode): Gen[Seq[String]] = sized {
+    def genFieldValueByOptions(field: FieldNode)(printer: FunctionalPrinter): Gen[FunctionalPrinter] = sized {
       s =>
         def genCount: Gen[Int] = field.fieldOptions match {
           case FieldOptions.OPTIONAL =>
@@ -27,42 +29,38 @@ object GenData {
             if (depth > 3) Gen.const(0) else Gen.choose(0, ((s - 2 * depth) max 0) min 10)
         }
 
-        def genFieldValue(field: FieldNode): Gen[String] = for {
-          value <- genValueForProtoType(field.fieldType, rootNode, depth)
-        } yield ("  " * depth) + field.name + ": " + value
+        def genFieldValue(field: FieldNode)(printer: FunctionalPrinter): Gen[(Unit, FunctionalPrinter)] =
+          field.fieldType match {
+            case Primitive(_, genValue) =>
+              genValue.map(v => ((), printer.add(s"${field.name}: $v")))
+            case EnumReference(id) =>
+              const("0").map(v => ((), printer.add(s"${field.name}: $v")))
+            case MessageReference(id) =>
+              val p0 = printer.add(s"${field.name}: <").indent
+              for {
+                p <- genProtoAscii(rootNode, rootNode.messagesById(id), p0, depth + 1)
+              } yield ((), p.outdent.add(">"))
+          }
 
         for {
           count <- genCount
-          result <- listOfN(count, genFieldValue(field))
-        } yield result
+          (result, printer) <- listOfNWithStatefulGen(count, printer)(genFieldValue(field))
+        } yield printer
     }
 
-    Gen.sequence[Seq, Seq[String]] {
-      val fields: Seq[Gen[Seq[String]]] = message.fields.map(genFieldValueByOptions)
-      if (enclose) Seq(Gen.const(Seq("  " * depth + "<"))) ++ fields ++ Seq(Gen.const(Seq("  " * depth + ">")))
-      else fields
-    }.map(_.flatten)
+    message.fields.foldLeft(Gen.const(printer)) {
+      case (printer, field) =>
+        for {
+          p <- printer
+          p <- genFieldValueByOptions(field)(p)
+        } yield p
+    }
   }
 
-  def genProtoAsciiInstance(rootNode: RootNode): Gen[(MessageNode, Seq[String])] = for {
+  def genProtoAsciiInstance(rootNode: RootNode): Gen[(MessageNode, String)] = for {
     messageId <- Gen.choose(0, rootNode.maxMessageId.get - 1)
     message = rootNode.messagesById(messageId)
-    ascii <- genProtoAscii(rootNode, message)
-  } yield (message, ascii)
-
-  def genValueForProtoType(pt: ProtoType, rootNode: RootNode, depth: Int = 0): Gen[String] = pt match {
-    case Primitive(_, genValue) => genValue
-    case MessageReference(id) =>
-      val msg = rootNode.messagesById(id)
-      val t: Gen[String] = genProtoAscii(rootNode, msg,  enclose = true, depth + 1).map(_.mkString("\n"))
-      t
-    case EnumReference(id) =>
-      /*
-      val t: Gen[String] = genMessageInstance(fileSet.enumMap(typeName).message.get, fileSet,
-        enclose = true, depth + 1).map(_.mkString("\n"))
-      t
-      */
-      Gen.const("enum")
-  }
-
+    printer <- genProtoAscii(rootNode, message, FunctionalPrinter(), 0)
+    _ <- println("Gen'ed")
+  } yield (message, printer.toString)
 }

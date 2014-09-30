@@ -9,7 +9,9 @@ object GenTypes {
   sealed trait ProtoType {
   }
 
-  case class Primitive(name: String, genValue: Gen[String]) extends ProtoType
+  case class Primitive(name: String, genValue: Gen[String]) extends ProtoType {
+    override def toString = s"Primitive($name)"
+  }
 
   private val uint32Gen = Gen.chooseNum[Long](0, 0xffffffffL)
   private val uint64Gen = Gen.chooseNum[Long](0, Long.MaxValue) // TODO: fix high bit
@@ -32,8 +34,12 @@ object GenTypes {
   val ProtoDouble = Primitive("double", Arbitrary.arbitrary[Double].map(_.toString))
   val ProtoFloat = Primitive("float", Arbitrary.arbitrary[Float].map(_.toString))
   val ProtoBool = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
-  val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(escapeString))
-  val ProtoBytes = Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString))
+  val ProtoString = Primitive("string",  Gen.const("'foo'"))
+
+    // Arbitrary.arbitrary[String].map(escapeString))
+  val ProtoBytes =
+      Primitive("string",  Gen.const("'foo'"))
+      // Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString))
 
   case class MessageReference(id: Int) extends ProtoType
 
