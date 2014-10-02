@@ -8,7 +8,7 @@ import com.google.protobuf.{Message, TextFormat}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
-import com.trueaccord.scalapb.MessageCompanion
+import com.trueaccord.scalapb.{compiler, MessageCompanion}
 
 object GenerateProtos extends Properties("Proto") {
 
@@ -93,7 +93,7 @@ object GenerateProtos extends Properties("Proto") {
       tmpDir.toString,
       "--java_out", tmpDir.toString,
       "--scala_out", tmpDir.toString) ++ files
-    ControlProtoc.runProtoc(args: _*)
+    compiler.Process.runProtoc(args: _*)
   }
 
   def getFileTree(f: File): Stream[File] =
