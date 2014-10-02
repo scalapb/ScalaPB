@@ -3,8 +3,7 @@ package com.trueaccord.scalapb.compiler
 import java.nio.file.attribute.PosixFilePermission
 import java.nio.file.{Files, Path}
 
-import com.google.protobuf.Descriptors.FileDescriptor
-import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -20,7 +19,7 @@ object Process {
       try {
         val fsin = Files.newInputStream(pipe)
         val request = CodeGeneratorRequest.parseFrom(fsin)
-        val response = handleCodeGeneratorRequest(request)
+        val response = ProtobufGenerator.handleCodeGeneratorRequest(request)
         val fsout = Files.newOutputStream(pipe)
         fsout.write(response.toByteArray)
         fsout.close()
@@ -59,23 +58,4 @@ object Process {
       PosixFilePermission.OWNER_READ))
     scriptName
   }
-
-  private def handleCodeGeneratorRequest(request: CodeGeneratorRequest): CodeGeneratorResponse = {
-    val fileProtosByName = request.getProtoFileList.map(n => n.getName -> n).toMap
-    val b = CodeGeneratorResponse.newBuilder
-    val filesByName: Map[String, FileDescriptor] =
-      request.getProtoFileList.foldLeft[Map[String, FileDescriptor]](Map.empty) {
-        case (acc, fp) =>
-          val deps = fp.getDependencyList.map(acc)
-          acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
-      }
-    request.getFileToGenerateList.foreach {
-      name =>
-        val file = filesByName(name)
-        val responseFile = ProtobufGenerator.generateFile(file)
-        b.addFile(responseFile)
-    }
-    b.build
-  }
-
 }

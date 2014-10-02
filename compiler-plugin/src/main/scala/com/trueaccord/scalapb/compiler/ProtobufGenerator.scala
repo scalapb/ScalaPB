@@ -1,10 +1,28 @@
 package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors.{Descriptor, EnumDescriptor, FieldDescriptor, FileDescriptor}
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
+import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
 object ProtobufGenerator {
+  def handleCodeGeneratorRequest(request: CodeGeneratorRequest): CodeGeneratorResponse = {
+    val fileProtosByName = request.getProtoFileList.map(n => n.getName -> n).toMap
+    val b = CodeGeneratorResponse.newBuilder
+    val filesByName: Map[String, FileDescriptor] =
+      request.getProtoFileList.foldLeft[Map[String, FileDescriptor]](Map.empty) {
+        case (acc, fp) =>
+          val deps = fp.getDependencyList.map(acc)
+          acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
+      }
+    request.getFileToGenerateList.foreach {
+      name =>
+        val file = filesByName(name)
+        val responseFile = generateFile(file)
+        b.addFile(responseFile)
+    }
+    b.build
+  }
+
   def javaPackage(file: FileDescriptor): String = {
     if (file.getOptions.hasJavaPackage)
       file.getOptions.getJavaPackage
