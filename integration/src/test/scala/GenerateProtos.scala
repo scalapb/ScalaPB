@@ -5,6 +5,7 @@ import javax.tools.ToolProvider
 
 import com.google.protobuf.Message.Builder
 import com.google.protobuf.{Message, TextFormat}
+import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
 import com.trueaccord.scalapb.MessageCompanion

@@ -1,3 +1,4 @@
+import com.trueaccord.scalapb.compiler
 import org.scalacheck.Gen
 
 /**
@@ -12,10 +13,10 @@ object GenData {
 
   private def genProtoAscii(rootNode: RootNode,
                             message: MessageNode,
-                            printer: FunctionalPrinter,
-                            depth: Int = 0): Gen[FunctionalPrinter] = {
+                            printer: compiler.FunctionalPrinter,
+                            depth: Int = 0): Gen[compiler.FunctionalPrinter] = {
 
-    def genFieldValueByOptions(field: FieldNode)(printer: FunctionalPrinter): Gen[FunctionalPrinter] = sized {
+    def genFieldValueByOptions(field: FieldNode)(printer: compiler.FunctionalPrinter): Gen[compiler.FunctionalPrinter] = sized {
       s =>
         def genCount: Gen[Int] = field.fieldOptions match {
           case FieldOptions.OPTIONAL =>
@@ -29,7 +30,7 @@ object GenData {
             if (depth > 3) Gen.const(0) else Gen.choose(0, ((s - 2 * depth) max 0) min 10)
         }
 
-        def genFieldValue(field: FieldNode)(printer: FunctionalPrinter): Gen[(Unit, FunctionalPrinter)] =
+        def genFieldValue(field: FieldNode)(printer: compiler.FunctionalPrinter): Gen[(Unit, compiler.FunctionalPrinter)] =
           field.fieldType match {
             case Primitive(_, genValue) =>
               genValue.map(v => ((), printer.add(s"${field.name}: $v")))
@@ -60,6 +61,6 @@ object GenData {
   def genProtoAsciiInstance(rootNode: RootNode): Gen[(MessageNode, String)] = for {
     messageId <- Gen.choose(0, rootNode.maxMessageId.get - 1)
     message = rootNode.messagesById(messageId)
-    printer <- genProtoAscii(rootNode, message, FunctionalPrinter(), 0)
+    printer <- genProtoAscii(rootNode, message, compiler.FunctionalPrinter(), 0)
   } yield (message, printer.toString)
 }

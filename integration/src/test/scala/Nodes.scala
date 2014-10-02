@@ -1,4 +1,7 @@
 
+import com.trueaccord.scalapb.compiler
+import com.trueaccord.scalapb.compiler.FPrintable
+
 import scala.collection.mutable
 import scala.util.Try
 
@@ -99,7 +102,7 @@ object Nodes {
       case EnumReference(id) => rootNode.enumsById(id).fileId
     }).toSet.map(rootNode.filesById).map(_.baseFileName)
 
-    def print(rootNode: RootNode, printer: FunctionalPrinter): FunctionalPrinter = {
+    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
       val p0 = printer.add(s"// File id $fileId. messages: $minMessageId-$maxMessageId. Enums: $minEnumId-$maxEnumId")
       val p1 = protoPackage.fold(p0)(pkg => p0.add(s"package $pkg;"))
       val p2 = javaPackage.fold(p1)(pkg => p1.add(s"""option java_package = "$pkg";"""))
@@ -124,7 +127,7 @@ object Nodes {
 
     def allEnums: Stream[EnumNode] = messages.foldLeft(enums.toStream)(_ ++ _.allEnums)
 
-    def print(rootNode: RootNode, printer: FunctionalPrinter): FunctionalPrinter = {
+    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
       printer
         .add(s"message $name {  // message $id")
         .indent
@@ -140,13 +143,13 @@ object Nodes {
                        fieldType: GenTypes.ProtoType,
                        fieldOptions: GenTypes.FieldOptions.Value,
                        tag: Int) {
-    def print(rootNode: RootNode, printer: FunctionalPrinter): FunctionalPrinter = {
+    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
       printer.add(s"$fieldOptions ${rootNode.resolveProtoTypeName(fieldType)} $name = $tag;  // $fieldType")
     }
   }
 
   case class EnumNode(id: Int, name: String, values: Seq[(String, Int)], parentMessageId: Option[Int], fileId: Int) extends FPrintable {
-    override def print(printer: FunctionalPrinter): FunctionalPrinter = {
+    override def print(printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
       printer.add(s"enum $name {  // enum $id")
         .indent
         .add(values.map { case (s, v) => s"$s = $v;"}: _*)
