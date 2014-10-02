@@ -7,7 +7,7 @@ import com.google.protobuf.Message.Builder
 import com.google.protobuf.{Message, TextFormat}
 import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
-import org.thesamet.pb.MessageCompanion
+import com.trueaccord.scalapb.MessageCompanion
 
 object GenerateProtos extends Properties("Proto") {
 

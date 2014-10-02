@@ -1,7 +1,5 @@
-package org.thesamet.pb
-/**
- * Created by thesamet on 9/29/14.
- */
+package com.trueaccord.scalapb
+
 trait MessageCompanion[A] {
   def parseFrom(s: Array[Byte]): A
 

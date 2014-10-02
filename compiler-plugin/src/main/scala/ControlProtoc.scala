@@ -241,7 +241,7 @@ class ProtobufGenerator(request: CodeGeneratorRequest) {
     .outdent
     .add("}")
     .add("")
-    .add(s"object `$className` extends org.thesamet.pb.MessageCompanion[`$className`] {")
+    .add(s"object `$className` extends com.trueaccord.scalapb.MessageCompanion[`$className`] {")
     .indent
     .add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
       .indent
