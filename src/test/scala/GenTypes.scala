@@ -24,22 +24,18 @@ object GenTypes {
   val ProtoSint32 = Primitive("sint32", Arbitrary.arbitrary[Int].map(_.toString))
   val ProtoUint32 = Primitive("uint32", uint32Gen.map(_.toString))
   val ProtoInt32 = Primitive("int32", Arbitrary.arbitrary[Int].map(_.toString))
-  val ProtoFixed32 = Primitive("fixed32", Arbitrary.arbitrary[Int].map(_.toString))
+  val ProtoFixed32 = Primitive("fixed32", uint32Gen.map(_.toString))
   val ProtoSfixed32 = Primitive("sfixed32", Arbitrary.arbitrary[Int].map(_.toString))
   val ProtoSint64 = Primitive("sint64", Arbitrary.arbitrary[Long].map(_.toString))
   val ProtoUint64 = Primitive("uint64", uint64Gen.map(_.toString))
   val ProtoInt64 = Primitive("int64", Arbitrary.arbitrary[Long].map(_.toString))
-  val ProtoFixed64 = Primitive("fixed64", Arbitrary.arbitrary[Long].map(_.toString))
+  val ProtoFixed64 = Primitive("fixed64", uint64Gen.map(_.toString))
   val ProtoSfixed64 = Primitive("sfixed64", Arbitrary.arbitrary[Long].map(_.toString))
   val ProtoDouble = Primitive("double", Arbitrary.arbitrary[Double].map(_.toString))
   val ProtoFloat = Primitive("float", Arbitrary.arbitrary[Float].map(_.toString))
   val ProtoBool = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
-  val ProtoString = Primitive("string",  Gen.const("'foo'"))
-
-    // Arbitrary.arbitrary[String].map(escapeString))
-  val ProtoBytes =
-      Primitive("string",  Gen.const("'foo'"))
-      // Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString))
+  val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(escapeString))
+  val ProtoBytes = Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString))
 
   case class MessageReference(id: Int) extends ProtoType
 

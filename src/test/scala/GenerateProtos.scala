@@ -4,11 +4,10 @@ import java.nio.file.Files
 import javax.tools.ToolProvider
 
 import com.google.protobuf.Message.Builder
-import com.google.protobuf.TextFormat
-import org.scalacheck.Prop.forAll
+import com.google.protobuf.{Message, TextFormat}
+import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
-
-import scala.util.Try
+import org.thesamet.pb.MessageCompanion
 
 object GenerateProtos extends Properties("Proto") {
 
@@ -38,7 +37,7 @@ object GenerateProtos extends Properties("Proto") {
     "java", "com", "google",
 
     // Scala
-    "ne",
+    "ne", "var", "def",
 
     // internal namess
     "java_pb_source", "scala_pb_source", "pb_byte_array_source"
@@ -83,18 +82,17 @@ object GenerateProtos extends Properties("Proto") {
 
   def compileProtos(rootNode: RootNode, tmpDir: File): Unit = {
     import scala.sys.process._
-    rootNode.files.foreach {
+    val files = rootNode.files.map {
       fileNode =>
         val file = new File(tmpDir, fileNode.baseFileName + ".proto")
         println(file.getAbsolutePath)
-        val cmd = Seq("protoc", file.getAbsolutePath, "--proto_path",
-          tmpDir.toString,
-          "--plugin=protoc-gen-scala=/home/thesamet/Development/ScalaPB/ScalaPB",
-          "--java_out", tmpDir.toString,
-          "--scala_out", tmpDir.toString
-        )
-        cmd.!!
+        file.getAbsolutePath
     }
+    val args = Seq("--proto_path",
+      tmpDir.toString,
+      "--java_out", tmpDir.toString,
+      "--scala_out", tmpDir.toString) ++ files
+    ControlProtoc.runProtoc(args: _*)
   }
 
   def getFileTree(f: File): Stream[File] =
@@ -131,12 +129,20 @@ object GenerateProtos extends Properties("Proto") {
     run.compile(scalaFiles.map(_.toString).toList)
   }
 
-  def getBuilder(rootDir: File, rootNode: RootNode, m: MessageNode): Builder = {
+  def getJavaBuilder(rootDir: File, rootNode: RootNode, m: MessageNode): Builder = {
     val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL))
     val className = rootNode.javaClassName(m)
     val cls = Class.forName(className, true, classLoader)
     val builder = cls.getMethod("newBuilder").invoke(null).asInstanceOf[Builder]
     builder
+  }
+
+  def getScalaObject(rootDir: File, rootNode: RootNode, m: MessageNode): MessageCompanion[_] = {
+    val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL))
+    val className = rootNode.scalaObjectName(m)
+    val u = scala.reflect.runtime.universe
+    val mirror = u.runtimeMirror(classLoader)
+    mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[MessageCompanion[_]]
   }
 
 
@@ -175,18 +181,32 @@ object GenerateProtos extends Properties("Proto") {
       (msg, ascii) <- GenData.genProtoAsciiInstance(rootNode)
     } yield (rootNode, msg, ascii)
 
+  def scalaParseAndSerialize[T](comp: MessageCompanion[T], bytes: Array[Byte]) = {
+    val instance: T = comp.parseFrom(bytes)
+    val ser: Array[Byte] = comp.serialize(instance)
+    ser
+  }
+
   property("protos compile") =
-    forAll(rootNodeMessageAndAscii) {
-      case (rootNode, message, protoAscii) =>
+    forAll(GraphGen.genRootNode) {
+      case rootNode =>
         val tmpDir = writeFileSet(rootNode)
         println(tmpDir)
         compileProtos(rootNode, tmpDir)
         compileJavaInDir(tmpDir)
         compileScalaInDir(tmpDir)
-        val builder = getBuilder(tmpDir, rootNode, message)
-        println(protoAscii)
-        println("----")
-        Try(TextFormat.merge(protoAscii, builder)).toOption.isDefined
+        forAllNoShrink(GenData.genProtoAsciiInstance(rootNode)) {
+          case (message, protoAscii) =>
+            val builder = getJavaBuilder(tmpDir, rootNode, message)
+            println("----")
+            TextFormat.merge(protoAscii, builder)
+            val originalProto: Message = builder.build()
+            val javaBytes = originalProto.toByteArray
+            val obj: MessageCompanion[_] = getScalaObject(tmpDir, rootNode, message)
+            val scalaBytes = scalaParseAndSerialize(obj, javaBytes)
+            val updatedProto: Message = getJavaBuilder(tmpDir, rootNode, message).mergeFrom(scalaBytes).build
+            updatedProto.toByteString == originalProto.toByteString
+        }
     }
 }
 

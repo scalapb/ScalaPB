@@ -34,7 +34,7 @@ object GenData {
             case Primitive(_, genValue) =>
               genValue.map(v => ((), printer.add(s"${field.name}: $v")))
             case EnumReference(id) =>
-              const("0").map(v => ((), printer.add(s"${field.name}: $v")))
+              oneOf(rootNode.enumsById(id).values.map(_._1)).map(v => ((), printer.add(s"${field.name}: $v")))
             case MessageReference(id) =>
               val p0 = printer.add(s"${field.name}: <").indent
               for {
@@ -61,6 +61,5 @@ object GenData {
     messageId <- Gen.choose(0, rootNode.maxMessageId.get - 1)
     message = rootNode.messagesById(messageId)
     printer <- genProtoAscii(rootNode, message, FunctionalPrinter(), 0)
-    _ <- println("Gen'ed")
   } yield (message, printer.toString)
 }

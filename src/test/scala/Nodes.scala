@@ -65,6 +65,12 @@ object Nodes {
       file.javaOuterClass + "$" + (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
     }
 
+    def scalaObjectName(m: MessageNode) = {
+      val parts = fullMessageNameParts(m.id)
+      val file = filesById(m.fileId)
+      file.javaOuterClass + "Scala$" + (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
+    }
+
     lazy val messagesById: Map[Int, MessageNode] = files.flatMap(_.allMessages).map(m => (m.id, m)).toMap
     lazy val enumsById: Map[Int, EnumNode] = files.flatMap(_.allEnums).map(e => (e.id, e)).toMap
     lazy val filesById: Map[Int, FileNode] = files.map(f => (f.fileId, f)).toMap
