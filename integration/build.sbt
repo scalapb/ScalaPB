@@ -1,5 +1,3 @@
-scalaVersion := "2.11.2"
-
 resolvers ++= Seq(
   "Sonatype Releases" at "http://oss.sonatype.org/content/repositories/releases"
   )

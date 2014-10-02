@@ -1,8 +1,8 @@
-scalaVersion in ThisBuild := "2.10.4"
+crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 lazy val root =
   project.in(file("."))
-    .aggregate(runtime, compilerPlugin, integration, sbtPlugin)
+    .aggregate(runtime, compilerPlugin, integration)
 
 lazy val runtime = project in file("scalapb-runtime")
 

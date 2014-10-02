@@ -229,7 +229,9 @@ object ProtobufGenerator {
       case ((field, index), printer) =>
         val fieldName = snakeCaseToCamelCase(field.getName)
         val typeName = getScalaTypeName(field)
-        val defaultValue = if (field.isOptional) " = None" else ""
+        val defaultValue = if (field.isOptional) " = None"
+          else if (field.isRepeated) " = Nil"
+          else ""
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
         printer.add(s"`$fieldName`: $typeName$defaultValue$lineEnd")
     }
