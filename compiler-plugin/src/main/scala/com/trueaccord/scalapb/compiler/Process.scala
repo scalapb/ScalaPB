@@ -11,7 +11,8 @@ import scala.concurrent.Future
 import scala.sys.process._
 
 object Process {
-  def runProtoc(args: String*) = {
+  def runProtocUsing[A](protocCommand: String, schemas: Seq[String] = Nil,
+                        includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
     val pipe = createPipe()
     val sh = createShellScript(pipe)
 
@@ -30,11 +31,17 @@ object Process {
       }
     }
 
-    (Seq("protoc",
-      s"--plugin=protoc-gen-scala=$sh") ++ args).!!
-    Files.delete(pipe)
-    Files.delete(sh)
+    try {
+      val incPath = includePaths.map("-I" + _)
+      val args = Seq("protoc", s"--plugin=protoc-gen-scala=$sh") ++ incPath ++ protocOptions ++ schemas
+      runner(args)
+    } finally {
+      Files.delete(pipe)
+      Files.delete(sh)
+    }
   }
+
+  def runProtoc(args: String*) = runProtocUsing("protoc", protocOptions = args)(_.!!)
 
   private def createPipe(): Path = {
     val pipeName = Files.createTempFile("protopipe-", ".pipe")
@@ -42,6 +49,7 @@ object Process {
     Seq("mkfifo", "-m", "600", pipeName.toAbsolutePath.toString).!!
     pipeName
   }
+
 
   private def createShellScript(tmpFile: Path): Path = {
     val content =
