@@ -86,7 +86,6 @@ object GenerateProtos extends Properties("Proto") {
   }
 
   def compileProtos(rootNode: RootNode, tmpDir: File): Unit = {
-    import scala.sys.process._
     val files = rootNode.files.map {
       fileNode =>
         val file = new File(tmpDir, fileNode.baseFileName + ".proto")
@@ -149,25 +148,6 @@ object GenerateProtos extends Properties("Proto") {
     val mirror = u.runtimeMirror(classLoader)
     mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[MessageCompanion[_ <: Message]]
   }
-
-
-  //  property("startsWith") =
-  //    forAll(genProtoFileSet) {
-  //      fileSet =>
-  //        forAll(genProtoAsciiInstance(fileSet)) {
-  //          protoAscii =>
-  //            val tmpDir = writeFileSet(fileSet)
-  //            println(tmpDir)
-  //            compileProtos(fileSet, tmpDir)
-  //            compileJavaInDir(tmpDir)
-  //            compileScalaInDir(tmpDir)
-  //            loadClasses(fileSet, tmpDir)
-  //            println(protoAscii)
-  //            println("----")
-  //            println("done ")
-  //            true
-  //        }
-  //    }
 
   property("min and max id are consecutive over files") = forAll(GraphGen.genRootNode) {
     node =>
