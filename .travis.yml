@@ -6,3 +6,6 @@ scala:
 before_install:
    - ./.travis/install_protobuf.sh
 
+script:
+   - sbt ++$TRAVIS_SCALA_VERSION short:test
+
