@@ -1,7 +1,15 @@
 package com.trueaccord.scalapb
 
-trait MessageCompanion[A] {
-  def parseFrom(s: Array[Byte]): A
+import scala.util.Try
 
-  def serialize(a: A): Array[Byte]
+trait Message {
+  def serialize: Array[Byte]
+}
+
+trait MessageCompanion[A <: Message] {
+  def parse(s: Array[Byte]): A
+
+  def validate(s: Array[Byte]): Try[A] = Try(parse(s))
+
+  def serialize(a: A): Array[Byte] = a.serialize
 }

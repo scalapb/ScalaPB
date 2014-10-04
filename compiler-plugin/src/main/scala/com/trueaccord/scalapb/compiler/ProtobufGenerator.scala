@@ -5,6 +5,22 @@ import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGene
 import scala.collection.JavaConversions._
 
 object ProtobufGenerator {
+
+  val SCALA_RESERVED_WORDS = Set(
+    "abstract", "case", "catch", "class", "def",
+    "do", "else", "extends", "false", "final",
+    "finally", "for", "forSome", "if", "implicit",
+    "import", "lazy", "match", "new", "null",
+    "object", "override", "package", "private", "protected",
+    "return", "sealed", "super", "this", "throw",
+    "trait", "try", "true", "type", "val",
+    "var", "while", "with", "yield",
+    "val", "var", "def", "if", "ne", "case")
+
+  implicit class AsSymbolPimp(val s: String) extends AnyVal {
+    def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
+  }
+
   def handleCodeGeneratorRequest(request: CodeGeneratorRequest): CodeGeneratorResponse = {
     val fileProtosByName = request.getProtoFileList.map(n => n.getName -> n).toMap
     val b = CodeGeneratorResponse.newBuilder
@@ -29,14 +45,17 @@ object ProtobufGenerator {
     else file.getPackage
   }
 
+  def javaPackageAsSymbol(file: FileDescriptor): String =
+    javaPackage(file).split('.').map(_.asSymbol).mkString(".")
+
   def scalaFullOuterObjectName(file: FileDescriptor) = {
-    val pkg = javaPackage(file)
+    val pkg = javaPackageAsSymbol(file)
     if (pkg.isEmpty) scalaOuterObjectName(file)
     else pkg + "." + scalaOuterObjectName(file)
   }
 
   def javaFullOuterClassName(file: FileDescriptor) = {
-    val pkg = javaPackage(file)
+    val pkg = javaPackageAsSymbol(file)
     if (pkg.isEmpty) javaOuterClassName(file)
     else pkg + "." + javaOuterClassName(file)
   }
@@ -53,7 +72,7 @@ object ProtobufGenerator {
   def fullScalaName(fullName: String, file: FileDescriptor) = {
     val s = fullNameFromBase(scalaFullOuterObjectName(file), fullName, file)
     val (prefix, last) = s.splitAt(s.lastIndexOf('.') + 1)
-    prefix + "`" + last + "`"
+    prefix + last.asSymbol
   }
 
   def fullScalaName(message: Descriptor): String =
@@ -102,18 +121,18 @@ object ProtobufGenerator {
 
   def printEnum(e: EnumDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
     val javaName = fullJavaName(e)
-    val name = e.getName
+    val name = e.getName.asSymbol
     printer
-      .add(s"object `$name` extends Enumeration {")
+      .add(s"object $name extends Enumeration {")
       .indent
       .print(e.getValues) {
-        case (v, p) => p.add(s"""val `${v.getName}` = Value(${v.getNumber}, "${v.getName}")""")
+        case (v, p) => p.add(s"""val ${v.getName.asSymbol} = Value(${v.getNumber}, "${v.getName}")""")
     }
       .add(s"def fromJavaValue(pbJavaSource: $javaName): Value = apply(pbJavaSource.getNumber)")
       .add(s"def toJavaValue(pbScalaSource: Value): $javaName = $javaName.valueOf(pbScalaSource.id)")
       .outdent
       .add("}")
-      .add(s"type `$name` = `$name`.Value")
+      .add(s"type $name = $name.Value")
   }
 
   def getScalaTypeName(descriptor: FieldDescriptor): String = {
@@ -180,7 +199,7 @@ object ProtobufGenerator {
     val javaSetter = javaObject +
       (if (field.isRepeated) ".addAll" else ".set") +
       snakeCaseToCamelCase(field.getName, true)
-    val scalaGetter = scalaObject + ".`" + snakeCaseToCamelCase(field.getName) + "`"
+    val scalaGetter = scalaObject + "." + snakeCaseToCamelCase(field.getName).asSymbol
 
     val valueConversion = field.getJavaType match {
       case FieldDescriptor.JavaType.INT => BoxFunction("Int.box")
@@ -218,11 +237,11 @@ object ProtobufGenerator {
   }
 
   def printMessage(message: Descriptor, printer: FunctionalPrinter): FunctionalPrinter = {
-    val className = message.getName
-    val myFullScalaName = fullScalaName(message)
+    val className = message.getName.asSymbol
+    val myFullScalaName = fullScalaName(message).asSymbol
     val myFullJavaName = fullJavaName(message)
     printer
-      .add(s"case class `$className`(")
+      .add(s"case class $className(")
       .indent
       .indent
       .print(message.getFields.zipWithIndex) {
@@ -233,26 +252,17 @@ object ProtobufGenerator {
           else if (field.isRepeated) " = Nil"
           else ""
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
-        printer.add(s"`$fieldName`: $typeName$defaultValue$lineEnd")
+        printer.add(s"${fieldName.asSymbol}: $typeName$defaultValue$lineEnd")
     }
-    .add(") {")
+    .add(") extends com.trueaccord.scalapb.Message {")
     .outdent
+      .add(s"def serialize: Array[Byte] =")
+      .add(s"  $myFullScalaName.toJavaProto(this).toByteArray")
     .outdent
     .add("}")
     .add("")
-    .add(s"object `$className` extends com.trueaccord.scalapb.MessageCompanion[`$className`] {")
+    .add(s"object $className extends com.trueaccord.scalapb.MessageCompanion[$className] {")
     .indent
-    .add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
-      .indent
-      .print(message.getFields.zipWithIndex) {
-      case ((field, index), printer) =>
-        val fieldName = snakeCaseToCamelCase(field.getName)
-        val conversion = javaFieldToScala("javaPbSource", field)
-        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
-        printer.add(s"`$fieldName` = $conversion$lineEnd")
-    }
-      .add(")")
-      .outdent
       .add(s"def toJavaProto(scalaPbSource: $myFullScalaName): $myFullJavaName = {")
       .indent
       .add(s"val javaPbOut = $myFullJavaName.newBuilder")
@@ -263,10 +273,19 @@ object ProtobufGenerator {
       .add("javaPbOut.build")
       .outdent
       .add("}")
-      .add(s"def parseFrom(pbByteArraySource: Array[Byte]): $myFullScalaName =")
+    .add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
+      .indent
+      .print(message.getFields.zipWithIndex) {
+      case ((field, index), printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName)
+        val conversion = javaFieldToScala("javaPbSource", field)
+        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
+        printer.add(s"${fieldName.asSymbol} = $conversion$lineEnd")
+    }
+      .add(")")
+      .outdent
+      .add(s"def parse(pbByteArraySource: Array[Byte]): $myFullScalaName =")
       .add(s"  fromJavaProto($myFullJavaName.parseFrom(pbByteArraySource))")
-      .add(s"def serialize(javaPbSource: `$className`): Array[Byte] =")
-      .add(s"  toJavaProto(javaPbSource).toByteArray")
       .print(message.getEnumTypes)(printEnum)
       .print(message.getNestedTypes)(printMessage)
     .outdent

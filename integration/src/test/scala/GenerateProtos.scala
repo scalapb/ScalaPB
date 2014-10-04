@@ -3,12 +3,13 @@ import java.net.{URL, URLClassLoader}
 import java.nio.file.Files
 import javax.tools.ToolProvider
 
+import com.google.protobuf
 import com.google.protobuf.Message.Builder
-import com.google.protobuf.{Message, TextFormat}
+import com.google.protobuf.{TextFormat}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
-import com.trueaccord.scalapb.{compiler, MessageCompanion}
+import com.trueaccord.scalapb.{Message, compiler, MessageCompanion}
 
 object GenerateProtos extends Properties("Proto") {
 
@@ -34,13 +35,16 @@ object GenerateProtos extends Properties("Proto") {
     "clone", "equals", "finalize", "getclass", "hashcode", "notify",
     "notifyall", "tostring", "wait",
 
+    // Other java stuff
+    "true", "false",
+
     // Package names
     "java", "com", "google",
 
     // Scala
-    "ne", "var", "def",
+    "ne", "val", "var", "def",
 
-    // internal namess
+    // internal names
     "java_pb_source", "scala_pb_source", "pb_byte_array_source"
   )
 
@@ -138,12 +142,12 @@ object GenerateProtos extends Properties("Proto") {
     builder
   }
 
-  def getScalaObject(rootDir: File, rootNode: RootNode, m: MessageNode): MessageCompanion[_] = {
+  def getScalaObject(rootDir: File, rootNode: RootNode, m: MessageNode): MessageCompanion[_ <: Message] = {
     val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL))
     val className = rootNode.scalaObjectName(m)
     val u = scala.reflect.runtime.universe
     val mirror = u.runtimeMirror(classLoader)
-    mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[MessageCompanion[_]]
+    mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[MessageCompanion[_ <: Message]]
   }
 
 
@@ -182,8 +186,8 @@ object GenerateProtos extends Properties("Proto") {
       (msg, ascii) <- GenData.genProtoAsciiInstance(rootNode)
     } yield (rootNode, msg, ascii)
 
-  def scalaParseAndSerialize[T](comp: MessageCompanion[T], bytes: Array[Byte]) = {
-    val instance: T = comp.parseFrom(bytes)
+  def scalaParseAndSerialize[T <: Message](comp: MessageCompanion[T], bytes: Array[Byte]) = {
+    val instance: T = comp.parse(bytes)
     val ser: Array[Byte] = comp.serialize(instance)
     ser
   }
@@ -201,11 +205,11 @@ object GenerateProtos extends Properties("Proto") {
             val builder = getJavaBuilder(tmpDir, rootNode, message)
             println("----")
             TextFormat.merge(protoAscii, builder)
-            val originalProto: Message = builder.build()
+            val originalProto: protobuf.Message = builder.build()
             val javaBytes = originalProto.toByteArray
-            val obj: MessageCompanion[_] = getScalaObject(tmpDir, rootNode, message)
+            val obj: MessageCompanion[_ <: Message] = getScalaObject(tmpDir, rootNode, message)
             val scalaBytes = scalaParseAndSerialize(obj, javaBytes)
-            val updatedProto: Message = getJavaBuilder(tmpDir, rootNode, message).mergeFrom(scalaBytes).build
+            val updatedProto: protobuf.Message = getJavaBuilder(tmpDir, rootNode, message).mergeFrom(scalaBytes).build
             updatedProto.toByteString == originalProto.toByteString
         }
     }
