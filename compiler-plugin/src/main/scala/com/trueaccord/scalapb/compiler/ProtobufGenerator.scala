@@ -1,6 +1,6 @@
 package com.trueaccord.scalapb.compiler
 
-import com.google.protobuf.Descriptors.{Descriptor, EnumDescriptor, FieldDescriptor, FileDescriptor}
+import com.google.protobuf.Descriptors._
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
@@ -152,6 +152,42 @@ object ProtobufGenerator {
     else base
   }
 
+  def escapeString(raw: String): String = {
+    import scala.reflect.runtime.universe._
+    Literal(Constant(raw)).toString
+  }
+
+  def defaultValueForGet(field: FieldDescriptor) = {
+    // Needs to be 'def' and not val since for some of the cases it's invalid to call it.
+    def defaultValue = field.getDefaultValue
+    field.getJavaType match {
+      case FieldDescriptor.JavaType.INT => defaultValue.toString
+      case FieldDescriptor.JavaType.LONG => defaultValue.toString + "L"
+      case FieldDescriptor.JavaType.FLOAT =>
+        val f = defaultValue.asInstanceOf[Float]
+        if (f.isPosInfinity) "Float.PositiveInfinity"
+        else if (f.isNegInfinity) "Float.NegativeInfinity"
+        else f.toString + "f"
+      case FieldDescriptor.JavaType.DOUBLE =>
+        val d = defaultValue.asInstanceOf[Double]
+        if (d.isPosInfinity) "Double.PositiveInfinity"
+        else if (d.isNegInfinity) "Double.NegativeInfinity"
+        else d.toString
+      case FieldDescriptor.JavaType.BOOLEAN => Boolean.unbox(defaultValue.asInstanceOf[java.lang.Boolean])
+      case FieldDescriptor.JavaType.BYTE_STRING => "Array[Byte]()"
+      case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
+      case FieldDescriptor.JavaType.MESSAGE =>
+        fullScalaName(field.getMessageType) + ".defaultInstance"
+      case FieldDescriptor.JavaType.ENUM =>
+        fullScalaName(field.getEnumType) + "." + defaultValue.asInstanceOf[EnumValueDescriptor].getName.asSymbol
+    }
+  }
+
+  def defaultValueForDefaultInstance(field: FieldDescriptor) =
+    if (field.isOptional) "None"
+    else if (field.isRepeated) "Nil"
+    else defaultValueForGet(field)
+
   sealed trait ValueConversion
   case class ConversionMethod(name: String) extends ValueConversion
   case class ConversionFunction(name: String) extends ValueConversion
@@ -248,16 +284,23 @@ object ProtobufGenerator {
       case ((field, index), printer) =>
         val fieldName = snakeCaseToCamelCase(field.getName)
         val typeName = getScalaTypeName(field)
-        val defaultValue = if (field.isOptional) " = None"
+        val ctorDefaultValue = if (field.isOptional) " = None"
           else if (field.isRepeated) " = Nil"
           else ""
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
-        printer.add(s"${fieldName.asSymbol}: $typeName$defaultValue$lineEnd")
+        printer.add(s"${fieldName.asSymbol}: $typeName$ctorDefaultValue$lineEnd")
     }
     .add(") extends com.trueaccord.scalapb.Message {")
     .outdent
       .add(s"def serialize: Array[Byte] =")
       .add(s"  $myFullScalaName.toJavaProto(this).toByteArray")
+      .print(message.getFields.filter(_.isOptional)) {
+      case (field, printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
+        val getter = "get" + snakeCaseToCamelCase(field.getName, true)
+        val default = defaultValueForGet(field)
+        printer.add(s"def $getter = ${fieldName}.getOrElse($default)")
+    }
     .outdent
     .add("}")
     .add("")
@@ -282,8 +325,19 @@ object ProtobufGenerator {
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
         printer.add(s"${fieldName.asSymbol} = $conversion$lineEnd")
     }
-      .add(")")
       .outdent
+      .add(")")
+      .add(s"lazy val defaultInstance = $myFullScalaName(")
+      .indent
+      .print(message.getFields.zipWithIndex) {
+      case ((field, index), printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName)
+        val default = defaultValueForDefaultInstance(field)
+        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
+        printer.add(s"${fieldName.asSymbol} = $default$lineEnd  // ${field.getJavaType.toString}")
+    }
+      .outdent
+      .add(")")
       .add(s"def parse(pbByteArraySource: Array[Byte]): $myFullScalaName =")
       .add(s"  fromJavaProto($myFullJavaName.parseFrom(pbByteArraySource))")
       .print(message.getEnumTypes)(printEnum)
