@@ -1,6 +1,7 @@
 package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors._
+import com.google.protobuf.ByteString
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
@@ -174,7 +175,8 @@ object ProtobufGenerator {
         else if (d.isNegInfinity) "Double.NegativeInfinity"
         else d.toString
       case FieldDescriptor.JavaType.BOOLEAN => Boolean.unbox(defaultValue.asInstanceOf[java.lang.Boolean])
-      case FieldDescriptor.JavaType.BYTE_STRING => "Array[Byte]()"
+      case FieldDescriptor.JavaType.BYTE_STRING => defaultValue.asInstanceOf[ByteString]
+        .map(_.toString).mkString("Array[Byte](", ", ", ")")
       case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         fullScalaName(field.getMessageType) + ".defaultInstance"
