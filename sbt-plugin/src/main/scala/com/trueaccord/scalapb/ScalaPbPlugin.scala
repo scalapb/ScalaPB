@@ -19,6 +19,29 @@ object ScalaPbPlugin extends Plugin {
 
   val pbScalaGenerate = TaskKey[Seq[File]]("protobuf-scala-generate", "Compile the protobuf sources.")
 
+  val protobufSettings = PB.protobufSettings ++ inConfig(protobufConfig)(Seq[Setting[_]](
+    pbScalaGenerate <<= sourceGeneratorTask.dependsOn(unpackDependencies),
+    scalaSource <<= (sourceManaged in Compile) { _ / "compiled_protobuf" },
+
+    generatedTargets <+= (scalaSource in protobufConfig) { (_, "*.scala") },
+
+    protocOptions <++= (generatedTargets in protobufConfig) { generatedTargets =>
+      generatedTargets.find(_._2.endsWith(".scala")) match {
+        case Some(targetForScala) => Seq(
+          "--scala_out=%s".format(targetForScala._1.absolutePath)
+        )
+        case None => Nil
+      }
+    })) ++ Seq[Setting[_]](
+    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.1-SNAPSHOT",
+    (sourceGenerators in Compile) <<= (sourceGenerators in Compile, generate.in(protobufConfig),
+      pbScalaGenerate.in(protobufConfig)) {
+      case (srcGens, originalCompile, pbScalaGenerate) => srcGens.map {
+        case task if task == originalCompile => pbScalaGenerate
+        case e => e
+      }
+    })
+
   private def executeProtoc(protocCommand: String, schemas: Set[File], includePaths: Seq[File], protocOptions: Seq[String], log: Logger) = try {
     com.trueaccord.scalapb.compiler.Process.runProtocUsing(
       protocCommand, schemas.map(_.absolutePath).toSeq, includePaths.map(_.absolutePath), protocOptions)(
@@ -59,27 +82,4 @@ object ScalaPbPlugin extends Plugin {
         }
         cachedCompile(schemas).toSeq
     }
-
-  val protobufSettings = PB.protobufSettings ++ inConfig(protobufConfig)(Seq[Setting[_]](
-    pbScalaGenerate <<= sourceGeneratorTask.dependsOn(unpackDependencies),
-
-    generatedTargets <++= (sourceDirectory in Compile) { dir =>
-      Seq((dir / "generated", "*.scala"))
-    },
-    protocOptions in protobufConfig <++= (generatedTargets in protobufConfig) { generatedTargets =>
-      generatedTargets.find(_._2.endsWith(".scala")) match {
-        case Some(targetForScala) => Seq(
-          "--scala_out=%s".format(targetForScala._1.absolutePath)
-        )
-        case None => Nil
-      }
-    })) ++ Seq[Setting[_]](
-    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.1-SNAPSHOT",
-    (sourceGenerators in Compile) <<= (sourceGenerators in Compile, generate.in(protobufConfig),
-      pbScalaGenerate.in(protobufConfig)) {
-      case (srcGens, originalCompile, pbScalaGenerate) => srcGens.map {
-        case task if task == originalCompile => pbScalaGenerate
-        case e => e
-      }
-    })
 }
