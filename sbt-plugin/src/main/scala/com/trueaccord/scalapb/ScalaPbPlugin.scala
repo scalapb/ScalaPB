@@ -24,6 +24,7 @@ object ScalaPbPlugin extends Plugin {
     scalaSource <<= (sourceManaged in Compile) { _ / "compiled_protobuf" },
 
     generatedTargets <+= (scalaSource in protobufConfig) { (_, "*.scala") },
+    version := "2.6.0",
 
     protocOptions <++= (generatedTargets in protobufConfig) { generatedTargets =>
       generatedTargets.find(_._2.endsWith(".scala")) match {
