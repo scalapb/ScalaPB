@@ -9,7 +9,7 @@ import com.google.protobuf.{TextFormat}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
-import com.trueaccord.scalapb.{Message, compiler, MessageCompanion}
+import com.trueaccord.scalapb.{GeneratedMessage, compiler, MessageCompanion}
 
 object GenerateProtos extends Properties("Proto") {
 
@@ -141,12 +141,12 @@ object GenerateProtos extends Properties("Proto") {
     builder
   }
 
-  def getScalaObject(rootDir: File, rootNode: RootNode, m: MessageNode): MessageCompanion[_ <: Message] = {
+  def getScalaObject(rootDir: File, rootNode: RootNode, m: MessageNode): MessageCompanion[_ <: GeneratedMessage] = {
     val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL))
     val className = rootNode.scalaObjectName(m)
     val u = scala.reflect.runtime.universe
     val mirror = u.runtimeMirror(classLoader)
-    mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[MessageCompanion[_ <: Message]]
+    mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[MessageCompanion[_ <: GeneratedMessage]]
   }
 
   property("min and max id are consecutive over files") = forAll(GraphGen.genRootNode) {
@@ -166,7 +166,7 @@ object GenerateProtos extends Properties("Proto") {
       (msg, ascii) <- GenData.genProtoAsciiInstance(rootNode)
     } yield (rootNode, msg, ascii)
 
-  def scalaParseAndSerialize[T <: Message](comp: MessageCompanion[T], bytes: Array[Byte]) = {
+  def scalaParseAndSerialize[T <: GeneratedMessage](comp: MessageCompanion[T], bytes: Array[Byte]) = {
     val instance: T = comp.parse(bytes)
     val ser: Array[Byte] = comp.serialize(instance)
     ser
@@ -187,7 +187,7 @@ object GenerateProtos extends Properties("Proto") {
             TextFormat.merge(protoAscii, builder)
             val originalProto: protobuf.Message = builder.build()
             val javaBytes = originalProto.toByteArray
-            val obj: MessageCompanion[_ <: Message] = getScalaObject(tmpDir, rootNode, message)
+            val obj: MessageCompanion[_ <: GeneratedMessage] = getScalaObject(tmpDir, rootNode, message)
             val scalaBytes = scalaParseAndSerialize(obj, javaBytes)
             val updatedProto: protobuf.Message = getJavaBuilder(tmpDir, rootNode, message).mergeFrom(scalaBytes).build
             updatedProto.toByteString == originalProto.toByteString
