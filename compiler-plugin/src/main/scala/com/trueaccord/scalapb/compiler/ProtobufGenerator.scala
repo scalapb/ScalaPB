@@ -323,6 +323,8 @@ object ProtobufGenerator {
     .add("")
     .add(s"object $className extends com.trueaccord.scalapb.MessageCompanion[$className] {")
     .indent
+
+      // toJavaProto
       .add(s"def toJavaProto(scalaPbSource: $myFullScalaName): $myFullJavaName = {")
       .indent
       .add(s"val javaPbOut = $myFullJavaName.newBuilder")
@@ -333,6 +335,8 @@ object ProtobufGenerator {
       .add("javaPbOut.build")
       .outdent
       .add("}")
+
+      // fromJavaProto
     .add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
       .indent
       .print(message.getFields.zipWithIndex) {
@@ -341,6 +345,25 @@ object ProtobufGenerator {
         val conversion = javaFieldToScala("javaPbSource", field)
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
         printer.add(s"${fieldName.asSymbol} = $conversion$lineEnd")
+    }
+      .outdent
+      .add(")")
+
+      // fromFieldsMap
+      .add(s"def fromFieldsMap(fieldsMap: Map[Int, Any]): $myFullScalaName = $myFullScalaName(")
+      .indent
+      .print(message.getFields.zipWithIndex) {
+      case ((field, index), printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName)
+        val typeName = getScalaTypeName(field)
+        val mapGetter = if (field.isOptional)
+            s"fieldsMap.getOrElse(${field.getIndex}, None).asInstanceOf[$typeName]"
+        else if (field.isRepeated)
+            s"fieldsMap.getOrElse(${field.getIndex}, Nil).asInstanceOf[$typeName]"
+        else
+            s"fieldsMap(${field.getIndex}).asInstanceOf[$typeName]"
+        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
+        printer.add(s"${fieldName.asSymbol} = $mapGetter$lineEnd")
     }
       .outdent
       .add(")")
@@ -364,7 +387,6 @@ object ProtobufGenerator {
     .add("}")
     .add("")
   }
-
 
   def generateFile(file: FileDescriptor): CodeGeneratorResponse.File = {
     val b = CodeGeneratorResponse.File.newBuilder()
