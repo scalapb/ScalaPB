@@ -12,6 +12,8 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
   def indent = copy(indentLevel = indentLevel + 1)
   def outdent = copy(indentLevel = indentLevel - 1)
 
+  def call(f: FunctionalPrinter => FunctionalPrinter) = f(this)
+
   def print[M](objects: Traversable[M])(f: (M, FunctionalPrinter) => FunctionalPrinter): FunctionalPrinter =
     objects.foldLeft(this){ (printer, obj) => f(obj, printer) }
 

@@ -1,7 +1,7 @@
 package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors._
-import com.google.protobuf.ByteString
+import com.google.protobuf.{Descriptors, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
@@ -278,13 +278,31 @@ object ProtobufGenerator {
     }
   }
 
+  def generateCompanionForField(m: Descriptor)(p: FunctionalPrinter): FunctionalPrinter = {
+    val optionalFields = m.getFields.filter(_.getType == Descriptors.FieldDescriptor.Type.MESSAGE)
+    val signature = s"def companionForField(tagNumber: Int): com.trueaccord.scalapb.MessageCompanion[_]"
+    if (!optionalFields.isEmpty)
+    p.add(s"$signature = tagNumber match {")
+      .indent
+      .print(optionalFields) {
+      case (field, printer) =>
+        val scalaName = fullScalaName(field.getMessageType)
+        printer.add(s"case ${field.getNumber} => $scalaName")
+    }
+      .outdent
+      .add("}")
+    else p.add(s"""$signature = throw new MatchError("Invalid tag number.")""")
+  }
+
+
+
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.getName.asSymbol
     val descriptorGetter = if (message.getContainingType != null)
-      fullScalaName(message.getContainingType) + s".descriptor.getNestedType(${message.getIndex})"
+      fullScalaName(message.getContainingType) + s".descriptor.getNestedTypes.get(${message.getIndex})"
     else
-      scalaFullOuterObjectName(message.getFile) + s".descriptor.getMessageType(${message.getIndex})"
+      scalaFullOuterObjectName(message.getFile) + s".descriptor.getMessageTypes.get(${message.getIndex})"
 
     val myFullScalaName = fullScalaName(message).asSymbol
     val myFullJavaName = fullJavaName(message)
@@ -367,7 +385,11 @@ object ProtobufGenerator {
     }
       .outdent
       .add(")")
-      .add(s"lazy val descriptor: com.google.protobuf.DescriptorProtos.DescriptorProto = $descriptorGetter")
+
+      // companionForField
+      .call(generateCompanionForField(message))
+
+      .add(s"lazy val descriptor: com.google.protobuf.Descriptors.Descriptor = $descriptorGetter")
       .add(s"lazy val defaultInstance = $myFullScalaName(")
       .indent
       .print(message.getFields.zipWithIndex) {
@@ -408,9 +430,11 @@ object ProtobufGenerator {
       .indent
       .print(file.getEnumTypes)(printEnum)
       .print(file.getMessageTypes)(printMessage)
-      .add("lazy val descriptor: com.google.protobuf.DescriptorProtos.FileDescriptorProto = ")
+      .add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = ")
+      .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(")
       .add("  com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(")
-      .add("    new sun.misc.BASE64Decoder().decodeBuffer(" + protoAsString + "))")
+      .add("    new sun.misc.BASE64Decoder().decodeBuffer(" + protoAsString + ")),")
+      .add("  Seq(" + file.getDependencies.map(f => scalaFullOuterObjectName(f) + ".descriptor").mkString(", ") + ").toArray)")
       .outdent
       .add("}")
     b.setContent(p1.toString)
