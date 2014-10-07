@@ -377,11 +377,11 @@ object ProtobufGenerator {
         val fieldName = snakeCaseToCamelCase(field.getName)
         val typeName = getScalaTypeName(field)
         val mapGetter = if (field.isOptional)
-            s"fieldsMap.getOrElse(${field.getIndex}, None).asInstanceOf[$typeName]"
+            s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[$typeName]"
         else if (field.isRepeated)
-            s"fieldsMap.getOrElse(${field.getIndex}, Nil).asInstanceOf[$typeName]"
+            s"fieldsMap.getOrElse(${field.getNumber}, Nil).asInstanceOf[$typeName]"
         else
-            s"fieldsMap(${field.getIndex}).asInstanceOf[$typeName]"
+            s"fieldsMap(${field.getNumber}).asInstanceOf[$typeName]"
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
         printer.add(s"${fieldName.asSymbol} = $mapGetter$lineEnd")
     }
