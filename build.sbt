@@ -1,5 +1,7 @@
 import SonatypeKeys._
 
+sonatypeSettings
+
 crossScalaVersions := Seq("2.10.4", "2.11.2")
 
 organization in ThisBuild := "com.trueaccord.scalapb"
@@ -8,7 +10,7 @@ profileName in ThisBuild:= "com.trueaccord.scalapb"
 
 version in ThisBuild := "0.1-SNAPSHOT"
 
-pomExtra := {
+pomExtra in ThisBuild := {
   <url>https://github.com/trueaccord/ScalaPB</url>
   <licenses>
     <license>
@@ -45,6 +47,7 @@ lazy val integration = project.in(file("integration"))
     .settings( inConfig(ShortTest)(Defaults.testTasks): _*)
     .settings(
       publishArtifact := false,
+      publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       testOptions in ShortTest += Tests.Argument(
         // verbosity specified because of ScalaCheck #108.
         "-verbosity", "0",

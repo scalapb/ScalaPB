@@ -1,3 +1,5 @@
+sonatypeSettings
+
 sbtPlugin := true
 
 scalaVersion := "2.10.4"
