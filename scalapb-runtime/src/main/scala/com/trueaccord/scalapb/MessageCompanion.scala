@@ -21,5 +21,7 @@ trait MessageCompanion[A <: GeneratedMessage] {
 
   def companionForField(tagNumber: Int): MessageCompanion[_]
 
+  def fromAscii(ascii: String): A
+
   def descriptor: Descriptor
 }

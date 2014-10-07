@@ -336,6 +336,8 @@ object ProtobufGenerator {
       .add(message.getFields.map(f => s"${f.getNumber} -> ${snakeCaseToCamelCase(f.getName).asSymbol}").mkString(", "))
       .outdent
       .add(")")
+
+      .add(s"override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))")
     .outdent
     .add("}")
     .add("")
@@ -388,7 +390,11 @@ object ProtobufGenerator {
 
       // companionForField
       .call(generateCompanionForField(message))
-
+      .add(s"override def fromAscii(ascii: String): $myFullScalaName = {")
+      .add(s"  val b = $myFullJavaName.newBuilder")
+      .add(s"  com.google.protobuf.TextFormat.merge(ascii, b)")
+      .add(s"  fromJavaProto(b.build)")
+      .add(s"}")
       .add(s"lazy val descriptor: com.google.protobuf.Descriptors.Descriptor = $descriptorGetter")
       .add(s"lazy val defaultInstance = $myFullScalaName(")
       .indent
@@ -405,6 +411,7 @@ object ProtobufGenerator {
       .add(s"  fromJavaProto($myFullJavaName.parseFrom(pbByteArraySource))")
       .print(message.getEnumTypes)(printEnum)
       .print(message.getNestedTypes)(printMessage)
+      .add(s"implicit def messageCompanion: com.trueaccord.scalapb.MessageCompanion[$className] = this")
     .outdent
     .add("}")
     .add("")
