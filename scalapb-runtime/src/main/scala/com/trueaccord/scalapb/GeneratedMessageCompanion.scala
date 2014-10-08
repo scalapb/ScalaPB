@@ -6,9 +6,21 @@ trait GeneratedMessage {
   def serialize: Array[Byte]
 
   def getField(field: Descriptors.FieldDescriptor): Any
+  
+  def companion: GeneratedMessageCompanion[_]
+
+  def getAllFields: Seq[(Descriptors.FieldDescriptor, Any)] =
+    companion.descriptor.fields.flatMap {
+      f =>
+        getField(f) match {
+          case None => None
+          case Nil => None
+          case v => Some(f -> v)
+        }
+    }
 }
 
-trait MessageCompanion[A <: GeneratedMessage] {
+trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   def parse(s: Array[Byte]): A
 
   def validate(s: Array[Byte]): Try[A] = Try(parse(s))

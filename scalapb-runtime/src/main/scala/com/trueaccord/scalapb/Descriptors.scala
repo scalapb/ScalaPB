@@ -9,7 +9,7 @@ object Descriptors {
   }
 
   class MessageDescriptor(val name: String,
-                          val companion: MessageCompanion[_],
+                          val companion: GeneratedMessageCompanion[_],
                           c: => Option[MessageDescriptor],
                           m: => Seq[MessageDescriptor],
                           e: => Seq[EnumDescriptor],

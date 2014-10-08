@@ -334,10 +334,11 @@ object ProtobufGenerator {
     }
       .call(generateGetField(message))
       .add(s"override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))")
+      .add(s"def companion = $myFullScalaName")
     .outdent
     .add("}")
     .add("")
-    .add(s"object $className extends com.trueaccord.scalapb.MessageCompanion[$className] {")
+    .add(s"object $className extends com.trueaccord.scalapb.GeneratedMessageCompanion[$className] {")
     .indent
 
       // toJavaProto
@@ -409,7 +410,7 @@ object ProtobufGenerator {
       .add(s"  fromJavaProto($myFullJavaName.parseFrom(pbByteArraySource))")
       .print(message.getEnumTypes)(printEnum)
       .print(message.getNestedTypes)(printMessage)
-      .add(s"implicit def messageCompanion: com.trueaccord.scalapb.MessageCompanion[$className] = this")
+      .add(s"implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this")
     .outdent
     .add("}")
     .add("")
