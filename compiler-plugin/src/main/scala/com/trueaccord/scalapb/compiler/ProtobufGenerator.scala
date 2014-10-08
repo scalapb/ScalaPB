@@ -391,9 +391,9 @@ object ProtobufGenerator {
       // companionForField
       .call(generateCompanionForField(message))
       .add(s"override def fromAscii(ascii: String): $myFullScalaName = {")
-      .add(s"  val b = $myFullJavaName.newBuilder")
-      .add(s"  com.google.protobuf.TextFormat.merge(ascii, b)")
-      .add(s"  fromJavaProto(b.build)")
+      .add(s"  val javaProtoBuilder = $myFullJavaName.newBuilder")
+      .add(s"  com.google.protobuf.TextFormat.merge(ascii, javaProtoBuilder)")
+      .add(s"  fromJavaProto(javaProtoBuilder.build)")
       .add(s"}")
       .add(s"lazy val descriptor: com.google.protobuf.Descriptors.Descriptor = $descriptorGetter")
       .add(s"lazy val defaultInstance = $myFullScalaName(")
