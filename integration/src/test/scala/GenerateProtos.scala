@@ -42,7 +42,7 @@ object GenerateProtos extends Properties("Proto") {
     "java", "com", "google",
 
     // Scala
-    "ne", "val", "var", "def",
+    "ne", "val", "var", "def", "Nil",
 
     // internal names
     "java_pb_source", "scala_pb_source", "pb_byte_array_source"

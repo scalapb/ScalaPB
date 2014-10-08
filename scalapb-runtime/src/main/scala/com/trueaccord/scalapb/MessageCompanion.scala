@@ -1,13 +1,11 @@
 package com.trueaccord.scalapb
 
-import com.google.protobuf.Descriptors.Descriptor
-
 import scala.util.Try
 
 trait GeneratedMessage {
   def serialize: Array[Byte]
 
-  def allFields: Map[Int, Any]
+  def getField(field: Descriptors.FieldDescriptor): Any
 }
 
 trait MessageCompanion[A <: GeneratedMessage] {
@@ -19,9 +17,8 @@ trait MessageCompanion[A <: GeneratedMessage] {
 
   def fromFieldsMap(fields: Map[Int, Any]): A
 
-  def companionForField(tagNumber: Int): MessageCompanion[_]
-
   def fromAscii(ascii: String): A
 
-  def descriptor: Descriptor
+  def descriptor: Descriptors.MessageDescriptor
 }
+
