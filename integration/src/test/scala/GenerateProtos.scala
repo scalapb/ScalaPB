@@ -36,13 +36,13 @@ object GenerateProtos extends Properties("Proto") {
     "notifyall", "tostring", "wait",
 
     // Other java stuff
-    "true", "false",
+    "true", "false", "null",
 
     // Package names
     "java", "com", "google",
 
     // Scala
-    "ne", "val", "var", "def", "Nil",
+    "ne", "eq", "val", "var", "def", "Nil",
 
     // internal names
     "java_pb_source", "scala_pb_source", "pb_byte_array_source"

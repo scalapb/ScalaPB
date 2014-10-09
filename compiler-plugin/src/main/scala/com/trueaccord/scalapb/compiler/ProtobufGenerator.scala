@@ -119,7 +119,7 @@ object ProtobufGenerator {
     }
 
   def scalaOuterObjectName(file: FileDescriptor): String =
-    javaOuterClassName(file) + "Scala"
+    javaOuterClassName(file) + "PB"
 
   def printEnum(e: EnumDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
     val javaName = fullJavaName(e)
