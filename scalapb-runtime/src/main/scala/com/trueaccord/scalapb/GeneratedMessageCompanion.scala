@@ -3,7 +3,7 @@ package com.trueaccord.scalapb
 import scala.util.Try
 
 trait GeneratedMessage {
-  def serialize: Array[Byte]
+  def toByteArray: Array[Byte]
 
   def getField(field: Descriptors.FieldDescriptor): Any
   
@@ -21,11 +21,11 @@ trait GeneratedMessage {
 }
 
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
-  def parse(s: Array[Byte]): A
+  def parseFrom(s: Array[Byte]): A
 
-  def validate(s: Array[Byte]): Try[A] = Try(parse(s))
+  def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 
-  def serialize(a: A): Array[Byte] = a.serialize
+  def toByteArray(a: A): Array[Byte] = a.toByteArray
 
   def fromFieldsMap(fields: Map[Int, Any]): A
 

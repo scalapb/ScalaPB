@@ -300,10 +300,6 @@ object ProtobufGenerator {
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.getName.asSymbol
-    val descriptorGetter = if (message.getContainingType != null)
-      fullScalaName(message.getContainingType) + s".descriptor.getNestedTypes.get(${message.getIndex})"
-    else
-      scalaFullOuterObjectName(message.getFile) + s".descriptor.getMessageTypes.get(${message.getIndex})"
 
     val myFullScalaName = fullScalaName(message).asSymbol
     val myFullJavaName = fullJavaName(message)
@@ -323,14 +319,22 @@ object ProtobufGenerator {
     }
     .add(") extends com.trueaccord.scalapb.GeneratedMessage {")
     .outdent
-      .add(s"def serialize: Array[Byte] =")
+      .add(s"def toByteArray: Array[Byte] =")
       .add(s"  $myFullScalaName.toJavaProto(this).toByteArray")
-      .print(message.getFields.filter(_.isOptional)) {
+      .print(message.getFields) {
       case (field, printer) =>
         val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
-        val getter = "get" + snakeCaseToCamelCase(field.getName, true)
-        val default = defaultValueForGet(field)
-        printer.add(s"def $getter = ${fieldName}.getOrElse($default)")
+        val withMethod = "with" + snakeCaseToCamelCase(field.getName, true)
+        val clearMethod = "clear" + snakeCaseToCamelCase(field.getName, true)
+        val p0 = if (field.isOptional) {
+          val getter = "get" + snakeCaseToCamelCase(field.getName, true)
+          val default = defaultValueForGet(field)
+          printer.add(s"def $getter = ${fieldName}.getOrElse($default)")
+        } else printer
+        val p1 = p0.add(s"def $withMethod(${fieldName}: ${getScalaTypeName(field)}) = copy(${fieldName} = ${fieldName})")
+        if (field.isOptional || field.isRepeated)  {
+          p1.add(s"def $clearMethod = copy(${fieldName} = ${if (field.isOptional) "None" else "Nil"})")
+        } else p1
     }
       .call(generateGetField(message))
       .add(s"override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))")
@@ -406,7 +410,7 @@ object ProtobufGenerator {
     }
       .outdent
       .add(")")
-      .add(s"def parse(pbByteArraySource: Array[Byte]): $myFullScalaName =")
+      .add(s"def parseFrom(pbByteArraySource: Array[Byte]): $myFullScalaName =")
       .add(s"  fromJavaProto($myFullJavaName.parseFrom(pbByteArraySource))")
       .print(message.getEnumTypes)(printEnum)
       .print(message.getNestedTypes)(printMessage)

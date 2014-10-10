@@ -167,8 +167,8 @@ object GenerateProtos extends Properties("Proto") {
     } yield (rootNode, msg, ascii)
 
   def scalaParseAndSerialize[T <: GeneratedMessage](comp: GeneratedMessageCompanion[T], bytes: Array[Byte]) = {
-    val instance: T = comp.parse(bytes)
-    val ser: Array[Byte] = comp.serialize(instance)
+    val instance: T = comp.parseFrom(bytes)
+    val ser: Array[Byte] = comp.toByteArray(instance)
     ser
   }
 
@@ -183,7 +183,6 @@ object GenerateProtos extends Properties("Proto") {
         forAllNoShrink(GenData.genProtoAsciiInstance(rootNode)) {
           case (message, protoAscii) =>
             val builder = getJavaBuilder(tmpDir, rootNode, message)
-            println("----")
             TextFormat.merge(protoAscii, builder)
             val originalProto: protobuf.Message = builder.build()
             val javaBytes = originalProto.toByteArray
