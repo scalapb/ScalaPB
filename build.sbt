@@ -2,7 +2,7 @@ import SonatypeKeys._
 
 sonatypeSettings
 
-crossScalaVersions := Seq("2.10.4", "2.11.2")
+crossScalaVersions := Seq("2.11.2", "2.10.4")
 
 organization in ThisBuild := "com.trueaccord.scalapb"
 
@@ -34,8 +34,7 @@ pomExtra in ThisBuild := {
 
 lazy val root =
   project.in(file("."))
-    .settings(publishArtifact := false,
-       libraryDependencies ++= Seq("com.google.protobuf" % "protobuf-java" % "2.6.0")
+    .settings(publishArtifact := false
     ).aggregate(runtime, compilerPlugin, integration)
 
 lazy val runtime = project in file("scalapb-runtime")
