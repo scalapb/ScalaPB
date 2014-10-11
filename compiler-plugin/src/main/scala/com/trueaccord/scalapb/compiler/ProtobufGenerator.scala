@@ -145,7 +145,7 @@ object ProtobufGenerator {
       case FieldDescriptor.JavaType.FLOAT => "Float"
       case FieldDescriptor.JavaType.DOUBLE => "Double"
       case FieldDescriptor.JavaType.BOOLEAN => "Boolean"
-      case FieldDescriptor.JavaType.BYTE_STRING => "Array[Byte]"
+      case FieldDescriptor.JavaType.BYTE_STRING => "com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING => "String"
       case FieldDescriptor.JavaType.MESSAGE => fullScalaName(descriptor.getMessageType)
       case FieldDescriptor.JavaType.ENUM => fullScalaName(descriptor.getEnumType)
@@ -182,7 +182,7 @@ object ProtobufGenerator {
         else d.toString
       case FieldDescriptor.JavaType.BOOLEAN => Boolean.unbox(defaultValue.asInstanceOf[java.lang.Boolean])
       case FieldDescriptor.JavaType.BYTE_STRING => defaultValue.asInstanceOf[ByteString]
-        .map(_.toString).mkString("Array[Byte](", ", ", ")")
+        .map(_.toString).mkString("com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
       case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         fullScalaName(field.getMessageType) + ".defaultInstance"
@@ -212,7 +212,7 @@ object ProtobufGenerator {
       case FieldDescriptor.JavaType.FLOAT => ConversionMethod("floatValue")
       case FieldDescriptor.JavaType.DOUBLE => ConversionMethod("doubleValue")
       case FieldDescriptor.JavaType.BOOLEAN => ConversionMethod("booleanValue")
-      case FieldDescriptor.JavaType.BYTE_STRING => ConversionMethod("toByteArray")
+      case FieldDescriptor.JavaType.BYTE_STRING => NoOp
       case FieldDescriptor.JavaType.STRING => NoOp
       case FieldDescriptor.JavaType.MESSAGE => ConversionFunction(
         fullScalaName(field.getMessageType) + ".fromJavaProto")
@@ -251,7 +251,7 @@ object ProtobufGenerator {
       case FieldDescriptor.JavaType.FLOAT => BoxFunction("Float.box")
       case FieldDescriptor.JavaType.DOUBLE => BoxFunction("Double.box")
       case FieldDescriptor.JavaType.BOOLEAN => BoxFunction("Boolean.box")
-      case FieldDescriptor.JavaType.BYTE_STRING => ConversionFunction("com.google.protobuf.ByteString.copyFrom")
+      case FieldDescriptor.JavaType.BYTE_STRING => NoOp
       case FieldDescriptor.JavaType.STRING => NoOp
       case FieldDescriptor.JavaType.MESSAGE => ConversionFunction(
         fullScalaName(field.getMessageType) + ".toJavaProto")

@@ -4,10 +4,10 @@ trait FPrintable {
   def print(printer: FunctionalPrinter): FunctionalPrinter
 }
 
-case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel: Int = 0) {
+case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) {
   val INDENT_SIZE = 2
   def add(s: String*): FunctionalPrinter = {
-    copy(content = content ++ s.map(l => " " * (indentLevel * INDENT_SIZE) + l))
+    copy(content = s.map(l => " " * (indentLevel * INDENT_SIZE) + l).reverseIterator.toList ::: content)
   }
   def indent = copy(indentLevel = indentLevel + 1)
   def outdent = copy(indentLevel = indentLevel - 1)
@@ -21,6 +21,6 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
     print(fs)((p, printer) => p.print(printer))
 
   override def toString = {
-    content.mkString("\n")
+    content.reverseIterator.mkString("\n")
   }
 }

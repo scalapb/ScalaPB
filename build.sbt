@@ -34,8 +34,9 @@ pomExtra in ThisBuild := {
 
 lazy val root =
   project.in(file("."))
-    .settings(publishArtifact := false)
-    .aggregate(runtime, compilerPlugin, integration)
+    .settings(publishArtifact := false,
+       libraryDependencies ++= Seq("com.google.protobuf" % "protobuf-java" % "2.6.0")
+    ).aggregate(runtime, compilerPlugin, integration)
 
 lazy val runtime = project in file("scalapb-runtime")
 

@@ -19,7 +19,7 @@ object GraphGen {
 
     def isNameAvailable(name: String): Boolean = !names.contains(name.toLowerCase) && parent.forall(_.isNameAvailable(name))
 
-    def generateName: Gen[String] = GenerateProtos.identifier.retryUntil(isNameAvailable)
+    def generateName: Gen[String] = SchemaGenerators.identifier.retryUntil(isNameAvailable)
   }
 
   val ROOT_NAMESPACE = Namespace(Set("foo", "bar"), None)

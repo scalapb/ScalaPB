@@ -5,18 +5,19 @@ import javax.tools.ToolProvider
 
 import com.google.protobuf
 import com.google.protobuf.Message.Builder
-import com.google.protobuf.{TextFormat}
+import com.google.protobuf.{MessageOrBuilder, TextFormat}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
 import com.trueaccord.scalapb.{GeneratedMessage, compiler, GeneratedMessageCompanion}
 
-object GenerateProtos extends Properties("Proto") {
+import scala.reflect.ClassTag
+
+object SchemaGenerators {
 
   import Nodes._
 
   val snakeRegex = "_[0-9][a-z]".r
-
 
   val RESERVED = Seq(
     // JAVA_KEYWORDS
@@ -103,8 +104,13 @@ object GenerateProtos extends Properties("Proto") {
     f #:: (if (f.isDirectory) f.listFiles().toStream.flatMap(getFileTree)
     else Stream.empty)
 
+  def jarForClass[T](implicit c: ClassTag[T]): URL =
+    c.runtimeClass.getProtectionDomain.getCodeSource.getLocation
+
   def compileJavaInDir(rootDir: File): Unit = {
     println("Compiling Java sources.")
+    val protobufJar = jarForClass[com.google.protobuf.Message].getPath
+
     val compiler = ToolProvider.getSystemJavaCompiler()
     getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".java"))
@@ -112,6 +118,7 @@ object GenerateProtos extends Properties("Proto") {
       file =>
         if (compiler.run(null, null, null,
           "-sourcepath", rootDir.toString,
+          "-cp", protobufJar,
           "-d", rootDir.toString,
           file.getAbsolutePath) != 0) {
           throw new RuntimeException(s"Compilation of $file failed.")
@@ -121,76 +128,53 @@ object GenerateProtos extends Properties("Proto") {
 
   def compileScalaInDir(rootDir: File): Unit = {
     println("Compiling Scala sources.")
+    val classPath = Seq(
+      jarForClass[annotation.Annotation].getPath,
+      jarForClass[com.trueaccord.scalapb.GeneratedMessage].getPath,
+      jarForClass[com.google.protobuf.Message].getPath,
+      rootDir
+    )
+    val annotationJar = classOf[annotation.Annotation].getProtectionDomain.getCodeSource.getLocation.getPath
     import scala.tools.nsc._
 
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
     val s = new Settings(error => throw new RuntimeException(error))
-    s.processArgumentString( s"""-usejavacp -cp "$rootDir" -d "$rootDir"""")
+    s.processArgumentString( s"""-cp "${classPath.mkString(":")}" -d "$rootDir"""")
     val g = new Global(s)
 
     val run = new g.Run
     run.compile(scalaFiles.map(_.toString).toList)
   }
 
-  def getJavaBuilder(rootDir: File, rootNode: RootNode, m: MessageNode): Builder = {
-    val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL))
-    val className = rootNode.javaClassName(m)
-    val cls = Class.forName(className, true, classLoader)
-    val builder = cls.getMethod("newBuilder").invoke(null).asInstanceOf[Builder]
-    builder
+  case class CompiledSchema(rootNode: RootNode, rootDir: File) {
+    lazy val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL), this.getClass.getClassLoader)
+
+    def javaBuilder(m: MessageNode): Builder = {
+      val className = rootNode.javaClassName(m)
+      val cls = Class.forName(className, true, classLoader)
+      val builder = cls.getMethod("newBuilder").invoke(null).asInstanceOf[Builder]
+      builder
+    }
+
+    def scalaObject(m: MessageNode): GeneratedMessageCompanion[_ <: GeneratedMessage] = {
+      val className = rootNode.scalaObjectName(m)
+      val u = scala.reflect.runtime.universe
+      val mirror = u.runtimeMirror(classLoader)
+      mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[GeneratedMessageCompanion[_ <: GeneratedMessage]]
+    }
   }
 
-  def getScalaObject(rootDir: File, rootNode: RootNode, m: MessageNode): GeneratedMessageCompanion[_ <: GeneratedMessage] = {
-    val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL))
-    val className = rootNode.scalaObjectName(m)
-    val u = scala.reflect.runtime.universe
-    val mirror = u.runtimeMirror(classLoader)
-    mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[GeneratedMessageCompanion[_ <: GeneratedMessage]]
-  }
-
-  property("min and max id are consecutive over files") = forAll(GraphGen.genRootNode) {
-    node =>
-      def validateMinMax(pairs: Seq[(Int, Int)]) =
-        pairs.sliding(2).filter(_.size == 2).forall {
-          case Seq((min1, max1), (min2, max2)) => min2 == max1 + 1 && min2 <= max2
-        }
-      val messageIdPairs: Seq[(Int, Int)] = node.files.flatMap { f => (f.minMessageId.map((_, f.maxMessageId.get)))}
-      val enumIdPairs: Seq[(Int, Int)] = node.files.flatMap { f => (f.minEnumId.map((_, f.maxEnumId.get)))}
-      validateMinMax(messageIdPairs) && validateMinMax(enumIdPairs)
-  }
-
-  def rootNodeMessageAndAscii: Gen[(RootNode, MessageNode, String)] =
-    for {
-      rootNode <- GraphGen.genRootNode
-      (msg, ascii) <- GenData.genProtoAsciiInstance(rootNode)
-    } yield (rootNode, msg, ascii)
-
-  def scalaParseAndSerialize[T <: GeneratedMessage](comp: GeneratedMessageCompanion[T], bytes: Array[Byte]) = {
-    val instance: T = comp.parseFrom(bytes)
-    val ser: Array[Byte] = comp.toByteArray(instance)
-    ser
-  }
-
-  property("protos compile") =
-    forAll(GraphGen.genRootNode) {
-      case rootNode =>
+  def genCompiledSchema: Gen[CompiledSchema] =
+    GraphGen.genRootNode.map {
+      rootNode =>
         val tmpDir = writeFileSet(rootNode)
-        println(tmpDir)
+        println(s"Compiling in $tmpDir.")
         compileProtos(rootNode, tmpDir)
         compileJavaInDir(tmpDir)
         compileScalaInDir(tmpDir)
-        forAllNoShrink(GenData.genProtoAsciiInstance(rootNode)) {
-          case (message, protoAscii) =>
-            val builder = getJavaBuilder(tmpDir, rootNode, message)
-            TextFormat.merge(protoAscii, builder)
-            val originalProto: protobuf.Message = builder.build()
-            val javaBytes = originalProto.toByteArray
-            val obj: GeneratedMessageCompanion[_ <: GeneratedMessage] = getScalaObject(tmpDir, rootNode, message)
-            val scalaBytes = scalaParseAndSerialize(obj, javaBytes)
-            val updatedProto: protobuf.Message = getJavaBuilder(tmpDir, rootNode, message).mergeFrom(scalaBytes).build
-            updatedProto.toByteString == originalProto.toByteString
-        }
+
+        CompiledSchema(rootNode, tmpDir)
     }
 }
 

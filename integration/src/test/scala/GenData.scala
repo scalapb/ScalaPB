@@ -1,22 +1,37 @@
-import com.trueaccord.scalapb.compiler
+import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Gen
 
-/**
- * Created by thesamet on 9/28/14.
- */
 object GenData {
 
   import GenTypes._
-  import GenUtils._
   import Nodes._
   import org.scalacheck.Gen._
 
-  private def genProtoAscii(rootNode: RootNode,
-                            message: MessageNode,
-                            printer: compiler.FunctionalPrinter,
-                            depth: Int = 0): Gen[compiler.FunctionalPrinter] = {
+  sealed trait ProtoValue
+  case class PrimitiveValue(value: String) extends ProtoValue
+  case class EnumValue(value: String) extends ProtoValue
+  case class MessageValue(values: Seq[(String, ProtoValue)]) extends ProtoValue {
 
-    def genFieldValueByOptions(field: FieldNode)(printer: compiler.FunctionalPrinter): Gen[compiler.FunctionalPrinter] = sized {
+    def toAscii: String =
+      printAscii(new FunctionalPrinter()).toString
+
+    def printAscii(printer: FunctionalPrinter): FunctionalPrinter = {
+      values.foldLeft(printer) {
+        case (printer, (name, PrimitiveValue(value))) => printer.add(s"$name: $value")
+        case (printer, (name, EnumValue(value))) => printer.add(s"$name: $value")
+        case (printer, (name, mv: MessageValue)) => printer.add(s"$name: <")
+          .indent
+          .call(mv.printAscii)
+          .outdent
+          .add(">")
+      }
+    }
+  }
+
+  private def genMessageValue(rootNode: RootNode,
+                             message: MessageNode,
+                             depth: Int = 0): Gen[MessageValue] = {
+    def genFieldValueByOptions(field: FieldNode): Gen[Seq[(String, ProtoValue)]] = sized {
       s =>
         def genCount: Gen[Int] = field.fieldOptions match {
           case FieldOptions.OPTIONAL =>
@@ -30,37 +45,31 @@ object GenData {
             if (depth > 3) Gen.const(0) else Gen.choose(0, ((s - 2 * depth) max 0) min 10)
         }
 
-        def genFieldValue(field: FieldNode)(printer: compiler.FunctionalPrinter): Gen[(Unit, compiler.FunctionalPrinter)] =
+        def genSingleFieldValue(field: FieldNode): Gen[ProtoValue] =
           field.fieldType match {
             case Primitive(_, genValue) =>
-              genValue.map(v => ((), printer.add(s"${field.name}: $v")))
+              genValue.map(v => PrimitiveValue(v))
             case EnumReference(id) =>
-              oneOf(rootNode.enumsById(id).values.map(_._1)).map(v => ((), printer.add(s"${field.name}: $v")))
+              oneOf(rootNode.enumsById(id).values.map(_._1)).map(v => EnumValue(v))
             case MessageReference(id) =>
-              val p0 = printer.add(s"${field.name}: <").indent
-              for {
-                p <- genProtoAscii(rootNode, rootNode.messagesById(id), p0, depth + 1)
-              } yield ((), p.outdent.add(">"))
+              genMessageValue(rootNode, rootNode.messagesById(id), depth + 1)
           }
 
         for {
           count <- genCount
-          (result, printer) <- listOfNWithStatefulGen(count, printer)(genFieldValue(field))
-        } yield printer
+          result <- Gen.listOfN(count, genSingleFieldValue(field).map(field.name -> _))
+        } yield result
     }
 
-    message.fields.foldLeft(Gen.const(printer)) {
-      case (printer, field) =>
-        for {
-          p <- printer
-          p <- genFieldValueByOptions(field)(p)
-        } yield p
-    }
+   //
+    Gen.sequence[Seq, Seq[(String, ProtoValue)]](message.fields.map {
+      field => genFieldValueByOptions(field)
+    }).map(s => MessageValue(s.flatten))
   }
 
-  def genProtoAsciiInstance(rootNode: RootNode): Gen[(MessageNode, String)] = for {
+  def genMessageValueInstance(rootNode: RootNode): Gen[(MessageNode, MessageValue)] = for {
     messageId <- Gen.choose(0, rootNode.maxMessageId.get - 1)
     message = rootNode.messagesById(messageId)
-    printer <- genProtoAscii(rootNode, message, compiler.FunctionalPrinter(), 0)
-  } yield (message, printer.toString)
+    messageValue <- genMessageValue(rootNode, message)
+  } yield (message, messageValue)
 }
