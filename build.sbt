@@ -10,6 +10,9 @@ profileName in ThisBuild:= "com.trueaccord.scalapb"
 
 version in ThisBuild := "0.1-SNAPSHOT"
 
+resolvers in ThisBuild +=
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
 pomExtra in ThisBuild := {
   <url>https://github.com/trueaccord/ScalaPB</url>
   <licenses>
