@@ -317,7 +317,7 @@ object ProtobufGenerator {
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
         printer.add(s"${fieldName.asSymbol}: $typeName$ctorDefaultValue$lineEnd")
     }
-    .add(") extends com.trueaccord.scalapb.GeneratedMessage {")
+    .add(s") extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.lenses.Updatable[$className] {")
     .outdent
       .add(s"def toByteArray: Array[Byte] =")
       .add(s"  $myFullScalaName.toJavaProto(this).toByteArray")
@@ -415,9 +415,19 @@ object ProtobufGenerator {
       .print(message.getEnumTypes)(printEnum)
       .print(message.getNestedTypes)(printMessage)
       .add(s"implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this")
-    .outdent
-    .add("}")
-    .add("")
+      .add(s"implicit class ${className}Lens[U](l: com.trueaccord.lenses.Lens[U, $className]) extends com.trueaccord.lenses.ObjectLens[U, $className](l) {")
+      .indent
+      .print(message.getFields) {
+      case (field, printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
+        printer.add(s"def $fieldName = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
+    }
+      .outdent
+      .add("}")
+      .outdent
+      .add("}")
+      .add("")
+      .add("")
   }
 
   def generateInternalFields(message: Descriptor, fp: FunctionalPrinter): FunctionalPrinter = {
