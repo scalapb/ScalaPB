@@ -420,7 +420,12 @@ object ProtobufGenerator {
       .print(message.getFields) {
       case (field, printer) =>
         val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
-        printer.add(s"def $fieldName = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
+        if (field.isOptional) {
+          val getMethod = "get" + snakeCaseToCamelCase(field.getName, true)
+          printer.add(s"def $fieldName = field(_.$getMethod)((p, f) => p.copy($fieldName = Some(f)))")
+        }
+        else
+          printer.add(s"def $fieldName = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
     }
       .outdent
       .add("}")
