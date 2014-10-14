@@ -422,7 +422,10 @@ object ProtobufGenerator {
         val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
         if (field.isOptional) {
           val getMethod = "get" + snakeCaseToCamelCase(field.getName, true)
-          printer.add(s"def $fieldName = field(_.$getMethod)((p, f) => p.copy($fieldName = Some(f)))")
+          val optionLensName = "optional" + snakeCaseToCamelCase(field.getName, true)
+          printer
+            .add(s"def $fieldName = field(_.$getMethod)((p, f) => p.copy($fieldName = Some(f)))")
+            .add(s"def ${optionLensName} = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
         }
         else
           printer.add(s"def $fieldName = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")

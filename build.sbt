@@ -6,9 +6,9 @@ crossScalaVersions := Seq("2.11.2", "2.10.4")
 
 organization in ThisBuild := "com.trueaccord.scalapb"
 
-profileName in ThisBuild := "com.trueaccord"
+profileName := "com.trueaccord"
 
-version in ThisBuild := "0.2-SNAPSHOT"
+version in ThisBuild := "0.2.1"
 
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
@@ -37,7 +37,8 @@ pomExtra in ThisBuild := {
 
 lazy val root =
   project.in(file("."))
-    .settings(publishArtifact := false
+    .settings(publishArtifact := false,
+              aggregate in sonatypeRelease := false
     ).aggregate(runtime, compilerPlugin, integration)
 
 lazy val runtime = project in file("scalapb-runtime")
