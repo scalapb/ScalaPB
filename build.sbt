@@ -6,11 +6,11 @@ sonatypeSettings
 
 crossScalaVersions := Seq("2.11.2", "2.10.4")
 
-organization in ThisBuild := "com.trueaccord.lenses"
+organization := "com.trueaccord.lenses"
 
- profileName in ThisBuild := "com.trueaccord.lenses"
+profileName := "com.trueaccord"
 
-version in ThisBuild := "0.1-SNAPSHOT"
+version in ThisBuild := "0.2-SNAPSHOT"
 
 libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.11.6" % "test",
