@@ -1,3 +1,5 @@
+import SonatypeKeys._
+
 sonatypeSettings
 
 sbtPlugin := true
@@ -5,6 +7,8 @@ sbtPlugin := true
 scalaVersion := "2.10.4"
 
 organization := "com.trueaccord.scalapb"
+
+profileName := "com.trueaccord"
 
 name := "sbt-scalapb"
 

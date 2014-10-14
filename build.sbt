@@ -6,9 +6,9 @@ crossScalaVersions := Seq("2.11.2", "2.10.4")
 
 organization in ThisBuild := "com.trueaccord.scalapb"
 
-profileName in ThisBuild:= "com.trueaccord.scalapb"
+profileName in ThisBuild := "com.trueaccord"
 
-version in ThisBuild := "0.1-SNAPSHOT"
+version in ThisBuild := "0.2-SNAPSHOT"
 
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
