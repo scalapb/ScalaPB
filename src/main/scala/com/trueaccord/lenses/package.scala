@@ -101,11 +101,14 @@ package object lenses {
     override def get(u: U) = self.get(u)
 
     override def set(c: Container) = self.set(c)
+
+    def update(ms: (Lens[Container, Container] => Mutation[Container])*): Mutation[U] =
+      u => set(ms.foldLeft[Container](get(u))((p, m) => m(Lens.unit[Container])(p)))(u)
   }
 
   trait Updatable[A] {
     self: A =>
-    def update(ms: (Lens[A, A] => Mutation[A])*) = ms.foldLeft[A](self)((p, m) => m(Lens.unit[A])(p))
+    def update(ms: (Lens[A, A] => Mutation[A])*): A = ms.foldLeft[A](self)((p, m) => m(Lens.unit[A])(p))
   }
 
 }

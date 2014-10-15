@@ -32,6 +32,8 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
   implicit class AddressLens[U](val f: Lens[U, Address]) extends ObjectLens[U, Address](f) {
     def city = field(_.city)((p, f) => p.copy(city = f))
 
+    def street = field(_.street)((p, f) => p.copy(street = f))
+
     def residents = field(_.residents)((p, f) => p.copy(residents = f))
   }
 
@@ -49,6 +51,15 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
 
   it should "allow mutating nested fields" in {
     mosh.update(_.address.city := "Valejo") should be(mosh.copy(address = mosh.address.copy(city = "Valejo")))
+  }
+
+  it should "allow nested updates" in {
+    mosh.update(
+      _.address.update(
+        _.city := "Valejo",
+        _.street := "Fourth"
+      )
+    ) should be(mosh.copy(address = mosh.address.copy(city = "Valejo", street = "Fourth")))
   }
 
   it should "allow replacing an entire field" in {
