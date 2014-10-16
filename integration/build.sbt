@@ -11,4 +11,4 @@ libraryDependencies ++= Seq(
 
 libraryDependencies <+= (scalaVersion) { v => "org.scala-lang" % "scala-compiler" % v }
 
-fork in Test := true
+fork in Test := false
