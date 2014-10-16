@@ -68,7 +68,7 @@ object GenData {
   }
 
   def genMessageValueInstance(rootNode: RootNode): Gen[(MessageNode, MessageValue)] = for {
-    messageId <- Gen.choose(0, rootNode.maxMessageId.get - 1)
+    messageId <- Gen.choose(0, rootNode.maxMessageId.get)
     message = rootNode.messagesById(messageId)
     messageValue <- genMessageValue(rootNode, message)
   } yield (message, messageValue)
