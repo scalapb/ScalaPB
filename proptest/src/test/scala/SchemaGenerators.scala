@@ -46,7 +46,7 @@ object SchemaGenerators {
     "ne", "eq", "val", "var", "def", "Nil",
 
     // internal names
-    "java_pb_source", "scala_pb_source", "pb_byte_array_source", "set"
+    "java_pb_source", "scala_pb_source", "pb_byte_array_source", "get", "set", "compose"
   )
 
   // identifier must not have be of the Java keywords.
