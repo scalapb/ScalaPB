@@ -39,13 +39,13 @@ lazy val root =
   project.in(file("."))
     .settings(publishArtifact := false,
               aggregate in sonatypeRelease := false
-    ).aggregate(runtime, compilerPlugin, integration)
+    ).aggregate(runtime, compilerPlugin, proptest)
 
 lazy val runtime = project in file("scalapb-runtime")
 
 lazy val compilerPlugin = project in file("compiler-plugin")
 
-lazy val integration = project.in(file("integration"))
+lazy val proptest = project.in(file("proptest"))
   .dependsOn(runtime, compilerPlugin)
     .configs( ShortTest )
     .settings( inConfig(ShortTest)(Defaults.testTasks): _*)
