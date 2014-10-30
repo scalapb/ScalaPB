@@ -8,7 +8,7 @@ organization in ThisBuild := "com.trueaccord.scalapb"
 
 profileName := "com.trueaccord"
 
-version in ThisBuild := "0.2.1"
+version in ThisBuild := "0.2.2"
 
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"

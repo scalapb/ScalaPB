@@ -130,8 +130,8 @@ object ProtobufGenerator {
       .print(e.getValues) {
         case (v, p) => p.add(s"""val ${v.getName.asSymbol} = Value(${v.getNumber}, "${v.getName}")""")
     }
-      .add(s"def fromJavaValue(pbJavaSource: $javaName): Value = apply(pbJavaSource.getNumber)")
-      .add(s"def toJavaValue(pbScalaSource: Value): $javaName = $javaName.valueOf(pbScalaSource.id)")
+      .add(s"implicit def fromJavaValue(pbJavaSource: $javaName): Value = apply(pbJavaSource.getNumber)")
+      .add(s"implicit def toJavaValue(pbScalaSource: Value): $javaName = $javaName.valueOf(pbScalaSource.id)")
       .add(s"""lazy val descriptor = Descriptors.EnumDescriptor(${e.getIndex}, "${e.getName}", this)""")
       .outdent
       .add("}")
@@ -346,7 +346,7 @@ object ProtobufGenerator {
     .indent
 
       // toJavaProto
-      .add(s"def toJavaProto(scalaPbSource: $myFullScalaName): $myFullJavaName = {")
+      .add(s"implicit def toJavaProto(scalaPbSource: $myFullScalaName): $myFullJavaName = {")
       .indent
       .add(s"val javaPbOut = $myFullJavaName.newBuilder")
       .print(message.getFields) {
@@ -358,7 +358,7 @@ object ProtobufGenerator {
       .add("}")
 
       // fromJavaProto
-    .add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
+    .add(s"implicit def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
       .indent
       .print(message.getFields.zipWithIndex) {
       case ((field, index), printer) =>
