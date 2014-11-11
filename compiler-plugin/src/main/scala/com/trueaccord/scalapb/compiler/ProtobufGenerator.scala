@@ -1,8 +1,8 @@
 package com.trueaccord.scalapb.compiler
 
-import com.google.protobuf.Descriptors.FieldDescriptor.JavaType
+import com.google.protobuf.Descriptors.FieldDescriptor.{Type, JavaType}
 import com.google.protobuf.Descriptors._
-import com.google.protobuf.{Descriptors, ByteString}
+import com.google.protobuf.{CodedOutputStream, Descriptors, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
@@ -138,6 +138,48 @@ object ProtobufGenerator {
       .add(s"type $name = $name.Value")
   }
 
+  def capitalizedType(fieldType: FieldDescriptor.Type) = fieldType match {
+    case FieldDescriptor.Type.INT32 => "Int32"
+    case FieldDescriptor.Type.UINT32  => "UInt32"
+    case FieldDescriptor.Type.SINT32  => "SInt32"
+    case FieldDescriptor.Type.FIXED32 => "Fixed32"
+    case FieldDescriptor.Type.SFIXED32=> "SFixed32"
+    case FieldDescriptor.Type.INT64   => "Int64"
+    case FieldDescriptor.Type.UINT64  => "UInt64"
+    case FieldDescriptor.Type.SINT64  => "SInt64"
+    case FieldDescriptor.Type.FIXED64 => "Fixed64"
+    case FieldDescriptor.Type.SFIXED64=> "SFixed64"
+    case FieldDescriptor.Type.FLOAT   => "Float"
+    case FieldDescriptor.Type.DOUBLE  => "Double"
+    case FieldDescriptor.Type.BOOL    => "Bool"
+    case FieldDescriptor.Type.STRING  => "String"
+    case FieldDescriptor.Type.BYTES   => "Bytes"
+    case FieldDescriptor.Type.ENUM    => "Enum"
+    case FieldDescriptor.Type.GROUP   => "Group"
+    case FieldDescriptor.Type.MESSAGE => "Message"
+  }
+
+  def fixedSize(fieldType: FieldDescriptor.Type): Option[Int] = fieldType match {
+    case FieldDescriptor.Type.INT32 => None
+    case FieldDescriptor.Type.UINT32  => None
+    case FieldDescriptor.Type.SINT32  => None
+    case FieldDescriptor.Type.FIXED32 => Some(4)
+    case FieldDescriptor.Type.SFIXED32=> Some(4)
+    case FieldDescriptor.Type.INT64   => None
+    case FieldDescriptor.Type.UINT64  => None
+    case FieldDescriptor.Type.SINT64  => None
+    case FieldDescriptor.Type.FIXED64 => Some(8)
+    case FieldDescriptor.Type.SFIXED64=> Some(8)
+    case FieldDescriptor.Type.FLOAT   => Some(4)
+    case FieldDescriptor.Type.DOUBLE  => Some(8)
+    case FieldDescriptor.Type.BOOL    => Some(1)
+    case FieldDescriptor.Type.STRING  => None
+    case FieldDescriptor.Type.BYTES   => None
+    case FieldDescriptor.Type.ENUM    => None
+    case FieldDescriptor.Type.GROUP   => None
+    case FieldDescriptor.Type.MESSAGE => None
+  }
+
   def getScalaTypeName(descriptor: FieldDescriptor): String = {
     val base = descriptor.getJavaType match {
       case FieldDescriptor.JavaType.INT => "Int"
@@ -154,6 +196,7 @@ object ProtobufGenerator {
     else if (descriptor.isRepeated) s"Seq[$base]"
     else base
   }
+
 
   def escapeString(raw: String): String = {
     import scala.reflect.runtime.universe._
@@ -297,6 +340,118 @@ object ProtobufGenerator {
       else fp.add(signature + "throw new MatchError(field)")
     }
 
+  def generateWriteSingleValue(field: FieldDescriptor, valueExpr: String)(fp: FunctionalPrinter):
+  FunctionalPrinter = {
+    field.getType match {
+      case FieldDescriptor.Type.MESSAGE =>
+        fp.add(s"output.writeTag(${field.getNumber}, 2)")
+          .add(s"output.writeRawVarint32($valueExpr.serializedSize)")
+          .add(s"$valueExpr.writeTo(output)")
+      case FieldDescriptor.Type.ENUM =>
+        fp.add(s"output.writeEnum(${field.getNumber}, $valueExpr.id)")
+      case _ =>
+        val capTypeName = capitalizedType(field.getType)
+        fp.add(s"output.write$capTypeName(${field.getNumber}, $valueExpr)")
+    }
+  }
+
+  def sizeExpressionForSingleField(field: FieldDescriptor, expr: String): String = field.getType match {
+    case Type.MESSAGE =>
+      CodedOutputStream.computeTagSize(field.getNumber) + s" + com.google.protobuf.CodedOutputStream.computeRawVarint32Size($expr.serializedSize) + $expr.serializedSize"
+    case Type.ENUM => s"com.google.protobuf.CodedOutputStream.computeEnumSize(${field.getNumber}, ${expr}.id)"
+    case t =>
+      val capTypeName = capitalizedType(t)
+      s"com.google.protobuf.CodedOutputStream.compute${capTypeName}Size(${field.getNumber}, ${expr})"
+  }
+
+  def generateSerializedSizeForField(field: FieldDescriptor, fp: FunctionalPrinter): FunctionalPrinter = {
+    val fieldName = snakeCaseToCamelCase(field.getName)
+    val fieldNameSymbol = fieldName.asSymbol
+    if (field.isRequired) {
+      fp.add("size += " + sizeExpressionForSingleField(field, fieldNameSymbol))
+    } else if (field.isOptional) {
+      fp.add(s"if ($fieldNameSymbol.isDefined) { size += ${sizeExpressionForSingleField(field, fieldNameSymbol + ".get")} }")
+    } else if (field.isRepeated) {
+      val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
+      if (!field.isPacked)
+        fixedSize(field.getType) match {
+          case Some(size) => fp.add(s"size += ${size + tagSize} * $fieldNameSymbol.size")
+          case None => fp.add(
+            s"$fieldNameSymbol.foreach($fieldNameSymbol => size += ${sizeExpressionForSingleField(field, fieldNameSymbol)})")
+        }
+      else {
+        fp
+          .add(s"if($fieldNameSymbol.nonEmpty) {")
+          .add(s"  size += $tagSize + com.google.protobuf.CodedOutputStream.computeRawVarint32Size(${fieldName}SerializedSize) + ${fieldName}SerializedSize")
+          .add("}")
+      }
+    } else throw new RuntimeException("Should not reach here.")
+  }
+
+  def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
+    fp
+      .add("lazy val serializedSize: Int = {")
+      .indent
+      .add("var size = 0")
+      .print(message.getFields)(generateSerializedSizeForField)
+      .add("size")
+      .outdent
+      .add("}")
+  }
+
+  def generateSerializedSizeForPackedFields(message: Descriptor)(fp: FunctionalPrinter) =
+    fp
+      .print(message.getFields.filter(_.isPacked).zipWithIndex) {
+      case ((field, index), printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName)
+        val fieldNameSymbol = fieldName.asSymbol
+        printer
+          .add(s"lazy val ${fieldName}SerializedSize =")
+          .call({ fp =>
+          fixedSize(field.getType) match {
+            case Some(size) =>
+              fp.add(s"  $size * ${fieldNameSymbol}.size")
+            case None =>
+              val capTypeName = capitalizedType(field.getType)
+              fp.add(s"  ${fieldNameSymbol}.map(com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag).sum")
+          }
+        })
+    }
+
+  def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
+    fp.add(s"def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {")
+      .indent
+      .print(message.getFields.sortBy(_.getNumber).zipWithIndex) {
+      case ((field, index), printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName)
+        val fieldNameSymbol = fieldName.asSymbol
+        val capTypeName = capitalizedType(field.getType)
+        if (field.isPacked) {
+          printer.add(s"if ($fieldNameSymbol.nonEmpty) {")
+            .indent
+            .add(s"output.writeTag(${field.getNumber}, 2)")
+            .add(s"output.writeRawVarint32(${fieldNameSymbol}SerializedSize)")
+            .add(s"${fieldNameSymbol}.foreach { ${fieldNameSymbol} => ")
+            .indent
+            .add(s"output.write${capTypeName}NoTag($fieldNameSymbol)")
+            .outdent
+            .add("}")
+            .outdent
+            .add("}")
+        } else if (field.isRequired) {
+          generateWriteSingleValue(field, fieldNameSymbol)(printer)
+        } else {
+          printer
+            .add(s"${fieldNameSymbol}.foreach { ${fieldNameSymbol} => ")
+            .indent
+            .call(generateWriteSingleValue(field, fieldNameSymbol))
+            .outdent
+            .add("}")
+        }
+    }
+      .outdent
+      .add("}")
+
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.getName.asSymbol
@@ -317,10 +472,10 @@ object ProtobufGenerator {
         val lineEnd = if (index < message.getFields.size() - 1) "," else ""
         printer.add(s"${fieldName.asSymbol}: $typeName$ctorDefaultValue$lineEnd")
     }
-    .add(s") extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.lenses.Updatable[$className] {")
-    .outdent
-      .add(s"def toByteArray: Array[Byte] =")
-      .add(s"  $myFullScalaName.toJavaProto(this).toByteArray")
+      .add(s") extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.lenses.Updatable[$className] {")
+      .call(generateSerializedSizeForPackedFields(message))
+      .call(generateSerializedSize(message))
+      .call(generateWriteTo(message))
       .print(message.getFields) {
       case (field, printer) =>
         val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
@@ -339,6 +494,7 @@ object ProtobufGenerator {
       .call(generateGetField(message))
       .add(s"override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))")
       .add(s"def companion = $myFullScalaName")
+    .outdent
     .outdent
     .add("}")
     .add("")
@@ -448,11 +604,12 @@ object ProtobufGenerator {
 
       val t = field.getJavaType match {
         case t if field.getJavaType != JavaType.MESSAGE && field.getJavaType != JavaType.ENUM =>
-          s"Descriptors.PrimitiveType(com.google.protobuf.Descriptors.FieldDescriptor.JavaType.$t)"
+          s"Descriptors.PrimitiveType(com.google.protobuf.Descriptors.FieldDescriptor.JavaType.$t, " +
+          s"com.google.protobuf.Descriptors.FieldDescriptor.Type.${field.getType})"
         case JavaType.MESSAGE => "Descriptors.MessageType(" + fullScalaName(field.getMessageType) + ".descriptor)"
         case JavaType.ENUM => "Descriptors.EnumType(" + fullScalaName(field.getEnumType) + ".descriptor)"
       }
-      s"""Descriptors.FieldDescriptor($index, ${field.getNumber}, "${field.getName}", $label, $t)"""
+      s"""Descriptors.FieldDescriptor($index, ${field.getNumber}, "${field.getName}", $label, $t, isPacked = ${field.isPacked})"""
     }
 
     fp.add(s"""case "${fullScalaName(message)}" => Seq(${message.getFields.map(makeDescriptor).mkString(", ")})""")

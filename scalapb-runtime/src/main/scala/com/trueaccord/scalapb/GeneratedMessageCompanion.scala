@@ -1,9 +1,11 @@
 package com.trueaccord.scalapb
 
+import com.google.protobuf.CodedOutputStream
+
 import scala.util.Try
 
 trait GeneratedMessage {
-  def toByteArray: Array[Byte]
+  def writeTo(output: CodedOutputStream): Unit
 
   def getField(field: Descriptors.FieldDescriptor): Any
   
@@ -18,6 +20,14 @@ trait GeneratedMessage {
           case v => Some(f -> v)
         }
     }
+
+   def toByteArray: Array[Byte] = {
+     val a = new Array[Byte](serializedSize)
+     writeTo(com.google.protobuf.CodedOutputStream.newInstance(a))
+     a
+   }
+
+  def serializedSize: Int
 }
 
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
