@@ -1,4 +1,5 @@
 import GraphGen.State
+import com.google.protobuf.DescriptorProtos.FieldOptions
 import org.scalacheck.{Arbitrary, Gen}
 
 /**
@@ -7,9 +8,11 @@ import org.scalacheck.{Arbitrary, Gen}
 object GenTypes {
 
   sealed trait ProtoType {
+    def packable: Boolean
   }
 
-  case class Primitive(name: String, genValue: Gen[String]) extends ProtoType {
+  case class Primitive(name: String, genValue: Gen[String],
+                       packable: Boolean = true) extends ProtoType {
     override def toString = s"Primitive($name)"
   }
 
@@ -34,27 +37,35 @@ object GenTypes {
   val ProtoDouble = Primitive("double", Arbitrary.arbitrary[Double].map(_.toString))
   val ProtoFloat = Primitive("float", Arbitrary.arbitrary[Float].map(_.toString))
   val ProtoBool = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
-  val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(escapeString))
-  val ProtoBytes = Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString))
+  val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(escapeString),
+    packable = false)
+  val ProtoBytes = Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString),
+    packable = false)
 
-  case class MessageReference(id: Int) extends ProtoType
+  case class MessageReference(id: Int) extends ProtoType {
+    def packable = false
+  }
 
-  case class EnumReference(id: Int) extends ProtoType
+  case class EnumReference(id: Int) extends ProtoType {
+    def packable = false
+  }
 
   def generatePrimitive = Gen.oneOf(
     ProtoSint32, ProtoUint32, ProtoInt32, ProtoFixed32, ProtoSfixed32,
     ProtoSint64, ProtoUint64, ProtoInt64, ProtoFixed64, ProtoSfixed64,
     ProtoDouble, ProtoFloat, ProtoBool, ProtoString, ProtoBytes)
 
-  object FieldOptions extends Enumeration {
+  object FieldModifier extends Enumeration {
     val OPTIONAL = Value("optional")
     val REQUIRED = Value("required")
     val REPEATED = Value("repeated")
   }
 
-  def genFieldOptions(allowRequired: Boolean): Gen[FieldOptions.Value] =
-    if (allowRequired) Gen.oneOf(FieldOptions.OPTIONAL, FieldOptions.REQUIRED, FieldOptions.REPEATED)
-    else Gen.oneOf(FieldOptions.OPTIONAL, FieldOptions.REPEATED)
+  case class FieldOptions(modifier: FieldModifier.Value, isPacked: Boolean = false)
+
+  def genFieldModifier(allowRequired: Boolean): Gen[FieldModifier.Value] =
+    if (allowRequired) Gen.oneOf(FieldModifier.OPTIONAL, FieldModifier.REQUIRED, FieldModifier.REPEATED)
+    else Gen.oneOf(FieldModifier.OPTIONAL, FieldModifier.REPEATED)
 
   // For enums and messages we choose a type that was either declared before or is nested within
   // the current message. This is meant to avoid each file to depend only on previous files.
@@ -72,7 +83,11 @@ object GenTypes {
   // We allow 'required' only for messages with lower ids. This ensures no cycles of required
   // fields.
   def genOptionsForField(messageId: Int, fieldType: ProtoType) = fieldType match {
-    case MessageReference(id) => genFieldOptions(allowRequired = id < messageId)
-    case _ => genFieldOptions(true)
+    case MessageReference(id) => genFieldModifier(allowRequired = id < messageId).map(
+      mod => FieldOptions(mod))
+    case _ => for {
+      mod <- genFieldModifier(true)
+      packed <- if (fieldType.packable && mod == FieldModifier.REPEATED) Gen.oneOf(true, false) else Gen.const(false)
+    } yield FieldOptions(mod, packed)
   }
 }

@@ -33,21 +33,21 @@ object GenData {
                              depth: Int = 0): Gen[MessageValue] = {
     def genFieldValueByOptions(field: FieldNode): Gen[Seq[(String, ProtoValue)]] = sized {
       s =>
-        def genCount: Gen[Int] = field.fieldOptions match {
-          case FieldOptions.OPTIONAL =>
+        def genCount: Gen[Int] = field.fieldOptions.modifier match {
+          case FieldModifier.OPTIONAL =>
             if (depth > 3) Gen.const(0)
             else
               Gen.oneOf(0, 1)
-          case FieldOptions.REQUIRED =>
+          case FieldModifier.REQUIRED =>
             Gen.const(1)
-          case FieldOptions.REPEATED =>
+          case FieldModifier.REPEATED =>
             // TODO(nadavsr): work on larger messages, limit total field count.
             if (depth > 3) Gen.const(0) else Gen.choose(0, ((s - 2 * depth) max 0) min 10)
         }
 
         def genSingleFieldValue(field: FieldNode): Gen[ProtoValue] =
           field.fieldType match {
-            case Primitive(_, genValue) =>
+            case Primitive(_, genValue, _) =>
               genValue.map(v => PrimitiveValue(v))
             case EnumReference(id) =>
               oneOf(rootNode.enumsById(id).values.map(_._1)).map(v => EnumValue(v))

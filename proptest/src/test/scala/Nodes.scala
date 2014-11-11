@@ -41,7 +41,7 @@ object Nodes {
     def maxEnumId = Try(files.flatMap(_.maxEnumId).max).toOption
 
     def resolveProtoTypeName(t: GenTypes.ProtoType): String = t match {
-      case Primitive(name, _) => name
+      case Primitive(name, _, _) => name
       case MessageReference(id) => fullMessageNameParts(id).mkString(".")
       case EnumReference(id) => fullEnumNameParts(id).mkString(".")
     }
@@ -141,10 +141,11 @@ object Nodes {
 
   case class FieldNode(name: String,
                        fieldType: GenTypes.ProtoType,
-                       fieldOptions: GenTypes.FieldOptions.Value,
+                       fieldOptions: GenTypes.FieldOptions,
                        tag: Int) {
     def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
-      printer.add(s"$fieldOptions ${rootNode.resolveProtoTypeName(fieldType)} $name = $tag;  // $fieldType")
+      val packed = if (fieldOptions.isPacked) "[packed = true]" else ""
+      printer.add(s"${fieldOptions.modifier} ${rootNode.resolveProtoTypeName(fieldType)} $name = $tag $packed;  // $fieldType")
     }
   }
 

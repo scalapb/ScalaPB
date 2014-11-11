@@ -75,7 +75,7 @@ object GraphGen {
           (fieldNames, state) <- listOfNWithStatefulGen(fieldCount, state)(_.generateName)
           fieldTags <- genListOfDistinctPositiveNumbers(fieldCount)
           fieldTypes <- listOfN(fieldCount, GenTypes.genFieldType(state)).map(_.toSeq)
-          fieldOptions <- Gen.sequence[Seq, GenTypes.FieldOptions.Value](fieldTypes.map(GenTypes.genOptionsForField(myId, _)))
+          fieldOptions <- Gen.sequence[Seq, GenTypes.FieldOptions](fieldTypes.map(GenTypes.genOptionsForField(myId, _)))
           fields = fieldNames zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
             case (n, (t, opts, tag)) => FieldNode(n, t, opts, tag)
           }
