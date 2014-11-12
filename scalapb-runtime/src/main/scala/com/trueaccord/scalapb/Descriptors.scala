@@ -18,6 +18,9 @@ object Descriptors {
     lazy val enums = e
   }
 
+  class EnumDescriptor(index: Int, name: String,
+                       companion: GeneratedEnumCompanion[_ <: GeneratedEnum])
+
   class MessageDescriptor(val name: String,
                           val companion: GeneratedMessageCompanion[_],
                           c: => Option[MessageDescriptor],
@@ -48,6 +51,4 @@ object Descriptors {
 
   case class FieldDescriptor(index: Int, number: Int, name: String, label: Label,
                              fieldType: FieldType, isPacked: Boolean = false)
-
-  case class EnumDescriptor(index: Int, name: String, scalaType: Enumeration)
 }

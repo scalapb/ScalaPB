@@ -4,6 +4,16 @@ import com.google.protobuf.CodedOutputStream
 
 import scala.util.Try
 
+trait GeneratedEnum {
+  def id: Int
+  def name: String
+  override def toString = name
+}
+
+trait GeneratedEnumCompanion[A <: GeneratedEnum] {
+  def fromValue(id: Int): A
+}
+
 trait GeneratedMessage {
   def writeTo(output: CodedOutputStream): Unit
 

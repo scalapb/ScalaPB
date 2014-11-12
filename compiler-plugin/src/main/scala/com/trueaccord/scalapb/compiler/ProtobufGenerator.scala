@@ -125,17 +125,36 @@ object ProtobufGenerator {
     val javaName = fullJavaName(e)
     val name = e.getName.asSymbol
     printer
-      .add(s"object $name extends Enumeration {")
+      .add(s"sealed trait $name extends com.trueaccord.scalapb.GeneratedEnum {")
       .indent
       .print(e.getValues) {
-        case (v, p) => p.add(s"""val ${v.getName.asSymbol} = Value(${v.getNumber}, "${v.getName}")""")
+      case (v, p) => p.add(
+        s"def is${snakeCaseToCamelCase(v.getName, true)}: Boolean = false")
     }
-      .add(s"def fromJavaValue(pbJavaSource: $javaName): Value = apply(pbJavaSource.getNumber)")
-      .add(s"def toJavaValue(pbScalaSource: Value): $javaName = $javaName.valueOf(pbScalaSource.id)")
-      .add(s"""lazy val descriptor = Descriptors.EnumDescriptor(${e.getIndex}, "${e.getName}", this)""")
       .outdent
       .add("}")
-      .add(s"type $name = $name.Value")
+      .add(s"object $name extends com.trueaccord.scalapb.GeneratedEnumCompanion[$name] {")
+      .indent
+      .print(e.getValues) {
+      case (v, p) => p.add(
+        s"case object ${v.getName.asSymbol} extends $name {")
+        .indent
+        .add(s"val id = ${v.getNumber}")
+        .add(s"""val name = "${v.getName}"""")
+        .add(s"override def is${snakeCaseToCamelCase(v.getName, true)}: Boolean = true")
+        .outdent
+        .add("}")
+    }
+      .add(s"def fromValue(value: Int): $name = value match {")
+      .print(e.getValues) {
+      case (v, p) => p.add(s"  case ${v.getNumber} => ${v.getName.asSymbol}")
+    }
+      .add("}")
+      .add(s"def fromJavaValue(pbJavaSource: $javaName): $name = fromValue(pbJavaSource.getNumber)")
+      .add(s"def toJavaValue(pbScalaSource: $name): $javaName = $javaName.valueOf(pbScalaSource.id)")
+      .add(s"""lazy val descriptor = new Descriptors.EnumDescriptor(${e.getIndex}, "${e.getName}", this)""")
+      .outdent
+      .add("}")
   }
 
   def capitalizedType(fieldType: FieldDescriptor.Type) = fieldType match {
