@@ -1,12 +1,16 @@
 package com.trueaccord.scalapb
 
-import com.google.protobuf.CodedOutputStream
+import java.io.{InputStream, OutputStream}
+
+import com.google.protobuf.{CodedInputStream, CodedOutputStream}
 
 import scala.util.Try
 
 trait GeneratedEnum {
   def id: Int
+
   def name: String
+
   override def toString = name
 }
 
@@ -17,8 +21,10 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
 trait GeneratedMessage {
   def writeTo(output: CodedOutputStream): Unit
 
+  def writeTo(output: OutputStream): Unit = writeTo(CodedOutputStream.newInstance(output))
+
   def getField(field: Descriptors.FieldDescriptor): Any
-  
+
   def companion: GeneratedMessageCompanion[_]
 
   def getAllFields: Seq[(Descriptors.FieldDescriptor, Any)] =
@@ -31,17 +37,21 @@ trait GeneratedMessage {
         }
     }
 
-   def toByteArray: Array[Byte] = {
-     val a = new Array[Byte](serializedSize)
-     writeTo(com.google.protobuf.CodedOutputStream.newInstance(a))
-     a
-   }
+  def toByteArray: Array[Byte] = {
+    val a = new Array[Byte](serializedSize)
+    writeTo(com.google.protobuf.CodedOutputStream.newInstance(a))
+    a
+  }
 
   def serializedSize: Int
 }
 
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
-  def parseFrom(s: Array[Byte]): A
+  def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
+
+  def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
+
+  def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
 
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 

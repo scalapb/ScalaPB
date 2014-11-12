@@ -2,7 +2,7 @@ package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors.FieldDescriptor.{Type, JavaType}
 import com.google.protobuf.Descriptors._
-import com.google.protobuf.{CodedOutputStream, Descriptors, ByteString}
+import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
@@ -437,6 +437,7 @@ object ProtobufGenerator {
         })
     }
 
+
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
     fp.add(s"def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {")
       .indent
@@ -470,6 +471,26 @@ object ProtobufGenerator {
     }
       .outdent
       .add("}")
+
+//  def generateParseFrom(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+//    val myFullScalaName = fullScalaName(message).asSymbol
+//    fp
+//      .add(s"def parseFrom(input: com.google.protobuf.CodedInputStream): $myFullScalaName = {")
+//      .indent
+//      .print(message.getFields.zipWithIndex) {
+//      case ((field, index), printer) =>
+//        val fieldName = snakeCaseToCamelCase(field.getName)
+//        val typeName = getScalaTypeName(field)
+//        val ctorDefaultValue = if (field.isOptional) "None"
+//        else if (field.isRepeated) "Nil"
+//        else "null"
+//        printer.add(s"var ${fieldName.asSymbol}: $typeName = $ctorDefaultValue")
+//    }
+//    val i = CodedInputStream.newInstance(null: ByteBuffer).isAtEnd
+//      .add(inp)
+//      .outdent
+//      .add("}")
+//  }
 
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
@@ -585,8 +606,7 @@ object ProtobufGenerator {
     }
       .outdent
       .add(")")
-      .add(s"def parseFrom(pbByteArraySource: Array[Byte]): $myFullScalaName =")
-      .add(s"  fromJavaProto($myFullJavaName.parseFrom(pbByteArraySource))")
+      // .call(generateParseFrom(message))
       .print(message.getEnumTypes)(printEnum)
       .print(message.getNestedTypes)(printMessage)
       .add(s"implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this")
