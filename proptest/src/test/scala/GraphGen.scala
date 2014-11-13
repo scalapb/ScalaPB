@@ -58,7 +58,7 @@ object GraphGen {
   def genEnumNode(parentMessageId: Option[Int])(state: State): Gen[(EnumNode, State)] = for {
     (enumName, state) <- state.generateName
     (myId, state) <- Gen.const(state.nextEnumId)
-    (names, state) <- GenUtils.listWithStatefulGen(state, minSize = 1)(_.generateName)
+    (names, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 5)(_.generateName)
     values <- GenUtils.genListOfDistinctPositiveNumbers(names.size)
   } yield (EnumNode(myId, enumName, names zip values,
       parentMessageId = parentMessageId, fileId = state.currentFileId), state)
