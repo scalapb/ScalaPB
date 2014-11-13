@@ -71,7 +71,7 @@ object GraphGen {
           (name, state) <- state.generateSubspace
           (messages, state) <- listWithStatefulGen(state, maxSize = (3 - depth) max 0)(genMessageNode(depth + 1, Some(myId)))
           (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(Some(myId)))
-          fieldCount <- choose[Int](0, s min 20)
+          fieldCount <- choose[Int](0, s min 12)
           (fieldNames, state) <- listOfNWithStatefulGen(fieldCount, state)(_.generateName)
           fieldTags <- genListOfDistinctPositiveNumbers(fieldCount)
           fieldTypes <- listOfN(fieldCount, GenTypes.genFieldType(state)).map(_.toSeq)
@@ -93,13 +93,13 @@ object GraphGen {
         (protoPackage, state) <- Gen.oneOf(state.generateSubspace, Gen.const(("", state)))
         protoPackageOption = if (protoPackage.nonEmpty) Some(protoPackage) else None
         (messages, state) <- listWithStatefulGen(state, maxSize = 4)(genMessageNode(0, None))
-        (enums, state) <- listWithStatefulGen(state, maxSize = 5)(genEnumNode(None))
+        (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None))
       } yield (FileNode(baseName, protoPackageOption, javaPackageOption, messages, enums, fileId),
         if (protoPackage.isEmpty) state else state.closeNamespace)
   }
 
   def genRootNode: Gen[RootNode] =
-    listWithStatefulGen(State(), maxSize = 15)(genFileNode).map {
+    listWithStatefulGen(State(), maxSize = 10)(genFileNode).map {
       case (files, state) =>
         assert(state.namespace.parent.isEmpty)
         RootNode(files)
