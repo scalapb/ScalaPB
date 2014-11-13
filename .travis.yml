@@ -7,5 +7,5 @@ before_install:
    - ./.travis/install_protobuf.sh
 
 script:
-    - sbt -J-Xmx2500M ++$TRAVIS_SCALA_VERSION test
+    - sbt -J-Xmx2700M ++$TRAVIS_SCALA_VERSION test
 
