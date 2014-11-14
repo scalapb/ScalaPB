@@ -1,0 +1,19 @@
+package com.trueaccord.proto.e2e;
+
+enum Color {
+  RED = 1;
+  GREEN = 2;
+  BLUE = 3;
+}
+
+message EnumTest {
+  optional Color color = 1;
+  optional Color other_color = 2 [default=BLUE];
+
+  enum InnerEnum {
+    INNER_SUCCESS = 1;
+    INNER_FAIL = 2;
+    OtherCase = 3;
+  }
+  optional InnerEnum inner_enum = 3;
+}
