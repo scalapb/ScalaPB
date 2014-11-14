@@ -89,6 +89,28 @@ object ProtobufGenerator {
   def fullJavaName(enum: EnumDescriptor): String =
     fullJavaName(enum.getFullName, enum.getFile)
 
+  private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {
+    val b = new StringBuilder()
+    @annotation.tailrec
+    def inner(name: String, capNext: Boolean): Unit = if (name.nonEmpty) {
+      val (r, capNext2) = name.head match {
+        case c if c.isUpper =>
+          // capitalize according to capNext.
+          (Some(if (capNext) c else c.toLower), false)
+        case c if c.isLower =>
+          // Lower caps never get capitalized, but will force
+          // the next letter to be upper case.
+          (Some(c), true)
+        case c if c.isDigit => (Some(c), true)
+        case _ => (None, true)
+      }
+      r.foreach(b.append)
+      inner(name.tail, capNext2)
+    }
+    inner(name, upperInitial)
+    b.toString
+  }
+
   private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
     val b = new StringBuilder()
     @annotation.tailrec
@@ -129,7 +151,7 @@ object ProtobufGenerator {
       .indent
       .print(e.getValues) {
       case (v, p) => p.add(
-        s"def is${snakeCaseToCamelCase(v.getName, true)}: Boolean = false")
+        s"def is${allCapsToCamelCase(v.getName, true)}: Boolean = false")
     }
       .outdent
       .add("}")
@@ -141,7 +163,7 @@ object ProtobufGenerator {
         .indent
         .add(s"val id = ${v.getNumber}")
         .add(s"""val name = "${v.getName}"""")
-        .add(s"override def is${snakeCaseToCamelCase(v.getName, true)}: Boolean = true")
+        .add(s"override def is${allCapsToCamelCase(v.getName, true)}: Boolean = true")
         .outdent
         .add("}")
     }
