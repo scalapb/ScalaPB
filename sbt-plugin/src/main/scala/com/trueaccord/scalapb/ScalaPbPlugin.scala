@@ -36,7 +36,7 @@ object ScalaPbPlugin extends Plugin {
     })) ++ Seq[Setting[_]](
     libraryDependencies ++=
       Seq(
-        "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.2.1",
+        "com.trueaccord.scalapb" %% "scalapb-runtime" % "SNAPSHOT",
         "com.trueaccord.lenses" %% "lenses" % "0.1"),
     (sourceGenerators in Compile) <<= (sourceGenerators in Compile, generate.in(protobufConfig),
       pbScalaGenerate.in(protobufConfig)) {
