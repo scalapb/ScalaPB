@@ -1,12 +1,13 @@
 
 import com.trueaccord.scalapb.compiler
-import com.trueaccord.scalapb.compiler.FPrintable
+import com.trueaccord.scalapb.compiler.{FunctionalPrinter, FPrintable}
 
 import scala.collection.mutable
 import scala.util.Try
 
 object Nodes {
   import GenTypes._
+  import GraphGen._
 
   private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
     val b = new mutable.StringBuilder()
@@ -128,12 +129,49 @@ object Nodes {
     def allEnums: Stream[EnumNode] = messages.foldLeft(enums.toStream)(_ ++ _.allEnums)
 
     def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
+      sealed trait FieldLine
+      case class OneofOpener(name: String) extends FieldLine
+      case class Field(field: FieldNode) extends FieldLine
+      case class OneofCloser(name: String) extends FieldLine
+
+      def makeList(fields: Seq[FieldNode]): Seq[FieldLine] = {
+        def makeList0(fields: Seq[FieldNode], prevGroup: Option[String]): Seq[FieldLine] =
+          if (fields.isEmpty) Seq.empty
+          else ((fields.head.oneOfGroup, prevGroup) match {
+            case (OneofContainer(name), Some(otherName)) if (name != otherName) =>
+              Seq(OneofCloser(otherName), OneofOpener(name))
+            case (OneofContainer(name), None) =>
+              Seq(OneofOpener(name))
+            case (NotInOneof, Some(otherName)) =>
+              Seq(OneofCloser(otherName))
+            case _ => Nil
+          }) ++ Seq(Field(fields.head)) ++
+            makeList0(fields.tail, if (fields.head.oneOfGroup.isOneof) Some(fields.head.oneOfGroup.name) else None)
+
+        val l = makeList0(fields, None)
+        fields.lastOption.map(_.oneOfGroup) match {
+          case Some(OneofContainer(name)) => l :+ OneofCloser(name)
+          case _ => l
+        }
+      }
+
       printer
         .add(s"message $name {  // message $id")
         .indent
         .printAll(enums)
         .print(messages)(_.print(rootNode, _))
-        .print(fields)(_.print(rootNode, _))
+        .print(makeList(fields)) {
+        case (OneofOpener(name), printer) =>
+          printer
+            .add(s"oneof $name {")
+            .indent
+        case (OneofCloser(name), printer) =>
+          printer
+            .outdent
+            .add(s"}  // oneof $name")
+        case (Field(field), printer) =>
+          field.print(rootNode, printer)
+      }
         .outdent
         .add("}\n")
     }
@@ -142,10 +180,14 @@ object Nodes {
   case class FieldNode(name: String,
                        fieldType: GenTypes.ProtoType,
                        fieldOptions: GenTypes.FieldOptions,
+                       oneOfGroup: OneOfGrouping,
                        tag: Int) {
-    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
-      val packed = if (fieldOptions.isPacked) "[packed = true]" else ""
-      printer.add(s"${fieldOptions.modifier} ${rootNode.resolveProtoTypeName(fieldType)} $name = $tag $packed;  // $fieldType")
+    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter =
+      if (!oneOfGroup.isOneof) {
+      val packed = if (fieldOptions.isPacked) " [packed = true]" else ""
+      printer.add(s"${fieldOptions.modifier} ${rootNode.resolveProtoTypeName(fieldType)} $name = $tag$packed;  // $fieldType")
+    } else {
+      printer.add(s"${rootNode.resolveProtoTypeName(fieldType)} $name = $tag;  // $fieldType")
     }
   }
 

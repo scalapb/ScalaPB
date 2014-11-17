@@ -63,6 +63,34 @@ object GraphGen {
   } yield (EnumNode(myId, enumName, names zip values,
       parentMessageId = parentMessageId, fileId = state.currentFileId), state)
 
+  sealed trait OneOfGrouping {
+    def isOneof: Boolean
+    def name: String
+  }
+  case object NotInOneof extends OneOfGrouping {
+    def isOneof = false
+    def name: String = throw new RuntimeException
+  }
+  case class OneofContainer(name: String) extends OneOfGrouping {
+    def isOneof = true
+  }
+
+  def genOneOfs(fieldCount: Int, state: State): Gen[(List[OneOfGrouping], State)] = {
+    def genBits(n: Int, seqSize: Int, prev: OneOfGrouping, state: State): Gen[(List[OneOfGrouping], State)] =
+      if (n == 0) (Gen.const(Nil, state))
+      else Gen.frequency(
+        (4, genBits(n - 1, 0, NotInOneof, state).map {
+          case (l, s) => (NotInOneof :: l, s) }),
+        (1, for {
+          (name, state) <- state.generateName
+          (tail, state) <- genBits(n - 1, 1, OneofContainer(name), state)
+        } yield (OneofContainer(name) :: tail, state)),
+        (if (seqSize > 0) 4 else 0, genBits(n - 1, 1, prev, state).map {
+          case (l, s) => (prev :: l, s) }))
+
+    genBits(fieldCount, 0, NotInOneof, state)
+  }
+
   def genMessageNode(depth: Int = 0, parentMessageId: Option[Int] = None)(state: State): Gen[(MessageNode, State)] =
     sized {
       s =>
@@ -71,13 +99,14 @@ object GraphGen {
           (name, state) <- state.generateSubspace
           (messages, state) <- listWithStatefulGen(state, maxSize = (3 - depth) max 0)(genMessageNode(depth + 1, Some(myId)))
           (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(Some(myId)))
-          fieldCount <- choose[Int](0, s min 12)
+          fieldCount <- choose[Int](0, s min 15)
           (fieldNames, state) <- listOfNWithStatefulGen(fieldCount, state)(_.generateName)
           fieldTags <- genListOfDistinctPositiveNumbers(fieldCount)
           fieldTypes <- listOfN(fieldCount, GenTypes.genFieldType(state)).map(_.toSeq)
+          (oneOfGroupings, state) <- genOneOfs(fieldCount, state)
           fieldOptions <- Gen.sequence[Seq, GenTypes.FieldOptions](fieldTypes.map(GenTypes.genOptionsForField(myId, _)))
-          fields = fieldNames zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
-            case (n, (t, opts, tag)) => FieldNode(n, t, opts, tag)
+          fields = (fieldNames zip oneOfGroupings) zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
+            case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts, oog, tag)
           }
         } yield (MessageNode(myId, name, messages, enums, fields, parentMessageId,
           state.currentFileId), state.closeNamespace)

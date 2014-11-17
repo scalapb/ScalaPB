@@ -5,8 +5,17 @@ import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
+import scala.collection.immutable.IndexedSeq
 
 object ProtobufGenerator {
+
+  implicit class FieldDescriptorPimp(val fd: FieldDescriptor) extends AnyVal {
+    def isInOneof: Boolean = fd.getContainingOneof != null
+  }
+
+  implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) extends AnyVal {
+    def fields: IndexedSeq[FieldDescriptor] = (0 until oneof.getFieldCount).map(oneof.getField)
+  }
 
   val SCALA_RESERVED_WORDS = Set(
     "abstract", "case", "catch", "class", "def",
@@ -82,6 +91,9 @@ object ProtobufGenerator {
 
   def fullScalaName(enum: EnumDescriptor): String =
     fullScalaName(enum.getFullName, enum.getFile)
+
+  def fullScalaName(oneOf: OneofDescriptor): String =
+    fullScalaName(oneOf.getContainingType) + "." + snakeCaseToCamelCase(oneOf.getName, true)
 
   def fullJavaName(message: Descriptor): String =
     fullJavaName(message.getFullName, message.getFile)
@@ -179,6 +191,55 @@ object ProtobufGenerator {
       .add("}")
   }
 
+  def printOneof(e: OneofDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
+    val name = snakeCaseToCamelCase(e.getName, true)
+    printer
+      .add(s"sealed trait $name {")
+      .indent
+      .add(s"def isNotSet: Boolean = false")
+      .print(e.fields) {
+      case (v, p) => p
+        .add(s"def is${snakeCaseToCamelCase(v.getName, true)}: Boolean = false")
+    }
+      .print(e.fields){
+      case (v, p) => p
+        .add(s"def ${snakeCaseToCamelCase(v.getName)}: Option[${getScalaTypeName(v)}] = None")
+    }
+      .outdent
+      .add("}")
+      .add(s"object $name extends {")
+      .indent
+      .add(s"case object NotSet extends $name {")
+      .indent
+      .add("override def isNotSet: Boolean = true")
+      .outdent
+      .add("}")
+      .print(e.fields) {
+      case (v, p) => p.add(
+        s"case class ${snakeCaseToCamelCase(v.getName, true)}(value: ${getScalaTypeName(v)}) extends $name {")
+        .indent
+        .add(s"override def is${snakeCaseToCamelCase(v.getName, true)}: Boolean = true")
+        .add(s"override def ${snakeCaseToCamelCase(v.getName)}: Option[${getScalaTypeName(v)}] = Some(value)")
+        .outdent
+        .add("}")
+    }
+      .add(s"implicit class ${name}Lens[U](l: com.trueaccord.lenses.Lens[U, $name]) extends com.trueaccord.lenses.ObjectLens[U, $name](l) {")
+      .indent
+      .print(e.fields) {
+      (field, printer) =>
+        val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
+        val getMethod = s"_.$fieldName.getOrElse(${defaultValueForGet(field)})"
+        val typeName = getScalaTypeName(field.getContainingOneof)
+        val boxedTypeName = s"$typeName.${snakeCaseToCamelCase(field.getName, true)}"
+        printer
+          .add(s"def $fieldName = field($getMethod)((p, f) => $boxedTypeName(f))")
+    }
+      .outdent
+      .add("}")
+      .outdent
+      .add("}")
+  }
+
   def capitalizedType(fieldType: FieldDescriptor.Type) = fieldType match {
     case FieldDescriptor.Type.INT32 => "Int32"
     case FieldDescriptor.Type.UINT32  => "UInt32"
@@ -221,6 +282,10 @@ object ProtobufGenerator {
     case FieldDescriptor.Type.MESSAGE => None
   }
 
+  def getScalaTypeName(oneOf: OneofDescriptor): String = {
+    fullScalaName(oneOf)
+  }
+
   def getScalaTypeName(descriptor: FieldDescriptor): String = {
     val base = descriptor.getJavaType match {
       case FieldDescriptor.JavaType.INT => "Int"
@@ -233,7 +298,7 @@ object ProtobufGenerator {
       case FieldDescriptor.JavaType.MESSAGE => fullScalaName(descriptor.getMessageType)
       case FieldDescriptor.JavaType.ENUM => fullScalaName(descriptor.getEnumType)
     }
-    if (descriptor.isOptional) s"Option[$base]"
+    if (descriptor.isOptional && !descriptor.isInOneof) s"Option[$base]"
     else if (descriptor.isRepeated) s"Seq[$base]"
     else base
   }
@@ -307,17 +372,17 @@ object ProtobufGenerator {
     valueConversion match {
       case ConversionMethod(method) =>
         if (field.isRepeated) s"${javaGetter}List.map(_.$method)"
-        else if (field.isOptional) s"if ($javaHas) Some($javaGetter.$method) else None"
+        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($javaGetter.$method) else None"
         else s"$javaGetter.$method"
       case ConversionFunction(func) =>
         if (field.isRepeated) s"${javaGetter}List.map($func)"
-        else if (field.isOptional) s"if ($javaHas) Some($func($javaGetter)) else None"
+        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($func($javaGetter)) else None"
         else s"$func($javaGetter)"
       case BoxFunction(func) =>
         throw new RuntimeException("Unexpected method type")
       case NoOp =>
         if (field.isRepeated) s"${javaGetter}List.toSeq"
-        else if (field.isOptional) s"if ($javaHas) Some($javaGetter) else None"
+        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($javaGetter) else None"
         else javaGetter
     }
   }
@@ -327,7 +392,7 @@ object ProtobufGenerator {
     val javaSetter = javaObject +
       (if (field.isRepeated) ".addAll" else ".set") +
       snakeCaseToCamelCase(field.getName, true)
-    val scalaGetter = scalaObject + "." + snakeCaseToCamelCase(field.getName).asSymbol
+    val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
     val valueConversion = field.getJavaType match {
       case FieldDescriptor.JavaType.INT => BoxFunction("Int.box")
@@ -372,7 +437,7 @@ object ProtobufGenerator {
           .add("field.number match {")
           .indent
           .print(message.getFields) {
-          case (f, fp) => fp.add(s"case ${f.getNumber} => ${snakeCaseToCamelCase(f.getName).asSymbol}")
+          case (f, fp) => fp.add(s"case ${f.getNumber} => ${fieldAccessorSymbol(f)}")
         }
           .outdent
           .add("}")
@@ -405,9 +470,15 @@ object ProtobufGenerator {
       s"com.google.protobuf.CodedOutputStream.compute${capTypeName}Size(${field.getNumber}, ${expr})"
   }
 
+  def fieldAccessorSymbol(field: FieldDescriptor) =
+    if (field.isInOneof)
+      (snakeCaseToCamelCase(field.getContainingOneof.getName).asSymbol + "." +
+        snakeCaseToCamelCase(field.getName).asSymbol)
+    else
+      snakeCaseToCamelCase(field.getName).asSymbol
+
   def generateSerializedSizeForField(field: FieldDescriptor, fp: FunctionalPrinter): FunctionalPrinter = {
-    val fieldName = snakeCaseToCamelCase(field.getName)
-    val fieldNameSymbol = fieldName.asSymbol
+    val fieldNameSymbol = fieldAccessorSymbol(field)
     if (field.isRequired) {
       fp.add("size += " + sizeExpressionForSingleField(field, fieldNameSymbol))
     } else if (field.isOptional) {
@@ -421,6 +492,7 @@ object ProtobufGenerator {
             s"$fieldNameSymbol.foreach($fieldNameSymbol => size += ${sizeExpressionForSingleField(field, fieldNameSymbol)})")
         }
       else {
+        val fieldName = snakeCaseToCamelCase(field.getName)
         fp
           .add(s"if($fieldNameSymbol.nonEmpty) {")
           .add(s"  size += $tagSize + com.google.protobuf.CodedOutputStream.computeRawVarint32Size(${fieldName}SerializedSize) + ${fieldName}SerializedSize")
@@ -465,8 +537,7 @@ object ProtobufGenerator {
       .indent
       .print(message.getFields.sortBy(_.getNumber).zipWithIndex) {
       case ((field, index), printer) =>
-        val fieldName = snakeCaseToCamelCase(field.getName)
-        val fieldNameSymbol = fieldName.asSymbol
+        val fieldNameSymbol = fieldAccessorSymbol(field)
         val capTypeName = capitalizedType(field.getType)
         if (field.isPacked) {
           printer.add(s"if ($fieldNameSymbol.nonEmpty) {")
@@ -484,9 +555,9 @@ object ProtobufGenerator {
           generateWriteSingleValue(field, fieldNameSymbol)(printer)
         } else {
           printer
-            .add(s"${fieldNameSymbol}.foreach { ${fieldNameSymbol} => ")
+            .add(s"${fieldNameSymbol}.foreach { v => ")
             .indent
-            .call(generateWriteSingleValue(field, fieldNameSymbol))
+            .call(generateWriteSingleValue(field, "v"))
             .outdent
             .add("}")
         }
@@ -494,25 +565,24 @@ object ProtobufGenerator {
       .outdent
       .add("}")
 
-//  def generateParseFrom(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-//    val myFullScalaName = fullScalaName(message).asSymbol
-//    fp
-//      .add(s"def parseFrom(input: com.google.protobuf.CodedInputStream): $myFullScalaName = {")
-//      .indent
-//      .print(message.getFields.zipWithIndex) {
-//      case ((field, index), printer) =>
-//        val fieldName = snakeCaseToCamelCase(field.getName)
-//        val typeName = getScalaTypeName(field)
-//        val ctorDefaultValue = if (field.isOptional) "None"
-//        else if (field.isRepeated) "Nil"
-//        else "null"
-//        printer.add(s"var ${fieldName.asSymbol}: $typeName = $ctorDefaultValue")
-//    }
-//    val i = CodedInputStream.newInstance(null: ByteBuffer).isAtEnd
-//      .add(inp)
-//      .outdent
-//      .add("}")
-//  }
+  def printConstructorFieldList(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val regularFields = message.getFields.collect {
+      case field if !field.isInOneof =>
+      val fieldName = snakeCaseToCamelCase(field.getName)
+      val typeName = getScalaTypeName(field)
+      val ctorDefaultValue = if (field.isOptional) " = None"
+          else if (field.isRepeated) " = Nil"
+          else ""
+        s"${fieldName.asSymbol}: $typeName$ctorDefaultValue"
+    }
+    val oneOfFields = message.getOneofs.map {
+      oneOf =>
+        val fieldName = snakeCaseToCamelCase(oneOf.getName)
+        val typeName = getScalaTypeName(oneOf)
+        s"${fieldName.asSymbol}: $typeName = $typeName.NotSet"
+    }
+    printer.addWithDelimiter(",")(regularFields ++ oneOfFields)
+  }
 
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
@@ -524,22 +594,13 @@ object ProtobufGenerator {
       .add(s"case class $className(")
       .indent
       .indent
-      .print(message.getFields.zipWithIndex) {
-      case ((field, index), printer) =>
-        val fieldName = snakeCaseToCamelCase(field.getName)
-        val typeName = getScalaTypeName(field)
-        val ctorDefaultValue = if (field.isOptional) " = None"
-          else if (field.isRepeated) " = Nil"
-          else ""
-        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
-        printer.add(s"${fieldName.asSymbol}: $typeName$ctorDefaultValue$lineEnd")
-    }
+      .call(printConstructorFieldList(message))
       .add(s") extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.lenses.Updatable[$className] {")
       .call(generateSerializedSizeForPackedFields(message))
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
       .print(message.getFields) {
-      case (field, printer) =>
+      case (field, printer) if !field.isInOneof =>
         val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
         val withMethod = "with" + snakeCaseToCamelCase(field.getName, true)
         val clearMethod = "clear" + snakeCaseToCamelCase(field.getName, true)
@@ -552,6 +613,7 @@ object ProtobufGenerator {
         if (field.isOptional || field.isRepeated)  {
           p1.add(s"def $clearMethod = copy(${fieldName} = ${if (field.isOptional) "None" else "Nil"})")
         } else p1
+      case (field, printer) => printer
     }
       .call(generateGetField(message))
       .add(s"override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))")
@@ -578,12 +640,29 @@ object ProtobufGenerator {
       // fromJavaProto
     .add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
       .indent
-      .print(message.getFields.zipWithIndex) {
-      case ((field, index), printer) =>
-        val fieldName = snakeCaseToCamelCase(field.getName)
-        val conversion = javaFieldToScala("javaPbSource", field)
-        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
-        printer.add(s"${fieldName.asSymbol} = $conversion$lineEnd")
+      .call {
+      printer =>
+        val normal = message.getFields.collect {
+          case field if !field.isInOneof =>
+            val fieldName = snakeCaseToCamelCase(field.getName)
+            val conversion = javaFieldToScala("javaPbSource", field)
+            s"${fieldName.asSymbol} = $conversion"
+        }
+        val oneOfs = message.getOneofs.map {
+          case oneOf =>
+            val oneOfName = snakeCaseToCamelCase(oneOf.getName).asSymbol
+            val oneOfTypeName = getScalaTypeName(oneOf)
+            val javaEnumName = s"get${snakeCaseToCamelCase(oneOf.getName,true)}Case"
+            val head = s"$oneOfName = javaPbSource.$javaEnumName.getNumber match {"
+            val body = oneOf.fields.map {
+              field =>
+                val t = s"$oneOfTypeName.${snakeCaseToCamelCase(field.getName, true)}"
+                s"  case ${field.getNumber} => $t(${javaFieldToScala("javaPbSource", field)})"
+            }
+            val tail = Seq(s"  case _ => $oneOfTypeName.NotSet", "}")
+            (Seq(head) ++ body ++ tail).mkString("\n")
+        }
+        printer.addWithDelimiter(",")(normal ++ oneOfs)
     }
       .outdent
       .add(")")
@@ -591,18 +670,32 @@ object ProtobufGenerator {
       // fromFieldsMap
       .add(s"def fromFieldsMap(fieldsMap: Map[Int, Any]): $myFullScalaName = $myFullScalaName(")
       .indent
-      .print(message.getFields.zipWithIndex) {
-      case ((field, index), printer) =>
-        val fieldName = snakeCaseToCamelCase(field.getName)
-        val typeName = getScalaTypeName(field)
-        val mapGetter = if (field.isOptional)
-            s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[$typeName]"
-        else if (field.isRepeated)
-            s"fieldsMap.getOrElse(${field.getNumber}, Nil).asInstanceOf[$typeName]"
-        else
-            s"fieldsMap(${field.getNumber}).asInstanceOf[$typeName]"
-        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
-        printer.add(s"${fieldName.asSymbol} = $mapGetter$lineEnd")
+      .call {
+        printer =>
+          val fields = message.getFields.collect {
+            case field if !field.isInOneof =>
+              val fieldName = snakeCaseToCamelCase(field.getName)
+              val typeName = getScalaTypeName(field)
+              val mapGetter = if (field.isOptional)
+                s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[$typeName]"
+              else if (field.isRepeated)
+                s"fieldsMap.getOrElse(${field.getNumber}, Nil).asInstanceOf[$typeName]"
+              else
+                s"fieldsMap(${field.getNumber}).asInstanceOf[$typeName]"
+              s"${fieldName.asSymbol} = $mapGetter"
+          }
+          val oneOfs = message.getOneofs.map {
+            oneOf =>
+              val oneOfTypeName = getScalaTypeName(oneOf)
+              val elems = oneOf.fields.map {
+                field =>
+                  val typeName = getScalaTypeName(field)
+                  val t = s"$oneOfTypeName.${snakeCaseToCamelCase(field.getName, true)}"
+                  s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[Option[$typeName]].map(value => $t(value))"
+              } mkString(" orElse\n")
+              s"${snakeCaseToCamelCase(oneOf.getName).asSymbol} = $elems getOrElse $oneOfTypeName.NotSet"
+          }
+          printer.addWithDelimiter(",")(fields ++ oneOfs)
     }
       .outdent
       .add(")")
@@ -619,23 +712,22 @@ object ProtobufGenerator {
       .add(s"""  f = ${scalaFullOuterObjectName(message.getFile)}.internalFieldsFor("${myFullScalaName}"))""")
       .add(s"lazy val defaultInstance = $myFullScalaName(")
       .indent
-      .print(message.getFields.zipWithIndex) {
-      case ((field, index), printer) =>
-        val fieldName = snakeCaseToCamelCase(field.getName)
+      .addWithDelimiter(",")(message.getFields.collect {
+      case field if field.isRequired =>
+        val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
         val default = defaultValueForDefaultInstance(field)
-        val lineEnd = if (index < message.getFields.size() - 1) "," else ""
-        printer.add(s"${fieldName.asSymbol} = $default$lineEnd")
-    }
+        s"${fieldName} = $default"
+    })
       .outdent
       .add(")")
-      // .call(generateParseFrom(message))
       .print(message.getEnumTypes)(printEnum)
+      .print(message.getOneofs)(printOneof)
       .print(message.getNestedTypes)(printMessage)
       .add(s"implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this")
       .add(s"implicit class ${className}Lens[U](l: com.trueaccord.lenses.Lens[U, $className]) extends com.trueaccord.lenses.ObjectLens[U, $className](l) {")
       .indent
       .print(message.getFields) {
-      case (field, printer) =>
+      case (field, printer) if !field.isInOneof =>
         val fieldName = snakeCaseToCamelCase(field.getName).asSymbol
         if (field.isOptional) {
           val getMethod = "get" + snakeCaseToCamelCase(field.getName, true)
@@ -643,9 +735,15 @@ object ProtobufGenerator {
           printer
             .add(s"def $fieldName = field(_.$getMethod)((p, f) => p.copy($fieldName = Some(f)))")
             .add(s"def ${optionLensName} = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
-        }
-        else
+        } else
           printer.add(s"def $fieldName = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
+      case (field, printer) => printer
+    }
+      .print(message.getOneofs) {
+      case (oneof, printer) =>
+        val oneofName = snakeCaseToCamelCase(oneof.getName).asSymbol
+          printer
+            .add(s"def $oneofName = field(_.$oneofName)((p, f) => p.copy($oneofName = f))")
     }
       .outdent
       .add("}")

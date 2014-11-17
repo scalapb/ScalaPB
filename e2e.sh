@@ -2,5 +2,5 @@
 set -e
 sbt publishLocal "project sbtPlugin" "+publishLocal"
 cd e2e
-sbt test
+sbt clean test
 
