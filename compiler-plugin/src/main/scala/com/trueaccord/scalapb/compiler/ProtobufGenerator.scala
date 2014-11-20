@@ -10,7 +10,8 @@ import scala.collection.immutable.IndexedSeq
 object ProtobufGenerator {
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) extends AnyVal {
-    def isInOneof: Boolean = fd.getContainingOneof != null
+    def containingOneOf: Option[OneofDescriptor] = Option(fd.getContainingOneof)
+    def isInOneof: Boolean = containingOneOf.isDefined
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) extends AnyVal {
@@ -223,7 +224,7 @@ object ProtobufGenerator {
         .outdent
         .add("}")
     }
-      .add(s"implicit class ${name}Lens[U](l: com.trueaccord.lenses.Lens[U, $name]) extends com.trueaccord.lenses.ObjectLens[U, $name](l) {")
+      .add(s"implicit class ${name}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $name]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $name](_l) {")
       .indent
       .print(e.fields) {
       (field, printer) =>
@@ -232,7 +233,7 @@ object ProtobufGenerator {
         val typeName = getScalaTypeName(field.getContainingOneof)
         val boxedTypeName = s"$typeName.${snakeCaseToCamelCase(field.getName, true)}"
         printer
-          .add(s"def $fieldName = field($getMethod)((p, f) => $boxedTypeName(f))")
+          .add(s"def $fieldName = field($getMethod)((c_, f_) => $boxedTypeName(f_))")
     }
       .outdent
       .add("}")
@@ -724,7 +725,7 @@ object ProtobufGenerator {
       .print(message.getOneofs)(printOneof)
       .print(message.getNestedTypes)(printMessage)
       .add(s"implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this")
-      .add(s"implicit class ${className}Lens[U](l: com.trueaccord.lenses.Lens[U, $className]) extends com.trueaccord.lenses.ObjectLens[U, $className](l) {")
+      .add(s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $className]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $className](_l) {")
       .indent
       .print(message.getFields) {
       case (field, printer) if !field.isInOneof =>
@@ -733,17 +734,17 @@ object ProtobufGenerator {
           val getMethod = "get" + snakeCaseToCamelCase(field.getName, true)
           val optionLensName = "optional" + snakeCaseToCamelCase(field.getName, true)
           printer
-            .add(s"def $fieldName = field(_.$getMethod)((p, f) => p.copy($fieldName = Some(f)))")
-            .add(s"def ${optionLensName} = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
+            .add(s"def $fieldName = field(_.$getMethod)((c_, f_) => c_.copy($fieldName = Some(f_)))")
+            .add(s"def ${optionLensName} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
         } else
-          printer.add(s"def $fieldName = field(_.$fieldName)((p, f) => p.copy($fieldName = f))")
+          printer.add(s"def $fieldName = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
       case (field, printer) => printer
     }
       .print(message.getOneofs) {
       case (oneof, printer) =>
         val oneofName = snakeCaseToCamelCase(oneof.getName).asSymbol
           printer
-            .add(s"def $oneofName = field(_.$oneofName)((p, f) => p.copy($oneofName = f))")
+            .add(s"def $oneofName = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))")
     }
       .outdent
       .add("}")
@@ -768,7 +769,8 @@ object ProtobufGenerator {
         case JavaType.MESSAGE => "Descriptors.MessageType(" + fullScalaName(field.getMessageType) + ".descriptor)"
         case JavaType.ENUM => "Descriptors.EnumType(" + fullScalaName(field.getEnumType) + ".descriptor)"
       }
-      s"""Descriptors.FieldDescriptor($index, ${field.getNumber}, "${field.getName}", $label, $t, isPacked = ${field.isPacked})"""
+      val oneof = field.containingOneOf.map(s => s"""Some("$s")""").getOrElse("None")
+      s"""Descriptors.FieldDescriptor($index, ${field.getNumber}, "${field.getName}", $label, $t, isPacked = ${field.isPacked}, containingOneofName = $oneof)"""
     }
 
     fp.add(s"""case "${fullScalaName(message)}" => Seq(${message.getFields.map(makeDescriptor).mkString(", ")})""")

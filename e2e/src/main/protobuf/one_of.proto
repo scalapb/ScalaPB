@@ -1,0 +1,14 @@
+package com.trueaccord.proto.e2e;
+
+message OneofTest {
+    optional int32 a = 1;
+    message SubMessage {
+        optional int32 sub_field = 1;
+        optional string name = 2;
+    }
+    oneof my_one_of {
+        int32 temp_field = 2 [default = 4];
+        string other_field = 3 [default = "Other value"];
+        SubMessage sub = 4;
+    }
+}

@@ -29,15 +29,17 @@ object GenData {
   }
 
   private def genMessageValue(rootNode: RootNode,
-                             message: MessageNode,
-                             depth: Int = 0): Gen[MessageValue] = {
+                              message: MessageNode,
+                              depth: Int = 0): Gen[MessageValue] = {
     def genFieldValueByOptions(field: FieldNode): Gen[Seq[(String, ProtoValue)]] = sized {
       s =>
         def genCount: Gen[Int] = field.fieldOptions.modifier match {
           case FieldModifier.OPTIONAL =>
             if (depth > 3) Gen.const(0)
-            else
-              Gen.oneOf(0, 1)
+              // If a one of, we already considered not providing a value,
+              // so we always return 1
+            else if (field.oneOfGroup.isOneof) Gen.const(1)
+            else Gen.oneOf(0, 1)
           case FieldModifier.REQUIRED =>
             Gen.const(1)
           case FieldModifier.REPEATED =>
@@ -61,10 +63,24 @@ object GenData {
         } yield result
     }
 
-   //
-    Gen.sequence[Seq, Seq[(String, ProtoValue)]](message.fields.map {
-      field => genFieldValueByOptions(field)
-    }).map(s => MessageValue(s.flatten))
+    def oneofGroups: Map[GraphGen.OneOfGrouping, Seq[FieldNode]] =
+      message.fields.groupBy(_.oneOfGroup) - GraphGen.NotInOneof
+
+    // chooses Some(field) from a oneof group, or None.
+    def chooseFieldFromGroup(l: Seq[FieldNode]): Gen[Option[FieldNode]] = Gen.oneOf(l.map(Some(_)) :+ None)
+
+    val fieldGens = message.fields.collect {
+      case field if !field.oneOfGroup.isOneof =>
+        genFieldValueByOptions(field)
+    }
+
+    // Chooses at most one field from each one of and generates a value for it.
+    val oneofGens = oneofGroups.values.map(group => chooseFieldFromGroup(group).flatMap {
+      case None => Gen.const(Seq())
+      case Some(field) => genFieldValueByOptions(field)
+    })
+
+    Gen.sequence[Seq, Seq[(String, ProtoValue)]](fieldGens ++ oneofGens).map(s => MessageValue(s.flatten))
   }
 
   def genMessageValueInstance(rootNode: RootNode): Gen[(MessageNode, MessageValue)] = for {

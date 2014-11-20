@@ -99,5 +99,6 @@ object Descriptors {
   }
 
   case class FieldDescriptor(index: Int, number: Int, name: String, label: Label,
-                             fieldType: FieldType, isPacked: Boolean = false)
+                             fieldType: FieldType, isPacked: Boolean = false,
+                             containingOneofName: Option[String] = None)
 }
