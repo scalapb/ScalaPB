@@ -8,7 +8,6 @@ import scala.collection.JavaConversions._
 import scala.collection.immutable.IndexedSeq
 
 object ProtobufGenerator {
-
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) extends AnyVal {
     def containingOneOf: Option[OneofDescriptor] = Option(fd.getContainingOneof)
     def isInOneof: Boolean = containingOneOf.isDefined
@@ -18,8 +17,13 @@ object ProtobufGenerator {
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) extends AnyVal {
     def scalaName = snakeCaseToCamelCase(oneof.getName)
-    def typeName = snakeCaseToCamelCase(oneof.getName, true)
+    def upperScalaName = snakeCaseToCamelCase(oneof.getName, true)
     def fields: IndexedSeq[FieldDescriptor] = (0 until oneof.getFieldCount).map(oneof.getField)
+  }
+
+  implicit class MessageDescriptorPimp(val message: Descriptor) extends AnyVal {
+    def fields = message.getFields
+    def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
   }
 
   val SCALA_RESERVED_WORDS = Set(
@@ -197,7 +201,7 @@ object ProtobufGenerator {
 
   def printOneof(e: OneofDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
     printer
-      .add(s"sealed trait ${e.typeName} {")
+      .add(s"sealed trait ${e.upperScalaName} {")
       .indent
       .add(s"def isNotSet: Boolean = false")
       .print(e.fields) {
@@ -211,8 +215,8 @@ object ProtobufGenerator {
       .outdent
       .addM(
         s"""}
-           |object ${e.typeName} extends {
-           |  case object NotSet extends ${e.typeName} {
+           |object ${e.upperScalaName} extends {
+           |  case object NotSet extends ${e.upperScalaName} {
            |    override def isNotSet: Boolean = true
            |  }
          """)
@@ -220,12 +224,12 @@ object ProtobufGenerator {
       .print(e.fields) {
       case (v, p) =>
         p.addM(
-          s"""case class ${v.upperScalaName}(value: ${getScalaTypeName(v)}) extends ${e.typeName} {
+          s"""case class ${v.upperScalaName}(value: ${getScalaTypeName(v)}) extends ${e.upperScalaName} {
              |  override def is${v.upperScalaName}: Boolean = true
              |  override def `${v.scalaName}`: Option[${getScalaTypeName(v)}] = Some(value)
              |}""")
     }
-      .add(s"implicit class ${e.typeName}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, ${e.typeName}]) extends com.trueaccord.lenses.ObjectLens[UpperPB, ${e.typeName}](_l) {")
+      .add(s"implicit class ${e.upperScalaName}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, ${e.upperScalaName}]) extends com.trueaccord.lenses.ObjectLens[UpperPB, ${e.upperScalaName}](_l) {")
       .indent
       .print(e.fields) {
       (field, printer) =>
@@ -288,8 +292,8 @@ object ProtobufGenerator {
     fullScalaName(oneOf)
   }
 
-  def getScalaTypeName(descriptor: FieldDescriptor): String = {
-    val base = descriptor.getJavaType match {
+  def getSingleScalaTypeName(descriptor: FieldDescriptor): String = {
+    descriptor.getJavaType match {
       case FieldDescriptor.JavaType.INT => "Int"
       case FieldDescriptor.JavaType.LONG => "Long"
       case FieldDescriptor.JavaType.FLOAT => "Float"
@@ -300,11 +304,14 @@ object ProtobufGenerator {
       case FieldDescriptor.JavaType.MESSAGE => fullScalaName(descriptor.getMessageType)
       case FieldDescriptor.JavaType.ENUM => fullScalaName(descriptor.getEnumType)
     }
+  }
+
+  def getScalaTypeName(descriptor: FieldDescriptor): String = {
+    val base = getSingleScalaTypeName(descriptor)
     if (descriptor.isOptional && !descriptor.isInOneof) s"Option[$base]"
     else if (descriptor.isRepeated) s"Seq[$base]"
     else base
   }
-
 
   def escapeString(raw: String): String = {
     import scala.reflect.runtime.universe._
@@ -578,6 +585,88 @@ object ProtobufGenerator {
     printer.addWithDelimiter(",")(regularFields ++ oneOfFields)
   }
 
+  def generateMergeFrom(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    printer.add(
+      s"def mergeFrom(__input: com.google.protobuf.CodedInputStream): $myFullScalaName = {")
+      .indent
+      .print(message.fieldsWithoutOneofs)((field, printer) =>
+        if (!field.isRepeated)
+          printer.add(s"var __${field.scalaName} = this.${field.scalaName.asSymbol}")
+        else
+          printer.add(s"val __${field.scalaName} = (Vector.newBuilder[${getSingleScalaTypeName(field)}] ++= this.${field.scalaName.asSymbol})")
+      )
+      .print(message.getOneofs)((oneof, printer) =>
+      printer.add(s"var __${oneof.scalaName} = this.${oneof.scalaName.asSymbol}")
+      )
+      .addM(
+        s"""var __done = false
+           |while (!__done) {
+           |  val tag = __input.readTag()
+           |  tag match {
+           |    case 0 => __done = true""")
+      .print(message.getFields) {
+      (field, printer) =>
+        if (!field.isPacked) {
+          val newVal = if (field.getJavaType == JavaType.MESSAGE) {
+            val defInstance = s"${fullScalaName(field.getMessageType)}.defaultInstance"
+            val baseInstance = if (field.isOptional && !field.isInOneof) {
+              s"__${fieldAccessorSymbol(field)}.getOrElse($defInstance)"
+            } else if (field.isInOneof) {
+              s"${fieldAccessorSymbol(field)}.getOrElse($defInstance)"
+            } else if (field.isRepeated) {
+              defInstance
+            } else {
+              s"__${field.scalaName}"
+            }
+            s"com.trueaccord.scalapb.LiteParser.readMessage(__input, $baseInstance)"
+          } else if (field.getJavaType == JavaType.ENUM)
+            s"${fullScalaName(field.getEnumType)}.fromValue(__input.readEnum())"
+          else s"__input.read${capitalizedType(field.getType)}()"
+
+          val updateOp =
+            if (field.isOptional && !field.isInOneof) s"__${field.scalaName} = Some($newVal)"
+            else if (field.isInOneof) {
+              val typeName = getScalaTypeName(field.getContainingOneof)
+              val boxedTypeName = s"$typeName.${field.upperScalaName}"
+              s"__${field.getContainingOneof.scalaName} = $boxedTypeName($newVal)"
+            }
+            else if (field.isRepeated) s"__${field.scalaName} += $newVal"
+            else s"__${field.scalaName} = $newVal"
+          printer.addM(
+            s"""    case ${(field.getNumber << 3) + WireType.fromType(field.getType)} =>
+               |      $updateOp""")
+        } else
+          printer.addM(
+            s"""    case ${(field.getNumber << 3) + WireType.WIRETYPE_LENGTH_DELIMITED} => {
+               |      val length = __input.readRawVarint32()
+               |      val oldLimit = __input.pushLimit(length)
+               |      while (__input.getBytesUntilLimit > 0) {
+               |        __${field.scalaName} += __input.read${capitalizedType(field.getType)}
+               |      }
+               |      __input.popLimit(oldLimit)
+               |    }""")
+    }
+      .addM(
+       s"""|   }
+           |}""")
+      .add(s"$myFullScalaName(")
+      .indent
+      .addWithDelimiter(",")(
+        (message.fieldsWithoutOneofs ++ message.getOneofs).map {
+          case e: FieldDescriptor if e.isRepeated =>
+            s"  ${e.scalaName.asSymbol} = __${e.scalaName}.result()"
+          case e: FieldDescriptor =>
+            s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
+          case e: OneofDescriptor =>
+            s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
+        })
+      .outdent
+      .add(")")
+      .outdent
+      .add("}")
+  }
+
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.getName.asSymbol
@@ -589,10 +678,11 @@ object ProtobufGenerator {
       .indent
       .indent
       .call(printConstructorFieldList(message))
-      .add(s") extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.lenses.Updatable[$className] {")
+      .add(s") extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[$className] with com.trueaccord.lenses.Updatable[$className] {")
       .call(generateSerializedSizeForPackedFields(message))
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
+      .call(generateMergeFrom(message))
       .print(message.getFields) {
       case (field, printer) if !field.isInOneof =>
         val withMethod = "with" + field.upperScalaName
@@ -644,7 +734,7 @@ object ProtobufGenerator {
         val oneOfs = message.getOneofs.map {
           case oneOf =>
             val oneOfTypeName = getScalaTypeName(oneOf)
-            val javaEnumName = s"get${oneOf.typeName}Case"
+            val javaEnumName = s"get${oneOf.upperScalaName}Case"
             val head = s"${oneOf.scalaName.asSymbol} = javaPbSource.$javaEnumName.getNumber match {"
             val body = oneOf.fields.map {
               field =>

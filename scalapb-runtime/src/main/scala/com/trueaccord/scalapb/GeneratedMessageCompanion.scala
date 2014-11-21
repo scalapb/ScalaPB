@@ -46,7 +46,11 @@ trait GeneratedMessage {
   def serializedSize: Int
 }
 
-trait GeneratedMessageCompanion[A <: GeneratedMessage] {
+trait Message[A] {
+  def mergeFrom(input: CodedInputStream): A
+}
+
+trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
@@ -62,5 +66,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   def fromAscii(ascii: String): A
 
   def descriptor: Descriptors.MessageDescriptor
+
+  def defaultInstance: A
 }
 

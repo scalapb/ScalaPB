@@ -78,19 +78,15 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     obj.myOneOf.otherField must be(Some("Other value Yo!"))
   }
 
-  // This is a known bug in fix.
-  // TODO(thesamet: fix this
-    /*
-  "oneof parser" should "should pick last oneof valu" in {
+  "oneof parser" should "should pick last oneof value" in {
     forAll(Gen.listOf(
-        Gen.oneOf(unspecified, tempField, otherField))) { l =>
-        val concat = l.map(_.toByteArray.toSeq).foldLeft(Seq[Byte]())(_ ++ _).toArray
-        val parsed = OneofTest.parseFrom(concat)
-        val expectedOneOf = l.reverse.collectFirst {
-            case e if e != unspecified => e.myOneOf
-        } getOrElse(unspecified.myOneOf)
-        parsed.myOneOf must be(expectedOneOf)
+      Gen.oneOf(unspecified, tempField, otherField))) { l =>
+      val concat = l.map(_.toByteArray.toSeq).foldLeft(Seq[Byte]())(_ ++ _).toArray
+      val parsed = OneofTest.parseFrom(concat)
+      val expectedOneOf = l.reverse.collectFirst {
+        case e if e != unspecified => e.myOneOf
+      } getOrElse(unspecified.myOneOf)
+      parsed.myOneOf must be(expectedOneOf)
     }
   }
-  */
 }
