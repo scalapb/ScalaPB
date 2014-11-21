@@ -9,6 +9,10 @@ case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) 
   def add(s: String*): FunctionalPrinter = {
     copy(content = s.map(l => " " * (indentLevel * INDENT_SIZE) + l).reverseIterator.toList ::: content)
   }
+
+  def addM(s: String): FunctionalPrinter =
+    add(s.stripMargin.split("\n", -1): _*)
+
   def addWithDelimiter(delimiter:String)(s: Seq[String]) = {
     add(s.zipWithIndex.map {
       case (str, i) => str + (if (s.length - 1 == i) "" else delimiter)
