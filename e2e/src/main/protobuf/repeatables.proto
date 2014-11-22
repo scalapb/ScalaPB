@@ -1,0 +1,14 @@
+package com.trueaccord.proto.e2e;
+
+option java_outer_classname = "Reps";
+
+message RepeatablesTest {
+    repeated string strings = 1;
+    repeated int32 ints = 2;
+    repeated double doubles = 3 [packed = true];
+    repeated Nested nesteds = 4;
+
+    message Nested {
+        optional int32 nested_field = 1;
+    }
+}

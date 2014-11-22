@@ -49,11 +49,17 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     sub.clearMyOneOf should be(unspecified)
   }
 
-  "withX" should "set the one off" in {
+  "withField" should "set the one off" in {
+    otherField.withTempField(9) should be(tempField)
     tempField.withOtherField("boo") should be(otherField)
     otherField.withOtherField("boo") should be(otherField)
     otherField.withOtherField("zoo") should not be(otherField)
     otherField.withOtherField("zoo").myOneOf.otherField should be(Some("zoo"))
+  }
+
+  "withOneOf" should "set the one off" in {
+    tempField.withMyOneOf(otherField.myOneOf) should be(otherField)
+    otherField.withMyOneOf(tempField.myOneOf) should be(tempField)
   }
 
   "oneOf option getters" should "work" in {
