@@ -15,8 +15,17 @@ case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) 
 
   def addWithDelimiter(delimiter:String)(s: Seq[String]) = {
     add(s.zipWithIndex.map {
-      case (str, i) => str + (if (s.length - 1 == i) "" else delimiter)
+      case (line, index) => if (index == s.length - 1) line else (line + delimiter)
     }: _*)
+  }
+
+  def addGroupsWithDelimiter(delimiter:String)(groups: Seq[Seq[String]]) = {
+    val lines = for {
+      (group, index) <- groups.zipWithIndex
+      (line, lineInGroup) <- group.zipWithIndex
+    } yield if (index < groups.length - 1 && lineInGroup == group.length - 1)
+        (line + delimiter) else line
+    add(lines: _*)
   }
 
   def indent = copy(indentLevel = indentLevel + 1)

@@ -210,7 +210,7 @@ object ProtobufGenerator {
     }
       .print(e.fields){
       case (v, p) => p
-        .add(s"def `${v.scalaName}`: Option[${getScalaTypeName(v)}] = None")
+        .add(s"def ${v.scalaName.asSymbol}: Option[${getScalaTypeName(v)}] = None")
     }
       .outdent
       .addM(
@@ -226,7 +226,7 @@ object ProtobufGenerator {
         p.addM(
           s"""case class ${v.upperScalaName}(value: ${getScalaTypeName(v)}) extends ${e.upperScalaName} {
              |  override def is${v.upperScalaName}: Boolean = true
-             |  override def `${v.scalaName}`: Option[${getScalaTypeName(v)}] = Some(value)
+             |  override def ${v.scalaName.asSymbol}: Option[${getScalaTypeName(v)}] = Some(value)
              |}""")
     }
       .add(s"implicit class ${e.upperScalaName}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, ${e.upperScalaName}]) extends com.trueaccord.lenses.ObjectLens[UpperPB, ${e.upperScalaName}](_l) {")
@@ -648,7 +648,8 @@ object ProtobufGenerator {
                |    }""")
     }
       .addM(
-       s"""|   }
+       s"""|    case _ => __input.skipField(tag)
+           |  }
            |}""")
       .add(s"$myFullScalaName(")
       .indent
@@ -667,12 +668,178 @@ object ProtobufGenerator {
       .add("}")
   }
 
+  def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    val myFullJavaName = fullJavaName(message)
+    printer.add(s"def toJavaProto(scalaPbSource: $myFullScalaName): $myFullJavaName = {")
+      .indent
+      .add(s"val javaPbOut = $myFullJavaName.newBuilder")
+      .print(message.getFields) {
+      case (field, printer) =>
+        printer.add(assignScalaFieldToJava("scalaPbSource", "javaPbOut", field))
+    }
+      .add("javaPbOut.build")
+      .outdent
+      .add("}")
+  }
+
+  def generateFromJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    val myFullJavaName = fullJavaName(message)
+    printer.add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
+      .indent
+      .call {
+      printer =>
+        val normal = message.getFields.collect {
+          case field if !field.isInOneof =>
+            val conversion = javaFieldToScala("javaPbSource", field)
+            Seq(s"${field.scalaName.asSymbol} = $conversion")
+        }
+        val oneOfs = message.getOneofs.map {
+          case oneOf =>
+            val oneOfTypeName = getScalaTypeName(oneOf)
+            val javaEnumName = s"get${oneOf.upperScalaName}Case"
+            val head = s"${oneOf.scalaName.asSymbol} = javaPbSource.$javaEnumName.getNumber match {"
+            val body = oneOf.fields.map {
+              field =>
+                val t = s"$oneOfTypeName.${field.upperScalaName}"
+                s"  case ${field.getNumber} => $t(${javaFieldToScala("javaPbSource", field)})"
+            }
+            val tail = Seq(s"  case _ => $oneOfTypeName.NotSet", "}")
+            Seq(head) ++ body ++ tail
+        }
+        printer.addGroupsWithDelimiter(",")(normal ++ oneOfs)
+    }
+      .outdent
+      .add(")")
+  }
+
+  def generateFromFieldsMap(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    printer.add(s"def fromFieldsMap(fieldsMap: Map[Int, Any]): $myFullScalaName = $myFullScalaName(")
+      .indent
+      .call {
+      printer =>
+        val fields = message.getFields.collect {
+          case field if !field.isInOneof =>
+            val typeName = getScalaTypeName(field)
+            val mapGetter = if (field.isOptional)
+              s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[$typeName]"
+            else if (field.isRepeated)
+              s"fieldsMap.getOrElse(${field.getNumber}, Nil).asInstanceOf[$typeName]"
+            else
+              s"fieldsMap(${field.getNumber}).asInstanceOf[$typeName]"
+            s"${field.scalaName.asSymbol} = $mapGetter"
+        }
+        val oneOfs = message.getOneofs.map {
+          oneOf =>
+            val oneOfTypeName = getScalaTypeName(oneOf)
+            val elems = oneOf.fields.map {
+              field =>
+                val typeName = getScalaTypeName(field)
+                val t = s"$oneOfTypeName.${field.upperScalaName}"
+                s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[Option[$typeName]].map(value => $t(value))"
+            } mkString (" orElse\n")
+            s"${oneOf.scalaName.asSymbol} = $elems getOrElse $oneOfTypeName.NotSet"
+        }
+        printer.addWithDelimiter(",")(fields ++ oneOfs)
+    }
+      .outdent
+      .add(")")
+  }
+
+  def generateFromAscii(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    val myFullJavaName = fullJavaName(message)
+    // fromAscii
+    printer.addM(
+      s"""override def fromAscii(ascii: String): $myFullScalaName = {
+         |  val javaProtoBuilder = $myFullJavaName.newBuilder
+         |  com.google.protobuf.TextFormat.merge(ascii, javaProtoBuilder)
+         |  fromJavaProto(javaProtoBuilder.build)
+         |}""")
+  }
+
+  def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    printer.addM(
+      s"""lazy val descriptor = new Descriptors.MessageDescriptor("${message.getName}", this,
+         |  None, m = Seq(${message.getNestedTypes.map(m => fullScalaName(m) + ".descriptor").mkString(", ")}),
+         |  e = Seq(${message.getEnumTypes.map(m => fullScalaName(m) + ".descriptor").mkString(", ")}),
+         |  f = ${scalaFullOuterObjectName(message.getFile)}.internalFieldsFor("${myFullScalaName}"))""")
+  }
+
+  def generateDefaultInstance(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    printer
+      .add(s"lazy val defaultInstance = $myFullScalaName(")
+      .indent
+      .addWithDelimiter(",")(message.getFields.collect {
+      case field if field.isRequired =>
+        val default = defaultValueForDefaultInstance(field)
+        s"${field.scalaName.asSymbol} = $default"
+    })
+      .outdent
+      .add(")")
+  }
+
+  def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    val className = message.getName.asSymbol
+    printer.add(
+      s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $className]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $className](_l) {")
+      .indent
+      .print(message.getFields) {
+      case (field, printer) if !field.isInOneof =>
+        val fieldName = field.scalaName.asSymbol
+        if (field.isOptional) {
+          val getMethod = "get" + field.upperScalaName
+          val optionLensName = "optional" + field.upperScalaName
+          printer
+            .addM(
+              s"""def $fieldName = field(_.$getMethod)((c_, f_) => c_.copy($fieldName = Some(f_)))
+                 |def ${optionLensName} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""")
+        } else
+          printer.add(s"def $fieldName = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
+      case (field, printer) => printer
+    }
+      .print(message.getOneofs) {
+      case (oneof, printer) =>
+        val oneofName = oneof.scalaName.asSymbol
+        printer
+          .add(s"def $oneofName = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))")
+    }
+      .outdent
+      .add("}")
+  }
+
+  def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = fullScalaName(message).asSymbol
+    val className = message.getName.asSymbol
+    printer.addM(
+      s"""object $className extends com.trueaccord.scalapb.GeneratedMessageCompanion[$className] {
+         |  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this""")
+      .indent
+      .call(generateToJavaProto(message))
+      .call(generateFromJavaProto(message))
+      .call(generateFromFieldsMap(message))
+      .call(generateFromAscii(message))
+      .call(generateDescriptor(message))
+      .call(generateDefaultInstance(message))
+      .print(message.getEnumTypes)(printEnum)
+      .print(message.getOneofs)(printOneof)
+      .print(message.getNestedTypes)(printMessage)
+      .call(generateMessageLens(message))
+      .outdent
+      .add("}")
+      .add("")
+  }
+
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.getName.asSymbol
 
     val myFullScalaName = fullScalaName(message).asSymbol
-    val myFullJavaName = fullJavaName(message)
     printer
       .add(s"case class $className(")
       .indent
@@ -694,7 +861,7 @@ object ProtobufGenerator {
         } else printer
         val p1 = p0.add(s"def $withMethod(${field.scalaName.asSymbol}: ${getScalaTypeName(field)}) = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol})")
         if (field.isOptional || field.isRepeated)  {
-          p1.add(s"def $clearMethod = copy(`${field.scalaName.asSymbol}` = ${if (field.isOptional) "None" else "Nil"})")
+          p1.add(s"def $clearMethod = copy(${field.scalaName.asSymbol} = ${if (field.isOptional) "None" else "Nil"})")
         } else p1
       case (field, printer) => printer
     }
@@ -705,134 +872,8 @@ object ProtobufGenerator {
       .outdent
       .outdent
       .addM(s"""}
-               |
-               |object $className extends com.trueaccord.scalapb.GeneratedMessageCompanion[$className] {""")
-      .indent
-
-      // toJavaProto
-      .add(s"def toJavaProto(scalaPbSource: $myFullScalaName): $myFullJavaName = {")
-      .indent
-      .add(s"val javaPbOut = $myFullJavaName.newBuilder")
-      .print(message.getFields) {
-      case (field, printer) =>
-        printer.add(assignScalaFieldToJava("scalaPbSource", "javaPbOut", field))
-    }
-      .add("javaPbOut.build")
-      .outdent
-      .add("}")
-
-      // fromJavaProto
-    .add(s"def fromJavaProto(javaPbSource: $myFullJavaName): $myFullScalaName = $myFullScalaName(")
-      .indent
-      .call {
-      printer =>
-        val normal = message.getFields.collect {
-          case field if !field.isInOneof =>
-            val conversion = javaFieldToScala("javaPbSource", field)
-            s"${field.scalaName.asSymbol} = $conversion"
-        }
-        val oneOfs = message.getOneofs.map {
-          case oneOf =>
-            val oneOfTypeName = getScalaTypeName(oneOf)
-            val javaEnumName = s"get${oneOf.upperScalaName}Case"
-            val head = s"${oneOf.scalaName.asSymbol} = javaPbSource.$javaEnumName.getNumber match {"
-            val body = oneOf.fields.map {
-              field =>
-                val t = s"$oneOfTypeName.${field.upperScalaName}"
-                s"  case ${field.getNumber} => $t(${javaFieldToScala("javaPbSource", field)})"
-            }
-            val tail = Seq(s"  case _ => $oneOfTypeName.NotSet", "}")
-            (Seq(head) ++ body ++ tail).mkString("\n")
-        }
-        printer.addWithDelimiter(",")(normal ++ oneOfs)
-    }
-      .outdent
-      .add(")")
-
-      // fromFieldsMap
-      .add(s"def fromFieldsMap(fieldsMap: Map[Int, Any]): $myFullScalaName = $myFullScalaName(")
-      .indent
-      .call {
-        printer =>
-          val fields = message.getFields.collect {
-            case field if !field.isInOneof =>
-              val typeName = getScalaTypeName(field)
-              val mapGetter = if (field.isOptional)
-                s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[$typeName]"
-              else if (field.isRepeated)
-                s"fieldsMap.getOrElse(${field.getNumber}, Nil).asInstanceOf[$typeName]"
-              else
-                s"fieldsMap(${field.getNumber}).asInstanceOf[$typeName]"
-              s"${field.scalaName.asSymbol} = $mapGetter"
-          }
-          val oneOfs = message.getOneofs.map {
-            oneOf =>
-              val oneOfTypeName = getScalaTypeName(oneOf)
-              val elems = oneOf.fields.map {
-                field =>
-                  val typeName = getScalaTypeName(field)
-                  val t = s"$oneOfTypeName.${field.upperScalaName}"
-                  s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[Option[$typeName]].map(value => $t(value))"
-              } mkString(" orElse\n")
-              s"${oneOf.scalaName.asSymbol} = $elems getOrElse $oneOfTypeName.NotSet"
-          }
-          printer.addWithDelimiter(",")(fields ++ oneOfs)
-    }
-      .outdent
-      .add(")")
-
-      // fromAscii
-      .addM(
-        s"""override def fromAscii(ascii: String): $myFullScalaName = {
-           |  val javaProtoBuilder = $myFullJavaName.newBuilder
-           |  com.google.protobuf.TextFormat.merge(ascii, javaProtoBuilder)
-           |  fromJavaProto(javaProtoBuilder.build)
-           |}
-           |lazy val descriptor = new Descriptors.MessageDescriptor("${message.getName}", this,
-           |  None, m = Seq(${message.getNestedTypes.map(m => fullScalaName(m) + ".descriptor").mkString(", ")}),
-           |  e = Seq(${message.getEnumTypes.map(m => fullScalaName(m) + ".descriptor").mkString(", ")}),
-           |  f = ${scalaFullOuterObjectName(message.getFile)}.internalFieldsFor("${myFullScalaName}"))
-           |lazy val defaultInstance = $myFullScalaName(""")
-      .indent
-      .addWithDelimiter(",")(message.getFields.collect {
-      case field if field.isRequired =>
-        val default = defaultValueForDefaultInstance(field)
-        s"${field.scalaName.asSymbol} = $default"
-    })
-      .outdent
-      .add(")")
-      .print(message.getEnumTypes)(printEnum)
-      .print(message.getOneofs)(printOneof)
-      .print(message.getNestedTypes)(printMessage)
-      .addM(
-        s"""implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this
-           |implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $className]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $className](_l) {""")
-      .indent
-      .print(message.getFields) {
-      case (field, printer) if !field.isInOneof =>
-        val fieldName = field.scalaName.asSymbol
-        if (field.isOptional) {
-          val getMethod = "get" + field.upperScalaName
-          val optionLensName = "optional" + field.upperScalaName
-          printer
-            .addM(s"""def $fieldName = field(_.$getMethod)((c_, f_) => c_.copy($fieldName = Some(f_)))
-                     |def ${optionLensName} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""")
-        } else
-          printer.add(s"def $fieldName = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
-      case (field, printer) => printer
-    }
-      .print(message.getOneofs) {
-      case (oneof, printer) =>
-        val oneofName = oneof.scalaName.asSymbol
-          printer
-            .add(s"def $oneofName = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))")
-    }
-      .outdent
-      .add("}")
-      .outdent
-      .add("}")
-      .add("")
-      .add("")
+            |""")
+      .call(generateMessageCompanion(message))
   }
 
   def generateInternalFields(message: Descriptor, fp: FunctionalPrinter): FunctionalPrinter = {
@@ -871,24 +912,22 @@ object ProtobufGenerator {
     val b = CodeGeneratorResponse.File.newBuilder()
 
     b.setName(javaPackage(file).replace('.', '/') + "/" + scalaOuterObjectName(file) + ".scala")
-    val p0 = new FunctionalPrinter()
-
-    val p1 = p0.add(
-      "// Generated by the Scala Plugin for the Protocol Buffer Compiler.",
-      "// Do not edit!",
-      "",
-      if (javaPackage(file).nonEmpty) s"package ${javaPackage(file)}" else "",
-      "import scala.collection.JavaConversions._",
-      "import com.trueaccord.scalapb.Descriptors",
-      "",
-      s"object ${scalaOuterObjectName(file)} {")
+    val p = new FunctionalPrinter().addM(
+      s"""// Generated by the Scala Plugin for the Protocol Buffer Compiler.
+         |// Do not edit!
+         |
+         |${if (javaPackage(file).nonEmpty) ("package " + javaPackage(file)) else ""}
+         |import scala.collection.JavaConversions._
+         |import com.trueaccord.scalapb.Descriptors
+         |
+         |object ${scalaOuterObjectName(file)} {""")
       .indent
       .print(file.getEnumTypes)(printEnum)
       .print(file.getMessageTypes)(printMessage)
       .call(generateInternalFieldsFor(file))
       .outdent
       .add("}")
-    b.setContent(p1.toString)
+    b.setContent(p.toString)
     b.build
   }
 }
