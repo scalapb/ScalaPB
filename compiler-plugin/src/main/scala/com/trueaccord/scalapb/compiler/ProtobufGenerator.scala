@@ -13,6 +13,10 @@ object ProtobufGenerator {
     def isInOneof: Boolean = containingOneOf.isDefined
     def scalaName: String = snakeCaseToCamelCase(fd.getName)
     def upperScalaName: String = snakeCaseToCamelCase(fd.getName, true)
+    def oneOfTypeName = {
+      assert(isInOneof)
+      getScalaTypeName(fd.getContainingOneof) + "." + upperScalaName
+    }
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) extends AnyVal {
@@ -235,10 +239,8 @@ object ProtobufGenerator {
       (field, printer) =>
         val fieldName = field.scalaName.asSymbol
         val getMethod = s"_.$fieldName.getOrElse(${defaultValueForGet(field)})"
-        val typeName = getScalaTypeName(field.getContainingOneof)
-        val boxedTypeName = s"$typeName.${field.upperScalaName}"
         printer
-          .add(s"def $fieldName = field($getMethod)((c_, f_) => $boxedTypeName(f_))")
+          .add(s"def $fieldName = field($getMethod)((c_, f_) => ${field.oneOfTypeName}(f_))")
     }
       .outdent
       .add("}")
@@ -627,9 +629,7 @@ object ProtobufGenerator {
           val updateOp =
             if (field.isOptional && !field.isInOneof) s"__${field.scalaName} = Some($newVal)"
             else if (field.isInOneof) {
-              val typeName = getScalaTypeName(field.getContainingOneof)
-              val boxedTypeName = s"$typeName.${field.upperScalaName}"
-              s"__${field.getContainingOneof.scalaName} = $boxedTypeName($newVal)"
+              s"__${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}($newVal)"
             }
             else if (field.isRepeated) s"__${field.scalaName} += $newVal"
             else s"__${field.scalaName} = $newVal"
@@ -841,7 +841,7 @@ object ProtobufGenerator {
 
     val myFullScalaName = fullScalaName(message).asSymbol
     printer
-      .add(s"case class $className(")
+      .add(s"final case class $className(")
       .indent
       .indent
       .call(printConstructorFieldList(message))
@@ -851,19 +851,35 @@ object ProtobufGenerator {
       .call(generateWriteTo(message))
       .call(generateMergeFrom(message))
       .print(message.getFields) {
-      case (field, printer) if !field.isInOneof =>
+      case (field, printer) =>
         val withMethod = "with" + field.upperScalaName
         val clearMethod = "clear" + field.upperScalaName
-        val p0 = if (field.isOptional) {
-          val getter = "get" + field.upperScalaName
-          val default = defaultValueForGet(field)
-          printer.add(s"def $getter = ${field.scalaName.asSymbol}.getOrElse($default)")
-        } else printer
-        val p1 = p0.add(s"def $withMethod(${field.scalaName.asSymbol}: ${getScalaTypeName(field)}) = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol})")
-        if (field.isOptional || field.isRepeated)  {
-          p1.add(s"def $clearMethod = copy(${field.scalaName.asSymbol} = ${if (field.isOptional) "None" else "Nil"})")
-        } else p1
-      case (field, printer) => printer
+        val getter = "get" + field.upperScalaName
+        printer
+          .when(field.isOptional && !field.isInOneof) {
+          p =>
+            val default = defaultValueForGet(field)
+            p.addM(
+              s"""def $clearMethod: $className = copy(${field.scalaName.asSymbol} = None)
+                 |def $getter = ${field.scalaName.asSymbol}.getOrElse($default)
+                 |def $withMethod(__v: ${getSingleScalaTypeName(field)}): $className = copy(${field.scalaName.asSymbol} = Some(__v))""")
+        }.when(field.isInOneof) {
+          _.add(s"def $withMethod(__v: ${getSingleScalaTypeName(field)}): $className = copy(${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}(__v))")
+        }.when(field.isRepeated) { p =>
+          val scalaType = getSingleScalaTypeName(field)
+          p.addM(
+            s"""def $clearMethod = copy(${field.scalaName.asSymbol} = Nil)
+               |def add${field.upperScalaName}(__vs: $scalaType*): $className = addAll${field.upperScalaName}(__vs)
+               |def addAll${field.upperScalaName}(__vs: TraversableOnce[$scalaType]): $className = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)""")
+        }.when(field.isRepeated || field.isRequired) {
+          _
+            .add(s"def $withMethod(__v: ${getScalaTypeName(field)}): $className = copy(${field.scalaName.asSymbol} = __v)")
+        }
+    }.print(message.getOneofs) {
+      case (oneof, printer) =>
+        printer.addM(
+          s"""def clear${oneof.upperScalaName}: $className = copy(${oneof.scalaName.asSymbol} = ${getScalaTypeName(oneof)}.NotSet)
+             |def with${oneof.upperScalaName}(__v: ${getScalaTypeName(oneof)}): $className = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
       .call(generateGetField(message))
       .addM(
@@ -927,7 +943,7 @@ object ProtobufGenerator {
       .call(generateInternalFieldsFor(file))
       .outdent
       .add("}")
-    b.setContent(p.toString)
+    b.setContent(p.result())
     b.build
   }
 }

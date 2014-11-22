@@ -81,7 +81,7 @@ object SchemaGenerators {
       fileNode =>
         val file = new File(tmpDir, fileNode.baseFileName + ".proto")
         val pw = new PrintWriter(file)
-        pw.write(fileNode.print(rootNode, FunctionalPrinter()).toString)
+        pw.write(fileNode.print(rootNode, FunctionalPrinter()).result())
         pw.close()
     }
     tmpDir

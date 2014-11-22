@@ -21,7 +21,7 @@ object Nodes {
         case c if c.isDigit => (Some(c), true)
         case _ => (None, true)
       }
-      r.foreach(b +=)
+      r.foreach(b.+=)
       inner(name.tail, index + 1, capNext2)
     }
     inner(name, 0, upperInitial)

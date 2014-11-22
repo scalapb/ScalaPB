@@ -13,7 +13,7 @@ object GenData {
   case class MessageValue(values: Seq[(String, ProtoValue)]) extends ProtoValue {
 
     def toAscii: String =
-      printAscii(new FunctionalPrinter()).toString
+      printAscii(new FunctionalPrinter()).result()
 
     def printAscii(printer: FunctionalPrinter): FunctionalPrinter = {
       values.foldLeft(printer) {

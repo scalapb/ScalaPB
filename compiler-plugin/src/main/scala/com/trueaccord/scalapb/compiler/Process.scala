@@ -1,34 +1,45 @@
 package com.trueaccord.scalapb.compiler
 
+import java.io.{StringWriter, PrintWriter}
 import java.nio.file.attribute.PosixFilePermission
 import java.nio.file.{Files, Path}
 
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
+import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorResponse, CodeGeneratorRequest}
 
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.sys.process._
+import scala.util.Try
 
 object Process {
+  private def getStackTrace(e: Throwable): String = {
+    val stringWriter = new StringWriter
+    val printWriter = new PrintWriter(stringWriter)
+    e.printStackTrace(printWriter)
+    stringWriter.toString
+  }
+
   def runProtocUsing[A](protocCommand: String, schemas: Seq[String] = Nil,
                         includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
     val pipe = createPipe()
     val sh = createShellScript(pipe)
 
     Future {
-      try {
-        val fsin = Files.newInputStream(pipe)
+      val fsin = Files.newInputStream(pipe)
+      val response = Try {
         val request = CodeGeneratorRequest.parseFrom(fsin)
-        val response = ProtobufGenerator.handleCodeGeneratorRequest(request)
-        val fsout = Files.newOutputStream(pipe)
-        fsout.write(response.toByteArray)
-        fsout.close()
-        fsin.close()
-      } catch {
-        case e: Exception =>
-          println("Exc: ", e)
-      }
+        ProtobufGenerator.handleCodeGeneratorRequest(request)
+      }.recover {
+        case throwable =>
+          CodeGeneratorResponse.newBuilder()
+            .setError(throwable.toString + "\n" + getStackTrace(throwable))
+            .build
+      }.get
+      val fsout = Files.newOutputStream(pipe)
+      fsout.write(response.toByteArray)
+      fsout.close()
+      fsin.close()
     }
 
     try {
@@ -54,10 +65,11 @@ object Process {
   private def createShellScript(tmpFile: Path): Path = {
     val content =
       s"""|#!/usr/bin/env sh
+          |set -e
           |cat /dev/stdin > "$tmpFile"
           |cat "$tmpFile"
       """.stripMargin
-    val scriptName = Files.createTempFile("compgen", "")
+    val scriptName = Files.createTempFile("scalapbgen", "")
     val os = Files.newOutputStream(scriptName)
     os.write(content.getBytes("UTF-8"))
     os.close()
