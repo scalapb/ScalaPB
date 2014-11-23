@@ -218,11 +218,11 @@ class ProtobufGenerator(params: GeneratorParams) {
   }
 
     def generateGetField(message: Descriptor)(fp: FunctionalPrinter) = {
-      val signature = "def getField(field: Descriptors.FieldDescriptor): Any = "
+      val signature = "def getField(__field: Descriptors.FieldDescriptor): Any = "
       if (message.getFields.nonEmpty)
         fp.add(signature + "{")
           .indent
-          .add("field.number match {")
+          .add("__field.number match {")
           .indent
           .print(message.getFields) {
           case (f, fp) => fp.add(s"case ${f.getNumber} => ${fieldAccessorSymbol(f)}")
@@ -231,7 +231,7 @@ class ProtobufGenerator(params: GeneratorParams) {
           .add("}")
           .outdent
           .add("}")
-      else fp.add(signature + "throw new MatchError(field)")
+      else fp.add(signature + "throw new MatchError(__field)")
     }
 
   def generateWriteSingleValue(field: FieldDescriptor, valueExpr: String)(fp: FunctionalPrinter):
@@ -588,9 +588,10 @@ class ProtobufGenerator(params: GeneratorParams) {
     val className = message.getName.asSymbol
     val mixins = if (params.javaConversions)
       s"with com.trueaccord.scalapb.JavaProtoSupport[$className, ${message.javaTypeName}] " else ""
+    val companionType = s"com.trueaccord.scalapb.GeneratedMessageCompanion[$className] $mixins"
     printer.addM(
-      s"""object $className extends com.trueaccord.scalapb.GeneratedMessageCompanion[$className] $mixins{
-         |  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this""")
+      s"""object $className extends $companionType {
+         |  implicit def messageCompanion: $companionType = this""")
       .indent
       .when(params.javaConversions)(generateToJavaProto(message))
       .when(params.javaConversions)(generateFromJavaProto(message))
