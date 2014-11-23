@@ -16,3 +16,6 @@ project/plugins/project/
 .scala_dependencies
 .worksheet
 .idea
+
+# Auto-generated file.
+e2e/project/project/Version.scala

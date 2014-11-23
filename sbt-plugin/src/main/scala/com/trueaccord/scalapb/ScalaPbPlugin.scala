@@ -28,7 +28,7 @@ object ScalaPbPlugin extends Plugin {
     scalaSource <<= (sourceManaged in Compile) { _ / "compiled_protobuf" },
 
     javaConversions := false,
-    scalapbVersion := "SNAPSHOT",
+    scalapbVersion := Version.currentVersion,
     lensesVersion := "0.l",
     generatedTargets <<= (javaConversions in PB.protobufConfig,
       javaSource in PB.protobufConfig, scalaSource in PB.protobufConfig) {
@@ -95,10 +95,10 @@ object ScalaPbPlugin extends Plugin {
   }
 
   private def sourceGeneratorTask =
-    (streams, sourceDirectories in protobufConfig, includePaths in protobufConfig, protocOptions in protobufConfig, generatedTargets in protobufConfig, cacheDirectory, protoc) map {
-      (out, srcDirs, includePaths, protocOpts, otherTargets, cache, protocCommand) =>
+    (streams, sourceDirectories in protobufConfig, includePaths in protobufConfig, protocOptions in protobufConfig, generatedTargets in protobufConfig, protoc) map {
+      (out, srcDirs, includePaths, protocOpts, otherTargets, protocCommand) =>
         val schemas = srcDirs.toSet[File].flatMap(srcDir => (srcDir ** "*.proto").get.map(_.getAbsoluteFile))
-        val cachedCompile = FileFunction.cached(cache / "protobuf", inStyle = FilesInfo.lastModified, outStyle = FilesInfo.exists) { (in: Set[File]) =>
+        val cachedCompile = FileFunction.cached(out.cacheDirectory / "protobuf", inStyle = FilesInfo.lastModified, outStyle = FilesInfo.exists) { (in: Set[File]) =>
           compile(protocCommand, schemas, includePaths, protocOpts, otherTargets, out.log)
         }
         cachedCompile(schemas).toSeq
