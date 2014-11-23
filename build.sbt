@@ -10,8 +10,6 @@ organization := "com.trueaccord.lenses"
 
 profileName := "com.trueaccord"
 
-version in ThisBuild := "0.2-SNAPSHOT"
-
 libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.11.6" % "test",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
@@ -38,4 +36,6 @@ pomExtra in ThisBuild := {
     </developer>
   </developers>
 }
+
+releaseSettings
 
