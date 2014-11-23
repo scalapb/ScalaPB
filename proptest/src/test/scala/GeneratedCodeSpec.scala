@@ -2,10 +2,10 @@ import Nodes.RootNode
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.TextFormat
-import com.trueaccord.scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 import org.scalacheck.Arbitrary
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import scala.language.existentials
 
 class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with Matchers {
   implicit def arbitraryGraph: Arbitrary[RootNode] = Arbitrary(GraphGen.genRootNode)
@@ -35,7 +35,7 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
             val builder = schema.javaBuilder(message)
             TextFormat.merge(messageAscii, builder)
             val javaProto: protobuf.Message = builder.build()
-            val companion: GeneratedMessageCompanion[_ <: GeneratedMessage] = schema.scalaObject(message)
+            val companion = schema.scalaObject(message)
             val scalaProto = companion.fromAscii(messageValue.toAscii)
             val scalaBytes = scalaProto.toByteArray
 

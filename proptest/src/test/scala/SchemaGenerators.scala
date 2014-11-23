@@ -9,7 +9,7 @@ import com.google.protobuf.{MessageOrBuilder, TextFormat}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Prop.{forAll, forAllNoShrink}
 import org.scalacheck.{Gen, Properties}
-import com.trueaccord.scalapb.{GeneratedMessage, compiler, GeneratedMessageCompanion}
+import com.trueaccord.scalapb._
 
 import scala.reflect.ClassTag
 
@@ -149,6 +149,8 @@ object SchemaGenerators {
     run.compile(scalaFiles.map(_.toString).toList)
   }
 
+  type CompanionWithJavaSupport[A <: GeneratedMessage with Message[A]] = GeneratedMessageCompanion[A] with JavaProtoSupport[A, _]
+
   case class CompiledSchema(rootNode: RootNode, rootDir: File) {
     lazy val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL), this.getClass.getClassLoader)
 
@@ -159,11 +161,11 @@ object SchemaGenerators {
       builder
     }
 
-    def scalaObject(m: MessageNode): GeneratedMessageCompanion[_ <: GeneratedMessage] = {
+    def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessage] = {
       val className = rootNode.scalaObjectName(m)
       val u = scala.reflect.runtime.universe
       val mirror = u.runtimeMirror(classLoader)
-      mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[GeneratedMessageCompanion[_ <: GeneratedMessage]]
+      mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[CompanionWithJavaSupport[_ <: GeneratedMessage]]
     }
   }
 
