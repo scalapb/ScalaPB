@@ -53,8 +53,8 @@ object ScalaPbPlugin extends Plugin {
     libraryDependencies <++= (scalapbVersion in protobufConfig, lensesVersion in protobufConfig) {
       (runtimeVersion, lensesVersion) =>
         Seq(
-          "com.trueaccord.scalapb" %% "scalapb-runtime" % runtimeVersion,
-          "com.trueaccord.lenses" %% "lenses" % lensesVersion)
+          "com.trueaccord.scalapb" %% "scalapb-runtime" % runtimeVersion
+        )
     },
     (sourceGenerators in Compile) <<= (sourceGenerators in Compile, generate.in(protobufConfig),
       pbScalaGenerate.in(protobufConfig)) {
