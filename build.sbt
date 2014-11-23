@@ -1,8 +1,12 @@
 import SonatypeKeys._
+import sbtrelease._
+import ReleaseStateTransformations._
 
 sonatypeSettings
 
-crossScalaVersions := Seq("2.11.2", "2.10.4")
+scalaVersion in ThisBuild := "2.11.2"
+
+crossScalaVersions in ThisBuild := Seq("2.10.4", "2.11.2")
 
 organization in ThisBuild := "com.trueaccord.scalapb"
 
@@ -33,15 +37,23 @@ pomExtra in ThisBuild := {
   </developers>
 }
 
+lazy val projectReleaseSettings = releaseSettings ++ Seq(
+  ReleaseKeys.crossBuild := true,
+  ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value
+)
+
 lazy val root =
   project.in(file("."))
-    .settings(publishArtifact := false,
-              aggregate in sonatypeRelease := false
-    ).aggregate(runtime, compilerPlugin, proptest)
+    .settings(
+      publishArtifact := false,
+      aggregate in sonatypeRelease := false
+    ).settings(projectReleaseSettings: _*).aggregate(runtime, compilerPlugin, proptest)
 
-lazy val runtime = project in file("scalapb-runtime")
+lazy val runtime = project.in(file("scalapb-runtime")).settings(
+  projectReleaseSettings:_*)
 
-lazy val compilerPlugin = project in file("compiler-plugin")
+lazy val compilerPlugin = project.in(file("compiler-plugin")).settings(
+  projectReleaseSettings:_*)
 
 lazy val proptest = project.in(file("proptest"))
   .dependsOn(runtime, compilerPlugin)
@@ -86,3 +98,4 @@ createVersionFile <<= (streams, baseDirectory, version in Compile) map {
     val f = genVersionFile(baseDirectory / "e2e/project/project", version)
     streams.log.info(s"Created $f")
 }
+
