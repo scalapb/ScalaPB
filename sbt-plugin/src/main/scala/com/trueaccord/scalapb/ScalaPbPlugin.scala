@@ -16,6 +16,8 @@ object ScalaPbPlugin extends Plugin {
   val unpackDependencies = PB.unpackDependencies
   val protocOptions = PB.protocOptions
   val javaConversions = SettingKey[Boolean]("scalapb-java-conversions", "Generate Scala-Java protocol buffer conversions")
+  val scalapbVersion =  SettingKey[String]("scalapb-version", "ScalaPB version.")
+  val lensesVersion =  SettingKey[String]("lenses-version", "Lenses version.")
 
   val protobufConfig = PB.protobufConfig
 
@@ -26,6 +28,8 @@ object ScalaPbPlugin extends Plugin {
     scalaSource <<= (sourceManaged in Compile) { _ / "compiled_protobuf" },
 
     javaConversions := false,
+    scalapbVersion := "SNAPSHOT",
+    lensesVersion := "0.l",
     generatedTargets <<= (javaConversions in PB.protobufConfig,
       javaSource in PB.protobufConfig, scalaSource in PB.protobufConfig) {
       (javaConversions, javaSource, scalaSource) =>
@@ -45,10 +49,12 @@ object ScalaPbPlugin extends Plugin {
         case None => Nil
       }
     })) ++ Seq[Setting[_]](
-    libraryDependencies ++=
-      Seq(
-        "com.trueaccord.scalapb" %% "scalapb-runtime" % "SNAPSHOT",
-        "com.trueaccord.lenses" %% "lenses" % "0.1"),
+    libraryDependencies <++= (scalapbVersion in protobufConfig, lensesVersion in protobufConfig) {
+      (runtimeVersion, lensesVersion) =>
+        Seq(
+          "com.trueaccord.scalapb" %% "scalapb-runtime" % runtimeVersion,
+          "com.trueaccord.lenses" %% "lenses" % lensesVersion)
+    },
     (sourceGenerators in Compile) <<= (sourceGenerators in Compile, generate.in(protobufConfig),
       pbScalaGenerate.in(protobufConfig)) {
       case (srcGens, originalCompile, pbScalaGenerate) => srcGens.map {
