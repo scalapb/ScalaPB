@@ -41,11 +41,12 @@ object ScalaPbPlugin extends Plugin {
     },
     version := "2.6.1",
 
-    protocOptions <++= (generatedTargets in protobufConfig) { generatedTargets =>
+    protocOptions <++= (generatedTargets in protobufConfig, javaConversions in protobufConfig) {
+      (generatedTargets, javaConversions) =>
       generatedTargets.find(_._2.endsWith(".scala")) match {
-        case Some(targetForScala) => Seq(
-          "--scala_out=%s".format(targetForScala._1.absolutePath)
-        )
+        case Some(targetForScala) =>
+          val params = if (javaConversions) "java_conversions" else ""
+          Seq(s"--scala_out=$params:${targetForScala._1.absolutePath}")
         case None => Nil
       }
     })) ++ Seq[Setting[_]](
