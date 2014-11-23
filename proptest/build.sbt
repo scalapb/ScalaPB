@@ -3,7 +3,7 @@ resolvers ++= Seq(
   )
 
 libraryDependencies ++= Seq(
-  "com.google.protobuf" % "protobuf-java" % "2.6.0",
+  "com.google.protobuf" % "protobuf-java" % "2.6.1",
   "com.trueaccord.lenses" %% "lenses" % "0.1",
   "org.scalacheck" %% "scalacheck" % "1.11.6" % "test",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"

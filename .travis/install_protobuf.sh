@@ -1,6 +1,7 @@
 #!/bin/sh
 set -e
-wget https://protobuf.googlecode.com/svn/rc/protobuf-2.6.0.tar.gz
-tar -xzvf protobuf-2.6.0.tar.gz
-cd protobuf-2.6.0 && ./configure --prefix=/usr && make && sudo make install
+PROTOBUF_VERSION=2.6.0
+wget https://protobuf.googlecode.com/svn/rc/protobuf-${PROTOBUF_VERSION}.tar.gz
+tar -xzvf protobuf-${PROTOBUF_VERSION}.tar.gz
+cd protobuf-${PROTOBUF_VERSION} && ./configure --prefix=/usr && make && sudo make install
 

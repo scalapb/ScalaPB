@@ -35,7 +35,7 @@ object ScalaPbPlugin extends Plugin {
           else
             Nil)
     },
-    version := "2.6.0",
+    version := "2.6.1",
 
     protocOptions <++= (generatedTargets in protobufConfig) { generatedTargets =>
       generatedTargets.find(_._2.endsWith(".scala")) match {
