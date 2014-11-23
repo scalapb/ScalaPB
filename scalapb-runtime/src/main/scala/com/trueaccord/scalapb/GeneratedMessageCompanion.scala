@@ -50,6 +50,14 @@ trait Message[A] {
   def mergeFrom(input: CodedInputStream): A
 }
 
+trait JavaProtoSupport[ScalaPB, JavaPB] {
+  def fromAscii(ascii: String): ScalaPB
+
+  def fromJavaProto(javaProto: JavaPB): ScalaPB
+
+  def toJavaProto(scalaProto: ScalaPB): JavaPB
+}
+
 trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
 
@@ -62,8 +70,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def toByteArray(a: A): Array[Byte] = a.toByteArray
 
   def fromFieldsMap(fields: Map[Int, Any]): A
-
-  def fromAscii(ascii: String): A
 
   def descriptor: Descriptors.MessageDescriptor
 

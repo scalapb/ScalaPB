@@ -37,9 +37,12 @@ class ProtobufGenerator(params: GeneratorParams) {
     }
       .addM(
         s"""}
-           |def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
-           |def toJavaValue(pbScalaSource: $name): ${e.javaTypeName} = ${e.javaTypeName}.valueOf(pbScalaSource.id)
            |lazy val descriptor = new Descriptors.EnumDescriptor(${e.getIndex}, "${e.getName}", this)""")
+      .when(params.javaConversions) {
+      _.addM(
+        s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
+            |def toJavaValue(pbScalaSource: $name): ${e.javaTypeName} = ${e.javaTypeName}.valueOf(pbScalaSource.id)""")
+    }
       .outdent
       .add("}")
   }
@@ -582,14 +585,16 @@ class ProtobufGenerator(params: GeneratorParams) {
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     val className = message.getName.asSymbol
+    val mixins = if (params.javaConversions)
+      s"with com.trueaccord.scalapb.JavaProtoSupport[$className, ${message.javaTypeName}] " else ""
     printer.addM(
-      s"""object $className extends com.trueaccord.scalapb.GeneratedMessageCompanion[$className] {
+      s"""object $className extends com.trueaccord.scalapb.GeneratedMessageCompanion[$className] $mixins{
          |  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[$className] = this""")
       .indent
-      .call(generateToJavaProto(message))
-      .call(generateFromJavaProto(message))
+      .when(params.javaConversions)(generateToJavaProto(message))
+      .when(params.javaConversions)(generateFromJavaProto(message))
+      .when(params.javaConversions)(generateFromAscii(message))
       .call(generateFromFieldsMap(message))
-      .call(generateFromAscii(message))
       .call(generateDescriptor(message))
       .call(generateDefaultInstance(message))
       .print(message.getEnumTypes)(printEnum)
@@ -648,9 +653,9 @@ class ProtobufGenerator(params: GeneratorParams) {
              |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): $className = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
       .call(generateGetField(message))
-      .addM(
-        s"""override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))
-           |def companion = $myFullScalaName""")
+      .when(params.javaConversions)(
+        _.add(s"override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))"))
+      .add(s"def companion = $myFullScalaName")
       .outdent
       .outdent
       .addM(s"""}
@@ -699,7 +704,7 @@ class ProtobufGenerator(params: GeneratorParams) {
          |// Do not edit!
          |
          |${if (file.javaPackage.nonEmpty) ("package " + file.javaPackage) else ""}
-         |import scala.collection.JavaConversions._
+         |${if (params.javaConversions) "import scala.collection.JavaConversions._" else ""}
          |import com.trueaccord.scalapb.Descriptors
          |
          |object ${file.scalaOuterObjectName} {""")

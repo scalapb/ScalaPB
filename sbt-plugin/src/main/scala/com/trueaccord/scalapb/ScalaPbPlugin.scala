@@ -15,6 +15,8 @@ object ScalaPbPlugin extends Plugin {
   val generate = PB.generate
   val unpackDependencies = PB.unpackDependencies
   val protocOptions = PB.protocOptions
+  val javaConversions = SettingKey[Boolean]("scalapb-java-conversions", "Generate Scala-Java protocol buffer conversions")
+
   val protobufConfig = PB.protobufConfig
 
   val pbScalaGenerate = TaskKey[Seq[File]]("protobuf-scala-generate", "Compile the protobuf sources.")
@@ -23,7 +25,16 @@ object ScalaPbPlugin extends Plugin {
     pbScalaGenerate <<= sourceGeneratorTask.dependsOn(unpackDependencies),
     scalaSource <<= (sourceManaged in Compile) { _ / "compiled_protobuf" },
 
-    generatedTargets <+= (scalaSource in protobufConfig) { (_, "*.scala") },
+    javaConversions := false,
+    generatedTargets <<= (javaConversions in PB.protobufConfig,
+      javaSource in PB.protobufConfig, scalaSource in PB.protobufConfig) {
+      (javaConversions, javaSource, scalaSource) =>
+        (scalaSource, "*.scala") +:
+          (if (javaConversions)
+            Seq((javaSource, "*.java"))
+          else
+            Nil)
+    },
     version := "2.6.0",
 
     protocOptions <++= (generatedTargets in protobufConfig) { generatedTargets =>
