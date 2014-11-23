@@ -56,7 +56,12 @@ lazy val proptest = project.in(file("proptest"))
         "-minSuccessfulTests", "10")
     )
 
-def genVersionFile(out: File, version: String): Seq[File] = {
+lazy val ShortTest = config("short") extend(Test)
+
+// For e2e test
+val sbtPluginVersion = "0.3.2"
+
+def genVersionFile(out: File, version: String): File = {
   out.mkdirs()
   val f = out / "Version.scala"
   val w = new java.io.FileOutputStream(f)
@@ -65,24 +70,19 @@ def genVersionFile(out: File, version: String): Seq[File] = {
               |package com.trueaccord.scalapb
               |
               |object Version {
-              |  val currentVersion = "$version"
+              |  val sbtPluginVersion = "$sbtPluginVersion"
+              |  val scalapbVersion = "$version"
               |}
               |""".stripMargin.getBytes("UTF-8"))
   w.close()
-  Seq(f)
+  f
 }
 
-lazy val sbtPlugin = project.in(file("sbt-plugin"))
-  .dependsOn(compilerPlugin)
-  .settings(
-    (sourceGenerators in Compile) <+=
-      (sourceManaged in Compile, baseDirectory, version in Compile) map {
-        (s, bd, v) =>
-          // We intentionally discard the e2e version in the return value, since
-          // it doesn't need to be part of the sources managed by sbtPlugin project.
-          genVersionFile(bd.getParentFile / "e2e/project/project", v)
-          genVersionFile(s, v)
-      }
-    )
+val createVersionFile = TaskKey[Unit](
+  "create-version-file", "Creates a file with the project version to be used by e2e.")
 
-lazy val ShortTest = config("short") extend(Test)
+createVersionFile <<= (streams, baseDirectory, version in Compile) map {
+  (streams, baseDirectory, version) =>
+    val f = genVersionFile(baseDirectory / "e2e/project/project", version)
+    streams.log.info(s"Created $f")
+}
