@@ -26,6 +26,27 @@ protocol buffers to Scala.  The optional Java conversion is required if you
 want to use `fromAscii` (parsing ASCII representation of a protocol buffer).
 The current implementation delegates to the Java version.
 
+Installing
+==========
+
+To automatically generate Scala case classes for your messages add ScalaPB's
+sbt plugin to your project. Create a file named `project/scalapb.sbt`
+containing the following line:
+
+    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "0.3.2")
+
+Add the following line to your `build.sbt`:
+
+    import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
+
+    PB.protobufSettings
+
+For additional configuration options, see [https://github.com/trueaccord/sbt-scalapb](sbt-scalapb) documentation
+
+Using ScalaPB
+=============
+
+Documentation is available at [http://trueaccord.github.io/ScalaPB/](ScalaPB website).
 
 Testing
 =======
