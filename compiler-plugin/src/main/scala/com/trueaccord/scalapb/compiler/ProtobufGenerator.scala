@@ -31,6 +31,7 @@ class ProtobufGenerator(params: GeneratorParams) {
            |  override def is${v.objectName}: Boolean = true
            |}""")
     }
+      .add(s"lazy val values = Seq(${e.getValues.map(_.getName.asSymbol).mkString(", ")})")
       .add(s"def fromValue(value: Int): $name = value match {")
       .print(e.getValues) {
       case (v, p) => p.add(s"  case ${v.getNumber} => ${v.getName.asSymbol}")

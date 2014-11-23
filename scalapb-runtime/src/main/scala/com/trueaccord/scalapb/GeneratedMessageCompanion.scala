@@ -15,7 +15,9 @@ trait GeneratedEnum {
 }
 
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
+  type ValueType = A
   def fromValue(id: Int): A
+  def values: Seq[A]
 }
 
 trait GeneratedMessage {
