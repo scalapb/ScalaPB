@@ -268,23 +268,23 @@ class ProtobufGenerator(params: GeneratorParams) {
   def generateSerializedSizeForField(field: FieldDescriptor, fp: FunctionalPrinter): FunctionalPrinter = {
     val fieldNameSymbol = fieldAccessorSymbol(field)
     if (field.isRequired) {
-      fp.add("size += " + sizeExpressionForSingleField(field, fieldNameSymbol))
+      fp.add("__size += " + sizeExpressionForSingleField(field, fieldNameSymbol))
     } else if (field.isOptional) {
-      fp.add(s"if ($fieldNameSymbol.isDefined) { size += ${sizeExpressionForSingleField(field, fieldNameSymbol + ".get")} }")
+      fp.add(s"if ($fieldNameSymbol.isDefined) { __size += ${sizeExpressionForSingleField(field, fieldNameSymbol + ".get")} }")
     } else if (field.isRepeated) {
       val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
       if (!field.isPacked)
         Types.fixedSize(field.getType) match {
-          case Some(size) => fp.add(s"size += ${size + tagSize} * $fieldNameSymbol.size")
+          case Some(size) => fp.add(s"__size += ${size + tagSize} * $fieldNameSymbol.size")
           case None => fp.add(
-            s"$fieldNameSymbol.foreach($fieldNameSymbol => size += ${sizeExpressionForSingleField(field, fieldNameSymbol)})")
+            s"$fieldNameSymbol.foreach($fieldNameSymbol => __size += ${sizeExpressionForSingleField(field, fieldNameSymbol)})")
         }
       else {
         val fieldName = field.scalaName
         fp
           .addM(
             s"""if($fieldNameSymbol.nonEmpty) {
-               |  size += $tagSize + com.google.protobuf.CodedOutputStream.computeRawVarint32Size(${fieldName}SerializedSize) + ${fieldName}SerializedSize
+               |  __size += $tagSize + com.google.protobuf.CodedOutputStream.computeRawVarint32Size(${fieldName}SerializedSize) + ${fieldName}SerializedSize
                |}""")
       }
     } else throw new RuntimeException("Should not reach here.")
@@ -294,9 +294,9 @@ class ProtobufGenerator(params: GeneratorParams) {
     fp
       .add("lazy val serializedSize: Int = {")
       .indent
-      .add("var size = 0")
+      .add("var __size = 0")
       .print(message.getFields)(generateSerializedSizeForField)
-      .add("size")
+      .add("__size")
       .outdent
       .add("}")
   }
@@ -372,7 +372,7 @@ class ProtobufGenerator(params: GeneratorParams) {
         if (!field.isRepeated)
           printer.add(s"var __${field.scalaName} = this.${field.scalaName.asSymbol}")
         else
-          printer.add(s"val __${field.scalaName} = (Vector.newBuilder[${field.singleScalaTypeName}] ++= this.${field.scalaName.asSymbol})")
+          printer.add(s"val __${field.scalaName} = (scala.collection.immutable.Vector.newBuilder[${field.singleScalaTypeName}] ++= this.${field.scalaName.asSymbol})")
       )
       .print(message.getOneofs)((oneof, printer) =>
       printer.add(s"var __${oneof.scalaName} = this.${oneof.scalaName.asSymbol}")
@@ -380,8 +380,8 @@ class ProtobufGenerator(params: GeneratorParams) {
       .addM(
         s"""var __done = false
            |while (!__done) {
-           |  val tag = __input.readTag()
-           |  tag match {
+           |  val __tag = __input.readTag()
+           |  __tag match {
            |    case 0 => __done = true""")
       .print(message.getFields) {
       (field, printer) =>
@@ -424,7 +424,7 @@ class ProtobufGenerator(params: GeneratorParams) {
                |    }""")
     }
       .addM(
-       s"""|    case _ => __input.skipField(tag)
+       s"""|    case tag => __input.skipField(tag)
            |  }
            |}""")
       .add(s"$myFullScalaName(")
