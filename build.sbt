@@ -39,3 +39,7 @@ pomExtra in ThisBuild := {
 
 releaseSettings
 
+ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value
+
+ReleaseKeys.crossBuild := true
+
