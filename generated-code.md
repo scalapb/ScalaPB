@@ -308,7 +308,7 @@ enum Weather {
 }
 
 message Forecast {
-    optional weather: Weather
+    optional Weather weather = 1;
 }
 {% endhighlight %}
 
