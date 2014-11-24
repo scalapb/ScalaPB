@@ -33,7 +33,7 @@ To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/scalapb.sbt`
 containing the following line:
 
-    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "0.3.2")
+    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "0.3.3")
 
 Add the following line to your `build.sbt`:
 
