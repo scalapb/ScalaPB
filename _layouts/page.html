@@ -16,7 +16,7 @@
                     {% for item in site.data.nav %}
                     <li
                     {% if item.url == navurl %}class="active"{% endif %}>
-                        <a href="{{site.baseurl}}/{{item.url}}">{{item.text}}</a>
+                        <a href="{{site.baseurl}}{{item.url}}">{{item.text}}</a>
                     </li>
                     {% endfor %}
                 </ul>
