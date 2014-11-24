@@ -18,7 +18,7 @@ ScalaPB is hosted on [Github](https://github.com/trueaccord/ScalaPB).
 
 * Nested updates are easy by using lenses:
 {%highlight scala%}
-order.update(_.paymentType.creditCard.expirationYear := 2015)
+val newOrder = order.update(_.creditCard.expirationYear := 2015)
 {%endhighlight%}
 
 * Generated case classes can co-exist alongside the Java-generated code (the
@@ -39,7 +39,7 @@ To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/scalapb.sbt`
 containing the following line:
 
-    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "0.3.2")
+    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.version.sbt_scalapb}}")
 
 Add the following line to your `build.sbt`:
 

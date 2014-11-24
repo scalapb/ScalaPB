@@ -1,5 +1,7 @@
 - text: ScalaPB
   url: /
+- text: SBT Settings
+  url: /sbt-settings.html
 - text: Generated Code
   url: /generated-code.html
 
