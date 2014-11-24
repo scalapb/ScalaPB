@@ -16,6 +16,11 @@ ScalaPB is hosted on [Github](https://github.com/trueaccord/ScalaPB).
 * Built on top of Google's protocol buffer compiler to ensure perfect
   compatibility with the language specification.
 
+* Nested updates are easy by using lenses:
+{%highlight scala%}
+order.update(_.paymentType.creditCard.expirationYear := 2015)
+{%endhighlight%}
+
 * Generated case classes can co-exist alongside the Java-generated code (the
   class names will not clash). This allows gradual transition from Java to
   Scala.
