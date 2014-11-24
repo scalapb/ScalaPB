@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body>
+
+    {% include header.html %}
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+        <div class="container-fluid">
+            <div class="col-md-3" style="padding-top: 12px">
+                {% assign navurl = page.url | remove: 'index.html' %}
+                <ul class="nav nav-pills nav-stacked">
+                    {% for item in site.data.nav %}
+                    <li
+                    {% if item.url == navurl %}class="active"{% endif %}>
+                        <a href="{{item.url}}">{{item.text}}</a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                {{ content }}
+            </div>
+        </div>
+    </div>
+
+    {% include footer.html %}
+
+  </body>
+</html>
