@@ -10,6 +10,8 @@ organization := "com.trueaccord.lenses"
 
 profileName := "com.trueaccord"
 
+scalacOptions += "-target:jvm-1.7"
+
 libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.11.6" % "test",
   "org.scalatest" %% "scalatest" % "2.2.1" % "test"
