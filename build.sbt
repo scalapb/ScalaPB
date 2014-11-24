@@ -15,6 +15,8 @@ profileName := "com.trueaccord"
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
+scalacOptions in ThisBuild += "-target:jvm-1.7"
+
 pomExtra in ThisBuild := {
   <url>https://github.com/trueaccord/ScalaPB</url>
   <licenses>
