@@ -47,4 +47,4 @@ For additional configuration options, see
 
 ## Next:
 
-Read about the [Generated Code](/generated-code.html).
+Read about the [Generated Code]({{site.baseurl}}/generated-code.html).
