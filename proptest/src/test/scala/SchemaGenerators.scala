@@ -45,6 +45,9 @@ object SchemaGenerators {
     // Scala
     "ne", "eq", "val", "var", "def", "Nil",
 
+    // Words that are not allowed by the Java protocol buffer compiler:
+    "tag",
+
     // internal names
     "java_pb_source", "scala_pb_source", "pb_byte_array_source",
     "get", "set", "compose"
