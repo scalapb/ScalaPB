@@ -43,7 +43,7 @@ object SchemaGenerators {
     "java", "com", "google",
 
     // Scala
-    "ne", "eq", "val", "var", "def", "Nil",
+    "ne", "eq", "val", "var", "def", "any", "nil",
 
     // Words that are not allowed by the Java protocol buffer compiler:
     "tag",
