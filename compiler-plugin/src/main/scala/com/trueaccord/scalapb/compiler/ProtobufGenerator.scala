@@ -52,7 +52,8 @@ class ProtobufGenerator(params: GeneratorParams) {
     printer
       .add(s"sealed trait ${e.upperScalaName} {")
       .indent
-      .add(s"def isNotSet: Boolean = false")
+      .add(s"def isEmpty: Boolean = false")
+      .add(s"def isDefined: Boolean = true")
       .print(e.fields) {
       case (v, p) => p
         .add(s"def is${v.upperScalaName}: Boolean = false")
@@ -65,11 +66,12 @@ class ProtobufGenerator(params: GeneratorParams) {
       .addM(
         s"""}
            |object ${e.upperScalaName} extends {
-           |  case object NotSet extends ${e.upperScalaName} {
-           |    override def isNotSet: Boolean = true
+           |  case object Empty extends ${e.upperScalaName} {
+           |    override def isEmpty: Boolean = true
+           |    override def isDefined: Boolean = false
            |  }
-         """)
-      .indent
+           |}
+            """)
       .print(e.fields) {
       case (v, p) =>
         p.addM(
@@ -78,19 +80,6 @@ class ProtobufGenerator(params: GeneratorParams) {
              |  override def ${v.scalaName.asSymbol}: Option[${v.scalaTypeName}] = Some(value)
              |}""")
     }
-      .add(s"implicit class ${e.upperScalaName}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, ${e.upperScalaName}]) extends com.trueaccord.lenses.ObjectLens[UpperPB, ${e.upperScalaName}](_l) {")
-      .indent
-      .print(e.fields) {
-      (field, printer) =>
-        val fieldName = field.scalaName.asSymbol
-        val getMethod = s"_.$fieldName.getOrElse(${defaultValueForGet(field)})"
-        printer
-          .add(s"def $fieldName = field($getMethod)((c_, f_) => ${field.oneOfTypeName}(f_))")
-    }
-      .outdent
-      .add("}")
-      .outdent
-      .add("}")
   }
 
   def escapeString(raw: String): String = {
@@ -359,7 +348,7 @@ class ProtobufGenerator(params: GeneratorParams) {
     }
     val oneOfFields = message.getOneofs.map {
       oneOf =>
-        s"${oneOf.scalaName.asSymbol}: ${oneOf.scalaTypeName} = ${oneOf.notSet}"
+        s"${oneOf.scalaName.asSymbol}: ${oneOf.scalaTypeName} = ${oneOf.empty}"
     }
     printer.addWithDelimiter(",")(regularFields ++ oneOfFields)
   }
@@ -476,10 +465,9 @@ class ProtobufGenerator(params: GeneratorParams) {
             val head = s"${oneOf.scalaName.asSymbol} = javaPbSource.$javaEnumName.getNumber match {"
             val body = oneOf.fields.map {
               field =>
-                val t = s"${oneOf.scalaTypeName}.${field.upperScalaName}"
-                s"  case ${field.getNumber} => $t(${javaFieldToScala("javaPbSource", field)})"
+                s"  case ${field.getNumber} => ${field.oneOfTypeName}(${javaFieldToScala("javaPbSource", field)})"
             }
-            val tail = Seq(s"  case _ => ${oneOf.notSet}", "}")
+            val tail = Seq(s"  case _ => ${oneOf.empty}", "}")
             Seq(head) ++ body ++ tail
         }
         printer.addGroupsWithDelimiter(",")(normal ++ oneOfs)
@@ -513,7 +501,7 @@ class ProtobufGenerator(params: GeneratorParams) {
                 val t = field.oneOfTypeName
                 s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[Option[$typeName]].map(value => $t(value))"
             } mkString (" orElse\n")
-            s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.notSet}"
+            s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
         }
         printer.addWithDelimiter(",")(fields ++ oneOfs)
     }
@@ -560,18 +548,22 @@ class ProtobufGenerator(params: GeneratorParams) {
       s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $className]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $className](_l) {")
       .indent
       .print(message.getFields) {
-      case (field, printer) if !field.isInOneof =>
+      case (field, printer) =>
         val fieldName = field.scalaName.asSymbol
-        if (field.isOptional) {
-          val getMethod = "get" + field.upperScalaName
-          val optionLensName = "optional" + field.upperScalaName
+        if (!field.isInOneof) {
+          if (field.isOptional) {
+            val optionLensName = "optional" + field.upperScalaName
+            printer
+              .addM(
+                s"""def $fieldName = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Some(f_)))
+                   |def ${optionLensName} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""")
+          } else
+            printer.add(s"def $fieldName = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
+        } else {
+          val oneofName = field.getContainingOneof.scalaName.asSymbol
           printer
-            .addM(
-              s"""def $fieldName = field(_.$getMethod)((c_, f_) => c_.copy($fieldName = Some(f_)))
-                 |def ${optionLensName} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""")
-        } else
-          printer.add(s"def $fieldName = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
-      case (field, printer) => printer
+            .add(s"def $fieldName = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName}(f_)))")
+        }
     }
       .print(message.getOneofs) {
       case (oneof, printer) =>
@@ -627,18 +619,23 @@ class ProtobufGenerator(params: GeneratorParams) {
       case (field, printer) =>
         val withMethod = "with" + field.upperScalaName
         val clearMethod = "clear" + field.upperScalaName
-        val getter = "get" + field.upperScalaName
         val singleType = field.singleScalaTypeName
         printer
-          .when(field.isOptional && !field.isInOneof) {
+          .when(field.isOptional) {
           p =>
             val default = defaultValueForGet(field)
+            p.add(s"def ${field.getMethod} = ${fieldAccessorSymbol(field)}.getOrElse($default)")
+        }
+          .when(field.isOptional && !field.isInOneof) {
+          p =>
             p.addM(
               s"""def $clearMethod: $className = copy(${field.scalaName.asSymbol} = None)
-                 |def $getter = ${field.scalaName.asSymbol}.getOrElse($default)
                  |def $withMethod(__v: ${singleType}): $className = copy(${field.scalaName.asSymbol} = Some(__v))""")
         }.when(field.isInOneof) {
-          _.add(s"def $withMethod(__v: ${singleType}): $className = copy(${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}(__v))")
+          p =>
+            val default = defaultValueForGet(field)
+            p.add(
+              s"""def $withMethod(__v: ${singleType}): $className = copy(${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}(__v))""")
         }.when(field.isRepeated) { p =>
           p.addM(
             s"""def $clearMethod = copy(${field.scalaName.asSymbol} = Nil)
@@ -651,7 +648,7 @@ class ProtobufGenerator(params: GeneratorParams) {
     }.print(message.getOneofs) {
       case (oneof, printer) =>
         printer.addM(
-          s"""def clear${oneof.upperScalaName}: $className = copy(${oneof.scalaName.asSymbol} = ${oneof.notSet})
+          s"""def clear${oneof.upperScalaName}: $className = copy(${oneof.scalaName.asSymbol} = ${oneof.empty})
              |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): $className = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
       .call(generateGetField(message))

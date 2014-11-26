@@ -51,7 +51,7 @@ object DescriptorPimps {
 
     def oneOfTypeName = {
       assert(isInOneof)
-      fd.getContainingOneof.scalaTypeName + "." + upperScalaName
+      fd.getContainingType.scalaTypeName + "." + upperScalaName
     }
 
     def scalaTypeName: String = {
@@ -74,6 +74,8 @@ object DescriptorPimps {
         case FieldDescriptor.JavaType.ENUM => fd.getEnumType.scalaTypeName
       }
     }
+
+    def getMethod = "get" + upperScalaName
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) extends AnyVal {
@@ -85,7 +87,7 @@ object DescriptorPimps {
 
     def scalaTypeName = oneof.getContainingType.scalaTypeName + "." + upperScalaName
 
-    def notSet = scalaTypeName + ".NotSet"
+    def empty = scalaTypeName + ".Empty"
   }
 
   implicit class MessageDescriptorPimp(val message: Descriptor) extends AnyVal {
