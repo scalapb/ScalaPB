@@ -1,4 +1,4 @@
-import com.trueaccord.proto.e2e.EnumPB._
+import com.trueaccord.proto.e2e._
 import org.scalatest._
 
 class EnumSpec extends FlatSpec with MustMatchers {

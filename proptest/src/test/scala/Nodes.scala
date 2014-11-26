@@ -70,9 +70,10 @@ object Nodes {
     }
 
     def scalaObjectName(m: MessageNode) = {
-      val parts = fullMessageNameParts(m.id)
       val file = filesById(m.fileId)
-      file.javaOuterClass + "PB$" + (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
+      val parts = fullMessageNameParts(m.id)
+      val className = (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
+      file.scalaPackage.fold(className)(_ + "." + className)
     }
 
     lazy val messagesById: Map[Int, MessageNode] = files.flatMap(_.allMessages).map(m => (m.id, m)).toMap
@@ -115,6 +116,8 @@ object Nodes {
     }
 
     def javaOuterClass = (javaPackage.orElse(protoPackage).toSeq :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString "."
+
+    def scalaPackage = javaPackage.orElse(protoPackage)
   }
 
   case class MessageNode(id: Int,

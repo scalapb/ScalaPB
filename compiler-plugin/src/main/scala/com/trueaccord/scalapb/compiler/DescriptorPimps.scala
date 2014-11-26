@@ -142,19 +142,21 @@ object DescriptorPimps {
       else pkg + "." + javaOuterClassName
     }
 
-    private def fullNameFromBase(base: String, fullName: String, file: FileDescriptor) = {
-      val nameWithoutPackage = if (file.getPackage.isEmpty) fullName
-      else fullName.substring(file.getPackage.size + 1)
-      if (base.isEmpty) nameWithoutPackage else (base + "." + nameWithoutPackage)
+    private def stripPackageName(fullName: String): String =
+      if (file.getPackage.isEmpty) fullName
+      else {
+        assert(fullName.startsWith(file.getPackage + "."))
+        fullName.substring(file.getPackage.size + 1)
+      }
+
+    def fullJavaName(fullName: String) = {
+      javaFullOuterClassName + "." + stripPackageName(fullName)
     }
 
-    def fullJavaName(fullName: String) =
-      fullNameFromBase(javaFullOuterClassName, fullName, file)
-
     def fullScalaName(fullName: String) = {
-      val s = fullNameFromBase(scalaFullOuterObjectName, fullName, file)
-      val (prefix, last) = s.splitAt(s.lastIndexOf('.') + 1)
-      prefix + last.asSymbol
+      val javaPkg = javaPackageAsSymbol
+      val scalaName = stripPackageName(fullName).split('.').map(_.asSymbol).mkString(".")
+      if (javaPkg.isEmpty) scalaName else (javaPkg + "." + scalaName)
     }
   }
 
