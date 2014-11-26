@@ -51,7 +51,7 @@ object DescriptorPimps {
 
     def oneOfTypeName = {
       assert(isInOneof)
-      fd.getContainingType.scalaTypeName + "." + upperScalaName
+      fd.getContainingOneof.scalaTypeName + "." + upperScalaName
     }
 
     def scalaTypeName: String = {

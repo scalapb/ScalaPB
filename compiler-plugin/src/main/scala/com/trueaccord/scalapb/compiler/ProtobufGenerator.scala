@@ -60,7 +60,7 @@ class ProtobufGenerator(params: GeneratorParams) {
       case (v, p) => p
         .add(s"def is${v.upperScalaName}: Boolean = false")
     }
-      .print(e.fields){
+      .print(e.fields) {
       case (v, p) => p
         .add(s"def ${v.scalaName.asSymbol}: Option[${v.scalaTypeName}] = None")
     }
@@ -72,8 +72,8 @@ class ProtobufGenerator(params: GeneratorParams) {
            |    override def isEmpty: Boolean = true
            |    override def isDefined: Boolean = false
            |  }
-           |}
-            """)
+           |""")
+      .indent
       .print(e.fields) {
       case (v, p) =>
         p.addM(
@@ -82,6 +82,8 @@ class ProtobufGenerator(params: GeneratorParams) {
              |  override def ${v.scalaName.asSymbol}: Option[${v.scalaTypeName}] = Some(value)
              |}""")
     }
+    .outdent
+    .add("}")
   }
 
   def escapeString(raw: String): String = {
