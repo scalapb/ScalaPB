@@ -127,13 +127,13 @@ object DescriptorPimps {
         snakeCaseToCamelCase(baseName(file.getName), true)
       }
 
-    def scalaOuterObjectName: String =
-      javaOuterClassName + "PB"
+    def scalaBasePackageName: String =
+      baseName(file.getName)
 
-    def scalaFullOuterObjectName = {
+    def scalaPackageName = {
       val pkg = javaPackageAsSymbol
-      if (pkg.isEmpty) scalaOuterObjectName
-      else pkg + "." + scalaOuterObjectName
+      if (pkg.isEmpty) scalaBasePackageName.asSymbol
+      else pkg + "." + scalaBasePackageName.asSymbol
     }
 
     def javaFullOuterClassName = {
@@ -154,7 +154,7 @@ object DescriptorPimps {
     }
 
     def fullScalaName(fullName: String) = {
-      val javaPkg = javaPackageAsSymbol
+      val javaPkg = scalaPackageName
       val scalaName = stripPackageName(fullName).split('.').map(_.asSymbol).mkString(".")
       if (javaPkg.isEmpty) scalaName else (javaPkg + "." + scalaName)
     }

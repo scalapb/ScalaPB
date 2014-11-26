@@ -1,5 +1,5 @@
-import com.trueaccord.proto.e2e.RepeatablesTest
-import com.trueaccord.proto.e2e.RepeatablesTest.Nested
+import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
+import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalatest._
 import org.scalatest.prop._
 import org.scalacheck.{Arbitrary, Gen}

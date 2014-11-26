@@ -1,4 +1,4 @@
-import com.trueaccord.proto.e2e._
+import com.trueaccord.proto.e2e.one_of._
 import org.scalatest._
 import org.scalatest.prop._
 import org.scalacheck.Gen
@@ -6,9 +6,9 @@ import Matchers._
 
 class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
   val unspecified = OneofTest()
-  val tempField = OneofTest(myOneOf = OneofTest.TempField(9))
-  val otherField = OneofTest(myOneOf = OneofTest.OtherField("boo"))
-  val sub = OneofTest(myOneOf = OneofTest.Sub(OneofTest.SubMessage(subField = Some(18))))
+  val tempField = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
+  val otherField = OneofTest(myOneOf = OneofTest.MyOneOf.OtherField("boo"))
+  val sub = OneofTest(myOneOf = OneofTest.MyOneOf.Sub(OneofTest.SubMessage(subField = Some(18))))
 
   "oneofs" should "serialize and parse" in {
     OneofTest.parseFrom(unspecified.toByteArray) must be(unspecified)
@@ -32,14 +32,14 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
 
   "oneOf matching" should "work" in {
     (sub.myOneOf match {
-        case OneofTest.Sub(subm) => subm.getSubField
+        case OneofTest.MyOneOf.Sub(subm) => subm.getSubField
         case _ => 4
     }) must be(18)
 
     (tempField.myOneOf match {
-        case OneofTest.TempField(17) => "foo"
-        case OneofTest.TempField(9) => "bar"
-        case OneofTest.TempField(_) => "baz"
+        case OneofTest.MyOneOf.TempField(17) => "foo"
+        case OneofTest.MyOneOf.TempField(9) => "bar"
+        case OneofTest.MyOneOf.TempField(_) => "baz"
         case _ => "bang"
     }) must be("bar")
 

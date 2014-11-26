@@ -73,7 +73,7 @@ object Nodes {
       val file = filesById(m.fileId)
       val parts = fullMessageNameParts(m.id)
       val className = (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
-      file.scalaPackage.fold(className)(_ + "." + className)
+      file.scalaPackage + "." + className
     }
 
     lazy val messagesById: Map[Int, MessageNode] = files.flatMap(_.allMessages).map(m => (m.id, m)).toMap
@@ -117,7 +117,9 @@ object Nodes {
 
     def javaOuterClass = (javaPackage.orElse(protoPackage).toSeq :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString "."
 
-    def scalaPackage = javaPackage.orElse(protoPackage)
+    def scalaPackage = {
+      javaPackage.orElse(protoPackage).fold(baseFileName)(_ + "." + baseFileName)
+    }
   }
 
   case class MessageNode(id: Int,

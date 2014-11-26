@@ -16,8 +16,12 @@ proto file.
 ScalaPB generates case classes that can co-exist in the same project alongside
 the Java-generated code for ProtocolBuffer. This makes it easy to gradually
 migrate an existing project from the Java version of protocol buffers to
-Scala. This is acheived by having the ScalaPB generated code use an outer
-class with the `PB` suffix appended to its name.
+Scala. This is acheived by having the ScalaPB generated code use the proto
+file as part of the package name (in contrast to Java which uses the file name
+in CamelCase as an outer class)
+
+Each top-level message and enum is written to a separate Scala file. This
+results in a significant improvement in incremental compilations.
 
 Another cool feature of ScalaPB is that it can optionally generate methods
 that convert a Java protocol buffer to a Scala protocol buffer and vice versa.

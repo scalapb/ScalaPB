@@ -528,7 +528,7 @@ class ProtobufGenerator(params: GeneratorParams) {
       s"""lazy val descriptor = new Descriptors.MessageDescriptor("${message.getName}", this,
          |  None, m = Seq(${message.getNestedTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
          |  e = Seq(${message.getEnumTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
-         |  f = ${message.getFile.scalaFullOuterObjectName}.internalFieldsFor("${myFullScalaName}"))""")
+         |  f = ${message.getFile.scalaPackageName}.internalFieldsFor("${myFullScalaName}"))""")
   }
 
   def generateDefaultInstance(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -715,9 +715,9 @@ class ProtobufGenerator(params: GeneratorParams) {
       enum <- file.getEnumTypes
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.javaPackage.replace('.', '/') + "/" + enum.getName + ".scala")
+      b.setName(file.scalaPackageName.replace('.', '/') + "/" + enum.getName + ".scala")
       b.setContent(
-        scalaFileHeader(file.javaPackage)
+        scalaFileHeader(file.scalaPackageName)
           .call(printEnum(enum, _)).result())
       b.build
     }
@@ -726,19 +726,19 @@ class ProtobufGenerator(params: GeneratorParams) {
       message <- file.getMessageTypes
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.javaPackage.replace('.', '/') + "/" + message.getName + ".scala")
+      b.setName(file.scalaPackageName.replace('.', '/') + "/" + message.getName + ".scala")
       b.setContent(
-        scalaFileHeader(file.javaPackage)
+        scalaFileHeader(file.scalaPackageName)
           .call(printMessage(message, _)).result())
       b.build
     }
 
     val internalFieldsFile = {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.javaPackage.replace('.', '/') + "/" + file.scalaOuterObjectName + ".scala")
+      b.setName(file.scalaPackageName.replace('.', '/') + "/package.scala")
       b.setContent(
         scalaFileHeader(file.javaPackage)
-          .add(s"object ${file.scalaOuterObjectName} {")
+          .add(s"package object ${file.scalaBasePackageName} {")
           .indent
           .call(generateInternalFieldsFor(file))
           .outdent
