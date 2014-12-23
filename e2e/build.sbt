@@ -3,6 +3,7 @@ import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
 PB.protobufSettings
 
 PB.scalapbVersion in PB.protobufConfig := com.trueaccord.scalapb.Version.scalapbVersion
+
 PB.javaConversions in PB.protobufConfig := true
 
 libraryDependencies ++= Seq(
