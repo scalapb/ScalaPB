@@ -95,7 +95,9 @@ val createVersionFile = TaskKey[Unit](
 
 createVersionFile <<= (streams, baseDirectory, version in Compile) map {
   (streams, baseDirectory, version) =>
-    val f = genVersionFile(baseDirectory / "e2e/project/project", version)
-    streams.log.info(s"Created $f")
+    val f1 = genVersionFile(baseDirectory / "e2e/project/project", version)
+    streams.log.info(s"Created $f1")
+    val f2 = genVersionFile(baseDirectory / "e2e/project/", version)
+    streams.log.info(s"Created $f2")
 }
 

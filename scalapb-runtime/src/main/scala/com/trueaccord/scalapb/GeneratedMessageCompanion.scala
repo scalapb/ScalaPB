@@ -23,7 +23,25 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
 trait GeneratedMessage {
   def writeTo(output: CodedOutputStream): Unit
 
-  def writeTo(output: OutputStream): Unit = writeTo(CodedOutputStream.newInstance(output))
+  def writeTo(output: OutputStream): Unit = {
+    val bufferSize =
+        LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
+    val codedOutput: CodedOutputStream =
+        CodedOutputStream.newInstance(output, bufferSize)
+    writeTo(codedOutput)
+    codedOutput.flush()
+  }
+
+  def writeDelimitedTo(output: OutputStream): Unit = {
+    val serialized: Int = serializedSize
+    val bufferSize: Int = LiteParser.preferredCodedOutputStreamBufferSize(
+        CodedOutputStream.computeRawVarint32Size(serialized) + serialized)
+    val codedOutput: CodedOutputStream =
+        CodedOutputStream.newInstance(output, bufferSize)
+    codedOutput.writeRawVarint32(serialized)
+    writeTo(codedOutput)
+    codedOutput.flush()
+  }
 
   def getField(field: Descriptors.FieldDescriptor): Any
 
@@ -41,7 +59,9 @@ trait GeneratedMessage {
 
   def toByteArray: Array[Byte] = {
     val a = new Array[Byte](serializedSize)
-    writeTo(com.google.protobuf.CodedOutputStream.newInstance(a))
+    val outputStream = com.google.protobuf.CodedOutputStream.newInstance(a)
+    writeTo(outputStream)
+    outputStream.checkNoSpaceLeft()
     a
   }
 
@@ -64,6 +84,18 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
+
+  def parseDelimitedFrom(input: CodedInputStream): Option[A] =
+    LiteParser.parseDelimitedFrom(this, input)
+
+  def parseDelimitedFrom(input: InputStream): Option[A] =
+    LiteParser.parseDelimitedFrom(this, input)
+
+  // Creates a stream that parses one message at a time from the delimited input stream.
+  def streamFromDelimitedInput(input: InputStream): Stream[A] = {
+    val codedInputStream = CodedInputStream.newInstance(input)
+    Stream.continually(parseDelimitedFrom(codedInputStream)).takeWhile(_.isDefined).map(_.get)
+  }
 
   def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
 

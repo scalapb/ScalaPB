@@ -1,3 +1,6 @@
+import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
+
+import com.google.protobuf.CodedInputStream
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalatest._
@@ -111,4 +114,24 @@ class RepeatablesSpec extends FlatSpec with GeneratorDrivenPropertyChecks with M
     }
   }
 
+  "parsing delimited stream" should "be the inverse of writing delimited stream" in {
+    forAll(Gen.listOf(repGen)) {
+      list =>
+        val os = new ByteArrayOutputStream()
+        list.foreach(_.writeDelimitedTo(os))
+        val bytes = os.toByteArray
+        val parsedStream = RepeatablesTest.streamFromDelimitedInput(new ByteArrayInputStream(bytes)).toList
+        val parsedInputStream = {
+          val is = new ByteArrayInputStream(bytes)
+          Stream.continually(RepeatablesTest.parseDelimitedFrom(is)).takeWhile(_.isDefined).map(_.get).toList
+        }
+        val parsedCoded = {
+          val cis = CodedInputStream.newInstance(bytes)
+          Stream.continually(RepeatablesTest.parseDelimitedFrom(cis)).takeWhile(_.isDefined).map(_.get).toList
+        }
+        parsedStream must be(list)
+        parsedInputStream must be(list)
+        parsedCoded must be(list)
+    }
+  }
 }
