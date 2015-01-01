@@ -19,6 +19,8 @@ Add the following line to your `build.sbt`:
 
     PB.protobufSettings
 
+Running the `compile` command in sbt will both generate Scala sources from your protos and compile them. If you just want to generate Scala sources for your protocol buffers without compiling them, run `protobuf:protobufScalaGenerate`
+
 ## Defaults
 
 By default, the plugin assumes your `proto` files are under `src/main/protobuf`,
