@@ -45,12 +45,12 @@ Add the following line to your `build.sbt`:
 
     PB.protobufSettings
 
-For additional configuration options, see [ScalaPB SBT Settings](https://github.com/trueaccord/sbt-scalapb) documentation
+For additional configuration options, see [ScalaPB SBT Settings](http://trueaccord.github.io/ScalaPB/sbt-settings.html) documentation
 
 Using ScalaPB
 =============
 
-Documentation is available at [ScalaPB website](http://trueaccord.github.io/ScalaPB/sbt-settings.html).
+Documentation is available at [ScalaPB website](http://trueaccord.github.io/ScalaPB/).
 
 Testing
 =======
