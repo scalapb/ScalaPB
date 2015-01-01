@@ -30,6 +30,13 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     tempField.myOneOf should not be 'isSub
   }
 
+  "oneof.number function" should "return correct value" in {
+    unspecified.myOneOf.number shouldBe 0
+    tempField.myOneOf.number shouldBe 2
+    otherField.myOneOf.number shouldBe 3
+    sub.myOneOf.number shouldBe 4
+  }
+
   "oneOf matching" should "work" in {
     (sub.myOneOf match {
         case OneofTest.MyOneOf.Sub(subm) => subm.getSubField

@@ -56,6 +56,7 @@ class ProtobufGenerator(params: GeneratorParams) {
       .indent
       .add(s"def isEmpty: Boolean = false")
       .add(s"def isDefined: Boolean = true")
+      .add(s"def number: Int")
       .print(e.fields) {
       case (v, p) => p
         .add(s"def is${v.upperScalaName}: Boolean = false")
@@ -71,6 +72,7 @@ class ProtobufGenerator(params: GeneratorParams) {
            |  case object Empty extends ${e.upperScalaName} {
            |    override def isEmpty: Boolean = true
            |    override def isDefined: Boolean = false
+           |    override def number: Int = 0
            |  }
            |""")
       .indent
@@ -80,6 +82,7 @@ class ProtobufGenerator(params: GeneratorParams) {
           s"""case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.upperScalaName} {
              |  override def is${v.upperScalaName}: Boolean = true
              |  override def ${v.scalaName.asSymbol}: Option[${v.scalaTypeName}] = Some(value)
+             |  override def number: Int = ${v.getNumber}
              |}""")
     }
     .outdent
