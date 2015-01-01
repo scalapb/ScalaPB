@@ -47,6 +47,8 @@ Add the following line to your `build.sbt`:
 
     PB.protobufSettings
 
+ScalaPB looks for protocol buffer files in src/main/protobuf, but this can be customized. Running the `compile` command in sbt will both generate Scala sources from your protos and compile them. 
+
 For additional configuration options, see
 [sbt-scalapb](https://github.com/trueaccord/sbt-scalapb) documentation
 
