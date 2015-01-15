@@ -1,0 +1,14 @@
+package name_test;
+
+// Tests that verify that field names generate code that compiles.
+
+message WeirdNames {
+  optional string get = 1;
+  optional string tag = 2;
+}
+
+message WeirdNamesRequired {
+  required string get = 1;
+  required string tag = 2;
+}
+

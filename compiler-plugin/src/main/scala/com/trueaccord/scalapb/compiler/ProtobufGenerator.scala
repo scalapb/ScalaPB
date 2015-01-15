@@ -375,11 +375,11 @@ class ProtobufGenerator(params: GeneratorParams) {
       printer.add(s"var __${oneof.scalaName} = this.${oneof.scalaName.asSymbol}")
       )
       .addM(
-        s"""var __done = false
-           |while (!__done) {
-           |  val __tag = __input.readTag()
-           |  __tag match {
-           |    case 0 => __done = true""")
+        s"""var done__ = false
+           |while (!done__) {
+           |  val tag__ = __input.readTag()
+           |  tag__ match {
+           |    case 0 => done__ = true""")
       .print(message.getFields) {
       (field, printer) =>
         if (!field.isPacked) {
@@ -551,6 +551,8 @@ class ProtobufGenerator(params: GeneratorParams) {
   def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     val className = message.getName.asSymbol
+    def lensType(s: String) = s"com.trueaccord.lenses.Lens[UpperPB, $s]"
+
     printer.add(
       s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $className]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $className](_l) {")
       .indent
@@ -562,21 +564,21 @@ class ProtobufGenerator(params: GeneratorParams) {
             val optionLensName = "optional" + field.upperScalaName
             printer
               .addM(
-                s"""def $fieldName = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Some(f_)))
-                   |def ${optionLensName} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""")
+                s"""def $fieldName: ${lensType(field.singleScalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Some(f_)))
+                   |def ${optionLensName}: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""")
           } else
-            printer.add(s"def $fieldName = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
+            printer.add(s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
         } else {
           val oneofName = field.getContainingOneof.scalaName.asSymbol
           printer
-            .add(s"def $fieldName = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName}(f_)))")
+            .add(s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName}(f_)))")
         }
     }
       .print(message.getOneofs) {
       case (oneof, printer) =>
         val oneofName = oneof.scalaName.asSymbol
         printer
-          .add(s"def $oneofName = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))")
+          .add(s"def $oneofName: ${lensType(oneof.scalaTypeName)} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))")
     }
       .outdent
       .add("}")
