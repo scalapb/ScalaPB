@@ -375,11 +375,11 @@ class ProtobufGenerator(params: GeneratorParams) {
       printer.add(s"var __${oneof.scalaName} = this.${oneof.scalaName.asSymbol}")
       )
       .addM(
-        s"""var done__ = false
-           |while (!done__) {
-           |  val tag__ = __input.readTag()
-           |  tag__ match {
-           |    case 0 => done__ = true""")
+        s"""var _done__ = false
+           |while (!_done__) {
+           |  val _tag__ = __input.readTag()
+           |  _tag__ match {
+           |    case 0 => _done__ = true""")
       .print(message.getFields) {
       (field, printer) =>
         if (!field.isPacked) {
@@ -550,11 +550,12 @@ class ProtobufGenerator(params: GeneratorParams) {
 
   def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
-    val className = message.getName.asSymbol
+    val className = message.getName
+    val classNameSymbol = className.asSymbol
     def lensType(s: String) = s"com.trueaccord.lenses.Lens[UpperPB, $s]"
 
     printer.add(
-      s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $className]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $className](_l) {")
+      s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $classNameSymbol]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $classNameSymbol](_l) {")
       .indent
       .print(message.getFields) {
       case (field, printer) =>
