@@ -1,6 +1,6 @@
 package com.trueaccord.proto.e2e;
 
-import "scalapb.proto";
+import "scalapb/scalapb.proto";
 
 import "one_of.proto";  // testing an import of non-flat proto
 

@@ -6,12 +6,12 @@
 set -e
 OUTDIR=compiler-plugin/src/main/java
 mkdir -p compiler-plugin/src/main/java
-protoc --java_out="$OUTDIR" --proto_path=./vendor/ \
-    ./vendor/google/protobuf/compiler/plugin.proto \
+protoc --java_out="$OUTDIR" --proto_path=./protobuf/ \
+    ./protobuf/google/protobuf/compiler/plugin.proto \
 
-protoc --java_out="$OUTDIR" --proto_path=./vendor/:protobuf \
-    ./protobuf/scalapb.proto
+protoc --java_out="$OUTDIR" --proto_path=./protobuf \
+    ./protobuf/scalapb/scalapb.proto
 
-protoc --java_out=scalapb-runtime/src/main/java --proto_path=./vendor/:protobuf \
-    ./protobuf/scalapb.proto
+protoc --java_out=scalapb-runtime/src/main/java --proto_path=./protobuf \
+    ./protobuf/scalapb/scalapb.proto
 
