@@ -1,4 +1,5 @@
 
+import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
 import com.trueaccord.scalapb.compiler
 import com.trueaccord.scalapb.compiler.{FunctionalPrinter, FPrintable}
 
@@ -84,6 +85,7 @@ object Nodes {
   case class FileNode(baseFileName: String,
                       protoPackage: Option[String],
                       javaPackage: Option[String],
+                      scalaOptions: Option[ScalaPbOptions],
                       messages: Seq[MessageNode],
                       enums: Seq[EnumNode],
                       fileId: Int) extends Node {
@@ -108,7 +110,15 @@ object Nodes {
       val p0 = printer.add(s"// File id $fileId. messages: $minMessageId-$maxMessageId. Enums: $minEnumId-$maxEnumId")
       val p1 = protoPackage.fold(p0)(pkg => p0.add(s"package $pkg;"))
       val p2 = javaPackage.fold(p1)(pkg => p1.add(s"""option java_package = "$pkg";"""))
-      p2.add(fileReferences(rootNode).collect({
+      val p3 = scalaOptions.fold(p2)(options =>
+        p2.add("""import "scalapb.proto";""")
+          .add("option (scalapb.options) = {")
+          .indent
+          .when(options.hasPackageName)(_.add(s"""package_name: "${options.getPackageName}""""))
+          .add(s"flat_package: ${options.getFlatPackage}")
+          .outdent
+          .add("};"))
+      p3.add(fileReferences(rootNode).collect({
           case f if f != baseFileName => s"""import "${f}.proto";"""
       }).toSeq: _*)
         .printAll(enums)
@@ -118,8 +128,13 @@ object Nodes {
     def javaOuterClass = (javaPackage.orElse(protoPackage).toSeq :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString "."
 
     def scalaPackage = {
-      javaPackage.orElse(protoPackage).fold(baseFileName)(_ + "." + baseFileName)
-    }
+      val scalaPackageName = scalaOptions.flatMap(options =>
+        if (options.hasPackageName) Some(options.getPackageName) else None)
+      val requestedPackageName = scalaPackageName.orElse(javaPackage).orElse(protoPackage)
+      val flatPackage = scalaOptions.exists(_.getFlatPackage)
+      if (flatPackage) requestedPackageName.getOrElse("")
+      else requestedPackageName.fold(baseFileName)(_ + "." + baseFileName)
+   }
   }
 
   case class MessageNode(id: Int,

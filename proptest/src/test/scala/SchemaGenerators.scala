@@ -3,12 +3,9 @@ import java.net.{URL, URLClassLoader}
 import java.nio.file.Files
 import javax.tools.ToolProvider
 
-import com.google.protobuf
 import com.google.protobuf.Message.Builder
-import com.google.protobuf.{MessageOrBuilder, TextFormat}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter
-import org.scalacheck.Prop.{forAll, forAllNoShrink}
-import org.scalacheck.{Gen, Properties}
+import org.scalacheck.Gen
 import com.trueaccord.scalapb._
 
 import scala.reflect.ClassTag
@@ -98,7 +95,7 @@ object SchemaGenerators {
         file.getAbsolutePath
     }
     val args = Seq("--proto_path",
-      tmpDir.toString,
+      (tmpDir.toString + ":vendor:protobuf"),
       "--java_out", tmpDir.toString,
       "--scala_out", "java_conversions:" + tmpDir.toString) ++ files
     compiler.Process.runProtoc(args: _*)
@@ -113,7 +110,9 @@ object SchemaGenerators {
 
   def compileJavaInDir(rootDir: File): Unit = {
     println("Compiling Java sources.")
-    val protobufJar = jarForClass[com.google.protobuf.Message].getPath
+    val protobufJar = Seq(
+      jarForClass[com.google.protobuf.Message].getPath,
+      jarForClass[com.trueaccord.scalapb.Scalapb].getPath)
 
     val compiler = ToolProvider.getSystemJavaCompiler()
     getFileTree(rootDir)
@@ -122,7 +121,7 @@ object SchemaGenerators {
       file =>
         if (compiler.run(null, null, null,
           "-sourcepath", rootDir.toString,
-          "-cp", protobufJar,
+          "-cp", protobufJar.mkString(":"),
           "-d", rootDir.toString,
           file.getAbsolutePath) != 0) {
           throw new RuntimeException(s"Compilation of $file failed.")
@@ -135,6 +134,7 @@ object SchemaGenerators {
     val classPath = Seq(
       jarForClass[annotation.Annotation].getPath,
       jarForClass[com.trueaccord.scalapb.GeneratedMessage].getPath,
+      jarForClass[com.trueaccord.scalapb.Scalapb].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
       jarForClass[com.trueaccord.lenses.Lens[_, _]].getPath,
       rootDir

@@ -1,4 +1,5 @@
 import GenUtils._
+import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
 import org.scalacheck.Gen
 
 object GraphGen {
@@ -112,6 +113,18 @@ object GraphGen {
           state.currentFileId), state.closeNamespace)
     }
 
+  def genScalaOptions(state: State): Gen[(Option[ScalaPbOptions], State)] = for {
+    (scalaPackageName, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateName)
+    flatPackage <- Gen.oneOf(true, false)
+  } yield {
+    val b = ScalaPbOptions.newBuilder
+    if (scalaPackageName.nonEmpty) {
+      b.setPackageName(scalaPackageName.mkString("."))
+    }
+    b.setFlatPackage(flatPackage)
+    (Some(b.build), state)
+  }
+
   def genFileNode(state: State): Gen[(FileNode, State)] = sized {
     s =>
       for {
@@ -121,9 +134,10 @@ object GraphGen {
         javaPackageOption = if (javaPackage.nonEmpty) Some(javaPackage) else None
         (protoPackage, state) <- Gen.oneOf(state.generateSubspace, Gen.const(("", state)))
         protoPackageOption = if (protoPackage.nonEmpty) Some(protoPackage) else None
+        (scalaOptions, state) <- Gen.oneOf[(Option[ScalaPbOptions], State)](genScalaOptions(state), (None, state))
         (messages, state) <- listWithStatefulGen(state, maxSize = 4)(genMessageNode(0, None))
         (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None))
-      } yield (FileNode(baseName, protoPackageOption, javaPackageOption, messages, enums, fileId),
+      } yield (FileNode(baseName, protoPackageOption, javaPackageOption, scalaOptions, messages, enums, fileId),
         if (protoPackage.isEmpty) state else state.closeNamespace)
   }
 
