@@ -28,9 +28,9 @@ option (scalapb.options) = {
 - `package_name` sets the Scala base package name, if this is not defined,
 then it falls back to `java_package` and then to `package`. 
 
-- `flat_package` settings makes ScalaPB not append the protofile base name
-to the package name.  You can also apply this option globally to all files
-by adding it to your [ScalaPB SBT Settings]({{site.baseurl}}/sbt-settings.html).
+- Setting `flat_package` to true (default is `false`) makes ScalaPB not append
+the protofile base name to the package name.  You can also apply this option
+globally to all files by adding it to your [ScalaPB SBT Settings]({{site.baseurl}}/sbt-settings.html).
 
 ## Adding scalapb.proto to your project
 
