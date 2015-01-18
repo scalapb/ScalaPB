@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package scalapb;
+
+option java_package = "com.trueaccord.scalapb";
+
+import "google/protobuf/descriptor.proto";
+
+message ScalaPbOptions {
+  // If set then it overrides the java_package and package.
+  optional string package_name = 1;
+
+  // If true, the compiler does not append the proto base file name
+  // into the generated package name. If false (the default), the
+  // generated scala package name is the package_name.basename where
+  // basename is the proto file name without the .proto extension.
+  optional bool flat_package = 2;
+}
+
+extend google.protobuf.FileOptions {
+  optional ScalaPbOptions options = 60000;
+}
+
