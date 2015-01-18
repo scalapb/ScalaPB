@@ -2,6 +2,8 @@ package com.trueaccord.proto.e2e;
 
 option java_outer_classname = "Reps";
 
+import "flat.proto";
+
 message RepeatablesTest {
     repeated string strings = 1;
     repeated int32 ints = 2;
@@ -11,4 +13,7 @@ message RepeatablesTest {
     message Nested {
         optional int32 nested_field = 1;
     }
+
+    // testing inclusion of a proto compiled with flat_package=true.
+    optional FlatTest flat_test = 5;
 }

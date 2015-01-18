@@ -1,0 +1,23 @@
+package com.trueaccord.proto.e2e;
+
+import "scalapb.proto";
+
+import "one_of.proto";  // testing an import of non-flat proto
+
+option (scalapb.options) = {
+  package_name: "com.trueaccord.pb.flat"
+  flat_package: true
+};
+
+enum Priority {
+  LOW = 1;
+  MEDIUM = 2;
+  HIGH = 3;
+}
+
+message FlatTest {
+  optional int32 b = 1;
+  optional Priority priority = 2;
+  optional OneofTest one_of_msg = 3;
+}
+
