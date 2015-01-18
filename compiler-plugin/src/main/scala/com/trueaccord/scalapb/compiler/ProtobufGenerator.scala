@@ -4,6 +4,7 @@ import com.google.protobuf.Descriptors.FieldDescriptor.{Type, JavaType}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
+import com.trueaccord.scalapb.Scalapb
 import scala.collection.JavaConversions._
 import DescriptorPimps._
 
@@ -531,7 +532,7 @@ class ProtobufGenerator(params: GeneratorParams) {
       s"""lazy val descriptor = new Descriptors.MessageDescriptor("${message.getName}", this,
          |  None, m = Seq(${message.getNestedTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
          |  e = Seq(${message.getEnumTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
-         |  f = ${message.getFile.scalaPackageName}.internalFieldsFor("${myFullScalaName}"))""")
+         |  f = ${message.getFile.scalaPackageName}.${message.getFile.internalFieldsObjectName}.internalFieldsFor("${myFullScalaName}"))""")
   }
 
   def generateDefaultInstance(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -741,10 +742,10 @@ class ProtobufGenerator(params: GeneratorParams) {
 
     val internalFieldsFile = {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaPackageName.replace('.', '/') + "/package.scala")
+      b.setName(file.scalaPackageName.replace('.', '/') + s"/${file.internalFieldsObjectName}.scala")
       b.setContent(
-        scalaFileHeader(file.javaPackage)
-          .add(s"package object ${file.scalaBasePackageName} {")
+        scalaFileHeader(file.scalaPackageName)
+          .add(s"object ${file.internalFieldsObjectName} {")
           .indent
           .call(generateInternalFieldsFor(file))
           .outdent

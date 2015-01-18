@@ -4,7 +4,9 @@ import java.io.{StringWriter, PrintWriter}
 import java.nio.file.attribute.PosixFilePermission
 import java.nio.file.{Files, Path}
 
+import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorResponse, CodeGeneratorRequest}
+import com.trueaccord.scalapb.Scalapb
 
 import scala.collection.JavaConversions._
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -24,11 +26,13 @@ object Process {
                         includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
     val pipe = createPipe()
     val sh = createShellScript(pipe)
+    val registry = ExtensionRegistry.newInstance()
+    Scalapb.registerAllExtensions(registry)
 
     Future {
       val fsin = Files.newInputStream(pipe)
       val response = Try {
-        val request = CodeGeneratorRequest.parseFrom(fsin)
+        val request = CodeGeneratorRequest.parseFrom(fsin, registry)
         ProtobufGenerator.handleCodeGeneratorRequest(request)
       }.recover {
         case throwable =>

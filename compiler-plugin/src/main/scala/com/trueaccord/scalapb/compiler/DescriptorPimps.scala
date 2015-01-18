@@ -1,6 +1,8 @@
 package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors._
+import com.trueaccord.scalapb.Scalapb
+import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
 
 import scala.collection.JavaConversions._
 import scala.collection.immutable.IndexedSeq
@@ -111,6 +113,8 @@ object DescriptorPimps {
   }
 
   implicit class FileDescriptorPimp(val file: FileDescriptor) extends AnyVal {
+    def scalaOptions: ScalaPbOptions = file.getOptions.getExtension[ScalaPbOptions](Scalapb.options)
+
     def javaPackage: String = {
       if (file.getOptions.hasJavaPackage)
         file.getOptions.getJavaPackage
@@ -127,13 +131,15 @@ object DescriptorPimps {
         snakeCaseToCamelCase(baseName(file.getName), true)
       }
 
-    def scalaBasePackageName: String =
-      baseName(file.getName)
-
     def scalaPackageName = {
-      val pkg = javaPackageAsSymbol
-      if (pkg.isEmpty) scalaBasePackageName.asSymbol
-      else pkg + "." + scalaBasePackageName.asSymbol
+      val requestedPackageName =
+        if (scalaOptions.hasPackageName) scalaOptions.getPackageName
+        else javaPackageAsSymbol
+
+      if (scalaOptions.getFlatPackage)
+        requestedPackageName
+      else if (requestedPackageName.nonEmpty) requestedPackageName + "." + baseName(file.getName).asSymbol
+      else baseName(file.getName).asSymbol
     }
 
     def javaFullOuterClassName = {
@@ -158,6 +164,8 @@ object DescriptorPimps {
       val scalaName = stripPackageName(fullName).split('.').map(_.asSymbol).mkString(".")
       if (javaPkg.isEmpty) scalaName else (javaPkg + "." + scalaName)
     }
+
+    def internalFieldsObjectName = "InternalFields_" + baseName(file.getName)
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {
