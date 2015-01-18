@@ -111,7 +111,7 @@ object Nodes {
       val p1 = protoPackage.fold(p0)(pkg => p0.add(s"package $pkg;"))
       val p2 = javaPackage.fold(p1)(pkg => p1.add(s"""option java_package = "$pkg";"""))
       val p3 = scalaOptions.fold(p2)(options =>
-        p2.add("""import "scalapb.proto";""")
+        p2.add("""import "scalapb/scalapb.proto";""")
           .add("option (scalapb.options) = {")
           .indent
           .when(options.hasPackageName)(_.add(s"""package_name: "${options.getPackageName}""""))
