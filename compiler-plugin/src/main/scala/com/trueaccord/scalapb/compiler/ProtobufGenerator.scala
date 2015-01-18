@@ -4,13 +4,11 @@ import com.google.protobuf.Descriptors.FieldDescriptor.{Type, JavaType}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
-import com.trueaccord.scalapb.Scalapb
 import scala.collection.JavaConversions._
-import DescriptorPimps._
 
-case class GeneratorParams(javaConversions: Boolean = false)
+case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false)
 
-class ProtobufGenerator(params: GeneratorParams) {
+class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def printEnum(e: EnumDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
     val name = e.getName.asSymbol
     printer
@@ -761,6 +759,7 @@ object ProtobufGenerator {
   private def parseParameters(params: String): Either[String, GeneratorParams] = {
     params.split(",").map(_.trim).filter(_.nonEmpty).foldLeft[Either[String, GeneratorParams]](Right(GeneratorParams())) {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
+      case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
     }

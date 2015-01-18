@@ -7,7 +7,9 @@ import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
 import scala.collection.JavaConversions._
 import scala.collection.immutable.IndexedSeq
 
-object DescriptorPimps {
+trait DescriptorPimps {
+  def params: GeneratorParams
+
   val SCALA_RESERVED_WORDS = Set(
     "abstract", "case", "catch", "class", "def",
     "do", "else", "extends", "false", "final",
@@ -19,7 +21,7 @@ object DescriptorPimps {
     "var", "while", "with", "yield",
     "val", "var", "def", "if", "ne", "case")
 
-  implicit class AsSymbolPimp(val s: String) extends AnyVal {
+  implicit class AsSymbolPimp(val s: String) {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
   }
 
@@ -42,7 +44,7 @@ object DescriptorPimps {
     b.toString
   }
 
-  implicit class FieldDescriptorPimp(val fd: FieldDescriptor) extends AnyVal {
+  implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
     def containingOneOf: Option[OneofDescriptor] = Option(fd.getContainingOneof)
 
     def isInOneof: Boolean = containingOneOf.isDefined
@@ -80,7 +82,7 @@ object DescriptorPimps {
     def getMethod = "get" + upperScalaName
   }
 
-  implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) extends AnyVal {
+  implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
     def scalaName = snakeCaseToCamelCase(oneof.getName)
 
     def upperScalaName = snakeCaseToCamelCase(oneof.getName, true)
@@ -92,7 +94,7 @@ object DescriptorPimps {
     def empty = scalaTypeName + ".Empty"
   }
 
-  implicit class MessageDescriptorPimp(val message: Descriptor) extends AnyVal {
+  implicit class MessageDescriptorPimp(val message: Descriptor) {
     def fields = message.getFields
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
@@ -102,17 +104,17 @@ object DescriptorPimps {
     def javaTypeName = message.getFile.fullJavaName(message.getFullName)
   }
 
-  implicit class EnumDescriptorPimp(val enum: EnumDescriptor) extends AnyVal {
+  implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
     def scalaTypeName = enum.getFile.fullScalaName(enum.getFullName)
 
     def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
   }
 
-  implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) extends AnyVal {
+  implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
     def objectName = allCapsToCamelCase(enumValue.getName, true)
   }
 
-  implicit class FileDescriptorPimp(val file: FileDescriptor) extends AnyVal {
+  implicit class FileDescriptorPimp(val file: FileDescriptor) {
     def scalaOptions: ScalaPbOptions = file.getOptions.getExtension[ScalaPbOptions](Scalapb.options)
 
     def javaPackage: String = {
@@ -136,7 +138,7 @@ object DescriptorPimps {
         if (scalaOptions.hasPackageName) scalaOptions.getPackageName
         else javaPackageAsSymbol
 
-      if (scalaOptions.getFlatPackage)
+      if (scalaOptions.getFlatPackage || params.flatPackage)
         requestedPackageName
       else if (requestedPackageName.nonEmpty) requestedPackageName + "." + baseName(file.getName).asSymbol
       else baseName(file.getName).asSymbol
