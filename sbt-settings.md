@@ -36,6 +36,13 @@ To enable Java conversions add the following to your build.sbt:
 
     PB.javaConversions in PB.protobufConfig := true
 
+## Flat Packages
+
+You can request that ScalaPB will not append the protofile base name
+by adding:
+
+    PB.flatPackage in PB.protobufConfig := true
+
 ## Pulling a newer version of the Scala code generator
 
 The sbt-scalapb plugin is configured to use a specific version of the code
