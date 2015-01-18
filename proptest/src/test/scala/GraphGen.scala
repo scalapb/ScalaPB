@@ -11,10 +11,10 @@ object GraphGen {
   }
 
   case class Namespace(names: Set[String], parent: Option[Namespace]) {
-    // Returns a new namespace nested in this one.
     // Adds the given name to the namespace.
     def add(words: String*) = copy(names = names ++ words.map(_.toLowerCase))
 
+    // Returns a new namespace nested in this one.
     def nest(name: String) =
       Namespace(Set(), parent = Some(add(name)))
 
@@ -132,9 +132,9 @@ object GraphGen {
         (javaPackageNames, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateName)
         javaPackage = javaPackageNames mkString "."
         javaPackageOption = if (javaPackage.nonEmpty) Some(javaPackage) else None
+        (scalaOptions, state) <- Gen.oneOf[(Option[ScalaPbOptions], State)](genScalaOptions(state), (None, state))
         (protoPackage, state) <- Gen.oneOf(state.generateSubspace, Gen.const(("", state)))
         protoPackageOption = if (protoPackage.nonEmpty) Some(protoPackage) else None
-        (scalaOptions, state) <- Gen.oneOf[(Option[ScalaPbOptions], State)](genScalaOptions(state), (None, state))
         (messages, state) <- listWithStatefulGen(state, maxSize = 4)(genMessageNode(0, None))
         (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None))
       } yield (FileNode(baseName, protoPackageOption, javaPackageOption, scalaOptions, messages, enums, fileId),
