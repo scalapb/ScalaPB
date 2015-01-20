@@ -667,9 +667,14 @@ public final class Scalapb {
     // @@protoc_insertion_point(class_scope:scalapb.ScalaPbOptions)
   }
 
-  public static final int OPTIONS_FIELD_NUMBER = 60000;
+  public static final int OPTIONS_FIELD_NUMBER = 1020;
   /**
    * <code>extend .google.protobuf.FileOptions { ... }</code>
+   *
+   * <pre>
+   * File-level optionals for ScalaPB.
+   * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
+   * </pre>
    */
   public static final
     com.google.protobuf.GeneratedMessage.GeneratedExtension<
@@ -695,9 +700,9 @@ public final class Scalapb {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
       "/protobuf/descriptor.proto\"<\n\016ScalaPbOpt" +
       "ions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_packa" +
-      "ge\030\002 \001(\010:H\n\007options\022\034.google.protobuf.Fi" +
-      "leOptions\030\340\324\003 \001(\0132\027.scalapb.ScalaPbOptio" +
-      "nsB\030\n\026com.trueaccord.scalapb"
+      "ge\030\002 \001(\010:G\n\007options\022\034.google.protobuf.Fi" +
+      "leOptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOption" +
+      "sB\030\n\026com.trueaccord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
