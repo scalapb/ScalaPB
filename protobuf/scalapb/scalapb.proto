@@ -18,6 +18,8 @@ message ScalaPbOptions {
 }
 
 extend google.protobuf.FileOptions {
-  optional ScalaPbOptions options = 60000;
+  // File-level optionals for ScalaPB.
+  // Extension number officially assigned by protobuf-global-extension-registry@google.com
+  optional ScalaPbOptions options = 1020;
 }
 
