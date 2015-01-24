@@ -584,6 +584,15 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
   }
 
+  def generateFieldNumbers(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    printer
+      .print(message.getFields) {
+      case (field, printer) =>
+        val fieldName = field.scalaName.asSymbol
+        printer.add(s"final val ${field.fieldNumberConstantName} = ${field.getNumber}")
+    }
+  }
+
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     val className = message.getName.asSymbol
@@ -604,6 +613,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .print(message.getOneofs)(printOneof)
       .print(message.getNestedTypes)(printMessage)
       .call(generateMessageLens(message))
+      .call(generateFieldNumbers(message))
       .outdent
       .add("}")
       .add("")

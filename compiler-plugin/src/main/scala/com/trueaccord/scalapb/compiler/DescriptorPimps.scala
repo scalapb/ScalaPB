@@ -53,6 +53,8 @@ trait DescriptorPimps {
 
     def upperScalaName: String = snakeCaseToCamelCase(fd.getName, true)
 
+    def fieldNumberConstantName: String = fd.getName.toUpperCase() + "_FIELD_NUMBER"
+
     def oneOfTypeName = {
       assert(isInOneof)
       fd.getContainingOneof.scalaTypeName + "." + upperScalaName
