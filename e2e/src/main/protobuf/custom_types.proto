@@ -1,0 +1,16 @@
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+message CustomMessage {
+  enum Weather {
+    SUNNY = 1;
+    RAIN = 2;
+  }
+  optional Weather weather = 1;
+
+  optional string person_id = 2 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  required string required_person_id = 3 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  repeated string person_ids = 4 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+}
+

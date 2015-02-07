@@ -5,6 +5,7 @@ import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
+import scala.collection.mutable
 
 case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false)
 
@@ -100,7 +101,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def defaultValueForGet(field: FieldDescriptor) = {
     // Needs to be 'def' and not val since for some of the cases it's invalid to call it.
     def defaultValue = field.getDefaultValue
-    field.getJavaType match {
+    val baseDefaultValue = field.getJavaType match {
       case FieldDescriptor.JavaType.INT => defaultValue.toString
       case FieldDescriptor.JavaType.LONG => defaultValue.toString + "L"
       case FieldDescriptor.JavaType.FLOAT =>
@@ -122,6 +123,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case FieldDescriptor.JavaType.ENUM =>
         field.getEnumType.scalaTypeName + "." + defaultValue.asInstanceOf[EnumValueDescriptor].getName.asSymbol
     }
+    if (field.customSingleScalaTypeName.isDefined)
+      s"${field.typeMapper}.toCustom($baseDefaultValue)" else baseDefaultValue
   }
 
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
@@ -139,7 +142,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val javaGetter = container + ".get" + field.upperScalaName
     val javaHas = container + ".has" + field.upperScalaName
 
-    val valueConversion = field.getJavaType match {
+    val baseValueConversion = field.getJavaType match {
       case FieldDescriptor.JavaType.INT => ConversionMethod("intValue")
       case FieldDescriptor.JavaType.LONG => ConversionMethod("longValue")
       case FieldDescriptor.JavaType.FLOAT => ConversionMethod("floatValue")
@@ -151,6 +154,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         field.getMessageType.scalaTypeName + ".fromJavaProto")
       case FieldDescriptor.JavaType.ENUM => ConversionFunction(
         field.getEnumType.scalaTypeName + ".fromJavaValue")
+    }
+
+    val valueConversion = field.customSingleScalaTypeName match {
+      case None => baseValueConversion
+      case Some(customType) => baseValueConversion match {
+        case _: ConversionMethod | NoOp => ConversionFunction(field.typeMapper + ".toCustom")
+        case _: ConversionFunction | BoxFunction(_) => throw new RuntimeException("Unsupported yet.")
+      }
     }
 
     valueConversion match {
@@ -177,7 +188,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       (if (field.isRepeated) ".addAll" else ".set") + field.upperScalaName
     val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
-    val valueConversion = field.getJavaType match {
+    val baseValueConversion = field.getJavaType match {
       case FieldDescriptor.JavaType.INT => BoxFunction("Int.box")
       case FieldDescriptor.JavaType.LONG => BoxFunction("Long.box")
       case FieldDescriptor.JavaType.FLOAT => BoxFunction("Float.box")
@@ -189,6 +200,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         field.getMessageType.scalaTypeName + ".toJavaProto")
       case FieldDescriptor.JavaType.ENUM => ConversionFunction(
         field.getEnumType.scalaTypeName + ".toJavaValue")
+    }
+    val valueConversion = field.customSingleScalaTypeName match {
+      case None => baseValueConversion
+      case Some(customType) => baseValueConversion match {
+        case _: BoxFunction | NoOp => ConversionFunction(field.typeMapper + ".toBase")
+        case _: ConversionFunction => throw new RuntimeException("Unsupported yet")
+        case _: ConversionMethod => throw new RuntimeException("Unsupported yet")
+      }
     }
     valueConversion match {
       case ConversionMethod(method) =>
@@ -261,19 +280,28 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     else
       field.scalaName.asSymbol
 
+  def toBaseType(field: FieldDescriptor)(expr: String) =
+    field.customSingleScalaTypeName.fold(expr)(customType =>
+      s"""${field.typeMapper}.toBase($expr)""")
+
+  def toCustomType(field: FieldDescriptor)(expr: String) =
+    field.customSingleScalaTypeName.fold(expr)(customType =>
+      s"""${field.typeMapper}.toCustom($expr)""")
+
   def generateSerializedSizeForField(field: FieldDescriptor, fp: FunctionalPrinter): FunctionalPrinter = {
     val fieldNameSymbol = fieldAccessorSymbol(field)
+
     if (field.isRequired) {
-      fp.add("__size += " + sizeExpressionForSingleField(field, fieldNameSymbol))
+      fp.add("__size += " + sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol)))
     } else if (field.isOptional) {
-      fp.add(s"if ($fieldNameSymbol.isDefined) { __size += ${sizeExpressionForSingleField(field, fieldNameSymbol + ".get")} }")
+      fp.add(s"if ($fieldNameSymbol.isDefined) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol + ".get"))} }")
     } else if (field.isRepeated) {
       val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
       if (!field.isPacked)
         Types.fixedSize(field.getType) match {
           case Some(size) => fp.add(s"__size += ${size + tagSize} * $fieldNameSymbol.size")
           case None => fp.add(
-            s"$fieldNameSymbol.foreach($fieldNameSymbol => __size += ${sizeExpressionForSingleField(field, fieldNameSymbol)})")
+            s"$fieldNameSymbol.foreach($fieldNameSymbol => __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol))})")
         }
       else {
         val fieldName = field.scalaName
@@ -330,12 +358,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                  |  ${fieldNameSymbol}.foreach(output.write${capTypeName}NoTag)
                  |}""")
         } else if (field.isRequired) {
-          generateWriteSingleValue(field, fieldNameSymbol)(printer)
+          generateWriteSingleValue(field, toBaseType(field)(fieldNameSymbol))(printer)
         } else {
           printer
             .add(s"${fieldNameSymbol}.foreach { v => ")
             .indent
-            .call(generateWriteSingleValue(field, "v"))
+            .call(generateWriteSingleValue(field, toBaseType(field)("v")))
             .outdent
             .add("}")
         }
@@ -382,7 +410,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .print(message.getFields) {
       (field, printer) =>
         if (!field.isPacked) {
-          val newVal = if (field.getJavaType == JavaType.MESSAGE) {
+          val newValBase = if (field.getJavaType == JavaType.MESSAGE) {
             val defInstance = s"${field.getMessageType.scalaTypeName}.defaultInstance"
             val baseInstance = if (field.isOptional && !field.isInOneof) {
               s"__${fieldAccessorSymbol(field)}.getOrElse($defInstance)"
@@ -397,6 +425,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           } else if (field.getJavaType == JavaType.ENUM)
             s"${field.getEnumType.scalaTypeName}.fromValue(__input.readEnum())"
           else s"__input.read${Types.capitalizedType(field.getType)}()"
+
+          val newVal = toCustomType(field)(newValBase)
 
           val updateOp =
             if (field.isOptional && !field.isInOneof) s"__${field.scalaName} = Some($newVal)"
@@ -593,6 +623,20 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
   }
 
+  def generateTypeMappers(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val customizedFields: Seq[(FieldDescriptor, String)] = for {
+      field <- message.getFields
+      custom <- field.customSingleScalaTypeName
+    } yield (field, custom)
+
+    printer
+      .print(customizedFields) {
+      case ((field, customType), printer) =>
+        val fieldName = field.scalaName.asSymbol
+        printer.add(s"private val ${field.typeMapperValName}: com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]")
+    }
+  }
+
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     val className = message.getName.asSymbol
@@ -614,6 +658,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .print(message.getNestedTypes)(printMessage)
       .call(generateMessageLens(message))
       .call(generateFieldNumbers(message))
+      .call(generateTypeMappers(message))
       .outdent
       .add("}")
       .add("")
@@ -643,7 +688,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           .when(field.isOptional) {
           p =>
             val default = defaultValueForGet(field)
-            p.add(s"def ${field.getMethod} = ${fieldAccessorSymbol(field)}.getOrElse($default)")
+            p.add(s"def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)")
         }
           .when(field.isOptional && !field.isInOneof) {
           p =>

@@ -23,3 +23,12 @@ extend google.protobuf.FileOptions {
   optional ScalaPbOptions options = 1020;
 }
 
+message FieldOptions {
+  optional string type = 1;
+}
+
+extend google.protobuf.FieldOptions {
+  // File-level optionals for ScalaPB.
+  // Extension number officially assigned by protobuf-global-extension-registry@google.com
+  optional FieldOptions field = 1020;
+}

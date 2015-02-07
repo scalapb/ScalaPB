@@ -2,7 +2,7 @@ package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors._
 import com.trueaccord.scalapb.Scalapb
-import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
+import com.trueaccord.scalapb.Scalapb.{FieldOptions, ScalaPbOptions}
 
 import scala.collection.JavaConversions._
 import scala.collection.immutable.IndexedSeq
@@ -67,21 +67,30 @@ trait DescriptorPimps {
       else base
     }
 
-    def singleScalaTypeName: String = {
-      fd.getJavaType match {
-        case FieldDescriptor.JavaType.INT => "Int"
-        case FieldDescriptor.JavaType.LONG => "Long"
-        case FieldDescriptor.JavaType.FLOAT => "Float"
-        case FieldDescriptor.JavaType.DOUBLE => "Double"
-        case FieldDescriptor.JavaType.BOOLEAN => "Boolean"
-        case FieldDescriptor.JavaType.BYTE_STRING => "com.google.protobuf.ByteString"
-        case FieldDescriptor.JavaType.STRING => "String"
-        case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaTypeName
-        case FieldDescriptor.JavaType.ENUM => fd.getEnumType.scalaTypeName
-      }
+    def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
+
+    def customSingleScalaTypeName: Option[String] =
+      if (fieldOptions.hasType) Some(fieldOptions.getType) else None
+
+    def baseSingleScalaTypeName: String = fd.getJavaType match {
+      case FieldDescriptor.JavaType.INT => "Int"
+      case FieldDescriptor.JavaType.LONG => "Long"
+      case FieldDescriptor.JavaType.FLOAT => "Float"
+      case FieldDescriptor.JavaType.DOUBLE => "Double"
+      case FieldDescriptor.JavaType.BOOLEAN => "Boolean"
+      case FieldDescriptor.JavaType.BYTE_STRING => "com.google.protobuf.ByteString"
+      case FieldDescriptor.JavaType.STRING => "String"
+      case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaTypeName
+      case FieldDescriptor.JavaType.ENUM => fd.getEnumType.scalaTypeName
     }
 
+    def singleScalaTypeName = customSingleScalaTypeName.getOrElse(baseSingleScalaTypeName)
+
     def getMethod = "get" + upperScalaName
+
+    def typeMapperValName = "_typemapper_" + scalaName
+
+    def typeMapper = fd.getContainingType.scalaTypeName + "." + typeMapperValName
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
