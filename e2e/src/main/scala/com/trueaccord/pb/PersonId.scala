@@ -11,3 +11,8 @@ case class Name(firstName: String, lastName: String)
 object PersonId {
   implicit val mapper = TypeMapper(PersonId.apply)(_.untypedId)
 }
+
+object Years {
+  implicit val mapper = TypeMapper(Years.apply)(_.number)
+}
+

@@ -5,7 +5,6 @@ import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
-import scala.collection.mutable
 
 case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false)
 
@@ -135,7 +134,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   sealed trait ValueConversion
   case class ConversionMethod(name: String) extends ValueConversion
   case class ConversionFunction(name: String) extends ValueConversion
-  case class BoxFunction(name: String) extends ValueConversion
   case object NoOp extends ValueConversion
 
   def javaFieldToScala(container: String, field: FieldDescriptor) = {
@@ -159,22 +157,26 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val valueConversion = field.customSingleScalaTypeName match {
       case None => baseValueConversion
       case Some(customType) => baseValueConversion match {
-        case _: ConversionMethod | NoOp => ConversionFunction(field.typeMapper + ".toCustom")
-        case _: ConversionFunction | BoxFunction(_) => throw new RuntimeException("Unsupported yet.")
+        case t: ConversionMethod => t
+        case NoOp => ConversionFunction(field.typeMapper + ".toCustom")
+        case _: ConversionFunction => throw new RuntimeException("Unsupported yet.")
       }
     }
 
     valueConversion match {
-      case ConversionMethod(method) =>
+      case ConversionMethod(method) if field.customSingleScalaTypeName.isEmpty =>
         if (field.isRepeated) s"${javaGetter}List.map(_.$method)"
         else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($javaGetter.$method) else None"
         else s"$javaGetter.$method"
+      case ConversionMethod(method) if field.customSingleScalaTypeName.isDefined =>
+        val typeMapper = field.typeMapper + ".toCustom"
+        if (field.isRepeated) s"${javaGetter}List.map(__x => $typeMapper(__x.$method))"
+        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($typeMapper($javaGetter.$method)) else None"
+        else s"$typeMapper($javaGetter.$method)"
       case ConversionFunction(func) =>
         if (field.isRepeated) s"${javaGetter}List.map($func)"
         else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($func($javaGetter)) else None"
         else s"$func($javaGetter)"
-      case BoxFunction(func) =>
-        throw new RuntimeException("Unexpected method type")
       case NoOp =>
         if (field.isRepeated) s"${javaGetter}List.toSeq"
         else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($javaGetter) else None"
@@ -188,12 +190,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       (if (field.isRepeated) ".addAll" else ".set") + field.upperScalaName
     val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
+    def convertIfRepeated(s: String) = if (field.isRepeated) ConversionFunction(s) else NoOp
+
     val baseValueConversion = field.getJavaType match {
-      case FieldDescriptor.JavaType.INT => BoxFunction("Int.box")
-      case FieldDescriptor.JavaType.LONG => BoxFunction("Long.box")
-      case FieldDescriptor.JavaType.FLOAT => BoxFunction("Float.box")
-      case FieldDescriptor.JavaType.DOUBLE => BoxFunction("Double.box")
-      case FieldDescriptor.JavaType.BOOLEAN => BoxFunction("Boolean.box")
+      case FieldDescriptor.JavaType.INT => convertIfRepeated("Int.box")
+      case FieldDescriptor.JavaType.LONG => convertIfRepeated("Long.box")
+      case FieldDescriptor.JavaType.FLOAT => convertIfRepeated("Float.box")
+      case FieldDescriptor.JavaType.DOUBLE => convertIfRepeated("Double.box")
+      case FieldDescriptor.JavaType.BOOLEAN => convertIfRepeated("Boolean.box")
       case FieldDescriptor.JavaType.BYTE_STRING => NoOp
       case FieldDescriptor.JavaType.STRING => NoOp
       case FieldDescriptor.JavaType.MESSAGE => ConversionFunction(
@@ -204,9 +208,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val valueConversion = field.customSingleScalaTypeName match {
       case None => baseValueConversion
       case Some(customType) => baseValueConversion match {
-        case _: BoxFunction | NoOp => ConversionFunction(field.typeMapper + ".toBase")
-        case _: ConversionFunction => throw new RuntimeException("Unsupported yet")
-        case _: ConversionMethod => throw new RuntimeException("Unsupported yet")
+        case NoOp => ConversionFunction(field.typeMapper + ".toBase")
+        case ConversionFunction(f) => ConversionFunction(s"($f _).compose(${field.typeMapper}.toBase)")
+        case _ => throw new RuntimeException("Unsupported yet")
       }
     }
     valueConversion match {
@@ -219,9 +223,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           s"$scalaGetter.map($func).foreach($javaSetter)"
         else
           s"$javaSetter($func($scalaGetter))"
-      case BoxFunction(func) if field.isRepeated =>
-        s"$javaSetter($scalaGetter.map($func))"
-      case NoOp | BoxFunction(_) =>
+      case NoOp =>
         if (field.isRepeated)
           s"$javaSetter($scalaGetter)"
         else if (field.isOptional)
@@ -337,7 +339,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               fp.add(s"  $size * ${field.scalaName.asSymbol}.size")
             case None =>
               val capTypeName = Types.capitalizedType(field.getType)
-              fp.add(s"  ${field.scalaName.asSymbol}.map(com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag).sum")
+              val sizeComputeFunction = s"com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
+              if (field.customSingleScalaTypeName.isEmpty)
+                fp.add(s"  ${field.scalaName.asSymbol}.map($sizeComputeFunction).sum")
+              else
+                fp.add(s"  ${field.scalaName.asSymbol}.map(($sizeComputeFunction _).compose(${field.typeMapper}.toBase)).sum")
           }
         })
     }
@@ -354,9 +360,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             printer.addM(
               s"""if ($fieldNameSymbol.nonEmpty) {
                  |  output.writeTag(${field.getNumber}, 2)
-                 |  output.writeRawVarint32(${fieldNameSymbol}SerializedSize)
-                 |  ${fieldNameSymbol}.foreach(output.write${capTypeName}NoTag)
-                 |}""")
+                 |  output.writeRawVarint32(${fieldNameSymbol}SerializedSize)""")
+            .when(field.customSingleScalaTypeName.isEmpty)(
+                _.add(s"  ${fieldNameSymbol}.foreach(output.write${capTypeName}NoTag)"))
+              .when(field.customSingleScalaTypeName.isDefined)(
+                _.add(s"  ${fieldNameSymbol}.foreach((output.write${capTypeName}NoTag _).compose(${field.typeMapper}.toBase))"))
+            .add("}")
         } else if (field.isRequired) {
           generateWriteSingleValue(field, toBaseType(field)(fieldNameSymbol))(printer)
         } else {
@@ -438,24 +447,25 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           printer.addM(
             s"""    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>
                |      $updateOp""")
-        } else
+        } else {
+          val readExpr = toCustomType(field)(s"""__input.read${Types.capitalizedType(field.getType)}""")
           printer.addM(
             s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
                |      val length = __input.readRawVarint32()
                |      val oldLimit = __input.pushLimit(length)
                |      while (__input.getBytesUntilLimit > 0) {
-               |        __${field.scalaName} += __input.read${Types.capitalizedType(field.getType)}
+               |        __${field.scalaName} += $readExpr
                |      }
                |      __input.popLimit(oldLimit)
                |    }""")
+          }
     }
       .addM(
        s"""|    case tag => __input.skipField(tag)
            |  }
            |}""")
       .add(s"$myFullScalaName(")
-      .indent
-      .addWithDelimiter(",")(
+      .indent.addWithDelimiter(",")(
         (message.fieldsWithoutOneofs ++ message.getOneofs).map {
           case e: FieldDescriptor if e.isRepeated =>
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}.result()"
