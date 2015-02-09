@@ -60,6 +60,13 @@ trait DescriptorPimps {
       fd.getContainingOneof.scalaTypeName + "." + upperScalaName
     }
 
+    def baseScalaTypeName: String = {
+      val base = baseSingleScalaTypeName
+      if (fd.isOptional && !fd.isInOneof) s"Option[$base]"
+      else if (fd.isRepeated) s"Seq[$base]"
+      else base
+    }
+
     def scalaTypeName: String = {
       val base = singleScalaTypeName
       if (fd.isOptional && !fd.isInOneof) s"Option[$base]"

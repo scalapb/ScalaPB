@@ -241,7 +241,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           .add("__field.number match {")
           .indent
           .print(message.getFields) {
-          case (f, fp) => fp.add(s"case ${f.getNumber} => ${fieldAccessorSymbol(f)}")
+          case (f, fp) if f.customSingleScalaTypeName.isEmpty => fp.add(s"case ${f.getNumber} => ${fieldAccessorSymbol(f)}")
+          case (f, fp) if f.isRequired => fp.add(s"case ${f.getNumber} => ${toBaseType(f)(fieldAccessorSymbol(f))}")
+          case (f, fp) => fp.add(s"case ${f.getNumber} => ${mapToBaseType(f)(fieldAccessorSymbol(f))}")
         }
           .outdent
           .add("}")
@@ -293,6 +295,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def toCustomType(field: FieldDescriptor)(expr: String) =
     field.customSingleScalaTypeName.fold(expr)(customType =>
       s"""${field.typeMapper}.toCustom($expr)""")
+
+  def mapToCustomType(field: FieldDescriptor)(expr: String) =
+    field.customSingleScalaTypeName.fold(expr)(customType =>
+      s"""$expr.map(${field.typeMapper}.toCustom)""")
 
   def generateSerializedSizeForField(field: FieldDescriptor, fp: FunctionalPrinter): FunctionalPrinter = {
     val fieldNameSymbol = fieldAccessorSymbol(field)
@@ -535,14 +541,19 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       printer =>
         val fields = message.getFields.collect {
           case field if !field.isInOneof =>
-            val typeName = field.scalaTypeName
-            val mapGetter = if (field.isOptional)
-              s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[$typeName]"
+            val baseTypeName = field.baseScalaTypeName
+            val baseMapGetter = if (field.isOptional)
+              s"fieldsMap.getOrElse(${field.getNumber}, None).asInstanceOf[$baseTypeName]"
             else if (field.isRepeated)
-              s"fieldsMap.getOrElse(${field.getNumber}, Nil).asInstanceOf[$typeName]"
+              s"fieldsMap.getOrElse(${field.getNumber}, Nil).asInstanceOf[$baseTypeName]"
             else
-              s"fieldsMap(${field.getNumber}).asInstanceOf[$typeName]"
-            s"${field.scalaName.asSymbol} = $mapGetter"
+              s"fieldsMap(${field.getNumber}).asInstanceOf[$baseTypeName]"
+            if (field.customSingleScalaTypeName.isEmpty)
+              s"${field.scalaName.asSymbol} = $baseMapGetter"
+            else if (field.isRequired)
+              s"${field.scalaName.asSymbol} = ${toCustomType(field)(baseMapGetter)}"
+            else
+              s"${field.scalaName.asSymbol} = ${mapToCustomType(field)(baseMapGetter)}"
         }
         val oneOfs = message.getOneofs.map {
           oneOf =>
