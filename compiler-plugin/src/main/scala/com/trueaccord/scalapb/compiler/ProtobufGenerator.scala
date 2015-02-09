@@ -429,7 +429,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               val expr = s"__${fieldAccessorSymbol(field)}"
               s"${mapToBaseType(field)(expr)}.getOrElse($defInstance)"
             } else if (field.isInOneof) {
-              s"${fieldAccessorSymbol(field)}.getOrElse($defInstance)"
+              s"${mapToBaseType(field)(fieldAccessorSymbol(field))}.getOrElse($defInstance)"
             } else if (field.isRepeated) {
               defInstance
             } else {

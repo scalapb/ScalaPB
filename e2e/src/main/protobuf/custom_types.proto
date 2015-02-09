@@ -30,3 +30,12 @@ message CustomMessage {
   repeated Name names = 15               [(scalapb.field).type = "com.trueaccord.pb.FullName"];
 }
 
+message OneofMessage {
+  oneof one_of {
+    string person_id = 1                 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+    int32 age = 2                        [(scalapb.field).type = "com.trueaccord.pb.Years"];
+    CustomMessage.Weather weather = 3    [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+    CustomMessage.Name name = 4          [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  }
+}
+
