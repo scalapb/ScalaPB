@@ -2,6 +2,10 @@ package com.trueaccord.proto.e2e;
 
 import "scalapb/scalapb.proto";
 
+option (scalapb.options) = {
+  import: "com.trueaccord.pb.MisplacedMapper.weatherMapper"
+};
+
 message CustomMessage {
 
   optional string person_id = 2          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];

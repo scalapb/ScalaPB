@@ -15,6 +15,10 @@ message ScalaPbOptions {
   // generated scala package name is the package_name.basename where
   // basename is the proto file name without the .proto extension.
   optional bool flat_package = 2;
+
+  // Adds the following imports at the top of the file (this is meant
+  // to provide implicit TypeMappers)
+  repeated string import = 3;
 }
 
 extend google.protobuf.FileOptions {

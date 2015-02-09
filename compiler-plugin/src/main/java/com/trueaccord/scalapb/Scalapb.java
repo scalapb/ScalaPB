@@ -62,6 +62,45 @@ public final class Scalapb {
      * </pre>
      */
     boolean getFlatPackage();
+
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    com.google.protobuf.ProtocolStringList
+        getImportList();
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    int getImportCount();
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    java.lang.String getImport(int index);
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getImportBytes(int index);
   }
   /**
    * Protobuf type {@code scalapb.ScalaPbOptions}
@@ -126,6 +165,15 @@ public final class Scalapb {
               flatPackage_ = input.readBool();
               break;
             }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                import_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              import_.add(bs);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -134,6 +182,9 @@ public final class Scalapb {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e.getMessage()).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          import_ = import_.getUnmodifiableView();
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -249,9 +300,59 @@ public final class Scalapb {
       return flatPackage_;
     }
 
+    public static final int IMPORT_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList import_;
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getImportList() {
+      return import_;
+    }
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    public int getImportCount() {
+      return import_.size();
+    }
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    public java.lang.String getImport(int index) {
+      return import_.get(index);
+    }
+    /**
+     * <code>repeated string import = 3;</code>
+     *
+     * <pre>
+     * Adds the following imports at the top of the file (this is meant
+     * to provide implicit TypeMappers)
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getImportBytes(int index) {
+      return import_.getByteString(index);
+    }
+
     private void initFields() {
       packageName_ = "";
       flatPackage_ = false;
+      import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -272,6 +373,9 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, flatPackage_);
       }
+      for (int i = 0; i < import_.size(); i++) {
+        output.writeBytes(3, import_.getByteString(i));
+      }
       getUnknownFields().writeTo(output);
     }
 
@@ -288,6 +392,15 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(2, flatPackage_);
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < import_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(import_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getImportList().size();
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -410,6 +523,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000001);
         flatPackage_ = false;
         bitField0_ = (bitField0_ & ~0x00000002);
+        import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -446,6 +561,11 @@ public final class Scalapb {
           to_bitField0_ |= 0x00000002;
         }
         result.flatPackage_ = flatPackage_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          import_ = import_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.import_ = import_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -469,6 +589,16 @@ public final class Scalapb {
         }
         if (other.hasFlatPackage()) {
           setFlatPackage(other.getFlatPackage());
+        }
+        if (!other.import_.isEmpty()) {
+          if (import_.isEmpty()) {
+            import_ = other.import_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureImportIsMutable();
+            import_.addAll(other.import_);
+          }
+          onChanged();
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -653,6 +783,144 @@ public final class Scalapb {
       public Builder clearFlatPackage() {
         bitField0_ = (bitField0_ & ~0x00000002);
         flatPackage_ = false;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureImportIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          import_ = new com.google.protobuf.LazyStringArrayList(import_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getImportList() {
+        return import_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public int getImportCount() {
+        return import_.size();
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public java.lang.String getImport(int index) {
+        return import_.get(index);
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getImportBytes(int index) {
+        return import_.getByteString(index);
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public Builder setImport(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureImportIsMutable();
+        import_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public Builder addImport(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureImportIsMutable();
+        import_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public Builder addAllImport(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureImportIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, import_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public Builder clearImport() {
+        import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string import = 3;</code>
+       *
+       * <pre>
+       * Adds the following imports at the top of the file (this is meant
+       * to provide implicit TypeMappers)
+       * </pre>
+       */
+      public Builder addImportBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureImportIsMutable();
+        import_.add(value);
         onChanged();
         return this;
       }
@@ -1196,14 +1464,14 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
-      "/protobuf/descriptor.proto\"<\n\016ScalaPbOpt" +
+      "/protobuf/descriptor.proto\"L\n\016ScalaPbOpt" +
       "ions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_packa" +
-      "ge\030\002 \001(\010\"\034\n\014FieldOptions\022\014\n\004type\030\001 \001(\t:G" +
-      "\n\007options\022\034.google.protobuf.FileOptions\030" +
-      "\374\007 \001(\0132\027.scalapb.ScalaPbOptions:D\n\005field" +
-      "\022\035.google.protobuf.FieldOptions\030\374\007 \001(\0132\025" +
-      ".scalapb.FieldOptionsB\030\n\026com.trueaccord." +
-      "scalapb"
+      "ge\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\"\034\n\014FieldOptions" +
+      "\022\014\n\004type\030\001 \001(\t:G\n\007options\022\034.google.proto" +
+      "buf.FileOptions\030\374\007 \001(\0132\027.scalapb.ScalaPb" +
+      "Options:D\n\005field\022\035.google.protobuf.Field" +
+      "Options\030\374\007 \001(\0132\025.scalapb.FieldOptionsB\030\n" +
+      "\026com.trueaccord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1223,7 +1491,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", });
     internal_static_scalapb_FieldOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new

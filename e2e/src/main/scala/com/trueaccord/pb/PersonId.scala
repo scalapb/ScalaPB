@@ -25,6 +25,7 @@ object FullName {
     Name(first = Some(fn.firstName), last = Some(fn.lastName)))
 }
 
-object WrappedWeather {
-  implicit val mapper = TypeMapper(WrappedWeather.apply)(_.weather)
+// We import this into the generated code using a file-level option.
+object MisplacedMapper {
+  implicit val weatherMapper = TypeMapper(WrappedWeather.apply)(_.weather)
 }
