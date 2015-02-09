@@ -154,12 +154,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         field.getEnumType.scalaTypeName + ".fromJavaValue")
     }
 
-    val valueConversion = field.customSingleScalaTypeName match {
+    val valueConversion: ValueConversion = field.customSingleScalaTypeName match {
       case None => baseValueConversion
       case Some(customType) => baseValueConversion match {
         case t: ConversionMethod => t
         case NoOp => ConversionFunction(field.typeMapper + ".toCustom")
-        case _: ConversionFunction => throw new RuntimeException("Unsupported yet.")
+        case ConversionFunction(f) => ConversionFunction(s"($f _).andThen(${field.typeMapper}.toCustom)")
       }
     }
 
@@ -281,6 +281,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         field.scalaName.asSymbol)
     else
       field.scalaName.asSymbol
+
+  def mapToBaseType(field: FieldDescriptor)(expr: String) =
+    field.customSingleScalaTypeName.fold(expr)(customType =>
+      s"""$expr.map(${field.typeMapper}.toBase)""")
 
   def toBaseType(field: FieldDescriptor)(expr: String) =
     field.customSingleScalaTypeName.fold(expr)(customType =>
@@ -422,13 +426,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           val newValBase = if (field.getJavaType == JavaType.MESSAGE) {
             val defInstance = s"${field.getMessageType.scalaTypeName}.defaultInstance"
             val baseInstance = if (field.isOptional && !field.isInOneof) {
-              s"__${fieldAccessorSymbol(field)}.getOrElse($defInstance)"
+              val expr = s"__${fieldAccessorSymbol(field)}"
+              s"${mapToBaseType(field)(expr)}.getOrElse($defInstance)"
             } else if (field.isInOneof) {
               s"${fieldAccessorSymbol(field)}.getOrElse($defInstance)"
             } else if (field.isRepeated) {
               defInstance
             } else {
-              s"__${field.scalaName}"
+              toBaseType(field)(s"__${field.scalaName}")
             }
             s"com.trueaccord.scalapb.LiteParser.readMessage(__input, $baseInstance)"
           } else if (field.getJavaType == JavaType.ENUM)

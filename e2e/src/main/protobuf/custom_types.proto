@@ -9,13 +9,21 @@ message CustomMessage {
   }
   optional Weather weather = 1;
 
-  optional string person_id = 2 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  optional string person_id = 2          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
   required string required_person_id = 3 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
-  repeated string person_ids = 4 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  repeated string person_ids = 4         [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
 
-  optional int32 age = 5 [(scalapb.field).type = "com.trueaccord.pb.Years"];
-  required int32 required_age = 6 [(scalapb.field).type = "com.trueaccord.pb.Years"];
-  repeated int32 ages = 7 [(scalapb.field).type = "com.trueaccord.pb.Years"];
-  repeated int32 packed_ages = 8 [packed = true, (scalapb.field).type = "com.trueaccord.pb.Years"];
+  optional int32 age = 5                 [(scalapb.field).type = "com.trueaccord.pb.Years"];
+  required int32 required_age = 6        [(scalapb.field).type = "com.trueaccord.pb.Years"];
+  repeated int32 ages = 7                [(scalapb.field).type = "com.trueaccord.pb.Years"];
+  repeated int32 packed_ages = 8         [(scalapb.field).type = "com.trueaccord.pb.Years", packed=true];
+
+  message Name {
+    optional string first = 1;
+    optional string last = 2;
+  }
+  optional Name name = 9                 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  required Name required_name = 10       [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  repeated Name names = 11               [(scalapb.field).type = "com.trueaccord.pb.FullName"];
 }
 
