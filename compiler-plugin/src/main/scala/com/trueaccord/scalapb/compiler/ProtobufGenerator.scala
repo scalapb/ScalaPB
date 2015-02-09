@@ -347,7 +347,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               if (field.customSingleScalaTypeName.isEmpty)
                 fp.add(s"  ${field.scalaName.asSymbol}.map($sizeComputeFunction).sum")
               else
-                fp.add(s"  ${field.scalaName.asSymbol}.map(($sizeComputeFunction _).compose(${field.typeMapper}.toBase)).sum")
+                fp.add(s"  ${field.scalaName.asSymbol}.map((${field.typeMapper}.toBase _).andThen($sizeComputeFunction)).sum")
           }
         })
     }

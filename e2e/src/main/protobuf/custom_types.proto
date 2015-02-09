@@ -3,11 +3,6 @@ package com.trueaccord.proto.e2e;
 import "scalapb/scalapb.proto";
 
 message CustomMessage {
-  enum Weather {
-    SUNNY = 1;
-    RAIN = 2;
-  }
-  optional Weather weather = 1;
 
   optional string person_id = 2          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
   required string required_person_id = 3 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
@@ -18,12 +13,20 @@ message CustomMessage {
   repeated int32 ages = 7                [(scalapb.field).type = "com.trueaccord.pb.Years"];
   repeated int32 packed_ages = 8         [(scalapb.field).type = "com.trueaccord.pb.Years", packed=true];
 
+  enum Weather {
+    SUNNY = 1;
+    RAIN = 2;
+  }
+  optional Weather weather = 9           [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+  required Weather required_weather = 10 [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+  repeated Weather weathers = 11         [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+
   message Name {
     optional string first = 1;
     optional string last = 2;
   }
-  optional Name name = 9                 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-  required Name required_name = 10       [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-  repeated Name names = 11               [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  optional Name name = 13                [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  required Name required_name = 14       [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  repeated Name names = 15               [(scalapb.field).type = "com.trueaccord.pb.FullName"];
 }
 

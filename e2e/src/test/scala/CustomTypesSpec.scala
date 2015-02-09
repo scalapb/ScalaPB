@@ -1,5 +1,7 @@
 import com.trueaccord.proto.e2e.custom_types._
+import com.trueaccord.proto.e2e.custom_types.CustomMessage.Weather
 import com.trueaccord.proto.e2e.CustomTypes.{CustomMessage => CustomMessageJava}
+import com.trueaccord.proto.e2e.CustomTypes.CustomMessage.{Weather => WeatherJava}
 import org.scalatest._
 import com.trueaccord.pb._
 
@@ -17,7 +19,10 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
       requiredName = FullName(firstName = "Owen", lastName = "Money"),
       names = Seq(
         FullName(firstName = "Foo", lastName = "Bar"),
-        FullName(firstName = "V1", lastName = "Z2"))
+        FullName(firstName = "V1", lastName = "Z2")),
+      weather = Some(WrappedWeather(Weather.RAIN)),
+      requiredWeather = WrappedWeather(Weather.SUNNY),
+      weathers = Seq(WrappedWeather(Weather.RAIN), WrappedWeather(Weather.SUNNY))
     )
     message.getPersonId must be(PersonId("abcd"))
     message.requiredPersonId must be(PersonId("required"))
@@ -43,6 +48,7 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
       b.getRequiredNameBuilder.setFirst("first_req")
       b.setAge(4)
       b.setRequiredAge(1)
+      b.setRequiredWeather(WeatherJava.SUNNY)
       b.build
     }
     val m2 = {
@@ -52,12 +58,15 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
       b.getRequiredNameBuilder.setLast("last_req")
       b.setAge(5)
       b.setRequiredAge(2)
+      b.setRequiredWeather(WeatherJava.RAIN)
       b.build
     }
     val expected = CustomMessage(
       requiredPersonId = PersonId("p2"),
       requiredAge = Years(2),
-      requiredName = FullName("first_req", "last_req"))
+      requiredName = FullName("first_req", "last_req"),
+      requiredWeather = WrappedWeather(Weather.RAIN)
+    )
       .update(
         _.name := FullName("Foo", "Bar"),
         _.age := Years(5)

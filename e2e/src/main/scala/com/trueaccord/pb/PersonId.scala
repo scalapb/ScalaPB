@@ -2,12 +2,15 @@ package com.trueaccord.pb
 
 import com.trueaccord.scalapb.TypeMapper
 import com.trueaccord.proto.e2e.custom_types.CustomMessage.Name
+import com.trueaccord.proto.e2e.custom_types.CustomMessage.Weather
 
 case class PersonId(untypedId: String)
 
 case class Years(number: Int)
 
 case class FullName(firstName: String, lastName: String)
+
+case class WrappedWeather(weather: Weather)
 
 object PersonId {
   implicit val mapper = TypeMapper(PersonId.apply)(_.untypedId)
@@ -20,4 +23,8 @@ object Years {
 object FullName {
   implicit val mapper = TypeMapper[Name, FullName](n => FullName(n.getFirst, n.getLast))(fn =>
     Name(first = Some(fn.firstName), last = Some(fn.lastName)))
+}
+
+object WrappedWeather {
+  implicit val mapper = TypeMapper(WrappedWeather.apply)(_.weather)
 }
