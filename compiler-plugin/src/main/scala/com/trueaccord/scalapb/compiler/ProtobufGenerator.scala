@@ -107,11 +107,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val f = defaultValue.asInstanceOf[Float]
         if (f.isPosInfinity) "Float.PositiveInfinity"
         else if (f.isNegInfinity) "Float.NegativeInfinity"
+        else if (f.isNaN) "Float.NaN"
         else f.toString + "f"
       case FieldDescriptor.JavaType.DOUBLE =>
         val d = defaultValue.asInstanceOf[Double]
         if (d.isPosInfinity) "Double.PositiveInfinity"
         else if (d.isNegInfinity) "Double.NegativeInfinity"
+        else if (d.isNaN) "Double.NaN"
         else d.toString
       case FieldDescriptor.JavaType.BOOLEAN => Boolean.unbox(defaultValue.asInstanceOf[java.lang.Boolean])
       case FieldDescriptor.JavaType.BYTE_STRING => defaultValue.asInstanceOf[ByteString]

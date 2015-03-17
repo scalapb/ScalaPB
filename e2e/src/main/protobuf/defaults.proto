@@ -1,0 +1,15 @@
+package com.trueaccord.proto.e2e;
+
+message DefaultsTest {
+  optional int32 i1 = 2 [default=99];
+
+  optional double d1 = 3 [default=0.0];
+  optional double d2 = 4 [default=inf];
+  optional double d3 = 5 [default=-inf];
+  optional double d4 = 6 [default=nan];  
+
+  optional float f1 = 7 [default=0.0];
+  optional float f2 = 8 [default=inf];
+  optional float f3 = 9 [default=-inf];
+  optional float f4 = 10 [default=nan];  
+}
