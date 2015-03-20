@@ -146,6 +146,7 @@ object SchemaGenerators {
       jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
       jarForClass[javax.annotation.Nullable],
       jarForClass[com.trueaccord.lenses.Lens[_, _]].getPath,
+      jarForClass[org.parboiled2.Parser].getPath,
       rootDir
     )
     val annotationJar = classOf[annotation.Annotation].getProtectionDomain.getCodeSource.getLocation.getPath

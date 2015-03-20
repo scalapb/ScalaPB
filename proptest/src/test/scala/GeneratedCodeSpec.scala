@@ -3,7 +3,12 @@ import java.io.{File, PrintWriter}
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.TextFormat
+<<<<<<< HEAD
 import com.trueaccord.scalapb.{GeneratedMessage, JavaProtoSupport}
+=======
+import com.trueaccord.scalapb.GeneratedMessage
+import org.scalacheck.Arbitrary
+>>>>>>> Add native text format input/output using parboiled2.
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import scala.language.existentials
@@ -34,6 +39,13 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
               TextFormat.merge(messageAscii, builder)
               val javaProto: protobuf.Message = builder.build()
               val companion = schema.scalaObject(message)
+              val scalaProto = {
+                val k = companion.fromAscii(messageValue.toAscii)
+                if (k.isFailure) {
+
+                }
+                k.get
+              }
               val scalaProto = companion.fromAscii(messageValue.toAscii)
               val scalaBytes = scalaProto.toByteArray
 
@@ -53,6 +65,9 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
               val javaConversions = companion.asInstanceOf[JavaProtoSupport[GeneratedMessage, protobuf.Message]]
               javaConversions.fromJavaProto(javaProto) should be (scalaProto)
               javaConversions.toJavaProto(scalaProto) should be (javaProto)
+              //
+              // String representation should be the same
+              scalaProto.toString should be(javaProto.toString)
             } catch {
               case e: Exception =>
                 println(e.printStackTrace)

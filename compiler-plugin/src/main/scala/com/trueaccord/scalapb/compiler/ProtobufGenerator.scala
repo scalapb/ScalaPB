@@ -47,7 +47,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |""")
       .add(s"lazy val values = Seq(${e.getValues.map(_.getName.asSymbol).mkString(", ")})")
       .add(s"def fromValue(value: Int): $name = value match {")
-      .print(e.getValues) {
+      .print(e.valuesWithNoDuplicates) {
       case (v, p) => p.add(s"  case ${v.getNumber} => ${v.getName.asSymbol}")
     }
       .add(s"  case __other => Unrecognized(__other)")
@@ -347,7 +347,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("lazy val serializedSize: Int = {")
       .indent
       .add("var __size = 0")
-      .print(message.getFields)(generateSerializedSizeForField)
+      .print(message.fields)(generateSerializedSizeForField)
       .add("__size")
       .outdent
       .add("}")
@@ -355,7 +355,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateSerializedSizeForPackedFields(message: Descriptor)(fp: FunctionalPrinter) =
     fp
-      .print(message.getFields.filter(_.isPacked).zipWithIndex) {
+      .print(message.fields.filter(_.isPacked).zipWithIndex) {
       case ((field, index), printer) =>
         printer
           .add(s"lazy val ${field.scalaName}SerializedSize =")
@@ -383,7 +383,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
     fp.add(s"def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {")
       .indent
-      .print(message.getFields.sortBy(_.getNumber).zipWithIndex) {
+      .print(message.fields.sortBy(_.getNumber).zipWithIndex) {
       case ((field, index), printer) =>
         val fieldNameSymbol = fieldAccessorSymbol(field)
         val capTypeName = Types.capitalizedType(field.getType)
@@ -432,7 +432,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
 
   def printConstructorFieldList(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val regularFields = message.getFields.collect {
+    val regularFields = message.fields.collect {
       case field if !field.isInOneof =>
       val typeName = field.scalaTypeName
       val ctorDefaultValue =
@@ -472,7 +472,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |  val _tag__ = __input.readTag()
            |  _tag__ match {
            |    case 0 => _done__ = true""")
-      .print(message.getFields) {
+      .print(message.fields) {
       (field, printer) =>
         if (!field.isPacked) {
           val newValBase = if (field.isMessage) {
@@ -547,7 +547,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer.add(s"def toJavaProto(scalaPbSource: $myFullScalaName): ${message.javaTypeName} = {")
       .indent
       .add(s"val javaPbOut = ${message.javaTypeName}.newBuilder")
-      .print(message.getFields) {
+      .print(message.fields) {
       case (field, printer) =>
         printer.add(assignScalaFieldToJava("scalaPbSource", "javaPbOut", field))
     }
@@ -562,7 +562,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .call {
       printer =>
-        val normal = message.getFields.collect {
+        val normal = message.fields.collect {
           case field if !field.isInOneof =>
             val conversion = if (field.isMap) javaMapFieldToScala("javaPbSource", field)
             else javaFieldToScala("javaPbSource", field)
@@ -600,7 +600,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .call {
       printer =>
-        val fields = message.getFields.collect {
+        val fields = message.fields.collect {
           case field if !field.isInOneof =>
             val baseTypeName = field.typeCategory(if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName)
             val e = if (field.isOptional)
@@ -632,15 +632,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
   }
 
-  def generateFromAscii(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    printer.addM(
-      s"""override def fromAscii(ascii: String): ${message.scalaTypeName} = {
-         |  val javaProtoBuilder = ${message.javaTypeName}.newBuilder
-         |  com.google.protobuf.TextFormat.merge(ascii, javaProtoBuilder)
-         |  fromJavaProto(javaProtoBuilder.build)
-         |}""")
-  }
-
   def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
       .when(message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getFile.fileDescriptorObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"))
@@ -652,7 +643,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer
       .add(s"lazy val defaultInstance = $myFullScalaName(")
       .indent
-      .addWithDelimiter(",")(message.getFields.collect {
+      .addWithDelimiter(",")(message.fields.collect {
       case field if field.isRequired =>
         val default = defaultValueForDefaultInstance(field)
         s"${field.scalaName.asSymbol} = $default"
@@ -669,7 +660,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer.add(
       s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $classNameSymbol]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $classNameSymbol](_l) {")
       .indent
-      .print(message.getFields) {
+      .print(message.fields) {
       case (field, printer) =>
         val fieldName = field.scalaName.asSymbol
         if (!field.isInOneof) {
@@ -699,7 +690,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateFieldNumbers(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
-      .print(message.getFields) {
+      .print(message.fields) {
       case (field, printer) =>
         printer.add(s"final val ${field.fieldNumberConstantName} = ${field.getNumber}")
     }
@@ -707,7 +698,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateTypeMappers(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val customizedFields: Seq[(FieldDescriptor, String)] = for {
-      field <- message.getFields
+      field <- message.fields
       custom <- field.customSingleScalaTypeName
     } yield (field, custom)
 
@@ -789,7 +780,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))
-      .when(message.javaConversions)(generateFromAscii(message))
       .call(generateFromFieldsMap(message))
       .call(generateDescriptor(message))
       .call(generateMessageCompanionForField(message))
@@ -820,7 +810,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
       .call(generateMergeFrom(message))
-      .print(message.getFields) {
+      .print(message.fields) {
       case (field, printer) =>
         val withMethod = "with" + field.upperScalaName
         val clearMethod = "clear" + field.upperScalaName
@@ -857,8 +847,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
              |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
       .call(generateGetField(message))
-      .when(message.javaConversions)(
-        _.add(s"override def toString: String = com.google.protobuf.TextFormat.printToUnicodeString(${message.scalaTypeName}.toJavaProto(this))"))
+      .add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToString(this)")
       .add(s"def companion = ${message.scalaTypeName}")
       .outdent
       .outdent
