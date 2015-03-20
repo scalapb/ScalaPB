@@ -2,6 +2,7 @@ import Nodes.RootNode
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.TextFormat
+import com.trueaccord.scalapb.GeneratedMessage
 import org.scalacheck.Arbitrary
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
@@ -36,14 +37,23 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
             TextFormat.merge(messageAscii, builder)
             val javaProto: protobuf.Message = builder.build()
             val companion = schema.scalaObject(message)
-            val scalaProto = companion.fromAscii(messageValue.toAscii)
+            val scalaProto = {
+              val k = companion.fromAscii(messageValue.toAscii)
+              if (k.isFailure) {
+
+              }
+              k.get
+            }
             val scalaBytes = scalaProto.toByteArray
 
             // Serialized values should be the same
             scalaBytes should be(javaProto.toByteArray)
 
+            // String representation should be the same
+            scalaProto.toString should be(javaProto.toString)
+
             // Parsing the serialized bytes should give the same object.
-            val scalaParsedFromBytes = companion.parseFrom(scalaBytes)
+            val scalaParsedFromBytes: GeneratedMessage = companion.parseFrom(scalaBytes)
             scalaParsedFromBytes.toString should be(scalaProto.toString)
             scalaParsedFromBytes should be(scalaProto)
         }

@@ -3,8 +3,9 @@ package com.trueaccord.scalapb
 import java.io.{InputStream, OutputStream}
 
 import com.google.protobuf.{CodedInputStream, CodedOutputStream}
+import org.parboiled2.ParseError
 
-import scala.util.Try
+import scala.util.{Failure, Try}
 
 trait GeneratedEnum {
   def id: Int
@@ -73,12 +74,12 @@ trait Message[A] {
 }
 
 trait JavaProtoSupport[ScalaPB, JavaPB] {
-  def fromAscii(ascii: String): ScalaPB
-
   def fromJavaProto(javaProto: JavaPB): ScalaPB
 
   def toJavaProto(scalaProto: ScalaPB): JavaPB
 }
+
+case class TextFormatError(msg: String) extends RuntimeException(msg)
 
 trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
@@ -98,6 +99,13 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   }
 
   def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
+
+  def fromAscii(s: String): Try[A] = {
+    val parser = new TextFormat(s)
+    parser.Root(descriptor).run().map(_.asInstanceOf[A]).recoverWith {
+      case error: ParseError => Failure[A](TextFormatError(parser.formatError(error)))
+    }
+  }
 
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 

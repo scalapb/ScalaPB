@@ -142,6 +142,9 @@ trait DescriptorPimps {
     def scalaTypeName = enum.getFile.fullScalaName(enum.getFullName)
 
     def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
+
+    def valuesWithNoDuplicates = enum.getValues.groupBy(_.getNumber)
+      .mapValues(_.head).values.toVector.sortBy(_.getNumber)
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {

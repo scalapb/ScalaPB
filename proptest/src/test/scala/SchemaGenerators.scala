@@ -137,6 +137,7 @@ object SchemaGenerators {
       jarForClass[com.trueaccord.scalapb.Scalapb].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
       jarForClass[com.trueaccord.lenses.Lens[_, _]].getPath,
+      jarForClass[org.parboiled2.Parser].getPath,
       rootDir
     )
     val annotationJar = classOf[annotation.Annotation].getProtectionDomain.getCodeSource.getLocation.getPath

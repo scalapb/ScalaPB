@@ -1,5 +1,4 @@
 import GraphGen.State
-import com.google.protobuf.DescriptorProtos.FieldOptions
 import org.scalacheck.{Arbitrary, Gen}
 
 /**
@@ -16,24 +15,27 @@ object GenTypes {
     override def toString = s"Primitive($name)"
   }
 
-  private val uint32Gen = Gen.chooseNum[Long](0, 0xffffffffL)
-  private val uint64Gen = Gen.chooseNum[Long](0, Long.MaxValue) // TODO: fix high bit
+  private val genInt32 = Arbitrary.arbitrary[Int]
+  private val genInt64 = Arbitrary.arbitrary[Long]
+  private val genUInt64 = Gen.chooseNum[Long](0, Long.MaxValue)
+  private val genUInt32 = Gen.chooseNum[Int](0, Int.MaxValue)
 
   private def escapeString(raw: String): String = {
     import scala.reflect.runtime.universe._
-    Literal(Constant(raw)).toString
+    // Filtering out \uffff since Parboiled2 uses this character as EOI.
+    Literal(Constant(raw)).toString.filter(_ != '\uffff')
   }
 
-  val ProtoSint32 = Primitive("sint32", Arbitrary.arbitrary[Int].map(_.toString))
-  val ProtoUint32 = Primitive("uint32", uint32Gen.map(_.toString))
-  val ProtoInt32 = Primitive("int32", Arbitrary.arbitrary[Int].map(_.toString))
-  val ProtoFixed32 = Primitive("fixed32", uint32Gen.map(_.toString))
-  val ProtoSfixed32 = Primitive("sfixed32", Arbitrary.arbitrary[Int].map(_.toString))
-  val ProtoSint64 = Primitive("sint64", Arbitrary.arbitrary[Long].map(_.toString))
-  val ProtoUint64 = Primitive("uint64", uint64Gen.map(_.toString))
-  val ProtoInt64 = Primitive("int64", Arbitrary.arbitrary[Long].map(_.toString))
-  val ProtoFixed64 = Primitive("fixed64", uint64Gen.map(_.toString))
-  val ProtoSfixed64 = Primitive("sfixed64", Arbitrary.arbitrary[Long].map(_.toString))
+  val ProtoSint32 = Primitive("sint32", genInt32.map(_.toString))
+  val ProtoUint32 = Primitive("uint32", genUInt32.map(_.toString))
+  val ProtoInt32 = Primitive("int32", genInt32.map(_.toString))
+  val ProtoFixed32 = Primitive("fixed32", genUInt32.map(_.toString))
+  val ProtoSfixed32 = Primitive("sfixed32", genInt32.map(_.toString))
+  val ProtoSint64 = Primitive("sint64", genInt64.map(_.toString))
+  val ProtoUint64 = Primitive("uint64", genUInt64.map(_.toString))
+  val ProtoInt64 = Primitive("int64", genInt64.map(_.toString))
+  val ProtoFixed64 = Primitive("fixed64", genUInt64.map(_.toString))
+  val ProtoSfixed64 = Primitive("sfixed64", genInt64.map(_.toString))
   val ProtoDouble = Primitive("double", Arbitrary.arbitrary[Double].map(_.toString))
   val ProtoFloat = Primitive("float", Arbitrary.arbitrary[Float].map(_.toString))
   val ProtoBool = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
