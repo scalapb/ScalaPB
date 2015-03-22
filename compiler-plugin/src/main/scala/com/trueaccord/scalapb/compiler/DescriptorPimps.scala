@@ -99,6 +99,10 @@ trait DescriptorPimps {
     def typeMapperValName = "_typemapper_" + scalaName
 
     def typeMapper = fd.getContainingType.scalaTypeName + "." + typeMapperValName
+
+    def isEnum = fd.getType == FieldDescriptor.Type.ENUM
+
+    def isMessage = fd.getType == FieldDescriptor.Type.MESSAGE
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {

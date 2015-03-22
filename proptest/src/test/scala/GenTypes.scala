@@ -47,7 +47,7 @@ object GenTypes {
   }
 
   case class EnumReference(id: Int) extends ProtoType {
-    def packable = false
+    def packable = true
   }
 
   def generatePrimitive = Gen.oneOf(

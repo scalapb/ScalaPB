@@ -22,7 +22,8 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
         FullName(firstName = "V1", lastName = "Z2")),
       weather = Some(WrappedWeather(Weather.RAIN)),
       requiredWeather = WrappedWeather(Weather.SUNNY),
-      weathers = Seq(WrappedWeather(Weather.RAIN), WrappedWeather(Weather.SUNNY))
+      weathers = Seq(WrappedWeather(Weather.RAIN), WrappedWeather(Weather.SUNNY)),
+      packedWeathers = Seq(WrappedWeather(Weather.RAIN), WrappedWeather(Weather.RAIN))
     )
     message.getPersonId must be(PersonId("abcd"))
     message.requiredPersonId must be(PersonId("required"))
@@ -49,6 +50,8 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
       b.setAge(4)
       b.setRequiredAge(1)
       b.setRequiredWeather(WeatherJava.SUNNY)
+      b.addPackedWeathers(WeatherJava.SUNNY)
+      b.addPackedWeathers(WeatherJava.RAIN)
       b.build
     }
     val m2 = {
@@ -59,13 +62,21 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
       b.setAge(5)
       b.setRequiredAge(2)
       b.setRequiredWeather(WeatherJava.RAIN)
+      b.addPackedWeathers(WeatherJava.RAIN)
+      b.addPackedWeathers(WeatherJava.SUNNY)
       b.build
     }
     val expected = CustomMessage(
       requiredPersonId = PersonId("p2"),
       requiredAge = Years(2),
       requiredName = FullName("first_req", "last_req"),
-      requiredWeather = WrappedWeather(Weather.RAIN)
+      requiredWeather = WrappedWeather(Weather.RAIN),
+      packedWeathers = Seq(
+        WrappedWeather(Weather.SUNNY),
+        WrappedWeather(Weather.RAIN),
+        WrappedWeather(Weather.RAIN),
+        WrappedWeather(Weather.SUNNY)
+      )
     )
       .update(
         _.name := FullName("Foo", "Bar"),

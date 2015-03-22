@@ -2,6 +2,7 @@ package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors.FieldDescriptor.{Type, JavaType}
 import com.google.protobuf.Descriptors._
+import com.google.protobuf.WireFormat.FieldType
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
@@ -256,28 +257,28 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateWriteSingleValue(field: FieldDescriptor, valueExpr: String)(fp: FunctionalPrinter):
   FunctionalPrinter = {
-    field.getType match {
-      case FieldDescriptor.Type.MESSAGE =>
+    if (field.isMessage)
         fp.addM(
           s"""output.writeTag(${field.getNumber}, 2)
              |output.writeRawVarint32($valueExpr.serializedSize)
              |$valueExpr.writeTo(output)""")
-      case FieldDescriptor.Type.ENUM =>
+   else if (field.isEnum)
         fp.add(s"output.writeEnum(${field.getNumber}, $valueExpr.id)")
-      case _ =>
-        val capTypeName = Types.capitalizedType(field.getType)
-        fp.add(s"output.write$capTypeName(${field.getNumber}, $valueExpr)")
+    else {
+      val capTypeName = Types.capitalizedType(field.getType)
+      fp.add(s"output.write$capTypeName(${field.getNumber}, $valueExpr)")
     }
   }
 
-  def sizeExpressionForSingleField(field: FieldDescriptor, expr: String): String = field.getType match {
-    case Type.MESSAGE =>
+  def sizeExpressionForSingleField(field: FieldDescriptor, expr: String): String =
+    if (field.isMessage)
       CodedOutputStream.computeTagSize(field.getNumber) + s" + com.google.protobuf.CodedOutputStream.computeRawVarint32Size($expr.serializedSize) + $expr.serializedSize"
-    case Type.ENUM => s"com.google.protobuf.CodedOutputStream.computeEnumSize(${field.getNumber}, ${expr}.id)"
-    case t =>
-      val capTypeName = Types.capitalizedType(t)
+    else if(field.isEnum)
+      s"com.google.protobuf.CodedOutputStream.computeEnumSize(${field.getNumber}, ${expr}.id)"
+    else {
+      val capTypeName = Types.capitalizedType(field.getType)
       s"com.google.protobuf.CodedOutputStream.compute${capTypeName}Size(${field.getNumber}, ${expr})"
-  }
+    }
 
   def fieldAccessorSymbol(field: FieldDescriptor) =
     if (field.isInOneof)
@@ -351,15 +352,20 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               fp.add(s"  $size * ${field.scalaName.asSymbol}.size")
             case None =>
               val capTypeName = Types.capitalizedType(field.getType)
-              val sizeComputeFunction = s"com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
-              if (field.customSingleScalaTypeName.isEmpty)
-                fp.add(s"  ${field.scalaName.asSymbol}.map($sizeComputeFunction).sum")
-              else
-                fp.add(s"  ${field.scalaName.asSymbol}.map((${field.typeMapper}.toBase _).andThen($sizeComputeFunction)).sum")
+              val sizeFunc = Seq(s"com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag")
+              val fromEnum = if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).id") else Nil
+              val fromCustom = if (field.customSingleScalaTypeName.isDefined)
+                Seq(s"${field.typeMapper}.toBase")
+              else Nil
+              val funcs = sizeFunc ++ fromEnum ++ fromCustom
+              fp.add(s"  ${field.scalaName.asSymbol}.map(${composeGen(funcs)}).sum")
           }
         })
     }
 
+  private def composeGen(funcs: Seq[String]) =
+    if (funcs.length == 1) funcs(0)
+    else s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
 
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
     fp.add(s"def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {")
@@ -369,15 +375,21 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val fieldNameSymbol = fieldAccessorSymbol(field)
         val capTypeName = Types.capitalizedType(field.getType)
         if (field.isPacked) {
+          val writeFunc = composeGen(Seq(
+            s"output.write${capTypeName}NoTag") ++ (
+            if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).id") else Nil
+            ) ++ (
+            if (field.customSingleScalaTypeName.isDefined)
+              Seq(s"${field.typeMapper}.toBase")
+            else Nil
+            ))
+
             printer.addM(
-              s"""if ($fieldNameSymbol.nonEmpty) {
+              s"""if (${fieldNameSymbol}.nonEmpty) {
                  |  output.writeTag(${field.getNumber}, 2)
-                 |  output.writeRawVarint32(${fieldNameSymbol}SerializedSize)""")
-            .when(field.customSingleScalaTypeName.isEmpty)(
-                _.add(s"  ${fieldNameSymbol}.foreach(output.write${capTypeName}NoTag)"))
-              .when(field.customSingleScalaTypeName.isDefined)(
-                _.add(s"  ${fieldNameSymbol}.foreach((output.write${capTypeName}NoTag _).compose(${field.typeMapper}.toBase))"))
-            .add("}")
+                 |  output.writeRawVarint32(${fieldNameSymbol}SerializedSize)
+                 |  ${fieldNameSymbol}.foreach($writeFunc)
+                 |}""")
         } else if (field.isRequired) {
           generateWriteSingleValue(field, toBaseType(field)(fieldNameSymbol))(printer)
         } else {
@@ -444,7 +456,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               toBaseType(field)(s"__${field.scalaName}")
             }
             s"com.trueaccord.scalapb.LiteParser.readMessage(__input, $baseInstance)"
-          } else if (field.getJavaType == JavaType.ENUM)
+          } else if (field.isEnum)
             s"${field.getEnumType.scalaTypeName}.fromValue(__input.readEnum())"
           else s"__input.read${Types.capitalizedType(field.getType)}()"
 
@@ -461,7 +473,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             s"""    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>
                |      $updateOp""")
         } else {
-          val readExpr = toCustomType(field)(s"""__input.read${Types.capitalizedType(field.getType)}""")
+          val read = {
+            val tmp = s"""__input.read${Types.capitalizedType(field.getType)}"""
+            if (field.isEnum)
+              s"${field.getEnumType.scalaTypeName}.fromValue($tmp)"
+            else tmp
+          }
+          val readExpr = toCustomType(field)(read)
           printer.addM(
             s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
                |      val length = __input.readRawVarint32()
@@ -763,11 +781,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       else throw new IllegalArgumentException()
 
       val t = field.getJavaType match {
-        case t if field.getJavaType != JavaType.MESSAGE && field.getJavaType != JavaType.ENUM =>
+        case t if !field.isMessage && !field.isEnum =>
           s"Descriptors.PrimitiveType(com.google.protobuf.Descriptors.FieldDescriptor.JavaType.$t, " +
           s"com.google.protobuf.Descriptors.FieldDescriptor.Type.${field.getType})"
-        case JavaType.MESSAGE => "Descriptors.MessageType(" + field.getMessageType.scalaTypeName + ".descriptor)"
-        case JavaType.ENUM => "Descriptors.EnumType(" + field.getEnumType.scalaTypeName + ".descriptor)"
+        case _ if field.isMessage => "Descriptors.MessageType(" + field.getMessageType.scalaTypeName + ".descriptor)"
+        case _ if field.isEnum => "Descriptors.EnumType(" + field.getEnumType.scalaTypeName + ".descriptor)"
       }
       val oneof = field.containingOneOf.map(s => s"""Some("$s")""").getOrElse("None")
       s"""Descriptors.FieldDescriptor($index, ${field.getNumber}, "${field.getName}", $label, $t, isPacked = ${field.isPacked}, containingOneofName = $oneof)"""

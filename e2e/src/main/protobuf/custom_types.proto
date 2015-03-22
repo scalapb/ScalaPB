@@ -24,6 +24,7 @@ message CustomMessage {
   optional Weather weather = 9           [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
   required Weather required_weather = 10 [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
   repeated Weather weathers = 11         [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+  repeated Weather packed_weathers = 12  [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather", packed=true];
 
   message Name {
     optional string first = 1;
@@ -42,4 +43,3 @@ message OneofMessage {
     CustomMessage.Name name = 4          [(scalapb.field).type = "com.trueaccord.pb.FullName"];
   }
 }
-
