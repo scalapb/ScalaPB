@@ -745,7 +745,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           p =>
             val default = defaultValueForGet(field)
             p.add(
-              s"""def $withMethod(__v: ${singleType}): $className = copy(${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}(__v))""")
+              s"""def $withMethod(__v: ${singleType}): $className = copy(${field.getContainingOneof.scalaName.asSymbol} = ${field.oneOfTypeName}(__v))""")
         }.when(field.isRepeated) { p =>
           p.addM(
             s"""def $clearMethod = copy(${field.scalaName.asSymbol} = Nil)

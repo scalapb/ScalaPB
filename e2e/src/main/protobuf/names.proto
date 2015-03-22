@@ -5,10 +5,12 @@ package name_test;
 message WeirdNames {
   optional string get = 1;
   optional string tag = 2;
+  oneof type {
+    int32 val = 3;
+  }
 }
 
 message WeirdNamesRequired {
   required string get = 1;
   required string tag = 2;
 }
-
