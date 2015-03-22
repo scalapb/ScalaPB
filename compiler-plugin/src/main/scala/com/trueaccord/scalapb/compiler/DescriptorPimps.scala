@@ -1,6 +1,7 @@
 package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors._
+import com.google.protobuf.WireFormat.FieldType
 import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.Scalapb.{FieldOptions, ScalaPbOptions}
 
@@ -105,7 +106,7 @@ trait DescriptorPimps {
 
     def upperScalaName = snakeCaseToCamelCase(oneof.getName, true)
 
-    def fields: IndexedSeq[FieldDescriptor] = (0 until oneof.getFieldCount).map(oneof.getField)
+    def fields: IndexedSeq[FieldDescriptor] = (0 until oneof.getFieldCount).map(oneof.getField).filter(_.getLiteType != FieldType.GROUP)
 
     def scalaTypeName = oneof.getContainingType.scalaTypeName + "." + upperScalaName
 
@@ -113,7 +114,7 @@ trait DescriptorPimps {
   }
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {
-    def fields = message.getFields
+    def fields = message.getFields.filter(_.getLiteType != FieldType.GROUP)
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
 
