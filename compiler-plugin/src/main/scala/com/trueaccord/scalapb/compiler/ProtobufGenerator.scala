@@ -787,7 +787,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         case _ if field.isMessage => "Descriptors.MessageType(" + field.getMessageType.scalaTypeName + ".descriptor)"
         case _ if field.isEnum => "Descriptors.EnumType(" + field.getEnumType.scalaTypeName + ".descriptor)"
       }
-      val oneof = field.containingOneOf.map(s => s"""Some("$s")""").getOrElse("None")
+      val oneof = field.containingOneOf.map(s => s"""Some("${s.getName()}")""").getOrElse("None")
       s"""Descriptors.FieldDescriptor($index, ${field.getNumber}, "${field.getName}", $label, $t, isPacked = ${field.isPacked}, containingOneofName = $oneof)"""
     }
 

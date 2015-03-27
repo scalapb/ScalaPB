@@ -123,4 +123,12 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
       parsed.myOneOf must be(expectedOneOf)
     }
   }
+
+  "oneof field descriptors" should "give the right containing name" in {
+    for (fieldDescriptor <- OneofTest.descriptor.fields) {
+      if (fieldDescriptor.number > 1) {
+        fieldDescriptor.containingOneofName must be(Some("my_one_of"))
+      }
+    }
+  }
 }
