@@ -7,6 +7,7 @@ import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.{TextFormat => TextFormatJava}
 import com.trueaccord.scalapb.Descriptors._
 import org.parboiled2._
+import shapeless.{::, HNil}
 import scala.collection.JavaConversions.asJavaIterable
 
 import scala.collection.mutable
@@ -42,7 +43,7 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
     }
   }
 
-  def Id: Rule1[String] = rule {
+  def identifier: Rule1[String] = rule {
     capture(oneOrMore(CharPredicate.AlphaNum ++ '_')) ~ WhiteSpace
   }
 
@@ -57,19 +58,19 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
   }
 
   def ws(c: Char) = rule {
-    c ~ WhiteSpace
+    (c ~ WhiteSpace).named(c.toString)
   }
 
-  private def enumValueByName(enumDesc: EnumDescriptor, name: String): Option[GeneratedEnum] =
-    enumDesc.companion.values.find(_.name == name)
+  private def enumValueByName(enumDesc: EnumDescriptor, name: String): Either[String, GeneratedEnum] =
+    enumDesc.companion.values.find(_.name == name).toRight(s"""Enum type "${enumDesc.name}" has no value named "$name"""")
 
-  private def enumValueByNumber(enumDesc: EnumDescriptor, number: Int): Option[GeneratedEnum] =
-    enumDesc.companion.values.find(_.id == number)
+  private def enumValueByNumber(enumDesc: EnumDescriptor, number: Int): Either[String, GeneratedEnum] =
+    enumDesc.companion.values.find(_.id == number).toRight(s"""Enum type "${enumDesc.name}" has no value with number $number""")
 
   private val chset = java.nio.charset.StandardCharsets.UTF_8
 
   def MatchField(fieldMap: FieldToDescriptorMap): Rule1[FieldDescriptor] = rule {
-    Id ~> {
+    identifier ~> {
       (s: String) =>
         (test(fieldMap.contains(s)) | fail("a known field")) ~ push(fieldMap(s))
     }
@@ -80,37 +81,45 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
       fd.fieldType.fieldType match {
         case Type.DOUBLE => DoubleRule
         case Type.FLOAT => FloatRule
-        case Type.INT64 => Int64
-        case Type.UINT64 => UInt64
-        case Type.INT32 => Int32
-        case Type.FIXED64 => UInt64
-        case Type.FIXED32 => UInt32
-        case Type.BOOL => Boolean
+        case Type.INT64 => int64
+        case Type.UINT64 => uint64
+        case Type.INT32 => int32
+        case Type.FIXED64 => uint64
+        case Type.FIXED32 => uint32
+        case Type.BOOL => boolean
         case Type.STRING => BytesLiteral ~> { _.toStringUtf8 }
         case Type.BYTES => BytesLiteral
-        case Type.UINT32 => UInt32
-        case Type.SFIXED32 => Int32
-        case Type.SFIXED64 => Int64
-        case Type.SINT32 => Int32
-        case Type.SINT64 => Int64
-        case Type.GROUP => fail("groups are not supported") ~ Int32
+        case Type.UINT32 => uint32
+        case Type.SFIXED32 => int32
+        case Type.SFIXED64 => int64
+        case Type.SINT32 => int32
+        case Type.SINT64 => int64
+        case Type.GROUP => fail("groups are not supported") ~ int32
         case Type.MESSAGE => (
-          ws('{') ~ SubMessage(fd) ~ ws('}')
-            | ws('<') ~ SubMessage(fd) ~ ws('>')
+          ws('{').named("\"{\"") ~ SubMessage(fd).named("field values") ~ ws('}').named("\"}\"")
+            | ws('<').named("\"<\"") ~ SubMessage(fd).named("field values") ~ ws('>').named("\">\"")
           ) ~> { map: FieldMap =>fd.fieldType.asInstanceOf[MessageType].m.companion.fromFieldsMap(map).asInstanceOf[Any] }
         case Type.ENUM => (
-          Int32 ~> { v: Int => enumValueByNumber(fd.fieldType.asInstanceOf[EnumType].descriptor, v.intValue())}
-            | Id ~> { v: String => enumValueByName(fd.fieldType.asInstanceOf[EnumType].descriptor, v)}
+          int32 ~> { v: Int => enumValueByNumber(fd.fieldType.asInstanceOf[EnumType].descriptor, v.intValue())}
+            | identifier ~> { v: String => enumValueByName(fd.fieldType.asInstanceOf[EnumType].descriptor, v)}
           ) ~> {
-          v: Option[GeneratedEnum] => (test(v.isDefined) | fail("enum value")) ~ push(v.get)
+          v: Either[String, GeneratedEnum] => (test(v.isRight) | fail(v.left.get)) ~ push(v.right.get)
         }
       }
     } ~> { v: Any => (fd, v) }
   }
 
+  def Colon = rule {
+    ws(':').named("\":\"")
+  }
+
   def ColonUnlessMessage = rule {
     run {
-      fd: FieldDescriptor => (ws(':') | test(fd.fieldType.fieldType == Type.MESSAGE) ~ optional(ws(':'))) ~ push(fd)
+      fd: FieldDescriptor =>
+        if (fd.fieldType.fieldType == Type.MESSAGE)
+          (optional(Colon) ~ push(fd))
+        else
+          (Colon ~ push(fd))
     }
   }
 
@@ -119,7 +128,7 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
   }
 
   def Pair(fieldMap: FieldToDescriptorMap): Rule1[Seq[(FieldDescriptor, Any)]] = rule {
-    MatchField(fieldMap) ~ ColonUnlessMessage ~> {
+    MatchField(fieldMap) ~ ColonUnlessMessage.named("\":\"") ~> {
       fd: FieldDescriptor =>
         if (fd.label == Repeated) (RepeatedValues(fd) | ParseValueByType(fd) ~> { Seq(_) })
         else ParseValueByType(fd) ~> { Seq(_) }
@@ -133,25 +142,25 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
     }
   }
 
-  def Boolean: Rule1[Boolean] = rule (
-    (("true" | "t" | "1") ~ push(true) |
-    ("false" | "f" | "0") ~ push(false)) ~ WhiteSpace
+  def boolean: Rule1[Boolean] = rule (
+    atomic(("true" | "t" | "1") ~ push(true) |
+    ("false" | "f" | "0") ~ push(false)).named("'true' or 'false'") ~ WhiteSpace
   )
 
-  def Int32 = rule {
-    RangeCheckedBigIntRule(isSigned = true, isLong = false) ~> (_.intValue())
+  def int32: Rule1[Int] = rule {
+    atomic(RangeCheckedBigIntRule(isSigned = true, isLong = false) ~> ((_: BigInteger).intValue()))
   }
 
-  def UInt32 = rule {
-    RangeCheckedBigIntRule(isSigned = false, isLong = false) ~> (_.intValue())
+  def uint32: Rule1[Int] = rule {
+    atomic(RangeCheckedBigIntRule(isSigned = false, isLong = false) ~> ((_: BigInteger).intValue()))
   }
 
-  def Int64 = rule {
-    RangeCheckedBigIntRule(isSigned = true, isLong = true) ~> (_.longValue())
+  def int64: Rule1[Long] = rule {
+    atomic(RangeCheckedBigIntRule(isSigned = true, isLong = true) ~> ((_: BigInteger).longValue()))
   }
 
-  def UInt64 = rule {
-    RangeCheckedBigIntRule(isSigned = false, isLong = true) ~> (_.longValue())
+  def uint64: Rule1[Long] = rule {
+    atomic(RangeCheckedBigIntRule(isSigned = false, isLong = true) ~> ((_: BigInteger).longValue()))
   }
 
   def RangeCheckedBigIntRule(isSigned: Boolean = true, isLong: Boolean): Rule1[BigInteger] = rule {
@@ -182,7 +191,7 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
   }
 
   def FloatRule: Rule1[Float] = rule(
-    (optional(capture('-')) ~ (
+    atomic(optional(capture('-')) ~ (
       ignoreCase("infinityf") | ignoreCase("infinity") | ignoreCase("inff") | ignoreCase("inf")) ~> {
       sign: Option[String] => sign.fold(Float.PositiveInfinity)(_ => Float.NegativeInfinity)
     }
@@ -191,16 +200,12 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
   )
 
   def DoubleRule: Rule1[Double] = rule (
-    (optional(capture('-')) ~ (ignoreCase("infinity") | ignoreCase("inf")) ~> {
+    atomic(optional(capture('-')) ~ (ignoreCase("infinity") | ignoreCase("inf")) ~> {
       sign: Option[String] => sign.fold(Double.PositiveInfinity)(_ => Double.NegativeInfinity)
     }
       | ignoreCase("nan") ~ push(Double.NaN)
       | capture(Number) ~> { v: String => v.toDouble }) ~ WhiteSpace
   )
-
-  def EnumValue: Rule1[Int] = rule {
-    Id ~> ((v: String) => v.toInt)
-  }
 
   def Number = rule {
     optional('.') ~ anyOf("0123456789+-") ~ zeroOrMore(CharPredicate.AlphaNum ++ "_.+-")
@@ -210,11 +215,11 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
     ByteString.copyFrom(s)
 
   def BytesLiteral: Rule1[ByteString] = rule {
-    oneOrMore(SingleBytesLiteral) ~> { s: Iterable[ByteString] => ByteString.copyFrom(s) }
+    oneOrMore(SingleBytesLiteral.named("string")) ~> { s: Iterable[ByteString] => ByteString.copyFrom(s) }
   }
 
   def SingleBytesLiteral: Rule1[ByteString] = rule {
-    ('\"' ~ capture((noneOf("\"\n\\") | ('\\' ~ ANY)).*) ~ ws('\"') |
+    atomic(('\"' ~ capture((noneOf("\"\n\\") | ('\\' ~ ANY)).*) ~ ws('\"') |
       '\'' ~ capture((noneOf("\'\n\\") | ('\\' ~ ANY)).*) ~ ws('\'')) ~ run {
       s: String =>
         Try(TextFormat.unescapeBytes(s)) match {
@@ -222,7 +227,7 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
           case Failure(TextFormat.StringParsingException(msg)) => fail(msg) ~ push(null)
           case Failure(_) => fail(s"Error occurred when parsing string: '$s'") ~ push(null)
         }
-    }
+    })
   }
 
   val OctalDigit = CharPredicate('0' to '7')
