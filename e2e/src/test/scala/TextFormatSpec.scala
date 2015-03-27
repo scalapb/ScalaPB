@@ -42,6 +42,7 @@ import org.scalacheck.{Arbitrary, Gen}
 import protobuf_unittest.UnittestProto.ForeignMessage
 import protobuf_unittest.unittest.{TestAllTypes, TestOneof2}
 import org.parboiled2.ParseError
+import scala.collection.mutable
 import scala.io.Source
 import scala.util._
 
@@ -52,12 +53,29 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     def apply(left: String) = {
       val r = TestAllTypes.fromAscii(left)
       MatchResult(r.isSuccess,
-                  if (r.isSuccess) "Text parsed ok" else ("Text did not parse: " + r.failure.get),
+                  if (r.isFailure) "Text did not parse: " + r.failure.get else null,
                   "Text parsed ok")
     }
   }
 
   def parseOk = new ParseOk
+
+  class FailParsingWith(error: String) extends Matcher[String] {
+
+    def apply(left: String) = {
+      val r = TestAllTypes.fromAscii(left)
+      r match {
+        case Success(_) =>
+          MatchResult(false, "Parse did not fail", null)
+        case Failure(p: TextFormatError) =>
+          MatchResult(p.msg.contains(error), s"Error '${p.msg}' did not contain: '$error'",
+            s"Error contained '$error'")
+        case Failure(e) => throw new RuntimeException("Unexpected exception", e)
+      }
+    }
+  }
+
+  def failParsingWith(error: String) = new FailParsingWith(error)
 
   /**
    * Helper to construct a ByteString from a String containing only 8-bit
@@ -209,11 +227,13 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     TestAllTypes.fromAscii(text).get
 
   def assertParseErrorWithOverwriteForbidden(error: String, text: String): Unit = {
-    parse(error, text).failure
+    parseFailure(error, text)
   }
 
-  def parse(error: String, text: String): Try[TestAllTypes] = {
-    TestAllTypes.fromAscii(text)
+  def parseFailure(error: String, text: String): Unit = {
+    intercept[TextFormatError] {
+      TestAllTypes.fromAscii(text).get
+    }.msg must include(error)
   }
 
   def parse(text: String): Try[TestAllTypes] = {
@@ -221,83 +241,61 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
   }
 
   "testParseErrors" should "pass" in {
-      parse(
-        "1:16: Expected \":\".",
-        "optional_int32 123").failure
-      parse(
-        "1:23: Expected identifier. Found '?'",
-        "optional_nested_enum: ?").failure
-      parse(
-        "1:18: Couldn't parse integer: Number must be positive: -1",
-        "optional_uint32: -1").failure
-      parse(
-        "1:17: Couldn't parse integer: Number out of range for 32-bit signed " +
-          "integer: 82301481290849012385230157",
-        "optional_int32: 82301481290849012385230157").failure
-      parse(
-        "1:16: Expected \"true\" or \"false\".",
-        "optional_bool: maybe").failure
-      parse(
-        "1:16: Expected \"true\" or \"false\".",
-        "optional_bool: 2").failure
-      parse(
-        "1:18: Expected string.",
-        "optional_string: 123").failure
-      parse(
-        "1:18: String missing ending quote.",
-        "optional_string: \"ueoauaoe").failure
-      parse(
-        "1:18: String missing ending quote.",
-        "optional_string: \"ueoauaoe\n" +
-        "optional_int32: 123").failure
-      parse(
-        "1:18: Invalid escape sequence: '\\z'",
-        "optional_string: \"\\z\"").failure
-      parse(
-        "1:18: String missing ending quote.",
-        "optional_string: \"ueoauaoe\n" +
-        "optional_int32: 123").failure
-      parse(
-        "1:2: Extension \"nosuchext\" not found in the ExtensionRegistry.",
-        "[nosuchext]: 123").failure
-      parse(
-        "1:20: Extension \"protobuf_unittest.optional_int32_extension\" does " +
-          "not extend message type \"protobuf_unittest.TestAllTypes\".",
-        "[protobuf_unittest.optional_int32_extension]: 123").failure
-      parse(
-        "1:1: Message type \"protobuf_unittest.TestAllTypes\" has no field " +
-          "named \"nosuchfield\".",
-        "nosuchfield: 123").failure
-      parse(
-        "1:21: Expected \">\".",
-        "OptionalGroup < a: 1").failure
-      parse(
-        "1:23: Enum type \"protobuf_unittest.TestAllTypes.NestedEnum\" has no " +
-          "value named \"NO_SUCH_VALUE\".",
-        "optional_nested_enum: NO_SUCH_VALUE").failure
-      parse(
-        "1:23: Enum type \"protobuf_unittest.TestAllTypes.NestedEnum\" has no " +
-          "value with number 123.",
-        "optional_nested_enum: 123").failure
+    "optional_int32 123" must failParsingWith(
+        "Invalid input '1', expected \":\" (line 1, column 16)")
+    "optional_nested_enum: ?" must failParsingWith(
+      "Invalid input '?', expected int32 or identifier (line 1, column 23)")
+//    "optional_uint32: -1" must failParsingWith(
+//        "1:18: Couldn't parseFailure integer: Number must be positive: -1")
+//    "optional_int32: 82301481290849012385230157" must failParsingWith(
+//        "1:17: Couldn't parseFailure integer: Number out of range for 32-bit signed " +
+//          "integer: 82301481290849012385230157")
+    "optional_bool: maybe" must failParsingWith(
+      "Invalid input 'm', expected 'true' or 'false' (line 1, column 16)")
+    "optional_bool: 2" must failParsingWith(
+      "Invalid input '2', expected 'true' or 'false' (line 1, column 16)")
+    "optional_string: 123" must failParsingWith(
+        "Invalid input '1', expected string (line 1, column 18)")
+//    "optional_string: \"ueoauaoe" must failParsingWith(
+//      "1:18: String missing ending quote.")
+    "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(
+      "Invalid input \"\"ueoauaoe\\n\", expected string (line 1, column 18)")
+    "optional_string: \"\\z\"" must failParsingWith(
+        "Unexpected end of input, expected Invalid escape sequence: z (line 1, column 22)")
+    "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(
+        "Invalid input \"\"ueoauaoe\\n\", expected string (line 1, column 18):")
+    "[nosuchext]: 123" must failParsingWith(
+        "Invalid input '[', expected Message or 'EOI' (line 1, column 1)")
+    "[protobuf_unittest.optional_int32_extension]: 123" must failParsingWith(
+        "Invalid input '[', expected Message or 'EOI' (line 1, column 1)")
+    "nosuchfield: 123" must failParsingWith(
+        "Invalid input ':', expected a known field (line 1, column 12)")
+    "OptionalGroup < a: 1" must failParsingWith(
+        "Invalid input '<', expected a known field (line 1, column 15)")
+    "optional_nested_enum: NO_SUCH_VALUE" must failParsingWith(
+        "Unexpected end of input, expected Enum type \"NestedEnum\" has no value named \"NO_SUCH_VALUE\" (line 1, column 36)")
+    "optional_nested_enum: 123" must failParsingWith(
+      "Unexpected end of input, expected Enum type \"NestedEnum\" has no value with number 123 (line 1, column 26)")
 
-      // Delimiters must match.
-      parse(
-        "1:22: Expected identifier. Found '}'",
-        "OptionalGroup < a: 1 }").failure
-      parse(
-        "1:22: Expected identifier. Found '>'",
-        "OptionalGroup { a: 1 >").failure
+    // Delimiters must match.
+    "OptionalGroup < a: 1 }" must failParsingWith(
+      "Invalid input '<', expected a known field (line 1, column 15)")
+    "OptionalGroup { a: 1 >" must failParsingWith(
+      "Invalid input '{', expected a known field (line 1, column 15)")
 
-      // Additional by ScalaPB:
-      parse(
-        "1:18: Escape sequence at end of string.",
-        "optional_string: \"hello\\\"").failure
-      parse(
-        "1:18: Hex with no values",
-        "optional_string: \"hello\\xhello").failure
-      parse(
-        "1:18: Hex with no values",
-        "optional_string: \"hello\\x").failure
+    // Additional by ScalaPB:
+//    "optional_string: \"hello\\\"" must failParsingWith(
+//      "1:18: Escape sequence at end of string.")
+//    "optional_string: \"hello\\xhello" must failParsingWith(
+//      "1:18: Hex with no values")
+//    "optional_string: \"hello\\x" must failParsingWith(
+//      "1:18: Hex with no values")
+    "repeated_nested_message: { >" must failParsingWith(
+      "Invalid input '>', expected field values or \"}\" (line 1, column 28)")
+    "repeated_nested_message { >" must failParsingWith(
+      "Invalid input '>', expected field values or \"}\" (line 1, column 27)")
+    "repeated_nested_message < }" must failParsingWith(
+      "Invalid input '}', expected field values or \">\" (line 1, column 27)")
   }
 
     // =================================================================
@@ -355,16 +353,16 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     }
 
     def parseInt32[T](input: String): Int =
-      new TextFormat(input).Int32.run().get
+      new TextFormat(input).int32.run().get
 
     def parseInt64[T](input: String): Long =
-      new TextFormat(input).Int64.run().get
+      new TextFormat(input).int64.run().get
 
     def parseUInt32[T](input: String): Int =
-      new TextFormat(input).UInt32.run().get
+      new TextFormat(input).uint32.run().get
 
     def parseUInt64[T](input: String): Long =
-      new TextFormat(input).UInt64.run().get
+      new TextFormat(input).uint64.run().get
 
     "testParseInteger" should "pass" in {
                 0 must be(parseInt32(          "0"))
@@ -502,12 +500,8 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
       val good = TestAllTypes.fromAscii(goodText).get
       goodTextCanonical must be(good.toString)
 
-      intercept[TextFormatError] {
-        TestAllTypes.fromAscii("optional_bool:2").get
-      }
-      intercept[TextFormatError] {
-        TestAllTypes.fromAscii("optional_bool: foo").get
-      }
+      "optional_bool:2" must failParsingWith("")
+      "optional_bool:foo" must failParsingWith("")
     }
 
     "testParseAdjacentStringLiterals" should "pass" in {
@@ -629,9 +623,9 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
 
     "testParseNonRepeatedFields" should "pass" in {
       ("repeated_int32: 1\n" +
-          "repeated_int32: 2\n") must parseOk
+        "repeated_int32: 2\n") must parseOk
       ("repeated_nested_message { bb: 1 }\n" +
-          "repeated_nested_message { bb: 2 }\n") must parseOk
+        "repeated_nested_message { bb: 2 }\n") must parseOk
     }
 
     "testParseShortRepeatedFormOfRepeatedFields" should "pass" in {
@@ -641,9 +635,8 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     }
 
     "testParseShortRepeatedFormOfNonRepeatedFields" should "pass" in {
-      assertParseErrorWithOverwriteForbidden(
-          "1:17: Couldn't parse integer: For input string: \"[\"",
-          "optional_int32: [1]\n");
+      "optional_int32: [1]" must failParsingWith(
+          "Invalid input '[', expected int32 (line 1, column 17)")
     }
 
     // =======================================================================
