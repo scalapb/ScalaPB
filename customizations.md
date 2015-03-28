@@ -72,14 +72,14 @@ You can specify any number of base traits for a message.
 
 # Custom types
 
-You can customize the Scala type of any field.  One use case for this is when
-you want to wrap a primitive value in a class that enforce unit correctness in
- a type-safe way. For example:
+You can customize the Scala type of any field.  One use-case for this is when
+you would like to use type-safe wrappers around primitive values to enforce unit
+correctness. For example, instead of using an integer for time fields, you can
+wrap in a `Seconds` class.
 
 {% highlight proto %}
-message Weather {
-  optional float temperature = 1 [(scalapb.field).type = "mydomain.Fahrenheit"];
-  optional int32 wind_speed = 2 [(scalapb.field).type = "mydomain.Mph"];
+message Connection {
+  optional int32 timeout_secs = 1 [(scalapb.field).type = "mydomain.Seconds"];
 }
 {% endhighlight %}
 
@@ -91,20 +91,20 @@ since the Scala compiler will look for a typemapper there by default.  If your t
 {% highlight scala %}
 package mydomain
 
-case class Fahrenheit(v: Float) extends AnyVal
+case class Seconds(v: Int) extends AnyVal
 
-case class Mph(speed: Int) extends AnyVal
-
-object Fahrenheight {
-  implicit val typeMapper = TypeMapper(Fahrenheit.apply)(_.v)
-}
-
-object Mph {
-  implicit val typeMapper = TypeMapper(Mph.apply)(_.speed)
+object Seconds {
+  implicit val typeMapper = TypeMapper(Seconds.apply)(_.v)
 }
 {% endhighlight %}
 
-In addition to privite values, you can customize enums and messages as well.
+Then, in your code you can:
+
+{% highlight scala %}
+Connection().update(_.timeout := Seconds(5))
+{% endhighlight %}
+
+In addition to primitive values, you can customize enums and messages as well.
 
 For more examples, see:
 
