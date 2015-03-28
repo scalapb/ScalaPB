@@ -74,8 +74,8 @@ You can specify any number of base traits for a message.
 
 You can customize the Scala type of any field.  One use-case for this is when
 you would like to use type-safe wrappers around primitive values to enforce unit
-correctness. For example, instead of using an integer for time fields, you can
-wrap in a `Seconds` class.
+correctness. For example, instead of using a raw integer for time fields, you can
+wrap them in a `Seconds` class.
 
 {% highlight proto %}
 message Connection {
@@ -83,10 +83,19 @@ message Connection {
 }
 {% endhighlight %}
 
-For each custom type you need to define an implicit `TypeMapper` that will tell
-ScalaPB how to convert between the custom type to the base Scala type.  A good
-place to define this implicit is in the companion class for your custom type,
-since the Scala compiler will look for a typemapper there by default.  If your typemapper is defined elsewhere, you will need to import it manually by using the `import` file-level option.
+We would like to write code like this:
+
+{% highlight scala %}
+val c = Connection().update(_.timeout := Seconds(5))
+{% endhighlight %}
+
+How will ScalaPB know how to convert from the original type (`Integer`) to the
+custom type `Seconds`? For each custom type you need to define an implicit
+`TypeMapper` that will tell ScalaPB how to convert between the custom type and
+the base Scala type.  A good place to define this implicit is in the companion
+class for your custom type, since the Scala compiler will look for a
+typemapper there by default.  If your typemapper is defined elsewhere, you
+will need to import it manually by using the `import` file-level option.
 
 {% highlight scala %}
 package mydomain
@@ -98,11 +107,9 @@ object Seconds {
 }
 {% endhighlight %}
 
-Then, in your code you can:
-
-{% highlight scala %}
-Connection().update(_.timeout := Seconds(5))
-{% endhighlight %}
+`TypeMapper` takes two function parameters. The first converts from the original type to
+the custom type. The second function converts from the custom type to the
+original type. 
 
 In addition to primitive values, you can customize enums and messages as well.
 
