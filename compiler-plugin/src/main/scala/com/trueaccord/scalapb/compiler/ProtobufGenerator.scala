@@ -1,8 +1,7 @@
 package com.trueaccord.scalapb.compiler
 
-import com.google.protobuf.Descriptors.FieldDescriptor.{Type, JavaType}
+import com.google.protobuf.Descriptors.FieldDescriptor.JavaType
 import com.google.protobuf.Descriptors._
-import com.google.protobuf.WireFormat.FieldType
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
@@ -712,15 +711,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
-    val className = message.getName.asSymbol
-
-    val myFullScalaName = message.scalaTypeName
     printer
-      .add(s"final case class $className(")
+      .add(s"final case class ${message.nameSymbol}(")
       .indent
       .indent
       .call(printConstructorFieldList(message))
-      .add(s") extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[$className] with com.trueaccord.lenses.Updatable[$className] {")
+      .add(s") extends ${message.baseClasses.mkString(" with ")} {")
       .call(generateSerializedSizeForPackedFields(message))
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
@@ -739,32 +735,32 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           .when(field.isOptional && !field.isInOneof) {
           p =>
             p.addM(
-              s"""def $clearMethod: $className = copy(${field.scalaName.asSymbol} = None)
-                 |def $withMethod(__v: ${singleType}): $className = copy(${field.scalaName.asSymbol} = Some(__v))""")
+              s"""def $clearMethod: ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = None)
+                 |def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = Some(__v))""")
         }.when(field.isInOneof) {
           p =>
             val default = defaultValueForGet(field)
             p.add(
-              s"""def $withMethod(__v: ${singleType}): $className = copy(${field.getContainingOneof.scalaName.asSymbol} = ${field.oneOfTypeName}(__v))""")
+              s"""def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.getContainingOneof.scalaName.asSymbol} = ${field.oneOfTypeName}(__v))""")
         }.when(field.isRepeated) { p =>
           p.addM(
             s"""def $clearMethod = copy(${field.scalaName.asSymbol} = Nil)
-               |def add${field.upperScalaName}(__vs: $singleType*): $className = addAll${field.upperScalaName}(__vs)
-               |def addAll${field.upperScalaName}(__vs: TraversableOnce[$singleType]): $className = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)""")
+               |def add${field.upperScalaName}(__vs: $singleType*): ${message.nameSymbol} = addAll${field.upperScalaName}(__vs)
+               |def addAll${field.upperScalaName}(__vs: TraversableOnce[$singleType]): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)""")
         }.when(field.isRepeated || field.isRequired) {
           _
-            .add(s"def $withMethod(__v: ${field.scalaTypeName}): $className = copy(${field.scalaName.asSymbol} = __v)")
+            .add(s"def $withMethod(__v: ${field.scalaTypeName}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)")
         }
     }.print(message.getOneofs) {
       case (oneof, printer) =>
         printer.addM(
-          s"""def clear${oneof.upperScalaName}: $className = copy(${oneof.scalaName.asSymbol} = ${oneof.empty})
-             |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): $className = copy(${oneof.scalaName.asSymbol} = __v)""")
+          s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof.empty})
+             |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
       .call(generateGetField(message))
       .when(params.javaConversions)(
-        _.add(s"override def toString: String = com.google.protobuf.TextFormat.printToString($myFullScalaName.toJavaProto(this))"))
-      .add(s"def companion = $myFullScalaName")
+        _.add(s"override def toString: String = com.google.protobuf.TextFormat.printToString(${message.scalaTypeName}.toJavaProto(this))"))
+      .add(s"def companion = ${message.scalaTypeName}")
       .outdent
       .outdent
       .addM(s"""}

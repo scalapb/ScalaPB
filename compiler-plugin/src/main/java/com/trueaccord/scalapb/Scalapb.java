@@ -8,6 +8,7 @@ public final class Scalapb {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
     registry.add(com.trueaccord.scalapb.Scalapb.options);
+    registry.add(com.trueaccord.scalapb.Scalapb.message);
     registry.add(com.trueaccord.scalapb.Scalapb.field);
   }
   public interface ScalaPbOptionsOrBuilder extends
@@ -936,6 +937,573 @@ public final class Scalapb {
     // @@protoc_insertion_point(class_scope:scalapb.ScalaPbOptions)
   }
 
+  public interface MessageOptionsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:scalapb.MessageOptions)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    com.google.protobuf.ProtocolStringList
+        getExtendsList();
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    int getExtendsCount();
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    java.lang.String getExtends(int index);
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getExtendsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code scalapb.MessageOptions}
+   */
+  public static final class MessageOptions extends
+      com.google.protobuf.GeneratedMessage implements
+      // @@protoc_insertion_point(message_implements:scalapb.MessageOptions)
+      MessageOptionsOrBuilder {
+    // Use MessageOptions.newBuilder() to construct.
+    private MessageOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      super(builder);
+      this.unknownFields = builder.getUnknownFields();
+    }
+    private MessageOptions(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
+
+    private static final MessageOptions defaultInstance;
+    public static MessageOptions getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public MessageOptions getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    private final com.google.protobuf.UnknownFieldSet unknownFields;
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+        getUnknownFields() {
+      return this.unknownFields;
+    }
+    private MessageOptions(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      initFields();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                extends_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              extends_.add(bs);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e.getMessage()).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.trueaccord.scalapb.Scalapb.MessageOptions.class, com.trueaccord.scalapb.Scalapb.MessageOptions.Builder.class);
+    }
+
+    public static com.google.protobuf.Parser<MessageOptions> PARSER =
+        new com.google.protobuf.AbstractParser<MessageOptions>() {
+      public MessageOptions parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new MessageOptions(input, extensionRegistry);
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<MessageOptions> getParserForType() {
+      return PARSER;
+    }
+
+    public static final int EXTENDS_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList extends_;
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getExtendsList() {
+      return extends_;
+    }
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    public int getExtendsCount() {
+      return extends_.size();
+    }
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    public java.lang.String getExtends(int index) {
+      return extends_.get(index);
+    }
+    /**
+     * <code>repeated string extends = 1;</code>
+     *
+     * <pre>
+     * additional classes and traits to mix in to the case class.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getExtendsBytes(int index) {
+      return extends_.getByteString(index);
+    }
+
+    private void initFields() {
+      extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < extends_.size(); i++) {
+        output.writeBytes(1, extends_.getByteString(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < extends_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(extends_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getExtendsList().size();
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return PARSER.parseFrom(input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.MessageOptions prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code scalapb.MessageOptions}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:scalapb.MessageOptions)
+        com.trueaccord.scalapb.Scalapb.MessageOptionsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.trueaccord.scalapb.Scalapb.MessageOptions.class, com.trueaccord.scalapb.Scalapb.MessageOptions.Builder.class);
+      }
+
+      // Construct using com.trueaccord.scalapb.Scalapb.MessageOptions.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+
+      public Builder clear() {
+        super.clear();
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
+      }
+
+      public com.trueaccord.scalapb.Scalapb.MessageOptions getDefaultInstanceForType() {
+        return com.trueaccord.scalapb.Scalapb.MessageOptions.getDefaultInstance();
+      }
+
+      public com.trueaccord.scalapb.Scalapb.MessageOptions build() {
+        com.trueaccord.scalapb.Scalapb.MessageOptions result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.trueaccord.scalapb.Scalapb.MessageOptions buildPartial() {
+        com.trueaccord.scalapb.Scalapb.MessageOptions result = new com.trueaccord.scalapb.Scalapb.MessageOptions(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.extends_ = extends_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.trueaccord.scalapb.Scalapb.MessageOptions) {
+          return mergeFrom((com.trueaccord.scalapb.Scalapb.MessageOptions)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.trueaccord.scalapb.Scalapb.MessageOptions other) {
+        if (other == com.trueaccord.scalapb.Scalapb.MessageOptions.getDefaultInstance()) return this;
+        if (!other.extends_.isEmpty()) {
+          if (extends_.isEmpty()) {
+            extends_ = other.extends_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureExtendsIsMutable();
+            extends_.addAll(other.extends_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.trueaccord.scalapb.Scalapb.MessageOptions parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.trueaccord.scalapb.Scalapb.MessageOptions) e.getUnfinishedMessage();
+          throw e;
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureExtendsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = new com.google.protobuf.LazyStringArrayList(extends_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getExtendsList() {
+        return extends_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public int getExtendsCount() {
+        return extends_.size();
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public java.lang.String getExtends(int index) {
+        return extends_.get(index);
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getExtendsBytes(int index) {
+        return extends_.getByteString(index);
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public Builder setExtends(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public Builder addExtends(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public Builder addAllExtends(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureExtendsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, extends_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public Builder clearExtends() {
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string extends = 1;</code>
+       *
+       * <pre>
+       * additional classes and traits to mix in to the case class.
+       * </pre>
+       */
+      public Builder addExtendsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:scalapb.MessageOptions)
+    }
+
+    static {
+      defaultInstance = new MessageOptions(true);
+      defaultInstance.initFields();
+    }
+
+    // @@protoc_insertion_point(class_scope:scalapb.MessageOptions)
+  }
+
   public interface FieldOptionsOrBuilder extends
       // @@protoc_insertion_point(interface_extends:scalapb.FieldOptions)
       com.google.protobuf.MessageOrBuilder {
@@ -1428,6 +1996,22 @@ public final class Scalapb {
           .newFileScopedGeneratedExtension(
         com.trueaccord.scalapb.Scalapb.ScalaPbOptions.class,
         com.trueaccord.scalapb.Scalapb.ScalaPbOptions.getDefaultInstance());
+  public static final int MESSAGE_FIELD_NUMBER = 1020;
+  /**
+   * <code>extend .google.protobuf.MessageOptions { ... }</code>
+   *
+   * <pre>
+   * Message-level optionals for ScalaPB.
+   * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
+   * </pre>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.MessageOptions,
+      com.trueaccord.scalapb.Scalapb.MessageOptions> message = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        com.trueaccord.scalapb.Scalapb.MessageOptions.class,
+        com.trueaccord.scalapb.Scalapb.MessageOptions.getDefaultInstance());
   public static final int FIELD_FIELD_NUMBER = 1020;
   /**
    * <code>extend .google.protobuf.FieldOptions { ... }</code>
@@ -1450,6 +2034,11 @@ public final class Scalapb {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_scalapb_ScalaPbOptions_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_scalapb_MessageOptions_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_scalapb_MessageOptions_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_FieldOptions_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -1466,12 +2055,15 @@ public final class Scalapb {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
       "/protobuf/descriptor.proto\"L\n\016ScalaPbOpt" +
       "ions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_packa" +
-      "ge\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\"\034\n\014FieldOptions" +
-      "\022\014\n\004type\030\001 \001(\t:G\n\007options\022\034.google.proto" +
-      "buf.FileOptions\030\374\007 \001(\0132\027.scalapb.ScalaPb" +
-      "Options:D\n\005field\022\035.google.protobuf.Field" +
-      "Options\030\374\007 \001(\0132\025.scalapb.FieldOptionsB\030\n" +
-      "\026com.trueaccord.scalapb"
+      "ge\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\"!\n\016MessageOptio" +
+      "ns\022\017\n\007extends\030\001 \003(\t\"\034\n\014FieldOptions\022\014\n\004t" +
+      "ype\030\001 \001(\t:G\n\007options\022\034.google.protobuf.F" +
+      "ileOptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptio" +
+      "ns:J\n\007message\022\037.google.protobuf.MessageO" +
+      "ptions\030\374\007 \001(\0132\027.scalapb.MessageOptions:D" +
+      "\n\005field\022\035.google.protobuf.FieldOptions\030\374",
+      "\007 \001(\0132\025.scalapb.FieldOptionsB\030\n\026com.true" +
+      "accord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1492,14 +2084,21 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
         new java.lang.String[] { "PackageName", "FlatPackage", "Import", });
-    internal_static_scalapb_FieldOptions_descriptor =
+    internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_scalapb_MessageOptions_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+        internal_static_scalapb_MessageOptions_descriptor,
+        new java.lang.String[] { "Extends", });
+    internal_static_scalapb_FieldOptions_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_scalapb_FieldOptions_descriptor,
         new java.lang.String[] { "Type", });
     options.internalInit(descriptor.getExtensions().get(0));
-    field.internalInit(descriptor.getExtensions().get(1));
+    message.internalInit(descriptor.getExtensions().get(1));
+    field.internalInit(descriptor.getExtensions().get(2));
     com.google.protobuf.DescriptorProtos.getDescriptor();
   }
 

@@ -3,7 +3,7 @@ package com.trueaccord.scalapb.compiler
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
 import com.trueaccord.scalapb.Scalapb
-import com.trueaccord.scalapb.Scalapb.{FieldOptions, ScalaPbOptions}
+import com.trueaccord.scalapb.Scalapb.{FieldOptions, MessageOptions, ScalaPbOptions}
 
 import scala.collection.JavaConversions._
 import scala.collection.immutable.IndexedSeq
@@ -125,6 +125,17 @@ trait DescriptorPimps {
     def scalaTypeName = message.getFile.fullScalaName(message.getFullName)
 
     def javaTypeName = message.getFile.fullJavaName(message.getFullName)
+
+    def messageOptions: MessageOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
+
+    def extendsOption = messageOptions.getExtendsList.toSeq
+
+    def nameSymbol = message.getName.asSymbol
+
+    def baseClasses: Seq[String] =
+      Seq("com.trueaccord.scalapb.GeneratedMessage",
+        s"com.trueaccord.scalapb.Message[$nameSymbol]",
+        s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption
   }
 
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {

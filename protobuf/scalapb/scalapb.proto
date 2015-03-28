@@ -27,6 +27,17 @@ extend google.protobuf.FileOptions {
   optional ScalaPbOptions options = 1020;
 }
 
+message MessageOptions {
+  // additional classes and traits to mix in to the case class.
+  repeated string extends = 1;
+}
+
+extend google.protobuf.MessageOptions {
+  // Message-level optionals for ScalaPB.
+  // Extension number officially assigned by protobuf-global-extension-registry@google.com
+  optional MessageOptions message = 1020;
+}
+
 message FieldOptions {
   optional string type = 1;
 }
