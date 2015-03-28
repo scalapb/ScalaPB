@@ -79,7 +79,7 @@ wrap in a `Seconds` class.
 
 {% highlight proto %}
 message Connection {
-  optional int32 timeout_secs = 1 [(scalapb.field).type = "mydomain.Seconds"];
+  optional int32 timeout = 1 [(scalapb.field).type = "mydomain.Seconds"];
 }
 {% endhighlight %}
 
