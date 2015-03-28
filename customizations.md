@@ -78,7 +78,7 @@ you want to wrap a primitive value in a class that enforce unit correctness in
 
 {% highlight proto %}
 message Weather {
-  optional float temprature = 1 [(scalapb.field).type = "mydomain.Fahrenheit"];
+  optional float temperature = 1 [(scalapb.field).type = "mydomain.Fahrenheit"];
   optional int32 wind_speed = 2 [(scalapb.field).type = "mydomain.Mph"];
 }
 {% endhighlight %}
@@ -107,9 +107,10 @@ object Mph {
 In addition to privite values, you can customize enums and messages as well.
 
 For more examples, see:
-- https://github.com/trueaccord/ScalaPB/blob/master/e2e/src/main/protobuf/custom_types.proto
-- https://github.com/trueaccord/ScalaPB/blob/master/e2e/src/main/scala/com/trueaccord/pb/PersonId.scala
-- https://github.com/trueaccord/ScalaPB/blob/master/e2e/src/test/scala/CustomTypesSpec.scala
+
+- [`custom_types.proto`](https://github.com/trueaccord/ScalaPB/blob/master/e2e/src/main/protobuf/custom_types.proto)
+- [`PersonId.scala`](https://github.com/trueaccord/ScalaPB/blob/master/e2e/src/main/scala/com/trueaccord/pb/PersonId.scala)
+- [`CustomTypesSpec.scala`](https://github.com/trueaccord/ScalaPB/blob/master/e2e/src/test/scala/CustomTypesSpec.scala)
 
 # Adding scalapb.proto to your project
 
