@@ -5,6 +5,7 @@ import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
+import scala.collection.mutable
 
 case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false)
 
@@ -91,10 +92,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def escapeString(raw: String): String = {
     import scala.reflect.runtime.universe._
     Literal(Constant(raw)).toString
-  }
-
-  def byteArrayAsBase64Literal(buffer: Array[Byte]): String = {
-    "\"\"\"" + new sun.misc.BASE64Encoder().encode(buffer) + "\"\"\""
   }
 
   def defaultValueForGet(field: FieldDescriptor) = {
@@ -804,6 +801,39 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
   }
 
+  private def encodeByteArray(a: ByteString): Seq[String] = {
+    val CH_SLASH: java.lang.Byte = '\\'.toByte
+    val CH_SQ: java.lang.Byte = '\''.toByte
+    val CH_DQ: java.lang.Byte = '\"'.toByte
+    for {
+      groups <- a.grouped(60).toSeq
+    } yield {
+      val sb = mutable.StringBuilder.newBuilder
+      sb.append('\"')
+      groups.foreach {
+        b =>
+          b match {
+            case CH_SLASH => sb.append("\\\\")
+            case CH_SQ => sb.append("\\\'")
+            case CH_DQ => sb.append("\\\"")
+            case b if b >= 0x20 => sb.append(b)
+            case b =>
+              sb.append("\\u00")
+              sb.append(Integer.toHexString((b >>> 4) & 0xf))
+              sb.append(Integer.toHexString(b & 0xf))
+          }
+      }
+      sb.append('\"')
+      sb.result()
+    }
+  }
+
+  def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    fp.add("private val descriptorData: String = ")
+      .add(file.toProto.toByteString)
+
+  }
+
   def generateScalaFilesForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     val enumFiles = for {
       enum <- file.getEnumTypes
@@ -835,6 +865,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           .add(s"object ${file.internalFieldsObjectName} {")
           .indent
           .call(generateInternalFieldsFor(file))
+          .call(generateFileDescriptor(file))
           .outdent
           .add("}").result())
       b.build
