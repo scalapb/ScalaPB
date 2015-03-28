@@ -77,20 +77,17 @@ trait DescriptorPimps {
       fd.getMessageType.mapType
     }
 
-    def baseScalaTypeName: String = {
-      val base = baseSingleScalaTypeName
+    def typeCategory(base: String): String = {
       if (supportsPresence) s"Option[$base]"
       else if (fd.isRepeated) s"Seq[$base]"
       else base
     }
 
-    def scalaTypeName: String = {
-      val base = singleScalaTypeName
-      if (supportsPresence) s"Option[$base]"
-      else if (fd.isMap) fd.mapType.scalaTypeName
-      else if (fd.isRepeated) s"Seq[$base]"
-      else base
-    }
+    def baseScalaTypeName: String = typeCategory(baseSingleScalaTypeName)
+
+    def scalaTypeName: String = if (fd.isMap)
+      fd.mapType.scalaTypeName else
+      typeCategory(singleScalaTypeName)
 
     def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
@@ -172,6 +169,8 @@ trait DescriptorPimps {
 
     def javaConversions = params.javaConversions && !isMapEntry
 
+    def isTopLevel = message.getContainingType == null
+
     class MapType {
       def keyField = message.findFieldByName("key")
 
@@ -206,6 +205,8 @@ trait DescriptorPimps {
       case Some(p) => p.scalaTypeName + "." + nameSymbol
       case None => enum.getFile.scalaPackageName + "." + nameSymbol
     }
+
+    def isTopLevel = enum.getContainingType == null
 
     def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
   }
@@ -262,6 +263,8 @@ trait DescriptorPimps {
     }
 
     def internalFieldsObjectName = "InternalFields_" + snakeCaseToCamelCase(file.getName)
+
+    def internalFieldsFullName = scalaPackageName + "." + internalFieldsObjectName
 
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
 

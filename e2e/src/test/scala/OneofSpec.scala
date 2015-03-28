@@ -2,6 +2,7 @@ import com.trueaccord.proto.e2e.one_of._
 import org.scalatest._
 import org.scalatest.prop._
 import org.scalacheck.Gen
+import collection.JavaConversions._
 import Matchers._
 
 class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
@@ -125,9 +126,9 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
   }
 
   "oneof field descriptors" should "give the right containing name" in {
-    for (fieldDescriptor <- OneofTest.descriptor.fields) {
-      if (fieldDescriptor.number > 1) {
-        fieldDescriptor.containingOneofName must be(Some("my_one_of"))
+    for (fieldDescriptor <- OneofTest.descriptor.getFields) {
+      if (fieldDescriptor.getNumber > 1) {
+        fieldDescriptor.getContainingOneof.getName must be("my_one_of")
       }
     }
   }

@@ -1,7 +1,7 @@
 package com.trueaccord.scalapb
 
 import com.google.protobuf.CodedInputStream
-import com.google.protobuf.Descriptors.FieldDescriptor.{JavaType, Type}
+import com.google.protobuf.Descriptors.FieldDescriptor.Type
 
 object Descriptors {
 
@@ -28,49 +28,4 @@ object Descriptors {
     }
   }
 
-  class FileDescriptor(m: => Seq[MessageDescriptor], e: => Seq[EnumDescriptor]) {
-    lazy val messages = m
-    lazy val enums = e
-  }
-
-  class EnumDescriptor(val index: Int, val name: String,
-                       val companion: GeneratedEnumCompanion[_ <: GeneratedEnum])
-
-  class MessageDescriptor(val name: String,
-                          val companion: GeneratedMessageCompanion[_ <: GeneratedMessage],
-                          c: => Option[MessageDescriptor],
-                          m: => Seq[MessageDescriptor],
-                          e: => Seq[EnumDescriptor],
-                          f: => Seq[FieldDescriptor]) {
-    lazy val container = c
-    lazy val messages = m
-    lazy val enums = e
-    lazy val fields = f
-  }
-
-  sealed trait Label
-
-  final case object Repeated extends Label
-
-  final case object Required extends Label
-
-  final case object Optional extends Label
-
-  sealed trait FieldType {
-    def fieldType: Type
-  }
-
-  case class PrimitiveType(javaType: JavaType, fieldType: Type) extends FieldType
-
-  case class MessageType(m: MessageDescriptor) extends FieldType {
-    def fieldType = Type.MESSAGE
-  }
-
-  case class EnumType(descriptor: EnumDescriptor) extends FieldType {
-    def fieldType = Type.ENUM
-  }
-
-  case class FieldDescriptor(index: Int, number: Int, name: String, label: Label,
-                             fieldType: FieldType, isPacked: Boolean = false,
-                             containingOneofName: Option[String] = None)
 }

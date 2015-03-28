@@ -2,22 +2,33 @@ package com.trueaccord.scalapb
 
 import java.io.{InputStream, OutputStream}
 
+import com.google.protobuf.Descriptors.{FieldDescriptor, EnumDescriptor}
 import com.google.protobuf.{CodedInputStream, CodedOutputStream}
+import scala.collection.JavaConversions._
 
 import scala.util.Try
 
 trait GeneratedEnum {
-  def id: Int
+  type EnumType <: GeneratedEnum
+
+  def value: Int
+
+  def index: Int
 
   def name: String
 
   override def toString = name
+
+  def companion: GeneratedEnumCompanion[EnumType]
+
+  def valueDescriptor = companion.descriptor.getValues.get(index)
 }
 
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   type ValueType = A
-  def fromValue(id: Int): A
+  def fromValue(value: Int): A
   def values: Seq[A]
+  def descriptor: EnumDescriptor
 }
 
 trait GeneratedMessage {
@@ -43,19 +54,18 @@ trait GeneratedMessage {
     codedOutput.flush()
   }
 
-  def getField(field: Descriptors.FieldDescriptor): Any
+  def getField(field: FieldDescriptor): Any
 
   def companion: GeneratedMessageCompanion[_]
 
-  def getAllFields: Seq[(Descriptors.FieldDescriptor, Any)] =
-    companion.descriptor.fields.flatMap {
+  def getAllFields: Map[FieldDescriptor, Any] =
+    companion.descriptor.getFields.flatMap({
       f =>
         getField(f) match {
-          case None => None
-          case Nil => None
+          case None | Nil => None
           case v => Some(f -> v)
         }
-    }
+    })(collection.breakOut)
 
   def toByteArray: Array[Byte] = {
     val a = new Array[Byte](serializedSize)
@@ -103,9 +113,9 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
 
-  def fromFieldsMap(fields: Map[Int, Any]): A
+  def fromFieldsMap(fields: Map[FieldDescriptor, Any]): A
 
-  def descriptor: Descriptors.MessageDescriptor
+  def descriptor: com.google.protobuf.Descriptors.Descriptor
 
   def defaultInstance: A
 }

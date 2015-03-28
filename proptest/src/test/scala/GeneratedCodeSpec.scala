@@ -50,6 +50,9 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
               // Parsing in Java the bytes serialized by Scala should give back javaProto:
               val javaProto2 = schema.javaParse(message, scalaBytes)
               javaProto2 should be(javaProto)
+
+              // getAllFields and fromFieldsMap should return the same object
+              companion.fromFieldsMap(scalaProto.getAllFields) should be(scalaProto)
             } catch {
               case e: Exception =>
                 println(e.printStackTrace)
