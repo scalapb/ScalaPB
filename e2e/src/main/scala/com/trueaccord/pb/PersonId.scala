@@ -29,3 +29,10 @@ object FullName {
 object MisplacedMapper {
   implicit val weatherMapper = TypeMapper(WrappedWeather.apply)(_.weather)
 }
+
+trait DomainEvent {
+  def personId: Option[PersonId]
+  def optionalNumber: Option[Int]
+  def repeatedNumber: Seq[Int]
+  def requiredNumber: Int
+}

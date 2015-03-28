@@ -7,7 +7,6 @@ option (scalapb.options) = {
 };
 
 message CustomMessage {
-
   optional string person_id = 2          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
   required string required_person_id = 3 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
   repeated string person_ids = 4         [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
@@ -42,4 +41,13 @@ message OneofMessage {
     CustomMessage.Weather weather = 3    [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
     CustomMessage.Name name = 4          [(scalapb.field).type = "com.trueaccord.pb.FullName"];
   }
+}
+
+message CustomerEvent {
+  option (scalapb.message).extends = "com.trueaccord.pb.DomainEvent";
+
+  optional string person_id = 1          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  optional int32 optional_number = 2;
+  repeated int32 repeated_number = 3;
+  required int32 required_number = 4;
 }

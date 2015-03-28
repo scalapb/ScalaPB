@@ -85,4 +85,17 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
     val concat = (m1.toByteArray ++ m2.toByteArray)
     CustomMessage.parseFrom(concat) must be(expected)
   }
+
+  "Extended types" should "inherit from marker type" in {
+    val t: DomainEvent = CustomerEvent(
+      personId = Some(PersonId("123")),
+      optionalNumber = Some(1),
+      repeatedNumber = Seq(2,3,4),
+      requiredNumber = 5)
+    t mustBe a [DomainEvent]
+    t.personId must be(Some(PersonId("123")))
+    t.optionalNumber must be(Some(1))
+    t.repeatedNumber must be(Seq(2,3,4))
+    t.requiredNumber must be(5)
+  }
 }
