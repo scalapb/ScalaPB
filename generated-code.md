@@ -25,7 +25,7 @@ The Scala package of the generated files will be determined as follows:
   will be just `base_name`.
 
 From version 0.4.2, there is a way to customize the package name by using
-[file-level options]({{site.baseurl}}/file-options.html).
+[file-level options]({{site.baseurl}}/customizations.html).
 
 ## Messages
 

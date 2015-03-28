@@ -1,2 +1,5 @@
 baseurl: /ScalaPB
 
+gems:
+  - jekyll-redirect-from
+
