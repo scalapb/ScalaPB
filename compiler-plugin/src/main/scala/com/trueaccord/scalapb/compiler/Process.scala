@@ -1,6 +1,6 @@
 package com.trueaccord.scalapb.compiler
 
-import java.io.{StringWriter, PrintWriter}
+import java.io.{InputStream, StringWriter, PrintWriter}
 import java.nio.file.attribute.PosixFilePermission
 import java.nio.file.{Files, Path}
 
@@ -22,24 +22,28 @@ object Process {
     stringWriter.toString
   }
 
+  def runWithInputStream(fsin: InputStream): CodeGeneratorResponse = {
+    val registry = ExtensionRegistry.newInstance()
+    Scalapb.registerAllExtensions(registry)
+
+    Try {
+      val request = CodeGeneratorRequest.parseFrom(fsin, registry)
+      ProtobufGenerator.handleCodeGeneratorRequest(request)
+    }.recover {
+      case throwable =>
+        CodeGeneratorResponse.newBuilder()
+          .setError(throwable.toString + "\n" + getStackTrace(throwable))
+          .build
+    }.get
+  }
+
   def runProtocUsing[A](protocCommand: String, schemas: Seq[String] = Nil,
                         includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
     val pipe = createPipe()
     val sh = createShellScript(pipe)
-    val registry = ExtensionRegistry.newInstance()
-    Scalapb.registerAllExtensions(registry)
-
     Future {
       val fsin = Files.newInputStream(pipe)
-      val response = Try {
-        val request = CodeGeneratorRequest.parseFrom(fsin, registry)
-        ProtobufGenerator.handleCodeGeneratorRequest(request)
-      }.recover {
-        case throwable =>
-          CodeGeneratorResponse.newBuilder()
-            .setError(throwable.toString + "\n" + getStackTrace(throwable))
-            .build
-      }.get
+      val response = runWithInputStream(fsin)
       val fsout = Files.newOutputStream(pipe)
       fsout.write(response.toByteArray)
       fsout.close()
