@@ -54,6 +54,7 @@ lazy val runtime = project.in(file("scalapb-runtime")).settings(
 
 lazy val compilerPlugin = project.in(file("compiler-plugin")).settings(
   projectReleaseSettings:_*)
+  .settings(assemblyJarName in assembly := "compiler-plugin.jar")
 
 lazy val proptest = project.in(file("proptest"))
   .dependsOn(runtime, compilerPlugin)
