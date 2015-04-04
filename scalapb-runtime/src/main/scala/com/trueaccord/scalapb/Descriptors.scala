@@ -2,6 +2,7 @@ package com.trueaccord.scalapb
 
 import com.google.protobuf.CodedInputStream
 import com.google.protobuf.Descriptors.FieldDescriptor.{JavaType, Type}
+import scala.collection.JavaConversions._
 
 object Descriptors {
 
@@ -28,14 +29,25 @@ object Descriptors {
     }
   }
 
-  class FileDescriptor(m: => Seq[MessageDescriptor], e: => Seq[EnumDescriptor]) {
-    lazy val messages = m
-    lazy val enums = e
+  class FileDescriptor(fd: com.google.protobuf.DescriptorProtos.FileDescriptorProto) {
+    lazy val messages = fd.getMessageTypeList.map(m => new MessageDescriptor(m, None))
+  }
+
+  class MessageDescriptor(dp: com.google.protobuf.DescriptorProtos.DescriptorProto, containingType: Option[MessageDescriptor]) {
+    def name = dp.getName
+
+    lazy val messages = dp.getNestedTypeList.map(m => new MessageDescriptor(m, Some(this)))
+    // lazy val nested
+  }
+
+  class FieldDescriptor(fd: com.google.protobuf.DescriptorProtos.FieldDescriptorProto) {
+
   }
 
   class EnumDescriptor(val index: Int, val name: String,
                        val companion: GeneratedEnumCompanion[_ <: GeneratedEnum])
 
+  /*
   class MessageDescriptor(val name: String,
                           val companion: GeneratedMessageCompanion[_ <: GeneratedMessage],
                           c: => Option[MessageDescriptor],
@@ -47,6 +59,7 @@ object Descriptors {
     lazy val enums = e
     lazy val fields = f
   }
+  */
 
   sealed trait Label
 
@@ -70,7 +83,9 @@ object Descriptors {
     def fieldType = Type.ENUM
   }
 
+  /*
   case class FieldDescriptor(index: Int, number: Int, name: String, label: Label,
                              fieldType: FieldType, isPacked: Boolean = false,
                              containingOneofName: Option[String] = None)
+                             */
 }

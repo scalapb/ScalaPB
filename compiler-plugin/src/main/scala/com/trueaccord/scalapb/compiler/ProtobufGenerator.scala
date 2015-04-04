@@ -590,10 +590,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     printer.addM(
-      s"""lazy val descriptor = new Descriptors.MessageDescriptor("${message.getName}", this,
-         |  None, m = Seq(${message.getNestedTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
-         |  e = Seq(${message.getEnumTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
-         |  f = ${message.getFile.scalaPackageName}.${message.getFile.internalFieldsObjectName}.internalFieldsFor("${myFullScalaName}"))""")
+      .when(message.isTopLevel)(_.add(s"lazy val descriptor = ${message.getFile.internalFieldsObjectName}.descriptor.messages(${message.getIndex})"))
+      .when(!message.isTopLevel)(_.add(s"lazy val descriptor = ${message.getContainingType.scalaTypeName}.descriptor.messages(${message.getIndex})"))
   }
 
   def generateDefaultInstance(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -829,9 +827,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    fp.add("private val descriptorData: String = ")
-      .add(file.toProto.toByteString)
-
+    fp.add("private lazy val descriptorProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(Seq(")
+      .addWithDelimiter(",")(encodeByteArray(file.toProto.toByteString))
+      .add(").mkString.getBytes(\"ISO8859-1\"))")
+      .add("lazy val descriptor = new com.trueaccord.scalapb.Descriptors.FileDescriptor2(descriptorProto)")
   }
 
   def generateScalaFilesForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {

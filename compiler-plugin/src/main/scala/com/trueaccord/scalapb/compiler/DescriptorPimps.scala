@@ -136,6 +136,8 @@ trait DescriptorPimps {
       Seq("com.trueaccord.scalapb.GeneratedMessage",
         s"com.trueaccord.scalapb.Message[$nameSymbol]",
         s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption
+
+    def isTopLevel = message.getContainingType == null
   }
 
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {

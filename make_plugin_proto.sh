@@ -12,6 +12,9 @@ protoc --java_out="$OUTDIR" --proto_path=./protobuf/ \
 protoc --java_out="$OUTDIR" --proto_path=./protobuf \
     ./protobuf/scalapb/scalapb.proto
 
+# Generated code will be dependent on it.
 protoc --java_out=scalapb-runtime/src/main/java --proto_path=./protobuf \
     ./protobuf/scalapb/scalapb.proto
-
+# protoc --java_out=scalapb-runtime/src/main/java --proto_path=./protobuf \
+#     ./protobuf/google/protobuf/descriptor.proto
+# 
