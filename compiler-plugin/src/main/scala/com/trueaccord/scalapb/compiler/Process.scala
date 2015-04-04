@@ -1,6 +1,7 @@
 package com.trueaccord.scalapb.compiler
 
 import java.io.{InputStream, StringWriter, PrintWriter}
+import java.net.ServerSocket
 import java.nio.file.attribute.PosixFilePermission
 import java.nio.file.{Files, Path}
 
@@ -39,6 +40,27 @@ object Process {
 
   def runProtocUsing[A](protocCommand: String, schemas: Seq[String] = Nil,
                         includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
+    val ss = new ServerSocket(0)
+    val sh = createPythonShellScript(ss.getLocalPort)
+    Future {
+      val client = ss.accept()
+      val response = runWithInputStream(client.getInputStream)
+      client.getOutputStream.write(response.toByteArray)
+      client.close()
+      ss.close()
+    }
+
+    try {
+      val incPath = includePaths.map("-I" + _)
+      val args = Seq("protoc", s"--plugin=protoc-gen-scala=$sh") ++ incPath ++ protocOptions ++ schemas
+      runner(args)
+    } finally {
+      Files.delete(sh)
+    }
+  }
+
+  def runProtocUsingOld[A](protocCommand: String, schemas: Seq[String] = Nil,
+                           includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
     val pipe = createPipe()
     val sh = createShellScript(pipe)
     Future {
@@ -69,6 +91,30 @@ object Process {
     pipeName
   }
 
+  private def createPythonShellScript(port: Int): Path = {
+    val content =
+      s"""|@echo off
+          |python -u -c"import sys, socket
+          |
+          |content = sys.stdin.read()
+          |s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+          |s.connect(('0.0.0.0', $port))
+          |s.sendall(content)
+          |s.shutdown(socket.SHUT_WR)
+          |while 1:
+          |    data = s.recv(1024)
+          |    if data == '':
+          |        break
+          |    sys.stdout.write(data)
+          |s.close()
+          |"
+      """.stripMargin
+    val scriptName = Files.createTempFile("scalapbgen", ".bat")
+    val os = Files.newOutputStream(scriptName)
+    os.write(content.getBytes("UTF-8"))
+    os.close()
+    scriptName
+  }
 
   private def createShellScript(tmpFile: Path): Path = {
     val content =
