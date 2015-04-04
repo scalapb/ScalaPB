@@ -41,7 +41,7 @@ object Process {
   def runProtocUsing[A](protocCommand: String, schemas: Seq[String] = Nil,
                         includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
     val ss = new ServerSocket(0)
-    val sh = createPythonShellScript(ss.getLocalPort)
+    val (sh, py) = createPythonShellScript(ss.getLocalPort)
     Future {
       val client = ss.accept()
       val response = runWithInputStream(client.getInputStream)
@@ -56,6 +56,7 @@ object Process {
       runner(args)
     } finally {
       Files.delete(sh)
+      Files.delete(py)
     }
   }
 
@@ -91,14 +92,13 @@ object Process {
     pipeName
   }
 
-  private def createPythonShellScript(port: Int): Path = {
+  private def createPythonShellScript(port: Int): (Path, Path) = {
     val content =
-      s"""|@echo off
-          |python -u -c"import sys, socket
+      s"""|import sys, socket
           |
           |content = sys.stdin.read()
           |s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-          |s.connect(('0.0.0.0', $port))
+          |s.connect(('127.0.0.1', int(sys.argv[1])))
           |s.sendall(content)
           |s.shutdown(socket.SHUT_WR)
           |while 1:
@@ -107,13 +107,21 @@ object Process {
           |        break
           |    sys.stdout.write(data)
           |s.close()
-          |"
       """.stripMargin
-    val scriptName = Files.createTempFile("scalapbgen", ".bat")
+    val scriptName = Files.createTempFile("scalapbgen", ".py")
     val os = Files.newOutputStream(scriptName)
     os.write(content.getBytes("UTF-8"))
     os.close()
-    scriptName
+
+    val batchContent =
+      s"""@echo off
+         |python -u $scriptName $port
+         """.stripMargin
+    val batchFile = Files.createTempFile("scalapbgen", ".bat")
+    val os2 = Files.newOutputStream(batchFile)
+    os2.write(batchContent.getBytes("UTF-8"))
+    os2.close()
+    (batchFile, scriptName)
   }
 
   private def createShellScript(tmpFile: Path): Path = {
