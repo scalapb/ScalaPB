@@ -17,4 +17,6 @@ protoc --java_out="$OUTDIR" --proto_path=./protobuf \
 protoc --java_out=scalapb-runtime/jvm/src/main/java --proto_path=./protobuf \
     --proto_path=./third_party \
     ./protobuf/scalapb/scalapb.proto
-
+# protoc --java_out=scalapb-runtime/src/main/java --proto_path=./protobuf \
+#     ./protobuf/google/protobuf/descriptor.proto
+# 
