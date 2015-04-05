@@ -33,7 +33,7 @@ sbt-protobuf are available through sbt-scalapb.
 ## Running on Windows
 
 Generating Scala code on Windows requires Python 2.x to be installed on your
-system.  If Python is not installed on your system, you can [(download it from
+system.  If Python is not installed on your system, you can [download it from
 here](https://www.python.org/downloads/windows/).
 
 If Python.exe can be found in your PATH, then ScalaPB should just work.  If
