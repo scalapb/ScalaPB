@@ -30,6 +30,17 @@ The sbt-scalapb plugin uses
 [sbt-protobuf](https://github.com/sbt/sbt-protobuf) so all the options of
 sbt-protobuf are available through sbt-scalapb.
 
+## Running on Windows
+
+Generating Scala code on Windows requires Python to be installed on your
+system.  If Python is not installed on your system, you can [(download it from
+here](https://www.python.org/downloads/windows/).
+
+If Python.exe can be found in your PATH, then ScalaPB should just work.  If
+not, you can set the location of the Python executable explicitly:
+
+    PB.pythonExecutable in PB.protobufConfig := "C:\\Python27\\Python.exe"
+
 ## Java Conversions
 
 To enable Java conversions add the following to your build.sbt:
