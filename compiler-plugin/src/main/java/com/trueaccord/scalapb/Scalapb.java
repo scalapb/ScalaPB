@@ -106,37 +106,29 @@ public final class Scalapb {
   /**
    * Protobuf type {@code scalapb.ScalaPbOptions}
    */
-  public static final class ScalaPbOptions extends
+  public  static final class ScalaPbOptions extends
       com.google.protobuf.GeneratedMessage implements
       // @@protoc_insertion_point(message_implements:scalapb.ScalaPbOptions)
       ScalaPbOptionsOrBuilder {
     // Use ScalaPbOptions.newBuilder() to construct.
-    private ScalaPbOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private ScalaPbOptions(com.google.protobuf.GeneratedMessage.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private ScalaPbOptions(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final ScalaPbOptions defaultInstance;
-    public static ScalaPbOptions getDefaultInstance() {
-      return defaultInstance;
+    private ScalaPbOptions() {
+      packageName_ = "";
+      flatPackage_ = false;
+      import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
-    public ScalaPbOptions getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private ScalaPbOptions(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+      this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -178,10 +170,11 @@ public final class Scalapb {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
+        throw new RuntimeException(e.setUnfinishedMessage(this));
       } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+        throw new RuntimeException(
+            new com.google.protobuf.InvalidProtocolBufferException(
+                e.getMessage()).setUnfinishedMessage(this));
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           import_ = import_.getUnmodifiableView();
@@ -202,13 +195,22 @@ public final class Scalapb {
               com.trueaccord.scalapb.Scalapb.ScalaPbOptions.class, com.trueaccord.scalapb.Scalapb.ScalaPbOptions.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<ScalaPbOptions> PARSER =
+    public static final com.google.protobuf.Parser<ScalaPbOptions> PARSER =
         new com.google.protobuf.AbstractParser<ScalaPbOptions>() {
       public ScalaPbOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ScalaPbOptions(input, extensionRegistry);
+        try {
+          return new ScalaPbOptions(input, extensionRegistry);
+        } catch (RuntimeException e) {
+          if (e.getCause() instanceof
+              com.google.protobuf.InvalidProtocolBufferException) {
+            throw (com.google.protobuf.InvalidProtocolBufferException)
+                e.getCause();
+          }
+          throw e;
+        }
       }
     };
 
@@ -350,11 +352,6 @@ public final class Scalapb {
       return import_.getByteString(index);
     }
 
-    private void initFields() {
-      packageName_ = "";
-      flatPackage_ = false;
-      import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -367,7 +364,6 @@ public final class Scalapb {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, getPackageNameBytes());
       }
@@ -377,7 +373,7 @@ public final class Scalapb {
       for (int i = 0; i < import_.size(); i++) {
         output.writeBytes(3, import_.getByteString(i));
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -403,18 +399,12 @@ public final class Scalapb {
         size += dataSize;
         size += 1 * getImportList().size();
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -468,12 +458,17 @@ public final class Scalapb {
       return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.ScalaPbOptions prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return defaultInstance.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.ScalaPbOptions prototype) {
+      return defaultInstance.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == defaultInstance
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
@@ -514,10 +509,6 @@ public final class Scalapb {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
       public Builder clear() {
         super.clear();
         packageName_ = "";
@@ -527,10 +518,6 @@ public final class Scalapb {
         import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
         return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
       }
 
       public com.google.protobuf.Descriptors.Descriptor
@@ -601,7 +588,8 @@ public final class Scalapb {
           }
           onChanged();
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
@@ -929,12 +917,22 @@ public final class Scalapb {
       // @@protoc_insertion_point(builder_scope:scalapb.ScalaPbOptions)
     }
 
+    // @@protoc_insertion_point(class_scope:scalapb.ScalaPbOptions)
+    private static final com.trueaccord.scalapb.Scalapb.ScalaPbOptions defaultInstance;
     static {
-      defaultInstance = new ScalaPbOptions(true);
-      defaultInstance.initFields();
+      defaultInstance = new com.trueaccord.scalapb.Scalapb.ScalaPbOptions();
     }
 
-    // @@protoc_insertion_point(class_scope:scalapb.ScalaPbOptions)
+    public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public com.trueaccord.scalapb.Scalapb.ScalaPbOptions getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    static {
+    }
   }
 
   public interface MessageOptionsOrBuilder extends
@@ -979,37 +977,27 @@ public final class Scalapb {
   /**
    * Protobuf type {@code scalapb.MessageOptions}
    */
-  public static final class MessageOptions extends
+  public  static final class MessageOptions extends
       com.google.protobuf.GeneratedMessage implements
       // @@protoc_insertion_point(message_implements:scalapb.MessageOptions)
       MessageOptionsOrBuilder {
     // Use MessageOptions.newBuilder() to construct.
-    private MessageOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private MessageOptions(com.google.protobuf.GeneratedMessage.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private MessageOptions(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final MessageOptions defaultInstance;
-    public static MessageOptions getDefaultInstance() {
-      return defaultInstance;
+    private MessageOptions() {
+      extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
-    public MessageOptions getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private MessageOptions(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+      this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1040,10 +1028,11 @@ public final class Scalapb {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
+        throw new RuntimeException(e.setUnfinishedMessage(this));
       } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+        throw new RuntimeException(
+            new com.google.protobuf.InvalidProtocolBufferException(
+                e.getMessage()).setUnfinishedMessage(this));
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           extends_ = extends_.getUnmodifiableView();
@@ -1064,13 +1053,22 @@ public final class Scalapb {
               com.trueaccord.scalapb.Scalapb.MessageOptions.class, com.trueaccord.scalapb.Scalapb.MessageOptions.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<MessageOptions> PARSER =
+    public static final com.google.protobuf.Parser<MessageOptions> PARSER =
         new com.google.protobuf.AbstractParser<MessageOptions>() {
       public MessageOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MessageOptions(input, extensionRegistry);
+        try {
+          return new MessageOptions(input, extensionRegistry);
+        } catch (RuntimeException e) {
+          if (e.getCause() instanceof
+              com.google.protobuf.InvalidProtocolBufferException) {
+            throw (com.google.protobuf.InvalidProtocolBufferException)
+                e.getCause();
+          }
+          throw e;
+        }
       }
     };
 
@@ -1124,9 +1122,6 @@ public final class Scalapb {
       return extends_.getByteString(index);
     }
 
-    private void initFields() {
-      extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-    }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1139,11 +1134,10 @@ public final class Scalapb {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       for (int i = 0; i < extends_.size(); i++) {
         output.writeBytes(1, extends_.getByteString(i));
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -1161,18 +1155,12 @@ public final class Scalapb {
         size += dataSize;
         size += 1 * getExtendsList().size();
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1226,12 +1214,17 @@ public final class Scalapb {
       return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.MessageOptions prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return defaultInstance.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.MessageOptions prototype) {
+      return defaultInstance.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == defaultInstance
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
@@ -1272,19 +1265,11 @@ public final class Scalapb {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
       public Builder clear() {
         super.clear();
         extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
       }
 
       public com.google.protobuf.Descriptors.Descriptor
@@ -1337,7 +1322,8 @@ public final class Scalapb {
           }
           onChanged();
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
@@ -1496,12 +1482,22 @@ public final class Scalapb {
       // @@protoc_insertion_point(builder_scope:scalapb.MessageOptions)
     }
 
+    // @@protoc_insertion_point(class_scope:scalapb.MessageOptions)
+    private static final com.trueaccord.scalapb.Scalapb.MessageOptions defaultInstance;
     static {
-      defaultInstance = new MessageOptions(true);
-      defaultInstance.initFields();
+      defaultInstance = new com.trueaccord.scalapb.Scalapb.MessageOptions();
     }
 
-    // @@protoc_insertion_point(class_scope:scalapb.MessageOptions)
+    public static com.trueaccord.scalapb.Scalapb.MessageOptions getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public com.trueaccord.scalapb.Scalapb.MessageOptions getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    static {
+    }
   }
 
   public interface FieldOptionsOrBuilder extends
@@ -1525,37 +1521,27 @@ public final class Scalapb {
   /**
    * Protobuf type {@code scalapb.FieldOptions}
    */
-  public static final class FieldOptions extends
+  public  static final class FieldOptions extends
       com.google.protobuf.GeneratedMessage implements
       // @@protoc_insertion_point(message_implements:scalapb.FieldOptions)
       FieldOptionsOrBuilder {
     // Use FieldOptions.newBuilder() to construct.
-    private FieldOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private FieldOptions(com.google.protobuf.GeneratedMessage.Builder builder) {
       super(builder);
-      this.unknownFields = builder.getUnknownFields();
     }
-    private FieldOptions(boolean noInit) { this.unknownFields = com.google.protobuf.UnknownFieldSet.getDefaultInstance(); }
-
-    private static final FieldOptions defaultInstance;
-    public static FieldOptions getDefaultInstance() {
-      return defaultInstance;
+    private FieldOptions() {
+      type_ = "";
     }
 
-    public FieldOptions getDefaultInstanceForType() {
-      return defaultInstance;
-    }
-
-    private final com.google.protobuf.UnknownFieldSet unknownFields;
     @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
-        getUnknownFields() {
+    getUnknownFields() {
       return this.unknownFields;
     }
     private FieldOptions(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-        throws com.google.protobuf.InvalidProtocolBufferException {
-      initFields();
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+      this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -1583,10 +1569,11 @@ public final class Scalapb {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw e.setUnfinishedMessage(this);
+        throw new RuntimeException(e.setUnfinishedMessage(this));
       } catch (java.io.IOException e) {
-        throw new com.google.protobuf.InvalidProtocolBufferException(
-            e.getMessage()).setUnfinishedMessage(this);
+        throw new RuntimeException(
+            new com.google.protobuf.InvalidProtocolBufferException(
+                e.getMessage()).setUnfinishedMessage(this));
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -1604,13 +1591,22 @@ public final class Scalapb {
               com.trueaccord.scalapb.Scalapb.FieldOptions.class, com.trueaccord.scalapb.Scalapb.FieldOptions.Builder.class);
     }
 
-    public static com.google.protobuf.Parser<FieldOptions> PARSER =
+    public static final com.google.protobuf.Parser<FieldOptions> PARSER =
         new com.google.protobuf.AbstractParser<FieldOptions>() {
       public FieldOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FieldOptions(input, extensionRegistry);
+        try {
+          return new FieldOptions(input, extensionRegistry);
+        } catch (RuntimeException e) {
+          if (e.getCause() instanceof
+              com.google.protobuf.InvalidProtocolBufferException) {
+            throw (com.google.protobuf.InvalidProtocolBufferException)
+                e.getCause();
+          }
+          throw e;
+        }
       }
     };
 
@@ -1662,9 +1658,6 @@ public final class Scalapb {
       }
     }
 
-    private void initFields() {
-      type_ = "";
-    }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -1677,11 +1670,10 @@ public final class Scalapb {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      getSerializedSize();
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         output.writeBytes(1, getTypeBytes());
       }
-      getUnknownFields().writeTo(output);
+      unknownFields.writeTo(output);
     }
 
     private int memoizedSerializedSize = -1;
@@ -1694,18 +1686,12 @@ public final class Scalapb {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(1, getTypeBytes());
       }
-      size += getUnknownFields().getSerializedSize();
+      size += unknownFields.getSerializedSize();
       memoizedSerializedSize = size;
       return size;
     }
 
     private static final long serialVersionUID = 0L;
-    @java.lang.Override
-    protected java.lang.Object writeReplace()
-        throws java.io.ObjectStreamException {
-      return super.writeReplace();
-    }
-
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1759,12 +1745,17 @@ public final class Scalapb {
       return PARSER.parseFrom(input, extensionRegistry);
     }
 
-    public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.FieldOptions prototype) {
-      return newBuilder().mergeFrom(prototype);
+    public static Builder newBuilder() {
+      return defaultInstance.toBuilder();
     }
-    public Builder toBuilder() { return newBuilder(this); }
+    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.FieldOptions prototype) {
+      return defaultInstance.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == defaultInstance
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
 
     @java.lang.Override
     protected Builder newBuilderForType(
@@ -1805,19 +1796,11 @@ public final class Scalapb {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
         }
       }
-      private static Builder create() {
-        return new Builder();
-      }
-
       public Builder clear() {
         super.clear();
         type_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
         return this;
-      }
-
-      public Builder clone() {
-        return create().mergeFrom(buildPartial());
       }
 
       public com.google.protobuf.Descriptors.Descriptor
@@ -1866,7 +1849,8 @@ public final class Scalapb {
           type_ = other.type_;
           onChanged();
         }
-        this.mergeUnknownFields(other.getUnknownFields());
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
         return this;
       }
 
@@ -1972,12 +1956,22 @@ public final class Scalapb {
       // @@protoc_insertion_point(builder_scope:scalapb.FieldOptions)
     }
 
+    // @@protoc_insertion_point(class_scope:scalapb.FieldOptions)
+    private static final com.trueaccord.scalapb.Scalapb.FieldOptions defaultInstance;
     static {
-      defaultInstance = new FieldOptions(true);
-      defaultInstance.initFields();
+      defaultInstance = new com.trueaccord.scalapb.Scalapb.FieldOptions();
     }
 
-    // @@protoc_insertion_point(class_scope:scalapb.FieldOptions)
+    public static com.trueaccord.scalapb.Scalapb.FieldOptions getDefaultInstance() {
+      return defaultInstance;
+    }
+
+    public com.trueaccord.scalapb.Scalapb.FieldOptions getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+
+    static {
+    }
   }
 
   public static final int OPTIONS_FIELD_NUMBER = 1020;
