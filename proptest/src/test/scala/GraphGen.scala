@@ -28,12 +28,15 @@ object GraphGen {
   case class State(_nextMessageId: Int = 0,
                    _nextEnumId: Int = 0,
                    _nextFileId: Int = 0,
+                   proto3EnumIds: Vector[Int] = Vector.empty,
                    currentFileInitialMessageId: Int = 0,
                    currentFileInitialEnumId: Int = 0,
                    namespace: Namespace = ROOT_NAMESPACE) extends StatefulGenerator[Int] {
     def nextMessageId = (_nextMessageId, copy(_nextMessageId = _nextMessageId + 1))
 
-    def nextEnumId = (_nextEnumId, copy(_nextEnumId = _nextEnumId + 1))
+    def nextEnumId(syntax: ProtoSyntax) = (_nextEnumId, copy(_nextEnumId = _nextEnumId + 1,
+      proto3EnumIds = if (syntax.isProto3) proto3EnumIds :+ _nextEnumId else proto3EnumIds)
+    )
 
     def newFile: Gen[(String, Int, State)] = generateName.map {
       case (name, state) => (name, _nextFileId, state.copy(
@@ -56,11 +59,15 @@ object GraphGen {
       throw new IllegalStateException("Attempt to close root namespace"))(p => copy(namespace = p))
   }
 
-  def genEnumNode(parentMessageId: Option[Int])(state: State): Gen[(EnumNode, State)] = for {
+  def genEnumNode(parentMessageId: Option[Int], syntax: ProtoSyntax)(state: State): Gen[(EnumNode, State)] = for {
     (enumName, state) <- state.generateName
-    (myId, state) <- Gen.const(state.nextEnumId)
+    (myId, state) <- Gen.const(state.nextEnumId(syntax))
     (names, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 5)(_.generateName)
-    values <- GenUtils.genListOfDistinctPositiveNumbers(names.size)
+    values <- GenUtils.genListOfDistinctPositiveNumbers(names.size).map {
+      v =>
+        // in proto3 the first enum value must be zero.
+        if (syntax.isProto3) v.updated(0, 0) else v
+    }
   } yield (EnumNode(myId, enumName, names zip values,
       parentMessageId = parentMessageId, fileId = state.currentFileId), state)
 
@@ -92,20 +99,20 @@ object GraphGen {
     genBits(fieldCount, 0, NotInOneof, state)
   }
 
-  def genMessageNode(depth: Int = 0, parentMessageId: Option[Int] = None)(state: State): Gen[(MessageNode, State)] =
+  def genMessageNode(depth: Int = 0, parentMessageId: Option[Int] = None, protoSyntax: ProtoSyntax)(state: State): Gen[(MessageNode, State)] =
     sized {
       s =>
         for {
           (myId, state) <- Gen.const(state.nextMessageId)
           (name, state) <- state.generateSubspace
-          (messages, state) <- listWithStatefulGen(state, maxSize = (3 - depth) max 0)(genMessageNode(depth + 1, Some(myId)))
-          (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(Some(myId)))
+          (messages, state) <- listWithStatefulGen(state, maxSize = (3 - depth) max 0)(genMessageNode(depth + 1, Some(myId), protoSyntax))
+          (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(Some(myId), protoSyntax))
           fieldCount <- choose[Int](0, s min 15)
           (fieldNames, state) <- listOfNWithStatefulGen(fieldCount, state)(_.generateName)
           fieldTags <- genListOfDistinctPositiveNumbers(fieldCount)
-          fieldTypes <- listOfN(fieldCount, GenTypes.genFieldType(state)).map(_.toSeq)
+          fieldTypes <- listOfN(fieldCount, GenTypes.genFieldType(state, protoSyntax)).map(_.toSeq)
           (oneOfGroupings, state) <- genOneOfs(fieldCount, state)
-          fieldOptions <- Gen.sequence[Seq, GenTypes.FieldOptions](fieldTypes.map(GenTypes.genOptionsForField(myId, _)))
+          fieldOptions <- Gen.sequence[Seq, GenTypes.FieldOptions](fieldTypes.map(GenTypes.genOptionsForField(myId, _, protoSyntax)))
           fields = (fieldNames zip oneOfGroupings) zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
             case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts, oog, tag)
           }
@@ -129,15 +136,15 @@ object GraphGen {
     s =>
       for {
         (baseName, fileId, state) <- state.newFile
-        protoSyntax <- Gen.oneOf[ProtoSyntax](Proto2, Proto2)
+        protoSyntax <- Gen.oneOf[ProtoSyntax](Proto2, Proto3)
         (javaPackageNames, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateName)
         javaPackage = javaPackageNames mkString "."
         javaPackageOption = if (javaPackage.nonEmpty) Some(javaPackage) else None
         (scalaOptions, state) <- Gen.oneOf[(Option[ScalaPbOptions], State)](genScalaOptions(state), (None, state))
         (protoPackage, state) <- Gen.oneOf(state.generateSubspace, Gen.const(("", state)))
         protoPackageOption = if (protoPackage.nonEmpty) Some(protoPackage) else None
-        (messages, state) <- listWithStatefulGen(state, maxSize = 4)(genMessageNode(0, None))
-        (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None))
+        (messages, state) <- listWithStatefulGen(state, maxSize = 4)(genMessageNode(0, None, protoSyntax))
+        (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None, protoSyntax))
       } yield (FileNode(baseName, protoSyntax, protoPackageOption, javaPackageOption, scalaOptions, messages, enums, fileId),
         if (protoPackage.isEmpty) state else state.closeNamespace)
   }

@@ -23,7 +23,7 @@ object Nodes {
   }
 
   case object Proto3 extends ProtoSyntax {
-    def syntaxName: String = "proto2"
+    def syntaxName: String = "proto3"
     def isProto2: Boolean = false
     def isProto3: Boolean = true
   }

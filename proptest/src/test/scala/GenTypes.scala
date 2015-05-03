@@ -1,4 +1,5 @@
 import GraphGen.State
+import Nodes.{Proto3, Proto2, ProtoSyntax}
 import org.scalacheck.{Arbitrary, Gen}
 
 /**
@@ -68,24 +69,29 @@ object GenTypes {
 
   // For enums and messages we choose a type that was either declared before or is nested within
   // the current message. This is meant to avoid each file to depend only on previous files.
-  def genFieldType(state: State): Gen[ProtoType] = {
+  def genFieldType(state: State, syntax: ProtoSyntax): Gen[ProtoType] = {
     val baseFreq = List((5, generatePrimitive))
     val withMessages = if (state._nextMessageId > 0)
       (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference)) :: baseFreq
     else baseFreq
-    val withEnums = if (state._nextEnumId > 0)
-      (1, Gen.chooseNum(0, state._nextEnumId - 1).map(EnumReference)) :: withMessages
-    else withMessages
+    val withEnums = syntax match {
+      case Proto2 => if (state._nextEnumId > 0)
+        (1, Gen.chooseNum(0, state._nextEnumId - 1).map(EnumReference)) :: withMessages
+      else withMessages
+      case Proto3 => if (state.proto3EnumIds.nonEmpty)
+        (1, Gen.oneOf(state.proto3EnumIds).map(EnumReference)) :: withMessages
+      else withMessages
+    }
     Gen.frequency(withEnums: _*)
   }
 
   // We allow 'required' only for messages with lower ids. This ensures no cycles of required
   // fields.
-  def genOptionsForField(messageId: Int, fieldType: ProtoType) = fieldType match {
-    case MessageReference(id) => genFieldModifier(allowRequired = id < messageId).map(
+  def genOptionsForField(messageId: Int, fieldType: ProtoType, protoSyntax: ProtoSyntax) = fieldType match {
+    case MessageReference(id) => genFieldModifier(allowRequired = protoSyntax.isProto2 && id < messageId).map(
       mod => FieldOptions(mod))
     case _ => for {
-      mod <- genFieldModifier(true)
+      mod <- genFieldModifier(allowRequired = protoSyntax.isProto2)
       packed <- if (fieldType.packable && mod == FieldModifier.REPEATED) Gen.oneOf(true, false) else Gen.const(false)
     } yield FieldOptions(mod, packed)
   }

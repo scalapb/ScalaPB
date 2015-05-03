@@ -61,16 +61,25 @@ trait DescriptorPimps {
       fd.getContainingOneof.scalaTypeName + "." + upperScalaName
     }
 
+    // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
+    // support hasX methods for this field.
+    def supportsPresence: Boolean =
+      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage)
+
+    // Is the Scala representation of this field is a singular type.
+    def isSingular = fd.isRequired || (
+      fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage)
+
     def baseScalaTypeName: String = {
       val base = baseSingleScalaTypeName
-      if (fd.isOptional && !fd.isInOneof) s"Option[$base]"
+      if (supportsPresence) s"Option[$base]"
       else if (fd.isRepeated) s"Seq[$base]"
       else base
     }
 
     def scalaTypeName: String = {
       val base = singleScalaTypeName
-      if (fd.isOptional && !fd.isInOneof) s"Option[$base]"
+      if (supportsPresence) s"Option[$base]"
       else if (fd.isRepeated) s"Seq[$base]"
       else base
     }
@@ -202,6 +211,10 @@ trait DescriptorPimps {
     }
 
     def internalFieldsObjectName = "InternalFields_" + baseName(file.getName)
+
+    def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
+
+    def isProto3 = file.getSyntax == FileDescriptor.Syntax.PROTO3
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {

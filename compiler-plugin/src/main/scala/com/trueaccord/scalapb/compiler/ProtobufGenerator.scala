@@ -97,7 +97,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     "\"\"\"" + new sun.misc.BASE64Encoder().encode(buffer) + "\"\"\""
   }
 
-  def defaultValueForGet(field: FieldDescriptor) = {
+  def defaultValueForGet(field: FieldDescriptor, uncustomized: Boolean = false) = {
     // Needs to be 'def' and not val since for some of the cases it's invalid to call it.
     def defaultValue = field.getDefaultValue
     val baseDefaultValue = field.getJavaType match {
@@ -124,12 +124,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case FieldDescriptor.JavaType.ENUM =>
         field.getEnumType.scalaTypeName + "." + defaultValue.asInstanceOf[EnumValueDescriptor].getName.asSymbol
     }
-    if (field.customSingleScalaTypeName.isDefined)
+    if (!uncustomized && field.customSingleScalaTypeName.isDefined)
       s"${field.typeMapper}.toCustom($baseDefaultValue)" else baseDefaultValue
   }
 
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
-    if (field.isOptional) "None"
+    if (field.supportsPresence) "None"
     else if (field.isRepeated) "Nil"
     else defaultValueForGet(field)
 
@@ -168,20 +168,20 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     valueConversion match {
       case ConversionMethod(method) if field.customSingleScalaTypeName.isEmpty =>
         if (field.isRepeated) s"${javaGetter}List.map(_.$method)"
-        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($javaGetter.$method) else None"
+        else if (field.supportsPresence) s"if ($javaHas) Some($javaGetter.$method) else None"
         else s"$javaGetter.$method"
       case ConversionMethod(method) if field.customSingleScalaTypeName.isDefined =>
         val typeMapper = field.typeMapper + ".toCustom"
         if (field.isRepeated) s"${javaGetter}List.map(__x => $typeMapper(__x.$method))"
-        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($typeMapper($javaGetter.$method)) else None"
+        else if (field.supportsPresence) s"if ($javaHas) Some($typeMapper($javaGetter.$method)) else None"
         else s"$typeMapper($javaGetter.$method)"
       case ConversionFunction(func) =>
         if (field.isRepeated) s"${javaGetter}List.map($func)"
-        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($func($javaGetter)) else None"
+        else if (field.supportsPresence) s"if ($javaHas) Some($func($javaGetter)) else None"
         else s"$func($javaGetter)"
       case NoOp =>
         if (field.isRepeated) s"${javaGetter}List.toSeq"
-        else if (field.isOptional && !field.isInOneof) s"if ($javaHas) Some($javaGetter) else None"
+        else if (field.supportsPresence) s"if ($javaHas) Some($javaGetter) else None"
         else javaGetter
     }
   }
@@ -221,17 +221,17 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case ConversionFunction(func) =>
         if (field.isRepeated)
           s"$javaSetter($scalaGetter.map($func))"
-        else if (field.isOptional)
-          s"$scalaGetter.map($func).foreach($javaSetter)"
-        else
+        else if (field.isSingular)
           s"$javaSetter($func($scalaGetter))"
+        else
+          s"$scalaGetter.map($func).foreach($javaSetter)"
       case NoOp =>
         if (field.isRepeated)
           s"$javaSetter($scalaGetter)"
-        else if (field.isOptional)
-          s"$scalaGetter.foreach($javaSetter)"
-        else
+        else if (field.isSingular)
           s"$javaSetter($scalaGetter)"
+        else
+          s"$scalaGetter.foreach($javaSetter)"
     }
   }
 
@@ -307,6 +307,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
     if (field.isRequired) {
       fp.add("__size += " + sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol)))
+    } else if (field.isSingular) {
+      fp.add(s"if (${toBaseType(field)(fieldNameSymbol)} != ${defaultValueForGet(field, true)}) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol))} }")
     } else if (field.isOptional) {
       fp.add(s"if ($fieldNameSymbol.isDefined) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol + ".get"))} }")
     } else if (field.isRepeated) {
@@ -388,16 +390,30 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                  |  output.writeTag(${field.getNumber}, 2)
                  |  output.writeRawVarint32(${fieldNameSymbol}SerializedSize)
                  |  ${fieldNameSymbol}.foreach($writeFunc)
-                 |}""")
+                 |};""")
         } else if (field.isRequired) {
           generateWriteSingleValue(field, toBaseType(field)(fieldNameSymbol))(printer)
+        } else if (field.isSingular) {
+          // Singular that are not required are written only if they don't equal their default
+          // value.
+          printer
+            .add(s"{")
+            .indent
+            .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
+            .add(s"if (__v != ${defaultValueForGet(field, uncustomized = true)}) {")
+            .indent
+            .call(generateWriteSingleValue(field, "__v"))
+            .outdent
+            .add("}")
+            .outdent
+            .add("};")
         } else {
           printer
             .add(s"${fieldNameSymbol}.foreach { v => ")
             .indent
             .call(generateWriteSingleValue(field, toBaseType(field)("v")))
             .outdent
-            .add("}")
+            .add("};")
         }
     }
       .outdent
@@ -407,9 +423,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val regularFields = message.getFields.collect {
       case field if !field.isInOneof =>
       val typeName = field.scalaTypeName
-      val ctorDefaultValue = if (field.isOptional) " = None"
-          else if (field.isRepeated) " = Nil"
-      else ""
+      val ctorDefaultValue =
+        if (field.isOptional && field.supportsPresence) " = None"
+        else if (field.isSingular) " = " + defaultValueForGet(field)
+        else if (field.isRepeated) " = Nil"
+        else ""
         s"${field.scalaName.asSymbol}: $typeName$ctorDefaultValue"
     }
     val oneOfFields = message.getOneofs.map {
@@ -444,7 +462,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         if (!field.isPacked) {
           val newValBase = if (field.getJavaType == JavaType.MESSAGE) {
             val defInstance = s"${field.getMessageType.scalaTypeName}.defaultInstance"
-            val baseInstance = if (field.isOptional && !field.isInOneof) {
+            val baseInstance = if (field.supportsPresence) {
               val expr = s"__${fieldAccessorSymbol(field)}"
               s"${mapToBaseType(field)(expr)}.getOrElse($defInstance)"
             } else if (field.isInOneof) {
@@ -462,7 +480,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           val newVal = toCustomType(field)(newValBase)
 
           val updateOp =
-            if (field.isOptional && !field.isInOneof) s"__${field.scalaName} = Some($newVal)"
+            if (field.supportsPresence) s"__${field.scalaName} = Some($newVal)"
             else if (field.isInOneof) {
               s"__${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}($newVal)"
             }
@@ -635,7 +653,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case (field, printer) =>
         val fieldName = field.scalaName.asSymbol
         if (!field.isInOneof) {
-          if (field.isOptional) {
+          if (field.supportsPresence) {
             val optionLensName = "optional" + field.upperScalaName
             printer
               .addM(
@@ -727,12 +745,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val clearMethod = "clear" + field.upperScalaName
         val singleType = field.singleScalaTypeName
         printer
-          .when(field.isOptional) {
+          .when(field.supportsPresence || field.isInOneof) {
           p =>
             val default = defaultValueForGet(field)
             p.add(s"def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)")
         }
-          .when(field.isOptional && !field.isInOneof) {
+          .when(field.supportsPresence) {
           p =>
             p.addM(
               s"""def $clearMethod: ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = None)
@@ -747,7 +765,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             s"""def $clearMethod = copy(${field.scalaName.asSymbol} = Nil)
                |def add${field.upperScalaName}(__vs: $singleType*): ${message.nameSymbol} = addAll${field.upperScalaName}(__vs)
                |def addAll${field.upperScalaName}(__vs: TraversableOnce[$singleType]): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)""")
-        }.when(field.isRepeated || field.isRequired) {
+        }.when(field.isRepeated || field.isSingular) {
           _
             .add(s"def $withMethod(__v: ${field.scalaTypeName}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)")
         }
@@ -804,6 +822,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     new FunctionalPrinter().addM(
       s"""// Generated by the Scala Plugin for the Protocol Buffer Compiler.
          |// Do not edit!
+         |//
+         |// Protofile syntax: ${file.getSyntax.toString}
          |
          |${if (file.scalaPackageName.nonEmpty) ("package " + file.scalaPackageName) else ""}
          |
