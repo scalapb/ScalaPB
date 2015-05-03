@@ -1,3 +1,5 @@
+syntax = "proto2";
+
 package name_test;
 
 // Tests that verify that field names generate code that compiles.

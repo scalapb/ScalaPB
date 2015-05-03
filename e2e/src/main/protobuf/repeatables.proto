@@ -1,3 +1,5 @@
+syntax = "proto2";
+
 package com.trueaccord.proto.e2e;
 
 option java_outer_classname = "Reps";

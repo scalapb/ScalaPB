@@ -1,3 +1,5 @@
+syntax = "proto2";
+
 package com.trueaccord.proto.e2e;
 
 message DefaultsTest {
