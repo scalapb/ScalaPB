@@ -10,6 +10,24 @@ object Nodes {
   import GenTypes._
   import GraphGen._
 
+  sealed trait ProtoSyntax {
+    def syntaxName: String
+    def isProto2: Boolean
+    def isProto3: Boolean
+  }
+
+  case object Proto2 extends ProtoSyntax {
+    def syntaxName: String = "proto2"
+    def isProto2: Boolean = true
+    def isProto3: Boolean = false
+  }
+
+  case object Proto3 extends ProtoSyntax {
+    def syntaxName: String = "proto2"
+    def isProto2: Boolean = false
+    def isProto3: Boolean = true
+  }
+
   private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
     val b = new mutable.StringBuilder()
     @annotation.tailrec
@@ -83,6 +101,7 @@ object Nodes {
   }
 
   case class FileNode(baseFileName: String,
+                      protoSyntax: ProtoSyntax,
                       protoPackage: Option[String],
                       javaPackage: Option[String],
                       scalaOptions: Option[ScalaPbOptions],
@@ -106,24 +125,24 @@ object Nodes {
       case EnumReference(id) => rootNode.enumsById(id).fileId
     }).toSet.map(rootNode.filesById).map(_.baseFileName)
 
-    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
-      val p0 = printer.add(s"// File id $fileId. messages: $minMessageId-$maxMessageId. Enums: $minEnumId-$maxEnumId")
-      val p1 = protoPackage.fold(p0)(pkg => p0.add(s"package $pkg;"))
-      val p2 = javaPackage.fold(p1)(pkg => p1.add(s"""option java_package = "$pkg";"""))
-      val p3 = scalaOptions.fold(p2)(options =>
-        p2.add("""import "scalapb/scalapb.proto";""")
+    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter =
+      printer.add(s"// File id $fileId. messages: $minMessageId-$maxMessageId. Enums: $minEnumId-$maxEnumId")
+        .add(s"""syntax = "${protoSyntax.syntaxName}";""")
+        .print(protoPackage)((pkg, p) => p.add(s"package $pkg;"))
+        .print(javaPackage)((pkg, p) => p.add(s"""option java_package = "$pkg";"""))
+        .print(scalaOptions)((options, p) =>
+        p.add("""import "scalapb/scalapb.proto";""")
           .add("option (scalapb.options) = {")
           .indent
           .when(options.hasPackageName)(_.add(s"""package_name: "${options.getPackageName}""""))
           .add(s"flat_package: ${options.getFlatPackage}")
           .outdent
           .add("};"))
-      p3.add(fileReferences(rootNode).collect({
-          case f if f != baseFileName => s"""import "${f}.proto";"""
+        .add(fileReferences(rootNode).collect({
+        case f if f != baseFileName => s"""import "${f}.proto";"""
       }).toSeq: _*)
         .printAll(enums)
         .print(messages)(_.print(rootNode, _))
-    }
 
     def javaOuterClass = (javaPackage.orElse(protoPackage).toSeq :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString "."
 

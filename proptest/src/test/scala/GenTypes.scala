@@ -1,5 +1,4 @@
 import GraphGen.State
-import com.google.protobuf.DescriptorProtos.FieldOptions
 import org.scalacheck.{Arbitrary, Gen}
 
 /**

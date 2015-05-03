@@ -129,6 +129,7 @@ object GraphGen {
     s =>
       for {
         (baseName, fileId, state) <- state.newFile
+        protoSyntax <- Gen.oneOf[ProtoSyntax](Proto2, Proto2)
         (javaPackageNames, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateName)
         javaPackage = javaPackageNames mkString "."
         javaPackageOption = if (javaPackage.nonEmpty) Some(javaPackage) else None
@@ -137,7 +138,7 @@ object GraphGen {
         protoPackageOption = if (protoPackage.nonEmpty) Some(protoPackage) else None
         (messages, state) <- listWithStatefulGen(state, maxSize = 4)(genMessageNode(0, None))
         (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None))
-      } yield (FileNode(baseName, protoPackageOption, javaPackageOption, scalaOptions, messages, enums, fileId),
+      } yield (FileNode(baseName, protoSyntax, protoPackageOption, javaPackageOption, scalaOptions, messages, enums, fileId),
         if (protoPackage.isEmpty) state else state.closeNamespace)
   }
 
