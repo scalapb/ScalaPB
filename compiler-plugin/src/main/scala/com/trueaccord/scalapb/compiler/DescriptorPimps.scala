@@ -70,6 +70,13 @@ trait DescriptorPimps {
     def isSingular = fd.isRequired || (
       fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage)
 
+    def isMap = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
+
+    def mapType: MessageDescriptorPimp#MapType = {
+      assert(isMap)
+      fd.getMessageType.mapType
+    }
+
     def baseScalaTypeName: String = {
       val base = baseSingleScalaTypeName
       if (supportsPresence) s"Option[$base]"
@@ -80,6 +87,7 @@ trait DescriptorPimps {
     def scalaTypeName: String = {
       val base = singleScalaTypeName
       if (supportsPresence) s"Option[$base]"
+      else if (fd.isMap) fd.mapType.scalaTypeName
       else if (fd.isRepeated) s"Seq[$base]"
       else base
     }
@@ -87,7 +95,9 @@ trait DescriptorPimps {
     def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
     def customSingleScalaTypeName: Option[String] =
-      if (fieldOptions.hasType) Some(fieldOptions.getType) else None
+      if (isMap) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+      else if (fieldOptions.hasType) Some(fieldOptions.getType)
+      else None
 
     def baseSingleScalaTypeName: String = fd.getJavaType match {
       case FieldDescriptor.JavaType.INT => "Int"
@@ -145,6 +155,31 @@ trait DescriptorPimps {
       Seq("com.trueaccord.scalapb.GeneratedMessage",
         s"com.trueaccord.scalapb.Message[$nameSymbol]",
         s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption
+
+    def nestedTypes: Seq[Descriptor] = message.getNestedTypes.toSeq
+
+    def isMapEntry: Boolean = message.getOptions.getMapEntry
+
+    def javaConversions = params.javaConversions && !isMapEntry
+
+    class MapType {
+      def keyField = message.findFieldByName("key")
+
+      def keyType = keyField.singleScalaTypeName
+
+      def valueField = message.findFieldByName("value")
+
+      def valueType = valueField.singleScalaTypeName
+
+      def scalaTypeName = s"Map[$keyType, $valueType]"
+
+      def pairType = s"($keyType, $valueType)"
+    }
+
+    def mapType: MapType = {
+      assert(message.isMapEntry)
+      new MapType
+    }
   }
 
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {

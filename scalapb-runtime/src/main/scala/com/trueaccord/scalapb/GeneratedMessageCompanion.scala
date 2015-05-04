@@ -110,3 +110,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def defaultInstance: A
 }
 
+case class KeyValue[K, V](key: K, value: V) {
+
+}
