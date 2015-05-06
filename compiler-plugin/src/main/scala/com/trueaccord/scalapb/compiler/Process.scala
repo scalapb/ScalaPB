@@ -55,7 +55,7 @@ class PosixProtocDriver extends ProtocDriver {
 
     try {
       val incPath = includePaths.map("-I" + _)
-      val args = Seq("protoc", s"--plugin=protoc-gen-scala=$sh") ++ incPath ++ protocOptions ++ schemas
+      val args = Seq(protocCommand, s"--plugin=protoc-gen-scala=$sh") ++ incPath ++ protocOptions ++ schemas
       runner(args)
     } finally {
       Files.delete(pipe)
@@ -105,7 +105,7 @@ class WindowsProtocDriver(pythonExecutable: String) extends ProtocDriver {
 
     try {
       val incPath = includePaths.map("-I" + _)
-      val args = Seq("protoc", s"--plugin=protoc-gen-scala=$batFile") ++ incPath ++ protocOptions ++ schemas
+      val args = Seq(protocCommand, s"--plugin=protoc-gen-scala=$batFile") ++ incPath ++ protocOptions ++ schemas
       runner(args)
     } finally {
       Files.delete(batFile)
