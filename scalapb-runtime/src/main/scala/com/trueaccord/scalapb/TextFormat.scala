@@ -208,7 +208,7 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
   )
 
   def Number = rule {
-    optional('.') ~ anyOf("0123456789+-") ~ zeroOrMore(CharPredicate.AlphaNum ++ "_.+-")
+    atomic(optional('.') ~ anyOf("0123456789+-") ~ zeroOrMore(CharPredicate.AlphaNum ++ "_.+-"))
   }
 
   def concatByteStrings(s: java.lang.Iterable[ByteString]): ByteString =

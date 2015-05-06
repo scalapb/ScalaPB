@@ -245,8 +245,8 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
         "Invalid input '1', expected \":\" (line 1, column 16)")
     "optional_nested_enum: ?" must failParsingWith(
       "Invalid input '?', expected int32 or identifier (line 1, column 23)")
-//    "optional_uint32: -1" must failParsingWith(
-//        "1:18: Couldn't parseFailure integer: Number must be positive: -1")
+    "optional_uint32: -1" must failParsingWith(
+        "1:18: Couldn't parseFailure integer: Number must be positive: -1")
 //    "optional_int32: 82301481290849012385230157" must failParsingWith(
 //        "1:17: Couldn't parseFailure integer: Number out of range for 32-bit signed " +
 //          "integer: 82301481290849012385230157")
