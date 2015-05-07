@@ -87,6 +87,33 @@ package object lenses {
             p(m)
         })
     }
+
+    /** Implicit that adds some syntactic sugar if our lens watches a Map[_, _]. */
+    implicit class MapLens[U, A, B](val lens: Lens[U, Map[A, B]]) extends AnyVal {
+      def apply(key: A): Lens[U, B] = lens.compose(Lens[Map[A, B], B](_.apply(key))((map, value) => map.updated(key, value)))
+
+      def :+=(pair: (A, B)) = lens.modify(_ + pair)
+
+      def :++=(item: Traversable[(A, B)]) = lens.modify(_ ++ item)
+
+      def foreach(f: Lens[(A, B), (A, B)] => Mutation[(A, B)]): Mutation[U] =
+        lens.modify(s => s.map {
+          (pair: (A, B)) =>
+            val field: Lens[(A, B), (A, B)] = Lens.unit[(A, B)]
+            val p: Mutation[(A, B)] = f(field)
+            p(pair)
+        })
+
+      def foreachValue(f: Lens[B, B] => Mutation[B]): Mutation[U] =
+        lens.modify(s => s.mapValues {
+          (m: B) =>
+            val field: Lens[B, B] = Lens.unit[B]
+            val p: Mutation[B] = f(field)
+            p(m)
+        })
+
+      def mapValues(f: B => B) = foreachValue(_.modify(f))
+    }
   }
 
   /** Represents a lens that has sub-lenses. */

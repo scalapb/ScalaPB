@@ -10,6 +10,9 @@ case class Address(street: String,
 
 case class Role(name: String, person: Person, replacement: Option[Person] = None) extends Updatable[Role]
 
+case class MapTest(intMap: Map[Int, String] = Map.empty,
+                   nameMap: Map[String, Person] = Map.empty,
+                   addressMap: Map[Person, Address] = Map.empty) extends Updatable[MapTest]
 
 class SimpleTest extends FlatSpec with Matchers with OptionValues {
 
@@ -37,6 +40,15 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
     def residents = field(_.residents)((p, f) => p.copy(residents = f))
   }
 
+  implicit class MapTestLens[U](val f: Lens[U, MapTest]) extends ObjectLens[U, MapTest](f) {
+    def intMap = field(_.intMap)((p, f) => p.copy(intMap = f))
+
+    def nameMap = field(_.nameMap)((p, f) => p.copy(nameMap = f))
+
+    def addressMap = field(_.addressMap)((p, f) => p.copy(addressMap = f))
+  }
+
+
   object RoleMutation extends RoleMutation(Lens.unit)
 
   val mosh = Person(firstName = "Mosh", lastName = "Ben", age = 19,
@@ -44,6 +56,9 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
   val josh = Person(firstName = "Josh", lastName = "Z", age = 19,
     address = Address("Fremont", "Sunnyvale", "CA"))
   val chef = Role(name = "Chef", person=mosh)
+
+  val mapTest = MapTest(intMap = Map(3 -> "three", 4 -> "four"), addressMap = Map(
+    mosh -> Address("someStreet", "someCity", "someState")))
 
   "update" should "return an updated object" in {
     mosh.update(_.firstName := "foo") should be(mosh.copy(firstName = "foo"))
@@ -109,6 +124,54 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
       _.replacement := Some(josh),
       _.replacement.inplaceMap(_.firstName := "Yosh")
     ).replacement.value should be(josh.copy(firstName = "Yosh"))
+  }
+
+  it should "allow updating a map" in {
+    mapTest.update(_.intMap(5) := "hello") should be(mapTest.copy(intMap = mapTest.intMap.updated(5, "hello")))
+    mapTest.update(_.intMap(2) := "ttt") should be(mapTest.copy(intMap = mapTest.intMap.updated(2, "ttt")))
+    mapTest.update(_.nameMap("mmm") := mosh) should be(mapTest.copy(nameMap = mapTest.nameMap.updated("mmm", mosh)))
+    mapTest.update(_.addressMap(josh) := mosh.address) should be(mapTest.copy(addressMap = mapTest.addressMap.updated(josh, mosh.address)))
+  }
+
+  it should "allow nested updated in a map" in {
+    mapTest.update(
+      _.nameMap("mosh") := mosh,
+      _.nameMap("mosh").firstName := "boo") should be(
+      mapTest.copy(nameMap = mapTest.nameMap.updated("mosh", mosh.copy(firstName = "boo"))))
+  }
+
+  it should "raise an exception on nested key update for a missing key" in {
+    intercept[NoSuchElementException] {
+      mapTest.update(
+        _.nameMap("mosh").firstName := "Boo"
+      )
+    }
+  }
+
+  it should "allow transforming the map values with forEachValue" in {
+    mapTest.update(
+      _.nameMap("mosh") := mosh,
+      _.nameMap("josh") := josh,
+      _.nameMap.foreachValue(_.firstName := "ttt")
+    ).nameMap.values.map(_.firstName) should contain theSameElementsAs(Seq("ttt", "ttt"))
+  }
+
+  it should "allow transforming the map values with mapValues" in {
+    mapTest.update(
+      _.intMap.mapValues("hello " + _)
+    ).intMap should be(Map(3 -> "hello three", 4 -> "hello four"))
+
+    mapTest.update(
+      _.nameMap("mosh") := mosh,
+      _.nameMap("josh") := josh,
+      _.nameMap.mapValues(m => m.update(_.firstName := "*" + m.firstName))
+    ).nameMap.values.map(_.firstName) should contain theSameElementsAs(Seq("*Mosh", "*Josh"))
+  }
+
+  it should "allow transforming the map values with forEach" in {
+    mapTest.update(
+      _.intMap.foreach(_.modify(k => (k._1 - 1, "*" + k._2)))).intMap should be (Map(
+      2 -> "*three", 3 -> "*four"))
   }
 }
 
