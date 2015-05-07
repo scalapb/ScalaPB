@@ -210,7 +210,7 @@ trait DescriptorPimps {
       if (javaPkg.isEmpty) scalaName else (javaPkg + "." + scalaName)
     }
 
-    def internalFieldsObjectName = "InternalFields_" + baseName(file.getName)
+    def internalFieldsObjectName = "InternalFields_" + snakeCaseToCamelCase(file.getName)
 
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
 
