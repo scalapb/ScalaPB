@@ -201,7 +201,7 @@ trait DescriptorPimps {
       if (javaPkg.isEmpty) scalaName else (javaPkg + "." + scalaName)
     }
 
-    def internalFieldsObjectName = "InternalFields_" + baseName(file.getName)
+    def internalFieldsObjectName = "InternalFields_" + snakeCaseToCamelCase(file.getName)
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {
