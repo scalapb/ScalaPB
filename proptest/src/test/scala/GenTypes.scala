@@ -9,10 +9,11 @@ object GenTypes {
 
   sealed trait ProtoType {
     def packable: Boolean
+    def isMap: Boolean
   }
 
   case class Primitive(name: String, genValue: Gen[String],
-                       packable: Boolean = true) extends ProtoType {
+                       packable: Boolean = true, isMap: Boolean = false) extends ProtoType {
     override def toString = s"Primitive($name)"
   }
 
@@ -44,10 +45,17 @@ object GenTypes {
 
   case class MessageReference(id: Int) extends ProtoType {
     def packable = false
+    def isMap = false
   }
 
   case class EnumReference(id: Int) extends ProtoType {
     def packable = true
+    def isMap = false
+  }
+
+  case class MapType(keyType: ProtoType, valueType: ProtoType) extends ProtoType {
+    def packable = false
+    def isMap = true
   }
 
   def generatePrimitive = Gen.oneOf(
@@ -55,13 +63,21 @@ object GenTypes {
     ProtoSint64, ProtoUint64, ProtoInt64, ProtoFixed64, ProtoSfixed64,
     ProtoDouble, ProtoFloat, ProtoBool, ProtoString, ProtoBytes)
 
+  def genProto3EnumReference(state: State) =
+    Gen.oneOf(state.proto3EnumIds).map(EnumReference)
+
+  def generateMapKey: Gen[ProtoType] = Gen.oneOf(
+      ProtoSint32, ProtoUint32, ProtoInt32, ProtoFixed32, ProtoSfixed32,
+      ProtoSint64, ProtoUint64, ProtoInt64, ProtoFixed64, ProtoSfixed64,
+      ProtoBool, ProtoString)
+
   object FieldModifier extends Enumeration {
     val OPTIONAL = Value("optional")
     val REQUIRED = Value("required")
     val REPEATED = Value("repeated")
   }
 
-  case class FieldOptions(modifier: FieldModifier.Value, isPacked: Boolean = false)
+  case class FieldOptions(modifier: FieldModifier.Value, isPacked: Boolean)
 
   def genFieldModifier(allowRequired: Boolean): Gen[FieldModifier.Value] =
     if (allowRequired) Gen.oneOf(FieldModifier.OPTIONAL, FieldModifier.REQUIRED, FieldModifier.REPEATED)
@@ -69,30 +85,46 @@ object GenTypes {
 
   // For enums and messages we choose a type that was either declared before or is nested within
   // the current message. This is meant to avoid each file to depend only on previous files.
-  def genFieldType(state: State, syntax: ProtoSyntax): Gen[ProtoType] = {
+  def genFieldType(state: State, syntax: ProtoSyntax, allowMaps: Boolean = true, allowCurrentMessage: Boolean = true): Gen[ProtoType] = {
     val baseFreq = List((5, generatePrimitive))
-    val withMessages = if (state._nextMessageId > 0)
+    val withMessages = if (state._nextMessageId > 0 && allowCurrentMessage)
       (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference)) :: baseFreq
+    else if (!allowCurrentMessage && state.currentFileInitialEnumId > 0)
+      (1, Gen.chooseNum(0, state.currentFileInitialMessageId - 1).map(MessageReference)) :: baseFreq
     else baseFreq
     val withEnums = syntax match {
       case Proto2 => if (state._nextEnumId > 0)
         (1, Gen.chooseNum(0, state._nextEnumId - 1).map(EnumReference)) :: withMessages
       else withMessages
       case Proto3 => if (state.proto3EnumIds.nonEmpty)
-        (1, Gen.oneOf(state.proto3EnumIds).map(EnumReference)) :: withMessages
+        (1, genProto3EnumReference(state)) :: withMessages
       else withMessages
     }
-    Gen.frequency(withEnums: _*)
+    val withMaps = if (syntax.isProto2 || !allowMaps)
+      withEnums
+    else (1, genMapType(state, syntax)) :: withEnums
+    Gen.frequency(withMaps: _*)
   }
+
+  def genMapType(state: State, syntax: ProtoSyntax): Gen[MapType] = for {
+    keyType <- generateMapKey
+    valueType <- genFieldType(state, syntax, allowMaps = false,
+      // until https://github.com/google/protobuf/issues/355 is fixed.
+      allowCurrentMessage = false)
+  } yield MapType(keyType, valueType)
 
   // We allow 'required' only for messages with lower ids. This ensures no cycles of required
   // fields.
-  def genOptionsForField(messageId: Int, fieldType: ProtoType, protoSyntax: ProtoSyntax) = fieldType match {
-    case MessageReference(id) => genFieldModifier(allowRequired = protoSyntax.isProto2 && id < messageId).map(
-      mod => FieldOptions(mod))
-    case _ => for {
-      mod <- genFieldModifier(allowRequired = protoSyntax.isProto2)
-      packed <- if (fieldType.packable && mod == FieldModifier.REPEATED) Gen.oneOf(true, false) else Gen.const(false)
-    } yield FieldOptions(mod, packed)
-  }
+  def genOptionsForField(messageId: Int, fieldType: ProtoType, protoSyntax: ProtoSyntax, inOneof: Boolean): Gen[FieldOptions] =
+    if (inOneof) Gen.const(FieldOptions(FieldModifier.OPTIONAL, isPacked = false)) else
+      fieldType match {
+        case MessageReference(id) => genFieldModifier(allowRequired = protoSyntax.isProto2 && id < messageId).map(
+          mod => FieldOptions(mod, isPacked = false))
+        case MapType(_, _) => Gen.const(FieldOptions(FieldModifier.REPEATED, isPacked = false))
+        case _ => for {
+          mod <- genFieldModifier(allowRequired = protoSyntax.isProto2)
+          packed <- if (fieldType.packable && mod == FieldModifier.REPEATED)
+            Gen.oneOf(true, false) else Gen.const(false)
+        } yield FieldOptions(mod, isPacked = packed)
+      }
 }

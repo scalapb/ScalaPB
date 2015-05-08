@@ -164,6 +164,12 @@ object SchemaGenerators {
       builder
     }
 
+    def javaParse(m: MessageNode, bytes: Array[Byte]): com.google.protobuf.Message = {
+      val className = rootNode.javaClassName(m)
+      val cls = Class.forName(className, true, classLoader)
+      cls.getMethod("parseFrom", classOf[Array[Byte]]).invoke(null, bytes).asInstanceOf[com.google.protobuf.Message]
+    }
+
     def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessage] = {
       val className = rootNode.scalaObjectName(m)
       val u = scala.reflect.runtime.universe

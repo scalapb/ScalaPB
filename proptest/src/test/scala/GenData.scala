@@ -1,5 +1,6 @@
 import com.trueaccord.scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Gen
+import scala.collection.JavaConversions._
 
 object GenData {
 
@@ -47,19 +48,24 @@ object GenData {
             if (depth > 3) Gen.const(0) else Gen.choose(0, ((s - 2 * depth) max 0) min 10)
         }
 
-        def genSingleFieldValue(field: FieldNode): Gen[ProtoValue] =
-          field.fieldType match {
-            case Primitive(_, genValue, _) =>
+        def genSingleFieldValue(fieldType: ProtoType): Gen[ProtoValue] =
+          fieldType match {
+            case Primitive(_, genValue, _, _) =>
               genValue.map(v => PrimitiveValue(v))
             case EnumReference(id) =>
               oneOf(rootNode.enumsById(id).values.map(_._1)).map(v => EnumValue(v))
             case MessageReference(id) =>
               genMessageValue(rootNode, rootNode.messagesById(id), depth + 1)
+            case MapType(keyType, valueType) =>
+              for {
+                k <- genSingleFieldValue(keyType)
+                v <- genSingleFieldValue(valueType)
+              } yield MessageValue(Seq("key" -> k, "value" -> v))
           }
 
         for {
           count <- genCount
-          result <- Gen.listOfN(count, genSingleFieldValue(field).map(field.name -> _))
+          result <- Gen.listOfN(count, genSingleFieldValue(field.fieldType).map(field.name -> _))
         } yield result
     }
 
@@ -69,18 +75,20 @@ object GenData {
     // chooses Some(field) from a oneof group, or None.
     def chooseFieldFromGroup(l: Seq[FieldNode]): Gen[Option[FieldNode]] = Gen.oneOf(l.map(Some(_)) :+ None)
 
-    val fieldGens = message.fields.collect {
+    val fieldGens: Seq[Gen[Seq[(String, ProtoValue)]]] = message.fields.collect {
       case field if !field.oneOfGroup.isOneof =>
         genFieldValueByOptions(field)
     }
 
     // Chooses at most one field from each one of and generates a value for it.
-    val oneofGens = oneofGroups.values.map(group => chooseFieldFromGroup(group).flatMap {
+    val oneofGens: Seq[Gen[Seq[(String, ProtoValue)]]] = oneofGroups.values.map(group => chooseFieldFromGroup(group).flatMap {
       case None => Gen.const(Seq())
       case Some(field) => genFieldValueByOptions(field)
-    })
+    }).toSeq
 
-    Gen.sequence[Seq, Seq[(String, ProtoValue)]](fieldGens ++ oneofGens).map(s => MessageValue(s.flatten))
+    val x: Seq[Gen[Seq[(String, ProtoValue)]]] = fieldGens ++ oneofGens
+
+    Gen.sequence(x).map(s => MessageValue(s.flatten))
   }
 
   def genMessageValueInstance(rootNode: RootNode): Gen[(MessageNode, MessageValue)] = for {

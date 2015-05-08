@@ -1,4 +1,5 @@
 import GenUtils._
+import GenTypes.{FieldOptions, ProtoType, FieldModifier}
 import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
 import org.scalacheck.Gen
 
@@ -110,11 +111,17 @@ object GraphGen {
           fieldCount <- choose[Int](0, s min 15)
           (fieldNames, state) <- listOfNWithStatefulGen(fieldCount, state)(_.generateName)
           fieldTags <- genListOfDistinctPositiveNumbers(fieldCount)
-          fieldTypes <- listOfN(fieldCount, GenTypes.genFieldType(state, protoSyntax)).map(_.toSeq)
           (oneOfGroupings, state) <- genOneOfs(fieldCount, state)
-          fieldOptions <- Gen.sequence[Seq, GenTypes.FieldOptions](fieldTypes.map(GenTypes.genOptionsForField(myId, _, protoSyntax)))
+          isInOneof = oneOfGroupings.map(_.isOneof)
+          fieldTypes <- Gen.sequence[Seq[ProtoType], ProtoType](isInOneof.map(isOneof => GenTypes.genFieldType(state, protoSyntax, allowMaps = !isOneof)))
+          fieldOptions <- Gen.sequence[Seq[FieldOptions], FieldOptions](
+            (fieldTypes zip isInOneof).map {
+              case (fieldType, inOneof) =>
+                GenTypes.genOptionsForField(myId, fieldType, protoSyntax, inOneof = inOneof)
+            })
           fields = (fieldNames zip oneOfGroupings) zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
-            case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts, oog, tag)
+            case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts,
+              if (opts.modifier != FieldModifier.OPTIONAL) NotInOneof else oog, tag)
           }
         } yield (MessageNode(myId, name, messages, enums, fields, parentMessageId,
           state.currentFileId), state.closeNamespace)

@@ -62,9 +62,11 @@ lazy val proptest = project.in(file("proptest"))
     .settings(
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
+      testOptions += Tests.Argument(
+      ),
       testOptions in ShortTest += Tests.Argument(
         // verbosity specified because of ScalaCheck #108.
-        "-verbosity", "0",
+        "-verbosity", "3",
         "-minSuccessfulTests", "10")
     )
 

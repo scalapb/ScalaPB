@@ -1,7 +1,6 @@
 import Nodes.RootNode
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
-import com.google.protobuf.TextFormat
 import org.scalacheck.Arbitrary
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
@@ -33,19 +32,19 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
             // Ascii to binary is the same.
             val messageAscii = messageValue.toAscii
             val builder = schema.javaBuilder(message)
-            TextFormat.merge(messageAscii, builder)
             val javaProto: protobuf.Message = builder.build()
             val companion = schema.scalaObject(message)
             val scalaProto = companion.fromAscii(messageValue.toAscii)
             val scalaBytes = scalaProto.toByteArray
 
-            // Serialized values should be the same
-            scalaBytes should be(javaProto.toByteArray)
-
-            // Parsing the serialized bytes should give the same object.
+            // Parsing in Scala the serialized bytes should give the same object.
             val scalaParsedFromBytes = companion.parseFrom(scalaBytes)
             scalaParsedFromBytes.toString should be(scalaProto.toString)
             scalaParsedFromBytes should be(scalaProto)
+
+            // Parsing in Java the bytes serialized by Scala should give back javaProto:
+            val javaProto2 = schema.javaParse(message, scalaBytes)
+            javaProto2 should be(javaProto)
         }
     }
   }

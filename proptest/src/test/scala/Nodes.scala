@@ -61,9 +61,10 @@ object Nodes {
     def maxEnumId = Try(files.flatMap(_.maxEnumId).max).toOption
 
     def resolveProtoTypeName(t: GenTypes.ProtoType): String = t match {
-      case Primitive(name, _, _) => name
+      case Primitive(name, _, _, _) => name
       case MessageReference(id) => fullMessageNameParts(id).mkString(".")
       case EnumReference(id) => fullEnumNameParts(id).mkString(".")
+      case MapType(keyType, valueType) => s"map<${resolveProtoTypeName(keyType)}, ${resolveProtoTypeName(valueType)}>"
     }
 
     def fullMessageNameParts(id: Int): Seq[String] = {
@@ -123,6 +124,8 @@ object Nodes {
     } yield field.fieldType).collect({
       case MessageReference(id) => rootNode.messagesById(id).fileId
       case EnumReference(id) => rootNode.enumsById(id).fileId
+      case MapType(keyType, EnumReference(id)) => rootNode.enumsById(id).fileId
+      case MapType(keyType, MessageReference(id)) => rootNode.messagesById(id).fileId
     }).toSet.map(rootNode.filesById).map(_.baseFileName)
 
     def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter =
@@ -142,7 +145,7 @@ object Nodes {
         case f if f != baseFileName => s"""import "${f}.proto";"""
       }).toSeq: _*)
         .printAll(enums)
-        .print(messages)(_.print(rootNode, _))
+        .print(messages)(_.print(rootNode, this, _))
 
     def javaOuterClass = (javaPackage.orElse(protoPackage).toSeq :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString "."
 
@@ -167,7 +170,7 @@ object Nodes {
 
     def allEnums: Stream[EnumNode] = messages.foldLeft(enums.toStream)(_ ++ _.allEnums)
 
-    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
+    def print(rootNode: RootNode, fileNode: FileNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
       sealed trait FieldLine
       case class OneofOpener(name: String) extends FieldLine
       case class Field(field: FieldNode) extends FieldLine
@@ -198,7 +201,7 @@ object Nodes {
         .add(s"message $name {  // message $id")
         .indent
         .printAll(enums)
-        .print(messages)(_.print(rootNode, _))
+        .print(messages)(_.print(rootNode, fileNode, _))
         .print(makeList(fields)) {
         case (OneofOpener(name), printer) =>
           printer
@@ -209,7 +212,7 @@ object Nodes {
             .outdent
             .add(s"}  // oneof $name")
         case (Field(field), printer) =>
-          field.print(rootNode, printer)
+          field.print(rootNode, fileNode, printer)
       }
         .outdent
         .add("}\n")
@@ -221,10 +224,17 @@ object Nodes {
                        fieldOptions: GenTypes.FieldOptions,
                        oneOfGroup: OneOfGrouping,
                        tag: Int) {
-    def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter =
+    def print(rootNode: RootNode, fileNode: FileNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter =
       if (!oneOfGroup.isOneof) {
       val packed = if (fieldOptions.isPacked) " [packed = true]" else ""
-      printer.add(s"${fieldOptions.modifier} ${rootNode.resolveProtoTypeName(fieldType)} $name = $tag$packed;  // $fieldType")
+      val modifier = if (fileNode.protoSyntax.isProto2) fieldOptions.modifier + " "
+      else {
+        assert(fieldOptions.modifier == FieldModifier.OPTIONAL || fieldOptions.modifier == FieldModifier.REPEATED)
+        if (fieldOptions.modifier == FieldModifier.OPTIONAL || fieldType.isMap) ""
+        else if (fieldOptions.modifier == FieldModifier.REPEATED) "repeated "
+        else throw new RuntimeException("Unexpected modifier")
+      }
+      printer.add(s"${modifier}${rootNode.resolveProtoTypeName(fieldType)} $name = $tag$packed;  // $fieldType")
     } else {
       printer.add(s"${rootNode.resolveProtoTypeName(fieldType)} $name = $tag;  // $fieldType")
     }
