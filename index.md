@@ -52,6 +52,12 @@ ScalaPB looks for protocol buffer files in src/main/protobuf, but this can be cu
 For additional configuration options, see
 [ScalaPB SBT Settings]({{site.baseurl}}/sbt-settings.html).
 
+## Questions? Comments?
+
+Feel free to post to our [mailing
+list](https://groups.google.com/forum/#!forum/scalapb).  Found a bug? Missing
+a feature? [Report on Github](https://github.com/trueaccord/ScalaPB/issues).
+
 ## Next:
 
 Read about the [Generated Code]({{site.baseurl}}/generated-code.html).
