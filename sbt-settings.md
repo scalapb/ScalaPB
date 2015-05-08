@@ -76,3 +76,30 @@ your build by adding the following like to your `build.sbt` file:
 // project's library dependencies.
 PB.scalapbVersion := "{{site.data.version.scalapb}}"
 {%endhighlight%}
+
+## Running without protoc
+
+By default, ScalaPB assumes there is a protoc installed somewhere on your machine (you can
+tell it where to look for it using `PB.protoc`).  Sometimes it is desirable to
+avoid this additional dependency and have your SBT build self-contained.
+To achieve that, you can use [protoc-jar](https://github.com/os72/protoc-jar)
+which provides a JAR containing protoc executables for Windows, Mac and Linux.  protoc-jar is
+not affiliated with ScalaPB.  To get started, add the following line to your
+`project/scalapb.sbt`:
+
+{%highlight scala%}
+libraryDependencies ++= Seq(
+  "com.github.os72" % "protoc-jar" % "2.x.5"
+)
+{%endhighlight%}
+
+and the following like to your `build.sbt`:
+
+{%highlight scala%}
+PB.runProtoc in PB.protobufConfig := (args =>
+  com.github.os72.protocjar.Protoc.runProtoc("-v261" +: args.toArray))
+{%endhighlight%}
+
+Replace `-v261` with the version of protoc you would like to run. See
+[protoc-jar](https://github.com/os72/protoc-jar) for more details.
+
