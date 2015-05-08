@@ -1,10 +1,10 @@
 import SonatypeKeys._
 
-scalaVersion := "2.11.3"
+scalaVersion := "2.11.6"
 
 sonatypeSettings
 
-crossScalaVersions := Seq("2.11.2", "2.10.4")
+crossScalaVersions := Seq("2.11.6", "2.10.5")
 
 organization := "com.trueaccord.lenses"
 
