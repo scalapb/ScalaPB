@@ -4,9 +4,9 @@ import ReleaseStateTransformations._
 
 sonatypeSettings
 
-scalaVersion in ThisBuild := "2.11.2"
+scalaVersion in ThisBuild := "2.11.6"
 
-crossScalaVersions in ThisBuild := Seq("2.10.4", "2.11.2")
+crossScalaVersions in ThisBuild := Seq("2.10.5", "2.11.6")
 
 organization in ThisBuild := "com.trueaccord.scalapb"
 
