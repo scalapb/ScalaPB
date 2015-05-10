@@ -120,8 +120,7 @@ object GraphGen {
                 GenTypes.genOptionsForField(myId, fieldType, protoSyntax, inOneof = inOneof)
             })
           fields = (fieldNames zip oneOfGroupings) zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
-            case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts,
-              if (opts.modifier != FieldModifier.OPTIONAL) NotInOneof else oog, tag)
+            case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts, oog, tag)
           }
         } yield (MessageNode(myId, name, messages, enums, fields, parentMessageId,
           state.currentFileId), state.closeNamespace)
