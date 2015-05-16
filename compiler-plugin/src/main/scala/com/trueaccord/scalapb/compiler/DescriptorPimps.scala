@@ -141,7 +141,17 @@ trait DescriptorPimps {
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
 
-    def scalaTypeName = message.getFile.fullScalaName(message.getFullName)
+    def parent: Option[Descriptor] = Option(message.getContainingType)
+
+    def scalaName: String = message.getName match {
+      case "Option" => "OptionProto"
+      case n => n
+    }
+
+    lazy val scalaTypeName: String = parent match {
+      case Some(p) => p.scalaTypeName + "." + nameSymbol
+      case None => message.getFile.scalaPackageName + "." + nameSymbol
+    }
 
     def javaTypeName = message.getFile.fullJavaName(message.getFullName)
 
@@ -149,7 +159,7 @@ trait DescriptorPimps {
 
     def extendsOption = messageOptions.getExtendsList.toSeq
 
-    def nameSymbol = message.getName.asSymbol
+    def nameSymbol = scalaName.asSymbol
 
     def baseClasses: Seq[String] =
       Seq("com.trueaccord.scalapb.GeneratedMessage",
@@ -183,7 +193,14 @@ trait DescriptorPimps {
   }
 
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
-    def scalaTypeName = enum.getFile.fullScalaName(enum.getFullName)
+    def parentMessage: Option[Descriptor] = Option(enum.getContainingType)
+
+    def nameSymbol = enum.getName.asSymbol
+
+    lazy val scalaTypeName: String = parentMessage match {
+      case Some(p) => p.scalaTypeName + "." + nameSymbol
+      case None => enum.getFile.scalaPackageName + "." + nameSymbol
+    }
 
     def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
   }
@@ -237,12 +254,6 @@ trait DescriptorPimps {
 
     def fullJavaName(fullName: String) = {
       javaFullOuterClassName + "." + stripPackageName(fullName)
-    }
-
-    def fullScalaName(fullName: String) = {
-      val javaPkg = scalaPackageName
-      val scalaName = stripPackageName(fullName).split('.').map(_.asSymbol).mkString(".")
-      if (javaPkg.isEmpty) scalaName else (javaPkg + "." + scalaName)
     }
 
     def internalFieldsObjectName = "InternalFields_" + snakeCaseToCamelCase(file.getName)
