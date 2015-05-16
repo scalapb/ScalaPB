@@ -23,6 +23,10 @@ message WeirdNames {
 }
 
 message WeirdNamesRequired {
+  enum Option {
+    ZZZ = 0;
+  }
   required string get = 1;
   required string tag = 2;
+  required Option option = 3;
 }
