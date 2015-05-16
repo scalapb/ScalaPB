@@ -151,7 +151,12 @@ trait DescriptorPimps {
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
     def parentMessage: Option[Descriptor] = Option(enum.getContainingType)
 
-    def nameSymbol = enum.getName.asSymbol
+    def name: String = enum.getName match {
+      case "Option" => "OptionEnum"
+      case n => n
+    }
+
+    def nameSymbol = name.asSymbol
 
     lazy val scalaTypeName: String = parentMessage match {
       case Some(p) => p.scalaTypeName + "." + nameSymbol
