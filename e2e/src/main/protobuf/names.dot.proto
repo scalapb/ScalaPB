@@ -4,12 +4,18 @@ package name_test;
 
 // Tests that verify that field names generate code that compiles.
 
+message Match {
+  optional int32 val = 1;
+  optional int32 for = 2;
+}
+
 message WeirdNames {
   optional string get = 1;
   optional string tag = 2;
   oneof type {
     int32 val = 3;
   }
+  optional Match match = 4;
 }
 
 message WeirdNamesRequired {

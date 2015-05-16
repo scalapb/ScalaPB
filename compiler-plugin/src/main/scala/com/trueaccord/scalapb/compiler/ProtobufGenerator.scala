@@ -516,7 +516,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           val newValBase = if (field.getJavaType == JavaType.MESSAGE) {
             val defInstance = s"${field.getMessageType.scalaTypeName}.defaultInstance"
             val baseInstance = if (field.supportsPresence) {
-              val expr = s"__${fieldAccessorSymbol(field)}"
+              val expr = s"__${field.scalaName}"
               s"${mapToBaseType(field)(expr)}.getOrElse($defInstance)"
             } else if (field.isInOneof) {
               s"${mapToBaseType(field)(fieldAccessorSymbol(field))}.getOrElse($defInstance)"
