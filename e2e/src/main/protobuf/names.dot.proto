@@ -7,6 +7,9 @@ message Match {
   optional int32 for = 2;
 }
 
+message Option {
+}
+
 message WeirdNames {
   optional string get = 1;
   optional string tag = 2;
@@ -14,6 +17,7 @@ message WeirdNames {
     int32 val = 3;
   }
   optional Match match = 4;
+  optional Option option = 5;
 }
 
 message WeirdNamesRequired {

@@ -10,7 +10,7 @@ case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolea
 
 class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def printEnum(e: EnumDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
-    val name = e.getName.asSymbol
+    val name = e.nameSymbol
     printer
       .add(s"sealed trait $name extends com.trueaccord.scalapb.GeneratedEnum {")
       .indent
@@ -39,7 +39,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
       .addM(
         s"""}
-           |lazy val descriptor = new Descriptors.EnumDescriptor(${e.getIndex}, "${e.getName}", this)""")
+           |lazy val descriptor = new Descriptors.EnumDescriptor(${e.getIndex}, "${e.nameSymbol}", this)""")
       .when(params.javaConversions) {
       _.addM(
         s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
@@ -602,7 +602,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     printer.addM(
-      s"""lazy val descriptor = new Descriptors.MessageDescriptor("${message.getName}", this,
+      s"""lazy val descriptor = new Descriptors.MessageDescriptor("${message.nameSymbol}", this,
          |  None, m = Seq(${message.getNestedTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
          |  e = Seq(${message.getEnumTypes.map(m => m.scalaTypeName + ".descriptor").mkString(", ")}),
          |  f = ${message.getFile.scalaPackageName}.${message.getFile.internalFieldsObjectName}.internalFieldsFor("${myFullScalaName}"))""")
@@ -624,7 +624,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
-    val className = message.getName
+    val className = message.scalaName
     val classNameSymbol = className.asSymbol
     def lensType(s: String) = s"com.trueaccord.lenses.Lens[UpperPB, $s]"
 
@@ -684,7 +684,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
-    val className = message.getName.asSymbol
+    val className = message.nameSymbol
     val mixins = if (params.javaConversions)
       s"with com.trueaccord.scalapb.JavaProtoSupport[$className, ${message.javaTypeName}] " else ""
     val companionType = s"com.trueaccord.scalapb.GeneratedMessageCompanion[$className] $mixins"
@@ -831,7 +831,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       message <- file.getMessageTypes
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaPackageName.replace('.', '/') + "/" + message.getName + ".scala")
+      b.setName(file.scalaPackageName.replace('.', '/') + "/" + message.scalaName + ".scala")
       b.setContent(
         scalaFileHeader(file)
           .call(printMessage(message, _)).result())
