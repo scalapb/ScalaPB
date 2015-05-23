@@ -397,6 +397,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
     fp
+      .add("@transient")
       .add("lazy val serializedSize: Int = {")
       .indent
       .add("var __size = 0")
