@@ -6,7 +6,7 @@ import com.google.protobuf.{CodedInputStream, CodedOutputStream}
 
 import scala.util.Try
 
-trait GeneratedEnum {
+trait GeneratedEnum extends Serializable {
   def id: Int
 
   def name: String
@@ -20,7 +20,13 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def values: Seq[A]
 }
 
-trait GeneratedMessage {
+trait GeneratedOneof extends Serializable {
+  def number: Int
+}
+
+trait GeneratedOneofCompanion
+
+trait GeneratedMessage extends Serializable {
   def writeTo(output: CodedOutputStream): Unit
 
   def writeTo(output: OutputStream): Unit = {
