@@ -137,95 +137,65 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     else if (field.isRepeated) "Nil"
     else defaultValueForGet(field)
 
-  sealed trait ValueConversion
-  case class ConversionMethod(name: String) extends ValueConversion
-  case class ConversionFunction(name: String) extends ValueConversion
-  case object NoOp extends ValueConversion
-
   def javaToScalaConversion(field: FieldDescriptor) = {
     val baseValueConversion = field.getJavaType match {
-      case FieldDescriptor.JavaType.INT => ConversionMethod("intValue")
-      case FieldDescriptor.JavaType.LONG => ConversionMethod("longValue")
-      case FieldDescriptor.JavaType.FLOAT => ConversionMethod("floatValue")
-      case FieldDescriptor.JavaType.DOUBLE => ConversionMethod("doubleValue")
-      case FieldDescriptor.JavaType.BOOLEAN => ConversionMethod("booleanValue")
-      case FieldDescriptor.JavaType.BYTE_STRING => NoOp
-      case FieldDescriptor.JavaType.STRING => NoOp
-      case FieldDescriptor.JavaType.MESSAGE => ConversionFunction(
+      case FieldDescriptor.JavaType.INT => MethodApplication("intValue")
+      case FieldDescriptor.JavaType.LONG => MethodApplication("longValue")
+      case FieldDescriptor.JavaType.FLOAT => MethodApplication("floatValue")
+      case FieldDescriptor.JavaType.DOUBLE => MethodApplication("doubleValue")
+      case FieldDescriptor.JavaType.BOOLEAN => MethodApplication("booleanValue")
+      case FieldDescriptor.JavaType.BYTE_STRING => Identity
+      case FieldDescriptor.JavaType.STRING => Identity
+      case FieldDescriptor.JavaType.MESSAGE => FunctionApplication(
         field.getMessageType.scalaTypeName + ".fromJavaProto")
-      case FieldDescriptor.JavaType.ENUM => ConversionFunction(
+      case FieldDescriptor.JavaType.ENUM => FunctionApplication(
         field.getEnumType.scalaTypeName + ".fromJavaValue")
     }
-    field.customSingleScalaTypeName match {
-      case None => baseValueConversion
-      case Some(customType) => baseValueConversion match {
-        case t: ConversionMethod => t
-        case NoOp => ConversionFunction(field.typeMapper + ".toCustom")
-        case ConversionFunction(f) => ConversionFunction(s"($f _).andThen(${field.typeMapper}.toCustom)")
-      }
-    }
+    baseValueConversion andThen toCustomTypeExpr(field)
   }
 
 
   def javaFieldToScala(container: String, field: FieldDescriptor) = {
-    val javaGetter = container + ".get" + field.upperScalaName
     val javaHas = container + ".has" + field.upperScalaName
+    val javaGetter = if (field.isRepeated)
+      container + ".get" + field.upperScalaName + "List"
+    else
+      container + ".get" + field.upperScalaName
 
     val valueConversion = javaToScalaConversion(field)
 
-    valueConversion match {
-      case ConversionMethod(method) if field.customSingleScalaTypeName.isEmpty =>
-        if (field.isRepeated) s"${javaGetter}List.map(_.$method)"
-        else if (field.supportsPresence) s"if ($javaHas) Some($javaGetter.$method) else None"
-        else s"$javaGetter.$method"
-      case ConversionMethod(method) if field.customSingleScalaTypeName.isDefined =>
-        val typeMapper = field.typeMapper + ".toCustom"
-        if (field.isRepeated) s"${javaGetter}List.map(__x => $typeMapper(__x.$method))"
-        else if (field.supportsPresence) s"if ($javaHas) Some($typeMapper($javaGetter.$method)) else None"
-        else s"$typeMapper($javaGetter.$method)"
-      case ConversionFunction(func) =>
-        if (field.isRepeated) s"${javaGetter}List.map($func)"
-        else if (field.supportsPresence) s"if ($javaHas) Some($func($javaGetter)) else None"
-        else s"$func($javaGetter)"
-      case NoOp =>
-        if (field.isRepeated) s"${javaGetter}List.toSeq"
-        else if (field.supportsPresence) s"if ($javaHas) Some($javaGetter) else None"
-        else javaGetter
-    }
+    if (field.supportsPresence)
+      s"if ($javaHas) Some(${valueConversion.apply(javaGetter, isCollection = false)}) else None"
+    else valueConversion(javaGetter, isCollection = field.isRepeated)
   }
 
   def javaMapFieldToScala(container: String, field: FieldDescriptor) = {
     // TODO(thesamet): if both unit conversions are NoOp, we can omit the map call.
-    def unitConversion(n: String, field: FieldDescriptor) = javaToScalaConversion(field) match {
-      case ConversionMethod(f) => s"$n.$f"
-      case ConversionFunction(f) => s"$f($n)"
-      case NoOp => s"$n"
-    }
+    def unitConversion(n: String, field: FieldDescriptor) = javaToScalaConversion(field).apply(n, isCollection = false)
     s"${container}.get${field.upperScalaName}.map(pv => (${unitConversion("pv._1", field.mapType.keyField)}, ${unitConversion("pv._2", field.mapType.valueField)})).toMap"
   }
 
-  def assignScalaMapToJava(scalaObject: String, javaObject: String, field: FieldDescriptor): String = {
-    def valueConvert(v: String, field: FieldDescriptor) = {
-      val c = field.getJavaType match {
-        case FieldDescriptor.JavaType.INT => ConversionFunction("Int.box")
-        case FieldDescriptor.JavaType.LONG => ConversionFunction("Long.box")
-        case FieldDescriptor.JavaType.FLOAT => ConversionFunction("Float.box")
-        case FieldDescriptor.JavaType.DOUBLE => ConversionFunction("Double.box")
-        case FieldDescriptor.JavaType.BOOLEAN => ConversionFunction("Boolean.box")
-        case FieldDescriptor.JavaType.BYTE_STRING => NoOp
-        case FieldDescriptor.JavaType.STRING => NoOp
-        case FieldDescriptor.JavaType.MESSAGE => ConversionFunction(
-          field.getMessageType.scalaTypeName + ".toJavaProto")
-        case FieldDescriptor.JavaType.ENUM => ConversionFunction(
-          field.getEnumType.scalaTypeName + ".toJavaValue")
-      }
-      c match {
-        case ConversionFunction(f) => s"$f($v)"
-        case ConversionMethod(method) =>
-          throw new RuntimeException("Unexpected method type")
-        case NoOp => v
-      }
+  def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): LiteralExpression = {
+    def maybeBox(name: String) = if (boxPrimitives) FunctionApplication(name) else Identity
+
+    field.getJavaType match {
+      case FieldDescriptor.JavaType.INT => maybeBox("Int.box")
+      case FieldDescriptor.JavaType.LONG => maybeBox("Long.box")
+      case FieldDescriptor.JavaType.FLOAT => maybeBox("Float.box")
+      case FieldDescriptor.JavaType.DOUBLE => maybeBox("Double.box")
+      case FieldDescriptor.JavaType.BOOLEAN => maybeBox("Boolean.box")
+      case FieldDescriptor.JavaType.BYTE_STRING => Identity
+      case FieldDescriptor.JavaType.STRING => Identity
+      case FieldDescriptor.JavaType.MESSAGE => FunctionApplication(
+        field.getMessageType.scalaTypeName + ".toJavaProto")
+      case FieldDescriptor.JavaType.ENUM => FunctionApplication(
+        field.getEnumType.scalaTypeName + ".toJavaValue")
     }
+  }
+
+  def assignScalaMapToJava(scalaObject: String, javaObject: String, field: FieldDescriptor): String = {
+    def valueConvert(v: String, field: FieldDescriptor) =
+      scalaToJava(field, boxPrimitives = true).apply(v, isCollection = false)
 
     s"""$javaObject
        |  .getMutable${field.upperScalaName}
@@ -237,71 +207,30 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def assignScalaFieldToJava(scalaObject: String,
-                             javaObject: String, field: FieldDescriptor): String = if (field.isMap)
-    assignScalaMapToJava(scalaObject, javaObject, field) else {
-    val javaSetter = javaObject +
-      (if (field.isRepeated) ".addAll" else
-        ".set") + field.upperScalaName
-    val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
+                             javaObject: String, field: FieldDescriptor): String =
+    if (field.isMap) assignScalaMapToJava(scalaObject, javaObject, field) else {
+      val javaSetter = javaObject +
+        (if (field.isRepeated) ".addAll" else
+          ".set") + field.upperScalaName
+      val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
-    def convertIfRepeated(s: String) = if (field.isRepeated) ConversionFunction(s) else NoOp
+      val scalaExpr = (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = field.isRepeated)).apply(
+        scalaGetter, isCollection = !field.isSingular)
+      if (field.supportsPresence || field.isInOneof)
+        s"$scalaExpr.foreach($javaSetter)"
+      else
+        s"$javaSetter($scalaExpr)"
+    }
 
-    val baseValueConversion = field.getJavaType match {
-      case FieldDescriptor.JavaType.INT => convertIfRepeated("Int.box")
-      case FieldDescriptor.JavaType.LONG => convertIfRepeated("Long.box")
-      case FieldDescriptor.JavaType.FLOAT => convertIfRepeated("Float.box")
-      case FieldDescriptor.JavaType.DOUBLE => convertIfRepeated("Double.box")
-      case FieldDescriptor.JavaType.BOOLEAN => convertIfRepeated("Boolean.box")
-      case FieldDescriptor.JavaType.BYTE_STRING => NoOp
-      case FieldDescriptor.JavaType.STRING => NoOp
-      case FieldDescriptor.JavaType.MESSAGE => ConversionFunction(
-        field.getMessageType.scalaTypeName + ".toJavaProto")
-      case FieldDescriptor.JavaType.ENUM => ConversionFunction(
-        field.getEnumType.scalaTypeName + ".toJavaValue")
-    }
-    val valueConversion = field.customSingleScalaTypeName match {
-      case None => baseValueConversion
-      case Some(customType) => baseValueConversion match {
-        case NoOp => ConversionFunction(field.typeMapper + ".toBase")
-        case ConversionFunction(f) => ConversionFunction(s"($f _).compose(${field.typeMapper}.toBase)")
-        case _ => throw new RuntimeException("Unsupported yet")
-      }
-    }
-    valueConversion match {
-      case ConversionMethod(method) =>
-        throw new RuntimeException("Unexpected method type")
-      case ConversionFunction(func) =>
-        if (field.isRepeated)
-          s"$javaSetter($scalaGetter.map($func))"
-        else if (field.isSingular)
-          s"$javaSetter($func($scalaGetter))"
-        else
-          s"$scalaGetter.map($func).foreach($javaSetter)"
-      case NoOp =>
-        if (field.isRepeated)
-          s"$javaSetter($scalaGetter)"
-        else if (field.isSingular)
-          s"$javaSetter($scalaGetter)"
-        else
-          s"$scalaGetter.foreach($javaSetter)"
-    }
-  }
-
-    def generateGetField(message: Descriptor)(fp: FunctionalPrinter) = {
-      val signature = "def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): Any = "
-      if (message.getFields.nonEmpty)
+  def generateGetField(message: Descriptor)(fp: FunctionalPrinter) = {
+    val signature = "def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): Any = "
+    if (message.getFields.nonEmpty)
         fp.add(signature + "{")
           .indent
           .add("__field.getNumber match {")
           .indent
           .print(message.getFields) {
-          case (f, fp) if f.isSingular =>
-            val e = toBaseType(f)(fieldAccessorSymbol(f),
-              postExpression = if (f.isEnum) ".valueDescriptor" else "")
-            fp.add(s"case ${f.getNumber} => $e")
-          case (f, fp) =>
-            val e = mapToBaseType(f)(fieldAccessorSymbol(f),
-              postExpression = if (f.isEnum) ".valueDescriptor" else "")
+          case (f, fp) => val e = toBaseFieldType(f).apply(fieldAccessorSymbol(f), isCollection = !f.isSingular)
             fp.add(s"case ${f.getNumber} => $e")
         }
           .outdent
@@ -339,33 +268,27 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def fieldAccessorSymbol(field: FieldDescriptor) =
     if (field.isInOneof)
-      (field.getContainingOneof.scalaName.asSymbol + "." +
-        field.scalaName.asSymbol)
+      (field.getContainingOneof.scalaName.asSymbol + "." + field.scalaName.asSymbol)
     else
       field.scalaName.asSymbol
 
-  def mapToBaseType(field: FieldDescriptor)(expr: String, postExpression: String = "") =
-    (field.customSingleScalaTypeName, postExpression) match {
-      case (None, "") => expr
-      case (None, p) => s"$expr.map(_$postExpression)"
-      case (Some(customType), "") => s"$expr.map(${field.typeMapper}.toBase)"
-      case (Some(customType), p) => s"$expr.map(${field.typeMapper}.toBase(_).valueDescriptor)"
-    }
+  def toBaseTypeExpr(field: FieldDescriptor) =
+    if (field.customSingleScalaTypeName.isDefined) FunctionApplication(field.typeMapper + ".toBase")
+    else Identity
 
-  def toBaseType(field: FieldDescriptor)(expr: String, postExpression: String = "") =
-    field.customSingleScalaTypeName.fold(expr + postExpression)(customType =>
-      s"""${field.typeMapper}.toBase($expr)$postExpression""")
+  def toBaseFieldType(field: FieldDescriptor) = if (field.isEnum)
+    (toBaseTypeExpr(field) andThen MethodApplication("valueDescriptor"))
+  else toBaseTypeExpr(field)
 
-  def toBaseJavaType(field: FieldDescriptor)(expr: String) =
-    if (!field.isEnum) toBaseType(field)(expr)
+  def toBaseType(field: FieldDescriptor)(expr: String) =
+    toBaseTypeExpr(field).apply(expr, isCollection = false)
+
+  def toCustomTypeExpr(field: FieldDescriptor) =
+    if (field.customSingleScalaTypeName.isEmpty) Identity
+    else FunctionApplication(s"${field.typeMapper}.toCustom")
 
   def toCustomType(field: FieldDescriptor)(expr: String) =
-    field.customSingleScalaTypeName.fold(expr)(customType =>
-      s"""${field.typeMapper}.toCustom($expr)""")
-
-  def mapToCustomType(field: FieldDescriptor)(expr: String) =
-    field.customSingleScalaTypeName.fold(expr)(customType =>
-      s"""$expr.map(${field.typeMapper}.toCustom)""")
+    toCustomTypeExpr(field).apply(expr, isCollection = false)
 
   def generateSerializedSizeForField(field: FieldDescriptor, fp: FunctionalPrinter): FunctionalPrinter = {
     val fieldNameSymbol = fieldAccessorSymbol(field)
@@ -529,17 +452,16 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .print(message.getFields) {
       (field, printer) =>
         if (!field.isPacked) {
-          val newValBase = if (field.getJavaType == JavaType.MESSAGE) {
+          val newValBase = if (field.isMessage) {
             val defInstance = s"${field.getMessageType.scalaTypeName}.defaultInstance"
-            val baseInstance = if (field.supportsPresence) {
-              val expr = s"__${field.scalaName}"
-              s"${mapToBaseType(field)(expr)}.getOrElse($defInstance)"
-            } else if (field.isInOneof) {
-              s"${mapToBaseType(field)(fieldAccessorSymbol(field))}.getOrElse($defInstance)"
-            } else if (field.isRepeated) {
-              defInstance
-            } else {
-              toBaseType(field)(s"__${field.scalaName}")
+            val baseInstance = if (field.isRepeated) defInstance else {
+              val expr = if (field.isInOneof)
+                fieldAccessorSymbol(field) else s"__${field.scalaName}"
+              val mappedType =
+                toBaseFieldType(field).apply(expr,
+                  isCollection = !field.isSingular)
+              if (field.isInOneof || field.supportsPresence) (mappedType + s".getOrElse($defInstance)")
+              else mappedType
             }
             s"com.trueaccord.scalapb.LiteParser.readMessage(__input, $baseInstance)"
           } else if (field.isEnum)
@@ -641,6 +563,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateFromFieldsMap(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    def transform(field: FieldDescriptor) =
+      (if (!field.isEnum) Identity else (MethodApplication("getNumber") andThen
+        FunctionApplication(field.getEnumType.scalaTypeName + ".fromValue"))) andThen
+        toCustomTypeExpr(field)
+
     val myFullScalaName = message.scalaTypeName
     printer.add(s"def fromFieldsMap(fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, Any]): $myFullScalaName = {")
       .indent
@@ -652,33 +579,25 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val fields = message.getFields.collect {
           case field if !field.isInOneof =>
             val baseTypeName = field.typeCategory(if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName)
-            val valueGetter = if (field.isOptional)
+            val e = if (field.isOptional)
               s"fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[$baseTypeName]"
             else if (field.isRepeated)
               s"fieldsMap.getOrElse(__fields(${field.getIndex}), Nil).asInstanceOf[$baseTypeName]"
             else
               s"fieldsMap(__fields(${field.getIndex})).asInstanceOf[$baseTypeName]"
 
-            val valueGetter2 = if (!field.isEnum) valueGetter
-            else if (field.isSingular) s"${field.getEnumType.scalaTypeName}.fromValue($valueGetter.getNumber)"
-            else s"$valueGetter.map(__v => ${field.getEnumType.scalaTypeName}.fromValue(__v.getNumber))"
-
-            val valueGetter3 = if (field.isSingular)
-              s"${field.scalaName.asSymbol} = ${toCustomType(field)(valueGetter2)}"
-            else
-              s"${field.scalaName.asSymbol} = ${mapToCustomType(field)(valueGetter2)}"
-
-            if (field.isMap) valueGetter3 + "(scala.collection.breakOut)"
-            else valueGetter3
+            val s = transform(field).apply(e, isCollection = !field.isSingular)
+            if (field.isMap) s + "(scala.collection.breakOut)"
+            else s
         }
         val oneOfs = message.getOneofs.toSeq.map {
           oneOf =>
             val elems = oneOf.fields.map {
               field =>
                 val typeName = if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
+                val e = s"fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[Option[$typeName]]"
                 val t = field.oneOfTypeName
-                val valueTransform = toCustomType(field)(if (field.isEnum) field.getEnumType.scalaTypeName + ".fromValue(__value.getNumber)" else "__value")
-                s"fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[Option[$typeName]].map(__value => $t($valueTransform))"
+                (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
             } mkString (" orElse\n")
             s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
         }

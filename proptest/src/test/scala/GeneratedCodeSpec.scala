@@ -4,6 +4,7 @@ import Nodes.RootNode
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.TextFormat
+import com.trueaccord.scalapb.{GeneratedMessage, JavaProtoSupport}
 import org.scalacheck.Arbitrary
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
@@ -53,6 +54,11 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
 
               // getAllFields and fromFieldsMap should return the same object
               companion.fromFieldsMap(scalaProto.getAllFields) should be(scalaProto)
+
+              // toJavaProto, fromJava should bring back the same object.
+              val javaConversions = companion.asInstanceOf[JavaProtoSupport[GeneratedMessage, protobuf.Message]]
+              javaConversions.fromJavaProto(javaProto) should be (scalaProto)
+              javaConversions.toJavaProto(scalaProto) should be (javaProto)
             } catch {
               case e: Exception =>
                 println(e.printStackTrace)
