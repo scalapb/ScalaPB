@@ -8,7 +8,7 @@ import scala.collection.JavaConversions._
 
 import scala.util.Try
 
-trait GeneratedEnum {
+trait GeneratedEnum extends Serializable {
   type EnumType <: GeneratedEnum
 
   def value: Int
@@ -31,7 +31,13 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def descriptor: EnumDescriptor
 }
 
-trait GeneratedMessage {
+trait GeneratedOneof extends Serializable {
+  def number: Int
+}
+
+trait GeneratedOneofCompanion
+
+trait GeneratedMessage extends Serializable {
   def writeTo(output: CodedOutputStream): Unit
 
   def writeTo(output: OutputStream): Unit = {

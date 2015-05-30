@@ -1,6 +1,5 @@
 package com.trueaccord.scalapb.compiler
 
-import com.google.protobuf.Descriptors.FieldDescriptor.JavaType
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, ByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
@@ -27,7 +26,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .print(e.getValues) {
       case (v, p) => p.addM(
-        s"""case object ${v.getName.asSymbol} extends $name {
+        s"""@SerialVersionUID(0L)
+           |case object ${v.getName.asSymbol} extends $name {
            |  val value = ${v.getNumber}
            |  val index = ${v.getIndex}
            |  val name = "${v.getName}"
@@ -54,7 +54,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def printOneof(e: OneofDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
     printer
-      .add(s"sealed trait ${e.upperScalaName} {")
+      .add(s"sealed trait ${e.upperScalaName} extends com.trueaccord.scalapb.GeneratedOneof {")
       .indent
       .add(s"def isEmpty: Boolean = false")
       .add(s"def isDefined: Boolean = true")
@@ -71,6 +71,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .addM(
         s"""}
            |object ${e.upperScalaName} extends {
+           |  @SerialVersionUID(0L)
            |  case object Empty extends ${e.upperScalaName} {
            |    override def isEmpty: Boolean = true
            |    override def isDefined: Boolean = false
@@ -81,7 +82,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .print(e.fields) {
       case (v, p) =>
         p.addM(
-          s"""case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.upperScalaName} {
+          s"""@SerialVersionUID(0L)
+             |case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.upperScalaName} {
              |  override def is${v.upperScalaName}: Boolean = true
              |  override def ${v.scalaName.asSymbol}: Option[${v.scalaTypeName}] = Some(value)
              |  override def number: Int = ${v.getNumber}
@@ -748,6 +750,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
     printer
+      .add(s"@SerialVersionUID(0L)")
       .add(s"final case class ${message.nameSymbol}(")
       .indent
       .indent
@@ -910,7 +913,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         scalaFileHeader(file)
           .add(s"object ${file.internalFieldsObjectName} {")
           .indent
-          // .call(generateInternalFieldsFor(file))
           .call(generateFileDescriptor(file))
           .outdent
           .add("}").result())
