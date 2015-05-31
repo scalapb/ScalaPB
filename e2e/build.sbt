@@ -6,6 +6,11 @@ PB.scalapbVersion in PB.protobufConfig := com.trueaccord.scalapb.Version.scalapb
 
 PB.javaConversions in PB.protobufConfig := true
 
+// PB.runProtoc in PB.protobufConfig := {
+//   s: Seq[String] =>
+//     println("Should go through here: " + s)
+//     (Seq("protoc") ++ s)!
+// }
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
