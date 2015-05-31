@@ -78,7 +78,7 @@ lazy val proptest = project.in(file("proptest"))
 lazy val ShortTest = config("short") extend(Test)
 
 // For e2e test
-val sbtPluginVersion = "0.4.12"
+val sbtPluginVersion = "0.4.17"
 
 def genVersionFile(out: File, version: String): File = {
   out.mkdirs()

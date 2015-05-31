@@ -6,6 +6,8 @@ PB.scalapbVersion in PB.protobufConfig := com.trueaccord.scalapb.Version.scalapb
 
 PB.javaConversions in PB.protobufConfig := true
 
+PB.runProtoc in PB.protobufConfig := (args =>
+      com.github.os72.protocjar.Protoc.runProtoc("-v261" +: args.toArray))
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",

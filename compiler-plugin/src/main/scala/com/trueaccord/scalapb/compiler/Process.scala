@@ -34,8 +34,7 @@ import scala.util.Try
   * 7. protoc handles the CodeGenerationResponse (creates Scala sources)
   */
 trait ProtocDriver {
-  def runProtocUsing[A](schemas: Seq[String] = Nil,
-                        includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A
+  def buildRunner[A](runner: Seq[String] => A)(params: Seq[String]): A
 }
 
 object ProtocDriverFactory {
@@ -48,8 +47,7 @@ object ProtocDriverFactory {
 
 /** A driver that creates a named pipe and sets up a shell script as a protoc plugin */
 class PosixProtocDriver extends ProtocDriver {
-  def runProtocUsing[A](schemas: Seq[String] = Nil,
-                        includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
+  def buildRunner[A](runner: Seq[String] => A)(params: Seq[String]): A = {
     val pipe = createPipe()
     val sh = createShellScript(pipe)
     Future {
@@ -62,8 +60,7 @@ class PosixProtocDriver extends ProtocDriver {
     }
 
     try {
-      val incPath = includePaths.map("-I" + _)
-      val args = Seq(s"--plugin=protoc-gen-scala=$sh") ++ incPath ++ protocOptions ++ schemas
+      val args = Seq(s"--plugin=protoc-gen-scala=$sh") ++ params
       runner(args)
     } finally {
       Files.delete(pipe)
@@ -97,9 +94,7 @@ class PosixProtocDriver extends ProtocDriver {
     * stdin and stdout to this socket.
     */
 class WindowsProtocDriver(pythonExecutable: String) extends ProtocDriver {
-  def runProtocUsing[A](schemas: Seq[String] = Nil,
-                        includePaths: Seq[String] = Nil,
-                        protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A = {
+  def buildRunner[A](runner: Seq[String] => A)(params: Seq[String]): A = {
     val ss = new ServerSocket(0)
     val (batFile, pyFile) = createWindowsScripts(ss.getLocalPort)
     Future {
@@ -111,8 +106,7 @@ class WindowsProtocDriver(pythonExecutable: String) extends ProtocDriver {
     }
 
     try {
-      val incPath = includePaths.map("-I" + _)
-      val args = Seq(s"--plugin=protoc-gen-scala=$batFile") ++ incPath ++ protocOptions ++ schemas
+      val args = Seq(s"--plugin=protoc-gen-scala=$batFile") ++ params
       runner(args)
     } finally {
       Files.delete(batFile)
@@ -146,15 +140,8 @@ class WindowsProtocDriver(pythonExecutable: String) extends ProtocDriver {
 }
 
 object Process {
-  def runProtoc(args: String*) = runProtocUsing("protoc", protocOptions = args)(_.!!)
-
-  /** Backwards compatibility with older plugins - invokes the Posix version */
-  def runProtocUsing[A](protocCommand: String,
-                        schemas: Seq[String] = Nil,
-                        includePaths: Seq[String] = Nil,
-                        protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A =
-                          (new PosixProtocDriver).runProtocUsing(schemas, includePaths, protocOptions)(args =>
-                              runner(protocCommand +: args))
+  def runProtoc(args: String*) =
+    (new PosixProtocDriver).buildRunner(args => ("protoc" +: args).!!)(args)
 
   private def getStackTrace(e: Throwable): String = {
     val stringWriter = new StringWriter
