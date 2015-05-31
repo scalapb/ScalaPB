@@ -30,6 +30,15 @@ protocol buffers to Scala.  The optional Java conversion is required if you
 want to use `fromAscii` (parsing ASCII representation of a protocol buffer).
 The current implementation delegates to the Java version.
 
+Versions
+========
+
+Version | Description
+---------------------
+0.4.x   | Stable, works with Protobuf 2.6.x
+0.5.x   | Unstable development version.
+0.6.x   | To be released. Supports Protobuf 2.6.x and Protobuf 3.0.x
+
 Installing
 ==========
 
