@@ -4,7 +4,7 @@ import java.nio.file.Files
 import javax.tools.ToolProvider
 
 import com.google.protobuf.Message.Builder
-import com.trueaccord.scalapb.compiler.FunctionalPrinter
+import com.trueaccord.scalapb.compiler.{PosixProtocDriver, WindowsProtocDriver, FunctionalPrinter}
 import org.scalacheck.Gen
 import com.trueaccord.scalapb._
 
@@ -87,6 +87,15 @@ object SchemaGenerators {
     tmpDir
   }
 
+  private def isWindows: Boolean = sys.props("os.name").startsWith("Windows")
+
+  private def protocDriver =
+    if (isWindows) new WindowsProtocDriver("python.exe")
+    else new PosixProtocDriver
+
+  private def runProtoc(args: String*) =
+    protocDriver.buildRunner(args => com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray))(args)
+
   def compileProtos(rootNode: RootNode, tmpDir: File): Unit = {
     val files = rootNode.files.map {
       fileNode =>
@@ -98,7 +107,7 @@ object SchemaGenerators {
       (tmpDir.toString + ":protobuf"),
       "--java_out", tmpDir.toString,
       "--scala_out", "java_conversions:" + tmpDir.toString) ++ files
-    compiler.Process.runProtoc(args: _*)
+    runProtoc(args: _*)
   }
 
   def getFileTree(f: File): Stream[File] =

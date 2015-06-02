@@ -3,7 +3,7 @@ sonatypeSettings
 name := "scalapb-runtime"
 
 libraryDependencies ++= Seq(
-  "com.google.protobuf" % "protobuf-java" % "3.0.0-alpha-2",
+  "com.google.protobuf" % "protobuf-java" % "3.0.0-alpha-3",
   "com.trueaccord.lenses" %% "lenses" % "0.4"
 )
 

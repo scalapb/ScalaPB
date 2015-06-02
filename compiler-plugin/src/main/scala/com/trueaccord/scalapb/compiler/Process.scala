@@ -132,9 +132,6 @@ class WindowsProtocDriver(pythonExecutable: String) extends ProtocDriver {
 }
 
 object Process {
-  def runProtoc(args: String*) =
-    (new PosixProtocDriver).buildRunner(args => ("protoc" +: args).!!)(args)
-
   private def getStackTrace(e: Throwable): String = {
     val stringWriter = new StringWriter
     val printWriter = new PrintWriter(stringWriter)
