@@ -262,9 +262,9 @@ trait DescriptorPimps {
       javaFullOuterClassName + "." + stripPackageName(fullName)
     }
 
-    def internalFieldsObjectName = "InternalFields_" + snakeCaseToCamelCase(file.getName)
+    def fileDescriptorObjectName = snakeCaseToCamelCase(file.getName, upperInitial = true)
 
-    def internalFieldsFullName = scalaPackageName + "." + internalFieldsObjectName
+    def fileDescriptorObjectFullName = scalaPackageName + "." + fileDescriptorObjectName
 
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
 

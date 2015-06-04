@@ -41,7 +41,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case (v, p) => p.add(s"  case ${v.getNumber} => ${v.getName.asSymbol}")
     }
       .add("}")
-      .when(e.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.getFile.internalFieldsObjectName}.descriptor.getEnumTypes.get(${e.getIndex})"))
+      .when(e.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.getFile.fileDescriptorObjectName}.descriptor.getEnumTypes.get(${e.getIndex})"))
       .when(!e.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.getContainingType.scalaTypeName}.descriptor.getEnumTypes.get(${e.getIndex})"))
       .when(params.javaConversions) {
       _.addM(
@@ -623,7 +623,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     printer
-      .when(message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getFile.internalFieldsObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"))
+      .when(message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getFile.fileDescriptorObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"))
       .when(!message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getContainingType.scalaTypeName}.descriptor.getNestedTypes.get(${message.getIndex})"))
   }
 
@@ -850,11 +850,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
          |${if (file.scalaPackageName.nonEmpty) ("package " + file.scalaPackageName) else ""}
          |
          |${if (params.javaConversions) "import scala.collection.JavaConversions._" else ""}
-         |import com.trueaccord.scalapb.Descriptors
-         |""")
+         |import com.trueaccord.scalapb.Descriptors""")
     .print(file.scalaOptions.getImportList) {
       case (i, printer) => printer.add(s"import $i")
     }
+    .add("")
   }
 
   def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
@@ -877,7 +877,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .addWithDelimiter(",")(file.getDependencies.map {
       d =>
         if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
-        else d.internalFieldsFullName + ".descriptor"
+        else d.fileDescriptorObjectFullName + ".descriptor"
     })
       .add("  ))")
       .add("}")
@@ -906,12 +906,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       b.build
     }
 
-    val internalFieldsFile = {
+    val fileDescriptorObjectFile = {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaPackageName.replace('.', '/') + s"/${file.internalFieldsObjectName}.scala")
+      b.setName(file.scalaPackageName.replace('.', '/') + s"/${file.fileDescriptorObjectName}.scala")
       b.setContent(
         scalaFileHeader(file)
-          .add(s"object ${file.internalFieldsObjectName} {")
+          .add(s"object ${file.fileDescriptorObjectName} {")
           .indent
           .call(generateFileDescriptor(file))
           .outdent
@@ -919,7 +919,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       b.build
     }
 
-    enumFiles ++ messageFiles :+ internalFieldsFile
+    enumFiles ++ messageFiles :+ fileDescriptorObjectFile
   }
 }
 

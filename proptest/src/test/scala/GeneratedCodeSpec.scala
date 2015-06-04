@@ -1,20 +1,14 @@
 import java.io.{File, PrintWriter}
 
-import Nodes.RootNode
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.TextFormat
 import com.trueaccord.scalapb.{GeneratedMessage, JavaProtoSupport}
-import org.scalacheck.Arbitrary
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import scala.language.existentials
 
 class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with Matchers {
-  implicit def arbitraryGraph: Arbitrary[RootNode] = Arbitrary(GraphGen.genRootNode)
-
-  implicit def arbitraryCompiledSchema: Arbitrary[CompiledSchema] = Arbitrary(SchemaGenerators.genCompiledSchema)
-
   property("min and max id are consecutive over files") {
     forAll(GraphGen.genRootNode) {
       node =>
