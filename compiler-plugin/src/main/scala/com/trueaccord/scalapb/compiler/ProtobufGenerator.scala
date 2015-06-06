@@ -719,6 +719,42 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       )
   }
 
+  def generateMessageCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    val signature = "def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = "
+    if (message.getFields.exists(_.isMessage))
+      fp.add(signature + "{")
+        .indent
+        .add("__field.getNumber match {")
+        .indent
+        .print(message.getFields.filter(_.isMessage)) {
+        case (f, fp) =>
+          fp.add(s"case ${f.getNumber} => ${f.getMessageType.scalaTypeName}")
+      }
+        .outdent
+        .add("}")
+        .outdent
+        .add("}")
+    else fp.add(signature + "throw new MatchError(__field)")
+  }
+
+  def generateEnumCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    val signature = "def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = "
+    if (message.getFields.exists(_.isEnum))
+      fp.add(signature + "{")
+        .indent
+        .add("__field.getNumber match {")
+        .indent
+        .print(message.getFields.filter(_.isEnum)) {
+        case (f, fp) =>
+          fp.add(s"case ${f.getNumber} => ${f.getEnumType.scalaTypeName}")
+      }
+        .outdent
+        .add("}")
+        .outdent
+        .add("}")
+    else fp.add(signature + "throw new MatchError(__field)")
+  }
+
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
     val className = message.nameSymbol
@@ -734,6 +770,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .when(message.javaConversions)(generateFromAscii(message))
       .call(generateFromFieldsMap(message))
       .call(generateDescriptor(message))
+      .call(generateMessageCompanionForField(message))
+      .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
       .print(message.getEnumTypes)(printEnum)
       .print(message.getOneofs)(printOneof)

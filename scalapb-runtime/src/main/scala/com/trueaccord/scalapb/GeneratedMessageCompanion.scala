@@ -123,6 +123,10 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def descriptor: com.google.protobuf.Descriptors.Descriptor
 
+  def messageCompanionForField(field: FieldDescriptor): GeneratedMessageCompanion[_]
+
+  def enumCompanionForField(field: FieldDescriptor): GeneratedEnumCompanion[_]
+
   def defaultInstance: A
 }
 
