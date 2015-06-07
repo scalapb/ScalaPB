@@ -583,9 +583,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           case field if !field.isInOneof =>
             val baseTypeName = field.typeCategory(if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName)
             val e = if (field.isOptional)
-              s"__fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[$baseTypeName]"
+              s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), None).asInstanceOf[$baseTypeName]"
             else if (field.isRepeated)
-              s"__fieldsMap.getOrElse(__fields(${field.getIndex}), Nil).asInstanceOf[$baseTypeName]"
+              s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), Nil).asInstanceOf[$baseTypeName]"
             else
               s"__fieldsMap(__fields(${field.getIndex})).asInstanceOf[$baseTypeName]"
 
