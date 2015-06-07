@@ -8,5 +8,5 @@ before_install:
 
 script:
     - ./e2e.sh
-    - sbt -J-Xmx2700M ++$TRAVIS_SCALA_VERSION test
+    - sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION test
 
