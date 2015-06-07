@@ -571,8 +571,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         toCustomTypeExpr(field)
 
     val myFullScalaName = message.scalaTypeName
-    printer.add(s"def fromFieldsMap(fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, Any]): $myFullScalaName = {")
+    printer.add(s"def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, Any]): $myFullScalaName = {")
       .indent
+      .add("require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), \"FieldDescriptor does not match message type.\")")
       .add("val __fields = descriptor.getFields")
       .add(myFullScalaName + "(")
       .indent
@@ -582,11 +583,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           case field if !field.isInOneof =>
             val baseTypeName = field.typeCategory(if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName)
             val e = if (field.isOptional)
-              s"fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[$baseTypeName]"
+              s"__fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[$baseTypeName]"
             else if (field.isRepeated)
-              s"fieldsMap.getOrElse(__fields(${field.getIndex}), Nil).asInstanceOf[$baseTypeName]"
+              s"__fieldsMap.getOrElse(__fields(${field.getIndex}), Nil).asInstanceOf[$baseTypeName]"
             else
-              s"fieldsMap(__fields(${field.getIndex})).asInstanceOf[$baseTypeName]"
+              s"__fieldsMap(__fields(${field.getIndex})).asInstanceOf[$baseTypeName]"
 
             val s = transform(field).apply(e, isCollection = !field.isSingular)
             if (field.isMap) s + "(scala.collection.breakOut)"
@@ -597,7 +598,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             val elems = oneOf.fields.map {
               field =>
                 val typeName = if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
-                val e = s"fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[Option[$typeName]]"
+                val e = s"__fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[Option[$typeName]]"
                 val t = field.oneOfTypeName
                 (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
             } mkString (" orElse\n")
@@ -721,18 +722,23 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateMessageCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
     val signature = "def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = "
+    // Due to https://issues.scala-lang.org/browse/SI-9111 we can't directly return the companion
+    // object.
     if (message.getFields.exists(_.isMessage))
       fp.add(signature + "{")
         .indent
+        .add("require(__field.getContainingType() == descriptor, \"FieldDescriptor does not match message type.\")")
+        .add("var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null")
         .add("__field.getNumber match {")
         .indent
         .print(message.getFields.filter(_.isMessage)) {
         case (f, fp) =>
-          fp.add(s"case ${f.getNumber} => ${f.getMessageType.scalaTypeName}")
+          fp.add(s"case ${f.getNumber} => __out = ${f.getMessageType.scalaTypeName}")
       }
         .outdent
         .add("}")
         .outdent
+        .add("__out")
         .add("}")
     else fp.add(signature + "throw new MatchError(__field)")
   }
@@ -742,6 +748,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (message.getFields.exists(_.isEnum))
       fp.add(signature + "{")
         .indent
+        .add("require(__field.getContainingType() == descriptor, \"FieldDescriptor does not match message type.\")")
         .add("__field.getNumber match {")
         .indent
         .print(message.getFields.filter(_.isEnum)) {
