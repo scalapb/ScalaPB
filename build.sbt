@@ -37,9 +37,12 @@ pomExtra in ThisBuild := {
   </developers>
 }
 
-lazy val projectReleaseSettings = releaseSettings ++ Seq(
-  ReleaseKeys.crossBuild := true,
-  ReleaseKeys.publishArtifactsAction := PgpKeys.publishSigned.value
+lazy val projectReleaseSettings = Seq(
+  releaseCrossBuild := true,
+  releasePublishArtifactsAction := {},
+  releasePublishArtifactsAction <<= releasePublishArtifactsAction.dependsOn(
+    PgpKeys.publishSigned,
+    publishLocal)
 )
 
 lazy val root =
