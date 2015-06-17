@@ -11,7 +11,7 @@ PB.runProtoc in PB.protobufConfig := (args =>
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.11.6" % "test",
+  "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
   "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % PB.protobufConfig
 )
 
