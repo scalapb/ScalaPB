@@ -15,31 +15,47 @@ sealed trait Expression extends Product with Serializable {
 
 case class ExpressionList(l: List[LiteralExpression]) extends Expression
 
-sealed trait LiteralExpression extends Expression
+sealed trait LiteralExpression extends Expression {
+  def isIdentity: Boolean
+  def isFunctionApplication: Boolean
+}
 
-case object Identity extends LiteralExpression
+case object Identity extends LiteralExpression {
+  def isIdentity: Boolean = true
+  def isFunctionApplication: Boolean = false
+}
 
-case class FunctionApplication(name: String) extends LiteralExpression
+case class FunctionApplication(name: String) extends LiteralExpression {
+  def isIdentity: Boolean = false
+  def isFunctionApplication: Boolean = true
+}
 
-case class Function2Application(name: String, arg1: String) extends LiteralExpression
 
-case class MethodApplication(name: String) extends LiteralExpression
+case class MethodApplication(name: String) extends LiteralExpression {
+  def isIdentity: Boolean = false
+  def isFunctionApplication: Boolean = false
+}
+
 
 object ExpressionBuilder {
   def runSingleton(es: List[LiteralExpression])(e: String): String = es match {
     case Nil => e
     case Identity :: tail => runSingleton(tail)(e)
     case FunctionApplication(name) :: tail => s"$name(${runSingleton(tail)(e)})"
-    case Function2Application(name, arg1) :: tail => s"$name($arg1, ${runSingleton(tail)(e)})"
     case MethodApplication(name) :: tail => s"${runSingleton(tail)(e)}.$name"
   }
 
-  def runCollection(es: List[LiteralExpression])(e: String): String = es match {
-    case Nil => e
-    case Identity :: tail => runCollection(tail)(e)
-    case FunctionApplication(name) :: tail => s"${runCollection(tail)(e)}.map($name)"
-    case Function2Application(name, arg1) :: tail => s"${runCollection(tail)(e)}.map($name($arg1, _))"
-    case MethodApplication(name) :: tail => s"${runCollection(tail)(e)}.map(_.$name)"
+  def runCollection(es: List[LiteralExpression])(e: String): String = {
+    val nontrivial = es.filterNot(_.isIdentity)
+    val needVariable =
+      nontrivial.filterNot(_.isIdentity)
+        .dropRight(1).exists(_.isFunctionApplication)
+
+    if (needVariable)
+      s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})"""
+    else if (nontrivial.nonEmpty)
+      s"""$e.map(${runSingleton(nontrivial)("_")})"""
+    else e
   }
 
   def run(es: List[LiteralExpression])(e: String, isCollection: Boolean): String =
