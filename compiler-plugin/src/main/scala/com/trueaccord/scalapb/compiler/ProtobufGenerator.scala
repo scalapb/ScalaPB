@@ -587,7 +587,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             else if (field.isRepeated)
               s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), Nil).asInstanceOf[$baseTypeName]"
             else
-              s"__fieldsMap(__fields(${field.getIndex})).asInstanceOf[$baseTypeName]"
+              s"__fieldsMap(__fields.get(${field.getIndex})).asInstanceOf[$baseTypeName]"
 
             val s = transform(field).apply(e, isCollection = !field.isSingular)
             if (field.isMap) s + "(scala.collection.breakOut)"

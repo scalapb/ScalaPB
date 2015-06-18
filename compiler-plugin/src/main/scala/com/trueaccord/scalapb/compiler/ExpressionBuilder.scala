@@ -30,12 +30,10 @@ case class FunctionApplication(name: String) extends LiteralExpression {
   def isFunctionApplication: Boolean = true
 }
 
-
 case class MethodApplication(name: String) extends LiteralExpression {
   def isIdentity: Boolean = false
   def isFunctionApplication: Boolean = false
 }
-
 
 object ExpressionBuilder {
   def runSingleton(es: List[LiteralExpression])(e: String): String = es match {
