@@ -4,8 +4,8 @@ scala:
 - 2.10.4
 - 2.11.6
 script:
-#- ./e2e.sh
-#- sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION test
+- ./e2e.sh
+- sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION test
 - sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION universal:packageBin
 deploy:
   provider: releases
