@@ -905,9 +905,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
     // Encoding the file descriptor proto in base64. JVM has a limit on string literal to be up
     // to 64k, so we chunk it into a sequence and combining in run time.  The chunks are less
-    // than base64 to account for indentation and new lines.
+    // than 64k to account for indentation and new lines.
     val clearProto = file.toProto.toBuilder.clearSourceCodeInfo.build
-    val base64: Seq[Seq[String]] = javax.xml.bind.DatatypeConverter.printBase64Binary(clearProto.toByteArray)
+    val base64: Seq[Seq[String]] = com.trueaccord.scalapb.Encoding.toBase64(clearProto.toByteArray)
       .grouped(55000).map {
       group =>
         val lines = ("\"\"\"" + group).grouped(100).toSeq
@@ -915,7 +915,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }.toSeq
     fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
       .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(")
-      .add("    javax.xml.bind.DatatypeConverter.parseBase64Binary(Seq(")
+      .add("    com.trueaccord.scalapb.Encoding.fromBase64(Seq(")
       .addGroupsWithDelimiter(",")(base64)
       .add("    ).mkString))")
       .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")

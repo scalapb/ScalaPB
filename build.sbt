@@ -42,6 +42,7 @@ lazy val projectReleaseSettings = Seq(
   releasePublishArtifactsAction := {},
   releasePublishArtifactsAction <<= releasePublishArtifactsAction.dependsOn(
     PgpKeys.publishSigned,
+    clean,
     publishLocal)
 )
 
@@ -55,8 +56,10 @@ lazy val root =
 lazy val runtime = project.in(file("scalapb-runtime")).settings(
   projectReleaseSettings:_*)
 
-lazy val compilerPlugin = project.in(file("compiler-plugin")).settings(
-  projectReleaseSettings:_*)
+lazy val compilerPlugin = project.in(file("compiler-plugin"))
+  .dependsOn(runtime)
+  .settings(
+    projectReleaseSettings:_*)
 
 lazy val proptest = project.in(file("proptest"))
   .dependsOn(runtime, compilerPlugin)
