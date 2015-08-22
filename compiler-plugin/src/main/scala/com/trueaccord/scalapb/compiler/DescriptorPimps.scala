@@ -150,6 +150,11 @@ trait DescriptorPimps {
       case None => message.getFile.scalaPackageName + "." + nameSymbol
     }
 
+    private[compiler] def hasConflictingJavaClassName(className: String): Boolean = (
+      (message.getName == className) ||
+        (message.getEnumTypes.exists(_.getName == className)) ||
+        (message.nestedTypes.exists(_.hasConflictingJavaClassName(className))))
+
     def javaTypeName = message.getFile.fullJavaName(message.getFullName)
 
     def messageOptions: MessageOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
@@ -227,11 +232,18 @@ trait DescriptorPimps {
     def javaPackageAsSymbol: String =
       javaPackage.split('.').map(_.asSymbol).mkString(".")
 
+    private def hasConflictingJavaClassName(className: String) = (
+      file.getEnumTypes.exists(_.getName == className) ||
+        file.getServices.exists(_.getName == className) ||
+        file.getMessageTypes.exists(_.hasConflictingJavaClassName(className)))
+
     def javaOuterClassName =
       if (file.getOptions.hasJavaOuterClassname)
         file.getOptions.getJavaOuterClassname
       else {
-        snakeCaseToCamelCase(baseName(file.getName), true)
+        val r = snakeCaseToCamelCase(baseName(file.getName), true)
+        if (!hasConflictingJavaClassName(r)) r
+        else r + "OuterClass"
       }
 
     def scalaPackageName = {
