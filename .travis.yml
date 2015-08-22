@@ -1,12 +1,25 @@
 language: scala
+sudo: false
 scala:
-   - 2.10.4
-   - 2.11.2
+- 2.10.4
+- 2.11.6
 
 before_install:
    - ./.travis/install_protobuf.sh
 
 script:
-    - ./e2e.sh
-    - sbt -J-Xmx2700M ++$TRAVIS_SCALA_VERSION test
+- ./e2e.sh
+- sbt -J-Xmx2700M ++$TRAVIS_SCALA_VERSION test
+- sbt -J-Xmx2700M ++$TRAVIS_SCALA_VERSION universal:packageBin
+
+deploy:
+  provider: releases
+  api_key:
+    secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
+  file: spbc/target/universal/spbc-${TRAVIS_TAG:1}.zip
+  skip_cleanup: true
+  on:
+    repo: trueaccord/ScalaPB
+    tags: true
+    scala: 2.11.6
 

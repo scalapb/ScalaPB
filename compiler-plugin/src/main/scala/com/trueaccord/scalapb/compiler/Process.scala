@@ -38,6 +38,14 @@ trait ProtocDriver {
                         includePaths: Seq[String] = Nil, protocOptions: Seq[String] = Nil)(runner: Seq[String] => A): A
 }
 
+object ProtocDriverFactory {
+  private def isWindows: Boolean = sys.props("os.name").startsWith("Windows")
+
+  def create() =
+    if (isWindows) new WindowsProtocDriver("python.exe")
+    else new PosixProtocDriver
+}
+
 /** A driver that creates a named pipe and sets up a shell script as a protoc plugin */
 class PosixProtocDriver extends ProtocDriver {
   def runProtocUsing[A](schemas: Seq[String] = Nil,

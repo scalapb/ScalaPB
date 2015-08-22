@@ -47,13 +47,20 @@ lazy val root =
     .settings(
       publishArtifact := false,
       aggregate in sonatypeRelease := false
-    ).settings(projectReleaseSettings: _*).aggregate(runtime, compilerPlugin, proptest)
+    ).settings(projectReleaseSettings: _*).aggregate(runtime, compilerPlugin, proptest, spbc)
 
 lazy val runtime = project.in(file("scalapb-runtime")).settings(
   projectReleaseSettings:_*)
 
 lazy val compilerPlugin = project.in(file("compiler-plugin")).settings(
   projectReleaseSettings:_*)
+
+lazy val spbc = project.in(file("spbc"))
+  .dependsOn(compilerPlugin, runtime)
+  .settings(
+    publishArtifact := false,
+    publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
+  )
 
 lazy val proptest = project.in(file("proptest"))
   .dependsOn(runtime, compilerPlugin)
