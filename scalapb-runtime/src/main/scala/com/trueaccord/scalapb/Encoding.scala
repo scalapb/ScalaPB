@@ -8,7 +8,7 @@ import scala.collection.mutable
   * messages.
   *
   * We could have used Apache Commons, but we would like to avoid an additional dependency.
-  * javax.xm.bind.DayaTypeConverter.parseBase64Binary is not available on Android. And the Java
+  * java.xml.bind.DataTypeConverter.parseBase64Binary is not available on Android. And the Java
   * native java.util.Base64 is only available for Java 8...
   */
 object Encoding {

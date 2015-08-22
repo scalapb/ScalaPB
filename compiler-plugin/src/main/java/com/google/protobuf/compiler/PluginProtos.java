@@ -272,30 +272,6 @@ public final class PluginProtos {
               com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest.class, com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest.Builder.class);
     }
 
-    public static final com.google.protobuf.Parser<CodeGeneratorRequest> PARSER =
-        new com.google.protobuf.AbstractParser<CodeGeneratorRequest>() {
-      public CodeGeneratorRequest parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
-          return new CodeGeneratorRequest(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CodeGeneratorRequest> getParserForType() {
-      return PARSER;
-    }
-
     private int bitField0_;
     public static final int FILE_TO_GENERATE_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList fileToGenerate_;
@@ -351,7 +327,7 @@ public final class PluginProtos {
     }
 
     public static final int PARAMETER_FIELD_NUMBER = 2;
-    private java.lang.Object parameter_;
+    private volatile java.lang.Object parameter_;
     /**
      * <code>optional string parameter = 2;</code>
      *
@@ -618,13 +594,13 @@ public final class PluginProtos {
 
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
-      return defaultInstance.toBuilder();
+      return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest prototype) {
-      return defaultInstance.toBuilder().mergeFrom(prototype);
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
-      return this == defaultInstance
+      return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
 
@@ -791,7 +767,6 @@ public final class PluginProtos {
       public final boolean isInitialized() {
         for (int i = 0; i < getProtoFileCount(); i++) {
           if (!getProtoFile(i).isInitialized()) {
-            
             return false;
           }
         }
@@ -1542,21 +1517,43 @@ public final class PluginProtos {
     }
 
     // @@protoc_insertion_point(class_scope:google.protobuf.compiler.CodeGeneratorRequest)
-    private static final com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest defaultInstance;
+    private static final com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest DEFAULT_INSTANCE;
     static {
-      defaultInstance = new com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest();
+      DEFAULT_INSTANCE = new com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest();
     }
 
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest getDefaultInstance() {
-      return defaultInstance;
+      return DEFAULT_INSTANCE;
+    }
+
+    public static final com.google.protobuf.Parser<CodeGeneratorRequest> PARSER =
+        new com.google.protobuf.AbstractParser<CodeGeneratorRequest>() {
+      public CodeGeneratorRequest parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        try {
+          return new CodeGeneratorRequest(input, extensionRegistry);
+        } catch (RuntimeException e) {
+          if (e.getCause() instanceof
+              com.google.protobuf.InvalidProtocolBufferException) {
+            throw (com.google.protobuf.InvalidProtocolBufferException)
+                e.getCause();
+          }
+          throw e;
+        }
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CodeGeneratorRequest> getParserForType() {
+      return PARSER;
     }
 
     public com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest getDefaultInstanceForType() {
-      return defaultInstance;
+      return DEFAULT_INSTANCE;
     }
 
-    static {
-    }
   }
 
   public interface CodeGeneratorResponseOrBuilder extends
@@ -1718,30 +1715,6 @@ public final class PluginProtos {
       return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.class, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.Builder.class);
-    }
-
-    public static final com.google.protobuf.Parser<CodeGeneratorResponse> PARSER =
-        new com.google.protobuf.AbstractParser<CodeGeneratorResponse>() {
-      public CodeGeneratorResponse parsePartialFrom(
-          com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-          throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
-          return new CodeGeneratorResponse(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
-      }
-    };
-
-    @java.lang.Override
-    public com.google.protobuf.Parser<CodeGeneratorResponse> getParserForType() {
-      return PARSER;
     }
 
     public interface FileOrBuilder extends
@@ -2040,33 +2013,9 @@ public final class PluginProtos {
                 com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.class, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.Builder.class);
       }
 
-      public static final com.google.protobuf.Parser<File> PARSER =
-          new com.google.protobuf.AbstractParser<File>() {
-        public File parsePartialFrom(
-            com.google.protobuf.CodedInputStream input,
-            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
-            throws com.google.protobuf.InvalidProtocolBufferException {
-          try {
-            return new File(input, extensionRegistry);
-          } catch (RuntimeException e) {
-            if (e.getCause() instanceof
-                com.google.protobuf.InvalidProtocolBufferException) {
-              throw (com.google.protobuf.InvalidProtocolBufferException)
-                  e.getCause();
-            }
-            throw e;
-          }
-        }
-      };
-
-      @java.lang.Override
-      public com.google.protobuf.Parser<File> getParserForType() {
-        return PARSER;
-      }
-
       private int bitField0_;
       public static final int NAME_FIELD_NUMBER = 1;
-      private java.lang.Object name_;
+      private volatile java.lang.Object name_;
       /**
        * <code>optional string name = 1;</code>
        *
@@ -2147,7 +2096,7 @@ public final class PluginProtos {
       }
 
       public static final int INSERTION_POINT_FIELD_NUMBER = 2;
-      private java.lang.Object insertionPoint_;
+      private volatile java.lang.Object insertionPoint_;
       /**
        * <code>optional string insertion_point = 2;</code>
        *
@@ -2297,7 +2246,7 @@ public final class PluginProtos {
       }
 
       public static final int CONTENT_FIELD_NUMBER = 15;
-      private java.lang.Object content_;
+      private volatile java.lang.Object content_;
       /**
        * <code>optional string content = 15;</code>
        *
@@ -2453,13 +2402,13 @@ public final class PluginProtos {
 
       public Builder newBuilderForType() { return newBuilder(); }
       public static Builder newBuilder() {
-        return defaultInstance.toBuilder();
+        return DEFAULT_INSTANCE.toBuilder();
       }
       public static Builder newBuilder(com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File prototype) {
-        return defaultInstance.toBuilder().mergeFrom(prototype);
+        return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() {
-        return this == defaultInstance
+        return this == DEFAULT_INSTANCE
             ? new Builder() : new Builder().mergeFrom(this);
       }
 
@@ -3159,26 +3108,48 @@ public final class PluginProtos {
       }
 
       // @@protoc_insertion_point(class_scope:google.protobuf.compiler.CodeGeneratorResponse.File)
-      private static final com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File defaultInstance;
+      private static final com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File DEFAULT_INSTANCE;
       static {
-        defaultInstance = new com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File();
+        DEFAULT_INSTANCE = new com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File();
       }
 
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File getDefaultInstance() {
-        return defaultInstance;
+        return DEFAULT_INSTANCE;
+      }
+
+      public static final com.google.protobuf.Parser<File> PARSER =
+          new com.google.protobuf.AbstractParser<File>() {
+        public File parsePartialFrom(
+            com.google.protobuf.CodedInputStream input,
+            com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+            throws com.google.protobuf.InvalidProtocolBufferException {
+          try {
+            return new File(input, extensionRegistry);
+          } catch (RuntimeException e) {
+            if (e.getCause() instanceof
+                com.google.protobuf.InvalidProtocolBufferException) {
+              throw (com.google.protobuf.InvalidProtocolBufferException)
+                  e.getCause();
+            }
+            throw e;
+          }
+        }
+      };
+
+      @java.lang.Override
+      public com.google.protobuf.Parser<File> getParserForType() {
+        return PARSER;
       }
 
       public com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File getDefaultInstanceForType() {
-        return defaultInstance;
+        return DEFAULT_INSTANCE;
       }
 
-      static {
-      }
     }
 
     private int bitField0_;
     public static final int ERROR_FIELD_NUMBER = 1;
-    private java.lang.Object error_;
+    private volatile java.lang.Object error_;
     /**
      * <code>optional string error = 1;</code>
      *
@@ -3380,13 +3351,13 @@ public final class PluginProtos {
 
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
-      return defaultInstance.toBuilder();
+      return DEFAULT_INSTANCE.toBuilder();
     }
     public static Builder newBuilder(com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse prototype) {
-      return defaultInstance.toBuilder().mergeFrom(prototype);
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
-      return this == defaultInstance
+      return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
     }
 
@@ -3936,34 +3907,56 @@ public final class PluginProtos {
     }
 
     // @@protoc_insertion_point(class_scope:google.protobuf.compiler.CodeGeneratorResponse)
-    private static final com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse defaultInstance;
+    private static final com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse DEFAULT_INSTANCE;
     static {
-      defaultInstance = new com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse();
+      DEFAULT_INSTANCE = new com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse();
     }
 
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse getDefaultInstance() {
-      return defaultInstance;
+      return DEFAULT_INSTANCE;
+    }
+
+    public static final com.google.protobuf.Parser<CodeGeneratorResponse> PARSER =
+        new com.google.protobuf.AbstractParser<CodeGeneratorResponse>() {
+      public CodeGeneratorResponse parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        try {
+          return new CodeGeneratorResponse(input, extensionRegistry);
+        } catch (RuntimeException e) {
+          if (e.getCause() instanceof
+              com.google.protobuf.InvalidProtocolBufferException) {
+            throw (com.google.protobuf.InvalidProtocolBufferException)
+                e.getCause();
+          }
+          throw e;
+        }
+      }
+    };
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<CodeGeneratorResponse> getParserForType() {
+      return PARSER;
     }
 
     public com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse getDefaultInstanceForType() {
-      return defaultInstance;
+      return DEFAULT_INSTANCE;
     }
 
-    static {
-    }
   }
 
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorRequest_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorRequest_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorResponse_fieldAccessorTable;
-  private static final com.google.protobuf.Descriptors.Descriptor
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable

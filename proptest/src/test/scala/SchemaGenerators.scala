@@ -104,7 +104,7 @@ object SchemaGenerators {
         file.getAbsolutePath
     }
     val args = Seq("--proto_path",
-      (tmpDir.toString + ":protobuf"),
+      (tmpDir.toString + ":protobuf:third_party"),
       "--java_out", tmpDir.toString,
       "--scala_out", "java_conversions:" + tmpDir.toString) ++ files
     runProtoc(args: _*)
