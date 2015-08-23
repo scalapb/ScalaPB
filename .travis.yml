@@ -12,7 +12,7 @@ cache:
 
 script:
 - ./e2e.sh
-- sbt -J-Xmx3600M ++$TRAVIS_SCALA_VERSION test
+- sbt -J-Xmx3600M -J-Xss256M ++$TRAVIS_SCALA_VERSION test
 - sbt -J-Xmx3600M ++$TRAVIS_SCALA_VERSION universal:packageBin
 # Tricks to avoid unnecessary cache updates
 - find $HOME/.sbt -name "*.lock" | xargs rm
