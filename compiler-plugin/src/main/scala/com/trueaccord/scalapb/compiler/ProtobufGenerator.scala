@@ -18,6 +18,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case (v, p) => p.add(
         s"def is${v.objectName}: Boolean = false")
     }
+      .add(s"def isUnrecognized: Boolean = false")
       .add(s"def companion: com.trueaccord.scalapb.GeneratedEnumCompanion[$name] = $name")
       .outdent
       .add("}")
@@ -35,11 +36,20 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |}
            |""")
     }
+      .addM(
+        s"""@SerialVersionUID(0L)
+           |case class Unrecognized(value: Int) extends $name {
+           |  val name = "UNRECOGNIZED"
+           |  val index = -1
+           |  override def isUnrecognized: Boolean = true
+           |}
+           |""")
       .add(s"lazy val values = Seq(${e.getValues.map(_.getName.asSymbol).mkString(", ")})")
       .add(s"def fromValue(value: Int): $name = value match {")
       .print(e.getValues) {
       case (v, p) => p.add(s"  case ${v.getNumber} => ${v.getName.asSymbol}")
     }
+      .add(s"  case __other => Unrecognized(__other)")
       .add("}")
       .when(e.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.getFile.fileDescriptorObjectName}.descriptor.getEnumTypes.get(${e.getIndex})"))
       .when(!e.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.getContainingType.scalaTypeName}.descriptor.getEnumTypes.get(${e.getIndex})"))
@@ -177,7 +187,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     s"${container}.get${field.upperScalaName}.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)})).toMap"
   }
 
-  def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): LiteralExpression = {
+  def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): Expression = {
     def maybeBox(name: String) = if (boxPrimitives) FunctionApplication(name) else Identity
 
     field.getJavaType match {
@@ -190,8 +200,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case FieldDescriptor.JavaType.STRING => Identity
       case FieldDescriptor.JavaType.MESSAGE => FunctionApplication(
         field.getMessageType.scalaTypeName + ".toJavaProto")
-      case FieldDescriptor.JavaType.ENUM => FunctionApplication(
-        field.getEnumType.scalaTypeName + ".toJavaValue")
+      case FieldDescriptor.JavaType.ENUM => if (field.getFile.isProto3)
+        (MethodApplication("value") andThen maybeBox("Int.box"))
+      else
+        FunctionApplication(field.getEnumType.scalaTypeName + ".toJavaValue")
     }
   }
 
@@ -199,8 +211,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     def valueConvert(v: String, field: FieldDescriptor) =
       scalaToJava(field, boxPrimitives = true).apply(v, isCollection = false)
 
+    val getMutableMap = s"getMutable${field.upperScalaName}" + (
+      if (field.mapType.valueField.isEnum) "Value" else "")
+
     s"""$javaObject
-       |  .getMutable${field.upperScalaName}
+       |  .$getMutableMap()
        |  .putAll(
        |    $scalaObject.${fieldAccessorSymbol(field)}.map {
        |      __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert("__kv._2", field.mapType.valueField)})
@@ -213,7 +228,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (field.isMap) assignScalaMapToJava(scalaObject, javaObject, field) else {
       val javaSetter = javaObject +
         (if (field.isRepeated) ".addAll" else
-          ".set") + field.upperScalaName
+          ".set") + field.upperScalaName + (
+        if (field.isEnum && field.getFile.isProto3) "Value" else "")
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
       val scalaExpr = (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = field.isRepeated)).apply(
