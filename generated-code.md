@@ -329,13 +329,18 @@ sealed trait Weather extends GeneratedEnum {
 
 object Weather extends GeneratedEnumCompanion[Weather] {
     case object Sunny extends Weather {
-        val id = 1
+        val value = 1
         val name = "SUNNY"
     }
 
     // Similarly for the other enum values...
     case object PartlyCloudy extends Weather { ... }
     case object Rain extends Weather { ... }
+
+    // In ScalaPB >= 0.5.x, this captures unknown value that are received
+    // from the wire format.  Earlier versions throw a MatchError when
+    // this happens.
+    case class Unrecognized(value: Int) extends Weather { ... }
 
     // And a list of all possible values:
     lazy val values = Seq(Sunny, PartlyCloudy, Rain)
