@@ -4,11 +4,8 @@ scala:
 - 2.10.4
 - 2.11.6
 
-before_install:
-   - ./.travis/install_protobuf.sh
-
 script:
-#- ./e2e.sh
+- ./e2e.sh
 - sbt -J-Xmx2700M ++$TRAVIS_SCALA_VERSION test
 - sbt -J-Xmx2700M ++$TRAVIS_SCALA_VERSION universal:packageBin
 
