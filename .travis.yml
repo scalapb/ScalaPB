@@ -22,7 +22,7 @@ deploy:
   provider: releases
   api_key:
     secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
-  file: spbc/target/universal/spbc-${TRAVIS_TAG:1}.zip
+  file: scalapbc/target/universal/scalapbc-${TRAVIS_TAG:1}.zip
   skip_cleanup: true
   on:
     repo: trueaccord/ScalaPB

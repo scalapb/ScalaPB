@@ -47,7 +47,7 @@ lazy val root =
     .settings(
       publishArtifact := false,
       aggregate in sonatypeRelease := false
-    ).settings(projectReleaseSettings: _*).aggregate(runtime, compilerPlugin, proptest, spbc)
+    ).settings(projectReleaseSettings: _*).aggregate(runtime, compilerPlugin, proptest, scalapbc)
 
 lazy val runtime = project.in(file("scalapb-runtime")).settings(
   projectReleaseSettings:_*)
@@ -55,7 +55,7 @@ lazy val runtime = project.in(file("scalapb-runtime")).settings(
 lazy val compilerPlugin = project.in(file("compiler-plugin")).settings(
   projectReleaseSettings:_*)
 
-lazy val spbc = project.in(file("spbc"))
+lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin, runtime)
   .settings(
     publishArtifact := false,
