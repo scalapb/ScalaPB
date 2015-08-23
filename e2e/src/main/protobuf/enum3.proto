@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+enum Color3 {
+  C3_UNKNOWN = 0;
+  C3_RED = 1;
+  C3_GREEN = 2;
+  C3_BLUE = 3;
+}
+
+message EnumTest3 {
+  Color3 color = 1;
+  Color3 other_color = 2;
+  repeated Color3 color_vector = 4;
+
+  enum InnerEnum {
+    INNER_UNKNOWN = 0;
+    INNER_SUCCESS = 1;
+    INNER_FAIL = 2;
+    OtherCase = 3;
+  }
+  InnerEnum inner_enum = 5;
+}
+
+message EnumTestLike {
+  int32 color = 1;
+}
+
