@@ -103,7 +103,7 @@ object SchemaGenerators {
       (tmpDir.toString + ":protobuf:third_party"),
       "--java_out", tmpDir.toString,
       "--scala_out", "java_conversions:" + tmpDir.toString) ++ files
-    compiler.Process.runProtoc(args: _*)
+    runProtoc(args: _*)
   }
 
   def getFileTree(f: File): Stream[File] =
