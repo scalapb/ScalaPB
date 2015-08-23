@@ -33,7 +33,7 @@ val newOrder = order.update(_.creditCard.expirationYear := 2015)
   [Oneof](https://developers.google.com/protocol-buffers/docs/proto#oneof)'s 
   that were introduced in Protocol Buffers 2.6.0.
 
-## Installing
+## Installing in SBT (Recommended!)
 
 To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/scalapb.sbt`
