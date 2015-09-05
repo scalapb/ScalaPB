@@ -4,7 +4,7 @@ scalaVersion := "2.11.6"
 
 sonatypeSettings
 
-crossScalaVersions := Seq("2.11.6", "2.10.5", "2.12.0-M2")
+crossScalaVersions := Seq("2.11.6", "2.10.5", "2.12.0-M1")
 
 organization := "com.trueaccord.lenses"
 
@@ -13,8 +13,8 @@ profileName := "com.trueaccord"
 scalacOptions += "-target:jvm-1.7"
 
 libraryDependencies ++= Seq(
-  "org.scalacheck" %% "scalacheck" % "1.11.6" % "test",
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test"
+  "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
+  "org.scalatest" %% "scalatest" % "2.2.5" % "test"
 )
 
 pomExtra in ThisBuild := {
