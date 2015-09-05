@@ -14,7 +14,7 @@ scalacOptions += "-target:jvm-1.7"
 
 libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
-  "org.scalatest" %% "scalatest" % "2.2.5" % "test"
+  "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M1" else "2.2.5") % "test"
 )
 
 pomExtra in ThisBuild := {
