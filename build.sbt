@@ -4,7 +4,7 @@ scalaVersion := "2.11.6"
 
 sonatypeSettings
 
-crossScalaVersions := Seq("2.11.6", "2.10.5")
+crossScalaVersions := Seq("2.11.6", "2.10.5", "2.12.0-M2")
 
 organization := "com.trueaccord.lenses"
 
