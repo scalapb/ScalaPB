@@ -860,7 +860,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
       .call(generateGetField(message))
       .when(message.javaConversions)(
-        _.add(s"override def toString: String = com.google.protobuf.TextFormat.printToString(${message.scalaTypeName}.toJavaProto(this))"))
+        _.add(s"override def toString: String = com.google.protobuf.TextFormat.printToUnicodeString(${message.scalaTypeName}.toJavaProto(this))"))
       .add(s"def companion = ${message.scalaTypeName}")
       .outdent
       .outdent
