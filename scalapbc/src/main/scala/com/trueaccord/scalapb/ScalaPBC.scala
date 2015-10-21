@@ -1,4 +1,4 @@
-package com.trueacord.scalapb
+package com.trueaccord.scalapb
 
 import com.trueaccord.scalapb.compiler.ProtocDriverFactory
 
