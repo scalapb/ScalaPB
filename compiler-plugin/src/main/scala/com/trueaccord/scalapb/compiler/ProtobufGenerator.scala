@@ -615,7 +615,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               field =>
                 val typeName = if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
                 val e = s"__fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[Option[$typeName]]"
-                val t = field.oneOfTypeName
                 (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
             } mkString (" orElse\n")
             s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
@@ -638,7 +637,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val myFullScalaName = message.scalaTypeName
     printer
       .when(message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getFile.fileDescriptorObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"))
       .when(!message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getContainingType.scalaTypeName}.descriptor.getNestedTypes.get(${message.getIndex})"))
@@ -659,7 +657,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val myFullScalaName = message.scalaTypeName
     val className = message.scalaName
     val classNameSymbol = className.asSymbol
     def lensType(s: String) = s"com.trueaccord.lenses.Lens[UpperPB, $s]"
@@ -699,7 +696,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer
       .print(message.getFields) {
       case (field, printer) =>
-        val fieldName = field.scalaName.asSymbol
         printer.add(s"final val ${field.fieldNumberConstantName} = ${field.getNumber}")
     }
   }
@@ -713,7 +709,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer
       .print(customizedFields) {
       case ((field, customType), printer) =>
-        val fieldName = field.scalaName.asSymbol
         printer.add(s"private val ${field.typeMapperValName}: com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]")
     }
   }
@@ -779,7 +774,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val myFullScalaName = message.scalaTypeName
     val className = message.nameSymbol
     val mixins = if (message.javaConversions)
       s"with com.trueaccord.scalapb.JavaProtoSupport[$className, ${message.javaTypeName}] " else ""
@@ -839,7 +833,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                  |def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = Some(__v))""")
         }.when(field.isInOneof) {
           p =>
-            val default = defaultValueForGet(field)
             p.add(
               s"""def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.getContainingOneof.scalaName.asSymbol} = ${field.oneOfTypeName}(__v))""")
         }.when(field.isRepeated) { p =>
@@ -999,7 +992,6 @@ object ProtobufGenerator {
     parseParameters(request.getParameter) match {
       case Right(params) =>
         val generator = new ProtobufGenerator(params)
-        val fileProtosByName = request.getProtoFileList.map(n => n.getName -> n).toMap
         val filesByName: Map[String, FileDescriptor] =
           request.getProtoFileList.foldLeft[Map[String, FileDescriptor]](Map.empty) {
             case (acc, fp) =>
