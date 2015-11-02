@@ -30,3 +30,6 @@ message WeirdNamesRequired {
   required string tag = 2;
   required Option option = 3;
 }
+
+message yield {
+}
