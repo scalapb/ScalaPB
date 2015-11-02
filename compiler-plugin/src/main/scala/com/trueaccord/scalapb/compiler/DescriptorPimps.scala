@@ -20,7 +20,7 @@ trait DescriptorPimps {
     "return", "sealed", "super", "this", "throw",
     "trait", "try", "true", "type", "val",
     "var", "while", "with", "yield",
-    "val", "var", "def", "if", "ne", "case", "scala")
+    "ne", "scala")
 
   implicit class AsSymbolPimp(val s: String) {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
