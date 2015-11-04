@@ -1,7 +1,7 @@
 import GenUtils._
 import GenTypes.{FieldOptions, ProtoType, FieldModifier}
 import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
-import org.scalacheck.Gen
+import org.scalacheck.{Arbitrary, Gen}
 
 object GraphGen {
   import Nodes._
@@ -151,7 +151,8 @@ object GraphGen {
         protoPackageOption = if (protoPackage.nonEmpty) Some(protoPackage) else None
         (messages, state) <- listWithStatefulGen(state, maxSize = 4)(genMessageNode(0, None, protoSyntax))
         (enums, state) <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None, protoSyntax))
-      } yield (FileNode(baseName, protoSyntax, protoPackageOption, javaPackageOption, scalaOptions, messages, enums, fileId),
+        javaMulti <- implicitly[Arbitrary[Boolean]].arbitrary
+      } yield (FileNode(baseName, protoSyntax, protoPackageOption, javaPackageOption, javaMulti, scalaOptions, messages, enums, fileId),
         if (protoPackage.isEmpty) state else state.closeNamespace)
   }
 

@@ -259,8 +259,19 @@ trait DescriptorPimps {
 
     def javaFullOuterClassName = {
       val pkg = javaPackageAsSymbol
-      if (pkg.isEmpty) javaOuterClassName
-      else pkg + "." + javaOuterClassName
+      if (pkg.isEmpty) {
+        if (file.getOptions.getJavaMultipleFiles) {
+          ""
+        } else {
+          javaOuterClassName
+        }
+      } else {
+        if (file.getOptions.getJavaMultipleFiles) {
+          pkg
+        } else {
+          pkg + "." + javaOuterClassName
+        }
+      }
     }
 
     private def stripPackageName(fullName: String): String =

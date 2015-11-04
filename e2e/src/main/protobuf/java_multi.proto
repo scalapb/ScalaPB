@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package java_multi_sample;
+
+message JavaMulti {
+  string a = 1;
+}

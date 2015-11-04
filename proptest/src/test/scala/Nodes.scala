@@ -86,7 +86,13 @@ object Nodes {
     def javaClassName(m: MessageNode) = {
       val parts = fullMessageNameParts(m.id)
       val file = filesById(m.fileId)
-      file.javaOuterClass + "$" + (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
+      val innerClassName = (if (file.protoPackage.isDefined) parts.tail else parts).mkString("$")
+      file.javaOuterClassOrPackage match {
+        case Right(packageName) =>
+          packageName + "." + innerClassName
+        case Left(outerClass) =>
+          outerClass + "$" + innerClassName
+      }
     }
 
     def scalaObjectName(m: MessageNode) = {
@@ -105,6 +111,7 @@ object Nodes {
                       protoSyntax: ProtoSyntax,
                       protoPackage: Option[String],
                       javaPackage: Option[String],
+                      javaMultipleFiles: Boolean,
                       scalaOptions: Option[ScalaPbOptions],
                       messages: Seq[MessageNode],
                       enums: Seq[EnumNode],
@@ -133,6 +140,7 @@ object Nodes {
         .add(s"""syntax = "${protoSyntax.syntaxName}";""")
         .print(protoPackage)((pkg, p) => p.add(s"package $pkg;"))
         .print(javaPackage)((pkg, p) => p.add(s"""option java_package = "$pkg";"""))
+        .when(javaMultipleFiles)(_.add("option java_multiple_files = true;"))
         .print(scalaOptions)((options, p) =>
         p.add("""import "scalapb/scalapb.proto";""")
           .add("option (scalapb.options) = {")
@@ -147,7 +155,19 @@ object Nodes {
         .printAll(enums)
         .print(messages)(_.print(rootNode, this, _))
 
-    def javaOuterClass = (javaPackage.orElse(protoPackage).toSeq :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString "."
+    /**
+     * @return
+     * Right(package name) if `java_multiple_files` option is true
+     * Left(outer class name) if `java_multiple_files` option is false
+     */
+    def javaOuterClassOrPackage: Either[String, String] = {
+      val pkg = javaPackage.orElse(protoPackage).toSeq
+      if(javaMultipleFiles) {
+        Right(pkg mkString ".")
+      } else {
+        Left((pkg :+ snakeCaseToCamelCase(baseFileName, upperInitial = true)) mkString ".")
+      }
+    }
 
     def scalaPackage = {
       val scalaPackageName = scalaOptions.flatMap(options =>
