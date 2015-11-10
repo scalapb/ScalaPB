@@ -6,7 +6,7 @@ sonatypeSettings
 
 scalaVersion in ThisBuild := "2.11.7"
 
-crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.7", "2.12.0-M1")
+crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.7", "2.12.0-M2")
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -65,25 +65,49 @@ lazy val root =
     .settings(
       publishArtifact := false,
       aggregate in sonatypeRelease := false
-    ).settings(projectReleaseSettings: _*).aggregate(runtime, compilerPlugin, proptest, scalapbc)
+    ).settings(projectReleaseSettings: _*).aggregate(
+      runtimeJS, runtimeJVM, compilerPlugin, proptest, scalapbc)
 
-lazy val runtime = project.in(file("scalapb-runtime")).settings(
-  projectReleaseSettings:_*)
+lazy val runtime = crossProject.crossType(CrossType.Pure).in(file("scalapb-runtime"))
+  .settings(
+    name := "scalapb-runtime",
+    libraryDependencies ++= Seq(
+      "com.trueaccord.lenses" %%% "lenses" % "0.4.4",
+      "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
+      "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"
+    )
+  )
+  .jvmSettings(
+    // Add JVM-specific settings here
+    libraryDependencies ++= Seq(
+      "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-1"
+    ),
+    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
+  )
+  .jsSettings(
+    // Add JS-specific settings here
+    libraryDependencies ++= Seq(
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.3"
+    )
+  )
+
+lazy val runtimeJVM = runtime.jvm
+lazy val runtimeJS = runtime.js
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
-  .dependsOn(runtime)
+  .dependsOn(runtimeJVM)
   .settings(
     projectReleaseSettings:_*)
 
 lazy val scalapbc = project.in(file("scalapbc"))
-  .dependsOn(compilerPlugin, runtime)
+  .dependsOn(compilerPlugin, runtimeJVM)
   .settings(
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo")))
   )
 
 lazy val proptest = project.in(file("proptest"))
-  .dependsOn(runtime, compilerPlugin)
+  .dependsOn(runtimeJVM, compilerPlugin)
     .configs( ShortTest )
     .settings( inConfig(ShortTest)(Defaults.testTasks): _*)
     .settings(

@@ -2,8 +2,8 @@ package com.trueaccord.scalapb
 
 import java.io.{InputStream, OutputStream}
 
-import com.google.protobuf.Descriptors.{FieldDescriptor, EnumDescriptor}
-import com.google.protobuf.{CodedInputStream, CodedOutputStream}
+import com.google.protobuf.{ByteString, CodedOutputStream, CodedInputStream}
+import com.google.protobuf.Descriptors.{EnumValueDescriptor, FieldDescriptor, EnumDescriptor}
 import scala.collection.JavaConversions._
 
 import scala.util.Try
@@ -21,7 +21,7 @@ trait GeneratedEnum extends Serializable {
 
   def companion: GeneratedEnumCompanion[EnumType]
 
-  def valueDescriptor = companion.descriptor.getValues.get(index)
+  def valueDescriptor: EnumValueDescriptor = companion.descriptor.getValues.get(index)
 }
 
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
@@ -68,6 +68,7 @@ trait GeneratedMessage extends Serializable {
     companion.descriptor.getFields.flatMap({
       f =>
         getField(f) match {
+          case bs: ByteString if bs.isEmpty => Some(f -> bs)
           case None | Nil => None
           case v => Some(f -> v)
         }
@@ -75,7 +76,7 @@ trait GeneratedMessage extends Serializable {
 
   def toByteArray: Array[Byte] = {
     val a = new Array[Byte](serializedSize)
-    val outputStream = com.google.protobuf.CodedOutputStream.newInstance(a)
+    val outputStream = CodedOutputStream.newInstance(a)
     writeTo(outputStream)
     outputStream.checkNoSpaceLeft()
     a

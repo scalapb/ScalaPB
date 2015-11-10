@@ -1,7 +1,8 @@
 package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors._
-import com.google.protobuf.{CodedOutputStream, ByteString}
+import com.google.protobuf.CodedOutputStream
+import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
@@ -131,8 +132,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         else if (d.isNaN) "Double.NaN"
         else d.toString
       case FieldDescriptor.JavaType.BOOLEAN => Boolean.unbox(defaultValue.asInstanceOf[java.lang.Boolean])
-      case FieldDescriptor.JavaType.BYTE_STRING => defaultValue.asInstanceOf[ByteString]
-        .map(_.toString).mkString("com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
+      case FieldDescriptor.JavaType.BYTE_STRING =>
+        val d = defaultValue.asInstanceOf[GoogleByteString]
+        if (d.isEmpty)
+          "com.google.protobuf.ByteString.EMPTY"
+        else
+          d.map(_.toString).mkString("com.trueaccord.scalapb.ByteString.copyFrom(Array[Byte](", ", ", "))")
       case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         field.getMessageType.scalaTypeName + ".defaultInstance"
@@ -903,8 +908,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
          |
          |${if (file.scalaPackageName.nonEmpty) ("package " + file.scalaPackageName) else ""}
          |
-         |${if (params.javaConversions) "import scala.collection.JavaConversions._" else ""}
-         |import com.trueaccord.scalapb.Descriptors""")
+         |${if (params.javaConversions) "import scala.collection.JavaConversions._" else ""}""")
     .print(file.scalaOptions.getImportList) {
       case (i, printer) => printer.add(s"import $i")
     }

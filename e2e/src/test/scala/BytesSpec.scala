@@ -13,6 +13,5 @@ class BytesSpec extends FlatSpec with MustMatchers {
     val b = ByteMessage(s = ByteString.copyFrom(Array[Byte](17, 54)))
     ByteMessage.fromFieldsMap(b.getAllFields) must be(b)
   }
-
 }
 
