@@ -614,7 +614,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             val elems = oneOf.fields.map {
               field =>
                 val typeName = if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
-                val e = s"__fieldsMap.getOrElse(__fields(${field.getIndex}), None).asInstanceOf[Option[$typeName]]"
+                val e = s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), None).asInstanceOf[Option[$typeName]]"
                 (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
             } mkString (" orElse\n")
             s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
