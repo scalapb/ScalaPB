@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+message ByteMessage {
+  bytes s = 1;
+}
