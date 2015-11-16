@@ -1,4 +1,4 @@
-import SonatypeKeys._
+import ReleaseTransformations._
 
 scalaVersion := "2.11.7"
 
@@ -6,25 +6,43 @@ crossScalaVersions := Seq("2.11.7", "2.10.5", "2.12.0-M2")
 
 organization in ThisBuild := "com.trueaccord.lenses"
 
-profileName in ThisBuild := "com.trueaccord"
+scalacOptions in ThisBuild ++= {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, v)) if v <= 11 => List("-target:jvm-1.7")
+    case _ => Nil
+  }
+}
 
-scalacOptions in ThisBuild += "-target:jvm-1.7"
+releaseCrossBuild := true
 
-sonatypeSettings
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+  setNextVersion,
+  commitNextVersion,
+  ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true),
+  pushChanges
+)
 
 lazy val root = project.in(file("."))
   .aggregate(lensesJS, lensesJVM)
   .settings(
-    name := "lenses",
-    publishArtifact := false,
-    releaseCrossBuild := true,
-    releasePublishArtifactsAction := PgpKeys.publishSigned.value,
-    aggregate in sonatypeRelease := false
+    publish := {},
+    publishLocal := {},
+    publishArtifact := false
   )
 
 lazy val lenses = crossProject.in(file("."))
   .settings(
-    sonatypeSettings: _*
+    name := "lenses"
   )
   .jvmSettings(
     libraryDependencies ++= Seq(
@@ -37,26 +55,4 @@ lazy val lenses = crossProject.in(file("."))
 
 lazy val lensesJVM = lenses.jvm
 lazy val lensesJS = lenses.js
-
-pomExtra in ThisBuild := {
-  <url>https://github.com/trueaccord/lenses</url>
-  <licenses>
-    <license>
-      <name>Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:github.com:trueaccord/lenses.git</connection>
-    <developerConnection>scm:git:git@github.com:trueaccord/lenses.git</developerConnection>
-    <url>github.com/trueaccord/lenses</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>thesamet</id>
-      <name>Nadav S. Samet</name>
-      <url>http://www.thesamet.com/</url>
-    </developer>
-  </developers>
-}
 
