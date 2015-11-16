@@ -111,7 +111,7 @@ public final class Scalapb {
       // @@protoc_insertion_point(message_implements:scalapb.ScalaPbOptions)
       ScalaPbOptionsOrBuilder {
     // Use ScalaPbOptions.newBuilder() to construct.
-    private ScalaPbOptions(com.google.protobuf.GeneratedMessage.Builder builder) {
+    private ScalaPbOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
     private ScalaPbOptions() {
@@ -341,26 +341,24 @@ public final class Scalapb {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getPackageNameBytes());
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, packageName_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, flatPackage_);
       }
       for (int i = 0; i < import_.size(); i++) {
-        output.writeBytes(3, import_.getByteString(i));
+        com.google.protobuf.GeneratedMessage.writeString(output, 3, import_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getPackageNameBytes());
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, packageName_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -369,14 +367,13 @@ public final class Scalapb {
       {
         int dataSize = 0;
         for (int i = 0; i < import_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(import_.getByteString(i));
+          dataSize += computeStringSizeNoTag(import_.getRaw(i));
         }
         size += dataSize;
         size += 1 * getImportList().size();
       }
       size += unknownFields.getSerializedSize();
-      memoizedSerializedSize = size;
+      memoizedSize = size;
       return size;
     }
 
@@ -903,8 +900,8 @@ public final class Scalapb {
       return DEFAULT_INSTANCE;
     }
 
-    public static final com.google.protobuf.Parser<ScalaPbOptions> PARSER =
-        new com.google.protobuf.AbstractParser<ScalaPbOptions>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<ScalaPbOptions>
+        PARSER = new com.google.protobuf.AbstractParser<ScalaPbOptions>() {
       public ScalaPbOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -921,6 +918,10 @@ public final class Scalapb {
         }
       }
     };
+
+    public static com.google.protobuf.Parser<ScalaPbOptions> parser() {
+      return PARSER;
+    }
 
     @java.lang.Override
     public com.google.protobuf.Parser<ScalaPbOptions> getParserForType() {
@@ -980,7 +981,7 @@ public final class Scalapb {
       // @@protoc_insertion_point(message_implements:scalapb.MessageOptions)
       MessageOptionsOrBuilder {
     // Use MessageOptions.newBuilder() to construct.
-    private MessageOptions(com.google.protobuf.GeneratedMessage.Builder builder) {
+    private MessageOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
     private MessageOptions() {
@@ -1109,28 +1110,26 @@ public final class Scalapb {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < extends_.size(); i++) {
-        output.writeBytes(1, extends_.getByteString(i));
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, extends_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
       {
         int dataSize = 0;
         for (int i = 0; i < extends_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(extends_.getByteString(i));
+          dataSize += computeStringSizeNoTag(extends_.getRaw(i));
         }
         size += dataSize;
         size += 1 * getExtendsList().size();
       }
       size += unknownFields.getSerializedSize();
-      memoizedSerializedSize = size;
+      memoizedSize = size;
       return size;
     }
 
@@ -1466,8 +1465,8 @@ public final class Scalapb {
       return DEFAULT_INSTANCE;
     }
 
-    public static final com.google.protobuf.Parser<MessageOptions> PARSER =
-        new com.google.protobuf.AbstractParser<MessageOptions>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<MessageOptions>
+        PARSER = new com.google.protobuf.AbstractParser<MessageOptions>() {
       public MessageOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1484,6 +1483,10 @@ public final class Scalapb {
         }
       }
     };
+
+    public static com.google.protobuf.Parser<MessageOptions> parser() {
+      return PARSER;
+    }
 
     @java.lang.Override
     public com.google.protobuf.Parser<MessageOptions> getParserForType() {
@@ -1522,7 +1525,7 @@ public final class Scalapb {
       // @@protoc_insertion_point(message_implements:scalapb.FieldOptions)
       FieldOptionsOrBuilder {
     // Use FieldOptions.newBuilder() to construct.
-    private FieldOptions(com.google.protobuf.GeneratedMessage.Builder builder) {
+    private FieldOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
     private FieldOptions() {
@@ -1643,23 +1646,21 @@ public final class Scalapb {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getTypeBytes());
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, type_);
       }
       unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getTypeBytes());
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, type_);
       }
       size += unknownFields.getSerializedSize();
-      memoizedSerializedSize = size;
+      memoizedSize = size;
       return size;
     }
 
@@ -1938,8 +1939,8 @@ public final class Scalapb {
       return DEFAULT_INSTANCE;
     }
 
-    public static final com.google.protobuf.Parser<FieldOptions> PARSER =
-        new com.google.protobuf.AbstractParser<FieldOptions>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<FieldOptions>
+        PARSER = new com.google.protobuf.AbstractParser<FieldOptions>() {
       public FieldOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1956,6 +1957,10 @@ public final class Scalapb {
         }
       }
     };
+
+    public static com.google.protobuf.Parser<FieldOptions> parser() {
+      return PARSER;
+    }
 
     @java.lang.Override
     public com.google.protobuf.Parser<FieldOptions> getParserForType() {

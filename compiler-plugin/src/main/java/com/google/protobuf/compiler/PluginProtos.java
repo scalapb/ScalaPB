@@ -182,7 +182,7 @@ public final class PluginProtos {
       // @@protoc_insertion_point(message_implements:google.protobuf.compiler.CodeGeneratorRequest)
       CodeGeneratorRequestOrBuilder {
     // Use CodeGeneratorRequest.newBuilder() to construct.
-    private CodeGeneratorRequest(com.google.protobuf.GeneratedMessage.Builder builder) {
+    private CodeGeneratorRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
     private CodeGeneratorRequest() {
@@ -238,7 +238,7 @@ public final class PluginProtos {
                 protoFile_ = new java.util.ArrayList<com.google.protobuf.DescriptorProtos.FileDescriptorProto>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              protoFile_.add(input.readMessage(com.google.protobuf.DescriptorProtos.FileDescriptorProto.PARSER, extensionRegistry));
+              protoFile_.add(input.readMessage(com.google.protobuf.DescriptorProtos.FileDescriptorProto.parser(), extensionRegistry));
               break;
             }
           }
@@ -499,10 +499,10 @@ public final class PluginProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < fileToGenerate_.size(); i++) {
-        output.writeBytes(1, fileToGenerate_.getByteString(i));
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, fileToGenerate_.getRaw(i));
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(2, getParameterBytes());
+        com.google.protobuf.GeneratedMessage.writeString(output, 2, parameter_);
       }
       for (int i = 0; i < protoFile_.size(); i++) {
         output.writeMessage(15, protoFile_.get(i));
@@ -510,31 +510,28 @@ public final class PluginProtos {
       unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
       {
         int dataSize = 0;
         for (int i = 0; i < fileToGenerate_.size(); i++) {
-          dataSize += com.google.protobuf.CodedOutputStream
-            .computeBytesSizeNoTag(fileToGenerate_.getByteString(i));
+          dataSize += computeStringSizeNoTag(fileToGenerate_.getRaw(i));
         }
         size += dataSize;
         size += 1 * getFileToGenerateList().size();
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(2, getParameterBytes());
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, parameter_);
       }
       for (int i = 0; i < protoFile_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(15, protoFile_.get(i));
       }
       size += unknownFields.getSerializedSize();
-      memoizedSerializedSize = size;
+      memoizedSize = size;
       return size;
     }
 
@@ -1526,8 +1523,8 @@ public final class PluginProtos {
       return DEFAULT_INSTANCE;
     }
 
-    public static final com.google.protobuf.Parser<CodeGeneratorRequest> PARSER =
-        new com.google.protobuf.AbstractParser<CodeGeneratorRequest>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CodeGeneratorRequest>
+        PARSER = new com.google.protobuf.AbstractParser<CodeGeneratorRequest>() {
       public CodeGeneratorRequest parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -1544,6 +1541,10 @@ public final class PluginProtos {
         }
       }
     };
+
+    public static com.google.protobuf.Parser<CodeGeneratorRequest> parser() {
+      return PARSER;
+    }
 
     @java.lang.Override
     public com.google.protobuf.Parser<CodeGeneratorRequest> getParserForType() {
@@ -1640,7 +1641,7 @@ public final class PluginProtos {
       // @@protoc_insertion_point(message_implements:google.protobuf.compiler.CodeGeneratorResponse)
       CodeGeneratorResponseOrBuilder {
     // Use CodeGeneratorResponse.newBuilder() to construct.
-    private CodeGeneratorResponse(com.google.protobuf.GeneratedMessage.Builder builder) {
+    private CodeGeneratorResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
       super(builder);
     }
     private CodeGeneratorResponse() {
@@ -1686,7 +1687,7 @@ public final class PluginProtos {
                 file_ = new java.util.ArrayList<com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              file_.add(input.readMessage(com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.PARSER, extensionRegistry));
+              file_.add(input.readMessage(com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.parser(), extensionRegistry));
               break;
             }
           }
@@ -1934,7 +1935,7 @@ public final class PluginProtos {
         // @@protoc_insertion_point(message_implements:google.protobuf.compiler.CodeGeneratorResponse.File)
         FileOrBuilder {
       // Use File.newBuilder() to construct.
-      private File(com.google.protobuf.GeneratedMessage.Builder builder) {
+      private File(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
         super(builder);
       }
       private File() {
@@ -2312,37 +2313,33 @@ public final class PluginProtos {
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          output.writeBytes(1, getNameBytes());
+          com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeBytes(2, getInsertionPointBytes());
+          com.google.protobuf.GeneratedMessage.writeString(output, 2, insertionPoint_);
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          output.writeBytes(15, getContentBytes());
+          com.google.protobuf.GeneratedMessage.writeString(output, 15, content_);
         }
         unknownFields.writeTo(output);
       }
 
-      private int memoizedSerializedSize = -1;
       public int getSerializedSize() {
-        int size = memoizedSerializedSize;
+        int size = memoizedSize;
         if (size != -1) return size;
 
         size = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(1, getNameBytes());
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(2, getInsertionPointBytes());
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, insertionPoint_);
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          size += com.google.protobuf.CodedOutputStream
-            .computeBytesSize(15, getContentBytes());
+          size += com.google.protobuf.GeneratedMessage.computeStringSize(15, content_);
         }
         size += unknownFields.getSerializedSize();
-        memoizedSerializedSize = size;
+        memoizedSize = size;
         return size;
       }
 
@@ -3117,8 +3114,8 @@ public final class PluginProtos {
         return DEFAULT_INSTANCE;
       }
 
-      public static final com.google.protobuf.Parser<File> PARSER =
-          new com.google.protobuf.AbstractParser<File>() {
+      @java.lang.Deprecated public static final com.google.protobuf.Parser<File>
+          PARSER = new com.google.protobuf.AbstractParser<File>() {
         public File parsePartialFrom(
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3135,6 +3132,10 @@ public final class PluginProtos {
           }
         }
       };
+
+      public static com.google.protobuf.Parser<File> parser() {
+        return PARSER;
+      }
 
       @java.lang.Override
       public com.google.protobuf.Parser<File> getParserForType() {
@@ -3268,7 +3269,7 @@ public final class PluginProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeBytes(1, getErrorBytes());
+        com.google.protobuf.GeneratedMessage.writeString(output, 1, error_);
       }
       for (int i = 0; i < file_.size(); i++) {
         output.writeMessage(15, file_.get(i));
@@ -3276,22 +3277,20 @@ public final class PluginProtos {
       unknownFields.writeTo(output);
     }
 
-    private int memoizedSerializedSize = -1;
     public int getSerializedSize() {
-      int size = memoizedSerializedSize;
+      int size = memoizedSize;
       if (size != -1) return size;
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(1, getErrorBytes());
+        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, error_);
       }
       for (int i = 0; i < file_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(15, file_.get(i));
       }
       size += unknownFields.getSerializedSize();
-      memoizedSerializedSize = size;
+      memoizedSize = size;
       return size;
     }
 
@@ -3916,8 +3915,8 @@ public final class PluginProtos {
       return DEFAULT_INSTANCE;
     }
 
-    public static final com.google.protobuf.Parser<CodeGeneratorResponse> PARSER =
-        new com.google.protobuf.AbstractParser<CodeGeneratorResponse>() {
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<CodeGeneratorResponse>
+        PARSER = new com.google.protobuf.AbstractParser<CodeGeneratorResponse>() {
       public CodeGeneratorResponse parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -3934,6 +3933,10 @@ public final class PluginProtos {
         }
       }
     };
+
+    public static com.google.protobuf.Parser<CodeGeneratorResponse> parser() {
+      return PARSER;
+    }
 
     @java.lang.Override
     public com.google.protobuf.Parser<CodeGeneratorResponse> getParserForType() {
