@@ -1,8 +1,4 @@
-import SonatypeKeys._
-import sbtrelease._
-import ReleaseStateTransformations._
-
-sonatypeSettings
+import ReleaseTransformations._
 
 scalaVersion in ThisBuild := "2.11.7"
 
@@ -24,48 +20,35 @@ javacOptions in ThisBuild ++= {
 
 organization in ThisBuild := "com.trueaccord.scalapb"
 
-profileName := "com.trueaccord"
-
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-pomExtra in ThisBuild := {
-  <url>https://github.com/trueaccord/ScalaPB</url>
-  <licenses>
-    <license>
-      <name>Apache 2</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:github.com:trueaccord/ScalaPB.git</connection>
-    <developerConnection>scm:git:git@github.com:trueaccord/ScalaPB.git</developerConnection>
-    <url>github.com/trueaccord/ScalaPB</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>thesamet</id>
-      <name>Nadav S. Samet</name>
-      <url>http://www.thesamet.com/</url>
-    </developer>
-  </developers>
-}
+releaseCrossBuild := true
 
-lazy val projectReleaseSettings = Seq(
-  releaseCrossBuild := true,
-  releasePublishArtifactsAction := {},
-  releasePublishArtifactsAction <<= releasePublishArtifactsAction.dependsOn(
-    PgpKeys.publishSigned,
-    clean,
-    publishLocal)
+releasePublishArtifactsAction := PgpKeys.publishSigned.value
+
+releaseProcess := Seq[ReleaseStep](
+  checkSnapshotDependencies,
+  inquireVersions,
+  runClean,
+  runTest,
+  setReleaseVersion,
+  commitReleaseVersion,
+  tagRelease,
+  ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+  setNextVersion,
+  commitNextVersion,
+  pushChanges,
+  ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true)
 )
 
 lazy val root =
   project.in(file("."))
     .settings(
       publishArtifact := false,
-      aggregate in sonatypeRelease := false
-    ).settings(projectReleaseSettings: _*).aggregate(
+      publish := {},
+      publishLocal := {}
+    ).aggregate(
       runtimeJS, runtimeJVM, compilerPlugin, proptest, scalapbc)
 
 lazy val runtime = crossProject.crossType(CrossType.Pure).in(file("scalapb-runtime"))
@@ -96,8 +79,6 @@ lazy val runtimeJS = runtime.js
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .dependsOn(runtimeJVM)
-  .settings(
-    projectReleaseSettings:_*)
 
 lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin, runtimeJVM)
