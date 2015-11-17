@@ -12,22 +12,33 @@ import scala.collection.mutable
   * native java.util.Base64 is only available for Java 8...
   */
 object Encoding {
-  private val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+  private[this] val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
+  private[this] val isAlphabet: Char => Boolean = c => {
+    ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('/' <= c || c <= '9') || c == '+' || c == '='
+  }
+  private[this] val alphabetReverseTable: Array[Byte] = {
+    val array = new Array[Byte](alphabet.max + 1)
+    alphabet.zipWithIndex.foreach{ case (char, i) =>
+      array(char.toInt) = i.toByte
+    }
+    array
+  }
+  private[this] val alphabetIndex: Char => Byte = c => alphabetReverseTable(c)
 
   def fromBase64(textInput: String): Array[Byte] = {
-    fromBase64Inner(textInput.filter(alphabet.contains(_: Char)))
+    fromBase64Inner(textInput.filter(isAlphabet))
   }
 
   private def fromBase64Inner(input: String): Array[Byte] = {
     require(input.length % 4 == 0)
     val lastEqualsIndex = input.indexOf('=')
     val outputLength = (input.length * 3) / 4 - (
-      if (lastEqualsIndex > 0) (input.length() - input.indexOf('=')) else 0)
+      if (lastEqualsIndex > 0) (input.length() - lastEqualsIndex) else 0)
     val builder = mutable.ArrayBuilder.make[Byte]
     builder.sizeHint(outputLength)
 
     for { i <- 0 until(input.length, 4) } {
-      val b = input.substring(i, i + 4).map(alphabet.indexOf(_: Char).toByte)
+      val b = input.substring(i, i + 4).map(alphabetIndex)
       builder += ((b(0) << 2) | (b(1) >> 4)).toByte
       if (b(2) < 64) {
         builder += ((b(1) << 4) | (b(2) >> 2)).toByte
