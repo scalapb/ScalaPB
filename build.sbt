@@ -51,21 +51,21 @@ lazy val root =
     ).aggregate(
       runtimeJS, runtimeJVM, compilerPlugin, proptest, scalapbc)
 
-lazy val runtime = crossProject.crossType(CrossType.Pure).in(file("scalapb-runtime"))
+lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       "com.trueaccord.lenses" %%% "lenses" % "0.4.4",
       "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
       "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"
-    )
+    ),
+    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
   )
   .jvmSettings(
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
       "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-1"
-    ),
-    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
+    )
   )
   .jsSettings(
     // Add JS-specific settings here
