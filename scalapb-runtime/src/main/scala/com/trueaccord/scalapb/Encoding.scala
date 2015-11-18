@@ -14,7 +14,7 @@ import scala.collection.mutable
 object Encoding {
   private[this] val alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/="
   private[this] val isAlphabet: Char => Boolean = c => {
-    ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('/' <= c || c <= '9') || c == '+' || c == '='
+    ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z') || ('/' <= c && c <= '9') || c == '+' || c == '='
   }
   private[this] val alphabetReverseTable: Array[Byte] = {
     val array = new Array[Byte](alphabet.max + 1)
