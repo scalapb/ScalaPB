@@ -8,7 +8,7 @@ import scala.collection.JavaConversions._
 
 import scala.util.Try
 
-trait GeneratedEnum extends Serializable {
+trait GeneratedEnum extends Product with Serializable {
   type EnumType <: GeneratedEnum
 
   def value: Int
@@ -31,7 +31,7 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def descriptor: EnumDescriptor
 }
 
-trait GeneratedOneof extends Serializable {
+trait GeneratedOneof extends Product with Serializable {
   def number: Int
 }
 
