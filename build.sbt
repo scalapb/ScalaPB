@@ -70,8 +70,9 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.3"
-    )
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.4"
+    ),
+    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
   )
 
 lazy val runtimeJVM = runtime.jvm
