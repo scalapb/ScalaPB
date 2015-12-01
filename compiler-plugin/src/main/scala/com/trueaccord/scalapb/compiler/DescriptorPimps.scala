@@ -26,7 +26,7 @@ trait DescriptorPimps {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
   }
 
-  private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
+  protected final def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
     val b = new StringBuilder()
     @annotation.tailrec
     def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
@@ -43,6 +43,22 @@ trait DescriptorPimps {
     }
     inner(name, 0, upperInitial)
     b.toString
+  }
+
+  implicit final class MethodDescriptorPimp(self: MethodDescriptor) {
+    def scalaOut: String = self.getOutputType.scalaTypeName
+
+    def scalaIn: String = self.getInputType.scalaTypeName
+
+    def streamType: StreamType = {
+      val p = self.toProto
+      (p.getClientStreaming, p.getServerStreaming) match {
+        case (false, false) => StreamType.Unary
+        case (true, false) => StreamType.ClientStreaming
+        case (false, true) => StreamType.ServerStreaming
+        case (true, true) => StreamType.Bidirectional
+      }
+    }
   }
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
