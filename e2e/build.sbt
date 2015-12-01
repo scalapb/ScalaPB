@@ -25,6 +25,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "io.grpc" % "grpc-all" % grpcVersion,
   "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
+  "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.Version.scalapbVersion,
   "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % PB.protobufConfig
 )
 
@@ -39,6 +40,7 @@ def grpcExeUrl() = {
     "linux-x86_64"
   }
   val artifactId = "protoc-gen-grpc-java"
+  // s"file:///Users/nadavsr/Downloads/${artifactId}-${grpcVersion}-${os}.exe"
   s"http://repo1.maven.org/maven2/io/grpc/${artifactId}/${grpcVersion}/${artifactId}-${grpcVersion}-${os}.exe"
 }
 

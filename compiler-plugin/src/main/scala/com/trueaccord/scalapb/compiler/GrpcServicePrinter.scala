@@ -69,14 +69,14 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
           p.add(
             "override " + methodSignature(m, identity) + " = {"
           ).add(
-            s"""  ${m.scalaOut}.fromJavaProto(_root_.io.grpc.stub.ClientCalls.blockingUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), ${m.scalaIn}.toJavaProto(request)))""",
+            s"""  _root_.io.grpc.stub.ClientCalls.blockingUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request)""",
             "}"
           )
         } else {
           p.add(
             "override " + methodSignature(m, "scala.concurrent.Future[" + _ + "]") + " = {"
           ).add(
-            s"""  $guavaFuture2ScalaFuture($futureUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), ${m.scalaIn}.toJavaProto(request)))(${m.scalaOut}.fromJavaProto(_))""",
+            s"""  $guavaFuture2ScalaFuture($futureUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request))""",
             "}"
           )
         }
@@ -84,7 +84,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
         p.add(
           "override " + methodSignature(m) + " = {"
         ).addI(
-          s"${clientCalls.serverStreaming}(channel.newCall(${methodDescriptorName(m)}, options), ${m.scalaIn}.toJavaProto(request), $contramapObserver(observer)(${m.scalaOut}.fromJavaProto))"
+          s"${clientCalls.serverStreaming}(channel.newCall(${methodDescriptorName(m)}, options), request, observer)"
         ).add("}")
       case streamType =>
         val call = if (streamType == StreamType.ClientStreaming) {
@@ -96,10 +96,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
         p.add(
           "override " + methodSignature(m) + " = {"
         ).indent.add(
-          s"$contramapObserver("
-        ).indent.add(
-          s"$call(channel.newCall(${methodDescriptorName(m)}, options), $contramapObserver(observer)(${m.scalaOut}.fromJavaProto)))(${m.scalaIn}.toJavaProto"
-        ).outdent.add(")").outdent.add("}")
+          s"$call(channel.newCall(${methodDescriptorName(m)}, options), observer)"
+        ).outdent.add("}")
     }
   }
 
@@ -120,26 +118,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     )
   }
 
-  private[this] val contramapObserver = "contramapObserver"
-  private[this] val contramapObserverImpl = s"""private[this] def $contramapObserver[A, B](observer: ${observer("A")})(f: B => A): ${observer("B")} =
-    new ${observer("B")} {
-      override def onNext(value: B): Unit = observer.onNext(f(value))
-      override def onError(t: Throwable): Unit = observer.onError(t)
-      override def onCompleted(): Unit = observer.onCompleted()
-    }"""
-
-  private[this] val guavaFuture2ScalaFuture = "guavaFuture2ScalaFuture"
-
-  private[this] val guavaFuture2ScalaFutureImpl = {
-    s"""private[this] def $guavaFuture2ScalaFuture[A, B](guavaFuture: _root_.com.google.common.util.concurrent.ListenableFuture[A])(converter: A => B): scala.concurrent.Future[B] = {
-    val p = scala.concurrent.Promise[B]()
-    _root_.com.google.common.util.concurrent.Futures.addCallback(guavaFuture, new _root_.com.google.common.util.concurrent.FutureCallback[A] {
-      override def onFailure(t: Throwable) = p.failure(t)
-      override def onSuccess(a: A) = p.success(converter(a))
-    })
-    p.future
-  }"""
-  }
+  private[this] val guavaFuture2ScalaFuture = "com.trueaccord.scalapb.grpc.Grpc.guavaFuture2ScalaFuture"
 
   private[this] val asyncClientName = service.getName + "AsyncClientImpl"
 
@@ -164,11 +143,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     "METHOD_" + method.getName.toUpperCase(Locale.ENGLISH)
 
   private[this] def methodDescriptor(method: MethodDescriptor) = {
-    val inJava = method.getInputType.javaTypeName
-    val outJava = method.getOutputType.javaTypeName
-
     def marshaller(typeName: String) =
-      s"_root_.io.grpc.protobuf.ProtoUtils.marshaller($typeName.getDefaultInstance)"
+      s"new _root_.com.trueaccord.scalapb.grpc.Marshaller($typeName)"
 
     val methodType = method.streamType match {
       case StreamType.Unary => "UNARY"
@@ -179,12 +155,12 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
     val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
-s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[$inJava, $outJava] =
+s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
     $grpcMethodDescriptor.create(
       $grpcMethodDescriptor.MethodType.$methodType,
       $grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"),
-      ${marshaller(inJava)},
-      ${marshaller(outJava)}
+      ${marshaller(method.scalaIn)},
+      ${marshaller(method.scalaOut)}
     )"""
   }
 
@@ -202,20 +178,18 @@ s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[$
     }
 
   private[this] def createMethod(method: MethodDescriptor): String = {
-    val javaIn = method.getInputType.javaTypeName
-    val javaOut = method.getOutputType.javaTypeName
     val executionContext = "executionContext"
     val name = callMethodName(method)
     val serviceImpl = "serviceImpl"
     method.streamType match {
       case StreamType.Unary =>
-        val serverMethod = s"_root_.io.grpc.stub.ServerCalls.UnaryMethod[$javaIn, $javaOut]"
+        val serverMethod = s"_root_.io.grpc.stub.ServerCalls.UnaryMethod[${method.scalaIn}, ${method.scalaOut}]"
 s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurrent.ExecutionContext): $serverMethod = {
     new $serverMethod {
-      override def invoke(request: $javaIn, observer: $streamObserver[$javaOut]): Unit =
-        $serviceImpl.${methodName(method)}(${method.scalaIn}.fromJavaProto(request)).onComplete {
+      override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
+        $serviceImpl.${methodName(method)}(request).onComplete {
           case scala.util.Success(value) =>
-            observer.onNext(${method.scalaOut}.toJavaProto(value))
+            observer.onNext(value)
             observer.onCompleted()
           case scala.util.Failure(error) =>
             observer.onError(error)
@@ -224,25 +198,25 @@ s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurr
     }
   }"""
       case StreamType.ServerStreaming =>
-        val serverMethod = s"_root_.io.grpc.stub.ServerCalls.ServerStreamingMethod[$javaIn, $javaOut]"
+        val serverMethod = s"_root_.io.grpc.stub.ServerCalls.ServerStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
 
         s"""  def ${name}($serviceImpl: $serviceFuture): $serverMethod = {
     new $serverMethod {
-      override def invoke(request: $javaIn, observer: $streamObserver[$javaOut]): Unit =
-        $serviceImpl.${methodName0(method)}(${method.scalaIn}.fromJavaProto(request), $contramapObserver(observer)(${method.scalaOut}.toJavaProto))
+      override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
+        $serviceImpl.${methodName0(method)}(request, observer)
     }
   }"""
       case _ =>
         val serverMethod = if(method.streamType == StreamType.ClientStreaming) {
-          s"_root_.io.grpc.stub.ServerCalls.ClientStreamingMethod[$javaIn, $javaOut]"
+          s"_root_.io.grpc.stub.ServerCalls.ClientStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
         } else {
-          s"_root_.io.grpc.stub.ServerCalls.BidiStreamingMethod[$javaIn, $javaOut]"
+          s"_root_.io.grpc.stub.ServerCalls.BidiStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
         }
 
         s"""  def ${name}($serviceImpl: $serviceFuture): $serverMethod = {
     new $serverMethod {
-      override def invoke(observer: $streamObserver[$javaOut]): $streamObserver[$javaIn] =
-        $contramapObserver($serviceImpl.${methodName0(method)}($contramapObserver(observer)(${method.scalaOut}.toJavaProto)))(${method.scalaIn}.fromJavaProto)
+      override def invoke(observer: $streamObserver[${method.scalaOut}]): $streamObserver[${method.scalaIn}] =
+        $serviceImpl.${methodName0(method)}(observer)
     }
   }"""
     }
@@ -295,8 +269,6 @@ s"""def bindService(service: $serviceFuture, $executionContext: scala.concurrent
       asyncClientImpl
     ).newline.addI(
       bindService,
-      guavaFuture2ScalaFutureImpl,
-      contramapObserverImpl,
       s"def blockingClient(channel: $channel): $serviceBlocking = new $blockingClientName(channel)",
       s"def futureClient(channel: $channel): $serviceFuture = new $asyncClientName(channel)"
     ).add(

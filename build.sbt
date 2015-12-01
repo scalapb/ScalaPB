@@ -49,7 +49,7 @@ lazy val root =
       publish := {},
       publishLocal := {}
     ).aggregate(
-      runtimeJS, runtimeJVM, compilerPlugin, proptest, scalapbc)
+      runtimeJS, runtimeJVM, grpcRuntime, compilerPlugin, proptest, scalapbc)
 
 lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
@@ -77,6 +77,17 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
 
 lazy val runtimeJVM = runtime.jvm
 lazy val runtimeJS = runtime.js
+
+val grpcVersion = "0.9.0"
+
+lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
+  .dependsOn(runtimeJVM)
+  .settings(
+    name := "scalapb-runtime-grpc",
+    libraryDependencies ++= Seq(
+      "io.grpc" % "grpc-all" % grpcVersion
+    )
+  )
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .dependsOn(runtimeJVM)
