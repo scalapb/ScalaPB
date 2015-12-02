@@ -140,6 +140,7 @@ object SchemaGenerators {
       jarForClass[annotation.Annotation].getPath,
       jarForClass[com.trueaccord.scalapb.GeneratedMessage].getPath,
       jarForClass[com.trueaccord.scalapb.Scalapb].getPath,
+      jarForClass[com.trueaccord.scalapb.grpc.Grpc.type].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
       jarForClass[io.grpc.Channel].getPath,
       jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
