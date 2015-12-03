@@ -997,7 +997,7 @@ object ProtobufGenerator {
     params.split(",").map(_.trim).filter(_.nonEmpty).foldLeft[Either[String, GeneratorParams]](Right(GeneratorParams())) {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
-      case (Right(params), "grpc") => Right(params.copy(grpc = true, javaConversions = true))
+      case (Right(params), "grpc") => Right(params.copy(grpc = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
     }

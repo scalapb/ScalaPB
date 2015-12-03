@@ -59,7 +59,7 @@ PB.protocOptions in PB.protobufConfig := {
   val conf = (PB.generatedTargets in PB.protobufConfig).value
   val scalaOpts = conf.find(_._2.endsWith(".scala")) match {
     case Some(targetForScala) =>
-      Seq(s"--scala_out=grpc:${targetForScala._1.absolutePath}")
+      Seq(s"--scala_out=grpc,java_conversions:${targetForScala._1.absolutePath}")
     case None =>
       Nil
   }
