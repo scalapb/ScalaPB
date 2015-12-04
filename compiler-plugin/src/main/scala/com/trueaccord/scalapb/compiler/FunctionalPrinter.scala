@@ -15,6 +15,7 @@ object FunctionalPrinter {
   val newline: PrinterEndo = _.newline
 }
 
+
 case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) {
   val INDENT_SIZE = 2
 

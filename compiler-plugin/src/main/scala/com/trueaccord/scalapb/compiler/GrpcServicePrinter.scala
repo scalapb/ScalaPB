@@ -8,18 +8,16 @@ import scala.collection.JavaConverters._
 
 final class GrpcServicePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends DescriptorPimps {
 
-  private[this] def methodName0(method: MethodDescriptor): String = snakeCaseToCamelCase(method.getName)
-  private[this] def methodName(method: MethodDescriptor): String = methodName0(method).asSymbol
   private[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
 
   private[this] def methodSignature(method: MethodDescriptor, t: String => String = identity[String]): String = {
     method.streamType match {
       case StreamType.Unary =>
-        s"def ${methodName(method)}(request: ${method.scalaIn}): ${t(method.scalaOut)}"
+        s"def ${method.name}(request: ${method.scalaIn}): ${t(method.scalaOut)}"
       case StreamType.ServerStreaming =>
-        s"def ${methodName(method)}(request: ${method.scalaIn}, observer: ${observer(method.scalaOut)}): Unit"
+        s"def ${method.name}(request: ${method.scalaIn}, observer: ${observer(method.scalaOut)}): Unit"
       case StreamType.ClientStreaming | StreamType.Bidirectional =>
-        s"def ${methodName(method)}(observer: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
+        s"def ${method.name}(observer: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
     }
   }
 
@@ -167,7 +165,7 @@ s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[$
   private[this] val methodDescriptors: Seq[String] = service.getMethods.asScala.map(methodDescriptor)
 
   private[this] def callMethodName(method: MethodDescriptor) =
-    methodName0(method) + "Method"
+    method.name + "Method"
 
   private[this] def callMethod(method: MethodDescriptor) =
     method.streamType match {
@@ -187,14 +185,8 @@ s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[$
 s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurrent.ExecutionContext): $serverMethod = {
     new $serverMethod {
       override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
-        $serviceImpl.${methodName(method)}(request).onComplete {
-          case scala.util.Success(value) =>
-            observer.onNext(value)
-            observer.onCompleted()
-          case scala.util.Failure(error) =>
-            observer.onError(error)
-            observer.onCompleted()
-        }($executionContext)
+        $serviceImpl.${method.name}(request).onComplete(_root_.com.trueaccord.scalapb.grpc.Grpc.completeObserver(observer))(
+          $executionContext)
     }
   }"""
       case StreamType.ServerStreaming =>
@@ -203,7 +195,7 @@ s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurr
         s"""  def ${name}($serviceImpl: $serviceFuture): $serverMethod = {
     new $serverMethod {
       override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
-        $serviceImpl.${methodName0(method)}(request, observer)
+        $serviceImpl.${method.name}(request, observer)
     }
   }"""
       case _ =>
@@ -216,7 +208,7 @@ s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurr
         s"""  def ${name}($serviceImpl: $serviceFuture): $serverMethod = {
     new $serverMethod {
       override def invoke(observer: $streamObserver[${method.scalaOut}]): $streamObserver[${method.scalaIn}] =
-        $serviceImpl.${methodName0(method)}(observer)
+        $serviceImpl.${method.name}(observer)
     }
   }"""
     }

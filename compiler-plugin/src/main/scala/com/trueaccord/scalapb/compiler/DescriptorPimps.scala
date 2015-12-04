@@ -59,6 +59,14 @@ trait DescriptorPimps {
         case (true, true) => StreamType.Bidirectional
       }
     }
+
+    private def name0: String = snakeCaseToCamelCase(self.getName)
+
+    def name: String = name0.asSymbol
+  }
+
+  implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
+
   }
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
