@@ -48,22 +48,25 @@ object ProtocDriverFactory {
 /** A driver that creates a named pipe and sets up a shell script as a protoc plugin */
 class PosixProtocDriver extends ProtocDriver {
   def buildRunner[A](runner: Seq[String] => A)(params: Seq[String]): A = {
-    val pipe = createPipe()
-    val sh = createShellScript(pipe)
+    val inputPipe = createPipe()
+    val outputPipe = createPipe()
+    val sh = createShellScript(inputPipe, outputPipe)
     Future {
-      val fsin = Files.newInputStream(pipe)
+      val fsin = Files.newInputStream(inputPipe)
       val response = Process.runWithInputStream(fsin)
-      val fsout = Files.newOutputStream(pipe)
+      fsin.close()
+
+      val fsout = Files.newOutputStream(outputPipe)
       fsout.write(response.toByteArray)
       fsout.close()
-      fsin.close()
     }
 
     try {
       val args = Seq(s"--plugin=protoc-gen-scala=$sh") ++ params
       runner(args)
     } finally {
-      Files.delete(pipe)
+      Files.delete(inputPipe)
+      Files.delete(outputPipe)
       Files.delete(sh)
     }
   }
@@ -75,12 +78,12 @@ class PosixProtocDriver extends ProtocDriver {
     pipeName
   }
 
-  private def createShellScript(tmpFile: Path): Path = {
+  private def createShellScript(inputPipe: Path, outputPipe: Path): Path = {
     val scriptName = Process.createTempFile("",
       s"""|#!/usr/bin/env sh
           |set -e
-          |cat /dev/stdin > "$tmpFile"
-          |cat "$tmpFile"
+          |cat /dev/stdin > "$inputPipe"
+          |cat "$outputPipe"
       """.stripMargin)
     Files.setPosixFilePermissions(scriptName, Set(
       PosixFilePermission.OWNER_EXECUTE,
