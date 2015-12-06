@@ -29,8 +29,15 @@ message Res4 {
 }
 
 service Service1 {
-  rpc method1(Req1) returns (Res1) {}
-  rpc method2(stream Req2) returns (Res2) {}
-  rpc method3(Req3) returns (stream Res3) {}
-  rpc method4(stream Req4) returns (stream Res4) {}
+  // Computes string length
+  rpc unaryStringLength(Req1) returns (Res1) {}
+
+  // Returns the count of messages received from the client.
+  rpc clientStreamingCount(stream Req2) returns (Res2) {}
+
+  // Returns Req3.num empty messages.
+  rpc serverStreamingFan(Req3) returns (stream Res3) {}
+
+  // Doubles each Req4.a received.
+  rpc bidiStreamingDoubler(stream Req4) returns (stream Res4) {}
 }

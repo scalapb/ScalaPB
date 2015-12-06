@@ -6,12 +6,12 @@ import com.trueaccord.proto.e2e.{Service1Grpc => Service1GrpcJava}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.stub.StreamObserver
 import io.grpc.{ManagedChannel, ServerServiceDefinition}
-import org.scalatest.FunSpec
+import org.scalatest.{FunSpec, MustMatchers}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.util.Random
 
-abstract class GrpcServiceSpecBase extends FunSpec {
+abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
 
   protected[this] final def withScalaServer[A](f: ManagedChannel => A): A = {
     withServer(Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext))(f)
@@ -48,6 +48,21 @@ abstract class GrpcServiceSpecBase extends FunSpec {
       override def onCompleted(): Unit = {}
 
       override def onNext(value: A): Unit = promise.success(value)
+    }
+    (observer, promise.future)
+  }
+
+  protected[this] final def getObserverAndFutureVector[A]: (StreamObserver[A], Future[Vector[A]]) = {
+    val promise = Promise[Vector[A]]()
+    val values = Vector.newBuilder[A]
+    val observer = new StreamObserver[A] {
+      override def onError(t: Throwable): Unit = {}
+
+      override def onCompleted(): Unit = promise.success(values.result)
+
+      override def onNext(value: A): Unit = {
+        values += value
+      }
     }
     (observer, promise.future)
   }

@@ -8,15 +8,16 @@ import io.grpc.stub.StreamObserver
 
 class Service1JavaImpl extends Service1{
 
-  override def method1(request: Req1, observer: StreamObserver[Res1]): Unit = {
+  override def unaryStringLength(request: Req1, observer: StreamObserver[Res1]): Unit = {
     val res = Res1.newBuilder.setLength(request.getRequest.length).build()
     observer.onNext(res)
     observer.onCompleted()
   }
 
-  override def method2(observer: StreamObserver[Res2]) =
+  override def clientStreamingCount(observer: StreamObserver[Res2]) =
     new StreamObserver[Req2] {
       private[this] val counter = new AtomicInteger()
+
       override def onError(e: Throwable): Unit =
         observer.onError(e)
 
@@ -30,24 +31,19 @@ class Service1JavaImpl extends Service1{
       }
     }
 
-  private[this] var method3Counter = 0
-
-  override def method3(request: Req3, observer: StreamObserver[Res3]): Unit = synchronized{
-    method3Counter += request.getNum
-    if(method3Counter > Service1ScalaImpl.method3Limit){
-      observer.onNext(Res3.getDefaultInstance)
-      observer.onCompleted()
+  override def serverStreamingFan(request: Req3, observer: StreamObserver[Res3]): Unit = {
+    (1 to request.getNum()).foreach {
+      _ => observer.onNext(Res3.getDefaultInstance)
     }
+    observer.onCompleted()
   }
 
-  override def method4(observer: StreamObserver[Res4]): StreamObserver[Req4] =
+  override def bidiStreamingDoubler(observer: StreamObserver[Res4]): StreamObserver[Req4] =
     new StreamObserver[Req4] {
       override def onError(e: Throwable): Unit = {}
-      override def onCompleted(): Unit = {}
+      override def onCompleted(): Unit = { observer.onCompleted() }
       override def onNext(request: Req4): Unit = {
         observer.onNext(Res4.newBuilder.setB(request.getA * 2).build())
-        observer.onCompleted()
       }
     }
-
 }

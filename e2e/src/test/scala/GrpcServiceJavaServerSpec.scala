@@ -1,4 +1,3 @@
-import java.util.concurrent.TimeoutException
 
 import com.trueaccord.pb.Service1ScalaImpl
 import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
@@ -11,72 +10,56 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
   describe("java server") {
 
-    it("method1 blockingStub") {
+    it("unaryStringLength blockingStub") {
       withJavaServer { channel =>
         val client = Service1GrpcScala.blockingStub(channel)
         val string = randomString()
-        assert(client.method1(Req1(string)).length === string.length)
+        client.unaryStringLength(Req1(string)).length must be(string.length)
       }
     }
 
-    it("method1 stub") {
+    it("unaryStringLength stub") {
       withJavaServer { channel =>
         val client = Service1GrpcScala.stub(channel)
         val string = randomString()
-        assert(Await.result(client.method1(Req1(string)), 2.seconds).length === string.length)
+        Await.result(client.unaryStringLength(Req1(string)), 2.seconds).length must be(string.length)
       }
     }
 
-    it("method2") {
+    it("clientStreamingCount") {
       withJavaServer { channel =>
         val client = Service1GrpcScala.stub(channel)
         val (responseObserver, future) = getObserverAndFuture[Res2]
-        val requestObserver = client.method2(responseObserver)
+        val requestObserver = client.clientStreamingCount(responseObserver)
         val n = Random.nextInt(10)
         for (_ <- 1 to n) {
           requestObserver.onNext(Req2())
         }
 
-        intercept[TimeoutException]{
-          Await.result(future, 2.seconds)
-        }
-
         requestObserver.onCompleted()
-        assert(Await.result(future, 2.seconds).count === n)
+        Await.result(future, 2.seconds).count must be(n)
       }
     }
 
-    it("method3") {
+    it("serverStreamingFan") {
       withJavaServer { channel =>
         val client = Service1GrpcScala.stub(channel)
-        val (observer, future) = getObserverAndFuture[Res3]
-        val requests = Stream.continually(Req3(num = Random.nextInt(10)))
-        val count = requests.scanLeft(0)(_ + _.num).takeWhile(_ < Service1ScalaImpl.method3Limit).size - 1
-
-        requests.take(count).foreach { req =>
-          client.method3(req, observer)
-        }
-
-        intercept[TimeoutException]{
-          Await.result(future, 2.seconds)
-        }
-
-        client.method3(Req3(1000), observer)
-        Await.result(future, 2.seconds)
+        val (observer, future) = getObserverAndFutureVector[Res3]
+        client.serverStreamingFan(Req3(100), observer)
+        Await.result(future, 2.seconds) must be(Vector.fill(100)(Res3()))
       }
     }
 
-    it("method4") {
+    it("bidiStreamingDoubler") {
       withJavaServer { channel =>
         val client = Service1GrpcScala.stub(channel)
-        val (responseObserver, future) = getObserverAndFuture[Res4]
-        val requestObserver = client.method4(responseObserver)
-        intercept[TimeoutException]{
-          Await.result(future, 2.seconds)
-        }
-        val request = Req4(a = Random.nextInt())
-        requestObserver.onNext(request)
-        assert(Await.result(future, 2.seconds).b === (request.a * 2))
+        val (responseObserver, future) = getObserverAndFutureVector[Res4]
+        val requestObserver = client.bidiStreamingDoubler(responseObserver)
+        requestObserver.onNext(Req4(11))
+        requestObserver.onNext(Req4(3))
+        requestObserver.onNext(Req4(6))
+        requestObserver.onCompleted()
+        Await.result(future, 2.seconds).map(_.b) must be(Vector(22, 6, 12))
       }
     }
   }
