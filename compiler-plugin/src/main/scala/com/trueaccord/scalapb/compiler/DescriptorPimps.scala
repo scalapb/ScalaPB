@@ -45,6 +45,27 @@ trait DescriptorPimps {
     b.toString
   }
 
+  protected final def toAllCaps(name: String): String = {
+    val b = new StringBuilder()
+    @annotation.tailrec
+    def inner(name: String, lastLower: Boolean): Unit = if (name.nonEmpty) {
+      val nextLastLower = name.head match {
+        case c if c.isLower => b.append(c.toUpper)
+          true
+        case c if c.isUpper =>
+          if (lastLower) { b.append('_') }
+          b.append(c)
+          false
+        case c =>
+          b.append(c)
+          false
+      }
+      inner(name.tail, nextLastLower)
+    }
+    inner(name, false)
+    b.toString
+  }
+
   implicit final class MethodDescriptorPimp(self: MethodDescriptor) {
     def scalaOut: String = self.getOutputType.scalaTypeName
 
@@ -68,6 +89,8 @@ trait DescriptorPimps {
     private def name0: String = snakeCaseToCamelCase(self.getName)
 
     def name: String = name0.asSymbol
+
+    def descriptorName = s"METHOD_${toAllCaps(self.getName)}"
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {

@@ -70,14 +70,14 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
           p.add(
             "override " + blockingMethodSignature(m) + " = {"
           ).add(
-            s"""  $clientCalls.blockingUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request)""",
+            s"""  $clientCalls.blockingUnaryCall(channel.newCall(${m.descriptorName}, options), request)""",
             "}"
           )
         } else {
           p.add(
             "override " + serviceMethodSignature(m) + " = {"
           ).add(
-            s"""  $guavaFuture2ScalaFuture($clientCalls.futureUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request))""",
+            s"""  $guavaFuture2ScalaFuture($clientCalls.futureUnaryCall(channel.newCall(${m.descriptorName}, options), request))""",
             "}"
           )
         }
@@ -86,13 +86,13 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
           p.add(
             "override " + blockingMethodSignature(m) + " = {"
           ).addI(
-            s"scala.collection.JavaConversions.asScalaIterator($clientCalls.blockingServerStreamingCall(channel.newCall(${methodDescriptorName(m)}, options), request))"
+            s"scala.collection.JavaConversions.asScalaIterator($clientCalls.blockingServerStreamingCall(channel.newCall(${m.descriptorName}, options), request))"
           ).add("}")
         } else {
           p.add(
             "override " + serviceMethodSignature(m) + " = {"
           ).addI(
-            s"$clientCalls.asyncServerStreamingCall(channel.newCall(${methodDescriptorName(m)}, options), request, responseObserver)"
+            s"$clientCalls.asyncServerStreamingCall(channel.newCall(${m.descriptorName}, options), request, responseObserver)"
           ).add("}")
         }
       case streamType =>
@@ -106,7 +106,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
         p.add(
           "override " + serviceMethodSignature(m) + " = {"
         ).indent.add(
-          s"$call(channel.newCall(${methodDescriptorName(m)}, options), responseObserver)"
+          s"$call(channel.newCall(${m.descriptorName}, options), responseObserver)"
         ).outdent.add("}")
     }
   }
@@ -136,9 +136,6 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     stubImplementation(service.stub, service.name, methods)
   }
 
-  private[this] def methodDescriptorName(method: MethodDescriptor): String =
-    "METHOD_" + method.getName.toUpperCase(Locale.ENGLISH)
-
   private[this] def methodDescriptor(method: MethodDescriptor) = {
     def marshaller(typeName: String) =
       s"new com.trueaccord.scalapb.grpc.Marshaller($typeName)"
@@ -152,7 +149,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
     val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
-s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
+s"""  private[this] val ${method.descriptorName}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
     $grpcMethodDescriptor.create(
       $grpcMethodDescriptor.MethodType.$methodType,
       $grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"),
@@ -225,7 +222,7 @@ s"""  def ${name}($serviceImpl: ${service.name}, $executionContext: scala.concur
       }
 
 s""".addMethod(
-      ${methodDescriptorName(m)},
+      ${m.descriptorName},
       $call(
         ${callMethod(m)}
       )
