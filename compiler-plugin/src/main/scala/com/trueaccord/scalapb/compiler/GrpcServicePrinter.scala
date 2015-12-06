@@ -7,56 +7,59 @@ import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scala.collection.JavaConverters._
 
 final class GrpcServicePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends DescriptorPimps {
-
   private[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
 
-  private[this] def methodSignature(method: MethodDescriptor, t: String => String = identity[String]): String = {
-    method.streamType match {
+  private[this] def serviceMethodSignature(method: MethodDescriptor) = {
+    s"def ${method.name}" + (method.streamType match {
       case StreamType.Unary =>
-        s"def ${method.name}(request: ${method.scalaIn}): ${t(method.scalaOut)}"
+        s"(request: ${method.scalaIn}): scala.concurrent.Future[${method.scalaOut}]"
+      case StreamType.ClientStreaming =>
+        s"(responseObserver: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
       case StreamType.ServerStreaming =>
-        s"def ${method.name}(request: ${method.scalaIn}, observer: ${observer(method.scalaOut)}): Unit"
-      case StreamType.ClientStreaming | StreamType.Bidirectional =>
-        s"def ${method.name}(observer: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
-    }
+        s"(request: ${method.scalaIn}, responseObserver: ${observer(method.scalaOut)}): Unit"
+      case StreamType.Bidirectional =>
+        s"(responseObserver: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
+    })
   }
 
-  private[this] def serviceTrait(name: String, methods: Seq[MethodDescriptor], t: String => String): PrinterEndo = {
+  private[this] def blockingMethodSignature(method: MethodDescriptor) = {
+    s"def ${method.name}" + (method.streamType match {
+      case StreamType.Unary =>
+        s"(request: ${method.scalaIn}): ${method.scalaOut}"
+      case StreamType.ServerStreaming =>
+        s"(request: ${method.scalaIn}): scala.collection.Iterator[${method.scalaOut}]"
+      case _ => throw new IllegalArgumentException("Invalid method type.")
+    })
+  }
+
+  private[this] def serviceTrait: PrinterEndo = {
     val endos: PrinterEndo = { p =>
-      p.seq(methods.map(methodSignature(_, t)))
+      p.seq(service.methods.map(serviceMethodSignature))
     }
 
     { p =>
-      p.add(s"trait $name {").withIndent(endos).add("}")
+      p.add(s"trait ${service.name} {").withIndent(endos).add("}")
     }
-
   }
 
-  private[this] def base: PrinterEndo =
-    serviceTrait(service.name, service.methods, "scala.concurrent.Future[" + _ + "]")
+  private[this] def blockingClientTrait: PrinterEndo = {
+    val endos: PrinterEndo = { p =>
+      p.seq(service.methods.filter(_.canBeBlocking).map(blockingMethodSignature))
+    }
 
-  private[this] def blockingClient: PrinterEndo =
-    serviceTrait(service.blockingClient, service.methods.filter(_.canBeBlocking), identity)
+    { p =>
+      p.add(s"trait ${service.blockingClient} {").withIndent(endos).add("}")
+    }
+  }
 
   private[this] val channel = "_root_.io.grpc.Channel"
   private[this] val callOptions = "_root_.io.grpc.CallOptions"
 
-  private[this] val futureUnaryCall = "_root_.io.grpc.stub.ClientCalls.futureUnaryCall"
   private[this] val abstractStub = "_root_.io.grpc.stub.AbstractStub"
   private[this] val streamObserver = "_root_.io.grpc.stub.StreamObserver"
 
-  private[this] object serverCalls {
-    val unary = "_root_.io.grpc.stub.ServerCalls.asyncUnaryCall"
-    val clientStreaming = "_root_.io.grpc.stub.ServerCalls.asyncClientStreamingCall"
-    val serverStreaming = "_root_.io.grpc.stub.ServerCalls.asyncServerStreamingCall"
-    val bidiStreaming = "_root_.io.grpc.stub.ServerCalls.asyncBidiStreamingCall"
-  }
-
-  private[this] object clientCalls {
-    val clientStreaming = "_root_.io.grpc.stub.ClientCalls.asyncClientStreamingCall"
-    val serverStreaming = "_root_.io.grpc.stub.ClientCalls.asyncServerStreamingCall"
-    val bidiStreaming = "_root_.io.grpc.stub.ClientCalls.asyncBidiStreamingCall"
-  }
+  private[this] val serverCalls = "_root_.io.grpc.stub.ServerCalls"
+  private[this] val clientCalls = "_root_.io.grpc.stub.ClientCalls"
 
   private[this] val guavaFuture2ScalaFuture = "com.trueaccord.scalapb.grpc.Grpc.guavaFuture2ScalaFuture"
 
@@ -65,36 +68,45 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
       case StreamType.Unary =>
         if(blocking) {
           p.add(
-            "override " + methodSignature(m, identity) + " = {"
+            "override " + blockingMethodSignature(m) + " = {"
           ).add(
-            s"""  _root_.io.grpc.stub.ClientCalls.blockingUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request)""",
+            s"""  $clientCalls.blockingUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request)""",
             "}"
           )
         } else {
           p.add(
-            "override " + methodSignature(m, "scala.concurrent.Future[" + _ + "]") + " = {"
+            "override " + serviceMethodSignature(m) + " = {"
           ).add(
-            s"""  $guavaFuture2ScalaFuture($futureUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request))""",
+            s"""  $guavaFuture2ScalaFuture($clientCalls.futureUnaryCall(channel.newCall(${methodDescriptorName(m)}, options), request))""",
             "}"
           )
         }
       case StreamType.ServerStreaming =>
-        p.add(
-          "override " + methodSignature(m) + " = {"
-        ).addI(
-          s"${clientCalls.serverStreaming}(channel.newCall(${methodDescriptorName(m)}, options), request, observer)"
-        ).add("}")
-      case streamType =>
-        val call = if (streamType == StreamType.ClientStreaming) {
-          clientCalls.clientStreaming
+        if (blocking) {
+          p.add(
+            "override " + blockingMethodSignature(m) + " = {"
+          ).addI(
+            s"scala.collection.JavaConversions.asScalaIterator($clientCalls.blockingServerStreamingCall(channel.newCall(${methodDescriptorName(m)}, options), request))"
+          ).add("}")
         } else {
-          clientCalls.bidiStreaming
+          p.add(
+            "override " + serviceMethodSignature(m) + " = {"
+          ).addI(
+            s"$clientCalls.asyncServerStreamingCall(channel.newCall(${methodDescriptorName(m)}, options), request, responseObserver)"
+          ).add("}")
+        }
+      case streamType =>
+        require(!blocking)
+        val call = if (streamType == StreamType.ClientStreaming) {
+          s"$clientCalls.asyncClientStreamingCall"
+        } else {
+          s"$clientCalls.asyncBidiStreamingCall"
         }
 
         p.add(
-          "override " + methodSignature(m) + " = {"
+          "override " + serviceMethodSignature(m) + " = {"
         ).indent.add(
-          s"$call(channel.newCall(${methodDescriptorName(m)}, options), observer)"
+          s"$call(channel.newCall(${methodDescriptorName(m)}, options), responseObserver)"
         ).outdent.add("}")
     }
   }
@@ -129,7 +141,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
   private[this] def methodDescriptor(method: MethodDescriptor) = {
     def marshaller(typeName: String) =
-      s"new _root_.com.trueaccord.scalapb.grpc.Marshaller($typeName)"
+      s"new com.trueaccord.scalapb.grpc.Marshaller($typeName)"
 
     val methodType = method.streamType match {
       case StreamType.Unary => "UNARY"
@@ -172,7 +184,7 @@ s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[$
 s"""  def ${name}($serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverMethod = {
     new $serverMethod {
       override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
-        $serviceImpl.${method.name}(request).onComplete(_root_.com.trueaccord.scalapb.grpc.Grpc.completeObserver(observer))(
+        $serviceImpl.${method.name}(request).onComplete(com.trueaccord.scalapb.grpc.Grpc.completeObserver(observer))(
           $executionContext)
     }
   }"""
@@ -206,10 +218,10 @@ s"""  def ${name}($serviceImpl: ${service.name}, $executionContext: scala.concur
     val methods = service.getMethods.asScala.map { m =>
 
       val call = m.streamType match {
-        case StreamType.Unary => serverCalls.unary
-        case StreamType.ClientStreaming => serverCalls.clientStreaming
-        case StreamType.ServerStreaming => serverCalls.serverStreaming
-        case StreamType.Bidirectional => serverCalls.bidiStreaming
+        case StreamType.Unary => s"$serverCalls.asyncUnaryCall"
+        case StreamType.ClientStreaming => s"$serverCalls.asyncClientStreamingCall"
+        case StreamType.ServerStreaming => s"$serverCalls.asyncServerStreamingCall"
+        case StreamType.Bidirectional => s"$serverCalls.asyncBidiStreamingCall"
       }
 
 s""".addMethod(
@@ -231,16 +243,14 @@ s"""def bindService(service: ${service.name}, $executionContext: scala.concurren
     printer.add(
       "package " + service.getFile.scalaPackageName,
       "",
-      "import scala.language.higherKinds",
-      "",
       s"object ${service.objectName} {"
     ).seq(
       service.getMethods.asScala.map(createMethod)
     ).seq(
       methodDescriptors
     ).newline.withIndent(
-      base,
-      blockingClient,
+      serviceTrait,
+      blockingClientTrait,
       FunctionalPrinter.newline,
       blockingStub,
       FunctionalPrinter.newline,

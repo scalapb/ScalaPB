@@ -50,9 +50,12 @@ trait DescriptorPimps {
 
     def scalaIn: String = self.getInputType.scalaTypeName
 
+    def isClientStreaming = self.toProto.getClientStreaming
+
+    def isServerStreaming = self.toProto.getServerStreaming
+
     def streamType: StreamType = {
-      val p = self.toProto
-      (p.getClientStreaming, p.getServerStreaming) match {
+      (isClientStreaming, isServerStreaming) match {
         case (false, false) => StreamType.Unary
         case (true, false) => StreamType.ClientStreaming
         case (false, true) => StreamType.ServerStreaming
