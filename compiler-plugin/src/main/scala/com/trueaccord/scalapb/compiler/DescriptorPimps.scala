@@ -60,13 +60,25 @@ trait DescriptorPimps {
       }
     }
 
+    def canBeBlocking = !self.toProto.getClientStreaming
+
     private def name0: String = snakeCaseToCamelCase(self.getName)
 
     def name: String = name0.asSymbol
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
+    def objectName = self.getName + "Grpc"
 
+    def name = self.getName.asSymbol
+
+    def blockingClient = self.getName + "BlockingClient"
+
+    def blockingStub = self.getName + "BlockingStub"
+
+    def stub = self.getName + "Stub"
+
+    def methods = self.getMethods.toIndexedSeq
   }
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {

@@ -11,17 +11,17 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
   describe("java server") {
 
-    it("method1 blockingClient") {
+    it("method1 blockingStub") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.blockingClient(channel)
+        val client = Service1GrpcScala.blockingStub(channel)
         val string = randomString()
         assert(client.method1(Req1(string)).length === string.length)
       }
     }
 
-    it("method1 futureClient") {
+    it("method1 stub") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.futureClient(channel)
+        val client = Service1GrpcScala.stub(channel)
         val string = randomString()
         assert(Await.result(client.method1(Req1(string)), 2.seconds).length === string.length)
       }
@@ -29,7 +29,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
     it("method2") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.futureClient(channel)
+        val client = Service1GrpcScala.stub(channel)
         val (responseObserver, future) = getObserverAndFuture[Res2]
         val requestObserver = client.method2(responseObserver)
         val n = Random.nextInt(10)
@@ -48,7 +48,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
     it("method3") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.futureClient(channel)
+        val client = Service1GrpcScala.stub(channel)
         val (observer, future) = getObserverAndFuture[Res3]
         val requests = Stream.continually(Req3(num = Random.nextInt(10)))
         val count = requests.scanLeft(0)(_ + _.num).takeWhile(_ < Service1ScalaImpl.method3Limit).size - 1
@@ -68,7 +68,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
     it("method4") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.futureClient(channel)
+        val client = Service1GrpcScala.stub(channel)
         val (responseObserver, future) = getObserverAndFuture[Res4]
         val requestObserver = client.method4(responseObserver)
         intercept[TimeoutException]{

@@ -35,17 +35,17 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
     describe("scala client") {
       import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
 
-      it("method1 blockingClient") {
+      it("method1 blockingStub") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.blockingClient(channel)
+          val client = Service1GrpcScala.blockingStub(channel)
           val string = randomString()
           assert(client.method1(Req1(string)).length === string.length)
         }
       }
 
-      it("method1 futureClient") {
+      it("method1 stub") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.futureClient(channel)
+          val client = Service1GrpcScala.stub(channel)
           val string = randomString()
           assert(Await.result(client.method1(Req1(string)), 2.seconds).length === string.length)
         }
@@ -53,7 +53,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("method2") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.futureClient(channel)
+          val client = Service1GrpcScala.stub(channel)
           val (responseObserver, future) = getObserverAndFuture[Res2]
           val requestObserver = client.method2(responseObserver)
           val n = Random.nextInt(10)
@@ -72,7 +72,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("method3") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.futureClient(channel)
+          val client = Service1GrpcScala.stub(channel)
           val (observer, future) = getObserverAndFuture[Res3]
           val requests = Stream.continually(Req3(num = Random.nextInt(10)))
           val count = requests.scanLeft(0)(_ + _.num).takeWhile(_ < Service1ScalaImpl.method3Limit).size - 1
@@ -92,7 +92,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("method4") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.futureClient(channel)
+          val client = Service1GrpcScala.stub(channel)
           val (responseObserver, future) = getObserverAndFuture[Res4]
           val requestObserver = client.method4(responseObserver)
           intercept[TimeoutException]{

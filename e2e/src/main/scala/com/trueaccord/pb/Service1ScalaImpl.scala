@@ -14,7 +14,7 @@ object Service1ScalaImpl {
 
 }
 
-class Service1ScalaImpl extends Service1[Future]{
+class Service1ScalaImpl extends Service1 {
 
   override def method1(request: Req1): Future[Res1] =
     Future.successful(Res1(length = request.request.length))

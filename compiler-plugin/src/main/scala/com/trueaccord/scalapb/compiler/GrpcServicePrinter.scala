@@ -21,25 +21,25 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     }
   }
 
-  private[this] def base: PrinterEndo = {
-    val F = "F[" + (_: String) + "]"
-
-    val methods: PrinterEndo = { p =>
-      p.seq(service.getMethods.asScala.map(methodSignature(_, F)))
+  private[this] def serviceTrait(name: String, methods: Seq[MethodDescriptor], t: String => String): PrinterEndo = {
+    val endos: PrinterEndo = { p =>
+      p.seq(methods.map(methodSignature(_, t)))
     }
 
     { p =>
-      p.add(s"trait ${serviceName(F("_"))} {").withIndent(methods).add("}")
+      p.add(s"trait $name {").withIndent(endos).add("}")
     }
+
   }
+
+  private[this] def base: PrinterEndo =
+    serviceTrait(service.name, service.methods, "scala.concurrent.Future[" + _ + "]")
+
+  private[this] def blockingClient: PrinterEndo =
+    serviceTrait(service.blockingClient, service.methods.filter(_.canBeBlocking), identity)
 
   private[this] val channel = "_root_.io.grpc.Channel"
   private[this] val callOptions = "_root_.io.grpc.CallOptions"
-
-  private[this] def serviceName0 = service.getName.asSymbol
-  private[this] def serviceName(p: String) = serviceName0 + "[" + p + "]"
-  private[this] val serviceBlocking = serviceName("({type l[a] = a})#l")
-  private[this] val serviceFuture = serviceName("scala.concurrent.Future")
 
   private[this] val futureUnaryCall = "_root_.io.grpc.stub.ClientCalls.futureUnaryCall"
   private[this] val abstractStub = "_root_.io.grpc.stub.AbstractStub"
@@ -58,7 +58,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     val bidiStreaming = "_root_.io.grpc.stub.ClientCalls.asyncBidiStreamingCall"
   }
 
-  private[this] val blockingClientName: String = service.getName + "BlockingClientImpl"
+  private[this] val guavaFuture2ScalaFuture = "com.trueaccord.scalapb.grpc.Grpc.guavaFuture2ScalaFuture"
 
   private[this] def clientMethodImpl(m: MethodDescriptor, blocking: Boolean) = PrinterEndo{ p =>
     m.streamType match {
@@ -99,42 +99,29 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     }
   }
 
-  private[this] val blockingClientImpl: PrinterEndo = { p =>
-    val methods = service.getMethods.asScala.map(clientMethodImpl(_, true))
-
-    val build =
-      s"  override def build(channel: $channel, options: $callOptions): $blockingClientName = new $blockingClientName(channel, options)"
-
-    p.add(
-      s"class $blockingClientName(channel: $channel, options: $callOptions = $callOptions.DEFAULT) extends $abstractStub[$blockingClientName](channel, options) with $serviceBlocking {"
-    ).withIndent(
-      methods : _*
-    ).add(
-      build
-    ).add(
-      "}"
-    )
+  private def stubImplementation(className: String, baseClass: String, methods: Seq[PrinterEndo]): PrinterEndo = {
+    p =>
+      val build =
+        s"  override def build(channel: $channel, options: $callOptions): ${className} = new $className(channel, options)"
+      p.add(
+        s"class $className(channel: $channel, options: $callOptions = $callOptions.DEFAULT) extends $abstractStub[$className](channel, options) with $baseClass {"
+      ).withIndent(
+        methods : _*
+      ).add(
+        build
+      ).add(
+        "}"
+      )
   }
 
-  private[this] val guavaFuture2ScalaFuture = "com.trueaccord.scalapb.grpc.Grpc.guavaFuture2ScalaFuture"
+  private[this] val blockingStub: PrinterEndo = {
+    val methods = service.methods.filter(_.canBeBlocking).map(clientMethodImpl(_, true))
+    stubImplementation(service.blockingStub, service.blockingClient, methods)
+  }
 
-  private[this] val asyncClientName = service.getName + "AsyncClientImpl"
-
-  private[this] val asyncClientImpl: PrinterEndo = { p =>
+  private[this] val stub: PrinterEndo = {
     val methods = service.getMethods.asScala.map(clientMethodImpl(_, false))
-
-    val build =
-      s"  override def build(channel: $channel, options: $callOptions): $asyncClientName = new $asyncClientName(channel, options)"
-
-    p.add(
-      s"class $asyncClientName(channel: $channel, options: $callOptions = $callOptions.DEFAULT) extends $abstractStub[$asyncClientName](channel, options) with $serviceFuture {"
-    ).withIndent(
-      methods : _*
-    ).add(
-      build
-    ).add(
-      "}"
-    )
+    stubImplementation(service.stub, service.name, methods)
   }
 
   private[this] def methodDescriptorName(method: MethodDescriptor): String =
@@ -182,7 +169,7 @@ s"""  private[this] val ${methodDescriptorName(method)}: $grpcMethodDescriptor[$
     method.streamType match {
       case StreamType.Unary =>
         val serverMethod = s"_root_.io.grpc.stub.ServerCalls.UnaryMethod[${method.scalaIn}, ${method.scalaOut}]"
-s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurrent.ExecutionContext): $serverMethod = {
+s"""  def ${name}($serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverMethod = {
     new $serverMethod {
       override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
         $serviceImpl.${method.name}(request).onComplete(_root_.com.trueaccord.scalapb.grpc.Grpc.completeObserver(observer))(
@@ -192,7 +179,7 @@ s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurr
       case StreamType.ServerStreaming =>
         val serverMethod = s"_root_.io.grpc.stub.ServerCalls.ServerStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
 
-        s"""  def ${name}($serviceImpl: $serviceFuture): $serverMethod = {
+        s"""  def ${name}($serviceImpl: ${service.name}): $serverMethod = {
     new $serverMethod {
       override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
         $serviceImpl.${method.name}(request, observer)
@@ -205,7 +192,7 @@ s"""  def ${name}($serviceImpl: $serviceFuture, $executionContext: scala.concurr
           s"_root_.io.grpc.stub.ServerCalls.BidiStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
         }
 
-        s"""  def ${name}($serviceImpl: $serviceFuture): $serverMethod = {
+        s"""  def ${name}($serviceImpl: ${service.name}): $serverMethod = {
     new $serverMethod {
       override def invoke(observer: $streamObserver[${method.scalaOut}]): $streamObserver[${method.scalaIn}] =
         $serviceImpl.${method.name}(observer)
@@ -235,12 +222,10 @@ s""".addMethod(
 
     val serverServiceDef = "_root_.io.grpc.ServerServiceDefinition"
 
-s"""def bindService(service: $serviceFuture, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef =
+s"""def bindService(service: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef =
     $serverServiceDef.builder("${service.getFullName}")$methods.build()
   """
   }
-
-  val objectName = service.getName + "Grpc"
 
   def printService(printer: FunctionalPrinter): FunctionalPrinter = {
     printer.add(
@@ -248,21 +233,22 @@ s"""def bindService(service: $serviceFuture, $executionContext: scala.concurrent
       "",
       "import scala.language.higherKinds",
       "",
-      s"object $objectName {"
+      s"object ${service.objectName} {"
     ).seq(
       service.getMethods.asScala.map(createMethod)
     ).seq(
       methodDescriptors
     ).newline.withIndent(
       base,
+      blockingClient,
       FunctionalPrinter.newline,
-      blockingClientImpl,
+      blockingStub,
       FunctionalPrinter.newline,
-      asyncClientImpl
+      stub
     ).newline.addI(
       bindService,
-      s"def blockingClient(channel: $channel): $serviceBlocking = new $blockingClientName(channel)",
-      s"def futureClient(channel: $channel): $serviceFuture = new $asyncClientName(channel)"
+      s"def blockingStub(channel: $channel): ${service.blockingStub} = new ${service.blockingStub}(channel)",
+      s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)"
     ).add(
       ""
     ).outdent.add("}")
