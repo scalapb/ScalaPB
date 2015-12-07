@@ -54,20 +54,3 @@ grpcExePath := xsbti.SafeLazy {
   exe
 }
 
-// TODO add `grpc: SettingKey[Boolean]` to sbt-scalapb
-PB.protocOptions in PB.protobufConfig := {
-  val conf = (PB.generatedTargets in PB.protobufConfig).value
-  val scalaOpts = conf.find(_._2.endsWith(".scala")) match {
-    case Some(targetForScala) =>
-      Seq(s"--scala_out=grpc,java_conversions:${targetForScala._1.absolutePath}")
-    case None =>
-      Nil
-  }
-  val javaOpts = conf.find(_._2.endsWith(".java")) match {
-    case Some(targetForJava) =>
-      Seq(s"--java_out=${targetForJava._1.absolutePath}")
-    case None =>
-      Nil
-  }
-  scalaOpts ++ javaOpts
-}
