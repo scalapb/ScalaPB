@@ -102,7 +102,7 @@ object SchemaGenerators {
     val args = Seq("--proto_path",
       (tmpDir.toString + ":protobuf:third_party"),
       "--java_out", tmpDir.toString,
-      "--scala_out", "java_conversions:" + tmpDir.toString) ++ files
+      "--scala_out", "grpc,java_conversions:" + tmpDir.toString) ++ files
     runProtoc(args: _*)
   }
 
@@ -140,7 +140,11 @@ object SchemaGenerators {
       jarForClass[annotation.Annotation].getPath,
       jarForClass[com.trueaccord.scalapb.GeneratedMessage].getPath,
       jarForClass[com.trueaccord.scalapb.Scalapb].getPath,
+      jarForClass[com.trueaccord.scalapb.grpc.Grpc.type].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
+      jarForClass[io.grpc.Channel].getPath,
+      jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
+      jarForClass[javax.annotation.Nullable],
       jarForClass[com.trueaccord.lenses.Lens[_, _]].getPath,
       rootDir
     )

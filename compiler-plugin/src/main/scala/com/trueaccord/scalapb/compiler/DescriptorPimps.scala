@@ -26,7 +26,7 @@ trait DescriptorPimps {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
   }
 
-  private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
+  protected final def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
     val b = new StringBuilder()
     @annotation.tailrec
     def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
@@ -43,6 +43,68 @@ trait DescriptorPimps {
     }
     inner(name, 0, upperInitial)
     b.toString
+  }
+
+  protected final def toAllCaps(name: String): String = {
+    val b = new StringBuilder()
+    @annotation.tailrec
+    def inner(name: String, lastLower: Boolean): Unit = if (name.nonEmpty) {
+      val nextLastLower = name.head match {
+        case c if c.isLower => b.append(c.toUpper)
+          true
+        case c if c.isUpper =>
+          if (lastLower) { b.append('_') }
+          b.append(c)
+          false
+        case c =>
+          b.append(c)
+          false
+      }
+      inner(name.tail, nextLastLower)
+    }
+    inner(name, false)
+    b.toString
+  }
+
+  implicit final class MethodDescriptorPimp(self: MethodDescriptor) {
+    def scalaOut: String = self.getOutputType.scalaTypeName
+
+    def scalaIn: String = self.getInputType.scalaTypeName
+
+    def isClientStreaming = self.toProto.getClientStreaming
+
+    def isServerStreaming = self.toProto.getServerStreaming
+
+    def streamType: StreamType = {
+      (isClientStreaming, isServerStreaming) match {
+        case (false, false) => StreamType.Unary
+        case (true, false) => StreamType.ClientStreaming
+        case (false, true) => StreamType.ServerStreaming
+        case (true, true) => StreamType.Bidirectional
+      }
+    }
+
+    def canBeBlocking = !self.toProto.getClientStreaming
+
+    private def name0: String = snakeCaseToCamelCase(self.getName)
+
+    def name: String = name0.asSymbol
+
+    def descriptorName = s"METHOD_${toAllCaps(self.getName)}"
+  }
+
+  implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
+    def objectName = self.getName + "Grpc"
+
+    def name = self.getName.asSymbol
+
+    def blockingClient = self.getName + "BlockingClient"
+
+    def blockingStub = self.getName + "BlockingStub"
+
+    def stub = self.getName + "Stub"
+
+    def methods = self.getMethods.toIndexedSeq
   }
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {

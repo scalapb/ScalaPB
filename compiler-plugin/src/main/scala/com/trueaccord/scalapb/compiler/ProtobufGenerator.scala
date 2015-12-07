@@ -6,7 +6,7 @@ import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
-case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false)
+case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false, grpc: Boolean = false)
 
 class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def printEnum(e: EnumDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
@@ -942,6 +942,17 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateScalaFilesForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
+    val serviceFiles = if(params.grpc) {
+      file.getServices.map { service =>
+        val p = new GrpcServicePrinter(service, params)
+        val code = p.printService(FunctionalPrinter()).result()
+        val b = CodeGeneratorResponse.File.newBuilder()
+        b.setName(file.scalaPackageName.replace('.', '/') + "/" + service.objectName + ".scala")
+        b.setContent(code)
+        b.build
+      }
+    } else Nil
+
     val enumFiles = for {
       enum <- file.getEnumTypes
     } yield {
@@ -977,7 +988,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       b.build
     }
 
-    enumFiles ++ messageFiles :+ fileDescriptorObjectFile
+    serviceFiles ++ enumFiles ++ messageFiles :+ fileDescriptorObjectFile
   }
 }
 
@@ -986,6 +997,7 @@ object ProtobufGenerator {
     params.split(",").map(_.trim).filter(_.nonEmpty).foldLeft[Either[String, GeneratorParams]](Right(GeneratorParams())) {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
+      case (Right(params), "grpc") => Right(params.copy(grpc = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
     }

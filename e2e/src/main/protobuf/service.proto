@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+message Req1 {
+  string request = 1;
+}
+message Res1 {
+  int32 length = 1;
+}
+
+message Req2 {}
+message Res2 {
+  uint32 count = 1;
+}
+
+message Req3 {
+  uint32 num = 1;
+}
+message Res3 {}
+
+message Req4 {
+  int32 a = 1;
+}
+message Res4 {
+  int32 b = 1;
+}
+
+service Service1 {
+  // Computes string length
+  rpc UnaryStringLength(Req1) returns (Res1) {}
+
+  // Returns the count of messages received from the client.
+  rpc ClientStreamingCount(stream Req2) returns (Res2) {}
+
+  // Returns Req3.num empty messages.
+  rpc ServerStreamingFan(Req3) returns (stream Res3) {}
+
+  // Doubles each Req4.a received.
+  rpc BidiStreamingDoubler(stream Req4) returns (stream Res4) {}
+}

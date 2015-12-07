@@ -49,7 +49,7 @@ lazy val root =
       publish := {},
       publishLocal := {}
     ).aggregate(
-      runtimeJS, runtimeJVM, compilerPlugin, proptest, scalapbc)
+      runtimeJS, runtimeJVM, grpcRuntime, compilerPlugin, proptest, scalapbc)
 
 lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
@@ -78,6 +78,17 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
 lazy val runtimeJVM = runtime.jvm
 lazy val runtimeJS = runtime.js
 
+val grpcVersion = "0.9.0"
+
+lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
+  .dependsOn(runtimeJVM)
+  .settings(
+    name := "scalapb-runtime-grpc",
+    libraryDependencies ++= Seq(
+      "io.grpc" % "grpc-all" % grpcVersion
+    )
+  )
+
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .dependsOn(runtimeJVM)
 
@@ -89,14 +100,23 @@ lazy val scalapbc = project.in(file("scalapbc"))
   )
 
 lazy val proptest = project.in(file("proptest"))
-  .dependsOn(runtimeJVM, compilerPlugin)
+  .dependsOn(runtimeJVM, grpcRuntime, compilerPlugin)
     .configs( ShortTest )
     .settings( inConfig(ShortTest)(Defaults.testTasks): _*)
     .settings(
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
-      testOptions += Tests.Argument(
+      libraryDependencies ++= Seq(
+        "com.github.os72" % "protoc-jar" % "3.0.0-b1",
+        "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-1",
+        "io.grpc" % "grpc-all" % "0.9.0" % "test",
+        "com.trueaccord.lenses" %% "lenses" % "0.4.1",
+        "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
+        "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"
       ),
+      libraryDependencies <+= (scalaVersion) { v => "org.scala-lang" % "scala-compiler" % v },
+      testOptions += Tests.Argument(),
+      fork in Test := false,
       testOptions in ShortTest += Tests.Argument(
         // verbosity specified because of ScalaCheck #108.
         "-verbosity", "3",
