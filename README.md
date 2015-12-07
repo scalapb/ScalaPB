@@ -7,12 +7,6 @@ ScalaPB is a protocol buffer compiler (`protoc`) plugin for Scala. It will
 generate Scala case classes, parsers and serializers for your protocol
 buffers.
 
-The biggest difference between ScalaPB and ScalaBuff is that ScalaPB uses
-`protoc` to parse the source `.proto` files instead of rolling its own parser.
-By using the parser implementation provided by Google, ScalaPB achieves
-perfect compatibility with the language specification and can handle any valid
-proto file.
-
 ScalaPB generates case classes that can co-exist in the same project alongside
 the Java-generated code for ProtocolBuffer. This makes it easy to gradually
 migrate an existing project from the Java version of protocol buffers to
