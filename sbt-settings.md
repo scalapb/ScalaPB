@@ -47,6 +47,12 @@ To enable Java conversions add the following to your build.sbt:
 
     PB.javaConversions in PB.protobufConfig := true
 
+## GRPC
+
+Generating GRPC stubs for services is enabled by default. To disable:
+
+    PB.grpc := false
+
 ## Flat Packages
 
 You can request that ScalaPB will not append the protofile base name

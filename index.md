@@ -33,6 +33,10 @@ val newOrder = order.update(_.creditCard.expirationYear := 2015)
   [Oneof](https://developers.google.com/protocol-buffers/docs/proto#oneof)'s 
   that were introduced in Protocol Buffers 2.6.0.
 
+* **Newer:** Supports [Scala.js](http://www.scala-js.org/) (in 0.5.x). See [example project](https://github.com/thesamet/scalapbjs-test)
+
+* **Newest:** Supports [GRPC](http://www.grpc.io/) (in 0.5.x)
+
 ## Installing in SBT (Recommended!)
 
 To automatically generate Scala case classes for your messages add ScalaPB's
