@@ -3,6 +3,7 @@ package com.trueaccord.scalapb.compiler
 import java.util.Locale
 
 import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
+import com.sun.org.apache.xml.internal.serialize.Printer
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scala.collection.JavaConverters._
 
@@ -34,7 +35,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
   private[this] def serviceTrait: PrinterEndo = {
     val endos: PrinterEndo = { p =>
-      p.seq(service.methods.map(serviceMethodSignature))
+      p.seq(service.methods.map(m => serviceMethodSignature(m) + "\n"))
     }
 
     { p =>
@@ -44,7 +45,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
   private[this] def blockingClientTrait: PrinterEndo = {
     val endos: PrinterEndo = { p =>
-      p.seq(service.methods.filter(_.canBeBlocking).map(blockingMethodSignature))
+      p.seq(service.methods.filter(_.canBeBlocking).map(m => blockingMethodSignature(m) + "\n"))
     }
 
     { p =>
@@ -109,7 +110,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
           s"$call(channel.newCall(${m.descriptorName}, options), responseObserver)"
         ).outdent.add("}")
     }
-  }
+  } andThen PrinterEndo { _.newline }
 
   private def stubImplementation(className: String, baseClass: String, methods: Seq[PrinterEndo]): PrinterEndo = {
     p =>
@@ -136,7 +137,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     stubImplementation(service.stub, service.name, methods)
   }
 
-  private[this] def methodDescriptor(method: MethodDescriptor) = {
+  private[this] def methodDescriptor(method: MethodDescriptor) = PrinterEndo { p =>
     def marshaller(typeName: String) =
       s"new com.trueaccord.scalapb.grpc.Marshaller($typeName)"
 
@@ -149,91 +150,73 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
     val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
-s"""  private[this] val ${method.descriptorName}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
-    $grpcMethodDescriptor.create(
-      $grpcMethodDescriptor.MethodType.$methodType,
-      $grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"),
-      ${marshaller(method.scalaIn)},
-      ${marshaller(method.scalaOut)}
-    )"""
+    p.addM(
+      s"""private[this] val ${method.descriptorName}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
+          |  $grpcMethodDescriptor.create(
+          |    $grpcMethodDescriptor.MethodType.$methodType,
+          |    $grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"),
+          |    ${marshaller(method.scalaIn)},
+          |    ${marshaller(method.scalaOut)})
+          |""")
   }
 
-  private[this] val methodDescriptors: Seq[String] = service.getMethods.asScala.map(methodDescriptor)
+  private[this] def addMethodImplementation(method: MethodDescriptor): PrinterEndo = PrinterEndo {
+    _.add(".addMethod(")
+      .add(s"  ${method.descriptorName},")
+      .withIndent(PrinterEndo {
+        p =>
+          val call = method.streamType match {
+            case StreamType.Unary => s"$serverCalls.asyncUnaryCall"
+            case StreamType.ClientStreaming => s"$serverCalls.asyncClientStreamingCall"
+            case StreamType.ServerStreaming => s"$serverCalls.asyncServerStreamingCall"
+            case StreamType.Bidirectional => s"$serverCalls.asyncBidiStreamingCall"
+          }
 
-  private[this] def callMethodName(method: MethodDescriptor) =
-    method.name + "Method"
+          val executionContext = "executionContext"
+          val serviceImpl = "serviceImpl"
 
-  private[this] def callMethod(method: MethodDescriptor) =
-    method.streamType match {
-      case StreamType.Unary =>
-        s"${callMethodName(method)}(service, executionContext)"
-      case _ =>
-        s"${callMethodName(method)}(service)"
-    }
-
-  private[this] def createMethod(method: MethodDescriptor): String = {
-    val executionContext = "executionContext"
-    val name = callMethodName(method)
-    val serviceImpl = "serviceImpl"
-    method.streamType match {
-      case StreamType.Unary =>
-        val serverMethod = s"_root_.io.grpc.stub.ServerCalls.UnaryMethod[${method.scalaIn}, ${method.scalaOut}]"
-s"""  def ${name}($serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverMethod = {
-    new $serverMethod {
-      override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
-        $serviceImpl.${method.name}(request).onComplete(com.trueaccord.scalapb.grpc.Grpc.completeObserver(observer))(
-          $executionContext)
-    }
-  }"""
-      case StreamType.ServerStreaming =>
-        val serverMethod = s"_root_.io.grpc.stub.ServerCalls.ServerStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
-
-        s"""  def ${name}($serviceImpl: ${service.name}): $serverMethod = {
-    new $serverMethod {
-      override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
-        $serviceImpl.${method.name}(request, observer)
-    }
-  }"""
-      case _ =>
-        val serverMethod = if(method.streamType == StreamType.ClientStreaming) {
-          s"_root_.io.grpc.stub.ServerCalls.ClientStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
-        } else {
-          s"_root_.io.grpc.stub.ServerCalls.BidiStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
-        }
-
-        s"""  def ${name}($serviceImpl: ${service.name}): $serverMethod = {
-    new $serverMethod {
-      override def invoke(observer: $streamObserver[${method.scalaOut}]): $streamObserver[${method.scalaIn}] =
-        $serviceImpl.${method.name}(observer)
-    }
-  }"""
-    }
+          method.streamType match {
+            case StreamType.Unary =>
+              val serverMethod = s"$serverCalls.UnaryMethod[${method.scalaIn}, ${method.scalaOut}]"
+              p.addM(
+                s"""$call(new $serverMethod {
+                   |  override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
+                   |    $serviceImpl.${method.name}(request).onComplete(com.trueaccord.scalapb.grpc.Grpc.completeObserver(observer))(
+                   |      $executionContext)
+                   |}))""")
+            case StreamType.ServerStreaming =>
+              val serverMethod = s"$serverCalls.ServerStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
+              p.addM(
+                s"""$call(new $serverMethod {
+                   |  override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
+                   |    $serviceImpl.${method.name}(request, observer)
+                   |}))""")
+            case _ =>
+              val serverMethod = if (method.streamType == StreamType.ClientStreaming) {
+                s"$serverCalls.ClientStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
+              } else {
+                s"$serverCalls.BidiStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
+              }
+              p.addM(
+                s"""$call(new $serverMethod {
+                   |  override def invoke(observer: $streamObserver[${method.scalaOut}]): $streamObserver[${method.scalaIn}] =
+                   |    $serviceImpl.${method.name}(observer)
+                   |}))""")
+          }
+      })
   }
 
   private[this] val bindService = {
     val executionContext = "executionContext"
-    val methods = service.getMethods.asScala.map { m =>
-
-      val call = m.streamType match {
-        case StreamType.Unary => s"$serverCalls.asyncUnaryCall"
-        case StreamType.ClientStreaming => s"$serverCalls.asyncClientStreamingCall"
-        case StreamType.ServerStreaming => s"$serverCalls.asyncServerStreamingCall"
-        case StreamType.Bidirectional => s"$serverCalls.asyncBidiStreamingCall"
-      }
-
-s""".addMethod(
-      ${m.descriptorName},
-      $call(
-        ${callMethod(m)}
-      )
-    )"""
-    }.mkString
-
+    val methods = service.methods.map(addMethodImplementation)
     val serverServiceDef = "_root_.io.grpc.ServerServiceDefinition"
 
-s"""def bindService(service: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef =
-    $serverServiceDef.builder("${service.getFullName}")$methods.build()
-  """
+    PrinterEndo(
+      _.add(s"""def bindService(serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef =""")
+        .withIndent(
+          _.add(s"""$serverServiceDef.builder("${service.getFullName}")"""),
+          _.call(methods: _*),
+         _.add(".build()")))
   }
 
   def printService(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -241,23 +224,22 @@ s"""def bindService(service: ${service.name}, $executionContext: scala.concurren
       "package " + service.getFile.scalaPackageName,
       "",
       s"object ${service.objectName} {"
-    ).seq(
-      service.getMethods.asScala.map(createMethod)
-    ).seq(
-      methodDescriptors
     ).newline.withIndent(
+      _.call(service.methods.map(methodDescriptor): _*),
       serviceTrait,
+      _.newline,
       blockingClientTrait,
-      FunctionalPrinter.newline,
+      _.newline,
       blockingStub,
-      FunctionalPrinter.newline,
-      stub
-    ).newline.addI(
+      _.newline,
+      stub,
+      _.newline,
       bindService,
-      s"def blockingStub(channel: $channel): ${service.blockingStub} = new ${service.blockingStub}(channel)",
-      s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)"
-    ).add(
-      ""
-    ).outdent.add("}")
+      _.newline,
+      _.add(s"def blockingStub(channel: $channel): ${service.blockingStub} = new ${service.blockingStub}(channel)"),
+      _.newline,
+      _.add(s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)")
+    )
+      .add("}")
   }
 }

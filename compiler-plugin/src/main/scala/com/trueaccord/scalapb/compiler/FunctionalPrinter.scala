@@ -12,7 +12,6 @@ object PrinterEndo {
 
 object FunctionalPrinter {
   type PrinterEndo = FunctionalPrinter => FunctionalPrinter
-  val newline: PrinterEndo = _.newline
 }
 
 
@@ -51,12 +50,15 @@ case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) 
   }
 
   def indent = copy(indentLevel = indentLevel + 1)
-  def outdent = copy(indentLevel = indentLevel - 1)
+  def outdent = {
+    assert(indentLevel > 0)
+    copy(indentLevel = indentLevel - 1)
+  }
 
-  def call(f: (FunctionalPrinter => FunctionalPrinter)*): FunctionalPrinter =
+  def call(f: PrinterEndo*): FunctionalPrinter =
     f.foldLeft(this)((p, f) => f(p))
 
-  def withIndent(f: (FunctionalPrinter => FunctionalPrinter)*): FunctionalPrinter =
+  def withIndent(f: PrinterEndo*): FunctionalPrinter =
     f.foldLeft(this.indent)((p, f) => f(p)).outdent
 
   def when(cond: => Boolean)(func: FunctionalPrinter => FunctionalPrinter) =
