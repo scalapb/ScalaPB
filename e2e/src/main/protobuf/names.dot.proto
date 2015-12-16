@@ -33,3 +33,6 @@ message WeirdNamesRequired {
 
 message yield {
 }
+
+message Any {
+}

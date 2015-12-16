@@ -246,7 +246,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
 
   def generateGetField(message: Descriptor)(fp: FunctionalPrinter) = {
-    val signature = "def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): Any = "
+    val signature = "def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = "
     if (message.getFields.nonEmpty)
         fp.add(signature + "{")
           .indent
@@ -592,7 +592,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         toCustomTypeExpr(field)
 
     val myFullScalaName = message.scalaTypeName
-    printer.add(s"def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, Any]): $myFullScalaName = {")
+    printer.add(s"def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): $myFullScalaName = {")
       .indent
       .add("require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), \"FieldDescriptor does not match message type.\")")
       .add("val __fields = descriptor.getFields")
