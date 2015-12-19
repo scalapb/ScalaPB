@@ -2,13 +2,12 @@ package com.trueaccord.scalapb
 
 import java.math.BigInteger
 
-import com.google.protobuf.ByteString
+import com.google.protobuf.{TextFormat => TextFormatJava, ByteString}
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
-import com.google.protobuf.{TextFormat => TextFormatJava}
-import com.trueaccord.scalapb.Descriptors._
+import com.google.protobuf.Descriptors.{EnumValueDescriptor, EnumDescriptor, FieldDescriptor, Descriptor}
 import org.parboiled2._
 import shapeless.{::, HNil}
-import scala.collection.JavaConversions.asJavaIterable
+import scala.collection.JavaConversions._
 
 import scala.collection.mutable
 import scala.util.{Try, Success, Failure}
@@ -19,25 +18,25 @@ case class ParsedByteArray(byteArray: Array[Byte]) {
 
 class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
 
-  def Root(v: MessageDescriptor) = rule {
-    WhiteSpace ~ Message(v) ~ EOI ~> (v.companion.fromFieldsMap _)
+  def Root[T <: GeneratedMessage with Message[T]](v: GeneratedMessageCompanion[T]) = rule {
+    WhiteSpace ~ Message(v.descriptor) ~ EOI ~> (v.fromFieldsMap _)
   }
 
   type FieldToDescriptorMap = Map[String, FieldDescriptor]
 
-  type FieldMap = Map[Int, Any]
+  type FieldMap = Map[FieldDescriptor, Any]
 
-  def Message(v: MessageDescriptor): Rule1[FieldMap] = {
-    val fieldMap = v.fields.map(f => (f.name, f)).toMap
+  def Message(v: Descriptor): Rule1[FieldMap] = {
+    val fieldMap = v.getFields.map(f => (f.getName, f)).toMap
     rule {
       zeroOrMore(Pair(fieldMap)) ~> { pairs: Seq[Seq[(FieldDescriptor, Any)]] =>
         pairs.flatten.groupBy(_._1).mapValues(_.map(_._2)).map {
-          case (fd, values) if fd.label == Descriptors.Optional =>
-            (fd.number, values.lastOption)
-          case (fd, values) if fd.label == Descriptors.Repeated =>
-            (fd.number, values)
+          case (fd, values) if fd.isOptional =>
+            (fd, values.lastOption)
+          case (fd, values) if fd.isRepeated =>
+            (fd, values)
           case (fd, values) =>
-            (fd.number, values.last)
+            (fd, values.last)
         }
       }
     }
@@ -61,11 +60,11 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
     (c ~ WhiteSpace).named(c.toString)
   }
 
-  private def enumValueByName(enumDesc: EnumDescriptor, name: String): Either[String, GeneratedEnum] =
-    enumDesc.companion.values.find(_.name == name).toRight(s"""Enum type "${enumDesc.name}" has no value named "$name"""")
+  private def enumValueByName(enumDesc: EnumDescriptor, name: String): Either[String, EnumValueDescriptor] =
+    Option(enumDesc.findValueByName(name)).toRight(s"""Enum type "${enumDesc.getName}" has no value named "$name"""")
 
-  private def enumValueByNumber(enumDesc: EnumDescriptor, number: Int): Either[String, GeneratedEnum] =
-    enumDesc.companion.values.find(_.id == number).toRight(s"""Enum type "${enumDesc.name}" has no value with number $number""")
+  private def enumValueByNumber(enumDesc: EnumDescriptor, number: Int): Either[String, EnumValueDescriptor] =
+    Option(enumDesc.findValueByNumber(number)).toRight(s"""Enum type "${enumDesc.getName}" has no value with number $number""")
 
   private val chset = java.nio.charset.StandardCharsets.UTF_8
 
@@ -78,7 +77,7 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
 
   def ParseValueByType(fd: FieldDescriptor): Rule1[(FieldDescriptor, Any)] = rule {
     run {
-      fd.fieldType.fieldType match {
+      fd.getType match {
         case Type.DOUBLE => DoubleRule
         case Type.FLOAT => FloatRule
         case Type.INT64 => int64
@@ -98,7 +97,7 @@ class TextFormat(val input: ParserInput) extends Parser with StringBuilding {
         case Type.MESSAGE => (
           ws('{').named("\"{\"") ~ SubMessage(fd).named("field values") ~ ws('}').named("\"}\"")
             | ws('<').named("\"<\"") ~ SubMessage(fd).named("field values") ~ ws('>').named("\">\"")
-          ) ~> { map: FieldMap =>fd.fieldType.asInstanceOf[MessageType].m.companion.fromFieldsMap(map).asInstanceOf[Any] }
+          ) ~> { map: FieldMap =>fd.getMessageType.m.companion.fromFieldsMap(map).asInstanceOf[Any] }
         case Type.ENUM => (
           int32 ~> { v: Int => enumValueByNumber(fd.fieldType.asInstanceOf[EnumType].descriptor, v.intValue())}
             | identifier ~> { v: String => enumValueByName(fd.fieldType.asInstanceOf[EnumType].descriptor, v)}
@@ -359,6 +358,13 @@ class Printer(singleLineMode: Boolean) {
 }
 
 object TextFormat {
+  def parseFromDescriptor[T <: GeneratedMessage with Message[T]](d: GeneratedMessageCompanion, s: String): Try[T] = {
+    val parser = new TextFormat(s)
+    parser.Root(d).run().map(_.asInstanceOf[T]).recoverWith {
+      case error: ParseError => Failure[A](TextFormatError(parser.formatError(error)))
+    }
+  }
+
   sealed trait ByteParsingState extends Any
 
   case object Default extends ByteParsingState

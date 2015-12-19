@@ -117,12 +117,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
 
-  def fromAscii(s: String): Try[A] = {
-    val parser = new TextFormat(s)
-    parser.Root(descriptor).run().map(_.asInstanceOf[A]).recoverWith {
-      case error: ParseError => Failure[A](TextFormatError(parser.formatError(error)))
-    }
-  }
+  def fromAscii(s: String): Try[A] = TextFormat.parseByDescriptor(this, s)
 
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 

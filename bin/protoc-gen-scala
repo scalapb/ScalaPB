@@ -1,2 +1,0 @@
-#!/usr/bin/env sh
-java -jar compiler-plugin/target/scala-2.11/compiler-plugin.jar
