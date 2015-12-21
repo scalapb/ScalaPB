@@ -6,7 +6,7 @@ import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
-case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false, grpc: Boolean = false)
+case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false, grpc: Boolean = false, json: Boolean = false)
 
 class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def printEnum(e: EnumDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
@@ -797,17 +797,46 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     else fp.add(signature + "throw new MatchError(__field)")
   }
 
+  def generateFromJson(message: Descriptor): FunctionalPrinter => FunctionalPrinter = { p =>
+    val JsonFormat = "_root_.com.google.protobuf.util.JsonFormat"
+    p.add(
+      s"def fromJsonString(json: String): ${message.nameSymbol} = {",
+      s"  val registry = $JsonFormat.TypeRegistry.newBuilder().add(this.descriptor).build()",
+      s"  val parser = $JsonFormat.parser().usingTypeRegistry(registry)",
+      s"  val builder = ${message.javaTypeName}.newBuilder()",
+      s"  parser.merge(json, builder)",
+      s"  ${message.nameSymbol}.fromJavaProto(builder.build())",
+      s"}",
+      s"def fromJsonReader(json: java.io.Reader): ${message.nameSymbol} = {",
+      s"  val registry = $JsonFormat.TypeRegistry.newBuilder().add(this.descriptor).build()",
+      s"  val parser = $JsonFormat.parser().usingTypeRegistry(registry)",
+      s"  val builder = ${message.javaTypeName}.newBuilder()",
+      s"  parser.merge(json, builder)",
+      s"  ${message.nameSymbol}.fromJavaProto(builder.build())",
+      s"}"
+    )
+  }
+
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.nameSymbol
-    val mixins = if (message.javaConversions)
-      s"with com.trueaccord.scalapb.JavaProtoSupport[$className, ${message.javaTypeName}] " else ""
-    val companionType = s"com.trueaccord.scalapb.GeneratedMessageCompanion[$className] $mixins"
+    val mixins = List(
+      if (message.javaConversions)
+        s"with com.trueaccord.scalapb.JavaProtoSupport[$className, ${message.javaTypeName}] "
+      else
+        "",
+      if (message.json)
+        s"with com.trueaccord.scalapb.GeneratedMessageJsonCompanion[$className] "
+      else
+        ""
+    )
+    val companionType = s"com.trueaccord.scalapb.GeneratedMessageCompanion[$className] ${mixins.mkString}"
     printer.addM(
       s"""object $className extends $companionType {
          |  implicit def messageCompanion: $companionType = this""")
       .indent
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))
+      .when(message.json)(generateFromJson(message))
       .call(generateFromFieldsMap(message))
       .call(generateDescriptor(message))
       .call(generateMessageCompanionForField(message))
@@ -868,6 +897,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           _
             .add(s"def $withMethod(__v: ${field.scalaTypeName}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)")
         }
+    }.when(message.json){
+      _.add(s"def toJsonString: String = _root_.com.google.protobuf.util.JsonFormat.printer.print(${message.nameSymbol}.toJavaProto(this))")
     }.print(message.getOneofs) {
       case (oneof, printer) =>
         printer.addM(
@@ -1015,6 +1046,7 @@ object ProtobufGenerator {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
       case (Right(params), "grpc") => Right(params.copy(grpc = true))
+      case (Right(params), "json") => Right(params.copy(javaConversions = true, json = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
     }
