@@ -1,19 +1,20 @@
 ---
-title: "ScalaPB: Using with scala.js"
+title: "ScalaPB: Using with Scala.js"
 layout: page
 ---
 
 # ScalaPB in Scala.js
 
-It is possible to use ScalaPB generated classes in ScalaJS and even serialize
-and parse byte arrays.
+[http://scala-js.org](Scala.js) compiles Scala source code to equivalent
+Javascript code.  It is possible to use ScalaPB generated case classes and
+lenses in ScalaJS, and even serialize and parse byte arrays.
 
-Things that do not work:
+There are a few things that do not work:
 
-- The Java protocol buffers are unavailable (since Java code does not get translated to
-  Javascript by ScalaJS), and therefore Java conversions do not work.
-- Descriptors are unavailable (since ScalaPB uses the Java implementation of
-  descriptors)
+- The Java protocol buffers are unavailable, and therefore Java conversions do not work.
+
+- Descriptors are unavailable since ScalaPB uses the descriptors
+  implementation provided by Google's Java runtime.
 
 ## Getting Started
 
@@ -23,7 +24,7 @@ Add to your library dependencies:
       "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.18",
 
       // The following needed only if you include scalapb/scalapb.proto:
-      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.18" % PB.protobufConfig,
+      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.18" % PB.protobufConfig
     )
 
 ## Demo
