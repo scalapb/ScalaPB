@@ -31,7 +31,7 @@ Highlights
 
 - Easily update nested structure in functinal way using lenses.
 
-- ScalaJS integration
+- Scala.js integration
 
 - GRPC integration
 
