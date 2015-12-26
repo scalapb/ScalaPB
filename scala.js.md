@@ -20,9 +20,15 @@ Things that do not work:
 Add to your library dependencies:
 
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.16",
+      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.18",
 
       // The following needed only if you include scalapb/scalapb.proto:
-      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.16" % PB.protobufConfig,
+      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.18" % PB.protobufConfig,
     )
+
+## Demo
+
+Example project: [https://github.com/thesamet/scalapbjs-test](https://github.com/thesamet/scalapbjs-test)
+
+Live demo: [http://thesamet.github.io/scalapbjs-test/](http://thesamet.github.io/scalapbjs-test/)
 
