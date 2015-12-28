@@ -5,7 +5,6 @@ import java.io.{InputStream, OutputStream}
 import com.google.protobuf.{ByteString, CodedOutputStream, CodedInputStream}
 import com.google.protobuf.Descriptors.{EnumValueDescriptor, FieldDescriptor, EnumDescriptor}
 import scala.collection.JavaConversions._
-import org.parboiled2.ParseError
 
 import scala.util.{Failure, Try}
 
@@ -117,7 +116,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
 
-  def fromAscii(s: String): Try[A] = TextFormat.parseByDescriptor(this, s)
+  def fromAscii(s: String): Try[A] = TextFormat.parseFromDescriptor(this, s)
 
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 

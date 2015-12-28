@@ -3,12 +3,9 @@ import java.io.{File, PrintWriter}
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.TextFormat
-<<<<<<< HEAD
 import com.trueaccord.scalapb.{GeneratedMessage, JavaProtoSupport}
-=======
 import com.trueaccord.scalapb.GeneratedMessage
 import org.scalacheck.Arbitrary
->>>>>>> Add native text format input/output using parboiled2.
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
 import scala.language.existentials

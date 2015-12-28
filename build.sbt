@@ -56,10 +56,12 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       "com.trueaccord.lenses" %%% "lenses" % "0.4.4",
-      "org.parboiled" %% "parboiled" % "2.1.0",
+      "com.lihaoyi" %%% "fastparse" % "0.3.4",
+      "com.lihaoyi" %%% "utest" % "0.3.1" % "test",
       "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
       "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"
     ),
+    testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
   )
   .jvmSettings(
@@ -71,7 +73,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.4"
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.5-SNAPSHOT"
     ),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
   )

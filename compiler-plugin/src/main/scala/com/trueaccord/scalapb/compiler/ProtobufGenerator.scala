@@ -917,14 +917,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
   }
 
-  private def encodeByteArray(a: ByteString): Seq[String] = {
+  private def encodeByteArray(a: GoogleByteString): Seq[String] = {
     val CH_SLASH: java.lang.Byte = '\\'.toByte
     val CH_SQ: java.lang.Byte = '\''.toByte
     val CH_DQ: java.lang.Byte = '\"'.toByte
     for {
       groups <- a.grouped(60).toSeq
     } yield {
-      val sb = mutable.StringBuilder.newBuilder
+      val sb = scala.collection.mutable.StringBuilder.newBuilder
       sb.append('\"')
       groups.foreach {
         b =>
