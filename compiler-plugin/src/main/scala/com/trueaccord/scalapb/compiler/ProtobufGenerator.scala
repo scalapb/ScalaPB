@@ -247,12 +247,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateGetField(message: Descriptor)(fp: FunctionalPrinter) = {
     val signature = "def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = "
-    if (message.getFields.nonEmpty)
+    if (message.fields.nonEmpty)
         fp.add(signature + "{")
           .indent
           .add("__field.getNumber match {")
           .indent
-          .print(message.getFields) {
+          .print(message.fields) {
           case (f, fp) => val e = toBaseFieldType(f).apply(fieldAccessorSymbol(f), isCollection = !f.isSingular)
             fp.add(s"case ${f.getNumber} => $e")
         }
@@ -740,14 +740,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val signature = "def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = "
     // Due to https://issues.scala-lang.org/browse/SI-9111 we can't directly return the companion
     // object.
-    if (message.getFields.exists(_.isMessage))
+    if (message.fields.exists(_.isMessage))
       fp.add(signature + "{")
         .indent
         .add("require(__field.getContainingType() == descriptor, \"FieldDescriptor does not match message type.\")")
         .add("var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null")
         .add("__field.getNumber match {")
         .indent
-        .print(message.getFields.filter(_.isMessage)) {
+        .print(message.fields.filter(_.isMessage)) {
         case (f, fp) =>
           fp.add(s"case ${f.getNumber} => __out = ${f.getMessageType.scalaTypeName}")
       }
@@ -761,13 +761,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateEnumCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
     val signature = "def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = "
-    if (message.getFields.exists(_.isEnum))
+    if (message.fields.exists(_.isEnum))
       fp.add(signature + "{")
         .indent
         .add("require(__field.getContainingType() == descriptor, \"FieldDescriptor does not match message type.\")")
         .add("__field.getNumber match {")
         .indent
-        .print(message.getFields.filter(_.isEnum)) {
+        .print(message.fields.filter(_.isEnum)) {
         case (f, fp) =>
           fp.add(s"case ${f.getNumber} => ${f.getEnumType.scalaTypeName}")
       }
@@ -886,7 +886,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       s"""Descriptors.FieldDescriptor($index, ${field.getNumber}, "${field.getName}", $label, $t, isPacked = ${field.isPacked}, containingOneofName = $oneof)"""
     }
 
-    fp.add(s"""case "${message.scalaTypeName}" => Seq(${message.getFields.filterNot(_.isMap).map(makeDescriptor).mkString(", ")})""")
+    fp.add(s"""case "${message.scalaTypeName}" => Seq(${message.fields.filterNot(_.isMap).map(makeDescriptor).mkString(", ")})""")
       .print(message.nestedTypes)(generateInternalFields)
   }
 
