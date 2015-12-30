@@ -137,7 +137,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         if (d.isEmpty)
           "com.google.protobuf.ByteString.EMPTY"
         else
-          d.map(_.toString).mkString("com.trueaccord.scalapb.ByteString.copyFrom(Array[Byte](", ", ", "))")
+          d.map(_.toString).mkString("com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
       case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         field.getMessageType.scalaTypeName + ".defaultInstance"
