@@ -276,6 +276,9 @@ trait DescriptorPimps {
     def isTopLevel = enum.getContainingType == null
 
     def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
+
+    def valuesWithNoDuplicates = enum.getValues.groupBy(_.getNumber)
+      .mapValues(_.head).values.toVector.sortBy(_.getNumber)
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
