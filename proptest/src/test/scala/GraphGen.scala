@@ -144,7 +144,7 @@ object GraphGen {
   )
 
   def genService(messages: Seq[MessageNode])(state: State): Gen[(ServiceNode, State)] = for{
-    (methods, state) <- listWithStatefulGen(state , maxSize = 3)(genMethod(messages))
+    (methods, state) <- listWithStatefulGen(state, maxSize = 3)(genMethod(messages))
     (name, state) <- state.generateName
   } yield ServiceNode(name, methods) -> state
 

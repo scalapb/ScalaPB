@@ -1,5 +1,7 @@
 import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
 
+scalaVersion := "2.11.7"
+
 PB.protobufSettings
 
 PB.scalapbVersion in PB.protobufConfig := com.trueaccord.scalapb.Version.scalapbVersion
