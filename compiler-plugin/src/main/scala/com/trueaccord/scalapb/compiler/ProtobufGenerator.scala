@@ -946,6 +946,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .addWithDelimiter(",")(file.getDependencies.map {
       d =>
         if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
+        else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.DescriptorProtos.getDescriptor()"
         else d.fileDescriptorObjectFullName + ".descriptor"
     })
       .add("  ))")

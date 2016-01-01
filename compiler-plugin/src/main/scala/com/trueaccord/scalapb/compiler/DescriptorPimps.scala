@@ -302,7 +302,7 @@ trait DescriptorPimps {
         file.getServices.exists(_.getName == className) ||
         file.getMessageTypes.exists(_.hasConflictingJavaClassName(className)))
 
-    def javaOuterClassName =
+    def javaOuterClassName: String =
       if (file.getOptions.hasJavaOuterClassname)
         file.getOptions.getJavaOuterClassname
       else {
