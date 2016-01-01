@@ -1,5 +1,6 @@
 import com.google.protobuf.ByteString
 import com.trueaccord.proto.e2e.bytes._
+import com.trueaccord.proto.e2e.bytes_proto2.ByteMessage2
 import org.scalatest._
 
 class BytesSpec extends FlatSpec with MustMatchers {
@@ -14,8 +15,16 @@ class BytesSpec extends FlatSpec with MustMatchers {
     ByteMessage.fromFieldsMap(b.getAllFields) must be(b)
   }
 
+  "formFieldsMap" should "work with proto2" in {
+    ByteMessage2().getAllFields must be(Map())
+    val b = ByteMessage2(s = Some(ByteString.copyFromUtf8("boo")))
+    b.getAllFields must be(
+        Map(ByteMessage2.descriptor.findFieldByName("s") -> b.getS))
+    ByteMessage2.fromFieldsMap(b.getAllFields) must be(b)
+  }
+
   "default value" should "work in proto2" in {
-    val b = com.trueaccord.proto.e2e.bytes_proto2.ByteMessage2()
+    val b = ByteMessage2()
     b.getSDef.toStringUtf8() must be("foobar")
   }
 }
