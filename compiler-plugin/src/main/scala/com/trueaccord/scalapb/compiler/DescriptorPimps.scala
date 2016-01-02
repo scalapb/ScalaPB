@@ -256,6 +256,10 @@ trait DescriptorPimps {
       assert(message.isMapEntry)
       new MapType
     }
+
+    def descriptorSource: String = if (message.isTopLevel)
+      s"${message.getFile.fileDescriptorObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"
+      else s"${message.getContainingType.scalaTypeName}.descriptor.getNestedTypes.get(${message.getIndex})"
   }
 
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
@@ -279,6 +283,10 @@ trait DescriptorPimps {
 
     def valuesWithNoDuplicates = enum.getValues.groupBy(_.getNumber)
       .mapValues(_.head).values.toVector.sortBy(_.getNumber)
+
+    def descriptorSource: String = if (enum.isTopLevel)
+      s"${enum.getFile.fileDescriptorObjectName}.descriptor.getEnumTypes.get(${enum.getIndex})"
+      else s"${enum.getContainingType.scalaTypeName}.descriptor.getEnumTypes.get(${enum.getIndex})"
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
@@ -324,19 +332,8 @@ trait DescriptorPimps {
 
     def javaFullOuterClassName = {
       val pkg = javaPackageAsSymbol
-      if (pkg.isEmpty) {
-        if (file.getOptions.getJavaMultipleFiles) {
-          ""
-        } else {
-          javaOuterClassName
-        }
-      } else {
-        if (file.getOptions.getJavaMultipleFiles) {
-          pkg
-        } else {
-          pkg + "." + javaOuterClassName
-        }
-      }
+      if (pkg.isEmpty) javaOuterClassName
+      else pkg + "." + javaOuterClassName
     }
 
     private def stripPackageName(fullName: String): String =
@@ -347,7 +344,13 @@ trait DescriptorPimps {
       }
 
     def fullJavaName(fullName: String) = {
-      javaFullOuterClassName + "." + stripPackageName(fullName).asSymbol
+      val base = if (!file.getOptions.getJavaMultipleFiles)
+        (javaFullOuterClassName + ".")
+      else {
+        val pkg = javaPackageAsSymbol
+        if (pkg.isEmpty) "" else (pkg + ".")
+      }
+      base + stripPackageName(fullName).asSymbol
     }
 
     def fileDescriptorObjectName = snakeCaseToCamelCase(file.getName, upperInitial = true)

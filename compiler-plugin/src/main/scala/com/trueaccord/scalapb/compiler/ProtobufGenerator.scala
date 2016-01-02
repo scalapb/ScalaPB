@@ -54,8 +54,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
       .add(s"  case __other => Unrecognized(__other)")
       .add("}")
-      .when(e.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.getFile.fileDescriptorObjectName}.descriptor.getEnumTypes.get(${e.getIndex})"))
-      .when(!e.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.getContainingType.scalaTypeName}.descriptor.getEnumTypes.get(${e.getIndex})"))
+      .add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.descriptorSource}")
       .when(params.javaConversions) {
       _.addM(
         s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
@@ -665,8 +664,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
-      .when(message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getFile.fileDescriptorObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"))
-      .when(!message.isTopLevel)(_.add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.getContainingType.scalaTypeName}.descriptor.getNestedTypes.get(${message.getIndex})"))
+      .add(s"def descriptor: com.google.protobuf.Descriptors.Descriptor = ${message.descriptorSource}")
   }
 
   def generateDefaultInstance(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -937,20 +935,24 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val lines = ("\"\"\"" + group).grouped(100).toSeq
         lines.dropRight(1) :+ (lines.last + "\"\"\"")
     }.toSeq
-    fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
-      .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(")
-      .add("    com.trueaccord.scalapb.Encoding.fromBase64(Seq(")
-      .addGroupsWithDelimiter(",")(base64)
-      .add("    ).mkString))")
-      .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")
-      .addWithDelimiter(",")(file.getDependencies.map {
-      d =>
-        if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
-        else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.DescriptorProtos.getDescriptor()"
-        else d.fileDescriptorObjectFullName + ".descriptor"
-    })
-      .add("  ))")
-      .add("}")
+    if (params.javaConversions)
+      fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = ")
+        .add(s"  ${file.javaFullOuterClassName}.getDescriptor()")
+      else
+      fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
+        .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(")
+        .add("    com.trueaccord.scalapb.Encoding.fromBase64(Seq(")
+        .addGroupsWithDelimiter(",")(base64)
+        .add("    ).mkString))")
+        .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")
+        .addWithDelimiter(",")(file.getDependencies.map {
+        d =>
+          if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
+          else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.DescriptorProtos.getDescriptor()"
+          else d.fileDescriptorObjectFullName + ".descriptor"
+      })
+        .add("  ))")
+        .add("}")
   }
 
   private def encodeByteArray(a: GoogleByteString): Seq[String] = {
