@@ -1,6 +1,8 @@
 ScalaPB
 =======
 
+[![Join the chat at https://gitter.im/trueaccord/ScalaPB](https://badges.gitter.im/trueaccord/ScalaPB.svg)](https://gitter.im/trueaccord/ScalaPB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/trueaccord/ScalaPB.svg?branch=master)](https://travis-ci.org/trueaccord/ScalaPB)
 
 ScalaPB is a protocol buffer compiler (`protoc`) plugin for Scala. It will
