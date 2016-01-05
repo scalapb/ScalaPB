@@ -69,7 +69,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jvmSettings(
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
-      "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-1"
+      "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-2"
     )
   )
   .jsSettings(
@@ -113,7 +113,7 @@ lazy val proptest = project.in(file("proptest"))
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
         "com.github.os72" % "protoc-jar" % "3.0.0-b1",
-        "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-1",
+        "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-2",
         "io.grpc" % "grpc-all" % "0.9.0" % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.1",
         "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
