@@ -22,6 +22,5 @@ object Grpc {
       observer.onCompleted()
     case scala.util.Failure(error) =>
       observer.onError(error)
-      observer.onCompleted()
   }
 }
