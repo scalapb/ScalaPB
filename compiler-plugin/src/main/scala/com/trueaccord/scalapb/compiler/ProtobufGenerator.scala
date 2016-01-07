@@ -4,8 +4,6 @@ import com.google.protobuf.Descriptors._
 import com.google.protobuf.CodedOutputStream
 import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
-import com.trueaccord.scalapb.TextFormat
-import com.trueaccord.scalapb.textformat.TextFormatUtils
 import scala.collection.JavaConversions._
 
 case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false, grpc: Boolean = false)

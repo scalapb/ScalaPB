@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package com.trueaccord.proto;
+
+import "google/protobuf/wrappers.proto";
+
+message TestWrappers {
+  google.protobuf.DoubleValue my_double = 1;
+  google.protobuf.FloatValue my_float = 2;
+  google.protobuf.Int64Value my_int64 = 3;
+  google.protobuf.UInt64Value my_uint64 = 4;
+  google.protobuf.Int32Value my_int32 = 5;
+  google.protobuf.UInt64Value my_uint32 = 6;
+  google.protobuf.BoolValue my_bool = 7;
+  google.protobuf.StringValue my_string = 8;
+  google.protobuf.BytesValue my_bytes = 9;
+}

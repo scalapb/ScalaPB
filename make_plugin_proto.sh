@@ -5,6 +5,7 @@
 #
 set -e
 OUTDIR=compiler-plugin/src/main/java
+
 mkdir -p compiler-plugin/src/main/java
 protoc --java_out="$OUTDIR" --proto_path=./protobuf/ \
     --proto_path=./third_party \
@@ -17,4 +18,8 @@ protoc --java_out="$OUTDIR" --proto_path=./protobuf \
 protoc --java_out=scalapb-runtime/jvm/src/main/java --proto_path=./protobuf \
     --proto_path=./third_party \
     ./protobuf/scalapb/scalapb.proto
+
+sbt "scalapbc/run --scala_out=java_conversions:scalapb-runtime/shared/src/main/scala \
+    --proto_path=./third_party \
+    ./third_party/google/protobuf/wrappers.proto"
 
