@@ -4,9 +4,23 @@ import ReleaseStateTransformations._
 
 sonatypeSettings
 
-scalaVersion in ThisBuild := "2.11.6"
+scalaVersion in ThisBuild := "2.11.7"
 
-crossScalaVersions in ThisBuild := Seq("2.10.5", "2.11.6", "2.12.0-M1")
+scalacOptions in ThisBuild ++= {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, v)) if v <= 11 => List("-target:jvm-1.7")
+    case _ => Nil
+  }
+}
+
+javacOptions in ThisBuild ++= {
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, v)) if v <= 11 => List("-target", "7", "-source", "7")
+    case _ => Nil
+  }
+}
+
+crossScalaVersions in ThisBuild := Seq("2.10.5", "2.11.7", "2.12.0-M1")
 
 organization in ThisBuild := "com.trueaccord.scalapb"
 
