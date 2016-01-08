@@ -217,7 +217,7 @@ trait DescriptorPimps {
       javaFullOuterClassName + "." + stripPackageName(fullName)
     }
 
-    def internalFieldsObjectName = "InternalFields_" + snakeCaseToCamelCase(file.getName)
+    def internalFieldsObjectName = "InternalFields_" + snakeCaseToCamelCase(baseName(file.getName))
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {
