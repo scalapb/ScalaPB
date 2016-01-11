@@ -96,6 +96,19 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .dependsOn(runtimeJVM)
+  .settings(
+    sourceGenerators in Compile <+= Def.task {
+      val file = (sourceManaged in Compile).value / "com" / "trueaccord" / "scalapb" / "compiler" / "Version.scala"
+      IO.write(file,
+        s"""package com.trueaccord.scalapb.compiler
+           |object Version {
+           |  val scalapbVersion = "${version.value}"
+           |}""".stripMargin)
+      Seq(file)
+    },
+    libraryDependencies ++= Seq(
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.1"
+      ))
 
 lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin, runtimeJVM)

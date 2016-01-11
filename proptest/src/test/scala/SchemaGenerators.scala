@@ -4,11 +4,13 @@ import java.nio.file.Files
 import javax.tools.ToolProvider
 
 import com.google.protobuf.Message.Builder
-import com.trueaccord.scalapb.compiler.{ProtocDriverFactory, PosixProtocDriver, WindowsProtocDriver, FunctionalPrinter}
+import com.trueaccord.scalapb.compiler._
 import org.scalacheck.Gen
 import com.trueaccord.scalapb._
+import protocbridge.ProtocBridge
 
 import scala.reflect.ClassTag
+import scalapb.ScalaPbCodeGenerator
 
 object SchemaGenerators {
 
@@ -88,9 +90,8 @@ object SchemaGenerators {
   }
 
   private def runProtoc(args: String*) =
-    ProtocDriverFactory
-      .create()
-      .buildRunner(args => com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray))(args)
+    ProtocBridge.runWithGenerators(args => com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray), args,
+      Seq("scala" -> ScalaPbCodeGenerator))
 
   def compileProtos(rootNode: RootNode, tmpDir: File): Unit = {
     val files = rootNode.files.map {

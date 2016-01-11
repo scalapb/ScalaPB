@@ -33,10 +33,12 @@ import scala.util.Try
   * 6. the plugin reads the data and writes it to standard out.
   * 7. protoc handles the CodeGenerationResponse (creates Scala sources)
   */
+@deprecated("Use protoc-bridge instead.", "0.5.20")
 trait ProtocDriver {
   def buildRunner[A](runner: Seq[String] => A)(params: Seq[String]): A
 }
 
+@deprecated("Use protoc-bridge instead.", "0.5.20")
 object ProtocDriverFactory {
   private def isWindows: Boolean = sys.props("os.name").startsWith("Windows")
 
@@ -46,6 +48,7 @@ object ProtocDriverFactory {
 }
 
 /** A driver that creates a named pipe and sets up a shell script as a protoc plugin */
+@deprecated("Use protoc-bridge instead.", "0.5.20")
 class PosixProtocDriver extends ProtocDriver {
   def buildRunner[A](runner: Seq[String] => A)(params: Seq[String]): A = {
     val inputPipe = createPipe()
@@ -92,10 +95,11 @@ class PosixProtocDriver extends ProtocDriver {
   }
 }
 
-  /** A driver that binds a server socket to a local interface. The plugin
-    * is a batch script that invokes Python, which will communicate wire its
-    * stdin and stdout to this socket.
-    */
+/** A driver that binds a server socket to a local interface. The plugin
+  * is a batch script that invokes Python, which will communicate wire its
+  * stdin and stdout to this socket.
+  */
+@deprecated("Use protoc-bridge instead.", "0.5.20")
 class WindowsProtocDriver(pythonExecutable: String) extends ProtocDriver {
   def buildRunner[A](runner: Seq[String] => A)(params: Seq[String]): A = {
     val ss = new ServerSocket(0)
@@ -142,6 +146,7 @@ class WindowsProtocDriver(pythonExecutable: String) extends ProtocDriver {
   }
 }
 
+@deprecated("Use protoc-bridge instead.", "0.5.20")
 object Process {
   private def getStackTrace(e: Throwable): String = {
     val stringWriter = new StringWriter
