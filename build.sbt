@@ -107,7 +107,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(file)
     },
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.1"
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.1.4"
       ))
 
 lazy val scalapbc = project.in(file("scalapbc"))
