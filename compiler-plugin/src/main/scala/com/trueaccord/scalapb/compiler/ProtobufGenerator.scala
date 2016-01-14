@@ -772,6 +772,39 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .call(generateMessageCompanion(message))
   }
 
+  def getHintedDeserializerObjectName(file: FileDescriptor): String = {
+    val prefix = if (file.getOptions.getJavaOuterClassname != null && !file.getOptions.getJavaOuterClassname.isEmpty)
+      file.getOptions.getJavaOuterClassname
+    else
+      file.getName
+
+    prefix + "HintedDeserializer"
+  }
+
+  def printHintedDeserializer(file: FileDescriptor,
+                              printer: FunctionalPrinter): FunctionalPrinter = {
+    println(s"generating HintedDeserializer for file ${file.getName}")
+
+    printer
+      .add(s"object ${getHintedDeserializerObjectName(file)} extends com.trueaccord.scalapb.HintedDeserializer {")
+      .indent
+      .add("private val fromBinaryHintMap = collection.immutable.HashMap[String, Array[Byte] ⇒ com.trueaccord.scalapb.GeneratedMessage](")
+      .add(file.getMessageTypes.map { m => "\t\t" + s""" "${m.getName}" -> (bytes ⇒ ${m.getName}.parseFrom(bytes))""" } mkString(",\n"))
+      .add(")")
+      .add(s"def deserialize(data: Array[Byte], hint: String): com.trueaccord.scalapb.GeneratedMessage = {")
+      .indent
+      .add("fromBinaryHintMap.get(hint) match {")
+      .indent
+      .add("case Some(f) ⇒ f(data)")
+      .add("case None    ⇒ throw new IllegalArgumentException(s\"unimplemented deserialization of message payload of type [${hint}]\")")
+      .outdent
+      .add("}")
+      .outdent
+      .add("}")
+      .outdent
+      .add("}")
+  }
+
   def generateInternalFields(message: Descriptor, fp: FunctionalPrinter): FunctionalPrinter = {
     def makeDescriptor(field: FieldDescriptor): String = {
       val index = field.getIndex
@@ -855,7 +888,16 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       b.build
     }
 
-    enumFiles ++ messageFiles :+ internalFieldsFile
+    val hintedDeserializer = {
+      val b = CodeGeneratorResponse.File.newBuilder()
+      b.setName(file.scalaPackageName.replace('.', '/') + "/" + getHintedDeserializerObjectName(file) + ".scala")
+      b.setContent(
+        scalaFileHeader(file)
+          .call(printHintedDeserializer(file, _)).result())
+      b.build
+    }
+
+    enumFiles ++ messageFiles :+ internalFieldsFile :+ hintedDeserializer
   }
 }
 
