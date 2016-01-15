@@ -26,6 +26,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("")
       .add(s"object $name extends com.trueaccord.scalapb.GeneratedEnumCompanion[$name] {")
       .indent
+      .add(s"implicit def enumCompanion: com.trueaccord.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues) {
       case (v, p) => p.addM(
         s"""@SerialVersionUID(0L)
