@@ -1,5 +1,6 @@
 import com.trueaccord.proto.e2e.enum._
 import com.trueaccord.proto.e2e.enum3._
+import com.trueaccord.scalapb.GeneratedEnumCompanion
 import org.scalatest._
 
 class EnumSpec extends FlatSpec with MustMatchers {
@@ -107,6 +108,10 @@ class EnumSpec extends FlatSpec with MustMatchers {
     e3.getColor must be (Color.Unrecognized(18))
     e3.getColor must not be (Color.Unrecognized(19))
     e3.toByteArray must be (like.toByteArray)
+  }
+
+  "color companion" should "be available implicitly" in {
+    implicitly[GeneratedEnumCompanion[Color]] must be (Color)
   }
 
 }
