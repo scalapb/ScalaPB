@@ -24,7 +24,7 @@ Running the `compile` command in sbt will both generate Scala sources from your 
 ## Defaults
 
 By default, the plugin assumes your `proto` files are under `src/main/protobuf`,
-however this is configurable using the `PB.sourceDirectories` setting.
+however this is configurable using the `sourceDirectories in PB.protobufConfig` setting.
 
 The sbt-scalapb plugin uses
 [sbt-protobuf](https://github.com/sbt/sbt-protobuf) so all the options of
