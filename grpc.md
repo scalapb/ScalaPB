@@ -10,7 +10,7 @@ layout: page
 To use GRPC you must depend ScalaPB>=0.5.21 and protoc>=3.0.0-beta-1. For using
 with protoc-jar:
 
-    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.verfsion.sbt_scalapb5}}")
+    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.version.sbt_scalapb5}}")
 
     libraryDependencies ++= Seq(
       "com.github.os72" % "protoc-jar" % "3.0.0-b2"
@@ -123,12 +123,11 @@ Implement the service:
     }
 
 See
-[https://github.com/xuwei-k/grpc-scala-sample/blob/master/grpc-scala/src/main/scala/io/grpc/examples/helloworld/HelloWorldServer.scala](complete example server) here.
+[complete example server](https://github.com/xuwei-k/grpc-scala-sample/blob/master/grpc-scala/src/main/scala/io/grpc/examples/helloworld/HelloWorldServer.scala) here.
 
 ## Streaming clients, streaming servers, bidi
 
-See [https://github.com/xuwei-k/grpc-scala-sample/tree/master/grpc-scala/src/main/scala/io/grpc/examples/routeguide](example
-code) based on the
-[https://github.com/grpc/grpc-java/blob/63503c2989df6d895c56e22f430f2b934e7a41d3/examples/protos/route_guide.proto](route_guide
-GRPC example).
+See [example
+code](https://github.com/xuwei-k/grpc-scala-sample/tree/master/grpc-scala/src/main/scala/io/grpc/examples/routeguide) based on the
+[route_guide GRPC example](https://github.com/grpc/grpc-java/blob/63503c2989df6d895c56e22f430f2b934e7a41d3/examples/protos/route_guide.proto).
 
