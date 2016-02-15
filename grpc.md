@@ -8,7 +8,7 @@ layout: page
 ## Project Setup
 
 To use gRPC you must depend ScalaPB>=0.5.21 and protoc>=3.0.0-beta-1. For using
-with protoc-jar:
+with protoc-jar add the following to your `project/scalapb.sbt`:
 
     addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.version.sbt_scalapb5}}")
 
