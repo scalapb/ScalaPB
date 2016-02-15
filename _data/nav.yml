@@ -6,6 +6,8 @@
   url: /generated-code.html
 - text: Customizations
   url: /customizations.html
+- text: GRPC
+  url: /grpc.html
 - text: Scala.js
   url: /scala.js.html
 
