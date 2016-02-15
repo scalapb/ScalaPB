@@ -5,6 +5,7 @@ import com.google.protobuf.WireFormat.FieldType
 import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.Scalapb.{FieldOptions, MessageOptions, ScalaPbOptions}
 
+import scala.annotation.tailrec
 import scala.collection.JavaConversions._
 import scala.collection.immutable.IndexedSeq
 
@@ -353,7 +354,13 @@ trait DescriptorPimps {
       base + stripPackageName(fullName).asSymbol
     }
 
-    def fileDescriptorObjectName = snakeCaseToCamelCase(file.getName, upperInitial = true)
+    def fileDescriptorObjectName = {
+      @tailrec
+      def inner(s: String): String =
+        if (!hasConflictingJavaClassName(s)) s else inner("_" + s)
+
+      inner(snakeCaseToCamelCase(file.getName, upperInitial = true))
+    }
 
     def fileDescriptorObjectFullName = scalaPackageName + "." + fileDescriptorObjectName
 

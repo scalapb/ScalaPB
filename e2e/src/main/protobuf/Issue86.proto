@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package com.test;
+
+import "scalapb/scalapb.proto";
+
+// Otherwise we conflict with Java.
+option (scalapb.options) = {
+  package_name: "com.trueaccord.pb.Issue86"
+};
+
+message Issue86Proto {
+  optional string msg = 1;
+}
+
