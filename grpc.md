@@ -1,13 +1,13 @@
 ---
-title: "ScalaPB: GRPC"
+title: "ScalaPB: gRPC"
 layout: page
 ---
 
-# GRPC
+# gRPC
 
 ## Project Setup
 
-To use GRPC you must depend ScalaPB>=0.5.21 and protoc>=3.0.0-beta-1. For using
+To use gRPC you must depend ScalaPB>=0.5.21 and protoc>=3.0.0-beta-1. For using
 with protoc-jar:
 
     addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.version.sbt_scalapb5}}")
@@ -129,5 +129,5 @@ See
 
 See [example
 code](https://github.com/xuwei-k/grpc-scala-sample/tree/master/grpc-scala/src/main/scala/io/grpc/examples/routeguide) based on the
-[route_guide GRPC example](https://github.com/grpc/grpc-java/blob/63503c2989df6d895c56e22f430f2b934e7a41d3/examples/protos/route_guide.proto).
+[route_guide gRPC example](https://github.com/grpc/grpc-java/blob/63503c2989df6d895c56e22f430f2b934e7a41d3/examples/protos/route_guide.proto).
 
