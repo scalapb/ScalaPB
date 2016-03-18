@@ -151,7 +151,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
     p.addM(
-      s"""private[this] val ${method.descriptorName}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
+      s"""val ${method.descriptorName}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
           |  $grpcMethodDescriptor.create(
           |    $grpcMethodDescriptor.MethodType.$methodType,
           |    $grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"),
