@@ -27,17 +27,22 @@ trait DescriptorPimps {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
   }
 
-  protected final def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
+  protected final def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false, prevDigit: Boolean=false): String = {
     val b = new StringBuilder()
     @annotation.tailrec
     def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
-      val (r, capNext2) = name.head match {
-        case c if c.isLower => (Some(if (capNext) c.toUpper else c), false)
+      val (r, capNext2, prevDigit2) = name.head match {
+        case c if c.isLower => (Some(if (capNext) c.toUpper else c), false, false)
         case c if c.isUpper =>
           // force first letter to lower unless forced to capitalize it.
-          (Some(if (index == 0 && !capNext) c.toLower else c), false)
-        case c if c.isDigit => (Some(c), true)
-        case _ => (None, true)
+          (Some(if (index == 0 && !capNext) c.toLower else c), false, false)
+        case c if c.isDigit => (Some(c), true, true)
+        case '_' if prevDigit => name.tail.headOption match {
+          case None => (None, true, prevDigit)
+          case Some(c) if c.isDigit => (Some('_'), false, false)
+          case _ =>  (None, true, prevDigit)
+        }
+        case _ => (None, true, false)
       }
       r.foreach(b.append)
       inner(name.tail, index + 1, capNext2)
@@ -372,20 +377,25 @@ trait DescriptorPimps {
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {
     val b = new StringBuilder()
     @annotation.tailrec
-    def inner(name: String, capNext: Boolean): Unit = if (name.nonEmpty) {
-      val (r, capNext2) = name.head match {
+    def inner(name: String, capNext: Boolean, prevDigit: Boolean=false): Unit = if (name.nonEmpty) {
+      val (r, capNext2, prevDigit2) = name.head match {
         case c if c.isUpper =>
           // capitalize according to capNext.
-          (Some(if (capNext) c else c.toLower), false)
+          (Some(if (capNext) c else c.toLower), false, false)
         case c if c.isLower =>
           // Lower caps never get capitalized, but will force
           // the next letter to be upper case.
-          (Some(c), true)
-        case c if c.isDigit => (Some(c), true)
-        case _ => (None, true)
+          (Some(c), true, false)
+        case c if c.isDigit => (Some(c), true, true)
+        case '_' if prevDigit => name.tail.headOption match {
+          case None => (None, true, prevDigit)
+          case Some(c) if c.isDigit => (Some('_'), false, false)
+          case _ =>  (None, true, prevDigit)
+        }
+        case _ => (None, true, false)
       }
       r.foreach(b.append)
-      inner(name.tail, capNext2)
+      inner(name.tail, capNext2, prevDigit2)
     }
     inner(name, upperInitial)
     b.toString
