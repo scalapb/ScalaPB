@@ -51,6 +51,11 @@ lazy val lenses = crossProject.in(file("."))
     )
   )
   .jsSettings(
+    scalacOptions += {
+      val a = (baseDirectory in LocalRootProject).value.toURI.toString
+      val g = "https://raw.githubusercontent.com/trueaccord/Lenses/" + sys.process.Process("git rev-parse HEAD").lines_!.head
+      s"-P:scalajs:mapSourceURI:$a->$g/"
+    }
   )
 
 lazy val lensesJVM = lenses.jvm
