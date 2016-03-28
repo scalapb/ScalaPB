@@ -57,7 +57,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.lenses" %%% "lenses" % "0.4.4",
+      "com.trueaccord.lenses" %%% "lenses" % "0.4.5",
       "com.lihaoyi" %%% "fastparse" % "0.3.4",
       "com.lihaoyi" %%% "utest" % "0.3.1" % "test",
       "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
