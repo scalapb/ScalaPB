@@ -733,7 +733,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer
       .print(customizedFields) {
       case ((field, customType), printer) =>
-        printer.add(s"private val ${field.typeMapperValName}: com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]")
+        printer
+          .add("@transient")
+          .add(s"private val ${field.typeMapperValName}: com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]")
     }
   }
 
