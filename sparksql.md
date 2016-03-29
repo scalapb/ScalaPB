@@ -64,4 +64,4 @@ query
   .foreach(println)
 {%endhighlight%}
 
-See here for a [complete example](https://github.com/thesamet/sparksql-scalapb-test)
+Check out a [complete example](https://github.com/thesamet/sparksql-scalapb-test) here.
