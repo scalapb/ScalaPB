@@ -38,7 +38,7 @@ normal members.
 
 For example, if your protocol buffer looks like this:
 
-{% highlight proto %}
+{% highlight protobuf %}
 message Person {
     optional string name = 1;
     optional int32 age = 2;
