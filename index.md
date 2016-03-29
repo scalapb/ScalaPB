@@ -35,7 +35,9 @@ val newOrder = order.update(_.creditCard.expirationYear := 2015)
 
 * **Newer:** Supports [Scala.js]({{site.baseurl}}/scala.js.html) (in 0.5.x).
 
-* **Newest:** Supports [gRPC](http://www.grpc.io/) (in 0.5.x).
+* **Newer** Supports [gRPC](http://www.grpc.io/) (in 0.5.x).
+
+* **Newest:** Supports [SparkSQL]({{site.baseurl}}/sparksql.html) (in 0.5.23).
 
 ## Installing in SBT (Recommended!)
 
