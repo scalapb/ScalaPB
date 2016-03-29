@@ -37,6 +37,7 @@ Highlights
 
 - GRPC integration
 
+- Compatible with SparkSQL (through a helper library)
 
 Versions
 ========
