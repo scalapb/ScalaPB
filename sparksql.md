@@ -29,7 +29,7 @@ shade our copy of the Protocol Buffer runtime. Add this to your build.sbt:
 
 See [complete example of build.sbt](https://github.com/thesamet/sparksql-scalapb-test/blob/master/build.sbt).
 
-## Running SQL queries on Protos
+## Running SQL queries on protos
 
 Assuming you have an RDD of ScalaPB protos:
 
