@@ -10,4 +10,6 @@
   url: /grpc.html
 - text: Scala.js
   url: /scala.js.html
+- text: SparkSQL
+  url: /sparksql.html
 
