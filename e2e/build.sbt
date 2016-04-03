@@ -24,6 +24,7 @@ libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.1" % "test",
   "io.grpc" % "grpc-all" % grpcVersion,
   "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
+  "com.google.protobuf" % "protobuf-java-util" % "3.0.0-beta-2",
   "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.Version.scalapbVersion,
   "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % PB.protobufConfig
 )
@@ -56,3 +57,20 @@ grpcExePath := xsbti.SafeLazy {
   exe
 }
 
+// TODO add `json: SettingKey[Boolean]` to sbt-scalapb
+PB.protocOptions in PB.protobufConfig := {
+  val conf = (PB.generatedTargets in PB.protobufConfig).value
+  val scalaOpts = conf.find(_._2.endsWith(".scala")) match {
+    case Some(targetForScala) =>
+      Seq(s"--scala_out=json,grpc,java_conversions:${targetForScala._1.absolutePath}")
+    case None =>
+      Nil
+  }
+  val javaOpts = conf.find(_._2.endsWith(".java")) match {
+    case Some(targetForJava) =>
+      Seq(s"--java_out=${targetForJava._1.absolutePath}")
+    case None =>
+      Nil
+  }
+  scalaOpts ++ javaOpts
+}

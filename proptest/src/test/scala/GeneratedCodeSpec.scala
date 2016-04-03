@@ -1,6 +1,7 @@
-import java.io.{File, PrintWriter}
+import java.io.{StringReader, File, PrintWriter}
 import java.nio.charset.Charset
 import java.nio.file.{Files, Paths}
+import java.util.logging.LogManager
 
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
@@ -25,6 +26,7 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
   }
 
   property("Java and Scala protos are equivalent") {
+    LogManager.getLogManager().reset()
     forAll(SchemaGenerators.genCompiledSchema, workers(1), minSuccessful(20)) {
       schema: CompiledSchema =>
         forAll(GenData.genMessageValueInstance(schema.rootNode)) {
@@ -85,6 +87,8 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
               javaParse(scalaAscii) should be(javaProto)
               javaParse(scalaUnicodeAscii) should be(javaProto)
 
+              companion.fromJsonString(scalaProto.toJsonString) should be(scalaProto)
+              companion.fromJsonReader(new StringReader(scalaProto.toJsonString)) should be(scalaProto)
             } catch {
               case e: Exception =>
                 println(e.printStackTrace)

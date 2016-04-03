@@ -103,7 +103,7 @@ object SchemaGenerators {
     val args = Seq("--proto_path",
       (tmpDir.toString + ":protobuf:third_party"),
       "--java_out", tmpDir.toString,
-      "--scala_out", "grpc,java_conversions:" + tmpDir.toString) ++ files
+      "--scala_out", "json,grpc,java_conversions:" + tmpDir.toString) ++ files
     runProtoc(args: _*)
   }
 
@@ -143,6 +143,7 @@ object SchemaGenerators {
       jarForClass[com.trueaccord.scalapb.Scalapb].getPath,
       jarForClass[com.trueaccord.scalapb.grpc.Grpc.type].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
+      jarForClass[com.google.protobuf.util.JsonFormat].getPath,
       jarForClass[io.grpc.Channel].getPath,
       jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
       jarForClass[javax.annotation.Nullable],
@@ -163,7 +164,7 @@ object SchemaGenerators {
     run.compile(scalaFiles.map(_.toString).toList)
   }
 
-  type CompanionWithJavaSupport[A <: GeneratedMessage with Message[A]] = GeneratedMessageCompanion[A] with JavaProtoSupport[A, _]
+  type CompanionWithJavaSupport[A <: GeneratedMessageJson with Message[A]] = GeneratedMessageJsonCompanion[A] with JavaProtoSupport[A, _]
 
   case class CompiledSchema(rootNode: RootNode, rootDir: File) {
     lazy val classLoader = URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL), this.getClass.getClassLoader)
@@ -181,11 +182,11 @@ object SchemaGenerators {
       cls.getMethod("parseFrom", classOf[Array[Byte]]).invoke(null, bytes).asInstanceOf[com.google.protobuf.Message]
     }
 
-    def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessage] = {
+    def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessageJson] = {
       val className = rootNode.scalaObjectName(m)
       val u = scala.reflect.runtime.universe
       val mirror = u.runtimeMirror(classLoader)
-      mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[CompanionWithJavaSupport[_ <: GeneratedMessage]]
+      mirror.reflectModule(mirror.staticModule(className)).instance.asInstanceOf[CompanionWithJavaSupport[_ <: GeneratedMessageJson]]
     }
   }
 
