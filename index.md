@@ -39,6 +39,8 @@ val newOrder = order.update(_.creditCard.expirationYear := 2015)
 
 * **Newest:** Supports [SparkSQL]({{site.baseurl}}/sparksql.html) (in 0.5.23).
 
+* **Newest:** Supports [converting to and from JSON]({{site.baseurl}}/json.html) (in 0.5.x).
+
 ## Installing in SBT (Recommended!)
 
 To automatically generate Scala case classes for your messages add ScalaPB's
