@@ -7,7 +7,7 @@ layout: page
 
 ## Setting up your project
 
-Make sure that you are using ScalaPB 0.5.25 or later.
+Make sure that you are using ScalaPB 0.5.x or later.
 
 In `build.sbt` add a dependency on `scalapb-json4s`:
 
