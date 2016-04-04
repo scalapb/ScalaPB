@@ -113,7 +113,9 @@ trait DescriptorPimps {
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
-    def scalaName: String = snakeCaseToCamelCase(fd.getName)
+    def scalaName: String = {
+      snakeCaseToCamelCase(fd.getName)
+    }
 
     def upperScalaName: String = snakeCaseToCamelCase(fd.getName, true)
 
@@ -291,7 +293,12 @@ trait DescriptorPimps {
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
-    def objectName = allCapsToCamelCase(enumValue.getName, true)
+    def isName = {
+      Helper.makeUniqueNames(
+        enumValue.getType.getValues.sortBy(v => (v.getNumber, v.getName)).map {
+          e => e -> ("is" + allCapsToCamelCase(e.getName, true))
+        })(enumValue)
+    }
   }
 
   implicit class FileDescriptorPimp(val file: FileDescriptor) {
@@ -394,4 +401,21 @@ trait DescriptorPimps {
   def baseName(fileName: String) =
     fileName.split("/").last.replaceAll(raw"[.]proto$$|[.]protodevel", "")
 
+}
+
+object Helper {
+  def makeUniqueNames[T](values: Seq[(T, String)]): Map[T, String] = {
+    val newNameMap: Map[String, T] =
+      values.foldLeft(Map.empty[String, T]) {
+      case (nameMap, (t, name)) =>
+        var newName: String = name
+        var attempt: Int = 0
+        while (nameMap.contains(newName)) {
+          attempt += 1
+          newName = s"${name}_$attempt"
+        }
+        nameMap + (newName -> t)
+    }
+    newNameMap.map(_.swap)
+  }
 }

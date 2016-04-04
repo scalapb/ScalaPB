@@ -17,7 +17,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add(s"type EnumType = $name")
       .print(e.getValues) {
       case (v, p) => p.add(
-        s"def is${v.objectName}: Boolean = false")
+        s"def ${v.isName}: Boolean = false")
     }
       .add(s"def isUnrecognized: Boolean = false")
       .add(s"def companion: com.trueaccord.scalapb.GeneratedEnumCompanion[$name] = $name")
@@ -34,7 +34,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |  val value = ${v.getNumber}
            |  val index = ${v.getIndex}
            |  val name = "${v.getName}"
-           |  override def is${v.objectName}: Boolean = true
+           |  override def ${v.isName}: Boolean = true
            |}
            |""")
     }

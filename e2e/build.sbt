@@ -25,7 +25,8 @@ libraryDependencies ++= Seq(
   "io.grpc" % "grpc-all" % grpcVersion,
   "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
   "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.Version.scalapbVersion,
-  "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % PB.protobufConfig
+  "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % PB.protobufConfig,
+  "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1"
 )
 
 def grpcExeFileName = {

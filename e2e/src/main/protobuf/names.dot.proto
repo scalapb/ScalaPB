@@ -36,3 +36,34 @@ message yield {
 
 message Any {
 }
+
+message Issue94 {
+  enum SomeEnum {
+    I_K_V = 1;
+    I__K_V = 2;
+    I__K__V = 3;
+  }
+
+  enum MyEnum {
+    IAB1_1 = 1;
+    IAB1__1 = 2;
+    IAB11 = 181;
+    IAB11_ = 182;
+    IAB11__ = 183;
+  }
+
+  enum AnotherEnum {
+    JAB_1 = 1;
+    JAB__1 = 2;
+    JAB1 = 181;
+    JAB1_ = 182;
+    JAB1__ = 183;
+  }
+
+  // Known issue: those fields will not work through javaConversions:
+  /*
+  optional int32 my_IAB1_1 = 1;
+  optional int32 my_IAB1__1 = 2;
+  optional int32 my_IAB11 = 3;
+  */
+}
