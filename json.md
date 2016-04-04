@@ -5,6 +5,9 @@ layout: page
 
 # ScalaPB and JSON
 
+ScalaPB can convert protocol buffers to and from JSON, using
+[json4s](http://json4s.org/).
+
 ## Setting up your project
 
 Make sure that you are using ScalaPB 0.5.x or later.
