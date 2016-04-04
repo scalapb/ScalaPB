@@ -36,7 +36,13 @@ val proto: MyProto = JsonFormat.fromJsonString[MyProto](
 {%endhighlight%}
 
 There are lower-level functions `toJson()` and `fromJson()` that convert from
-protos to json4s's `JValue`.
+protos to json4s's `JValue`:
+
+{%highlight scala%}
+def toJson(m: GeneratedMessage): JObject
+
+def fromJson[Proto](value: JValue): Proto
+{%endhighlight%}
 
 Finally, in JsonFormat there are two implicit methods that instantiate
 `Reader[Proto]` and `Writer[Proto]`.
