@@ -80,8 +80,8 @@ line to invoke it:
 
     bin/spbc my.proto --scala_out=.
 
-If you would like to pass additional options, like java_conversions or
-flat_package, it can be done like this:
+If you would like to pass additional options, like java_conversions,
+flat_package, or single_line_to_string, it can be done like this:
 
     bin/spbc my.proto --scala_out=OPT1,OPT2:path/to/output/dir/
 

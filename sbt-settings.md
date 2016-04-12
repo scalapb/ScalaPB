@@ -60,6 +60,17 @@ by adding:
 
     PB.flatPackage in PB.protobufConfig := true
 
+## Single-line toString
+
+By default, ScalaPB generates a `toString()` method that renders the message
+as a multi-line format (using `TextFormat.printToUnicodeString`). If you
+would like ScalaPB to generate `toString()` methods that use the single line
+format, use:
+
+    PB.singleLineToString in PB.protobufConfig := true
+
+This option is available since ScalaPB 0.5.25.
+
 ## Pulling a newer version of the Scala code generator
 
 The sbt-scalapb plugin is configured to use a specific version of the code
