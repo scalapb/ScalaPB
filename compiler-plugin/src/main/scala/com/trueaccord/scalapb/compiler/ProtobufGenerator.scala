@@ -6,7 +6,9 @@ import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scala.collection.JavaConversions._
 
-case class GeneratorParams(javaConversions: Boolean = false, flatPackage: Boolean = false, grpc: Boolean = false)
+case class GeneratorParams(
+  javaConversions: Boolean = false, flatPackage: Boolean = false,
+  grpc: Boolean = false, singleLineToString: Boolean = false)
 
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
@@ -880,7 +882,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
              |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
       .call(generateGetField(message))
-      .add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)")
+      .when(!params.singleLineToString)(_.add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)"))
+      .when(params.singleLineToString)(_.add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToSingleLineUnicodeString(this)"))
       .add(s"def companion = ${message.scalaTypeName}")
       .outdent
       .outdent
@@ -1045,6 +1048,7 @@ object ProtobufGenerator {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
       case (Right(params), "grpc") => Right(params.copy(grpc = true))
+      case (Right(params), "single_line_to_string") => Right(params.copy(singleLineToString = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
     }

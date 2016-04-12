@@ -33,5 +33,9 @@ object TextFormat {
   def printToUnicodeString(m: GeneratedMessage) = {
     Printer.printToString(m, singleLineMode = false, escapeNonAscii = false)
   }
+
+  def printToSingleLineUnicodeString(m: GeneratedMessage) = {
+    Printer.printToString(m, singleLineMode = true, escapeNonAscii = false)
+  }
 }
 
