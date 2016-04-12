@@ -86,8 +86,8 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
               javaParse(scalaAscii) should be(javaProto)
               javaParse(scalaUnicodeAscii) should be(javaProto)
 
-              val jsonRep = com.trueaccord.scalapb.json.JsonFormat.toJson(scalaProto)
-              com.trueaccord.scalapb.json.JsonFormat.fromJson(jsonRep)(companion.asInstanceOf[GeneratedMessageCompanion[T] forSome {type T <: GeneratedMessage with ScalaPBMessage[T] }]) should be(scalaProto)
+              val jsonRep = com.trueaccord.scalapb.json.JsonFormat.toJsonString(scalaProto)
+              com.trueaccord.scalapb.json.JsonFormat.fromJsonString(jsonRep)(companion.asInstanceOf[GeneratedMessageCompanion[T] forSome {type T <: GeneratedMessage with ScalaPBMessage[T] }]) should be(scalaProto)
 
             } catch {
               case e: Exception =>

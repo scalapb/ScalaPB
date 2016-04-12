@@ -400,7 +400,6 @@ trait DescriptorPimps {
 
   def baseName(fileName: String) =
     fileName.split("/").last.replaceAll(raw"[.]proto$$|[.]protodevel", "")
-
 }
 
 object Helper {

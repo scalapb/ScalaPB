@@ -19,6 +19,14 @@ message ScalaPbOptions {
   // Adds the following imports at the top of the file (this is meant
   // to provide implicit TypeMappers)
   repeated string import = 3;
+
+  // If true, all messages and enums (but not services) will be written
+  // to a single Scala file.
+  optional bool single_file = 5;
+
+  // Text to add to the generated scala file.  This can be used only
+  // when single_file is true.
+  repeated string preamble = 4;
 }
 
 extend google.protobuf.FileOptions {

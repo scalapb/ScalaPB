@@ -1,0 +1,33 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+// Demonstrates a sealed trait and two messages extending it.
+
+option (scalapb.options) = {
+  // All classes that extend a sealed trait need to be in the same Scala
+  // file, so we set single_file to true.
+  single_file: true
+
+  // Generate the base trait.
+  preamble: [
+    "sealed trait MyBaseTrait {",
+    "  def getFoo: Int",
+    "  def getBar: String",
+    "}"
+  ];
+};
+
+message Type1 {
+  option (scalapb.message).extends = "MyBaseTrait";
+  optional int32 foo = 1;
+  optional string bar = 2;
+}
+
+message Type2 {
+  option (scalapb.message).extends = "MyBaseTrait";
+  optional int32 foo = 1;
+  optional string bar = 2;
+}

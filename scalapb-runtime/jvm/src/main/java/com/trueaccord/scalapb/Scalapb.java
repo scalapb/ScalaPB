@@ -102,6 +102,64 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getImportBytes(int index);
+
+    /**
+     * <code>optional bool single_file = 5;</code>
+     *
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     */
+    boolean hasSingleFile();
+    /**
+     * <code>optional bool single_file = 5;</code>
+     *
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     */
+    boolean getSingleFile();
+
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    com.google.protobuf.ProtocolStringList
+        getPreambleList();
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    int getPreambleCount();
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    java.lang.String getPreamble(int index);
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    com.google.protobuf.ByteString
+        getPreambleBytes(int index);
   }
   /**
    * Protobuf type {@code scalapb.ScalaPbOptions}
@@ -118,6 +176,8 @@ public final class Scalapb {
       packageName_ = "";
       flatPackage_ = false;
       import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      singleFile_ = false;
+      preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -167,6 +227,20 @@ public final class Scalapb {
               import_.add(bs);
               break;
             }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                preamble_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              preamble_.add(bs);
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000004;
+              singleFile_ = input.readBool();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -178,6 +252,9 @@ public final class Scalapb {
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           import_ = import_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          preamble_ = preamble_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -328,6 +405,80 @@ public final class Scalapb {
       return import_.getByteString(index);
     }
 
+    public static final int SINGLE_FILE_FIELD_NUMBER = 5;
+    private boolean singleFile_;
+    /**
+     * <code>optional bool single_file = 5;</code>
+     *
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     */
+    public boolean hasSingleFile() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <code>optional bool single_file = 5;</code>
+     *
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     */
+    public boolean getSingleFile() {
+      return singleFile_;
+    }
+
+    public static final int PREAMBLE_FIELD_NUMBER = 4;
+    private com.google.protobuf.LazyStringList preamble_;
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getPreambleList() {
+      return preamble_;
+    }
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    public int getPreambleCount() {
+      return preamble_.size();
+    }
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    public java.lang.String getPreamble(int index) {
+      return preamble_.get(index);
+    }
+    /**
+     * <code>repeated string preamble = 4;</code>
+     *
+     * <pre>
+     * Text to add to the generated scala file.  This can be used only
+     * when single_file is true.
+     * </pre>
+     */
+    public com.google.protobuf.ByteString
+        getPreambleBytes(int index) {
+      return preamble_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -348,6 +499,12 @@ public final class Scalapb {
       }
       for (int i = 0; i < import_.size(); i++) {
         com.google.protobuf.GeneratedMessage.writeString(output, 3, import_.getRaw(i));
+      }
+      for (int i = 0; i < preamble_.size(); i++) {
+        com.google.protobuf.GeneratedMessage.writeString(output, 4, preamble_.getRaw(i));
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBool(5, singleFile_);
       }
       unknownFields.writeTo(output);
     }
@@ -371,6 +528,18 @@ public final class Scalapb {
         }
         size += dataSize;
         size += 1 * getImportList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < preamble_.size(); i++) {
+          dataSize += computeStringSizeNoTag(preamble_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getPreambleList().size();
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(5, singleFile_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -490,6 +659,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000002);
         import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
+        singleFile_ = false;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -527,6 +700,15 @@ public final class Scalapb {
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.import_ = import_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.singleFile_ = singleFile_;
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          preamble_ = preamble_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.preamble_ = preamble_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -558,6 +740,19 @@ public final class Scalapb {
           } else {
             ensureImportIsMutable();
             import_.addAll(other.import_);
+          }
+          onChanged();
+        }
+        if (other.hasSingleFile()) {
+          setSingleFile(other.getSingleFile());
+        }
+        if (!other.preamble_.isEmpty()) {
+          if (preamble_.isEmpty()) {
+            preamble_ = other.preamble_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensurePreambleIsMutable();
+            preamble_.addAll(other.preamble_);
           }
           onChanged();
         }
@@ -883,6 +1078,196 @@ public final class Scalapb {
   }
   ensureImportIsMutable();
         import_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private boolean singleFile_ ;
+      /**
+       * <code>optional bool single_file = 5;</code>
+       *
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       */
+      public boolean hasSingleFile() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <code>optional bool single_file = 5;</code>
+       *
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       */
+      public boolean getSingleFile() {
+        return singleFile_;
+      }
+      /**
+       * <code>optional bool single_file = 5;</code>
+       *
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       */
+      public Builder setSingleFile(boolean value) {
+        bitField0_ |= 0x00000008;
+        singleFile_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional bool single_file = 5;</code>
+       *
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       */
+      public Builder clearSingleFile() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        singleFile_ = false;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensurePreambleIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          preamble_ = new com.google.protobuf.LazyStringArrayList(preamble_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getPreambleList() {
+        return preamble_.getUnmodifiableView();
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public int getPreambleCount() {
+        return preamble_.size();
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public java.lang.String getPreamble(int index) {
+        return preamble_.get(index);
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public com.google.protobuf.ByteString
+          getPreambleBytes(int index) {
+        return preamble_.getByteString(index);
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public Builder setPreamble(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePreambleIsMutable();
+        preamble_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public Builder addPreamble(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePreambleIsMutable();
+        preamble_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public Builder addAllPreamble(
+          java.lang.Iterable<java.lang.String> values) {
+        ensurePreambleIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, preamble_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public Builder clearPreamble() {
+        preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>repeated string preamble = 4;</code>
+       *
+       * <pre>
+       * Text to add to the generated scala file.  This can be used only
+       * when single_file is true.
+       * </pre>
+       */
+      public Builder addPreambleBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensurePreambleIsMutable();
+        preamble_.add(value);
         onChanged();
         return this;
       }
@@ -2046,17 +2431,18 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
-      "/protobuf/descriptor.proto\"L\n\016ScalaPbOpt" +
+      "/protobuf/descriptor.proto\"s\n\016ScalaPbOpt" +
       "ions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_packa" +
-      "ge\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\"!\n\016MessageOptio" +
-      "ns\022\017\n\007extends\030\001 \003(\t\"\034\n\014FieldOptions\022\014\n\004t" +
-      "ype\030\001 \001(\t:G\n\007options\022\034.google.protobuf.F" +
-      "ileOptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptio" +
-      "ns:J\n\007message\022\037.google.protobuf.MessageO" +
-      "ptions\030\374\007 \001(\0132\027.scalapb.MessageOptions:D" +
-      "\n\005field\022\035.google.protobuf.FieldOptions\030\374",
-      "\007 \001(\0132\025.scalapb.FieldOptionsB\030\n\026com.true" +
-      "accord.scalapb"
+      "ge\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\022\023\n\013single_file\030" +
+      "\005 \001(\010\022\020\n\010preamble\030\004 \003(\t\"!\n\016MessageOption" +
+      "s\022\017\n\007extends\030\001 \003(\t\"\034\n\014FieldOptions\022\014\n\004ty" +
+      "pe\030\001 \001(\t:G\n\007options\022\034.google.protobuf.Fi" +
+      "leOptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOption" +
+      "s:J\n\007message\022\037.google.protobuf.MessageOp" +
+      "tions\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n",
+      "\005field\022\035.google.protobuf.FieldOptions\030\374\007" +
+      " \001(\0132\025.scalapb.FieldOptionsB\030\n\026com.truea" +
+      "ccord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2076,7 +2462,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "SingleFile", "Preamble", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

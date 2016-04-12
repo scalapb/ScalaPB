@@ -130,12 +130,14 @@ object GraphGen {
   def genScalaOptions(state: State): Gen[(Option[ScalaPbOptions], State)] = for {
     (scalaPackageName, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateName)
     flatPackage <- Gen.oneOf(true, false)
+    singleFile <- Gen.oneOf(true, false)
   } yield {
     val b = ScalaPbOptions.newBuilder
     if (scalaPackageName.nonEmpty) {
       b.setPackageName(scalaPackageName.mkString("."))
     }
     b.setFlatPackage(flatPackage)
+     .setSingleFile(singleFile)
     (Some(b.build), state)
   }
 
