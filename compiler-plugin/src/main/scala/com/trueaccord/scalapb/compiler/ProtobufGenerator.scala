@@ -81,7 +81,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
       .print(e.fields) {
       case (v, p) => p
-        .add(s"def ${v.scalaName.asSymbol}: Option[${v.scalaTypeName}] = None")
+        .add(s"def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = None")
     }
       .outdent
       .addM(
@@ -101,7 +101,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           s"""@SerialVersionUID(0L)
              |case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.upperScalaName} {
              |  override def is${v.upperScalaName}: Boolean = true
-             |  override def ${v.scalaName.asSymbol}: Option[${v.scalaTypeName}] = Some(value)
+             |  override def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = Some(value)
              |  override def number: Int = ${v.getNumber}
              |}""")
     }
@@ -653,7 +653,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             val elems = oneOf.fields.map {
               field =>
                 val typeName = if (field.isEnum) "com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
-                val e = s"__fieldsMap.get(__fields.get(${field.getIndex})).asInstanceOf[Option[$typeName]]"
+                val e = s"__fieldsMap.get(__fields.get(${field.getIndex})).asInstanceOf[scala.Option[$typeName]]"
                 (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
             } mkString (" orElse\n")
             s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"

@@ -143,7 +143,7 @@ trait DescriptorPimps {
     }
 
     def typeCategory(base: String): String = {
-      if (supportsPresence) s"Option[$base]"
+      if (supportsPresence) s"scala.Option[$base]"
       else if (fd.isRepeated) s"Seq[$base]"
       else base
     }
