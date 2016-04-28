@@ -36,8 +36,11 @@ extend google.protobuf.FileOptions {
 }
 
 message MessageOptions {
-  // additional classes and traits to mix in to the case class.
+  // Additional classes and traits to mix in to the case class.
   repeated string extends = 1;
+
+  // Additional classes and traits to mix in to the companion object.
+  repeated string companion_extends = 2;
 }
 
 extend google.protobuf.MessageOptions {

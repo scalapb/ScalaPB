@@ -98,4 +98,9 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
     t.repeatedNumber must be(Seq(2,3,4))
     t.requiredNumber must be(5)
   }
+
+  "Extended companion objects" should "inherit from marker type" in {
+    CustomerEvent mustBe a [DomainEventCompanion]
+    CustomerEvent.thisIs must be("The companion object")
+  }
 }

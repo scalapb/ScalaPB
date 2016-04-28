@@ -36,3 +36,7 @@ trait DomainEvent {
   def repeatedNumber: Seq[Int]
   def requiredNumber: Int
 }
+
+trait DomainEventCompanion {
+  val thisIs = "The companion object"
+}

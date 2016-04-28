@@ -226,12 +226,22 @@ trait DescriptorPimps {
 
     def extendsOption = messageOptions.getExtendsList.toSeq
 
+    def companionExtendsOption = messageOptions.getCompanionExtendsList.toSeq
+
     def nameSymbol = scalaName.asSymbol
 
     def baseClasses: Seq[String] =
       Seq("com.trueaccord.scalapb.GeneratedMessage",
         s"com.trueaccord.scalapb.Message[$nameSymbol]",
         s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption
+
+    def companionBaseClasses: Seq[String] = {
+      val mixins = if (javaConversions)
+        Seq(s"com.trueaccord.scalapb.JavaProtoSupport[$nameSymbol, $javaTypeName]") else Nil
+      Seq(s"com.trueaccord.scalapb.GeneratedMessageCompanion[$nameSymbol]") ++
+        mixins ++
+        companionExtendsOption
+    }
 
     def nestedTypes: Seq[Descriptor] = message.getNestedTypes.toSeq
 
