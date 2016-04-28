@@ -70,6 +70,20 @@ trait BaseCustomer {
 
 You can specify any number of base traits for a message.
 
+It is also possible to make the generated companion classes extend a class
+or trait, by using the `companion_extends` options. For example:
+
+{% highlight proto %}
+message MyMessage {
+  option (scalapb.message).extends = "MySuperClass";
+  option (scalapb.message).companion_extends = "MySuperCompanionClass";
+  int32 n = 1;
+}
+{% endhighlight %}
+
+Will generate a case class that extends `MySuperClass`, and the companion
+object will extend `MySuperCompanionClass`.
+
 # Custom types
 
 You can customize the Scala type of any field.  One use-case for this is when
