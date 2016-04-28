@@ -809,9 +809,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.nameSymbol
-    val mixins = if (message.javaConversions)
-      s"with com.trueaccord.scalapb.JavaProtoSupport[$className, ${message.javaTypeName}] " else ""
-    val companionType = s"com.trueaccord.scalapb.GeneratedMessageCompanion[$className] $mixins"
+    val companionType = message.companionBaseClasses.mkString(" with ")
     printer.addM(
       s"""object $className extends $companionType {
          |  implicit def messageCompanion: $companionType = this""")
@@ -975,7 +973,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateSingleScalaFileForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
-    val code = 
+    val code =
       scalaFileHeader(file)
       .print(file.getEnumTypes)(printEnum)
       .print(file.getMessageTypes)(printMessage)
@@ -1073,8 +1071,8 @@ object ProtobufGenerator {
           request.getFileToGenerateList.foreach {
             name =>
               val file = filesByName(name)
-              val responseFiles = 
-                if (file.scalaOptions.getSingleFile) 
+              val responseFiles =
+                if (file.scalaOptions.getSingleFile)
                   generator.generateSingleScalaFileForFileDescriptor(file)
                 else generator.generateMultipleScalaFilesForFileDescriptor(file)
               b.addAllFile(responseFiles)

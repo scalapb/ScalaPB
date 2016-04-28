@@ -47,6 +47,7 @@ message OneofMessage {
 
 message CustomerEvent {
   option (scalapb.message).extends = "com.trueaccord.pb.DomainEvent";
+  option (scalapb.message).companion_extends = "com.trueaccord.pb.DomainEventCompanion";
 
   optional string person_id = 1          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
   optional int32 optional_number = 2;
