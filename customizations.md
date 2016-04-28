@@ -71,7 +71,7 @@ trait BaseCustomer {
 You can specify any number of base traits for a message.
 
 It is also possible to make the generated companion classes extend a class
-or trait, by using the `companion_extends` options. For example:
+or trait, by using the `companion_extends` option. For example:
 
 {% highlight proto %}
 message MyMessage {
