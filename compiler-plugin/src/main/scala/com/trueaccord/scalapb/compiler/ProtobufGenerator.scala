@@ -501,7 +501,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |    case 0 => _done__ = true""")
       .print(message.fields) {
       (field, printer) =>
-        if (!field.isPacked) {
+
+        val p = {
           val newValBase = if (field.isMessage) {
             val defInstance = s"${field.getMessageType.scalaTypeName}.defaultInstance"
             val baseInstance = if (field.isRepeated) defInstance else {
@@ -530,7 +531,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           printer.addM(
             s"""    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>
                |      $updateOp""")
-        } else {
+        }
+
+        if(field.isPackable) {
           val read = {
             val tmp = s"""__input.read${Types.capitalizedType(field.getType)}"""
             if (field.isEnum)
@@ -538,7 +541,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             else tmp
           }
           val readExpr = toCustomType(field)(read)
-          printer.addM(
+          p.addM(
             s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
                |      val length = __input.readRawVarint32()
                |      val oldLimit = __input.pushLimit(length)
@@ -547,7 +550,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                |      }
                |      __input.popLimit(oldLimit)
                |    }""")
-          }
+        } else p
     }
       .addM(
        s"""|    case tag => __input.skipField(tag)
