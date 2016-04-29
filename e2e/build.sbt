@@ -16,7 +16,7 @@ PB.runProtoc in PB.protobufConfig := { args0 =>
   com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray)
 }
 
-val grpcVersion = "0.13.2"
+val grpcVersion = "0.14.0"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
