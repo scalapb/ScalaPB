@@ -13,7 +13,7 @@ with protoc-jar add the following to your `project/scalapb.sbt`:
     addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.version.sbt_scalapb5}}")
 
     libraryDependencies ++= Seq(
-      "com.github.os72" % "protoc-jar" % "3.0.0-b2"
+      "com.github.os72" % "protoc-jar" % "{{site.data.version.protocjarVersion}}"
     )
 
 In build.sbt, include the following:

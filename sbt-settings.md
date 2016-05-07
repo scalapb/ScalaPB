@@ -106,7 +106,7 @@ not affiliated with ScalaPB.  To get started, add the following lines to your
 
 {%highlight scala%}
 libraryDependencies ++= Seq(
-  "com.github.os72" % "protoc-jar" % "2.x.5"
+  "com.github.os72" % "protoc-jar" % "{{site.data.version.protocjarVersion}}"
 )
 {%endhighlight%}
 
