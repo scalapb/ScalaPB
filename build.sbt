@@ -95,7 +95,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .settings(
     name := "scalapb-runtime-grpc",
     libraryDependencies ++= Seq(
-      "io.grpc" % "grpc-all" % grpcVersion
+      "io.grpc" % "grpc-stub" % grpcVersion
     )
   )
 
@@ -132,7 +132,7 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies ++= Seq(
         "com.github.os72" % "protoc-jar" % "3.0.0-b2",
         "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-2",
-        "io.grpc" % "grpc-all" % grpcVersion % "test",
+        "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.1",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.1",
         "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
