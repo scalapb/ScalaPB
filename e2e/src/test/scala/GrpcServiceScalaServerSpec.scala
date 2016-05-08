@@ -5,6 +5,12 @@ import scala.concurrent.duration._
 import scala.util.Random
 
 class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
+  describe("scala companion object") {
+    it("provides descriptor object") {
+      import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
+      Service1GrpcScala.descriptor.getName must be("Service1")
+    }
+  }
 
   describe("scala server") {
 
