@@ -28,7 +28,7 @@ In build.sbt, include the following:
     version in PB.protobufConfig := "3.0.0-beta-2"
 
     libraryDependencies ++= Seq(
-        "io.grpc" % "grpc-all" % "0.9.0",
+        "io.grpc" % "grpc-netty" % "0.14.0",
         "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % (PB.scalapbVersion in PB.protobufConfig).value
     )
 
@@ -43,7 +43,7 @@ this:
 
     syntax = "proto3";
 
-    packagee = "com.example.protos";
+    package com.example.protos;
 
     // The greeting service definition.
     service Greeter {
