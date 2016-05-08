@@ -144,6 +144,7 @@ object SchemaGenerators {
       jarForClass[com.trueaccord.scalapb.grpc.Grpc.type].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
       jarForClass[io.grpc.Channel].getPath,
+      jarForClass[io.grpc.stub.AbstractStub[_]].getPath,
       jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
       jarForClass[javax.annotation.Nullable],
       jarForClass[com.trueaccord.lenses.Lens[_, _]].getPath,
