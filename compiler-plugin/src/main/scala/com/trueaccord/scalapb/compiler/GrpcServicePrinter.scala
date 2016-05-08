@@ -1,10 +1,8 @@
 package com.trueaccord.scalapb.compiler
 
-import java.util.Locale
-
 import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
-import com.sun.org.apache.xml.internal.serialize.Printer
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
+
 import scala.collection.JavaConverters._
 
 final class GrpcServicePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends DescriptorPimps {
@@ -61,6 +59,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
   private[this] val serverCalls = "_root_.io.grpc.stub.ServerCalls"
   private[this] val clientCalls = "_root_.io.grpc.stub.ClientCalls"
+
+  private[this] val serviceDeclaration = "_root_.com.trueaccord.scalapb.grpc.ServiceDeclaration"
+  private[this] val nameRef = s"_root_.${service.getFile.scalaPackageName}.${service.objectName}.name"
 
   private[this] val guavaFuture2ScalaFuture = "com.trueaccord.scalapb.grpc.Grpc.guavaFuture2ScalaFuture"
 
@@ -154,7 +155,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
       s"""val ${method.descriptorName}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
           |  $grpcMethodDescriptor.create(
           |    $grpcMethodDescriptor.MethodType.$methodType,
-          |    $grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"),
+          |    $grpcMethodDescriptor.generateFullMethodName($nameRef, "${method.getName}"),
           |    ${marshaller(method.scalaIn)},
           |    ${marshaller(method.scalaOut)})
           |""")
@@ -214,7 +215,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     PrinterEndo(
       _.add(s"""def bindService(serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef =""")
         .withIndent(
-          _.add(s"""$serverServiceDef.builder("${service.getFullName}")"""),
+          _.add(s"""$serverServiceDef.builder($nameRef)"""),
           _.call(methods: _*),
          _.add(".build()")))
   }
@@ -223,8 +224,10 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     printer.add(
       "package " + service.getFile.scalaPackageName,
       "",
-      s"object ${service.objectName} {"
+      s"object ${service.objectName} extends $serviceDeclaration {"
     ).newline.withIndent(
+      _.add(s"""override val name = "${service.getFullName}""""),
+      _.newline,
       _.call(service.methods.map(methodDescriptor): _*),
       serviceTrait,
       _.newline,
