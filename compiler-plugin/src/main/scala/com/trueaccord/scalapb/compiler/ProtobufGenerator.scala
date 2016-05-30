@@ -351,18 +351,19 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       fp.add(s"if ($fieldNameSymbol.isDefined) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol + ".get"))} }")
     } else if (field.isRepeated) {
       val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
-      if (!field.isPacked)
+      if (!field.isPacked) {
         Types.fixedSize(field.getType) match {
           case Some(size) => fp.add(s"__size += ${size + tagSize} * $fieldNameSymbol.size")
           case None => fp.add(
             s"$fieldNameSymbol.foreach($fieldNameSymbol => __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol))})")
         }
-      else {
+      } else {
         val fieldName = field.scalaName
         fp
           .addM(
             s"""if($fieldNameSymbol.nonEmpty) {
-               |  __size += $tagSize + com.google.protobuf.CodedOutputStream.computeRawVarint32Size(${fieldName}SerializedSize) + ${fieldName}SerializedSize
+               |  val __localsize = ${fieldName}SerializedSize
+               |  __size += $tagSize + com.google.protobuf.CodedOutputStream.computeRawVarint32Size(__localsize) + __localsize
                |}""")
       }
     } else throw new RuntimeException("Should not reach here.")
@@ -371,11 +372,18 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
     fp
       .add("@transient")
-      .add("lazy val serializedSize: Int = {")
+      .add("private[this] var __serializedSizeCachedValue: Int = -1")
+      .add("private[this] def __computeSerializedValue(): Int = {")
       .indent
       .add("var __size = 0")
       .print(message.fields)(generateSerializedSizeForField)
       .add("__size")
+      .outdent
+      .add("}")
+      .add("final override def serializedSize: Int = {")
+      .indent
+      .add("if (__serializedSizeCachedValue == -1) { __serializedSizeCachedValue = __computeSerializedValue() }")
+      .add("__serializedSizeCachedValue")
       .outdent
       .add("}")
   }
@@ -384,12 +392,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     fp
       .print(message.fields.filter(_.isPacked).zipWithIndex) {
       case ((field, index), printer) =>
+        val methodName = s"${field.scalaName}SerializedSize"
         printer
-          .add(s"lazy val ${field.scalaName}SerializedSize =")
+          .add(s"private[this] def $methodName = {") //closing brace is in each case
           .call({ fp =>
           Types.fixedSize(field.getType) match {
             case Some(size) =>
-              fp.add(s"  $size * ${field.scalaName.asSymbol}.size")
+              fp.add(s"  $size * ${field.scalaName.asSymbol}.size").add("}")
             case None =>
               val capTypeName = Types.capitalizedType(field.getType)
               val sizeFunc = Seq(s"com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag")
@@ -398,7 +407,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                 Seq(s"${field.typeMapper}.toBase")
               else Nil
               val funcs = sizeFunc ++ fromEnum ++ fromCustom
-              fp.add(s"  ${field.scalaName.asSymbol}.map(${composeGen(funcs)}).sum")
+              fp
+                .add(s"if (__${methodName}Field == -1) __${methodName}Field = ")
+                .add(s"  ${field.scalaName.asSymbol}.map(${composeGen(funcs)}).sum")
+                .add(s"__${methodName}Field")
+                .add("}") // closing brace for the method
+                .add(s"@transient private[this] var __${methodName}Field: Int = -1")
           }
         })
     }
