@@ -372,7 +372,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
     fp
       .add("@transient")
-      .add("private[this] var __serializedSizeCachedValue: Int = -1")
+      .add("private[this] var __serializedSizeCachedValue: Int = 0")
       .add("private[this] def __computeSerializedValue(): Int = {")
       .indent
       .add("var __size = 0")
@@ -382,8 +382,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
       .add("final override def serializedSize: Int = {")
       .indent
-      .add("if (__serializedSizeCachedValue == -1) { __serializedSizeCachedValue = __computeSerializedValue() }")
-      .add("__serializedSizeCachedValue")
+      .add("var read = __serializedSizeCachedValue")
+      .add("if (read == 0) {")
+      .indent
+      .add("read = __computeSerializedValue()")
+      .add("__serializedSizeCachedValue = read")
+      .outdent
+      .add("}")
+      .add("read")
       .outdent
       .add("}")
   }
@@ -408,11 +414,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               else Nil
               val funcs = sizeFunc ++ fromEnum ++ fromCustom
               fp
-                .add(s"if (__${methodName}Field == -1) __${methodName}Field = ")
+                .add(s"if (__${methodName}Field == 0) __${methodName}Field = ")
                 .add(s"  ${field.scalaName.asSymbol}.map(${composeGen(funcs)}).sum")
                 .add(s"__${methodName}Field")
                 .add("}") // closing brace for the method
-                .add(s"@transient private[this] var __${methodName}Field: Int = -1")
+                .add(s"@transient private[this] var __${methodName}Field: Int = 0")
           }
         })
     }
@@ -1101,4 +1107,3 @@ object ProtobufGenerator {
     b.build
   }
 }
-

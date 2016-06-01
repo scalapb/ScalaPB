@@ -11,6 +11,14 @@ message RepeatablesTest {
     repeated int32 ints = 2;
     repeated double doubles = 3 [packed = true];
     repeated Nested nesteds = 4;
+    repeated int64 packedLongs = 6 [packed = true];
+
+    enum Enum {
+      ONE = 1;
+      TWO = 2;
+    }
+
+    repeated Enum enums = 7 [packed = true];
 
     message Nested {
         optional int32 nested_field = 1;
