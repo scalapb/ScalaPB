@@ -302,7 +302,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (field.isMessage) {
         fp.addM(
           s"""output.writeTag(${field.getNumber}, 2)
-             |output.writeRawVarint32($valueExpr.serializedSize)
+             |output.writeUInt32NoTag($valueExpr.serializedSize)
              |$valueExpr.writeTo(output)""")
     } else if (field.isEnum)
         fp.add(s"output.writeEnum(${field.getNumber}, $valueExpr.value)")
@@ -315,7 +315,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def sizeExpressionForSingleField(field: FieldDescriptor, expr: String): String =
     if (field.isMessage) {
       val size = s"$expr.serializedSize"
-      CodedOutputStream.computeTagSize(field.getNumber) + s" + com.google.protobuf.CodedOutputStream.computeRawVarint32Size($size) + $size"
+      CodedOutputStream.computeTagSize(field.getNumber) + s" + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag($size) + $size"
     } else if(field.isEnum)
       s"com.google.protobuf.CodedOutputStream.computeEnumSize(${field.getNumber}, ${expr}.value)"
     else {
@@ -370,7 +370,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           .addM(
             s"""if($fieldNameSymbol.nonEmpty) {
                |  val __localsize = ${fieldName}SerializedSize
-               |  __size += $tagSize + com.google.protobuf.CodedOutputStream.computeRawVarint32Size(__localsize) + __localsize
+               |  __size += $tagSize + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
                |}""")
       }
     } else throw new RuntimeException("Should not reach here.")
@@ -454,7 +454,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             printer.addM(
               s"""if (${fieldNameSymbol}.nonEmpty) {
                  |  output.writeTag(${field.getNumber}, 2)
-                 |  output.writeRawVarint32(${fieldNameSymbol}SerializedSize)
+                 |  output.writeUInt32NoTag(${fieldNameSymbol}SerializedSize)
                  |  ${fieldNameSymbol}.foreach($writeFunc)
                  |};""")
         } else if (field.isRequired) {

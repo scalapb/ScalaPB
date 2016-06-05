@@ -52,10 +52,10 @@ trait GeneratedMessage extends Serializable {
   def writeDelimitedTo(output: OutputStream): Unit = {
     val serialized: Int = serializedSize
     val bufferSize: Int = LiteParser.preferredCodedOutputStreamBufferSize(
-        CodedOutputStream.computeRawVarint32Size(serialized) + serialized)
+        CodedOutputStream.computeUInt32SizeNoTag(serialized) + serialized)
     val codedOutput: CodedOutputStream =
         CodedOutputStream.newInstance(output, bufferSize)
-    codedOutput.writeRawVarint32(serialized)
+    codedOutput.writeUInt32NoTag(serialized)
     writeTo(codedOutput)
     codedOutput.flush()
   }
