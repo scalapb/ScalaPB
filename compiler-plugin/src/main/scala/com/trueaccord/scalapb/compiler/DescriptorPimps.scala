@@ -179,11 +179,27 @@ trait DescriptorPimps {
 
     def typeMapperValName = "_typemapper_" + scalaName
 
-    def typeMapper = fd.getContainingType.scalaTypeName + "." + typeMapperValName
+    def typeMapper = {
+      if (!fd.isExtension)
+        fd.getContainingType.scalaTypeName + "." + typeMapperValName
+      else {
+        val c = if (fd.getExtensionScope == null) fd.getFile.fileDescriptorObjectFullName
+        else fd.getExtensionScope.scalaTypeName
+        c + "." + typeMapperValName
+      }
+    }
 
     def isEnum = fd.getType == FieldDescriptor.Type.ENUM
 
     def isMessage = fd.getType == FieldDescriptor.Type.MESSAGE
+
+    def javaExtensionFieldFullName = {
+      require(fd.isExtension)
+      val inClass =
+        if (fd.getExtensionScope == null) fd.getFile.javaFullOuterClassName
+        else fd.getExtensionScope.javaTypeName
+      s"$inClass.${fd.scalaName}"
+    }
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {

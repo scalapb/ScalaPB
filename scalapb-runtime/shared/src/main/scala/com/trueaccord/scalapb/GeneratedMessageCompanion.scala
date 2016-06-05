@@ -2,10 +2,10 @@ package com.trueaccord.scalapb
 
 import java.io.{InputStream, OutputStream}
 
-import com.google.protobuf.{Descriptors, ByteString, CodedOutputStream, CodedInputStream}
-import com.google.protobuf.Descriptors.{EnumValueDescriptor, FieldDescriptor, EnumDescriptor}
-import scala.collection.JavaConversions._
+import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream}
+import com.google.protobuf.Descriptors.{EnumDescriptor, EnumValueDescriptor, FieldDescriptor}
 
+import scala.collection.JavaConversions._
 import scala.util.{Failure, Try}
 
 trait GeneratedEnum extends Product with Serializable {

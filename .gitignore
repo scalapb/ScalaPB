@@ -22,4 +22,5 @@ compiler-plugin/src/main/scala/com/trueaccord/scalapb/compiler/Version.scala
 e2e/project/project/Version.scala
 e2e/project/Version.scala
 e2e/.bin
+e2e/nojava/.bin
 atlassian-ide-plugin.xml

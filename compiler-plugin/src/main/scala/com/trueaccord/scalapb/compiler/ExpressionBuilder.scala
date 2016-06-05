@@ -35,12 +35,18 @@ case class MethodApplication(name: String) extends LiteralExpression {
   def isFunctionApplication: Boolean = false
 }
 
+case class OperatorApplication(op: String) extends LiteralExpression {
+  def isIdentity: Boolean = false
+  def isFunctionApplication: Boolean = false
+}
+
 object ExpressionBuilder {
   def runSingleton(es: List[LiteralExpression])(e: String): String = es match {
     case Nil => e
     case Identity :: tail => runSingleton(tail)(e)
     case FunctionApplication(name) :: tail => s"$name(${runSingleton(tail)(e)})"
     case MethodApplication(name) :: tail => s"${runSingleton(tail)(e)}.$name"
+    case OperatorApplication(name) :: tail => s"${runSingleton(tail)(e)} $name"
   }
 
   def runCollection(es: List[LiteralExpression])(e: String): String = {

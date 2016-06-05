@@ -2,8 +2,11 @@ package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.CodedOutputStream
+import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
+import fastparse.Utils.FuncName
+
 import scala.collection.JavaConversions._
 
 case class GeneratorParams(
@@ -181,18 +184,22 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
 
-  def javaFieldToScala(container: String, field: FieldDescriptor) = {
-    val javaHas = container + ".has" + field.upperScalaName
+  def javaFieldToScala(javaHazzer: String, javaGetter: String, field: FieldDescriptor): String = {
+    val valueConversion: Expression = javaToScalaConversion(field)
+
+    if (field.supportsPresence)
+      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, isCollection = false)}) else None"
+    else valueConversion(javaGetter, isCollection = field.isRepeated)
+  }
+
+  def javaFieldToScala(container: String, field: FieldDescriptor): String = {
+    val javaHazzer = container + ".has" + field.upperScalaName
     val javaGetter = if (field.isRepeated)
       container + ".get" + field.upperScalaName + "List"
     else
       container + ".get" + field.upperScalaName
 
-    val valueConversion = javaToScalaConversion(field)
-
-    if (field.supportsPresence)
-      s"if ($javaHas) Some(${valueConversion.apply(javaGetter, isCollection = false)}) else None"
-    else valueConversion(javaGetter, isCollection = field.isRepeated)
+    javaFieldToScala(javaHazzer, javaGetter, field)
   }
 
   def javaMapFieldToScala(container: String, field: FieldDescriptor) = {
@@ -499,7 +506,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateMergeFrom(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeName
-    printer.add(
+    printer
+      .add(
       s"def mergeFrom(__input: com.google.protobuf.CodedInputStream): $myFullScalaName = {")
       .indent
       .print(message.fieldsWithoutOneofs)((field, printer) =>
@@ -752,9 +760,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
   }
 
-  def generateTypeMappers(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+  def generateTypeMappers(fields: Seq[FieldDescriptor])(printer: FunctionalPrinter): FunctionalPrinter = {
     val customizedFields: Seq[(FieldDescriptor, String)] = for {
-      field <- message.fields
+      field <- fields
       custom <- field.customSingleScalaTypeName
     } yield (field, custom)
 
@@ -827,6 +835,57 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     else fp.add(signature + "throw new MatchError(__field)")
   }
 
+  def printExtension(fd: FieldDescriptor, fp: FunctionalPrinter) = {
+    val optionType = fd.getContainingType.getFullName match {
+      case "google.protobuf.FileOptions" => true
+      case "google.protobuf.MessageOptions" => true
+      case "google.protobuf.FieldOptions" => true
+      case "google.protobuf.EnumOptions" => true
+      case "google.protobuf.EnumValueOptions" => true
+      case "google.protobuf.ServiceOptions" => true
+      case "google.protobuf.MethodOptions" => true
+      case _ => false
+    }
+    if (!optionType) fp
+    else fp
+      .add(s"val ${fd.scalaName}: com.trueaccord.scalapb.GeneratedExtension[${fd.getContainingType.javaTypeName}, ${fd.scalaTypeName}] =")
+      .when(params.javaConversions) {
+        fp =>
+          val hazzer = s"__valueIn.hasExtension(${fd.javaExtensionFieldFullName})"
+          val getter = s"__valueIn.getExtension(${fd.javaExtensionFieldFullName})"
+          fp.add(s"  com.trueaccord.scalapb.GeneratedExtension.forExtension({__valueIn => ${javaFieldToScala(hazzer, getter, fd)}})")
+        }
+      .when(!params.javaConversions) {
+        fp =>
+          val (container, baseExpr) = fd.getType match {
+            case Type.DOUBLE => ("getFixed64List", FunctionApplication("java.lang.Double.longBitsToDouble"))
+            case Type.FLOAT => ("getFixed32List", FunctionApplication("java.lang.Float.intBitsToFloat"))
+            case Type.INT64 => ("getVarintList", Identity)
+            case Type.UINT64 => ("getVarintList", Identity)
+            case Type.INT32 => ("getVarintList", MethodApplication("toInt"))
+            case Type.FIXED64 => ("getFixed64List", Identity)
+            case Type.FIXED32 => ("getFixed32List", Identity)
+            case Type.BOOL => ("getVarintList", OperatorApplication("!= 0"))
+            case Type.STRING => ("getLengthDelimitedList", MethodApplication("toStringUtf8"))
+            case Type.GROUP => throw new RuntimeException("Not supported")
+            case Type.MESSAGE => ("getLengthDelimitedList", FunctionApplication(s"com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"))
+            case Type.BYTES => ("getLengthDelimitedList", Identity)
+            case Type.UINT32 => ("getVarintList", MethodApplication("toInt"))
+            case Type.ENUM => ("getVarintList", MethodApplication("toInt") andThen FunctionApplication(fd.baseSingleScalaTypeName + ".fromValue"))
+            case Type.SFIXED32 => ("getFixed32List", Identity)
+            case Type.SFIXED64 => ("getFixed64List", Identity)
+            case Type.SINT32 => ("getVarintList", MethodApplication("toInt") andThen FunctionApplication("com.google.protobuf.CodedInputStream.decodeZigZag32"))
+            case Type.SINT64 => ("getVarintList", FunctionApplication("com.google.protobuf.CodedInputStream.decodeZigZag64"))
+          }
+          val customExpr = baseExpr andThen toCustomTypeExpr(fd)
+
+          val factoryMethod =
+            if (fd.isOptional) "com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField"
+            else if (fd.isRepeated) "com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownField"
+          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container)({__valueIn => ${customExpr("__valueIn", false)}})")
+      }
+  }
+
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.nameSymbol
     val companionType = message.companionBaseClasses.mkString(" with ")
@@ -844,9 +903,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .print(message.getEnumTypes)(printEnum)
       .print(message.getOneofs)(printOneof)
       .print(message.nestedTypes)(printMessage)
+      .print(message.getExtensions)(printExtension)
       .call(generateMessageLens(message))
       .call(generateFieldNumbers(message))
-      .when(!message.isMapEntry)(generateTypeMappers(message))
+      .when(!message.isMapEntry)(generateTypeMappers(message.fields ++ message.getExtensions))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
       .outdent
       .add("}")
@@ -992,22 +1052,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
   }
 
-  def generateSingleScalaFileForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
-    val code =
-      scalaFileHeader(file)
-      .print(file.getEnumTypes)(printEnum)
-      .print(file.getMessageTypes)(printMessage)
-      .add(s"object ${file.fileDescriptorObjectName} {")
-      .indent
-      .call(generateFileDescriptor(file))
-      .outdent
-      .add("}").result()
-    val b = CodeGeneratorResponse.File.newBuilder()
-    b.setName(file.scalaPackageName.replace('.', '/') + "/" + file.fileDescriptorObjectName + ".scala")
-    b.setContent(code)
-    generateServiceFiles(file) :+ b.build
-  }
-
   def generateServiceFiles(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     if(params.grpc) {
       file.getServices.map { service =>
@@ -1019,6 +1063,28 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         b.build
       }
     } else Nil
+  }
+
+  def createFileDescriptorCompanionObject(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    fp.add(s"object ${file.fileDescriptorObjectName} {")
+      .indent
+      .call(generateFileDescriptor(file))
+      .print(file.getExtensions)(printExtension)
+      .call(generateTypeMappers(file.getExtensions))
+      .outdent
+      .add("}")
+  }
+
+  def generateSingleScalaFileForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
+    val code =
+      scalaFileHeader(file)
+      .print(file.getEnumTypes)(printEnum)
+      .print(file.getMessageTypes)(printMessage)
+      .call(createFileDescriptorCompanionObject(file)).result()
+    val b = CodeGeneratorResponse.File.newBuilder()
+    b.setName(file.scalaPackageName.replace('.', '/') + "/" + file.fileDescriptorObjectName + ".scala")
+    b.setContent(code)
+    generateServiceFiles(file) :+ b.build
   }
 
   def generateMultipleScalaFilesForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
@@ -1051,11 +1117,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       b.setName(file.scalaPackageName.replace('.', '/') + s"/${file.fileDescriptorObjectName}.scala")
       b.setContent(
         scalaFileHeader(file)
-          .add(s"object ${file.fileDescriptorObjectName} {")
-          .indent
-          .call(generateFileDescriptor(file))
-          .outdent
-          .add("}").result())
+          .call(createFileDescriptorCompanionObject(file)).result())
       b.build
     }
 
