@@ -13,77 +13,75 @@ public final class PluginProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     com.google.protobuf.ProtocolStringList
         getFileToGenerateList();
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     int getFileToGenerateCount();
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     java.lang.String getFileToGenerate(int index);
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     com.google.protobuf.ByteString
         getFileToGenerateBytes(int index);
 
     /**
-     * <code>optional string parameter = 2;</code>
-     *
      * <pre>
      * The generator parameter passed on the command-line.
      * </pre>
+     *
+     * <code>optional string parameter = 2;</code>
      */
     boolean hasParameter();
     /**
-     * <code>optional string parameter = 2;</code>
-     *
      * <pre>
      * The generator parameter passed on the command-line.
      * </pre>
+     *
+     * <code>optional string parameter = 2;</code>
      */
     java.lang.String getParameter();
     /**
-     * <code>optional string parameter = 2;</code>
-     *
      * <pre>
      * The generator parameter passed on the command-line.
      * </pre>
+     *
+     * <code>optional string parameter = 2;</code>
      */
     com.google.protobuf.ByteString
         getParameterBytes();
 
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -96,12 +94,12 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     java.util.List<com.google.protobuf.DescriptorProtos.FileDescriptorProto> 
         getProtoFileList();
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -114,11 +112,11 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     com.google.protobuf.DescriptorProtos.FileDescriptorProto getProtoFile(int index);
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -131,11 +129,11 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     int getProtoFileCount();
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -148,12 +146,12 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     java.util.List<? extends com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder> 
         getProtoFileOrBuilderList();
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -166,16 +164,18 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder getProtoFileOrBuilder(
         int index);
   }
   /**
-   * Protobuf type {@code google.protobuf.compiler.CodeGeneratorRequest}
-   *
    * <pre>
    * An encoded CodeGeneratorRequest is written to the plugin's stdin.
    * </pre>
+   *
+   * Protobuf type {@code google.protobuf.compiler.CodeGeneratorRequest}
    */
   public  static final class CodeGeneratorRequest extends
       com.google.protobuf.GeneratedMessage implements
@@ -198,7 +198,8 @@ public final class PluginProtos {
     }
     private CodeGeneratorRequest(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
@@ -244,11 +245,10 @@ public final class PluginProtos {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw new RuntimeException(e.setUnfinishedMessage(this));
+        throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
-        throw new RuntimeException(
-            new com.google.protobuf.InvalidProtocolBufferException(
-                e.getMessage()).setUnfinishedMessage(this));
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           fileToGenerate_ = fileToGenerate_.getUnmodifiableView();
@@ -276,50 +276,50 @@ public final class PluginProtos {
     public static final int FILE_TO_GENERATE_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList fileToGenerate_;
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getFileToGenerateList() {
       return fileToGenerate_;
     }
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     public int getFileToGenerateCount() {
       return fileToGenerate_.size();
     }
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     public java.lang.String getFileToGenerate(int index) {
       return fileToGenerate_.get(index);
     }
     /**
-     * <code>repeated string file_to_generate = 1;</code>
-     *
      * <pre>
      * The .proto files that were explicitly listed on the command-line.  The
      * code generator should generate code only for these files.  Each file's
      * descriptor will be included in proto_file, below.
      * </pre>
+     *
+     * <code>repeated string file_to_generate = 1;</code>
      */
     public com.google.protobuf.ByteString
         getFileToGenerateBytes(int index) {
@@ -329,21 +329,21 @@ public final class PluginProtos {
     public static final int PARAMETER_FIELD_NUMBER = 2;
     private volatile java.lang.Object parameter_;
     /**
-     * <code>optional string parameter = 2;</code>
-     *
      * <pre>
      * The generator parameter passed on the command-line.
      * </pre>
+     *
+     * <code>optional string parameter = 2;</code>
      */
     public boolean hasParameter() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string parameter = 2;</code>
-     *
      * <pre>
      * The generator parameter passed on the command-line.
      * </pre>
+     *
+     * <code>optional string parameter = 2;</code>
      */
     public java.lang.String getParameter() {
       java.lang.Object ref = parameter_;
@@ -360,11 +360,11 @@ public final class PluginProtos {
       }
     }
     /**
-     * <code>optional string parameter = 2;</code>
-     *
      * <pre>
      * The generator parameter passed on the command-line.
      * </pre>
+     *
+     * <code>optional string parameter = 2;</code>
      */
     public com.google.protobuf.ByteString
         getParameterBytes() {
@@ -383,8 +383,6 @@ public final class PluginProtos {
     public static final int PROTO_FILE_FIELD_NUMBER = 15;
     private java.util.List<com.google.protobuf.DescriptorProtos.FileDescriptorProto> protoFile_;
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -397,13 +395,13 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     public java.util.List<com.google.protobuf.DescriptorProtos.FileDescriptorProto> getProtoFileList() {
       return protoFile_;
     }
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -416,14 +414,14 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     public java.util.List<? extends com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder> 
         getProtoFileOrBuilderList() {
       return protoFile_;
     }
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -436,13 +434,13 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     public int getProtoFileCount() {
       return protoFile_.size();
     }
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -455,13 +453,13 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     public com.google.protobuf.DescriptorProtos.FileDescriptorProto getProtoFile(int index) {
       return protoFile_.get(index);
     }
     /**
-     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-     *
      * <pre>
      * FileDescriptorProtos for all files in files_to_generate and everything
      * they import.  The files will appear in topological order, so each file
@@ -474,6 +472,8 @@ public final class PluginProtos {
      * is not similarly optimized on protoc's end -- it will store all fields in
      * memory at once before sending them to the plugin.
      * </pre>
+     *
+     * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
      */
     public com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder getProtoFileOrBuilder(
         int index) {
@@ -559,34 +559,40 @@ public final class PluginProtos {
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
     public Builder newBuilderForType() { return newBuilder(); }
@@ -608,11 +614,11 @@ public final class PluginProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code google.protobuf.compiler.CodeGeneratorRequest}
-     *
      * <pre>
      * An encoded CodeGeneratorRequest is written to the plugin's stdin.
      * </pre>
+     *
+     * Protobuf type {@code google.protobuf.compiler.CodeGeneratorRequest}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -779,7 +785,7 @@ public final class PluginProtos {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -797,63 +803,63 @@ public final class PluginProtos {
          }
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public com.google.protobuf.ProtocolStringList
           getFileToGenerateList() {
         return fileToGenerate_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public int getFileToGenerateCount() {
         return fileToGenerate_.size();
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public java.lang.String getFileToGenerate(int index) {
         return fileToGenerate_.get(index);
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public com.google.protobuf.ByteString
           getFileToGenerateBytes(int index) {
         return fileToGenerate_.getByteString(index);
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public Builder setFileToGenerate(
           int index, java.lang.String value) {
@@ -866,13 +872,13 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public Builder addFileToGenerate(
           java.lang.String value) {
@@ -885,13 +891,13 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public Builder addAllFileToGenerate(
           java.lang.Iterable<java.lang.String> values) {
@@ -902,13 +908,13 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public Builder clearFileToGenerate() {
         fileToGenerate_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -917,13 +923,13 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated string file_to_generate = 1;</code>
-       *
        * <pre>
        * The .proto files that were explicitly listed on the command-line.  The
        * code generator should generate code only for these files.  Each file's
        * descriptor will be included in proto_file, below.
        * </pre>
+       *
+       * <code>repeated string file_to_generate = 1;</code>
        */
       public Builder addFileToGenerateBytes(
           com.google.protobuf.ByteString value) {
@@ -938,21 +944,21 @@ public final class PluginProtos {
 
       private java.lang.Object parameter_ = "";
       /**
-       * <code>optional string parameter = 2;</code>
-       *
        * <pre>
        * The generator parameter passed on the command-line.
        * </pre>
+       *
+       * <code>optional string parameter = 2;</code>
        */
       public boolean hasParameter() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string parameter = 2;</code>
-       *
        * <pre>
        * The generator parameter passed on the command-line.
        * </pre>
+       *
+       * <code>optional string parameter = 2;</code>
        */
       public java.lang.String getParameter() {
         java.lang.Object ref = parameter_;
@@ -969,11 +975,11 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>optional string parameter = 2;</code>
-       *
        * <pre>
        * The generator parameter passed on the command-line.
        * </pre>
+       *
+       * <code>optional string parameter = 2;</code>
        */
       public com.google.protobuf.ByteString
           getParameterBytes() {
@@ -989,11 +995,11 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>optional string parameter = 2;</code>
-       *
        * <pre>
        * The generator parameter passed on the command-line.
        * </pre>
+       *
+       * <code>optional string parameter = 2;</code>
        */
       public Builder setParameter(
           java.lang.String value) {
@@ -1006,11 +1012,11 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>optional string parameter = 2;</code>
-       *
        * <pre>
        * The generator parameter passed on the command-line.
        * </pre>
+       *
+       * <code>optional string parameter = 2;</code>
        */
       public Builder clearParameter() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -1019,11 +1025,11 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>optional string parameter = 2;</code>
-       *
        * <pre>
        * The generator parameter passed on the command-line.
        * </pre>
+       *
+       * <code>optional string parameter = 2;</code>
        */
       public Builder setParameterBytes(
           com.google.protobuf.ByteString value) {
@@ -1049,8 +1055,6 @@ public final class PluginProtos {
           com.google.protobuf.DescriptorProtos.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder, com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder> protoFileBuilder_;
 
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1063,6 +1067,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public java.util.List<com.google.protobuf.DescriptorProtos.FileDescriptorProto> getProtoFileList() {
         if (protoFileBuilder_ == null) {
@@ -1072,8 +1078,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1086,6 +1090,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public int getProtoFileCount() {
         if (protoFileBuilder_ == null) {
@@ -1095,8 +1101,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1109,6 +1113,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public com.google.protobuf.DescriptorProtos.FileDescriptorProto getProtoFile(int index) {
         if (protoFileBuilder_ == null) {
@@ -1118,8 +1124,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1132,6 +1136,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder setProtoFile(
           int index, com.google.protobuf.DescriptorProtos.FileDescriptorProto value) {
@@ -1148,8 +1154,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1162,6 +1166,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder setProtoFile(
           int index, com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder builderForValue) {
@@ -1175,8 +1181,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1189,6 +1193,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder addProtoFile(com.google.protobuf.DescriptorProtos.FileDescriptorProto value) {
         if (protoFileBuilder_ == null) {
@@ -1204,8 +1210,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1218,6 +1222,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder addProtoFile(
           int index, com.google.protobuf.DescriptorProtos.FileDescriptorProto value) {
@@ -1234,8 +1240,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1248,6 +1252,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder addProtoFile(
           com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder builderForValue) {
@@ -1261,8 +1267,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1275,6 +1279,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder addProtoFile(
           int index, com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder builderForValue) {
@@ -1288,8 +1294,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1302,6 +1306,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder addAllProtoFile(
           java.lang.Iterable<? extends com.google.protobuf.DescriptorProtos.FileDescriptorProto> values) {
@@ -1316,8 +1322,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1330,6 +1334,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder clearProtoFile() {
         if (protoFileBuilder_ == null) {
@@ -1342,8 +1348,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1356,6 +1360,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public Builder removeProtoFile(int index) {
         if (protoFileBuilder_ == null) {
@@ -1368,8 +1374,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1382,14 +1386,14 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder getProtoFileBuilder(
           int index) {
         return getProtoFileFieldBuilder().getBuilder(index);
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1402,6 +1406,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder getProtoFileOrBuilder(
           int index) {
@@ -1411,8 +1417,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1425,6 +1429,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public java.util.List<? extends com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder> 
            getProtoFileOrBuilderList() {
@@ -1435,8 +1441,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1449,14 +1453,14 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder addProtoFileBuilder() {
         return getProtoFileFieldBuilder().addBuilder(
             com.google.protobuf.DescriptorProtos.FileDescriptorProto.getDefaultInstance());
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1469,6 +1473,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder addProtoFileBuilder(
           int index) {
@@ -1476,8 +1482,6 @@ public final class PluginProtos {
             index, com.google.protobuf.DescriptorProtos.FileDescriptorProto.getDefaultInstance());
       }
       /**
-       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
-       *
        * <pre>
        * FileDescriptorProtos for all files in files_to_generate and everything
        * they import.  The files will appear in topological order, so each file
@@ -1490,6 +1494,8 @@ public final class PluginProtos {
        * is not similarly optimized on protoc's end -- it will store all fields in
        * memory at once before sending them to the plugin.
        * </pre>
+       *
+       * <code>repeated .google.protobuf.FileDescriptorProto proto_file = 15;</code>
        */
       public java.util.List<com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder> 
            getProtoFileBuilderList() {
@@ -1529,16 +1535,7 @@ public final class PluginProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
           return new CodeGeneratorRequest(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
       }
     };
 
@@ -1562,8 +1559,6 @@ public final class PluginProtos {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string error = 1;</code>
-     *
      * <pre>
      * Error message.  If non-empty, code generation failed.  The plugin process
      * should exit with status code zero even if it reports an error in this way.
@@ -1573,11 +1568,11 @@ public final class PluginProtos {
      * unparseable -- should be reported by writing a message to stderr and
      * exiting with a non-zero status code.
      * </pre>
+     *
+     * <code>optional string error = 1;</code>
      */
     boolean hasError();
     /**
-     * <code>optional string error = 1;</code>
-     *
      * <pre>
      * Error message.  If non-empty, code generation failed.  The plugin process
      * should exit with status code zero even if it reports an error in this way.
@@ -1587,11 +1582,11 @@ public final class PluginProtos {
      * unparseable -- should be reported by writing a message to stderr and
      * exiting with a non-zero status code.
      * </pre>
+     *
+     * <code>optional string error = 1;</code>
      */
     java.lang.String getError();
     /**
-     * <code>optional string error = 1;</code>
-     *
      * <pre>
      * Error message.  If non-empty, code generation failed.  The plugin process
      * should exit with status code zero even if it reports an error in this way.
@@ -1601,6 +1596,8 @@ public final class PluginProtos {
      * unparseable -- should be reported by writing a message to stderr and
      * exiting with a non-zero status code.
      * </pre>
+     *
+     * <code>optional string error = 1;</code>
      */
     com.google.protobuf.ByteString
         getErrorBytes();
@@ -1630,11 +1627,11 @@ public final class PluginProtos {
         int index);
   }
   /**
-   * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse}
-   *
    * <pre>
    * The plugin writes an encoded CodeGeneratorResponse to stdout.
    * </pre>
+   *
+   * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse}
    */
   public  static final class CodeGeneratorResponse extends
       com.google.protobuf.GeneratedMessage implements
@@ -1656,7 +1653,8 @@ public final class PluginProtos {
     }
     private CodeGeneratorResponse(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
@@ -1693,11 +1691,10 @@ public final class PluginProtos {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw new RuntimeException(e.setUnfinishedMessage(this));
+        throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
-        throw new RuntimeException(
-            new com.google.protobuf.InvalidProtocolBufferException(
-                e.getMessage()).setUnfinishedMessage(this));
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           file_ = java.util.Collections.unmodifiableList(file_);
@@ -1723,8 +1720,6 @@ public final class PluginProtos {
         com.google.protobuf.MessageOrBuilder {
 
       /**
-       * <code>optional string name = 1;</code>
-       *
        * <pre>
        * The file name, relative to the output directory.  The name must not
        * contain "." or ".." components and must be relative, not be absolute (so,
@@ -1737,11 +1732,11 @@ public final class PluginProtos {
        * this writing protoc does not optimize for this -- it will read the entire
        * CodeGeneratorResponse before writing files to disk.
        * </pre>
+       *
+       * <code>optional string name = 1;</code>
        */
       boolean hasName();
       /**
-       * <code>optional string name = 1;</code>
-       *
        * <pre>
        * The file name, relative to the output directory.  The name must not
        * contain "." or ".." components and must be relative, not be absolute (so,
@@ -1754,11 +1749,11 @@ public final class PluginProtos {
        * this writing protoc does not optimize for this -- it will read the entire
        * CodeGeneratorResponse before writing files to disk.
        * </pre>
+       *
+       * <code>optional string name = 1;</code>
        */
       java.lang.String getName();
       /**
-       * <code>optional string name = 1;</code>
-       *
        * <pre>
        * The file name, relative to the output directory.  The name must not
        * contain "." or ".." components and must be relative, not be absolute (so,
@@ -1771,13 +1766,13 @@ public final class PluginProtos {
        * this writing protoc does not optimize for this -- it will read the entire
        * CodeGeneratorResponse before writing files to disk.
        * </pre>
+       *
+       * <code>optional string name = 1;</code>
        */
       com.google.protobuf.ByteString
           getNameBytes();
 
       /**
-       * <code>optional string insertion_point = 2;</code>
-       *
        * <pre>
        * If non-empty, indicates that the named file should already exist, and the
        * content here is to be inserted into that file at a defined insertion
@@ -1813,11 +1808,11 @@ public final class PluginProtos {
        * command line.
        * If |insertion_point| is present, |name| must also be present.
        * </pre>
+       *
+       * <code>optional string insertion_point = 2;</code>
        */
       boolean hasInsertionPoint();
       /**
-       * <code>optional string insertion_point = 2;</code>
-       *
        * <pre>
        * If non-empty, indicates that the named file should already exist, and the
        * content here is to be inserted into that file at a defined insertion
@@ -1853,11 +1848,11 @@ public final class PluginProtos {
        * command line.
        * If |insertion_point| is present, |name| must also be present.
        * </pre>
+       *
+       * <code>optional string insertion_point = 2;</code>
        */
       java.lang.String getInsertionPoint();
       /**
-       * <code>optional string insertion_point = 2;</code>
-       *
        * <pre>
        * If non-empty, indicates that the named file should already exist, and the
        * content here is to be inserted into that file at a defined insertion
@@ -1893,42 +1888,44 @@ public final class PluginProtos {
        * command line.
        * If |insertion_point| is present, |name| must also be present.
        * </pre>
+       *
+       * <code>optional string insertion_point = 2;</code>
        */
       com.google.protobuf.ByteString
           getInsertionPointBytes();
 
       /**
-       * <code>optional string content = 15;</code>
-       *
        * <pre>
        * The file contents.
        * </pre>
+       *
+       * <code>optional string content = 15;</code>
        */
       boolean hasContent();
       /**
-       * <code>optional string content = 15;</code>
-       *
        * <pre>
        * The file contents.
        * </pre>
+       *
+       * <code>optional string content = 15;</code>
        */
       java.lang.String getContent();
       /**
-       * <code>optional string content = 15;</code>
-       *
        * <pre>
        * The file contents.
        * </pre>
+       *
+       * <code>optional string content = 15;</code>
        */
       com.google.protobuf.ByteString
           getContentBytes();
     }
     /**
-     * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse.File}
-     *
      * <pre>
      * Represents a single generated file.
      * </pre>
+     *
+     * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse.File}
      */
     public  static final class File extends
         com.google.protobuf.GeneratedMessage implements
@@ -1951,7 +1948,8 @@ public final class PluginProtos {
       }
       private File(
           com.google.protobuf.CodedInputStream input,
-          com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
         this();
         int mutable_bitField0_ = 0;
         com.google.protobuf.UnknownFieldSet.Builder unknownFields =
@@ -1992,11 +1990,10 @@ public final class PluginProtos {
             }
           }
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          throw new RuntimeException(e.setUnfinishedMessage(this));
+          throw e.setUnfinishedMessage(this);
         } catch (java.io.IOException e) {
-          throw new RuntimeException(
-              new com.google.protobuf.InvalidProtocolBufferException(
-                  e.getMessage()).setUnfinishedMessage(this));
+          throw new com.google.protobuf.InvalidProtocolBufferException(
+              e).setUnfinishedMessage(this);
         } finally {
           this.unknownFields = unknownFields.build();
           makeExtensionsImmutable();
@@ -2018,8 +2015,6 @@ public final class PluginProtos {
       public static final int NAME_FIELD_NUMBER = 1;
       private volatile java.lang.Object name_;
       /**
-       * <code>optional string name = 1;</code>
-       *
        * <pre>
        * The file name, relative to the output directory.  The name must not
        * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2032,13 +2027,13 @@ public final class PluginProtos {
        * this writing protoc does not optimize for this -- it will read the entire
        * CodeGeneratorResponse before writing files to disk.
        * </pre>
+       *
+       * <code>optional string name = 1;</code>
        */
       public boolean hasName() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string name = 1;</code>
-       *
        * <pre>
        * The file name, relative to the output directory.  The name must not
        * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2051,6 +2046,8 @@ public final class PluginProtos {
        * this writing protoc does not optimize for this -- it will read the entire
        * CodeGeneratorResponse before writing files to disk.
        * </pre>
+       *
+       * <code>optional string name = 1;</code>
        */
       public java.lang.String getName() {
         java.lang.Object ref = name_;
@@ -2067,8 +2064,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>optional string name = 1;</code>
-       *
        * <pre>
        * The file name, relative to the output directory.  The name must not
        * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2081,6 +2076,8 @@ public final class PluginProtos {
        * this writing protoc does not optimize for this -- it will read the entire
        * CodeGeneratorResponse before writing files to disk.
        * </pre>
+       *
+       * <code>optional string name = 1;</code>
        */
       public com.google.protobuf.ByteString
           getNameBytes() {
@@ -2099,8 +2096,6 @@ public final class PluginProtos {
       public static final int INSERTION_POINT_FIELD_NUMBER = 2;
       private volatile java.lang.Object insertionPoint_;
       /**
-       * <code>optional string insertion_point = 2;</code>
-       *
        * <pre>
        * If non-empty, indicates that the named file should already exist, and the
        * content here is to be inserted into that file at a defined insertion
@@ -2136,13 +2131,13 @@ public final class PluginProtos {
        * command line.
        * If |insertion_point| is present, |name| must also be present.
        * </pre>
+       *
+       * <code>optional string insertion_point = 2;</code>
        */
       public boolean hasInsertionPoint() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional string insertion_point = 2;</code>
-       *
        * <pre>
        * If non-empty, indicates that the named file should already exist, and the
        * content here is to be inserted into that file at a defined insertion
@@ -2178,6 +2173,8 @@ public final class PluginProtos {
        * command line.
        * If |insertion_point| is present, |name| must also be present.
        * </pre>
+       *
+       * <code>optional string insertion_point = 2;</code>
        */
       public java.lang.String getInsertionPoint() {
         java.lang.Object ref = insertionPoint_;
@@ -2194,8 +2191,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>optional string insertion_point = 2;</code>
-       *
        * <pre>
        * If non-empty, indicates that the named file should already exist, and the
        * content here is to be inserted into that file at a defined insertion
@@ -2231,6 +2226,8 @@ public final class PluginProtos {
        * command line.
        * If |insertion_point| is present, |name| must also be present.
        * </pre>
+       *
+       * <code>optional string insertion_point = 2;</code>
        */
       public com.google.protobuf.ByteString
           getInsertionPointBytes() {
@@ -2249,21 +2246,21 @@ public final class PluginProtos {
       public static final int CONTENT_FIELD_NUMBER = 15;
       private volatile java.lang.Object content_;
       /**
-       * <code>optional string content = 15;</code>
-       *
        * <pre>
        * The file contents.
        * </pre>
+       *
+       * <code>optional string content = 15;</code>
        */
       public boolean hasContent() {
         return ((bitField0_ & 0x00000004) == 0x00000004);
       }
       /**
-       * <code>optional string content = 15;</code>
-       *
        * <pre>
        * The file contents.
        * </pre>
+       *
+       * <code>optional string content = 15;</code>
        */
       public java.lang.String getContent() {
         java.lang.Object ref = content_;
@@ -2280,11 +2277,11 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>optional string content = 15;</code>
-       *
        * <pre>
        * The file contents.
        * </pre>
+       *
+       * <code>optional string content = 15;</code>
        */
       public com.google.protobuf.ByteString
           getContentBytes() {
@@ -2367,34 +2364,40 @@ public final class PluginProtos {
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return PARSER.parseFrom(input);
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input);
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return PARSER.parseDelimitedFrom(input, extensionRegistry);
+        return com.google.protobuf.GeneratedMessage
+            .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
-        return PARSER.parseFrom(input);
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return PARSER.parseFrom(input, extensionRegistry);
+        return com.google.protobuf.GeneratedMessage
+            .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
       public Builder newBuilderForType() { return newBuilder(); }
@@ -2416,11 +2419,11 @@ public final class PluginProtos {
         return builder;
       }
       /**
-       * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse.File}
-       *
        * <pre>
        * Represents a single generated file.
        * </pre>
+       *
+       * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse.File}
        */
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -2545,7 +2548,7 @@ public final class PluginProtos {
             parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
           } catch (com.google.protobuf.InvalidProtocolBufferException e) {
             parsedMessage = (com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File) e.getUnfinishedMessage();
-            throw e;
+            throw e.unwrapIOException();
           } finally {
             if (parsedMessage != null) {
               mergeFrom(parsedMessage);
@@ -2557,8 +2560,6 @@ public final class PluginProtos {
 
         private java.lang.Object name_ = "";
         /**
-         * <code>optional string name = 1;</code>
-         *
          * <pre>
          * The file name, relative to the output directory.  The name must not
          * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2571,13 +2572,13 @@ public final class PluginProtos {
          * this writing protoc does not optimize for this -- it will read the entire
          * CodeGeneratorResponse before writing files to disk.
          * </pre>
+         *
+         * <code>optional string name = 1;</code>
          */
         public boolean hasName() {
           return ((bitField0_ & 0x00000001) == 0x00000001);
         }
         /**
-         * <code>optional string name = 1;</code>
-         *
          * <pre>
          * The file name, relative to the output directory.  The name must not
          * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2590,6 +2591,8 @@ public final class PluginProtos {
          * this writing protoc does not optimize for this -- it will read the entire
          * CodeGeneratorResponse before writing files to disk.
          * </pre>
+         *
+         * <code>optional string name = 1;</code>
          */
         public java.lang.String getName() {
           java.lang.Object ref = name_;
@@ -2606,8 +2609,6 @@ public final class PluginProtos {
           }
         }
         /**
-         * <code>optional string name = 1;</code>
-         *
          * <pre>
          * The file name, relative to the output directory.  The name must not
          * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2620,6 +2621,8 @@ public final class PluginProtos {
          * this writing protoc does not optimize for this -- it will read the entire
          * CodeGeneratorResponse before writing files to disk.
          * </pre>
+         *
+         * <code>optional string name = 1;</code>
          */
         public com.google.protobuf.ByteString
             getNameBytes() {
@@ -2635,8 +2638,6 @@ public final class PluginProtos {
           }
         }
         /**
-         * <code>optional string name = 1;</code>
-         *
          * <pre>
          * The file name, relative to the output directory.  The name must not
          * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2649,6 +2650,8 @@ public final class PluginProtos {
          * this writing protoc does not optimize for this -- it will read the entire
          * CodeGeneratorResponse before writing files to disk.
          * </pre>
+         *
+         * <code>optional string name = 1;</code>
          */
         public Builder setName(
             java.lang.String value) {
@@ -2661,8 +2664,6 @@ public final class PluginProtos {
           return this;
         }
         /**
-         * <code>optional string name = 1;</code>
-         *
          * <pre>
          * The file name, relative to the output directory.  The name must not
          * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2675,6 +2676,8 @@ public final class PluginProtos {
          * this writing protoc does not optimize for this -- it will read the entire
          * CodeGeneratorResponse before writing files to disk.
          * </pre>
+         *
+         * <code>optional string name = 1;</code>
          */
         public Builder clearName() {
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -2683,8 +2686,6 @@ public final class PluginProtos {
           return this;
         }
         /**
-         * <code>optional string name = 1;</code>
-         *
          * <pre>
          * The file name, relative to the output directory.  The name must not
          * contain "." or ".." components and must be relative, not be absolute (so,
@@ -2697,6 +2698,8 @@ public final class PluginProtos {
          * this writing protoc does not optimize for this -- it will read the entire
          * CodeGeneratorResponse before writing files to disk.
          * </pre>
+         *
+         * <code>optional string name = 1;</code>
          */
         public Builder setNameBytes(
             com.google.protobuf.ByteString value) {
@@ -2711,8 +2714,6 @@ public final class PluginProtos {
 
         private java.lang.Object insertionPoint_ = "";
         /**
-         * <code>optional string insertion_point = 2;</code>
-         *
          * <pre>
          * If non-empty, indicates that the named file should already exist, and the
          * content here is to be inserted into that file at a defined insertion
@@ -2748,13 +2749,13 @@ public final class PluginProtos {
          * command line.
          * If |insertion_point| is present, |name| must also be present.
          * </pre>
+         *
+         * <code>optional string insertion_point = 2;</code>
          */
         public boolean hasInsertionPoint() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
         /**
-         * <code>optional string insertion_point = 2;</code>
-         *
          * <pre>
          * If non-empty, indicates that the named file should already exist, and the
          * content here is to be inserted into that file at a defined insertion
@@ -2790,6 +2791,8 @@ public final class PluginProtos {
          * command line.
          * If |insertion_point| is present, |name| must also be present.
          * </pre>
+         *
+         * <code>optional string insertion_point = 2;</code>
          */
         public java.lang.String getInsertionPoint() {
           java.lang.Object ref = insertionPoint_;
@@ -2806,8 +2809,6 @@ public final class PluginProtos {
           }
         }
         /**
-         * <code>optional string insertion_point = 2;</code>
-         *
          * <pre>
          * If non-empty, indicates that the named file should already exist, and the
          * content here is to be inserted into that file at a defined insertion
@@ -2843,6 +2844,8 @@ public final class PluginProtos {
          * command line.
          * If |insertion_point| is present, |name| must also be present.
          * </pre>
+         *
+         * <code>optional string insertion_point = 2;</code>
          */
         public com.google.protobuf.ByteString
             getInsertionPointBytes() {
@@ -2858,8 +2861,6 @@ public final class PluginProtos {
           }
         }
         /**
-         * <code>optional string insertion_point = 2;</code>
-         *
          * <pre>
          * If non-empty, indicates that the named file should already exist, and the
          * content here is to be inserted into that file at a defined insertion
@@ -2895,6 +2896,8 @@ public final class PluginProtos {
          * command line.
          * If |insertion_point| is present, |name| must also be present.
          * </pre>
+         *
+         * <code>optional string insertion_point = 2;</code>
          */
         public Builder setInsertionPoint(
             java.lang.String value) {
@@ -2907,8 +2910,6 @@ public final class PluginProtos {
           return this;
         }
         /**
-         * <code>optional string insertion_point = 2;</code>
-         *
          * <pre>
          * If non-empty, indicates that the named file should already exist, and the
          * content here is to be inserted into that file at a defined insertion
@@ -2944,6 +2945,8 @@ public final class PluginProtos {
          * command line.
          * If |insertion_point| is present, |name| must also be present.
          * </pre>
+         *
+         * <code>optional string insertion_point = 2;</code>
          */
         public Builder clearInsertionPoint() {
           bitField0_ = (bitField0_ & ~0x00000002);
@@ -2952,8 +2955,6 @@ public final class PluginProtos {
           return this;
         }
         /**
-         * <code>optional string insertion_point = 2;</code>
-         *
          * <pre>
          * If non-empty, indicates that the named file should already exist, and the
          * content here is to be inserted into that file at a defined insertion
@@ -2989,6 +2990,8 @@ public final class PluginProtos {
          * command line.
          * If |insertion_point| is present, |name| must also be present.
          * </pre>
+         *
+         * <code>optional string insertion_point = 2;</code>
          */
         public Builder setInsertionPointBytes(
             com.google.protobuf.ByteString value) {
@@ -3003,21 +3006,21 @@ public final class PluginProtos {
 
         private java.lang.Object content_ = "";
         /**
-         * <code>optional string content = 15;</code>
-         *
          * <pre>
          * The file contents.
          * </pre>
+         *
+         * <code>optional string content = 15;</code>
          */
         public boolean hasContent() {
           return ((bitField0_ & 0x00000004) == 0x00000004);
         }
         /**
-         * <code>optional string content = 15;</code>
-         *
          * <pre>
          * The file contents.
          * </pre>
+         *
+         * <code>optional string content = 15;</code>
          */
         public java.lang.String getContent() {
           java.lang.Object ref = content_;
@@ -3034,11 +3037,11 @@ public final class PluginProtos {
           }
         }
         /**
-         * <code>optional string content = 15;</code>
-         *
          * <pre>
          * The file contents.
          * </pre>
+         *
+         * <code>optional string content = 15;</code>
          */
         public com.google.protobuf.ByteString
             getContentBytes() {
@@ -3054,11 +3057,11 @@ public final class PluginProtos {
           }
         }
         /**
-         * <code>optional string content = 15;</code>
-         *
          * <pre>
          * The file contents.
          * </pre>
+         *
+         * <code>optional string content = 15;</code>
          */
         public Builder setContent(
             java.lang.String value) {
@@ -3071,11 +3074,11 @@ public final class PluginProtos {
           return this;
         }
         /**
-         * <code>optional string content = 15;</code>
-         *
          * <pre>
          * The file contents.
          * </pre>
+         *
+         * <code>optional string content = 15;</code>
          */
         public Builder clearContent() {
           bitField0_ = (bitField0_ & ~0x00000004);
@@ -3084,11 +3087,11 @@ public final class PluginProtos {
           return this;
         }
         /**
-         * <code>optional string content = 15;</code>
-         *
          * <pre>
          * The file contents.
          * </pre>
+         *
+         * <code>optional string content = 15;</code>
          */
         public Builder setContentBytes(
             com.google.protobuf.ByteString value) {
@@ -3120,16 +3123,7 @@ public final class PluginProtos {
             com.google.protobuf.CodedInputStream input,
             com.google.protobuf.ExtensionRegistryLite extensionRegistry)
             throws com.google.protobuf.InvalidProtocolBufferException {
-          try {
             return new File(input, extensionRegistry);
-          } catch (RuntimeException e) {
-            if (e.getCause() instanceof
-                com.google.protobuf.InvalidProtocolBufferException) {
-              throw (com.google.protobuf.InvalidProtocolBufferException)
-                  e.getCause();
-            }
-            throw e;
-          }
         }
       };
 
@@ -3152,8 +3146,6 @@ public final class PluginProtos {
     public static final int ERROR_FIELD_NUMBER = 1;
     private volatile java.lang.Object error_;
     /**
-     * <code>optional string error = 1;</code>
-     *
      * <pre>
      * Error message.  If non-empty, code generation failed.  The plugin process
      * should exit with status code zero even if it reports an error in this way.
@@ -3163,13 +3155,13 @@ public final class PluginProtos {
      * unparseable -- should be reported by writing a message to stderr and
      * exiting with a non-zero status code.
      * </pre>
+     *
+     * <code>optional string error = 1;</code>
      */
     public boolean hasError() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string error = 1;</code>
-     *
      * <pre>
      * Error message.  If non-empty, code generation failed.  The plugin process
      * should exit with status code zero even if it reports an error in this way.
@@ -3179,6 +3171,8 @@ public final class PluginProtos {
      * unparseable -- should be reported by writing a message to stderr and
      * exiting with a non-zero status code.
      * </pre>
+     *
+     * <code>optional string error = 1;</code>
      */
     public java.lang.String getError() {
       java.lang.Object ref = error_;
@@ -3195,8 +3189,6 @@ public final class PluginProtos {
       }
     }
     /**
-     * <code>optional string error = 1;</code>
-     *
      * <pre>
      * Error message.  If non-empty, code generation failed.  The plugin process
      * should exit with status code zero even if it reports an error in this way.
@@ -3206,6 +3198,8 @@ public final class PluginProtos {
      * unparseable -- should be reported by writing a message to stderr and
      * exiting with a non-zero status code.
      * </pre>
+     *
+     * <code>optional string error = 1;</code>
      */
     public com.google.protobuf.ByteString
         getErrorBytes() {
@@ -3318,34 +3312,40 @@ public final class PluginProtos {
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
     public Builder newBuilderForType() { return newBuilder(); }
@@ -3367,11 +3367,11 @@ public final class PluginProtos {
       return builder;
     }
     /**
-     * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse}
-     *
      * <pre>
      * The plugin writes an encoded CodeGeneratorResponse to stdout.
      * </pre>
+     *
+     * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder> implements
@@ -3516,7 +3516,7 @@ public final class PluginProtos {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -3528,8 +3528,6 @@ public final class PluginProtos {
 
       private java.lang.Object error_ = "";
       /**
-       * <code>optional string error = 1;</code>
-       *
        * <pre>
        * Error message.  If non-empty, code generation failed.  The plugin process
        * should exit with status code zero even if it reports an error in this way.
@@ -3539,13 +3537,13 @@ public final class PluginProtos {
        * unparseable -- should be reported by writing a message to stderr and
        * exiting with a non-zero status code.
        * </pre>
+       *
+       * <code>optional string error = 1;</code>
        */
       public boolean hasError() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string error = 1;</code>
-       *
        * <pre>
        * Error message.  If non-empty, code generation failed.  The plugin process
        * should exit with status code zero even if it reports an error in this way.
@@ -3555,6 +3553,8 @@ public final class PluginProtos {
        * unparseable -- should be reported by writing a message to stderr and
        * exiting with a non-zero status code.
        * </pre>
+       *
+       * <code>optional string error = 1;</code>
        */
       public java.lang.String getError() {
         java.lang.Object ref = error_;
@@ -3571,8 +3571,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>optional string error = 1;</code>
-       *
        * <pre>
        * Error message.  If non-empty, code generation failed.  The plugin process
        * should exit with status code zero even if it reports an error in this way.
@@ -3582,6 +3580,8 @@ public final class PluginProtos {
        * unparseable -- should be reported by writing a message to stderr and
        * exiting with a non-zero status code.
        * </pre>
+       *
+       * <code>optional string error = 1;</code>
        */
       public com.google.protobuf.ByteString
           getErrorBytes() {
@@ -3597,8 +3597,6 @@ public final class PluginProtos {
         }
       }
       /**
-       * <code>optional string error = 1;</code>
-       *
        * <pre>
        * Error message.  If non-empty, code generation failed.  The plugin process
        * should exit with status code zero even if it reports an error in this way.
@@ -3608,6 +3606,8 @@ public final class PluginProtos {
        * unparseable -- should be reported by writing a message to stderr and
        * exiting with a non-zero status code.
        * </pre>
+       *
+       * <code>optional string error = 1;</code>
        */
       public Builder setError(
           java.lang.String value) {
@@ -3620,8 +3620,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>optional string error = 1;</code>
-       *
        * <pre>
        * Error message.  If non-empty, code generation failed.  The plugin process
        * should exit with status code zero even if it reports an error in this way.
@@ -3631,6 +3629,8 @@ public final class PluginProtos {
        * unparseable -- should be reported by writing a message to stderr and
        * exiting with a non-zero status code.
        * </pre>
+       *
+       * <code>optional string error = 1;</code>
        */
       public Builder clearError() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -3639,8 +3639,6 @@ public final class PluginProtos {
         return this;
       }
       /**
-       * <code>optional string error = 1;</code>
-       *
        * <pre>
        * Error message.  If non-empty, code generation failed.  The plugin process
        * should exit with status code zero even if it reports an error in this way.
@@ -3650,6 +3648,8 @@ public final class PluginProtos {
        * unparseable -- should be reported by writing a message to stderr and
        * exiting with a non-zero status code.
        * </pre>
+       *
+       * <code>optional string error = 1;</code>
        */
       public Builder setErrorBytes(
           com.google.protobuf.ByteString value) {
@@ -3921,16 +3921,7 @@ public final class PluginProtos {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
           return new CodeGeneratorResponse(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
       }
     };
 
@@ -3949,19 +3940,19 @@ public final class PluginProtos {
 
   }
 
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorRequest_descriptor;
-  private static
+  private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorRequest_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor;
-  private static
+  private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorResponse_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_descriptor;
-  private static
+  private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_fieldAccessorTable;
 
@@ -3969,7 +3960,7 @@ public final class PluginProtos {
       getDescriptor() {
     return descriptor;
   }
-  private static com.google.protobuf.Descriptors.FileDescriptor
+  private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
     java.lang.String[] descriptorData = {

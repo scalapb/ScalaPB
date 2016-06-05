@@ -16,147 +16,147 @@ public final class Scalapb {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional string package_name = 1;</code>
-     *
      * <pre>
      * If set then it overrides the java_package and package.
      * </pre>
+     *
+     * <code>optional string package_name = 1;</code>
      */
     boolean hasPackageName();
     /**
-     * <code>optional string package_name = 1;</code>
-     *
      * <pre>
      * If set then it overrides the java_package and package.
      * </pre>
+     *
+     * <code>optional string package_name = 1;</code>
      */
     java.lang.String getPackageName();
     /**
-     * <code>optional string package_name = 1;</code>
-     *
      * <pre>
      * If set then it overrides the java_package and package.
      * </pre>
+     *
+     * <code>optional string package_name = 1;</code>
      */
     com.google.protobuf.ByteString
         getPackageNameBytes();
 
     /**
-     * <code>optional bool flat_package = 2;</code>
-     *
      * <pre>
      * If true, the compiler does not append the proto base file name
      * into the generated package name. If false (the default), the
      * generated scala package name is the package_name.basename where
      * basename is the proto file name without the .proto extension.
      * </pre>
+     *
+     * <code>optional bool flat_package = 2;</code>
      */
     boolean hasFlatPackage();
     /**
-     * <code>optional bool flat_package = 2;</code>
-     *
      * <pre>
      * If true, the compiler does not append the proto base file name
      * into the generated package name. If false (the default), the
      * generated scala package name is the package_name.basename where
      * basename is the proto file name without the .proto extension.
      * </pre>
+     *
+     * <code>optional bool flat_package = 2;</code>
      */
     boolean getFlatPackage();
 
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     com.google.protobuf.ProtocolStringList
         getImportList();
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     int getImportCount();
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     java.lang.String getImport(int index);
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     com.google.protobuf.ByteString
         getImportBytes(int index);
 
     /**
-     * <code>optional bool single_file = 5;</code>
-     *
      * <pre>
      * If true, all messages and enums (but not services) will be written
      * to a single Scala file.
      * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
      */
     boolean hasSingleFile();
     /**
-     * <code>optional bool single_file = 5;</code>
-     *
      * <pre>
      * If true, all messages and enums (but not services) will be written
      * to a single Scala file.
      * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
      */
     boolean getSingleFile();
 
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     com.google.protobuf.ProtocolStringList
         getPreambleList();
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     int getPreambleCount();
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     java.lang.String getPreamble(int index);
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     com.google.protobuf.ByteString
         getPreambleBytes(int index);
@@ -187,7 +187,8 @@ public final class Scalapb {
     }
     private ScalaPbOptions(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
@@ -244,11 +245,10 @@ public final class Scalapb {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw new RuntimeException(e.setUnfinishedMessage(this));
+        throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
-        throw new RuntimeException(
-            new com.google.protobuf.InvalidProtocolBufferException(
-                e.getMessage()).setUnfinishedMessage(this));
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           import_ = import_.getUnmodifiableView();
@@ -276,21 +276,21 @@ public final class Scalapb {
     public static final int PACKAGE_NAME_FIELD_NUMBER = 1;
     private volatile java.lang.Object packageName_;
     /**
-     * <code>optional string package_name = 1;</code>
-     *
      * <pre>
      * If set then it overrides the java_package and package.
      * </pre>
+     *
+     * <code>optional string package_name = 1;</code>
      */
     public boolean hasPackageName() {
       return ((bitField0_ & 0x00000001) == 0x00000001);
     }
     /**
-     * <code>optional string package_name = 1;</code>
-     *
      * <pre>
      * If set then it overrides the java_package and package.
      * </pre>
+     *
+     * <code>optional string package_name = 1;</code>
      */
     public java.lang.String getPackageName() {
       java.lang.Object ref = packageName_;
@@ -307,11 +307,11 @@ public final class Scalapb {
       }
     }
     /**
-     * <code>optional string package_name = 1;</code>
-     *
      * <pre>
      * If set then it overrides the java_package and package.
      * </pre>
+     *
+     * <code>optional string package_name = 1;</code>
      */
     public com.google.protobuf.ByteString
         getPackageNameBytes() {
@@ -330,27 +330,27 @@ public final class Scalapb {
     public static final int FLAT_PACKAGE_FIELD_NUMBER = 2;
     private boolean flatPackage_;
     /**
-     * <code>optional bool flat_package = 2;</code>
-     *
      * <pre>
      * If true, the compiler does not append the proto base file name
      * into the generated package name. If false (the default), the
      * generated scala package name is the package_name.basename where
      * basename is the proto file name without the .proto extension.
      * </pre>
+     *
+     * <code>optional bool flat_package = 2;</code>
      */
     public boolean hasFlatPackage() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
     /**
-     * <code>optional bool flat_package = 2;</code>
-     *
      * <pre>
      * If true, the compiler does not append the proto base file name
      * into the generated package name. If false (the default), the
      * generated scala package name is the package_name.basename where
      * basename is the proto file name without the .proto extension.
      * </pre>
+     *
+     * <code>optional bool flat_package = 2;</code>
      */
     public boolean getFlatPackage() {
       return flatPackage_;
@@ -359,46 +359,46 @@ public final class Scalapb {
     public static final int IMPORT_FIELD_NUMBER = 3;
     private com.google.protobuf.LazyStringList import_;
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getImportList() {
       return import_;
     }
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     public int getImportCount() {
       return import_.size();
     }
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     public java.lang.String getImport(int index) {
       return import_.get(index);
     }
     /**
-     * <code>repeated string import = 3;</code>
-     *
      * <pre>
      * Adds the following imports at the top of the file (this is meant
      * to provide implicit TypeMappers)
      * </pre>
+     *
+     * <code>repeated string import = 3;</code>
      */
     public com.google.protobuf.ByteString
         getImportBytes(int index) {
@@ -408,23 +408,23 @@ public final class Scalapb {
     public static final int SINGLE_FILE_FIELD_NUMBER = 5;
     private boolean singleFile_;
     /**
-     * <code>optional bool single_file = 5;</code>
-     *
      * <pre>
      * If true, all messages and enums (but not services) will be written
      * to a single Scala file.
      * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
      */
     public boolean hasSingleFile() {
       return ((bitField0_ & 0x00000004) == 0x00000004);
     }
     /**
-     * <code>optional bool single_file = 5;</code>
-     *
      * <pre>
      * If true, all messages and enums (but not services) will be written
      * to a single Scala file.
      * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
      */
     public boolean getSingleFile() {
       return singleFile_;
@@ -433,46 +433,46 @@ public final class Scalapb {
     public static final int PREAMBLE_FIELD_NUMBER = 4;
     private com.google.protobuf.LazyStringList preamble_;
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getPreambleList() {
       return preamble_;
     }
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     public int getPreambleCount() {
       return preamble_.size();
     }
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     public java.lang.String getPreamble(int index) {
       return preamble_.get(index);
     }
     /**
-     * <code>repeated string preamble = 4;</code>
-     *
      * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
+     *
+     * <code>repeated string preamble = 4;</code>
      */
     public com.google.protobuf.ByteString
         getPreambleBytes(int index) {
@@ -570,34 +570,40 @@ public final class Scalapb {
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
     public Builder newBuilderForType() { return newBuilder(); }
@@ -774,7 +780,7 @@ public final class Scalapb {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.trueaccord.scalapb.Scalapb.ScalaPbOptions) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -786,21 +792,21 @@ public final class Scalapb {
 
       private java.lang.Object packageName_ = "";
       /**
-       * <code>optional string package_name = 1;</code>
-       *
        * <pre>
        * If set then it overrides the java_package and package.
        * </pre>
+       *
+       * <code>optional string package_name = 1;</code>
        */
       public boolean hasPackageName() {
         return ((bitField0_ & 0x00000001) == 0x00000001);
       }
       /**
-       * <code>optional string package_name = 1;</code>
-       *
        * <pre>
        * If set then it overrides the java_package and package.
        * </pre>
+       *
+       * <code>optional string package_name = 1;</code>
        */
       public java.lang.String getPackageName() {
         java.lang.Object ref = packageName_;
@@ -817,11 +823,11 @@ public final class Scalapb {
         }
       }
       /**
-       * <code>optional string package_name = 1;</code>
-       *
        * <pre>
        * If set then it overrides the java_package and package.
        * </pre>
+       *
+       * <code>optional string package_name = 1;</code>
        */
       public com.google.protobuf.ByteString
           getPackageNameBytes() {
@@ -837,11 +843,11 @@ public final class Scalapb {
         }
       }
       /**
-       * <code>optional string package_name = 1;</code>
-       *
        * <pre>
        * If set then it overrides the java_package and package.
        * </pre>
+       *
+       * <code>optional string package_name = 1;</code>
        */
       public Builder setPackageName(
           java.lang.String value) {
@@ -854,11 +860,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>optional string package_name = 1;</code>
-       *
        * <pre>
        * If set then it overrides the java_package and package.
        * </pre>
+       *
+       * <code>optional string package_name = 1;</code>
        */
       public Builder clearPackageName() {
         bitField0_ = (bitField0_ & ~0x00000001);
@@ -867,11 +873,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>optional string package_name = 1;</code>
-       *
        * <pre>
        * If set then it overrides the java_package and package.
        * </pre>
+       *
+       * <code>optional string package_name = 1;</code>
        */
       public Builder setPackageNameBytes(
           com.google.protobuf.ByteString value) {
@@ -886,40 +892,40 @@ public final class Scalapb {
 
       private boolean flatPackage_ ;
       /**
-       * <code>optional bool flat_package = 2;</code>
-       *
        * <pre>
        * If true, the compiler does not append the proto base file name
        * into the generated package name. If false (the default), the
        * generated scala package name is the package_name.basename where
        * basename is the proto file name without the .proto extension.
        * </pre>
+       *
+       * <code>optional bool flat_package = 2;</code>
        */
       public boolean hasFlatPackage() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
       /**
-       * <code>optional bool flat_package = 2;</code>
-       *
        * <pre>
        * If true, the compiler does not append the proto base file name
        * into the generated package name. If false (the default), the
        * generated scala package name is the package_name.basename where
        * basename is the proto file name without the .proto extension.
        * </pre>
+       *
+       * <code>optional bool flat_package = 2;</code>
        */
       public boolean getFlatPackage() {
         return flatPackage_;
       }
       /**
-       * <code>optional bool flat_package = 2;</code>
-       *
        * <pre>
        * If true, the compiler does not append the proto base file name
        * into the generated package name. If false (the default), the
        * generated scala package name is the package_name.basename where
        * basename is the proto file name without the .proto extension.
        * </pre>
+       *
+       * <code>optional bool flat_package = 2;</code>
        */
       public Builder setFlatPackage(boolean value) {
         bitField0_ |= 0x00000002;
@@ -928,14 +934,14 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>optional bool flat_package = 2;</code>
-       *
        * <pre>
        * If true, the compiler does not append the proto base file name
        * into the generated package name. If false (the default), the
        * generated scala package name is the package_name.basename where
        * basename is the proto file name without the .proto extension.
        * </pre>
+       *
+       * <code>optional bool flat_package = 2;</code>
        */
       public Builder clearFlatPackage() {
         bitField0_ = (bitField0_ & ~0x00000002);
@@ -952,58 +958,58 @@ public final class Scalapb {
          }
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public com.google.protobuf.ProtocolStringList
           getImportList() {
         return import_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public int getImportCount() {
         return import_.size();
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public java.lang.String getImport(int index) {
         return import_.get(index);
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public com.google.protobuf.ByteString
           getImportBytes(int index) {
         return import_.getByteString(index);
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public Builder setImport(
           int index, java.lang.String value) {
@@ -1016,12 +1022,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public Builder addImport(
           java.lang.String value) {
@@ -1034,12 +1040,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public Builder addAllImport(
           java.lang.Iterable<java.lang.String> values) {
@@ -1050,12 +1056,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public Builder clearImport() {
         import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -1064,12 +1070,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string import = 3;</code>
-       *
        * <pre>
        * Adds the following imports at the top of the file (this is meant
        * to provide implicit TypeMappers)
        * </pre>
+       *
+       * <code>repeated string import = 3;</code>
        */
       public Builder addImportBytes(
           com.google.protobuf.ByteString value) {
@@ -1084,34 +1090,34 @@ public final class Scalapb {
 
       private boolean singleFile_ ;
       /**
-       * <code>optional bool single_file = 5;</code>
-       *
        * <pre>
        * If true, all messages and enums (but not services) will be written
        * to a single Scala file.
        * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
        */
       public boolean hasSingleFile() {
         return ((bitField0_ & 0x00000008) == 0x00000008);
       }
       /**
-       * <code>optional bool single_file = 5;</code>
-       *
        * <pre>
        * If true, all messages and enums (but not services) will be written
        * to a single Scala file.
        * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
        */
       public boolean getSingleFile() {
         return singleFile_;
       }
       /**
-       * <code>optional bool single_file = 5;</code>
-       *
        * <pre>
        * If true, all messages and enums (but not services) will be written
        * to a single Scala file.
        * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
        */
       public Builder setSingleFile(boolean value) {
         bitField0_ |= 0x00000008;
@@ -1120,12 +1126,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>optional bool single_file = 5;</code>
-       *
        * <pre>
        * If true, all messages and enums (but not services) will be written
        * to a single Scala file.
        * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
        */
       public Builder clearSingleFile() {
         bitField0_ = (bitField0_ & ~0x00000008);
@@ -1142,58 +1148,58 @@ public final class Scalapb {
          }
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public com.google.protobuf.ProtocolStringList
           getPreambleList() {
         return preamble_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public int getPreambleCount() {
         return preamble_.size();
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public java.lang.String getPreamble(int index) {
         return preamble_.get(index);
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public com.google.protobuf.ByteString
           getPreambleBytes(int index) {
         return preamble_.getByteString(index);
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public Builder setPreamble(
           int index, java.lang.String value) {
@@ -1206,12 +1212,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public Builder addPreamble(
           java.lang.String value) {
@@ -1224,12 +1230,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public Builder addAllPreamble(
           java.lang.Iterable<java.lang.String> values) {
@@ -1240,12 +1246,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public Builder clearPreamble() {
         preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -1254,12 +1260,12 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string preamble = 4;</code>
-       *
        * <pre>
        * Text to add to the generated scala file.  This can be used only
        * when single_file is true.
        * </pre>
+       *
+       * <code>repeated string preamble = 4;</code>
        */
       public Builder addPreambleBytes(
           com.google.protobuf.ByteString value) {
@@ -1291,16 +1297,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
           return new ScalaPbOptions(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
       }
     };
 
@@ -1324,71 +1321,71 @@ public final class Scalapb {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     com.google.protobuf.ProtocolStringList
         getExtendsList();
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     int getExtendsCount();
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     java.lang.String getExtends(int index);
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     com.google.protobuf.ByteString
         getExtendsBytes(int index);
 
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     com.google.protobuf.ProtocolStringList
         getCompanionExtendsList();
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     int getCompanionExtendsCount();
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     java.lang.String getCompanionExtends(int index);
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     com.google.protobuf.ByteString
         getCompanionExtendsBytes(int index);
@@ -1416,7 +1413,8 @@ public final class Scalapb {
     }
     private MessageOptions(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
@@ -1457,11 +1455,10 @@ public final class Scalapb {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw new RuntimeException(e.setUnfinishedMessage(this));
+        throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
-        throw new RuntimeException(
-            new com.google.protobuf.InvalidProtocolBufferException(
-                e.getMessage()).setUnfinishedMessage(this));
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
       } finally {
         if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
           extends_ = extends_.getUnmodifiableView();
@@ -1488,42 +1485,42 @@ public final class Scalapb {
     public static final int EXTENDS_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList extends_;
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getExtendsList() {
       return extends_;
     }
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     public int getExtendsCount() {
       return extends_.size();
     }
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     public java.lang.String getExtends(int index) {
       return extends_.get(index);
     }
     /**
-     * <code>repeated string extends = 1;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the case class.
      * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
      */
     public com.google.protobuf.ByteString
         getExtendsBytes(int index) {
@@ -1533,42 +1530,42 @@ public final class Scalapb {
     public static final int COMPANION_EXTENDS_FIELD_NUMBER = 2;
     private com.google.protobuf.LazyStringList companionExtends_;
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     public com.google.protobuf.ProtocolStringList
         getCompanionExtendsList() {
       return companionExtends_;
     }
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     public int getCompanionExtendsCount() {
       return companionExtends_.size();
     }
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     public java.lang.String getCompanionExtends(int index) {
       return companionExtends_.get(index);
     }
     /**
-     * <code>repeated string companion_extends = 2;</code>
-     *
      * <pre>
      * Additional classes and traits to mix in to the companion object.
      * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
      */
     public com.google.protobuf.ByteString
         getCompanionExtendsBytes(int index) {
@@ -1646,34 +1643,40 @@ public final class Scalapb {
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
     public Builder newBuilderForType() { return newBuilder(); }
@@ -1819,7 +1822,7 @@ public final class Scalapb {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.trueaccord.scalapb.Scalapb.MessageOptions) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -1837,53 +1840,53 @@ public final class Scalapb {
          }
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public com.google.protobuf.ProtocolStringList
           getExtendsList() {
         return extends_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public int getExtendsCount() {
         return extends_.size();
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public java.lang.String getExtends(int index) {
         return extends_.get(index);
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public com.google.protobuf.ByteString
           getExtendsBytes(int index) {
         return extends_.getByteString(index);
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public Builder setExtends(
           int index, java.lang.String value) {
@@ -1896,11 +1899,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public Builder addExtends(
           java.lang.String value) {
@@ -1913,11 +1916,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public Builder addAllExtends(
           java.lang.Iterable<java.lang.String> values) {
@@ -1928,11 +1931,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public Builder clearExtends() {
         extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -1941,11 +1944,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string extends = 1;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the case class.
        * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
        */
       public Builder addExtendsBytes(
           com.google.protobuf.ByteString value) {
@@ -1966,53 +1969,53 @@ public final class Scalapb {
          }
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public com.google.protobuf.ProtocolStringList
           getCompanionExtendsList() {
         return companionExtends_.getUnmodifiableView();
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public int getCompanionExtendsCount() {
         return companionExtends_.size();
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public java.lang.String getCompanionExtends(int index) {
         return companionExtends_.get(index);
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public com.google.protobuf.ByteString
           getCompanionExtendsBytes(int index) {
         return companionExtends_.getByteString(index);
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public Builder setCompanionExtends(
           int index, java.lang.String value) {
@@ -2025,11 +2028,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public Builder addCompanionExtends(
           java.lang.String value) {
@@ -2042,11 +2045,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public Builder addAllCompanionExtends(
           java.lang.Iterable<java.lang.String> values) {
@@ -2057,11 +2060,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public Builder clearCompanionExtends() {
         companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -2070,11 +2073,11 @@ public final class Scalapb {
         return this;
       }
       /**
-       * <code>repeated string companion_extends = 2;</code>
-       *
        * <pre>
        * Additional classes and traits to mix in to the companion object.
        * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
        */
       public Builder addCompanionExtendsBytes(
           com.google.protobuf.ByteString value) {
@@ -2106,16 +2109,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
           return new MessageOptions(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
       }
     };
 
@@ -2174,7 +2168,8 @@ public final class Scalapb {
     }
     private FieldOptions(
         com.google.protobuf.CodedInputStream input,
-        com.google.protobuf.ExtensionRegistryLite extensionRegistry) {
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
       this();
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
@@ -2203,11 +2198,10 @@ public final class Scalapb {
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        throw new RuntimeException(e.setUnfinishedMessage(this));
+        throw e.setUnfinishedMessage(this);
       } catch (java.io.IOException e) {
-        throw new RuntimeException(
-            new com.google.protobuf.InvalidProtocolBufferException(
-                e.getMessage()).setUnfinishedMessage(this));
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
       } finally {
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2323,34 +2317,40 @@ public final class Scalapb {
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseDelimitedFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return PARSER.parseFrom(input);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return PARSER.parseFrom(input, extensionRegistry);
+      return com.google.protobuf.GeneratedMessage
+          .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
     public Builder newBuilderForType() { return newBuilder(); }
@@ -2475,7 +2475,7 @@ public final class Scalapb {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
           parsedMessage = (com.trueaccord.scalapb.Scalapb.FieldOptions) e.getUnfinishedMessage();
-          throw e;
+          throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
             mergeFrom(parsedMessage);
@@ -2580,16 +2580,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        try {
           return new FieldOptions(input, extensionRegistry);
-        } catch (RuntimeException e) {
-          if (e.getCause() instanceof
-              com.google.protobuf.InvalidProtocolBufferException) {
-            throw (com.google.protobuf.InvalidProtocolBufferException)
-                e.getCause();
-          }
-          throw e;
-        }
       }
     };
 
@@ -2610,12 +2601,12 @@ public final class Scalapb {
 
   public static final int OPTIONS_FIELD_NUMBER = 1020;
   /**
-   * <code>extend .google.protobuf.FileOptions { ... }</code>
-   *
    * <pre>
    * File-level optionals for ScalaPB.
    * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
    * </pre>
+   *
+   * <code>extend .google.protobuf.FileOptions { ... }</code>
    */
   public static final
     com.google.protobuf.GeneratedMessage.GeneratedExtension<
@@ -2626,12 +2617,12 @@ public final class Scalapb {
         com.trueaccord.scalapb.Scalapb.ScalaPbOptions.getDefaultInstance());
   public static final int MESSAGE_FIELD_NUMBER = 1020;
   /**
-   * <code>extend .google.protobuf.MessageOptions { ... }</code>
-   *
    * <pre>
    * Message-level optionals for ScalaPB.
    * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
    * </pre>
+   *
+   * <code>extend .google.protobuf.MessageOptions { ... }</code>
    */
   public static final
     com.google.protobuf.GeneratedMessage.GeneratedExtension<
@@ -2642,12 +2633,12 @@ public final class Scalapb {
         com.trueaccord.scalapb.Scalapb.MessageOptions.getDefaultInstance());
   public static final int FIELD_FIELD_NUMBER = 1020;
   /**
-   * <code>extend .google.protobuf.FieldOptions { ... }</code>
-   *
    * <pre>
    * File-level optionals for ScalaPB.
    * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
    * </pre>
+   *
+   * <code>extend .google.protobuf.FieldOptions { ... }</code>
    */
   public static final
     com.google.protobuf.GeneratedMessage.GeneratedExtension<
@@ -2656,19 +2647,19 @@ public final class Scalapb {
           .newFileScopedGeneratedExtension(
         com.trueaccord.scalapb.Scalapb.FieldOptions.class,
         com.trueaccord.scalapb.Scalapb.FieldOptions.getDefaultInstance());
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_ScalaPbOptions_descriptor;
-  private static
+  private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_scalapb_ScalaPbOptions_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_MessageOptions_descriptor;
-  private static
+  private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_scalapb_MessageOptions_fieldAccessorTable;
-  private static com.google.protobuf.Descriptors.Descriptor
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_FieldOptions_descriptor;
-  private static
+  private static final 
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_scalapb_FieldOptions_fieldAccessorTable;
 
@@ -2676,7 +2667,7 @@ public final class Scalapb {
       getDescriptor() {
     return descriptor;
   }
-  private static com.google.protobuf.Descriptors.FileDescriptor
+  private static  com.google.protobuf.Descriptors.FileDescriptor
       descriptor;
   static {
     java.lang.String[] descriptorData = {
