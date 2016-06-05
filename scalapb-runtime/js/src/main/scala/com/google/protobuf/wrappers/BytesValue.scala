@@ -12,10 +12,19 @@ final case class BytesValue(
     value: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[BytesValue] with com.trueaccord.lenses.Updatable[BytesValue] {
     @transient
-    lazy val serializedSize: Int = {
+    private[this] var __serializedSizeCachedValue: Int = 0
+    private[this] def __computeSerializedValue(): Int = {
       var __size = 0
       if (value != com.google.protobuf.ByteString.EMPTY) { __size += com.google.protobuf.CodedOutputStream.computeBytesSize(1, value) }
       __size
+    }
+    final override def serializedSize: Int = {
+      var read = __serializedSizeCachedValue
+      if (read == 0) {
+        read = __computeSerializedValue()
+        __serializedSizeCachedValue = read
+      }
+      read
     }
     def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
       {
@@ -54,8 +63,8 @@ final case class BytesValue(
     def companion = com.google.protobuf.wrappers.BytesValue
 }
 
-object BytesValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[BytesValue]  {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[BytesValue]  = this
+object BytesValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[BytesValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[BytesValue] = this
   def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.BytesValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

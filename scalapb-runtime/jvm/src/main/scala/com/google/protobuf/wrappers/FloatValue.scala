@@ -12,10 +12,19 @@ final case class FloatValue(
     value: Float = 0.0f
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FloatValue] with com.trueaccord.lenses.Updatable[FloatValue] {
     @transient
-    lazy val serializedSize: Int = {
+    private[this] var __serializedSizeCachedValue: Int = 0
+    private[this] def __computeSerializedValue(): Int = {
       var __size = 0
       if (value != 0.0f) { __size += com.google.protobuf.CodedOutputStream.computeFloatSize(1, value) }
       __size
+    }
+    final override def serializedSize: Int = {
+      var read = __serializedSizeCachedValue
+      if (read == 0) {
+        read = __computeSerializedValue()
+        __serializedSizeCachedValue = read
+      }
+      read
     }
     def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
       {
@@ -54,8 +63,8 @@ final case class FloatValue(
     def companion = com.google.protobuf.wrappers.FloatValue
 }
 
-object FloatValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[FloatValue, com.google.protobuf.FloatValue]  {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[FloatValue, com.google.protobuf.FloatValue]  = this
+object FloatValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[FloatValue, com.google.protobuf.FloatValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[FloatValue, com.google.protobuf.FloatValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.FloatValue): com.google.protobuf.FloatValue = {
     val javaPbOut = com.google.protobuf.FloatValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

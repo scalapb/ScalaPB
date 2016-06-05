@@ -12,10 +12,19 @@ final case class UInt32Value(
     value: Int = 0
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[UInt32Value] with com.trueaccord.lenses.Updatable[UInt32Value] {
     @transient
-    lazy val serializedSize: Int = {
+    private[this] var __serializedSizeCachedValue: Int = 0
+    private[this] def __computeSerializedValue(): Int = {
       var __size = 0
       if (value != 0) { __size += com.google.protobuf.CodedOutputStream.computeUInt32Size(1, value) }
       __size
+    }
+    final override def serializedSize: Int = {
+      var read = __serializedSizeCachedValue
+      if (read == 0) {
+        read = __computeSerializedValue()
+        __serializedSizeCachedValue = read
+      }
+      read
     }
     def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
       {
@@ -54,8 +63,8 @@ final case class UInt32Value(
     def companion = com.google.protobuf.wrappers.UInt32Value
 }
 
-object UInt32Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[UInt32Value] with com.trueaccord.scalapb.JavaProtoSupport[UInt32Value, com.google.protobuf.UInt32Value]  {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[UInt32Value] with com.trueaccord.scalapb.JavaProtoSupport[UInt32Value, com.google.protobuf.UInt32Value]  = this
+object UInt32Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[UInt32Value] with com.trueaccord.scalapb.JavaProtoSupport[UInt32Value, com.google.protobuf.UInt32Value] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[UInt32Value] with com.trueaccord.scalapb.JavaProtoSupport[UInt32Value, com.google.protobuf.UInt32Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.UInt32Value): com.google.protobuf.UInt32Value = {
     val javaPbOut = com.google.protobuf.UInt32Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
