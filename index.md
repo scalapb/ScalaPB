@@ -41,7 +41,7 @@ val newOrder = order.update(_.creditCard.expirationYear := 2015)
 
 * **Newest:** Supports [converting to and from JSON]({{site.baseurl}}/json.html) (in 0.5.x).
 
-* **Newest:** Supports [Custom Options]({{site.baseurl}}/custom_options.html) (in 0.5.29).
+* **Newest:** Supports [User-defined options]({{site.baseurl}}/user_defined_options.html) (in 0.5.29).
 
 ## Installing in SBT (Recommended!)
 

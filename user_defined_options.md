@@ -1,5 +1,5 @@
 ---
-title: "ScalaPB: Custom Options"
+title: "ScalaPB: User-defined Options"
 layout: page
 ---
 
