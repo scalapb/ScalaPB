@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+package custom_options;
+
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.FileOptions {
+  optional string my_file_option = 50000;
+}
+
+message MyMessageOption {
+  optional int32 priority = 1;
+}
+
+extend google.protobuf.MessageOptions {
+  optional MyMessageOption my_message_option = 50001;
+}
+
+message Tag {
+  optional string name = 1;
+}
+
+// Extensions can be defined inside messages,
+// But there is no relationship between the enclosing message and the
+// extension - it only uses for namespace purposes.
+message Wrapper {
+  extend google.protobuf.FieldOptions {
+    repeated Tag tags = 50003;
+  }
+}

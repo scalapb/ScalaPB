@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package custom_options;
+
+import "custom_options/my_opts.proto";
+
+option (my_file_option) = "hello!";
+
+message OneMessage {
+    option (my_message_option).priority = 17;
+
+    // Field level option, with repeated field.
+    optional int32 number = 1 [(Wrapper.tags) = {name: "tag1"},
+                               (Wrapper.tags) = {name: "tag2"}];
+}
+
