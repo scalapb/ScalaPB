@@ -16,7 +16,7 @@ cache:
 
 script:
 - ./e2e.sh
-- cd examples && sbt test
+- cd examples && sbt test && cd ..
 - sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION test
 - sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION universal:packageBin
 # Tricks to avoid unnecessary cache updates
