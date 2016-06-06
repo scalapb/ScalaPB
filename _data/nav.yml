@@ -4,6 +4,8 @@
   url: /sbt-settings.html
 - text: Generated Code
   url: /generated-code.html
+- text: Custom Options
+  url: /custom_options.html
 - text: Customizations
   url: /customizations.html
 - text: gRPC
