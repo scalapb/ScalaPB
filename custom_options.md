@@ -77,14 +77,17 @@ To access the option value of an element, you need to obtain its descriptor:
 {% highlight scala %}
 assert(
   my_opts.CustomOptionsMyOptsProto.myFileOption.get(
-    use_opts.CustomOptionsUseOptsProto.descriptor.getOptions) == Some("hello!"))
+    use_opts.CustomOptionsUseOptsProto.descriptor.getOptions) ==
+      Some("hello!"))
 
 assert(
   my_opts.CustomOptionsMyOptsProto.myMessageOption.get(
     use_opts.OneMessage.descriptor.getOptions).get ==
       my_opts.MyMessageOption().update(_.priority := 17))
 
-val numberField = use_opts.OneMessage.descriptor.findFieldByName("number")
+val numberField = use_opts.OneMessage.descriptor.findFieldByName(
+  "number")
+
 assert(
   my_opts.Wrapper.tags.get(
     numberField.getOptions) == Seq(
