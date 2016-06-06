@@ -117,6 +117,5 @@ assert(numberField.getOptions.extension(
 The full source code of this example is available below:
 
 - [Protobufs](https://github.com/trueaccord/ScalaPB/tree/master/examples/src/main/protobuf/custom_options)
-
 - [Scala](https://github.com/trueaccord/ScalaPB/tree/master/examples/src/main/scala/custom_options)
 
