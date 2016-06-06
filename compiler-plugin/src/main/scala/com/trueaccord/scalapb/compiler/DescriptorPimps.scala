@@ -388,11 +388,10 @@ trait DescriptorPimps {
     }
 
     def fileDescriptorObjectName = {
-      @tailrec
       def inner(s: String): String =
-        if (!hasConflictingJavaClassName(s)) s else inner("_" + s)
+        if (!hasConflictingJavaClassName(s)) s else inner(s + "FileCompanion")
 
-      inner(snakeCaseToCamelCase(file.getName, upperInitial = true))
+      inner(snakeCaseToCamelCase(baseName(file.getName), upperInitial = true))
     }
 
     def fileDescriptorObjectFullName = scalaPackageName + "." + fileDescriptorObjectName
