@@ -39,6 +39,10 @@ Highlights
 
 - Compatible with SparkSQL (through a helper library)
 
+- Conversion to and from JSON
+
+- Support user-defined options (in 0.5.29)
+
 Versions
 ========
 
