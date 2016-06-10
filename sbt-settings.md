@@ -53,6 +53,9 @@ Generating GRPC stubs for services is enabled by default. To disable:
 
     PB.grpc := false
 
+Note that this setting available only in 0.5.x. Prior versions of ScalaPB ignore
+services.
+
 ## Flat Packages
 
 You can request that ScalaPB will not append the protofile base name
