@@ -67,3 +67,6 @@ message Issue94 {
   optional int32 my_IAB11 = 3;
   */
 }
+
+message NamesDotProto {
+}
