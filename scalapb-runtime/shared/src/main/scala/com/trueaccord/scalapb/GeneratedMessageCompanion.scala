@@ -33,6 +33,8 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
 
 trait GeneratedOneof extends Product with Serializable {
   def number: Int
+  def isDefined: Boolean
+  def isEmpty: Boolean
 }
 
 trait GeneratedOneofCompanion
