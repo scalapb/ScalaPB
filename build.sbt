@@ -88,7 +88,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
 lazy val runtimeJVM = runtime.jvm
 lazy val runtimeJS = runtime.js
 
-val grpcVersion = "0.14.0"
+val grpcVersion = "0.14.1"
 
 lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .dependsOn(runtimeJVM)
