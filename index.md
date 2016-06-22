@@ -89,7 +89,7 @@ flat_package, or single_line_to_string, it can be done like this:
 
 where OPT1,OPT2 is a comma-separated list of options. For example:
 
-    bin/spbc my.proto --scala_out=flat_packages,java_conversions:.
+    bin/spbc my.proto --scala_out=flat_package,java_conversions:.
 
 ## Questions? Comments?
 
