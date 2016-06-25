@@ -70,3 +70,18 @@ message Issue94 {
 
 message NamesDotProto {
 }
+
+message Contact {
+  oneof contact {
+    Phone phone = 1;
+    Email email = 2;
+  }
+  message Phone {
+    required string areaCode = 1;
+    required string number = 2;
+  }
+  message Email {
+    required string emailAddr = 1;
+  }
+}
+

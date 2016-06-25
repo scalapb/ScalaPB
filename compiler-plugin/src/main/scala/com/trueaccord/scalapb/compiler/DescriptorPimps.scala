@@ -253,8 +253,8 @@ trait DescriptorPimps {
 
     def companionBaseClasses: Seq[String] = {
       val mixins = if (javaConversions)
-        Seq(s"com.trueaccord.scalapb.JavaProtoSupport[$nameSymbol, $javaTypeName]") else Nil
-      Seq(s"com.trueaccord.scalapb.GeneratedMessageCompanion[$nameSymbol]") ++
+        Seq(s"com.trueaccord.scalapb.JavaProtoSupport[$scalaTypeName, $javaTypeName]") else Nil
+      Seq(s"com.trueaccord.scalapb.GeneratedMessageCompanion[$scalaTypeName]") ++
         mixins ++
         companionExtendsOption
     }

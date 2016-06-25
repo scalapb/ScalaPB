@@ -72,6 +72,15 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def printOneof(e: OneofDescriptor, printer: FunctionalPrinter): FunctionalPrinter = {
+    val possiblyConflictingName =
+      e.getContainingType.getEnumTypes.exists(_.name == e.upperScalaName) ||
+      e.getContainingType.nestedTypes.exists(_.scalaName == e.upperScalaName)
+
+    if (possiblyConflictingName) {
+      throw new GeneratorException(
+        s"${e.getFile.getName}: The sealed trait generated for the oneof '${e.getName}' conflicts with " +
+        s"another message name '${e.upperScalaName}'.")
+    }
     printer
       .add(s"sealed trait ${e.upperScalaName} extends com.trueaccord.scalapb.GeneratedOneof {")
       .indent
@@ -91,7 +100,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         s"""}
            |object ${e.upperScalaName} extends {
            |  @SerialVersionUID(0L)
-           |  case object Empty extends ${e.upperScalaName} {
+           |  case object Empty extends ${e.scalaTypeName} {
            |    override def isEmpty: Boolean = true
            |    override def isDefined: Boolean = false
            |    override def number: Int = 0
@@ -102,7 +111,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case (v, p) =>
         p.addM(
           s"""@SerialVersionUID(0L)
-             |case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.upperScalaName} {
+             |case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaTypeName} {
              |  override def is${v.upperScalaName}: Boolean = true
              |  override def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = Some(value)
              |  override def number: Int = ${v.getNumber}
@@ -718,11 +727,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.scalaName
-    val classNameSymbol = className.asSymbol
     def lensType(s: String) = s"com.trueaccord.lenses.Lens[UpperPB, $s]"
 
     printer.add(
-      s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, $classNameSymbol]) extends com.trueaccord.lenses.ObjectLens[UpperPB, $classNameSymbol](_l) {")
+      s"implicit class ${className}Lens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, ${message.scalaTypeName}]) extends com.trueaccord.lenses.ObjectLens[UpperPB, ${message.scalaTypeName}](_l) {")
       .indent
       .print(message.fields) {
       case (field, printer) =>
