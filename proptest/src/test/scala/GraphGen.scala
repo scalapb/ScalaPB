@@ -31,13 +31,15 @@ object GraphGen {
                    _nextEnumId: Int = 0,
                    _nextFileId: Int = 0,
                    proto3EnumIds: Vector[Int] = Vector.empty,
+                   enumsWithZeroDefined: Vector[Int] = Vector.empty,
                    currentFileInitialMessageId: Int = 0,
                    currentFileInitialEnumId: Int = 0,
                    namespace: Namespace = ROOT_NAMESPACE) extends StatefulGenerator[Int] {
     def nextMessageId = (_nextMessageId, copy(_nextMessageId = _nextMessageId + 1))
 
-    def nextEnumId(syntax: ProtoSyntax) = (_nextEnumId, copy(_nextEnumId = _nextEnumId + 1,
-      proto3EnumIds = if (syntax.isProto3) proto3EnumIds :+ _nextEnumId else proto3EnumIds)
+    def nextEnumId(syntax: ProtoSyntax, zeroDefined: Boolean) = (_nextEnumId, copy(_nextEnumId = _nextEnumId + 1,
+      proto3EnumIds = if (syntax.isProto3) proto3EnumIds :+ _nextEnumId else proto3EnumIds,
+      enumsWithZeroDefined = if (zeroDefined) enumsWithZeroDefined :+ _nextEnumId else enumsWithZeroDefined)
     )
 
     def newFile: Gen[(String, Int, State)] = generateName.map {
@@ -62,13 +64,14 @@ object GraphGen {
   }
 
   def genEnumNode(parentMessageId: Option[Int], syntax: ProtoSyntax)(state: State): Gen[(EnumNode, State)] = for {
+    zeroDefined <- if (syntax.isProto3) Gen.const(true) else Gen.oneOf(false, true)
     (enumName, state) <- state.generateName
-    (myId, state) <- Gen.const(state.nextEnumId(syntax))
+    (myId, state) <- Gen.const(state.nextEnumId(syntax, zeroDefined))
     (names, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 5)(_.generateName)
     values <- GenUtils.genListOfDistinctPositiveNumbers(names.size).map {
       v =>
         // in proto3 the first enum value must be zero.
-        if (syntax.isProto3) v.updated(0, 0) else v
+        if (zeroDefined) v.updated(0, 0) else v
     }
   } yield (EnumNode(myId, enumName, names zip values,
       parentMessageId = parentMessageId, fileId = state.currentFileId), state)
@@ -79,7 +82,7 @@ object GraphGen {
   }
   case object NotInOneof extends OneOfGrouping {
     def isOneof = false
-    def name: String = throw new RuntimeException
+    def name: String = throw new RuntimeException("NotInOneof")
   }
   case class OneofContainer(name: String) extends OneOfGrouping {
     def isOneof = true

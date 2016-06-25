@@ -2,6 +2,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
 import com.google.protobuf.CodedInputStream
 import com.trueaccord.proto.e2e.maps.MapsTest
+import com.trueaccord.proto.e2e.maps2.MapsTest2
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalacheck.{Arbitrary, Gen}
@@ -18,6 +19,11 @@ class MapsSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatc
     c <- Gen.oneOf(MapsTest.Color.BLUE, MapsTest.Color.GREEN, MapsTest.Color.NOCOLOR)
   } yield (b, c)
 
+  val boolColorPair2 = for {
+    b <- Gen.oneOf(true, false)
+    c <- Gen.oneOf(MapsTest2.Color.BLUE, MapsTest2.Color.GREEN, MapsTest2.Color.NOCOLOR)
+  } yield (b, c)
+
   val mapsGen = for {
     strToStr <- Gen.listOf(Arbitrary.arbitrary[(String, String)]).map(_.toMap)
     strToInt <- Gen.listOf(Arbitrary.arbitrary[(String, Int)]).map(_.toMap)
@@ -26,7 +32,21 @@ class MapsSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatc
   } yield MapsTest(strToStr = strToStr, strToInt32 = strToInt, int32ToString = intToStr,
       boolToColor = boolToColor)
 
+  val mapsGen2 = for {
+    strToStr <- Gen.listOf(Arbitrary.arbitrary[(String, String)]).map(_.toMap)
+    strToInt <- Gen.listOf(Arbitrary.arbitrary[(String, Int)]).map(_.toMap)
+    intToStr <- Gen.listOf(Arbitrary.arbitrary[(Int, String)]).map(_.toMap)
+    boolToColor <- Gen.listOf(boolColorPair2).map(_.toMap)
+  } yield MapsTest2(strToStr = strToStr, strToInt32 = strToInt, int32ToString = intToStr,
+      boolToColor = boolToColor)
+
   def mergeMaps(x: MapsTest, y: MapsTest) = MapsTest(
+    strToStr = x.strToStr ++ y.strToStr,
+    strToInt32 = x.strToInt32 ++ y.strToInt32,
+    int32ToString = x.int32ToString ++ y.int32ToString,
+    boolToColor = x.boolToColor ++ y.boolToColor)
+
+  def mergeMaps2(x: MapsTest2, y: MapsTest2) = MapsTest2(
     strToStr = x.strToStr ++ y.strToStr,
     strToInt32 = x.strToInt32 ++ y.strToInt32,
     int32ToString = x.int32ToString ++ y.int32ToString,
@@ -85,11 +105,26 @@ class MapsSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatc
     }
   }
 
+  "parse" should "be the inverse of toByteArray for proto2" in {
+    forAll(mapsGen2) {
+      map =>
+        MapsTest2.parseFrom(map.toByteArray) must be(map)
+    }
+  }
+
   "concatenate message" should "result in merged maps" in {
     forAll(mapsGen, mapsGen) {
       (map1, map2) =>
         MapsTest.parseFrom(map1.toByteArray ++ map2.toByteArray) must be(
           mergeMaps(map1, map2))
+    }
+  }
+
+  "concatenate message" should "result in merged maps for proto2" in {
+    forAll(mapsGen2, mapsGen2) {
+      (map1, map2) =>
+        MapsTest2.parseFrom(map1.toByteArray ++ map2.toByteArray) must be(
+          mergeMaps2(map1, map2))
     }
   }
 }

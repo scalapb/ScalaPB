@@ -272,8 +272,9 @@ object Nodes {
     def print(rootNode: RootNode, fileNode: FileNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter =
       if (!oneOfGroup.isOneof) {
       val packed = if (fieldOptions.isPacked) " [packed = true]" else ""
-      val modifier = if (fileNode.protoSyntax.isProto2) fieldOptions.modifier + " "
-      else {
+      val modifier = if (fileNode.protoSyntax.isProto2) {
+        if (fieldType.isMap) "" else fieldOptions.modifier + " "
+      } else {
         assert(fieldOptions.modifier == FieldModifier.OPTIONAL || fieldOptions.modifier == FieldModifier.REPEATED)
         if (fieldOptions.modifier == FieldModifier.OPTIONAL || fieldType.isMap) ""
         else if (fieldOptions.modifier == FieldModifier.REPEATED) "repeated "

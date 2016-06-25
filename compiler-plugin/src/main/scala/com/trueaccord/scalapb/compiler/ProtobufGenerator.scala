@@ -233,7 +233,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       scalaToJava(field, boxPrimitives = true).apply(v, isCollection = false)
 
     val getMutableMap = s"getMutable${field.upperScalaName}" + (
-      if (field.mapType.valueField.isEnum) "Value" else "")
+      if (field.mapType.valueField.isEnum && field.getFile.isProto3) "Value" else "")
 
     s"""$javaObject
        |  .$getMutableMap()
@@ -776,15 +776,17 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateTypeMappersForMapEntry(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val pairToMessage = if (message.mapType.valueField.supportsPresence)
-      s"__p => ${message.scalaTypeName}(__p._1, Some(__p._2))"
-    else
-      s"__p => ${message.scalaTypeName}(__p._1, __p._2)"
+    val pairToMessage = {
+      val k = if (message.mapType.keyField.supportsPresence) "Some(__p._1)" else "__p._1"
+      val v = if (message.mapType.valueField.supportsPresence) "Some(__p._2)" else "__p._2"
+      s"__p => ${message.scalaTypeName}($k, $v)"
+    }
 
-    val messageToPair = if (message.mapType.valueField.supportsPresence)
-      s"__m => (__m.key, __m.getValue)"
-    else
-      s"__m => (__m.key, __m.value)"
+    val messageToPair = {
+      val k = if (message.mapType.keyField.supportsPresence) "__m.getKey" else "__m.key"
+      val v = if (message.mapType.valueField.supportsPresence) "__m.getValue" else "__m.value"
+      s"__m => ($k, $v)"
+    }
 
     printer
       .addM(

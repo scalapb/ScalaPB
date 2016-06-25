@@ -88,7 +88,11 @@ object GenTypes {
 
   // For enums and messages we choose a type that was either declared before or is nested within
   // the current message. This is meant to avoid each file to depend only on previous files.
-  def genFieldType(state: State, syntax: ProtoSyntax, allowMaps: Boolean = true, allowCurrentMessage: Boolean = true): Gen[ProtoType] = {
+  def genFieldType(
+    state: State, syntax: ProtoSyntax,
+    allowMaps: Boolean = true,
+    allowCurrentMessage: Boolean = true,
+    enumMustHaveZeroDefined: Boolean = false): Gen[ProtoType] = {
     val baseFreq = List((5, generatePrimitive))
     val withMessages = if (state._nextMessageId > 0 && allowCurrentMessage)
       (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference)) :: baseFreq
@@ -96,16 +100,20 @@ object GenTypes {
       (1, Gen.chooseNum(0, state.currentFileInitialMessageId - 1).map(MessageReference)) :: baseFreq
     else baseFreq
     val withEnums = syntax match {
-      case Proto2 => if (state._nextEnumId > 0)
-        (1, Gen.chooseNum(0, state._nextEnumId - 1).map(EnumReference)) :: withMessages
-      else withMessages
-      case Proto3 => if (state.proto3EnumIds.nonEmpty)
-        (1, genProto3EnumReference(state)) :: withMessages
-      else withMessages
+      case Proto2 =>
+        if (enumMustHaveZeroDefined && state.enumsWithZeroDefined.nonEmpty) {
+          (1, Gen.oneOf(state.enumsWithZeroDefined).map(EnumReference)) :: withMessages
+        } else if (!enumMustHaveZeroDefined && state._nextEnumId > 0) {
+          (1, Gen.chooseNum(0, state._nextEnumId - 1).map(EnumReference)) :: withMessages
+        } else withMessages
+      case Proto3 =>
+        // Proto3 can not include proto2 enums (which always have zero defined)
+        if (state.proto3EnumIds.nonEmpty)
+          (1, genProto3EnumReference(state)) :: withMessages
+          else withMessages
     }
-    val withMaps = if (syntax.isProto2 || !allowMaps)
-      withEnums
-    else (1, genMapType(state, syntax)) :: withEnums
+    val withMaps = if (!allowMaps)
+      withEnums else (1, genMapType(state, syntax)) :: withEnums
     Gen.frequency(withMaps: _*)
   }
 
@@ -113,7 +121,7 @@ object GenTypes {
     keyType <- generateMapKey
     valueType <- genFieldType(state, syntax, allowMaps = false,
       // until https://github.com/google/protobuf/issues/355 is fixed.
-      allowCurrentMessage = false)
+      allowCurrentMessage = false, enumMustHaveZeroDefined = true)
   } yield MapType(keyType, valueType)
 
   // We allow 'required' only for messages with lower ids. This ensures no cycles of required
