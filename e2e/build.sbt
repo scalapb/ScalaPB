@@ -1,6 +1,6 @@
 import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
 
-scalaVersion := "2.11.7"
+scalaVersion := "2.11.8"
 
 val grpcVersion = "0.14.1"
 
