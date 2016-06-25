@@ -80,7 +80,7 @@ object BytesValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[Bytes
       __fieldsMap.getOrElse(__fields.get(0), com.google.protobuf.ByteString.EMPTY).asInstanceOf[com.google.protobuf.ByteString]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = GoogleProtobufWrappersProto.descriptor.getMessageTypes.get(8)
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = WrappersProto.descriptor.getMessageTypes.get(8)
   def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.BytesValue(

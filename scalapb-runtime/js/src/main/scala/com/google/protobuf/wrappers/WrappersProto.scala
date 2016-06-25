@@ -7,7 +7,7 @@ package com.google.protobuf.wrappers
 
 
 
-object GoogleProtobufWrappersProto {
+object WrappersProto {
   lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(
       com.trueaccord.scalapb.Encoding.fromBase64(Seq(

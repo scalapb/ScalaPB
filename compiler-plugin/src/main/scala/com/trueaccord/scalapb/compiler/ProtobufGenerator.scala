@@ -1008,7 +1008,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         lines.dropRight(1) :+ (lines.last + "\"\"\"")
     }.toSeq
     if (params.javaConversions)
-      fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = ")
+      fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =")
         .add(s"  ${file.javaFullOuterClassName}.getDescriptor()")
       else
       fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {")

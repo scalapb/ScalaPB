@@ -72,7 +72,7 @@ object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[BoolVa
       __fieldsMap.getOrElse(__fields.get(0), false).asInstanceOf[Boolean]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = GoogleProtobufWrappersProto.descriptor.getMessageTypes.get(6)
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = WrappersProto.descriptor.getMessageTypes.get(6)
   def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.BoolValue(

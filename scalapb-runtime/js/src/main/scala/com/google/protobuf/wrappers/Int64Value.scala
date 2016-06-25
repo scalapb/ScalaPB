@@ -72,7 +72,7 @@ object Int64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[Int64
       __fieldsMap.getOrElse(__fields.get(0), 0L).asInstanceOf[Long]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = GoogleProtobufWrappersProto.descriptor.getMessageTypes.get(2)
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = WrappersProto.descriptor.getMessageTypes.get(2)
   def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.Int64Value(

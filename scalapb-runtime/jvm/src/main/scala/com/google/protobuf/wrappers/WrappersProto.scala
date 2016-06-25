@@ -7,7 +7,7 @@ package com.google.protobuf.wrappers
 
 import scala.collection.JavaConversions._
 
-object GoogleProtobufWrappersProto {
-  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = 
+object WrappersProto {
+  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =
     com.google.protobuf.WrappersProto.getDescriptor()
 }
