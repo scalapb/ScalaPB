@@ -17,7 +17,7 @@ The file-level options are not required, unless you are interested in those
 customizations. If you do not want to customize the defaults, you can safely
 skip this section.
 
-## Supported options
+## Package options
 
 {% highlight proto %}
 import "scalapb/scalapb.proto";
@@ -36,6 +36,41 @@ then it falls back to `java_package` and then to `package`.
 - Setting `flat_package` to true (default is `false`) makes ScalaPB not append
 the protofile base name to the package name.  You can also apply this option
 globally to all files by adding it to your [ScalaPB SBT Settings]({{site.baseurl}}/sbt-settings.html).
+
+## Primitive wrappers
+
+The `primitive_wrappers` option is useful when you want to have optional
+primitives in Proto 3, for example `Option[Int]`. In proto 3, unlike proto 2,
+primitives are not wrapped in an option by default. The standard technique to
+obtain an optional primitive is to wrap it inside a message (since messages
+are provided inside an `Option`). Google provides standard wrappers to the
+primitive types in
+[wrappers.proto](https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto)
+
+If `primitive_wrappers` is enabled, then whenever one of the standard wrappers
+is used, it will be mapped to `Option[X]` where `X` is a primitive type. For
+example:
+
+{% highlight proto %}
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+import "google/protobuf/wrappers.proto";
+
+option (scalapb.options) = {
+  primitive_wrappers: true
+};
+
+message MyMessage {
+  google.protobuf.Int32Value my_int32 = 5;
+}
+{% endhighlight %}
+
+would generate
+
+{% highlight scala %}
+case class MyMessage(myInt32: Option[Int]) extends ...
+{% endhighlight %}
 
 # Custom base traits
 
