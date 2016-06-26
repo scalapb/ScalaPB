@@ -17,7 +17,7 @@ The file-level options are not required, unless you are interested in those
 customizations. If you do not want to customize the defaults, you can safely
 skip this section.
 
-## Package options
+# Package options
 
 {% highlight proto %}
 import "scalapb/scalapb.proto";
@@ -25,8 +25,11 @@ import "scalapb/scalapb.proto";
 option (scalapb.options) = {
   package_name: "com.example.myprotos"
   flat_package: true
+  single_file: true
   import: "com.trueaccord.pb.MyType"
   import: "com.trueaccord.other._"
+  preamble: "sealed trait BaseMessage"
+  preamble: "sealed trait CommonMessage"
 };
 {% endhighlight %}
 
@@ -37,7 +40,15 @@ then it falls back to `java_package` and then to `package`.
 the protofile base name to the package name.  You can also apply this option
 globally to all files by adding it to your [ScalaPB SBT Settings]({{site.baseurl}}/sbt-settings.html).
 
-## Primitive wrappers
+- The `single_file` option makes the generator output all messages and
+enums to a single Scala file.
+
+- The `preamble` is a list of strings that is output at the top of the
+  generated Scala file. This option requires `single_file` to be set. It is
+  commonly used to define sealed traits that are extended using
+  `(scalapb.message).extends` - see custom base traits below and [this example](https://github.com/trueaccord/ScalaPB/blob/master/e2e/src/main/protobuf/sealed_trait.proto).
+
+# Primitive wrappers
 
 The `primitive_wrappers` option is useful when you want to have optional
 primitives in Proto 3, for example `Option[Int]`. In proto 3, unlike proto 2,
@@ -45,7 +56,7 @@ primitives are not wrapped in an option by default. The standard technique to
 obtain an optional primitive is to wrap it inside a message (since messages
 are provided inside an `Option`). Google provides standard wrappers to the
 primitive types in
-[wrappers.proto](https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto)
+[wrappers.proto](https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto).
 
 If `primitive_wrappers` is enabled, then whenever one of the standard wrappers
 is used, it will be mapped to `Option[X]` where `X` is a primitive type. For
