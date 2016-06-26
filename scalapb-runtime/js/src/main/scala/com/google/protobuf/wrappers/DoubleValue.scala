@@ -63,8 +63,8 @@ final case class DoubleValue(
     def companion = com.google.protobuf.wrappers.DoubleValue
 }
 
-object DoubleValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[DoubleValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[DoubleValue] = this
+object DoubleValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] = this
   def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.DoubleValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
@@ -77,7 +77,7 @@ object DoubleValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[Doub
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.DoubleValue(
   )
-  implicit class DoubleValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, DoubleValue]) extends com.trueaccord.lenses.ObjectLens[UpperPB, DoubleValue](_l) {
+  implicit class DoubleValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.wrappers.DoubleValue]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.DoubleValue](_l) {
     def value: com.trueaccord.lenses.Lens[UpperPB, Double] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

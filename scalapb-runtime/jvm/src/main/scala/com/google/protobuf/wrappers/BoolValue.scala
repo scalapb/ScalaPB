@@ -63,8 +63,8 @@ final case class BoolValue(
     def companion = com.google.protobuf.wrappers.BoolValue
 }
 
-object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[BoolValue, com.google.protobuf.BoolValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[BoolValue, com.google.protobuf.BoolValue] = this
+object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BoolValue, com.google.protobuf.BoolValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BoolValue, com.google.protobuf.BoolValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.BoolValue): com.google.protobuf.BoolValue = {
     val javaPbOut = com.google.protobuf.BoolValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
@@ -85,7 +85,7 @@ object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[BoolVa
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.BoolValue(
   )
-  implicit class BoolValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, BoolValue]) extends com.trueaccord.lenses.ObjectLens[UpperPB, BoolValue](_l) {
+  implicit class BoolValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.wrappers.BoolValue]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.BoolValue](_l) {
     def value: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

@@ -159,6 +159,18 @@ trait DescriptorPimps {
     def customSingleScalaTypeName: Option[String] =
       if (isMap) Some(s"(${mapType.keyType}, ${mapType.valueType})")
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
+      else if (isMessage && fd.getFile.scalaOptions.getPrimitiveWrappers) (fd.getMessageType.getFullName match {
+        case "google.protobuf.Int32Value" => Some("Int")
+        case "google.protobuf.Int64Value" => Some("Long")
+        case "google.protobuf.UInt32Value" => Some("Long")
+        case "google.protobuf.UInt64Value" => Some("Long")
+        case "google.protobuf.DoubleValue" => Some("Double")
+        case "google.protobuf.FloatValue" => Some("Float")
+        case "google.protobuf.StringValue" => Some("String")
+        case "google.protobuf.BoolValue" => Some("Boolean")
+        case "google.protobuf.BytesValue" => Some("com.google.protobuf.ByteString")
+        case _ => None
+      })
       else None
 
     def baseSingleScalaTypeName: String = fd.getJavaType match {

@@ -3,6 +3,11 @@ syntax = "proto3";
 package com.trueaccord.proto;
 
 import "google/protobuf/wrappers.proto";
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  primitive_wrappers: true;
+};
 
 message TestWrappers {
   google.protobuf.DoubleValue my_double = 1;

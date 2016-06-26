@@ -63,8 +63,8 @@ final case class Int32Value(
     def companion = com.google.protobuf.wrappers.Int32Value
 }
 
-object Int32Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[Int32Value, com.google.protobuf.Int32Value] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[Int32Value, com.google.protobuf.Int32Value] = this
+object Int32Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.Int32Value): com.google.protobuf.Int32Value = {
     val javaPbOut = com.google.protobuf.Int32Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
@@ -85,7 +85,7 @@ object Int32Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[Int32
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.Int32Value(
   )
-  implicit class Int32ValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, Int32Value]) extends com.trueaccord.lenses.ObjectLens[UpperPB, Int32Value](_l) {
+  implicit class Int32ValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.wrappers.Int32Value]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.Int32Value](_l) {
     def value: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

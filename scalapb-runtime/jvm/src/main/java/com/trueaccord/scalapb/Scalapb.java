@@ -105,25 +105,6 @@ public final class Scalapb {
 
     /**
      * <pre>
-     * If true, all messages and enums (but not services) will be written
-     * to a single Scala file.
-     * </pre>
-     *
-     * <code>optional bool single_file = 5;</code>
-     */
-    boolean hasSingleFile();
-    /**
-     * <pre>
-     * If true, all messages and enums (but not services) will be written
-     * to a single Scala file.
-     * </pre>
-     *
-     * <code>optional bool single_file = 5;</code>
-     */
-    boolean getSingleFile();
-
-    /**
-     * <pre>
      * Text to add to the generated scala file.  This can be used only
      * when single_file is true.
      * </pre>
@@ -160,6 +141,46 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getPreambleBytes(int index);
+
+    /**
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
+     */
+    boolean hasSingleFile();
+    /**
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
+     */
+    boolean getSingleFile();
+
+    /**
+     * <pre>
+     * When this option is enabled, wrappers defined at
+     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+     * are mapped to an Option[T] where T is a primitive type.
+     * </pre>
+     *
+     * <code>optional bool primitive_wrappers = 6;</code>
+     */
+    boolean hasPrimitiveWrappers();
+    /**
+     * <pre>
+     * When this option is enabled, wrappers defined at
+     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+     * are mapped to an Option[T] where T is a primitive type.
+     * </pre>
+     *
+     * <code>optional bool primitive_wrappers = 6;</code>
+     */
+    boolean getPrimitiveWrappers();
   }
   /**
    * Protobuf type {@code scalapb.ScalaPbOptions}
@@ -176,8 +197,9 @@ public final class Scalapb {
       packageName_ = "";
       flatPackage_ = false;
       import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-      singleFile_ = false;
       preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      singleFile_ = false;
+      primitiveWrappers_ = false;
     }
 
     @java.lang.Override
@@ -230,9 +252,9 @@ public final class Scalapb {
             }
             case 34: {
               com.google.protobuf.ByteString bs = input.readBytes();
-              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+              if (!((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
                 preamble_ = new com.google.protobuf.LazyStringArrayList();
-                mutable_bitField0_ |= 0x00000010;
+                mutable_bitField0_ |= 0x00000008;
               }
               preamble_.add(bs);
               break;
@@ -240,6 +262,11 @@ public final class Scalapb {
             case 40: {
               bitField0_ |= 0x00000004;
               singleFile_ = input.readBool();
+              break;
+            }
+            case 48: {
+              bitField0_ |= 0x00000008;
+              primitiveWrappers_ = input.readBool();
               break;
             }
           }
@@ -253,7 +280,7 @@ public final class Scalapb {
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           import_ = import_.getUnmodifiableView();
         }
-        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+        if (((mutable_bitField0_ & 0x00000008) == 0x00000008)) {
           preamble_ = preamble_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
@@ -405,31 +432,6 @@ public final class Scalapb {
       return import_.getByteString(index);
     }
 
-    public static final int SINGLE_FILE_FIELD_NUMBER = 5;
-    private boolean singleFile_;
-    /**
-     * <pre>
-     * If true, all messages and enums (but not services) will be written
-     * to a single Scala file.
-     * </pre>
-     *
-     * <code>optional bool single_file = 5;</code>
-     */
-    public boolean hasSingleFile() {
-      return ((bitField0_ & 0x00000004) == 0x00000004);
-    }
-    /**
-     * <pre>
-     * If true, all messages and enums (but not services) will be written
-     * to a single Scala file.
-     * </pre>
-     *
-     * <code>optional bool single_file = 5;</code>
-     */
-    public boolean getSingleFile() {
-      return singleFile_;
-    }
-
     public static final int PREAMBLE_FIELD_NUMBER = 4;
     private com.google.protobuf.LazyStringList preamble_;
     /**
@@ -479,6 +481,58 @@ public final class Scalapb {
       return preamble_.getByteString(index);
     }
 
+    public static final int SINGLE_FILE_FIELD_NUMBER = 5;
+    private boolean singleFile_;
+    /**
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
+     */
+    public boolean hasSingleFile() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <pre>
+     * If true, all messages and enums (but not services) will be written
+     * to a single Scala file.
+     * </pre>
+     *
+     * <code>optional bool single_file = 5;</code>
+     */
+    public boolean getSingleFile() {
+      return singleFile_;
+    }
+
+    public static final int PRIMITIVE_WRAPPERS_FIELD_NUMBER = 6;
+    private boolean primitiveWrappers_;
+    /**
+     * <pre>
+     * When this option is enabled, wrappers defined at
+     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+     * are mapped to an Option[T] where T is a primitive type.
+     * </pre>
+     *
+     * <code>optional bool primitive_wrappers = 6;</code>
+     */
+    public boolean hasPrimitiveWrappers() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <pre>
+     * When this option is enabled, wrappers defined at
+     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+     * are mapped to an Option[T] where T is a primitive type.
+     * </pre>
+     *
+     * <code>optional bool primitive_wrappers = 6;</code>
+     */
+    public boolean getPrimitiveWrappers() {
+      return primitiveWrappers_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -505,6 +559,9 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(5, singleFile_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(6, primitiveWrappers_);
       }
       unknownFields.writeTo(output);
     }
@@ -540,6 +597,10 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, singleFile_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(6, primitiveWrappers_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -665,10 +726,12 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000002);
         import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000004);
-        singleFile_ = false;
-        bitField0_ = (bitField0_ & ~0x00000008);
         preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        singleFile_ = false;
         bitField0_ = (bitField0_ & ~0x00000010);
+        primitiveWrappers_ = false;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -706,15 +769,19 @@ public final class Scalapb {
           bitField0_ = (bitField0_ & ~0x00000004);
         }
         result.import_ = import_;
-        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          preamble_ = preamble_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000008);
+        }
+        result.preamble_ = preamble_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
           to_bitField0_ |= 0x00000004;
         }
         result.singleFile_ = singleFile_;
-        if (((bitField0_ & 0x00000010) == 0x00000010)) {
-          preamble_ = preamble_.getUnmodifiableView();
-          bitField0_ = (bitField0_ & ~0x00000010);
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000008;
         }
-        result.preamble_ = preamble_;
+        result.primitiveWrappers_ = primitiveWrappers_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -749,18 +816,21 @@ public final class Scalapb {
           }
           onChanged();
         }
-        if (other.hasSingleFile()) {
-          setSingleFile(other.getSingleFile());
-        }
         if (!other.preamble_.isEmpty()) {
           if (preamble_.isEmpty()) {
             preamble_ = other.preamble_;
-            bitField0_ = (bitField0_ & ~0x00000010);
+            bitField0_ = (bitField0_ & ~0x00000008);
           } else {
             ensurePreambleIsMutable();
             preamble_.addAll(other.preamble_);
           }
           onChanged();
+        }
+        if (other.hasSingleFile()) {
+          setSingleFile(other.getSingleFile());
+        }
+        if (other.hasPrimitiveWrappers()) {
+          setPrimitiveWrappers(other.getPrimitiveWrappers());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1088,63 +1158,11 @@ public final class Scalapb {
         return this;
       }
 
-      private boolean singleFile_ ;
-      /**
-       * <pre>
-       * If true, all messages and enums (but not services) will be written
-       * to a single Scala file.
-       * </pre>
-       *
-       * <code>optional bool single_file = 5;</code>
-       */
-      public boolean hasSingleFile() {
-        return ((bitField0_ & 0x00000008) == 0x00000008);
-      }
-      /**
-       * <pre>
-       * If true, all messages and enums (but not services) will be written
-       * to a single Scala file.
-       * </pre>
-       *
-       * <code>optional bool single_file = 5;</code>
-       */
-      public boolean getSingleFile() {
-        return singleFile_;
-      }
-      /**
-       * <pre>
-       * If true, all messages and enums (but not services) will be written
-       * to a single Scala file.
-       * </pre>
-       *
-       * <code>optional bool single_file = 5;</code>
-       */
-      public Builder setSingleFile(boolean value) {
-        bitField0_ |= 0x00000008;
-        singleFile_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       * If true, all messages and enums (but not services) will be written
-       * to a single Scala file.
-       * </pre>
-       *
-       * <code>optional bool single_file = 5;</code>
-       */
-      public Builder clearSingleFile() {
-        bitField0_ = (bitField0_ & ~0x00000008);
-        singleFile_ = false;
-        onChanged();
-        return this;
-      }
-
       private com.google.protobuf.LazyStringList preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       private void ensurePreambleIsMutable() {
-        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+        if (!((bitField0_ & 0x00000008) == 0x00000008)) {
           preamble_ = new com.google.protobuf.LazyStringArrayList(preamble_);
-          bitField0_ |= 0x00000010;
+          bitField0_ |= 0x00000008;
          }
       }
       /**
@@ -1255,7 +1273,7 @@ public final class Scalapb {
        */
       public Builder clearPreamble() {
         preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
-        bitField0_ = (bitField0_ & ~0x00000010);
+        bitField0_ = (bitField0_ & ~0x00000008);
         onChanged();
         return this;
       }
@@ -1274,6 +1292,114 @@ public final class Scalapb {
   }
   ensurePreambleIsMutable();
         preamble_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private boolean singleFile_ ;
+      /**
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
+       */
+      public boolean hasSingleFile() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
+       */
+      public boolean getSingleFile() {
+        return singleFile_;
+      }
+      /**
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
+       */
+      public Builder setSingleFile(boolean value) {
+        bitField0_ |= 0x00000010;
+        singleFile_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If true, all messages and enums (but not services) will be written
+       * to a single Scala file.
+       * </pre>
+       *
+       * <code>optional bool single_file = 5;</code>
+       */
+      public Builder clearSingleFile() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        singleFile_ = false;
+        onChanged();
+        return this;
+      }
+
+      private boolean primitiveWrappers_ ;
+      /**
+       * <pre>
+       * When this option is enabled, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type.
+       * </pre>
+       *
+       * <code>optional bool primitive_wrappers = 6;</code>
+       */
+      public boolean hasPrimitiveWrappers() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <pre>
+       * When this option is enabled, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type.
+       * </pre>
+       *
+       * <code>optional bool primitive_wrappers = 6;</code>
+       */
+      public boolean getPrimitiveWrappers() {
+        return primitiveWrappers_;
+      }
+      /**
+       * <pre>
+       * When this option is enabled, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type.
+       * </pre>
+       *
+       * <code>optional bool primitive_wrappers = 6;</code>
+       */
+      public Builder setPrimitiveWrappers(boolean value) {
+        bitField0_ |= 0x00000020;
+        primitiveWrappers_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * When this option is enabled, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type.
+       * </pre>
+       *
+       * <code>optional bool primitive_wrappers = 6;</code>
+       */
+      public Builder clearPrimitiveWrappers() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        primitiveWrappers_ = false;
         onChanged();
         return this;
       }
@@ -2672,18 +2798,19 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
-      "/protobuf/descriptor.proto\"s\n\016ScalaPbOpt" +
-      "ions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_packa" +
-      "ge\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\022\023\n\013single_file\030" +
-      "\005 \001(\010\022\020\n\010preamble\030\004 \003(\t\"<\n\016MessageOption" +
-      "s\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030" +
-      "\002 \003(\t\"\034\n\014FieldOptions\022\014\n\004type\030\001 \001(\t:G\n\007o" +
-      "ptions\022\034.google.protobuf.FileOptions\030\374\007 " +
-      "\001(\0132\027.scalapb.ScalaPbOptions:J\n\007message\022" +
-      "\037.google.protobuf.MessageOptions\030\374\007 \001(\0132",
-      "\027.scalapb.MessageOptions:D\n\005field\022\035.goog" +
-      "le.protobuf.FieldOptions\030\374\007 \001(\0132\025.scalap" +
-      "b.FieldOptionsB\030\n\026com.trueaccord.scalapb"
+      "/protobuf/descriptor.proto\"\217\001\n\016ScalaPbOp" +
+      "tions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_pack" +
+      "age\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 " +
+      "\003(\t\022\023\n\013single_file\030\005 \001(\010\022\032\n\022primitive_wr" +
+      "appers\030\006 \001(\010\"<\n\016MessageOptions\022\017\n\007extend" +
+      "s\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\"\034\n\014Fi" +
+      "eldOptions\022\014\n\004type\030\001 \001(\t:G\n\007options\022\034.go" +
+      "ogle.protobuf.FileOptions\030\374\007 \001(\0132\027.scala" +
+      "pb.ScalaPbOptions:J\n\007message\022\037.google.pr",
+      "otobuf.MessageOptions\030\374\007 \001(\0132\027.scalapb.M" +
+      "essageOptions:D\n\005field\022\035.google.protobuf" +
+      ".FieldOptions\030\374\007 \001(\0132\025.scalapb.FieldOpti" +
+      "onsB\030\n\026com.trueaccord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2703,7 +2830,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessage.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "SingleFile", "Preamble", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "PrimitiveWrappers", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

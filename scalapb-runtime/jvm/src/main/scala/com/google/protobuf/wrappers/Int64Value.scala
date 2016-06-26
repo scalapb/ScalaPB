@@ -63,8 +63,8 @@ final case class Int64Value(
     def companion = com.google.protobuf.wrappers.Int64Value
 }
 
-object Int64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[Int64Value] with com.trueaccord.scalapb.JavaProtoSupport[Int64Value, com.google.protobuf.Int64Value] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[Int64Value] with com.trueaccord.scalapb.JavaProtoSupport[Int64Value, com.google.protobuf.Int64Value] = this
+object Int64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int64Value, com.google.protobuf.Int64Value] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int64Value, com.google.protobuf.Int64Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.Int64Value): com.google.protobuf.Int64Value = {
     val javaPbOut = com.google.protobuf.Int64Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
@@ -85,7 +85,7 @@ object Int64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[Int64
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.Int64Value(
   )
-  implicit class Int64ValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, Int64Value]) extends com.trueaccord.lenses.ObjectLens[UpperPB, Int64Value](_l) {
+  implicit class Int64ValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.wrappers.Int64Value]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.Int64Value](_l) {
     def value: com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

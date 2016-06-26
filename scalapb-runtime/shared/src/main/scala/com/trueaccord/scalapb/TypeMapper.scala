@@ -1,6 +1,8 @@
 package com.trueaccord.scalapb
 
 import scala.annotation.implicitNotFound
+import com.google.protobuf.wrappers._
+import com.google.protobuf.ByteString
 
 @implicitNotFound(
   """No TypeMapper found for conversion between ${BaseType} and ${CustomType}.
@@ -22,5 +24,15 @@ object TypeMapper {
     def toCustom(base: BaseType): CustomType = baseToCustom(base)
     def toBase(custom: CustomType): BaseType = customToBase(custom)
   }
+
+  implicit val DoubleValueTypeMapper = TypeMapper[DoubleValue, Double](_.value)(com.google.protobuf.wrappers.DoubleValue.apply)
+  implicit val FloatValueTypeMapper = TypeMapper[FloatValue, Float](_.value)(com.google.protobuf.wrappers.FloatValue.apply)
+  implicit val Int64ValueTypeMapper = TypeMapper[Int64Value, Long](_.value)(com.google.protobuf.wrappers.Int64Value.apply)
+  implicit val UInt64ValueTypeMapper = TypeMapper[UInt64Value, Long](_.value)(com.google.protobuf.wrappers.UInt64Value.apply)
+  implicit val Int32ValueTypeMapper = TypeMapper[Int32Value, Int](_.value)(com.google.protobuf.wrappers.Int32Value.apply)
+  implicit val UInt32ValueTypeMapper = TypeMapper[UInt32Value, Int](_.value)(com.google.protobuf.wrappers.UInt32Value.apply)
+  implicit val BoolValueTypeMapper = TypeMapper[BoolValue, Boolean](_.value)(com.google.protobuf.wrappers.BoolValue.apply)
+  implicit val StringValueTypeMapper = TypeMapper[StringValue, String](_.value)(com.google.protobuf.wrappers.StringValue.apply)
+  implicit val BytesValueTypeMapper = TypeMapper[BytesValue, ByteString](_.value)(com.google.protobuf.wrappers.BytesValue.apply)
 }
 

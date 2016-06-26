@@ -63,8 +63,8 @@ final case class UInt64Value(
     def companion = com.google.protobuf.wrappers.UInt64Value
 }
 
-object UInt64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[UInt64Value, com.google.protobuf.UInt64Value] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[UInt64Value, com.google.protobuf.UInt64Value] = this
+object UInt64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.UInt64Value): com.google.protobuf.UInt64Value = {
     val javaPbOut = com.google.protobuf.UInt64Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
@@ -85,7 +85,7 @@ object UInt64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[UInt
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.wrappers.UInt64Value(
   )
-  implicit class UInt64ValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, UInt64Value]) extends com.trueaccord.lenses.ObjectLens[UpperPB, UInt64Value](_l) {
+  implicit class UInt64ValueLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.wrappers.UInt64Value]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.UInt64Value](_l) {
     def value: com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

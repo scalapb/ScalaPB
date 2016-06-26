@@ -20,13 +20,18 @@ message ScalaPbOptions {
   // to provide implicit TypeMappers)
   repeated string import = 3;
 
+  // Text to add to the generated scala file.  This can be used only
+  // when single_file is true.
+  repeated string preamble = 4;
+
   // If true, all messages and enums (but not services) will be written
   // to a single Scala file.
   optional bool single_file = 5;
 
-  // Text to add to the generated scala file.  This can be used only
-  // when single_file is true.
-  repeated string preamble = 4;
+  // When this option is enabled, wrappers defined at
+  // https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+  // are mapped to an Option[T] where T is a primitive type.
+  optional bool primitive_wrappers = 6;
 }
 
 extend google.protobuf.FileOptions {
