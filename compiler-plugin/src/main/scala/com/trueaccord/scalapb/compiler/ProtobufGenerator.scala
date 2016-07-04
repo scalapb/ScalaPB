@@ -517,7 +517,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val myFullScalaName = message.scalaTypeName
     printer
       .add(
-      s"def mergeFrom(__input: com.google.protobuf.CodedInputStream): $myFullScalaName = {")
+      s"def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): $myFullScalaName = {")
       .indent
       .print(message.fieldsWithoutOneofs)((field, printer) =>
         if (!field.isRepeated)
@@ -533,7 +533,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .addM(
         s"""var _done__ = false
            |while (!_done__) {
-           |  val _tag__ = __input.readTag()
+           |  val _tag__ = _input__.readTag()
            |  _tag__ match {
            |    case 0 => _done__ = true""")
       .print(message.fields) {
@@ -551,10 +551,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               if (field.isInOneof || field.supportsPresence) (mappedType + s".getOrElse($defInstance)")
               else mappedType
             }
-            s"com.trueaccord.scalapb.LiteParser.readMessage(__input, $baseInstance)"
+            s"com.trueaccord.scalapb.LiteParser.readMessage(_input__, $baseInstance)"
           } else if (field.isEnum)
-            s"${field.getEnumType.scalaTypeName}.fromValue(__input.readEnum())"
-          else s"__input.read${Types.capitalizedType(field.getType)}()"
+            s"${field.getEnumType.scalaTypeName}.fromValue(_input__.readEnum())"
+          else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
           val newVal = toCustomType(field)(newValBase)
 
@@ -572,7 +572,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
         if(field.isPackable) {
           val read = {
-            val tmp = s"""__input.read${Types.capitalizedType(field.getType)}"""
+            val tmp = s"""_input__.read${Types.capitalizedType(field.getType)}"""
             if (field.isEnum)
               s"${field.getEnumType.scalaTypeName}.fromValue($tmp)"
             else tmp
@@ -580,17 +580,17 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           val readExpr = toCustomType(field)(read)
           p.addM(
             s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
-               |      val length = __input.readRawVarint32()
-               |      val oldLimit = __input.pushLimit(length)
-               |      while (__input.getBytesUntilLimit > 0) {
+               |      val length = _input__.readRawVarint32()
+               |      val oldLimit = _input__.pushLimit(length)
+               |      while (_input__.getBytesUntilLimit > 0) {
                |        __${field.scalaName} += $readExpr
                |      }
-               |      __input.popLimit(oldLimit)
+               |      _input__.popLimit(oldLimit)
                |    }""")
         } else p
     }
       .addM(
-       s"""|    case tag => __input.skipField(tag)
+       s"""|    case tag => _input__.skipField(tag)
            |  }
            |}""")
       .add(s"$myFullScalaName(")

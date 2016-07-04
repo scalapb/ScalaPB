@@ -20,6 +20,7 @@ message WeirdNames {
   }
   optional Match match = 4;
   optional Option option = 5;
+  optional string input = 6;
 }
 
 message WeirdNamesRequired {
