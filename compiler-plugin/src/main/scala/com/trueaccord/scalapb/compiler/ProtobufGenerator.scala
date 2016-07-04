@@ -202,11 +202,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def javaFieldToScala(container: String, field: FieldDescriptor): String = {
-    val javaHazzer = container + ".has" + field.upperScalaName
+    val javaHazzer = container + ".has" + field.upperJavaName
     val javaGetter = if (field.isRepeated)
-      container + ".get" + field.upperScalaName + "List"
+      container + ".get" + field.upperJavaName + "List"
     else
-      container + ".get" + field.upperScalaName
+      container + ".get" + field.upperJavaName
 
     javaFieldToScala(javaHazzer, javaGetter, field)
   }
@@ -258,7 +258,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (field.isMap) assignScalaMapToJava(scalaObject, javaObject, field) else {
       val javaSetter = javaObject +
         (if (field.isRepeated) ".addAll" else
-          ".set") + field.upperScalaName + (
+          ".set") + field.upperJavaName + (
         if (field.isEnum && field.getFile.isProto3) "Value" else "")
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
@@ -310,14 +310,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   FunctionalPrinter = {
     if (field.isMessage) {
         fp.addM(
-          s"""output.writeTag(${field.getNumber}, 2)
-             |output.writeUInt32NoTag($valueExpr.serializedSize)
-             |$valueExpr.writeTo(output)""")
+          s"""_output__.writeTag(${field.getNumber}, 2)
+             |_output__.writeUInt32NoTag($valueExpr.serializedSize)
+             |$valueExpr.writeTo(_output__)""")
     } else if (field.isEnum)
-        fp.add(s"output.writeEnum(${field.getNumber}, $valueExpr.value)")
+        fp.add(s"_output__.writeEnum(${field.getNumber}, $valueExpr.value)")
     else {
       val capTypeName = Types.capitalizedType(field.getType)
-      fp.add(s"output.write$capTypeName(${field.getNumber}, $valueExpr)")
+      fp.add(s"_output__.write$capTypeName(${field.getNumber}, $valueExpr)")
     }
   }
 
@@ -444,7 +444,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     else s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
 
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
-    fp.add(s"def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {")
+    fp.add(s"def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {")
       .indent
       .print(message.fields.sortBy(_.getNumber).zipWithIndex) {
       case ((field, index), printer) =>
@@ -452,7 +452,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val capTypeName = Types.capitalizedType(field.getType)
         if (field.isPacked) {
           val writeFunc = composeGen(Seq(
-            s"output.write${capTypeName}NoTag") ++ (
+            s"_output__.write${capTypeName}NoTag") ++ (
             if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).value") else Nil
             ) ++ (
             if (field.customSingleScalaTypeName.isDefined)
@@ -462,8 +462,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
             printer.addM(
               s"""if (${fieldNameSymbol}.nonEmpty) {
-                 |  output.writeTag(${field.getNumber}, 2)
-                 |  output.writeUInt32NoTag(${fieldNameSymbol}SerializedSize)
+                 |  _output__.writeTag(${field.getNumber}, 2)
+                 |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
                  |  ${fieldNameSymbol}.foreach($writeFunc)
                  |};""")
         } else if (field.isRequired) {

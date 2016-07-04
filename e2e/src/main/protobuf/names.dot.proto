@@ -21,6 +21,9 @@ message WeirdNames {
   optional Match match = 4;
   optional Option option = 5;
   optional string input = 6;
+  optional string output = 7;
+  optional string class = 8;
+  optional int32 serialized_size = 9;
 }
 
 message WeirdNamesRequired {
@@ -85,4 +88,12 @@ message Contact {
     required string emailAddr = 1;
   }
 }
+
+message Issue137 {
+  repeated double type = 1;
+  repeated float class = 2;
+  repeated int32 val = 3;
+  repeated int64 var = 4;
+}
+
 

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package name_test;
+
+message Proto3WeirdNames {
+  string get = 1;
+  string tag = 2;
+  oneof type {
+    int32 val = 3;
+  }
+  string input = 6;
+  string output = 7;
+}
+
+message Proto3Issue137 {
+  repeated double type = 1;
+  repeated float class = 2;
+  repeated int32 val = 3;
+  repeated int64 var = 4;
+}
+
+message Proto3Issue137Singular {
+  double type = 1;
+  float class = 2;
+  int32 val = 3;
+  int64 var = 4;
+}
+

@@ -113,11 +113,23 @@ trait DescriptorPimps {
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
-    def scalaName: String = {
-      snakeCaseToCamelCase(fd.getName)
+    def scalaName: String = fd.getName match {
+      case "serialized_size" => "_serializedSize"
+      case "class" => "_class"
+      case x => snakeCaseToCamelCase(x)
     }
 
-    def upperScalaName: String = snakeCaseToCamelCase(fd.getName, true)
+    def upperScalaName: String = fd.getName match {
+      case "serialized_size" => "_SerializedSize"
+      case "class" => "_Class"
+      case x => snakeCaseToCamelCase(x, true)
+    }
+
+    def upperJavaName: String = fd.getName match {
+      case "serialized_size" => "SerializedSize_"
+      case "class" => "Class_"
+      case x => upperScalaName
+    }
 
     def fieldNumberConstantName: String = fd.getName.toUpperCase() + "_FIELD_NUMBER"
 
