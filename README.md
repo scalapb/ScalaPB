@@ -31,7 +31,7 @@ Highlights
 
 - Supports proto2 and proto3
 
-- Easily update nested structure in functinal way using lenses.
+- Easily update nested structure in functional way using lenses
 
 - Scala.js integration
 
