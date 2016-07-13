@@ -54,7 +54,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |  override def isUnrecognized: Boolean = true
            |}
            |""")
-      .add(s"lazy val values = Seq(${e.getValues.map(_.getName.asSymbol).mkString(", ")})")
+      .add(s"lazy val values = scala.collection.Seq(${e.getValues.map(_.getName.asSymbol).mkString(", ")})")
       .add(s"def fromValue(value: Int): $name = value match {")
       .print(e.valuesWithNoDuplicates) {
       case (v, p) => p.add(s"  case ${v.getNumber} => ${v.getName.asSymbol}")
@@ -171,7 +171,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
     if (field.supportsPresence) "None"
-    else if (field.isMap) "Map.empty"
+    else if (field.isMap) "scala.collection.immutable.Map.empty"
     else if (field.isRepeated) "Nil"
     else defaultValueForGet(field)
 
@@ -501,7 +501,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val ctorDefaultValue =
         if (field.isOptional && field.supportsPresence) " = None"
         else if (field.isSingular) " = " + defaultValueForGet(field)
-        else if (field.isMap) " = Map.empty"
+        else if (field.isMap) " = scala.collection.immutable.Map.empty"
         else if (field.isRepeated) " = Nil"
         else ""
         s"${field.scalaName.asSymbol}: $typeName$ctorDefaultValue"
@@ -660,7 +660,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         toCustomTypeExpr(field)
 
     val myFullScalaName = message.scalaTypeName
-    printer.add(s"def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): $myFullScalaName = {")
+    printer.add(s"def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): $myFullScalaName = {")
       .indent
       .add("require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), \"FieldDescriptor does not match message type.\")")
       .add("val __fields = descriptor.getFields")
@@ -957,7 +957,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             p.add(
               s"""def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.getContainingOneof.scalaName.asSymbol} = ${field.oneOfTypeName}(__v))""")
         }.when(field.isRepeated) { p =>
-          val emptyValue = if (field.isMap) "Map.empty" else "Seq.empty"
+          val emptyValue = if (field.isMap) "scala.collection.immutable.Map.empty" else "scala.collection.Seq.empty"
           p.addM(
             s"""def $clearMethod = copy(${field.scalaName.asSymbol} = $emptyValue)
                |def add${field.upperScalaName}(__vs: $singleType*): ${message.nameSymbol} = addAll${field.upperScalaName}(__vs)
@@ -1021,7 +1021,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       else
       fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
         .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(")
-        .add("    com.trueaccord.scalapb.Encoding.fromBase64(Seq(")
+        .add("    com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(")
         .addGroupsWithDelimiter(",")(base64)
         .add("    ).mkString))")
         .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")

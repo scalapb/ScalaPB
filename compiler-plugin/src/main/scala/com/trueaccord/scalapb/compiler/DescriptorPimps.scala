@@ -156,7 +156,7 @@ trait DescriptorPimps {
 
     def typeCategory(base: String): String = {
       if (supportsPresence) s"scala.Option[$base]"
-      else if (fd.isRepeated) s"Seq[$base]"
+      else if (fd.isRepeated) s"scala.collection.Seq[$base]"
       else base
     }
 
@@ -300,7 +300,7 @@ trait DescriptorPimps {
 
       def valueType = valueField.singleScalaTypeName
 
-      def scalaTypeName = s"Map[$keyType, $valueType]"
+      def scalaTypeName = s"scala.collection.immutable.Map[$keyType, $valueType]"
 
       def pairType = s"($keyType, $valueType)"
     }
