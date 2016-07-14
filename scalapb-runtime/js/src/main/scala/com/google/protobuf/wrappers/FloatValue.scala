@@ -26,24 +26,24 @@ final case class FloatValue(
       }
       read
     }
-    def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
       {
         val __v = value
         if (__v != 0.0f) {
-          output.writeFloat(1, __v)
+          _output__.writeFloat(1, __v)
         }
       };
     }
-    def mergeFrom(__input: com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.FloatValue = {
+    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.FloatValue = {
       var __value = this.value
       var _done__ = false
       while (!_done__) {
-        val _tag__ = __input.readTag()
+        val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
           case 13 =>
-            __value = __input.readFloat()
-          case tag => __input.skipField(tag)
+            __value = _input__.readFloat()
+          case tag => _input__.skipField(tag)
         }
       }
       com.google.protobuf.wrappers.FloatValue(
@@ -65,7 +65,7 @@ final case class FloatValue(
 
 object FloatValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] = this
-  def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.FloatValue = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.FloatValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.wrappers.FloatValue(

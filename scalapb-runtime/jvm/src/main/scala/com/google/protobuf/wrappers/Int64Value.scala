@@ -26,24 +26,24 @@ final case class Int64Value(
       }
       read
     }
-    def writeTo(output: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
       {
         val __v = value
         if (__v != 0L) {
-          output.writeInt64(1, __v)
+          _output__.writeInt64(1, __v)
         }
       };
     }
-    def mergeFrom(__input: com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.Int64Value = {
+    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.Int64Value = {
       var __value = this.value
       var _done__ = false
       while (!_done__) {
-        val _tag__ = __input.readTag()
+        val _tag__ = _input__.readTag()
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            __value = __input.readInt64()
-          case tag => __input.skipField(tag)
+            __value = _input__.readInt64()
+          case tag => _input__.skipField(tag)
         }
       }
       com.google.protobuf.wrappers.Int64Value(
@@ -73,7 +73,7 @@ object Int64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.g
   def fromJavaProto(javaPbSource: com.google.protobuf.Int64Value): com.google.protobuf.wrappers.Int64Value = com.google.protobuf.wrappers.Int64Value(
     value = javaPbSource.getValue.longValue
   )
-  def fromFieldsMap(__fieldsMap: Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.Int64Value = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.Int64Value = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.wrappers.Int64Value(
