@@ -19,10 +19,12 @@ protoc --java_out=scalapb-runtime/jvm/src/main/java --proto_path=./protobuf \
     --proto_path=./third_party \
     ./protobuf/scalapb/scalapb.proto
 
+GOOGLE_PROTOS=$(find third_party/google/protobuf/ -name '*.proto' -print)
+
 sbt "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/src/main/scala \
     --proto_path=./third_party \
-    ./third_party/google/protobuf/wrappers.proto" \
+    $GOOGLE_PROTOS" \
     "scalapbc/run --scala_out=scalapb-runtime/js/src/main/scala \
     --proto_path=./third_party \
-    ./third_party/google/protobuf/wrappers.proto"
+    $GOOGLE_PROTOS"
 

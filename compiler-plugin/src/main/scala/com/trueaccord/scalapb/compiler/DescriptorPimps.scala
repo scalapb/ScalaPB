@@ -377,15 +377,23 @@ trait DescriptorPimps {
         else r + "OuterClass"
       }
 
-    def scalaPackageName = {
-      val requestedPackageName =
-        if (scalaOptions.hasPackageName) scalaOptions.getPackageName
-        else javaPackageAsSymbol
+    private def scalaPackageParts: Seq[String] = {
+      val requestedPackageName: Seq[String] =
+        if (scalaOptions.hasPackageName) scalaOptions.getPackageName.split('.')
+        else javaPackage.split('.')
 
       if (scalaOptions.getFlatPackage || params.flatPackage)
         requestedPackageName
-      else if (requestedPackageName.nonEmpty) requestedPackageName + "." + baseName(file.getName).asSymbol
-      else baseName(file.getName).asSymbol
+      else if (requestedPackageName.nonEmpty) requestedPackageName :+ baseName(file.getName)
+      else Seq(baseName(file.getName))
+    }
+
+    def scalaPackageName = {
+      scalaPackageParts.map(_.asSymbol).mkString(".")
+    }
+
+    def scalaDirectory = {
+      scalaPackageParts.mkString("/")
     }
 
     def javaFullOuterClassName = {
