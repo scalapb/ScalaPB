@@ -270,17 +270,30 @@ trait DescriptorPimps {
 
     def nameSymbol = scalaName.asSymbol
 
-    def baseClasses: Seq[String] =
+    def baseClasses: Seq[String] = {
+      val specialMixins = message.getFullName match {
+        case "google.protobuf.Any" => Seq("com.trueaccord.scalapb.AnyMethods")
+        case _ => Seq()
+      }
+
       Seq("com.trueaccord.scalapb.GeneratedMessage",
         s"com.trueaccord.scalapb.Message[$nameSymbol]",
-        s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption
+        s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption ++ specialMixins
+    }
 
     def companionBaseClasses: Seq[String] = {
       val mixins = if (javaConversions)
         Seq(s"com.trueaccord.scalapb.JavaProtoSupport[$scalaTypeName, $javaTypeName]") else Nil
+
+      val specialMixins = message.getFullName match {
+        case "google.protobuf.Any" => Seq("com.trueaccord.scalapb.AnyCompanionMethods")
+        case _ => Seq()
+      }
+
       Seq(s"com.trueaccord.scalapb.GeneratedMessageCompanion[$scalaTypeName]") ++
         mixins ++
-        companionExtendsOption
+        companionExtendsOption ++
+        specialMixins
     }
 
     def nestedTypes: Seq[Descriptor] = message.getNestedTypes.toSeq

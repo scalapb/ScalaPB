@@ -11,7 +11,7 @@ import scala.collection.JavaConversions._
 final case class Any(
     typeUrl: String = "",
     value: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Any] with com.trueaccord.lenses.Updatable[Any] {
+    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Any] with com.trueaccord.lenses.Updatable[Any] with com.trueaccord.scalapb.AnyMethods {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -80,8 +80,8 @@ final case class Any(
     def companion = com.google.protobuf.any.Any
 }
 
-object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] = this
+object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods = this
   def toJavaProto(scalaPbSource: com.google.protobuf.any.Any): com.google.protobuf.Any = {
     val javaPbOut = com.google.protobuf.Any.newBuilder
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
