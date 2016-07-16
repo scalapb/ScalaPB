@@ -2,6 +2,15 @@
 
 ## [Unreleased](https://github.com/trueaccord/ScalaPB/tree/HEAD)
 
+## [v0.5.34](https://github.com/trueaccord/ScalaPB/tree/v0.5.33) (2016-07-15)
+[Full Changelog](https://github.com/trueaccord/ScalaPB/compare/v0.5.29...v0.5.34)
+
+- Include Scala versions of well-known types, including basic support for Any.
+- Bugfix: package names with reserved words (`type`, `val`) no longer use
+  backticks in the directory name.
+- Fix support for additional reserved keywords.
+- Bufgix: support for well-known types in conjunction with flat_package.
+
 [Full Changelog](https://github.com/trueaccord/ScalaPB/compare/v0.5.29...HEAD)
 
 **Closed issues:**
