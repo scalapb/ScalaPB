@@ -390,12 +390,14 @@ trait DescriptorPimps {
         else r + "OuterClass"
       }
 
+    private def isNonFlatDependency = javaPackage == "com.google.protobuf"
+
     private def scalaPackageParts: Seq[String] = {
       val requestedPackageName: Seq[String] =
         if (scalaOptions.hasPackageName) scalaOptions.getPackageName.split('.')
         else javaPackage.split('.')
 
-      if (scalaOptions.getFlatPackage || params.flatPackage)
+      if (scalaOptions.getFlatPackage || (params.flatPackage && !isNonFlatDependency))
         requestedPackageName
       else if (requestedPackageName.nonEmpty) requestedPackageName :+ baseName(file.getName)
       else Seq(baseName(file.getName))
