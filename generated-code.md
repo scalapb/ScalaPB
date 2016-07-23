@@ -169,7 +169,7 @@ following methods:
 - `addAllFoo(fs: Seq[Foo])`: returns a copy with the given sequence of
   elements added to the original list.
 - `withX(otherList)`: replace the sequence with another.
-- `clearX`: replace with the sequence with an emtpy one.
+- `clearX`: replace with the sequence with an empty one.
 
 Using `update()` is especially fun with repeated fields:
 
@@ -301,7 +301,7 @@ val maybeRoutingNumber: Option[String] = o3.paymentType.bank.map {
 ## Enumerations
 
 Enumerations are implemented using sealed traits that extend `GeneratedEnum`.
-This approach, rather than using Scala's standard Enumeation type, allows
+This approach, rather than using Scala's standard Enumeration type, allows
 getting a warning from the Scala compiler when a pattern match is incomplete.
 
 For a definition like:
@@ -361,7 +361,7 @@ if (f.getWeather.isRain) {
 }
 
 // Pattern matching:
-f.getWeatch match {
+f.getWeather match {
     case Weather.Rain =>
     case Weather.Sunny =>
     case _ =>
