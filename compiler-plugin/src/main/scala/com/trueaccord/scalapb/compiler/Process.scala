@@ -9,7 +9,7 @@ import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorResponse, CodeGeneratorRequest}
 import com.trueaccord.scalapb.Scalapb
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.sys.process._
@@ -90,7 +90,7 @@ class PosixProtocDriver extends ProtocDriver {
       """.stripMargin)
     Files.setPosixFilePermissions(scriptName, Set(
       PosixFilePermission.OWNER_EXECUTE,
-      PosixFilePermission.OWNER_READ))
+      PosixFilePermission.OWNER_READ).asJava)
     scriptName
   }
 }
