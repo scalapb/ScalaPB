@@ -10,20 +10,7 @@ package com.google.protobuf.empty
 @SerialVersionUID(0L)
 final case class Empty(
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Empty] with com.trueaccord.lenses.Updatable[Empty] {
-    @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
-      var __size = 0
-      __size
-    }
-    final override def serializedSize: Int = {
-      var read = __serializedSizeCachedValue
-      if (read == 0) {
-        read = __computeSerializedValue()
-        __serializedSizeCachedValue = read
-      }
-      read
-    }
+    final override def serializedSize: Int = 0
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
     }
     def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.empty.Empty = {
