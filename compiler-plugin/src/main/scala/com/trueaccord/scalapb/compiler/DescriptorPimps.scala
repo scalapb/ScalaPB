@@ -6,7 +6,7 @@ import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.Scalapb.{FieldOptions, MessageOptions, ScalaPbOptions}
 
 import scala.annotation.tailrec
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
 trait DescriptorPimps {
@@ -105,7 +105,7 @@ trait DescriptorPimps {
 
     def stub = self.getName + "Stub"
 
-    def methods = self.getMethods.toIndexedSeq
+    def methods = self.getMethods.asScala.toIndexedSeq
   }
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
@@ -239,7 +239,7 @@ trait DescriptorPimps {
   }
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {
-    def fields = message.getFields.filter(_.getLiteType != FieldType.GROUP)
+    def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP)
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
 
@@ -257,16 +257,16 @@ trait DescriptorPimps {
 
     private[compiler] def hasConflictingJavaClassName(className: String): Boolean = (
       (message.getName == className) ||
-        (message.getEnumTypes.exists(_.getName == className)) ||
+        (message.getEnumTypes.asScala.exists(_.getName == className)) ||
         (message.nestedTypes.exists(_.hasConflictingJavaClassName(className))))
 
     def javaTypeName = message.getFile.fullJavaName(message.getFullName)
 
     def messageOptions: MessageOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
 
-    def extendsOption = messageOptions.getExtendsList.toSeq
+    def extendsOption = messageOptions.getExtendsList.asScala.toSeq
 
-    def companionExtendsOption = messageOptions.getCompanionExtendsList.toSeq
+    def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 
     def nameSymbol = scalaName.asSymbol
 
@@ -296,7 +296,7 @@ trait DescriptorPimps {
         specialMixins
     }
 
-    def nestedTypes: Seq[Descriptor] = message.getNestedTypes.toSeq
+    def nestedTypes: Seq[Descriptor] = message.getNestedTypes.asScala.toSeq
 
     def isMapEntry: Boolean = message.getOptions.getMapEntry
 
@@ -347,7 +347,7 @@ trait DescriptorPimps {
 
     def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
 
-    def valuesWithNoDuplicates = enum.getValues.groupBy(_.getNumber)
+    def valuesWithNoDuplicates = enum.getValues.asScala.groupBy(_.getNumber)
       .mapValues(_.head).values.toVector.sortBy(_.getNumber)
 
     def descriptorSource: String = if (enum.isTopLevel)
@@ -358,7 +358,7 @@ trait DescriptorPimps {
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
     def isName = {
       Helper.makeUniqueNames(
-        enumValue.getType.getValues.sortBy(v => (v.getNumber, v.getName)).map {
+        enumValue.getType.getValues.asScala.sortBy(v => (v.getNumber, v.getName)).map {
           e => e -> ("is" + allCapsToCamelCase(e.getName, true))
         })(enumValue)
     }
@@ -377,9 +377,9 @@ trait DescriptorPimps {
       javaPackage.split('.').map(_.asSymbol).mkString(".")
 
     private def hasConflictingJavaClassName(className: String) = (
-      file.getEnumTypes.exists(_.getName == className) ||
-        file.getServices.exists(_.getName == className) ||
-        file.getMessageTypes.exists(_.hasConflictingJavaClassName(className)))
+      file.getEnumTypes.asScala.exists(_.getName == className) ||
+        file.getServices.asScala.exists(_.getName == className) ||
+        file.getMessageTypes.asScala.exists(_.hasConflictingJavaClassName(className)))
 
     def javaOuterClassName: String =
       if (file.getOptions.hasJavaOuterClassname)
