@@ -385,7 +385,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
-    fp
+    if (message.fields.nonEmpty) {
+      fp
       .add("@transient")
       .add("private[this] var __serializedSizeCachedValue: Int = 0")
       .add("private[this] def __computeSerializedValue(): Int = {")
@@ -407,6 +408,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("read")
       .outdent
       .add("}")
+    } else {
+      fp.add("final override def serializedSize: Int = 0")
+    }
   }
 
   def generateSerializedSizeForPackedFields(message: Descriptor)(fp: FunctionalPrinter) =
