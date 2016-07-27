@@ -17,6 +17,8 @@ message WeirdNames {
   optional string tag = 2;
   oneof type {
     int32 val = 3;
+    string value = 10;
+    bytes number = 11;
   }
   optional Match match = 4;
   optional Option option = 5;

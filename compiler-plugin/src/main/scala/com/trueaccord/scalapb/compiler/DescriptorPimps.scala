@@ -114,6 +114,7 @@ trait DescriptorPimps {
     def isInOneof: Boolean = containingOneOf.isDefined
 
     def scalaName: String = fd.getName match {
+      case ("number" | "value") if fd.isInOneof => "_" + fd.getName
       case "serialized_size" => "_serializedSize"
       case "class" => "_class"
       case x => snakeCaseToCamelCase(x)
