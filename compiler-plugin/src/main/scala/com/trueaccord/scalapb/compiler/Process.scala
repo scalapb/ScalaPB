@@ -156,10 +156,10 @@ object Process {
   }
 
   def runWithInputStream(fsin: InputStream): CodeGeneratorResponse = {
-    val registry = ExtensionRegistry.newInstance()
-    Scalapb.registerAllExtensions(registry)
-
     Try {
+      val registry = ExtensionRegistry.newInstance()
+      Scalapb.registerAllExtensions(registry)
+
       val request = CodeGeneratorRequest.parseFrom(fsin, registry)
       ProtobufGenerator.handleCodeGeneratorRequest(request)
     }.recover {
