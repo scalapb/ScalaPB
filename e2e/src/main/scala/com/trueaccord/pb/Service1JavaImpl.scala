@@ -6,7 +6,7 @@ import com.trueaccord.proto.e2e.Service._
 import com.trueaccord.proto.e2e.Service1Grpc._
 import io.grpc.stub.StreamObserver
 
-class Service1JavaImpl extends Service1{
+class Service1JavaImpl extends Service1ImplBase{
 
   override def unaryStringLength(request: Req1, observer: StreamObserver[Res1]): Unit = {
     val res = Res1.newBuilder.setLength(request.getRequest.length).build()

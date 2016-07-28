@@ -2,7 +2,7 @@ import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
 
 scalaVersion := "2.11.8"
 
-val grpcVersion = "0.15.0"
+val grpcVersion = "1.0.0-pre1"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
@@ -24,6 +24,7 @@ val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
 
 
 val commonSettings = PB.protobufSettings ++ Seq(
+    scalacOptions ++= Seq("-deprecation"),
     PB.scalapbVersion in PB.protobufConfig := com.trueaccord.scalapb.Version.scalapbVersion,
     PB.runProtoc in PB.protobufConfig := { args0 =>
       val args = args0 ++ Array(
