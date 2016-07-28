@@ -5,7 +5,7 @@ import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
 import com.trueaccord.proto.e2e.{Service1Grpc => Service1GrpcJava}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.stub.StreamObserver
-import io.grpc.{ManagedChannel, ServerServiceDefinition}
+import io.grpc.{ManagedChannel, Server, ServerServiceDefinition}
 import org.scalatest.{FunSpec, MustMatchers}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
@@ -14,16 +14,16 @@ import scala.util.Random
 abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
 
   protected[this] final def withScalaServer[A](f: ManagedChannel => A): A = {
-    withServer(Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext))(f)
+    withServer(_.addService(Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)).build())(f)
   }
 
   protected[this] final def withJavaServer[A](f: ManagedChannel => A): A = {
-    withServer(Service1GrpcJava.bindService(new Service1JavaImpl))(f)
+    withServer(_.addService(new Service1JavaImpl).build())(f)
   }
 
-  private[this] def withServer[A](services: ServerServiceDefinition*)(f: ManagedChannel => A): A = {
+  private[this] def withServer[A](createServer: NettyServerBuilder => Server)(f: ManagedChannel => A): A = {
     val port = UniquePortGenerator.get()
-    val server = services.foldLeft(NettyServerBuilder.forPort(port))(_.addService(_)).build()
+    val server = createServer(NettyServerBuilder.forPort(port))
     try {
       server.start()
       val channel = NettyChannelBuilder.forAddress("localhost", port).negotiationType(NegotiationType.PLAINTEXT).build()
