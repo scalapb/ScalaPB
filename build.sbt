@@ -57,8 +57,8 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.lenses" %%% "lenses" % "0.4.5",
-      "com.lihaoyi" %%% "fastparse" % "0.3.4",
+      "com.trueaccord.lenses" %%% "lenses" % "0.4.6",
+      "com.lihaoyi" %%% "fastparse" % "0.3.7",
       "com.lihaoyi" %%% "utest" % "0.3.1" % "test",
       "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
       "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"
@@ -69,13 +69,13 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jvmSettings(
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
-      "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-3"
+      "com.google.protobuf" % "protobuf-java" % "3.0.0"
     )
   )
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.11"
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.12"
     ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
@@ -112,7 +112,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(file)
     },
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.1.4"
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.1.5"
       ))
 
 lazy val scalapbc = project.in(file("scalapbc"))
@@ -127,9 +127,9 @@ lazy val proptest = project.in(file("proptest"))
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
         "com.github.os72" % "protoc-jar" % "3.0.0-b3",
-        "com.google.protobuf" % "protobuf-java" % "3.0.0-beta-3",
+        "com.google.protobuf" % "protobuf-java" % "3.0.0",
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
-        "com.trueaccord.lenses" %% "lenses" % "0.4.1",
+        "com.trueaccord.lenses" %% "lenses" % "0.4.6",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.1",
         "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
         "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"

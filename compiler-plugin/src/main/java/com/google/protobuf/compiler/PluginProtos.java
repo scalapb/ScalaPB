@@ -6,7 +6,13 @@ package com.google.protobuf.compiler;
 public final class PluginProtos {
   private PluginProtos() {}
   public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistryLite registry) {
+  }
+
+  public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface CodeGeneratorRequestOrBuilder extends
       // @@protoc_insertion_point(interface_extends:google.protobuf.compiler.CodeGeneratorRequest)
@@ -21,7 +27,7 @@ public final class PluginProtos {
      *
      * <code>repeated string file_to_generate = 1;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getFileToGenerateList();
     /**
      * <pre>
@@ -178,11 +184,11 @@ public final class PluginProtos {
    * Protobuf type {@code google.protobuf.compiler.CodeGeneratorRequest}
    */
   public  static final class CodeGeneratorRequest extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:google.protobuf.compiler.CodeGeneratorRequest)
       CodeGeneratorRequestOrBuilder {
     // Use CodeGeneratorRequest.newBuilder() to construct.
-    private CodeGeneratorRequest(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private CodeGeneratorRequest(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private CodeGeneratorRequest() {
@@ -239,7 +245,8 @@ public final class PluginProtos {
                 protoFile_ = new java.util.ArrayList<com.google.protobuf.DescriptorProtos.FileDescriptorProto>();
                 mutable_bitField0_ |= 0x00000004;
               }
-              protoFile_.add(input.readMessage(com.google.protobuf.DescriptorProtos.FileDescriptorProto.parser(), extensionRegistry));
+              protoFile_.add(
+                  input.readMessage(com.google.protobuf.DescriptorProtos.FileDescriptorProto.PARSER, extensionRegistry));
               break;
             }
           }
@@ -265,7 +272,7 @@ public final class PluginProtos {
       return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorRequest_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorRequest_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -499,10 +506,10 @@ public final class PluginProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < fileToGenerate_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, fileToGenerate_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, fileToGenerate_.getRaw(i));
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, parameter_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, parameter_);
       }
       for (int i = 0; i < protoFile_.size(); i++) {
         output.writeMessage(15, protoFile_.get(i));
@@ -524,7 +531,7 @@ public final class PluginProtos {
         size += 1 * getFileToGenerateList().size();
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(2, parameter_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, parameter_);
       }
       for (int i = 0; i < protoFile_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -536,6 +543,54 @@ public final class PluginProtos {
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest)) {
+        return super.equals(obj);
+      }
+      com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest other = (com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest) obj;
+
+      boolean result = true;
+      result = result && getFileToGenerateList()
+          .equals(other.getFileToGenerateList());
+      result = result && (hasParameter() == other.hasParameter());
+      if (hasParameter()) {
+        result = result && getParameter()
+            .equals(other.getParameter());
+      }
+      result = result && getProtoFileList()
+          .equals(other.getProtoFileList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (getFileToGenerateCount() > 0) {
+        hash = (37 * hash) + FILE_TO_GENERATE_FIELD_NUMBER;
+        hash = (53 * hash) + getFileToGenerateList().hashCode();
+      }
+      if (hasParameter()) {
+        hash = (37 * hash) + PARAMETER_FIELD_NUMBER;
+        hash = (53 * hash) + getParameter().hashCode();
+      }
+      if (getProtoFileCount() > 0) {
+        hash = (37 * hash) + PROTO_FILE_FIELD_NUMBER;
+        hash = (53 * hash) + getProtoFileList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -559,39 +614,39 @@ public final class PluginProtos {
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -609,7 +664,7 @@ public final class PluginProtos {
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -621,7 +676,7 @@ public final class PluginProtos {
      * Protobuf type {@code google.protobuf.compiler.CodeGeneratorRequest}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:google.protobuf.compiler.CodeGeneratorRequest)
         com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequestOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -629,7 +684,7 @@ public final class PluginProtos {
         return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorRequest_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorRequest_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -642,12 +697,13 @@ public final class PluginProtos {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
           getProtoFileFieldBuilder();
         }
       }
@@ -710,6 +766,32 @@ public final class PluginProtos {
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest) {
           return mergeFrom((com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest)other);
@@ -755,7 +837,7 @@ public final class PluginProtos {
               protoFile_ = other.protoFile_;
               bitField0_ = (bitField0_ & ~0x00000004);
               protoFileBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getProtoFileFieldBuilder() : null;
             } else {
               protoFileBuilder_.addAllMessages(other.protoFile_);
@@ -1051,7 +1133,7 @@ public final class PluginProtos {
          }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           com.google.protobuf.DescriptorProtos.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder, com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder> protoFileBuilder_;
 
       /**
@@ -1501,11 +1583,11 @@ public final class PluginProtos {
            getProtoFileBuilderList() {
         return getProtoFileFieldBuilder().getBuilderList();
       }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           com.google.protobuf.DescriptorProtos.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder, com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder> 
           getProtoFileFieldBuilder() {
         if (protoFileBuilder_ == null) {
-          protoFileBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          protoFileBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.google.protobuf.DescriptorProtos.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto.Builder, com.google.protobuf.DescriptorProtos.FileDescriptorProtoOrBuilder>(
                   protoFile_,
                   ((bitField0_ & 0x00000004) == 0x00000004),
@@ -1515,6 +1597,16 @@ public final class PluginProtos {
         }
         return protoFileBuilder_;
       }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:google.protobuf.compiler.CodeGeneratorRequest)
     }
@@ -1634,11 +1726,11 @@ public final class PluginProtos {
    * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse}
    */
   public  static final class CodeGeneratorResponse extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:google.protobuf.compiler.CodeGeneratorResponse)
       CodeGeneratorResponseOrBuilder {
     // Use CodeGeneratorResponse.newBuilder() to construct.
-    private CodeGeneratorResponse(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private CodeGeneratorResponse(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private CodeGeneratorResponse() {
@@ -1685,7 +1777,8 @@ public final class PluginProtos {
                 file_ = new java.util.ArrayList<com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File>();
                 mutable_bitField0_ |= 0x00000002;
               }
-              file_.add(input.readMessage(com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.parser(), extensionRegistry));
+              file_.add(
+                  input.readMessage(com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.PARSER, extensionRegistry));
               break;
             }
           }
@@ -1708,7 +1801,7 @@ public final class PluginProtos {
       return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -1928,11 +2021,11 @@ public final class PluginProtos {
      * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse.File}
      */
     public  static final class File extends
-        com.google.protobuf.GeneratedMessage implements
+        com.google.protobuf.GeneratedMessageV3 implements
         // @@protoc_insertion_point(message_implements:google.protobuf.compiler.CodeGeneratorResponse.File)
         FileOrBuilder {
       // Use File.newBuilder() to construct.
-      private File(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+      private File(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
         super(builder);
       }
       private File() {
@@ -2004,7 +2097,7 @@ public final class PluginProtos {
         return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -2310,13 +2403,13 @@ public final class PluginProtos {
       public void writeTo(com.google.protobuf.CodedOutputStream output)
                           throws java.io.IOException {
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 1, name_);
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 2, insertionPoint_);
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 2, insertionPoint_);
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          com.google.protobuf.GeneratedMessage.writeString(output, 15, content_);
+          com.google.protobuf.GeneratedMessageV3.writeString(output, 15, content_);
         }
         unknownFields.writeTo(output);
       }
@@ -2327,13 +2420,13 @@ public final class PluginProtos {
 
         size = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(1, name_);
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(2, insertionPoint_);
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, insertionPoint_);
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          size += com.google.protobuf.GeneratedMessage.computeStringSize(15, content_);
+          size += com.google.protobuf.GeneratedMessageV3.computeStringSize(15, content_);
         }
         size += unknownFields.getSerializedSize();
         memoizedSize = size;
@@ -2341,6 +2434,60 @@ public final class PluginProtos {
       }
 
       private static final long serialVersionUID = 0L;
+      @java.lang.Override
+      public boolean equals(final java.lang.Object obj) {
+        if (obj == this) {
+         return true;
+        }
+        if (!(obj instanceof com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File)) {
+          return super.equals(obj);
+        }
+        com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File other = (com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File) obj;
+
+        boolean result = true;
+        result = result && (hasName() == other.hasName());
+        if (hasName()) {
+          result = result && getName()
+              .equals(other.getName());
+        }
+        result = result && (hasInsertionPoint() == other.hasInsertionPoint());
+        if (hasInsertionPoint()) {
+          result = result && getInsertionPoint()
+              .equals(other.getInsertionPoint());
+        }
+        result = result && (hasContent() == other.hasContent());
+        if (hasContent()) {
+          result = result && getContent()
+              .equals(other.getContent());
+        }
+        result = result && unknownFields.equals(other.unknownFields);
+        return result;
+      }
+
+      @java.lang.Override
+      public int hashCode() {
+        if (memoizedHashCode != 0) {
+          return memoizedHashCode;
+        }
+        int hash = 41;
+        hash = (19 * hash) + getDescriptorForType().hashCode();
+        if (hasName()) {
+          hash = (37 * hash) + NAME_FIELD_NUMBER;
+          hash = (53 * hash) + getName().hashCode();
+        }
+        if (hasInsertionPoint()) {
+          hash = (37 * hash) + INSERTION_POINT_FIELD_NUMBER;
+          hash = (53 * hash) + getInsertionPoint().hashCode();
+        }
+        if (hasContent()) {
+          hash = (37 * hash) + CONTENT_FIELD_NUMBER;
+          hash = (53 * hash) + getContent().hashCode();
+        }
+        hash = (29 * hash) + unknownFields.hashCode();
+        memoizedHashCode = hash;
+        return hash;
+      }
+
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2364,39 +2511,39 @@ public final class PluginProtos {
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input);
       }
       public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        return com.google.protobuf.GeneratedMessage
+        return com.google.protobuf.GeneratedMessageV3
             .parseWithIOException(PARSER, input, extensionRegistry);
       }
 
@@ -2414,7 +2561,7 @@ public final class PluginProtos {
 
       @java.lang.Override
       protected Builder newBuilderForType(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         Builder builder = new Builder(parent);
         return builder;
       }
@@ -2426,7 +2573,7 @@ public final class PluginProtos {
        * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse.File}
        */
       public static final class Builder extends
-          com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+          com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
           // @@protoc_insertion_point(builder_implements:google.protobuf.compiler.CodeGeneratorResponse.File)
           com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.FileOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
@@ -2434,7 +2581,7 @@ public final class PluginProtos {
           return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_descriptor;
         }
 
-        protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
             internalGetFieldAccessorTable() {
           return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_fieldAccessorTable
               .ensureFieldAccessorsInitialized(
@@ -2447,12 +2594,13 @@ public final class PluginProtos {
         }
 
         private Builder(
-            com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+            com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
           super(parent);
           maybeForceBuilderInitialization();
         }
         private void maybeForceBuilderInitialization() {
-          if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          if (com.google.protobuf.GeneratedMessageV3
+                  .alwaysUseFieldBuilders) {
           }
         }
         public Builder clear() {
@@ -2504,6 +2652,32 @@ public final class PluginProtos {
           return result;
         }
 
+        public Builder clone() {
+          return (Builder) super.clone();
+        }
+        public Builder setField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+          return (Builder) super.setField(field, value);
+        }
+        public Builder clearField(
+            com.google.protobuf.Descriptors.FieldDescriptor field) {
+          return (Builder) super.clearField(field);
+        }
+        public Builder clearOneof(
+            com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+          return (Builder) super.clearOneof(oneof);
+        }
+        public Builder setRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            int index, Object value) {
+          return (Builder) super.setRepeatedField(field, index, value);
+        }
+        public Builder addRepeatedField(
+            com.google.protobuf.Descriptors.FieldDescriptor field,
+            Object value) {
+          return (Builder) super.addRepeatedField(field, value);
+        }
         public Builder mergeFrom(com.google.protobuf.Message other) {
           if (other instanceof com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File) {
             return mergeFrom((com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File)other);
@@ -3103,6 +3277,16 @@ public final class PluginProtos {
           onChanged();
           return this;
         }
+        public final Builder setUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.setUnknownFields(unknownFields);
+        }
+
+        public final Builder mergeUnknownFields(
+            final com.google.protobuf.UnknownFieldSet unknownFields) {
+          return super.mergeUnknownFields(unknownFields);
+        }
+
 
         // @@protoc_insertion_point(builder_scope:google.protobuf.compiler.CodeGeneratorResponse.File)
       }
@@ -3263,7 +3447,7 @@ public final class PluginProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, error_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, error_);
       }
       for (int i = 0; i < file_.size(); i++) {
         output.writeMessage(15, file_.get(i));
@@ -3277,7 +3461,7 @@ public final class PluginProtos {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, error_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, error_);
       }
       for (int i = 0; i < file_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
@@ -3289,6 +3473,48 @@ public final class PluginProtos {
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse)) {
+        return super.equals(obj);
+      }
+      com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse other = (com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse) obj;
+
+      boolean result = true;
+      result = result && (hasError() == other.hasError());
+      if (hasError()) {
+        result = result && getError()
+            .equals(other.getError());
+      }
+      result = result && getFileList()
+          .equals(other.getFileList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasError()) {
+        hash = (37 * hash) + ERROR_FIELD_NUMBER;
+        hash = (53 * hash) + getError().hashCode();
+      }
+      if (getFileCount() > 0) {
+        hash = (37 * hash) + FILE_FIELD_NUMBER;
+        hash = (53 * hash) + getFileList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -3312,39 +3538,39 @@ public final class PluginProtos {
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -3362,7 +3588,7 @@ public final class PluginProtos {
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -3374,7 +3600,7 @@ public final class PluginProtos {
      * Protobuf type {@code google.protobuf.compiler.CodeGeneratorResponse}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:google.protobuf.compiler.CodeGeneratorResponse)
         com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponseOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -3382,7 +3608,7 @@ public final class PluginProtos {
         return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.google.protobuf.compiler.PluginProtos.internal_static_google_protobuf_compiler_CodeGeneratorResponse_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -3395,12 +3621,13 @@ public final class PluginProtos {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
           getFileFieldBuilder();
         }
       }
@@ -3456,6 +3683,32 @@ public final class PluginProtos {
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse) {
           return mergeFrom((com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse)other);
@@ -3491,7 +3744,7 @@ public final class PluginProtos {
               file_ = other.file_;
               bitField0_ = (bitField0_ & ~0x00000002);
               fileBuilder_ = 
-                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
                    getFileFieldBuilder() : null;
             } else {
               fileBuilder_.addAllMessages(other.file_);
@@ -3671,7 +3924,7 @@ public final class PluginProtos {
          }
       }
 
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.Builder, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.FileOrBuilder> fileBuilder_;
 
       /**
@@ -3887,11 +4140,11 @@ public final class PluginProtos {
            getFileBuilderList() {
         return getFileFieldBuilder().getBuilderList();
       }
-      private com.google.protobuf.RepeatedFieldBuilder<
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.Builder, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.FileOrBuilder> 
           getFileFieldBuilder() {
         if (fileBuilder_ == null) {
-          fileBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+          fileBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.Builder, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.FileOrBuilder>(
                   file_,
                   ((bitField0_ & 0x00000002) == 0x00000002),
@@ -3901,6 +4154,16 @@ public final class PluginProtos {
         }
         return fileBuilder_;
       }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:google.protobuf.compiler.CodeGeneratorResponse)
     }
@@ -3943,17 +4206,17 @@ public final class PluginProtos {
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorRequest_descriptor;
   private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorRequest_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor;
   private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorResponse_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_descriptor;
   private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -3993,19 +4256,19 @@ public final class PluginProtos {
     internal_static_google_protobuf_compiler_CodeGeneratorRequest_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_google_protobuf_compiler_CodeGeneratorRequest_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_google_protobuf_compiler_CodeGeneratorRequest_descriptor,
         new java.lang.String[] { "FileToGenerate", "Parameter", "ProtoFile", });
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor,
         new java.lang.String[] { "Error", "File", });
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_descriptor =
       internal_static_google_protobuf_compiler_CodeGeneratorResponse_descriptor.getNestedTypes().get(0);
     internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_google_protobuf_compiler_CodeGeneratorResponse_File_descriptor,
         new java.lang.String[] { "Name", "InsertionPoint", "Content", });
     com.google.protobuf.DescriptorProtos.getDescriptor();

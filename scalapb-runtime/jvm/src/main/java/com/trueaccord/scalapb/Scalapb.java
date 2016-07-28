@@ -6,10 +6,16 @@ package com.trueaccord.scalapb;
 public final class Scalapb {
   private Scalapb() {}
   public static void registerAllExtensions(
-      com.google.protobuf.ExtensionRegistry registry) {
+      com.google.protobuf.ExtensionRegistryLite registry) {
     registry.add(com.trueaccord.scalapb.Scalapb.options);
     registry.add(com.trueaccord.scalapb.Scalapb.message);
     registry.add(com.trueaccord.scalapb.Scalapb.field);
+  }
+
+  public static void registerAllExtensions(
+      com.google.protobuf.ExtensionRegistry registry) {
+    registerAllExtensions(
+        (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface ScalaPbOptionsOrBuilder extends
       // @@protoc_insertion_point(interface_extends:scalapb.ScalaPbOptions)
@@ -72,7 +78,7 @@ public final class Scalapb {
      *
      * <code>repeated string import = 3;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getImportList();
     /**
      * <pre>
@@ -111,7 +117,7 @@ public final class Scalapb {
      *
      * <code>repeated string preamble = 4;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getPreambleList();
     /**
      * <pre>
@@ -186,11 +192,11 @@ public final class Scalapb {
    * Protobuf type {@code scalapb.ScalaPbOptions}
    */
   public  static final class ScalaPbOptions extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.ScalaPbOptions)
       ScalaPbOptionsOrBuilder {
     // Use ScalaPbOptions.newBuilder() to construct.
-    private ScalaPbOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private ScalaPbOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private ScalaPbOptions() {
@@ -292,7 +298,7 @@ public final class Scalapb {
       return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_ScalaPbOptions_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_ScalaPbOptions_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -546,16 +552,16 @@ public final class Scalapb {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, packageName_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, packageName_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBool(2, flatPackage_);
       }
       for (int i = 0; i < import_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 3, import_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, import_.getRaw(i));
       }
       for (int i = 0; i < preamble_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 4, preamble_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, preamble_.getRaw(i));
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(5, singleFile_);
@@ -572,7 +578,7 @@ public final class Scalapb {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, packageName_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, packageName_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
@@ -608,6 +614,84 @@ public final class Scalapb {
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.trueaccord.scalapb.Scalapb.ScalaPbOptions)) {
+        return super.equals(obj);
+      }
+      com.trueaccord.scalapb.Scalapb.ScalaPbOptions other = (com.trueaccord.scalapb.Scalapb.ScalaPbOptions) obj;
+
+      boolean result = true;
+      result = result && (hasPackageName() == other.hasPackageName());
+      if (hasPackageName()) {
+        result = result && getPackageName()
+            .equals(other.getPackageName());
+      }
+      result = result && (hasFlatPackage() == other.hasFlatPackage());
+      if (hasFlatPackage()) {
+        result = result && (getFlatPackage()
+            == other.getFlatPackage());
+      }
+      result = result && getImportList()
+          .equals(other.getImportList());
+      result = result && getPreambleList()
+          .equals(other.getPreambleList());
+      result = result && (hasSingleFile() == other.hasSingleFile());
+      if (hasSingleFile()) {
+        result = result && (getSingleFile()
+            == other.getSingleFile());
+      }
+      result = result && (hasPrimitiveWrappers() == other.hasPrimitiveWrappers());
+      if (hasPrimitiveWrappers()) {
+        result = result && (getPrimitiveWrappers()
+            == other.getPrimitiveWrappers());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasPackageName()) {
+        hash = (37 * hash) + PACKAGE_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getPackageName().hashCode();
+      }
+      if (hasFlatPackage()) {
+        hash = (37 * hash) + FLAT_PACKAGE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getFlatPackage());
+      }
+      if (getImportCount() > 0) {
+        hash = (37 * hash) + IMPORT_FIELD_NUMBER;
+        hash = (53 * hash) + getImportList().hashCode();
+      }
+      if (getPreambleCount() > 0) {
+        hash = (37 * hash) + PREAMBLE_FIELD_NUMBER;
+        hash = (53 * hash) + getPreambleList().hashCode();
+      }
+      if (hasSingleFile()) {
+        hash = (37 * hash) + SINGLE_FILE_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getSingleFile());
+      }
+      if (hasPrimitiveWrappers()) {
+        hash = (37 * hash) + PRIMITIVE_WRAPPERS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getPrimitiveWrappers());
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -631,39 +715,39 @@ public final class Scalapb {
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.ScalaPbOptions parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -681,7 +765,7 @@ public final class Scalapb {
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -689,7 +773,7 @@ public final class Scalapb {
      * Protobuf type {@code scalapb.ScalaPbOptions}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:scalapb.ScalaPbOptions)
         com.trueaccord.scalapb.Scalapb.ScalaPbOptionsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -697,7 +781,7 @@ public final class Scalapb {
         return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_ScalaPbOptions_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_ScalaPbOptions_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -710,12 +794,13 @@ public final class Scalapb {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
       public Builder clear() {
@@ -787,6 +872,32 @@ public final class Scalapb {
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.trueaccord.scalapb.Scalapb.ScalaPbOptions) {
           return mergeFrom((com.trueaccord.scalapb.Scalapb.ScalaPbOptions)other);
@@ -1403,6 +1514,16 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:scalapb.ScalaPbOptions)
     }
@@ -1453,7 +1574,7 @@ public final class Scalapb {
      *
      * <code>repeated string extends = 1;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getExtendsList();
     /**
      * <pre>
@@ -1488,7 +1609,7 @@ public final class Scalapb {
      *
      * <code>repeated string companion_extends = 2;</code>
      */
-    com.google.protobuf.ProtocolStringList
+    java.util.List<java.lang.String>
         getCompanionExtendsList();
     /**
      * <pre>
@@ -1520,11 +1641,11 @@ public final class Scalapb {
    * Protobuf type {@code scalapb.MessageOptions}
    */
   public  static final class MessageOptions extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.MessageOptions)
       MessageOptionsOrBuilder {
     // Use MessageOptions.newBuilder() to construct.
-    private MessageOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private MessageOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private MessageOptions() {
@@ -1601,7 +1722,7 @@ public final class Scalapb {
       return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -1711,10 +1832,10 @@ public final class Scalapb {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < extends_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, extends_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, extends_.getRaw(i));
       }
       for (int i = 0; i < companionExtends_.size(); i++) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 2, companionExtends_.getRaw(i));
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, companionExtends_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -1746,6 +1867,45 @@ public final class Scalapb {
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.trueaccord.scalapb.Scalapb.MessageOptions)) {
+        return super.equals(obj);
+      }
+      com.trueaccord.scalapb.Scalapb.MessageOptions other = (com.trueaccord.scalapb.Scalapb.MessageOptions) obj;
+
+      boolean result = true;
+      result = result && getExtendsList()
+          .equals(other.getExtendsList());
+      result = result && getCompanionExtendsList()
+          .equals(other.getCompanionExtendsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (getExtendsCount() > 0) {
+        hash = (37 * hash) + EXTENDS_FIELD_NUMBER;
+        hash = (53 * hash) + getExtendsList().hashCode();
+      }
+      if (getCompanionExtendsCount() > 0) {
+        hash = (37 * hash) + COMPANION_EXTENDS_FIELD_NUMBER;
+        hash = (53 * hash) + getCompanionExtendsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -1769,39 +1929,39 @@ public final class Scalapb {
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.MessageOptions parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -1819,7 +1979,7 @@ public final class Scalapb {
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -1827,7 +1987,7 @@ public final class Scalapb {
      * Protobuf type {@code scalapb.MessageOptions}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:scalapb.MessageOptions)
         com.trueaccord.scalapb.Scalapb.MessageOptionsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -1835,7 +1995,7 @@ public final class Scalapb {
         return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_MessageOptions_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -1848,12 +2008,13 @@ public final class Scalapb {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
       public Builder clear() {
@@ -1899,6 +2060,32 @@ public final class Scalapb {
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.trueaccord.scalapb.Scalapb.MessageOptions) {
           return mergeFrom((com.trueaccord.scalapb.Scalapb.MessageOptions)other);
@@ -2215,6 +2402,16 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:scalapb.MessageOptions)
     }
@@ -2276,11 +2473,11 @@ public final class Scalapb {
    * Protobuf type {@code scalapb.FieldOptions}
    */
   public  static final class FieldOptions extends
-      com.google.protobuf.GeneratedMessage implements
+      com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.FieldOptions)
       FieldOptionsOrBuilder {
     // Use FieldOptions.newBuilder() to construct.
-    private FieldOptions(com.google.protobuf.GeneratedMessage.Builder<?> builder) {
+    private FieldOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
     }
     private FieldOptions() {
@@ -2338,7 +2535,7 @@ public final class Scalapb {
       return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_FieldOptions_descriptor;
     }
 
-    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_FieldOptions_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
@@ -2401,7 +2598,7 @@ public final class Scalapb {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        com.google.protobuf.GeneratedMessage.writeString(output, 1, type_);
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
       }
       unknownFields.writeTo(output);
     }
@@ -2412,7 +2609,7 @@ public final class Scalapb {
 
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        size += com.google.protobuf.GeneratedMessage.computeStringSize(1, type_);
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2420,6 +2617,42 @@ public final class Scalapb {
     }
 
     private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.trueaccord.scalapb.Scalapb.FieldOptions)) {
+        return super.equals(obj);
+      }
+      com.trueaccord.scalapb.Scalapb.FieldOptions other = (com.trueaccord.scalapb.Scalapb.FieldOptions) obj;
+
+      boolean result = true;
+      result = result && (hasType() == other.hasType());
+      if (hasType()) {
+        result = result && getType()
+            .equals(other.getType());
+      }
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getType().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2443,39 +2676,39 @@ public final class Scalapb {
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
     public static com.trueaccord.scalapb.Scalapb.FieldOptions parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      return com.google.protobuf.GeneratedMessage
+      return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
@@ -2493,7 +2726,7 @@ public final class Scalapb {
 
     @java.lang.Override
     protected Builder newBuilderForType(
-        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
       Builder builder = new Builder(parent);
       return builder;
     }
@@ -2501,7 +2734,7 @@ public final class Scalapb {
      * Protobuf type {@code scalapb.FieldOptions}
      */
     public static final class Builder extends
-        com.google.protobuf.GeneratedMessage.Builder<Builder> implements
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
         // @@protoc_insertion_point(builder_implements:scalapb.FieldOptions)
         com.trueaccord.scalapb.Scalapb.FieldOptionsOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
@@ -2509,7 +2742,7 @@ public final class Scalapb {
         return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_FieldOptions_descriptor;
       }
 
-      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_FieldOptions_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
@@ -2522,12 +2755,13 @@ public final class Scalapb {
       }
 
       private Builder(
-          com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
         super(parent);
         maybeForceBuilderInitialization();
       }
       private void maybeForceBuilderInitialization() {
-        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
         }
       }
       public Builder clear() {
@@ -2567,6 +2801,32 @@ public final class Scalapb {
         return result;
       }
 
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof com.trueaccord.scalapb.Scalapb.FieldOptions) {
           return mergeFrom((com.trueaccord.scalapb.Scalapb.FieldOptions)other);
@@ -2686,6 +2946,16 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
 
       // @@protoc_insertion_point(builder_scope:scalapb.FieldOptions)
     }
@@ -2776,17 +3046,17 @@ public final class Scalapb {
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_ScalaPbOptions_descriptor;
   private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_scalapb_ScalaPbOptions_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_MessageOptions_descriptor;
   private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_scalapb_MessageOptions_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_FieldOptions_descriptor;
   private static final 
-    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_scalapb_FieldOptions_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
@@ -2828,19 +3098,19 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
         new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "PrimitiveWrappers", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_MessageOptions_descriptor,
         new java.lang.String[] { "Extends", "CompanionExtends", });
     internal_static_scalapb_FieldOptions_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_FieldOptions_descriptor,
         new java.lang.String[] { "Type", });
     options.internalInit(descriptor.getExtensions().get(0));
