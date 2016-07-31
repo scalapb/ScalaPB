@@ -857,6 +857,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case "google.protobuf.EnumValueOptions" => true
       case "google.protobuf.ServiceOptions" => true
       case "google.protobuf.MethodOptions" => true
+      case "google.protobuf.OneofOptions" => true
       case _ => false
     }
     if (!optionType) fp
