@@ -7,6 +7,35 @@ package com.google.protobuf.descriptor
 
 import scala.collection.JavaConversions._
 
+/** Describes a field within a message.
+  *
+  * @param type
+  *   If type_name is set, this need not be set.  If both this and type_name
+  *   are set, this must be one of TYPE_ENUM, TYPE_MESSAGE or TYPE_GROUP.
+  * @param typeName
+  *   For message and enum types, this is the name of the type.  If the name
+  *   starts with a '.', it is fully-qualified.  Otherwise, C++-like scoping
+  *   rules are used to find the type (i.e. first the nested types within this
+  *   message are searched, then within the parent, on up to the root
+  *   namespace).
+  * @param extendee
+  *   For extensions, this is the name of the type being extended.  It is
+  *   resolved in the same manner as type_name.
+  * @param defaultValue
+  *   For numeric types, contains the original text representation of the value.
+  *   For booleans, "true" or "false".
+  *   For strings, contains the default text contents (not escaped in any way).
+  *   For bytes, contains the C escaped value.  All bytes >= 128 are escaped.
+  *   TODO(kenton):  Base-64 encode?
+  * @param oneofIndex
+  *   If set, gives the index of a oneof in the containing type's oneof_decl
+  *   list.  This field is a member of that oneof.
+  * @param jsonName
+  *   JSON name of this field. The value is set by protocol compiler. If the
+  *   user has set a "json_name" option on this field, that option's value
+  *   will be used. Otherwise, it's deduced from the field's name by converting
+  *   it to camelCase.
+  */
 @SerialVersionUID(0L)
 final case class FieldDescriptorProto(
     name: scala.Option[String] = None,
@@ -45,36 +74,36 @@ final case class FieldDescriptorProto(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      name.foreach { __v => 
+      name.foreach { __v =>
         _output__.writeString(1, __v)
       };
-      extendee.foreach { __v => 
+      extendee.foreach { __v =>
         _output__.writeString(2, __v)
       };
-      number.foreach { __v => 
+      number.foreach { __v =>
         _output__.writeInt32(3, __v)
       };
-      label.foreach { __v => 
+      label.foreach { __v =>
         _output__.writeEnum(4, __v.value)
       };
-      `type`.foreach { __v => 
+      `type`.foreach { __v =>
         _output__.writeEnum(5, __v.value)
       };
-      typeName.foreach { __v => 
+      typeName.foreach { __v =>
         _output__.writeString(6, __v)
       };
-      defaultValue.foreach { __v => 
+      defaultValue.foreach { __v =>
         _output__.writeString(7, __v)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(8, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      oneofIndex.foreach { __v => 
+      oneofIndex.foreach { __v =>
         _output__.writeInt32(9, __v)
       };
-      jsonName.foreach { __v => 
+      jsonName.foreach { __v =>
         _output__.writeString(10, __v)
       };
     }

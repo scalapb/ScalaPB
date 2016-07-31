@@ -7,6 +7,9 @@ package com.google.protobuf.descriptor
 
 
 
+/** The protocol compiler can output a FileDescriptorSet containing the .proto
+  * files it parses.
+  */
 @SerialVersionUID(0L)
 final case class FileDescriptorSet(
     file: scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = Nil
@@ -27,7 +30,7 @@ final case class FileDescriptorSet(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      file.foreach { __v => 
+      file.foreach { __v =>
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

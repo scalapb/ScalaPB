@@ -7,6 +7,23 @@ package com.google.protobuf.api
 
 
 
+/** Method represents a method of an api.
+  *
+  * @param name
+  *   The simple name of this method.
+  * @param requestTypeUrl
+  *   A URL of the input message type.
+  * @param requestStreaming
+  *   If true, the request is streamed.
+  * @param responseTypeUrl
+  *   The URL of the output message type.
+  * @param responseStreaming
+  *   If true, the response is streamed.
+  * @param options
+  *   Any metadata attached to the method.
+  * @param syntax
+  *   The source syntax of this method.
+  */
 @SerialVersionUID(0L)
 final case class Method(
     name: String = "",
@@ -69,7 +86,7 @@ final case class Method(
           _output__.writeBool(5, __v)
         }
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

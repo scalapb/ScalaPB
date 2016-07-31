@@ -7,6 +7,30 @@ package com.google.protobuf.descriptor
 
 
 
+/** Describes a complete .proto file.
+  *
+  * @param name
+  *   file name, relative to root of source tree
+  * @param package
+  *   e.g. "foo", "foo.bar", etc.
+  * @param dependency
+  *   Names of files imported by this file.
+  * @param publicDependency
+  *   Indexes of the public imported files in the dependency list above.
+  * @param weakDependency
+  *   Indexes of the weak imported files in the dependency list.
+  *   For Google-internal migration only. Do not use.
+  * @param messageType
+  *   All top-level definitions in this file.
+  * @param sourceCodeInfo
+  *   This field contains optional information about the original source code.
+  *   You may safely remove this entire field without harming runtime
+  *   functionality of the descriptors -- the information is needed only by
+  *   development tools.
+  * @param syntax
+  *   The syntax of the proto file.
+  *   The supported values are "proto2" and "proto3".
+  */
 @SerialVersionUID(0L)
 final case class FileDescriptorProto(
     name: scala.Option[String] = None,
@@ -49,52 +73,52 @@ final case class FileDescriptorProto(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      name.foreach { __v => 
+      name.foreach { __v =>
         _output__.writeString(1, __v)
       };
-      `package`.foreach { __v => 
+      `package`.foreach { __v =>
         _output__.writeString(2, __v)
       };
-      dependency.foreach { __v => 
+      dependency.foreach { __v =>
         _output__.writeString(3, __v)
       };
-      messageType.foreach { __v => 
+      messageType.foreach { __v =>
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      enumType.foreach { __v => 
+      enumType.foreach { __v =>
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      service.foreach { __v => 
+      service.foreach { __v =>
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      extension.foreach { __v => 
+      extension.foreach { __v =>
         _output__.writeTag(7, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(8, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      sourceCodeInfo.foreach { __v => 
+      sourceCodeInfo.foreach { __v =>
         _output__.writeTag(9, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      publicDependency.foreach { __v => 
+      publicDependency.foreach { __v =>
         _output__.writeInt32(10, __v)
       };
-      weakDependency.foreach { __v => 
+      weakDependency.foreach { __v =>
         _output__.writeInt32(11, __v)
       };
-      syntax.foreach { __v => 
+      syntax.foreach { __v =>
         _output__.writeString(12, __v)
       };
     }

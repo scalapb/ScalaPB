@@ -7,6 +7,19 @@ package com.google.protobuf.`type`
 
 
 
+/** Enum type definition.
+  *
+  * @param name
+  *   Enum type name.
+  * @param enumvalue
+  *   Enum value definitions.
+  * @param options
+  *   Protocol buffer options.
+  * @param sourceContext
+  *   The source context.
+  * @param syntax
+  *   The source syntax.
+  */
 @SerialVersionUID(0L)
 final case class Enum(
     name: String = "",
@@ -41,17 +54,17 @@ final case class Enum(
           _output__.writeString(1, __v)
         }
       };
-      enumvalue.foreach { __v => 
+      enumvalue.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      sourceContext.foreach { __v => 
+      sourceContext.foreach { __v =>
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

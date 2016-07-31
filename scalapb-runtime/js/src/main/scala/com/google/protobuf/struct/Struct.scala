@@ -7,6 +7,18 @@ package com.google.protobuf.struct
 
 
 
+/** `Struct` represents a structured data value, consisting of fields
+  * which map to dynamically typed values. In some languages, `Struct`
+  * might be supported by a native representation. For example, in
+  * scripting languages like JS a struct is represented as an
+  * object. The details of that representation are described together
+  * with the proto support for the language.
+  *
+  * The JSON representation for `Struct` is JSON object.
+  *
+  * @param fields
+  *   Unordered map of dynamically typed values.
+  */
 @SerialVersionUID(0L)
 final case class Struct(
     fields: scala.collection.immutable.Map[String, com.google.protobuf.struct.Value] = scala.collection.immutable.Map.empty
@@ -27,7 +39,7 @@ final case class Struct(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      fields.foreach { __v => 
+      fields.foreach { __v =>
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(com.google.protobuf.struct.Struct._typemapper_fields.toBase(__v).serializedSize)
         com.google.protobuf.struct.Struct._typemapper_fields.toBase(__v).writeTo(_output__)
@@ -111,7 +123,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
             _output__.writeString(1, __v)
           }
         };
-        value.foreach { __v => 
+        value.foreach { __v =>
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(__v.serializedSize)
           __v.writeTo(_output__)

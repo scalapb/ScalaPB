@@ -7,6 +7,13 @@ package com.google.protobuf.struct
 
 import scala.collection.JavaConversions._
 
+/** `ListValue` is a wrapper around a repeated field of values.
+  *
+  * The JSON representation for `ListValue` is JSON array.
+  *
+  * @param values
+  *   Repeated field of dynamically typed values.
+  */
 @SerialVersionUID(0L)
 final case class ListValue(
     values: scala.collection.Seq[com.google.protobuf.struct.Value] = Nil
@@ -27,7 +34,7 @@ final case class ListValue(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      values.foreach { __v => 
+      values.foreach { __v =>
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

@@ -7,6 +7,14 @@ package com.google.protobuf.descriptor
 
 
 
+/** Describes the relationship between generated code and its original source
+  * file. A GeneratedCodeInfo message is associated with only one generated
+  * source file, but may contain references to different source .proto files.
+  *
+  * @param annotation
+  *   An Annotation connects some span of text in generated code to an element
+  *   of its generating .proto file.
+  */
 @SerialVersionUID(0L)
 final case class GeneratedCodeInfo(
     annotation: scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = Nil
@@ -27,7 +35,7 @@ final case class GeneratedCodeInfo(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      annotation.foreach { __v => 
+      annotation.foreach { __v =>
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
@@ -71,7 +79,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(18)
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(19)
   def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
@@ -83,6 +91,19 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.GeneratedCodeInfo(
   )
+  /** @param path
+    *   Identifies the element in the original source .proto file. This field
+    *   is formatted the same as SourceCodeInfo.Location.path.
+    * @param sourceFile
+    *   Identifies the filesystem path to the original source .proto.
+    * @param begin
+    *   Identifies the starting offset in bytes in the generated code
+    *   that relates to the identified object.
+    * @param end
+    *   Identifies the ending offset in bytes in the generated code that
+    *   relates to the identified offset. The end offset should be one past
+    *   the last relevant byte (so the length of the text = end - begin).
+    */
   @SerialVersionUID(0L)
   final case class Annotation(
       path: scala.collection.Seq[Int] = Nil,
@@ -123,13 +144,13 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
           _output__.writeUInt32NoTag(pathSerializedSize)
           path.foreach(_output__.writeInt32NoTag)
         };
-        sourceFile.foreach { __v => 
+        sourceFile.foreach { __v =>
           _output__.writeString(2, __v)
         };
-        begin.foreach { __v => 
+        begin.foreach { __v =>
           _output__.writeInt32(3, __v)
         };
-        end.foreach { __v => 
+        end.foreach { __v =>
           _output__.writeInt32(4, __v)
         };
       }

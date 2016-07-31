@@ -7,6 +7,13 @@ package com.google.protobuf.wrappers
 
 import scala.collection.JavaConversions._
 
+/** Wrapper message for `uint32`.
+  *
+  * The JSON representation for `UInt32Value` is JSON number.
+  *
+  * @param value
+  *   The uint32 value.
+  */
 @SerialVersionUID(0L)
 final case class UInt32Value(
     value: Int = 0

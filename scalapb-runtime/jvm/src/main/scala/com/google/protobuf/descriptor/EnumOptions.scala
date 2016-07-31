@@ -7,6 +7,17 @@ package com.google.protobuf.descriptor
 
 import scala.collection.JavaConversions._
 
+/** @param allowAlias
+  *   Set this option to true to allow mapping different tag names to the same
+  *   value.
+  * @param deprecated
+  *   Is this enum deprecated?
+  *   Depending on the target platform, this can emit Deprecated annotations
+  *   for the enum, or it will be completely ignored; in the very least, this
+  *   is a formalization for deprecating enums.
+  * @param uninterpretedOption
+  *   The parser stores options it doesn't recognize here. See above.
+  */
 @SerialVersionUID(0L)
 final case class EnumOptions(
     allowAlias: scala.Option[Boolean] = None,
@@ -31,13 +42,13 @@ final case class EnumOptions(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      allowAlias.foreach { __v => 
+      allowAlias.foreach { __v =>
         _output__.writeBool(2, __v)
       };
-      deprecated.foreach { __v => 
+      deprecated.foreach { __v =>
         _output__.writeBool(3, __v)
       };
-      uninterpretedOption.foreach { __v => 
+      uninterpretedOption.foreach { __v =>
         _output__.writeTag(999, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
@@ -111,7 +122,7 @@ object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(12)
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(13)
   def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null

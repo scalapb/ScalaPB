@@ -7,6 +7,44 @@ package com.google.protobuf.api
 
 
 
+/** Api is a light-weight descriptor for a protocol buffer service.
+  *
+  * @param name
+  *   The fully qualified name of this api, including package name
+  *   followed by the api's simple name.
+  * @param methods
+  *   The methods of this api, in unspecified order.
+  * @param options
+  *   Any metadata attached to the API.
+  * @param version
+  *   A version string for this api. If specified, must have the form
+  *   `major-version.minor-version`, as in `1.10`. If the minor version
+  *   is omitted, it defaults to zero. If the entire version field is
+  *   empty, the major version is derived from the package name, as
+  *   outlined below. If the field is not empty, the version in the
+  *   package name will be verified to be consistent with what is
+  *   provided here.
+  *  
+  *   The versioning schema uses [semantic
+  *   versioning](http://semver.org) where the major version number
+  *   indicates a breaking change and the minor version an additive,
+  *   non-breaking change. Both version numbers are signals to users
+  *   what to expect from different versions, and should be carefully
+  *   chosen based on the product plan.
+  *  
+  *   The major version is also reflected in the package name of the
+  *   API, which must end in `v<major-version>`, as in
+  *   `google.feature.v1`. For major versions 0 and 1, the suffix can
+  *   be omitted. Zero major versions must only be used for
+  *   experimental, none-GA apis.
+  * @param sourceContext
+  *   Source context for the protocol buffer service represented by this
+  *   message.
+  * @param mixins
+  *   Included APIs. See [Mixin][].
+  * @param syntax
+  *   The source syntax of the service.
+  */
 @SerialVersionUID(0L)
 final case class Api(
     name: String = "",
@@ -45,12 +83,12 @@ final case class Api(
           _output__.writeString(1, __v)
         }
       };
-      methods.foreach { __v => 
+      methods.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
@@ -61,12 +99,12 @@ final case class Api(
           _output__.writeString(4, __v)
         }
       };
-      sourceContext.foreach { __v => 
+      sourceContext.foreach { __v =>
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      mixins.foreach { __v => 
+      mixins.foreach { __v =>
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

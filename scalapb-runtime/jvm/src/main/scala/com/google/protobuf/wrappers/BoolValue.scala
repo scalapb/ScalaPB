@@ -7,6 +7,13 @@ package com.google.protobuf.wrappers
 
 import scala.collection.JavaConversions._
 
+/** Wrapper message for `bool`.
+  *
+  * The JSON representation for `BoolValue` is JSON `true` and `false`.
+  *
+  * @param value
+  *   The bool value.
+  */
 @SerialVersionUID(0L)
 final case class BoolValue(
     value: Boolean = false

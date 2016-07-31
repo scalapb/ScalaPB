@@ -7,6 +7,13 @@ package com.google.protobuf.wrappers
 
 import scala.collection.JavaConversions._
 
+/** Wrapper message for `uint64`.
+  *
+  * The JSON representation for `UInt64Value` is JSON string.
+  *
+  * @param value
+  *   The uint64 value.
+  */
 @SerialVersionUID(0L)
 final case class UInt64Value(
     value: Long = 0L

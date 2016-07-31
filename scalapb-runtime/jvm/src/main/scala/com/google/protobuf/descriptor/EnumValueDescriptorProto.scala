@@ -7,6 +7,8 @@ package com.google.protobuf.descriptor
 
 import scala.collection.JavaConversions._
 
+/** Describes a value within an enum.
+  */
 @SerialVersionUID(0L)
 final case class EnumValueDescriptorProto(
     name: scala.Option[String] = None,
@@ -31,13 +33,13 @@ final case class EnumValueDescriptorProto(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      name.foreach { __v => 
+      name.foreach { __v =>
         _output__.writeString(1, __v)
       };
-      number.foreach { __v => 
+      number.foreach { __v =>
         _output__.writeInt32(2, __v)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

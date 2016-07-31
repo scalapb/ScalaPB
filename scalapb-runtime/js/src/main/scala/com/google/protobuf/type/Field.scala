@@ -7,6 +7,31 @@ package com.google.protobuf.`type`
 
 
 
+/** A single field of a message type.
+  *
+  * @param kind
+  *   The field type.
+  * @param cardinality
+  *   The field cardinality.
+  * @param number
+  *   The field number.
+  * @param name
+  *   The field name.
+  * @param typeUrl
+  *   The field type URL, without the scheme, for message or enumeration
+  *   types. Example: `"type.googleapis.com/google.protobuf.Timestamp"`.
+  * @param oneofIndex
+  *   The index of the field type in `Type.oneofs`, for message or enumeration
+  *   types. The first type has index 1; zero means the type is not in the list.
+  * @param packed
+  *   Whether to use alternative packed wire representation.
+  * @param options
+  *   The protocol buffer options.
+  * @param jsonName
+  *   The field JSON name.
+  * @param defaultValue
+  *   The string value of the default value of this field. Proto2 syntax only.
+  */
 @SerialVersionUID(0L)
 final case class Field(
     kind: com.google.protobuf.`type`.Field.Kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
@@ -87,7 +112,7 @@ final case class Field(
           _output__.writeBool(8, __v)
         }
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(9, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

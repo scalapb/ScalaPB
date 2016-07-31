@@ -7,6 +7,12 @@ package com.google.protobuf.descriptor
 
 import scala.collection.JavaConversions._
 
+/** Describes a message type.
+  *
+  * @param reservedName
+  *   Reserved field names, which may not be used by fields in the same message.
+  *   A given name may only be reserved once.
+  */
 @SerialVersionUID(0L)
 final case class DescriptorProto(
     name: scala.Option[String] = None,
@@ -45,50 +51,50 @@ final case class DescriptorProto(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      name.foreach { __v => 
+      name.foreach { __v =>
         _output__.writeString(1, __v)
       };
-      field.foreach { __v => 
+      field.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      nestedType.foreach { __v => 
+      nestedType.foreach { __v =>
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      enumType.foreach { __v => 
+      enumType.foreach { __v =>
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      extensionRange.foreach { __v => 
+      extensionRange.foreach { __v =>
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      extension.foreach { __v => 
+      extension.foreach { __v =>
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(7, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      oneofDecl.foreach { __v => 
+      oneofDecl.foreach { __v =>
         _output__.writeTag(8, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      reservedRange.foreach { __v => 
+      reservedRange.foreach { __v =>
         _output__.writeTag(9, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      reservedName.foreach { __v => 
+      reservedName.foreach { __v =>
         _output__.writeString(10, __v)
       };
     }
@@ -285,10 +291,10 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         read
       }
       def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-        start.foreach { __v => 
+        start.foreach { __v =>
           _output__.writeInt32(1, __v)
         };
-        end.foreach { __v => 
+        end.foreach { __v =>
           _output__.writeInt32(2, __v)
         };
       }
@@ -363,6 +369,15 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
     final val END_FIELD_NUMBER = 2
   }
   
+  /** Range of reserved tag numbers. Reserved tag numbers may not be used by
+    * fields or extension ranges in the same message. Reserved ranges may
+    * not overlap.
+    *
+    * @param start
+    *   Inclusive.
+    * @param end
+    *   Exclusive.
+    */
   @SerialVersionUID(0L)
   final case class ReservedRange(
       start: scala.Option[Int] = None,
@@ -385,10 +400,10 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         read
       }
       def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-        start.foreach { __v => 
+        start.foreach { __v =>
           _output__.writeInt32(1, __v)
         };
-        end.foreach { __v => 
+        end.foreach { __v =>
           _output__.writeInt32(2, __v)
         };
       }

@@ -7,6 +7,14 @@ package com.google.protobuf.`type`
 
 import scala.collection.JavaConversions._
 
+/** A protocol buffer option, which can be attached to a message, field,
+  * enumeration, etc.
+  *
+  * @param name
+  *   The option's name. For example, `"java_package"`.
+  * @param value
+  *   The option's value. For example, `"com.google.protobuf"`.
+  */
 @SerialVersionUID(0L)
 final case class OptionProto(
     name: String = "",
@@ -35,7 +43,7 @@ final case class OptionProto(
           _output__.writeString(1, __v)
         }
       };
-      value.foreach { __v => 
+      value.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

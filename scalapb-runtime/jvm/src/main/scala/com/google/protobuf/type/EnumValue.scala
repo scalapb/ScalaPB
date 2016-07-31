@@ -7,6 +7,15 @@ package com.google.protobuf.`type`
 
 import scala.collection.JavaConversions._
 
+/** Enum value definition.
+  *
+  * @param name
+  *   Enum value name.
+  * @param number
+  *   Enum value number.
+  * @param options
+  *   Protocol buffer options.
+  */
 @SerialVersionUID(0L)
 final case class EnumValue(
     name: String = "",
@@ -43,7 +52,7 @@ final case class EnumValue(
           _output__.writeInt32(2, __v)
         }
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(3, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

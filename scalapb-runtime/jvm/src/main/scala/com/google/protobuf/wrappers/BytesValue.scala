@@ -7,6 +7,13 @@ package com.google.protobuf.wrappers
 
 import scala.collection.JavaConversions._
 
+/** Wrapper message for `bytes`.
+  *
+  * The JSON representation for `BytesValue` is JSON string.
+  *
+  * @param value
+  *   The bytes value.
+  */
 @SerialVersionUID(0L)
 final case class BytesValue(
     value: com.google.protobuf.ByteString = com.google.protobuf.ByteString.EMPTY

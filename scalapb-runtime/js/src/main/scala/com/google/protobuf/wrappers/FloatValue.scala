@@ -7,6 +7,13 @@ package com.google.protobuf.wrappers
 
 
 
+/** Wrapper message for `float`.
+  *
+  * The JSON representation for `FloatValue` is JSON number.
+  *
+  * @param value
+  *   The float value.
+  */
 @SerialVersionUID(0L)
 final case class FloatValue(
     value: Float = 0.0f

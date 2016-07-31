@@ -7,6 +7,13 @@ package com.google.protobuf.wrappers
 
 
 
+/** Wrapper message for `string`.
+  *
+  * The JSON representation for `StringValue` is JSON string.
+  *
+  * @param value
+  *   The string value.
+  */
 @SerialVersionUID(0L)
 final case class StringValue(
     value: String = ""

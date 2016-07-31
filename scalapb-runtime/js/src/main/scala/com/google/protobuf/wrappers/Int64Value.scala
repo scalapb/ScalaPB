@@ -7,6 +7,13 @@ package com.google.protobuf.wrappers
 
 
 
+/** Wrapper message for `int64`.
+  *
+  * The JSON representation for `Int64Value` is JSON string.
+  *
+  * @param value
+  *   The int64 value.
+  */
 @SerialVersionUID(0L)
 final case class Int64Value(
     value: Long = 0L

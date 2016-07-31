@@ -7,6 +7,13 @@ package com.google.protobuf.struct
 
 import scala.collection.JavaConversions._
 
+/** `Value` represents a dynamically typed value which can be either
+  * null, a number, a string, a boolean, a recursive struct value, or a
+  * list of values. A producer of value is expected to set one of that
+  * variants, absence of any variant indicates an error.
+  *
+  * The JSON representation for `Value` is JSON value.
+  */
 @SerialVersionUID(0L)
 final case class Value(
     kind: com.google.protobuf.struct.Value.Kind = com.google.protobuf.struct.Value.Kind.Empty
@@ -32,24 +39,24 @@ final case class Value(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      kind.nullValue.foreach { __v => 
+      kind.nullValue.foreach { __v =>
         _output__.writeEnum(1, __v.value)
       };
-      kind.numberValue.foreach { __v => 
+      kind.numberValue.foreach { __v =>
         _output__.writeDouble(2, __v)
       };
-      kind.stringValue.foreach { __v => 
+      kind.stringValue.foreach { __v =>
         _output__.writeString(3, __v)
       };
-      kind.boolValue.foreach { __v => 
+      kind.boolValue.foreach { __v =>
         _output__.writeBool(4, __v)
       };
-      kind.structValue.foreach { __v => 
+      kind.structValue.foreach { __v =>
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      kind.listValue.foreach { __v => 
+      kind.listValue.foreach { __v =>
         _output__.writeTag(6, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

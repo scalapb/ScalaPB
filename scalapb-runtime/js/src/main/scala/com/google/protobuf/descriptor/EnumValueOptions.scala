@@ -7,6 +7,14 @@ package com.google.protobuf.descriptor
 
 
 
+/** @param deprecated
+  *   Is this enum value deprecated?
+  *   Depending on the target platform, this can emit Deprecated annotations
+  *   for the enum value, or it will be completely ignored; in the very least,
+  *   this is a formalization for deprecating enum values.
+  * @param uninterpretedOption
+  *   The parser stores options it doesn't recognize here. See above.
+  */
 @SerialVersionUID(0L)
 final case class EnumValueOptions(
     deprecated: scala.Option[Boolean] = None,
@@ -29,10 +37,10 @@ final case class EnumValueOptions(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      deprecated.foreach { __v => 
+      deprecated.foreach { __v =>
         _output__.writeBool(1, __v)
       };
-      uninterpretedOption.foreach { __v => 
+      uninterpretedOption.foreach { __v =>
         _output__.writeTag(999, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
@@ -85,7 +93,7 @@ object EnumValueOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(13)
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(14)
   def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null

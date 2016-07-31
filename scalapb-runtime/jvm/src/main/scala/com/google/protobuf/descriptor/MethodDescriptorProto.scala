@@ -7,6 +7,16 @@ package com.google.protobuf.descriptor
 
 import scala.collection.JavaConversions._
 
+/** Describes a method of a service.
+  *
+  * @param inputType
+  *   Input and output type names.  These are resolved in the same way as
+  *   FieldDescriptorProto.type_name, but must refer to a message type.
+  * @param clientStreaming
+  *   Identifies if client streams multiple client messages
+  * @param serverStreaming
+  *   Identifies if server streams multiple server messages
+  */
 @SerialVersionUID(0L)
 final case class MethodDescriptorProto(
     name: scala.Option[String] = None,
@@ -37,24 +47,24 @@ final case class MethodDescriptorProto(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      name.foreach { __v => 
+      name.foreach { __v =>
         _output__.writeString(1, __v)
       };
-      inputType.foreach { __v => 
+      inputType.foreach { __v =>
         _output__.writeString(2, __v)
       };
-      outputType.foreach { __v => 
+      outputType.foreach { __v =>
         _output__.writeString(3, __v)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      clientStreaming.foreach { __v => 
+      clientStreaming.foreach { __v =>
         _output__.writeBool(5, __v)
       };
-      serverStreaming.foreach { __v => 
+      serverStreaming.foreach { __v =>
         _output__.writeBool(6, __v)
       };
     }

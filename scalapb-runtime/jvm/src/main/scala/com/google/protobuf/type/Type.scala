@@ -7,6 +7,21 @@ package com.google.protobuf.`type`
 
 import scala.collection.JavaConversions._
 
+/** A protocol buffer message type.
+  *
+  * @param name
+  *   The fully qualified message name.
+  * @param fields
+  *   The list of fields.
+  * @param oneofs
+  *   The list of types appearing in `oneof` definitions in this type.
+  * @param options
+  *   The protocol buffer options.
+  * @param sourceContext
+  *   The source context.
+  * @param syntax
+  *   The source syntax.
+  */
 @SerialVersionUID(0L)
 final case class Type(
     name: String = "",
@@ -43,20 +58,20 @@ final case class Type(
           _output__.writeString(1, __v)
         }
       };
-      fields.foreach { __v => 
+      fields.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      oneofs.foreach { __v => 
+      oneofs.foreach { __v =>
         _output__.writeString(3, __v)
       };
-      options.foreach { __v => 
+      options.foreach { __v =>
         _output__.writeTag(4, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      sourceContext.foreach { __v => 
+      sourceContext.foreach { __v =>
         _output__.writeTag(5, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)

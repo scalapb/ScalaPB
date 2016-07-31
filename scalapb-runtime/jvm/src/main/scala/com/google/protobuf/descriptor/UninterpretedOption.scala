@@ -7,6 +7,17 @@ package com.google.protobuf.descriptor
 
 import scala.collection.JavaConversions._
 
+/** A message representing a option the parser does not recognize. This only
+  * appears in options protos created by the compiler::Parser class.
+  * DescriptorPool resolves these when building Descriptor objects. Therefore,
+  * options protos in descriptor objects (e.g. returned by Descriptor::options(),
+  * or produced by Descriptor::CopyTo()) will never have UninterpretedOptions
+  * in them.
+  *
+  * @param identifierValue
+  *   The value of the uninterpreted option, in whatever type the tokenizer
+  *   identified it as during parsing. Exactly one of these should be set.
+  */
 @SerialVersionUID(0L)
 final case class UninterpretedOption(
     name: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = Nil,
@@ -39,27 +50,27 @@ final case class UninterpretedOption(
       read
     }
     def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
-      name.foreach { __v => 
+      name.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
-      identifierValue.foreach { __v => 
+      identifierValue.foreach { __v =>
         _output__.writeString(3, __v)
       };
-      positiveIntValue.foreach { __v => 
+      positiveIntValue.foreach { __v =>
         _output__.writeUInt64(4, __v)
       };
-      negativeIntValue.foreach { __v => 
+      negativeIntValue.foreach { __v =>
         _output__.writeInt64(5, __v)
       };
-      doubleValue.foreach { __v => 
+      doubleValue.foreach { __v =>
         _output__.writeDouble(6, __v)
       };
-      stringValue.foreach { __v => 
+      stringValue.foreach { __v =>
         _output__.writeBytes(7, __v)
       };
-      aggregateValue.foreach { __v => 
+      aggregateValue.foreach { __v =>
         _output__.writeString(8, __v)
       };
     }
@@ -175,7 +186,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[String]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(16)
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(17)
   def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
@@ -187,6 +198,12 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
   def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.UninterpretedOption(
   )
+  /** The name of the uninterpreted option.  Each string represents a segment in
+    * a dot-separated name.  is_extension is true iff a segment represents an
+    * extension (denoted with parentheses in options specs in .proto files).
+    * E.g.,{ ["foo", false], ["bar.baz", true], ["qux", false] } represents
+    * "foo.(bar.baz).qux".
+    */
   @SerialVersionUID(0L)
   final case class NamePart(
       namePart: String = "",

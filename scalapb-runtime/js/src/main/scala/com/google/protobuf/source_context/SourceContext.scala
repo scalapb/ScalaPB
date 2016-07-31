@@ -7,6 +7,13 @@ package com.google.protobuf.source_context
 
 
 
+/** `SourceContext` represents information about the source of a
+  * protobuf element, like the file in which it is defined.
+  *
+  * @param fileName
+  *   The path-qualified name of the .proto file that contained the associated
+  *   protobuf element.  For example: `"google/protobuf/source_context.proto"`.
+  */
 @SerialVersionUID(0L)
 final case class SourceContext(
     fileName: String = ""
