@@ -234,7 +234,9 @@ trait DescriptorPimps {
 
     def comment: Option[String] = {
       fd.getFile.findLocationByPath(sourcePath)
-        .map(t => t.getLeadingComments + t.getTrailingComments).filter(_.nonEmpty)
+        .map(t => t.getLeadingComments + t.getTrailingComments)
+        .map(_.replace("/", "&47;"))
+        .filter(_.nonEmpty)
     }
   }
 
@@ -346,7 +348,9 @@ trait DescriptorPimps {
 
     def comment: Option[String] = {
       message.getFile.findLocationByPath(sourcePath)
-        .map(t => t.getLeadingComments + t.getTrailingComments).filter(_.nonEmpty)
+        .map(t => t.getLeadingComments + t.getTrailingComments)
+        .map(_.replace("/", "&47;"))
+        .filter(_.nonEmpty)
     }
   }
 
