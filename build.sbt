@@ -2,7 +2,7 @@ import ReleaseTransformations._
 
 scalaVersion := "2.11.8"
 
-crossScalaVersions := Seq("2.11.8", "2.10.6", "2.12.0-M4")
+crossScalaVersions := Seq("2.11.8", "2.10.6", "2.12.0-M5")
 
 organization in ThisBuild := "com.trueaccord.lenses"
 
@@ -47,7 +47,7 @@ lazy val lenses = crossProject.in(file("."))
   .jvmSettings(
     libraryDependencies ++= Seq(
       "org.scalacheck" %%% "scalacheck" % "1.12.5" % "test",
-      "org.scalatest" %%% "scalatest" % "2.2.6" % "test"
+      "org.scalatest" %%% "scalatest" % "3.0.0-RC4" % "test"
     )
   )
   .jsSettings(
