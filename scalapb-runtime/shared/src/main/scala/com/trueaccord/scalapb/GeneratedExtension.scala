@@ -1,13 +1,13 @@
 package com.trueaccord.scalapb
 
-import com.google.protobuf.GeneratedMessage.ExtendableMessage
+import com.google.protobuf.GeneratedMessageV3.ExtendableMessage
 import com.google.protobuf.{ByteString, UnknownFieldSet}
 import com.trueaccord.scalapb.GeneratedExtension.JavaExtendee
 
 case class GeneratedExtension[J <: JavaExtendee[J], +T](get: J => T)
 
 object GeneratedExtension {
-  type JavaExtendee[S <: ExtendableMessage[S]] = com.google.protobuf.Message with com.google.protobuf.GeneratedMessage.ExtendableMessage[S]
+  type JavaExtendee[S <: ExtendableMessage[S]] = com.google.protobuf.Message with com.google.protobuf.GeneratedMessageV3.ExtendableMessage[S]
 
   import scala.collection.JavaConverters._
 
