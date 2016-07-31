@@ -2,7 +2,13 @@
 
 ## [Unreleased](https://github.com/trueaccord/ScalaPB/tree/HEAD)
 
-## [v0.5.34](https://github.com/trueaccord/ScalaPB/tree/v0.5.33) (2016-07-15)
+## [v0.5.35](https://github.com/trueaccord/ScalaPB/tree/v0.5.35) (2016-07-31)
+[Full Changelog](https://github.com/trueaccord/ScalaPB/compare/v0.5.34...v0.5.35)
+- Update to protobuf 3.0.0
+- Upgrade grpc-java to 1.0.0-pre1
+- Scaladoc is automatically generated for case classes based on comments in the proto.
+
+## [v0.5.34](https://github.com/trueaccord/ScalaPB/tree/v0.5.34) (2016-07-15)
 [Full Changelog](https://github.com/trueaccord/ScalaPB/compare/v0.5.29...v0.5.34)
 
 - Include Scala versions of well-known types, including basic support for Any.
