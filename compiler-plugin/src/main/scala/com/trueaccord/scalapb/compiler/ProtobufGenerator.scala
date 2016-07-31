@@ -487,7 +487,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             .add("};")
         } else {
           printer
-            .add(s"${fieldNameSymbol}.foreach { __v => ")
+            .add(s"${fieldNameSymbol}.foreach { __v =>")
             .indent
             .call(generateWriteSingleValue(field, toBaseType(field)("__v")))
             .outdent
