@@ -1,7 +1,9 @@
 package com.trueaccord.scalapb.compiler
 
+import com.google.protobuf.DescriptorProtos.{FileDescriptorProto, SourceCodeInfo}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
+import com.google.protobuf.descriptor.DescriptorProto
 import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.Scalapb.{FieldOptions, MessageOptions, ScalaPbOptions}
 
@@ -225,6 +227,15 @@ trait DescriptorPimps {
         else fd.getExtensionScope.javaTypeName
       s"$inClass.${fd.scalaName}"
     }
+
+    def sourcePath: Seq[Int] = {
+      fd.getContainingType.sourcePath ++ Seq(DescriptorProto.FIELD_FIELD_NUMBER, fd.getIndex)
+    }
+
+    def comment: Option[String] = {
+      fd.getFile.findLocationByPath(sourcePath)
+        .map(t => t.getLeadingComments + t.getTrailingComments).filter(_.nonEmpty)
+    }
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
@@ -327,6 +338,16 @@ trait DescriptorPimps {
     def descriptorSource: String = if (message.isTopLevel)
       s"${message.getFile.fileDescriptorObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"
       else s"${message.getContainingType.scalaTypeName}.descriptor.getNestedTypes.get(${message.getIndex})"
+
+    def sourcePath: Seq[Int] = {
+      if (message.isTopLevel) Seq(FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER, message.getIndex)
+      else message.getContainingType.sourcePath ++ Seq(DescriptorProto.NESTED_TYPE_FIELD_NUMBER, message.getIndex)
+    }
+
+    def comment: Option[String] = {
+      message.getFile.findLocationByPath(sourcePath)
+        .map(t => t.getLeadingComments + t.getTrailingComments).filter(_.nonEmpty)
+    }
   }
 
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
@@ -447,6 +468,11 @@ trait DescriptorPimps {
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
 
     def isProto3 = file.getSyntax == FileDescriptor.Syntax.PROTO3
+
+    def findLocationByPath(path: Seq[Int]): Option[SourceCodeInfo.Location] = {
+      file.toProto.getSourceCodeInfo.getLocationList.asScala.find(
+        _.getPathList.asScala == path)
+    }
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {

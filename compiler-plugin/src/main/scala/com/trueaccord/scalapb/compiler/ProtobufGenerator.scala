@@ -5,6 +5,7 @@ import com.google.protobuf.CodedOutputStream
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
+import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 
 import scala.collection.JavaConverters._
 
@@ -927,9 +928,33 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("")
   }
 
+  def generateScalaDoc(message: Descriptor): PrinterEndo = {
+    fp =>
+      val mainDoc: Seq[String] = message.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty)
+
+      val fieldsDoc: Seq[String] = message.fields.filterNot(_.isInOneof).map {
+        fd => (fd, fd.comment.map(_.split("\n").toSeq).getOrElse(Seq.empty))
+      }.filter(_._2.nonEmpty).flatMap {
+        case (fd, lines) =>
+          Seq(s"@param ${fd.scalaName}") ++ lines.map("  " + _)
+      }
+
+      val sep = if (mainDoc.nonEmpty && fieldsDoc.nonEmpty) Seq("") else Seq.empty
+
+      if (mainDoc.nonEmpty || fieldsDoc.nonEmpty) {
+        val doc = (mainDoc ++ sep ++ fieldsDoc).zipWithIndex.map {
+          case (line, index) =>
+            val prefix = if (index == 0) "/**" else "  *"
+            if (line.startsWith(" ") || line.isEmpty) (prefix + line) else (prefix + " " + line)
+        } :+ "  */"
+        fp.add(doc: _*)
+      } else fp
+  }
+
   def printMessage(message: Descriptor,
                    printer: FunctionalPrinter): FunctionalPrinter = {
     printer
+      .call(generateScalaDoc(message))
       .add(s"@SerialVersionUID(0L)")
       .add(s"final case class ${message.nameSymbol}(")
       .indent
