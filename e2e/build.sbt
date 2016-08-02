@@ -25,6 +25,7 @@ val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
 
 val commonSettings = PB.protobufSettings ++ Seq(
     scalacOptions ++= Seq("-deprecation"),
+    javacOptions ++= Seq("-Xlint:deprecation"),
     PB.scalapbVersion in PB.protobufConfig := com.trueaccord.scalapb.Version.scalapbVersion,
     PB.runProtoc in PB.protobufConfig := { args0 =>
       val args = args0 ++ Array(

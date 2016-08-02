@@ -126,7 +126,7 @@ lazy val proptest = project.in(file("proptest"))
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
-        "com.github.os72" % "protoc-jar" % "3.0.0-b3",
+        "com.github.os72" % "protoc-jar" % "3.0.0",
         "com.google.protobuf" % "protobuf-java" % "3.0.0",
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.6",
