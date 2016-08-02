@@ -69,7 +69,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jvmSettings(
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
-      "com.google.protobuf" % "protobuf-java" % "3.0.0"
+      "com.google.protobuf" % "protobuf-java" % protobufVersion
     )
   )
   .jsSettings(
@@ -108,6 +108,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
         s"""package com.trueaccord.scalapb.compiler
            |object Version {
            |  val scalapbVersion = "${version.value}"
+           |  val protobufVersion = "${protobufVersion}"
            |}""".stripMargin)
       Seq(file)
     },
@@ -127,7 +128,7 @@ lazy val proptest = project.in(file("proptest"))
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
         "com.github.os72" % "protoc-jar" % "3.0.0",
-        "com.google.protobuf" % "protobuf-java" % "3.0.0",
+        "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.6",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.1",
@@ -144,6 +145,8 @@ lazy val proptest = project.in(file("proptest"))
     )
 
 lazy val ShortTest = config("short") extend(Test)
+
+val protobufVersion = "3.0.0"
 
 // For e2e test
 val sbtPluginVersion = "0.5.18"
