@@ -25,7 +25,7 @@ import scala.collection.JavaConversions._
   *   For numeric types, contains the original text representation of the value.
   *   For booleans, "true" or "false".
   *   For strings, contains the default text contents (not escaped in any way).
-  *   For bytes, contains the C escaped value.  All bytes >= 128 are escaped.
+  *   For bytes, contains the C escaped value.  All bytes &gt;= 128 are escaped.
   *   TODO(kenton):  Base-64 encode?
   * @param oneofIndex
   *   If set, gives the index of a oneof in the containing type's oneof_decl

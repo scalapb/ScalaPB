@@ -40,7 +40,7 @@ import scala.collection.JavaConversions._
   *   maps field.
   *  
   *   For maps fields:
-  *       map<KeyType, ValueType> map_field = 1;
+  *       map&lt;KeyType, ValueType&gt; map_field = 1;
   *   The parsed descriptor looks like:
   *       message MapFieldEntry {
   *           option map_entry = true;

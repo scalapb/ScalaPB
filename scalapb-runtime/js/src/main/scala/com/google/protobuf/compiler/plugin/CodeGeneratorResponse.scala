@@ -115,7 +115,7 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
     *   The file name, relative to the output directory.  The name must not
     *   contain "." or ".." components and must be relative, not be absolute (so,
     *   the file cannot lie outside the output directory).  "/" must be used as
-    *   the path separator, not "\".
+    *   the path separator, not "&92;".
     *  
     *   If the name is omitted, the content will be appended to the previous
     *   file.  This allows the generator to break large files into small chunks,
@@ -130,19 +130,19 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
     *   produced by another code generator.  The original generator may provide
     *   insertion points by placing special annotations in the file that look
     *   like:
-    *     @@protoc_insertion_point(NAME)
+    *     &#64;&#64;protoc_insertion_point(NAME)
     *   The annotation can have arbitrary text before and after it on the line,
     *   which allows it to be placed in a comment.  NAME should be replaced with
     *   an identifier naming the point -- this is what other generators will use
     *   as the insertion_point.  Code inserted at this point will be placed
     *   immediately above the line containing the insertion point (thus multiple
     *   insertions to the same point will come out in the order they were added).
-    *   The double-@ is intended to make it unlikely that the generated code
+    *   The double-&#64; is intended to make it unlikely that the generated code
     *   could contain things that look like insertion points by accident.
     *  
     *   For example, the C++ code generator places the following line in the
     *   .pb.h files that it generates:
-    *     // @@protoc_insertion_point(namespace_scope)
+    *     // &#64;&#64;protoc_insertion_point(namespace_scope)
     *   This line appears within the scope of the file's package namespace, but
     *   outside of any particular class.  Another plugin can then specify the
     *   insertion_point "namespace_scope" to generate additional classes or

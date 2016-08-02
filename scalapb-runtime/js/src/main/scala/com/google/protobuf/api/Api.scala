@@ -33,7 +33,7 @@ package com.google.protobuf.api
   *   chosen based on the product plan.
   *  
   *   The major version is also reflected in the package name of the
-  *   API, which must end in `v<major-version>`, as in
+  *   API, which must end in `v&lt;major-version&gt;`, as in
   *   `google.feature.v1`. For major versions 0 and 1, the suffix can
   *   be omitted. Zero major versions must only be used for
   *   experimental, none-GA apis.

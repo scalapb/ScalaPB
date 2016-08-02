@@ -19,7 +19,7 @@ import scala.collection.JavaConversions._
   *     Any any;
   *     any.PackFrom(foo);
   *     ...
-  *     if (any.UnpackTo(&foo)) {
+  *     if (any.UnpackTo(&amp;foo)) {
   *       ...
   *     }
   *
@@ -53,7 +53,7 @@ import scala.collection.JavaConversions._
   * ====
   * The JSON representation of an `Any` value uses the regular
   * representation of the deserialized, embedded message, with an
-  * additional field `@type` which contains the type URL. Example:
+  * additional field `&#64;type` which contains the type URL. Example:
   *
   *     package google.profile;
   *     message Person {
@@ -62,18 +62,18 @@ import scala.collection.JavaConversions._
   *     }
   *
   *     {
-  *       "@type": "type.googleapis.com/google.profile.Person",
-  *       "firstName": <string>,
-  *       "lastName": <string>
+  *       "&#64;type": "type.googleapis.com/google.profile.Person",
+  *       "firstName": &lt;string&gt;,
+  *       "lastName": &lt;string&gt;
   *     }
   *
   * If the embedded message type is well-known and has a custom JSON
   * representation, that representation will be embedded adding a field
-  * `value` which holds the custom JSON in addition to the `@type`
+  * `value` which holds the custom JSON in addition to the `&#64;type`
   * field. Example (for message [google.protobuf.Duration][]):
   *
   *     {
-  *       "@type": "type.googleapis.com/google.protobuf.Duration",
+  *       "&#64;type": "type.googleapis.com/google.protobuf.Duration",
   *       "value": "1.212s"
   *     }
   *

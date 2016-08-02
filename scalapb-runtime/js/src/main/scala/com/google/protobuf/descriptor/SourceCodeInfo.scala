@@ -201,11 +201,11 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     *     // Detached comment for corge paragraph 2.
     *  
     *     optional string corge = 5;
-    *     /* Block comment attached
+    *     /&#42; Block comment attached
     *      * to corge.  Leading asterisks
-    *      * will be removed. */
-    *     /* Block comment attached to
-    *      * grault. */
+    *      * will be removed. *&#47;
+    *     /&#42; Block comment attached to
+    *      * grault. *&#47;
     *     optional int32 grault = 6;
     *  
     *     // ignored detached comments.

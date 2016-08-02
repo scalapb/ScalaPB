@@ -23,10 +23,10 @@ import scala.collection.JavaConversions._
   *     duration.seconds = end.seconds - start.seconds;
   *     duration.nanos = end.nanos - start.nanos;
   *
-  *     if (duration.seconds < 0 && duration.nanos > 0) {
+  *     if (duration.seconds &lt; 0 &amp;&amp; duration.nanos &gt; 0) {
   *       duration.seconds += 1;
   *       duration.nanos -= 1000000000;
-  *     } else if (durations.seconds > 0 && duration.nanos < 0) {
+  *     } else if (durations.seconds &gt; 0 &amp;&amp; duration.nanos &lt; 0) {
   *       duration.seconds -= 1;
   *       duration.nanos += 1000000000;
   *     }
@@ -40,10 +40,10 @@ import scala.collection.JavaConversions._
   *     end.seconds = start.seconds + duration.seconds;
   *     end.nanos = start.nanos + duration.nanos;
   *
-  *     if (end.nanos < 0) {
+  *     if (end.nanos &lt; 0) {
   *       end.seconds -= 1;
   *       end.nanos += 1000000000;
-  *     } else if (end.nanos >= 1000000000) {
+  *     } else if (end.nanos &gt;= 1000000000) {
   *       end.seconds += 1;
   *       end.nanos -= 1000000000;
   *     }
