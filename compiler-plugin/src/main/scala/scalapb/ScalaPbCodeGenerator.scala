@@ -19,7 +19,7 @@ object ScalaPbCodeGenerator extends ProtocCodeGenerator {
   }
 
   override def suggestedDependencies: Seq[Artifact] = Seq(
-    Artifact("com.google.protobuf", "protobuf-java", "3.0.0-beta-3"),
+    Artifact("com.google.protobuf", "protobuf-java", com.trueaccord.scalapb.compiler.Version.protobufVersion),
     Artifact("com.trueaccord.scalapb", "scalapb-runtime",
       com.trueaccord.scalapb.compiler.Version.scalapbVersion, crossVersion = true)
   )
