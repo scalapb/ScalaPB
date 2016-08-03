@@ -2,7 +2,7 @@ import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
 
 scalaVersion := "2.11.8"
 
-val grpcVersion = "1.0.0-pre1"
+val grpcVersion = "1.0.0-pre2"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
