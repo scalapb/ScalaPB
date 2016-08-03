@@ -442,7 +442,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     }
     def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.descriptor.getEnumTypes.get(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode): OptimizeMode = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: OptimizeMode): com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode = com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode.valueOf(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: OptimizeMode): com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode = com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode.forNumber(pbScalaSource.value)
   }
   implicit class FileOptionsLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileOptions](_l) {
     def javaPackage: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Some(f_)))

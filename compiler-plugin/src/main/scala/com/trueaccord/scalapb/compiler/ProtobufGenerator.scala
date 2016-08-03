@@ -65,7 +65,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .when(params.javaConversions) {
       _.addM(
         s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
-            |def toJavaValue(pbScalaSource: $name): ${e.javaTypeName} = ${e.javaTypeName}.valueOf(pbScalaSource.value)""")
+            |def toJavaValue(pbScalaSource: $name): ${e.javaTypeName} = ${e.javaTypeName}.forNumber(pbScalaSource.value)""")
     }
       .outdent
       .add("}")

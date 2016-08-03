@@ -470,7 +470,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     }
     def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.descriptor.getEnumTypes.get(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type): Type = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Type): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type.valueOf(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Type): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type.forNumber(pbScalaSource.value)
   }
   sealed trait Label extends com.trueaccord.scalapb.GeneratedEnum {
     type EnumType = Label
@@ -523,7 +523,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     }
     def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.descriptor.getEnumTypes.get(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label): Label = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Label): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.valueOf(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Label): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.forNumber(pbScalaSource.value)
   }
   implicit class FieldDescriptorProtoLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto](_l) {
     def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
