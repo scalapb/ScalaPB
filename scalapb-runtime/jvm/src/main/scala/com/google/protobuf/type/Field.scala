@@ -513,7 +513,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     }
     def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.descriptor.getEnumTypes.get(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Kind): Kind = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Kind): com.google.protobuf.Field.Kind = com.google.protobuf.Field.Kind.valueOf(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Kind): com.google.protobuf.Field.Kind = com.google.protobuf.Field.Kind.forNumber(pbScalaSource.value)
   }
   sealed trait Cardinality extends com.trueaccord.scalapb.GeneratedEnum {
     type EnumType = Cardinality
@@ -576,7 +576,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     }
     def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.descriptor.getEnumTypes.get(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Cardinality): Cardinality = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Cardinality): com.google.protobuf.Field.Cardinality = com.google.protobuf.Field.Cardinality.valueOf(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Cardinality): com.google.protobuf.Field.Cardinality = com.google.protobuf.Field.Cardinality.forNumber(pbScalaSource.value)
   }
   implicit class FieldLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Field](_l) {
     def kind: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Kind] = field(_.kind)((c_, f_) => c_.copy(kind = f_))

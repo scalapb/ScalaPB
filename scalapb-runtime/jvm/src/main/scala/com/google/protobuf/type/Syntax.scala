@@ -48,5 +48,5 @@ object Syntax extends com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] {
   }
   def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.descriptor.getEnumTypes.get(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.Syntax): Syntax = fromValue(pbJavaSource.getNumber)
-  def toJavaValue(pbScalaSource: Syntax): com.google.protobuf.Syntax = com.google.protobuf.Syntax.valueOf(pbScalaSource.value)
+  def toJavaValue(pbScalaSource: Syntax): com.google.protobuf.Syntax = com.google.protobuf.Syntax.forNumber(pbScalaSource.value)
 }

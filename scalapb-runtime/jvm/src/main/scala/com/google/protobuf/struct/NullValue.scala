@@ -38,5 +38,5 @@ object NullValue extends com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue
   }
   def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = StructProto.descriptor.getEnumTypes.get(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.NullValue): NullValue = fromValue(pbJavaSource.getNumber)
-  def toJavaValue(pbScalaSource: NullValue): com.google.protobuf.NullValue = com.google.protobuf.NullValue.valueOf(pbScalaSource.value)
+  def toJavaValue(pbScalaSource: NullValue): com.google.protobuf.NullValue = com.google.protobuf.NullValue.forNumber(pbScalaSource.value)
 }
