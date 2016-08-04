@@ -43,7 +43,7 @@ val commonSettings = PB.protobufSettings ++ Seq(
       "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1"
     ),
     grpcExePath := xsbti.SafeLazy {
-      val exe: File = baseDirectory.value / ".bin" / grpcExeFileName
+      val exe: File = (baseDirectory in ThisBuild).value / ".bin" / grpcExeFileName
       if (!exe.exists) {
         println("grpc protoc plugin (for Java) does not exist. Downloading.")
         IO.download(grpcExeUrl, exe)
