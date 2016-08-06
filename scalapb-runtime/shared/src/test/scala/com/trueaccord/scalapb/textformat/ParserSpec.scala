@@ -8,24 +8,24 @@ object ParserSpec extends TestSuite with ParserSuite {
 
   val tests = TestSuite {
     'KeyValue {
-      check(KeyValue, "foo: 17", PField(0, "foo", PIntLiteral(5, 17)))
-      check(KeyValue, "foo:    0x13   ", PField(0, "foo", PIntLiteral(8, 0x13)))
-      check(KeyValue, "bar: true", PField(0, "bar", PLiteral(5, "true")))
-      check(KeyValue, "bar:        true   ", PField(0, "bar", PLiteral(12, "true")))
-      check(KeyValue, "bar  :        true   ", PField(0, "bar", PLiteral(14, "true")))
-      check(KeyValue, "barr:        true   ", PField(0, "barr", PLiteral(13, "true")))
+      check(KeyValue, "foo: 17", TField(0, "foo", TIntLiteral(5, 17)))
+      check(KeyValue, "foo:    0x13   ", TField(0, "foo", TIntLiteral(8, 0x13)))
+      check(KeyValue, "bar: true", TField(0, "bar", TLiteral(5, "true")))
+      check(KeyValue, "bar:        true   ", TField(0, "bar", TLiteral(12, "true")))
+      check(KeyValue, "bar  :        true   ", TField(0, "bar", TLiteral(14, "true")))
+      check(KeyValue, "barr:        true   ", TField(0, "barr", TLiteral(13, "true")))
       //      check(KeyValue, "barr:        1e-17   ", PField(0, "barr", PLiteral(13, "1e-17")))
 
-      check(KeyValue, "foo { x: 3 }", PField(0, "foo", PMessage(4,
+      check(KeyValue, "foo { x: 3 }", TField(0, "foo", TMessage(4,
         Seq(
-          PField(6, "x", PIntLiteral(9, 3))
+          TField(6, "x", TIntLiteral(9, 3))
         )
       )))
 
-      check(KeyValue, "foo { x: 3 y: 4}", PField(0, "foo", PMessage(4,
+      check(KeyValue, "foo { x: 3 y: 4}", TField(0, "foo", TMessage(4,
         Seq(
-          PField(6, "x", PIntLiteral(9, 3)),
-          PField(11, "y", PIntLiteral(14, 4))
+          TField(6, "x", TIntLiteral(9, 3)),
+          TField(11, "y", TIntLiteral(14, 4))
         )
       )))
 
@@ -33,10 +33,10 @@ object ParserSpec extends TestSuite with ParserSuite {
         """foo {
           |
           |     x: 3 y: 4
-          |   }""".stripMargin, PField(0, "foo", PMessage(4,
+          |   }""".stripMargin, TField(0, "foo", TMessage(4,
           Seq(
-            PField(12, "x", PIntLiteral(15, 3)),
-            PField(17, "y", PIntLiteral(20, 4))
+            TField(12, "x", TIntLiteral(15, 3)),
+            TField(17, "y", TIntLiteral(20, 4))
           )
         )))
 
@@ -48,11 +48,11 @@ object ParserSpec extends TestSuite with ParserSuite {
           |     y: 4
           |     z: # comment
           |     17
-          |   }""".stripMargin, PField(0, "foo", PMessage(4,
+          |   }""".stripMargin, TField(0, "foo", TMessage(4,
           Seq(
-            PField(26, "x", PIntLiteral(29, 3)),
-            PField(63, "y", PIntLiteral(66, 4)),
-            PField(73, "z", PIntLiteral(91, 17))
+            TField(26, "x", TIntLiteral(29, 3)),
+            TField(63, "y", TIntLiteral(66, 4)),
+            TField(73, "z", TIntLiteral(91, 17))
           )
         )))
 
@@ -64,48 +64,48 @@ object ParserSpec extends TestSuite with ParserSuite {
           |     y: 4
           |     z: # comment
           |     17
-          |   >""".stripMargin, PField(0, "foo", PMessage(4,
+          |   >""".stripMargin, TField(0, "foo", TMessage(4,
           Seq(
-            PField(26, "x", PIntLiteral(29, 3)),
-            PField(63, "y", PIntLiteral(66, 4)),
-            PField(73, "z", PIntLiteral(91, 17))
+            TField(26, "x", TIntLiteral(29, 3)),
+            TField(63, "y", TIntLiteral(66, 4)),
+            TField(73, "z", TIntLiteral(91, 17))
           )
         )))
 
       check(KeyValue,
         "foo [{bar: 4}, {t: 17}]",
-        PField(0, "foo", PArray(4, Seq(
-          PMessage(5, Seq(PField(6, "bar", PIntLiteral(11, 4)))),
-          PMessage(15, Seq(PField(16, "t", PIntLiteral(19, 17))))))))
+        TField(0, "foo", TArray(4, Seq(
+          TMessage(5, Seq(TField(6, "bar", TIntLiteral(11, 4)))),
+          TMessage(15, Seq(TField(16, "t", TIntLiteral(19, 17))))))))
 
       check(KeyValue,
         "foo: [0, 2]",
-        PField(0, "foo", PArray(5, Seq(PIntLiteral(6, 0), PIntLiteral(9, 2)))))
+        TField(0, "foo", TArray(5, Seq(TIntLiteral(6, 0), TIntLiteral(9, 2)))))
 
       check(KeyValue,
         "foo: []",
-        PField(0, "foo", PArray(5, Seq())))
+        TField(0, "foo", TArray(5, Seq())))
 
       check(KeyValue,
         "foo []",
-        PField(0, "foo", PArray(4, Seq())))
+        TField(0, "foo", TArray(4, Seq())))
 
       check(KeyValue,
         "foo {  }",
-        PField(0, "foo", PMessage(4, Seq())))
+        TField(0, "foo", TMessage(4, Seq())))
 
       check(KeyValue,
         "foo: {  }",
-        PField(0, "foo", PMessage(5, Seq())))
+        TField(0, "foo", TMessage(5, Seq())))
 
       check(KeyValue,
         "foo: \"\u5d8b\u2367\u633d\"",
-        PField(0, "foo", PBytes(5, "\u5d8b\u2367\u633d")))
+        TField(0, "foo", TBytes(5, "\u5d8b\u2367\u633d")))
 
       check(KeyValue, "foo: [{bar: 4}]",
-        PField(0, "foo", PArray(5, Seq(
-          PMessage(6, Seq(
-            PField(7, "bar", PIntLiteral(12, 4))))))))
+        TField(0, "foo", TArray(5, Seq(
+          TMessage(6, Seq(
+            TField(7, "bar", TIntLiteral(12, 4))))))))
 
       checkFail(KeyValue, "foo 17")
       checkFail(KeyValue, "foo: [[17, 5]]")
@@ -124,16 +124,16 @@ object ParserSpec extends TestSuite with ParserSuite {
           |}
           |tang [{foo: 3 kar: 9}]
           | """.stripMargin,
-        PMessage(0, Seq(
-          PField(0, "foo", PIntLiteral(5, 4)),
-          PField(7, "baz", PLiteral(12, "true")),
-          PField(17, "bal", PArray(22, Seq(PIntLiteral(23, 3), PIntLiteral(26, 4), PIntLiteral(29, 5)))),
-          PField(32, "gamba", PLiteral(39, "1.0f")),
-          PField(44, "mar", PMessage(48, Seq())),
-          PField(52, "tang", PArray(57, Seq(
-            PMessage(58, Seq(
-              PField(59, "foo", PIntLiteral(64, 3)),
-              PField(66, "kar", PIntLiteral(71, 9))))))))))
+        TMessage(0, Seq(
+          TField(0, "foo", TIntLiteral(5, 4)),
+          TField(7, "baz", TLiteral(12, "true")),
+          TField(17, "bal", TArray(22, Seq(TIntLiteral(23, 3), TIntLiteral(26, 4), TIntLiteral(29, 5)))),
+          TField(32, "gamba", TLiteral(39, "1.0f")),
+          TField(44, "mar", TMessage(48, Seq())),
+          TField(52, "tang", TArray(57, Seq(
+            TMessage(58, Seq(
+              TField(59, "foo", TIntLiteral(64, 3)),
+              TField(66, "kar", TIntLiteral(71, 9))))))))))
       check(Message,
         """wa {
           |  e5 {
@@ -148,14 +148,14 @@ object ParserSpec extends TestSuite with ParserSuite {
           |wa {
           |  njp: -3.90173722E9
           |}
-          | """.stripMargin, PMessage(0, Seq(
-          PField(0, "wa", PMessage(3, Seq(
-            PField(7, "e5", PMessage(10, Seq(
-              PField(16, "brr", PMessage(20, Seq(
-                PField(28, "eee", PMessage(32, Seq())))))))),
-            PField(54, "brr", PMessage(58, Seq()))))),
-          PField(66, "wa", PMessage(69, Seq(
-            PField(73, "njp", PLiteral(78, "-3.90173722E9"))))))))
+          | """.stripMargin, TMessage(0, Seq(
+          TField(0, "wa", TMessage(3, Seq(
+            TField(7, "e5", TMessage(10, Seq(
+              TField(16, "brr", TMessage(20, Seq(
+                TField(28, "eee", TMessage(32, Seq())))))))),
+            TField(54, "brr", TMessage(58, Seq()))))),
+          TField(66, "wa", TMessage(69, Seq(
+            TField(73, "njp", TLiteral(78, "-3.90173722E9"))))))))
     }
   }
 

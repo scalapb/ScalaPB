@@ -22,4 +22,6 @@ message MapsTest {
   map<int32, string> int32_to_string = 3;
   map<bool, Color> bool_to_color = 4;
   map<string, MapsTest> string_to_mapstest = 5;
+  int32 not_a_map=200;
+  repeated int32 repeated_not_a_map=201;
 }

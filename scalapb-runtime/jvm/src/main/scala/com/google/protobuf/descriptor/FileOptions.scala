@@ -292,8 +292,8 @@ final case class FileOptions(
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FileOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = __v)
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => javaPackage.orNull
         case 8 => javaOuterClassname.orNull
         case 10 => javaMultipleFiles.orNull
@@ -309,6 +309,26 @@ final case class FileOptions(
         case 36 => objcClassPrefix.orNull
         case 37 => csharpNamespace.orNull
         case 999 => uninterpretedOption
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => javaPackage.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => javaOuterClassname.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => javaMultipleFiles.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 20 => javaGenerateEqualsAndHash.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 27 => javaStringCheckUtf8.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 9 => optimizeFor.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 11 => goPackage.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 16 => ccGenericServices.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 17 => javaGenericServices.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 18 => pyGenericServices.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 23 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 31 => ccEnableArenas.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 36 => objcClassPrefix.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 37 => csharpNamespace.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage).toVector)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -374,18 +394,39 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       __fieldsMap.getOrElse(__fields.get(14), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileOptions] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.descriptor.FileOptions(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(20).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(27).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(__e.number)),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(16).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(17).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(18).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(23).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(31).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(36).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(37).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(Nil)
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(9)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(9)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __field.getNumber match {
+    __fieldNumber match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
   __out
   }
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
-    __field.getNumber match {
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+    __fieldNumber match {
       case 9 => com.google.protobuf.descriptor.FileOptions.OptimizeMode
     }
   }
@@ -396,7 +437,6 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     def isSpeed: Boolean = false
     def isCodeSize: Boolean = false
     def isLiteRuntime: Boolean = false
-    def isUnrecognized: Boolean = false
     def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = OptimizeMode
   }
   
@@ -427,11 +467,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends OptimizeMode {
-      val name = "UNRECOGNIZED"
-      val index = -1
-      override def isUnrecognized: Boolean = true
-    }
+    case class Unrecognized(value: Int) extends OptimizeMode with _root_.com.trueaccord.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
     def fromValue(value: Int): OptimizeMode = value match {
@@ -441,6 +477,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.javaDescriptor.getEnumTypes.get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode): OptimizeMode = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: OptimizeMode): com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode = com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode.forNumber(pbScalaSource.value)
   }

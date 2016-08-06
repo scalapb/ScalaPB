@@ -3,6 +3,7 @@ syntax = "proto2";
 package com.trueaccord.proto.e2e;
 
 message OneofTest {
+    enum XYZ { X = 0; Y = 1; Z = 2; }
     optional int32 a = 1;
     message SubMessage {
         optional int32 sub_field = 1;
@@ -13,4 +14,5 @@ message OneofTest {
         string other_field = 3 [default = "Other value"];
         SubMessage sub = 4;
     }
+    repeated XYZ xyzs = 5;
 }

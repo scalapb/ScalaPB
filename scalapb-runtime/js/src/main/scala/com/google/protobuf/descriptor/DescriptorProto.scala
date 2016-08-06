@@ -188,8 +188,8 @@ final case class DescriptorProto(
     def addReservedName(__vs: String*): DescriptorProto = addAllReservedName(__vs)
     def addAllReservedName(__vs: TraversableOnce[String]): DescriptorProto = copy(reservedName = reservedName ++ __vs)
     def withReservedName(__v: scala.collection.Seq[String]): DescriptorProto = copy(reservedName = __v)
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => name.orNull
         case 2 => field
         case 6 => extension
@@ -200,6 +200,21 @@ final case class DescriptorProto(
         case 7 => options.orNull
         case 9 => reservedRange
         case 10 => reservedName
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => _root_.scalapb.descriptors.PRepeated(field.map(_.toPMessage).toVector)
+        case 6 => _root_.scalapb.descriptors.PRepeated(extension.map(_.toPMessage).toVector)
+        case 3 => _root_.scalapb.descriptors.PRepeated(nestedType.map(_.toPMessage).toVector)
+        case 4 => _root_.scalapb.descriptors.PRepeated(enumType.map(_.toPMessage).toVector)
+        case 5 => _root_.scalapb.descriptors.PRepeated(extensionRange.map(_.toPMessage).toVector)
+        case 8 => _root_.scalapb.descriptors.PRepeated(oneofDecl.map(_.toPMessage).toVector)
+        case 7 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 9 => _root_.scalapb.descriptors.PRepeated(reservedRange.map(_.toPMessage).toVector)
+        case 10 => _root_.scalapb.descriptors.PRepeated(reservedName.map(_root_.scalapb.descriptors.PString(_)).toVector)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -224,11 +239,28 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       __fieldsMap.getOrElse(__fields.get(9), Nil).asInstanceOf[scala.collection.Seq[String]]
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.descriptor.DescriptorProto(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.MessageOptions]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil)
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(2)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(2)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __field.getNumber match {
+    __fieldNumber match {
       case 2 => __out = com.google.protobuf.descriptor.FieldDescriptorProto
       case 6 => __out = com.google.protobuf.descriptor.FieldDescriptorProto
       case 3 => __out = com.google.protobuf.descriptor.DescriptorProto
@@ -240,7 +272,7 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
     }
   __out
   }
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto(
   )
   @SerialVersionUID(0L)
@@ -298,10 +330,17 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: ExtensionRange = copy(end = None)
       def withEnd(__v: Int): ExtensionRange = copy(end = Some(__v))
-      def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-        __field.getNumber match {
+      def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+        __fieldNumber match {
           case 1 => start.orNull
           case 2 => end.orNull
+        }
+      }
+      def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+        require(__field.containingMessage eq companion.scalaDescriptor)
+        __field.number match {
+          case 1 => start.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -318,9 +357,19 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Int]]
       )
     }
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = _root_.scalapb.descriptors.Reads(_ match {
+      case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+        require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+        com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[Int]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[Int]])
+        )
+      case _ => throw new RuntimeException("Expected PMessage")
+    })
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.javaDescriptor.getNestedTypes.get(0)
-    def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-    def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.scalaDescriptor.nestedMessages(0)
+    def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__fieldNumber)
+    def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
     )
     implicit class ExtensionRangeLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
@@ -397,10 +446,17 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: ReservedRange = copy(end = None)
       def withEnd(__v: Int): ReservedRange = copy(end = Some(__v))
-      def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-        __field.getNumber match {
+      def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+        __fieldNumber match {
           case 1 => start.orNull
           case 2 => end.orNull
+        }
+      }
+      def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+        require(__field.containingMessage eq companion.scalaDescriptor)
+        __field.number match {
+          case 1 => start.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -417,9 +473,19 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Int]]
       )
     }
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = _root_.scalapb.descriptors.Reads(_ match {
+      case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+        require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+        com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[Int]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[Int]])
+        )
+      case _ => throw new RuntimeException("Expected PMessage")
+    })
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.javaDescriptor.getNestedTypes.get(1)
-    def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-    def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.scalaDescriptor.nestedMessages(1)
+    def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__fieldNumber)
+    def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
     )
     implicit class ReservedRangeLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {

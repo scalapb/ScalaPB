@@ -126,4 +126,9 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
     e3.toByteString.toByteArray must be (e3.toByteArray)
   }
 
+  "Unrecognized" should "be printable" in {
+    // See https://github.com/scalapb/ScalaPB/issues/225
+    unrecognized.toString must be ("color: 37\n")
+  }
+
 }

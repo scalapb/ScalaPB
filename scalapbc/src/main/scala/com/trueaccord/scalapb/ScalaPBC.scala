@@ -2,7 +2,7 @@ package com.trueaccord.scalapb
 
 import protocbridge.ProtocBridge
 
-import scalapb.ScalaPbCodeGenerator
+import _root_.scalapb.ScalaPbCodeGenerator
 
 case class Config(
   version: String = "-v310",

@@ -21,5 +21,9 @@ sbt "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/src/main/scal
     $GOOGLE_PROTOS" \
     "scalapbc/run --scala_out=scalapb-runtime/js/src/main/scala \
     --proto_path=./third_party \
-    $GOOGLE_PROTOS"
+    $GOOGLE_PROTOS" \
+    "scalapbc/run --scala_out=scalapb-runtime/shared/src/main/scala \
+    --proto_path=./protobuf:./third_party ./protobuf/scalapb/scalapb.proto"
+
+echo Done!
 

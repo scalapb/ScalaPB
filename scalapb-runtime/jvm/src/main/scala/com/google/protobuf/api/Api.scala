@@ -174,8 +174,8 @@ final case class Api(
     def addAllMixins(__vs: TraversableOnce[com.google.protobuf.api.Mixin]): Api = copy(mixins = mixins ++ __vs)
     def withMixins(__v: scala.collection.Seq[com.google.protobuf.api.Mixin]): Api = copy(mixins = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Api = copy(syntax = __v)
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => {
           val __t = name
           if (__t != "") __t else null
@@ -192,6 +192,18 @@ final case class Api(
           val __t = syntax.javaValueDescriptor
           if (__t.getNumber() != 0) __t else null
         }
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => _root_.scalapb.descriptors.PString(name)
+        case 2 => _root_.scalapb.descriptors.PRepeated(methods.map(_.toPMessage).toVector)
+        case 3 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage).toVector)
+        case 4 => _root_.scalapb.descriptors.PString(version)
+        case 5 => sourceContext.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 6 => _root_.scalapb.descriptors.PRepeated(mixins.map(_.toPMessage).toVector)
+        case 7 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -233,11 +245,25 @@ object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
       com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(6), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.api.Api] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.api.Api(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[String]).getOrElse(""),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[scala.collection.Seq[com.google.protobuf.api.Method]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[String]).getOrElse(""),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[com.google.protobuf.source_context.SourceContext]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[scala.collection.Seq[com.google.protobuf.api.Mixin]]).getOrElse(Nil),
+        com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ApiProto.javaDescriptor.getMessageTypes.get(0)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ApiProto.scalaDescriptor.messages(0)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __field.getNumber match {
+    __fieldNumber match {
       case 2 => __out = com.google.protobuf.api.Method
       case 3 => __out = com.google.protobuf.`type`.OptionProto
       case 5 => __out = com.google.protobuf.source_context.SourceContext
@@ -245,9 +271,8 @@ object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
     }
   __out
   }
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
-    __field.getNumber match {
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+    __fieldNumber match {
       case 7 => com.google.protobuf.`type`.Syntax
     }
   }

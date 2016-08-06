@@ -5,7 +5,7 @@ import org.scalacheck.Gen
 import collection.JavaConversions._
 import Matchers._
 
-class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
+class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers with OptionValues {
   val unspecified = OneofTest()
   val tempField = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
   val otherField = OneofTest(myOneOf = OneofTest.MyOneOf.OtherField("boo"))
@@ -127,8 +127,13 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
 
   "oneof field descriptors" should "give the right containing name" in {
     for (fieldDescriptor <- OneofTest.javaDescriptor.getFields) {
-      if (fieldDescriptor.getNumber > 1) {
+      if (fieldDescriptor.getNumber >= 2 && fieldDescriptor.getNumber <= 4) {
         fieldDescriptor.getContainingOneof.getName must be("my_one_of")
+      }
+    }
+    for (fieldDescriptor <- OneofTest.scalaDescriptor.fields) {
+      if (fieldDescriptor.number >= 2 && fieldDescriptor.number <= 4) {
+        fieldDescriptor.containingOneof.value.name must be("my_one_of")
       }
     }
   }

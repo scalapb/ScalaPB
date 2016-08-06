@@ -10,7 +10,7 @@ import com.trueaccord.scalapb._
 import protocbridge.ProtocBridge
 
 import scala.reflect.ClassTag
-import scalapb.ScalaPbCodeGenerator
+import _root_.scalapb.ScalaPbCodeGenerator
 
 object SchemaGenerators {
 
@@ -137,7 +137,7 @@ object SchemaGenerators {
   }
 
   def compileScalaInDir(rootDir: File): Unit = {
-    println("Compiling Scala sources.")
+    print("Compiling Scala sources. ")
     val classPath = Seq(
       jarForClass[annotation.Annotation].getPath,
       jarForClass[com.trueaccord.scalapb.GeneratedMessage].getPath,
@@ -163,6 +163,7 @@ object SchemaGenerators {
 
     val run = new g.Run
     run.compile(scalaFiles.map(_.toString).toList)
+    println("[DONE]")
   }
 
   type CompanionWithJavaSupport[A <: GeneratedMessage with Message[A]] = GeneratedMessageCompanion[A] with JavaProtoSupport[A, _]

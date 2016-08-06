@@ -11,7 +11,6 @@ sealed trait Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: Boolean = false
   def isSyntaxProto3: Boolean = false
-  def isUnrecognized: Boolean = false
   def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = Syntax
 }
 
@@ -34,11 +33,7 @@ object Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Synta
   }
   
   @SerialVersionUID(0L)
-  case class Unrecognized(value: Int) extends Syntax {
-    val name = "UNRECOGNIZED"
-    val index = -1
-    override def isUnrecognized: Boolean = true
-  }
+  case class Unrecognized(value: Int) extends Syntax with _root_.com.trueaccord.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
   def fromValue(value: Int): Syntax = value match {
@@ -47,6 +42,7 @@ object Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Synta
     case __other => Unrecognized(__other)
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes.get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = TypeProto.scalaDescriptor.enums(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.Syntax): Syntax = fromValue(pbJavaSource.getNumber)
   def toJavaValue(pbScalaSource: Syntax): com.google.protobuf.Syntax = com.google.protobuf.Syntax.forNumber(pbScalaSource.value)
 }

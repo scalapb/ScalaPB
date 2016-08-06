@@ -116,8 +116,8 @@ final case class Duration(
     }
     def withSeconds(__v: Long): Duration = copy(seconds = __v)
     def withNanos(__v: Int): Duration = copy(nanos = __v)
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => {
           val __t = seconds
           if (__t != 0L) __t else null
@@ -126,6 +126,13 @@ final case class Duration(
           val __t = nanos
           if (__t != 0) __t else null
         }
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => _root_.scalapb.descriptors.PLong(seconds)
+        case 2 => _root_.scalapb.descriptors.PInt(nanos)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -142,9 +149,19 @@ object Duration extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.goo
       __fieldsMap.getOrElse(__fields.get(1), 0).asInstanceOf[Int]
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.duration.Duration] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.duration.Duration(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[Long]).getOrElse(0L),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[Int]).getOrElse(0)
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DurationProto.javaDescriptor.getMessageTypes.get(0)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DurationProto.scalaDescriptor.messages(0)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.duration.Duration(
   )
   implicit class DurationLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.duration.Duration]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.duration.Duration](_l) {

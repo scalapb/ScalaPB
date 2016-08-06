@@ -189,8 +189,8 @@ final case class FieldDescriptorProto(
     def getOptions: com.google.protobuf.descriptor.FieldOptions = options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)
     def clearOptions: FieldDescriptorProto = copy(options = None)
     def withOptions(__v: com.google.protobuf.descriptor.FieldOptions): FieldDescriptorProto = copy(options = Some(__v))
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => name.orNull
         case 3 => number.orNull
         case 4 => label.map(_.javaValueDescriptor).orNull
@@ -201,6 +201,21 @@ final case class FieldDescriptorProto(
         case 9 => oneofIndex.orNull
         case 10 => jsonName.orNull
         case 8 => options.orNull
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => number.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 4 => label.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 5 => `type`.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 6 => typeName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => extendee.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 7 => defaultValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 9 => oneofIndex.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => jsonName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -251,18 +266,34 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
       __fieldsMap.get(__fields.get(9)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.FieldOptions]]
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.descriptor.FieldDescriptorProto(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[Int]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(__e.number)),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(__e.number)),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[scala.Option[Int]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.FieldOptions]])
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(3)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(3)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __field.getNumber match {
+    __fieldNumber match {
       case 8 => __out = com.google.protobuf.descriptor.FieldOptions
     }
   __out
   }
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
-    __field.getNumber match {
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+    __fieldNumber match {
       case 4 => com.google.protobuf.descriptor.FieldDescriptorProto.Label
       case 5 => com.google.protobuf.descriptor.FieldDescriptorProto.Type
     }
@@ -289,7 +320,6 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     def isTypeSfixed64: Boolean = false
     def isTypeSint32: Boolean = false
     def isTypeSint64: Boolean = false
-    def isUnrecognized: Boolean = false
     def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Type] = Type
   }
   
@@ -440,11 +470,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends Type {
-      val name = "UNRECOGNIZED"
-      val index = -1
-      override def isUnrecognized: Boolean = true
-    }
+    case class Unrecognized(value: Int) extends Type with _root_.com.trueaccord.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
     def fromValue(value: Int): Type = value match {
@@ -469,6 +495,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
       case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type): Type = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: Type): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type.forNumber(pbScalaSource.value)
   }
@@ -477,7 +504,6 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     def isLabelOptional: Boolean = false
     def isLabelRequired: Boolean = false
     def isLabelRepeated: Boolean = false
-    def isUnrecognized: Boolean = false
     def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Label] = Label
   }
   
@@ -508,11 +534,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends Label {
-      val name = "UNRECOGNIZED"
-      val index = -1
-      override def isUnrecognized: Boolean = true
-    }
+    case class Unrecognized(value: Int) extends Label with _root_.com.trueaccord.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(LABEL_OPTIONAL, LABEL_REQUIRED, LABEL_REPEATED)
     def fromValue(value: Int): Label = value match {
@@ -522,6 +544,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
       case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(1)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label): Label = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: Label): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.forNumber(pbScalaSource.value)
   }

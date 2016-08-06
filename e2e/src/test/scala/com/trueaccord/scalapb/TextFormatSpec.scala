@@ -32,6 +32,7 @@ package com.trueaccord.scalapb
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
+import _root_.scalapb.descriptors
 import com.google.protobuf.ByteString
 import com.google.protobuf.CodedInputStream
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
@@ -333,16 +334,16 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     }
 
     def parseInt32[T](input: String): Int =
-      AstUtils.parseInt32(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get
+      AstUtils.parseInt32(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
 
     def parseInt64[T](input: String): Long =
-      AstUtils.parseInt64(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get
+      AstUtils.parseInt64(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
 
     def parseUInt32[T](input: String): Int =
-      AstUtils.parseUint32(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get
+      AstUtils.parseUint32(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
 
     def parseUInt64[T](input: String): Long =
-      AstUtils.parseUint64(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get
+      AstUtils.parseUint64(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
 
     "testParseInteger" should "pass" in {
                 0 must be(parseInt32(          "0"))
@@ -491,21 +492,21 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     }
 
   "testPrintFieldValue" should "pass" in {
-    def printFieldValue(o: Any, fieldName: String): String = {
+    def printFieldValue(o: descriptors.PValue, fieldName: String): String = {
       val tg = new TextGenerator()
-      Printer.printFieldValue(TestAllTypes.javaDescriptor.findFieldByName(fieldName), o, tg)
+      Printer.printFieldValue(TestAllTypes.scalaDescriptor.findFieldByName(fieldName).get, o, tg)
       tg.result()
     }
 
-    printFieldValue("hello", "repeated_string") must be("\"hello\"")
-    printFieldValue(123f, "repeated_float") must be("123.0")
-    printFieldValue(123d, "repeated_double") must be("123.0")
-    printFieldValue(123, "repeated_int32") must be("123")
-    printFieldValue(123L, "repeated_int64") must be("123")
-    printFieldValue(true, "repeated_bool") must be("true")
-    printFieldValue(0xFFFFFFFF, "repeated_uint32") must be("4294967295")
-    printFieldValue(0xFFFFFFFFFFFFFFFFL, "repeated_uint64") must be("18446744073709551615")
-    printFieldValue(ByteString.copyFrom(Array[Byte](1, 2, 3)), "repeated_bytes") must be(
+    printFieldValue(descriptors.PString("hello"), "repeated_string") must be("\"hello\"")
+    printFieldValue(descriptors.PFloat(123f), "repeated_float") must be("123.0")
+    printFieldValue(descriptors.PDouble(123d), "repeated_double") must be("123.0")
+    printFieldValue(descriptors.PInt(123), "repeated_int32") must be("123")
+    printFieldValue(descriptors.PLong(123L), "repeated_int64") must be("123")
+    printFieldValue(descriptors.PBoolean(true), "repeated_bool") must be("true")
+    printFieldValue(descriptors.PInt(0xFFFFFFFF), "repeated_uint32") must be("4294967295")
+    printFieldValue(descriptors.PLong(0xFFFFFFFFFFFFFFFFL), "repeated_uint64") must be("18446744073709551615")
+    printFieldValue(descriptors.PByteString(ByteString.copyFrom(Array[Byte](1, 2, 3))), "repeated_bytes") must be(
       "\"\\001\\002\\003\"")
   }
 
@@ -570,7 +571,7 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
 
     "testParseShortRepeatedFormOfNonRepeatedFields" should "pass" in {
       "optional_int32: [1]" must failParsingWith(
-          "Invalid input '[', expected int32 (line 1, column 17)")
+          "Invalid input '[', expected type_int32 (line 1, column 17)")
     }
 
     // =======================================================================

@@ -27,7 +27,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         case (p, v) => p.add(
           s"def ${v.isName}: Boolean = false")
       }
-      .add(s"def isUnrecognized: Boolean = false")
       .add(s"def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[$name] = $name")
       .outdent
       .add("}")
@@ -47,11 +46,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
              |""")
       }.addStringMargin(
         s"""@SerialVersionUID(0L)
-           |case class Unrecognized(value: Int) extends $name {
-           |  val name = "UNRECOGNIZED"
-           |  val index = -1
-           |  override def isUnrecognized: Boolean = true
-           |}
+           |case class Unrecognized(value: Int) extends $name with _root_.com.trueaccord.scalapb.UnrecognizedEnum
            |""")
       .add(s"lazy val values = scala.collection.Seq(${e.getValues.asScala.map(_.getName.asSymbol).mkString(", ")})")
       .add(s"def fromValue(value: Int): $name = value match {")
@@ -61,6 +56,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add(s"  case __other => Unrecognized(__other)")
       .add("}")
       .add(s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}")
+      .add(s"def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = ${e.scalaDescriptorSource}")
       .when(params.javaConversions) {
       _.addStringMargin(
         s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
@@ -275,11 +271,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
 
   def generateGetField(message: Descriptor)(fp: FunctionalPrinter) = {
-    val signature = "def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = "
+    val signature = "def getFieldByNumber(__fieldNumber: Int): scala.Any = "
     if (message.fields.nonEmpty)
       fp.add(signature + "{")
         .indent
-        .add("__field.getNumber match {")
+        .add("__fieldNumber match {")
         .indent
         .print(message.fields) {
           case (fp, f) =>
@@ -302,6 +298,48 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                 .outdent
                 .add("}")
             } else fp.add(s"case ${f.getNumber} => $e")
+        }
+        .outdent
+        .add("}")
+        .outdent
+        .add("}")
+    else fp.add(signature + "throw new MatchError(__fieldNumber)")
+  }
+
+  def singleFieldAsPvalue(fd: FieldDescriptor): LiteralExpression = {
+    val d = "_root_.scalapb.descriptors"
+    fd.getJavaType match {
+      case FieldDescriptor.JavaType.INT => FunctionApplication(s"$d.PInt")
+      case FieldDescriptor.JavaType.LONG => FunctionApplication(s"$d.PLong")
+      case FieldDescriptor.JavaType.FLOAT => FunctionApplication(s"$d.PFloat")
+      case FieldDescriptor.JavaType.DOUBLE => FunctionApplication(s"$d.PDouble")
+      case FieldDescriptor.JavaType.BOOLEAN => FunctionApplication(s"$d.PBoolean")
+      case FieldDescriptor.JavaType.BYTE_STRING => FunctionApplication(s"$d.PByteString")
+      case FieldDescriptor.JavaType.STRING => FunctionApplication(s"$d.PString")
+      case FieldDescriptor.JavaType.ENUM => FunctionApplication(s"$d.PEnum")
+      case FieldDescriptor.JavaType.MESSAGE => MethodApplication("toPMessage")
+    }
+  }
+
+  def generateGetFieldPValue(message: Descriptor)(fp: FunctionalPrinter) = {
+    val signature = "def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = "
+    if (message.fields.nonEmpty)
+      fp.add(signature + "{")
+        .indent
+        .add("require(__field.containingMessage eq companion.scalaDescriptor)")
+        .add("__field.number match {")
+        .indent
+        .print(message.fields) {
+          case (fp, f) =>
+            val e = toBaseFieldTypeWithScalaDescriptors(f).andThen(singleFieldAsPvalue(f))
+              .apply(fieldAccessorSymbol(f), isCollection = !f.isSingular)
+            if (f.supportsPresence || f.isInOneof) {
+              fp.add(s"case ${f.getNumber} => $e.getOrElse(_root_.scalapb.descriptors.PEmpty)")
+            } else if (f.isRepeated) {
+              fp.add(s"case ${f.getNumber} => _root_.scalapb.descriptors.PRepeated($e.toVector)")
+            } else {
+              fp.add(s"case ${f.getNumber} => $e")
+            }
         }
         .outdent
         .add("}")
@@ -348,6 +386,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def toBaseFieldType(field: FieldDescriptor) = if (field.isEnum)
     (toBaseTypeExpr(field) andThen MethodApplication("javaValueDescriptor"))
+  else toBaseTypeExpr(field)
+
+  def toBaseFieldTypeWithScalaDescriptors(field: FieldDescriptor) = if (field.isEnum)
+    (toBaseTypeExpr(field) andThen MethodApplication("scalaValueDescriptor"))
   else toBaseTypeExpr(field)
 
   def toBaseType(field: FieldDescriptor)(expr: String) =
@@ -737,9 +779,70 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
   }
 
-  def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+  def generateMessageReads(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    def transform(field: FieldDescriptor) =
+      (if (!field.isEnum) Identity else (
+        MethodApplication("number") andThen
+          FunctionApplication(field.getEnumType.scalaTypeName + ".fromValue"))) andThen
+        toCustomTypeExpr(field)
+
+    val myFullScalaName = message.scalaTypeName
+    printer.add(s"implicit def messageReads: _root_.scalapb.descriptors.Reads[${myFullScalaName}] = _root_.scalapb.descriptors.Reads(_ match {")
+      .indent
+      .add("case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>")
+      .indent
+//      .add("__fieldsMap.keys.find(_.containingMessage != scalaDescriptor)).foreach(t => println(t.
+      .add("require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), \"FieldDescriptor does not match message type.\")")
+      .add(myFullScalaName + "(")
+      .indent
+      .call {
+        printer =>
+          val fields = message.fields.collect {
+            case field if !field.isInOneof =>
+              val baseTypeName = field.typeCategory(if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName)
+              val value = s"__fieldsMap.get(scalaDescriptor.findFieldByNumber(${field.getNumber}).get)"
+              val e = if (field.supportsPresence)
+                s"$value.flatMap(_.as[$baseTypeName])"
+              else if (field.isRepeated)
+                s"$value.map(_.as[${baseTypeName}]).getOrElse(Nil)"
+              else if (field.isRequired)
+                s"$value.get.as[$baseTypeName]"
+              else {
+                // This is for proto3, no default value.
+                val t = defaultValueForGet(field, uncustomized = true) + (if (field.isEnum)
+                  ".scalaValueDescriptor" else "")
+                s"$value.map(_.as[$baseTypeName]).getOrElse($t)"
+              }
+
+              val s = transform(field).apply(e, isCollection = !field.isSingular)
+              if (field.isMap) s + "(scala.collection.breakOut)"
+              else s
+          }
+          val oneOfs = message.getOneofs.asScala.map {
+            oneOf =>
+              val elems = oneOf.fields.map {
+                field =>
+                  val value = s"__fieldsMap.get(scalaDescriptor.findFieldByNumber(${field.getNumber}).get)"
+                  val typeName = if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
+                  val e = s"$value.flatMap(_.as[scala.Option[$typeName]])"
+                  (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
+              } mkString (" orElse\n")
+              s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
+          }
+          printer.addWithDelimiter(",")(fields ++ oneOfs)
+      }
+      .outdent
+      .add(")")
+      .outdent
+      .add("case _ => throw new RuntimeException(\"Expected PMessage\")")
+      .outdent
+      .add("})")
+  }
+
+  def generateDescriptors(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
       .add(s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ${message.javaDescriptorSource}")
+      .add(s"def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ${message.scalaDescriptorSource}")
   }
 
   def generateDefaultInstance(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -835,15 +938,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateMessageCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val signature = "def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = "
+    val signature = "def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = "
     // Due to https://issues.scala-lang.org/browse/SI-9111 we can't directly return the companion
     // object.
     if (message.fields.exists(_.isMessage))
       fp.add(signature + "{")
         .indent
-        .add("require(__field.getContainingType() == javaDescriptor, \"FieldDescriptor does not match message type.\")")
         .add("var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null")
-        .add("__field.getNumber match {")
+        .add("__fieldNumber match {")
         .indent
         .print(message.fields.filter(_.isMessage)) {
           case (fp, f) =>
@@ -854,16 +956,15 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         .outdent
         .add("__out")
         .add("}")
-    else fp.add(signature + "throw new MatchError(__field)")
+    else fp.add(signature + "throw new MatchError(__fieldNumber)")
   }
 
   def generateEnumCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val signature = "def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = "
+    val signature = "def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = "
     if (message.fields.exists(_.isEnum))
       fp.add(signature + "{")
         .indent
-        .add("require(__field.getContainingType() == javaDescriptor, \"FieldDescriptor does not match message type.\")")
-        .add("__field.getNumber match {")
+        .add("__fieldNumber match {")
         .indent
         .print(message.fields.filter(_.isEnum)) {
           case (fp, f) =>
@@ -873,7 +974,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         .add("}")
         .outdent
         .add("}")
-    else fp.add(signature + "throw new MatchError(__field)")
+    else fp.add(signature + "throw new MatchError(__fieldNumber)")
   }
 
   def printExtension(fp: FunctionalPrinter, fd: FieldDescriptor) = {
@@ -942,7 +1043,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))
       .call(generateFromFieldsMap(message))
-      .call(generateDescriptor(message))
+      .call(generateMessageReads(message))
+      .call(generateDescriptors(message))
       .call(generateMessageCompanionForField(message))
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
@@ -1032,6 +1134,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
              |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
       .call(generateGetField(message))
+      .call(generateGetFieldPValue(message))
       .when(!params.singleLineToString)(_.add(s"override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)"))
       .when(params.singleLineToString)(_.add(s"override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToSingleLineUnicodeString(this)"))
       .add(s"def companion = ${message.scalaTypeNameWithMaybeRoot(message)}")
@@ -1074,24 +1177,36 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val lines = ("\"\"\"" + group).grouped(100).toSeq
         lines.dropRight(1) :+ (lines.last + "\"\"\"")
     }.toSeq
-    (if (params.javaConversions)
-      fp.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =")
-        .add(s"  ${file.javaFullOuterClassName}.getDescriptor()")
-      else
-      fp.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
-        .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(")
-        .add("    com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(")
-        .addGroupsWithDelimiter(",")(base64)
-        .add("    ).mkString))")
-        .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")
-        .addWithDelimiter(",")(file.getDependencies.asScala.map {
+    fp.add("private lazy val ProtoBytes: Array[Byte] =")
+      .add("    com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(")
+      .addGroupsWithDelimiter(",")(base64)
+      .add("    ).mkString)")
+      .add("lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {")
+      .add("  val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)")
+      .add("  _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(")
+      .addWithDelimiter(",")(file.getDependencies.asScala.map {
         d =>
-          if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
-          else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.DescriptorProtos.getDescriptor()"
-          else d.fileDescriptorObjectFullName + ".javaDescriptor"
+          s"    ${d.fileDescriptorObjectFullName}.scalaDescriptor"
       })
-        .add("  ))")
-        .add("}"))
+      .add("  ))")
+      .add("}")
+      .when(params.javaConversions) {
+        _.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =")
+          .add(s"  ${file.javaFullOuterClassName}.getDescriptor()")
+      }
+      .when(!params.javaConversions) {
+        _.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
+          .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)")
+          .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")
+          .addWithDelimiter(",")(file.getDependencies.asScala.map {
+            d =>
+              "  " + (if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
+              else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.DescriptorProtos.getDescriptor()"
+              else d.fileDescriptorObjectFullName + ".javaDescriptor")
+          })
+          .add("  ))")
+          .add("}")
+      }
       .add("""@deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")""")
       .add("def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor")
   }

@@ -8,8 +8,7 @@ package com.google.protobuf.`type`
 
 
 object TypeProto {
-  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
-    val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(
+  private lazy val ProtoBytes: Array[Byte] =
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """Chpnb29nbGUvcHJvdG9idWYvdHlwZS5wcm90bxIPZ29vZ2xlLnByb3RvYnVmGhlnb29nbGUvcHJvdG9idWYvYW55LnByb3RvG
   iRnb29nbGUvcHJvdG9idWYvc291cmNlX2NvbnRleHQucHJvdG8ijQIKBFR5cGUSEgoEbmFtZRgBIAEoCVIEbmFtZRIuCgZmaWVsZ
@@ -35,10 +34,19 @@ object TypeProto {
   AoGT3B0aW9uEhIKBG5hbWUYASABKAlSBG5hbWUSKgoFdmFsdWUYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55UgV2YWx1ZSouC
   gZTeW50YXgSEQoNU1lOVEFYX1BST1RPMhAAEhEKDVNZTlRBWF9QUk9UTzMQAUJMChNjb20uZ29vZ2xlLnByb3RvYnVmQglUeXBlU
   HJvdG9QAaABAaICA0dQQqoCHkdvb2dsZS5Qcm90b2J1Zi5XZWxsS25vd25UeXBlc2IGcHJvdG8z"""
-      ).mkString))
+      ).mkString)
+  lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
+    val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
+    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(
+      com.google.protobuf.any.AnyProto.scalaDescriptor,
+      com.google.protobuf.source_context.SourceContextProto.scalaDescriptor
+    ))
+  }
+  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
+    val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
     com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(
-  com.google.protobuf.any.AnyProto.javaDescriptor,
-  com.google.protobuf.source_context.SourceContextProto.javaDescriptor
+    com.google.protobuf.any.AnyProto.javaDescriptor,
+    com.google.protobuf.source_context.SourceContextProto.javaDescriptor
     ))
   }
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")

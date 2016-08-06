@@ -65,9 +65,15 @@ final case class Struct(
     def addFields(__vs: (String, com.google.protobuf.struct.Value)*): Struct = addAllFields(__vs)
     def addAllFields(__vs: TraversableOnce[(String, com.google.protobuf.struct.Value)]): Struct = copy(fields = fields ++ __vs)
     def withFields(__v: scala.collection.immutable.Map[String, com.google.protobuf.struct.Value]): Struct = copy(fields = __v)
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase(_))
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => _root_.scalapb.descriptors.PRepeated(fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase(_).toPMessage).toVector)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -97,16 +103,24 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.struct.Struct.FieldsEntry]].map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_))(scala.collection.breakOut)
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.struct.Struct(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[scala.collection.Seq[com.google.protobuf.struct.Struct.FieldsEntry]]).getOrElse(Nil).map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_))(scala.collection.breakOut)
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = StructProto.javaDescriptor.getMessageTypes.get(0)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = StructProto.scalaDescriptor.messages(0)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __field.getNumber match {
+    __fieldNumber match {
       case 1 => __out = com.google.protobuf.struct.Struct.FieldsEntry
     }
   __out
   }
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.struct.Struct(
   )
   @SerialVersionUID(0L)
@@ -167,13 +181,20 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       def getValue: com.google.protobuf.struct.Value = value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)
       def clearValue: FieldsEntry = copy(value = None)
       def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = Some(__v))
-      def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-        __field.getNumber match {
+      def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+        __fieldNumber match {
           case 1 => {
             val __t = key
             if (__t != "") __t else null
           }
           case 2 => value.orNull
+        }
+      }
+      def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+        require(__field.containingMessage eq companion.scalaDescriptor)
+        __field.number match {
+          case 1 => _root_.scalapb.descriptors.PString(key)
+          case 2 => value.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -190,16 +211,25 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[com.google.protobuf.struct.Value]]
       )
     }
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct.FieldsEntry] = _root_.scalapb.descriptors.Reads(_ match {
+      case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+        require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+        com.google.protobuf.struct.Struct.FieldsEntry(
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[String]).getOrElse(""),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[com.google.protobuf.struct.Value]])
+        )
+      case _ => throw new RuntimeException("Expected PMessage")
+    })
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.struct.Struct.javaDescriptor.getNestedTypes.get(0)
-    def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-      require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.struct.Struct.scalaDescriptor.nestedMessages(0)
+    def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
       var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-      __field.getNumber match {
+      __fieldNumber match {
         case 2 => __out = com.google.protobuf.struct.Value
       }
     __out
     }
-    def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+    def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.struct.Struct.FieldsEntry(
     )
     implicit class FieldsEntryLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry](_l) {

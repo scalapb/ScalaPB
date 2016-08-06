@@ -241,8 +241,8 @@ final case class FileDescriptorProto(
     def getSyntax: String = syntax.getOrElse("")
     def clearSyntax: FileDescriptorProto = copy(syntax = None)
     def withSyntax(__v: String): FileDescriptorProto = copy(syntax = Some(__v))
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => name.orNull
         case 2 => `package`.orNull
         case 3 => dependency
@@ -255,6 +255,23 @@ final case class FileDescriptorProto(
         case 8 => options.orNull
         case 9 => sourceCodeInfo.orNull
         case 12 => syntax.orNull
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => `package`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+        case 4 => _root_.scalapb.descriptors.PRepeated(messageType.map(_.toPMessage).toVector)
+        case 5 => _root_.scalapb.descriptors.PRepeated(enumType.map(_.toPMessage).toVector)
+        case 6 => _root_.scalapb.descriptors.PRepeated(service.map(_.toPMessage).toVector)
+        case 7 => _root_.scalapb.descriptors.PRepeated(extension.map(_.toPMessage).toVector)
+        case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 9 => sourceCodeInfo.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 12 => syntax.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -311,11 +328,30 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
       __fieldsMap.get(__fields.get(11)).asInstanceOf[scala.Option[String]]
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.descriptor.FileDescriptorProto(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[scala.collection.Seq[Int]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[scala.collection.Seq[Int]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.FileOptions]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[scala.Option[String]])
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(1)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(1)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __field.getNumber match {
+    __fieldNumber match {
       case 4 => __out = com.google.protobuf.descriptor.DescriptorProto
       case 5 => __out = com.google.protobuf.descriptor.EnumDescriptorProto
       case 6 => __out = com.google.protobuf.descriptor.ServiceDescriptorProto
@@ -325,7 +361,7 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
     }
   __out
   }
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorProto(
   )
   implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {

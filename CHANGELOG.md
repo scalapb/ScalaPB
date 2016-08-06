@@ -3,6 +3,15 @@
 ## [Unreleased](https://github.com/scalapb/ScalaPB/tree/HEAD)
 - Support for custom names for fields: https://scalapb.github.io/customizations.html#custom-names
   This enables users to get around name conflicts in the generated code.
+- Add messageCompanionForFieldNumber and enumCompanionForFieldNumber to
+  retrive companion objects of message and enum fields by the field number.
+- Support for Scala protocol buffers.
+
+## [v0.5.47](https://github.com/scalapb/ScalaPB/tree/v0.5.35) (2017-01-07)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.43...v0.5.47)
+- GeneratedMessageCompanion.descriptor is deprecated in favor of
+  `javaDescriptor`
+- Added GeneratedMessage.toByteString
 
 ## [v0.5.43](https://github.com/scalapb/ScalaPB/tree/v0.5.35) (2016-09-27)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.35...v0.5.43)

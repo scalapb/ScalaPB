@@ -1,27 +1,27 @@
 package com.trueaccord.scalapb.textformat
 
-sealed trait PValue {
+sealed trait TValue {
   def index: Int
 }
 
-sealed trait PPrimitive extends PValue {
+sealed trait TPrimitive extends TValue {
   def asString: String
 }
 
-final case class PField(index: Int, name: String, value: PValue)
+final case class TField(index: Int, name: String, value: TValue)
 
-final case class PIntLiteral(index: Int, value: BigInt) extends PPrimitive {
+final case class TIntLiteral(index: Int, value: BigInt) extends TPrimitive {
   def asString = value.toString()
 }
 
-final case class PLiteral(index: Int, value: String) extends PPrimitive {
+final case class TLiteral(index: Int, value: String) extends TPrimitive {
   def asString = value
 }
 
-final case class PBytes(index: Int, value: String) extends PPrimitive {
+final case class TBytes(index: Int, value: String) extends TPrimitive {
   def asString = value
 }
 
-final case class PMessage(index: Int, fields: Seq[PField]) extends PValue
+final case class TMessage(index: Int, fields: Seq[TField]) extends TValue
 
-final case class PArray(index: Int, values: Seq[PValue]) extends PValue
+final case class TArray(index: Int, values: Seq[TValue]) extends TValue

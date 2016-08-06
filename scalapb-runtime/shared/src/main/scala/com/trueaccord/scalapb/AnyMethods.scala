@@ -7,7 +7,7 @@ trait AnyMethods {
   def value: ByteString
 
   def is[A <: GeneratedMessage with Message[A]](implicit cmp: GeneratedMessageCompanion[A]) = {
-    AnyMethods.typeNameFromTypeUrl(typeUrl) == cmp.javaDescriptor.getFullName
+    AnyMethods.typeNameFromTypeUrl(typeUrl) == cmp.scalaDescriptor.fullName
   }
 
   def unpack[A <: GeneratedMessage with Message[A]](implicit cmp: GeneratedMessageCompanion[A]) = {
@@ -30,7 +30,7 @@ trait AnyCompanionMethods {
   def pack[A <: GeneratedMessage with Message[A]](generatedMessage: A, urlPrefix: String): com.google.protobuf.any.Any =
     com.google.protobuf.any.Any(
       typeUrl = if (urlPrefix.endsWith("/"))
-        urlPrefix + generatedMessage.companion.javaDescriptor.getFullName else
-        urlPrefix + "/" + generatedMessage.companion.javaDescriptor.getFullName,
+        urlPrefix + generatedMessage.companion.scalaDescriptor.fullName else
+        urlPrefix + "/" + generatedMessage.companion.scalaDescriptor.fullName,
       value = ByteString.copyFrom(generatedMessage.toByteArray))
 }

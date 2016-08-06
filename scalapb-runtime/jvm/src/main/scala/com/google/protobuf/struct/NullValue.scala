@@ -10,7 +10,6 @@ import scala.collection.JavaConverters._
 sealed trait NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: Boolean = false
-  def isUnrecognized: Boolean = false
   def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = NullValue
 }
 
@@ -25,11 +24,7 @@ object NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Nu
   }
   
   @SerialVersionUID(0L)
-  case class Unrecognized(value: Int) extends NullValue {
-    val name = "UNRECOGNIZED"
-    val index = -1
-    override def isUnrecognized: Boolean = true
-  }
+  case class Unrecognized(value: Int) extends NullValue with _root_.com.trueaccord.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.Seq(NULL_VALUE)
   def fromValue(value: Int): NullValue = value match {
@@ -37,6 +32,7 @@ object NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Nu
     case __other => Unrecognized(__other)
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = StructProto.javaDescriptor.getEnumTypes.get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = StructProto.scalaDescriptor.enums(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.NullValue): NullValue = fromValue(pbJavaSource.getNumber)
   def toJavaValue(pbScalaSource: NullValue): com.google.protobuf.NullValue = com.google.protobuf.NullValue.forNumber(pbScalaSource.value)
 }

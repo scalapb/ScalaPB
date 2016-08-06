@@ -3,7 +3,8 @@ package com.trueaccord.scalapb
 import java.io.{InputStream, OutputStream}
 
 import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream}
-import com.google.protobuf.Descriptors.{EnumDescriptor, EnumValueDescriptor, FieldDescriptor}
+import com.google.protobuf.{Descriptors => JavaDescriptors}
+import _root_.scalapb.descriptors.{PMessage, PValue}
 
 import scala.util.Try
 
@@ -20,10 +21,27 @@ trait GeneratedEnum extends Product with Serializable {
 
   def companion: GeneratedEnumCompanion[EnumType]
 
-  @deprecated("Use javaValueDescriptor", "ScalaPB 0.5.47")
-  def valueDescriptor: EnumValueDescriptor = javaValueDescriptor
+  def isUnrecognized: Boolean = false
 
-  def javaValueDescriptor: EnumValueDescriptor = companion.javaDescriptor.getValues.get(index)
+  @deprecated("Use javaValueDescriptor", "ScalaPB 0.5.47")
+  def valueDescriptor: JavaDescriptors.EnumValueDescriptor = javaValueDescriptor
+
+  def javaValueDescriptor: JavaDescriptors.EnumValueDescriptor = companion.javaDescriptor.getValues.get(index)
+
+  def scalaValueDescriptor: _root_.scalapb.descriptors.EnumValueDescriptor = companion.scalaDescriptor.values(index)
+}
+
+trait UnrecognizedEnum extends GeneratedEnum {
+  def value: Int
+
+  def name = "UNRECOGNIZED"
+
+  def index = -1
+
+  override def isUnrecognized: Boolean = true
+
+  override def scalaValueDescriptor: _root_.scalapb.descriptors.EnumValueDescriptor =
+    companion.scalaDescriptor.findValueByNumberCreatingIfUnknown(value)
 }
 
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
@@ -31,9 +49,11 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def fromValue(value: Int): A
   def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
+
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
   def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = javaDescriptor
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor
 }
 
 trait GeneratedOneof extends Product with Serializable {
@@ -67,17 +87,30 @@ trait GeneratedMessage extends Serializable {
     codedOutput.flush()
   }
 
-  def getField(field: FieldDescriptor): Any
+  def getFieldByNumber(fieldNumber: Int): Any
+
+  // Using a Java field descriptor.
+  def getField(field: com.google.protobuf.Descriptors.FieldDescriptor): Any = {
+    require(field.getContainingType eq companion.javaDescriptor)
+    getFieldByNumber(field.getNumber)
+  }
+
+  // Using a Scala field descriptor.
+  def getField(field: _root_.scalapb.descriptors.FieldDescriptor): PValue
+
+  def toPMessage: PMessage = PMessage(companion.scalaDescriptor.fields.map {
+    case f => (f, getField(f))
+  }.toMap)
 
   def companion: GeneratedMessageCompanion[_]
 
-  def getAllFields: Map[FieldDescriptor, Any] = {
-    val b = Map.newBuilder[FieldDescriptor, Any]
+  def getAllFields: Map[JavaDescriptors.FieldDescriptor, Any] = {
+    val b = Map.newBuilder[JavaDescriptors.FieldDescriptor, Any]
     b.sizeHint(companion.javaDescriptor.getFields.size)
     val i = companion.javaDescriptor.getFields.iterator
     while (i.hasNext) {
       val f = i.next()
-      if (f.getType != FieldDescriptor.Type.GROUP) {
+      if (f.getType != JavaDescriptors.FieldDescriptor.Type.GROUP) {
         getField(f) match {
           case null => {}
           case bs: ByteString if bs.isEmpty => b += (f -> bs)
@@ -140,16 +173,30 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
 
-  def fromFieldsMap(fields: Map[FieldDescriptor, Any]): A
+  def fromFieldsMap(fields: Map[JavaDescriptors.FieldDescriptor, Any]): A
 
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
   def descriptor: com.google.protobuf.Descriptors.Descriptor = javaDescriptor
 
   def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
 
-  def messageCompanionForField(field: FieldDescriptor): GeneratedMessageCompanion[_]
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor
 
-  def enumCompanionForField(field: FieldDescriptor): GeneratedEnumCompanion[_]
+  def messageReads: _root_.scalapb.descriptors.Reads[A]
+
+  def messageCompanionForFieldNumber(field: Int): GeneratedMessageCompanion[_]
+
+  def messageCompanionForField(field: JavaDescriptors.FieldDescriptor): GeneratedMessageCompanion[_] = {
+    require(field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+    messageCompanionForFieldNumber(field.getNumber)
+  }
+
+  def enumCompanionForFieldNumber(field: Int): GeneratedEnumCompanion[_]
+
+  def enumCompanionForField(field: JavaDescriptors.FieldDescriptor): GeneratedEnumCompanion[_] = {
+    require(field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+    enumCompanionForFieldNumber(field.getNumber)
+  }
 
   // The ASCII representation is the representation returned by toString. The following
   // functions allow you to convert the ASCII format back to a protocol buffer.  These
@@ -164,4 +211,3 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 }
 
 case class KeyValue[K, V](key: K, value: V)
-

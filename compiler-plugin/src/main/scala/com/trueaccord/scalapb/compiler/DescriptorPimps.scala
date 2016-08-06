@@ -125,8 +125,6 @@ trait DescriptorPimps {
       else base
     }
 
-    def baseScalaTypeName: String = typeCategory(baseSingleScalaTypeName)
-
     def scalaTypeName: String = if (fd.isMap)
       fd.mapType.scalaTypeName else
       typeCategory(singleScalaTypeName)
@@ -313,6 +311,10 @@ trait DescriptorPimps {
       s"${message.getFile.fileDescriptorObjectName}.javaDescriptor.getMessageTypes.get(${message.getIndex})"
       else s"${message.getContainingType.scalaTypeName}.javaDescriptor.getNestedTypes.get(${message.getIndex})"
 
+    def scalaDescriptorSource: String = if (message.isTopLevel)
+      s"${message.getFile.fileDescriptorObjectName}.scalaDescriptor.messages(${message.getIndex})"
+    else s"${message.getContainingType.scalaTypeName}.scalaDescriptor.nestedMessages(${message.getIndex})"
+
     def sourcePath: Seq[Int] = {
       if (message.isTopLevel) Seq(FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER, message.getIndex)
       else message.getContainingType.sourcePath ++ Seq(DescriptorProto.NESTED_TYPE_FIELD_NUMBER, message.getIndex)
@@ -351,6 +353,10 @@ trait DescriptorPimps {
     def javaDescriptorSource: String = if (enum.isTopLevel)
       s"${enum.getFile.fileDescriptorObjectName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
       else s"${enum.getContainingType.scalaTypeName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+
+    def scalaDescriptorSource: String = if (enum.isTopLevel)
+      s"${enum.getFile.fileDescriptorObjectName}.scalaDescriptor.enums(${enum.getIndex})"
+    else s"${enum.getContainingType.scalaTypeName}.scalaDescriptor.enums(${enum.getIndex})"
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {

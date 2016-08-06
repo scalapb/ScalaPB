@@ -8,6 +8,8 @@ import com.google.protobuf.{Message, TextFormat => GTextFormat}
 import com.trueaccord.scalapb.{GeneratedMessage, Message => ScalaPBMessage, GeneratedMessageCompanion, JavaProtoSupport, TextFormat}
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import scala.collection.JavaConverters._
+import scalapb.descriptors.ScalaType
 
 import scala.language.existentials
 
@@ -88,6 +90,24 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
 
               val jsonRep = com.trueaccord.scalapb.json.JsonFormat.toJsonString(scalaProto)
               com.trueaccord.scalapb.json.JsonFormat.fromJsonString(jsonRep)(companion.asInstanceOf[GeneratedMessageCompanion[T] forSome {type T <: GeneratedMessage with ScalaPBMessage[T] }]) should be(scalaProto)
+
+              // Java and Scala Descriptors have the same full names.
+              // Enum and message fields have same full name references.
+              companion.javaDescriptor.getFullName should be (companion.scalaDescriptor.fullName)
+              companion.javaDescriptor.getFields.size should be (companion.scalaDescriptor.fields.size)
+              (companion.javaDescriptor.getFields.asScala zip companion.scalaDescriptor.fields).foreach {
+                case (jf, sf) =>
+                  jf.getFullName should be (sf.fullName)
+                  jf.getJavaType() match {
+                    case com.google.protobuf.Descriptors.FieldDescriptor.JavaType.MESSAGE =>
+                      jf.getMessageType().getFullName should be (
+                        sf.scalaType.asInstanceOf[ScalaType.Message].descriptor.fullName)
+                    case com.google.protobuf.Descriptors.FieldDescriptor.JavaType.ENUM =>
+                      jf.getEnumType().getFullName should be (
+                        sf.scalaType.asInstanceOf[ScalaType.Enum].descriptor.fullName)
+                    case _ =>
+                  }
+              }
 
             } catch {
               case e: Exception =>

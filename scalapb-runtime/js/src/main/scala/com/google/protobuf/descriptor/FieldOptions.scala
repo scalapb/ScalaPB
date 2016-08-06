@@ -185,8 +185,8 @@ final case class FieldOptions(
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FieldOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FieldOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FieldOptions = copy(uninterpretedOption = __v)
-    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
-      __field.getNumber match {
+    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      __fieldNumber match {
         case 1 => ctype.map(_.javaValueDescriptor).orNull
         case 2 => packed.orNull
         case 6 => jstype.map(_.javaValueDescriptor).orNull
@@ -194,6 +194,18 @@ final case class FieldOptions(
         case 3 => deprecated.orNull
         case 10 => weak.orNull
         case 999 => uninterpretedOption
+      }
+    }
+    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+      require(__field.containingMessage eq companion.scalaDescriptor)
+      __field.number match {
+        case 1 => ctype.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => packed.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 6 => jstype.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 5 => `lazy`.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => weak.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage).toVector)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -215,18 +227,31 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
       __fieldsMap.getOrElse(__fields.get(6), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FieldOptions] = _root_.scalapb.descriptors.Reads(_ match {
+    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+      require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      com.google.protobuf.descriptor.FieldOptions(
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FieldOptions.CType.fromValue(__e.number)),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(__e.number)),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(Nil)
+      )
+    case _ => throw new RuntimeException("Expected PMessage")
+  })
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(11)
-  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(11)
+  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __field.getNumber match {
+    __fieldNumber match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
   __out
   }
-  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
-    __field.getNumber match {
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+    __fieldNumber match {
       case 1 => com.google.protobuf.descriptor.FieldOptions.CType
       case 6 => com.google.protobuf.descriptor.FieldOptions.JSType
     }
@@ -238,7 +263,6 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     def isString: Boolean = false
     def isCord: Boolean = false
     def isStringPiece: Boolean = false
-    def isUnrecognized: Boolean = false
     def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[CType] = CType
   }
   
@@ -269,11 +293,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends CType {
-      val name = "UNRECOGNIZED"
-      val index = -1
-      override def isUnrecognized: Boolean = true
-    }
+    case class Unrecognized(value: Int) extends CType with _root_.com.trueaccord.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(value: Int): CType = value match {
@@ -283,13 +303,13 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
       case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(0)
   }
   sealed trait JSType extends _root_.com.trueaccord.scalapb.GeneratedEnum {
     type EnumType = JSType
     def isJsNormal: Boolean = false
     def isJsString: Boolean = false
     def isJsNumber: Boolean = false
-    def isUnrecognized: Boolean = false
     def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[JSType] = JSType
   }
   
@@ -320,11 +340,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends JSType {
-      val name = "UNRECOGNIZED"
-      val index = -1
-      override def isUnrecognized: Boolean = true
-    }
+    case class Unrecognized(value: Int) extends JSType with _root_.com.trueaccord.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(value: Int): JSType = value match {
@@ -334,6 +350,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
       case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(1)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(1)
   }
   implicit class FieldOptionsLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldOptions](_l) {
     def ctype: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.CType] = field(_.getCtype)((c_, f_) => c_.copy(ctype = Some(f_)))

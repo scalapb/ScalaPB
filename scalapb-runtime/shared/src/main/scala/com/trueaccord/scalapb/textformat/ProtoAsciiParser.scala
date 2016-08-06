@@ -17,28 +17,28 @@ private[scalapb] object ProtoAsciiParser {
   protected implicit def strToParserApi(s: String): WhitespaceApi[Unit] = White.parserApi(s)
   protected implicit def parserToParserApi[T](s: Parser[T]): WhitespaceApi[T] = White.parserApi(s)
 
-  val PrimitiveValue: P[PPrimitive] = P(
-    (Index ~ Basics.fractional).map(PLiteral.tupled) |
-    (Index ~ Basics.bigInt).map(PIntLiteral.tupled) |
-      (Index ~ Basics.bytesLiteral).map(PBytes.tupled) |
-      (Index ~ Basics.literal).map(PLiteral.tupled))
+  val PrimitiveValue: P[TPrimitive] = P(
+    (Index ~ Basics.fractional).map(TLiteral.tupled) |
+    (Index ~ Basics.bigInt).map(TIntLiteral.tupled) |
+      (Index ~ Basics.bytesLiteral).map(TBytes.tupled) |
+      (Index ~ Basics.literal).map(TLiteral.tupled))
 
-  val MessageValue: P[PMessage] = P(
+  val MessageValue: P[TMessage] = P(
     Index ~ "{" ~/ KeyValue.rep ~/ "}" |
       Index ~ "<" ~/ KeyValue.rep ~/ ">"
-  ).map(PMessage.tupled)
+  ).map(TMessage.tupled)
 
-  val ValueArray: P[PValue] = P((Index ~ "[" ~/ (PrimitiveValue | MessageValue).rep(0, ",".~/ ) ~/ "]")).map(PArray.tupled)
+  val ValueArray: P[TValue] = P((Index ~ "[" ~/ (PrimitiveValue | MessageValue).rep(0, ",".~/ ) ~/ "]")).map(TArray.tupled)
 
-  val MessageArray: P[PValue] = P((Index ~ "[" ~/ MessageValue.rep(0, ",") ~/ "]")).map(PArray.tupled)
+  val MessageArray: P[TValue] = P((Index ~ "[" ~/ MessageValue.rep(0, ",") ~/ "]")).map(TArray.tupled)
 
-  val Value: P[PValue] = P(
+  val Value: P[TValue] = P(
     MessageValue | MessageArray |
       ":" ~/ (MessageValue | ValueArray | PrimitiveValue)).opaque("':', '{', '<', or '['")
 
-  val KeyValue: P[PField] = P(
+  val KeyValue: P[TField] = P(
     Index ~ Basics.identifier ~/ Value
-  ).map(PField.tupled)
+  ).map(TField.tupled)
 
-  val Message: P[PMessage] = P(Index ~ KeyValue.rep ~ End).map(PMessage.tupled)
+  val Message: P[TMessage] = P(Index ~ KeyValue.rep ~ End).map(TMessage.tupled)
 }

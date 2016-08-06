@@ -8,6 +8,23 @@ package com.google.protobuf.compiler.plugin
 import scala.collection.JavaConverters._
 
 object PluginProto {
+  private lazy val ProtoBytes: Array[Byte] =
+      com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
+  """CiVnb29nbGUvcHJvdG9idWYvY29tcGlsZXIvcGx1Z2luLnByb3RvEhhnb29nbGUucHJvdG9idWYuY29tcGlsZXIaIGdvb2dsZ
+  S9wcm90b2J1Zi9kZXNjcmlwdG9yLnByb3RvIqMBChRDb2RlR2VuZXJhdG9yUmVxdWVzdBIoChBmaWxlX3RvX2dlbmVyYXRlGAEgA
+  ygJUg5maWxlVG9HZW5lcmF0ZRIcCglwYXJhbWV0ZXIYAiABKAlSCXBhcmFtZXRlchJDCgpwcm90b19maWxlGA8gAygLMiQuZ29vZ
+  2xlLnByb3RvYnVmLkZpbGVEZXNjcmlwdG9yUHJvdG9SCXByb3RvRmlsZSLWAQoVQ29kZUdlbmVyYXRvclJlc3BvbnNlEhQKBWVyc
+  m9yGAEgASgJUgVlcnJvchJICgRmaWxlGA8gAygLMjQuZ29vZ2xlLnByb3RvYnVmLmNvbXBpbGVyLkNvZGVHZW5lcmF0b3JSZXNwb
+  25zZS5GaWxlUgRmaWxlGl0KBEZpbGUSEgoEbmFtZRgBIAEoCVIEbmFtZRInCg9pbnNlcnRpb25fcG9pbnQYAiABKAlSDmluc2Vyd
+  GlvblBvaW50EhgKB2NvbnRlbnQYDyABKAlSB2NvbnRlbnRCNwocY29tLmdvb2dsZS5wcm90b2J1Zi5jb21waWxlckIMUGx1Z2luU
+  HJvdG9zWglwbHVnaW5fZ28="""
+      ).mkString)
+  lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
+    val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
+    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(
+      com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor
+    ))
+  }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =
     com.google.protobuf.compiler.PluginProtos.getDescriptor()
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")

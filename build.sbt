@@ -59,7 +59,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
       "com.lihaoyi" %%% "fastparse" % "0.4.2",
       "com.lihaoyi" %%% "utest" % "0.4.5" % "test",
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
-      "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+      "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
@@ -73,7 +73,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.15"
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.16-SNAPSHOT"
     ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
