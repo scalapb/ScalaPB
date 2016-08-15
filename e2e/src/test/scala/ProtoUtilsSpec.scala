@@ -14,6 +14,17 @@ class ProtoUtilsSpec extends FlatSpec with MustMatchers{
     marshaller.parseBytes(marshaller.toBytes(proto)) must be (proto)
   }
 
+  "marshaller from metadataMarshaller" should "make a un/marshall roundtrip with marshaller from io.grpc.protobuf.lite.ProtoLiteUtils" in {
+    val marshaller = ProtoUtils.metadataMarshaller[TestWrappers]
+    val proto = TestWrappers()
+
+    val javaProto = com.trueaccord.proto.WellKnown.TestWrappers.newBuilder().build()
+    val javaMarshaller = io.grpc.protobuf.lite.ProtoLiteUtils.metadataMarshaller(javaProto)
+
+    marshaller.parseBytes(javaMarshaller.toBytes(javaProto)) must be (proto)
+    javaMarshaller.parseBytes(marshaller.toBytes(proto)) must be (javaProto)
+  }
+
   "marshaller from metadataMarshaller" should "throws for invalid input" in {
     val marshaller = ProtoUtils.metadataMarshaller[TestWrappers]
 
