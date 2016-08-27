@@ -3,7 +3,7 @@ import com.trueaccord.proto.e2e.enum3._
 import com.trueaccord.scalapb.GeneratedEnumCompanion
 import org.scalatest._
 
-class EnumSpec extends FlatSpec with MustMatchers {
+class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
   val red = EnumTest(color = Some(Color.RED))
   val green = EnumTest(color = Some(Color.GREEN))
   val blue = EnumTest(color = Some(Color.BLUE))
@@ -112,6 +112,13 @@ class EnumSpec extends FlatSpec with MustMatchers {
 
   "color companion" should "be available implicitly" in {
     implicitly[GeneratedEnumCompanion[Color]] must be (Color)
+  }
+
+  "fromName" should "resolve values" in {
+    Color.fromName("RED").value must be(Color.RED)
+    Color.fromName("GREEN").value must be(Color.GREEN)
+    Color.fromName("BLUE").value must be(Color.BLUE)
+    Color.fromName("FUCHSIA") must be(None)
   }
 
 }
