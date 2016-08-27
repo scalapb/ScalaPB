@@ -504,7 +504,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val typeName = field.scalaTypeName
       val ctorDefaultValue =
         if (field.isOptional && field.supportsPresence) " = None"
-        else if (field.isSingular) " = " + defaultValueForGet(field)
+        else if (field.isSingular && !field.isRequired) " = " + defaultValueForGet(field)
         else if (field.isMap) " = scala.collection.immutable.Map.empty"
         else if (field.isRepeated) " = Nil"
         else ""
