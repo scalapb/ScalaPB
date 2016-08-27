@@ -27,6 +27,7 @@ trait GeneratedEnum extends Product with Serializable {
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   type ValueType = A
   def fromValue(value: Int): A
+  def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
   def descriptor: EnumDescriptor
 }
