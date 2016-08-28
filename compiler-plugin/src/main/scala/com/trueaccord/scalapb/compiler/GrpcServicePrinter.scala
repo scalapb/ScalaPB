@@ -35,22 +35,43 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
   private[this] def serviceTrait: PrinterEndo = {
     val endos: PrinterEndo = { p =>
-      p.seq(service.methods.map(m => serviceMethodSignature(m) + "\n"))
+      p.seq(service.methods.map(m => serviceMethodSignature(m)))
     }
 
-    { p =>
-      p.add(s"trait ${service.name} {").withIndent(endos).add("}")
-    }
+    p =>
+      p
+        .add(s"trait ${service.name} extends _root_.com.trueaccord.scalapb.grpc.AbstractService {")
+        .indent
+        .add(s"override def serviceCompanion = ${service.name}")
+        .call(endos)
+        .outdent
+        .add("}")
+  }
+
+  private[this] def serviceTraitCompanion: PrinterEndo = {
+    p =>
+      p
+        .add(s"object ${service.name} extends _root_.com.trueaccord.scalapb.grpc.ServiceCompanion[${service.name}] {")
+        .indent
+        .add(s"implicit def serviceCompanion: _root_.com.trueaccord.scalapb.grpc.ServiceCompanion[${service.name}] = this")
+        .add(s"def descriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.descriptor.getServices().get(${service.getIndex})")
+        .outdent
+        .add("}")
   }
 
   private[this] def blockingClientTrait: PrinterEndo = {
     val endos: PrinterEndo = { p =>
-      p.seq(service.methods.filter(_.canBeBlocking).map(m => blockingMethodSignature(m) + "\n"))
+      p.seq(service.methods.filter(_.canBeBlocking).map(m => blockingMethodSignature(m)))
     }
 
-    { p =>
-      p.add(s"trait ${service.blockingClient} {").withIndent(endos).add("}")
-    }
+    p =>
+      p
+        .add(s"trait ${service.blockingClient} {")
+        .indent
+        .add(s"def serviceCompanion = ${service.name}")
+        .call(endos)
+        .outdent
+        .add("}")
   }
 
   private[this] val channel = "_root_.io.grpc.Channel"
@@ -223,25 +244,29 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     printer.add(
       "package " + service.getFile.scalaPackageName,
       "",
-      s"object ${service.objectName} extends _root_.com.trueaccord.scalapb.grpc.ServiceCompanion {"
-    ).newline.withIndent(
-      _.call(service.methods.map(methodDescriptor): _*),
-      serviceTrait,
-      _.newline,
-      blockingClientTrait,
-      _.newline,
-      blockingStub,
-      _.newline,
-      stub,
-      _.newline,
-      bindService,
-      _.newline,
-      _.add(s"def blockingStub(channel: $channel): ${service.blockingStub} = new ${service.blockingStub}(channel)"),
-      _.newline,
-      _.add(s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)"),
-      _.newline,
-      _.add(s"def descriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.descriptor.getServices().get(${service.getIndex})")
-    )
-      .add("}")
+      s"object ${service.objectName} {")
+    .indent
+    .call(service.methods.map(methodDescriptor): _*)
+    .call(serviceTrait)
+    .newline
+    .call(serviceTraitCompanion)
+    .newline
+    .call(blockingClientTrait)
+    .newline
+    .call(blockingStub)
+    .newline
+    .call(stub)
+    .newline
+    .call(bindService)
+    .newline
+    .add(s"def blockingStub(channel: $channel): ${service.blockingStub} = new ${service.blockingStub}(channel)")
+    .newline
+    .add(s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)")
+    .newline
+    .add(s"""@deprecated("Use ${service.objectName}.${service.name}.descriptor", since="ScalaPB 0.5.40")""")
+    .add(s"def descriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.descriptor.getServices().get(${service.getIndex})")
+    .newline
+    .outdent
+    .add("}")
   }
 }
