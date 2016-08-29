@@ -1,6 +1,20 @@
 # Change Log
 
 ## [Unreleased](https://github.com/trueaccord/ScalaPB/tree/HEAD)
+- Breaking change: The outer class of a GRPC service used to extend
+  `ServiceCompanion`. The trait `ServiceCompanion` has been changed to a
+  type-class `ServiceCompanion[A]` where `A` is some service, and is now
+  used as a companion object for the service itself `A. This allows
+  you to implicitly obtain the companion object given a service `T`:
+
+      implicity[ServiceCompanion[T]].descriptor
+
+  Fixes #154.
+
+- Add GeneratedEnum.fromName that gives an Option[EnumValue] given a name
+  string (#160)
+- Required fields must be provided explicitly to constructor.
+- Grpc java updated to 1.0.0
 
 ## [v0.5.35](https://github.com/trueaccord/ScalaPB/tree/v0.5.35) (2016-07-31)
 [Full Changelog](https://github.com/trueaccord/ScalaPB/compare/v0.5.34...v0.5.35)
