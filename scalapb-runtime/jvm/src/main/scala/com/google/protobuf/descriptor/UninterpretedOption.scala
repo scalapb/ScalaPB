@@ -206,8 +206,8 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
     */
   @SerialVersionUID(0L)
   final case class NamePart(
-      namePart: String = "",
-      isExtension: Boolean = false
+      namePart: String,
+      isExtension: Boolean
       ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[NamePart] with com.trueaccord.lenses.Updatable[NamePart] {
       @transient
       private[this] var __serializedSizeCachedValue: Int = 0
