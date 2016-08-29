@@ -67,12 +67,18 @@ The generated code will look like this (simplified and commented):
     object GreeterGrpc {
 
       // Base trait for an asynchronous client and server.
-      trait Greeter {
+      trait Greeter extends AbstractService {
+        def serviceCompanion = Greeter
         def sayHello(request: HelloRequest): Future[HelloReply]
+      }
+
+      object Greeter extend ServiceCompanion[Greeter] {
+          def descriptor = ...
       }
 
       // Abstract trait for a blocking client:
       trait GreeterBlockingClient {
+        def serviceCompanion = Greeter
         def sayHello(request: HelloRequest): HelloReply
       }
 
