@@ -15,7 +15,7 @@ Make sure that you are using ScalaPB 0.5.x or later.
 In `build.sbt` add a dependency on `scalapb-json4s`:
 
 {%highlight scala%}
-libraryDepenencies += "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.1"
+libraryDepenencies += "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.2"
 {%endhighlight%}
 
 In your code, you can now convert to JSON:
