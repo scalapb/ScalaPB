@@ -1,13 +1,15 @@
-package object scalapb {
-  def generator: protocbridge.Generator = generator()
+import protocbridge.JvmGenerator
 
-  def generator(flatPackage: Boolean = false, 
-                javaConversions: Boolean = false,
-                grpc: Boolean = false): protocbridge.Generator = {
-    scalapb.ScalaPbCodeGenerator.toGenerator(
+package object scalapb {
+  def gen(
+    flatPackage: Boolean = false,
+    javaConversions: Boolean = false,
+    grpc: Boolean = false): (JvmGenerator, Seq[String]) =
+    (JvmGenerator(
+      "scala",
+      ScalaPbCodeGenerator),
       Seq(
-        javaConversions -> "java_conversions",
-        flatPackage -> "flat_package",
-        grpc -> "grpc").filter(_._1).map(_._2))
-  }
+        "java_conversions" -> javaConversions,
+        "flat_package" -> flatPackage,
+        "grpc" -> grpc).collect { case (name, v) if v => name })
 }

@@ -30,9 +30,9 @@ object ScalaPBC {
     val config = processArgs(args)
 
     val code = ProtocBridge.runWithGenerators(
-      a => com.github.os72.protocjar.Protoc.runProtoc(config.version +: a.toArray),
-      config.args,
-      Seq("scala" -> ScalaPbCodeGenerator))
+      protoc = a => com.github.os72.protocjar.Protoc.runProtoc(config.version +: a.toArray),
+      namedGenerators = Seq("scala" -> ScalaPbCodeGenerator),
+      params = config.args)
 
     if (!config.throwException) {
       sys.exit(code)
