@@ -2,10 +2,6 @@ package com.trueaccord.scalapb.compiler
 
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 
-trait FPrintable {
-  def print(printer: FunctionalPrinter): FunctionalPrinter
-}
-
 object PrinterEndo {
   def apply(endo: PrinterEndo): PrinterEndo = endo
 }
@@ -14,26 +10,37 @@ object FunctionalPrinter {
   type PrinterEndo = FunctionalPrinter => FunctionalPrinter
 }
 
-
-case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) {
+case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel: Int = 0) {
   val INDENT_SIZE = 2
+
+  // Increase indent level
+  def indent = copy(indentLevel = indentLevel + 1)
+
+  // Decreases indent level
+  def outdent = {
+    assert(indentLevel > 0)
+    copy(indentLevel = indentLevel - 1)
+  }
+
+  /** Adds strings at the current indent level. */
+  def add(s: String*): FunctionalPrinter = {
+    copy(content = content ++ s.map(l => " " * (indentLevel * INDENT_SIZE) + l))
+  }
 
   def seq(s: Seq[String]): FunctionalPrinter = add(s: _*)
 
-  def add(s: String*): FunctionalPrinter = {
-    copy(content = s.map(l => " " * (indentLevel * INDENT_SIZE) + l).reverseIterator.toList ::: content)
-  }
-
   /** add with indent */
-  def addI(s: String*): FunctionalPrinter = {
+  def addIndented(s: String*): FunctionalPrinter = {
     this.indent.seq(s).outdent
   }
 
   def newline: FunctionalPrinter = add("")
 
-  def addM(s: String): FunctionalPrinter =
+  // Strips the margin, splits lines and adds.
+  def addStringMargin(s: String): FunctionalPrinter =
     add(s.stripMargin.split("\n", -1): _*)
 
+  // Adds the strings, while putting a delimiter between two lines.
   def addWithDelimiter(delimiter:String)(s: Seq[String]) = {
     add(s.zipWithIndex.map {
       case (line, index) => if (index == s.length - 1) line else (line + delimiter)
@@ -49,17 +56,8 @@ case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) 
     add(lines: _*)
   }
 
-  def indent = copy(indentLevel = indentLevel + 1)
-  def outdent = {
-    assert(indentLevel > 0)
-    copy(indentLevel = indentLevel - 1)
-  }
-
   def call(f: PrinterEndo*): FunctionalPrinter =
     f.foldLeft(this)((p, f) => f(p))
-
-  def withIndent(f: PrinterEndo*): FunctionalPrinter =
-    f.foldLeft(this.indent)((p, f) => f(p)).outdent
 
   def when(cond: => Boolean)(func: FunctionalPrinter => FunctionalPrinter) =
     if (cond) {
@@ -68,14 +66,12 @@ case class FunctionalPrinter(content: List[String] = Nil, indentLevel: Int = 0) 
       this
     }
 
-  def print[M](objects: Traversable[M])(f: (M, FunctionalPrinter) => FunctionalPrinter): FunctionalPrinter =
-    objects.foldLeft(this){ (printer, obj) => f(obj, printer) }
-
-  def printAll(fs: Traversable[FPrintable]): FunctionalPrinter =
-    print(fs)((p, printer) => p.print(printer))
+  def print[M](objects: Traversable[M])(f: (M, FunctionalPrinter) => FunctionalPrinter): FunctionalPrinter = {
+    objects.foldLeft(this) { (printer, obj) => f(obj, printer) }
+  }
 
   def result() =
-    content.reverseIterator.mkString("\n")
+    content.mkString("\n")
 
   override def toString = s"FunctionalPrinter(lines=${content.length}, indentLevel=$indentLevel)"
 }

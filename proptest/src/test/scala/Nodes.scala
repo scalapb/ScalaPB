@@ -1,7 +1,7 @@
 
 import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
 import com.trueaccord.scalapb.compiler
-import com.trueaccord.scalapb.compiler.{StreamType, FunctionalPrinter, FPrintable}
+import com.trueaccord.scalapb.compiler.{StreamType, FunctionalPrinter}
 
 import scala.collection.mutable
 import scala.util.Try
@@ -176,7 +176,7 @@ object Nodes {
         .add(fileReferences(rootNode).collect({
         case f if f != baseFileName => s"""import "${f}.proto";"""
       }).toSeq: _*)
-        .printAll(enums)
+        .print(enums)(_.print)
         .print(messages)(_.print(rootNode, this, _))
         .print(services)(_ print _)
 
@@ -245,7 +245,7 @@ object Nodes {
       printer
         .add(s"message $name {  // message $id")
         .indent
-        .printAll(enums)
+        .print(enums)(_.print)
         .print(messages)(_.print(rootNode, fileNode, _))
         .print(makeList(fields)) {
         case (OneofOpener(name), printer) =>
@@ -286,8 +286,8 @@ object Nodes {
     }
   }
 
-  case class EnumNode(id: Int, name: String, values: Seq[(String, Int)], parentMessageId: Option[Int], fileId: Int) extends FPrintable {
-    override def print(printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
+  case class EnumNode(id: Int, name: String, values: Seq[(String, Int)], parentMessageId: Option[Int], fileId: Int) {
+    def print(printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter = {
       printer.add(s"enum $name {  // enum $id")
         .indent
         .add(values.map { case (s, v) => s"$s = $v;"}: _*)
