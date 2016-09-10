@@ -126,7 +126,7 @@ object Nodes {
   final case class ServiceNode(name: String, methods: Seq[MethodNode]) {
     def print(printer: FunctionalPrinter): FunctionalPrinter =
       printer.add(s"service $name {").indent
-       .print(methods)(_ print _).outdent
+       .print(methods)((node, p) => p print node).outdent
        .add("}")
   }
 
@@ -162,10 +162,10 @@ object Nodes {
     def print(rootNode: RootNode, printer: compiler.FunctionalPrinter): compiler.FunctionalPrinter =
       printer.add(s"// File id $fileId. messages: $minMessageId-$maxMessageId. Enums: $minEnumId-$maxEnumId")
         .add(s"""syntax = "${protoSyntax.syntaxName}";""")
-        .print(protoPackage)((pkg, p) => p.add(s"package $pkg;"))
-        .print(javaPackage)((pkg, p) => p.add(s"""option java_package = "$pkg";"""))
+        .print(protoPackage)((p, pkg) => p.add(s"package $pkg;"))
+        .print(javaPackage)((p, pkg) => p.add(s"""option java_package = "$pkg";"""))
         .when(javaMultipleFiles)(_.add("option java_multiple_files = true;"))
-        .print(scalaOptions)((options, p) =>
+        .print(scalaOptions)((p, options) =>
         p.add("""import "scalapb/scalapb.proto";""")
           .add("option (scalapb.options) = {")
           .indent
@@ -176,9 +176,9 @@ object Nodes {
         .add(fileReferences(rootNode).collect({
         case f if f != baseFileName => s"""import "${f}.proto";"""
       }).toSeq: _*)
-        .print(enums)(_.print)
-        .print(messages)(_.print(rootNode, this, _))
-        .print(services)(_ print _)
+        .print(enums)((enum, p) => p.print(enum))
+        .print(messages)((message, p) => p.print(rootNode, this, message))
+        .print(services)((service, p) => p.print(service))
 
     /**
      * @return
@@ -245,18 +245,18 @@ object Nodes {
       printer
         .add(s"message $name {  // message $id")
         .indent
-        .print(enums)(_.print)
-        .print(messages)(_.print(rootNode, fileNode, _))
+        .print(enums)((enum, p) => p.print(enum))
+        .print(messages)((message, p) => p.print(rootNode, fileNode, message))
         .print(makeList(fields)) {
-        case (OneofOpener(name), printer) =>
+        case (printer, OneofOpener(name)) =>
           printer
             .add(s"oneof $name {")
             .indent
-        case (OneofCloser(name), printer) =>
+        case (printer, OneofCloser(name)) =>
           printer
             .outdent
             .add(s"}  // oneof $name")
-        case (Field(field), printer) =>
+        case (printer, Field(field)) =>
           field.print(rootNode, fileNode, printer)
       }
         .outdent
