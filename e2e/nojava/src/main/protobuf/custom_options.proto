@@ -1,1 +1,92 @@
-../../../../src/main/protobuf/custom_options.proto
+syntax = "proto2";
+
+import "google/protobuf/descriptor.proto";
+import "custom_types.proto";
+import "scalapb/scalapb.proto";
+
+package com.trueaccord.proto.e2e;
+
+option (scalapb.options) = {
+  import: "com.trueaccord.pb.MisplacedMapper.weatherMapper"
+};
+
+// Extensions in this file are 51xxx
+
+message MessageA {
+  optional string a = 1;
+}
+
+message MessageB {
+  optional string b = 1;
+}
+
+message MessageC {
+  optional string c = 1;
+}
+
+extend google.protobuf.FileOptions {
+  optional MessageA message_a = 51134;
+}
+
+enum GoodOrBad {
+  GOOD = 1;
+  BAD = 2;
+}
+
+
+extend google.protobuf.MessageOptions {
+  optional MessageB message_b = 51235;
+  repeated MessageC rep_message_c = 51241;
+  optional int32 opt_int32 = 51250;
+  repeated int32 rep_int32 = 51251;
+  optional int64 opt_int64 = 51252;
+  repeated int64 rep_int64 = 51253;
+  optional bool opt_bool = 51254;
+  repeated bool rep_bool = 51255;
+  optional sint32 opt_sint32 = 51256;
+  repeated sint32 rep_sint32 = 51257;
+  optional sint64 opt_sint64 = 51258;
+  repeated sint64 rep_sint64 = 51259;
+  optional string opt_string = 51260;
+  repeated string rep_string = 51261;
+  optional bytes opt_bytes = 51262;
+  repeated bytes rep_bytes = 51263;
+  optional double opt_double = 51264;
+  repeated double rep_double = 51265;
+  optional float opt_float = 51266;
+  repeated float rep_float = 51267;
+  optional fixed32 opt_fixed32 = 51268;
+  repeated fixed32 rep_fixed32 = 51269;
+  optional fixed64 opt_fixed64 = 51270;
+  repeated fixed64 rep_fixed64 = 51271;
+  optional GoodOrBad opt_enum = 51272;
+  repeated GoodOrBad rep_enum = 51273;
+  optional int32 opt_uint32 = 51274;
+  repeated int32 rep_uint32 = 51275;
+  optional int64 opt_uint64 = 51276;
+  repeated int64 rep_uint64 = 51277;
+}
+
+extend google.protobuf.FieldOptions {
+  optional MessageC message_c = 51300;
+  optional CustomMessage.Name opt_name = 51301 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  repeated CustomMessage.Name rep_name = 51302 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  optional string opt_custom_string = 51303 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  repeated string rep_custom_string = 51304 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  optional CustomMessage.Weather opt_weather = 51305 [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+  repeated CustomMessage.Weather rep_weather = 51306 [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+}
+
+message MagicContainer {
+  extend google.protobuf.FieldOptions {
+    optional string opt_string = 51400;
+    repeated string rep_string = 51401;
+    optional MessageC message_c = 51402;
+    repeated MessageC rep_message_c = 51403;
+
+    optional CustomMessage.Name opt_name = 51404 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+    repeated CustomMessage.Name rep_name = 51405 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+    optional string opt_custom_string = 51406 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+    repeated string rep_custom_string = 51407 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  }
+}

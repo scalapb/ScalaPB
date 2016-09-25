@@ -1,1 +1,74 @@
-../../../../src/main/protobuf/custom_options_use.proto
+syntax = "proto2";
+
+import "custom_options.proto";
+
+package com.trueaccord.proto.e2e;
+
+option (message_a).a = "AAA";
+
+message FooMessage {
+  option (message_b).b = "BBB";
+
+  optional int32 myField1 = 1 [(message_c).c = "CCC", (opt_name).first = "John"];
+  optional int32 myField2 = 2 [(rep_name) = {last: "Doe"}, (rep_name) = {first: "Moe"}];
+}
+
+message BarMessage {
+  option (rep_int32) = 1;
+  option (rep_int32) = 2;
+  option (rep_int32) = -16;
+  option (rep_int32) = -5;
+  option (rep_int64) = 3;
+  option (rep_int64) = 4;
+  option (rep_int64) = -9;
+  option (rep_int64) = -11;
+  option (rep_uint32) = 1;
+  option (rep_uint32) = 2;
+  option (rep_uint32) = -16;
+  option (rep_uint32) = -5;
+  option (rep_uint64) = 3;
+  option (rep_uint64) = 4;
+  option (rep_uint64) = -9;
+  option (rep_uint64) = -11;
+  option (rep_sint32) = 5;
+  option (rep_sint32) = -11;
+  option (rep_sint64) = 6;
+  option (rep_sint64) = -1;
+  option (rep_sint64) = -15;
+  option (rep_fixed32) = 7;
+  option (rep_fixed32) = 5;
+  option (rep_fixed64) = 8;
+  option (rep_fixed64) = 17;
+  option (rep_string) = "foo";
+  option (rep_string) = "bar";
+  option (rep_bytes) = "foo";
+  option (rep_bytes) = "bar";
+  option (rep_float) = 4.17;
+  option (rep_double) = 5.35;
+  option (rep_enum) = GOOD;
+  option (rep_enum) = BAD;
+  option (rep_enum) = GOOD;
+  option (rep_bool) = false;
+  option (rep_bool) = true;
+  option (rep_bool) = false;
+  option (rep_message_c) = {
+    c: "C1"
+  };
+  option (rep_message_c) = {
+    c: "C2"
+  };
+
+  option (opt_int32) = 1;
+  option (opt_int64) = 3;
+  option (opt_sint32) = 5;
+  option (opt_sint64) = 6;
+  option (opt_fixed32) = 7;
+  option (opt_fixed64) = 8;
+  option (opt_string) = "foo";
+  option (opt_bytes) = "foo";
+  option (opt_float) = 4.17;
+  option (opt_double) = 5.35;
+  option (opt_enum) = GOOD;
+  option (opt_bool) = true;
+}
+

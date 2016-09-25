@@ -1,5 +1,3 @@
-import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
-
 scalaVersion := "2.11.8"
 
 val grpcVersion = "1.0.1"
@@ -23,23 +21,19 @@ lazy val grpcExeUrl =
 val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
 
 
-val commonSettings = PB.protobufSettings ++ Seq(
+val commonSettings = Seq(
     scalacOptions ++= Seq("-deprecation"),
     javacOptions ++= Seq("-Xlint:deprecation"),
-    PB.scalapbVersion in PB.protobufConfig := com.trueaccord.scalapb.Version.scalapbVersion,
-    PB.runProtoc in PB.protobufConfig := { args0 =>
-      val args = args0 ++ Array(
+    PB.protocOptions in Compile ++= Seq(
         s"--plugin=protoc-gen-java_rpc=${grpcExePath.value.get}",
-        s"--java_rpc_out=${((sourceManaged in Compile).value / "compiled_protobuf").getAbsolutePath}"
-      )
-      com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray)
-    },
+        s"--java_rpc_out=${((sourceManaged in Compile).value).getAbsolutePath}"
+    ),
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "2.2.1" % "test",
       "io.grpc" % "grpc-netty" % grpcVersion, //netty transport of grpc
       "io.grpc" % "grpc-protobuf" % grpcVersion, //protobuf message encoding for java implementation
       "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
-      "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % PB.protobufConfig,
+      "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % "protobuf",
       "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1"
     ),
     grpcExePath := xsbti.SafeLazy {
@@ -57,10 +51,18 @@ val commonSettings = PB.protobufSettings ++ Seq(
 lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
-    PB.javaConversions in PB.protobufConfig := true,
+    PB.targets in Compile := Seq(
+      PB.gens.java -> (sourceManaged in Compile).value,
+      scalapb.gen(javaConversions = true) -> (sourceManaged in Compile).value
+    ),
     libraryDependencies ++= Seq(
       "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.Version.scalapbVersion
     ))
 
 lazy val noJava = (project in file("nojava"))
   .settings(commonSettings)
+  .settings(
+    PB.targets in Compile := Seq(
+      scalapb.gen() -> (sourceManaged in Compile).value
+    )
+  )
