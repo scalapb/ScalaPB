@@ -8,7 +8,7 @@ redirect_from: "/file-options.html"
 
 ScalaPB file-level options lets you
 
-- specify the Scala package to use, independently of the Java package option.
+- specify the name of the Scala package to use (the default is using the java package name).
 - request that ScalaPB will not append the protofile name to the package name.
 - specify Scala imports so custom base traits and custom types (see below) do
   not require the full class name.
