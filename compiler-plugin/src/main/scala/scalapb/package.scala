@@ -5,7 +5,7 @@ package object scalapb {
     flatPackage: Boolean = false,
     javaConversions: Boolean = false,
     grpc: Boolean = true,
-    singleLineToString: boolean = false): (JvmGenerator, Seq[String]) =
+    singleLineToString: Boolean = false): (JvmGenerator, Seq[String]) =
     (JvmGenerator(
       "scala",
       ScalaPbCodeGenerator),
