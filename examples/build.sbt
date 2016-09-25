@@ -1,15 +1,11 @@
-import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
-
 scalaVersion := "2.11.8"
 
-PB.protobufSettings
-
-PB.runProtoc in PB.protobufConfig := { args =>
-  com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray)
-}
+PB.targets in Compile := Seq(
+  scalapb.gen() -> (sourceManaged in Compile).value
+)
 
 libraryDependencies ++= Seq(
   // For finding google/protobuf/descriptor.proto
-  "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.29" % PB.protobufConfig
+  "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.42" % "protobuf"
 )
 

@@ -1,13 +1,13 @@
-package custom_options;
+package custom_options
 
 object Main extends App {
 
   assert(
-    my_opts.CustomOptionsMyOptsProto.myFileOption.get(
-      use_opts.CustomOptionsUseOptsProto.descriptor.getOptions) == Some("hello!"))
+    my_opts.MyOptsProto.myFileOption.get(
+      use_opts.UseOptsProto.descriptor.getOptions) == Some("hello!"))
 
   assert(
-    my_opts.CustomOptionsMyOptsProto.myMessageOption.get(
+    my_opts.MyOptsProto.myMessageOption.get(
       use_opts.OneMessage.descriptor.getOptions).get == 
         my_opts.MyMessageOption().update(_.priority := 17))
         
@@ -23,11 +23,11 @@ object Main extends App {
   {
     import com.trueaccord.scalapb.Implicits._
 
-    assert(use_opts.CustomOptionsUseOptsProto.descriptor.getOptions.extension(
-      my_opts.CustomOptionsMyOptsProto.myFileOption) == Some("hello!"))
+    assert(use_opts.UseOptsProto.descriptor.getOptions.extension(
+      my_opts.MyOptsProto.myFileOption) == Some("hello!"))
 
     assert(use_opts.OneMessage.descriptor.getOptions.extension(
-      my_opts.CustomOptionsMyOptsProto.myMessageOption).get ==
+      my_opts.MyOptsProto.myMessageOption).get ==
           my_opts.MyMessageOption().update(_.priority := 17))
           
     assert(numberField.getOptions.extension(
