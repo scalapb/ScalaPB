@@ -61,7 +61,7 @@ containing the following line:
 
     addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.1")
 
-    libraryDependencies += "com.trueaccord.scalapb" %% "compilerplugin" % "0.5.41"
+    libraryDependencies += "com.trueaccord.scalapb" %% "compilerplugin" % "0.5.42"
 
 Add the following line to your `build.sbt`:
 
