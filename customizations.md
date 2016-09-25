@@ -184,7 +184,7 @@ For more examples, see:
 The easiest way to get `protoc` to find `scalapb/scalapb.proto` when compiling
 through SBT is by adding the following to your `build.sbt`:
 
-    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % PB.protobufConfig
+    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % "protobuf"
 
 If you are invoking `protoc` manually, you will need to ensure that the files in
 [`protobuf`](https://github.com/trueaccord/ScalaPB/tree/master/protobuf)

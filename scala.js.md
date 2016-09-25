@@ -21,10 +21,10 @@ There are a few things that do not work:
 Add to your library dependencies:
 
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.18",
+      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "{{site.data.version.scalapb}}",
 
       // The following needed only if you include scalapb/scalapb.proto:
-      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "0.5.18" % PB.protobufConfig
+      "com.trueaccord.scalapb" %%% "scalapb-runtime" % "{{site.data.version.scalapb}}" % "protobuf"
     )
 
 ## Demo

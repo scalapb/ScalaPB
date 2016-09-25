@@ -1,6 +1,2 @@
-scalapb: 0.4.20
-sbt_scalapb: 0.4.20
-scalapb5: 0.5.26
-sbt_scalapb5: 0.5.26
-protocjarVersion: 3.0.0-b2.1
-
+scalapb: 0.5.41
+sbt_protoc: 0.99.1

@@ -7,29 +7,11 @@ layout: page
 
 ## Project Setup
 
-To use gRPC you must depend ScalaPB>=0.5.21 and protoc>=3.0.0-beta-1. For using
-with protoc-jar add the following to your `project/scalapb.sbt`:
-
-    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.version.sbt_scalapb5}}")
-
-    libraryDependencies ++= Seq(
-      "com.github.os72" % "protoc-jar" % "{{site.data.version.protocjarVersion}}"
-    )
-
-In build.sbt, include the following:
-
-    import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
-
-    PB.protobufSettings
-
-    PB.runProtoc in PB.protobufConfig := (args =>
-      com.github.os72.protocjar.Protoc.runProtoc("-v300" +: args.toArray))
-
-    version in PB.protobufConfig := "3.0.0-beta-2"
+Install ScalaPB as usual. Add the following to your `build.sbt`:
 
     libraryDependencies ++= Seq(
         "io.grpc" % "grpc-netty" % "0.14.0",
-        "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % (PB.scalapbVersion in PB.protobufConfig).value
+        "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "{{site.data.version.scalapb}}"
     )
 
 ## Creating a service

@@ -16,6 +16,8 @@ ScalaPB is hosted on [Github](https://github.com/trueaccord/ScalaPB).
 * Built on top of Google's protocol buffer compiler to ensure perfect
   compatibility with the language specification.
 
+* Supports both proto2 and proto3.
+
 * Nested updates are easy by using lenses:
 {%highlight scala%}
 val newOrder = order.update(_.creditCard.expirationYear := 2015)
@@ -49,15 +51,17 @@ To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/scalapb.sbt`
 containing the following line:
 
-    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "{{site.data.version.sbt_scalapb}}")
+    addSbtPlugin("com.thesamet" % "sbt-protoc" % "{{site.data.version.sbt_protoc}}")
+
+    libraryDependencies += "com.trueaccord.scalapb" %% "compilerplugin" % "{{site.data.version.scalapb}}"
 
 Add the following line to your `build.sbt`:
 
-    import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
+    PB.targets in Compile := Seq(
+      scalapb.gen() -> (sourceManaged in Compile).value
+    )
 
-    PB.protobufSettings
-
-ScalaPB looks for protocol buffer files in src/main/protobuf, but this can
+ScalaPB looks for protocol buffer files in `src/main/protobuf`, but this can
 be customized. Running the `compile` command in sbt will both generate Scala
 sources from your protos and compile them. 
 

@@ -373,10 +373,13 @@ f.getWeather match {
 
 If you are dealing with legacy Java protocol buffer code, while still wanting
 to write new code using ScalaPB, it can be useful to generate converters
-to/from the Java protocol buffers. To do this, add the following line to your
-`build.sbt`:
+to/from the Java protocol buffers. To do this, set `PB.targets in Compile`
+like this in your `build.sbt`:
 
-    PB.javaConversions in PB.protobufConfig := true
+    PB.targets in Compile := Seq(
+      PB.gens.java -> (sourceManaged in Compile).value,
+      scalapb.gen(javaConversions=true) -> (sourceManaged in Compile).value
+    )
 
 This will result in the following changes:
 

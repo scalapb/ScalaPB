@@ -7,7 +7,12 @@ layout: page
 
 ## IntelliJ complains on duplicate files ("class is already defined")
 
-SBT-protobuf which ScalaPB relies on defaults to generating the case
+If you are using sbt-protoc this should not happen. Please file a bug.
+
+If you are still using sbt-scalapb, please switch to sbt-protoc as described
+in the installation instruction.
+
+sbt-protobuf which sbt-scalapb relies on defaults to generating the case
 classes in `target/src_managed/compiled_protobuf/`.  This leads to a situation
 where both `target/src_managed/compiled_protobuf/` and its parent, `target/src_managed/`,
 are considered source directories and the source files are seen twice. To
