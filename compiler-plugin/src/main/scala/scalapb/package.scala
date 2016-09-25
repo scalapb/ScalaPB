@@ -4,12 +4,15 @@ package object scalapb {
   def gen(
     flatPackage: Boolean = false,
     javaConversions: Boolean = false,
-    grpc: Boolean = false): (JvmGenerator, Seq[String]) =
+    grpc: Boolean = true,
+    singleLineToString: boolean = false): (JvmGenerator, Seq[String]) =
     (JvmGenerator(
       "scala",
       ScalaPbCodeGenerator),
       Seq(
-        "java_conversions" -> javaConversions,
         "flat_package" -> flatPackage,
-        "grpc" -> grpc).collect { case (name, v) if v => name })
+        "java_conversions" -> javaConversions,
+        "grpc" -> grpc,
+        "single_line_to_string" -> singleLineToString
+      ).collect { case (name, v) if v => name })
 }
