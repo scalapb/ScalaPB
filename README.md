@@ -49,23 +49,25 @@ Versions
 Version | Description
 ------- | -----------
 0.4.x   | Stable, works with Protobuf 2.6.x
-0.5.x   | Unstable development version.
+0.5.x   | Now stable, work in progress towards 0.6.0
 0.6.x   | To be released. Supports Protobuf 2.6.x and Protobuf 3.0.x
 
 Installing
 ==========
 
 To automatically generate Scala case classes for your messages add ScalaPB's
-sbt plugin to your project. Create a file named `project/scalapb.sbt`
+sbt plugin to your project. Create a file named `project/protoc.sbt`
 containing the following line:
 
-    addSbtPlugin("com.trueaccord.scalapb" % "sbt-scalapb" % "0.4.20")
+    addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.0")
+
+    libraryDependencies += "com.trueaccord.scalapb" %% "compilerplugin" % "0.5.41"
 
 Add the following line to your `build.sbt`:
 
-    import com.trueaccord.scalapb.{ScalaPbPlugin => PB}
-
-    PB.protobufSettings
+    PB.targets in Compile := Seq(
+      scalapb.gen() -> (sourceManaged in Compile).value
+    )
 
 For additional configuration options, see [ScalaPB SBT Settings](http://trueaccord.github.io/ScalaPB/sbt-settings.html) documentation
 
