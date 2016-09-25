@@ -18,4 +18,5 @@
   url: /json.html
 - text: FAQ
   url: /faq.html
-
+- text: Migrating
+  url: /migrating.html
