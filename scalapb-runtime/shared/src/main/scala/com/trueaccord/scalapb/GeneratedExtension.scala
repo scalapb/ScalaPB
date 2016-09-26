@@ -16,6 +16,15 @@ object GeneratedExtension {
     cmp.parseFrom(bs.newCodedInput())
   }
 
+  def forSingularUnknownField[J <: JavaExtendee[J], E, T](
+    fieldNumber: Int, listGetter: UnknownFieldSet.Field => java.util.List[E])(convert: E => T, default: T): GeneratedExtension[J, T] =
+    GeneratedExtension {
+      extendee =>
+        val list = listGetter(extendee.getUnknownFields.getField(fieldNumber))
+        if (list.isEmpty) default
+        else convert(list.get(0))
+    }
+
   def forOptionalUnknownField[J <: JavaExtendee[J], E, T](
     fieldNumber: Int, listGetter: UnknownFieldSet.Field => java.util.List[E])(convert: E => T): GeneratedExtension[J, Option[T]] =
     GeneratedExtension {

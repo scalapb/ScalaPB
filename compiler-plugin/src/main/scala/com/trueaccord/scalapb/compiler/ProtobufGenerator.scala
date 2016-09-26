@@ -892,10 +892,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           }
           val customExpr = baseExpr andThen toCustomTypeExpr(fd)
 
-          val factoryMethod =
-            if (fd.isOptional) "com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField"
-            else if (fd.isRepeated) "com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownField"
-          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container)({__valueIn => ${customExpr("__valueIn", false)}})")
+          val (factoryMethod, defaultNeeded) = {
+            if (fd.supportsPresence) ("com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField", false)
+            else if (fd.isRepeated) ("com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownField", false)
+            else ("com.trueaccord.scalapb.GeneratedExtension.forSingularUnknownField", true)
+          }
+          val default = if (defaultNeeded) s", ${defaultValueForGet(fd)}"
+          else ""
+          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container)({__valueIn => ${customExpr("__valueIn", false)}}$default)")
       }
   }
 

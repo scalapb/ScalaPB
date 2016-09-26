@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+import "google/protobuf/descriptor.proto";
+
+message MessageP3 { }
+
+enum GoodOrBadP3 {
+  GOOD_P3 = 0;
+  BAD_P3 = 1;
+}
+
+
+extend google.protobuf.MessageOptions {
+  MessageP3 p3_message = 54235;
+  int32 p3_opt_int32 = 54250;
+  int64 p3_opt_int64 = 54252;
+  bool p3_opt_bool = 54254;
+  sint64 p3_opt_sint32 = 54256;
+  sint64 p3_opt_sint64 = 54258;
+  string p3_opt_string = 54260;
+  bytes p3_opt_bytes = 54262;
+  double p3_opt_double = 54264;
+  float p3_opt_float = 54266;
+  fixed32 p3_opt_fixed32 = 54268;
+  fixed64 p3_opt_fixed64 = 54270;
+  GoodOrBadP3 p3_opt_enum = 54272;
+  int32 p3_opt_uint32 = 54274;
+  int64 p3_opt_uint64 = 54276;
+}
+
+message BarP3 {
+  option (p3_opt_int32) = 1;
+  option (p3_opt_int64) = 3;
+  option (p3_opt_sint32) = 5;
+  option (p3_opt_sint64) = 6;
+  option (p3_opt_fixed32) = 7;
+  option (p3_opt_fixed64) = 8;
+  option (p3_opt_string) = "foo";
+  option (p3_opt_bytes) = "foo";
+  option (p3_opt_float) = 4.17;
+  option (p3_opt_double) = 5.35;
+  option (p3_opt_enum) = GOOD_P3;
+  option (p3_opt_bool) = true;
+}
+

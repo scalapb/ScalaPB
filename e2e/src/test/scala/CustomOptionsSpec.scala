@@ -1,6 +1,8 @@
 import com.trueaccord.scalapb.JavaProtoSupport
 import com.trueaccord.proto.e2e.custom_options.GoodOrBad._
+import com.trueaccord.proto.e2e.custom_options_p3.GoodOrBadP3._
 import com.trueaccord.proto.e2e.custom_options._
+import com.trueaccord.proto.e2e.custom_options_p3._
 import com.trueaccord.proto.e2e.custom_options_use._
 import org.scalatest._
 import com.google.protobuf.ByteString
@@ -14,6 +16,7 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   import com.trueaccord.scalapb.Implicits._
 
   val barOptions = BarMessage.descriptor.getOptions
+  val barP3Options = BarP3.descriptor.getOptions
   val fooOptions = FooMessage.descriptor.getOptions
 
   println(s"Have java conversions: ${MessageB.isInstanceOf[JavaProtoSupport[_, _]]}")
@@ -67,6 +70,21 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     barOptions.extension(CustomOptionsProto.optBool).value must be (true)
     barOptions.extension(CustomOptionsProto.optString).value must be ("foo")
     barOptions.extension(CustomOptionsProto.optBytes).value must be (ByteString.copyFromUtf8("foo"))
+  }
+
+  "proto3 primitives" should "work" in {
+    barP3Options.extension(CustomOptionsP3Proto.p3OptInt32) must be (1)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptInt64) must be (3)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptSint32) must be (5)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptSint64) must be (6)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptFixed32) must be (7)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptFixed64) must be (8)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptFloat) must be (4.17f)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptDouble) must be (5.35)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptEnum) must be (GOOD_P3)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptBool) must be (true)
+    barP3Options.extension(CustomOptionsP3Proto.p3OptString) must be ("foo")
+    barP3Options.extension(CustomOptionsP3Proto.p3OptBytes) must be (ByteString.copyFromUtf8("foo"))
   }
 
   "Custom name on field descriptor" should "translate to custom type" in {
