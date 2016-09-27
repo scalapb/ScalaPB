@@ -1,6 +1,12 @@
 # Change Log
 
 ## [Unreleased](https://github.com/trueaccord/ScalaPB/tree/HEAD)
+
+## [v0.5.43](https://github.com/trueaccord/ScalaPB/tree/v0.5.35) (2016-09-27)
+[Full Changelog](https://github.com/trueaccord/ScalaPB/compare/v0.5.35...v0.5.43)
+- We are switching from sbt-scalapb to sbt-protoc. Migration instructions are
+  at http://trueaccord.github.io/ScalaPB/migrating.html
+
 - Breaking change: The outer class of a GRPC service used to extend
   `ServiceCompanion`. The trait `ServiceCompanion` has been changed to a
   type-class `ServiceCompanion[A]` where `A` is some service, and is now
