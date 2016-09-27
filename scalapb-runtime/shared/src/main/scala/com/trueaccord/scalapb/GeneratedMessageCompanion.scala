@@ -67,16 +67,23 @@ trait GeneratedMessage extends Serializable {
 
   def companion: GeneratedMessageCompanion[_]
 
-  def getAllFields: Map[FieldDescriptor, Any] =
-    companion.descriptor.getFields.filter(_.getType != FieldDescriptor.Type.GROUP).flatMap({
-      f =>
+  def getAllFields: Map[FieldDescriptor, Any] = {
+    val b = Map.newBuilder[FieldDescriptor, Any]
+    b.sizeHint(companion.descriptor.getFields.size)
+    val i = companion.descriptor.getFields.iterator
+    while (i.hasNext) {
+      val f = i.next()
+      if (f.getType != FieldDescriptor.Type.GROUP) {
         getField(f) match {
-          case null => None
-          case bs: ByteString if bs.isEmpty => Some(f -> bs)
-          case Nil => None
-          case v => Some(f -> v)
+          case null => {}
+          case bs: ByteString if bs.isEmpty => b += (f -> bs)
+          case Nil => {}
+          case v => b += (f -> v)
         }
-    })(collection.breakOut)
+      }
+    }
+    b.result()
+  }
 
   def toByteArray: Array[Byte] = {
     val a = new Array[Byte](serializedSize)
