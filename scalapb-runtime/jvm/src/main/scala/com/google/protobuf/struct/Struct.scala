@@ -88,7 +88,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Struct): com.google.protobuf.struct.Struct = com.google.protobuf.struct.Struct(
-    fields = javaPbSource.getFields.map(__pv => (__pv._1, com.google.protobuf.struct.Value.fromJavaProto(__pv._2))).toMap
+    fields = javaPbSource.getFieldsMap.map(__pv => (__pv._1, com.google.protobuf.struct.Value.fromJavaProto(__pv._2))).toMap
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.Struct = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
