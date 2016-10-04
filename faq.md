@@ -37,7 +37,10 @@ Java application that generates code. See an [example project](https://github.co
 The relevant parts are marked with "Add the generated folder as a source" and
 "Compile the proto file(s)".
 
-## I am getting "Import was not found or had errors" when importing scalapb/scalapb.proto, or common protocol buffers like google/protobuf/wrappers.proto.
+## I am getting "Import was not found or had errors"
+
+If you are using sbt-protoc and importing protos like `scalapb/scalapb.proto`,
+or common protocol buffers like `google/protobuf/wrappers.proto`:
 
 Add the following to your `build.sbt`:
 
@@ -46,3 +49,6 @@ Add the following to your `build.sbt`:
 This tells `sbt-protoc` to extract protos from this jar (and all its
 dependencies, which includes Google's common protos), and make them available
 in the include path that is passed to protoc.
+
+If you are not using sbt (for example, spbc), then you need to make those
+files available on the file system.
