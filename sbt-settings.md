@@ -21,6 +21,10 @@ Add the following line to your `build.sbt`:
       scalapb.gen() -> (sourceManaged in Compile).value
     )
 
+    // If you need scalapb/scalapb.proto or anything from
+    // google/protobuf/*.proto
+    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % "protobuf"
+
 Running the `compile` command in sbt will both generate Scala sources from
 your protos and compile them. If you just want to generate Scala sources for
 your protocol buffers without compiling them, run `protoc-generate`
