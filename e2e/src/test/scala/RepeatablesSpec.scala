@@ -12,6 +12,10 @@ class RepeatablesSpec extends FlatSpec with GeneratorDrivenPropertyChecks with M
   val nestedGen =
     Arbitrary.arbitrary[Option[Int]].map(s => Nested(nestedField = s))
 
+  "toString" should "give empty string" in {
+    RepeatablesTest().toString must be("")
+  }
+
   def mergeRepeatables(rep1: RepeatablesTest, rep2: RepeatablesTest) =
     RepeatablesTest(
       strings = rep1.strings ++ rep2.strings,
