@@ -43,10 +43,10 @@ If you need Java Conversions, flat packages, etc see
 If you are using files like `scalapb.proto` and Google's well-known proto
 change the library dependency from:
 
-    "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.42" % PB.protobufConfig
+    "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % PB.protobufConfig
 
 to:
 
-    "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.42" % "protobuf"
+    "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % "protobuf"
 
 
