@@ -1,7 +1,7 @@
 package com.trueaccord.scalapb.textformat
 
 import fastparse.core.Parsed
-import utest.assert
+import utest.asserts.assert
 
 trait ParserSuite {
   import fastparse.all.P
