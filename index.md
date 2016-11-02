@@ -63,7 +63,7 @@ Add the following line to your `build.sbt`:
 
     // If you need scalapb/scalapb.proto or anything from
     // google/protobuf/*.proto
-    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % "protobuf"
+    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.compiler.Version.scalapbVersion % "protobuf"
 
 
 ScalaPB looks for protocol buffer files in `src/main/protobuf`, but this can

@@ -11,7 +11,7 @@ Install ScalaPB as usual. Add the following to your `build.sbt`:
 
     libraryDependencies ++= Seq(
         "io.grpc" % "grpc-netty" % "1.0.1",
-        "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % "{{site.data.version.scalapb}}"
+        "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.compiler.Version.scalapbVersion
     )
 
 ## Creating a service

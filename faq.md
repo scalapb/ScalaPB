@@ -44,7 +44,7 @@ or common protocol buffers like `google/protobuf/wrappers.proto`:
 
 Add the following to your `build.sbt`:
 
-    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % "protobuf"
+    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.compiler.Version.scalapbVersion % "protobuf"
 
 This tells `sbt-protoc` to extract protos from this jar (and all its
 dependencies, which includes Google's common protos), and make them available

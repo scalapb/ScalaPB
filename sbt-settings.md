@@ -23,7 +23,7 @@ Add the following line to your `build.sbt`:
 
     // If you need scalapb/scalapb.proto or anything from
     // google/protobuf/*.proto
-    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % "{{site.data.version.scalapb}}" % "protobuf"
+    libraryDependencies += "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.compiler.Version.scalapbVersion % "protobuf"
 
 Running the `compile` command in sbt will both generate Scala sources from
 your protos and compile them. If you just want to generate Scala sources for
