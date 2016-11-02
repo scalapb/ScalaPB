@@ -5,5 +5,5 @@ scala:
    - 2.11.8
 matrix:
   include:
-  - scala: 2.12.0-RC2
+  - scala: 2.12.0
     jdk: oraclejdk8
