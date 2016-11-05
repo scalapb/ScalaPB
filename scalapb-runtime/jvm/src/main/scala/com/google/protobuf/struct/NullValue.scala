@@ -5,7 +5,7 @@
 
 package com.google.protobuf.struct
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 sealed trait NullValue extends com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = NullValue

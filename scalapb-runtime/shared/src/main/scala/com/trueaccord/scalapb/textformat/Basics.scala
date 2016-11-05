@@ -1,6 +1,6 @@
 package com.trueaccord.scalapb.textformat
 
-import fastparse.ParserApi
+import fastparse.core.ParserApi
 
 import scala.language.implicitConversions
 
@@ -8,9 +8,9 @@ object Basics {
 
   import fastparse.all._
 
-  protected implicit def strToParserApi(s: String): ParserApi[Unit] = parserApi(s)
+  protected implicit def strToParserApi(s: String): ParserApi[Unit, Char, String] = parserApi(s)
 
-  protected implicit def parserToParserApi[T](s: Parser[T]): ParserApi[T] = parserApi(s)
+  protected implicit def parserToParserApi[T](s: Parser[T]): ParserApi[T, Char, String] = parserApi(s)
 
   val Newline = P(StringIn("\r\n", "\n"))
 

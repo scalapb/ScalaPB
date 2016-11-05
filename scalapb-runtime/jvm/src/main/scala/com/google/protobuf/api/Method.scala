@@ -5,7 +5,7 @@
 
 package com.google.protobuf.api
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Method represents a method of an api.
   *
@@ -190,7 +190,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     javaPbOut.setRequestStreaming(scalaPbSource.requestStreaming)
     javaPbOut.setResponseTypeUrl(scalaPbSource.responseTypeUrl)
     javaPbOut.setResponseStreaming(scalaPbSource.responseStreaming)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)))
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
@@ -200,7 +200,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     requestStreaming = javaPbSource.getRequestStreaming.booleanValue,
     responseTypeUrl = javaPbSource.getResponseTypeUrl,
     responseStreaming = javaPbSource.getResponseStreaming.booleanValue,
-    options = javaPbSource.getOptionsList.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Method = {

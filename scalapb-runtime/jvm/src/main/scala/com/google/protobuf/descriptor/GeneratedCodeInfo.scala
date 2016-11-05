@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Describes the relationship between generated code and its original source
   * file. A GeneratedCodeInfo message is associated with only one generated
@@ -74,11 +74,11 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.GeneratedCodeInfo, com.google.protobuf.DescriptorProtos.GeneratedCodeInfo] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.GeneratedCodeInfo): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.newBuilder
-    javaPbOut.addAllAnnotation(scalaPbSource.annotation.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.toJavaProto(_)))
+    javaPbOut.addAllAnnotation(scalaPbSource.annotation.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo): com.google.protobuf.descriptor.GeneratedCodeInfo = com.google.protobuf.descriptor.GeneratedCodeInfo(
-    annotation = javaPbSource.getAnnotationList.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.fromJavaProto(_))
+    annotation = javaPbSource.getAnnotationList.asScala.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
@@ -227,14 +227,14 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
     implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation.newBuilder
-      javaPbOut.addAllPath(scalaPbSource.path.map(Int.box(_)))
+      javaPbOut.addAllPath(scalaPbSource.path.map(Int.box(_)).asJava)
       scalaPbSource.sourceFile.foreach(javaPbOut.setSourceFile)
       scalaPbSource.begin.foreach(javaPbOut.setBegin)
       scalaPbSource.end.foreach(javaPbOut.setEnd)
       javaPbOut.build
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
-      path = javaPbSource.getPathList.map(_.intValue),
+      path = javaPbSource.getPathList.asScala.map(_.intValue),
       sourceFile = if (javaPbSource.hasSourceFile) Some(javaPbSource.getSourceFile) else None,
       begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else None,
       end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None

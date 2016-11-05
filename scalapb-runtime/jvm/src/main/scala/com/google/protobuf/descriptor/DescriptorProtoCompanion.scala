@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object DescriptorProtoCompanion {
   lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =

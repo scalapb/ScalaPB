@@ -5,7 +5,7 @@
 
 package com.google.protobuf.`type`
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** A protocol buffer option, which can be attached to a message, field,
   * enumeration, etc.

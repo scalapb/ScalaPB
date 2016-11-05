@@ -5,7 +5,7 @@
 
 package com.google.protobuf.`type`
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Enum type definition.
   *
@@ -145,16 +145,16 @@ object Enum extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Enum): com.google.protobuf.Enum = {
     val javaPbOut = com.google.protobuf.Enum.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllEnumvalue(scalaPbSource.enumvalue.map(com.google.protobuf.`type`.EnumValue.toJavaProto(_)))
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)))
+    javaPbOut.addAllEnumvalue(scalaPbSource.enumvalue.map(com.google.protobuf.`type`.EnumValue.toJavaProto(_)).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
     scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto(_)).foreach(javaPbOut.setSourceContext)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Enum): com.google.protobuf.`type`.Enum = com.google.protobuf.`type`.Enum(
     name = javaPbSource.getName,
-    enumvalue = javaPbSource.getEnumvalueList.map(com.google.protobuf.`type`.EnumValue.fromJavaProto(_)),
-    options = javaPbSource.getOptionsList.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
+    enumvalue = javaPbSource.getEnumvalueList.asScala.map(com.google.protobuf.`type`.EnumValue.fromJavaProto(_)),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )

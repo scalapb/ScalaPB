@@ -5,7 +5,7 @@
 
 package com.google.protobuf.wrappers
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Wrapper message for `int32`.
   *

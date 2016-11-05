@@ -25,6 +25,6 @@ object GenUtils {
 
   def genListOfDistinctPositiveNumbers(size: Int) = Gen.parameterized {
     params =>
-      Gen.listOfN(size, Gen.chooseNum(1, 10)).map(_.scan(0)(_ + _).tail).map(params.rng.shuffle[Int, Seq])
+      Gen.listOfN(size, Gen.chooseNum(1, 10)).map(_.scan(0)(_ + _).tail).map(scala.util.Random.shuffle(_))
   }
 }

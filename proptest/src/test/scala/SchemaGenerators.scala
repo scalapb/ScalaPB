@@ -149,7 +149,7 @@ object SchemaGenerators {
       jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
       jarForClass[javax.annotation.Nullable],
       jarForClass[com.trueaccord.lenses.Lens[_, _]].getPath,
-      jarForClass[fastparse.core.Parsed[_]].getPath,
+      jarForClass[fastparse.core.Parsed[_, _, _]].getPath,
       rootDir
     )
     val annotationJar = classOf[annotation.Annotation].getProtectionDomain.getCodeSource.getLocation.getPath

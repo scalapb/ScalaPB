@@ -1,6 +1,7 @@
 package com.trueaccord.scalapb.textformat
 
-import fastparse.{ParserApi, WhitespaceApi}
+import fastparse.WhitespaceApi
+
 import scala.language.implicitConversions
 
 private[scalapb] object ProtoAsciiParser {
@@ -13,9 +14,8 @@ private[scalapb] object ProtoAsciiParser {
   import fastparse.noApi._
 
   // This is needed due to https://github.com/lihaoyi/fastparse/issues/72
-  protected implicit def strToParserApi(s: String): ParserApi[Unit] = White.parserApi(s)
-  protected implicit def parserToParserApi[T](s: Parser[T]): ParserApi[T] = White.parserApi(s)
-
+  protected implicit def strToParserApi(s: String): WhitespaceApi[Unit] = White.parserApi(s)
+  protected implicit def parserToParserApi[T](s: Parser[T]): WhitespaceApi[T] = White.parserApi(s)
 
   val PrimitiveValue: P[PPrimitive] = P(
     (Index ~ Basics.fractional).map(PLiteral.tupled) |

@@ -5,7 +5,7 @@
 
 package com.google.protobuf.source_context
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object SourceContextProto {
   lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =

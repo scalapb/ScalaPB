@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** A message representing a option the parser does not recognize. This only
   * appears in options protos created by the compiler::Parser class.
@@ -155,7 +155,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption, com.google.protobuf.DescriptorProtos.UninterpretedOption] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.UninterpretedOption): com.google.protobuf.DescriptorProtos.UninterpretedOption = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.UninterpretedOption.newBuilder
-    javaPbOut.addAllName(scalaPbSource.name.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.toJavaProto(_)))
+    javaPbOut.addAllName(scalaPbSource.name.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.toJavaProto(_)).asJava)
     scalaPbSource.identifierValue.foreach(javaPbOut.setIdentifierValue)
     scalaPbSource.positiveIntValue.foreach(javaPbOut.setPositiveIntValue)
     scalaPbSource.negativeIntValue.foreach(javaPbOut.setNegativeIntValue)
@@ -165,7 +165,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.UninterpretedOption): com.google.protobuf.descriptor.UninterpretedOption = com.google.protobuf.descriptor.UninterpretedOption(
-    name = javaPbSource.getNameList.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.fromJavaProto(_)),
+    name = javaPbSource.getNameList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.fromJavaProto(_)),
     identifierValue = if (javaPbSource.hasIdentifierValue) Some(javaPbSource.getIdentifierValue) else None,
     positiveIntValue = if (javaPbSource.hasPositiveIntValue) Some(javaPbSource.getPositiveIntValue.longValue) else None,
     negativeIntValue = if (javaPbSource.hasNegativeIntValue) Some(javaPbSource.getNegativeIntValue.longValue) else None,

@@ -5,7 +5,7 @@
 
 package com.google.protobuf.struct
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** `Struct` represents a structured data value, consisting of fields
   * which map to dynamically typed values. In some languages, `Struct`
@@ -83,12 +83,12 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
   .putAll(
     scalaPbSource.fields.map {
       __kv => (__kv._1, com.google.protobuf.struct.Value.toJavaProto(__kv._2))
-  })
+  }.asJava)
 
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Struct): com.google.protobuf.struct.Struct = com.google.protobuf.struct.Struct(
-    fields = javaPbSource.getFieldsMap.map(__pv => (__pv._1, com.google.protobuf.struct.Value.fromJavaProto(__pv._2))).toMap
+    fields = javaPbSource.getFieldsMap.asScala.map(__pv => (__pv._1, com.google.protobuf.struct.Value.fromJavaProto(__pv._2))).toMap
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.Struct = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

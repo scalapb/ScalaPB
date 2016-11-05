@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Encapsulates information about the original source file from which a
   * FileDescriptorProto was generated.
@@ -114,11 +114,11 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo, com.google.protobuf.DescriptorProtos.SourceCodeInfo] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.SourceCodeInfo): com.google.protobuf.DescriptorProtos.SourceCodeInfo = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.SourceCodeInfo.newBuilder
-    javaPbOut.addAllLocation(scalaPbSource.location.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.toJavaProto(_)))
+    javaPbOut.addAllLocation(scalaPbSource.location.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.SourceCodeInfo): com.google.protobuf.descriptor.SourceCodeInfo = com.google.protobuf.descriptor.SourceCodeInfo(
-    location = javaPbSource.getLocationList.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.fromJavaProto(_))
+    location = javaPbSource.getLocationList.asScala.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
@@ -367,19 +367,19 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo.Location, com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.SourceCodeInfo.Location): com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location.newBuilder
-      javaPbOut.addAllPath(scalaPbSource.path.map(Int.box(_)))
-      javaPbOut.addAllSpan(scalaPbSource.span.map(Int.box(_)))
+      javaPbOut.addAllPath(scalaPbSource.path.map(Int.box(_)).asJava)
+      javaPbOut.addAllSpan(scalaPbSource.span.map(Int.box(_)).asJava)
       scalaPbSource.leadingComments.foreach(javaPbOut.setLeadingComments)
       scalaPbSource.trailingComments.foreach(javaPbOut.setTrailingComments)
-      javaPbOut.addAllLeadingDetachedComments(scalaPbSource.leadingDetachedComments)
+      javaPbOut.addAllLeadingDetachedComments(scalaPbSource.leadingDetachedComments.asJava)
       javaPbOut.build
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location): com.google.protobuf.descriptor.SourceCodeInfo.Location = com.google.protobuf.descriptor.SourceCodeInfo.Location(
-      path = javaPbSource.getPathList.map(_.intValue),
-      span = javaPbSource.getSpanList.map(_.intValue),
+      path = javaPbSource.getPathList.asScala.map(_.intValue),
+      span = javaPbSource.getSpanList.asScala.map(_.intValue),
       leadingComments = if (javaPbSource.hasLeadingComments) Some(javaPbSource.getLeadingComments) else None,
       trailingComments = if (javaPbSource.hasTrailingComments) Some(javaPbSource.getTrailingComments) else None,
-      leadingDetachedComments = javaPbSource.getLeadingDetachedCommentsList
+      leadingDetachedComments = javaPbSource.getLeadingDetachedCommentsList.asScala
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo.Location = {
       require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

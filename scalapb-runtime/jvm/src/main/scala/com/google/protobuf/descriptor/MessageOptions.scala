@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** @param messageSetWireFormat
   *   Set true to use the old proto1 MessageSet wire format for extensions.
@@ -175,7 +175,7 @@ object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     scalaPbSource.noStandardDescriptorAccessor.foreach(javaPbOut.setNoStandardDescriptorAccessor)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.mapEntry.foreach(javaPbOut.setMapEntry)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)))
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MessageOptions): com.google.protobuf.descriptor.MessageOptions = com.google.protobuf.descriptor.MessageOptions(
@@ -183,7 +183,7 @@ object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     noStandardDescriptorAccessor = if (javaPbSource.hasNoStandardDescriptorAccessor) Some(javaPbSource.getNoStandardDescriptorAccessor.booleanValue) else None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
     mapEntry = if (javaPbSource.hasMapEntry) Some(javaPbSource.getMapEntry.booleanValue) else None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MessageOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

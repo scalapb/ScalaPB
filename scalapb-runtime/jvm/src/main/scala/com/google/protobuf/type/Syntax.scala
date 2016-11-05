@@ -5,7 +5,7 @@
 
 package com.google.protobuf.`type`
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 sealed trait Syntax extends com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = Syntax

@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** @param ctype
   *   The ctype option instructs the C++ code generator to use a different
@@ -210,7 +210,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     scalaPbSource.`lazy`.foreach(javaPbOut.setLazy)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.weak.foreach(javaPbOut.setWeak)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)))
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): com.google.protobuf.descriptor.FieldOptions = com.google.protobuf.descriptor.FieldOptions(
@@ -220,7 +220,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
     weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FieldOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

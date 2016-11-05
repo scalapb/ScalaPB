@@ -197,7 +197,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
     if (field.supportsPresence)
       s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, isCollection = false)}) else None"
-    else valueConversion(javaGetter, isCollection = field.isRepeated)
+    else if (field.isRepeated)
+      valueConversion(javaGetter + ".asScala", isCollection = true)
+    else valueConversion(javaGetter, isCollection = false)
   }
 
   def javaFieldToScala(container: String, field: FieldDescriptor): String = {
@@ -213,7 +215,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def javaMapFieldToScala(container: String, field: FieldDescriptor) = {
     // TODO(thesamet): if both unit conversions are NoOp, we can omit the map call.
     def unitConversion(n: String, field: FieldDescriptor) = javaToScalaConversion(field).apply(n, isCollection = false)
-    s"${container}.get${field.upperScalaName}Map.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)})).toMap"
+    s"${container}.get${field.upperScalaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)})).toMap"
   }
 
   def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): Expression = {
@@ -248,7 +250,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
        |  .putAll(
        |    $scalaObject.${fieldAccessorSymbol(field)}.map {
        |      __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert("__kv._2", field.mapType.valueField)})
-       |  })
+       |  }.asJava)
        |""".stripMargin
   }
 
@@ -265,6 +267,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         scalaGetter, isCollection = !field.isSingular)
       if (field.supportsPresence || field.isInOneof)
         s"$scalaExpr.foreach($javaSetter)"
+      else
+      if (field.isRepeated)
+        s"$javaSetter($scalaExpr.asJava)"
       else
         s"$javaSetter($scalaExpr)"
     }
@@ -1025,7 +1030,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
          |
          |${if (file.scalaPackageName.nonEmpty) ("package " + file.scalaPackageName) else ""}
          |
-         |${if (params.javaConversions) "import scala.collection.JavaConversions._" else ""}""")
+         |${if (params.javaConversions) "import scala.collection.JavaConverters._" else ""}""")
     .print(file.scalaOptions.getImportList.asScala) {
       case (printer, i) => printer.add(s"import $i")
     }

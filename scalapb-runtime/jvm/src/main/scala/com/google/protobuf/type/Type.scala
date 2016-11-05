@@ -5,7 +5,7 @@
 
 package com.google.protobuf.`type`
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** A protocol buffer message type.
   *
@@ -161,18 +161,18 @@ object Type extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Type): com.google.protobuf.Type = {
     val javaPbOut = com.google.protobuf.Type.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllFields(scalaPbSource.fields.map(com.google.protobuf.`type`.Field.toJavaProto(_)))
-    javaPbOut.addAllOneofs(scalaPbSource.oneofs)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)))
+    javaPbOut.addAllFields(scalaPbSource.fields.map(com.google.protobuf.`type`.Field.toJavaProto(_)).asJava)
+    javaPbOut.addAllOneofs(scalaPbSource.oneofs.asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
     scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto(_)).foreach(javaPbOut.setSourceContext)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Type): com.google.protobuf.`type`.Type = com.google.protobuf.`type`.Type(
     name = javaPbSource.getName,
-    fields = javaPbSource.getFieldsList.map(com.google.protobuf.`type`.Field.fromJavaProto(_)),
-    oneofs = javaPbSource.getOneofsList,
-    options = javaPbSource.getOptionsList.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
+    fields = javaPbSource.getFieldsList.asScala.map(com.google.protobuf.`type`.Field.fromJavaProto(_)),
+    oneofs = javaPbSource.getOneofsList.asScala,
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )

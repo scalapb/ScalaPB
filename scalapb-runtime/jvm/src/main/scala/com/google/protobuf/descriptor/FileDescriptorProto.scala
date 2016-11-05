@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Describes a complete .proto file.
   *
@@ -267,13 +267,13 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
     scalaPbSource.`package`.foreach(javaPbOut.setPackage)
-    javaPbOut.addAllDependency(scalaPbSource.dependency)
-    javaPbOut.addAllPublicDependency(scalaPbSource.publicDependency.map(Int.box(_)))
-    javaPbOut.addAllWeakDependency(scalaPbSource.weakDependency.map(Int.box(_)))
-    javaPbOut.addAllMessageType(scalaPbSource.messageType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_)))
-    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_)))
-    javaPbOut.addAllService(scalaPbSource.service.map(com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto(_)))
-    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_)))
+    javaPbOut.addAllDependency(scalaPbSource.dependency.asJava)
+    javaPbOut.addAllPublicDependency(scalaPbSource.publicDependency.map(Int.box(_)).asJava)
+    javaPbOut.addAllWeakDependency(scalaPbSource.weakDependency.map(Int.box(_)).asJava)
+    javaPbOut.addAllMessageType(scalaPbSource.messageType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllService(scalaPbSource.service.map(com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_)).asJava)
     scalaPbSource.options.map(com.google.protobuf.descriptor.FileOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
     scalaPbSource.sourceCodeInfo.map(com.google.protobuf.descriptor.SourceCodeInfo.toJavaProto(_)).foreach(javaPbOut.setSourceCodeInfo)
     scalaPbSource.syntax.foreach(javaPbOut.setSyntax)
@@ -282,13 +282,13 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorProto): com.google.protobuf.descriptor.FileDescriptorProto = com.google.protobuf.descriptor.FileDescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
     `package` = if (javaPbSource.hasPackage) Some(javaPbSource.getPackage) else None,
-    dependency = javaPbSource.getDependencyList,
-    publicDependency = javaPbSource.getPublicDependencyList.map(_.intValue),
-    weakDependency = javaPbSource.getWeakDependencyList.map(_.intValue),
-    messageType = javaPbSource.getMessageTypeList.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)),
-    enumType = javaPbSource.getEnumTypeList.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)),
-    service = javaPbSource.getServiceList.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto(_)),
-    extension = javaPbSource.getExtensionList.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)),
+    dependency = javaPbSource.getDependencyList.asScala,
+    publicDependency = javaPbSource.getPublicDependencyList.asScala.map(_.intValue),
+    weakDependency = javaPbSource.getWeakDependencyList.asScala.map(_.intValue),
+    messageType = javaPbSource.getMessageTypeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)),
+    enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)),
+    service = javaPbSource.getServiceList.asScala.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto(_)),
+    extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.FileOptions.fromJavaProto(javaPbSource.getOptions)) else None,
     sourceCodeInfo = if (javaPbSource.hasSourceCodeInfo) Some(com.google.protobuf.descriptor.SourceCodeInfo.fromJavaProto(javaPbSource.getSourceCodeInfo)) else None,
     syntax = if (javaPbSource.hasSyntax) Some(javaPbSource.getSyntax) else None

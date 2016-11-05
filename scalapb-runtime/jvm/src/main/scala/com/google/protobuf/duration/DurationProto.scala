@@ -5,7 +5,7 @@
 
 package com.google.protobuf.duration
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object DurationProto {
   lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =

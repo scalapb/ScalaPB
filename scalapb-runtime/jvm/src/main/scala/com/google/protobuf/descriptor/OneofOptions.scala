@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
@@ -69,11 +69,11 @@ object OneofOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.OneofOptions): com.google.protobuf.DescriptorProtos.OneofOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.OneofOptions.newBuilder
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)))
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.OneofOptions): com.google.protobuf.descriptor.OneofOptions = com.google.protobuf.descriptor.OneofOptions(
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.OneofOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

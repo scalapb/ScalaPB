@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** The protocol compiler can output a FileDescriptorSet containing the .proto
   * files it parses.
@@ -69,11 +69,11 @@ object FileDescriptorSet extends com.trueaccord.scalapb.GeneratedMessageCompanio
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorSet): com.google.protobuf.DescriptorProtos.FileDescriptorSet = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorSet.newBuilder
-    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_)))
+    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorSet): com.google.protobuf.descriptor.FileDescriptorSet = com.google.protobuf.descriptor.FileDescriptorSet(
-    file = javaPbSource.getFileList.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_))
+    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorSet = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

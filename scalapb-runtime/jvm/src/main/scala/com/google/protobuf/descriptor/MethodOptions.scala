@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** @param deprecated
   *   Is this method deprecated?
@@ -88,12 +88,12 @@ object MethodOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[co
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.MethodOptions): com.google.protobuf.DescriptorProtos.MethodOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.MethodOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)))
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MethodOptions): com.google.protobuf.descriptor.MethodOptions = com.google.protobuf.descriptor.MethodOptions(
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MethodOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

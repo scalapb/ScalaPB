@@ -5,7 +5,7 @@
 
 package com.google.protobuf.any
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** `Any` contains an arbitrary serialized protocol buffer message along with a
   * URL that describes the type of the serialized message.

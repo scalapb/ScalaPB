@@ -5,7 +5,7 @@
 
 package com.google.protobuf.empty
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object EmptyProto {
   lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =

@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Describes an enum type.
   */
@@ -97,13 +97,13 @@ object EnumDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumDescriptorProto): com.google.protobuf.DescriptorProtos.EnumDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllValue(scalaPbSource.value.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto(_)))
+    javaPbOut.addAllValue(scalaPbSource.value.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto(_)).asJava)
     scalaPbSource.options.map(com.google.protobuf.descriptor.EnumOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumDescriptorProto): com.google.protobuf.descriptor.EnumDescriptorProto = com.google.protobuf.descriptor.EnumDescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    value = javaPbSource.getValueList.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto(_)),
+    value = javaPbSource.getValueList.asScala.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto(_)),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumOptions.fromJavaProto(javaPbSource.getOptions)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.EnumDescriptorProto = {

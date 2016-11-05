@@ -1,7 +1,7 @@
 package com.trueaccord.scalapb
 
-import com.trueaccord.scalapb.textformat.{AstUtils, Printer, ProtoAsciiParser}
-import fastparse.core.{ParseError, Parsed}
+import com.trueaccord.scalapb.textformat.{ AstUtils, PMessage, Printer, ProtoAsciiParser }
+import fastparse.core.{ ParseError, Parsed }
 
 case class TextFormatError(msg: String)
 
@@ -21,7 +21,7 @@ object TextFormat {
         AstUtils.parseMessage(d, msg).left.map {
           a => TextFormatError(s"${a.error} (${indexToLineCol(s, a.index)})")
         }
-      case f: Parsed.Failure =>
+      case f: Parsed.Failure[Char, String] =>
         Left(TextFormatError(ParseError(f).getMessage))
     }
   }

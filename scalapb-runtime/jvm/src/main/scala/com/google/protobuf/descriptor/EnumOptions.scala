@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** @param allowAlias
   *   Set this option to true to allow mapping different tag names to the same
@@ -105,13 +105,13 @@ object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumOptions.newBuilder
     scalaPbSource.allowAlias.foreach(javaPbOut.setAllowAlias)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)))
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumOptions): com.google.protobuf.descriptor.EnumOptions = com.google.protobuf.descriptor.EnumOptions(
     allowAlias = if (javaPbSource.hasAllowAlias) Some(javaPbSource.getAllowAlias.booleanValue) else None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.EnumOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

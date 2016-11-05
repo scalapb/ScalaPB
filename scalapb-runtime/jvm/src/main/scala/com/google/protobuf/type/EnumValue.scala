@@ -5,7 +5,7 @@
 
 package com.google.protobuf.`type`
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Enum value definition.
   *
@@ -111,13 +111,13 @@ object EnumValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
     val javaPbOut = com.google.protobuf.EnumValue.newBuilder
     javaPbOut.setName(scalaPbSource.name)
     javaPbOut.setNumber(scalaPbSource.number)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)))
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.EnumValue): com.google.protobuf.`type`.EnumValue = com.google.protobuf.`type`.EnumValue(
     name = javaPbSource.getName,
     number = javaPbSource.getNumber.intValue,
-    options = javaPbSource.getOptionsList.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_))
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.EnumValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

@@ -5,7 +5,7 @@
 
 package com.google.protobuf.source_context
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** `SourceContext` represents information about the source of a
   * protobuf element, like the file in which it is defined.

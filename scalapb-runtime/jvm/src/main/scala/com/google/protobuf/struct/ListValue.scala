@@ -5,7 +5,7 @@
 
 package com.google.protobuf.struct
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** `ListValue` is a wrapper around a repeated field of values.
   *
@@ -73,11 +73,11 @@ object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.ListValue): com.google.protobuf.ListValue = {
     val javaPbOut = com.google.protobuf.ListValue.newBuilder
-    javaPbOut.addAllValues(scalaPbSource.values.map(com.google.protobuf.struct.Value.toJavaProto(_)))
+    javaPbOut.addAllValues(scalaPbSource.values.map(com.google.protobuf.struct.Value.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.ListValue): com.google.protobuf.struct.ListValue = com.google.protobuf.struct.ListValue(
-    values = javaPbSource.getValuesList.map(com.google.protobuf.struct.Value.fromJavaProto(_))
+    values = javaPbSource.getValuesList.asScala.map(com.google.protobuf.struct.Value.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.ListValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

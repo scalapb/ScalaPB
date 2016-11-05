@@ -5,7 +5,7 @@
 
 package com.google.protobuf.compiler.plugin
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** An encoded CodeGeneratorRequest is written to the plugin's stdin.
   *
@@ -114,15 +114,15 @@ object CodeGeneratorRequest extends com.trueaccord.scalapb.GeneratedMessageCompa
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorRequest] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.CodeGeneratorRequest, com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.CodeGeneratorRequest): com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest = {
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest.newBuilder
-    javaPbOut.addAllFileToGenerate(scalaPbSource.fileToGenerate)
+    javaPbOut.addAllFileToGenerate(scalaPbSource.fileToGenerate.asJava)
     scalaPbSource.parameter.foreach(javaPbOut.setParameter)
-    javaPbOut.addAllProtoFile(scalaPbSource.protoFile.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_)))
+    javaPbOut.addAllProtoFile(scalaPbSource.protoFile.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
-    fileToGenerate = javaPbSource.getFileToGenerateList,
+    fileToGenerate = javaPbSource.getFileToGenerateList.asScala,
     parameter = if (javaPbSource.hasParameter) Some(javaPbSource.getParameter) else None,
-    protoFile = javaPbSource.getProtoFileList.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_))
+    protoFile = javaPbSource.getProtoFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

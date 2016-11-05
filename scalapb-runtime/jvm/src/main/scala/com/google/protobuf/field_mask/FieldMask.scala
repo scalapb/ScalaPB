@@ -5,7 +5,7 @@
 
 package com.google.protobuf.field_mask
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** `FieldMask` represents a set of symbolic field paths, for example:
   *
@@ -269,11 +269,11 @@ object FieldMask extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.field_mask.FieldMask): com.google.protobuf.FieldMask = {
     val javaPbOut = com.google.protobuf.FieldMask.newBuilder
-    javaPbOut.addAllPaths(scalaPbSource.paths)
+    javaPbOut.addAllPaths(scalaPbSource.paths.asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.FieldMask): com.google.protobuf.field_mask.FieldMask = com.google.protobuf.field_mask.FieldMask(
-    paths = javaPbSource.getPathsList
+    paths = javaPbSource.getPathsList.asScala
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.field_mask.FieldMask = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

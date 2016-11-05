@@ -2,9 +2,7 @@ import ReleaseTransformations._
 
 scalaVersion in ThisBuild := "2.11.8"
 
-crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.8"
-  // "2.12.0-M2"  // disabled until fastparse releases for 2.12
-)
+crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.8", "2.12.0")
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -57,11 +55,11 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.lenses" %%% "lenses" % "0.4.7",
-      "com.lihaoyi" %%% "fastparse" % "0.3.7",
+      "com.trueaccord.lenses" %%% "lenses" % "0.4.8",
+      "com.lihaoyi" %%% "fastparse" % "0.4.2",
       "com.lihaoyi" %%% "utest" % "0.4.4" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.12.5" % "test",
-      "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"
+      "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.0" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
@@ -75,7 +73,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.13"
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.14"
     ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
@@ -130,10 +128,10 @@ lazy val proptest = project.in(file("proptest"))
         "com.github.os72" % "protoc-jar" % "3.0.0",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
-        "com.trueaccord.lenses" %% "lenses" % "0.4.7",
+        "com.trueaccord.lenses" %% "lenses" % "0.4.8",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.1",
-        "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
-        "org.scalatest" %% "scalatest" % (if (scalaVersion.value.startsWith("2.12")) "2.2.5-M2" else "2.2.5") % "test"
+        "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
+        "org.scalatest" %% "scalatest" % "3.0.0" % "test"
       ),
       libraryDependencies <+= (scalaVersion) { v => "org.scala-lang" % "scala-compiler" % v },
       testOptions += Tests.Argument(),

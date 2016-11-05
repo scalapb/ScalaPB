@@ -5,7 +5,7 @@
 
 package com.google.protobuf.timestamp
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object TimestampProto {
   lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =

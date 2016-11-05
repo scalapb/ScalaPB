@@ -5,7 +5,7 @@
 
 package com.google.protobuf.api
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Api is a light-weight descriptor for a protocol buffer service.
   *
@@ -203,21 +203,21 @@ object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Api): com.google.protobuf.Api = {
     val javaPbOut = com.google.protobuf.Api.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllMethods(scalaPbSource.methods.map(com.google.protobuf.api.Method.toJavaProto(_)))
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)))
+    javaPbOut.addAllMethods(scalaPbSource.methods.map(com.google.protobuf.api.Method.toJavaProto(_)).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
     javaPbOut.setVersion(scalaPbSource.version)
     scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto(_)).foreach(javaPbOut.setSourceContext)
-    javaPbOut.addAllMixins(scalaPbSource.mixins.map(com.google.protobuf.api.Mixin.toJavaProto(_)))
+    javaPbOut.addAllMixins(scalaPbSource.mixins.map(com.google.protobuf.api.Mixin.toJavaProto(_)).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Api): com.google.protobuf.api.Api = com.google.protobuf.api.Api(
     name = javaPbSource.getName,
-    methods = javaPbSource.getMethodsList.map(com.google.protobuf.api.Method.fromJavaProto(_)),
-    options = javaPbSource.getOptionsList.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
+    methods = javaPbSource.getMethodsList.asScala.map(com.google.protobuf.api.Method.fromJavaProto(_)),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
     version = javaPbSource.getVersion,
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
-    mixins = javaPbSource.getMixinsList.map(com.google.protobuf.api.Mixin.fromJavaProto(_)),
+    mixins = javaPbSource.getMixinsList.asScala.map(com.google.protobuf.api.Mixin.fromJavaProto(_)),
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Api = {

@@ -17,11 +17,11 @@ trait ParserSuite {
   }
 
   def checkFail[T](parser: P[T], input: String) = {
-    assert(parser.parse(input).isInstanceOf[Parsed.Failure])
+    assert(parser.parse(input).isInstanceOf[Parsed.Failure[_, _]])
   }
 
   def checkFail[T](parser: P[T], input: String, expectedTrace: String) = {
-    val failure = parser.parse(input).asInstanceOf[Parsed.Failure]
+    val failure = parser.parse(input).asInstanceOf[Parsed.Failure[_, _]]
     val actualTrace = failure.extra.traced.trace
     assert(expectedTrace.trim == actualTrace.trim)
   }

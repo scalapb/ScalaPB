@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** @param javaPackage
   *   Sets the Java package where classes generated from this .proto will be
@@ -333,7 +333,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     scalaPbSource.ccEnableArenas.foreach(javaPbOut.setCcEnableArenas)
     scalaPbSource.objcClassPrefix.foreach(javaPbOut.setObjcClassPrefix)
     scalaPbSource.csharpNamespace.foreach(javaPbOut.setCsharpNamespace)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)))
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): com.google.protobuf.descriptor.FileOptions = com.google.protobuf.descriptor.FileOptions(
@@ -351,7 +351,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Some(javaPbSource.getCcEnableArenas.booleanValue) else None,
     objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Some(javaPbSource.getObjcClassPrefix) else None,
     csharpNamespace = if (javaPbSource.hasCsharpNamespace) Some(javaPbSource.getCsharpNamespace) else None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

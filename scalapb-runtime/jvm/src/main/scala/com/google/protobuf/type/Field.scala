@@ -5,7 +5,7 @@
 
 package com.google.protobuf.`type`
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** A single field of a message type.
   *
@@ -251,7 +251,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
     javaPbOut.setOneofIndex(scalaPbSource.oneofIndex)
     javaPbOut.setPacked(scalaPbSource.packed)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)))
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
     javaPbOut.setJsonName(scalaPbSource.jsonName)
     javaPbOut.setDefaultValue(scalaPbSource.defaultValue)
     javaPbOut.build
@@ -264,7 +264,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     typeUrl = javaPbSource.getTypeUrl,
     oneofIndex = javaPbSource.getOneofIndex.intValue,
     packed = javaPbSource.getPacked.booleanValue,
-    options = javaPbSource.getOptionsList.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
     jsonName = javaPbSource.getJsonName,
     defaultValue = javaPbSource.getDefaultValue
   )

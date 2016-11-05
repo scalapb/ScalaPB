@@ -5,7 +5,7 @@
 
 package com.google.protobuf.compiler.plugin
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** The plugin writes an encoded CodeGeneratorResponse to stdout.
   *
@@ -92,12 +92,12 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
   def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.CodeGeneratorResponse): com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse = {
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.newBuilder
     scalaPbSource.error.foreach(javaPbOut.setError)
-    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto(_)))
+    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto(_)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
     error = if (javaPbSource.hasError) Some(javaPbSource.getError) else None,
-    file = javaPbSource.getFileList.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto(_))
+    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")

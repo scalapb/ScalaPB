@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 /** Describes a message type.
   *
@@ -211,28 +211,28 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto): com.google.protobuf.DescriptorProtos.DescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllField(scalaPbSource.field.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_)))
-    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_)))
-    javaPbOut.addAllNestedType(scalaPbSource.nestedType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_)))
-    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_)))
-    javaPbOut.addAllExtensionRange(scalaPbSource.extensionRange.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.toJavaProto(_)))
-    javaPbOut.addAllOneofDecl(scalaPbSource.oneofDecl.map(com.google.protobuf.descriptor.OneofDescriptorProto.toJavaProto(_)))
+    javaPbOut.addAllField(scalaPbSource.field.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllNestedType(scalaPbSource.nestedType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllExtensionRange(scalaPbSource.extensionRange.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.toJavaProto(_)).asJava)
+    javaPbOut.addAllOneofDecl(scalaPbSource.oneofDecl.map(com.google.protobuf.descriptor.OneofDescriptorProto.toJavaProto(_)).asJava)
     scalaPbSource.options.map(com.google.protobuf.descriptor.MessageOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
-    javaPbOut.addAllReservedRange(scalaPbSource.reservedRange.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.toJavaProto(_)))
-    javaPbOut.addAllReservedName(scalaPbSource.reservedName)
+    javaPbOut.addAllReservedRange(scalaPbSource.reservedRange.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.toJavaProto(_)).asJava)
+    javaPbOut.addAllReservedName(scalaPbSource.reservedName.asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.DescriptorProto): com.google.protobuf.descriptor.DescriptorProto = com.google.protobuf.descriptor.DescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    field = javaPbSource.getFieldList.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)),
-    extension = javaPbSource.getExtensionList.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)),
-    nestedType = javaPbSource.getNestedTypeList.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)),
-    enumType = javaPbSource.getEnumTypeList.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)),
-    extensionRange = javaPbSource.getExtensionRangeList.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.fromJavaProto(_)),
-    oneofDecl = javaPbSource.getOneofDeclList.map(com.google.protobuf.descriptor.OneofDescriptorProto.fromJavaProto(_)),
+    field = javaPbSource.getFieldList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)),
+    extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)),
+    nestedType = javaPbSource.getNestedTypeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)),
+    enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)),
+    extensionRange = javaPbSource.getExtensionRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.fromJavaProto(_)),
+    oneofDecl = javaPbSource.getOneofDeclList.asScala.map(com.google.protobuf.descriptor.OneofDescriptorProto.fromJavaProto(_)),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.MessageOptions.fromJavaProto(javaPbSource.getOptions)) else None,
-    reservedRange = javaPbSource.getReservedRangeList.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.fromJavaProto(_)),
-    reservedName = javaPbSource.getReservedNameList
+    reservedRange = javaPbSource.getReservedRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.fromJavaProto(_)),
+    reservedName = javaPbSource.getReservedNameList.asScala
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
