@@ -96,7 +96,7 @@ object GenTypes {
     val baseFreq = List((5, generatePrimitive))
     val withMessages = if (state._nextMessageId > 0 && allowCurrentMessage)
       (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference)) :: baseFreq
-    else if (!allowCurrentMessage && state.currentFileInitialEnumId > 0)
+    else if (!allowCurrentMessage && state.currentFileInitialMessageId > 0)
       (1, Gen.chooseNum(0, state.currentFileInitialMessageId - 1).map(MessageReference)) :: baseFreq
     else baseFreq
     val withEnums = syntax match {
