@@ -34,7 +34,7 @@ val commonSettings = Seq(
       "io.grpc" % "grpc-protobuf" % grpcVersion, //protobuf message encoding for java implementation
       "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
       "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % "protobuf",
-      "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1"
+      "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.3"
     ),
     grpcExePath := xsbti.SafeLazy {
       val exe: File = (baseDirectory in ThisBuild).value / ".bin" / grpcExeFileName
