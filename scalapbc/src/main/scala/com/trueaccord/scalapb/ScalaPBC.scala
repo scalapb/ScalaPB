@@ -5,7 +5,7 @@ import protocbridge.ProtocBridge
 import scalapb.ScalaPbCodeGenerator
 
 case class Config(
-  version: String = "-v300",
+  version: String = "-v310",
   throwException: Boolean = false,
   args: Seq[String] = Seq.empty)
 
