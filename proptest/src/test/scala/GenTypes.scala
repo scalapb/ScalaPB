@@ -24,8 +24,26 @@ object GenTypes {
 
   private def escapeString(raw: String): String = {
     import scala.reflect.runtime.universe._
-    // Filtering out \uffff since Parboiled2 uses this character as EOI.
-    Literal(Constant(raw)).toString.filter(_ != '\uffff')
+    Literal(Constant(raw)).toString
+  }
+
+  // Simple version, since the one at TextFormatUtils is only in runtimne.
+  private def escapeBytes(raw: Seq[Byte]): String = {
+    val builder = new StringBuilder
+    builder.append('"')
+    raw.map {
+      case b if b == '\"'.toByte => builder.append("\\\"")
+      case b if b == '\''.toByte => builder.append("\\\'")
+      case b if b == '\\'.toByte => builder.append("\\\\")
+      case b if b >= 0x20 => builder.append(b.toChar)
+      case b =>
+        builder.append('\\')
+        builder.append((48 + ((b >>> 6) & 3)).toChar)
+        builder.append((48 + ((b >>> 3) & 7)).toChar)
+        builder.append((48 + (b & 7)).toChar)
+    }
+    builder.append('"')
+    builder.result()
   }
 
   val ProtoSint32 = Primitive("sint32", genInt32.map(_.toString))
@@ -43,7 +61,7 @@ object GenTypes {
   val ProtoBool = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
   val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(escapeString),
     packable = false)
-  val ProtoBytes = Primitive("bytes", Arbitrary.arbitrary[String].map(escapeString),
+  val ProtoBytes = Primitive("bytes", Gen.listOf(Arbitrary.arbitrary[Byte]).map(escapeBytes),
     packable = false)
 
   case class MessageReference(id: Int) extends ProtoType {
