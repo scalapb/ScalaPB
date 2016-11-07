@@ -1,5 +1,8 @@
 language: scala
-sudo: false
+sudo: required
+dist: trusty
+group: beta
+
 scala:
 - 2.10.6
 - 2.11.8
@@ -17,8 +20,8 @@ cache:
 script:
 - ./e2e.sh
 - cd examples && sbt test && cd ..
-- sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION test
-- sbt -J-Xmx3000M ++$TRAVIS_SCALA_VERSION universal:packageBin
+- sbt -J-Xmx6000M ++$TRAVIS_SCALA_VERSION test
+- sbt -J-Xmx6000M ++$TRAVIS_SCALA_VERSION universal:packageBin
 # Tricks to avoid unnecessary cache updates
 - find $HOME/.sbt -name "*.lock" | xargs rm
 - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
