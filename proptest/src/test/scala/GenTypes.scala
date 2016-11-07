@@ -22,11 +22,6 @@ object GenTypes {
   private val genUInt64 = Gen.chooseNum[Long](0, Long.MaxValue)
   private val genUInt32 = Gen.chooseNum[Int](0, Int.MaxValue)
 
-  private def escapeString(raw: String): String = {
-    import scala.reflect.runtime.universe._
-    Literal(Constant(raw)).toString
-  }
-
   // Simple version, since the one at TextFormatUtils is only in runtimne.
   private def escapeBytes(raw: Seq[Byte]): String = {
     val builder = new StringBuilder
@@ -59,7 +54,8 @@ object GenTypes {
   val ProtoDouble = Primitive("double", Arbitrary.arbitrary[Double].map(_.toString))
   val ProtoFloat = Primitive("float", Arbitrary.arbitrary[Float].map(_.toString))
   val ProtoBool = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
-  val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(escapeString),
+  val ProtoString = Primitive("string", Arbitrary.arbitrary[String].map(
+    _.getBytes("UTF-8").toSeq).map(escapeBytes),
     packable = false)
   val ProtoBytes = Primitive("bytes", Gen.listOf(Arbitrary.arbitrary[Byte]).map(escapeBytes),
     packable = false)

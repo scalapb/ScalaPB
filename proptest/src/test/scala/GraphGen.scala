@@ -149,10 +149,8 @@ object GraphGen {
   )
 
   def genService(messages: Seq[MessageNode])(state: State): Gen[(ServiceNode, State)] = for{
-    (methods, state) <- Gen.const((Seq.empty[MethodNode], state))
-//
-//    if (messages.nonEmpty) listWithStatefulGen(state, maxSize = 3)(genMethod(messages))
-//    else Gen.const((Seq.empty[MethodNode], state))
+    (methods, state) <- if (messages.nonEmpty) listWithStatefulGen(state, maxSize = 3)(genMethod(messages))
+    else Gen.const((Seq.empty[MethodNode], state))
     (name, state) <- state.generateName
   } yield ServiceNode(name, methods) -> state
 
