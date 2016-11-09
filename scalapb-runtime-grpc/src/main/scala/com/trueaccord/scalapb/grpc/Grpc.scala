@@ -1,9 +1,10 @@
 package com.trueaccord.scalapb.grpc
 
 import com.google.common.util.concurrent.{FutureCallback, Futures, ListenableFuture}
+import io.grpc.{Status, StatusException}
 import io.grpc.stub.StreamObserver
 
-import scala.concurrent.{Promise, Future}
+import scala.concurrent.{Future, Promise}
 import scala.util.Try
 
 object Grpc {
@@ -20,7 +21,11 @@ object Grpc {
     case scala.util.Success(value) =>
       observer.onNext(value)
       observer.onCompleted()
-    case scala.util.Failure(error) =>
-      observer.onError(error)
+    case scala.util.Failure(s: StatusException) =>
+      observer.onError(s)
+    case scala.util.Failure(e) =>
+      observer.onError(
+        Status.INTERNAL.withDescription(e.getMessage).withCause(e).asException()
+      )
   }
 }
