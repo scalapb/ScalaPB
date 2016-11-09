@@ -98,6 +98,16 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
           Await.result(future, 2.seconds).map(_.b) must be(Vector(22, 6, 12))
         }
       }
+
+      it("should wrap an exception as a StatusRuntimeException") {
+        withScalaServer { channel =>
+          val client = Service1GrpcScala.stub(channel)
+
+          intercept[io.grpc.StatusRuntimeException] {
+            Await.result( client.throwException( Req5() ), 2.seconds )
+          }
+        }
+      }
     }
   }
 }

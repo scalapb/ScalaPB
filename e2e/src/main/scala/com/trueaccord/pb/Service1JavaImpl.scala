@@ -46,4 +46,9 @@ class Service1JavaImpl extends Service1ImplBase{
         observer.onNext(Res4.newBuilder.setB(request.getA * 2).build())
       }
     }
+
+
+  override def throwException(request: Req5, observer: StreamObserver[Res5]): Unit = {
+    observer.onError(new RuntimeException("Error!"))
+  }
 }
