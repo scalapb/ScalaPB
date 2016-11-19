@@ -49,7 +49,7 @@ Versions
 Version | Description
 ------- | -----------
 0.4.x   | Stable, works with Protobuf 2.6.x
-0.5.x   | Now stable: supports Protobuf 2.6.x and Protobuf 3.0.x.
+0.5.x   | Now stable: supports Protobuf 2.6.x and Protobuf 3.1.x.
 0.6.x   | To be released.
 
 Installing
@@ -69,12 +69,12 @@ Add the following line to your `build.sbt`:
       scalapb.gen() -> (sourceManaged in Compile).value
     )
 
-For additional configuration options, see [ScalaPB SBT Settings](http://trueaccord.github.io/ScalaPB/sbt-settings.html) documentation
+For additional configuration options, see [ScalaPB SBT Settings](http://scalapb.github.io/ScalaPB/sbt-settings.html) documentation
 
 Using ScalaPB
 =============
 
-Documentation is available at [ScalaPB website](http://trueaccord.github.io/ScalaPB/).
+Documentation is available at [ScalaPB website](http://scalapb.github.io/ScalaPB/).
 
 Testing
 =======
