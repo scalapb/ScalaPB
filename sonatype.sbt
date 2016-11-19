@@ -1,7 +1,7 @@
 sonatypeProfileName := "com.trueaccord"
 
 pomExtra in Global := {
-  <url>https://github.com/trueaccord/ScalaPB</url>
+  <url>https://github.com/scalapb/ScalaPB</url>
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -9,9 +9,9 @@ pomExtra in Global := {
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:github.com:trueaccord/ScalaPB.git</connection>
-    <developerConnection>scm:git:git@github.com:trueaccord/ScalaPB.git</developerConnection>
-    <url>github.com/trueaccord/ScalaPB</url>
+    <connection>scm:git:github.com:scalapb/ScalaPB.git</connection>
+    <developerConnection>scm:git:git@github.com:scalapb/ScalaPB.git</developerConnection>
+    <url>github.com/scalapb/ScalaPB</url>
   </scm>
   <developers>
     <developer>

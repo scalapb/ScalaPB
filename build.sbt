@@ -77,7 +77,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
     ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
-      val g = "https://raw.githubusercontent.com/trueaccord/ScalaPB/" + sys.process.Process("git rev-parse HEAD").lines_!.head
+      val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process.Process("git rev-parse HEAD").lines_!.head
       s"-P:scalajs:mapSourceURI:$a->$g/"
     },
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"

@@ -1,4 +1,4 @@
-// Regression test for https://github.com/trueaccord/ScalaPB/issues/26
+// Regression test for https://github.com/scalapb/ScalaPB/issues/26
 syntax = "proto3";
 
 package name_test;

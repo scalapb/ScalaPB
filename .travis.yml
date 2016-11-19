@@ -33,7 +33,7 @@ deploy:
   file: scalapbc/target/universal/scalapbc-${TRAVIS_TAG:1}.zip
   skip_cleanup: true
   on:
-    repo: trueaccord/ScalaPB
+    repo: scalapb/ScalaPB
     tags: true
     scala: 2.11.8
 
