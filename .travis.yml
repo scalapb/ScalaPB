@@ -1,7 +1,6 @@
 language: scala
 sudo: required
 dist: trusty
-group: edge
 
 scala:
 - 2.10.6
