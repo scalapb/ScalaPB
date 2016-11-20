@@ -1010,7 +1010,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .call(generateGetField(message))
       .when(!params.singleLineToString)(_.add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)"))
       .when(params.singleLineToString)(_.add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToSingleLineUnicodeString(this)"))
-      .add(s"def companion = ${message.scalaTypeName}")
+      .add(s"def companion = _root_.${message.scalaTypeName}")
       .outdent
       .outdent
       .addStringMargin(s"""}
