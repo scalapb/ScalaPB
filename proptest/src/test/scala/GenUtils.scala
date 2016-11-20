@@ -7,20 +7,20 @@ object GenUtils {
 
   import org.scalacheck.Gen._
 
-  def listOfNWithStatefulGen[A, B](n: Int, gen: B)(
-    f: B => Gen[(A, B)]): Gen[(Seq[A], B)] =
-    if (n <= 0) (List(), gen)
+  def listOfNWithStatefulGen[A, State](n: Int, state: State)(
+    f: State => Gen[(A, State)]): Gen[(Seq[A], State)] =
+    if (n <= 0) (List(), state)
     else for {
-      (acc, gen1) <- listOfNWithStatefulGen(n - 1, gen)(f)
-      (last, gen2) <- f(gen1)
-    } yield (acc :+ last, gen2)
+      (acc, state1) <- listOfNWithStatefulGen(n - 1, state)(f)
+      (last, state2) <- f(state1)
+    } yield (acc :+ last, state2)
 
-  def listWithStatefulGen[A, B](gen: B, minSize: Int = 0, maxSize: Int = Integer.MAX_VALUE)(f: B => Gen[(A, B)]): Gen[(Seq[A], B)] = sized {
+  def listWithStatefulGen[A, State](state: State, minSize: Int = 0, maxSize: Int = Integer.MAX_VALUE)(f: State => Gen[(A, State)]): Gen[(Seq[A], State)] = sized {
     s =>
       for {
         size <- choose[Int](minSize, s min maxSize)
-        (l, idGen) <- listOfNWithStatefulGen(size, gen)(f)
-      } yield (l, idGen)
+        (l, idState) <- listOfNWithStatefulGen(size, state)(f)
+      } yield (l, idState)
   }
 
   def genListOfDistinctPositiveNumbers(size: Int) = Gen.parameterized {
