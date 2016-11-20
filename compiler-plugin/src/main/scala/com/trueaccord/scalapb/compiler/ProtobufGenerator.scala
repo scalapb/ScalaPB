@@ -522,7 +522,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateMergeFrom(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val myFullScalaName = message.scalaTypeName
+    val myFullScalaName = message.scalaTypeNameWithMaybeRoot(message)
     printer
       .add(
       s"def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): $myFullScalaName = {")
@@ -1010,7 +1010,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .call(generateGetField(message))
       .when(!params.singleLineToString)(_.add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)"))
       .when(params.singleLineToString)(_.add(s"override def toString: String = com.trueaccord.scalapb.TextFormat.printToSingleLineUnicodeString(this)"))
-      .add(s"def companion = ${message.scalaTypeName}")
+      .add(s"def companion = ${message.scalaTypeNameWithMaybeRoot(message)}")
       .outdent
       .outdent
       .addStringMargin(s"""}

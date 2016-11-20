@@ -269,6 +269,16 @@ trait DescriptorPimps {
       case None => message.getFile.scalaPackageName + "." + nameSymbol
     }
 
+    // When the first component of the package name is the same as one of the fields in the
+    // current context, we need to disambiguate or we get a compile error.
+    def scalaTypeNameWithMaybeRoot(context: Descriptor) = {
+      val fullName = scalaTypeName
+      val topLevelPackage = fullName.split('.')(0)
+      if (context.fields.map(_.scalaName).contains(topLevelPackage))
+        s"_root_.$fullName"
+      else fullName
+    }
+
     private[compiler] def hasConflictingJavaClassName(className: String): Boolean = (
       (message.getName == className) ||
         (message.getEnumTypes.asScala.exists(_.getName == className)) ||
