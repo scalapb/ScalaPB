@@ -69,12 +69,12 @@ Add the following line to your `build.sbt`:
       scalapb.gen() -> (sourceManaged in Compile).value
     )
 
-For additional configuration options, see [ScalaPB SBT Settings](http://scalapb.github.io/ScalaPB/sbt-settings.html) documentation
+For additional configuration options, see [ScalaPB SBT Settings](http://scalapb.github.io/sbt-settings.html) documentation
 
 Using ScalaPB
 =============
 
-Documentation is available at [ScalaPB website](http://scalapb.github.io/ScalaPB/).
+Documentation is available at [ScalaPB website](http://scalapb.github.io/).
 
 Testing
 =======

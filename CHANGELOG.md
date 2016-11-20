@@ -5,7 +5,7 @@
 ## [v0.5.43](https://github.com/scalapb/ScalaPB/tree/v0.5.35) (2016-09-27)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.35...v0.5.43)
 - We are switching from sbt-scalapb to sbt-protoc. Migration instructions are
-  at http://scalapb.github.io/ScalaPB/migrating.html
+  at http://scalapb.github.io/migrating.html
 
 - Breaking change: The outer class of a GRPC service used to extend
   `ServiceCompanion`. The trait `ServiceCompanion` has been changed to a
