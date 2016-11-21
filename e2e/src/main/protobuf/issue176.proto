@@ -4,5 +4,6 @@ package org.issue176;
 
 message Foo {
   int32 org = 1;
+  int32 com = 2;
 }
 
