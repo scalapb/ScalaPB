@@ -124,12 +124,12 @@ final case class MethodDescriptorProto(
     def withServerStreaming(__v: Boolean): MethodDescriptorProto = copy(serverStreaming = Some(__v))
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => name.getOrElse(null)
-        case 2 => inputType.getOrElse(null)
-        case 3 => outputType.getOrElse(null)
-        case 4 => options.getOrElse(null)
-        case 5 => clientStreaming.getOrElse(null)
-        case 6 => serverStreaming.getOrElse(null)
+        case 1 => name.orNull
+        case 2 => inputType.orNull
+        case 3 => outputType.orNull
+        case 4 => options.orNull
+        case 5 => clientStreaming.orNull
+        case 6 => serverStreaming.orNull
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

@@ -139,12 +139,12 @@ final case class UninterpretedOption(
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 2 => name
-        case 3 => identifierValue.getOrElse(null)
-        case 4 => positiveIntValue.getOrElse(null)
-        case 5 => negativeIntValue.getOrElse(null)
-        case 6 => doubleValue.getOrElse(null)
-        case 7 => stringValue.getOrElse(null)
-        case 8 => aggregateValue.getOrElse(null)
+        case 3 => identifierValue.orNull
+        case 4 => positiveIntValue.orNull
+        case 5 => negativeIntValue.orNull
+        case 6 => doubleValue.orNull
+        case 7 => stringValue.orNull
+        case 8 => aggregateValue.orNull
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

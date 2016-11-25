@@ -102,7 +102,7 @@ final case class CodeGeneratorRequest(
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => fileToGenerate
-        case 2 => parameter.getOrElse(null)
+        case 2 => parameter.orNull
         case 15 => protoFile
       }
     }

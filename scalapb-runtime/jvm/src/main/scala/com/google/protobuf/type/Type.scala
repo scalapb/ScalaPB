@@ -145,7 +145,7 @@ final case class Type(
         case 2 => fields
         case 3 => oneofs
         case 4 => options
-        case 5 => sourceContext.getOrElse(null)
+        case 5 => sourceContext.orNull
         case 6 => {
           val __t = syntax.valueDescriptor
           if (__t.getNumber() != 0) __t else null

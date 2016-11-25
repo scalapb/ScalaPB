@@ -346,8 +346,8 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
         __field.getNumber match {
           case 1 => path
           case 2 => span
-          case 3 => leadingComments.getOrElse(null)
-          case 4 => trailingComments.getOrElse(null)
+          case 3 => leadingComments.orNull
+          case 4 => trailingComments.orNull
           case 6 => leadingDetachedComments
         }
       }

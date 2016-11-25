@@ -214,9 +214,9 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
           case 1 => path
-          case 2 => sourceFile.getOrElse(null)
-          case 3 => begin.getOrElse(null)
-          case 4 => end.getOrElse(null)
+          case 2 => sourceFile.orNull
+          case 3 => begin.orNull
+          case 4 => end.orNull
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

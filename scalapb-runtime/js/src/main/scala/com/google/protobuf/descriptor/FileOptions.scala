@@ -294,20 +294,20 @@ final case class FileOptions(
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => javaPackage.getOrElse(null)
-        case 8 => javaOuterClassname.getOrElse(null)
-        case 10 => javaMultipleFiles.getOrElse(null)
-        case 20 => javaGenerateEqualsAndHash.getOrElse(null)
-        case 27 => javaStringCheckUtf8.getOrElse(null)
-        case 9 => optimizeFor.map(_.valueDescriptor).getOrElse(null)
-        case 11 => goPackage.getOrElse(null)
-        case 16 => ccGenericServices.getOrElse(null)
-        case 17 => javaGenericServices.getOrElse(null)
-        case 18 => pyGenericServices.getOrElse(null)
-        case 23 => deprecated.getOrElse(null)
-        case 31 => ccEnableArenas.getOrElse(null)
-        case 36 => objcClassPrefix.getOrElse(null)
-        case 37 => csharpNamespace.getOrElse(null)
+        case 1 => javaPackage.orNull
+        case 8 => javaOuterClassname.orNull
+        case 10 => javaMultipleFiles.orNull
+        case 20 => javaGenerateEqualsAndHash.orNull
+        case 27 => javaStringCheckUtf8.orNull
+        case 9 => optimizeFor.map(_.valueDescriptor).orNull
+        case 11 => goPackage.orNull
+        case 16 => ccGenericServices.orNull
+        case 17 => javaGenericServices.orNull
+        case 18 => pyGenericServices.orNull
+        case 23 => deprecated.orNull
+        case 31 => ccEnableArenas.orNull
+        case 36 => objcClassPrefix.orNull
+        case 37 => csharpNamespace.orNull
         case 999 => uninterpretedOption
       }
     }

@@ -186,7 +186,7 @@ final case class Api(
           val __t = version
           if (__t != "") __t else null
         }
-        case 5 => sourceContext.getOrElse(null)
+        case 5 => sourceContext.orNull
         case 6 => mixins
         case 7 => {
           val __t = syntax.valueDescriptor

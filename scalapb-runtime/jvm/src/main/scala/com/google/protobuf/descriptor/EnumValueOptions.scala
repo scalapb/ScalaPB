@@ -75,7 +75,7 @@ final case class EnumValueOptions(
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): EnumValueOptions = copy(uninterpretedOption = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => deprecated.getOrElse(null)
+        case 1 => deprecated.orNull
         case 999 => uninterpretedOption
       }
     }

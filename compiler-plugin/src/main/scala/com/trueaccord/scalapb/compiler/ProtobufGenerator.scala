@@ -286,7 +286,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             val e = toBaseFieldType(f)
               .apply(fieldAccessorSymbol(f), isCollection = !f.isSingular)
             if (f.supportsPresence || f.isInOneof)
-              fp.add(s"case ${f.getNumber} => $e.getOrElse(null)")
+              fp.add(s"case ${f.getNumber} => $e.orNull")
             else if (f.isOptional) {
               // In proto3, drop default value
               fp.add(s"case ${f.getNumber} => {")

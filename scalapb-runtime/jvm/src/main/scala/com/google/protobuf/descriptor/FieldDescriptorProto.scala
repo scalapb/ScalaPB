@@ -191,16 +191,16 @@ final case class FieldDescriptorProto(
     def withOptions(__v: com.google.protobuf.descriptor.FieldOptions): FieldDescriptorProto = copy(options = Some(__v))
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => name.getOrElse(null)
-        case 3 => number.getOrElse(null)
-        case 4 => label.map(_.valueDescriptor).getOrElse(null)
-        case 5 => `type`.map(_.valueDescriptor).getOrElse(null)
-        case 6 => typeName.getOrElse(null)
-        case 2 => extendee.getOrElse(null)
-        case 7 => defaultValue.getOrElse(null)
-        case 9 => oneofIndex.getOrElse(null)
-        case 10 => jsonName.getOrElse(null)
-        case 8 => options.getOrElse(null)
+        case 1 => name.orNull
+        case 3 => number.orNull
+        case 4 => label.map(_.valueDescriptor).orNull
+        case 5 => `type`.map(_.valueDescriptor).orNull
+        case 6 => typeName.orNull
+        case 2 => extendee.orNull
+        case 7 => defaultValue.orNull
+        case 9 => oneofIndex.orNull
+        case 10 => jsonName.orNull
+        case 8 => options.orNull
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
