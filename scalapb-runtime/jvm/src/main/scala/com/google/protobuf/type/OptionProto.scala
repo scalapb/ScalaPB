@@ -79,7 +79,7 @@ final case class OptionProto(
           val __t = name
           if (__t != "") __t else null
         }
-        case 2 => value.getOrElse(null)
+        case 2 => value.orNull
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

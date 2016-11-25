@@ -156,10 +156,10 @@ final case class MessageOptions(
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => messageSetWireFormat.getOrElse(null)
-        case 2 => noStandardDescriptorAccessor.getOrElse(null)
-        case 3 => deprecated.getOrElse(null)
-        case 7 => mapEntry.getOrElse(null)
+        case 1 => messageSetWireFormat.orNull
+        case 2 => noStandardDescriptorAccessor.orNull
+        case 3 => deprecated.orNull
+        case 7 => mapEntry.orNull
         case 999 => uninterpretedOption
       }
     }

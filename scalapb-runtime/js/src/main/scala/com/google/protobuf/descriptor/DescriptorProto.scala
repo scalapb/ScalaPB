@@ -190,14 +190,14 @@ final case class DescriptorProto(
     def withReservedName(__v: scala.collection.Seq[String]): DescriptorProto = copy(reservedName = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => name.getOrElse(null)
+        case 1 => name.orNull
         case 2 => field
         case 6 => extension
         case 3 => nestedType
         case 4 => enumType
         case 5 => extensionRange
         case 8 => oneofDecl
-        case 7 => options.getOrElse(null)
+        case 7 => options.orNull
         case 9 => reservedRange
         case 10 => reservedName
       }
@@ -300,8 +300,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def withEnd(__v: Int): ExtensionRange = copy(end = Some(__v))
       def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
-          case 1 => start.getOrElse(null)
-          case 2 => end.getOrElse(null)
+          case 1 => start.orNull
+          case 2 => end.orNull
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -399,8 +399,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def withEnd(__v: Int): ReservedRange = copy(end = Some(__v))
       def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
-          case 1 => start.getOrElse(null)
-          case 2 => end.getOrElse(null)
+          case 1 => start.orNull
+          case 2 => end.orNull
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

@@ -187,12 +187,12 @@ final case class FieldOptions(
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FieldOptions = copy(uninterpretedOption = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => ctype.map(_.valueDescriptor).getOrElse(null)
-        case 2 => packed.getOrElse(null)
-        case 6 => jstype.map(_.valueDescriptor).getOrElse(null)
-        case 5 => `lazy`.getOrElse(null)
-        case 3 => deprecated.getOrElse(null)
-        case 10 => weak.getOrElse(null)
+        case 1 => ctype.map(_.valueDescriptor).orNull
+        case 2 => packed.orNull
+        case 6 => jstype.map(_.valueDescriptor).orNull
+        case 5 => `lazy`.orNull
+        case 3 => deprecated.orNull
+        case 10 => weak.orNull
         case 999 => uninterpretedOption
       }
     }

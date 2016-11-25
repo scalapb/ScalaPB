@@ -129,7 +129,7 @@ final case class Enum(
         }
         case 2 => enumvalue
         case 3 => options
-        case 4 => sourceContext.getOrElse(null)
+        case 4 => sourceContext.orNull
         case 5 => {
           val __t = syntax.valueDescriptor
           if (__t.getNumber() != 0) __t else null

@@ -79,7 +79,7 @@ final case class CodeGeneratorResponse(
     def withFile(__v: scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => error.getOrElse(null)
+        case 1 => error.orNull
         case 15 => file
       }
     }
@@ -243,9 +243,9 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
       def withContent(__v: String): File = copy(content = Some(__v))
       def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
-          case 1 => name.getOrElse(null)
-          case 2 => insertionPoint.getOrElse(null)
-          case 15 => content.getOrElse(null)
+          case 1 => name.orNull
+          case 2 => insertionPoint.orNull
+          case 15 => content.orNull
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

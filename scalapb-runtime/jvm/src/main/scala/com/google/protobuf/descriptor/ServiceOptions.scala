@@ -75,7 +75,7 @@ final case class ServiceOptions(
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): ServiceOptions = copy(uninterpretedOption = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 33 => deprecated.getOrElse(null)
+        case 33 => deprecated.orNull
         case 999 => uninterpretedOption
       }
     }

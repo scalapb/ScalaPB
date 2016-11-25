@@ -243,8 +243,8 @@ final case class FileDescriptorProto(
     def withSyntax(__v: String): FileDescriptorProto = copy(syntax = Some(__v))
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => name.getOrElse(null)
-        case 2 => `package`.getOrElse(null)
+        case 1 => name.orNull
+        case 2 => `package`.orNull
         case 3 => dependency
         case 10 => publicDependency
         case 11 => weakDependency
@@ -252,9 +252,9 @@ final case class FileDescriptorProto(
         case 5 => enumType
         case 6 => service
         case 7 => extension
-        case 8 => options.getOrElse(null)
-        case 9 => sourceCodeInfo.getOrElse(null)
-        case 12 => syntax.getOrElse(null)
+        case 8 => options.orNull
+        case 9 => sourceCodeInfo.orNull
+        case 12 => syntax.orNull
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

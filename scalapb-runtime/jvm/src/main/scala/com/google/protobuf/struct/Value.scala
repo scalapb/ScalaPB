@@ -104,12 +104,12 @@ final case class Value(
     def withKind(__v: com.google.protobuf.struct.Value.Kind): Value = copy(kind = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => kind.nullValue.map(_.valueDescriptor).getOrElse(null)
-        case 2 => kind.numberValue.getOrElse(null)
-        case 3 => kind.stringValue.getOrElse(null)
-        case 4 => kind.boolValue.getOrElse(null)
-        case 5 => kind.structValue.getOrElse(null)
-        case 6 => kind.listValue.getOrElse(null)
+        case 1 => kind.nullValue.map(_.valueDescriptor).orNull
+        case 2 => kind.numberValue.orNull
+        case 3 => kind.stringValue.orNull
+        case 4 => kind.boolValue.orNull
+        case 5 => kind.structValue.orNull
+        case 6 => kind.listValue.orNull
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

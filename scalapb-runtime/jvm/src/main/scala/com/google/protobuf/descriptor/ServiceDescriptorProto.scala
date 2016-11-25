@@ -83,9 +83,9 @@ final case class ServiceDescriptorProto(
     def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = Some(__v))
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => name.getOrElse(null)
+        case 1 => name.orNull
         case 2 => method
-        case 3 => options.getOrElse(null)
+        case 3 => options.orNull
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
