@@ -49,7 +49,7 @@ lazy val root =
       publish := {},
       publishLocal := {}
     ).aggregate(
-      runtimeJS, runtimeJVM, grpcRuntime, compilerPlugin, proptest, scalapbc)
+      runtimeJS, runtimeJVM, grpcRuntime, compilerPlugin, compilerPluginShaded, proptest, scalapbc)
 
 lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
@@ -111,8 +111,46 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(file)
     },
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.3"
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.4"
       ))
+
+// Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
+// publishing compiler-plugin bundled with protoc-bridge, and linked against
+// shaded protobuf. This is a workaround - this artifact will be removed in
+// the future.
+lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
+  .dependsOn(compilerPlugin)
+  .settings(
+    assemblyShadeRules in assembly := Seq(
+      ShadeRule.rename("com.google.**" -> "scalapb.@0").inAll,
+      ShadeRule.rename("org.apache.**" -> "scalapb.@0").inAll
+    ),
+    assemblyExcludedJars in assembly := {
+      val toInclude = Seq(
+        "protobuf-java",
+        "protoc-bridge",
+        "commons-io"
+      )
+
+      (fullClasspath in assembly).value.filterNot {
+        c => toInclude.exists(prefix => c.data.getName.startsWith(prefix))
+      }
+    },
+    artifact in (Compile, assembly) := {
+      val art = (artifact in (Compile, assembly)).value
+      art.copy(`classifier` = Some("assembly"))
+    },
+    addArtifact(artifact in (Compile, assembly), assembly),
+	pomPostProcess := { (node: scala.xml.Node) =>
+	  new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
+		override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
+		  case e: scala.xml.Elem if e.label == "dependency" && e.child.exists(child => child.label == "artifactId" && child.text.startsWith("compilerplugin")) =>
+			scala.xml.Comment(s"compilerplugin has been removed.")
+		  case _ => node
+		}
+	  }).transform(node).head
+	}
+  )
 
 lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin)
@@ -144,7 +182,7 @@ lazy val proptest = project.in(file("proptest"))
 
 lazy val ShortTest = config("short") extend(Test)
 
-val protobufVersion = "3.0.0"
+val protobufVersion = "3.1.0"
 
 // For e2e test
 val sbtPluginVersion = "0.99.1"
