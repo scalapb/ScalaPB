@@ -121,6 +121,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
 lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
   .dependsOn(compilerPlugin)
   .settings(
+    name := "compilerplugin-shaded",
     assemblyShadeRules in assembly := Seq(
       ShadeRule.rename("com.google.**" -> "scalapb.@0").inAll,
       ShadeRule.rename("org.apache.**" -> "scalapb.@0").inAll
@@ -136,11 +137,12 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
         c => toInclude.exists(prefix => c.data.getName.startsWith(prefix))
       }
     },
-    artifact in (Compile, assembly) := {
+    artifact in (Compile, packageBin) := {
       val art = (artifact in (Compile, assembly)).value
-      art.copy(`classifier` = Some("assembly"))
+      // art.copy(`classifier` = Some("assembly"))
+      art
     },
-    addArtifact(artifact in (Compile, assembly), assembly),
+    addArtifact(artifact in (Compile, packageBin), assembly),
 	pomPostProcess := { (node: scala.xml.Node) =>
 	  new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
 		override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
