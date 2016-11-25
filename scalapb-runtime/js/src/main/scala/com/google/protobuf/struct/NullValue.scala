@@ -7,15 +7,15 @@ package com.google.protobuf.struct
 
 
 
-sealed trait NullValue extends com.trueaccord.scalapb.GeneratedEnum {
+sealed trait NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: Boolean = false
   def isUnrecognized: Boolean = false
-  def companion: com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = NullValue
+  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = NullValue
 }
 
-object NullValue extends com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] {
-  implicit def enumCompanion: com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = this
+object NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] {
+  implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = this
   @SerialVersionUID(0L)
   case object NULL_VALUE extends NullValue {
     val value = 0

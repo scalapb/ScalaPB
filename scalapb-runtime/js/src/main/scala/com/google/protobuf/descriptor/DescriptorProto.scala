@@ -30,16 +30,16 @@ final case class DescriptorProto(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (name.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      field.foreach(field => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(field.serializedSize) + field.serializedSize)
-      extension.foreach(extension => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extension.serializedSize) + extension.serializedSize)
-      nestedType.foreach(nestedType => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(nestedType.serializedSize) + nestedType.serializedSize)
-      enumType.foreach(enumType => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(enumType.serializedSize) + enumType.serializedSize)
-      extensionRange.foreach(extensionRange => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extensionRange.serializedSize) + extensionRange.serializedSize)
-      oneofDecl.foreach(oneofDecl => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(oneofDecl.serializedSize) + oneofDecl.serializedSize)
-      if (options.isDefined) { __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
-      reservedRange.foreach(reservedRange => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(reservedRange.serializedSize) + reservedRange.serializedSize)
-      reservedName.foreach(reservedName => __size += com.google.protobuf.CodedOutputStream.computeStringSize(10, reservedName))
+      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
+      field.foreach(field => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(field.serializedSize) + field.serializedSize)
+      extension.foreach(extension => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extension.serializedSize) + extension.serializedSize)
+      nestedType.foreach(nestedType => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(nestedType.serializedSize) + nestedType.serializedSize)
+      enumType.foreach(enumType => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(enumType.serializedSize) + enumType.serializedSize)
+      extensionRange.foreach(extensionRange => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extensionRange.serializedSize) + extensionRange.serializedSize)
+      oneofDecl.foreach(oneofDecl => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(oneofDecl.serializedSize) + oneofDecl.serializedSize)
+      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
+      reservedRange.foreach(reservedRange => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(reservedRange.serializedSize) + reservedRange.serializedSize)
+      reservedName.foreach(reservedName => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, reservedName))
       __size
     }
     final override def serializedSize: Int = {
@@ -50,7 +50,7 @@ final case class DescriptorProto(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
         _output__.writeString(1, __v)
       };
@@ -98,7 +98,7 @@ final case class DescriptorProto(
         _output__.writeString(10, __v)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto = {
       var __name = this.name
       val __field = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= this.field)
       val __extension = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= this.extension)
@@ -117,21 +117,21 @@ final case class DescriptorProto(
           case 10 =>
             __name = Some(_input__.readString())
           case 18 =>
-            __field += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
+            __field += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
           case 50 =>
-            __extension += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
+            __extension += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
           case 26 =>
-            __nestedType += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
+            __nestedType += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
           case 34 =>
-            __enumType += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
+            __enumType += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
           case 42 =>
-            __extensionRange += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.defaultInstance)
+            __extensionRange += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.defaultInstance)
           case 66 =>
-            __oneofDecl += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.OneofDescriptorProto.defaultInstance)
+            __oneofDecl += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.OneofDescriptorProto.defaultInstance)
           case 58 =>
-            __options = Some(com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)))
+            __options = Some(_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)))
           case 74 =>
-            __reservedRange += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.defaultInstance)
+            __reservedRange += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.defaultInstance)
           case 82 =>
             __reservedName += _input__.readString()
           case tag => _input__.skipField(tag)
@@ -188,7 +188,7 @@ final case class DescriptorProto(
     def addReservedName(__vs: String*): DescriptorProto = addAllReservedName(__vs)
     def addAllReservedName(__vs: TraversableOnce[String]): DescriptorProto = copy(reservedName = reservedName ++ __vs)
     def withReservedName(__v: scala.collection.Seq[String]): DescriptorProto = copy(reservedName = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => name.getOrElse(null)
         case 2 => field
@@ -202,13 +202,13 @@ final case class DescriptorProto(
         case 10 => reservedName
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.DescriptorProto
 }
 
 object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.DescriptorProto(
@@ -224,10 +224,10 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       __fieldsMap.getOrElse(__fields.get(9), Nil).asInstanceOf[scala.collection.Seq[String]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(2)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(2)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 2 => __out = com.google.protobuf.descriptor.FieldDescriptorProto
       case 6 => __out = com.google.protobuf.descriptor.FieldDescriptorProto
@@ -240,7 +240,7 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto(
   )
   @SerialVersionUID(0L)
@@ -252,8 +252,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       private[this] var __serializedSizeCachedValue: Int = 0
       private[this] def __computeSerializedValue(): Int = {
         var __size = 0
-        if (start.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(1, start.get) }
-        if (end.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(2, end.get) }
+        if (start.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, start.get) }
+        if (end.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, end.get) }
         __size
       }
       final override def serializedSize: Int = {
@@ -264,7 +264,7 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         }
         read
       }
-      def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
         start.foreach { __v =>
           _output__.writeInt32(1, __v)
         };
@@ -272,7 +272,7 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
           _output__.writeInt32(2, __v)
         };
       }
-      def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
+      def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
         var __start = this.start
         var __end = this.end
         var _done__ = false
@@ -298,19 +298,19 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: ExtensionRange = copy(end = None)
       def withEnd(__v: Int): ExtensionRange = copy(end = Some(__v))
-      def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+      def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
           case 1 => start.getOrElse(null)
           case 2 => end.getOrElse(null)
         }
       }
-      override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange
   }
   
   object ExtensionRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
     implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = this
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
       val __fields = descriptor.getFields
       com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
@@ -318,16 +318,16 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Int]]
       )
     }
-    def descriptor: com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.descriptor.getNestedTypes.get(0)
-    def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-    def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+    def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.descriptor.getNestedTypes.get(0)
+    def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
+    def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
     )
-    implicit class ExtensionRangeLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
-      def start: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Some(f_)))
-      def optionalStart: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
-      def end: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
-      def optionalEnd: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
+    implicit class ExtensionRangeLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
+      def start: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Some(f_)))
+      def optionalStart: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
+      def end: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
+      def optionalEnd: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
     final val END_FIELD_NUMBER = 2
@@ -351,8 +351,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       private[this] var __serializedSizeCachedValue: Int = 0
       private[this] def __computeSerializedValue(): Int = {
         var __size = 0
-        if (start.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(1, start.get) }
-        if (end.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(2, end.get) }
+        if (start.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, start.get) }
+        if (end.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, end.get) }
         __size
       }
       final override def serializedSize: Int = {
@@ -363,7 +363,7 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         }
         read
       }
-      def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
         start.foreach { __v =>
           _output__.writeInt32(1, __v)
         };
@@ -371,7 +371,7 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
           _output__.writeInt32(2, __v)
         };
       }
-      def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
+      def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
         var __start = this.start
         var __end = this.end
         var _done__ = false
@@ -397,19 +397,19 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: ReservedRange = copy(end = None)
       def withEnd(__v: Int): ReservedRange = copy(end = Some(__v))
-      def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+      def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
           case 1 => start.getOrElse(null)
           case 2 => end.getOrElse(null)
         }
       }
-      override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ReservedRange
   }
   
   object ReservedRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
     implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = this
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
       val __fields = descriptor.getFields
       com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
@@ -417,34 +417,34 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Int]]
       )
     }
-    def descriptor: com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.descriptor.getNestedTypes.get(1)
-    def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-    def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+    def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProto.descriptor.getNestedTypes.get(1)
+    def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
+    def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
     )
-    implicit class ReservedRangeLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
-      def start: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Some(f_)))
-      def optionalStart: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
-      def end: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
-      def optionalEnd: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
+    implicit class ReservedRangeLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
+      def start: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Some(f_)))
+      def optionalStart: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
+      def end: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
+      def optionalEnd: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
     final val END_FIELD_NUMBER = 2
   }
   
-  implicit class DescriptorProtoLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto](_l) {
-    def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
-    def optionalName: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def field: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.field)((c_, f_) => c_.copy(field = f_))
-    def extension: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
-    def nestedType: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]] = field(_.nestedType)((c_, f_) => c_.copy(nestedType = f_))
-    def enumType: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
-    def extensionRange: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]] = field(_.extensionRange)((c_, f_) => c_.copy(extensionRange = f_))
-    def oneofDecl: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]] = field(_.oneofDecl)((c_, f_) => c_.copy(oneofDecl = f_))
-    def options: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
-    def optionalOptions: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def reservedRange: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]] = field(_.reservedRange)((c_, f_) => c_.copy(reservedRange = f_))
-    def reservedName: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.reservedName)((c_, f_) => c_.copy(reservedName = f_))
+  implicit class DescriptorProtoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto](_l) {
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def optionalName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def field: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.field)((c_, f_) => c_.copy(field = f_))
+    def extension: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
+    def nestedType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]] = field(_.nestedType)((c_, f_) => c_.copy(nestedType = f_))
+    def enumType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
+    def extensionRange: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]] = field(_.extensionRange)((c_, f_) => c_.copy(extensionRange = f_))
+    def oneofDecl: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]] = field(_.oneofDecl)((c_, f_) => c_.copy(oneofDecl = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def optionalOptions: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def reservedRange: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]] = field(_.reservedRange)((c_, f_) => c_.copy(reservedRange = f_))
+    def reservedName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.reservedName)((c_, f_) => c_.copy(reservedName = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val FIELD_FIELD_NUMBER = 2

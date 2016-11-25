@@ -72,11 +72,11 @@ final case class MessageOptions(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (messageSetWireFormat.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(1, messageSetWireFormat.get) }
-      if (noStandardDescriptorAccessor.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(2, noStandardDescriptorAccessor.get) }
-      if (deprecated.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(3, deprecated.get) }
-      if (mapEntry.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(7, mapEntry.get) }
-      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
+      if (messageSetWireFormat.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(1, messageSetWireFormat.get) }
+      if (noStandardDescriptorAccessor.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, noStandardDescriptorAccessor.get) }
+      if (deprecated.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, deprecated.get) }
+      if (mapEntry.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, mapEntry.get) }
+      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
       __size
     }
     final override def serializedSize: Int = {
@@ -87,7 +87,7 @@ final case class MessageOptions(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       messageSetWireFormat.foreach { __v =>
         _output__.writeBool(1, __v)
       };
@@ -106,7 +106,7 @@ final case class MessageOptions(
         __v.writeTo(_output__)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MessageOptions = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MessageOptions = {
       var __messageSetWireFormat = this.messageSetWireFormat
       var __noStandardDescriptorAccessor = this.noStandardDescriptorAccessor
       var __deprecated = this.deprecated
@@ -126,7 +126,7 @@ final case class MessageOptions(
           case 56 =>
             __mapEntry = Some(_input__.readBool())
           case 7994 =>
-            __uninterpretedOption += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _input__.skipField(tag)
         }
       }
@@ -154,7 +154,7 @@ final case class MessageOptions(
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): MessageOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => messageSetWireFormat.getOrElse(null)
         case 2 => noStandardDescriptorAccessor.getOrElse(null)
@@ -163,13 +163,13 @@ final case class MessageOptions(
         case 999 => uninterpretedOption
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.MessageOptions
 }
 
 object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MessageOptions = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MessageOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.MessageOptions(
@@ -180,28 +180,28 @@ object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(10)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(10)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.MessageOptions(
   )
-  implicit class MessageOptionsLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MessageOptions](_l) {
-    def messageSetWireFormat: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getMessageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = Some(f_)))
-    def optionalMessageSetWireFormat: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.messageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = f_))
-    def noStandardDescriptorAccessor: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getNoStandardDescriptorAccessor)((c_, f_) => c_.copy(noStandardDescriptorAccessor = Some(f_)))
-    def optionalNoStandardDescriptorAccessor: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.noStandardDescriptorAccessor)((c_, f_) => c_.copy(noStandardDescriptorAccessor = f_))
-    def deprecated: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
-    def optionalDeprecated: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def mapEntry: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getMapEntry)((c_, f_) => c_.copy(mapEntry = Some(f_)))
-    def optionalMapEntry: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.mapEntry)((c_, f_) => c_.copy(mapEntry = f_))
-    def uninterpretedOption: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
+  implicit class MessageOptionsLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MessageOptions](_l) {
+    def messageSetWireFormat: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getMessageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = Some(f_)))
+    def optionalMessageSetWireFormat: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.messageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = f_))
+    def noStandardDescriptorAccessor: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getNoStandardDescriptorAccessor)((c_, f_) => c_.copy(noStandardDescriptorAccessor = Some(f_)))
+    def optionalNoStandardDescriptorAccessor: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.noStandardDescriptorAccessor)((c_, f_) => c_.copy(noStandardDescriptorAccessor = f_))
+    def deprecated: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
+    def optionalDeprecated: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
+    def mapEntry: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getMapEntry)((c_, f_) => c_.copy(mapEntry = Some(f_)))
+    def optionalMapEntry: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.mapEntry)((c_, f_) => c_.copy(mapEntry = f_))
+    def uninterpretedOption: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val MESSAGE_SET_WIRE_FORMAT_FIELD_NUMBER = 1
   final val NO_STANDARD_DESCRIPTOR_ACCESSOR_FIELD_NUMBER = 2

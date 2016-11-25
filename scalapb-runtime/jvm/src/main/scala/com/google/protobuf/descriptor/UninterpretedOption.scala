@@ -32,13 +32,13 @@ final case class UninterpretedOption(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      name.foreach(name => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(name.serializedSize) + name.serializedSize)
-      if (identifierValue.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(3, identifierValue.get) }
-      if (positiveIntValue.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeUInt64Size(4, positiveIntValue.get) }
-      if (negativeIntValue.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeInt64Size(5, negativeIntValue.get) }
-      if (doubleValue.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeDoubleSize(6, doubleValue.get) }
-      if (stringValue.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBytesSize(7, stringValue.get) }
-      if (aggregateValue.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(8, aggregateValue.get) }
+      name.foreach(name => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(name.serializedSize) + name.serializedSize)
+      if (identifierValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, identifierValue.get) }
+      if (positiveIntValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeUInt64Size(4, positiveIntValue.get) }
+      if (negativeIntValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt64Size(5, negativeIntValue.get) }
+      if (doubleValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(6, doubleValue.get) }
+      if (stringValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBytesSize(7, stringValue.get) }
+      if (aggregateValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, aggregateValue.get) }
       __size
     }
     final override def serializedSize: Int = {
@@ -49,7 +49,7 @@ final case class UninterpretedOption(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
@@ -74,7 +74,7 @@ final case class UninterpretedOption(
         _output__.writeString(8, __v)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = {
       val __name = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= this.name)
       var __identifierValue = this.identifierValue
       var __positiveIntValue = this.positiveIntValue
@@ -88,7 +88,7 @@ final case class UninterpretedOption(
         _tag__ match {
           case 0 => _done__ = true
           case 18 =>
-            __name += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
+            __name += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
           case 26 =>
             __identifierValue = Some(_input__.readString())
           case 32 =>
@@ -130,13 +130,13 @@ final case class UninterpretedOption(
     def getDoubleValue: Double = doubleValue.getOrElse(0.0)
     def clearDoubleValue: UninterpretedOption = copy(doubleValue = None)
     def withDoubleValue(__v: Double): UninterpretedOption = copy(doubleValue = Some(__v))
-    def getStringValue: com.google.protobuf.ByteString = stringValue.getOrElse(com.google.protobuf.ByteString.EMPTY)
+    def getStringValue: com.google.protobuf.ByteString = stringValue.getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
     def clearStringValue: UninterpretedOption = copy(stringValue = None)
     def withStringValue(__v: com.google.protobuf.ByteString): UninterpretedOption = copy(stringValue = Some(__v))
     def getAggregateValue: String = aggregateValue.getOrElse("")
     def clearAggregateValue: UninterpretedOption = copy(aggregateValue = None)
     def withAggregateValue(__v: String): UninterpretedOption = copy(aggregateValue = Some(__v))
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 2 => name
         case 3 => identifierValue.getOrElse(null)
@@ -147,7 +147,7 @@ final case class UninterpretedOption(
         case 8 => aggregateValue.getOrElse(null)
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.UninterpretedOption
 }
 
@@ -173,7 +173,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
     stringValue = if (javaPbSource.hasStringValue) Some(javaPbSource.getStringValue) else None,
     aggregateValue = if (javaPbSource.hasAggregateValue) Some(javaPbSource.getAggregateValue) else None
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.UninterpretedOption = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.UninterpretedOption = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.UninterpretedOption(
@@ -186,16 +186,16 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[String]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(17)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(17)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 2 => __out = com.google.protobuf.descriptor.UninterpretedOption.NamePart
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.UninterpretedOption(
   )
   /** The name of the uninterpreted option.  Each string represents a segment in
@@ -213,8 +213,8 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       private[this] var __serializedSizeCachedValue: Int = 0
       private[this] def __computeSerializedValue(): Int = {
         var __size = 0
-        __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, namePart)
-        __size += com.google.protobuf.CodedOutputStream.computeBoolSize(2, isExtension)
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, namePart)
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, isExtension)
         __size
       }
       final override def serializedSize: Int = {
@@ -225,11 +225,11 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
         }
         read
       }
-      def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
         _output__.writeString(1, namePart)
         _output__.writeBool(2, isExtension)
       }
-      def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
+      def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
         var __namePart = this.namePart
         var __isExtension = this.isExtension
         var _done__ = false
@@ -251,13 +251,13 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       }
       def withNamePart(__v: String): NamePart = copy(namePart = __v)
       def withIsExtension(__v: Boolean): NamePart = copy(isExtension = __v)
-      def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+      def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
           case 1 => namePart
           case 2 => isExtension
         }
       }
-      override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.UninterpretedOption.NamePart
   }
   
@@ -273,7 +273,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       namePart = javaPbSource.getNamePart,
       isExtension = javaPbSource.getIsExtension.booleanValue
     )
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
       require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
       val __fields = descriptor.getFields
       com.google.protobuf.descriptor.UninterpretedOption.NamePart(
@@ -281,35 +281,35 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
         __fieldsMap(__fields.get(1)).asInstanceOf[Boolean]
       )
     }
-    def descriptor: com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.UninterpretedOption.descriptor.getNestedTypes.get(0)
-    def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-    def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+    def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.UninterpretedOption.descriptor.getNestedTypes.get(0)
+    def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
+    def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
     lazy val defaultInstance = com.google.protobuf.descriptor.UninterpretedOption.NamePart(
       namePart = "",
       isExtension = false
     )
-    implicit class NamePartLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart](_l) {
-      def namePart: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.namePart)((c_, f_) => c_.copy(namePart = f_))
-      def isExtension: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.isExtension)((c_, f_) => c_.copy(isExtension = f_))
+    implicit class NamePartLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart](_l) {
+      def namePart: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.namePart)((c_, f_) => c_.copy(namePart = f_))
+      def isExtension: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.isExtension)((c_, f_) => c_.copy(isExtension = f_))
     }
     final val NAME_PART_FIELD_NUMBER = 1
     final val IS_EXTENSION_FIELD_NUMBER = 2
   }
   
-  implicit class UninterpretedOptionLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
-    def name: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def identifierValue: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Some(f_)))
-    def optionalIdentifierValue: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.identifierValue)((c_, f_) => c_.copy(identifierValue = f_))
-    def positiveIntValue: com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Some(f_)))
-    def optionalPositiveIntValue: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.positiveIntValue)((c_, f_) => c_.copy(positiveIntValue = f_))
-    def negativeIntValue: com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = Some(f_)))
-    def optionalNegativeIntValue: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.negativeIntValue)((c_, f_) => c_.copy(negativeIntValue = f_))
-    def doubleValue: com.trueaccord.lenses.Lens[UpperPB, Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Some(f_)))
-    def optionalDoubleValue: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Double]] = field(_.doubleValue)((c_, f_) => c_.copy(doubleValue = f_))
-    def stringValue: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Some(f_)))
-    def optionalStringValue: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.ByteString]] = field(_.stringValue)((c_, f_) => c_.copy(stringValue = f_))
-    def aggregateValue: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Some(f_)))
-    def optionalAggregateValue: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.aggregateValue)((c_, f_) => c_.copy(aggregateValue = f_))
+  implicit class UninterpretedOptionLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def identifierValue: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Some(f_)))
+    def optionalIdentifierValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.identifierValue)((c_, f_) => c_.copy(identifierValue = f_))
+    def positiveIntValue: _root_.com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Some(f_)))
+    def optionalPositiveIntValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.positiveIntValue)((c_, f_) => c_.copy(positiveIntValue = f_))
+    def negativeIntValue: _root_.com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = Some(f_)))
+    def optionalNegativeIntValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.negativeIntValue)((c_, f_) => c_.copy(negativeIntValue = f_))
+    def doubleValue: _root_.com.trueaccord.lenses.Lens[UpperPB, Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Some(f_)))
+    def optionalDoubleValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Double]] = field(_.doubleValue)((c_, f_) => c_.copy(doubleValue = f_))
+    def stringValue: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Some(f_)))
+    def optionalStringValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.ByteString]] = field(_.stringValue)((c_, f_) => c_.copy(stringValue = f_))
+    def aggregateValue: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Some(f_)))
+    def optionalAggregateValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.aggregateValue)((c_, f_) => c_.copy(aggregateValue = f_))
   }
   final val NAME_FIELD_NUMBER = 2
   final val IDENTIFIER_VALUE_FIELD_NUMBER = 3

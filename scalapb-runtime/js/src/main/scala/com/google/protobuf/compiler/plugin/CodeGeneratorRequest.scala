@@ -38,9 +38,9 @@ final case class CodeGeneratorRequest(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      fileToGenerate.foreach(fileToGenerate => __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, fileToGenerate))
-      if (parameter.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(2, parameter.get) }
-      protoFile.foreach(protoFile => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(protoFile.serializedSize) + protoFile.serializedSize)
+      fileToGenerate.foreach(fileToGenerate => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, fileToGenerate))
+      if (parameter.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, parameter.get) }
+      protoFile.foreach(protoFile => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(protoFile.serializedSize) + protoFile.serializedSize)
       __size
     }
     final override def serializedSize: Int = {
@@ -51,7 +51,7 @@ final case class CodeGeneratorRequest(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       fileToGenerate.foreach { __v =>
         _output__.writeString(1, __v)
       };
@@ -64,7 +64,7 @@ final case class CodeGeneratorRequest(
         __v.writeTo(_output__)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
       val __fileToGenerate = (scala.collection.immutable.Vector.newBuilder[String] ++= this.fileToGenerate)
       var __parameter = this.parameter
       val __protoFile = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= this.protoFile)
@@ -78,7 +78,7 @@ final case class CodeGeneratorRequest(
           case 18 =>
             __parameter = Some(_input__.readString())
           case 122 =>
-            __protoFile += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
+            __protoFile += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
           case tag => _input__.skipField(tag)
         }
       }
@@ -99,20 +99,20 @@ final case class CodeGeneratorRequest(
     def addProtoFile(__vs: com.google.protobuf.descriptor.FileDescriptorProto*): CodeGeneratorRequest = addAllProtoFile(__vs)
     def addAllProtoFile(__vs: TraversableOnce[com.google.protobuf.descriptor.FileDescriptorProto]): CodeGeneratorRequest = copy(protoFile = protoFile ++ __vs)
     def withProtoFile(__v: scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]): CodeGeneratorRequest = copy(protoFile = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => fileToGenerate
         case 2 => parameter.getOrElse(null)
         case 15 => protoFile
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.compiler.plugin.CodeGeneratorRequest
 }
 
 object CodeGeneratorRequest extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorRequest] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorRequest] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
@@ -121,23 +121,23 @@ object CodeGeneratorRequest extends com.trueaccord.scalapb.GeneratedMessageCompa
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = PluginProto.descriptor.getMessageTypes.get(0)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = PluginProto.descriptor.getMessageTypes.get(0)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 15 => __out = com.google.protobuf.descriptor.FileDescriptorProto
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
   )
-  implicit class CodeGeneratorRequestLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest](_l) {
-    def fileToGenerate: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.fileToGenerate)((c_, f_) => c_.copy(fileToGenerate = f_))
-    def parameter: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getParameter)((c_, f_) => c_.copy(parameter = Some(f_)))
-    def optionalParameter: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.parameter)((c_, f_) => c_.copy(parameter = f_))
-    def protoFile: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]] = field(_.protoFile)((c_, f_) => c_.copy(protoFile = f_))
+  implicit class CodeGeneratorRequestLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest](_l) {
+    def fileToGenerate: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.fileToGenerate)((c_, f_) => c_.copy(fileToGenerate = f_))
+    def parameter: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getParameter)((c_, f_) => c_.copy(parameter = Some(f_)))
+    def optionalParameter: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.parameter)((c_, f_) => c_.copy(parameter = f_))
+    def protoFile: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]] = field(_.protoFile)((c_, f_) => c_.copy(protoFile = f_))
   }
   final val FILE_TO_GENERATE_FIELD_NUMBER = 1
   final val PARAMETER_FIELD_NUMBER = 2

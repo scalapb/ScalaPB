@@ -22,7 +22,7 @@ final case class SourceContext(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (fileName != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, fileName) }
+      if (fileName != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, fileName) }
       __size
     }
     final override def serializedSize: Int = {
@@ -33,7 +33,7 @@ final case class SourceContext(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       {
         val __v = fileName
         if (__v != "") {
@@ -41,7 +41,7 @@ final case class SourceContext(
         }
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.source_context.SourceContext = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.source_context.SourceContext = {
       var __fileName = this.fileName
       var _done__ = false
       while (!_done__) {
@@ -58,7 +58,7 @@ final case class SourceContext(
       )
     }
     def withFileName(__v: String): SourceContext = copy(fileName = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => {
           val __t = fileName
@@ -66,26 +66,26 @@ final case class SourceContext(
         }
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.source_context.SourceContext
 }
 
 object SourceContext extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.source_context.SourceContext = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.source_context.SourceContext = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.source_context.SourceContext(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[String]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = SourceContextProto.descriptor.getMessageTypes.get(0)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = SourceContextProto.descriptor.getMessageTypes.get(0)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.source_context.SourceContext(
   )
-  implicit class SourceContextLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.source_context.SourceContext](_l) {
-    def fileName: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))
+  implicit class SourceContextLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.source_context.SourceContext](_l) {
+    def fileName: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))
   }
   final val FILE_NAME_FIELD_NUMBER = 1
 }

@@ -19,9 +19,9 @@ final case class ServiceDescriptorProto(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (name.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      method.foreach(method => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(method.serializedSize) + method.serializedSize)
-      if (options.isDefined) { __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
+      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
+      method.foreach(method => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(method.serializedSize) + method.serializedSize)
+      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
       __size
     }
     final override def serializedSize: Int = {
@@ -32,7 +32,7 @@ final case class ServiceDescriptorProto(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
         _output__.writeString(1, __v)
       };
@@ -47,7 +47,7 @@ final case class ServiceDescriptorProto(
         __v.writeTo(_output__)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ServiceDescriptorProto = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ServiceDescriptorProto = {
       var __name = this.name
       val __method = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.MethodDescriptorProto] ++= this.method)
       var __options = this.options
@@ -59,9 +59,9 @@ final case class ServiceDescriptorProto(
           case 10 =>
             __name = Some(_input__.readString())
           case 18 =>
-            __method += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.MethodDescriptorProto.defaultInstance)
+            __method += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.MethodDescriptorProto.defaultInstance)
           case 26 =>
-            __options = Some(com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)))
+            __options = Some(_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)))
           case tag => _input__.skipField(tag)
         }
       }
@@ -81,20 +81,20 @@ final case class ServiceDescriptorProto(
     def getOptions: com.google.protobuf.descriptor.ServiceOptions = options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)
     def clearOptions: ServiceDescriptorProto = copy(options = None)
     def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = Some(__v))
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => name.getOrElse(null)
         case 2 => method
         case 3 => options.getOrElse(null)
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.ServiceDescriptorProto
 }
 
 object ServiceDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.ServiceDescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.ServiceDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.ServiceDescriptorProto(
@@ -103,25 +103,25 @@ object ServiceDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCom
       __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.ServiceOptions]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(7)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(7)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 2 => __out = com.google.protobuf.descriptor.MethodDescriptorProto
       case 3 => __out = com.google.protobuf.descriptor.ServiceOptions
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.ServiceDescriptorProto(
   )
-  implicit class ServiceDescriptorProtoLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto](_l) {
-    def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
-    def optionalName: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def method: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]] = field(_.method)((c_, f_) => c_.copy(method = f_))
-    def options: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
-    def optionalOptions: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.ServiceOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+  implicit class ServiceDescriptorProtoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto](_l) {
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def optionalName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def method: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]] = field(_.method)((c_, f_) => c_.copy(method = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def optionalOptions: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.ServiceOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val METHOD_FIELD_NUMBER = 2

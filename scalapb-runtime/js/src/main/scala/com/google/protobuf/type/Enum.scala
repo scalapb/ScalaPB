@@ -32,11 +32,11 @@ final case class Enum(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (name != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, name) }
-      enumvalue.foreach(enumvalue => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(enumvalue.serializedSize) + enumvalue.serializedSize)
-      options.foreach(options => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
-      if (sourceContext.isDefined) { __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(sourceContext.get.serializedSize) + sourceContext.get.serializedSize }
-      if (syntax != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) { __size += com.google.protobuf.CodedOutputStream.computeEnumSize(5, syntax.value) }
+      if (name != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name) }
+      enumvalue.foreach(enumvalue => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(enumvalue.serializedSize) + enumvalue.serializedSize)
+      options.foreach(options => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
+      if (sourceContext.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(sourceContext.get.serializedSize) + sourceContext.get.serializedSize }
+      if (syntax != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, syntax.value) }
       __size
     }
     final override def serializedSize: Int = {
@@ -47,7 +47,7 @@ final case class Enum(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       {
         val __v = name
         if (__v != "") {
@@ -76,7 +76,7 @@ final case class Enum(
         }
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Enum = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Enum = {
       var __name = this.name
       val __enumvalue = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.EnumValue] ++= this.enumvalue)
       val __options = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
@@ -90,11 +90,11 @@ final case class Enum(
           case 10 =>
             __name = _input__.readString()
           case 18 =>
-            __enumvalue += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.EnumValue.defaultInstance)
+            __enumvalue += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.EnumValue.defaultInstance)
           case 26 =>
-            __options += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
           case 34 =>
-            __sourceContext = Some(com.trueaccord.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
+            __sourceContext = Some(_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
           case 40 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
           case tag => _input__.skipField(tag)
@@ -121,7 +121,7 @@ final case class Enum(
     def clearSourceContext: Enum = copy(sourceContext = None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Enum = copy(sourceContext = Some(__v))
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Enum = copy(syntax = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => {
           val __t = name
@@ -136,13 +136,13 @@ final case class Enum(
         }
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.Enum
 }
 
 object Enum extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.Enum = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.Enum = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.`type`.Enum(
@@ -150,13 +150,13 @@ object Enum extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.`type`.EnumValue]],
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
       __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[com.google.protobuf.source_context.SourceContext]],
-      com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(4), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.valueDescriptor).asInstanceOf[com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
+      com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(4), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.valueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = TypeProto.descriptor.getMessageTypes.get(2)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = TypeProto.descriptor.getMessageTypes.get(2)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 2 => __out = com.google.protobuf.`type`.EnumValue
       case 3 => __out = com.google.protobuf.`type`.OptionProto
@@ -164,7 +164,7 @@ object Enum extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     __field.getNumber match {
       case 5 => com.google.protobuf.`type`.Syntax
@@ -172,13 +172,13 @@ object Enum extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Enum(
   )
-  implicit class EnumLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Enum]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Enum](_l) {
-    def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def enumvalue: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.EnumValue]] = field(_.enumvalue)((c_, f_) => c_.copy(enumvalue = f_))
-    def options: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def sourceContext: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Some(f_)))
-    def optionalSourceContext: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
-    def syntax: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
+  implicit class EnumLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Enum]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Enum](_l) {
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def enumvalue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.EnumValue]] = field(_.enumvalue)((c_, f_) => c_.copy(enumvalue = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def sourceContext: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Some(f_)))
+    def optionalSourceContext: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
+    def syntax: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val ENUMVALUE_FIELD_NUMBER = 2

@@ -7,16 +7,16 @@ package com.google.protobuf.`type`
 
 import scala.collection.JavaConverters._
 
-sealed trait Syntax extends com.trueaccord.scalapb.GeneratedEnum {
+sealed trait Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: Boolean = false
   def isSyntaxProto3: Boolean = false
   def isUnrecognized: Boolean = false
-  def companion: com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = Syntax
+  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = Syntax
 }
 
-object Syntax extends com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] {
-  implicit def enumCompanion: com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = this
+object Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] {
+  implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = this
   @SerialVersionUID(0L)
   case object SYNTAX_PROTO2 extends Syntax {
     val value = 0
