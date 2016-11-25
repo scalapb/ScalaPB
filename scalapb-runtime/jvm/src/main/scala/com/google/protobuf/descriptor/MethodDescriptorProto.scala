@@ -30,12 +30,12 @@ final case class MethodDescriptorProto(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (name.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      if (inputType.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(2, inputType.get) }
-      if (outputType.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(3, outputType.get) }
-      if (options.isDefined) { __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
-      if (clientStreaming.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(5, clientStreaming.get) }
-      if (serverStreaming.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(6, serverStreaming.get) }
+      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
+      if (inputType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, inputType.get) }
+      if (outputType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, outputType.get) }
+      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
+      if (clientStreaming.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, clientStreaming.get) }
+      if (serverStreaming.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, serverStreaming.get) }
       __size
     }
     final override def serializedSize: Int = {
@@ -46,7 +46,7 @@ final case class MethodDescriptorProto(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
         _output__.writeString(1, __v)
       };
@@ -68,7 +68,7 @@ final case class MethodDescriptorProto(
         _output__.writeBool(6, __v)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodDescriptorProto = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodDescriptorProto = {
       var __name = this.name
       var __inputType = this.inputType
       var __outputType = this.outputType
@@ -87,7 +87,7 @@ final case class MethodDescriptorProto(
           case 26 =>
             __outputType = Some(_input__.readString())
           case 34 =>
-            __options = Some(com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)))
+            __options = Some(_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)))
           case 40 =>
             __clientStreaming = Some(_input__.readBool())
           case 48 =>
@@ -122,7 +122,7 @@ final case class MethodDescriptorProto(
     def getServerStreaming: Boolean = serverStreaming.getOrElse(false)
     def clearServerStreaming: MethodDescriptorProto = copy(serverStreaming = None)
     def withServerStreaming(__v: Boolean): MethodDescriptorProto = copy(serverStreaming = Some(__v))
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => name.getOrElse(null)
         case 2 => inputType.getOrElse(null)
@@ -132,7 +132,7 @@ final case class MethodDescriptorProto(
         case 6 => serverStreaming.getOrElse(null)
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.MethodDescriptorProto
 }
 
@@ -156,7 +156,7 @@ object MethodDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageComp
     clientStreaming = if (javaPbSource.hasClientStreaming) Some(javaPbSource.getClientStreaming.booleanValue) else None,
     serverStreaming = if (javaPbSource.hasServerStreaming) Some(javaPbSource.getServerStreaming.booleanValue) else None
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MethodDescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MethodDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.MethodDescriptorProto(
@@ -168,31 +168,31 @@ object MethodDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageComp
       __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[Boolean]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(8)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(8)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 4 => __out = com.google.protobuf.descriptor.MethodOptions
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.MethodDescriptorProto(
   )
-  implicit class MethodDescriptorProtoLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto](_l) {
-    def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
-    def optionalName: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def inputType: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getInputType)((c_, f_) => c_.copy(inputType = Some(f_)))
-    def optionalInputType: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.inputType)((c_, f_) => c_.copy(inputType = f_))
-    def outputType: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getOutputType)((c_, f_) => c_.copy(outputType = Some(f_)))
-    def optionalOutputType: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.outputType)((c_, f_) => c_.copy(outputType = f_))
-    def options: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
-    def optionalOptions: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MethodOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def clientStreaming: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getClientStreaming)((c_, f_) => c_.copy(clientStreaming = Some(f_)))
-    def optionalClientStreaming: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.clientStreaming)((c_, f_) => c_.copy(clientStreaming = f_))
-    def serverStreaming: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getServerStreaming)((c_, f_) => c_.copy(serverStreaming = Some(f_)))
-    def optionalServerStreaming: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.serverStreaming)((c_, f_) => c_.copy(serverStreaming = f_))
+  implicit class MethodDescriptorProtoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto](_l) {
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def optionalName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def inputType: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getInputType)((c_, f_) => c_.copy(inputType = Some(f_)))
+    def optionalInputType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.inputType)((c_, f_) => c_.copy(inputType = f_))
+    def outputType: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getOutputType)((c_, f_) => c_.copy(outputType = Some(f_)))
+    def optionalOutputType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.outputType)((c_, f_) => c_.copy(outputType = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def optionalOptions: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MethodOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def clientStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getClientStreaming)((c_, f_) => c_.copy(clientStreaming = Some(f_)))
+    def optionalClientStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.clientStreaming)((c_, f_) => c_.copy(clientStreaming = f_))
+    def serverStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getServerStreaming)((c_, f_) => c_.copy(serverStreaming = Some(f_)))
+    def optionalServerStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.serverStreaming)((c_, f_) => c_.copy(serverStreaming = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val INPUT_TYPE_FIELD_NUMBER = 2

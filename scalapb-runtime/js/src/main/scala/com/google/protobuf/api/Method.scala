@@ -38,13 +38,13 @@ final case class Method(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (name != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, name) }
-      if (requestTypeUrl != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(2, requestTypeUrl) }
-      if (requestStreaming != false) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(3, requestStreaming) }
-      if (responseTypeUrl != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(4, responseTypeUrl) }
-      if (responseStreaming != false) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(5, responseStreaming) }
-      options.foreach(options => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
-      if (syntax != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) { __size += com.google.protobuf.CodedOutputStream.computeEnumSize(7, syntax.value) }
+      if (name != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name) }
+      if (requestTypeUrl != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, requestTypeUrl) }
+      if (requestStreaming != false) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, requestStreaming) }
+      if (responseTypeUrl != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, responseTypeUrl) }
+      if (responseStreaming != false) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, responseStreaming) }
+      options.foreach(options => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
+      if (syntax != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, syntax.value) }
       __size
     }
     final override def serializedSize: Int = {
@@ -55,7 +55,7 @@ final case class Method(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       {
         val __v = name
         if (__v != "") {
@@ -98,7 +98,7 @@ final case class Method(
         }
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = {
       var __name = this.name
       var __requestTypeUrl = this.requestTypeUrl
       var __requestStreaming = this.requestStreaming
@@ -122,7 +122,7 @@ final case class Method(
           case 40 =>
             __responseStreaming = _input__.readBool()
           case 50 =>
-            __options += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
           case 56 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
           case tag => _input__.skipField(tag)
@@ -148,7 +148,7 @@ final case class Method(
     def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
     def withOptions(__v: scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Method = copy(syntax = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => {
           val __t = name
@@ -177,13 +177,13 @@ final case class Method(
         }
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.api.Method
 }
 
 object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Method = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Method = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.api.Method(
@@ -193,19 +193,19 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[String],
       __fieldsMap.getOrElse(__fields.get(4), false).asInstanceOf[Boolean],
       __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
-      com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(6), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.valueDescriptor).asInstanceOf[com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
+      com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(6), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.valueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = ApiProto.descriptor.getMessageTypes.get(1)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ApiProto.descriptor.getMessageTypes.get(1)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 6 => __out = com.google.protobuf.`type`.OptionProto
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     __field.getNumber match {
       case 7 => com.google.protobuf.`type`.Syntax
@@ -213,14 +213,14 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
   }
   lazy val defaultInstance = com.google.protobuf.api.Method(
   )
-  implicit class MethodLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {
-    def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def requestTypeUrl: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.requestTypeUrl)((c_, f_) => c_.copy(requestTypeUrl = f_))
-    def requestStreaming: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.requestStreaming)((c_, f_) => c_.copy(requestStreaming = f_))
-    def responseTypeUrl: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.responseTypeUrl)((c_, f_) => c_.copy(responseTypeUrl = f_))
-    def responseStreaming: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.responseStreaming)((c_, f_) => c_.copy(responseStreaming = f_))
-    def options: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def syntax: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
+  implicit class MethodLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def requestTypeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.requestTypeUrl)((c_, f_) => c_.copy(requestTypeUrl = f_))
+    def requestStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.requestStreaming)((c_, f_) => c_.copy(requestStreaming = f_))
+    def responseTypeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.responseTypeUrl)((c_, f_) => c_.copy(responseTypeUrl = f_))
+    def responseStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.responseStreaming)((c_, f_) => c_.copy(responseStreaming = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def syntax: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val REQUEST_TYPE_URL_FIELD_NUMBER = 2

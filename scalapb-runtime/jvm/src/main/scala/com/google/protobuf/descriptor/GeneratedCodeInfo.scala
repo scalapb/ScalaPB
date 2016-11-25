@@ -23,7 +23,7 @@ final case class GeneratedCodeInfo(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      annotation.foreach(annotation => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(annotation.serializedSize) + annotation.serializedSize)
+      annotation.foreach(annotation => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(annotation.serializedSize) + annotation.serializedSize)
       __size
     }
     final override def serializedSize: Int = {
@@ -34,14 +34,14 @@ final case class GeneratedCodeInfo(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       annotation.foreach { __v =>
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
         __v.writeTo(_output__)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = {
       val __annotation = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= this.annotation)
       var _done__ = false
       while (!_done__) {
@@ -49,7 +49,7 @@ final case class GeneratedCodeInfo(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __annotation += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.defaultInstance)
+            __annotation += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.defaultInstance)
           case tag => _input__.skipField(tag)
         }
       }
@@ -61,12 +61,12 @@ final case class GeneratedCodeInfo(
     def addAnnotation(__vs: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation*): GeneratedCodeInfo = addAllAnnotation(__vs)
     def addAllAnnotation(__vs: TraversableOnce[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = annotation ++ __vs)
     def withAnnotation(__v: scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => annotation
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.GeneratedCodeInfo
 }
 
@@ -80,23 +80,23 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo): com.google.protobuf.descriptor.GeneratedCodeInfo = com.google.protobuf.descriptor.GeneratedCodeInfo(
     annotation = javaPbSource.getAnnotationList.asScala.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.fromJavaProto(_))
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.GeneratedCodeInfo(
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(19)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(19)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 1 => __out = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.GeneratedCodeInfo(
   )
   /** @param path
@@ -121,7 +121,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Annotation] with com.trueaccord.lenses.Updatable[Annotation] {
       private[this] def pathSerializedSize = {
       if (__pathSerializedSizeField == 0) __pathSerializedSizeField = 
-        path.map(com.google.protobuf.CodedOutputStream.computeInt32SizeNoTag).sum
+        path.map(_root_.com.google.protobuf.CodedOutputStream.computeInt32SizeNoTag).sum
       __pathSerializedSizeField
       }
       @transient private[this] var __pathSerializedSizeField: Int = 0
@@ -131,11 +131,11 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
         var __size = 0
         if(path.nonEmpty) {
           val __localsize = pathSerializedSize
-          __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
+          __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
         }
-        if (sourceFile.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(2, sourceFile.get) }
-        if (begin.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(3, begin.get) }
-        if (end.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(4, end.get) }
+        if (sourceFile.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, sourceFile.get) }
+        if (begin.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, begin.get) }
+        if (end.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(4, end.get) }
         __size
       }
       final override def serializedSize: Int = {
@@ -146,7 +146,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
         }
         read
       }
-      def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
         if (path.nonEmpty) {
           _output__.writeTag(1, 2)
           _output__.writeUInt32NoTag(pathSerializedSize)
@@ -162,7 +162,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
           _output__.writeInt32(4, __v)
         };
       }
-      def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
+      def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
         val __path = (scala.collection.immutable.Vector.newBuilder[Int] ++= this.path)
         var __sourceFile = this.sourceFile
         var __begin = this.begin
@@ -211,7 +211,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: Annotation = copy(end = None)
       def withEnd(__v: Int): Annotation = copy(end = Some(__v))
-      def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+      def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
         __field.getNumber match {
           case 1 => path
           case 2 => sourceFile.getOrElse(null)
@@ -219,7 +219,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
           case 4 => end.getOrElse(null)
         }
       }
-      override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation
   }
   
@@ -239,7 +239,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else None,
       end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None
     )
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
       val __fields = descriptor.getFields
       com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
@@ -249,19 +249,19 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
         __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[Int]]
       )
     }
-    def descriptor: com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.GeneratedCodeInfo.descriptor.getNestedTypes.get(0)
-    def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
-    def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+    def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.GeneratedCodeInfo.descriptor.getNestedTypes.get(0)
+    def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
+    def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
     lazy val defaultInstance = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
     )
-    implicit class AnnotationLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_l) {
-      def path: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
-      def sourceFile: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Some(f_)))
-      def optionalSourceFile: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.sourceFile)((c_, f_) => c_.copy(sourceFile = f_))
-      def begin: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getBegin)((c_, f_) => c_.copy(begin = Some(f_)))
-      def optionalBegin: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.begin)((c_, f_) => c_.copy(begin = f_))
-      def end: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
-      def optionalEnd: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
+    implicit class AnnotationLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_l) {
+      def path: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
+      def sourceFile: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Some(f_)))
+      def optionalSourceFile: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.sourceFile)((c_, f_) => c_.copy(sourceFile = f_))
+      def begin: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getBegin)((c_, f_) => c_.copy(begin = Some(f_)))
+      def optionalBegin: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.begin)((c_, f_) => c_.copy(begin = f_))
+      def end: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
+      def optionalEnd: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val PATH_FIELD_NUMBER = 1
     final val SOURCE_FILE_FIELD_NUMBER = 2
@@ -269,8 +269,8 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
     final val END_FIELD_NUMBER = 4
   }
   
-  implicit class GeneratedCodeInfoLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo](_l) {
-    def annotation: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]] = field(_.annotation)((c_, f_) => c_.copy(annotation = f_))
+  implicit class GeneratedCodeInfoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo](_l) {
+    def annotation: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]] = field(_.annotation)((c_, f_) => c_.copy(annotation = f_))
   }
   final val ANNOTATION_FIELD_NUMBER = 1
 }

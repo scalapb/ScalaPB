@@ -49,16 +49,16 @@ final case class Field(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (kind != com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN) { __size += com.google.protobuf.CodedOutputStream.computeEnumSize(1, kind.value) }
-      if (cardinality != com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN) { __size += com.google.protobuf.CodedOutputStream.computeEnumSize(2, cardinality.value) }
-      if (number != 0) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(3, number) }
-      if (name != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(4, name) }
-      if (typeUrl != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(6, typeUrl) }
-      if (oneofIndex != 0) { __size += com.google.protobuf.CodedOutputStream.computeInt32Size(7, oneofIndex) }
-      if (packed != false) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(8, packed) }
-      options.foreach(options => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
-      if (jsonName != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(10, jsonName) }
-      if (defaultValue != "") { __size += com.google.protobuf.CodedOutputStream.computeStringSize(11, defaultValue) }
+      if (kind != com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, kind.value) }
+      if (cardinality != com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(2, cardinality.value) }
+      if (number != 0) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, number) }
+      if (name != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, name) }
+      if (typeUrl != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, typeUrl) }
+      if (oneofIndex != 0) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(7, oneofIndex) }
+      if (packed != false) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(8, packed) }
+      options.foreach(options => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
+      if (jsonName != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, jsonName) }
+      if (defaultValue != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, defaultValue) }
       __size
     }
     final override def serializedSize: Int = {
@@ -69,7 +69,7 @@ final case class Field(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       {
         val __v = kind
         if (__v != com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN) {
@@ -130,7 +130,7 @@ final case class Field(
         }
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = {
       var __kind = this.kind
       var __cardinality = this.cardinality
       var __number = this.number
@@ -161,7 +161,7 @@ final case class Field(
           case 64 =>
             __packed = _input__.readBool()
           case 74 =>
-            __options += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
           case 82 =>
             __jsonName = _input__.readString()
           case 90 =>
@@ -195,7 +195,7 @@ final case class Field(
     def withOptions(__v: scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
     def withJsonName(__v: String): Field = copy(jsonName = __v)
     def withDefaultValue(__v: String): Field = copy(defaultValue = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => {
           val __t = kind.valueDescriptor
@@ -236,18 +236,18 @@ final case class Field(
         }
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.Field
 }
 
 object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.Field = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.Field = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.`type`.Field(
-      com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.getOrElse(__fields.get(0), com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.valueDescriptor).asInstanceOf[com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
-      com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.getOrElse(__fields.get(1), com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.valueDescriptor).asInstanceOf[com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
+      com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.getOrElse(__fields.get(0), com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.valueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
+      com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.getOrElse(__fields.get(1), com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.valueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
       __fieldsMap.getOrElse(__fields.get(2), 0).asInstanceOf[Int],
       __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[String],
       __fieldsMap.getOrElse(__fields.get(4), "").asInstanceOf[String],
@@ -258,16 +258,16 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
       __fieldsMap.getOrElse(__fields.get(9), "").asInstanceOf[String]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = TypeProto.descriptor.getMessageTypes.get(1)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = TypeProto.descriptor.getMessageTypes.get(1)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 9 => __out = com.google.protobuf.`type`.OptionProto
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     __field.getNumber match {
       case 1 => com.google.protobuf.`type`.Field.Kind
@@ -276,7 +276,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Field(
   )
-  sealed trait Kind extends com.trueaccord.scalapb.GeneratedEnum {
+  sealed trait Kind extends _root_.com.trueaccord.scalapb.GeneratedEnum {
     type EnumType = Kind
     def isTypeUnknown: Boolean = false
     def isTypeDouble: Boolean = false
@@ -298,11 +298,11 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     def isTypeSint32: Boolean = false
     def isTypeSint64: Boolean = false
     def isUnrecognized: Boolean = false
-    def companion: com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] = Kind
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] = Kind
   }
   
-  object Kind extends com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] {
-    implicit def enumCompanion: com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] = this
+  object Kind extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] {
+    implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] = this
     @SerialVersionUID(0L)
     case object TYPE_UNKNOWN extends Kind {
       val value = 0
@@ -487,18 +487,18 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     }
     def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.descriptor.getEnumTypes.get(0)
   }
-  sealed trait Cardinality extends com.trueaccord.scalapb.GeneratedEnum {
+  sealed trait Cardinality extends _root_.com.trueaccord.scalapb.GeneratedEnum {
     type EnumType = Cardinality
     def isCardinalityUnknown: Boolean = false
     def isCardinalityOptional: Boolean = false
     def isCardinalityRequired: Boolean = false
     def isCardinalityRepeated: Boolean = false
     def isUnrecognized: Boolean = false
-    def companion: com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] = Cardinality
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] = Cardinality
   }
   
-  object Cardinality extends com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] {
-    implicit def enumCompanion: com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] = this
+  object Cardinality extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] {
+    implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] = this
     @SerialVersionUID(0L)
     case object CARDINALITY_UNKNOWN extends Cardinality {
       val value = 0
@@ -548,17 +548,17 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     }
     def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.descriptor.getEnumTypes.get(1)
   }
-  implicit class FieldLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Field](_l) {
-    def kind: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Kind] = field(_.kind)((c_, f_) => c_.copy(kind = f_))
-    def cardinality: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Cardinality] = field(_.cardinality)((c_, f_) => c_.copy(cardinality = f_))
-    def number: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.number)((c_, f_) => c_.copy(number = f_))
-    def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def typeUrl: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
-    def oneofIndex: com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
-    def packed: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.packed)((c_, f_) => c_.copy(packed = f_))
-    def options: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def jsonName: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
-    def defaultValue: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
+  implicit class FieldLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Field](_l) {
+    def kind: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Kind] = field(_.kind)((c_, f_) => c_.copy(kind = f_))
+    def cardinality: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Cardinality] = field(_.cardinality)((c_, f_) => c_.copy(cardinality = f_))
+    def number: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.number)((c_, f_) => c_.copy(number = f_))
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def typeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
+    def oneofIndex: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
+    def packed: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.packed)((c_, f_) => c_.copy(packed = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def jsonName: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
+    def defaultValue: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
   }
   final val KIND_FIELD_NUMBER = 1
   final val CARDINALITY_FIELD_NUMBER = 2

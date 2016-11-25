@@ -50,18 +50,18 @@ final case class FileDescriptorProto(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (name.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      if (`package`.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(2, `package`.get) }
-      dependency.foreach(dependency => __size += com.google.protobuf.CodedOutputStream.computeStringSize(3, dependency))
-      publicDependency.foreach(publicDependency => __size += com.google.protobuf.CodedOutputStream.computeInt32Size(10, publicDependency))
-      weakDependency.foreach(weakDependency => __size += com.google.protobuf.CodedOutputStream.computeInt32Size(11, weakDependency))
-      messageType.foreach(messageType => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(messageType.serializedSize) + messageType.serializedSize)
-      enumType.foreach(enumType => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(enumType.serializedSize) + enumType.serializedSize)
-      service.foreach(service => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(service.serializedSize) + service.serializedSize)
-      extension.foreach(extension => __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extension.serializedSize) + extension.serializedSize)
-      if (options.isDefined) { __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
-      if (sourceCodeInfo.isDefined) { __size += 1 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(sourceCodeInfo.get.serializedSize) + sourceCodeInfo.get.serializedSize }
-      if (syntax.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(12, syntax.get) }
+      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
+      if (`package`.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, `package`.get) }
+      dependency.foreach(dependency => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, dependency))
+      publicDependency.foreach(publicDependency => __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(10, publicDependency))
+      weakDependency.foreach(weakDependency => __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(11, weakDependency))
+      messageType.foreach(messageType => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(messageType.serializedSize) + messageType.serializedSize)
+      enumType.foreach(enumType => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(enumType.serializedSize) + enumType.serializedSize)
+      service.foreach(service => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(service.serializedSize) + service.serializedSize)
+      extension.foreach(extension => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extension.serializedSize) + extension.serializedSize)
+      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
+      if (sourceCodeInfo.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(sourceCodeInfo.get.serializedSize) + sourceCodeInfo.get.serializedSize }
+      if (syntax.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(12, syntax.get) }
       __size
     }
     final override def serializedSize: Int = {
@@ -72,7 +72,7 @@ final case class FileDescriptorProto(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
         _output__.writeString(1, __v)
       };
@@ -122,7 +122,7 @@ final case class FileDescriptorProto(
         _output__.writeString(12, __v)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorProto = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorProto = {
       var __name = this.name
       var __package = this.`package`
       val __dependency = (scala.collection.immutable.Vector.newBuilder[String] ++= this.dependency)
@@ -167,17 +167,17 @@ final case class FileDescriptorProto(
             _input__.popLimit(oldLimit)
           }
           case 34 =>
-            __messageType += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
+            __messageType += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
           case 42 =>
-            __enumType += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
+            __enumType += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
           case 50 =>
-            __service += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.ServiceDescriptorProto.defaultInstance)
+            __service += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.ServiceDescriptorProto.defaultInstance)
           case 58 =>
-            __extension += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
+            __extension += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
           case 66 =>
-            __options = Some(com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FileOptions.defaultInstance)))
+            __options = Some(_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FileOptions.defaultInstance)))
           case 74 =>
-            __sourceCodeInfo = Some(com.trueaccord.scalapb.LiteParser.readMessage(_input__, __sourceCodeInfo.getOrElse(com.google.protobuf.descriptor.SourceCodeInfo.defaultInstance)))
+            __sourceCodeInfo = Some(_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, __sourceCodeInfo.getOrElse(com.google.protobuf.descriptor.SourceCodeInfo.defaultInstance)))
           case 98 =>
             __syntax = Some(_input__.readString())
           case tag => _input__.skipField(tag)
@@ -241,7 +241,7 @@ final case class FileDescriptorProto(
     def getSyntax: String = syntax.getOrElse("")
     def clearSyntax: FileDescriptorProto = copy(syntax = None)
     def withSyntax(__v: String): FileDescriptorProto = copy(syntax = Some(__v))
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => name.getOrElse(null)
         case 2 => `package`.getOrElse(null)
@@ -257,13 +257,13 @@ final case class FileDescriptorProto(
         case 12 => syntax.getOrElse(null)
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FileDescriptorProto
 }
 
 object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.FileDescriptorProto(
@@ -281,10 +281,10 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
       __fieldsMap.get(__fields.get(11)).asInstanceOf[scala.Option[String]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(1)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(1)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 4 => __out = com.google.protobuf.descriptor.DescriptorProto
       case 5 => __out = com.google.protobuf.descriptor.EnumDescriptorProto
@@ -295,27 +295,27 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorProto(
   )
-  implicit class FileDescriptorProtoLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
-    def name: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
-    def optionalName: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def `package`: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getPackage)((c_, f_) => c_.copy(`package` = Some(f_)))
-    def optionalPackage: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`package`)((c_, f_) => c_.copy(`package` = f_))
-    def dependency: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.dependency)((c_, f_) => c_.copy(dependency = f_))
-    def publicDependency: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[Int]] = field(_.publicDependency)((c_, f_) => c_.copy(publicDependency = f_))
-    def weakDependency: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[Int]] = field(_.weakDependency)((c_, f_) => c_.copy(weakDependency = f_))
-    def messageType: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]] = field(_.messageType)((c_, f_) => c_.copy(messageType = f_))
-    def enumType: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
-    def service: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]] = field(_.service)((c_, f_) => c_.copy(service = f_))
-    def extension: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
-    def options: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
-    def optionalOptions: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def sourceCodeInfo: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo] = field(_.getSourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = Some(f_)))
-    def optionalSourceCodeInfo: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]] = field(_.sourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = f_))
-    def syntax: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getSyntax)((c_, f_) => c_.copy(syntax = Some(f_)))
-    def optionalSyntax: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
+  implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def optionalName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def `package`: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getPackage)((c_, f_) => c_.copy(`package` = Some(f_)))
+    def optionalPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`package`)((c_, f_) => c_.copy(`package` = f_))
+    def dependency: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.dependency)((c_, f_) => c_.copy(dependency = f_))
+    def publicDependency: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[Int]] = field(_.publicDependency)((c_, f_) => c_.copy(publicDependency = f_))
+    def weakDependency: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[Int]] = field(_.weakDependency)((c_, f_) => c_.copy(weakDependency = f_))
+    def messageType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]] = field(_.messageType)((c_, f_) => c_.copy(messageType = f_))
+    def enumType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
+    def service: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]] = field(_.service)((c_, f_) => c_.copy(service = f_))
+    def extension: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def optionalOptions: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def sourceCodeInfo: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo] = field(_.getSourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = Some(f_)))
+    def optionalSourceCodeInfo: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]] = field(_.sourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = f_))
+    def syntax: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getSyntax)((c_, f_) => c_.copy(syntax = Some(f_)))
+    def optionalSyntax: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val PACKAGE_FIELD_NUMBER = 2

@@ -100,21 +100,21 @@ final case class FileOptions(
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
       var __size = 0
-      if (javaPackage.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(1, javaPackage.get) }
-      if (javaOuterClassname.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(8, javaOuterClassname.get) }
-      if (javaMultipleFiles.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(10, javaMultipleFiles.get) }
-      if (javaGenerateEqualsAndHash.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(20, javaGenerateEqualsAndHash.get) }
-      if (javaStringCheckUtf8.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(27, javaStringCheckUtf8.get) }
-      if (optimizeFor.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeEnumSize(9, optimizeFor.get.value) }
-      if (goPackage.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(11, goPackage.get) }
-      if (ccGenericServices.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(16, ccGenericServices.get) }
-      if (javaGenericServices.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(17, javaGenericServices.get) }
-      if (pyGenericServices.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(18, pyGenericServices.get) }
-      if (deprecated.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(23, deprecated.get) }
-      if (ccEnableArenas.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeBoolSize(31, ccEnableArenas.get) }
-      if (objcClassPrefix.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(36, objcClassPrefix.get) }
-      if (csharpNamespace.isDefined) { __size += com.google.protobuf.CodedOutputStream.computeStringSize(37, csharpNamespace.get) }
-      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
+      if (javaPackage.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, javaPackage.get) }
+      if (javaOuterClassname.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, javaOuterClassname.get) }
+      if (javaMultipleFiles.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(10, javaMultipleFiles.get) }
+      if (javaGenerateEqualsAndHash.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(20, javaGenerateEqualsAndHash.get) }
+      if (javaStringCheckUtf8.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(27, javaStringCheckUtf8.get) }
+      if (optimizeFor.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(9, optimizeFor.get.value) }
+      if (goPackage.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, goPackage.get) }
+      if (ccGenericServices.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(16, ccGenericServices.get) }
+      if (javaGenericServices.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(17, javaGenericServices.get) }
+      if (pyGenericServices.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(18, pyGenericServices.get) }
+      if (deprecated.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(23, deprecated.get) }
+      if (ccEnableArenas.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(31, ccEnableArenas.get) }
+      if (objcClassPrefix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(36, objcClassPrefix.get) }
+      if (csharpNamespace.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(37, csharpNamespace.get) }
+      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
       __size
     }
     final override def serializedSize: Int = {
@@ -125,7 +125,7 @@ final case class FileOptions(
       }
       read
     }
-    def writeTo(`_output__`: com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       javaPackage.foreach { __v =>
         _output__.writeString(1, __v)
       };
@@ -174,7 +174,7 @@ final case class FileOptions(
         __v.writeTo(_output__)
       };
     }
-    def mergeFrom(`_input__`: com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = {
+    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = {
       var __javaPackage = this.javaPackage
       var __javaOuterClassname = this.javaOuterClassname
       var __javaMultipleFiles = this.javaMultipleFiles
@@ -224,7 +224,7 @@ final case class FileOptions(
           case 298 =>
             __csharpNamespace = Some(_input__.readString())
           case 7994 =>
-            __uninterpretedOption += com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _input__.skipField(tag)
         }
       }
@@ -292,7 +292,7 @@ final case class FileOptions(
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FileOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = __v)
-    def getField(__field: com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
+    def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => javaPackage.getOrElse(null)
         case 8 => javaOuterClassname.getOrElse(null)
@@ -311,7 +311,7 @@ final case class FileOptions(
         case 999 => uninterpretedOption
       }
     }
-    override def toString: String = com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FileOptions
 }
 
@@ -353,7 +353,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     csharpNamespace = if (javaPbSource.hasCsharpNamespace) Some(javaPbSource.getCsharpNamespace) else None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileOptions = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.descriptor.FileOptions(
@@ -362,7 +362,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(__e.getNumber)),
+      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(__e.getNumber)),
       __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[String]],
       __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(8)).asInstanceOf[scala.Option[Boolean]],
@@ -374,16 +374,16 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       __fieldsMap.getOrElse(__fields.get(14), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(9)
-  def messageCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(9)
+  def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
-    var __out: com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
   __out
   }
-  def enumCompanionForField(__field: com.google.protobuf.Descriptors.FieldDescriptor): com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+  def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
     __field.getNumber match {
       case 9 => com.google.protobuf.descriptor.FileOptions.OptimizeMode
@@ -391,17 +391,17 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FileOptions(
   )
-  sealed trait OptimizeMode extends com.trueaccord.scalapb.GeneratedEnum {
+  sealed trait OptimizeMode extends _root_.com.trueaccord.scalapb.GeneratedEnum {
     type EnumType = OptimizeMode
     def isSpeed: Boolean = false
     def isCodeSize: Boolean = false
     def isLiteRuntime: Boolean = false
     def isUnrecognized: Boolean = false
-    def companion: com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = OptimizeMode
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = OptimizeMode
   }
   
-  object OptimizeMode extends com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] {
-    implicit def enumCompanion: com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
+  object OptimizeMode extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] {
+    implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
     @SerialVersionUID(0L)
     case object SPEED extends OptimizeMode {
       val value = 1
@@ -444,36 +444,36 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode): OptimizeMode = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: OptimizeMode): com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode = com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode.forNumber(pbScalaSource.value)
   }
-  implicit class FileOptionsLens[UpperPB](_l: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions]) extends com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileOptions](_l) {
-    def javaPackage: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Some(f_)))
-    def optionalJavaPackage: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaPackage)((c_, f_) => c_.copy(javaPackage = f_))
-    def javaOuterClassname: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = Some(f_)))
-    def optionalJavaOuterClassname: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = f_))
-    def javaMultipleFiles: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = Some(f_)))
-    def optionalJavaMultipleFiles: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = f_))
-    def javaGenerateEqualsAndHash: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = Some(f_)))
-    def optionalJavaGenerateEqualsAndHash: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
-    def javaStringCheckUtf8: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = Some(f_)))
-    def optionalJavaStringCheckUtf8: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = f_))
-    def optimizeFor: com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = Some(f_)))
-    def optionalOptimizeFor: com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode]] = field(_.optimizeFor)((c_, f_) => c_.copy(optimizeFor = f_))
-    def goPackage: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = Some(f_)))
-    def optionalGoPackage: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.goPackage)((c_, f_) => c_.copy(goPackage = f_))
-    def ccGenericServices: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = Some(f_)))
-    def optionalCcGenericServices: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccGenericServices)((c_, f_) => c_.copy(ccGenericServices = f_))
-    def javaGenericServices: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = Some(f_)))
-    def optionalJavaGenericServices: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenericServices)((c_, f_) => c_.copy(javaGenericServices = f_))
-    def pyGenericServices: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Some(f_)))
-    def optionalPyGenericServices: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.pyGenericServices)((c_, f_) => c_.copy(pyGenericServices = f_))
-    def deprecated: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
-    def optionalDeprecated: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def ccEnableArenas: com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Some(f_)))
-    def optionalCcEnableArenas: com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = f_))
-    def objcClassPrefix: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = Some(f_)))
-    def optionalObjcClassPrefix: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
-    def csharpNamespace: com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Some(f_)))
-    def optionalCsharpNamespace: com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
-    def uninterpretedOption: com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
+  implicit class FileOptionsLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileOptions](_l) {
+    def javaPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Some(f_)))
+    def optionalJavaPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaPackage)((c_, f_) => c_.copy(javaPackage = f_))
+    def javaOuterClassname: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = Some(f_)))
+    def optionalJavaOuterClassname: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = f_))
+    def javaMultipleFiles: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = Some(f_)))
+    def optionalJavaMultipleFiles: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = f_))
+    def javaGenerateEqualsAndHash: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = Some(f_)))
+    def optionalJavaGenerateEqualsAndHash: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
+    def javaStringCheckUtf8: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = Some(f_)))
+    def optionalJavaStringCheckUtf8: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = f_))
+    def optimizeFor: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = Some(f_)))
+    def optionalOptimizeFor: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode]] = field(_.optimizeFor)((c_, f_) => c_.copy(optimizeFor = f_))
+    def goPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = Some(f_)))
+    def optionalGoPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.goPackage)((c_, f_) => c_.copy(goPackage = f_))
+    def ccGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = Some(f_)))
+    def optionalCcGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccGenericServices)((c_, f_) => c_.copy(ccGenericServices = f_))
+    def javaGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = Some(f_)))
+    def optionalJavaGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenericServices)((c_, f_) => c_.copy(javaGenericServices = f_))
+    def pyGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Some(f_)))
+    def optionalPyGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.pyGenericServices)((c_, f_) => c_.copy(pyGenericServices = f_))
+    def deprecated: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
+    def optionalDeprecated: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
+    def ccEnableArenas: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Some(f_)))
+    def optionalCcEnableArenas: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = f_))
+    def objcClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = Some(f_)))
+    def optionalObjcClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
+    def csharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Some(f_)))
+    def optionalCsharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
+    def uninterpretedOption: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val JAVA_PACKAGE_FIELD_NUMBER = 1
   final val JAVA_OUTER_CLASSNAME_FIELD_NUMBER = 8
