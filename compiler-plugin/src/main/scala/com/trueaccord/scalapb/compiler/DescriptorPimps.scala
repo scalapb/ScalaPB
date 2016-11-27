@@ -7,7 +7,6 @@ import com.google.protobuf.descriptor.DescriptorProto
 import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.Scalapb.{FieldOptions, MessageOptions, ScalaPbOptions}
 
-import scala.annotation.tailrec
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 

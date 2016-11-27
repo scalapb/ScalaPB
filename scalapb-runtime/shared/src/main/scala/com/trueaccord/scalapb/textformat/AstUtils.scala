@@ -3,9 +3,9 @@ package com.trueaccord.scalapb.textformat
 import com.google.protobuf.ByteString
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
-import com.trueaccord.scalapb.{TextFormatError, GeneratedMessageCompanion, Message, GeneratedMessage}
+import com.trueaccord.scalapb.{GeneratedMessageCompanion, Message, GeneratedMessage}
 
-import scala.util.{Success, Failure, Try}
+import scala.util.Try
 
 private[scalapb] object AstUtils {
   case class AstError(index: Int, error: String)

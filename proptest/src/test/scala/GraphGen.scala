@@ -1,5 +1,5 @@
 import GenUtils._
-import GenTypes.{FieldOptions, ProtoType, FieldModifier}
+import GenTypes.{FieldOptions, ProtoType}
 import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
 import com.trueaccord.scalapb.compiler.StreamType
 import org.scalacheck.{Arbitrary, Gen}
