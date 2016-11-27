@@ -4,7 +4,7 @@ import com.google.protobuf.ByteString
 import com.google.protobuf.Descriptors.EnumValueDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
-import com.trueaccord.scalapb.{textformat, GeneratedEnum, GeneratedMessage}
+import com.trueaccord.scalapb.{textformat, GeneratedMessage}
 
 object Printer {
   def print(t: GeneratedMessage, out: TextGenerator): Unit = {

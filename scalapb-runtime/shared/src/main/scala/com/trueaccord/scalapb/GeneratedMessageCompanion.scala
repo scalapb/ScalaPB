@@ -5,8 +5,7 @@ import java.io.{InputStream, OutputStream}
 import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream}
 import com.google.protobuf.Descriptors.{EnumDescriptor, EnumValueDescriptor, FieldDescriptor}
 
-import scala.collection.JavaConversions._
-import scala.util.{Failure, Try}
+import scala.util.Try
 
 trait GeneratedEnum extends Product with Serializable {
   type EnumType <: GeneratedEnum

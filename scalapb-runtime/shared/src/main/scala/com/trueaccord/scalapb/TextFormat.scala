@@ -1,6 +1,6 @@
 package com.trueaccord.scalapb
 
-import com.trueaccord.scalapb.textformat.{ AstUtils, PMessage, Printer, ProtoAsciiParser }
+import com.trueaccord.scalapb.textformat.{ AstUtils, Printer, ProtoAsciiParser }
 import fastparse.core.{ ParseError, Parsed }
 
 case class TextFormatError(msg: String)
