@@ -1,6 +1,6 @@
 package com.trueaccord.lenses
 
-trait Lens[Container, A] {
+trait Lens[Container, A] extends Any {
   self =>
   /** get knows how to extract some field of type `A` from a container */
   def get(c: Container): A
@@ -129,7 +129,7 @@ class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Contain
     u => set(ms.foldLeft[Container](get(u))((p, m) => m(Lens.unit[Container])(p)))(u)
 }
 
-trait Updatable[A] {
+trait Updatable[A] extends Any {
   self: A =>
   def update(ms: (Lens[A, A] => Mutation[A])*): A = ms.foldLeft[A](self)((p, m) => m(Lens.unit[A])(p))
 }
