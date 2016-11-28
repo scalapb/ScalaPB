@@ -55,7 +55,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.lenses" %%% "lenses" % "0.4.8",
+      "com.trueaccord.lenses" %%% "lenses" % "0.4.9",
       "com.lihaoyi" %%% "fastparse" % "0.4.2",
       "com.lihaoyi" %%% "utest" % "0.4.4" % "test",
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
@@ -111,7 +111,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(file)
     },
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.4"
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.5"
       ))
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -168,7 +168,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.github.os72" % "protoc-jar" % "3.1.0.1",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
-        "com.trueaccord.lenses" %% "lenses" % "0.4.8",
+        "com.trueaccord.lenses" %% "lenses" % "0.4.9",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.4",
         "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
         "org.scalatest" %% "scalatest" % "3.0.0" % "test"
