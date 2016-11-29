@@ -7,6 +7,10 @@ import scala.collection.JavaConverters._
 final class GrpcServicePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends DescriptorPimps {
   private[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
 
+  private[this] def service(reqTypeParam: String, repTypeParam: String): String = s"Service[$reqTypeParam, $repTypeParam]"
+
+  private[this] val serviceTypeAlias: String = s"type Service[Req, Rep] = Req => scala.concurrent.Future[Rep]"
+
   private[this] def serviceMethodSignature(method: MethodDescriptor) = {
     s"def ${method.name}" + (method.streamType match {
       case StreamType.Unary =>
@@ -20,6 +24,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     })
   }
 
+  private[this] def serviceParamSignature(method: MethodDescriptor) =
+    s"${method.name}: ${service(method.scalaIn, method.scalaOut)}"
+
   private[this] def blockingMethodSignature(method: MethodDescriptor) = {
     s"def ${method.name}" + (method.streamType match {
       case StreamType.Unary =>
@@ -28,6 +35,42 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
         s"(request: ${method.scalaIn}): scala.collection.Iterator[${method.scalaOut}]"
       case _ => throw new IllegalArgumentException("Invalid method type.")
     })
+  }
+
+  private[this] def methodAlias(method: MethodDescriptor) = s"${method.name}Alias"
+
+  private[this] def serviceAliasDefinition(method: MethodDescriptor) =
+    s"val ${methodAlias(method)}: ${service(method.scalaIn, method.scalaOut)} = ${method.name}"
+
+  private[this] def serviceInterfaceMethodsDefinition(method: MethodDescriptor) =
+    s"${serviceMethodSignature(method)} = ${methodAlias(method)}(request)"
+
+  private[this] def serviceInterface: PrinterEndo = {
+    val params: String = service.methods.map(m => serviceParamSignature(m)).mkString(",\n")
+
+    val aliases: PrinterEndo = { p =>
+      p.seq(service.methods.map(m => serviceAliasDefinition(m)))
+    }
+
+    val implementations: PrinterEndo = { p =>
+      p.seq(service.methods.map(m => serviceInterfaceMethodsDefinition(m)))
+    }
+    p =>
+    p
+      .add(s"def apply(")
+      .indent
+      .add(params)
+      .outdent
+      .add(s") = {")
+      .indent
+      .call(aliases)
+      .add(s"new ${service.name} {")
+      .indent
+      .call(implementations)
+      .outdent
+      .add("}")
+      .outdent
+      .add("}")
   }
 
   private[this] def serviceTrait: PrinterEndo = {
@@ -243,8 +286,10 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
       "",
       s"object ${service.objectName} {")
     .indent
+    .add(serviceTypeAlias)
     .call(service.methods.map(methodDescriptor): _*)
     .call(serviceTrait)
+    .call(serviceInterface)
     .newline
     .call(serviceTraitCompanion)
     .newline
