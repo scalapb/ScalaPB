@@ -39,6 +39,7 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
               val companion = schema.scalaObject(message)
               val scalaProto = companion.fromAscii(messageValue.toAscii)
               val scalaBytes = scalaProto.toByteArray
+
               // Parsing in Scala the serialized bytes should give the same object.
               val scalaParsedFromBytes = companion.parseFrom(scalaBytes)
               scalaParsedFromBytes.toString should be(scalaProto.toString)
@@ -87,6 +88,7 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
 
               val jsonRep = com.trueaccord.scalapb.json.JsonFormat.toJsonString(scalaProto)
               com.trueaccord.scalapb.json.JsonFormat.fromJsonString(jsonRep)(companion.asInstanceOf[GeneratedMessageCompanion[T] forSome {type T <: GeneratedMessage with ScalaPBMessage[T] }]) should be(scalaProto)
+
             } catch {
               case e: Exception =>
                 println(e.printStackTrace)
