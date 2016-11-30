@@ -1,9 +1,9 @@
 package com.trueaccord.scalapb.compiler
 
 import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
-import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
+import com.trueaccord.scalapb.compiler._, FunctionalPrinter.PrinterEndo
 
-final class GrpcServiceIFacePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends DescriptorPimps {
+final class GrpcServiceIFacePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends GrpcServicePrinterCommons(params) {
   
   private[this] def unaryService(reqTypeParam: String, repTypeParam: String): String = s"Service[$reqTypeParam, $repTypeParam]"
 
@@ -23,11 +23,6 @@ final class GrpcServiceIFacePrinter(service: ServiceDescriptor, override val par
 
   private[this] def functionTypeSig(from: String, to: String): String = s"$from => $to"
 
-  private[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
-
-  private[this] val streamObserver = "_root_.io.grpc.stub.StreamObserver"
-
-
   private[this] def serviceParam(method: MethodDescriptor) = s"${method.name}: ${serviceTypeSignature(method)}"
 
   private[this] def serviceTypeSignature(method: MethodDescriptor) = 
@@ -45,18 +40,6 @@ final class GrpcServiceIFacePrinter(service: ServiceDescriptor, override val par
   
   private[this] def serviceAliasDefinition(method: MethodDescriptor) =
     s"val ${methodAlias(method)}: ${serviceTypeSignature(method)} = ${method.name}"
-
-  private[this] def serviceMethodSignature(method: MethodDescriptor) = 
-    s"def ${method.name}" + (method.streamType match {
-      case StreamType.Unary =>
-        s"(request: ${method.scalaIn}): scala.concurrent.Future[${method.scalaOut}]"
-      case StreamType.ClientStreaming =>
-        s"(responseObserver: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
-      case StreamType.ServerStreaming =>
-        s"(request: ${method.scalaIn}, responseObserver: ${observer(method.scalaOut)}): Unit"
-      case StreamType.Bidirectional =>
-        s"(responseObserver: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
-    })
 
   private[this] def serviceInterfaceMethodDefinition(method: MethodDescriptor) = 
     s"${serviceMethodSignature(method)} = " + (method.streamType match {

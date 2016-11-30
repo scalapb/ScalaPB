@@ -4,10 +4,10 @@ import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scala.collection.JavaConverters._
 
-final class GrpcServicePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends DescriptorPimps {
-  private[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
+class GrpcServicePrinterCommons(override val params: GeneratorParams) extends DescriptorPimps {
+  protected[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
 
-  private[this] def serviceMethodSignature(method: MethodDescriptor) = {
+  protected[this] def serviceMethodSignature(method: MethodDescriptor) = {
     s"def ${method.name}" + (method.streamType match {
       case StreamType.Unary =>
         s"(request: ${method.scalaIn}): scala.concurrent.Future[${method.scalaOut}]"
@@ -19,6 +19,11 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
         s"(responseObserver: ${observer(method.scalaOut)}): ${observer(method.scalaIn)}"
     })
   }
+  protected[this] val streamObserver = "_root_.io.grpc.stub.StreamObserver"
+
+}
+
+final class GrpcServicePrinter(service: ServiceDescriptor, override val params: GeneratorParams) extends GrpcServicePrinterCommons(params) {
 
   private[this] def blockingMethodSignature(method: MethodDescriptor) = {
     s"def ${method.name}" + (method.streamType match {
@@ -75,7 +80,6 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
   private[this] val callOptions = "_root_.io.grpc.CallOptions"
 
   private[this] val abstractStub = "_root_.io.grpc.stub.AbstractStub"
-  private[this] val streamObserver = "_root_.io.grpc.stub.StreamObserver"
 
   private[this] val serverCalls = "_root_.io.grpc.stub.ServerCalls"
   private[this] val clientCalls = "_root_.io.grpc.stub.ClientCalls"
