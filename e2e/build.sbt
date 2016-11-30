@@ -48,12 +48,14 @@ val commonSettings = Seq(
       exe
     })
 
+val collectionType: String = sys.props.getOrElse("collectionType", "scala.collection.Seq")
+
 lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
     PB.targets in Compile := Seq(
       PB.gens.java -> (sourceManaged in Compile).value,
-      scalapb.gen(javaConversions = true) -> (sourceManaged in Compile).value
+      scalapb.gen(javaConversions = true, collectionType = collectionType) -> (sourceManaged in Compile).value
     ),
     libraryDependencies ++= Seq(
       "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.Version.scalapbVersion

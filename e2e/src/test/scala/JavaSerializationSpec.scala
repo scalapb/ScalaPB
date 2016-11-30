@@ -27,6 +27,8 @@ class JavaSerializationSpec extends FlatSpec with GeneratorDrivenPropertyChecks 
     nesteds = nesteds, packedLongs = longs, enums = enums
   )
 
+  private[this] val loader = Thread.currentThread().getContextClassLoader
+
   def checkJavaSerialization[T <: GeneratedMessage](a: T) = {
     val baos = new ByteArrayOutputStream()
     val oos = new ObjectOutputStream(baos)
@@ -36,7 +38,11 @@ class JavaSerializationSpec extends FlatSpec with GeneratorDrivenPropertyChecks 
     oos.writeObject(inputA)
     oos.close()
 
-    val ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray))
+    val ois = new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray)) {
+      // https://issues.scala-lang.org/browse/SI-9777 ?
+      override def resolveClass(desc: java.io.ObjectStreamClass) =
+        Class.forName(desc.getName, false, loader)
+    }
     val b = ois.readObject().asInstanceOf[T]
     val abytes = a.toByteArray
     val bbytes = b.toByteArray
