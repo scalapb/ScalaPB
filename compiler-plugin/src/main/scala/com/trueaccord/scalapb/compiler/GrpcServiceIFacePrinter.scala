@@ -58,7 +58,7 @@ final class GrpcServiceIFacePrinter(service: ServiceDescriptor, override val par
       .add("package " + service.getFile.scalaPackageName)
       .add(serviceImport)
       .newline
-      .add(s"object ${service.objectName}IFace {")
+      .add(s"object ${service.objectName}ServiceI {")
       .indent
       .add(serviceTypeAlias)
       .newline

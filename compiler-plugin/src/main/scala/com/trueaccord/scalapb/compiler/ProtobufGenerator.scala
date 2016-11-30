@@ -1120,7 +1120,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val p = new GrpcServiceIFacePrinter(service, params)
         val code = p.printService(FunctionalPrinter()).result()
         val b = CodeGeneratorResponse.File.newBuilder()
-        b.setName(file.scalaDirectory + "/" + s"${service.objectName}IFace.scala")
+        b.setName(file.scalaDirectory + "/" + s"${service.objectName}ServiceI.scala")
         b.setContent(code)
         b.build
       }
