@@ -10,8 +10,12 @@ import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scala.collection.JavaConverters._
 
 case class GeneratorParams(
-  javaConversions: Boolean = false, flatPackage: Boolean = false,
-  grpc: Boolean = false, singleLineToString: Boolean = false)
+  javaConversions: Boolean = false,
+  flatPackage: Boolean = false,
+  grpc: Boolean = false,
+  grpcIFace: Boolean = false,
+  singleLineToString: Boolean = false
+)
 
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
@@ -1110,6 +1114,19 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     } else Nil
   }
 
+  def generateServiceIFaceFiles(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
+    if(params.grpcIFace && params.grpc) {
+      file.getServices.asScala.map { service =>
+        val p = new GrpcServiceIFacePrinter(service, params)
+        val code = p.printService(FunctionalPrinter()).result()
+        val b = CodeGeneratorResponse.File.newBuilder()
+        b.setName(file.scalaDirectory + "/" + s"${service.objectName}IFace.scala")
+        b.setContent(code)
+        b.build
+      }
+    } else Nil
+  }
+
   def createFileDescriptorCompanionObject(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
     fp.add(s"object ${file.fileDescriptorObjectName} {")
       .indent
@@ -1129,11 +1146,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val b = CodeGeneratorResponse.File.newBuilder()
     b.setName(file.scalaDirectory + "/" + file.fileDescriptorObjectName + ".scala")
     b.setContent(code)
-    generateServiceFiles(file) :+ b.build
+    generateServiceFiles(file) ++ generateServiceIFaceFiles(file) :+ b.build
   }
 
   def generateMultipleScalaFilesForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     val serviceFiles = generateServiceFiles(file)
+    val serviceIFaceFiles = generateServiceIFaceFiles(file)
 
     val enumFiles = for {
       enum <- file.getEnumTypes.asScala
@@ -1166,7 +1184,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       b.build
     }
 
-    serviceFiles ++ enumFiles ++ messageFiles :+ fileDescriptorObjectFile
+    serviceFiles ++ serviceIFaceFiles ++ enumFiles ++ messageFiles :+ fileDescriptorObjectFile
   }
 }
 
@@ -1176,6 +1194,7 @@ object ProtobufGenerator {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
       case (Right(params), "grpc") => Right(params.copy(grpc = true))
+      case (Right(params), "grpc_service_interface") => Right(params.copy(grpcIFace = true))
       case (Right(params), "single_line_to_string") => Right(params.copy(singleLineToString = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
