@@ -99,8 +99,8 @@ final case class EnumOptions(
     def companion = com.google.protobuf.descriptor.EnumOptions
 }
 
-object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] = this
+object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] with _root_.scala.Function3[scala.Option[Boolean], scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.EnumOptions] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] with _root_.scala.Function3[scala.Option[Boolean], scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.EnumOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumOptions): com.google.protobuf.DescriptorProtos.EnumOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumOptions.newBuilder
     scalaPbSource.allowAlias.foreach(javaPbOut.setAllowAlias)

@@ -70,8 +70,8 @@ final case class BoolValue(
     def companion = com.google.protobuf.wrappers.BoolValue
 }
 
-object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BoolValue, com.google.protobuf.BoolValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BoolValue, com.google.protobuf.BoolValue] = this
+object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BoolValue, com.google.protobuf.BoolValue] with _root_.scala.Function1[Boolean, com.google.protobuf.wrappers.BoolValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BoolValue, com.google.protobuf.BoolValue] with _root_.scala.Function1[Boolean, com.google.protobuf.wrappers.BoolValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.BoolValue): com.google.protobuf.BoolValue = {
     val javaPbOut = com.google.protobuf.BoolValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

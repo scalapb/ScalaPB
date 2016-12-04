@@ -69,8 +69,8 @@ final case class ListValue(
     def companion = com.google.protobuf.struct.ListValue
 }
 
-object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] = this
+object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.struct.Value], com.google.protobuf.struct.ListValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.struct.Value], com.google.protobuf.struct.ListValue] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.ListValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

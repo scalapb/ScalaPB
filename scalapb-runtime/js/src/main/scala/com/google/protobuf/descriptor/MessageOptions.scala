@@ -167,8 +167,8 @@ final case class MessageOptions(
     def companion = com.google.protobuf.descriptor.MessageOptions
 }
 
-object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] = this
+object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with _root_.scala.Function5[scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.MessageOptions] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with _root_.scala.Function5[scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.MessageOptions] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MessageOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

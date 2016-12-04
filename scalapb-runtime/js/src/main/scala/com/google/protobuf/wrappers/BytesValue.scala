@@ -16,7 +16,7 @@ package com.google.protobuf.wrappers
   */
 @SerialVersionUID(0L)
 final case class BytesValue(
-    value: com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
+    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[BytesValue] with com.trueaccord.lenses.Updatable[BytesValue] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -57,7 +57,7 @@ final case class BytesValue(
           value = __value
       )
     }
-    def withValue(__v: com.google.protobuf.ByteString): BytesValue = copy(value = __v)
+    def withValue(__v: _root_.com.google.protobuf.ByteString): BytesValue = copy(value = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => {
@@ -70,13 +70,13 @@ final case class BytesValue(
     def companion = com.google.protobuf.wrappers.BytesValue
 }
 
-object BytesValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] = this
+object BytesValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with _root_.scala.Function1[_root_.com.google.protobuf.ByteString, com.google.protobuf.wrappers.BytesValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with _root_.scala.Function1[_root_.com.google.protobuf.ByteString, com.google.protobuf.wrappers.BytesValue] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.BytesValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.wrappers.BytesValue(
-      __fieldsMap.getOrElse(__fields.get(0), _root_.com.google.protobuf.ByteString.EMPTY).asInstanceOf[com.google.protobuf.ByteString]
+      __fieldsMap.getOrElse(__fields.get(0), _root_.com.google.protobuf.ByteString.EMPTY).asInstanceOf[_root_.com.google.protobuf.ByteString]
     )
   }
   def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = WrappersProto.descriptor.getMessageTypes.get(8)
@@ -85,7 +85,7 @@ object BytesValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.g
   lazy val defaultInstance = com.google.protobuf.wrappers.BytesValue(
   )
   implicit class BytesValueLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.wrappers.BytesValue]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.BytesValue](_l) {
-    def value: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
+    def value: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1
 }

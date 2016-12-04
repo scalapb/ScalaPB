@@ -181,8 +181,8 @@ final case class Method(
     def companion = com.google.protobuf.api.Method
 }
 
-object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] = this
+object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] with _root_.scala.Function7[String, String, Boolean, String, Boolean, scala.collection.Seq[com.google.protobuf.`type`.OptionProto], com.google.protobuf.`type`.Syntax, com.google.protobuf.api.Method] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] with _root_.scala.Function7[String, String, Boolean, String, Boolean, scala.collection.Seq[com.google.protobuf.`type`.OptionProto], com.google.protobuf.`type`.Syntax, com.google.protobuf.api.Method] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Method): com.google.protobuf.Method = {
     val javaPbOut = com.google.protobuf.Method.newBuilder
     javaPbOut.setName(scalaPbSource.name)

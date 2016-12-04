@@ -11,7 +11,8 @@ import scala.collection.JavaConverters._
 
 case class GeneratorParams(
   javaConversions: Boolean = false, flatPackage: Boolean = false,
-  grpc: Boolean = false, singleLineToString: Boolean = false)
+  grpc: Boolean = false, singleLineToString: Boolean = false,
+  companionExtendsFunction: Boolean = false)
 
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
@@ -502,24 +503,37 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .outdent
       .add("}")
 
-  def printConstructorFieldList(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+  def constructorFieldList(message: Descriptor): Seq[ConstructorField] = {
     val regularFields = message.fields.collect {
       case field if !field.isInOneof =>
       val typeName = field.scalaTypeName
       val ctorDefaultValue =
-        if (field.isOptional && field.supportsPresence) " = None"
-        else if (field.isSingular && !field.isRequired) " = " + defaultValueForGet(field)
-        else if (field.isMap) " = scala.collection.immutable.Map.empty"
-        else if (field.isRepeated) " = Nil"
-        else ""
-        s"${field.scalaName.asSymbol}: $typeName$ctorDefaultValue"
+        if (field.isOptional && field.supportsPresence) Some("None")
+        else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
+        else if (field.isMap) Some("scala.collection.immutable.Map.empty")
+        else if (field.isRepeated) Some("Nil")
+        else None
+
+        ConstructorField(
+          name = field.scalaName.asSymbol,
+          fieldType = typeName,
+          default = ctorDefaultValue
+        )
     }
     val oneOfFields = message.getOneofs.asScala.map {
       oneOf =>
-        s"${oneOf.scalaName.asSymbol}: ${oneOf.scalaTypeName} = ${oneOf.empty}"
+        ConstructorField(
+          name = oneOf.scalaName.asSymbol,
+          fieldType = oneOf.scalaTypeName,
+          default = Some(oneOf.empty)
+        )
     }
-    printer.addWithDelimiter(",")(regularFields ++ oneOfFields)
+    regularFields ++ oneOfFields
   }
+
+
+  def printConstructorFieldList(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter =
+    printer.addWithDelimiter(",")(constructorFieldList(message).map(_.asString))
 
   def generateMergeFrom(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaTypeNameWithMaybeRoot(message)
@@ -934,7 +948,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.nameSymbol
-    val companionType = message.companionBaseClasses.mkString(" with ")
+    val fieldList = constructorFieldList(message).map(_.fieldType)
+    val arity = fieldList.size
+    val functionN = if(params.companionExtendsFunction && arity <= 22 && message.nestedTypes.isEmpty && message.getOneofs.isEmpty && message.getEnumTypes.isEmpty) {
+      List((fieldList :+ message.scalaTypeNameWithMaybeRoot(message)).mkString(s"_root_.scala.Function${arity}[", ", ", "]"))
+    } else {
+      Nil
+    }
+    val companionType = (message.companionBaseClasses ++ functionN).mkString(" with ")
     printer.addStringMargin(
       s"""object $className extends $companionType {
          |  implicit def messageCompanion: $companionType = this""")
@@ -1201,6 +1222,7 @@ object ProtobufGenerator {
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
       case (Right(params), "grpc") => Right(params.copy(grpc = true))
       case (Right(params), "single_line_to_string") => Right(params.copy(singleLineToString = true))
+      case (Right(params), "companion_extends_function") => Right(params.copy(companionExtendsFunction = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
     }

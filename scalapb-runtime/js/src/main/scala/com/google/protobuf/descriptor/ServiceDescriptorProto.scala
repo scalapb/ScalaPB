@@ -92,8 +92,8 @@ final case class ServiceDescriptorProto(
     def companion = com.google.protobuf.descriptor.ServiceDescriptorProto
 }
 
-object ServiceDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] = this
+object ServiceDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto], scala.Option[com.google.protobuf.descriptor.ServiceOptions], com.google.protobuf.descriptor.ServiceDescriptorProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto], scala.Option[com.google.protobuf.descriptor.ServiceOptions], com.google.protobuf.descriptor.ServiceDescriptorProto] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.ServiceDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

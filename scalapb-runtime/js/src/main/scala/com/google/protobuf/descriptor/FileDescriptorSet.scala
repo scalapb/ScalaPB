@@ -65,8 +65,8 @@ final case class FileDescriptorSet(
     def companion = com.google.protobuf.descriptor.FileDescriptorSet
 }
 
-object FileDescriptorSet extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] = this
+object FileDescriptorSet extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto], com.google.protobuf.descriptor.FileDescriptorSet] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto], com.google.protobuf.descriptor.FileDescriptorSet] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorSet = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

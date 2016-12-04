@@ -70,8 +70,8 @@ final case class DoubleValue(
     def companion = com.google.protobuf.wrappers.DoubleValue
 }
 
-object DoubleValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] = this
+object DoubleValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with _root_.scala.Function1[Double, com.google.protobuf.wrappers.DoubleValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with _root_.scala.Function1[Double, com.google.protobuf.wrappers.DoubleValue] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.DoubleValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

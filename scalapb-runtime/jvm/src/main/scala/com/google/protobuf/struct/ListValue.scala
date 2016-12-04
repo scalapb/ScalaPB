@@ -69,8 +69,8 @@ final case class ListValue(
     def companion = com.google.protobuf.struct.ListValue
 }
 
-object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] = this
+object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.struct.Value], com.google.protobuf.struct.ListValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.struct.Value], com.google.protobuf.struct.ListValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.ListValue): com.google.protobuf.ListValue = {
     val javaPbOut = com.google.protobuf.ListValue.newBuilder
     javaPbOut.addAllValues(scalaPbSource.values.map(com.google.protobuf.struct.Value.toJavaProto(_)).asJava)

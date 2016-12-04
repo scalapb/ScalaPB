@@ -70,8 +70,8 @@ final case class UInt64Value(
     def companion = com.google.protobuf.wrappers.UInt64Value
 }
 
-object UInt64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] = this
+object UInt64Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] with _root_.scala.Function1[Long, com.google.protobuf.wrappers.UInt64Value] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] with _root_.scala.Function1[Long, com.google.protobuf.wrappers.UInt64Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.UInt64Value): com.google.protobuf.UInt64Value = {
     val javaPbOut = com.google.protobuf.UInt64Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

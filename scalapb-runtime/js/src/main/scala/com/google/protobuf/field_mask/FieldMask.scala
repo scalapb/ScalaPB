@@ -265,8 +265,8 @@ final case class FieldMask(
     def companion = com.google.protobuf.field_mask.FieldMask
 }
 
-object FieldMask extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] = this
+object FieldMask extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with _root_.scala.Function1[scala.collection.Seq[String], com.google.protobuf.field_mask.FieldMask] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with _root_.scala.Function1[scala.collection.Seq[String], com.google.protobuf.field_mask.FieldMask] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.field_mask.FieldMask = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

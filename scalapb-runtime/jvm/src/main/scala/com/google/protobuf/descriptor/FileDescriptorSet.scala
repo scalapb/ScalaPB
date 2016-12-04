@@ -65,8 +65,8 @@ final case class FileDescriptorSet(
     def companion = com.google.protobuf.descriptor.FileDescriptorSet
 }
 
-object FileDescriptorSet extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] = this
+object FileDescriptorSet extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto], com.google.protobuf.descriptor.FileDescriptorSet] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] with _root_.scala.Function1[scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto], com.google.protobuf.descriptor.FileDescriptorSet] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorSet): com.google.protobuf.DescriptorProtos.FileDescriptorSet = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorSet.newBuilder
     javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_)).asJava)

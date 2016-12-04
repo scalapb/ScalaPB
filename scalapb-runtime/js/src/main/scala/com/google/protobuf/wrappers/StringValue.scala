@@ -70,8 +70,8 @@ final case class StringValue(
     def companion = com.google.protobuf.wrappers.StringValue
 }
 
-object StringValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] = this
+object StringValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with _root_.scala.Function1[String, com.google.protobuf.wrappers.StringValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with _root_.scala.Function1[String, com.google.protobuf.wrappers.StringValue] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.StringValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

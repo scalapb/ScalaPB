@@ -76,8 +76,8 @@ final case class OneofDescriptorProto(
     def companion = com.google.protobuf.descriptor.OneofDescriptorProto
 }
 
-object OneofDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] = this
+object OneofDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] with _root_.scala.Function2[scala.Option[String], scala.Option[com.google.protobuf.descriptor.OneofOptions], com.google.protobuf.descriptor.OneofDescriptorProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] with _root_.scala.Function2[scala.Option[String], scala.Option[com.google.protobuf.descriptor.OneofOptions], com.google.protobuf.descriptor.OneofDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.OneofDescriptorProto): com.google.protobuf.DescriptorProtos.OneofDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.OneofDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

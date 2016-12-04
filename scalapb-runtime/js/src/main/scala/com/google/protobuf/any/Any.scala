@@ -105,7 +105,7 @@ package com.google.protobuf.any
 @SerialVersionUID(0L)
 final case class Any(
     typeUrl: String = "",
-    value: com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
+    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Any] with com.trueaccord.lenses.Updatable[Any] with com.trueaccord.scalapb.AnyMethods {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -158,7 +158,7 @@ final case class Any(
       )
     }
     def withTypeUrl(__v: String): Any = copy(typeUrl = __v)
-    def withValue(__v: com.google.protobuf.ByteString): Any = copy(value = __v)
+    def withValue(__v: _root_.com.google.protobuf.ByteString): Any = copy(value = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => {
@@ -175,14 +175,14 @@ final case class Any(
     def companion = com.google.protobuf.any.Any
 }
 
-object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods = this
+object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods with _root_.scala.Function2[String, _root_.com.google.protobuf.ByteString, com.google.protobuf.any.Any] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods with _root_.scala.Function2[String, _root_.com.google.protobuf.ByteString, com.google.protobuf.any.Any] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.any.Any = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields
     com.google.protobuf.any.Any(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[String],
-      __fieldsMap.getOrElse(__fields.get(1), _root_.com.google.protobuf.ByteString.EMPTY).asInstanceOf[com.google.protobuf.ByteString]
+      __fieldsMap.getOrElse(__fields.get(1), _root_.com.google.protobuf.ByteString.EMPTY).asInstanceOf[_root_.com.google.protobuf.ByteString]
     )
   }
   def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = AnyProto.descriptor.getMessageTypes.get(0)
@@ -192,7 +192,7 @@ object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
   )
   implicit class AnyLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.any.Any]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.any.Any](_l) {
     def typeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
-    def value: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
+    def value: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val TYPE_URL_FIELD_NUMBER = 1
   final val VALUE_FIELD_NUMBER = 2

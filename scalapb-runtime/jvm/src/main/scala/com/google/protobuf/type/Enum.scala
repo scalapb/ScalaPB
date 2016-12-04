@@ -140,8 +140,8 @@ final case class Enum(
     def companion = com.google.protobuf.`type`.Enum
 }
 
-object Enum extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] = this
+object Enum extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] with _root_.scala.Function5[String, scala.collection.Seq[com.google.protobuf.`type`.EnumValue], scala.collection.Seq[com.google.protobuf.`type`.OptionProto], scala.Option[com.google.protobuf.source_context.SourceContext], com.google.protobuf.`type`.Syntax, com.google.protobuf.`type`.Enum] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] with _root_.scala.Function5[String, scala.collection.Seq[com.google.protobuf.`type`.EnumValue], scala.collection.Seq[com.google.protobuf.`type`.OptionProto], scala.Option[com.google.protobuf.source_context.SourceContext], com.google.protobuf.`type`.Syntax, com.google.protobuf.`type`.Enum] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Enum): com.google.protobuf.Enum = {
     val javaPbOut = com.google.protobuf.Enum.newBuilder
     javaPbOut.setName(scalaPbSource.name)

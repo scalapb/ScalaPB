@@ -181,8 +181,8 @@ final case class Method(
     def companion = com.google.protobuf.api.Method
 }
 
-object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] = this
+object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with _root_.scala.Function7[String, String, Boolean, String, Boolean, scala.collection.Seq[com.google.protobuf.`type`.OptionProto], com.google.protobuf.`type`.Syntax, com.google.protobuf.api.Method] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with _root_.scala.Function7[String, String, Boolean, String, Boolean, scala.collection.Seq[com.google.protobuf.`type`.OptionProto], com.google.protobuf.`type`.Syntax, com.google.protobuf.api.Method] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Method = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

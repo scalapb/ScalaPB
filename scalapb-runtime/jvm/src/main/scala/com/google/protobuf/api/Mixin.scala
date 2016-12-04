@@ -164,8 +164,8 @@ final case class Mixin(
     def companion = com.google.protobuf.api.Mixin
 }
 
-object Mixin extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] = this
+object Mixin extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] with _root_.scala.Function2[String, String, com.google.protobuf.api.Mixin] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] with _root_.scala.Function2[String, String, com.google.protobuf.api.Mixin] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Mixin): com.google.protobuf.Mixin = {
     val javaPbOut = com.google.protobuf.Mixin.newBuilder
     javaPbOut.setName(scalaPbSource.name)

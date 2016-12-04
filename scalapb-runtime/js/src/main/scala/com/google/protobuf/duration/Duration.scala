@@ -132,8 +132,8 @@ final case class Duration(
     def companion = com.google.protobuf.duration.Duration
 }
 
-object Duration extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] = this
+object Duration extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with _root_.scala.Function2[Long, Int, com.google.protobuf.duration.Duration] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with _root_.scala.Function2[Long, Int, com.google.protobuf.duration.Duration] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.duration.Duration = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

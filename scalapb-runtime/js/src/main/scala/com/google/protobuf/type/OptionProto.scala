@@ -86,8 +86,8 @@ final case class OptionProto(
     def companion = com.google.protobuf.`type`.OptionProto
 }
 
-object OptionProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] = this
+object OptionProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with _root_.scala.Function2[String, scala.Option[com.google.protobuf.any.Any], com.google.protobuf.`type`.OptionProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with _root_.scala.Function2[String, scala.Option[com.google.protobuf.any.Any], com.google.protobuf.`type`.OptionProto] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.OptionProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

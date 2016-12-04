@@ -70,8 +70,8 @@ final case class BoolValue(
     def companion = com.google.protobuf.wrappers.BoolValue
 }
 
-object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] = this
+object BoolValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with _root_.scala.Function1[Boolean, com.google.protobuf.wrappers.BoolValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BoolValue] with _root_.scala.Function1[Boolean, com.google.protobuf.wrappers.BoolValue] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.BoolValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

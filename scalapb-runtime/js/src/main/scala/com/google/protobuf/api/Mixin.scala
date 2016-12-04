@@ -164,8 +164,8 @@ final case class Mixin(
     def companion = com.google.protobuf.api.Mixin
 }
 
-object Mixin extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] = this
+object Mixin extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with _root_.scala.Function2[String, String, com.google.protobuf.api.Mixin] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with _root_.scala.Function2[String, String, com.google.protobuf.api.Mixin] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Mixin = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

@@ -70,8 +70,8 @@ final case class StringValue(
     def companion = com.google.protobuf.wrappers.StringValue
 }
 
-object StringValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.StringValue, com.google.protobuf.StringValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.StringValue, com.google.protobuf.StringValue] = this
+object StringValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.StringValue, com.google.protobuf.StringValue] with _root_.scala.Function1[String, com.google.protobuf.wrappers.StringValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.StringValue, com.google.protobuf.StringValue] with _root_.scala.Function1[String, com.google.protobuf.wrappers.StringValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.StringValue): com.google.protobuf.StringValue = {
     val javaPbOut = com.google.protobuf.StringValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

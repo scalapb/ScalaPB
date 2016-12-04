@@ -105,8 +105,8 @@ final case class EnumValue(
     def companion = com.google.protobuf.`type`.EnumValue
 }
 
-object EnumValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] = this
+object EnumValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with _root_.scala.Function3[String, Int, scala.collection.Seq[com.google.protobuf.`type`.OptionProto], com.google.protobuf.`type`.EnumValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with _root_.scala.Function3[String, Int, scala.collection.Seq[com.google.protobuf.`type`.OptionProto], com.google.protobuf.`type`.EnumValue] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.EnumValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

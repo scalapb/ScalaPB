@@ -144,8 +144,8 @@ final case class Timestamp(
     def companion = com.google.protobuf.timestamp.Timestamp
 }
 
-object Timestamp extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] = this
+object Timestamp extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with _root_.scala.Function2[Long, Int, com.google.protobuf.timestamp.Timestamp] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with _root_.scala.Function2[Long, Int, com.google.protobuf.timestamp.Timestamp] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.timestamp.Timestamp = {
     require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
     val __fields = descriptor.getFields

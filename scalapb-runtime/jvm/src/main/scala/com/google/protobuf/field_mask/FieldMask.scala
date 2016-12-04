@@ -265,8 +265,8 @@ final case class FieldMask(
     def companion = com.google.protobuf.field_mask.FieldMask
 }
 
-object FieldMask extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] = this
+object FieldMask extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] with _root_.scala.Function1[scala.collection.Seq[String], com.google.protobuf.field_mask.FieldMask] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] with _root_.scala.Function1[scala.collection.Seq[String], com.google.protobuf.field_mask.FieldMask] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.field_mask.FieldMask): com.google.protobuf.FieldMask = {
     val javaPbOut = com.google.protobuf.FieldMask.newBuilder
     javaPbOut.addAllPaths(scalaPbSource.paths.asJava)
