@@ -394,9 +394,14 @@ trait DescriptorPimps {
     def isName = {
       Helper.makeUniqueNames(
         enumValue.getType.getValues.asScala.sortBy(v => (v.getNumber, v.getName)).map {
-          e => e -> ("is" + allCapsToCamelCase(e.getName, true))
+          e => e -> avoidReservedEnumMethods("is" + allCapsToCamelCase(e.getName, true))
         })(enumValue)
     }
+  }
+
+  private def avoidReservedEnumMethods(methodName: String) = methodName match {
+    case "isUnrecognized" => "isUnrecognized1"
+    case _ => methodName
   }
 
   implicit class FileDescriptorPimp(val file: FileDescriptor) {
