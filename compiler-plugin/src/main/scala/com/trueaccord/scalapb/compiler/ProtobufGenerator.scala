@@ -1195,7 +1195,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 }
 
 object ProtobufGenerator {
-  private def parseParameters(params: String): Either[String, GeneratorParams] = {
+  def parseParameters(params: String): Either[String, GeneratorParams] = {
     params.split(",").map(_.trim).filter(_.nonEmpty).foldLeft[Either[String, GeneratorParams]](Right(GeneratorParams())) {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
