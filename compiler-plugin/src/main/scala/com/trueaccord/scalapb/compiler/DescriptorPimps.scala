@@ -182,7 +182,7 @@ trait DescriptorPimps {
         case "google.protobuf.FloatValue" => Some("Float")
         case "google.protobuf.StringValue" => Some("String")
         case "google.protobuf.BoolValue" => Some("Boolean")
-        case "google.protobuf.BytesValue" => Some("com.google.protobuf.ByteString")
+        case "google.protobuf.BytesValue" => Some("_root_.com.google.protobuf.ByteString")
         case _ => None
       })
       else None
@@ -193,7 +193,7 @@ trait DescriptorPimps {
       case FieldDescriptor.JavaType.FLOAT => "Float"
       case FieldDescriptor.JavaType.DOUBLE => "Double"
       case FieldDescriptor.JavaType.BOOLEAN => "Boolean"
-      case FieldDescriptor.JavaType.BYTE_STRING => "com.google.protobuf.ByteString"
+      case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING => "String"
       case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaTypeName
       case FieldDescriptor.JavaType.ENUM => fd.getEnumType.scalaTypeName
