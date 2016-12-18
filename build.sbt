@@ -93,7 +93,9 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .settings(
     name := "scalapb-runtime-grpc",
     libraryDependencies ++= Seq(
-      "io.grpc" % "grpc-stub" % grpcVersion
+      "io.grpc" % "grpc-stub" % grpcVersion,
+      "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+      "org.mockito" % "mockito-core" % "2.2.11" % "test"
     )
   )
 

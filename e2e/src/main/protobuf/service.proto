@@ -28,6 +28,9 @@ message Res4 {
   int32 b = 1;
 }
 
+message Req5 {}
+message Res5 {}
+
 service Service1 {
   // Computes string length
   rpc UnaryStringLength(Req1) returns (Res1) {}
@@ -40,4 +43,7 @@ service Service1 {
 
   // Doubles each Req4.a received.
   rpc BidiStreamingDoubler(stream Req4) returns (stream Res4) {}
+
+  // Throws a runtime exception.
+  rpc ThrowException(Req5) returns (Res5) {}
 }
