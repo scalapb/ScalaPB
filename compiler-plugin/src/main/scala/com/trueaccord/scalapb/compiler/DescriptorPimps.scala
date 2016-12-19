@@ -392,6 +392,11 @@ trait DescriptorPimps {
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
     def isName = {
+      if (enumValue.getName.toUpperCase == "UNRECOGNIZED") {
+        throw new GeneratorException(
+          s"The name '${enumValue.getName}' for an enum value is not allowed due to conflict with the catch-all " +
+            "Unrecognized(v: Int) value.")
+      }
       Helper.makeUniqueNames(
         enumValue.getType.getValues.asScala.sortBy(v => (v.getNumber, v.getName)).map {
           e => e -> ("is" + allCapsToCamelCase(e.getName, true))
