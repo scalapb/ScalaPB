@@ -57,9 +57,9 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
     libraryDependencies ++= Seq(
       "com.trueaccord.lenses" %%% "lenses" % "0.4.9",
       "com.lihaoyi" %%% "fastparse" % "0.4.2",
-      "com.lihaoyi" %%% "utest" % "0.4.4" % "test",
+      "com.lihaoyi" %%% "utest" % "0.4.5" % "test",
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
-      "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+      "org.scalatest" %% "scalatest" % "3.0.1" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
@@ -94,7 +94,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     name := "scalapb-runtime-grpc",
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
-      "org.scalatest" %% "scalatest" % "3.0.0" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.1" % "test",
       "org.mockito" % "mockito-core" % "2.2.11" % "test"
     )
   )
@@ -171,9 +171,9 @@ lazy val proptest = project.in(file("proptest"))
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.9",
-        "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.4",
+        "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5",
         "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
-        "org.scalatest" %% "scalatest" % "3.0.0" % "test"
+        "org.scalatest" %% "scalatest" % "3.0.1" % "test"
       ),
       libraryDependencies <+= (scalaVersion) { v => "org.scala-lang" % "scala-compiler" % v },
       testOptions += Tests.Argument(),
