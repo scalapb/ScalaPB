@@ -102,7 +102,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .dependsOn(runtimeJVM)
   .settings(
-    sourceGenerators in Compile <+= Def.task {
+    sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "com" / "trueaccord" / "scalapb" / "compiler" / "Version.scala"
       IO.write(file,
         s"""package com.trueaccord.scalapb.compiler
@@ -111,7 +111,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
            |  val protobufVersion = "${protobufVersion}"
            |}""".stripMargin)
       Seq(file)
-    },
+    }.taskValue,
     libraryDependencies ++= Seq(
       "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.5"
       ))
@@ -175,7 +175,7 @@ lazy val proptest = project.in(file("proptest"))
         "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
         "org.scalatest" %% "scalatest" % "3.0.1" % "test"
       ),
-      libraryDependencies <+= (scalaVersion) { v => "org.scala-lang" % "scala-compiler" % v },
+      libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       testOptions += Tests.Argument(),
       fork in Test := false,
       testOptions in ShortTest += Tests.Argument(
@@ -211,11 +211,13 @@ def genVersionFile(out: File, version: String): File = {
 val createVersionFile = TaskKey[Unit](
   "create-version-file", "Creates a file with the project version to be used by e2e.")
 
-createVersionFile <<= (streams, baseDirectory, version in Compile) map {
-  (streams, baseDirectory, version) =>
-    val f1 = genVersionFile(baseDirectory / "e2e/project/project", version)
-    streams.log.info(s"Created $f1")
-    val f2 = genVersionFile(baseDirectory / "e2e/project/", version)
-    streams.log.info(s"Created $f2")
+createVersionFile := {
+  val v = (version in Compile).value
+  val log = streams.value.log
+  val base = baseDirectory.value
+  val f1 = genVersionFile(base / "e2e/project/project", v)
+  log.info(s"Created $f1")
+  val f2 = genVersionFile(base / "e2e/project/", v)
+  log.info(s"Created $f2")
 }
 
