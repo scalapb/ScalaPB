@@ -29,12 +29,12 @@ val commonSettings = Seq(
         s"--java_rpc_out=${((sourceManaged in Compile).value).getAbsolutePath}"
     ),
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.1" % "test",
       "io.grpc" % "grpc-netty" % grpcVersion, //netty transport of grpc
       "io.grpc" % "grpc-protobuf" % grpcVersion, //protobuf message encoding for java implementation
-      "org.scalacheck" %% "scalacheck" % "1.12.4" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
       "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % "protobuf",
-      "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.3"
+      "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5"
     ),
     grpcExePath := xsbti.SafeLazy {
       val exe: File = (baseDirectory in ThisBuild).value / ".bin" / grpcExeFileName
