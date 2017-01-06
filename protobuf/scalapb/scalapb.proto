@@ -56,6 +56,7 @@ extend google.protobuf.MessageOptions {
 
 message FieldOptions {
   optional string type = 1;
+  optional string scala_name = 2;
 }
 
 extend google.protobuf.FieldOptions {

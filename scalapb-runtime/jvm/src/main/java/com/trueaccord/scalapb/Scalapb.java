@@ -2468,6 +2468,20 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getTypeBytes();
+
+    /**
+     * <code>optional string scala_name = 2;</code>
+     */
+    boolean hasScalaName();
+    /**
+     * <code>optional string scala_name = 2;</code>
+     */
+    java.lang.String getScalaName();
+    /**
+     * <code>optional string scala_name = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getScalaNameBytes();
   }
   /**
    * Protobuf type {@code scalapb.FieldOptions}
@@ -2482,6 +2496,7 @@ public final class Scalapb {
     }
     private FieldOptions() {
       type_ = "";
+      scalaName_ = "";
     }
 
     @java.lang.Override
@@ -2516,6 +2531,12 @@ public final class Scalapb {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
               type_ = bs;
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000002;
+              scalaName_ = bs;
               break;
             }
           }
@@ -2585,6 +2606,48 @@ public final class Scalapb {
       }
     }
 
+    public static final int SCALA_NAME_FIELD_NUMBER = 2;
+    private volatile java.lang.Object scalaName_;
+    /**
+     * <code>optional string scala_name = 2;</code>
+     */
+    public boolean hasScalaName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    /**
+     * <code>optional string scala_name = 2;</code>
+     */
+    public java.lang.String getScalaName() {
+      java.lang.Object ref = scalaName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          scalaName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string scala_name = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getScalaNameBytes() {
+      java.lang.Object ref = scalaName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        scalaName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2600,6 +2663,9 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, type_);
       }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, scalaName_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2610,6 +2676,9 @@ public final class Scalapb {
       size = 0;
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, type_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, scalaName_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2633,6 +2702,11 @@ public final class Scalapb {
         result = result && getType()
             .equals(other.getType());
       }
+      result = result && (hasScalaName() == other.hasScalaName());
+      if (hasScalaName()) {
+        result = result && getScalaName()
+            .equals(other.getScalaName());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2647,6 +2721,10 @@ public final class Scalapb {
       if (hasType()) {
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getType().hashCode();
+      }
+      if (hasScalaName()) {
+        hash = (37 * hash) + SCALA_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getScalaName().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2768,6 +2846,8 @@ public final class Scalapb {
         super.clear();
         type_ = "";
         bitField0_ = (bitField0_ & ~0x00000001);
+        scalaName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -2796,6 +2876,10 @@ public final class Scalapb {
           to_bitField0_ |= 0x00000001;
         }
         result.type_ = type_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.scalaName_ = scalaName_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2841,6 +2925,11 @@ public final class Scalapb {
         if (other.hasType()) {
           bitField0_ |= 0x00000001;
           type_ = other.type_;
+          onChanged();
+        }
+        if (other.hasScalaName()) {
+          bitField0_ |= 0x00000002;
+          scalaName_ = other.scalaName_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -2943,6 +3032,82 @@ public final class Scalapb {
   }
   bitField0_ |= 0x00000001;
         type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object scalaName_ = "";
+      /**
+       * <code>optional string scala_name = 2;</code>
+       */
+      public boolean hasScalaName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      /**
+       * <code>optional string scala_name = 2;</code>
+       */
+      public java.lang.String getScalaName() {
+        java.lang.Object ref = scalaName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            scalaName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string scala_name = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getScalaNameBytes() {
+        java.lang.Object ref = scalaName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          scalaName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string scala_name = 2;</code>
+       */
+      public Builder setScalaName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        scalaName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string scala_name = 2;</code>
+       */
+      public Builder clearScalaName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        scalaName_ = getDefaultInstance().getScalaName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string scala_name = 2;</code>
+       */
+      public Builder setScalaNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        scalaName_ = value;
         onChanged();
         return this;
       }
@@ -3073,14 +3238,15 @@ public final class Scalapb {
       "age\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 " +
       "\003(\t\022\023\n\013single_file\030\005 \001(\010\022\032\n\022primitive_wr" +
       "appers\030\006 \001(\010\"<\n\016MessageOptions\022\017\n\007extend" +
-      "s\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\"\034\n\014Fi" +
-      "eldOptions\022\014\n\004type\030\001 \001(\t:G\n\007options\022\034.go" +
-      "ogle.protobuf.FileOptions\030\374\007 \001(\0132\027.scala" +
-      "pb.ScalaPbOptions:J\n\007message\022\037.google.pr",
-      "otobuf.MessageOptions\030\374\007 \001(\0132\027.scalapb.M" +
-      "essageOptions:D\n\005field\022\035.google.protobuf" +
-      ".FieldOptions\030\374\007 \001(\0132\025.scalapb.FieldOpti" +
-      "onsB\030\n\026com.trueaccord.scalapb"
+      "s\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\"0\n\014Fi" +
+      "eldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002" +
+      " \001(\t:G\n\007options\022\034.google.protobuf.FileOp" +
+      "tions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n",
+      "\007message\022\037.google.protobuf.MessageOption" +
+      "s\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fie" +
+      "ld\022\035.google.protobuf.FieldOptions\030\374\007 \001(\013" +
+      "2\025.scalapb.FieldOptionsB\030\n\026com.trueaccor" +
+      "d.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3112,7 +3278,7 @@ public final class Scalapb {
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_FieldOptions_descriptor,
-        new java.lang.String[] { "Type", });
+        new java.lang.String[] { "Type", "ScalaName", });
     options.internalInit(descriptor.getExtensions().get(0));
     message.internalInit(descriptor.getExtensions().get(1));
     field.internalInit(descriptor.getExtensions().get(2));

@@ -113,7 +113,8 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(file)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.5"
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.5",
+      "org.scalatest" %% "scalatest" % "3.0.1" % "test"
       ))
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are

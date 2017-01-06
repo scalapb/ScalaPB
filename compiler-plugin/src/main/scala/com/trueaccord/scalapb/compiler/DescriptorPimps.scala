@@ -28,46 +28,6 @@ trait DescriptorPimps {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
   }
 
-  protected final def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
-    val b = new StringBuilder()
-    @annotation.tailrec
-    def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
-      val (r, capNext2) = name.head match {
-        case c if c.isLower => (Some(if (capNext) c.toUpper else c), false)
-        case c if c.isUpper =>
-          // force first letter to lower unless forced to capitalize it.
-          (Some(if (index == 0 && !capNext) c.toLower else c), false)
-        case c if c.isDigit => (Some(c), true)
-        case _ => (None, true)
-      }
-      r.foreach(b.append)
-      inner(name.tail, index + 1, capNext2)
-    }
-    inner(name, 0, upperInitial)
-    b.toString
-  }
-
-  protected final def toAllCaps(name: String): String = {
-    val b = new StringBuilder()
-    @annotation.tailrec
-    def inner(name: String, lastLower: Boolean): Unit = if (name.nonEmpty) {
-      val nextLastLower = name.head match {
-        case c if c.isLower => b.append(c.toUpper)
-          true
-        case c if c.isUpper =>
-          if (lastLower) { b.append('_') }
-          b.append(c)
-          false
-        case c =>
-          b.append(c)
-          false
-      }
-      inner(name.tail, nextLastLower)
-    }
-    inner(name, false)
-    b.toString
-  }
-
   implicit final class MethodDescriptorPimp(self: MethodDescriptor) {
     def scalaOut: String = self.getOutputType.scalaTypeName
 
@@ -88,11 +48,11 @@ trait DescriptorPimps {
 
     def canBeBlocking = !self.toProto.getClientStreaming
 
-    private def name0: String = snakeCaseToCamelCase(self.getName)
+    private def name0: String = NameUtils.snakeCaseToCamelCase(self.getName)
 
     def name: String = name0.asSymbol
 
-    def descriptorName = s"METHOD_${toAllCaps(self.getName)}"
+    def descriptorName = s"METHOD_${NameUtils.toAllCaps(self.getName)}"
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
@@ -114,23 +74,26 @@ trait DescriptorPimps {
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
-    def scalaName: String = fd.getName match {
+    def scalaName: String = if (fieldOptions.getScalaName.nonEmpty) fieldOptions.getScalaName
+    else fd.getName match {
       case ("number" | "value") if fd.isInOneof => "_" + fd.getName
       case "serialized_size" => "_serializedSize"
       case "class" => "_class"
-      case x => snakeCaseToCamelCase(x)
+      case x => NameUtils.snakeCaseToCamelCase(x)
     }
 
-    def upperScalaName: String = fd.getName match {
+    def upperScalaName: String = if (fieldOptions.getScalaName.nonEmpty)
+      NameUtils.snakeCaseToCamelCase(fieldOptions.getScalaName, true)
+    else fd.getName match {
       case "serialized_size" => "_SerializedSize"
       case "class" => "_Class"
-      case x => snakeCaseToCamelCase(x, true)
+      case x => NameUtils.snakeCaseToCamelCase(x, true)
     }
 
     def upperJavaName: String = fd.getName match {
       case "serialized_size" => "SerializedSize_"
       case "class" => "Class_"
-      case x => upperScalaName
+      case x => NameUtils.snakeCaseToCamelCase(x, true)
     }
 
     def fieldNumberConstantName: String = fd.getName.toUpperCase() + "_FIELD_NUMBER"
@@ -240,9 +203,9 @@ trait DescriptorPimps {
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
-    def scalaName = snakeCaseToCamelCase(oneof.getName)
+    def scalaName = NameUtils.snakeCaseToCamelCase(oneof.getName)
 
-    def upperScalaName = snakeCaseToCamelCase(oneof.getName, true)
+    def upperScalaName = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
 
     def fields: IndexedSeq[FieldDescriptor] = (0 until oneof.getFieldCount).map(oneof.getField).filter(_.getLiteType != FieldType.GROUP)
 
@@ -392,11 +355,6 @@ trait DescriptorPimps {
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
     def isName = {
-      if (enumValue.getName.toUpperCase == "UNRECOGNIZED") {
-        throw new GeneratorException(
-          s"The name '${enumValue.getName}' for an enum value is not allowed due to conflict with the catch-all " +
-            "Unrecognized(v: Int) value.")
-      }
       Helper.makeUniqueNames(
         enumValue.getType.getValues.asScala.sortBy(v => (v.getNumber, v.getName)).map {
           e => e -> ("is" + allCapsToCamelCase(e.getName, true))
@@ -425,7 +383,7 @@ trait DescriptorPimps {
       if (file.getOptions.hasJavaOuterClassname)
         file.getOptions.getJavaOuterClassname
       else {
-        val r = snakeCaseToCamelCase(baseName(file.getName), true)
+        val r = NameUtils.snakeCaseToCamelCase(baseName(file.getName), true)
         if (!hasConflictingJavaClassName(r)) r
         else r + "OuterClass"
       }
@@ -478,7 +436,7 @@ trait DescriptorPimps {
       def inner(s: String): String =
         if (!hasConflictingJavaClassName(s)) s else (s + "Companion")
 
-      inner(snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
+      inner(NameUtils.snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
     }
 
     def fileDescriptorObjectFullName = scalaPackageName + "." + fileDescriptorObjectName

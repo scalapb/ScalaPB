@@ -66,5 +66,3 @@ message Issue137 {
   repeated int32 val = 3;
   repeated int64 var = 4;
 }
-
-

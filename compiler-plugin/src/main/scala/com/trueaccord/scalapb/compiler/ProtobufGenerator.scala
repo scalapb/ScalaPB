@@ -1219,6 +1219,8 @@ object ProtobufGenerator {
                 val deps = fp.getDependencyList.asScala.map(acc)
                 acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
             }
+          val validator = new ProtoValidation(params)
+          filesByName.values.foreach(validator.validateFile)
           request.getFileToGenerateList.asScala.foreach {
             name =>
               val file = filesByName(name)

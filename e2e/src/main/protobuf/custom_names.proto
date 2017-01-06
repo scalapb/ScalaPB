@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+message Issue222 {
+  enum EEE { a = 0; b = 1; }
+
+  optional string hash_code = 1 [(scalapb.field).scala_name = "theHashCode"];
+  repeated int32 equals = 2 [(scalapb.field).scala_name = "theEquals"];
+  repeated EEE to_string = 3 [(scalapb.field).scala_name = "theToString"];
+}
