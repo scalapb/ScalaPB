@@ -1,6 +1,8 @@
 # Change Log
 
 ## [Unreleased](https://github.com/scalapb/ScalaPB/tree/HEAD)
+- Support for custom names for fields: https://scalapb.github.io/customizations.html#custom-names
+  This enables users to get around name conflicts in the generated code.
 
 ## [v0.5.43](https://github.com/scalapb/ScalaPB/tree/v0.5.35) (2016-09-27)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.35...v0.5.43)
