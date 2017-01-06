@@ -121,4 +121,9 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
     Color.fromName("FUCHSIA") must be(None)
   }
 
+  "toByteString" should "give the same byte array as toByteArray" in {
+    val e3 = EnumTest3(colorVector = Seq(Color3.C3_RED, Color3.Unrecognized(15), Color3.C3_BLUE))
+    e3.toByteString.toByteArray must be (e3.toByteArray)
+  }
+
 }

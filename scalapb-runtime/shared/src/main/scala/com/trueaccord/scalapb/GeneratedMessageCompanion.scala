@@ -92,6 +92,13 @@ trait GeneratedMessage extends Serializable {
     a
   }
 
+  def toByteString: ByteString = {
+    val output = ByteString.newOutput(serializedSize)
+    writeTo(output)
+    output.close()
+    output.toByteString
+  }
+
   def serializedSize: Int
 }
 
