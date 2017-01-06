@@ -139,7 +139,7 @@ trait DescriptorPimps {
       else if (isMessage && fd.getFile.scalaOptions.getPrimitiveWrappers) (fd.getMessageType.getFullName match {
         case "google.protobuf.Int32Value" => Some("Int")
         case "google.protobuf.Int64Value" => Some("Long")
-        case "google.protobuf.UInt32Value" => Some("Long")
+        case "google.protobuf.UInt32Value" => Some("Int")
         case "google.protobuf.UInt64Value" => Some("Long")
         case "google.protobuf.DoubleValue" => Some("Double")
         case "google.protobuf.FloatValue" => Some("Float")
