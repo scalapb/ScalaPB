@@ -25,7 +25,7 @@ final case class UninterpretedOption(
     positiveIntValue: scala.Option[Long] = None,
     negativeIntValue: scala.Option[Long] = None,
     doubleValue: scala.Option[Double] = None,
-    stringValue: scala.Option[com.google.protobuf.ByteString] = None,
+    stringValue: scala.Option[_root_.com.google.protobuf.ByteString] = None,
     aggregateValue: scala.Option[String] = None
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[UninterpretedOption] with com.trueaccord.lenses.Updatable[UninterpretedOption] {
     @transient
@@ -130,9 +130,9 @@ final case class UninterpretedOption(
     def getDoubleValue: Double = doubleValue.getOrElse(0.0)
     def clearDoubleValue: UninterpretedOption = copy(doubleValue = None)
     def withDoubleValue(__v: Double): UninterpretedOption = copy(doubleValue = Some(__v))
-    def getStringValue: com.google.protobuf.ByteString = stringValue.getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
+    def getStringValue: _root_.com.google.protobuf.ByteString = stringValue.getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
     def clearStringValue: UninterpretedOption = copy(stringValue = None)
-    def withStringValue(__v: com.google.protobuf.ByteString): UninterpretedOption = copy(stringValue = Some(__v))
+    def withStringValue(__v: _root_.com.google.protobuf.ByteString): UninterpretedOption = copy(stringValue = Some(__v))
     def getAggregateValue: String = aggregateValue.getOrElse("")
     def clearAggregateValue: UninterpretedOption = copy(aggregateValue = None)
     def withAggregateValue(__v: String): UninterpretedOption = copy(aggregateValue = Some(__v))
@@ -162,7 +162,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[Long]],
       __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[Long]],
       __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[Double]],
-      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[com.google.protobuf.ByteString]],
+      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[_root_.com.google.protobuf.ByteString]],
       __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[String]]
     )
   }
@@ -212,6 +212,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
         var __namePart = this.namePart
         var __isExtension = this.isExtension
+        var __requiredFields0: Long = 0x3L
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -219,11 +220,14 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
             case 0 => _done__ = true
             case 10 =>
               __namePart = _input__.readString()
+              __requiredFields0 &= 0xfffffffffffffffeL
             case 16 =>
               __isExtension = _input__.readBool()
+              __requiredFields0 &= 0xfffffffffffffffdL
             case tag => _input__.skipField(tag)
           }
         }
+        if (__requiredFields0 != 0L) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } 
         com.google.protobuf.descriptor.UninterpretedOption.NamePart(
             namePart = __namePart,
             isExtension = __isExtension
@@ -276,8 +280,8 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
     def optionalNegativeIntValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.negativeIntValue)((c_, f_) => c_.copy(negativeIntValue = f_))
     def doubleValue: _root_.com.trueaccord.lenses.Lens[UpperPB, Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Some(f_)))
     def optionalDoubleValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Double]] = field(_.doubleValue)((c_, f_) => c_.copy(doubleValue = f_))
-    def stringValue: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Some(f_)))
-    def optionalStringValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.ByteString]] = field(_.stringValue)((c_, f_) => c_.copy(stringValue = f_))
+    def stringValue: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Some(f_)))
+    def optionalStringValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[_root_.com.google.protobuf.ByteString]] = field(_.stringValue)((c_, f_) => c_.copy(stringValue = f_))
     def aggregateValue: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Some(f_)))
     def optionalAggregateValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.aggregateValue)((c_, f_) => c_.copy(aggregateValue = f_))
   }
