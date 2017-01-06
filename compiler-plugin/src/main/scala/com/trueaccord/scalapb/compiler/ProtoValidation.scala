@@ -29,6 +29,6 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
   def validateField(fd: FieldDescriptor): Unit = {
     if (ForbiddenFieldNames.contains(fd.scalaName))
       throw new GeneratorException(
-        s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed.")
+        s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed. See https://scalapb.github.io/customizations.html#custom-names")
   }
 }
