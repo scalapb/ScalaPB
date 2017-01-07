@@ -73,7 +73,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.14"
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.15"
     ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
