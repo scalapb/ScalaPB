@@ -176,6 +176,7 @@ lazy val proptest = project.in(file("proptest"))
         "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
         "org.scalatest" %% "scalatest" % "3.0.1" % "test"
       ),
+      scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       testOptions += Tests.Argument(),
       fork in Test := false,
