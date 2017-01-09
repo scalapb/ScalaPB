@@ -193,8 +193,8 @@ final case class FieldDescriptorProto(
       __field.getNumber match {
         case 1 => name.orNull
         case 3 => number.orNull
-        case 4 => label.map(_.valueDescriptor).orNull
-        case 5 => `type`.map(_.valueDescriptor).orNull
+        case 4 => label.map(_.javaValueDescriptor).orNull
+        case 5 => `type`.map(_.javaValueDescriptor).orNull
         case 6 => typeName.orNull
         case 2 => extendee.orNull
         case 7 => defaultValue.orNull
@@ -210,8 +210,8 @@ final case class FieldDescriptorProto(
 object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] {
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FieldDescriptorProto = {
-    require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
-    val __fields = descriptor.getFields
+    require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
+    val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.FieldDescriptorProto(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
       __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Int]],
@@ -225,9 +225,9 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
       __fieldsMap.get(__fields.get(9)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.FieldOptions]]
     )
   }
-  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(3)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(3)
   def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 8 => __out = com.google.protobuf.descriptor.FieldOptions
@@ -235,7 +235,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
   __out
   }
   def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     __field.getNumber match {
       case 4 => com.google.protobuf.descriptor.FieldDescriptorProto.Label
       case 5 => com.google.protobuf.descriptor.FieldDescriptorProto.Type
@@ -442,7 +442,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
       case 18 => TYPE_SINT64
       case __other => Unrecognized(__other)
     }
-    def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.descriptor.getEnumTypes.get(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(0)
   }
   sealed trait Label extends _root_.com.trueaccord.scalapb.GeneratedEnum {
     type EnumType = Label
@@ -493,7 +493,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
       case 3 => LABEL_REPEATED
       case __other => Unrecognized(__other)
     }
-    def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.descriptor.getEnumTypes.get(1)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(1)
   }
   implicit class FieldDescriptorProtoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto](_l) {
     def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))

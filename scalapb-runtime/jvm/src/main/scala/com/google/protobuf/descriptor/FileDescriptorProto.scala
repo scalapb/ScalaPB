@@ -294,8 +294,8 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
     syntax = if (javaPbSource.hasSyntax) Some(javaPbSource.getSyntax) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorProto = {
-    require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
-    val __fields = descriptor.getFields
+    require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
+    val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.FileDescriptorProto(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
       __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[String]],
@@ -311,9 +311,9 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
       __fieldsMap.get(__fields.get(11)).asInstanceOf[scala.Option[String]]
     )
   }
-  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(1)
   def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 4 => __out = com.google.protobuf.descriptor.DescriptorProto

@@ -8,7 +8,7 @@ package com.google.protobuf.duration
 
 
 object DurationProto {
-  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {
+  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """Ch5nb29nbGUvcHJvdG9idWYvZHVyYXRpb24ucHJvdG8SD2dvb2dsZS5wcm90b2J1ZiI6CghEdXJhdGlvbhIYCgdzZWNvbmRzG
@@ -19,4 +19,6 @@ object DurationProto {
     com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(
     ))
   }
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
 }

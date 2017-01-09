@@ -100,16 +100,16 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
     file = javaPbSource.getFileList.asScala.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
-    require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
-    val __fields = descriptor.getFields
+    require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
+    val __fields = javaDescriptor.getFields
     com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]
     )
   }
-  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = PluginProto.descriptor.getMessageTypes.get(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = PluginProto.javaDescriptor.getMessageTypes.get(1)
   def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 15 => __out = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File
@@ -267,15 +267,15 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
       content = if (javaPbSource.hasContent) Some(javaPbSource.getContent) else None
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
-      require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
-      val __fields = descriptor.getFields
+      require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
+      val __fields = javaDescriptor.getFields
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
         __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[String]],
         __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[String]]
       )
     }
-    def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.descriptor.getNestedTypes.get(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.javaDescriptor.getNestedTypes.get(0)
     def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__field)
     def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__field)
     lazy val defaultInstance = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(

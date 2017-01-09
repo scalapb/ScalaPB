@@ -133,7 +133,7 @@ private[scalapb] object AstUtils {
       case Type.SINT64 => parseInt64(p)
       case Type.GROUP => Right(AstError(p.index, "groups are not supported"))
       case Type.ENUM => {
-        val enumDesc = v.enumCompanionForField(field).descriptor
+        val enumDesc = v.enumCompanionForField(field).javaDescriptor
         p match {
           case PIntLiteral(index, num) =>
             Option(enumDesc.findValueByNumber(num.toInt))
@@ -175,7 +175,7 @@ private[scalapb] object AstUtils {
         }
     }
 
-    val fieldMap: Map[String, FieldDescriptor] = v.descriptor.getFields.map(f => (f.getName, f)).toMap
+    val fieldMap: Map[String, FieldDescriptor] = v.javaDescriptor.getFields.map(f => (f.getName, f)).toMap
 
     val fields: Map[String, Seq[PField]] = ast.fields.groupBy(_.name)
 

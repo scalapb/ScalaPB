@@ -19,7 +19,7 @@ class BytesSpec extends FlatSpec with MustMatchers {
     ByteMessage2().getAllFields must be(Map())
     val b = ByteMessage2(s = Some(ByteString.copyFromUtf8("boo")))
     b.getAllFields must be(
-        Map(ByteMessage2.descriptor.findFieldByName("s") -> b.getS))
+        Map(ByteMessage2.javaDescriptor.findFieldByName("s") -> b.getS))
     ByteMessage2.fromFieldsMap(b.getAllFields) must be(b)
   }
 

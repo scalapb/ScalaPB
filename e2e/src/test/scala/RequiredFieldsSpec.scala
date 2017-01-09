@@ -8,7 +8,7 @@ import scala.collection.JavaConverters._
 
 class RequiredFieldsSpec extends FlatSpec with MustMatchers {
 
-  val FullFieldMap: Map[FieldDescriptor, Any] = OptionalFields.descriptor.getFields.asScala.map {
+  val FullFieldMap: Map[FieldDescriptor, Any] = OptionalFields.javaDescriptor.getFields.asScala.map {
     fd => fd -> 1
   }.toMap
 
@@ -22,7 +22,7 @@ class RequiredFieldsSpec extends FlatSpec with MustMatchers {
   }
 
   "RequiredMessage" should "throw when all but one of the fields is set" in {
-    for { fd <- OptionalFields.descriptor.getFields.asScala } {
+    for { fd <- OptionalFields.javaDescriptor.getFields.asScala } {
       val b = OptionalFields.fromFieldsMap(FullFieldMap - fd).toByteArray
       intercept[InvalidProtocolBufferException](RequiredFields.parseFrom(b))
     }

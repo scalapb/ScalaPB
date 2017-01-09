@@ -8,7 +8,7 @@ package com.google.protobuf.field_mask
 
 
 object FieldMaskProto {
-  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {
+  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """CiBnb29nbGUvcHJvdG9idWYvZmllbGRfbWFzay5wcm90bxIPZ29vZ2xlLnByb3RvYnVmIiEKCUZpZWxkTWFzaxIUCgVwYXRoc
@@ -18,4 +18,6 @@ object FieldMaskProto {
     com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(
     ))
   }
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
 }

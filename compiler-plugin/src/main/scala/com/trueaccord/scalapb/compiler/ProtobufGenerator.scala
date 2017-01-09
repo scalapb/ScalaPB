@@ -60,7 +60,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       }
       .add(s"  case __other => Unrecognized(__other)")
       .add("}")
-      .add(s"def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = ${e.descriptorSource}")
+      .add(s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}")
       .when(params.javaConversions) {
       _.addStringMargin(
         s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
@@ -347,7 +347,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     else Identity
 
   def toBaseFieldType(field: FieldDescriptor) = if (field.isEnum)
-    (toBaseTypeExpr(field) andThen MethodApplication("valueDescriptor"))
+    (toBaseTypeExpr(field) andThen MethodApplication("javaValueDescriptor"))
   else toBaseTypeExpr(field)
 
   def toBaseType(field: FieldDescriptor)(expr: String) =
@@ -693,8 +693,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val myFullScalaName = message.scalaTypeName
     printer.add(s"def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): $myFullScalaName = {")
       .indent
-      .add("require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), \"FieldDescriptor does not match message type.\")")
-      .add("val __fields = descriptor.getFields")
+      .add("require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), \"FieldDescriptor does not match message type.\")")
+      .add("val __fields = javaDescriptor.getFields")
       .add(myFullScalaName + "(")
       .indent
       .call {
@@ -711,7 +711,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             else {
               // This is for proto3, no default value.
               val t = defaultValueForGet(field, uncustomized = true) + (if (field.isEnum)
-                ".valueDescriptor" else "")
+                ".javaValueDescriptor" else "")
               s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), $t).asInstanceOf[$baseTypeName]"
             }
 
@@ -739,7 +739,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateDescriptor(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
-      .add(s"def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ${message.descriptorSource}")
+      .add(s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ${message.javaDescriptorSource}")
   }
 
   def generateDefaultInstance(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -841,7 +841,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (message.fields.exists(_.isMessage))
       fp.add(signature + "{")
         .indent
-        .add("require(__field.getContainingType() == descriptor, \"FieldDescriptor does not match message type.\")")
+        .add("require(__field.getContainingType() == javaDescriptor, \"FieldDescriptor does not match message type.\")")
         .add("var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null")
         .add("__field.getNumber match {")
         .indent
@@ -862,7 +862,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (message.fields.exists(_.isEnum))
       fp.add(signature + "{")
         .indent
-        .add("require(__field.getContainingType() == descriptor, \"FieldDescriptor does not match message type.\")")
+        .add("require(__field.getContainingType() == javaDescriptor, \"FieldDescriptor does not match message type.\")")
         .add("__field.getNumber match {")
         .indent
         .print(message.fields.filter(_.isEnum)) {
@@ -1074,11 +1074,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val lines = ("\"\"\"" + group).grouped(100).toSeq
         lines.dropRight(1) :+ (lines.last + "\"\"\"")
     }.toSeq
-    if (params.javaConversions)
-      fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =")
+    (if (params.javaConversions)
+      fp.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =")
         .add(s"  ${file.javaFullOuterClassName}.getDescriptor()")
       else
-      fp.add("lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
+      fp.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
         .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(")
         .add("    com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(")
         .addGroupsWithDelimiter(",")(base64)
@@ -1088,10 +1088,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         d =>
           if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
           else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.DescriptorProtos.getDescriptor()"
-          else d.fileDescriptorObjectFullName + ".descriptor"
+          else d.fileDescriptorObjectFullName + ".javaDescriptor"
       })
         .add("  ))")
-        .add("}")
+        .add("}"))
+      .add("""@deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")""")
+      .add("def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor")
   }
 
   private def encodeByteArray(a: GoogleByteString): Seq[String] = {

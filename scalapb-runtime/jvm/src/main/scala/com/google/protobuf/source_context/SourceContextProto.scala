@@ -8,6 +8,8 @@ package com.google.protobuf.source_context
 import scala.collection.JavaConverters._
 
 object SourceContextProto {
-  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =
+  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =
     com.google.protobuf.SourceContextProto.getDescriptor()
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
 }

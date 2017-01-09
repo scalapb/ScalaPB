@@ -8,7 +8,7 @@ package com.google.protobuf.compiler.plugin
 
 
 object PluginProto {
-  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {
+  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """CiVnb29nbGUvcHJvdG9idWYvY29tcGlsZXIvcGx1Z2luLnByb3RvEhhnb29nbGUucHJvdG9idWYuY29tcGlsZXIaIGdvb2dsZ
@@ -24,4 +24,6 @@ object PluginProto {
   com.google.protobuf.DescriptorProtos.getDescriptor()
     ))
   }
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
 }

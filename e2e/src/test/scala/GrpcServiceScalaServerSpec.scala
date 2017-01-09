@@ -9,11 +9,11 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
     it("provides descriptor object") {
       import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
       // Deprecated usage
-      Service1GrpcScala.descriptor.getName must be("Service1")
+      Service1GrpcScala.javaDescriptor.getName must be("Service1")
 
-      Service1GrpcScala.Service1.descriptor.getName must be("Service1")
-      implicitly[com.trueaccord.scalapb.grpc.ServiceCompanion[Service1GrpcScala.Service1]].descriptor must be(
-        Service1GrpcScala.Service1.descriptor)
+      Service1GrpcScala.Service1.javaDescriptor.getName must be("Service1")
+      implicitly[com.trueaccord.scalapb.grpc.ServiceCompanion[Service1GrpcScala.Service1]].javaDescriptor must be(
+        Service1GrpcScala.Service1.javaDescriptor)
     }
   }
 

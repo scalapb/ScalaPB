@@ -198,11 +198,11 @@ final case class Field(
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
         case 1 => {
-          val __t = kind.valueDescriptor
+          val __t = kind.javaValueDescriptor
           if (__t.getNumber() != 0) __t else null
         }
         case 2 => {
-          val __t = cardinality.valueDescriptor
+          val __t = cardinality.javaValueDescriptor
           if (__t.getNumber() != 0) __t else null
         }
         case 3 => {
@@ -269,11 +269,11 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     defaultValue = javaPbSource.getDefaultValue
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.Field = {
-    require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
-    val __fields = descriptor.getFields
+    require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
+    val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.Field(
-      com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.getOrElse(__fields.get(0), com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.valueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
-      com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.getOrElse(__fields.get(1), com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.valueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
+      com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.getOrElse(__fields.get(0), com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
+      com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.getOrElse(__fields.get(1), com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
       __fieldsMap.getOrElse(__fields.get(2), 0).asInstanceOf[Int],
       __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[String],
       __fieldsMap.getOrElse(__fields.get(4), "").asInstanceOf[String],
@@ -284,9 +284,9 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
       __fieldsMap.getOrElse(__fields.get(9), "").asInstanceOf[String]
     )
   }
-  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = TypeProto.descriptor.getMessageTypes.get(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = TypeProto.javaDescriptor.getMessageTypes.get(1)
   def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 9 => __out = com.google.protobuf.`type`.OptionProto
@@ -294,7 +294,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
   __out
   }
   def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     __field.getNumber match {
       case 1 => com.google.protobuf.`type`.Field.Kind
       case 2 => com.google.protobuf.`type`.Field.Cardinality
@@ -511,7 +511,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
       case 18 => TYPE_SINT64
       case __other => Unrecognized(__other)
     }
-    def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.descriptor.getEnumTypes.get(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Kind): Kind = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: Kind): com.google.protobuf.Field.Kind = com.google.protobuf.Field.Kind.forNumber(pbScalaSource.value)
   }
@@ -574,7 +574,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
       case 3 => CARDINALITY_REPEATED
       case __other => Unrecognized(__other)
     }
-    def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.descriptor.getEnumTypes.get(1)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Cardinality): Cardinality = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: Cardinality): com.google.protobuf.Field.Cardinality = com.google.protobuf.Field.Cardinality.forNumber(pbScalaSource.value)
   }

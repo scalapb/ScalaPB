@@ -8,7 +8,7 @@ package com.google.protobuf.api
 
 
 object ApiProto {
-  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor = {
+  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """Chlnb29nbGUvcHJvdG9idWYvYXBpLnByb3RvEg9nb29nbGUucHJvdG9idWYaJGdvb2dsZS9wcm90b2J1Zi9zb3VyY2VfY29ud
@@ -25,8 +25,10 @@ object ApiProto {
   3RvUAGgAQGiAgNHUEKqAh5Hb29nbGUuUHJvdG9idWYuV2VsbEtub3duVHlwZXNiBnByb3RvMw=="""
       ).mkString))
     com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(
-  com.google.protobuf.source_context.SourceContextProto.descriptor,
-  com.google.protobuf.`type`.TypeProto.descriptor
+  com.google.protobuf.source_context.SourceContextProto.javaDescriptor,
+  com.google.protobuf.`type`.TypeProto.javaDescriptor
     ))
   }
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
 }

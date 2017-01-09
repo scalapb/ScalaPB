@@ -46,5 +46,5 @@ object Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Synta
     case 1 => SYNTAX_PROTO3
     case __other => Unrecognized(__other)
   }
-  def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.descriptor.getEnumTypes.get(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes.get(0)
 }

@@ -309,9 +309,9 @@ trait DescriptorPimps {
       new MapType
     }
 
-    def descriptorSource: String = if (message.isTopLevel)
-      s"${message.getFile.fileDescriptorObjectName}.descriptor.getMessageTypes.get(${message.getIndex})"
-      else s"${message.getContainingType.scalaTypeName}.descriptor.getNestedTypes.get(${message.getIndex})"
+    def javaDescriptorSource: String = if (message.isTopLevel)
+      s"${message.getFile.fileDescriptorObjectName}.javaDescriptor.getMessageTypes.get(${message.getIndex})"
+      else s"${message.getContainingType.scalaTypeName}.javaDescriptor.getNestedTypes.get(${message.getIndex})"
 
     def sourcePath: Seq[Int] = {
       if (message.isTopLevel) Seq(FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER, message.getIndex)
@@ -348,9 +348,9 @@ trait DescriptorPimps {
     def valuesWithNoDuplicates = enum.getValues.asScala.groupBy(_.getNumber)
       .mapValues(_.head).values.toVector.sortBy(_.getNumber)
 
-    def descriptorSource: String = if (enum.isTopLevel)
-      s"${enum.getFile.fileDescriptorObjectName}.descriptor.getEnumTypes.get(${enum.getIndex})"
-      else s"${enum.getContainingType.scalaTypeName}.descriptor.getEnumTypes.get(${enum.getIndex})"
+    def javaDescriptorSource: String = if (enum.isTopLevel)
+      s"${enum.getFile.fileDescriptorObjectName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+      else s"${enum.getContainingType.scalaTypeName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {

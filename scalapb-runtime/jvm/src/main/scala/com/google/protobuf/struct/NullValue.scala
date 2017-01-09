@@ -36,7 +36,7 @@ object NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Nu
     case 0 => NULL_VALUE
     case __other => Unrecognized(__other)
   }
-  def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = StructProto.descriptor.getEnumTypes.get(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = StructProto.javaDescriptor.getEnumTypes.get(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.NullValue): NullValue = fromValue(pbJavaSource.getNumber)
   def toJavaValue(pbScalaSource: NullValue): com.google.protobuf.NullValue = com.google.protobuf.NullValue.forNumber(pbScalaSource.value)
 }

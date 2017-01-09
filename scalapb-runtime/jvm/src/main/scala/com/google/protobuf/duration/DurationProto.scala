@@ -8,6 +8,8 @@ package com.google.protobuf.duration
 import scala.collection.JavaConverters._
 
 object DurationProto {
-  lazy val descriptor: com.google.protobuf.Descriptors.FileDescriptor =
+  lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =
     com.google.protobuf.DurationProto.getDescriptor()
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
 }

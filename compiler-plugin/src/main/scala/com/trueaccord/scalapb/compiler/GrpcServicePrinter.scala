@@ -51,7 +51,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
         .add(s"object ${service.name} extends _root_.com.trueaccord.scalapb.grpc.ServiceCompanion[${service.name}] {")
         .indent
         .add(s"implicit def serviceCompanion: _root_.com.trueaccord.scalapb.grpc.ServiceCompanion[${service.name}] = this")
-        .add(s"def descriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.descriptor.getServices().get(${service.getIndex})")
+        .add(s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices().get(${service.getIndex})")
         .outdent
         .add("}")
   }
@@ -260,8 +260,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     .newline
     .add(s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)")
     .newline
-    .add(s"""@deprecated("Use ${service.objectName}.${service.name}.descriptor", since="ScalaPB 0.5.40")""")
-    .add(s"def descriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.descriptor.getServices().get(${service.getIndex})")
+    .add(s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices().get(${service.getIndex})")
     .newline
     .outdent
     .add("}")

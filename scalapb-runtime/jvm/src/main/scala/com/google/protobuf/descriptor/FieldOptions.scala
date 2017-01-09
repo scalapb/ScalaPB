@@ -187,9 +187,9 @@ final case class FieldOptions(
     def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FieldOptions = copy(uninterpretedOption = __v)
     def getField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): scala.Any = {
       __field.getNumber match {
-        case 1 => ctype.map(_.valueDescriptor).orNull
+        case 1 => ctype.map(_.javaValueDescriptor).orNull
         case 2 => packed.orNull
-        case 6 => jstype.map(_.valueDescriptor).orNull
+        case 6 => jstype.map(_.javaValueDescriptor).orNull
         case 5 => `lazy`.orNull
         case 3 => deprecated.orNull
         case 10 => weak.orNull
@@ -223,8 +223,8 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FieldOptions = {
-    require(__fieldsMap.keys.forall(_.getContainingType() == descriptor), "FieldDescriptor does not match message type.")
-    val __fields = descriptor.getFields
+    require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
+    val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.FieldOptions(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => com.google.protobuf.descriptor.FieldOptions.CType.fromValue(__e.getNumber)),
       __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Boolean]],
@@ -235,9 +235,9 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
       __fieldsMap.getOrElse(__fields.get(6), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
-  def descriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.descriptor.getMessageTypes.get(11)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(11)
   def messageCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
     __field.getNumber match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
@@ -245,7 +245,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
   __out
   }
   def enumCompanionForField(__field: _root_.com.google.protobuf.Descriptors.FieldDescriptor): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    require(__field.getContainingType() == descriptor, "FieldDescriptor does not match message type.")
+    require(__field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
     __field.getNumber match {
       case 1 => com.google.protobuf.descriptor.FieldOptions.CType
       case 6 => com.google.protobuf.descriptor.FieldOptions.JSType
@@ -302,7 +302,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
       case 2 => STRING_PIECE
       case __other => Unrecognized(__other)
     }
-    def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.descriptor.getEnumTypes.get(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.CType): CType = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: CType): com.google.protobuf.DescriptorProtos.FieldOptions.CType = com.google.protobuf.DescriptorProtos.FieldOptions.CType.forNumber(pbScalaSource.value)
   }
@@ -355,7 +355,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
       case 2 => JS_NUMBER
       case __other => Unrecognized(__other)
     }
-    def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.descriptor.getEnumTypes.get(1)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.JSType): JSType = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: JSType): com.google.protobuf.DescriptorProtos.FieldOptions.JSType = com.google.protobuf.DescriptorProtos.FieldOptions.JSType.forNumber(pbScalaSource.value)
   }

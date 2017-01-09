@@ -20,7 +20,10 @@ trait GeneratedEnum extends Product with Serializable {
 
   def companion: GeneratedEnumCompanion[EnumType]
 
-  def valueDescriptor: EnumValueDescriptor = companion.descriptor.getValues.get(index)
+  @deprecated("Use javaValueDescriptor", "ScalaPB 0.5.47")
+  def valueDescriptor: EnumValueDescriptor = javaValueDescriptor
+
+  def javaValueDescriptor: EnumValueDescriptor = companion.javaDescriptor.getValues.get(index)
 }
 
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
@@ -28,7 +31,9 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def fromValue(value: Int): A
   def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
-  def descriptor: EnumDescriptor
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = javaDescriptor
+  def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
 }
 
 trait GeneratedOneof extends Product with Serializable {
@@ -68,8 +73,8 @@ trait GeneratedMessage extends Serializable {
 
   def getAllFields: Map[FieldDescriptor, Any] = {
     val b = Map.newBuilder[FieldDescriptor, Any]
-    b.sizeHint(companion.descriptor.getFields.size)
-    val i = companion.descriptor.getFields.iterator
+    b.sizeHint(companion.javaDescriptor.getFields.size)
+    val i = companion.javaDescriptor.getFields.iterator
     while (i.hasNext) {
       val f = i.next()
       if (f.getType != FieldDescriptor.Type.GROUP) {
@@ -137,7 +142,10 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def fromFieldsMap(fields: Map[FieldDescriptor, Any]): A
 
-  def descriptor: com.google.protobuf.Descriptors.Descriptor
+  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  def descriptor: com.google.protobuf.Descriptors.Descriptor = javaDescriptor
+
+  def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
 
   def messageCompanionForField(field: FieldDescriptor): GeneratedMessageCompanion[_]
 
@@ -155,6 +163,5 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def defaultInstance: A
 }
 
-case class KeyValue[K, V](key: K, value: V) {
+case class KeyValue[K, V](key: K, value: V)
 
-}

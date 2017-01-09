@@ -15,9 +15,9 @@ import com.trueaccord.pb.FullName
 class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   import com.trueaccord.scalapb.Implicits._
 
-  val barOptions = BarMessage.descriptor.getOptions
-  val barP3Options = BarP3.descriptor.getOptions
-  val fooOptions = FooMessage.descriptor.getOptions
+  val barOptions = BarMessage.javaDescriptor.getOptions
+  val barP3Options = BarP3.javaDescriptor.getOptions
+  val fooOptions = FooMessage.javaDescriptor.getOptions
 
   println(s"Have java conversions: ${MessageB.isInstanceOf[JavaProtoSupport[_, _]]}")
 
@@ -88,8 +88,8 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   }
 
   "Custom name on field descriptor" should "translate to custom type" in {
-    val field1Opts = FooMessage.descriptor.findFieldByName("myField1").getOptions
-    val field2Opts = FooMessage.descriptor.findFieldByName("myField2").getOptions
+    val field1Opts = FooMessage.javaDescriptor.findFieldByName("myField1").getOptions
+    val field2Opts = FooMessage.javaDescriptor.findFieldByName("myField2").getOptions
     CustomOptionsProto.optName.get(field1Opts) must be(Some(FullName("John", "")))
     CustomOptionsProto.optName.get(field2Opts) must be(None)
     CustomOptionsProto.repName.get(field1Opts) must be(Seq.empty)

@@ -493,7 +493,7 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
   "testPrintFieldValue" should "pass" in {
     def printFieldValue(o: Any, fieldName: String): String = {
       val tg = new TextGenerator()
-      Printer.printFieldValue(TestAllTypes.descriptor.findFieldByName(fieldName), o, tg)
+      Printer.printFieldValue(TestAllTypes.javaDescriptor.findFieldByName(fieldName), o, tg)
       tg.result()
     }
 

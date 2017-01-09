@@ -22,6 +22,6 @@ object ProtoUtils {
     new ScalaPbMetadataMarshaller(companion)
 
   def keyForProto[T <: GeneratedMessage with Message[T]](implicit companion: GeneratedMessageCompanion[T]): Metadata.Key[T] =
-    Metadata.Key.of(companion.descriptor.getFullName + Metadata.BINARY_HEADER_SUFFIX,
+    Metadata.Key.of(companion.javaDescriptor.getFullName + Metadata.BINARY_HEADER_SUFFIX,
       metadataMarshaller[T])
 }

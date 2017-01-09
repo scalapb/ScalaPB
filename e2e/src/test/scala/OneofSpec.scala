@@ -126,7 +126,7 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
   }
 
   "oneof field descriptors" should "give the right containing name" in {
-    for (fieldDescriptor <- OneofTest.descriptor.getFields) {
+    for (fieldDescriptor <- OneofTest.javaDescriptor.getFields) {
       if (fieldDescriptor.getNumber > 1) {
         fieldDescriptor.getContainingOneof.getName must be("my_one_of")
       }
