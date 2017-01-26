@@ -7,7 +7,7 @@ import com.google.protobuf.Descriptors.{EnumDescriptor, EnumValueDescriptor, Fie
 
 import scala.util.Try
 
-trait GeneratedEnum extends Product with Serializable {
+trait GeneratedEnum extends Any with Product with Serializable {
   type EnumType <: GeneratedEnum
 
   def value: Int
@@ -36,7 +36,7 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
 }
 
-trait GeneratedOneof extends Product with Serializable {
+trait GeneratedOneof extends Any with Product with Serializable {
   def number: Int
   def isDefined: Boolean
   def isEmpty: Boolean
@@ -44,7 +44,7 @@ trait GeneratedOneof extends Product with Serializable {
 
 trait GeneratedOneofCompanion
 
-trait GeneratedMessage extends Serializable {
+trait GeneratedMessage extends Any with Serializable {
   def writeTo(output: CodedOutputStream): Unit
 
   def writeTo(output: OutputStream): Unit = {
@@ -107,11 +107,11 @@ trait GeneratedMessage extends Serializable {
   def serializedSize: Int
 }
 
-trait Message[A] {
+trait Message[A] extends Any {
   def mergeFrom(input: CodedInputStream): A
 }
 
-trait JavaProtoSupport[ScalaPB, JavaPB] {
+trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
   def fromJavaProto(javaProto: JavaPB): ScalaPB
 
   def toJavaProto(scalaProto: ScalaPB): JavaPB

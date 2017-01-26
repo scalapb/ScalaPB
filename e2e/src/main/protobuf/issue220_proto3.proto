@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+message ValueClassA {
+  option (scalapb.message).extends = "AnyVal";
+
+  string value = 1;
+}
+
+message ValueClassB {
+  option (scalapb.message).extends = "AnyVal";
+
+  map<string, string> value = 1;
+}
+
+message ValueClassC {
+  option (scalapb.message).extends = "AnyVal";
+
+  message A {}
+
+  A value = 1;
+}

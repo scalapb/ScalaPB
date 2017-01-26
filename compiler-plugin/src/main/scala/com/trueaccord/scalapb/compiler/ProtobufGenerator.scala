@@ -392,8 +392,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
     if (message.fields.nonEmpty) {
       fp
-      .add("@transient")
-      .add("private[this] var __serializedSizeCachedValue: Int = 0")
+      .when(!message.isValueClass) {
+        _.add("@transient")
+          .add("private[this] var __serializedSizeCachedValue: Int = 0")
+      }
       .add("private[this] def __computeSerializedValue(): Int = {")
       .indent
       .add("var __size = 0")
@@ -403,14 +405,19 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
       .add("final override def serializedSize: Int = {")
       .indent
-      .add("var read = __serializedSizeCachedValue")
-      .add("if (read == 0) {")
-      .indent
-      .add("read = __computeSerializedValue()")
-      .add("__serializedSizeCachedValue = read")
-      .outdent
-      .add("}")
-      .add("read")
+      .when(message.isValueClass){
+        _.add("__computeSerializedValue()")
+      }
+      .when(!message.isValueClass) {
+        _.add("var read = __serializedSizeCachedValue")
+          .add("if (read == 0) {")
+          .indent
+          .add("read = __computeSerializedValue()")
+          .add("__serializedSizeCachedValue = read")
+          .outdent
+          .add("}")
+          .add("read")
+      }
       .outdent
       .add("}")
     } else {
