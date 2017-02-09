@@ -265,8 +265,8 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       def companion = com.google.protobuf.descriptor.UninterpretedOption.NamePart
   }
   
-  object NamePart extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption.NamePart, com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption.NamePart, com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart] = this
+  object NamePart extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption.NamePart, com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart] with _root_.scala.Function2[String, Boolean, com.google.protobuf.descriptor.UninterpretedOption.NamePart] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption.NamePart, com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart] with _root_.scala.Function2[String, Boolean, com.google.protobuf.descriptor.UninterpretedOption.NamePart] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.UninterpretedOption.NamePart): com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart.newBuilder
       javaPbOut.setNamePart(scalaPbSource.namePart)

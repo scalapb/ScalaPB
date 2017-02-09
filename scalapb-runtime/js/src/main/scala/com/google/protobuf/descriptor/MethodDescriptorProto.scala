@@ -136,8 +136,8 @@ final case class MethodDescriptorProto(
     def companion = com.google.protobuf.descriptor.MethodDescriptorProto
 }
 
-object MethodDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] = this
+object MethodDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with _root_.scala.Function6[scala.Option[String], scala.Option[String], scala.Option[String], scala.Option[com.google.protobuf.descriptor.MethodOptions], scala.Option[Boolean], scala.Option[Boolean], com.google.protobuf.descriptor.MethodDescriptorProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with _root_.scala.Function6[scala.Option[String], scala.Option[String], scala.Option[String], scala.Option[com.google.protobuf.descriptor.MethodOptions], scala.Option[Boolean], scala.Option[Boolean], com.google.protobuf.descriptor.MethodDescriptorProto] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MethodDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields

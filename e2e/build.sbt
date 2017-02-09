@@ -53,7 +53,7 @@ lazy val root = (project in file("."))
   .settings(
     PB.targets in Compile := Seq(
       PB.gens.java -> (sourceManaged in Compile).value,
-      scalapb.gen(javaConversions = true) -> (sourceManaged in Compile).value
+      scalapb.gen(javaConversions = true, companionExtendsFunction = true) -> (sourceManaged in Compile).value
     ),
     libraryDependencies ++= Seq(
       "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.Version.scalapbVersion

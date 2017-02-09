@@ -363,8 +363,8 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       def companion = com.google.protobuf.descriptor.SourceCodeInfo.Location
   }
   
-  object Location extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo.Location, com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo.Location, com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location] = this
+  object Location extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo.Location, com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location] with _root_.scala.Function5[scala.collection.Seq[Int], scala.collection.Seq[Int], scala.Option[String], scala.Option[String], scala.collection.Seq[String], com.google.protobuf.descriptor.SourceCodeInfo.Location] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo.Location, com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location] with _root_.scala.Function5[scala.collection.Seq[Int], scala.collection.Seq[Int], scala.Option[String], scala.Option[String], scala.collection.Seq[String], com.google.protobuf.descriptor.SourceCodeInfo.Location] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.SourceCodeInfo.Location): com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location.newBuilder
       javaPbOut.addAllPath(scalaPbSource.path.map(Int.box(_)).asJava)

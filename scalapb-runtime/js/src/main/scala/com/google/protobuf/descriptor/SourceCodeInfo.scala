@@ -355,8 +355,8 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       def companion = com.google.protobuf.descriptor.SourceCodeInfo.Location
   }
   
-  object Location extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] = this
+  object Location extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with _root_.scala.Function5[scala.collection.Seq[Int], scala.collection.Seq[Int], scala.Option[String], scala.Option[String], scala.collection.Seq[String], com.google.protobuf.descriptor.SourceCodeInfo.Location] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with _root_.scala.Function5[scala.collection.Seq[Int], scala.collection.Seq[Int], scala.Option[String], scala.Option[String], scala.collection.Seq[String], com.google.protobuf.descriptor.SourceCodeInfo.Location] = this
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo.Location = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields

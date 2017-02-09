@@ -70,8 +70,8 @@ final case class FloatValue(
     def companion = com.google.protobuf.wrappers.FloatValue
 }
 
-object FloatValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] = this
+object FloatValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with _root_.scala.Function1[Float, com.google.protobuf.wrappers.FloatValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with _root_.scala.Function1[Float, com.google.protobuf.wrappers.FloatValue] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.FloatValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields

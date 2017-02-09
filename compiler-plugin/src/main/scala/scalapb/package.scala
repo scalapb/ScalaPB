@@ -5,7 +5,8 @@ package object scalapb {
     flatPackage: Boolean = false,
     javaConversions: Boolean = false,
     grpc: Boolean = true,
-    singleLineToString: Boolean = false): (JvmGenerator, Seq[String]) =
+    singleLineToString: Boolean = false,
+    companionExtendsFunction: Boolean = true): (JvmGenerator, Seq[String]) =
     (JvmGenerator(
       "scala",
       ScalaPbCodeGenerator),
@@ -13,6 +14,7 @@ package object scalapb {
         "flat_package" -> flatPackage,
         "java_conversions" -> javaConversions,
         "grpc" -> grpc,
-        "single_line_to_string" -> singleLineToString
+        "single_line_to_string" -> singleLineToString,
+        "companion_extends_function" -> companionExtendsFunction
       ).collect { case (name, v) if v => name })
 }

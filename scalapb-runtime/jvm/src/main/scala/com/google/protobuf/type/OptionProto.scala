@@ -86,8 +86,8 @@ final case class OptionProto(
     def companion = com.google.protobuf.`type`.OptionProto
 }
 
-object OptionProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] = this
+object OptionProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] with _root_.scala.Function2[String, scala.Option[com.google.protobuf.any.Any], com.google.protobuf.`type`.OptionProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] with _root_.scala.Function2[String, scala.Option[com.google.protobuf.any.Any], com.google.protobuf.`type`.OptionProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.OptionProto): com.google.protobuf.Option = {
     val javaPbOut = com.google.protobuf.Option.newBuilder
     javaPbOut.setName(scalaPbSource.name)

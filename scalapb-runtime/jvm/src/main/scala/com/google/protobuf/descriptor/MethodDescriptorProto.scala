@@ -136,8 +136,8 @@ final case class MethodDescriptorProto(
     def companion = com.google.protobuf.descriptor.MethodDescriptorProto
 }
 
-object MethodDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodDescriptorProto, com.google.protobuf.DescriptorProtos.MethodDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodDescriptorProto, com.google.protobuf.DescriptorProtos.MethodDescriptorProto] = this
+object MethodDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodDescriptorProto, com.google.protobuf.DescriptorProtos.MethodDescriptorProto] with _root_.scala.Function6[scala.Option[String], scala.Option[String], scala.Option[String], scala.Option[com.google.protobuf.descriptor.MethodOptions], scala.Option[Boolean], scala.Option[Boolean], com.google.protobuf.descriptor.MethodDescriptorProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodDescriptorProto, com.google.protobuf.DescriptorProtos.MethodDescriptorProto] with _root_.scala.Function6[scala.Option[String], scala.Option[String], scala.Option[String], scala.Option[com.google.protobuf.descriptor.MethodOptions], scala.Option[Boolean], scala.Option[Boolean], com.google.protobuf.descriptor.MethodDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.MethodDescriptorProto): com.google.protobuf.DescriptorProtos.MethodDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.MethodDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

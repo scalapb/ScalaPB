@@ -334,8 +334,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def companion = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange
   }
   
-  object ExtensionRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] = this
+  object ExtensionRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange): com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange.newBuilder
       scalaPbSource.start.foreach(javaPbOut.setStart)
@@ -443,8 +443,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def companion = com.google.protobuf.descriptor.DescriptorProto.ReservedRange
   }
   
-  object ReservedRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] = this
+  object ReservedRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto.ReservedRange): com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange.newBuilder
       scalaPbSource.start.foreach(javaPbOut.setStart)

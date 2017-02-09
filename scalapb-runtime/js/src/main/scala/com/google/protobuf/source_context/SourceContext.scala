@@ -70,8 +70,8 @@ final case class SourceContext(
     def companion = com.google.protobuf.source_context.SourceContext
 }
 
-object SourceContext extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] = this
+object SourceContext extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with _root_.scala.Function1[String, com.google.protobuf.source_context.SourceContext] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with _root_.scala.Function1[String, com.google.protobuf.source_context.SourceContext] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.source_context.SourceContext = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields

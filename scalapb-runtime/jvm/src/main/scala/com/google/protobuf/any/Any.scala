@@ -175,8 +175,8 @@ final case class Any(
     def companion = com.google.protobuf.any.Any
 }
 
-object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods = this
+object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods with _root_.scala.Function2[String, _root_.com.google.protobuf.ByteString, com.google.protobuf.any.Any] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods with _root_.scala.Function2[String, _root_.com.google.protobuf.ByteString, com.google.protobuf.any.Any] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.any.Any): com.google.protobuf.Any = {
     val javaPbOut = com.google.protobuf.Any.newBuilder
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)

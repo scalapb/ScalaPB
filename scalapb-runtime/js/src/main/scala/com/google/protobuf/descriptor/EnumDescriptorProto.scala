@@ -92,8 +92,8 @@ final case class EnumDescriptorProto(
     def companion = com.google.protobuf.descriptor.EnumDescriptorProto
 }
 
-object EnumDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] = this
+object EnumDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.collection.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto], scala.Option[com.google.protobuf.descriptor.EnumOptions], com.google.protobuf.descriptor.EnumDescriptorProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.collection.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto], scala.Option[com.google.protobuf.descriptor.EnumOptions], com.google.protobuf.descriptor.EnumDescriptorProto] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.EnumDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields

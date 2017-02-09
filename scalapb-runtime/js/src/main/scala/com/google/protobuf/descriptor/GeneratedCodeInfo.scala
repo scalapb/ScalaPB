@@ -215,8 +215,8 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       def companion = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation
   }
   
-  object Annotation extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = this
+  object Annotation extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with _root_.scala.Function4[scala.collection.Seq[Int], scala.Option[String], scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with _root_.scala.Function4[scala.collection.Seq[Int], scala.Option[String], scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = this
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields

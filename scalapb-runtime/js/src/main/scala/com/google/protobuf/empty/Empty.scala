@@ -40,8 +40,8 @@ final case class Empty(
     def companion = com.google.protobuf.empty.Empty
 }
 
-object Empty extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] = this
+object Empty extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with _root_.scala.Function0[com.google.protobuf.empty.Empty] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with _root_.scala.Function0[com.google.protobuf.empty.Empty] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.empty.Empty = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields

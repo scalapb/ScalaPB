@@ -180,8 +180,8 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       def companion = com.google.protobuf.struct.Struct.FieldsEntry
   }
   
-  object FieldsEntry extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] = this
+  object FieldsEntry extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] with _root_.scala.Function2[String, scala.Option[com.google.protobuf.struct.Value], com.google.protobuf.struct.Struct.FieldsEntry] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] with _root_.scala.Function2[String, scala.Option[com.google.protobuf.struct.Value], com.google.protobuf.struct.Struct.FieldsEntry] = this
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.Struct.FieldsEntry = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields

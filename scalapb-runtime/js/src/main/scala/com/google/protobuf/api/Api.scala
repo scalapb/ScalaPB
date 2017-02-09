@@ -198,8 +198,8 @@ final case class Api(
     def companion = com.google.protobuf.api.Api
 }
 
-object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] = this
+object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with _root_.scala.Function7[String, scala.collection.Seq[com.google.protobuf.api.Method], scala.collection.Seq[com.google.protobuf.`type`.OptionProto], String, scala.Option[com.google.protobuf.source_context.SourceContext], scala.collection.Seq[com.google.protobuf.api.Mixin], com.google.protobuf.`type`.Syntax, com.google.protobuf.api.Api] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with _root_.scala.Function7[String, scala.collection.Seq[com.google.protobuf.api.Method], scala.collection.Seq[com.google.protobuf.`type`.OptionProto], String, scala.Option[com.google.protobuf.source_context.SourceContext], scala.collection.Seq[com.google.protobuf.api.Mixin], com.google.protobuf.`type`.Syntax, com.google.protobuf.api.Api] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Api = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields

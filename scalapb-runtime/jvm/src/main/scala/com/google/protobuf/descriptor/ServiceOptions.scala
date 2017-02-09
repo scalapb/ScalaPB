@@ -83,8 +83,8 @@ final case class ServiceOptions(
     def companion = com.google.protobuf.descriptor.ServiceOptions
 }
 
-object ServiceOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] = this
+object ServiceOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] with _root_.scala.Function2[scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.ServiceOptions] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] with _root_.scala.Function2[scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.ServiceOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceOptions): com.google.protobuf.DescriptorProtos.ServiceOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)

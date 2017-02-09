@@ -132,8 +132,8 @@ final case class Duration(
     def companion = com.google.protobuf.duration.Duration
 }
 
-object Duration extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] = this
+object Duration extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with _root_.scala.Function2[Long, Int, com.google.protobuf.duration.Duration] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with _root_.scala.Function2[Long, Int, com.google.protobuf.duration.Duration] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.duration.Duration): com.google.protobuf.Duration = {
     val javaPbOut = com.google.protobuf.Duration.newBuilder
     javaPbOut.setSeconds(scalaPbSource.seconds)

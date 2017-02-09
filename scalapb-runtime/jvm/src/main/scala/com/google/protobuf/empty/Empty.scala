@@ -40,8 +40,8 @@ final case class Empty(
     def companion = com.google.protobuf.empty.Empty
 }
 
-object Empty extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] = this
+object Empty extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] with _root_.scala.Function0[com.google.protobuf.empty.Empty] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] with _root_.scala.Function0[com.google.protobuf.empty.Empty] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.empty.Empty): com.google.protobuf.Empty = {
     val javaPbOut = com.google.protobuf.Empty.newBuilder
     javaPbOut.build

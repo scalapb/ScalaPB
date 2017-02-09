@@ -245,8 +245,8 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       def companion = com.google.protobuf.descriptor.UninterpretedOption.NamePart
   }
   
-  object NamePart extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = this
+  object NamePart extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with _root_.scala.Function2[String, Boolean, com.google.protobuf.descriptor.UninterpretedOption.NamePart] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with _root_.scala.Function2[String, Boolean, com.google.protobuf.descriptor.UninterpretedOption.NamePart] = this
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields

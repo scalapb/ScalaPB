@@ -175,8 +175,8 @@ final case class Any(
     def companion = com.google.protobuf.any.Any
 }
 
-object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods = this
+object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods with _root_.scala.Function2[String, _root_.com.google.protobuf.ByteString, com.google.protobuf.any.Any] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.AnyCompanionMethods with _root_.scala.Function2[String, _root_.com.google.protobuf.ByteString, com.google.protobuf.any.Any] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.any.Any = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields

@@ -70,8 +70,8 @@ final case class Int32Value(
     def companion = com.google.protobuf.wrappers.Int32Value
 }
 
-object Int32Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] = this
+object Int32Value extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] with _root_.scala.Function1[Int, com.google.protobuf.wrappers.Int32Value] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] with _root_.scala.Function1[Int, com.google.protobuf.wrappers.Int32Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.Int32Value): com.google.protobuf.Int32Value = {
     val javaPbOut = com.google.protobuf.Int32Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

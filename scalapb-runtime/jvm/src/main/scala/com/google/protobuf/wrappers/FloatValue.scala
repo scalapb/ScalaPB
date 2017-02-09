@@ -70,8 +70,8 @@ final case class FloatValue(
     def companion = com.google.protobuf.wrappers.FloatValue
 }
 
-object FloatValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] = this
+object FloatValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] with _root_.scala.Function1[Float, com.google.protobuf.wrappers.FloatValue] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] with _root_.scala.Function1[Float, com.google.protobuf.wrappers.FloatValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.FloatValue): com.google.protobuf.FloatValue = {
     val javaPbOut = com.google.protobuf.FloatValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

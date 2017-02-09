@@ -89,8 +89,8 @@ final case class EnumValueDescriptorProto(
     def companion = com.google.protobuf.descriptor.EnumValueDescriptorProto
 }
 
-object EnumValueDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] = this
+object EnumValueDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.Option[Int], scala.Option[com.google.protobuf.descriptor.EnumValueOptions], com.google.protobuf.descriptor.EnumValueDescriptorProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.Option[Int], scala.Option[com.google.protobuf.descriptor.EnumValueOptions], com.google.protobuf.descriptor.EnumValueDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumValueDescriptorProto): com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

@@ -167,8 +167,8 @@ final case class MessageOptions(
     def companion = com.google.protobuf.descriptor.MessageOptions
 }
 
-object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] = this
+object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] with _root_.scala.Function5[scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.MessageOptions] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] with _root_.scala.Function5[scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.Option[Boolean], scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption], com.google.protobuf.descriptor.MessageOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.MessageOptions): com.google.protobuf.DescriptorProtos.MessageOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.MessageOptions.newBuilder
     scalaPbSource.messageSetWireFormat.foreach(javaPbOut.setMessageSetWireFormat)

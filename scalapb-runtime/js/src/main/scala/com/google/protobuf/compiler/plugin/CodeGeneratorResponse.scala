@@ -242,8 +242,8 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
       def companion = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File
   }
   
-  object File extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = this
+  object File extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] with _root_.scala.Function3[scala.Option[String], scala.Option[String], scala.Option[String], com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] with _root_.scala.Function3[scala.Option[String], scala.Option[String], scala.Option[String], com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = this
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields

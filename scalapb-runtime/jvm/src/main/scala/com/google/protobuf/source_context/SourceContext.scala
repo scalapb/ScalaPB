@@ -70,8 +70,8 @@ final case class SourceContext(
     def companion = com.google.protobuf.source_context.SourceContext
 }
 
-object SourceContext extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] = this
+object SourceContext extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] with _root_.scala.Function1[String, com.google.protobuf.source_context.SourceContext] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] with _root_.scala.Function1[String, com.google.protobuf.source_context.SourceContext] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.source_context.SourceContext): com.google.protobuf.SourceContext = {
     val javaPbOut = com.google.protobuf.SourceContext.newBuilder
     javaPbOut.setFileName(scalaPbSource.fileName)

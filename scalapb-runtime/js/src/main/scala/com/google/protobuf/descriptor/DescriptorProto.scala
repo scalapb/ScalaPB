@@ -308,8 +308,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def companion = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange
   }
   
-  object ExtensionRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = this
+  object ExtensionRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = this
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
@@ -407,8 +407,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def companion = com.google.protobuf.descriptor.DescriptorProto.ReservedRange
   }
   
-  object ReservedRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
-    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = this
+  object ReservedRange extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
+    implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with _root_.scala.Function2[scala.Option[Int], scala.Option[Int], com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = this
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields

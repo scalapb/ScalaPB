@@ -92,8 +92,8 @@ final case class ServiceDescriptorProto(
     def companion = com.google.protobuf.descriptor.ServiceDescriptorProto
 }
 
-object ServiceDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceDescriptorProto, com.google.protobuf.DescriptorProtos.ServiceDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceDescriptorProto, com.google.protobuf.DescriptorProtos.ServiceDescriptorProto] = this
+object ServiceDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceDescriptorProto, com.google.protobuf.DescriptorProtos.ServiceDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto], scala.Option[com.google.protobuf.descriptor.ServiceOptions], com.google.protobuf.descriptor.ServiceDescriptorProto] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceDescriptorProto, com.google.protobuf.DescriptorProtos.ServiceDescriptorProto] with _root_.scala.Function3[scala.Option[String], scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto], scala.Option[com.google.protobuf.descriptor.ServiceOptions], com.google.protobuf.descriptor.ServiceDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceDescriptorProto): com.google.protobuf.DescriptorProtos.ServiceDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

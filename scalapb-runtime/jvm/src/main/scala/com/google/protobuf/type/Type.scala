@@ -156,8 +156,8 @@ final case class Type(
     def companion = com.google.protobuf.`type`.Type
 }
 
-object Type extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] = this
+object Type extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] with _root_.scala.Function6[String, scala.collection.Seq[com.google.protobuf.`type`.Field], scala.collection.Seq[String], scala.collection.Seq[com.google.protobuf.`type`.OptionProto], scala.Option[com.google.protobuf.source_context.SourceContext], com.google.protobuf.`type`.Syntax, com.google.protobuf.`type`.Type] {
+  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] with _root_.scala.Function6[String, scala.collection.Seq[com.google.protobuf.`type`.Field], scala.collection.Seq[String], scala.collection.Seq[com.google.protobuf.`type`.OptionProto], scala.Option[com.google.protobuf.source_context.SourceContext], com.google.protobuf.`type`.Syntax, com.google.protobuf.`type`.Type] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Type): com.google.protobuf.Type = {
     val javaPbOut = com.google.protobuf.Type.newBuilder
     javaPbOut.setName(scalaPbSource.name)
