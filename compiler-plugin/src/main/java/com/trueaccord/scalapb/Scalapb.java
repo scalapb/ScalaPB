@@ -205,7 +205,7 @@ public final class Scalapb {
       import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       singleFile_ = false;
-      primitiveWrappers_ = false;
+      primitiveWrappers_ = true;
     }
 
     @java.lang.Override
