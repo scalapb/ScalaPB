@@ -156,9 +156,25 @@ trait DescriptorPimps {
       fd.getMessageType.mapType
     }
 
+    def collectionBuilder: String = {
+      require(fd.isRepeated)
+      val t = if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
+      else if (fd.getFile.scalaOptions.hasCollectionType) fd.getFile.scalaOptions.getCollectionType
+      else "_root_.scala.collection.immutable.Vector"
+
+      s"$t.newBuilder[$singleScalaTypeName]"
+    }
+
+    def collectionType: String = {
+      require(fd.isRepeated)
+      if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
+      else if (fd.getFile.scalaOptions.hasCollectionType) fd.getFile.scalaOptions.getCollectionType
+      else "_root_.scala.collection.Seq"
+    }
+
     def typeCategory(base: String): String = {
       if (supportsPresence) s"scala.Option[$base]"
-      else if (fd.isRepeated) s"scala.collection.Seq[$base]"
+      else if (fd.isRepeated) s"${collectionType}[$base]"
       else base
     }
 
