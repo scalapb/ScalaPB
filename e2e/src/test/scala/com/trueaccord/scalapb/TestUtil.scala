@@ -57,8 +57,6 @@ object TestUtil {
     message.setOptionalString("115")
     message.setOptionalBytes(toBytes("116"))
 
-    message.setOptionalGroup(
-      TestAllTypes.OptionalGroup.newBuilder().setA(117).build())
     message.setOptionalNestedMessage(
       TestAllTypes.NestedMessage.newBuilder().setBb(118).build())
     message.setOptionalForeignMessage(
@@ -95,8 +93,6 @@ object TestUtil {
     message.addRepeatedString("215")
     message.addRepeatedBytes(toBytes("216"))
 
-    message.addRepeatedGroup(
-      TestAllTypes.RepeatedGroup.newBuilder().setA(217).build())
     message.addRepeatedNestedMessage(
       TestAllTypes.NestedMessage.newBuilder().setBb(218).build())
     message.addRepeatedForeignMessage(
@@ -130,8 +126,6 @@ object TestUtil {
     message.addRepeatedString("315")
     message.addRepeatedBytes(toBytes("316"))
 
-    message.addRepeatedGroup(
-      TestAllTypes.RepeatedGroup.newBuilder().setA(317).build())
     message.addRepeatedNestedMessage(
       TestAllTypes.NestedMessage.newBuilder().setBb(318).build())
     message.addRepeatedForeignMessage(

@@ -91,10 +91,6 @@ message TestAllTypes {
   optional   string optional_string   = 14;
   optional    bytes optional_bytes    = 15;
 
-  optional group OptionalGroup = 16 {
-    optional int32 a = 17;
-  }
-
   optional NestedMessage                        optional_nested_message  = 18;
   optional ForeignMessage                       optional_foreign_message = 19;
   optional protobuf_unittest_import.ImportMessage optional_import_message  = 20;
@@ -128,10 +124,6 @@ message TestAllTypes {
   repeated     bool repeated_bool     = 43;
   repeated   string repeated_string   = 44;
   repeated    bytes repeated_bytes    = 45;
-
-  repeated group RepeatedGroup = 46 {
-    optional int32 a = 47;
-  }
 
   repeated NestedMessage                        repeated_nested_message  = 48;
   repeated ForeignMessage                       repeated_foreign_message = 49;
@@ -230,10 +222,6 @@ extend TestAllExtensions {
   optional   string optional_string_extension   = 14;
   optional    bytes optional_bytes_extension    = 15;
 
-  optional group OptionalGroup_extension = 16 {
-    optional int32 a = 17;
-  }
-
   optional TestAllTypes.NestedMessage optional_nested_message_extension = 18;
   optional ForeignMessage optional_foreign_message_extension = 19;
   optional protobuf_unittest_import.ImportMessage
@@ -269,10 +257,6 @@ extend TestAllExtensions {
   repeated     bool repeated_bool_extension     = 43;
   repeated   string repeated_string_extension   = 44;
   repeated    bytes repeated_bytes_extension    = 45;
-
-  repeated group RepeatedGroup_extension = 46 {
-    optional int32 a = 47;
-  }
 
   repeated TestAllTypes.NestedMessage repeated_nested_message_extension = 48;
   repeated ForeignMessage repeated_foreign_message_extension = 49;
@@ -442,8 +426,6 @@ message TestMutualRecursionB {
 // in protobuf_unittest_proto.
 message TestDupFieldNumber {                        // NO_PROTO1
   optional int32 a = 1;                             // NO_PROTO1
-  optional group Foo = 2 { optional int32 a = 1; }  // NO_PROTO1
-  optional group Bar = 3 { optional int32 a = 1; }  // NO_PROTO1
 }                                                   // NO_PROTO1
 
 // Additional messages for testing lazy fields.
@@ -628,10 +610,6 @@ message TestOneof {
     int32 foo_int = 1;
     string foo_string = 2;
     TestAllTypes foo_message = 3;
-    group FooGroup = 4 {
-      optional int32 a = 5;
-      optional string b = 6;
-    }
   }
 }
 
@@ -639,10 +617,6 @@ message TestOneofBackwardsCompatible {
   optional int32 foo_int = 1;
   optional string foo_string = 2;
   optional TestAllTypes foo_message = 3;
-  optional group FooGroup = 4 {
-    optional int32 a = 5;
-    optional string b = 6;
-  }
 }
 
 message TestOneof2 {
@@ -654,10 +628,6 @@ message TestOneof2 {
     bytes foo_bytes = 5;
     NestedEnum foo_enum = 6;
     NestedMessage foo_message = 7;
-    group FooGroup = 8 {
-      optional int32 a = 9;
-      optional string b = 10;
-    }
     NestedMessage foo_lazy_message = 11 [lazy=true];
   }
 
@@ -829,24 +799,12 @@ message TestParsingMerge {
     repeated TestAllTypes field1 = 1;
     repeated TestAllTypes field2 = 2;
     repeated TestAllTypes field3 = 3;
-    repeated group Group1 = 10 {
-      optional TestAllTypes field1 = 11;
-    }
-    repeated group Group2 = 20 {
-      optional TestAllTypes field1 = 21;
-    }
     repeated TestAllTypes ext1 = 1000;
     repeated TestAllTypes ext2 = 1001;
   }
   required TestAllTypes required_all_types = 1;
   optional TestAllTypes optional_all_types = 2;
   repeated TestAllTypes repeated_all_types = 3;
-  optional group OptionalGroup = 10 {
-    optional TestAllTypes optional_group_all_types = 11;
-  }
-  repeated group RepeatedGroup = 20 {
-    optional TestAllTypes repeated_group_all_types = 21;
-  }
   extensions 1000 to max;
   extend TestParsingMerge {
     optional TestAllTypes optional_ext = 1000;
