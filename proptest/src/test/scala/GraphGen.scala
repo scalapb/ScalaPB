@@ -23,6 +23,10 @@ object GraphGen {
     def isNameAvailable(name: String): Boolean = !names.contains(name.toLowerCase) && parent.forall(_.isNameAvailable(name))
 
     def generateName: Gen[String] = SchemaGenerators.identifier.retryUntil(isNameAvailable)
+
+    // See https://github.com/google/protobuf/issues/2738
+    def generateJavaPackageName: Gen[String] = SchemaGenerators.identifier.retryUntil(
+      s => s != "key" && isNameAvailable(s))
   }
 
   val ROOT_NAMESPACE = Namespace(Set("foo", "bar"), None)
@@ -52,6 +56,10 @@ object GraphGen {
     def currentFileId: Int = _nextFileId - 1
 
     def generateName: Gen[(String, State)] = namespace.generateName.map {
+      s => (s, this.copy(namespace = namespace.add(s)))
+    }
+
+    def generateJavaPackageName: Gen[(String, State)] = namespace.generateJavaPackageName.map {
       s => (s, this.copy(namespace = namespace.add(s)))
     }
 
@@ -166,7 +174,7 @@ object GraphGen {
       for {
         (baseName, fileId, state) <- state.newFile
         protoSyntax <- Gen.oneOf[ProtoSyntax](Proto2, Proto3)
-        (javaPackageNames, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateName)
+        (javaPackageNames, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(_.generateJavaPackageName)
         javaPackage = javaPackageNames mkString "."
         javaPackageOption = if (javaPackage.nonEmpty) Some(javaPackage) else None
         (scalaOptions, state) <- Gen.oneOf[(Option[ScalaPbOptions], State)](genScalaOptions(state), (None, state))
