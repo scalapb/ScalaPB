@@ -248,11 +248,15 @@ trait DescriptorPimps {
 
     def messageOptions: MessageOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
 
-    def extendsOption = messageOptions.getExtendsList.asScala.toSeq
+    def extendsOption = messageOptions.getExtendsList.asScala.filterNot(valueClassNames).toSeq
 
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 
     def nameSymbol = scalaName.asSymbol
+
+    private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
+
+    def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
 
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
@@ -260,7 +264,9 @@ trait DescriptorPimps {
         case _ => Seq()
       }
 
-      Seq("com.trueaccord.scalapb.GeneratedMessage",
+      val anyVal = if(isValueClass) Seq("AnyVal") else Nil
+
+      anyVal ++ Seq("com.trueaccord.scalapb.GeneratedMessage",
         s"com.trueaccord.scalapb.Message[$nameSymbol]",
         s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption ++ specialMixins
     }
