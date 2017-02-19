@@ -4,8 +4,6 @@ import com.google.protobuf.descriptor.FileDescriptorProto
 import com.trueaccord.scalapb.TextFormat
 import org.scalatest._
 
-import scalapb.descriptors
-
 class FileDescriptorSpec extends FlatSpec with MustMatchers with OptionValues {
   "nameChains" should "give chain of names" in {
     FileDescriptor.nameChain("foo") must be ("" :: "foo" :: Nil)

@@ -110,22 +110,14 @@ class EnumDescriptor private[descriptors](
   def findValueByNumber(number: Int): Option[EnumValueDescriptor] = values.find(_.number == number)
 
   def findValueByNumberCreatingIfUnknown(number: Int): EnumValueDescriptor = {
-    findValueByNumber(number).getOrElse {
-      this.synchronized {
-        val key = new Integer(number)
-        unknownValues.get(key) match {
-          case Some(WeakReference(result)) => result
-          case None =>
-            val valueName = s"UNKNOWN_ENUM_VALUE_${name}_${number}"
-            val proto = EnumValueDescriptorProto(name = Some(valueName), number = Some(number))
-            val result = new EnumValueDescriptor(FileDescriptor.join(fullName, "Unrecognized"), this, proto, -1)
-            unknownValues.put(key, WeakReference(result))
-            result
-        }
-      }
-    }
+    unknownValues.getOrElseUpdate(number, {
+      val valueName = s"UNKNOWN_ENUM_VALUE_${name}_${number}"
+      val proto = EnumValueDescriptorProto(name = Some(valueName), number = Some(number))
+      new EnumValueDescriptor(FileDescriptor.join(fullName, "Unrecognized"), this, proto, -1)
+    })
   }
-  private val unknownValues: collection.mutable.WeakHashMap[Integer, WeakReference[EnumValueDescriptor]] = collection.mutable.WeakHashMap.empty[Integer, WeakReference[EnumValueDescriptor]]
+
+  private val unknownValues = new ConcurrentWeakReferenceMap[Int, EnumValueDescriptor]
 
   override def toString: String = fullName
 }
