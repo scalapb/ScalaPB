@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e.proto2;
+
+import "scalapb/scalapb.proto";
+
+message ValueClass1 {
+  option (scalapb.message).extends = "AnyVal";
+
+  optional string value = 1;
+}
+
+message ValueClass2 {
+  option (scalapb.message).extends = "AnyVal";
+
+  repeated int32 value = 1;
+}
+
+message ValueClass3 {
+  option (scalapb.message).extends = "AnyVal";
+
+  required int32 value = 1;
+}

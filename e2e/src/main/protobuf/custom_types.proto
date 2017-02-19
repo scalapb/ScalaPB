@@ -54,21 +54,3 @@ message CustomerEvent {
   repeated int32 repeated_number = 3;
   required int32 required_number = 4;
 }
-
-message ValueClass1 {
-  option (scalapb.message).extends = "AnyVal";
-
-  optional string value = 1;
-}
-
-message ValueClass2 {
-  option (scalapb.message).extends = "AnyVal";
-
-  repeated int32 value = 1;
-}
-
-message ValueClass3 {
-  option (scalapb.message).extends = "AnyVal";
-
-  required int32 value = 1;
-}
