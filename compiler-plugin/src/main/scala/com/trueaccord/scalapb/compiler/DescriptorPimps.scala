@@ -112,6 +112,13 @@ trait DescriptorPimps {
     def isSingular = fd.isRequired || (
       fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage)
 
+    def enclosingType: EnclosingType =
+      if (isSingular) EnclosingType.None
+      else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
+      else {
+        EnclosingType.Collection
+      }
+
     def isMap = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
     def mapType: MessageDescriptorPimp#MapType = {
@@ -119,9 +126,25 @@ trait DescriptorPimps {
       fd.getMessageType.mapType
     }
 
+    def collectionBuilder: String = {
+      require(fd.isRepeated)
+      val t = if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
+      else if (fd.getFile.scalaOptions.hasCollectionType) fd.getFile.scalaOptions.getCollectionType
+      else "_root_.scala.collection.immutable.Vector"
+
+      s"$t.newBuilder[$singleScalaTypeName]"
+    }
+
+    def collectionType: String = {
+      require(fd.isRepeated)
+      if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
+      else if (fd.getFile.scalaOptions.hasCollectionType) fd.getFile.scalaOptions.getCollectionType
+      else "_root_.scala.collection.Seq"
+    }
+
     def typeCategory(base: String): String = {
       if (supportsPresence) s"scala.Option[$base]"
-      else if (fd.isRepeated) s"scala.collection.Seq[$base]"
+      else if (fd.isRepeated) s"${collectionType}[$base]"
       else base
     }
 

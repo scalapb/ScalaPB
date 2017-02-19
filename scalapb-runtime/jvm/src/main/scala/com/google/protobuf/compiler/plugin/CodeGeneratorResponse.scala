@@ -22,7 +22,7 @@ import scala.collection.JavaConverters._
 @SerialVersionUID(0L)
 final case class CodeGeneratorResponse(
     error: scala.Option[String] = None,
-    file: scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = Nil
+    file: _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = _root_.scala.collection.Seq.empty
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[CodeGeneratorResponse] with com.trueaccord.lenses.Updatable[CodeGeneratorResponse] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -52,7 +52,7 @@ final case class CodeGeneratorResponse(
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
       var __error = this.error
-      val __file = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= this.file)
+      val __file = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= this.file)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -73,10 +73,10 @@ final case class CodeGeneratorResponse(
     def getError: String = error.getOrElse("")
     def clearError: CodeGeneratorResponse = copy(error = None)
     def withError(__v: String): CodeGeneratorResponse = copy(error = Some(__v))
-    def clearFile = copy(file = scala.collection.Seq.empty)
+    def clearFile = copy(file = _root_.scala.collection.Seq.empty)
     def addFile(__vs: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File*): CodeGeneratorResponse = addAllFile(__vs)
     def addAllFile(__vs: TraversableOnce[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = file ++ __vs)
-    def withFile(__v: scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = __v)
+    def withFile(__v: _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
         case 1 => error.orNull
@@ -87,7 +87,7 @@ final case class CodeGeneratorResponse(
       require(__field.containingMessage eq companion.scalaDescriptor)
       __field.number match {
         case 1 => error.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 15 => _root_.scalapb.descriptors.PRepeated(file.map(_.toPMessage).toVector)
+        case 15 => _root_.scalapb.descriptors.PRepeated(file.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -99,19 +99,19 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
   def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.CodeGeneratorResponse): com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse = {
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.newBuilder
     scalaPbSource.error.foreach(javaPbOut.setError)
-    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto(_)).asJava)
+    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
     error = if (javaPbSource.hasError) Some(javaPbSource.getError) else None,
-    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto(_))
+    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto(_))(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]
+      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] = _root_.scalapb.descriptors.Reads(_ match {
@@ -119,7 +119,7 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).map(_.as[scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]).getOrElse(Nil)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   })
@@ -331,7 +331,7 @@ object CodeGeneratorResponse extends com.trueaccord.scalapb.GeneratedMessageComp
   implicit class CodeGeneratorResponseLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse](_l) {
     def error: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getError)((c_, f_) => c_.copy(error = Some(f_)))
     def optionalError: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.error)((c_, f_) => c_.copy(error = f_))
-    def file: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]] = field(_.file)((c_, f_) => c_.copy(file = f_))
+    def file: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]] = field(_.file)((c_, f_) => c_.copy(file = f_))
   }
   final val ERROR_FIELD_NUMBER = 1
   final val FILE_FIELD_NUMBER = 15

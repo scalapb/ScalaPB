@@ -16,7 +16,7 @@ package com.google.protobuf.struct
   */
 @SerialVersionUID(0L)
 final case class ListValue(
-    values: scala.collection.Seq[com.google.protobuf.struct.Value] = Nil
+    values: _root_.scala.collection.Seq[com.google.protobuf.struct.Value] = _root_.scala.collection.Seq.empty
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[ListValue] with com.trueaccord.lenses.Updatable[ListValue] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -41,7 +41,7 @@ final case class ListValue(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = {
-      val __values = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value] ++= this.values)
+      val __values = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value] ++= this.values)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -56,10 +56,10 @@ final case class ListValue(
           values = __values.result()
       )
     }
-    def clearValues = copy(values = scala.collection.Seq.empty)
+    def clearValues = copy(values = _root_.scala.collection.Seq.empty)
     def addValues(__vs: com.google.protobuf.struct.Value*): ListValue = addAllValues(__vs)
     def addAllValues(__vs: TraversableOnce[com.google.protobuf.struct.Value]): ListValue = copy(values = values ++ __vs)
-    def withValues(__v: scala.collection.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
+    def withValues(__v: _root_.scala.collection.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
         case 1 => values
@@ -68,7 +68,7 @@ final case class ListValue(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       __field.number match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(values.map(_.toPMessage).toVector)
+        case 1 => _root_.scalapb.descriptors.PRepeated(values.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -81,14 +81,14 @@ object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.struct.ListValue(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.struct.Value]]
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.struct.Value]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.ListValue] = _root_.scalapb.descriptors.Reads(_ match {
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.ListValue(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[scala.collection.Seq[com.google.protobuf.struct.Value]]).getOrElse(Nil)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.struct.Value]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   })
@@ -105,7 +105,7 @@ object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   lazy val defaultInstance = com.google.protobuf.struct.ListValue(
   )
   implicit class ListValueLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.struct.ListValue]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.ListValue](_l) {
-    def values: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))
+    def values: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))
   }
   final val VALUES_FIELD_NUMBER = 1
 }

@@ -39,6 +39,10 @@ message ScalaPbOptions {
   // but it has no effect on generated code. It is an error to set both
   // `primitive_wrappers` and `no_primitive_wrappers`.
   optional bool primitive_wrappers = 6;
+
+  // Scala type to be used for repeated fields. If unspecified,
+  // `scala.collection.Seq` will be used.
+  optional string collection_type = 8;
 }
 
 extend google.protobuf.FileOptions {
@@ -63,7 +67,13 @@ extend google.protobuf.MessageOptions {
 
 message FieldOptions {
   optional string type = 1;
+
   optional string scala_name = 2;
+
+  // Can be specified only if this field is repeated. If unspecified,
+  // it falls back to the file option named `collection_type`, which defaults
+  // to `scala.collection.Seq`.
+  optional string collection_type = 3;
 }
 
 extend google.protobuf.FieldOptions {

@@ -31,7 +31,7 @@ final case class Method(
     requestStreaming: Boolean = false,
     responseTypeUrl: String = "",
     responseStreaming: Boolean = false,
-    options: scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = Nil,
+    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Method] with com.trueaccord.lenses.Updatable[Method] {
     @transient
@@ -104,7 +104,7 @@ final case class Method(
       var __requestStreaming = this.requestStreaming
       var __responseTypeUrl = this.responseTypeUrl
       var __responseStreaming = this.responseStreaming
-      val __options = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
+      val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
       var __syntax = this.syntax
       var _done__ = false
       while (!_done__) {
@@ -143,10 +143,10 @@ final case class Method(
     def withRequestStreaming(__v: Boolean): Method = copy(requestStreaming = __v)
     def withResponseTypeUrl(__v: String): Method = copy(responseTypeUrl = __v)
     def withResponseStreaming(__v: Boolean): Method = copy(responseStreaming = __v)
-    def clearOptions = copy(options = scala.collection.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.collection.Seq.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Method = addAllOptions(__vs)
     def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
-    def withOptions(__v: scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
+    def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Method = copy(syntax = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
@@ -185,7 +185,7 @@ final case class Method(
         case 3 => _root_.scalapb.descriptors.PBoolean(requestStreaming)
         case 4 => _root_.scalapb.descriptors.PString(responseTypeUrl)
         case 5 => _root_.scalapb.descriptors.PBoolean(responseStreaming)
-        case 6 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage).toVector)
+        case 6 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 7 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
     }
@@ -202,7 +202,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     javaPbOut.setRequestStreaming(scalaPbSource.requestStreaming)
     javaPbOut.setResponseTypeUrl(scalaPbSource.responseTypeUrl)
     javaPbOut.setResponseStreaming(scalaPbSource.responseStreaming)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
@@ -212,7 +212,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     requestStreaming = javaPbSource.getRequestStreaming.booleanValue,
     responseTypeUrl = javaPbSource.getResponseTypeUrl,
     responseStreaming = javaPbSource.getResponseStreaming.booleanValue,
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Method = {
@@ -224,7 +224,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       __fieldsMap.getOrElse(__fields.get(2), false).asInstanceOf[Boolean],
       __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[String],
       __fieldsMap.getOrElse(__fields.get(4), false).asInstanceOf[Boolean],
-      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
+      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
       com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(6), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
   }
@@ -237,7 +237,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[Boolean]).getOrElse(false),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[Boolean]).getOrElse(false),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -264,7 +264,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     def requestStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.requestStreaming)((c_, f_) => c_.copy(requestStreaming = f_))
     def responseTypeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.responseTypeUrl)((c_, f_) => c_.copy(responseTypeUrl = f_))
     def responseStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.responseStreaming)((c_, f_) => c_.copy(responseStreaming = f_))
-    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def syntax: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1

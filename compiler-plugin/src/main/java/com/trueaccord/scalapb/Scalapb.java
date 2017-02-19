@@ -212,6 +212,35 @@ public final class Scalapb {
      * <code>optional bool primitive_wrappers = 6;</code>
      */
     boolean getPrimitiveWrappers();
+
+    /**
+     * <pre>
+     * Scala type to be used for repeated fields. If unspecified,
+     * `scala.collection.Seq` will be used.
+     * </pre>
+     *
+     * <code>optional string collection_type = 8;</code>
+     */
+    boolean hasCollectionType();
+    /**
+     * <pre>
+     * Scala type to be used for repeated fields. If unspecified,
+     * `scala.collection.Seq` will be used.
+     * </pre>
+     *
+     * <code>optional string collection_type = 8;</code>
+     */
+    java.lang.String getCollectionType();
+    /**
+     * <pre>
+     * Scala type to be used for repeated fields. If unspecified,
+     * `scala.collection.Seq` will be used.
+     * </pre>
+     *
+     * <code>optional string collection_type = 8;</code>
+     */
+    com.google.protobuf.ByteString
+        getCollectionTypeBytes();
   }
   /**
    * Protobuf type {@code scalapb.ScalaPbOptions}
@@ -232,6 +261,7 @@ public final class Scalapb {
       singleFile_ = false;
       noPrimitiveWrappers_ = false;
       primitiveWrappers_ = false;
+      collectionType_ = "";
     }
 
     @java.lang.Override
@@ -304,6 +334,12 @@ public final class Scalapb {
             case 56: {
               bitField0_ |= 0x00000008;
               noPrimitiveWrappers_ = input.readBool();
+              break;
+            }
+            case 66: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000020;
+              collectionType_ = bs;
               break;
             }
           }
@@ -601,6 +637,63 @@ public final class Scalapb {
       return primitiveWrappers_;
     }
 
+    public static final int COLLECTION_TYPE_FIELD_NUMBER = 8;
+    private volatile java.lang.Object collectionType_;
+    /**
+     * <pre>
+     * Scala type to be used for repeated fields. If unspecified,
+     * `scala.collection.Seq` will be used.
+     * </pre>
+     *
+     * <code>optional string collection_type = 8;</code>
+     */
+    public boolean hasCollectionType() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <pre>
+     * Scala type to be used for repeated fields. If unspecified,
+     * `scala.collection.Seq` will be used.
+     * </pre>
+     *
+     * <code>optional string collection_type = 8;</code>
+     */
+    public java.lang.String getCollectionType() {
+      java.lang.Object ref = collectionType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          collectionType_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Scala type to be used for repeated fields. If unspecified,
+     * `scala.collection.Seq` will be used.
+     * </pre>
+     *
+     * <code>optional string collection_type = 8;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCollectionTypeBytes() {
+      java.lang.Object ref = collectionType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        collectionType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -633,6 +726,9 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeBool(7, noPrimitiveWrappers_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 8, collectionType_);
       }
       unknownFields.writeTo(output);
     }
@@ -676,6 +772,9 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(7, noPrimitiveWrappers_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, collectionType_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -723,6 +822,11 @@ public final class Scalapb {
         result = result && (getPrimitiveWrappers()
             == other.getPrimitiveWrappers());
       }
+      result = result && (hasCollectionType() == other.hasCollectionType());
+      if (hasCollectionType()) {
+        result = result && getCollectionType()
+            .equals(other.getCollectionType());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -765,6 +869,10 @@ public final class Scalapb {
         hash = (37 * hash) + PRIMITIVE_WRAPPERS_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getPrimitiveWrappers());
+      }
+      if (hasCollectionType()) {
+        hash = (37 * hash) + COLLECTION_TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getCollectionType().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -898,6 +1006,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000020);
         primitiveWrappers_ = false;
         bitField0_ = (bitField0_ & ~0x00000040);
+        collectionType_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -952,6 +1062,10 @@ public final class Scalapb {
           to_bitField0_ |= 0x00000010;
         }
         result.primitiveWrappers_ = primitiveWrappers_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.collectionType_ = collectionType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1030,6 +1144,11 @@ public final class Scalapb {
         }
         if (other.hasPrimitiveWrappers()) {
           setPrimitiveWrappers(other.getPrimitiveWrappers());
+        }
+        if (other.hasCollectionType()) {
+          bitField0_ |= 0x00000080;
+          collectionType_ = other.collectionType_;
+          onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1663,6 +1782,112 @@ public final class Scalapb {
       public Builder clearPrimitiveWrappers() {
         bitField0_ = (bitField0_ & ~0x00000040);
         primitiveWrappers_ = false;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object collectionType_ = "";
+      /**
+       * <pre>
+       * Scala type to be used for repeated fields. If unspecified,
+       * `scala.collection.Seq` will be used.
+       * </pre>
+       *
+       * <code>optional string collection_type = 8;</code>
+       */
+      public boolean hasCollectionType() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      /**
+       * <pre>
+       * Scala type to be used for repeated fields. If unspecified,
+       * `scala.collection.Seq` will be used.
+       * </pre>
+       *
+       * <code>optional string collection_type = 8;</code>
+       */
+      public java.lang.String getCollectionType() {
+        java.lang.Object ref = collectionType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            collectionType_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Scala type to be used for repeated fields. If unspecified,
+       * `scala.collection.Seq` will be used.
+       * </pre>
+       *
+       * <code>optional string collection_type = 8;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCollectionTypeBytes() {
+        java.lang.Object ref = collectionType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          collectionType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Scala type to be used for repeated fields. If unspecified,
+       * `scala.collection.Seq` will be used.
+       * </pre>
+       *
+       * <code>optional string collection_type = 8;</code>
+       */
+      public Builder setCollectionType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        collectionType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Scala type to be used for repeated fields. If unspecified,
+       * `scala.collection.Seq` will be used.
+       * </pre>
+       *
+       * <code>optional string collection_type = 8;</code>
+       */
+      public Builder clearCollectionType() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        collectionType_ = getDefaultInstance().getCollectionType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Scala type to be used for repeated fields. If unspecified,
+       * `scala.collection.Seq` will be used.
+       * </pre>
+       *
+       * <code>optional string collection_type = 8;</code>
+       */
+      public Builder setCollectionTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        collectionType_ = value;
         onChanged();
         return this;
       }
@@ -2634,6 +2859,38 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getScalaNameBytes();
+
+    /**
+     * <pre>
+     * Can be specified only if this field is repeated. If unspecified,
+     * it falls back to the file option named `collection_type`, which defaults
+     * to `scala.collection.Seq`.
+     * </pre>
+     *
+     * <code>optional string collection_type = 3;</code>
+     */
+    boolean hasCollectionType();
+    /**
+     * <pre>
+     * Can be specified only if this field is repeated. If unspecified,
+     * it falls back to the file option named `collection_type`, which defaults
+     * to `scala.collection.Seq`.
+     * </pre>
+     *
+     * <code>optional string collection_type = 3;</code>
+     */
+    java.lang.String getCollectionType();
+    /**
+     * <pre>
+     * Can be specified only if this field is repeated. If unspecified,
+     * it falls back to the file option named `collection_type`, which defaults
+     * to `scala.collection.Seq`.
+     * </pre>
+     *
+     * <code>optional string collection_type = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getCollectionTypeBytes();
   }
   /**
    * Protobuf type {@code scalapb.FieldOptions}
@@ -2649,6 +2906,7 @@ public final class Scalapb {
     private FieldOptions() {
       type_ = "";
       scalaName_ = "";
+      collectionType_ = "";
     }
 
     @java.lang.Override
@@ -2689,6 +2947,12 @@ public final class Scalapb {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000002;
               scalaName_ = bs;
+              break;
+            }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000004;
+              collectionType_ = bs;
               break;
             }
           }
@@ -2800,6 +3064,66 @@ public final class Scalapb {
       }
     }
 
+    public static final int COLLECTION_TYPE_FIELD_NUMBER = 3;
+    private volatile java.lang.Object collectionType_;
+    /**
+     * <pre>
+     * Can be specified only if this field is repeated. If unspecified,
+     * it falls back to the file option named `collection_type`, which defaults
+     * to `scala.collection.Seq`.
+     * </pre>
+     *
+     * <code>optional string collection_type = 3;</code>
+     */
+    public boolean hasCollectionType() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    /**
+     * <pre>
+     * Can be specified only if this field is repeated. If unspecified,
+     * it falls back to the file option named `collection_type`, which defaults
+     * to `scala.collection.Seq`.
+     * </pre>
+     *
+     * <code>optional string collection_type = 3;</code>
+     */
+    public java.lang.String getCollectionType() {
+      java.lang.Object ref = collectionType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          collectionType_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Can be specified only if this field is repeated. If unspecified,
+     * it falls back to the file option named `collection_type`, which defaults
+     * to `scala.collection.Seq`.
+     * </pre>
+     *
+     * <code>optional string collection_type = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCollectionTypeBytes() {
+      java.lang.Object ref = collectionType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        collectionType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2818,6 +3142,9 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, scalaName_);
       }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, collectionType_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -2831,6 +3158,9 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, scalaName_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, collectionType_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -2859,6 +3189,11 @@ public final class Scalapb {
         result = result && getScalaName()
             .equals(other.getScalaName());
       }
+      result = result && (hasCollectionType() == other.hasCollectionType());
+      if (hasCollectionType()) {
+        result = result && getCollectionType()
+            .equals(other.getCollectionType());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2877,6 +3212,10 @@ public final class Scalapb {
       if (hasScalaName()) {
         hash = (37 * hash) + SCALA_NAME_FIELD_NUMBER;
         hash = (53 * hash) + getScalaName().hashCode();
+      }
+      if (hasCollectionType()) {
+        hash = (37 * hash) + COLLECTION_TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getCollectionType().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -3000,6 +3339,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000001);
         scalaName_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
+        collectionType_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -3032,6 +3373,10 @@ public final class Scalapb {
           to_bitField0_ |= 0x00000002;
         }
         result.scalaName_ = scalaName_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.collectionType_ = collectionType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3082,6 +3427,11 @@ public final class Scalapb {
         if (other.hasScalaName()) {
           bitField0_ |= 0x00000002;
           scalaName_ = other.scalaName_;
+          onChanged();
+        }
+        if (other.hasCollectionType()) {
+          bitField0_ |= 0x00000004;
+          collectionType_ = other.collectionType_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3263,6 +3613,118 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+
+      private java.lang.Object collectionType_ = "";
+      /**
+       * <pre>
+       * Can be specified only if this field is repeated. If unspecified,
+       * it falls back to the file option named `collection_type`, which defaults
+       * to `scala.collection.Seq`.
+       * </pre>
+       *
+       * <code>optional string collection_type = 3;</code>
+       */
+      public boolean hasCollectionType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is repeated. If unspecified,
+       * it falls back to the file option named `collection_type`, which defaults
+       * to `scala.collection.Seq`.
+       * </pre>
+       *
+       * <code>optional string collection_type = 3;</code>
+       */
+      public java.lang.String getCollectionType() {
+        java.lang.Object ref = collectionType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            collectionType_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is repeated. If unspecified,
+       * it falls back to the file option named `collection_type`, which defaults
+       * to `scala.collection.Seq`.
+       * </pre>
+       *
+       * <code>optional string collection_type = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCollectionTypeBytes() {
+        java.lang.Object ref = collectionType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          collectionType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is repeated. If unspecified,
+       * it falls back to the file option named `collection_type`, which defaults
+       * to `scala.collection.Seq`.
+       * </pre>
+       *
+       * <code>optional string collection_type = 3;</code>
+       */
+      public Builder setCollectionType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        collectionType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is repeated. If unspecified,
+       * it falls back to the file option named `collection_type`, which defaults
+       * to `scala.collection.Seq`.
+       * </pre>
+       *
+       * <code>optional string collection_type = 3;</code>
+       */
+      public Builder clearCollectionType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        collectionType_ = getDefaultInstance().getCollectionType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is repeated. If unspecified,
+       * it falls back to the file option named `collection_type`, which defaults
+       * to `scala.collection.Seq`.
+       * </pre>
+       *
+       * <code>optional string collection_type = 3;</code>
+       */
+      public Builder setCollectionTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        collectionType_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -3385,20 +3847,22 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
-      "/protobuf/descriptor.proto\"\256\001\n\016ScalaPbOp" +
+      "/protobuf/descriptor.proto\"\307\001\n\016ScalaPbOp" +
       "tions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_pack" +
       "age\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 " +
       "\003(\t\022\023\n\013single_file\030\005 \001(\010\022\035\n\025no_primitive" +
       "_wrappers\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 " +
-      "\001(\010\"<\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t\022\031" +
-      "\n\021companion_extends\030\002 \003(\t\"0\n\014FieldOption" +
-      "s\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t:G\n\007o" +
-      "ptions\022\034.google.protobuf.FileOptions\030\374\007 ",
-      "\001(\0132\027.scalapb.ScalaPbOptions:J\n\007message\022" +
-      "\037.google.protobuf.MessageOptions\030\374\007 \001(\0132" +
-      "\027.scalapb.MessageOptions:D\n\005field\022\035.goog" +
-      "le.protobuf.FieldOptions\030\374\007 \001(\0132\025.scalap" +
-      "b.FieldOptionsB\030\n\026com.trueaccord.scalapb"
+      "\001(\010\022\027\n\017collection_type\030\010 \001(\t\"<\n\016MessageO" +
+      "ptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_ext" +
+      "ends\030\002 \003(\t\"I\n\014FieldOptions\022\014\n\004type\030\001 \001(\t" +
+      "\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type\030",
+      "\003 \001(\t:G\n\007options\022\034.google.protobuf.FileO" +
+      "ptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J" +
+      "\n\007message\022\037.google.protobuf.MessageOptio" +
+      "ns\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fi" +
+      "eld\022\035.google.protobuf.FieldOptions\030\374\007 \001(" +
+      "\0132\025.scalapb.FieldOptionsB\030\n\026com.trueacco" +
+      "rd.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3418,7 +3882,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
@@ -3430,7 +3894,7 @@ public final class Scalapb {
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_FieldOptions_descriptor,
-        new java.lang.String[] { "Type", "ScalaName", });
+        new java.lang.String[] { "Type", "ScalaName", "CollectionType", });
     options.internalInit(descriptor.getExtensions().get(0));
     message.internalInit(descriptor.getExtensions().get(1));
     field.internalInit(descriptor.getExtensions().get(2));

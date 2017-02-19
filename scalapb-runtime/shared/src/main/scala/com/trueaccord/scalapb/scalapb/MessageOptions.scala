@@ -14,8 +14,8 @@ package com.trueaccord.scalapb.scalapb
   */
 @SerialVersionUID(0L)
 final case class MessageOptions(
-    `extends`: scala.collection.Seq[String] = Nil,
-    companionExtends: scala.collection.Seq[String] = Nil
+    `extends`: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
+    companionExtends: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[MessageOptions] with com.trueaccord.lenses.Updatable[MessageOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -42,8 +42,8 @@ final case class MessageOptions(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.trueaccord.scalapb.scalapb.MessageOptions = {
-      val __extends = (scala.collection.immutable.Vector.newBuilder[String] ++= this.`extends`)
-      val __companionExtends = (scala.collection.immutable.Vector.newBuilder[String] ++= this.companionExtends)
+      val __extends = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.`extends`)
+      val __companionExtends = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.companionExtends)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -61,14 +61,14 @@ final case class MessageOptions(
           companionExtends = __companionExtends.result()
       )
     }
-    def clearExtends = copy(`extends` = scala.collection.Seq.empty)
+    def clearExtends = copy(`extends` = _root_.scala.collection.Seq.empty)
     def addExtends(__vs: String*): MessageOptions = addAllExtends(__vs)
     def addAllExtends(__vs: TraversableOnce[String]): MessageOptions = copy(`extends` = `extends` ++ __vs)
-    def withExtends(__v: scala.collection.Seq[String]): MessageOptions = copy(`extends` = __v)
-    def clearCompanionExtends = copy(companionExtends = scala.collection.Seq.empty)
+    def withExtends(__v: _root_.scala.collection.Seq[String]): MessageOptions = copy(`extends` = __v)
+    def clearCompanionExtends = copy(companionExtends = _root_.scala.collection.Seq.empty)
     def addCompanionExtends(__vs: String*): MessageOptions = addAllCompanionExtends(__vs)
     def addAllCompanionExtends(__vs: TraversableOnce[String]): MessageOptions = copy(companionExtends = companionExtends ++ __vs)
-    def withCompanionExtends(__v: scala.collection.Seq[String]): MessageOptions = copy(companionExtends = __v)
+    def withCompanionExtends(__v: _root_.scala.collection.Seq[String]): MessageOptions = copy(companionExtends = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
         case 1 => `extends`
@@ -78,8 +78,8 @@ final case class MessageOptions(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       __field.number match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+        case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -92,16 +92,16 @@ object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.trueaccord.scalapb.scalapb.MessageOptions(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[scala.collection.Seq[String]],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[scala.collection.Seq[String]]
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
+      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.MessageOptions] = _root_.scalapb.descriptors.Reads(_ match {
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.trueaccord.scalapb.scalapb.MessageOptions(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   })
@@ -112,8 +112,8 @@ object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   lazy val defaultInstance = com.trueaccord.scalapb.scalapb.MessageOptions(
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.trueaccord.scalapb.scalapb.MessageOptions]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.trueaccord.scalapb.scalapb.MessageOptions](_l) {
-    def `extends`: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
-    def companionExtends: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
+    def `extends`: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
+    def companionExtends: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
   final val COMPANION_EXTENDS_FIELD_NUMBER = 2

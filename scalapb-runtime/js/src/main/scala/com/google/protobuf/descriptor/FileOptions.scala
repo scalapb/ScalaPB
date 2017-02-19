@@ -94,7 +94,7 @@ final case class FileOptions(
     ccEnableArenas: scala.Option[Boolean] = None,
     objcClassPrefix: scala.Option[String] = None,
     csharpNamespace: scala.Option[String] = None,
-    uninterpretedOption: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = Nil
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FileOptions] with com.trueaccord.lenses.Updatable[FileOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -189,7 +189,7 @@ final case class FileOptions(
       var __ccEnableArenas = this.ccEnableArenas
       var __objcClassPrefix = this.objcClassPrefix
       var __csharpNamespace = this.csharpNamespace
-      val __uninterpretedOption = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
+      val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -288,10 +288,10 @@ final case class FileOptions(
     def getCsharpNamespace: String = csharpNamespace.getOrElse("")
     def clearCsharpNamespace: FileOptions = copy(csharpNamespace = None)
     def withCsharpNamespace(__v: String): FileOptions = copy(csharpNamespace = Some(__v))
-    def clearUninterpretedOption = copy(uninterpretedOption = scala.collection.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FileOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
-    def withUninterpretedOption(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = __v)
+    def withUninterpretedOption(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
         case 1 => javaPackage.orNull
@@ -328,7 +328,7 @@ final case class FileOptions(
         case 31 => ccEnableArenas.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 36 => objcClassPrefix.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 37 => csharpNamespace.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage).toVector)
+        case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -355,7 +355,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       __fieldsMap.get(__fields.get(11)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(12)).asInstanceOf[scala.Option[String]],
       __fieldsMap.get(__fields.get(13)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.getOrElse(__fields.get(14), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
+      __fieldsMap.getOrElse(__fields.get(14), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileOptions] = _root_.scalapb.descriptors.Reads(_ match {
@@ -376,7 +376,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(31).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(36).get).flatMap(_.as[scala.Option[String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(37).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(Nil)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   })
@@ -472,7 +472,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     def optionalObjcClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
     def csharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Some(f_)))
     def optionalCsharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
-    def uninterpretedOption: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
+    def uninterpretedOption: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val JAVA_PACKAGE_FIELD_NUMBER = 1
   final val JAVA_OUTER_CLASSNAME_FIELD_NUMBER = 8

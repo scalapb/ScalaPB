@@ -55,7 +55,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.lenses" %%% "lenses" % "0.4.9",
+      "com.trueaccord.lenses" %%% "lenses" % "0.4.10",
       "com.lihaoyi" %%% "fastparse" % "0.4.2",
       "com.lihaoyi" %%% "utest" % "0.4.5" % "test",
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
@@ -171,7 +171,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.github.os72" % "protoc-jar" % "3.2.0",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
-        "com.trueaccord.lenses" %% "lenses" % "0.4.9",
+        "com.trueaccord.lenses" %% "lenses" % "0.4.10",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5",
         "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
         "org.scalatest" %% "scalatest" % "3.0.1" % "test"

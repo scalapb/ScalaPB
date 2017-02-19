@@ -7,10 +7,16 @@ package com.trueaccord.scalapb.scalapb
 
 
 
+/** @param collectionType
+  *   Can be specified only if this field is repeated. If unspecified,
+  *   it falls back to the file option named `collection_type`, which defaults
+  *   to `scala.collection.Seq`.
+  */
 @SerialVersionUID(0L)
 final case class FieldOptions(
     `type`: scala.Option[String] = None,
-    scalaName: scala.Option[String] = None
+    scalaName: scala.Option[String] = None,
+    collectionType: scala.Option[String] = None
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FieldOptions] with com.trueaccord.lenses.Updatable[FieldOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -18,6 +24,7 @@ final case class FieldOptions(
       var __size = 0
       if (`type`.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, `type`.get) }
       if (scalaName.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, scalaName.get) }
+      if (collectionType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, collectionType.get) }
       __size
     }
     final override def serializedSize: Int = {
@@ -35,10 +42,14 @@ final case class FieldOptions(
       scalaName.foreach { __v =>
         _output__.writeString(2, __v)
       };
+      collectionType.foreach { __v =>
+        _output__.writeString(3, __v)
+      };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.trueaccord.scalapb.scalapb.FieldOptions = {
       var __type = this.`type`
       var __scalaName = this.scalaName
+      var __collectionType = this.collectionType
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -48,12 +59,15 @@ final case class FieldOptions(
             __type = Some(_input__.readString())
           case 18 =>
             __scalaName = Some(_input__.readString())
+          case 26 =>
+            __collectionType = Some(_input__.readString())
           case tag => _input__.skipField(tag)
         }
       }
       com.trueaccord.scalapb.scalapb.FieldOptions(
           `type` = __type,
-          scalaName = __scalaName
+          scalaName = __scalaName,
+          collectionType = __collectionType
       )
     }
     def getType: String = `type`.getOrElse("")
@@ -62,10 +76,14 @@ final case class FieldOptions(
     def getScalaName: String = scalaName.getOrElse("")
     def clearScalaName: FieldOptions = copy(scalaName = None)
     def withScalaName(__v: String): FieldOptions = copy(scalaName = Some(__v))
+    def getCollectionType: String = collectionType.getOrElse("")
+    def clearCollectionType: FieldOptions = copy(collectionType = None)
+    def withCollectionType(__v: String): FieldOptions = copy(collectionType = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
         case 1 => `type`.orNull
         case 2 => scalaName.orNull
+        case 3 => collectionType.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -73,6 +91,7 @@ final case class FieldOptions(
       __field.number match {
         case 1 => `type`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => scalaName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => collectionType.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -86,7 +105,8 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     val __fields = javaDescriptor.getFields
     com.trueaccord.scalapb.scalapb.FieldOptions(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[String]]
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[String]],
+      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.FieldOptions] = _root_.scalapb.descriptors.Reads(_ match {
@@ -94,7 +114,8 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.trueaccord.scalapb.scalapb.FieldOptions(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[String]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   })
@@ -109,7 +130,10 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     def optionalType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
     def scalaName: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Some(f_)))
     def optionalScalaName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
+    def collectionType: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Some(f_)))
+    def optionalCollectionType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
   }
   final val TYPE_FIELD_NUMBER = 1
   final val SCALA_NAME_FIELD_NUMBER = 2
+  final val COLLECTION_TYPE_FIELD_NUMBER = 3
 }

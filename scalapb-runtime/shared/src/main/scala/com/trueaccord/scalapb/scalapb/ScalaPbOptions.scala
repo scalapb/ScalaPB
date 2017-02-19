@@ -33,16 +33,20 @@ package com.trueaccord.scalapb.scalapb
   *   primitive_wrappers. This field remains here for backwards compatibility,
   *   but it has no effect on generated code. It is an error to set both
   *   `primitive_wrappers` and `no_primitive_wrappers`.
+  * @param collectionType
+  *   Scala type to be used for repeated fields. If unspecified,
+  *   `scala.collection.Seq` will be used.
   */
 @SerialVersionUID(0L)
 final case class ScalaPbOptions(
     packageName: scala.Option[String] = None,
     flatPackage: scala.Option[Boolean] = None,
-    `import`: scala.collection.Seq[String] = Nil,
-    preamble: scala.collection.Seq[String] = Nil,
+    `import`: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
+    preamble: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
     singleFile: scala.Option[Boolean] = None,
     noPrimitiveWrappers: scala.Option[Boolean] = None,
-    primitiveWrappers: scala.Option[Boolean] = None
+    primitiveWrappers: scala.Option[Boolean] = None,
+    collectionType: scala.Option[String] = None
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[ScalaPbOptions] with com.trueaccord.lenses.Updatable[ScalaPbOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -55,6 +59,7 @@ final case class ScalaPbOptions(
       if (singleFile.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, singleFile.get) }
       if (noPrimitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, noPrimitiveWrappers.get) }
       if (primitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, primitiveWrappers.get) }
+      if (collectionType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, collectionType.get) }
       __size
     }
     final override def serializedSize: Int = {
@@ -87,15 +92,19 @@ final case class ScalaPbOptions(
       noPrimitiveWrappers.foreach { __v =>
         _output__.writeBool(7, __v)
       };
+      collectionType.foreach { __v =>
+        _output__.writeString(8, __v)
+      };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.trueaccord.scalapb.scalapb.ScalaPbOptions = {
       var __packageName = this.packageName
       var __flatPackage = this.flatPackage
-      val __import = (scala.collection.immutable.Vector.newBuilder[String] ++= this.`import`)
-      val __preamble = (scala.collection.immutable.Vector.newBuilder[String] ++= this.preamble)
+      val __import = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.`import`)
+      val __preamble = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.preamble)
       var __singleFile = this.singleFile
       var __noPrimitiveWrappers = this.noPrimitiveWrappers
       var __primitiveWrappers = this.primitiveWrappers
+      var __collectionType = this.collectionType
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -115,6 +124,8 @@ final case class ScalaPbOptions(
             __noPrimitiveWrappers = Some(_input__.readBool())
           case 48 =>
             __primitiveWrappers = Some(_input__.readBool())
+          case 66 =>
+            __collectionType = Some(_input__.readString())
           case tag => _input__.skipField(tag)
         }
       }
@@ -125,7 +136,8 @@ final case class ScalaPbOptions(
           preamble = __preamble.result(),
           singleFile = __singleFile,
           noPrimitiveWrappers = __noPrimitiveWrappers,
-          primitiveWrappers = __primitiveWrappers
+          primitiveWrappers = __primitiveWrappers,
+          collectionType = __collectionType
       )
     }
     def getPackageName: String = packageName.getOrElse("")
@@ -134,14 +146,14 @@ final case class ScalaPbOptions(
     def getFlatPackage: Boolean = flatPackage.getOrElse(false)
     def clearFlatPackage: ScalaPbOptions = copy(flatPackage = None)
     def withFlatPackage(__v: Boolean): ScalaPbOptions = copy(flatPackage = Some(__v))
-    def clearImport = copy(`import` = scala.collection.Seq.empty)
+    def clearImport = copy(`import` = _root_.scala.collection.Seq.empty)
     def addImport(__vs: String*): ScalaPbOptions = addAllImport(__vs)
     def addAllImport(__vs: TraversableOnce[String]): ScalaPbOptions = copy(`import` = `import` ++ __vs)
-    def withImport(__v: scala.collection.Seq[String]): ScalaPbOptions = copy(`import` = __v)
-    def clearPreamble = copy(preamble = scala.collection.Seq.empty)
+    def withImport(__v: _root_.scala.collection.Seq[String]): ScalaPbOptions = copy(`import` = __v)
+    def clearPreamble = copy(preamble = _root_.scala.collection.Seq.empty)
     def addPreamble(__vs: String*): ScalaPbOptions = addAllPreamble(__vs)
     def addAllPreamble(__vs: TraversableOnce[String]): ScalaPbOptions = copy(preamble = preamble ++ __vs)
-    def withPreamble(__v: scala.collection.Seq[String]): ScalaPbOptions = copy(preamble = __v)
+    def withPreamble(__v: _root_.scala.collection.Seq[String]): ScalaPbOptions = copy(preamble = __v)
     def getSingleFile: Boolean = singleFile.getOrElse(false)
     def clearSingleFile: ScalaPbOptions = copy(singleFile = None)
     def withSingleFile(__v: Boolean): ScalaPbOptions = copy(singleFile = Some(__v))
@@ -151,6 +163,9 @@ final case class ScalaPbOptions(
     def getPrimitiveWrappers: Boolean = primitiveWrappers.getOrElse(false)
     def clearPrimitiveWrappers: ScalaPbOptions = copy(primitiveWrappers = None)
     def withPrimitiveWrappers(__v: Boolean): ScalaPbOptions = copy(primitiveWrappers = Some(__v))
+    def getCollectionType: String = collectionType.getOrElse("")
+    def clearCollectionType: ScalaPbOptions = copy(collectionType = None)
+    def withCollectionType(__v: String): ScalaPbOptions = copy(collectionType = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
         case 1 => packageName.orNull
@@ -160,6 +175,7 @@ final case class ScalaPbOptions(
         case 5 => singleFile.orNull
         case 7 => noPrimitiveWrappers.orNull
         case 6 => primitiveWrappers.orNull
+        case 8 => collectionType.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -167,11 +183,12 @@ final case class ScalaPbOptions(
       __field.number match {
         case 1 => packageName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => flatPackage.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => _root_.scalapb.descriptors.PRepeated(`import`.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 4 => _root_.scalapb.descriptors.PRepeated(preamble.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 3 => _root_.scalapb.descriptors.PRepeated(`import`.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+        case 4 => _root_.scalapb.descriptors.PRepeated(preamble.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
         case 5 => singleFile.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 7 => noPrimitiveWrappers.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => primitiveWrappers.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => collectionType.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -186,11 +203,12 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     com.trueaccord.scalapb.scalapb.ScalaPbOptions(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
       __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[scala.collection.Seq[String]],
-      __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[scala.collection.Seq[String]],
+      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
+      __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
       __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[Boolean]]
+      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[Boolean]],
+      __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.ScalaPbOptions] = _root_.scalapb.descriptors.Reads(_ match {
@@ -199,11 +217,12 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       com.trueaccord.scalapb.scalapb.ScalaPbOptions(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[Boolean]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   })
@@ -218,14 +237,16 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     def optionalPackageName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.packageName)((c_, f_) => c_.copy(packageName = f_))
     def flatPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getFlatPackage)((c_, f_) => c_.copy(flatPackage = Some(f_)))
     def optionalFlatPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.flatPackage)((c_, f_) => c_.copy(flatPackage = f_))
-    def `import`: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.`import`)((c_, f_) => c_.copy(`import` = f_))
-    def preamble: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.preamble)((c_, f_) => c_.copy(preamble = f_))
+    def `import`: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.`import`)((c_, f_) => c_.copy(`import` = f_))
+    def preamble: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.preamble)((c_, f_) => c_.copy(preamble = f_))
     def singleFile: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getSingleFile)((c_, f_) => c_.copy(singleFile = Some(f_)))
     def optionalSingleFile: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.singleFile)((c_, f_) => c_.copy(singleFile = f_))
     def noPrimitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getNoPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = Some(f_)))
     def optionalNoPrimitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.noPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = f_))
     def primitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getPrimitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = Some(f_)))
     def optionalPrimitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.primitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = f_))
+    def collectionType: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Some(f_)))
+    def optionalCollectionType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
   }
   final val PACKAGE_NAME_FIELD_NUMBER = 1
   final val FLAT_PACKAGE_FIELD_NUMBER = 2
@@ -234,4 +255,5 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   final val SINGLE_FILE_FIELD_NUMBER = 5
   final val NO_PRIMITIVE_WRAPPERS_FIELD_NUMBER = 7
   final val PRIMITIVE_WRAPPERS_FIELD_NUMBER = 6
+  final val COLLECTION_TYPE_FIELD_NUMBER = 8
 }

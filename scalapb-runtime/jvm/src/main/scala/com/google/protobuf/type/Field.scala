@@ -41,7 +41,7 @@ final case class Field(
     typeUrl: String = "",
     oneofIndex: Int = 0,
     packed: Boolean = false,
-    options: scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = Nil,
+    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
     jsonName: String = "",
     defaultValue: String = ""
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Field] with com.trueaccord.lenses.Updatable[Field] {
@@ -138,7 +138,7 @@ final case class Field(
       var __typeUrl = this.typeUrl
       var __oneofIndex = this.oneofIndex
       var __packed = this.packed
-      val __options = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
+      val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
       var __jsonName = this.jsonName
       var __defaultValue = this.defaultValue
       var _done__ = false
@@ -189,10 +189,10 @@ final case class Field(
     def withTypeUrl(__v: String): Field = copy(typeUrl = __v)
     def withOneofIndex(__v: Int): Field = copy(oneofIndex = __v)
     def withPacked(__v: Boolean): Field = copy(packed = __v)
-    def clearOptions = copy(options = scala.collection.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.collection.Seq.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Field = addAllOptions(__vs)
     def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Field = copy(options = options ++ __vs)
-    def withOptions(__v: scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
+    def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
     def withJsonName(__v: String): Field = copy(jsonName = __v)
     def withDefaultValue(__v: String): Field = copy(defaultValue = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
@@ -246,7 +246,7 @@ final case class Field(
         case 6 => _root_.scalapb.descriptors.PString(typeUrl)
         case 7 => _root_.scalapb.descriptors.PInt(oneofIndex)
         case 8 => _root_.scalapb.descriptors.PBoolean(packed)
-        case 9 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage).toVector)
+        case 9 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 10 => _root_.scalapb.descriptors.PString(jsonName)
         case 11 => _root_.scalapb.descriptors.PString(defaultValue)
       }
@@ -266,7 +266,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
     javaPbOut.setOneofIndex(scalaPbSource.oneofIndex)
     javaPbOut.setPacked(scalaPbSource.packed)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_)).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
     javaPbOut.setJsonName(scalaPbSource.jsonName)
     javaPbOut.setDefaultValue(scalaPbSource.defaultValue)
     javaPbOut.build
@@ -279,7 +279,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     typeUrl = javaPbSource.getTypeUrl,
     oneofIndex = javaPbSource.getOneofIndex.intValue,
     packed = javaPbSource.getPacked.booleanValue,
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
     jsonName = javaPbSource.getJsonName,
     defaultValue = javaPbSource.getDefaultValue
   )
@@ -294,7 +294,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
       __fieldsMap.getOrElse(__fields.get(4), "").asInstanceOf[String],
       __fieldsMap.getOrElse(__fields.get(5), 0).asInstanceOf[Int],
       __fieldsMap.getOrElse(__fields.get(6), false).asInstanceOf[Boolean],
-      __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
+      __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
       __fieldsMap.getOrElse(__fields.get(8), "").asInstanceOf[String],
       __fieldsMap.getOrElse(__fields.get(9), "").asInstanceOf[String]
     )
@@ -310,7 +310,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[Int]).getOrElse(0),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[Boolean]).getOrElse(false),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[String]).getOrElse("")
       )
@@ -609,7 +609,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     def typeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
     def oneofIndex: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
     def packed: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.packed)((c_, f_) => c_.copy(packed = f_))
-    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def jsonName: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
     def defaultValue: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
   }

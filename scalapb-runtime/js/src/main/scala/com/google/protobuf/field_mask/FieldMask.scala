@@ -214,7 +214,7 @@ package com.google.protobuf.field_mask
   */
 @SerialVersionUID(0L)
 final case class FieldMask(
-    paths: scala.collection.Seq[String] = Nil
+    paths: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FieldMask] with com.trueaccord.lenses.Updatable[FieldMask] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -237,7 +237,7 @@ final case class FieldMask(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.field_mask.FieldMask = {
-      val __paths = (scala.collection.immutable.Vector.newBuilder[String] ++= this.paths)
+      val __paths = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.paths)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -252,10 +252,10 @@ final case class FieldMask(
           paths = __paths.result()
       )
     }
-    def clearPaths = copy(paths = scala.collection.Seq.empty)
+    def clearPaths = copy(paths = _root_.scala.collection.Seq.empty)
     def addPaths(__vs: String*): FieldMask = addAllPaths(__vs)
     def addAllPaths(__vs: TraversableOnce[String]): FieldMask = copy(paths = paths ++ __vs)
-    def withPaths(__v: scala.collection.Seq[String]): FieldMask = copy(paths = __v)
+    def withPaths(__v: _root_.scala.collection.Seq[String]): FieldMask = copy(paths = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       __fieldNumber match {
         case 1 => paths
@@ -264,7 +264,7 @@ final case class FieldMask(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       __field.number match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(paths.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 1 => _root_.scalapb.descriptors.PRepeated(paths.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -277,14 +277,14 @@ object FieldMask extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.field_mask.FieldMask(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[scala.collection.Seq[String]]
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.field_mask.FieldMask] = _root_.scalapb.descriptors.Reads(_ match {
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.field_mask.FieldMask(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   })
@@ -295,7 +295,7 @@ object FieldMask extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   lazy val defaultInstance = com.google.protobuf.field_mask.FieldMask(
   )
   implicit class FieldMaskLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.field_mask.FieldMask]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.field_mask.FieldMask](_l) {
-    def paths: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.paths)((c_, f_) => c_.copy(paths = f_))
+    def paths: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.paths)((c_, f_) => c_.copy(paths = f_))
   }
   final val PATHS_FIELD_NUMBER = 1
 }

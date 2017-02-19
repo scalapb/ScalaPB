@@ -167,7 +167,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
     if (field.supportsPresence) "None"
     else if (field.isMap) "scala.collection.immutable.Map.empty"
-    else if (field.isRepeated) "Nil"
+    else if (field.isRepeated) field.collectionType + ".empty"
     else defaultValueForGet(field)
 
   def javaToScalaConversion(field: FieldDescriptor) = {
@@ -192,10 +192,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val valueConversion: Expression = javaToScalaConversion(field)
 
     if (field.supportsPresence)
-      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, isCollection = false)}) else None"
+      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, enclosingType=EnclosingType.None)}) else None"
     else if (field.isRepeated)
-      valueConversion(javaGetter + ".asScala", isCollection = true)
-    else valueConversion(javaGetter, isCollection = false)
+      valueConversion(javaGetter + ".asScala", EnclosingType.Collection, mustCopy = true)
+    else valueConversion(javaGetter, EnclosingType.None)
   }
 
   def javaFieldToScala(container: String, field: FieldDescriptor): String = {
@@ -210,7 +210,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def javaMapFieldToScala(container: String, field: FieldDescriptor) = {
     // TODO(thesamet): if both unit conversions are NoOp, we can omit the map call.
-    def unitConversion(n: String, field: FieldDescriptor) = javaToScalaConversion(field).apply(n, isCollection = false)
+    def unitConversion(n: String, field: FieldDescriptor) = javaToScalaConversion(field).apply(n, EnclosingType.None)
     s"${container}.get${field.upperScalaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)})).toMap"
   }
 
@@ -236,7 +236,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def assignScalaMapToJava(scalaObject: String, javaObject: String, field: FieldDescriptor): String = {
     def valueConvert(v: String, field: FieldDescriptor) =
-      scalaToJava(field, boxPrimitives = true).apply(v, isCollection = false)
+      scalaToJava(field, boxPrimitives = true).apply(v, EnclosingType.None)
 
     val getMutableMap = s"getMutable${field.upperScalaName}" + (
       if (field.mapType.valueField.isEnum && field.getFile.isProto3) "Value" else "")
@@ -260,7 +260,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
       val scalaExpr = (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = field.isRepeated)).apply(
-        scalaGetter, isCollection = !field.isSingular)
+        scalaGetter, enclosingType = field.enclosingType)
       if (field.supportsPresence || field.isInOneof)
         s"$scalaExpr.foreach($javaSetter)"
       else
@@ -280,7 +280,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         .print(message.fields) {
           case (fp, f) =>
             val e = toBaseFieldType(f)
-              .apply(fieldAccessorSymbol(f), isCollection = !f.isSingular)
+              .apply(fieldAccessorSymbol(f), enclosingType = f.enclosingType)
             if (f.supportsPresence || f.isInOneof)
               fp.add(s"case ${f.getNumber} => $e.orNull")
             else if (f.isOptional) {
@@ -332,11 +332,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         .print(message.fields) {
           case (fp, f) =>
             val e = toBaseFieldTypeWithScalaDescriptors(f).andThen(singleFieldAsPvalue(f))
-              .apply(fieldAccessorSymbol(f), isCollection = !f.isSingular)
+              .apply(fieldAccessorSymbol(f), enclosingType = f.enclosingType)
             if (f.supportsPresence || f.isInOneof) {
               fp.add(s"case ${f.getNumber} => $e.getOrElse(_root_.scalapb.descriptors.PEmpty)")
             } else if (f.isRepeated) {
-              fp.add(s"case ${f.getNumber} => _root_.scalapb.descriptors.PRepeated($e.toVector)")
+              fp.add(s"case ${f.getNumber} => _root_.scalapb.descriptors.PRepeated($e)")
             } else {
               fp.add(s"case ${f.getNumber} => $e")
             }
@@ -393,14 +393,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   else toBaseTypeExpr(field)
 
   def toBaseType(field: FieldDescriptor)(expr: String) =
-    toBaseTypeExpr(field).apply(expr, isCollection = false)
+    toBaseTypeExpr(field).apply(expr, EnclosingType.None)
 
   def toCustomTypeExpr(field: FieldDescriptor) =
     if (field.customSingleScalaTypeName.isEmpty) Identity
     else FunctionApplication(s"${field.typeMapper}.toCustom")
 
   def toCustomType(field: FieldDescriptor)(expr: String) =
-    toCustomTypeExpr(field).apply(expr, isCollection = false)
+    toCustomTypeExpr(field).apply(expr, EnclosingType.None)
 
   def generateSerializedSizeForField(fp: FunctionalPrinter, field: FieldDescriptor): FunctionalPrinter = {
     val fieldNameSymbol = fieldAccessorSymbol(field)
@@ -559,7 +559,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         if (field.isOptional && field.supportsPresence) " = None"
         else if (field.isSingular && !field.isRequired) " = " + defaultValueForGet(field)
         else if (field.isMap) " = scala.collection.immutable.Map.empty"
-        else if (field.isRepeated) " = Nil"
+        else if (field.isRepeated) s" = ${field.collectionType}.empty"
         else ""
         s"${field.scalaName.asSymbol}: $typeName$ctorDefaultValue"
     }
@@ -583,7 +583,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         else if (field.isMap)
           printer.add(s"val __${field.scalaName} = (scala.collection.immutable.Map.newBuilder[${field.mapType.keyType}, ${field.mapType.valueType}] ++= this.${field.scalaName.asSymbol})")
         else
-          printer.add(s"val __${field.scalaName} = (scala.collection.immutable.Vector.newBuilder[${field.singleScalaTypeName}] ++= this.${field.scalaName.asSymbol})")
+          printer.add(s"val __${field.scalaName} = (${field.collectionBuilder} ++= this.${field.scalaName.asSymbol})")
       )
       .when(requiredFieldMap.nonEmpty) {
         fp =>
@@ -615,8 +615,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               val expr = if (field.isInOneof)
                 fieldAccessorSymbol(field) else s"__${field.scalaName}"
               val mappedType =
-                toBaseFieldType(field).apply(expr,
-                  isCollection = !field.isSingular)
+                toBaseFieldType(field).apply(expr, field.enclosingType)
               if (field.isInOneof || field.supportsPresence) (mappedType + s".getOrElse($defInstance)")
               else mappedType
             }
@@ -764,9 +763,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), $t).asInstanceOf[$baseTypeName]"
             }
 
-            val s = transform(field).apply(e, isCollection = !field.isSingular)
-            if (field.isMap) s + "(scala.collection.breakOut)"
-            else s
+            transform(field).apply(e, enclosingType = field.enclosingType)
         }
         val oneOfs = message.getOneofs.asScala.toSeq.map {
           oneOf =>
@@ -774,7 +771,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               field =>
                 val typeName = if (field.isEnum) "_root_.com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
                 val e = s"__fieldsMap.get(__fields.get(${field.getIndex})).asInstanceOf[scala.Option[$typeName]]"
-                (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
+                (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
             } mkString (" orElse\n")
             s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
         }
@@ -798,7 +795,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .add("case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>")
       .indent
-//      .add("__fieldsMap.keys.find(_.containingMessage != scalaDescriptor)).foreach(t => println(t.
       .add("require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), \"FieldDescriptor does not match message type.\")")
       .add(myFullScalaName + "(")
       .indent
@@ -811,7 +807,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               val e = if (field.supportsPresence)
                 s"$value.flatMap(_.as[$baseTypeName])"
               else if (field.isRepeated)
-                s"$value.map(_.as[${baseTypeName}]).getOrElse(Nil)"
+                s"$value.map(_.as[${baseTypeName}]).getOrElse(${field.collectionType}.empty)"
               else if (field.isRequired)
                 s"$value.get.as[$baseTypeName]"
               else {
@@ -821,9 +817,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                 s"$value.map(_.as[$baseTypeName]).getOrElse($t)"
               }
 
-              val s = transform(field).apply(e, isCollection = !field.isSingular)
-              if (field.isMap) s + "(scala.collection.breakOut)"
-              else s
+              transform(field).apply(e, enclosingType = field.enclosingType)
           }
           val oneOfs = message.getOneofs.asScala.map {
             oneOf =>
@@ -832,7 +826,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                   val value = s"__fieldsMap.get(scalaDescriptor.findFieldByNumber(${field.getNumber}).get)"
                   val typeName = if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
                   val e = s"$value.flatMap(_.as[scala.Option[$typeName]])"
-                  (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, isCollection = true)
+                  (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
               } mkString (" orElse\n")
               s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
           }
@@ -1036,7 +1030,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           }
           val default = if (defaultNeeded) s", ${defaultValueForGet(fd)}"
           else ""
-          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container)({__valueIn => ${customExpr("__valueIn", false)}}$default)")
+          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container)({__valueIn => ${customExpr("__valueIn", EnclosingType.None)}}$default)")
       }
   }
 
@@ -1125,7 +1119,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               p.add(
                 s"""def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.getContainingOneof.scalaName.asSymbol} = ${field.oneOfTypeName}(__v))""")
           }.when(field.isRepeated) { p =>
-            val emptyValue = if (field.isMap) "scala.collection.immutable.Map.empty" else "scala.collection.Seq.empty"
+            val emptyValue = if (field.isMap) "scala.collection.immutable.Map.empty" else field.collectionType + ".empty"
             p.addStringMargin(
               s"""def $clearMethod = copy(${field.scalaName.asSymbol} = $emptyValue)
                  |def add${field.upperScalaName}(__vs: $singleType*): ${message.nameSymbol} = addAll${field.upperScalaName}(__vs)

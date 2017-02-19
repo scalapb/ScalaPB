@@ -2,6 +2,9 @@ package scalapb.descriptors
 
 import com.google.protobuf.ByteString
 
+import scala.collection.generic.CanBuildFrom
+import scala.language.higherKinds
+
 sealed trait PValue extends Any {
   def as[A](implicit reads: Reads[A]): A = reads.read(this)
 }
@@ -73,8 +76,8 @@ object Reads {
     case _ => throw new ReadsException("Expected PEnum")
   }
 
-  implicit def repeated[A](implicit reads: Reads[A]): Reads[Seq[A]] = Reads[Seq[A]] {
-    case PRepeated(value) => value.map(reads.read)
+  implicit def repeated[A, Coll[A]](implicit reads: Reads[A], bf: CanBuildFrom[Nothing, A, Coll[A]]): Reads[Coll[A]] = Reads[Coll[A]] {
+    case PRepeated(value) => value.map(reads.read)(scala.collection.breakOut)
     case _ => throw new ReadsException("Expected PRepeated")
   }
 

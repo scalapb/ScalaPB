@@ -10,7 +10,8 @@ sealed trait Expression extends Product with Serializable {
     case (e1: LiteralExpression, e2: LiteralExpression) => ExpressionList(e2 :: e1 :: Nil)
   }
 
-  def apply(e: String, isCollection: Boolean): String = ExpressionBuilder.run(this)(e, isCollection)
+  def apply(e: String, enclosingType: EnclosingType, mustCopy: Boolean = false): String =
+    ExpressionBuilder.run(this)(e, enclosingType, mustCopy)
 }
 
 case class ExpressionList(l: List[LiteralExpression]) extends Expression
@@ -49,25 +50,43 @@ object ExpressionBuilder {
     case OperatorApplication(name) :: tail => s"${runSingleton(tail)(e)} $name"
   }
 
-  def runCollection(es: List[LiteralExpression])(e: String): String = {
+  def runCollection(es: List[LiteralExpression])(e: String, enclosingType: EnclosingType, mustCopy: Boolean): String = {
+    require(enclosingType != EnclosingType.None)
     val nontrivial = es.filterNot(_.isIdentity)
     val needVariable =
       nontrivial.filterNot(_.isIdentity)
         .dropRight(1).exists(_.isFunctionApplication)
 
+    val convert = if (enclosingType == EnclosingType.Collection)
+      "(_root_.scala.collection.breakOut)" else ""
+
     if (needVariable)
-      s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})"""
+      s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})$convert"""
     else if (nontrivial.nonEmpty)
-      s"""$e.map(${runSingleton(nontrivial)("_")})"""
-    else e
+      s"""$e.map(${runSingleton(nontrivial)("_")})$convert"""
+    else if (mustCopy) {
+      s"""$e.map(_root_.scala.Predef.identity)$convert"""
+    } else e
   }
 
-  def run(es: List[LiteralExpression])(e: String, isCollection: Boolean): String =
-    if (isCollection) runCollection(es)(e)
-    else runSingleton(es)(e)
+  def run(es: List[LiteralExpression])(e: String, enclosingType: EnclosingType, mustCopy: Boolean): String =
+    enclosingType match {
+      case EnclosingType.None =>
+        runSingleton(es)(e)
+      case _ =>
+        runCollection(es)(e, enclosingType, mustCopy)
+    }
 
-  def run(es: Expression)(e: String, isCollection: Boolean): String = es match {
-    case ExpressionList(l) => run(l)(e, isCollection)
-    case expr: LiteralExpression => run(expr :: Nil)(e, isCollection)
+  def run(es: Expression)(e: String, enclosingType: EnclosingType, mustCopy: Boolean): String = es match {
+    case ExpressionList(l) => run(l)(e, enclosingType, mustCopy)
+    case expr: LiteralExpression => run(expr :: Nil)(e, enclosingType, mustCopy)
   }
+}
+
+sealed trait EnclosingType
+
+object EnclosingType {
+  case object None extends EnclosingType
+  case object ScalaOption extends EnclosingType
+  case object Collection extends EnclosingType
 }

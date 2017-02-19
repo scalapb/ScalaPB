@@ -20,7 +20,7 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class UninterpretedOption(
-    name: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = Nil,
+    name: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scala.collection.Seq.empty,
     identifierValue: scala.Option[String] = None,
     positiveIntValue: scala.Option[Long] = None,
     negativeIntValue: scala.Option[Long] = None,
@@ -75,7 +75,7 @@ final case class UninterpretedOption(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = {
-      val __name = (scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= this.name)
+      val __name = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= this.name)
       var __identifierValue = this.identifierValue
       var __positiveIntValue = this.positiveIntValue
       var __negativeIntValue = this.negativeIntValue
@@ -114,10 +114,10 @@ final case class UninterpretedOption(
           aggregateValue = __aggregateValue
       )
     }
-    def clearName = copy(name = scala.collection.Seq.empty)
+    def clearName = copy(name = _root_.scala.collection.Seq.empty)
     def addName(__vs: com.google.protobuf.descriptor.UninterpretedOption.NamePart*): UninterpretedOption = addAllName(__vs)
     def addAllName(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = name ++ __vs)
-    def withName(__v: scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = __v)
+    def withName(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = __v)
     def getIdentifierValue: String = identifierValue.getOrElse("")
     def clearIdentifierValue: UninterpretedOption = copy(identifierValue = None)
     def withIdentifierValue(__v: String): UninterpretedOption = copy(identifierValue = Some(__v))
@@ -150,7 +150,7 @@ final case class UninterpretedOption(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       __field.number match {
-        case 2 => _root_.scalapb.descriptors.PRepeated(name.map(_.toPMessage).toVector)
+        case 2 => _root_.scalapb.descriptors.PRepeated(name.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 3 => identifierValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 4 => positiveIntValue.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 5 => negativeIntValue.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
@@ -169,7 +169,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.UninterpretedOption(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]],
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]],
       __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[String]],
       __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[Long]],
       __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[Long]],
@@ -182,7 +182,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.UninterpretedOption(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]]).getOrElse(Nil),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[Long]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[Long]]),
@@ -314,7 +314,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
   }
   
   implicit class UninterpretedOptionLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
-    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def identifierValue: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Some(f_)))
     def optionalIdentifierValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.identifierValue)((c_, f_) => c_.copy(identifierValue = f_))
     def positiveIntValue: _root_.com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Some(f_)))
