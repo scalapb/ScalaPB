@@ -23,10 +23,16 @@ package com.trueaccord.scalapb.scalapb
   * @param singleFile
   *   If true, all messages and enums (but not services) will be written
   *   to a single Scala file.
-  * @param primitiveWrappers
-  *   When this option is enabled, wrappers defined at
+  * @param noPrimitiveWrappers
+  *   By default, wrappers defined at
   *   https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-  *   are mapped to an Option[T] where T is a primitive type.
+  *   are mapped to an Option[T] where T is a primitive type. When this field
+  *   is set to true, we do not perform this transformation.
+  * @param primitiveWrappers
+  *   DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+  *   primitive_wrappers. This field remains here for backwards compatibility,
+  *   but it has no effect on generated code. It is an error to set both
+  *   `primitive_wrappers` and `no_primitive_wrappers`.
   */
 @SerialVersionUID(0L)
 final case class ScalaPbOptions(
@@ -35,6 +41,7 @@ final case class ScalaPbOptions(
     `import`: scala.collection.Seq[String] = Nil,
     preamble: scala.collection.Seq[String] = Nil,
     singleFile: scala.Option[Boolean] = None,
+    noPrimitiveWrappers: scala.Option[Boolean] = None,
     primitiveWrappers: scala.Option[Boolean] = None
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[ScalaPbOptions] with com.trueaccord.lenses.Updatable[ScalaPbOptions] {
     @transient
@@ -46,6 +53,7 @@ final case class ScalaPbOptions(
       `import`.foreach(`import` => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, `import`))
       preamble.foreach(preamble => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, preamble))
       if (singleFile.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, singleFile.get) }
+      if (noPrimitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, noPrimitiveWrappers.get) }
       if (primitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, primitiveWrappers.get) }
       __size
     }
@@ -76,6 +84,9 @@ final case class ScalaPbOptions(
       primitiveWrappers.foreach { __v =>
         _output__.writeBool(6, __v)
       };
+      noPrimitiveWrappers.foreach { __v =>
+        _output__.writeBool(7, __v)
+      };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.trueaccord.scalapb.scalapb.ScalaPbOptions = {
       var __packageName = this.packageName
@@ -83,6 +94,7 @@ final case class ScalaPbOptions(
       val __import = (scala.collection.immutable.Vector.newBuilder[String] ++= this.`import`)
       val __preamble = (scala.collection.immutable.Vector.newBuilder[String] ++= this.preamble)
       var __singleFile = this.singleFile
+      var __noPrimitiveWrappers = this.noPrimitiveWrappers
       var __primitiveWrappers = this.primitiveWrappers
       var _done__ = false
       while (!_done__) {
@@ -99,6 +111,8 @@ final case class ScalaPbOptions(
             __preamble += _input__.readString()
           case 40 =>
             __singleFile = Some(_input__.readBool())
+          case 56 =>
+            __noPrimitiveWrappers = Some(_input__.readBool())
           case 48 =>
             __primitiveWrappers = Some(_input__.readBool())
           case tag => _input__.skipField(tag)
@@ -110,6 +124,7 @@ final case class ScalaPbOptions(
           `import` = __import.result(),
           preamble = __preamble.result(),
           singleFile = __singleFile,
+          noPrimitiveWrappers = __noPrimitiveWrappers,
           primitiveWrappers = __primitiveWrappers
       )
     }
@@ -130,6 +145,9 @@ final case class ScalaPbOptions(
     def getSingleFile: Boolean = singleFile.getOrElse(false)
     def clearSingleFile: ScalaPbOptions = copy(singleFile = None)
     def withSingleFile(__v: Boolean): ScalaPbOptions = copy(singleFile = Some(__v))
+    def getNoPrimitiveWrappers: Boolean = noPrimitiveWrappers.getOrElse(false)
+    def clearNoPrimitiveWrappers: ScalaPbOptions = copy(noPrimitiveWrappers = None)
+    def withNoPrimitiveWrappers(__v: Boolean): ScalaPbOptions = copy(noPrimitiveWrappers = Some(__v))
     def getPrimitiveWrappers: Boolean = primitiveWrappers.getOrElse(false)
     def clearPrimitiveWrappers: ScalaPbOptions = copy(primitiveWrappers = None)
     def withPrimitiveWrappers(__v: Boolean): ScalaPbOptions = copy(primitiveWrappers = Some(__v))
@@ -140,6 +158,7 @@ final case class ScalaPbOptions(
         case 3 => `import`
         case 4 => preamble
         case 5 => singleFile.orNull
+        case 7 => noPrimitiveWrappers.orNull
         case 6 => primitiveWrappers.orNull
       }
     }
@@ -151,6 +170,7 @@ final case class ScalaPbOptions(
         case 3 => _root_.scalapb.descriptors.PRepeated(`import`.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 4 => _root_.scalapb.descriptors.PRepeated(preamble.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 5 => singleFile.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 7 => noPrimitiveWrappers.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => primitiveWrappers.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -169,7 +189,8 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[scala.collection.Seq[String]],
       __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[scala.collection.Seq[String]],
       __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[Boolean]]
+      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[Boolean]],
+      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.ScalaPbOptions] = _root_.scalapb.descriptors.Reads(_ match {
@@ -181,6 +202,7 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[scala.collection.Seq[String]]).getOrElse(Nil),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -200,6 +222,8 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     def preamble: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.collection.Seq[String]] = field(_.preamble)((c_, f_) => c_.copy(preamble = f_))
     def singleFile: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getSingleFile)((c_, f_) => c_.copy(singleFile = Some(f_)))
     def optionalSingleFile: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.singleFile)((c_, f_) => c_.copy(singleFile = f_))
+    def noPrimitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getNoPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = Some(f_)))
+    def optionalNoPrimitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.noPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = f_))
     def primitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getPrimitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = Some(f_)))
     def optionalPrimitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.primitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = f_))
   }
@@ -208,5 +232,6 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   final val IMPORT_FIELD_NUMBER = 3
   final val PREAMBLE_FIELD_NUMBER = 4
   final val SINGLE_FILE_FIELD_NUMBER = 5
+  final val NO_PRIMITIVE_WRAPPERS_FIELD_NUMBER = 7
   final val PRIMITIVE_WRAPPERS_FIELD_NUMBER = 6
 }

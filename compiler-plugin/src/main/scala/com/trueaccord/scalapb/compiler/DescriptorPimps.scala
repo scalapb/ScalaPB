@@ -134,7 +134,7 @@ trait DescriptorPimps {
     def customSingleScalaTypeName: Option[String] =
       if (isMap) Some(s"(${mapType.keyType}, ${mapType.valueType})")
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
-      else if (isMessage && fd.getFile.scalaOptions.getPrimitiveWrappers) (fd.getMessageType.getFullName match {
+      else if (isMessage && fd.getFile.usePrimitiveWrappers) (fd.getMessageType.getFullName match {
         case "google.protobuf.Int32Value" => Some("Int")
         case "google.protobuf.Int64Value" => Some("Long")
         case "google.protobuf.UInt32Value" => Some("Int")
@@ -455,6 +455,8 @@ trait DescriptorPimps {
       file.toProto.getSourceCodeInfo.getLocationList.asScala.find(
         _.getPathList.asScala == path)
     }
+
+    def usePrimitiveWrappers: Boolean = !scalaOptions.getNoPrimitiveWrappers
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {

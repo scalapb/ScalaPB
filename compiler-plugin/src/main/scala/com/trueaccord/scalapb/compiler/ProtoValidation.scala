@@ -10,6 +10,10 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
   def validateFile(fd: FileDescriptor): Unit = {
     fd.getEnumTypes.asScala.foreach(validateEnum)
     fd.getMessageTypes.asScala.foreach(validateMessage)
+    if (fd.scalaOptions.hasPrimitiveWrappers && fd.scalaOptions.getNoPrimitiveWrappers) {
+      throw new GeneratorException(
+        s"primitive_wrappers and no_primitive_wrappers must not be used at the same time.")
+    }
   }
 
   def validateEnum(e: EnumDescriptor): Unit = {

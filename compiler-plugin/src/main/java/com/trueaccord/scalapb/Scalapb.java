@@ -169,9 +169,33 @@ public final class Scalapb {
 
     /**
      * <pre>
-     * When this option is enabled, wrappers defined at
+     * By default, wrappers defined at
      * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-     * are mapped to an Option[T] where T is a primitive type.
+     * are mapped to an Option[T] where T is a primitive type. When this field
+     * is set to true, we do not perform this transformation.
+     * </pre>
+     *
+     * <code>optional bool no_primitive_wrappers = 7;</code>
+     */
+    boolean hasNoPrimitiveWrappers();
+    /**
+     * <pre>
+     * By default, wrappers defined at
+     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+     * are mapped to an Option[T] where T is a primitive type. When this field
+     * is set to true, we do not perform this transformation.
+     * </pre>
+     *
+     * <code>optional bool no_primitive_wrappers = 7;</code>
+     */
+    boolean getNoPrimitiveWrappers();
+
+    /**
+     * <pre>
+     * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+     * primitive_wrappers. This field remains here for backwards compatibility,
+     * but it has no effect on generated code. It is an error to set both
+     * `primitive_wrappers` and `no_primitive_wrappers`.
      * </pre>
      *
      * <code>optional bool primitive_wrappers = 6;</code>
@@ -179,9 +203,10 @@ public final class Scalapb {
     boolean hasPrimitiveWrappers();
     /**
      * <pre>
-     * When this option is enabled, wrappers defined at
-     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-     * are mapped to an Option[T] where T is a primitive type.
+     * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+     * primitive_wrappers. This field remains here for backwards compatibility,
+     * but it has no effect on generated code. It is an error to set both
+     * `primitive_wrappers` and `no_primitive_wrappers`.
      * </pre>
      *
      * <code>optional bool primitive_wrappers = 6;</code>
@@ -205,6 +230,7 @@ public final class Scalapb {
       import_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       preamble_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       singleFile_ = false;
+      noPrimitiveWrappers_ = false;
       primitiveWrappers_ = false;
     }
 
@@ -271,8 +297,13 @@ public final class Scalapb {
               break;
             }
             case 48: {
-              bitField0_ |= 0x00000008;
+              bitField0_ |= 0x00000010;
               primitiveWrappers_ = input.readBool();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000008;
+              noPrimitiveWrappers_ = input.readBool();
               break;
             }
           }
@@ -512,25 +543,56 @@ public final class Scalapb {
       return singleFile_;
     }
 
+    public static final int NO_PRIMITIVE_WRAPPERS_FIELD_NUMBER = 7;
+    private boolean noPrimitiveWrappers_;
+    /**
+     * <pre>
+     * By default, wrappers defined at
+     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+     * are mapped to an Option[T] where T is a primitive type. When this field
+     * is set to true, we do not perform this transformation.
+     * </pre>
+     *
+     * <code>optional bool no_primitive_wrappers = 7;</code>
+     */
+    public boolean hasNoPrimitiveWrappers() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <pre>
+     * By default, wrappers defined at
+     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+     * are mapped to an Option[T] where T is a primitive type. When this field
+     * is set to true, we do not perform this transformation.
+     * </pre>
+     *
+     * <code>optional bool no_primitive_wrappers = 7;</code>
+     */
+    public boolean getNoPrimitiveWrappers() {
+      return noPrimitiveWrappers_;
+    }
+
     public static final int PRIMITIVE_WRAPPERS_FIELD_NUMBER = 6;
     private boolean primitiveWrappers_;
     /**
      * <pre>
-     * When this option is enabled, wrappers defined at
-     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-     * are mapped to an Option[T] where T is a primitive type.
+     * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+     * primitive_wrappers. This field remains here for backwards compatibility,
+     * but it has no effect on generated code. It is an error to set both
+     * `primitive_wrappers` and `no_primitive_wrappers`.
      * </pre>
      *
      * <code>optional bool primitive_wrappers = 6;</code>
      */
     public boolean hasPrimitiveWrappers() {
-      return ((bitField0_ & 0x00000008) == 0x00000008);
+      return ((bitField0_ & 0x00000010) == 0x00000010);
     }
     /**
      * <pre>
-     * When this option is enabled, wrappers defined at
-     * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-     * are mapped to an Option[T] where T is a primitive type.
+     * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+     * primitive_wrappers. This field remains here for backwards compatibility,
+     * but it has no effect on generated code. It is an error to set both
+     * `primitive_wrappers` and `no_primitive_wrappers`.
      * </pre>
      *
      * <code>optional bool primitive_wrappers = 6;</code>
@@ -566,8 +628,11 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         output.writeBool(5, singleFile_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         output.writeBool(6, primitiveWrappers_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBool(7, noPrimitiveWrappers_);
       }
       unknownFields.writeTo(output);
     }
@@ -604,9 +669,13 @@ public final class Scalapb {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(5, singleFile_);
       }
-      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(6, primitiveWrappers_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, noPrimitiveWrappers_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -643,6 +712,11 @@ public final class Scalapb {
       if (hasSingleFile()) {
         result = result && (getSingleFile()
             == other.getSingleFile());
+      }
+      result = result && (hasNoPrimitiveWrappers() == other.hasNoPrimitiveWrappers());
+      if (hasNoPrimitiveWrappers()) {
+        result = result && (getNoPrimitiveWrappers()
+            == other.getNoPrimitiveWrappers());
       }
       result = result && (hasPrimitiveWrappers() == other.hasPrimitiveWrappers());
       if (hasPrimitiveWrappers()) {
@@ -681,6 +755,11 @@ public final class Scalapb {
         hash = (37 * hash) + SINGLE_FILE_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getSingleFile());
+      }
+      if (hasNoPrimitiveWrappers()) {
+        hash = (37 * hash) + NO_PRIMITIVE_WRAPPERS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getNoPrimitiveWrappers());
       }
       if (hasPrimitiveWrappers()) {
         hash = (37 * hash) + PRIMITIVE_WRAPPERS_FIELD_NUMBER;
@@ -815,8 +894,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000008);
         singleFile_ = false;
         bitField0_ = (bitField0_ & ~0x00000010);
-        primitiveWrappers_ = false;
+        noPrimitiveWrappers_ = false;
         bitField0_ = (bitField0_ & ~0x00000020);
+        primitiveWrappers_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -865,6 +946,10 @@ public final class Scalapb {
         result.singleFile_ = singleFile_;
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000008;
+        }
+        result.noPrimitiveWrappers_ = noPrimitiveWrappers_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000010;
         }
         result.primitiveWrappers_ = primitiveWrappers_;
         result.bitField0_ = to_bitField0_;
@@ -939,6 +1024,9 @@ public final class Scalapb {
         }
         if (other.hasSingleFile()) {
           setSingleFile(other.getSingleFile());
+        }
+        if (other.hasNoPrimitiveWrappers()) {
+          setNoPrimitiveWrappers(other.getNoPrimitiveWrappers());
         }
         if (other.hasPrimitiveWrappers()) {
           setPrimitiveWrappers(other.getPrimitiveWrappers());
@@ -1459,24 +1547,86 @@ public final class Scalapb {
         return this;
       }
 
+      private boolean noPrimitiveWrappers_ ;
+      /**
+       * <pre>
+       * By default, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type. When this field
+       * is set to true, we do not perform this transformation.
+       * </pre>
+       *
+       * <code>optional bool no_primitive_wrappers = 7;</code>
+       */
+      public boolean hasNoPrimitiveWrappers() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      /**
+       * <pre>
+       * By default, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type. When this field
+       * is set to true, we do not perform this transformation.
+       * </pre>
+       *
+       * <code>optional bool no_primitive_wrappers = 7;</code>
+       */
+      public boolean getNoPrimitiveWrappers() {
+        return noPrimitiveWrappers_;
+      }
+      /**
+       * <pre>
+       * By default, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type. When this field
+       * is set to true, we do not perform this transformation.
+       * </pre>
+       *
+       * <code>optional bool no_primitive_wrappers = 7;</code>
+       */
+      public Builder setNoPrimitiveWrappers(boolean value) {
+        bitField0_ |= 0x00000020;
+        noPrimitiveWrappers_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * By default, wrappers defined at
+       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+       * are mapped to an Option[T] where T is a primitive type. When this field
+       * is set to true, we do not perform this transformation.
+       * </pre>
+       *
+       * <code>optional bool no_primitive_wrappers = 7;</code>
+       */
+      public Builder clearNoPrimitiveWrappers() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        noPrimitiveWrappers_ = false;
+        onChanged();
+        return this;
+      }
+
       private boolean primitiveWrappers_ ;
       /**
        * <pre>
-       * When this option is enabled, wrappers defined at
-       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-       * are mapped to an Option[T] where T is a primitive type.
+       * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+       * primitive_wrappers. This field remains here for backwards compatibility,
+       * but it has no effect on generated code. It is an error to set both
+       * `primitive_wrappers` and `no_primitive_wrappers`.
        * </pre>
        *
        * <code>optional bool primitive_wrappers = 6;</code>
        */
       public boolean hasPrimitiveWrappers() {
-        return ((bitField0_ & 0x00000020) == 0x00000020);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       /**
        * <pre>
-       * When this option is enabled, wrappers defined at
-       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-       * are mapped to an Option[T] where T is a primitive type.
+       * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+       * primitive_wrappers. This field remains here for backwards compatibility,
+       * but it has no effect on generated code. It is an error to set both
+       * `primitive_wrappers` and `no_primitive_wrappers`.
        * </pre>
        *
        * <code>optional bool primitive_wrappers = 6;</code>
@@ -1486,30 +1636,32 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * When this option is enabled, wrappers defined at
-       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-       * are mapped to an Option[T] where T is a primitive type.
+       * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+       * primitive_wrappers. This field remains here for backwards compatibility,
+       * but it has no effect on generated code. It is an error to set both
+       * `primitive_wrappers` and `no_primitive_wrappers`.
        * </pre>
        *
        * <code>optional bool primitive_wrappers = 6;</code>
        */
       public Builder setPrimitiveWrappers(boolean value) {
-        bitField0_ |= 0x00000020;
+        bitField0_ |= 0x00000040;
         primitiveWrappers_ = value;
         onChanged();
         return this;
       }
       /**
        * <pre>
-       * When this option is enabled, wrappers defined at
-       * https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-       * are mapped to an Option[T] where T is a primitive type.
+       * DEPRECATED. In ScalaPB &lt;= 0.5.47, it was necessary to explicitly enable
+       * primitive_wrappers. This field remains here for backwards compatibility,
+       * but it has no effect on generated code. It is an error to set both
+       * `primitive_wrappers` and `no_primitive_wrappers`.
        * </pre>
        *
        * <code>optional bool primitive_wrappers = 6;</code>
        */
       public Builder clearPrimitiveWrappers() {
-        bitField0_ = (bitField0_ & ~0x00000020);
+        bitField0_ = (bitField0_ & ~0x00000040);
         primitiveWrappers_ = false;
         onChanged();
         return this;
@@ -3233,20 +3385,20 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
-      "/protobuf/descriptor.proto\"\217\001\n\016ScalaPbOp" +
+      "/protobuf/descriptor.proto\"\256\001\n\016ScalaPbOp" +
       "tions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_pack" +
       "age\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 " +
-      "\003(\t\022\023\n\013single_file\030\005 \001(\010\022\032\n\022primitive_wr" +
-      "appers\030\006 \001(\010\"<\n\016MessageOptions\022\017\n\007extend" +
-      "s\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\"0\n\014Fi" +
-      "eldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002" +
-      " \001(\t:G\n\007options\022\034.google.protobuf.FileOp" +
-      "tions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n",
-      "\007message\022\037.google.protobuf.MessageOption" +
-      "s\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fie" +
-      "ld\022\035.google.protobuf.FieldOptions\030\374\007 \001(\013" +
-      "2\025.scalapb.FieldOptionsB\030\n\026com.trueaccor" +
-      "d.scalapb"
+      "\003(\t\022\023\n\013single_file\030\005 \001(\010\022\035\n\025no_primitive" +
+      "_wrappers\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 " +
+      "\001(\010\"<\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t\022\031" +
+      "\n\021companion_extends\030\002 \003(\t\"0\n\014FieldOption" +
+      "s\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t:G\n\007o" +
+      "ptions\022\034.google.protobuf.FileOptions\030\374\007 ",
+      "\001(\0132\027.scalapb.ScalaPbOptions:J\n\007message\022" +
+      "\037.google.protobuf.MessageOptions\030\374\007 \001(\0132" +
+      "\027.scalapb.MessageOptions:D\n\005field\022\035.goog" +
+      "le.protobuf.FieldOptions\030\374\007 \001(\0132\025.scalap" +
+      "b.FieldOptionsB\030\n\026com.trueaccord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3266,7 +3418,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "PrimitiveWrappers", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

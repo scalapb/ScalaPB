@@ -28,9 +28,16 @@ message ScalaPbOptions {
   // to a single Scala file.
   optional bool single_file = 5;
 
-  // When this option is enabled, wrappers defined at
+  // By default, wrappers defined at
   // https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
-  // are mapped to an Option[T] where T is a primitive type.
+  // are mapped to an Option[T] where T is a primitive type. When this field
+  // is set to true, we do not perform this transformation.
+  optional bool no_primitive_wrappers = 7;
+
+  // DEPRECATED. In ScalaPB <= 0.5.47, it was necessary to explicitly enable
+  // primitive_wrappers. This field remains here for backwards compatibility,
+  // but it has no effect on generated code. It is an error to set both
+  // `primitive_wrappers` and `no_primitive_wrappers`.
   optional bool primitive_wrappers = 6;
 }
 

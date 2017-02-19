@@ -6,6 +6,7 @@
 - Add messageCompanionForFieldNumber and enumCompanionForFieldNumber to
   retrive companion objects of message and enum fields by the field number.
 - Support for Scala protocol buffers.
+- `scalapb.proto`: Add no_primitive_wrappers, deprecate `primitive_wrappers`.
 
 ## [v0.5.47](https://github.com/scalapb/ScalaPB/tree/v0.5.35) (2017-01-07)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.43...v0.5.47)
