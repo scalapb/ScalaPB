@@ -1,7 +1,7 @@
 import GenUtils._
 import GenTypes.{FieldOptions, ProtoType}
 import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
-import com.trueaccord.scalapb.compiler.StreamType
+import com.trueaccord.scalapb.compiler.{NameUtils, StreamType}
 import org.scalacheck.{Arbitrary, Gen}
 
 object GraphGen {
@@ -71,11 +71,19 @@ object GraphGen {
       throw new IllegalStateException("Attempt to close root namespace"))(p => copy(namespace = p))
   }
 
+  def namesAreUniqueAfterCamelCase(s: Seq[String]): Boolean = {
+    val camelCase = s.map(NameUtils.snakeCaseToCamelCase(_, true))
+    camelCase.distinct.size == s.size
+  }
+
   def genEnumNode(parentMessageId: Option[Int], syntax: ProtoSyntax)(state: State): Gen[(EnumNode, State)] = for {
     zeroDefined <- if (syntax.isProto3) Gen.const(true) else Gen.oneOf(false, true)
     (enumName, state) <- state.generateName
     (myId, state) <- Gen.const(state.nextEnumId(syntax, zeroDefined))
     (names, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 5)(_.generateName)
+      .retryUntil {
+        case (names, _) => namesAreUniqueAfterCamelCase(names)
+      }
     values <- GenUtils.genListOfDistinctPositiveNumbers(names.size).map {
       v =>
         // in proto3 the first enum value must be zero.
