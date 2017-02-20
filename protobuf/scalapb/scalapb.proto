@@ -74,6 +74,11 @@ message FieldOptions {
   // it falls back to the file option named `collection_type`, which defaults
   // to `scala.collection.Seq`.
   optional string collection_type = 3;
+
+  // If the field is a map, you can specify custom Scala types for the key
+  // or value.
+  optional string key_type = 4;
+  optional string value_type = 5;
 }
 
 extend google.protobuf.FieldOptions {

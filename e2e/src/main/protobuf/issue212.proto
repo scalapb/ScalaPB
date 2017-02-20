@@ -4,6 +4,6 @@ package com.trueaccord.proto.e2e;
 
 import "google/protobuf/wrappers.proto";
 
-message Test{
+message Issue212Test {
   map<string, google.protobuf.Int32Value> i32 = 1;
 }

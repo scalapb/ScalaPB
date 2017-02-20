@@ -37,6 +37,10 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
     if (!fd.isRepeated && fd.fieldOptions.hasCollectionType)
       throw new GeneratorException(
         s"${fd.getFullName}: Field ${fd.getName} has collection_type set but is not a repeated field.")
+    if (!fd.isMapField && (fd.fieldOptions.hasKeyType || fd.fieldOptions.hasValueType)) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: Field ${fd.getName} is not a map but specifies key_type or value_type.")
+    }
     if (fd.isMapField && fd.fieldOptions.hasCollectionType)
       throw new GeneratorException(
         s"${fd.getFullName}: Field ${fd.getName} is a map but has collection_type specified.")

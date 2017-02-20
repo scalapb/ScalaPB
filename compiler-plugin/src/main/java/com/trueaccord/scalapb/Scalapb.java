@@ -2891,6 +2891,49 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getCollectionTypeBytes();
+
+    /**
+     * <pre>
+     * If the field is a map, you can specify custom Scala types for the key
+     * or value.
+     * </pre>
+     *
+     * <code>optional string key_type = 4;</code>
+     */
+    boolean hasKeyType();
+    /**
+     * <pre>
+     * If the field is a map, you can specify custom Scala types for the key
+     * or value.
+     * </pre>
+     *
+     * <code>optional string key_type = 4;</code>
+     */
+    java.lang.String getKeyType();
+    /**
+     * <pre>
+     * If the field is a map, you can specify custom Scala types for the key
+     * or value.
+     * </pre>
+     *
+     * <code>optional string key_type = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getKeyTypeBytes();
+
+    /**
+     * <code>optional string value_type = 5;</code>
+     */
+    boolean hasValueType();
+    /**
+     * <code>optional string value_type = 5;</code>
+     */
+    java.lang.String getValueType();
+    /**
+     * <code>optional string value_type = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getValueTypeBytes();
   }
   /**
    * Protobuf type {@code scalapb.FieldOptions}
@@ -2907,6 +2950,8 @@ public final class Scalapb {
       type_ = "";
       scalaName_ = "";
       collectionType_ = "";
+      keyType_ = "";
+      valueType_ = "";
     }
 
     @java.lang.Override
@@ -2953,6 +2998,18 @@ public final class Scalapb {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000004;
               collectionType_ = bs;
+              break;
+            }
+            case 34: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000008;
+              keyType_ = bs;
+              break;
+            }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000010;
+              valueType_ = bs;
               break;
             }
           }
@@ -3124,6 +3181,105 @@ public final class Scalapb {
       }
     }
 
+    public static final int KEY_TYPE_FIELD_NUMBER = 4;
+    private volatile java.lang.Object keyType_;
+    /**
+     * <pre>
+     * If the field is a map, you can specify custom Scala types for the key
+     * or value.
+     * </pre>
+     *
+     * <code>optional string key_type = 4;</code>
+     */
+    public boolean hasKeyType() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    /**
+     * <pre>
+     * If the field is a map, you can specify custom Scala types for the key
+     * or value.
+     * </pre>
+     *
+     * <code>optional string key_type = 4;</code>
+     */
+    public java.lang.String getKeyType() {
+      java.lang.Object ref = keyType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          keyType_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * If the field is a map, you can specify custom Scala types for the key
+     * or value.
+     * </pre>
+     *
+     * <code>optional string key_type = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getKeyTypeBytes() {
+      java.lang.Object ref = keyType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        keyType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int VALUE_TYPE_FIELD_NUMBER = 5;
+    private volatile java.lang.Object valueType_;
+    /**
+     * <code>optional string value_type = 5;</code>
+     */
+    public boolean hasValueType() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <code>optional string value_type = 5;</code>
+     */
+    public java.lang.String getValueType() {
+      java.lang.Object ref = valueType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          valueType_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <code>optional string value_type = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getValueTypeBytes() {
+      java.lang.Object ref = valueType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        valueType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -3145,6 +3301,12 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 3, collectionType_);
       }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, keyType_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, valueType_);
+      }
       unknownFields.writeTo(output);
     }
 
@@ -3161,6 +3323,12 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00000004) == 0x00000004)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, collectionType_);
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, keyType_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, valueType_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -3194,6 +3362,16 @@ public final class Scalapb {
         result = result && getCollectionType()
             .equals(other.getCollectionType());
       }
+      result = result && (hasKeyType() == other.hasKeyType());
+      if (hasKeyType()) {
+        result = result && getKeyType()
+            .equals(other.getKeyType());
+      }
+      result = result && (hasValueType() == other.hasValueType());
+      if (hasValueType()) {
+        result = result && getValueType()
+            .equals(other.getValueType());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -3216,6 +3394,14 @@ public final class Scalapb {
       if (hasCollectionType()) {
         hash = (37 * hash) + COLLECTION_TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getCollectionType().hashCode();
+      }
+      if (hasKeyType()) {
+        hash = (37 * hash) + KEY_TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getKeyType().hashCode();
+      }
+      if (hasValueType()) {
+        hash = (37 * hash) + VALUE_TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getValueType().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -3341,6 +3527,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000002);
         collectionType_ = "";
         bitField0_ = (bitField0_ & ~0x00000004);
+        keyType_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        valueType_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -3377,6 +3567,14 @@ public final class Scalapb {
           to_bitField0_ |= 0x00000004;
         }
         result.collectionType_ = collectionType_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.keyType_ = keyType_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.valueType_ = valueType_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3432,6 +3630,16 @@ public final class Scalapb {
         if (other.hasCollectionType()) {
           bitField0_ |= 0x00000004;
           collectionType_ = other.collectionType_;
+          onChanged();
+        }
+        if (other.hasKeyType()) {
+          bitField0_ |= 0x00000008;
+          keyType_ = other.keyType_;
+          onChanged();
+        }
+        if (other.hasValueType()) {
+          bitField0_ |= 0x00000010;
+          valueType_ = other.valueType_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3725,6 +3933,188 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+
+      private java.lang.Object keyType_ = "";
+      /**
+       * <pre>
+       * If the field is a map, you can specify custom Scala types for the key
+       * or value.
+       * </pre>
+       *
+       * <code>optional string key_type = 4;</code>
+       */
+      public boolean hasKeyType() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      /**
+       * <pre>
+       * If the field is a map, you can specify custom Scala types for the key
+       * or value.
+       * </pre>
+       *
+       * <code>optional string key_type = 4;</code>
+       */
+      public java.lang.String getKeyType() {
+        java.lang.Object ref = keyType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            keyType_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * If the field is a map, you can specify custom Scala types for the key
+       * or value.
+       * </pre>
+       *
+       * <code>optional string key_type = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getKeyTypeBytes() {
+        java.lang.Object ref = keyType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          keyType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * If the field is a map, you can specify custom Scala types for the key
+       * or value.
+       * </pre>
+       *
+       * <code>optional string key_type = 4;</code>
+       */
+      public Builder setKeyType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        keyType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If the field is a map, you can specify custom Scala types for the key
+       * or value.
+       * </pre>
+       *
+       * <code>optional string key_type = 4;</code>
+       */
+      public Builder clearKeyType() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        keyType_ = getDefaultInstance().getKeyType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If the field is a map, you can specify custom Scala types for the key
+       * or value.
+       * </pre>
+       *
+       * <code>optional string key_type = 4;</code>
+       */
+      public Builder setKeyTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        keyType_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object valueType_ = "";
+      /**
+       * <code>optional string value_type = 5;</code>
+       */
+      public boolean hasValueType() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <code>optional string value_type = 5;</code>
+       */
+      public java.lang.String getValueType() {
+        java.lang.Object ref = valueType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            valueType_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string value_type = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getValueTypeBytes() {
+        java.lang.Object ref = valueType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          valueType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string value_type = 5;</code>
+       */
+      public Builder setValueType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        valueType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string value_type = 5;</code>
+       */
+      public Builder clearValueType() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        valueType_ = getDefaultInstance().getValueType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string value_type = 5;</code>
+       */
+      public Builder setValueTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        valueType_ = value;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -3854,15 +4244,16 @@ public final class Scalapb {
       "_wrappers\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 " +
       "\001(\010\022\027\n\017collection_type\030\010 \001(\t\"<\n\016MessageO" +
       "ptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_ext" +
-      "ends\030\002 \003(\t\"I\n\014FieldOptions\022\014\n\004type\030\001 \001(\t" +
+      "ends\030\002 \003(\t\"o\n\014FieldOptions\022\014\n\004type\030\001 \001(\t" +
       "\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type\030",
-      "\003 \001(\t:G\n\007options\022\034.google.protobuf.FileO" +
-      "ptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J" +
-      "\n\007message\022\037.google.protobuf.MessageOptio" +
-      "ns\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fi" +
-      "eld\022\035.google.protobuf.FieldOptions\030\374\007 \001(" +
-      "\0132\025.scalapb.FieldOptionsB\030\n\026com.trueacco" +
-      "rd.scalapb"
+      "\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 " +
+      "\001(\t:G\n\007options\022\034.google.protobuf.FileOpt" +
+      "ions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n\007" +
+      "message\022\037.google.protobuf.MessageOptions" +
+      "\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fiel" +
+      "d\022\035.google.protobuf.FieldOptions\030\374\007 \001(\0132" +
+      "\025.scalapb.FieldOptionsB\030\n\026com.trueaccord" +
+      ".scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -3894,7 +4285,7 @@ public final class Scalapb {
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_FieldOptions_descriptor,
-        new java.lang.String[] { "Type", "ScalaName", "CollectionType", });
+        new java.lang.String[] { "Type", "ScalaName", "CollectionType", "KeyType", "ValueType", });
     options.internalInit(descriptor.getExtensions().get(0));
     message.internalInit(descriptor.getExtensions().get(1));
     field.internalInit(descriptor.getExtensions().get(2));

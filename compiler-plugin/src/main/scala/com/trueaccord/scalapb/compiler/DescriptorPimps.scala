@@ -119,10 +119,10 @@ trait DescriptorPimps {
         EnclosingType.Collection
       }
 
-    def isMap = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
+    def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
     def mapType: MessageDescriptorPimp#MapType = {
-      assert(isMap)
+      assert(isMapField)
       fd.getMessageType.mapType
     }
 
@@ -148,15 +148,28 @@ trait DescriptorPimps {
       else base
     }
 
-    def scalaTypeName: String = if (fd.isMap)
+    def scalaTypeName: String = if (fd.isMapField)
       fd.mapType.scalaTypeName else
       typeCategory(singleScalaTypeName)
 
     def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
-    def customSingleScalaTypeName: Option[String] =
-      if (isMap) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+    def customSingleScalaTypeName: Option[String] = {
+      // If the current message is within a MapEntry (that is a key, or a value), find the actual map
+      // field in the enclosing message. This is used to determine map level options when processing the
+      // key and value fields.
+      def fieldReferencingMap: FieldDescriptor = {
+        require(fd.getContainingType.isMapEntry)
+        val messageReferencingMap = fd.getContainingType.getContainingType
+        messageReferencingMap.getFields.asScala.filter(_.isMapField).find(fd.getContainingType eq _.getMessageType).get
+      }
+
+      if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
+      else if (fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType)
+        Some(fieldReferencingMap.fieldOptions.getKeyType)
+      else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)
+        Some(fieldReferencingMap.fieldOptions.getValueType)
       else if (isMessage && fd.getFile.usePrimitiveWrappers) (fd.getMessageType.getFullName match {
         case "google.protobuf.Int32Value" => Some("Int")
         case "google.protobuf.Int64Value" => Some("Long")
@@ -170,6 +183,7 @@ trait DescriptorPimps {
         case _ => None
       })
       else None
+    }
 
     def baseSingleScalaTypeName: String = fd.getJavaType match {
       case FieldDescriptor.JavaType.INT => "Int"
