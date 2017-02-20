@@ -14,6 +14,11 @@ case class MapTest(intMap: Map[Int, String] = Map.empty,
                    nameMap: Map[String, Person] = Map.empty,
                    addressMap: Map[Person, Address] = Map.empty) extends Updatable[MapTest]
 
+case class CollectionTypes(iSeq: collection.immutable.Seq[String] = Nil,
+                           vector: Vector[String] = Vector.empty,
+                           list: List[String] = Nil,
+                           sett: Set[String] = Set.empty) extends Updatable[CollectionTypes]
+
 class SimpleTest extends FlatSpec with Matchers with OptionValues {
 
   implicit class RoleMutation[U](f: Lens[U, Role]) extends ObjectLens[U, Role](f) {
@@ -46,6 +51,16 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
     def nameMap = field(_.nameMap)((p, f) => p.copy(nameMap = f))
 
     def addressMap = field(_.addressMap)((p, f) => p.copy(addressMap = f))
+  }
+
+  implicit class CollectionTypesLens[U](val f: Lens[U, CollectionTypes]) extends ObjectLens[U, CollectionTypes](f) {
+    def iSeq = field(_.iSeq)((p, f) => p.copy(iSeq = f))
+
+    def vector = field(_.vector)((p, f) => p.copy(vector = f))
+
+    def list = field(_.list)((p, f) => p.copy(list = f))
+
+    def sett = field(_.sett)((p, f) => p.copy(sett = f))
   }
 
 
@@ -172,6 +187,34 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
     mapTest.update(
       _.intMap.foreach(_.modify(k => (k._1 - 1, "*" + k._2)))).intMap should be (Map(
       2 -> "*three", 3 -> "*four"))
+  }
+
+  it should "support other collection types" in {
+    val ct = CollectionTypes().update(
+      _.iSeq := collection.immutable.Seq("3","4","5"),
+      _.iSeq :+= "foo",
+      _.iSeq :++= collection.immutable.Seq("6", "7", "8"),
+      _.iSeq :++= Seq("6", "7", "8"),
+      _.iSeq(5) := "11",
+      _.vector := Vector("3","4","5"),
+      _.vector :+= "foo",
+      _.vector :++= collection.immutable.Seq("6", "7", "8"),
+      _.vector :++= Seq("6", "7", "8"),
+      _.vector(5) := "11",
+      _.list := List("3","4","5"),
+      _.list :+= "foo",
+      _.list :++= collection.immutable.Seq("6", "7", "8"),
+      _.list :++= Seq("6", "7", "8"),
+      _.list(5) := "11",
+      _.sett := Set("3","4","5"),
+      _.sett :+= "foo",
+      _.sett :++= collection.immutable.Seq("6", "7", "8"),
+      _.sett :++= Seq("6", "7", "8")
+    )
+    val expected = Seq("3", "4", "5", "foo", "6", "11", "8", "6", "7", "8")
+    ct.iSeq should be (expected)
+    ct.vector should be (expected)
+    ct.list should be (expected)
   }
 }
 

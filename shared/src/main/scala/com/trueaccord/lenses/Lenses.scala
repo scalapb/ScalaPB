@@ -1,5 +1,7 @@
 package com.trueaccord.lenses
 
+import scala.language.higherKinds
+
 trait Lens[Container, A] extends Any {
   self =>
   /** get knows how to extract some field of type `A` from a container */
@@ -49,22 +51,44 @@ object Lens {
     */
   def unit[U]: Lens[U, U] = Lens(identity[U])((c, v) => v)
 
-  /** Implicit that adds some syntactic sugar if our lens watches a Seq[_]. */
-  implicit class SeqLens[U, A](val lens: Lens[U, Seq[A]]) extends AnyVal {
-    private def field(getter: Seq[A] => A)(setter: (Seq[A], A) => Seq[A]): Lens[U, A] =
-      lens.compose[A](Lens[Seq[A], A](getter)(setter))
+  /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
+  implicit class SeqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](val lens: Lens[U, Coll[A]]) extends AnyVal {
+    type CBF = collection.generic.CanBuildFrom[Coll[A], A, Coll[A]]
 
-    def apply(i: Int): Lens[U, A] = field(_.apply(i))((c, v) => c.updated(i, v))
+    private def field(getter: Coll[A] => A)(setter: (Coll[A], A) => Coll[A]): Lens[U, A] =
+      lens.compose[A](Lens[Coll[A], A](getter)(setter))
 
-    def head: Lens[U, A] = apply(0)
+    def apply(i: Int)(implicit cbf: CBF): Lens[U, A] = field(_.apply(i))((c, v) => c.updated(i, v))
 
-    def last: Lens[U, A] = field(_.last)((c, v) => c.updated(c.size - 1, v))
+    def head(implicit cbf: CBF): Lens[U, A] = apply(0)
 
-    def :+=(item: A) = lens.modify(_ :+ item)
+    def last(implicit cbf: CBF): Lens[U, A] = field(_.last)((c, v) => c.updated(c.size - 1, v))
 
-    def :++=(item: Seq[A]) = lens.modify(_ ++ item)
+    def :+=(item: A)(implicit cbf: CBF) = lens.modify(_ :+ item)
 
-    def foreach(f: Lens[A, A] => Mutation[A]): Mutation[U] =
+    def :++=(item: scala.collection.GenTraversableOnce[A])(implicit cbf: CBF) = lens.modify(_ ++ item)
+
+    def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
+      lens.modify(s => s.map {
+        (m: A) =>
+          val field: Lens[A, A] = Lens.unit[A]
+          val p: Mutation[A] = f(field)
+          p(m)
+      })
+  }
+
+  /** Implicit that adds some syntactic sugar if our lens watches a Set-like collection. */
+  implicit class SetLikeLens[U, A, Coll[A] <: collection.SetLike[A, Coll[A]] with Set[A]](val lens: Lens[U, Coll[A]]) extends AnyVal {
+    type CBF = collection.generic.CanBuildFrom[Coll[A], A, Coll[A]]
+
+    private def field(getter: Coll[A] => A)(setter: (Coll[A], A) => Coll[A]): Lens[U, A] =
+      lens.compose[A](Lens[Coll[A], A](getter)(setter))
+
+    def :+=(item: A)(implicit cbf: CBF) = lens.modify(_ + item)
+
+    def :++=(item: scala.collection.GenTraversableOnce[A])(implicit cbf: CBF) = lens.modify(_ ++ item)
+
+    def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
       lens.modify(s => s.map {
         (m: A) =>
           val field: Lens[A, A] = Lens.unit[A]
