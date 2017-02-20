@@ -1,3 +1,4 @@
+import com.trueaccord.scalapb.compiler.ProtobufGenerator
 import protocbridge.JvmGenerator
 
 package object scalapb {
@@ -5,7 +6,8 @@ package object scalapb {
     flatPackage: Boolean = false,
     javaConversions: Boolean = false,
     grpc: Boolean = true,
-    singleLineToString: Boolean = false): (JvmGenerator, Seq[String]) =
+    singleLineToString: Boolean = false,
+    collectionType: String = "scala.collection.Seq"): (JvmGenerator, Seq[String]) =
     (JvmGenerator(
       "scala",
       ScalaPbCodeGenerator),
@@ -14,5 +16,6 @@ package object scalapb {
         "java_conversions" -> javaConversions,
         "grpc" -> grpc,
         "single_line_to_string" -> singleLineToString
-      ).collect { case (name, v) if v => name })
+      ).collect { case (name, v) if v => name } :+ (ProtobufGenerator.collectionTypeKey + "=" + collectionType)
+    )
 }

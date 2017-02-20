@@ -1,5 +1,7 @@
 package com.trueaccord.scalapb.compiler
 
+import ExpressionBuilder.OuterType
+
 sealed trait Expression extends Product with Serializable {
   def andThen(other: Expression) = (this, other) match {
     case (Identity, e2: LiteralExpression) => e2
@@ -10,7 +12,7 @@ sealed trait Expression extends Product with Serializable {
     case (e1: LiteralExpression, e2: LiteralExpression) => ExpressionList(e2 :: e1 :: Nil)
   }
 
-  def apply(e: String, isCollection: Boolean): String = ExpressionBuilder.run(this)(e, isCollection)
+  def apply(e: String, tpe: OuterType): String = ExpressionBuilder.run(this)(e, tpe)
 }
 
 case class ExpressionList(l: List[LiteralExpression]) extends Expression
@@ -49,25 +51,42 @@ object ExpressionBuilder {
     case OperatorApplication(name) :: tail => s"${runSingleton(tail)(e)} $name"
   }
 
-  def runCollection(es: List[LiteralExpression])(e: String): String = {
+  def runCollection(es: List[LiteralExpression], isCollection: Boolean)(e: String): String = {
     val nontrivial = es.filterNot(_.isIdentity)
     val needVariable =
       nontrivial.filterNot(_.isIdentity)
         .dropRight(1).exists(_.isFunctionApplication)
 
+    val convert = if(isCollection) {
+      "(collection.breakOut)"
+    } else {
+      ""
+    }
+
     if (needVariable)
-      s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})"""
+      s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})${convert}"""
     else if (nontrivial.nonEmpty)
-      s"""$e.map(${runSingleton(nontrivial)("_")})"""
+      s"""$e.map(${runSingleton(nontrivial)("_")})${convert}"""
     else e
   }
 
-  def run(es: List[LiteralExpression])(e: String, isCollection: Boolean): String =
-    if (isCollection) runCollection(es)(e)
-    else runSingleton(es)(e)
+  def run(es: List[LiteralExpression])(e: String, tpe: OuterType): String =
+    tpe match {
+      case Not =>
+        runSingleton(es)(e)
+      case ScalaOption =>
+        runCollection(es, false)(e)
+      case Collection =>
+        runCollection(es, true)(e)
+    }
 
-  def run(es: Expression)(e: String, isCollection: Boolean): String = es match {
-    case ExpressionList(l) => run(l)(e, isCollection)
-    case expr: LiteralExpression => run(expr :: Nil)(e, isCollection)
+  def run(es: Expression)(e: String, tpe: OuterType): String = es match {
+    case ExpressionList(l) => run(l)(e, tpe)
+    case expr: LiteralExpression => run(expr :: Nil)(e, tpe)
   }
+
+  sealed abstract class OuterType
+  case object Not extends OuterType
+  case object ScalaOption extends OuterType
+  case object Collection extends OuterType
 }
