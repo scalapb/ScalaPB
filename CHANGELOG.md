@@ -10,6 +10,7 @@
 - `scalapb.proto`: Add no_primitive_wrappers, deprecate `primitive_wrappers`.
 - Add support for custom collection types (representation of `repeated`
   in Scala can be almost any Scala collection.
+- Add support for custom types for keys and values of map<>.
 
 ## [v0.5.47](https://github.com/scalapb/ScalaPB/tree/v0.5.35) (2017-01-07)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.43...v0.5.47)
