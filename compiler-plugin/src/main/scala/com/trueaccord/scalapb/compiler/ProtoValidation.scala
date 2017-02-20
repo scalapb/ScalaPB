@@ -34,5 +34,14 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
     if (ForbiddenFieldNames.contains(fd.scalaName))
       throw new GeneratorException(
         s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed. See https://scalapb.github.io/customizations.html#custom-names")
+    if (!fd.isRepeated && fd.fieldOptions.hasCollectionType)
+      throw new GeneratorException(
+        s"${fd.getFullName}: Field ${fd.getName} has collection_type set but is not a repeated field.")
+    if (fd.isMapField && fd.fieldOptions.hasCollectionType)
+      throw new GeneratorException(
+        s"${fd.getFullName}: Field ${fd.getName} is a map but has collection_type specified.")
+    if (fd.isMapField && fd.fieldOptions.hasType)
+      throw new GeneratorException(
+        s"${fd.getFullName}: Field ${fd.getName} is a map and has type specified. Use key_type or value_type instead.")
   }
 }
