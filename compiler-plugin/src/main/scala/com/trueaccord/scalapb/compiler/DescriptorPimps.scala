@@ -478,7 +478,7 @@ trait DescriptorPimps {
         val pkg = javaPackageAsSymbol
         if (pkg.isEmpty) "" else (pkg + ".")
       }
-      base + stripPackageName(fullName).asSymbol
+      base + stripPackageName(fullName).split('.').map(_.asSymbol).mkString(".")
     }
 
     def fileDescriptorObjectName = {

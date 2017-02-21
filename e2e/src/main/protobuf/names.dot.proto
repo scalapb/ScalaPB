@@ -26,6 +26,9 @@ message WeirdNames {
   optional string output = 7;
   optional string class = 8;
   optional int32 serialized_size = 9;
+  enum with {
+    V = 0;
+  }
 }
 
 message WeirdNamesRequired {
