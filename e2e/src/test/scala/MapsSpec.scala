@@ -1,9 +1,7 @@
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 
-import com.google.protobuf.CodedInputStream
-import com.trueaccord.proto.e2e.maps.MapsTest
-import com.trueaccord.proto.e2e.maps2.MapsTest2
-import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
+import com.trueaccord.pb.{PersonId, Years}
+import com.trueaccord.proto.e2e.maps.{CustomMaps, MapsTest}
+import com.trueaccord.proto.e2e.maps2.{MapsTest2, CustomMaps2}
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest._
@@ -139,5 +137,25 @@ class MapsSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatc
         MapsTest2.parseFrom(map1.toByteArray ++ map2.toByteArray) must be(
           mergeMaps2(map1, map2))
     }
+  }
+
+  "custom map types" should "provide custom key and value types" in {
+    val c1 = CustomMaps(
+      stringToYear = Map("314" -> Years(314)),
+      personToInt = Map(PersonId("315") -> 314),
+      personToYear = Map(PersonId("275") -> Years(188)))
+
+    val c2 = CustomMaps2(
+      stringToYear = Map("314" -> Years(314)),
+      personToInt = Map(PersonId("315") -> 314),
+      personToYear = Map(PersonId("275") -> Years(188)))
+
+    CustomMaps.parseFrom(c1.toByteArray) must be(c1)
+    CustomMaps.fromAscii(c1.toString) must be(c1)
+    CustomMaps.fromJavaProto(CustomMaps.toJavaProto(c1)) must be (c1)
+
+    CustomMaps2.parseFrom(c2.toByteArray) must be(c2)
+    CustomMaps2.fromAscii(c2.toString) must be(c2)
+    CustomMaps2.fromJavaProto(CustomMaps2.toJavaProto(c2)) must be (c2)
   }
 }
