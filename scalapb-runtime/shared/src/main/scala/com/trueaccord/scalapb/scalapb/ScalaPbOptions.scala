@@ -211,7 +211,7 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[String]]
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.ScalaPbOptions] = _root_.scalapb.descriptors.Reads(_ match {
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.ScalaPbOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.trueaccord.scalapb.scalapb.ScalaPbOptions(
@@ -225,7 +225,7 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
-  })
+  }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__fieldNumber)

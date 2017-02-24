@@ -103,14 +103,14 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.struct.Struct.FieldsEntry]].map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_))(_root_.scala.collection.breakOut)
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct] = _root_.scalapb.descriptors.Reads(_ match {
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.Struct(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.struct.Struct.FieldsEntry]]).getOrElse(_root_.scala.collection.Seq.empty).map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_))(_root_.scala.collection.breakOut)
       )
     case _ => throw new RuntimeException("Expected PMessage")
-  })
+  }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = StructProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = StructProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
@@ -211,7 +211,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[com.google.protobuf.struct.Value]]
       )
     }
-    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct.FieldsEntry] = _root_.scalapb.descriptors.Reads(_ match {
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct.FieldsEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.struct.Struct.FieldsEntry(
@@ -219,7 +219,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
           __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[com.google.protobuf.struct.Value]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
-    })
+    }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.struct.Struct.javaDescriptor.getNestedTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.struct.Struct.scalaDescriptor.nestedMessages(0)
     def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {

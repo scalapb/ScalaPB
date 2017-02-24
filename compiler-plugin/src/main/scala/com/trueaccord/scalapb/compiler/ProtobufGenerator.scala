@@ -791,7 +791,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         toCustomTypeExpr(field)
 
     val myFullScalaName = message.scalaTypeName
-    printer.add(s"implicit def messageReads: _root_.scalapb.descriptors.Reads[${myFullScalaName}] = _root_.scalapb.descriptors.Reads(_ match {")
+    printer.add(s"implicit def messageReads: _root_.scalapb.descriptors.Reads[${myFullScalaName}] = _root_.scalapb.descriptors.Reads{")
       .indent
       .add("case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>")
       .indent
@@ -837,7 +837,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .outdent
       .add("case _ => throw new RuntimeException(\"Expected PMessage\")")
       .outdent
-      .add("})")
+      .add("}")
   }
 
   def generateDescriptors(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
