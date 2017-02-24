@@ -99,7 +99,7 @@ object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
     __fieldNumber match {
       case 1 => __out = com.google.protobuf.struct.Value
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.struct.ListValue(

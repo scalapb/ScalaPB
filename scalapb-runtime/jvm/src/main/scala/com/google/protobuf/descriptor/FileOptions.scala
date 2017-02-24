@@ -423,7 +423,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     __fieldNumber match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     __fieldNumber match {

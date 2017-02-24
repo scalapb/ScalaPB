@@ -119,7 +119,7 @@ object OneofDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     __fieldNumber match {
       case 2 => __out = com.google.protobuf.descriptor.OneofOptions
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.OneofDescriptorProto(

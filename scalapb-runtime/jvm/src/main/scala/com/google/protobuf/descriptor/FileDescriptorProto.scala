@@ -359,7 +359,7 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
       case 8 => __out = com.google.protobuf.descriptor.FileOptions
       case 9 => __out = com.google.protobuf.descriptor.SourceCodeInfo
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorProto(

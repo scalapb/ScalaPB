@@ -104,7 +104,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     __fieldNumber match {
       case 1 => __out = com.google.protobuf.struct.Struct.FieldsEntry
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.struct.Struct(
@@ -213,7 +213,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       __fieldNumber match {
         case 2 => __out = com.google.protobuf.struct.Value
       }
-    __out
+      __out
     }
     def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.struct.Struct.FieldsEntry(

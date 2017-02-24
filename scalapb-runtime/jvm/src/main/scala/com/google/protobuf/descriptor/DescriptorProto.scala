@@ -296,7 +296,7 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       case 7 => __out = com.google.protobuf.descriptor.MessageOptions
       case 9 => __out = com.google.protobuf.descriptor.DescriptorProto.ReservedRange
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto(
