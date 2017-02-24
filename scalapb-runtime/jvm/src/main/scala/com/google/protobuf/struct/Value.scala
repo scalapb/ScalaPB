@@ -183,7 +183,7 @@ __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Opt
       case 5 => __out = com.google.protobuf.struct.Struct
       case 6 => __out = com.google.protobuf.struct.ListValue
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     __fieldNumber match {

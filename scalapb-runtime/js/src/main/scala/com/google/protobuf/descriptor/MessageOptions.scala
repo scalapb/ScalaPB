@@ -209,7 +209,7 @@ object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     __fieldNumber match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.MessageOptions(

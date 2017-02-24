@@ -264,7 +264,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     __fieldNumber match {
       case 8 => __out = com.google.protobuf.descriptor.FieldOptions
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     __fieldNumber match {

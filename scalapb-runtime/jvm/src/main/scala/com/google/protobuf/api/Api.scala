@@ -269,7 +269,7 @@ object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
       case 5 => __out = com.google.protobuf.source_context.SourceContext
       case 6 => __out = com.google.protobuf.api.Mixin
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     __fieldNumber match {

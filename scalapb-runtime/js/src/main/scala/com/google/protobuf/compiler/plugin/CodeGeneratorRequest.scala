@@ -146,7 +146,7 @@ object CodeGeneratorRequest extends com.trueaccord.scalapb.GeneratedMessageCompa
     __fieldNumber match {
       case 15 => __out = com.google.protobuf.descriptor.FileDescriptorProto
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.compiler.plugin.CodeGeneratorRequest(

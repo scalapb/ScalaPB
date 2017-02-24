@@ -957,8 +957,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         }
         .outdent
         .add("}")
-        .outdent
         .add("__out")
+        .outdent
         .add("}")
     else fp.add(signature + "throw new MatchError(__fieldNumber)")
   }

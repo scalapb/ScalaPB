@@ -297,7 +297,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     __fieldNumber match {
       case 9 => __out = com.google.protobuf.`type`.OptionProto
     }
-  __out
+    __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     __fieldNumber match {
