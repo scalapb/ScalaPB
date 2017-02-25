@@ -1175,7 +1175,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     // to 64k, so we chunk it into a sequence and combining in run time.  The chunks are less
     // than 64k to account for indentation and new lines.
     val clearProto = file.toProto.toBuilder.clearSourceCodeInfo.build
-    val base64: Seq[Seq[String]] = com.trueaccord.scalapb.Encoding.toBase64(clearProto.toByteArray)
+    val base64: Seq[Seq[String]] = com.trueaccord.scalapb.internal.Encoding.toBase64(clearProto.toByteArray)
       .grouped(55000).map {
       group =>
         val lines = ("\"\"\"" + group).grouped(100).toSeq

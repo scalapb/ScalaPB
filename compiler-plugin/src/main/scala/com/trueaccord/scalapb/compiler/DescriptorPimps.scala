@@ -1,9 +1,8 @@
 package com.trueaccord.scalapb.compiler
 
-import com.google.protobuf.DescriptorProtos.{FileDescriptorProto, SourceCodeInfo}
+import com.google.protobuf.DescriptorProtos.{DescriptorProto, FileDescriptorProto, SourceCodeInfo}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
-import com.google.protobuf.descriptor.DescriptorProto
 import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.Scalapb.{FieldOptions, MessageOptions, ScalaPbOptions}
 

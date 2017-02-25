@@ -100,7 +100,6 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   )
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
-  .dependsOn(runtimeJVM)
   .settings(
     sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "com" / "trueaccord" / "scalapb" / "compiler" / "Version.scala"
@@ -111,6 +110,13 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
            |  val protobufVersion = "${protobufVersion}"
            |}""".stripMargin)
       Seq(file)
+    }.taskValue,
+    sourceGenerators in Compile += Def.task {
+      val src = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "com" / "trueaccord" / "scalapb" / "Encoding.scala"
+      val dest = (sourceManaged in Compile).value / "com" / "trueaccord" / "scalapb" / "compiler" / "internal" /"Encoding.scala"
+      val s = IO.read(src).replace("package com.trueaccord.scalapb", "package com.trueaccord.scalapb.internal")
+      IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
+      Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.6",
