@@ -90,6 +90,7 @@ trait GeneratedMessage extends Any with Serializable {
   def getFieldByNumber(fieldNumber: Int): Any
 
   // Using a Java field descriptor.
+  @deprecated("Use getField that accepts a ScalaPB descriptor and returns PValue", "0.6.0")
   def getField(field: com.google.protobuf.Descriptors.FieldDescriptor): Any = {
     require(field.getContainingType eq companion.javaDescriptor)
     getFieldByNumber(field.getNumber)
@@ -104,6 +105,7 @@ trait GeneratedMessage extends Any with Serializable {
 
   def companion: GeneratedMessageCompanion[_]
 
+  @deprecated("Use toPMessage", "0.6.0")
   def getAllFields: Map[JavaDescriptors.FieldDescriptor, Any] = {
     val b = Map.newBuilder[JavaDescriptors.FieldDescriptor, Any]
     b.sizeHint(companion.javaDescriptor.getFields.size)
@@ -173,6 +175,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
 
+  @deprecated("Use messageReads", "0.6.0")
   def fromFieldsMap(fields: Map[JavaDescriptors.FieldDescriptor, Any]): A
 
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
