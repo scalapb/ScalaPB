@@ -1190,7 +1190,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("  _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(")
       .addWithDelimiter(",")(file.getDependencies.asScala.map {
         d =>
-          s"    ${d.fileDescriptorObjectFullName}.scalaDescriptor"
+          "    " + (if (d.getPackage == "scalapb") "com.trueaccord.scalapb.scalapb.ScalapbProto"
+            else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.descriptor.DescriptorProtoCompanion"
+            else d.fileDescriptorObjectFullName) + ".scalaDescriptor"
       })
       .add("  ))")
       .add("}")
