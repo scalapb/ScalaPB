@@ -82,6 +82,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add(s"def isEmpty: Boolean = false")
       .add(s"def isDefined: Boolean = true")
       .add(s"def number: Int")
+      .add(s"def getValue: Option[scala.Any] = None")
       .print(e.fields) {
       case (p, v) => p
         .add(s"def is${v.upperScalaName}: Boolean = false")
@@ -110,6 +111,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                |  override def is${v.upperScalaName}: Boolean = true
                |  override def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = Some(value)
                |  override def number: Int = ${v.getNumber}
+               |  override def getValue: Option[scala.Any] = Some(value)
                |}""")
     }
     .outdent
