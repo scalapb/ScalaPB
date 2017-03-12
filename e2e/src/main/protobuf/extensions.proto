@@ -1,0 +1,30 @@
+// Most of the extension tests are in custom_options.proto
+//
+// Here we test non-descriptor extensions.
+
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+message BaseMessage {
+  extensions 1000 to 2000;
+}
+
+message Extension {
+  extend BaseMessage {
+    optional int32 optInt = 1001;
+    optional string optString = 1002;
+  }
+}
+
+// We use this message to produce encoding of the extended fields.
+message Helper {
+  optional int32 optInt = 1001;
+  optional string optString = 1002;
+}
+
+// To test what happens if we provide the same singular value more than once.
+message RepeatedHelper {
+  repeated int32 optInt = 1001;
+  repeated string optString = 1002;
+}

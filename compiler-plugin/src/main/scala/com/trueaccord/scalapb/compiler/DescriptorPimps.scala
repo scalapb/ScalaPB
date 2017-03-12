@@ -296,15 +296,17 @@ trait DescriptorPimps {
 
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
-        case "google.protobuf.Any" => Seq("com.trueaccord.scalapb.AnyMethods")
+        case "google.protobuf.Any" => Seq("_root_.com.trueaccord.scalapb.AnyMethods")
         case _ => Seq()
       }
+
+      val extendable = if (message.isExtendable) Seq(s"_root_.com.trueaccord.scalapb.ExtendableMessage[$nameSymbol]") else Nil
 
       val anyVal = if(isValueClass) Seq("AnyVal") else Nil
 
       anyVal ++ Seq("com.trueaccord.scalapb.GeneratedMessage",
         s"com.trueaccord.scalapb.Message[$nameSymbol]",
-        s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendsOption ++ specialMixins
+        s"com.trueaccord.lenses.Updatable[$nameSymbol]") ++ extendable ++ extendsOption ++ specialMixins
     }
 
     def companionBaseClasses: Seq[String] = {

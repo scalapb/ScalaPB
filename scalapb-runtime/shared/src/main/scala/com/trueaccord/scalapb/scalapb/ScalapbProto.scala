@@ -38,10 +38,10 @@ object ScalapbProto {
   }
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
   def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
-  val options: _root_.com.trueaccord.scalapb.GeneratedExtension[com.google.protobuf.DescriptorProtos.FileOptions, scala.Option[com.trueaccord.scalapb.scalapb.ScalaPbOptions]] =
-    _root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _.getLengthDelimitedList)({__valueIn => _root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(com.trueaccord.scalapb.scalapb.ScalaPbOptions)(__valueIn)})
-  val message: _root_.com.trueaccord.scalapb.GeneratedExtension[com.google.protobuf.DescriptorProtos.MessageOptions, scala.Option[com.trueaccord.scalapb.scalapb.MessageOptions]] =
-    _root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _.getLengthDelimitedList)({__valueIn => _root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(com.trueaccord.scalapb.scalapb.MessageOptions)(__valueIn)})
-  val field: _root_.com.trueaccord.scalapb.GeneratedExtension[com.google.protobuf.DescriptorProtos.FieldOptions, scala.Option[com.trueaccord.scalapb.scalapb.FieldOptions]] =
-    _root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _.getLengthDelimitedList)({__valueIn => _root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(com.trueaccord.scalapb.scalapb.FieldOptions)(__valueIn)})
+  val options: _root_.com.trueaccord.scalapb.GeneratedExtension[com.google.protobuf.descriptor.FileOptions, scala.Option[com.trueaccord.scalapb.scalapb.ScalaPbOptions]] =
+    _root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _.lengthDelimited)({__valueIn => _root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(com.trueaccord.scalapb.scalapb.ScalaPbOptions)(__valueIn)})
+  val message: _root_.com.trueaccord.scalapb.GeneratedExtension[com.google.protobuf.descriptor.MessageOptions, scala.Option[com.trueaccord.scalapb.scalapb.MessageOptions]] =
+    _root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _.lengthDelimited)({__valueIn => _root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(com.trueaccord.scalapb.scalapb.MessageOptions)(__valueIn)})
+  val field: _root_.com.trueaccord.scalapb.GeneratedExtension[com.google.protobuf.descriptor.FieldOptions, scala.Option[com.trueaccord.scalapb.scalapb.FieldOptions]] =
+    _root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _.lengthDelimited)({__valueIn => _root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(com.trueaccord.scalapb.scalapb.FieldOptions)(__valueIn)})
 }

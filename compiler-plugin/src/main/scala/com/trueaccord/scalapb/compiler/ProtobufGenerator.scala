@@ -567,7 +567,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       oneOf =>
         s"${oneOf.scalaName.asSymbol}: ${oneOf.scalaTypeName} = ${oneOf.empty}"
     }
-    printer.addWithDelimiter(",")(regularFields ++ oneOfFields)
+    val maybeUnknownFields = if (message.isExtendable)
+      Seq("unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()")
+    else Seq()
+    printer.addWithDelimiter(",")(regularFields ++ oneOfFields ++ maybeUnknownFields)
   }
 
   def generateMergeFrom(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -585,6 +588,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         else
           printer.add(s"val __${field.scalaName} = (${field.collectionBuilder} ++= this.${field.scalaName.asSymbol})")
       )
+      .when(message.isExtendable)(_.add("val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)"))
       .when(requiredFieldMap.nonEmpty) {
         fp =>
           // Sets the bit 0...(n-1) inclusive to 1.
@@ -663,10 +667,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                |    }""")
         } else p
     }
-      .addStringMargin(
-       s"""|    case tag => _input__.skipField(tag)
-           |  }
-           |}""")
+      .when(!message.isExtendable)(_.add("    case tag => _input__.skipField(tag)"))
+      .when(message.isExtendable)(_.add("    case tag => _unknownFields__.parseField(tag, _input__)"))
+      .add("  }")
+      .add("}")
       .when(requiredFieldMap.nonEmpty) {
         p =>
           val r = (0 until (requiredFieldMap.size + 63)/64).map(i => s"__requiredFields$i != 0L").mkString(" || ")
@@ -681,7 +685,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
           case e: OneofDescriptor =>
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
-        })
+        } ++ (if (message.isExtendable) Seq("  unknownFields = _unknownFields__.result()") else Seq()))
       .outdent
       .add(")")
       .outdent
@@ -982,58 +986,48 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def printExtension(fp: FunctionalPrinter, fd: FieldDescriptor) = {
-    val optionType = fd.getContainingType.getFullName match {
-      case "google.protobuf.FileOptions" => true
-      case "google.protobuf.MessageOptions" => true
-      case "google.protobuf.FieldOptions" => true
-      case "google.protobuf.EnumOptions" => true
-      case "google.protobuf.EnumValueOptions" => true
-      case "google.protobuf.ServiceOptions" => true
-      case "google.protobuf.MethodOptions" => true
-      case "google.protobuf.OneofOptions" => true
-      case _ => false
-    }
-    if (!optionType) fp
-    else fp
-      .add(s"val ${fd.scalaName}: _root_.com.trueaccord.scalapb.GeneratedExtension[${fd.getContainingType.javaTypeName}, ${fd.scalaTypeName}] =")
-      .when(params.javaConversions) {
-        fp =>
-          val hazzer = s"__valueIn.hasExtension(${fd.javaExtensionFieldFullName})"
-          val getter = s"__valueIn.getExtension(${fd.javaExtensionFieldFullName})"
-          fp.add(s"  _root_.com.trueaccord.scalapb.GeneratedExtension.forExtension({__valueIn => ${javaFieldToScala(hazzer, getter, fd)}})")
-        }
-      .when(!params.javaConversions) {
+    fp
+      .add(s"val ${fd.scalaName}: _root_.com.trueaccord.scalapb.GeneratedExtension[${fd.getContainingType.scalaTypeName}, ${fd.scalaTypeName}] =")
+      .call {
         fp =>
           val (container, baseExpr) = fd.getType match {
-            case Type.DOUBLE => ("getFixed64List", FunctionApplication("java.lang.Double.longBitsToDouble"))
-            case Type.FLOAT => ("getFixed32List", FunctionApplication("java.lang.Float.intBitsToFloat"))
-            case Type.INT64 => ("getVarintList", Identity)
-            case Type.UINT64 => ("getVarintList", Identity)
-            case Type.INT32 => ("getVarintList", MethodApplication("toInt"))
-            case Type.FIXED64 => ("getFixed64List", Identity)
-            case Type.FIXED32 => ("getFixed32List", Identity)
-            case Type.BOOL => ("getVarintList", OperatorApplication("!= 0"))
-            case Type.STRING => ("getLengthDelimitedList", MethodApplication("toStringUtf8"))
+            case Type.DOUBLE => ("fixed64", FunctionApplication("java.lang.Double.longBitsToDouble"))
+            case Type.FLOAT => ("fixed32", FunctionApplication("java.lang.Float.intBitsToFloat"))
+            case Type.INT64 => ("varint", Identity)
+            case Type.UINT64 => ("varint", Identity)
+            case Type.INT32 => ("varint", MethodApplication("toInt"))
+            case Type.FIXED64 => ("fixed64", Identity)
+            case Type.FIXED32 => ("fixed32", Identity)
+            case Type.BOOL => ("varint", OperatorApplication("!= 0"))
+            case Type.STRING => ("lengthDelimited", MethodApplication("toStringUtf8"))
             case Type.GROUP => throw new RuntimeException("Not supported")
-            case Type.MESSAGE => ("getLengthDelimitedList", FunctionApplication(s"_root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"))
-            case Type.BYTES => ("getLengthDelimitedList", Identity)
-            case Type.UINT32 => ("getVarintList", MethodApplication("toInt"))
-            case Type.ENUM => ("getVarintList", MethodApplication("toInt") andThen FunctionApplication(fd.baseSingleScalaTypeName + ".fromValue"))
-            case Type.SFIXED32 => ("getFixed32List", Identity)
-            case Type.SFIXED64 => ("getFixed64List", Identity)
-            case Type.SINT32 => ("getVarintList", MethodApplication("toInt") andThen FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"))
-            case Type.SINT64 => ("getVarintList", FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag64"))
+            case Type.MESSAGE => ("lengthDelimited", FunctionApplication(s"_root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"))
+            case Type.BYTES => ("lengthDelimited", Identity)
+            case Type.UINT32 => ("varint", MethodApplication("toInt"))
+            case Type.ENUM => ("varint", MethodApplication("toInt") andThen FunctionApplication(fd.baseSingleScalaTypeName + ".fromValue"))
+            case Type.SFIXED32 => ("fixed32", Identity)
+            case Type.SFIXED64 => ("fixed64", Identity)
+            case Type.SINT32 => ("varint", MethodApplication("toInt") andThen FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"))
+            case Type.SINT64 => ("varint", FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag64"))
           }
           val customExpr = baseExpr andThen toCustomTypeExpr(fd)
 
-          val (factoryMethod, defaultNeeded) = {
-            if (fd.supportsPresence) ("_root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField", false)
-            else if (fd.isRepeated) ("_root_.com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownField", false)
-            else ("_root_.com.trueaccord.scalapb.GeneratedExtension.forSingularUnknownField", true)
+          val (factoryMethod, defaultNeeded, unpackMethod) = {
+            if (fd.supportsPresence) ("_root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField", false, "")
+            else if (fd.isRepeated) ("_root_.com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownField", false,
+              if (fd.isPackable) {
+                fd.getType match {
+                  case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => ", _.readFixed64"
+                  case Type.FLOAT | Type.FIXED32 | Type.SFIXED32 => ", _.readFixed32"
+                  case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM | Type.BOOL | Type.SINT32 | Type.SINT64 => ", _.readInt64"
+                  case _ => throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
+                }
+              } else ", null")
+            else ("_root_.com.trueaccord.scalapb.GeneratedExtension.forSingularUnknownField", true, "")
           }
           val default = if (defaultNeeded) s", ${defaultValueForGet(fd)}"
           else ""
-          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container)({__valueIn => ${customExpr("__valueIn", EnclosingType.None)}}$default)")
+          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container$unpackMethod)({__valueIn => ${customExpr("__valueIn", EnclosingType.None)}}$default)")
       }
   }
 

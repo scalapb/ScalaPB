@@ -6,18 +6,13 @@ import com.trueaccord.proto.e2e.custom_options_p3._
 import com.trueaccord.proto.e2e.custom_options_use._
 import org.scalatest._
 import com.google.protobuf.ByteString
+import com.google.protobuf.descriptor.MessageOptions
 import com.trueaccord.pb.FullName
 
-// NOTE: this file is symlinked from the nojava tests. The idea is that the same
-// source should pass when the custom options were not compiled with Java
-// support.
-
 class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
-  import com.trueaccord.scalapb.Implicits._
-
-  val barOptions = BarMessage.javaDescriptor.getOptions
-  val barP3Options = BarP3.javaDescriptor.getOptions
-  val fooOptions = FooMessage.javaDescriptor.getOptions
+  val barOptions = BarMessage.scalaDescriptor.getOptions
+  val barP3Options = BarP3.scalaDescriptor.getOptions
+  val fooOptions = FooMessage.scalaDescriptor.getOptions
 
   println(s"Have java conversions: ${MessageB.isInstanceOf[JavaProtoSupport[_, _]]}")
 
@@ -88,11 +83,48 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   }
 
   "Custom name on field descriptor" should "translate to custom type" in {
-    val field1Opts = FooMessage.javaDescriptor.findFieldByName("myField1").getOptions
-    val field2Opts = FooMessage.javaDescriptor.findFieldByName("myField2").getOptions
+    val field1Opts = FooMessage.scalaDescriptor.findFieldByName("myField1").get.getOptions
+    val field2Opts = FooMessage.scalaDescriptor.findFieldByName("myField2").get.getOptions
     CustomOptionsProto.optName.get(field1Opts) must be(Some(FullName("John", "")))
     CustomOptionsProto.optName.get(field2Opts) must be(None)
     CustomOptionsProto.repName.get(field1Opts) must be(Seq.empty)
     CustomOptionsProto.repName.get(field2Opts) must be(Seq(FullName("", "Doe"), FullName("Moe", "")))
   }
+
+  "packed fields" should "parse correctly" in {
+    val ps = PackedStuff().update(
+      _.packedInt32 := Seq(1, 19, -6),
+      _.packedInt64 := Seq(1L, 19L, -7),
+      _.packedBool := Seq(false, true, false),
+      _.packedSint32 := Seq(3, -15, 246),
+      _.packedSint64 := Seq(-29, 35, 145),
+      _.packedDouble := Seq(3.2, -55, 14.4, Double.NaN, Double.NegativeInfinity, Double.PositiveInfinity),
+      _.packedFloat := Seq(3.2f, -55f, 14.4f, Float.NaN, Float.NegativeInfinity, Float.PositiveInfinity),
+      _.packedFixed32 := Seq(1, 19, -6),
+      _.packedFixed64 := Seq(1L, 19L, -6),
+      _.packedEnum := Seq(GoodOrBad.BAD, GoodOrBad.GOOD, GoodOrBad.Unrecognized(39)),
+      _.packedUint32 := Seq(3, -15, 246),
+      _.packedUint64 := Seq(-29, 35, 145))
+    val m = MessageOptions.parseFrom(ps.toByteArray)
+    m.extension(CustomOptionsProto.packedInt32) must be (Seq(1, 19, -6))
+    m.extension(CustomOptionsProto.packedInt64) must be (Seq(1L, 19L, -7))
+    m.extension(CustomOptionsProto.packedBool) must be (Seq(false, true, false))
+    m.extension(CustomOptionsProto.packedSint32) must be (Seq(3, -15, 246))
+    m.extension(CustomOptionsProto.packedSint64) must be (Seq(-29, 35, 145))
+    m.extension(CustomOptionsProto.packedDouble).take(3) must equal (Seq(3.2, -55, 14.4))
+    m.extension(CustomOptionsProto.packedFloat).take(3) must equal (Seq(3.2f, -55f, 14.4f))
+    m.extension(CustomOptionsProto.packedDouble)(3).isNaN must be(true)
+    m.extension(CustomOptionsProto.packedDouble)(4).isNegInfinity must be(true)
+    m.extension(CustomOptionsProto.packedDouble)(5).isPosInfinity must be(true)
+    m.extension(CustomOptionsProto.packedFloat)(3).isNaN must be(true)
+    m.extension(CustomOptionsProto.packedFloat)(4).isNegInfinity must be(true)
+    m.extension(CustomOptionsProto.packedFloat)(5).isPosInfinity must be(true)
+
+    m.extension(CustomOptionsProto.packedFixed32) must be (Seq(1, 19, -6))
+    m.extension(CustomOptionsProto.packedFixed64) must be (Seq(1L, 19L, -6))
+    m.extension(CustomOptionsProto.packedEnum) must be (Seq(GoodOrBad.BAD, GoodOrBad.GOOD, GoodOrBad.Unrecognized(39)))
+    m.extension(CustomOptionsProto.packedUint32) must be (Seq(3, -15, 246))
+    m.extension(CustomOptionsProto.packedUint64) must be (Seq(-29, 35, 145))
+  }
+
 }

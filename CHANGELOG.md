@@ -11,6 +11,12 @@
 - Add support for custom collection types (representation of `repeated`
   in Scala can be almost any Scala collection.
 - Add support for custom types for keys and values of map<>.
+- Added support for extensions (Scala.js compatible!).
+
+BREAKING CHANGE:
+- Custom options now work on both JVM and Scala.js. To migrate, remove
+  imports of `com.trueaccord.scalapb.Implicits` and use the new
+  `scalaDescriptor` whenever `descriptor` or `javaDescriptor` have been used.
 
 ## [v0.5.47](https://github.com/scalapb/ScalaPB/tree/v0.5.35) (2017-01-07)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.43...v0.5.47)

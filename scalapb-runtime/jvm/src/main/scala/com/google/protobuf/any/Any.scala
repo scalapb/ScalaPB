@@ -106,7 +106,7 @@ import scala.collection.JavaConverters._
 final case class Any(
     typeUrl: String = "",
     value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Any] with com.trueaccord.lenses.Updatable[Any] with com.trueaccord.scalapb.AnyMethods {
+    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Any] with com.trueaccord.lenses.Updatable[Any] with _root_.com.trueaccord.scalapb.AnyMethods {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {

@@ -65,6 +65,35 @@ extend google.protobuf.MessageOptions {
   repeated int32 rep_uint32 = 51275;
   optional int64 opt_uint64 = 51276;
   repeated int64 rep_uint64 = 51277;
+
+  repeated int32 packed_int32 = 51278 [packed=true];
+  repeated int64 packed_int64 = 51279 [packed=true];
+  repeated bool packed_bool = 51280 [packed=true];
+  repeated sint32 packed_sint32 = 51281 [packed=true];
+  repeated sint64 packed_sint64 = 51282 [packed=true];
+  repeated double packed_double = 51285 [packed=true];
+  repeated float packed_float = 51286 [packed=true];
+  repeated fixed32 packed_fixed32 = 51287 [packed=true];
+  repeated fixed64 packed_fixed64 = 51288 [packed=true];
+  repeated GoodOrBad packed_enum = 51289 [packed=true];
+  repeated int32 packed_uint32 = 51290 [packed=true];
+  repeated int64 packed_uint64 = 51291 [packed=true];
+}
+
+// Used to fill data for the MessageOptions extension above.
+message PackedStuff {
+  repeated int32 packed_int32 = 51278 [packed=true];
+  repeated int64 packed_int64 = 51279 [packed=true];
+  repeated bool packed_bool = 51280 [packed=true];
+  repeated sint32 packed_sint32 = 51281 [packed=true];
+  repeated sint64 packed_sint64 = 51282 [packed=true];
+  repeated double packed_double = 51285 [packed=true];
+  repeated float packed_float = 51286 [packed=true];
+  repeated fixed32 packed_fixed32 = 51287 [packed=true];
+  repeated fixed64 packed_fixed64 = 51288 [packed=true];
+  repeated GoodOrBad packed_enum = 51289 [packed=true];
+  repeated int32 packed_uint32 = 51290 [packed=true];
+  repeated int64 packed_uint64 = 51291 [packed=true];
 }
 
 extend google.protobuf.FieldOptions {

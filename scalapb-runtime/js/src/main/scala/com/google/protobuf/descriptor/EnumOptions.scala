@@ -22,8 +22,9 @@ package com.google.protobuf.descriptor
 final case class EnumOptions(
     allowAlias: scala.Option[Boolean] = None,
     deprecated: scala.Option[Boolean] = None,
-    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[EnumOptions] with com.trueaccord.lenses.Updatable[EnumOptions] {
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
+    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[EnumOptions] with com.trueaccord.lenses.Updatable[EnumOptions] with _root_.com.trueaccord.scalapb.ExtendableMessage[EnumOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -58,6 +59,7 @@ final case class EnumOptions(
       var __allowAlias = this.allowAlias
       var __deprecated = this.deprecated
       val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -69,13 +71,14 @@ final case class EnumOptions(
             __deprecated = Some(_input__.readBool())
           case 7994 =>
             __uninterpretedOption += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.EnumOptions(
           allowAlias = __allowAlias,
           deprecated = __deprecated,
-          uninterpretedOption = __uninterpretedOption.result()
+          uninterpretedOption = __uninterpretedOption.result(),
+          unknownFields = _unknownFields__.result()
       )
     }
     def getAllowAlias: Boolean = allowAlias.getOrElse(false)

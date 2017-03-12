@@ -91,6 +91,8 @@ class Descriptor private[descriptors](
 
   def findFieldByNumber(number: Int): Option[FieldDescriptor] = fields.find(_.number == number)
 
+  def getOptions = asProto.getOptions
+
   override def toString: String = fullName
 }
 
@@ -116,6 +118,8 @@ class EnumDescriptor private[descriptors](
       new EnumValueDescriptor(FileDescriptor.join(fullName, "Unrecognized"), this, proto, -1)
     })
   }
+
+  def getOptions = asProto.getOptions
 
   private val unknownValues = new ConcurrentWeakReferenceMap[Int, EnumValueDescriptor]
 
@@ -156,6 +160,8 @@ class FieldDescriptor private[descriptors](val containingMessage: Descriptor,
     case ScalaType.Message(msgDesc) if isRepeated && msgDesc.asProto.getOptions.getMapEntry => true
     case _ => false
   }
+
+  def getOptions = asProto.getOptions
 
   val fullName: String = FileDescriptor.join(containingMessage.fullName, name)
 
@@ -264,6 +270,8 @@ class FileDescriptor private[descriptors](
       c.oneofs
     case _ =>
   }
+
+  def getOptions = asProto.getOptions
 
   def fullName: String = asProto.getName
 

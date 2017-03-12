@@ -12,8 +12,9 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class OneofOptions(
-    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[OneofOptions] with com.trueaccord.lenses.Updatable[OneofOptions] {
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
+    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[OneofOptions] with com.trueaccord.lenses.Updatable[OneofOptions] with _root_.com.trueaccord.scalapb.ExtendableMessage[OneofOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -38,6 +39,7 @@ final case class OneofOptions(
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofOptions = {
       val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -45,11 +47,12 @@ final case class OneofOptions(
           case 0 => _done__ = true
           case 7994 =>
             __uninterpretedOption += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.OneofOptions(
-          uninterpretedOption = __uninterpretedOption.result()
+          uninterpretedOption = __uninterpretedOption.result(),
+          unknownFields = _unknownFields__.result()
       )
     }
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)

@@ -75,8 +75,9 @@ final case class FieldOptions(
     `lazy`: scala.Option[Boolean] = None,
     deprecated: scala.Option[Boolean] = None,
     weak: scala.Option[Boolean] = None,
-    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FieldOptions] with com.trueaccord.lenses.Updatable[FieldOptions] {
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
+    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FieldOptions] with com.trueaccord.lenses.Updatable[FieldOptions] with _root_.com.trueaccord.scalapb.ExtendableMessage[FieldOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -131,6 +132,7 @@ final case class FieldOptions(
       var __deprecated = this.deprecated
       var __weak = this.weak
       val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -150,7 +152,7 @@ final case class FieldOptions(
             __weak = Some(_input__.readBool())
           case 7994 =>
             __uninterpretedOption += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.FieldOptions(
@@ -160,7 +162,8 @@ final case class FieldOptions(
           `lazy` = __lazy,
           deprecated = __deprecated,
           weak = __weak,
-          uninterpretedOption = __uninterpretedOption.result()
+          uninterpretedOption = __uninterpretedOption.result(),
+          unknownFields = _unknownFields__.result()
       )
     }
     def getCtype: com.google.protobuf.descriptor.FieldOptions.CType = ctype.getOrElse(com.google.protobuf.descriptor.FieldOptions.CType.STRING)

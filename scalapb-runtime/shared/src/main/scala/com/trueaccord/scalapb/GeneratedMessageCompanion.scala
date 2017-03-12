@@ -146,6 +146,13 @@ trait Message[A] extends Any {
   def mergeFrom(input: CodedInputStream): A
 }
 
+trait ExtendableMessage[A <: ExtendableMessage[A]] extends Any {
+  self: A =>
+  def unknownFields: _root_.scalapb.UnknownFieldSet
+
+  def extension[T](generatedExtension: GeneratedExtension[A, T]) = generatedExtension.get(this)
+}
+
 trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
   def fromJavaProto(javaProto: JavaPB): ScalaPB
 
