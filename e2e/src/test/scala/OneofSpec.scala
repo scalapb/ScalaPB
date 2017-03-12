@@ -9,7 +9,8 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
   val unspecified = OneofTest()
   val tempField = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
   val otherField = OneofTest(myOneOf = OneofTest.MyOneOf.OtherField("boo"))
-  val sub = OneofTest(myOneOf = OneofTest.MyOneOf.Sub(OneofTest.SubMessage(subField = Some(18))))
+  val subMessage = OneofTest.SubMessage(subField = Some(18))
+  val sub = OneofTest(myOneOf = OneofTest.MyOneOf.Sub(subMessage))
 
   "oneofs" should "serialize and parse" in {
     OneofTest.parseFrom(unspecified.toByteArray) must be(unspecified)
@@ -36,6 +37,13 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     tempField.myOneOf.number shouldBe 2
     otherField.myOneOf.number shouldBe 3
     sub.myOneOf.number shouldBe 4
+  }
+
+  "oneof.valueOption function" should "return correct value" in {
+    unspecified.myOneOf.valueOption shouldBe None
+    tempField.myOneOf.valueOption shouldBe Some(9)
+    otherField.myOneOf.valueOption shouldBe Some("boo")
+    sub.myOneOf.valueOption shouldBe Some(subMessage)
   }
 
   "oneOf matching" should "work" in {
@@ -81,7 +89,7 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     tempField.myOneOf.tempField must be(Some(9))
     tempField.myOneOf.otherField must be(None)
     tempField.myOneOf.sub must be(None)
-    sub.myOneOf.sub must be(Some(OneofTest.SubMessage(subField = Some(18))))
+    sub.myOneOf.sub must be(Some(subMessage))
     sub.myOneOf.tempField must be(None)
     sub.myOneOf.otherField must be(None)
   }
