@@ -39,11 +39,11 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     sub.myOneOf.number shouldBe 4
   }
 
-  "oneof.getValue function" should "return correct value" in {
-    unspecified.myOneOf.getValue shouldBe None
-    tempField.myOneOf.getValue shouldBe Some(9)
-    otherField.myOneOf.getValue shouldBe Some("boo")
-    sub.myOneOf.getValue shouldBe Some(subMessage)
+  "oneof.valueOption function" should "return correct value" in {
+    unspecified.myOneOf.valueOption shouldBe None
+    tempField.myOneOf.valueOption shouldBe Some(9)
+    otherField.myOneOf.valueOption shouldBe Some("boo")
+    sub.myOneOf.valueOption shouldBe Some(subMessage)
   }
 
   "oneOf matching" should "work" in {
