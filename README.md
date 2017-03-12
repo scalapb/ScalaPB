@@ -43,6 +43,8 @@ Highlights
 
 - Support user-defined options (since 0.5.29)
 
+- Support extensions (since 0.6.0)
+
 Versions
 ========
 
