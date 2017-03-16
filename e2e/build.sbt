@@ -1,6 +1,6 @@
 scalaVersion := "2.11.8"
 
-val grpcVersion = "1.1.2"
+val grpcVersion = "1.2.0"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
