@@ -50,7 +50,7 @@ object GeneratedExtension {
                   val v = Vector.newBuilder[T]
                   field.lengthDelimited.foreach {
                     ld =>
-                      val ci = CodedInputStream.newInstance(ld.toByteArray)
+                      val ci = ld.newCodedInput
                       while (ci.getBytesUntilLimit > 0) {
                         v += convert(unpack(ci))
                       }
