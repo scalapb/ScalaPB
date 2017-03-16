@@ -18,6 +18,14 @@ script:
 - cd examples && sbt test && cd ..
 - sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION test
 - sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION universal:packageBin
+
+# Test that all generated code is checked in.
+- echo "java -jar ${HOME}/.ivy2/cache/com.github.os72/protoc-jar/jars/protoc-jar-3.2.0.jar \$@" > protoc && chmod +x protoc
+- export PATH=${PATH}:${PWD}
+- bash -x ./make_plugin_proto.sh
+- rm protoc
+- git diff --exit-code || { echo "Generated code changed. Please run make_plugin_proto.sh."; exit 1 }
+
 # Tricks to avoid unnecessary cache updates
 - find $HOME/.sbt -name "*.lock" | xargs rm
 - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
