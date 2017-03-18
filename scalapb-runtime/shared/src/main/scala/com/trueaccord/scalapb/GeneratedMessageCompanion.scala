@@ -60,6 +60,8 @@ trait GeneratedOneof extends Any with Product with Serializable {
   def number: Int
   def isDefined: Boolean
   def isEmpty: Boolean
+  def value: Any
+  def valueOption: Option[Any] = if (isDefined) Some(value) else None
 }
 
 trait GeneratedOneofCompanion

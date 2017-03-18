@@ -81,8 +81,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .add(s"def isEmpty: Boolean = false")
       .add(s"def isDefined: Boolean = true")
-      .add(s"def number: Int")
-      .add(s"def valueOption: Option[scala.Any] = None")
       .print(e.fields) {
       case (p, v) => p
         .add(s"def is${v.upperScalaName}: Boolean = false")
@@ -100,6 +98,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |    override def isEmpty: Boolean = true
            |    override def isDefined: Boolean = false
            |    override def number: Int = 0
+           |    override def value: scala.Any = throw new java.util.NoSuchElementException("Empty.value")
            |  }
            |""")
       .indent
@@ -111,7 +110,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                |  override def is${v.upperScalaName}: Boolean = true
                |  override def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = Some(value)
                |  override def number: Int = ${v.getNumber}
-               |  override def valueOption: Option[scala.Any] = Some(value)
                |}""")
     }
     .outdent

@@ -174,7 +174,6 @@ __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Opt
   sealed trait Kind extends _root_.com.trueaccord.scalapb.GeneratedOneof {
     def isEmpty: Boolean = false
     def isDefined: Boolean = true
-    def number: Int
     def isNullValue: Boolean = false
     def isNumberValue: Boolean = false
     def isStringValue: Boolean = false
@@ -194,6 +193,7 @@ __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Opt
       override def isEmpty: Boolean = true
       override def isDefined: Boolean = false
       override def number: Int = 0
+      override def value: scala.Any = throw new java.util.NoSuchElementException("Empty.value")
     }
   
     @SerialVersionUID(0L)

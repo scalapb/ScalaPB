@@ -46,6 +46,13 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     sub.myOneOf.valueOption shouldBe Some(subMessage)
   }
 
+  "oneof.value function" should "return correct value" in {
+    assertThrows[java.util.NoSuchElementException] { unspecified.myOneOf.value }
+    tempField.myOneOf.value shouldBe (9)
+    otherField.myOneOf.value shouldBe ("boo")
+    sub.myOneOf.value shouldBe (subMessage)
+  }
+
   "oneOf matching" should "work" in {
     (sub.myOneOf match {
         case OneofTest.MyOneOf.Sub(subm) => subm.getSubField

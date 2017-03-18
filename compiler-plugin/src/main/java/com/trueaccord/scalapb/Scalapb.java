@@ -837,7 +837,7 @@ public final class Scalapb {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (19 * hash) + getDescriptor().hashCode();
       if (hasPackageName()) {
         hash = (37 * hash) + PACKAGE_NAME_FIELD_NUMBER;
         hash = (53 * hash) + getPackageName().hashCode();
@@ -2269,7 +2269,7 @@ public final class Scalapb {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (19 * hash) + getDescriptor().hashCode();
       if (getExtendsCount() > 0) {
         hash = (37 * hash) + EXTENDS_FIELD_NUMBER;
         hash = (53 * hash) + getExtendsList().hashCode();
@@ -3382,7 +3382,7 @@ public final class Scalapb {
         return memoizedHashCode;
       }
       int hash = 41;
-      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (19 * hash) + getDescriptor().hashCode();
       if (hasType()) {
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getType().hashCode();
