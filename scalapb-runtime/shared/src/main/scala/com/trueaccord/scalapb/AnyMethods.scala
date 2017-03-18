@@ -12,7 +12,7 @@ trait AnyMethods {
 
   def unpack[A <: GeneratedMessage with Message[A]](implicit cmp: GeneratedMessageCompanion[A]) = {
     require(is[A], s"Type of the Any message does not match the given class.")
-    cmp.parseFrom(value.toByteArray())
+    cmp.parseFrom(value.newCodedInput())
   }
 }
 
@@ -32,5 +32,5 @@ trait AnyCompanionMethods {
       typeUrl = if (urlPrefix.endsWith("/"))
         urlPrefix + generatedMessage.companion.scalaDescriptor.fullName else
         urlPrefix + "/" + generatedMessage.companion.scalaDescriptor.fullName,
-      value = ByteString.copyFrom(generatedMessage.toByteArray))
+      value = generatedMessage.toByteString)
 }
