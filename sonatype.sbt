@@ -9,9 +9,9 @@ pomExtra in Global := {
     </license>
   </licenses>
   <scm>
-    <connection>scm:git:github.com:trueaccord/lenses.git</connection>
-    <developerConnection>scm:git:git@github.com:trueaccord/lenses.git</developerConnection>
-    <url>github.com/trueaccord/lenses</url>
+    <connection>scm:git:https://github.com/scalapb/Lenses.git</connection>
+    <developerConnection>scm:git:git@github.com:scalapb/Lenses.git</developerConnection>
+    <url>https://github.com/scalapb/Lenses</url>
   </scm>
   <developers>
     <developer>
