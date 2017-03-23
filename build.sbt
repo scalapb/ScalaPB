@@ -58,7 +58,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
       "com.trueaccord.lenses" %%% "lenses" % "0.4.10",
       "com.lihaoyi" %%% "fastparse" % "0.4.2",
       "com.lihaoyi" %%% "utest" % "0.4.5" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
       "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
@@ -95,7 +95,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
       "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-      "org.mockito" % "mockito-core" % "2.2.11" % "test"
+      "org.mockito" % "mockito-core" % "2.7.22" % "test"
     )
   )
 
@@ -175,12 +175,12 @@ lazy val proptest = project.in(file("proptest"))
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
-        "com.github.os72" % "protoc-jar" % "3.2.0",
+        "com.github.os72" % "protoc-jar" % "3.2.0.1",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.10",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5",
-        "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
+        "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
         "org.scalatest" %% "scalatest" % "3.0.1" % "test"
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
@@ -198,7 +198,7 @@ lazy val ShortTest = config("short") extend(Test)
 val protobufVersion = "3.2.0"
 
 // For e2e test
-val sbtPluginVersion = "0.99.3"
+val sbtPluginVersion = "0.99.8"
 
 def genVersionFile(out: File, version: String): File = {
   out.mkdirs()
