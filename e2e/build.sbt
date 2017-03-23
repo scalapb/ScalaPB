@@ -31,7 +31,7 @@ val commonSettings = Seq(
       "org.scalatest" %% "scalatest" % "3.0.1" % "test",
       "io.grpc" % "grpc-netty" % grpcJavaVersion, //netty transport of grpc
       "io.grpc" % "grpc-protobuf" % grpcJavaVersion, //protobuf message encoding for java implementation
-      "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
+      "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
       "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % "protobuf",
       "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5"
     ),
