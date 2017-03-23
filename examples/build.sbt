@@ -1,3 +1,5 @@
+import ScalateKeys._
+
 scalaVersion := "2.11.8"
 
 PB.targets in Compile := Seq(
@@ -9,3 +11,14 @@ libraryDependencies ++= Seq(
   "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.42" % "protobuf"
 )
 
+seq(scalateSettings:_*)
+
+scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
+  Seq(
+    TemplateConfig(
+      base / "resources" / "templates",
+      Nil,
+      Nil
+    )
+  )
+}
