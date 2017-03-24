@@ -27,7 +27,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         case (p, v) => p.add(
           s"def ${v.isName}: Boolean = false")
       }
-      .add(s"def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[$name] = $name")
+      .add(s"def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[$name] = ${e.scalaTypeName}")
       .outdent
       .add("}")
       .add("")

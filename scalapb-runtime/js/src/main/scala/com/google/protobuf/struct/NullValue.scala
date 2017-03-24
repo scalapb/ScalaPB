@@ -10,7 +10,7 @@ package com.google.protobuf.struct
 sealed trait NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: Boolean = false
-  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = NullValue
+  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
 }
 
 object NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] {

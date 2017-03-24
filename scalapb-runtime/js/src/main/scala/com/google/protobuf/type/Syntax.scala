@@ -11,7 +11,7 @@ sealed trait Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: Boolean = false
   def isSyntaxProto3: Boolean = false
-  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = Syntax
+  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
 }
 
 object Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] {

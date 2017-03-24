@@ -266,7 +266,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     def isString: Boolean = false
     def isCord: Boolean = false
     def isStringPiece: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[CType] = CType
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[CType] = com.google.protobuf.descriptor.FieldOptions.CType
   }
   
   object CType extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[CType] {
@@ -313,7 +313,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     def isJsNormal: Boolean = false
     def isJsString: Boolean = false
     def isJsNumber: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[JSType] = JSType
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[JSType] = com.google.protobuf.descriptor.FieldOptions.JSType
   }
   
   object JSType extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[JSType] {

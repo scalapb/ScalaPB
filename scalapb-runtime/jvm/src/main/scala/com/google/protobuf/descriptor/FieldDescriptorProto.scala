@@ -320,7 +320,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     def isTypeSfixed64: Boolean = false
     def isTypeSint32: Boolean = false
     def isTypeSint64: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Type] = Type
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Type] = com.google.protobuf.descriptor.FieldDescriptorProto.Type
   }
   
   object Type extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Type] {
@@ -504,7 +504,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     def isLabelOptional: Boolean = false
     def isLabelRequired: Boolean = false
     def isLabelRepeated: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Label] = Label
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Label] = com.google.protobuf.descriptor.FieldDescriptorProto.Label
   }
   
   object Label extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Label] {

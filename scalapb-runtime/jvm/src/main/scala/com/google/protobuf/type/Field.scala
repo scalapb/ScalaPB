@@ -354,7 +354,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     def isTypeSfixed64: Boolean = false
     def isTypeSint32: Boolean = false
     def isTypeSint64: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] = Kind
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] = com.google.protobuf.`type`.Field.Kind
   }
   
   object Kind extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Kind] {
@@ -548,7 +548,7 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
     def isCardinalityOptional: Boolean = false
     def isCardinalityRequired: Boolean = false
     def isCardinalityRepeated: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] = Cardinality
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] = com.google.protobuf.`type`.Field.Cardinality
   }
   
   object Cardinality extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Cardinality] {

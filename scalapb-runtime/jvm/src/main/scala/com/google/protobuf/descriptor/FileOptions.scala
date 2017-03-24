@@ -440,7 +440,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     def isSpeed: Boolean = false
     def isCodeSize: Boolean = false
     def isLiteRuntime: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = OptimizeMode
+    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = com.google.protobuf.descriptor.FileOptions.OptimizeMode
   }
   
   object OptimizeMode extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] {
