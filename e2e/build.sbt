@@ -1,6 +1,5 @@
+import com.trueaccord.scalapb.Version.grpcJavaVersion
 scalaVersion := "2.11.8"
-
-val grpcVersion = "1.2.0"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
@@ -12,11 +11,11 @@ def grpcExeFileName = {
   } else {
     "linux-x86_64"
   }
-  s"${grpcArtifactId}-${grpcVersion}-${os}.exe"
+  s"${grpcArtifactId}-${grpcJavaVersion}-${os}.exe"
 }
 
 lazy val grpcExeUrl =
-  url(s"http://repo1.maven.org/maven2/io/grpc/${grpcArtifactId}/${grpcVersion}/${grpcExeFileName}")
+  url(s"http://repo1.maven.org/maven2/io/grpc/${grpcArtifactId}/${grpcJavaVersion}/${grpcExeFileName}")
 
 val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
 
@@ -30,8 +29,8 @@ val commonSettings = Seq(
     ),
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-      "io.grpc" % "grpc-netty" % grpcVersion, //netty transport of grpc
-      "io.grpc" % "grpc-protobuf" % grpcVersion, //protobuf message encoding for java implementation
+      "io.grpc" % "grpc-netty" % grpcJavaVersion, //netty transport of grpc
+      "io.grpc" % "grpc-protobuf" % grpcJavaVersion, //protobuf message encoding for java implementation
       "org.scalacheck" %% "scalacheck" % "1.13.4" % "test",
       "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % "protobuf",
       "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5"

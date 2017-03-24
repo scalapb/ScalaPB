@@ -108,6 +108,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
            |object Version {
            |  val scalapbVersion = "${version.value}"
            |  val protobufVersion = "${protobufVersion}"
+           |  val grpcJavaVersion = "${grpcVersion}"
            |}""".stripMargin)
       Seq(file)
     }.taskValue,
@@ -210,6 +211,7 @@ def genVersionFile(out: File, version: String): File = {
               |object Version {
               |  val sbtPluginVersion = "$sbtPluginVersion"
               |  val scalapbVersion = "$version"
+              |  val grpcJavaVersion = "${grpcVersion}"
               |}
               |""".stripMargin.getBytes("UTF-8"))
   w.close()
