@@ -1,4 +1,6 @@
-scalaVersion := "2.11.8"
+import com.trueaccord.scalapb.compiler.Version.scalapbVersion
+
+scalaVersion := "2.12.1"
 
 PB.targets in Compile := Seq(
   scalapb.gen() -> (sourceManaged in Compile).value
@@ -6,6 +8,6 @@ PB.targets in Compile := Seq(
 
 libraryDependencies ++= Seq(
   // For finding google/protobuf/descriptor.proto
-  "com.trueaccord.scalapb" %% "scalapb-runtime" % "0.5.42" % "protobuf"
+  "com.trueaccord.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf"
 )
 

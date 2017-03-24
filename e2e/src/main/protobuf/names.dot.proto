@@ -29,6 +29,11 @@ message WeirdNames {
   enum with {
     V = 0;
   }
+  enum name {
+    x = 0;
+    y = 1;
+    t = 2;
+  }
 }
 
 message WeirdNamesRequired {
