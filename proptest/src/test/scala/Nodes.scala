@@ -102,6 +102,14 @@ object Nodes {
       file.scalaPackage + "." + className
     }
 
+    override def toString: String = {
+      files.foldLeft(new FunctionalPrinter) { case (fp, f) =>
+        fp.add(s"${f.baseFileName}.proto:\n")
+          .call(f.print(this, _))
+      }
+        .result()
+    }
+
     lazy val messagesById: Map[Int, MessageNode] = files.flatMap(_.allMessages).map(m => (m.id, m)).toMap
     lazy val enumsById: Map[Int, EnumNode] = files.flatMap(_.allEnums).map(e => (e.id, e)).toMap
     lazy val filesById: Map[Int, FileNode] = files.map(f => (f.fileId, f)).toMap
