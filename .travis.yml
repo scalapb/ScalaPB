@@ -14,7 +14,7 @@ cache:
   - $HOME/.sbt/boot/
 
 script:
-- ./e2e.sh
+- if [[ $TRAVIS_SCALA_VERSION != 2.10.* ]]; then ./e2e.sh; fi
 - cd examples && sbt test && cd ..
 - sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION test
 - sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION universal:packageBin
