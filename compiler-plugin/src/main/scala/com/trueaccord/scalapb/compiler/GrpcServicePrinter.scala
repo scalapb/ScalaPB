@@ -105,7 +105,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
           p.add(
             "override " + blockingMethodSignature(m) + " = {"
           ).addIndented(
-            s"scala.collection.JavaConversions.asScalaIterator($clientCalls.blockingServerStreamingCall(channel.newCall(${m.descriptorName}, options), request))"
+            s"scala.collection.JavaConverters.asScalaIteratorConverter($clientCalls.blockingServerStreamingCall(channel.newCall(${m.descriptorName}, options), request)).asScala"
           ).add("}")
         } else {
           p.add(
