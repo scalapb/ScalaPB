@@ -190,7 +190,7 @@ final case class FieldDescriptorProto(
     def clearOptions: FieldDescriptorProto = copy(options = None)
     def withOptions(__v: com.google.protobuf.descriptor.FieldOptions): FieldDescriptorProto = copy(options = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 3 => number.orNull
         case 4 => label.map(_.javaValueDescriptor).orNull
@@ -205,7 +205,7 @@ final case class FieldDescriptorProto(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => number.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 4 => label.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
@@ -261,13 +261,13 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(3)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 8 => __out = com.google.protobuf.descriptor.FieldOptions
     }
     __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 4 => com.google.protobuf.descriptor.FieldDescriptorProto.Label
       case 5 => com.google.protobuf.descriptor.FieldDescriptorProto.Type
     }

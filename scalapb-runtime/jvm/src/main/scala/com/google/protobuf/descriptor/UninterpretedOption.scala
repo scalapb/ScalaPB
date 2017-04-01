@@ -137,7 +137,7 @@ final case class UninterpretedOption(
     def clearAggregateValue: UninterpretedOption = copy(aggregateValue = None)
     def withAggregateValue(__v: String): UninterpretedOption = copy(aggregateValue = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 2 => name
         case 3 => identifierValue.orNull
         case 4 => positiveIntValue.orNull
@@ -149,7 +149,7 @@ final case class UninterpretedOption(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 2 => _root_.scalapb.descriptors.PRepeated(name.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 3 => identifierValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 4 => positiveIntValue.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
@@ -216,7 +216,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(17)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 2 => __out = com.google.protobuf.descriptor.UninterpretedOption.NamePart
     }
     __out
@@ -282,14 +282,14 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
       def withNamePart(__v: String): NamePart = copy(namePart = __v)
       def withIsExtension(__v: Boolean): NamePart = copy(isExtension = __v)
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-        __fieldNumber match {
+        (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => namePart
           case 2 => isExtension
         }
       }
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
-        __field.number match {
+        (__field.number: @_root_.scala.unchecked) match {
           case 1 => _root_.scalapb.descriptors.PString(namePart)
           case 2 => _root_.scalapb.descriptors.PBoolean(isExtension)
         }

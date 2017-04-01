@@ -66,13 +66,13 @@ final case class Struct(
     def addAllFields(__vs: TraversableOnce[(String, com.google.protobuf.struct.Value)]): Struct = copy(fields = fields ++ __vs)
     def withFields(__v: scala.collection.immutable.Map[String, com.google.protobuf.struct.Value]): Struct = copy(fields = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase(_))(_root_.scala.collection.breakOut)
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PRepeated(fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase(_).toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -101,7 +101,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = StructProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => __out = com.google.protobuf.struct.Struct.FieldsEntry
     }
     __out
@@ -168,7 +168,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       def clearValue: FieldsEntry = copy(value = None)
       def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = Some(__v))
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-        __fieldNumber match {
+        (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => {
             val __t = key
             if (__t != "") __t else null
@@ -178,7 +178,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
       }
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
-        __field.number match {
+        (__field.number: @_root_.scala.unchecked) match {
           case 1 => _root_.scalapb.descriptors.PString(key)
           case 2 => value.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
@@ -210,7 +210,7 @@ object Struct extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.struct.Struct.scalaDescriptor.nestedMessages(0)
     def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
       var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 2 => __out = com.google.protobuf.struct.Value
       }
       __out

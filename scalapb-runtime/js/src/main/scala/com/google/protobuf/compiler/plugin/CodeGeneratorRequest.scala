@@ -100,7 +100,7 @@ final case class CodeGeneratorRequest(
     def addAllProtoFile(__vs: TraversableOnce[com.google.protobuf.descriptor.FileDescriptorProto]): CodeGeneratorRequest = copy(protoFile = protoFile ++ __vs)
     def withProtoFile(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]): CodeGeneratorRequest = copy(protoFile = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => fileToGenerate
         case 2 => parameter.orNull
         case 15 => protoFile
@@ -108,7 +108,7 @@ final case class CodeGeneratorRequest(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PRepeated(fileToGenerate.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
         case 2 => parameter.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 15 => _root_.scalapb.descriptors.PRepeated(protoFile.map(_.toPMessage)(_root_.scala.collection.breakOut))
@@ -143,7 +143,7 @@ object CodeGeneratorRequest extends com.trueaccord.scalapb.GeneratedMessageCompa
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = PluginProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 15 => __out = com.google.protobuf.descriptor.FileDescriptorProto
     }
     __out

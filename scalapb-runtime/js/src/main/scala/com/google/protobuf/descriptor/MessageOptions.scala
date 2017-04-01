@@ -158,7 +158,7 @@ final case class MessageOptions(
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => messageSetWireFormat.orNull
         case 2 => noStandardDescriptorAccessor.orNull
         case 3 => deprecated.orNull
@@ -168,7 +168,7 @@ final case class MessageOptions(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => messageSetWireFormat.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => noStandardDescriptorAccessor.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
@@ -209,7 +209,7 @@ object MessageOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(10)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out

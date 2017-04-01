@@ -102,13 +102,13 @@ final case class SourceCodeInfo(
     def addAllLocation(__vs: TraversableOnce[com.google.protobuf.descriptor.SourceCodeInfo.Location]): SourceCodeInfo = copy(location = location ++ __vs)
     def withLocation(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]): SourceCodeInfo = copy(location = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => location
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PRepeated(location.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -137,7 +137,7 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(18)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => __out = com.google.protobuf.descriptor.SourceCodeInfo.Location
     }
     __out
@@ -357,7 +357,7 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       def addAllLeadingDetachedComments(__vs: TraversableOnce[String]): Location = copy(leadingDetachedComments = leadingDetachedComments ++ __vs)
       def withLeadingDetachedComments(__v: _root_.scala.collection.Seq[String]): Location = copy(leadingDetachedComments = __v)
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-        __fieldNumber match {
+        (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => path
           case 2 => span
           case 3 => leadingComments.orNull
@@ -367,7 +367,7 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       }
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
-        __field.number match {
+        (__field.number: @_root_.scala.unchecked) match {
           case 1 => _root_.scalapb.descriptors.PRepeated(path.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
           case 2 => _root_.scalapb.descriptors.PRepeated(span.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
           case 3 => leadingComments.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)

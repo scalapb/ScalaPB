@@ -160,7 +160,7 @@ final case class Any(
     def withTypeUrl(__v: String): Any = copy(typeUrl = __v)
     def withValue(__v: _root_.com.google.protobuf.ByteString): Any = copy(value = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = typeUrl
           if (__t != "") __t else null
@@ -173,7 +173,7 @@ final case class Any(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(typeUrl)
         case 2 => _root_.scalapb.descriptors.PByteString(value)
       }

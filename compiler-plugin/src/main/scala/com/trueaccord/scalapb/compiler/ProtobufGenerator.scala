@@ -275,7 +275,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (message.fields.nonEmpty)
       fp.add(signature + "{")
         .indent
-        .add("__fieldNumber match {")
+        .add("(__fieldNumber: @_root_.scala.unchecked) match {")
         .indent
         .print(message.fields) {
           case (fp, f) =>
@@ -327,7 +327,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       fp.add(signature + "{")
         .indent
         .add("require(__field.containingMessage eq companion.scalaDescriptor)")
-        .add("__field.number match {")
+        .add("(__field.number: @_root_.scala.unchecked) match {")
         .indent
         .print(message.fields) {
           case (fp, f) =>
@@ -953,7 +953,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       fp.add(signature + "{")
         .indent
         .add("var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null")
-        .add("__fieldNumber match {")
+        .add("(__fieldNumber: @_root_.scala.unchecked) match {")
         .indent
         .print(message.fields.filter(_.isMessage)) {
           case (fp, f) =>
@@ -972,7 +972,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (message.fields.exists(_.isEnum))
       fp.add(signature + "{")
         .indent
-        .add("__fieldNumber match {")
+        .add("(__fieldNumber: @_root_.scala.unchecked) match {")
         .indent
         .print(message.fields.filter(_.isEnum)) {
           case (fp, f) =>

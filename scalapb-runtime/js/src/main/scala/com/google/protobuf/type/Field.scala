@@ -196,7 +196,7 @@ final case class Field(
     def withJsonName(__v: String): Field = copy(jsonName = __v)
     def withDefaultValue(__v: String): Field = copy(defaultValue = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = kind.javaValueDescriptor
           if (__t.getNumber() != 0) __t else null
@@ -238,7 +238,7 @@ final case class Field(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PEnum(kind.scalaValueDescriptor)
         case 2 => _root_.scalapb.descriptors.PEnum(cardinality.scalaValueDescriptor)
         case 3 => _root_.scalapb.descriptors.PInt(number)
@@ -294,13 +294,13 @@ object Field extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = TypeProto.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 9 => __out = com.google.protobuf.`type`.OptionProto
     }
     __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => com.google.protobuf.`type`.Field.Kind
       case 2 => com.google.protobuf.`type`.Field.Cardinality
     }

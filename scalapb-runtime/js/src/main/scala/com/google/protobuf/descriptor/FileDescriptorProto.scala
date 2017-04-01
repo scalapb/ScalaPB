@@ -242,7 +242,7 @@ final case class FileDescriptorProto(
     def clearSyntax: FileDescriptorProto = copy(syntax = None)
     def withSyntax(__v: String): FileDescriptorProto = copy(syntax = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 2 => `package`.orNull
         case 3 => dependency
@@ -259,7 +259,7 @@ final case class FileDescriptorProto(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => `package`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => _root_.scalapb.descriptors.PRepeated(dependency.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
@@ -321,7 +321,7 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 4 => __out = com.google.protobuf.descriptor.DescriptorProto
       case 5 => __out = com.google.protobuf.descriptor.EnumDescriptorProto
       case 6 => __out = com.google.protobuf.descriptor.ServiceDescriptorProto

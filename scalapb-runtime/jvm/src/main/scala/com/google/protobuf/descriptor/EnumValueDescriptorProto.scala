@@ -79,7 +79,7 @@ final case class EnumValueDescriptorProto(
     def clearOptions: EnumValueDescriptorProto = copy(options = None)
     def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 2 => number.orNull
         case 3 => options.orNull
@@ -87,7 +87,7 @@ final case class EnumValueDescriptorProto(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => number.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
@@ -134,7 +134,7 @@ object EnumValueDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageC
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(6)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 3 => __out = com.google.protobuf.descriptor.EnumValueOptions
     }
     __out

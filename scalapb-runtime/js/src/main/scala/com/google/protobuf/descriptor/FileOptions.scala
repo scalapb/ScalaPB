@@ -296,7 +296,7 @@ final case class FileOptions(
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => javaPackage.orNull
         case 8 => javaOuterClassname.orNull
         case 10 => javaMultipleFiles.orNull
@@ -316,7 +316,7 @@ final case class FileOptions(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => javaPackage.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 8 => javaOuterClassname.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 10 => javaMultipleFiles.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
@@ -387,13 +387,13 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(9)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 9 => com.google.protobuf.descriptor.FileOptions.OptimizeMode
     }
   }

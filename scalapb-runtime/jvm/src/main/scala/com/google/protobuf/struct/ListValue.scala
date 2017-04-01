@@ -61,13 +61,13 @@ final case class ListValue(
     def addAllValues(__vs: TraversableOnce[com.google.protobuf.struct.Value]): ListValue = copy(values = values ++ __vs)
     def withValues(__v: _root_.scala.collection.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => values
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PRepeated(values.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -104,7 +104,7 @@ object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = StructProto.scalaDescriptor.messages(2)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => __out = com.google.protobuf.struct.Value
     }
     __out

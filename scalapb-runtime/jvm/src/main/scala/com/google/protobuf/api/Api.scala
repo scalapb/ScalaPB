@@ -175,7 +175,7 @@ final case class Api(
     def withMixins(__v: _root_.scala.collection.Seq[com.google.protobuf.api.Mixin]): Api = copy(mixins = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Api = copy(syntax = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
           if (__t != "") __t else null
@@ -196,7 +196,7 @@ final case class Api(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
         case 2 => _root_.scalapb.descriptors.PRepeated(methods.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 3 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
@@ -263,7 +263,7 @@ object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ApiProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 2 => __out = com.google.protobuf.api.Method
       case 3 => __out = com.google.protobuf.`type`.OptionProto
       case 5 => __out = com.google.protobuf.source_context.SourceContext
@@ -272,7 +272,7 @@ object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
     __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 7 => com.google.protobuf.`type`.Syntax
     }
   }

@@ -103,7 +103,7 @@ final case class Value(
     def clearKind: Value = copy(kind = com.google.protobuf.struct.Value.Kind.Empty)
     def withKind(__v: com.google.protobuf.struct.Value.Kind): Value = copy(kind = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => kind.nullValue.map(_.javaValueDescriptor).orNull
         case 2 => kind.numberValue.orNull
         case 3 => kind.stringValue.orNull
@@ -114,7 +114,7 @@ final case class Value(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => kind.nullValue.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => kind.numberValue.map(_root_.scalapb.descriptors.PDouble(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => kind.stringValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
@@ -158,14 +158,14 @@ __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Opt
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = StructProto.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 5 => __out = com.google.protobuf.struct.Struct
       case 6 => __out = com.google.protobuf.struct.ListValue
     }
     __out
   }
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => com.google.protobuf.struct.NullValue
     }
   }

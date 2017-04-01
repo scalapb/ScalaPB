@@ -149,7 +149,7 @@ final case class Mixin(
     def withName(__v: String): Mixin = copy(name = __v)
     def withRoot(__v: String): Mixin = copy(root = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
           if (__t != "") __t else null
@@ -162,7 +162,7 @@ final case class Mixin(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
         case 2 => _root_.scalapb.descriptors.PString(root)
       }

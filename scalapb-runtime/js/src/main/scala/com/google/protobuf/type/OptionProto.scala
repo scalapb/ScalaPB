@@ -74,7 +74,7 @@ final case class OptionProto(
     def clearValue: OptionProto = copy(value = None)
     def withValue(__v: com.google.protobuf.any.Any): OptionProto = copy(value = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
           if (__t != "") __t else null
@@ -84,7 +84,7 @@ final case class OptionProto(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
         case 2 => value.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
@@ -116,7 +116,7 @@ object OptionProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = TypeProto.scalaDescriptor.messages(4)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 2 => __out = com.google.protobuf.any.Any
     }
     __out

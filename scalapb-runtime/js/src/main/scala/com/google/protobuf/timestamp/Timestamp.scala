@@ -129,7 +129,7 @@ final case class Timestamp(
     def withSeconds(__v: Long): Timestamp = copy(seconds = __v)
     def withNanos(__v: Int): Timestamp = copy(nanos = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = seconds
           if (__t != 0L) __t else null
@@ -142,7 +142,7 @@ final case class Timestamp(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PLong(seconds)
         case 2 => _root_.scalapb.descriptors.PInt(nanos)
       }

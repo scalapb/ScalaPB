@@ -89,7 +89,7 @@ final case class EnumValue(
     def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): EnumValue = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): EnumValue = copy(options = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
           if (__t != "") __t else null
@@ -103,7 +103,7 @@ final case class EnumValue(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
         case 2 => _root_.scalapb.descriptors.PInt(number)
         case 3 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
@@ -138,7 +138,7 @@ object EnumValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = TypeProto.scalaDescriptor.messages(3)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 3 => __out = com.google.protobuf.`type`.OptionProto
     }
     __out

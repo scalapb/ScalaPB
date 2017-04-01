@@ -62,13 +62,13 @@ final case class GeneratedCodeInfo(
     def addAllAnnotation(__vs: TraversableOnce[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = annotation ++ __vs)
     def withAnnotation(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => annotation
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PRepeated(annotation.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -105,7 +105,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(19)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    __fieldNumber match {
+    (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => __out = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation
     }
     __out
@@ -226,7 +226,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       def clearEnd: Annotation = copy(end = None)
       def withEnd(__v: Int): Annotation = copy(end = Some(__v))
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-        __fieldNumber match {
+        (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => path
           case 2 => sourceFile.orNull
           case 3 => begin.orNull
@@ -235,7 +235,7 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       }
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
-        __field.number match {
+        (__field.number: @_root_.scala.unchecked) match {
           case 1 => _root_.scalapb.descriptors.PRepeated(path.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
           case 2 => sourceFile.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
           case 3 => begin.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)

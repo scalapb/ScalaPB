@@ -59,7 +59,7 @@ final case class DoubleValue(
     }
     def withValue(__v: Double): DoubleValue = copy(value = __v)
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = value
           if (__t != 0.0) __t else null
@@ -68,7 +68,7 @@ final case class DoubleValue(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PDouble(value)
       }
     }

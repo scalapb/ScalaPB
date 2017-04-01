@@ -167,7 +167,7 @@ final case class ScalaPbOptions(
     def clearCollectionType: ScalaPbOptions = copy(collectionType = None)
     def withCollectionType(__v: String): ScalaPbOptions = copy(collectionType = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
-      __fieldNumber match {
+      (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => packageName.orNull
         case 2 => flatPackage.orNull
         case 3 => `import`
@@ -180,7 +180,7 @@ final case class ScalaPbOptions(
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
-      __field.number match {
+      (__field.number: @_root_.scala.unchecked) match {
         case 1 => packageName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => flatPackage.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => _root_.scalapb.descriptors.PRepeated(`import`.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
