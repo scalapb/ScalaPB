@@ -779,15 +779,16 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
             transform(field).apply(e, enclosingType = field.enclosingType)
         }
-        val oneOfs = message.getOneofs.asScala.toSeq.map {
+        val oneOfs = message.getOneofs.asScala.map {
           oneOf =>
             val elems = oneOf.fields.map {
               field =>
                 val typeName = if (field.isEnum) "_root_.com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
                 val e = s"__fieldsMap.get(__fields.get(${field.getIndex})).asInstanceOf[scala.Option[$typeName]]"
                 (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
-            } mkString (" orElse\n")
-            s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
+            }
+            val expr = elems.reduceLeft((acc, field) => s"$acc\n    .orElse[${oneOf.scalaTypeName}]($field)")
+            s"${oneOf.scalaName.asSymbol} = $expr\n    .getOrElse(${oneOf.empty})"
         }
         printer.addWithDelimiter(",")(fields ++ oneOfs)
     }
@@ -841,8 +842,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                   val typeName = if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
                   val e = s"$value.flatMap(_.as[scala.Option[$typeName]])"
                   (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
-              } mkString (" orElse\n")
-              s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
+              }
+              val expr = elems.reduceLeft((acc, field) => s"$acc\n    .orElse[${oneOf.scalaTypeName}]($field)")
+              s"${oneOf.scalaName.asSymbol} = $expr\n    .getOrElse(${oneOf.empty})"
           }
           printer.addWithDelimiter(",")(fields ++ oneOfs)
       }
