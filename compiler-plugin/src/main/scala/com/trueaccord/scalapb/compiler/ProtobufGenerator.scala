@@ -782,7 +782,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                 val typeName = if (field.isEnum) "_root_.com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
                 val e = s"__fieldsMap.get(__fields.get(${field.getIndex})).asInstanceOf[scala.Option[$typeName]]"
                 (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
-            } mkString (" orElse\n")
+            } mkString (s" orElse[${oneOf.scalaTypeName}]\n")
             s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
         }
         printer.addWithDelimiter(",")(fields ++ oneOfs)
@@ -837,7 +837,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                   val typeName = if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
                   val e = s"$value.flatMap(_.as[scala.Option[$typeName]])"
                   (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
-              } mkString (" orElse\n")
+              } mkString (s" orElse[${oneOf.scalaTypeName}]\n")
               s"${oneOf.scalaName.asSymbol} = $elems getOrElse ${oneOf.empty}"
           }
           printer.addWithDelimiter(",")(fields ++ oneOfs)
