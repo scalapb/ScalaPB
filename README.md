@@ -12,7 +12,7 @@ buffers.
 ScalaPB generates case classes that can co-exist in the same project alongside
 the Java-generated code for ProtocolBuffer. This makes it easy to gradually
 migrate an existing project from the Java version of protocol buffers to
-Scala. This is acheived by having the ScalaPB generated code use the proto
+Scala. This is achieved by having the ScalaPB generated code use the proto
 file as part of the package name (in contrast to Java which uses the file name
 in CamelCase as an outer class)
 
