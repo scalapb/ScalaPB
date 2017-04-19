@@ -4,8 +4,8 @@ dist: trusty
 
 scala:
 - 2.10.6
-- 2.11.8
-- 2.12.1
+- 2.11.11
+- 2.12.2
 
 # These directories are cached to S3 at the end of the build
 cache:
@@ -34,5 +34,5 @@ deploy:
   on:
     repo: scalapb/ScalaPB
     tags: true
-    scala: 2.11.8
+    scala: 2.11.11
 
