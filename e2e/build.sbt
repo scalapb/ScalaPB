@@ -1,5 +1,5 @@
 import com.trueaccord.scalapb.Version.grpcJavaVersion
-scalaVersion := "2.11.8"
+scalaVersion := "2.11.11"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
