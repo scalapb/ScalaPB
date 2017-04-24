@@ -134,9 +134,12 @@ object GeneratedCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanio
       end: scala.Option[Int] = None
       ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Annotation] with com.trueaccord.lenses.Updatable[Annotation] {
       private[this] def pathSerializedSize = {
-      if (__pathSerializedSizeField == 0) __pathSerializedSizeField = 
-        path.map(_root_.com.google.protobuf.CodedOutputStream.computeInt32SizeNoTag).sum
-      __pathSerializedSizeField
+        if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {
+          var __s: Int = 0
+          path.foreach(__i => __s += _root_.com.google.protobuf.CodedOutputStream.computeInt32SizeNoTag(__i))
+          __s
+        }
+        __pathSerializedSizeField
       }
       @transient private[this] var __pathSerializedSizeField: Int = 0
       @transient

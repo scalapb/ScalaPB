@@ -480,16 +480,22 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               fp.add(s"  $size * ${field.scalaName.asSymbol}.size").add("}")
             case None =>
               val capTypeName = Types.capitalizedType(field.getType)
-              val sizeFunc = Seq(s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag")
-              val fromEnum = if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).value") else Nil
+              val sizeFunc = FunctionApplication(s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag")
+              val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
               val fromCustom = if (field.customSingleScalaTypeName.isDefined)
-                Seq(s"${field.typeMapper}.toBase")
-              else Nil
-              val funcs = sizeFunc ++ fromEnum ++ fromCustom
+                FunctionApplication(s"${field.typeMapper}.toBase")
+                else Identity
+              val funcs = List(sizeFunc, fromEnum, fromCustom)
+              val sizeExpr = ExpressionBuilder.runSingleton(funcs)("__i")
               fp
-                .add(s"if (__${methodName}Field == 0) __${methodName}Field = ")
-                .add(s"  ${field.scalaName.asSymbol}.map(${composeGen(funcs)}).sum")
+                .indent
+                .add(s"if (__${methodName}Field == 0) __${methodName}Field = {")
+                .add(s"  var __s: Int = 0")
+                .add(s"  ${field.scalaName.asSymbol}.foreach(__i => __s += $sizeExpr)")
+                .add(s"  __s")
+                .add(s"}")
                 .add(s"__${methodName}Field")
+                .outdent
                 .add("}") // closing brace for the method
                 .add(s"@transient private[this] var __${methodName}Field: Int = 0")
           }

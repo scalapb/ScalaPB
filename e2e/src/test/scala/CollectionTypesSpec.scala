@@ -20,4 +20,10 @@ class CollectionTypesSpec extends FlatSpec with MustMatchers {
     CustomCollection.fromAscii(c.toString) must be(c)
     CustomCollection.fromJavaProto(CustomCollection.toJavaProto(c)) must be(c)
   }
+
+  // See https://github.com/scalapb/ScalaPB/issues/274
+  "packed sets serialization" should "work" in {
+    val m = CollectionTypesPackedSet(repeatedUint32 = Set(1,2,3,4,5))
+    CollectionTypesPackedSet.parseFrom(m.toByteArray) must be(m)
+  }
 }
