@@ -2,7 +2,7 @@ import ReleaseTransformations._
 
 scalaVersion := "2.11.11"
 
-crossScalaVersions := Seq("2.11.11", "2.10.6", "2.12.2")
+crossScalaVersions := Seq("2.11.11", "2.10.6", "2.12.2", "2.13.0-M1")
 
 organization in ThisBuild := "com.trueaccord.lenses"
 
