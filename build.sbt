@@ -46,8 +46,8 @@ lazy val lenses = crossProject.in(file("."))
   )
   .jvmSettings(
     libraryDependencies ++= Seq(
-      "org.scalacheck" %%% "scalacheck" % "1.13.4" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.0" % "test"
+      "org.scalacheck" %%% "scalacheck" % "1.13.5" % "test",
+      "org.scalatest" %%% "scalatest" % "3.0.3" % "test"
     )
   )
   .jsSettings(
