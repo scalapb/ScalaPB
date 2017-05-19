@@ -19,6 +19,7 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
     EnumTest.parseFrom(noColor.toByteArray) must be(noColor)
     EnumTest.parseFrom(innerEnum.toByteArray) must be(innerEnum)
     EnumTest.parseFrom(otherCase.toByteArray) must be(otherCase)
+    EnumTest.parseFrom(unrecognized.toByteArray) must be(unrecognized)
   }
 
   "isEnumValue" should "return correct values" in {
@@ -129,6 +130,16 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
   "Unrecognized" should "be printable" in {
     // See https://github.com/scalapb/ScalaPB/issues/225
     unrecognized.toString must be ("color: 37\n")
+  }
+
+  "Unrecognized" should "be fine" in {
+    var x = Color.Unrecognized(117).scalaValueDescriptor  // Do not use 117 elsewhere we need to have it gc'ed.
+    var y = Color.Unrecognized(117).scalaValueDescriptor
+    x must be theSameInstanceAs y
+    x = null
+    y = null
+    System.gc()
+    x = Color.Unrecognized(117).scalaValueDescriptor
   }
 
 }
