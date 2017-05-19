@@ -241,6 +241,25 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getCollectionTypeBytes();
+
+    /**
+     * <pre>
+     * For use in tests only. Inhibit Java conversions even when when generator parameters
+     * request for it.
+     * </pre>
+     *
+     * <code>optional bool test_only_no_java_conversions = 100001;</code>
+     */
+    boolean hasTestOnlyNoJavaConversions();
+    /**
+     * <pre>
+     * For use in tests only. Inhibit Java conversions even when when generator parameters
+     * request for it.
+     * </pre>
+     *
+     * <code>optional bool test_only_no_java_conversions = 100001;</code>
+     */
+    boolean getTestOnlyNoJavaConversions();
   }
   /**
    * Protobuf type {@code scalapb.ScalaPbOptions}
@@ -262,6 +281,7 @@ public final class Scalapb {
       noPrimitiveWrappers_ = false;
       primitiveWrappers_ = false;
       collectionType_ = "";
+      testOnlyNoJavaConversions_ = false;
     }
 
     @java.lang.Override
@@ -340,6 +360,11 @@ public final class Scalapb {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000020;
               collectionType_ = bs;
+              break;
+            }
+            case 800008: {
+              bitField0_ |= 0x00000040;
+              testOnlyNoJavaConversions_ = input.readBool();
               break;
             }
           }
@@ -694,6 +719,31 @@ public final class Scalapb {
       }
     }
 
+    public static final int TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001;
+    private boolean testOnlyNoJavaConversions_;
+    /**
+     * <pre>
+     * For use in tests only. Inhibit Java conversions even when when generator parameters
+     * request for it.
+     * </pre>
+     *
+     * <code>optional bool test_only_no_java_conversions = 100001;</code>
+     */
+    public boolean hasTestOnlyNoJavaConversions() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    /**
+     * <pre>
+     * For use in tests only. Inhibit Java conversions even when when generator parameters
+     * request for it.
+     * </pre>
+     *
+     * <code>optional bool test_only_no_java_conversions = 100001;</code>
+     */
+    public boolean getTestOnlyNoJavaConversions() {
+      return testOnlyNoJavaConversions_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -729,6 +779,9 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 8, collectionType_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBool(100001, testOnlyNoJavaConversions_);
       }
       unknownFields.writeTo(output);
     }
@@ -775,6 +828,10 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(8, collectionType_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(100001, testOnlyNoJavaConversions_);
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -827,6 +884,11 @@ public final class Scalapb {
         result = result && getCollectionType()
             .equals(other.getCollectionType());
       }
+      result = result && (hasTestOnlyNoJavaConversions() == other.hasTestOnlyNoJavaConversions());
+      if (hasTestOnlyNoJavaConversions()) {
+        result = result && (getTestOnlyNoJavaConversions()
+            == other.getTestOnlyNoJavaConversions());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -873,6 +935,11 @@ public final class Scalapb {
       if (hasCollectionType()) {
         hash = (37 * hash) + COLLECTION_TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getCollectionType().hashCode();
+      }
+      if (hasTestOnlyNoJavaConversions()) {
+        hash = (37 * hash) + TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getTestOnlyNoJavaConversions());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -1008,6 +1075,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000040);
         collectionType_ = "";
         bitField0_ = (bitField0_ & ~0x00000080);
+        testOnlyNoJavaConversions_ = false;
+        bitField0_ = (bitField0_ & ~0x00000100);
         return this;
       }
 
@@ -1066,6 +1135,10 @@ public final class Scalapb {
           to_bitField0_ |= 0x00000020;
         }
         result.collectionType_ = collectionType_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1149,6 +1222,9 @@ public final class Scalapb {
           bitField0_ |= 0x00000080;
           collectionType_ = other.collectionType_;
           onChanged();
+        }
+        if (other.hasTestOnlyNoJavaConversions()) {
+          setTestOnlyNoJavaConversions(other.getTestOnlyNoJavaConversions());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -1888,6 +1964,58 @@ public final class Scalapb {
   }
   bitField0_ |= 0x00000080;
         collectionType_ = value;
+        onChanged();
+        return this;
+      }
+
+      private boolean testOnlyNoJavaConversions_ ;
+      /**
+       * <pre>
+       * For use in tests only. Inhibit Java conversions even when when generator parameters
+       * request for it.
+       * </pre>
+       *
+       * <code>optional bool test_only_no_java_conversions = 100001;</code>
+       */
+      public boolean hasTestOnlyNoJavaConversions() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      /**
+       * <pre>
+       * For use in tests only. Inhibit Java conversions even when when generator parameters
+       * request for it.
+       * </pre>
+       *
+       * <code>optional bool test_only_no_java_conversions = 100001;</code>
+       */
+      public boolean getTestOnlyNoJavaConversions() {
+        return testOnlyNoJavaConversions_;
+      }
+      /**
+       * <pre>
+       * For use in tests only. Inhibit Java conversions even when when generator parameters
+       * request for it.
+       * </pre>
+       *
+       * <code>optional bool test_only_no_java_conversions = 100001;</code>
+       */
+      public Builder setTestOnlyNoJavaConversions(boolean value) {
+        bitField0_ |= 0x00000100;
+        testOnlyNoJavaConversions_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * For use in tests only. Inhibit Java conversions even when when generator parameters
+       * request for it.
+       * </pre>
+       *
+       * <code>optional bool test_only_no_java_conversions = 100001;</code>
+       */
+      public Builder clearTestOnlyNoJavaConversions() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        testOnlyNoJavaConversions_ = false;
         onChanged();
         return this;
       }
@@ -4237,23 +4365,24 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\025scalapb/scalapb.proto\022\007scalapb\032 google" +
-      "/protobuf/descriptor.proto\"\307\001\n\016ScalaPbOp" +
+      "/protobuf/descriptor.proto\"\360\001\n\016ScalaPbOp" +
       "tions\022\024\n\014package_name\030\001 \001(\t\022\024\n\014flat_pack" +
       "age\030\002 \001(\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 " +
       "\003(\t\022\023\n\013single_file\030\005 \001(\010\022\035\n\025no_primitive" +
       "_wrappers\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 " +
-      "\001(\010\022\027\n\017collection_type\030\010 \001(\t\"<\n\016MessageO" +
-      "ptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_ext" +
-      "ends\030\002 \003(\t\"o\n\014FieldOptions\022\014\n\004type\030\001 \001(\t" +
-      "\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type\030",
-      "\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 " +
-      "\001(\t:G\n\007options\022\034.google.protobuf.FileOpt" +
-      "ions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n\007" +
-      "message\022\037.google.protobuf.MessageOptions" +
-      "\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fiel" +
-      "d\022\035.google.protobuf.FieldOptions\030\374\007 \001(\0132" +
-      "\025.scalapb.FieldOptionsB\030\n\026com.trueaccord" +
-      ".scalapb"
+      "\001(\010\022\027\n\017collection_type\030\010 \001(\t\022\'\n\035test_onl" +
+      "y_no_java_conversions\030\241\215\006 \001(\010\"<\n\016Message" +
+      "Options\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_ex" +
+      "tends\030\002 \003(\t\"o\n\014FieldOptions\022\014\n\004type\030\001 \001(",
+      "\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type" +
+      "\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005" +
+      " \001(\t:G\n\007options\022\034.google.protobuf.FileOp" +
+      "tions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n" +
+      "\007message\022\037.google.protobuf.MessageOption" +
+      "s\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fie" +
+      "ld\022\035.google.protobuf.FieldOptions\030\374\007 \001(\013" +
+      "2\025.scalapb.FieldOptionsB\030\n\026com.trueaccor" +
+      "d.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4273,7 +4402,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "TestOnlyNoJavaConversions", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

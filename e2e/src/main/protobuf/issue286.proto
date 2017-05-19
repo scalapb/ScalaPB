@@ -1,0 +1,14 @@
+syntax = "proto2";
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options).test_only_no_java_conversions = true;
+
+message TopFoo {
+  optional int32 a = 1;
+}
+
+enum TopEnum {
+  X = 1;
+  Y = 2;
+}

@@ -1,0 +1,12 @@
+syntax = "proto2";
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options).test_only_no_java_conversions = true;
+option (scalapb.options).flat_package = true;
+
+import "issue286.proto";
+
+message FlatTopFoo {
+  optional TopFoo top_foo = 1;
+}

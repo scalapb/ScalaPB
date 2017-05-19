@@ -43,6 +43,10 @@ message ScalaPbOptions {
   // Scala type to be used for repeated fields. If unspecified,
   // `scala.collection.Seq` will be used.
   optional string collection_type = 8;
+
+  // For use in tests only. Inhibit Java conversions even when when generator parameters
+  // request for it.
+  optional bool test_only_no_java_conversions = 100001;
 }
 
 extend google.protobuf.FileOptions {

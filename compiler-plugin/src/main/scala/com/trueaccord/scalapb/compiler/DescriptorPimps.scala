@@ -262,7 +262,7 @@ trait DescriptorPimps {
 
     lazy val scalaTypeName: String = parent match {
       case Some(p) => p.scalaTypeName + "." + nameSymbol
-      case None => message.getFile.scalaPackageName + "." + nameSymbol
+      case None => (message.getFile.scalaPackagePartsAsSymbols :+ nameSymbol).mkString(".")
     }
 
     // When the first component of the package name is the same as one of the fields in the
@@ -328,7 +328,7 @@ trait DescriptorPimps {
 
     def isMapEntry: Boolean = message.getOptions.getMapEntry
 
-    def javaConversions = params.javaConversions && !isMapEntry
+    def javaConversions = message.getFile.javaConversions && !isMapEntry
 
     def isTopLevel = message.getContainingType == null
 
@@ -384,12 +384,14 @@ trait DescriptorPimps {
 
     lazy val scalaTypeName: String = parentMessage match {
       case Some(p) => p.scalaTypeName + "." + nameSymbol
-      case None => enum.getFile.scalaPackageName + "." + nameSymbol
+      case None => (enum.getFile.scalaPackagePartsAsSymbols :+ nameSymbol).mkString(".")
     }
 
     def isTopLevel = enum.getContainingType == null
 
     def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
+
+    def javaConversions = enum.getFile.javaConversions
 
     def valuesWithNoDuplicates = enum.getValues.asScala.groupBy(_.getNumber)
       .mapValues(_.head).values.toVector.sortBy(_.getNumber)
@@ -414,6 +416,8 @@ trait DescriptorPimps {
 
   implicit class FileDescriptorPimp(val file: FileDescriptor) {
     def scalaOptions: ScalaPbOptions = file.getOptions.getExtension[ScalaPbOptions](Scalapb.options)
+
+    def javaConversions = params.javaConversions && !scalaOptions.getTestOnlyNoJavaConversions
 
     def javaPackage: String = {
       if (file.getOptions.hasJavaPackage)
@@ -442,17 +446,20 @@ trait DescriptorPimps {
 
     private def scalaPackageParts: Seq[String] = {
       val requestedPackageName: Seq[String] =
-        if (scalaOptions.hasPackageName) scalaOptions.getPackageName.split('.')
-        else javaPackage.split('.')
+        (if (scalaOptions.hasPackageName) scalaOptions.getPackageName.split('.')
+        else javaPackage.split('.')).filterNot(_.isEmpty)
 
       if (scalaOptions.getFlatPackage || (params.flatPackage && !isNonFlatDependency))
         requestedPackageName
-      else if (requestedPackageName.nonEmpty) requestedPackageName :+ baseName(file.getName)
-      else Seq(baseName(file.getName))
+      else requestedPackageName :+ baseName(file.getName)
+    }
+
+    def scalaPackagePartsAsSymbols = {
+      scalaPackageParts.map(_.asSymbol)
     }
 
     def scalaPackageName = {
-      scalaPackageParts.map(_.asSymbol).mkString(".")
+      scalaPackagePartsAsSymbols.mkString(".")
     }
 
     def scalaDirectory = {
@@ -489,7 +496,7 @@ trait DescriptorPimps {
       inner(NameUtils.snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
     }
 
-    def fileDescriptorObjectFullName = scalaPackageName + "." + fileDescriptorObjectName
+    def fileDescriptorObjectFullName = (scalaPackagePartsAsSymbols :+ fileDescriptorObjectName).mkString(".")
 
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
 

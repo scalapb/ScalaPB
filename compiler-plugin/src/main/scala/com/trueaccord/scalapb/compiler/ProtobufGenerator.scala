@@ -57,7 +57,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
       .add(s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}")
       .add(s"def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = ${e.scalaDescriptorSource}")
-      .when(params.javaConversions) {
+      .when(e.javaConversions) {
       _.addStringMargin(
         s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
             |def toJavaValue(pbScalaSource: $name): ${e.javaTypeName} = ${e.javaTypeName}.forNumber(pbScalaSource.value)""")
@@ -1161,7 +1161,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
          |
          |${if (file.scalaPackageName.nonEmpty) ("package " + file.scalaPackageName) else ""}
          |
-         |${if (params.javaConversions) "import scala.collection.JavaConverters._" else ""}""")
+         |${if (file.javaConversions) "import scala.collection.JavaConverters._" else ""}""")
     .print(file.scalaOptions.getImportList.asScala) {
       case (printer, i) => printer.add(s"import $i")
     }
@@ -1196,11 +1196,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       })
       .add("  ))")
       .add("}")
-      .when(params.javaConversions) {
+      .when(file.javaConversions) {
         _.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =")
           .add(s"  ${file.javaFullOuterClassName}.getDescriptor()")
       }
-      .when(!params.javaConversions) {
+      .when(!file.javaConversions) {
         _.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
           .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)")
           .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")

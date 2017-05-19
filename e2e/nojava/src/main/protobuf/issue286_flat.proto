@@ -1,0 +1,18 @@
+syntax = "proto2";
+
+// We can't have the flat_package file in the main e2e protobuf directory
+// due to https://github.com/google/protobuf/issues/3114
+import "scalapb/scalapb.proto";
+
+option (scalapb.options).flat_package = true;
+
+import "issue286.proto";
+
+message FlatTopFoo {
+  optional TopFoo top_foo = 1;
+}
+
+enum FlatTopEnum {
+  A = 1;
+  B = 2;
+}

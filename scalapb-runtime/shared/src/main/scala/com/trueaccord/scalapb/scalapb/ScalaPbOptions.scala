@@ -36,6 +36,9 @@ package com.trueaccord.scalapb.scalapb
   * @param collectionType
   *   Scala type to be used for repeated fields. If unspecified,
   *   `scala.collection.Seq` will be used.
+  * @param testOnlyNoJavaConversions
+  *   For use in tests only. Inhibit Java conversions even when when generator parameters
+  *   request for it.
   */
 @SerialVersionUID(0L)
 final case class ScalaPbOptions(
@@ -46,7 +49,8 @@ final case class ScalaPbOptions(
     singleFile: scala.Option[Boolean] = None,
     noPrimitiveWrappers: scala.Option[Boolean] = None,
     primitiveWrappers: scala.Option[Boolean] = None,
-    collectionType: scala.Option[String] = None
+    collectionType: scala.Option[String] = None,
+    testOnlyNoJavaConversions: scala.Option[Boolean] = None
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[ScalaPbOptions] with com.trueaccord.lenses.Updatable[ScalaPbOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -60,6 +64,7 @@ final case class ScalaPbOptions(
       if (noPrimitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, noPrimitiveWrappers.get) }
       if (primitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, primitiveWrappers.get) }
       if (collectionType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, collectionType.get) }
+      if (testOnlyNoJavaConversions.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(100001, testOnlyNoJavaConversions.get) }
       __size
     }
     final override def serializedSize: Int = {
@@ -95,6 +100,9 @@ final case class ScalaPbOptions(
       collectionType.foreach { __v =>
         _output__.writeString(8, __v)
       };
+      testOnlyNoJavaConversions.foreach { __v =>
+        _output__.writeBool(100001, __v)
+      };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.trueaccord.scalapb.scalapb.ScalaPbOptions = {
       var __packageName = this.packageName
@@ -105,6 +113,7 @@ final case class ScalaPbOptions(
       var __noPrimitiveWrappers = this.noPrimitiveWrappers
       var __primitiveWrappers = this.primitiveWrappers
       var __collectionType = this.collectionType
+      var __testOnlyNoJavaConversions = this.testOnlyNoJavaConversions
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -126,6 +135,8 @@ final case class ScalaPbOptions(
             __primitiveWrappers = Some(_input__.readBool())
           case 66 =>
             __collectionType = Some(_input__.readString())
+          case 800008 =>
+            __testOnlyNoJavaConversions = Some(_input__.readBool())
           case tag => _input__.skipField(tag)
         }
       }
@@ -137,7 +148,8 @@ final case class ScalaPbOptions(
           singleFile = __singleFile,
           noPrimitiveWrappers = __noPrimitiveWrappers,
           primitiveWrappers = __primitiveWrappers,
-          collectionType = __collectionType
+          collectionType = __collectionType,
+          testOnlyNoJavaConversions = __testOnlyNoJavaConversions
       )
     }
     def getPackageName: String = packageName.getOrElse("")
@@ -166,6 +178,9 @@ final case class ScalaPbOptions(
     def getCollectionType: String = collectionType.getOrElse("")
     def clearCollectionType: ScalaPbOptions = copy(collectionType = None)
     def withCollectionType(__v: String): ScalaPbOptions = copy(collectionType = Some(__v))
+    def getTestOnlyNoJavaConversions: Boolean = testOnlyNoJavaConversions.getOrElse(false)
+    def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = None)
+    def withTestOnlyNoJavaConversions(__v: Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => packageName.orNull
@@ -176,6 +191,7 @@ final case class ScalaPbOptions(
         case 7 => noPrimitiveWrappers.orNull
         case 6 => primitiveWrappers.orNull
         case 8 => collectionType.orNull
+        case 100001 => testOnlyNoJavaConversions.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -189,6 +205,7 @@ final case class ScalaPbOptions(
         case 7 => noPrimitiveWrappers.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => primitiveWrappers.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 8 => collectionType.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -208,7 +225,8 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[String]]
+      __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[String]],
+      __fieldsMap.get(__fields.get(8)).asInstanceOf[scala.Option[Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.ScalaPbOptions] = _root_.scalapb.descriptors.Reads{
@@ -222,7 +240,8 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[scala.Option[Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -247,6 +266,8 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     def optionalPrimitiveWrappers: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.primitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = f_))
     def collectionType: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Some(f_)))
     def optionalCollectionType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
+    def testOnlyNoJavaConversions: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Some(f_)))
+    def optionalTestOnlyNoJavaConversions: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
   final val PACKAGE_NAME_FIELD_NUMBER = 1
   final val FLAT_PACKAGE_FIELD_NUMBER = 2
@@ -256,4 +277,5 @@ object ScalaPbOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   final val NO_PRIMITIVE_WRAPPERS_FIELD_NUMBER = 7
   final val PRIMITIVE_WRAPPERS_FIELD_NUMBER = 6
   final val COLLECTION_TYPE_FIELD_NUMBER = 8
+  final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
 }
