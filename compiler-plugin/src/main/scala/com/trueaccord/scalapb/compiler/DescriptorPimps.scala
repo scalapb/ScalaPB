@@ -451,7 +451,7 @@ trait DescriptorPimps {
 
       if (scalaOptions.getFlatPackage || (params.flatPackage && !isNonFlatDependency))
         requestedPackageName
-      else requestedPackageName :+ baseName(file.getName)
+      else requestedPackageName :+ baseName(file.getName).replace('-', '_')
     }
 
     def scalaPackagePartsAsSymbols = {
