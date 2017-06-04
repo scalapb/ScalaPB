@@ -216,5 +216,11 @@ class SimpleTest extends FlatSpec with Matchers with OptionValues {
     ct.vector should be (expected)
     ct.list should be (expected)
   }
+
+  it should "work with zipped lenses" in {
+    CollectionTypes().update(
+      k => k.list zip k.vector := ((List("3", "4"), Vector("x", "y")))
+    ) should be (CollectionTypes(list = List("3", "4"), vector=Vector("x", "y")))
+  }
 }
 

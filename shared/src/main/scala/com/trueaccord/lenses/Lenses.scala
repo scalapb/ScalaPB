@@ -32,6 +32,14 @@ trait Lens[Container, A] extends Any {
 
     def set(b: B) = self.modify(other.set(b))
   }
+
+  /** Given two lenses with the same origin, returns a new lens that can mutate both values
+    * represented by both lenses through a tuple.
+    */
+  def zip[B](other: Lens[Container, B]): Lens[Container, (A, B)] = new Lens[Container, (A,B)] {
+    def get(c: Container): (A,B) = (self.get(c), other.get(c))
+    def set(t: (A, B)): Mutation[Container] = self.set(t._1).andThen(other.set(t._2))
+  }
 }
 
 object Lens {
