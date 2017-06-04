@@ -442,6 +442,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .add("var __size = 0")
       .print(message.fields)(generateSerializedSizeForField)
+      .when(message.isExtendable)(_.add("__size += unknownFields.serializedSize"))
       .add("__size")
       .outdent
       .add("}")
@@ -554,6 +555,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             .add("};")
         }
     }
+      .when(message.isExtendable)(_.add("unknownFields.writeTo(_output__)"))
       .outdent
       .add("}")
 
@@ -996,44 +998,70 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add(s"val ${fd.scalaName}: _root_.com.trueaccord.scalapb.GeneratedExtension[${fd.getContainingType.scalaTypeName}, ${fd.scalaTypeName}] =")
       .call {
         fp =>
-          val (container, baseExpr) = fd.getType match {
-            case Type.DOUBLE => ("fixed64", FunctionApplication("java.lang.Double.longBitsToDouble"))
-            case Type.FLOAT => ("fixed32", FunctionApplication("java.lang.Float.intBitsToFloat"))
-            case Type.INT64 => ("varint", Identity)
-            case Type.UINT64 => ("varint", Identity)
-            case Type.INT32 => ("varint", MethodApplication("toInt"))
-            case Type.FIXED64 => ("fixed64", Identity)
-            case Type.FIXED32 => ("fixed32", Identity)
-            case Type.BOOL => ("varint", OperatorApplication("!= 0"))
-            case Type.STRING => ("lengthDelimited", MethodApplication("toStringUtf8"))
+          val (listLens, fromFieldToBase, fromBaseToField) = fd.getType match {
+            case Type.DOUBLE => (
+              "fixed64Lens",
+              FunctionApplication("java.lang.Double.longBitsToDouble"),
+              FunctionApplication("java.lang.Double.doubleToLongBits"))
+            case Type.FLOAT => (
+              "fixed32Lens",
+              FunctionApplication("java.lang.Float.intBitsToFloat"),
+              FunctionApplication("java.lang.Float.floatToIntBits"))
+            case Type.INT64 => ("varintLens", Identity, Identity)
+            case Type.UINT64 => ("varintLens", Identity, Identity)
+            case Type.INT32 => ("varintLens", MethodApplication("toInt"), Identity)
+            case Type.FIXED64 => ("fixed64Lens", Identity, Identity)
+            case Type.FIXED32 => ("fixed32Lens", Identity, Identity)
+            case Type.BOOL => ("varintLens", OperatorApplication("!= 0"), MethodApplication("compareTo(false)"))
+            case Type.STRING => (
+              "lengthDelimitedLens",
+              MethodApplication("toStringUtf8"),
+              FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8"))
             case Type.GROUP => throw new RuntimeException("Not supported")
-            case Type.MESSAGE => ("lengthDelimited", FunctionApplication(s"_root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"))
-            case Type.BYTES => ("lengthDelimited", Identity)
-            case Type.UINT32 => ("varint", MethodApplication("toInt"))
-            case Type.ENUM => ("varint", MethodApplication("toInt") andThen FunctionApplication(fd.baseSingleScalaTypeName + ".fromValue"))
-            case Type.SFIXED32 => ("fixed32", Identity)
-            case Type.SFIXED64 => ("fixed64", Identity)
-            case Type.SINT32 => ("varint", MethodApplication("toInt") andThen FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"))
-            case Type.SINT64 => ("varint", FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag64"))
+            case Type.MESSAGE => (
+              "lengthDelimitedLens",
+              FunctionApplication(s"_root_.com.trueaccord.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"),
+              MethodApplication(s"toByteString")
+            )
+            case Type.BYTES => ("lengthDelimitedLens", Identity, Identity)
+            case Type.UINT32 => ("varintLens", MethodApplication("toInt"), Identity)
+            case Type.ENUM => (
+              "varintLens",
+              MethodApplication("toInt") andThen FunctionApplication(fd.baseSingleScalaTypeName + ".fromValue"),
+              MethodApplication("value")
+            )
+            case Type.SFIXED32 => ("fixed32Lens", Identity, Identity)
+            case Type.SFIXED64 => ("fixed64Lens", Identity, Identity)
+            case Type.SINT32 => ("varintLens",
+              MethodApplication("toInt") andThen FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"),
+              FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag32")
+            )
+            case Type.SINT64 => ("varintLens",
+              FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag64"),
+              FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag64"))
           }
-          val customExpr = baseExpr andThen toCustomTypeExpr(fd)
+          val fromFieldToCustom = fromFieldToBase andThen toCustomTypeExpr(fd)
+          val fromCustomToField = toBaseTypeExpr(fd) andThen fromBaseToField
 
-          val (factoryMethod, defaultNeeded, unpackMethod) = {
-            if (fd.supportsPresence) ("_root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField", false, "")
-            else if (fd.isRepeated) ("_root_.com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownField", false,
-              if (fd.isPackable) {
-                fd.getType match {
-                  case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => ", _.readFixed64"
-                  case Type.FLOAT | Type.FIXED32 | Type.SFIXED32 => ", _.readFixed32"
-                  case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM | Type.BOOL | Type.SINT32 | Type.SINT64 => ", _.readInt64"
-                  case _ => throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
-                }
-              } else ", null")
-            else ("_root_.com.trueaccord.scalapb.GeneratedExtension.forSingularUnknownField", true, "")
+          val (factoryMethod, args) = {
+            if (fd.supportsPresence) ("_root_.com.trueaccord.scalapb.GeneratedExtension.forOptionalUnknownField", Seq.empty)
+            else if (fd.isRepeated && fd.isPackable) (
+              "_root_.com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownFieldPackable",
+              Seq(fd.getType match {
+                case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64"
+                case Type.FLOAT | Type.FIXED32 | Type.SFIXED32 => "_.readFixed32"
+                case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM | Type.BOOL | Type.SINT32 | Type.SINT64 => "_.readInt64"
+                case _ => throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
+              })) else if (fd.isRepeated && !fd.isPackable) {
+              ("_root_.com.trueaccord.scalapb.GeneratedExtension.forRepeatedUnknownFieldUnpackable", Seq())
+            } else (
+              "_root_.com.trueaccord.scalapb.GeneratedExtension.forSingularUnknownField", Seq(defaultValueForGet(fd)))
           }
-          val default = if (defaultNeeded) s", ${defaultValueForGet(fd)}"
-          else ""
-          fp.add(s"  $factoryMethod(${fd.getNumber}, _.$container$unpackMethod)({__valueIn => ${customExpr("__valueIn", EnclosingType.None)}}$default)")
+          val argList = Seq(
+            s"{__valueIn => ${fromFieldToCustom("__valueIn", EnclosingType.None)}}",
+            s"{__valueIn => ${fromCustomToField("__valueIn", EnclosingType.None)}}"
+          ) ++ args
+          fp.add(s"  $factoryMethod(${fd.getNumber}, _root_.scalapb.UnknownFieldSet.Field.$listLens)(${argList.mkString(", ")})")
       }
   }
 
@@ -1137,6 +1165,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof.empty})
              |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
+      .when(message.isExtendable)(_.add("def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)"))
       .call(generateGetField(message))
       .call(generateGetFieldPValue(message))
       .when(!params.singleLineToString)(_.add(s"override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)"))

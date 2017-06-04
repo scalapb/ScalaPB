@@ -1,4 +1,4 @@
-import com.trueaccord.scalapb.JavaProtoSupport
+import com.trueaccord.scalapb.{GeneratedExtension, JavaProtoSupport}
 import com.trueaccord.proto.e2e.custom_options.GoodOrBad._
 import com.trueaccord.proto.e2e.custom_options_p3.GoodOrBadP3._
 import com.trueaccord.proto.e2e.custom_options._
@@ -16,22 +16,38 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
 
   println(s"Have java conversions: ${MessageB.isInstanceOf[JavaProtoSupport[_, _]]}")
 
+  def validateSetter[T](extension: GeneratedExtension[MessageOptions, T])(value: T) = {
+    barOptions.withExtension(extension)(value).extension(extension) must be(value)
+  }
+
   "Options existing" should "return Some(option)" in {
     fooOptions.extension(CustomOptionsProto.messageB).value must be (MessageB(b = Some("BBB")))
+    validateSetter(CustomOptionsProto.messageB)(Some(MessageB(b = Some("ABC"))))
   }
 
   "Options non-existing" should "return None" in {
     barOptions.extension(CustomOptionsProto.messageB) must be (None)
+    validateSetter(CustomOptionsProto.messageB)(None)
   }
 
   "Repeated list of messages" should "work when non-empty" in {
     barOptions.extension(CustomOptionsProto.repMessageC) must be (
       Seq(MessageC(c = Some("C1")), MessageC(c = Some("C2"))))
+    validateSetter(CustomOptionsProto.repMessageC)(
+      Seq(MessageC(c = Some("XYZ")), MessageC(c = Some("ABC")))
+    )
+  }
+
+  "parsing and serializing message with unknown fields" should "yield original message" in {
+    MessageOptions.parseFrom(barOptions.toByteArray) must be(barOptions)
+    MessageOptions.parseFrom(fooOptions.toByteArray) must be(fooOptions)
+    MessageOptions.parseFrom(barP3Options.toByteArray) must be(barP3Options)
   }
 
   "Repeated list of messages" should "work when empty" in {
     fooOptions.extension(
       CustomOptionsProto.repMessageC) must be (Seq.empty)
+    validateSetter(CustomOptionsProto.repMessageC)(Seq.empty)
   }
 
   "Repeated list of primitives" should "work" in {
@@ -52,6 +68,23 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     barOptions.extension(CustomOptionsProto.repUint64) must be (Seq(3, 4, -9, -11))
   }
 
+  "setting repeated fields" should "work" in {
+    validateSetter(CustomOptionsProto.repInt32)(Seq(1, 2, -16, -5))
+    validateSetter(CustomOptionsProto.repInt64)(Seq(3, 4, -9, -11))
+    validateSetter(CustomOptionsProto.repSint32)(Seq(5, -11))
+    validateSetter(CustomOptionsProto.repSint64)(Seq(6, -1, -15))
+    validateSetter(CustomOptionsProto.repFixed32)(Seq(7, 5))
+    validateSetter(CustomOptionsProto.repFixed64)(Seq(8, 17))
+    validateSetter(CustomOptionsProto.repFloat)(Seq(4.17f))
+    validateSetter(CustomOptionsProto.repDouble)(Seq(5.35))
+    validateSetter(CustomOptionsProto.repEnum)(Seq(GOOD, BAD, GOOD))
+    validateSetter(CustomOptionsProto.repBool)(Seq(false, true, false))
+    validateSetter(CustomOptionsProto.repString)(Seq("foo", "bar"))
+    validateSetter(CustomOptionsProto.repBytes)(Seq(ByteString.copyFromUtf8("foo"), ByteString.copyFromUtf8("bar")))
+    validateSetter(CustomOptionsProto.repUint32)(Seq(1, 2, -16, -5))
+    validateSetter(CustomOptionsProto.repUint64)(Seq(3, 4, -9, -11))
+  }
+
   "Optional primitives" should "work" in {
     barOptions.extension(CustomOptionsProto.optInt32).value must be (1)
     barOptions.extension(CustomOptionsProto.optInt64).value must be (3)
@@ -67,6 +100,33 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     barOptions.extension(CustomOptionsProto.optBytes).value must be (ByteString.copyFromUtf8("foo"))
   }
 
+  "setting optional primitives" should "work" in {
+    validateSetter(CustomOptionsProto.optInt32)(Some(1))
+    validateSetter(CustomOptionsProto.optInt64)(Some(3))
+    validateSetter(CustomOptionsProto.optSint32)(Some(5))
+    validateSetter(CustomOptionsProto.optSint64)(Some(6))
+    validateSetter(CustomOptionsProto.optFixed32)(Some(7))
+    validateSetter(CustomOptionsProto.optFixed64)(Some(8))
+    validateSetter(CustomOptionsProto.optFloat)(Some(4.17f))
+    validateSetter(CustomOptionsProto.optDouble)(Some(5.35))
+    validateSetter(CustomOptionsProto.optEnum)(Some(GOOD))
+    validateSetter(CustomOptionsProto.optBool)(Some(true))
+    validateSetter(CustomOptionsProto.optString)(Some("foo"))
+    validateSetter(CustomOptionsProto.optBytes)(Some(ByteString.copyFromUtf8("foo")))
+    validateSetter(CustomOptionsProto.optInt32)(None)
+    validateSetter(CustomOptionsProto.optInt64)(None)
+    validateSetter(CustomOptionsProto.optSint32)(None)
+    validateSetter(CustomOptionsProto.optSint64)(None)
+    validateSetter(CustomOptionsProto.optFixed32)(None)
+    validateSetter(CustomOptionsProto.optFixed64)(None)
+    validateSetter(CustomOptionsProto.optFloat)(None)
+    validateSetter(CustomOptionsProto.optDouble)(None)
+    validateSetter(CustomOptionsProto.optEnum)(None)
+    validateSetter(CustomOptionsProto.optBool)(None)
+    validateSetter(CustomOptionsProto.optString)(None)
+    validateSetter(CustomOptionsProto.optBytes)(None)
+  }
+
   "proto3 primitives" should "work" in {
     barP3Options.extension(CustomOptionsP3Proto.p3OptInt32) must be (1)
     barP3Options.extension(CustomOptionsP3Proto.p3OptInt64) must be (3)
@@ -80,6 +140,21 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     barP3Options.extension(CustomOptionsP3Proto.p3OptBool) must be (true)
     barP3Options.extension(CustomOptionsP3Proto.p3OptString) must be ("foo")
     barP3Options.extension(CustomOptionsP3Proto.p3OptBytes) must be (ByteString.copyFromUtf8("foo"))
+  }
+
+  "setting proto3 primitives" should "work" in {
+    validateSetter(CustomOptionsP3Proto.p3OptInt32)(1)
+    validateSetter(CustomOptionsP3Proto.p3OptInt64)(3)
+    validateSetter(CustomOptionsP3Proto.p3OptSint32)(5)
+    validateSetter(CustomOptionsP3Proto.p3OptSint64)(6)
+    validateSetter(CustomOptionsP3Proto.p3OptFixed32)(7)
+    validateSetter(CustomOptionsP3Proto.p3OptFixed64)(8)
+    validateSetter(CustomOptionsP3Proto.p3OptFloat)(4.17f)
+    validateSetter(CustomOptionsP3Proto.p3OptDouble)(5.35)
+    validateSetter(CustomOptionsP3Proto.p3OptEnum)(GOOD_P3)
+    validateSetter(CustomOptionsP3Proto.p3OptBool)(true)
+    validateSetter(CustomOptionsP3Proto.p3OptString)("foo")
+    validateSetter(CustomOptionsP3Proto.p3OptBytes)(ByteString.copyFromUtf8("foo"))
   }
 
   "Custom name on field descriptor" should "translate to custom type" in {
@@ -119,12 +194,28 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     m.extension(CustomOptionsProto.packedFloat)(3).isNaN must be(true)
     m.extension(CustomOptionsProto.packedFloat)(4).isNegInfinity must be(true)
     m.extension(CustomOptionsProto.packedFloat)(5).isPosInfinity must be(true)
-
     m.extension(CustomOptionsProto.packedFixed32) must be (Seq(1, 19, -6))
     m.extension(CustomOptionsProto.packedFixed64) must be (Seq(1L, 19L, -6))
     m.extension(CustomOptionsProto.packedEnum) must be (Seq(GoodOrBad.BAD, GoodOrBad.GOOD, GoodOrBad.Unrecognized(39)))
     m.extension(CustomOptionsProto.packedUint32) must be (Seq(3, -15, 246))
     m.extension(CustomOptionsProto.packedUint64) must be (Seq(-29, 35, 145))
+    MessageOptions.parseFrom(m.toByteArray) must be(m)
+  }
+
+  "setting packed field" should "work correctly" in {
+    validateSetter(CustomOptionsProto.packedInt32)(Seq(1, 19, -6))
+    validateSetter(CustomOptionsProto.packedInt64)(Seq(1L, 19L, -7))
+    validateSetter(CustomOptionsProto.packedBool)(Seq(false, true, false))
+    validateSetter(CustomOptionsProto.packedSint32)(Seq(3, -15, 246))
+    validateSetter(CustomOptionsProto.packedSint64)(Seq(-29, 35, 145))
+    validateSetter(CustomOptionsProto.packedDouble)(Seq(3.2, -55, 14.4))
+    validateSetter(CustomOptionsProto.packedFloat)(Seq(3.2f, -55f, 14.4f))
+    validateSetter(CustomOptionsProto.packedFixed32)(Seq(1, 19, -6))
+    validateSetter(CustomOptionsProto.packedFixed64)(Seq(1L, 19L, -6))
+    validateSetter(CustomOptionsProto.packedEnum)(Seq(GoodOrBad.BAD, GoodOrBad.GOOD, GoodOrBad.Unrecognized(39)))
+    validateSetter(CustomOptionsProto.packedUint32)(Seq(3, -15, 246))
+    validateSetter(CustomOptionsProto.packedUint64)(Seq(-29, 35, 145))
+
   }
 
 }

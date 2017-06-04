@@ -1,22 +1,65 @@
 package scalapb
 
-import com.google.protobuf.{ByteString, CodedInputStream, InvalidProtocolBufferException}
+import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream, InvalidProtocolBufferException}
+import com.trueaccord.lenses.Lens
+import com.trueaccord.lenses.Lens.MapLens
 
 import scala.collection.mutable
 
-case class UnknownFieldSet(private val fields: Map[Int, UnknownFieldSet.Field] = Map.empty) {
+case class UnknownFieldSet(private[scalapb] val fields: Map[Int, UnknownFieldSet.Field] = Map.empty) {
   def getField(fieldNumber: Int): Option[UnknownFieldSet.Field] = fields.get(fieldNumber)
+
+  def withField(fieldNumber: Int, value: UnknownFieldSet.Field) = copy(fields = fields + (fieldNumber -> value))
+
+  def writeTo(output: CodedOutputStream): Unit = {
+    fields.foreach {
+      case (fieldNumber, field) => field.writeTo(fieldNumber, output)
+    }
+  }
+
+  def serializedSize: Int = {
+    fields.map {
+      case (fieldNumber, field) => field.serializedSize(fieldNumber)
+    }.sum
+  }
 }
 
 object UnknownFieldSet {
+  implicit class UnknownFieldSetLens[UpperPB](lens: _root_.com.trueaccord.lenses.Lens[UpperPB, UnknownFieldSet]) {
+    def apply(fieldNumber: Int): Lens[UpperPB, UnknownFieldSet.Field] =
+      lens.compose(Lens[UnknownFieldSet, UnknownFieldSet.Field]({
+        t => t.fields.getOrElse(fieldNumber, UnknownFieldSet.Field())
+      })({
+        (c, t) => c.withField(fieldNumber, t)
+      }))
+  }
+
   case class Field(
-    varint: Vector[Long] = Vector.empty,
-    fixed64: Vector[Long] = Vector.empty,
-    fixed32: Vector[Int] = Vector.empty,
-    lengthDelimited: Vector[ByteString] = Vector.empty)
+    varint: Seq[Long] = Vector.empty,
+    fixed64: Seq[Long] = Vector.empty,
+    fixed32: Seq[Int] = Vector.empty,
+    lengthDelimited: Seq[ByteString] = Vector.empty) {
+    def writeTo(fieldNumber: Int, output: CodedOutputStream): Unit = {
+      varint.foreach(output.writeUInt64(fieldNumber, _))
+      fixed32.foreach(output.writeFixed32(fieldNumber, _))
+      fixed64.foreach(output.writeFixed64(fieldNumber, _))
+      lengthDelimited.foreach(output.writeBytes(fieldNumber, _))
+    }
+    def serializedSize(fieldNumber: Int): Int = {
+      varint.map(CodedOutputStream.computeUInt64Size(fieldNumber, _)).sum +
+        fixed32.map(CodedOutputStream.computeFixed32Size(fieldNumber, _)).sum +
+        fixed64.map(CodedOutputStream.computeFixed64Size(fieldNumber, _)).sum +
+        lengthDelimited.map(CodedOutputStream.computeBytesSize(fieldNumber, _)).sum
+    }
+  }
 
 
   object Field {
+    val varintLens = Lens[Field, Seq[Long]](_.varint)((c, v) => c.copy(varint=v))
+    val fixed64Lens = Lens[Field, Seq[Long]](_.fixed64)((c, v) => c.copy(fixed64=v))
+    val fixed32Lens = Lens[Field, Seq[Int]](_.fixed32)((c, v) => c.copy(fixed32=v))
+    val lengthDelimitedLens = Lens[Field, Seq[ByteString]](_.lengthDelimited)((c, v) => c.copy(lengthDelimited=v))
+
     class Builder {
       private val varint = Vector.newBuilder[Long]
       private val fixed64 = Vector.newBuilder[Long]

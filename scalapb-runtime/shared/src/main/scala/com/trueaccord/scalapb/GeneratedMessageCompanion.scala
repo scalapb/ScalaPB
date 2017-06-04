@@ -4,8 +4,9 @@ import java.io.{InputStream, OutputStream}
 
 import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream}
 import com.google.protobuf.{Descriptors => JavaDescriptors}
-import _root_.scalapb.descriptors.{PMessage, PValue}
+import com.trueaccord.lenses.{Lens, Updatable}
 
+import _root_.scalapb.descriptors.{PMessage, PValue}
 import scala.util.Try
 
 trait GeneratedEnum extends Any with Product with Serializable {
@@ -148,11 +149,21 @@ trait Message[A] extends Any {
   def mergeFrom(input: CodedInputStream): A
 }
 
-trait ExtendableMessage[A <: ExtendableMessage[A]] extends Any {
+trait ExtendableMessage[A <: ExtendableMessage[A]] extends Updatable[A] {
   self: A =>
   def unknownFields: _root_.scalapb.UnknownFieldSet
 
-  def extension[T](generatedExtension: GeneratedExtension[A, T]) = generatedExtension.get(this)
+  def extension[T](generatedExtension: GeneratedExtension[A, T]): T = generatedExtension.get(this)
+
+  def withUnknownFields(unknownFields: _root_.scalapb.UnknownFieldSet): A
+
+  def withExtension[T](generatedExtension: GeneratedExtension[A, T])(value: T): A =
+    generatedExtension.set(value)(this)
+}
+
+object ExtendableMessage {
+  def unknownFieldsLen[A <: ExtendableMessage[A]]: Lens[A, _root_.scalapb.UnknownFieldSet] =
+    Lens[A, _root_.scalapb.UnknownFieldSet](_.unknownFields)((c, t) => c.withUnknownFields(t))
 }
 
 trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
