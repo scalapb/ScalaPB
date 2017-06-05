@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+enum ReservedWords {
+  SomeNonReservedWord = 1;
+  // Reserved in ScalaPB
+  Unrecognized = 3;
+}
