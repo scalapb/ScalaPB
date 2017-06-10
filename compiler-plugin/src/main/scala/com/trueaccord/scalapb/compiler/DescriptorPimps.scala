@@ -442,7 +442,7 @@ trait DescriptorPimps {
         else r + "OuterClass"
       }
 
-    private def isNonFlatDependency = javaPackage == "com.google.protobuf"
+    private def isNonFlatDependency = (file.getPackage == "google.protobuf") || (file.getPackage == "scalapb")
 
     private def scalaPackageParts: Seq[String] = {
       val requestedPackageName: Seq[String] =

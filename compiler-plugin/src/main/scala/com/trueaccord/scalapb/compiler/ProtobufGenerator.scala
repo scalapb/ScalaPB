@@ -1218,10 +1218,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("  val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)")
       .add("  _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(")
       .addWithDelimiter(",")(file.getDependencies.asScala.map {
-        d =>
-          "    " + (if (d.getPackage == "scalapb") "com.trueaccord.scalapb.scalapb.ScalapbProto"
-            else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.descriptor.DescriptorProtoCompanion"
-            else d.fileDescriptorObjectFullName) + ".scalaDescriptor"
+        d => s"    ${d.fileDescriptorObjectFullName}.scalaDescriptor"
       })
       .add("  ))")
       .add("}")
@@ -1231,13 +1228,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       }
       .when(!file.javaConversions) {
         _.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {")
-          .add("  val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)")
-          .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(")
+          .add("  val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)")
+          .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(")
           .addWithDelimiter(",")(file.getDependencies.asScala.map {
             d =>
-              "  " + (if (d.getPackage == "scalapb") "com.trueaccord.scalapb.Scalapb.getDescriptor()"
-              else if (d.getPackage == "google.protobuf" && d.javaOuterClassName == "DescriptorProtos") "com.google.protobuf.DescriptorProtos.getDescriptor()"
-              else d.fileDescriptorObjectFullName + ".javaDescriptor")
+              s"    ${d.fileDescriptorObjectFullName}.javaDescriptor"
           })
           .add("  ))")
           .add("}")

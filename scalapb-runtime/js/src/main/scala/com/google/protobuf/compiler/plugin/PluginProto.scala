@@ -26,9 +26,9 @@ object PluginProto {
     ))
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
-    val proto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
-    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(proto, Array(
-    com.google.protobuf.DescriptorProtos.getDescriptor()
+    val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
+    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(
+      com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor
     ))
   }
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
