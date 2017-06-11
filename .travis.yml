@@ -7,6 +7,22 @@ scala:
 - 2.11.11
 - 2.12.2
 
+env:
+- TEST_SCRIPT=e2e.sh
+- TEST_SCRIPT=proptest.sh
+
+matrix:
+  exclude:
+  - scala: 2.10.6
+    env: TEST_SCRIPT=e2e.sh
+  include:
+  - scala: 2.11.11
+    env: TEST_SCRIPT=__misc__
+    script:
+    - cd examples && sbt test && cd ..
+    - ./test_generated_code_checked_in.sh
+    - sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION universal:packageBin
+
 # These directories are cached to S3 at the end of the build
 cache:
   directories:
@@ -14,13 +30,7 @@ cache:
   - $HOME/.sbt/boot/
 
 script:
-- if [[ $TRAVIS_SCALA_VERSION != 2.10.* ]]; then ./e2e.sh; fi
-- cd examples && sbt test && cd ..
-- sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION test
-- sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION universal:packageBin
-
-- ./test_generated_code_checked_in.sh
-
+- ./$TEST_SCRIPT
 # Tricks to avoid unnecessary cache updates
 - find $HOME/.sbt -name "*.lock" | xargs rm
 - find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
@@ -35,4 +45,5 @@ deploy:
     repo: scalapb/ScalaPB
     tags: true
     scala: 2.11.11
+    condition: "$TEST_SCRIPT = __misc__"
 
