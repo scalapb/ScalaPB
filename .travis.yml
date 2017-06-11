@@ -8,13 +8,16 @@ scala:
 - 2.12.2
 
 env:
-- TEST_SCRIPT=e2e.sh
+- TEST_SCRIPT=e2e.sh E2E_SHADED=0
+- TEST_SCRIPT=e2e.sh E2E_SHADED=1
 - TEST_SCRIPT=proptest.sh
 
 matrix:
   exclude:
   - scala: 2.10.6
-    env: TEST_SCRIPT=e2e.sh
+    env: TEST_SCRIPT=e2e.sh E2E_SHADED=0
+  - scala: 2.10.6
+    env: TEST_SCRIPT=e2e.sh E2E_SHADED=1
   include:
   - scala: 2.11.11
     env: TEST_SCRIPT=__misc__
@@ -27,13 +30,15 @@ matrix:
 cache:
   directories:
   - $HOME/.ivy2/cache
-  - $HOME/.sbt/boot/
+  - $HOME/.sbt
 
 script:
 - ./$TEST_SCRIPT
+
+before_cache:
 # Tricks to avoid unnecessary cache updates
-- find $HOME/.sbt -name "*.lock" | xargs rm
-- find $HOME/.ivy2 -name "ivydata-*.properties" | xargs rm
+- find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+- find $HOME/.sbt -name "*.lock" -print -delete
 
 deploy:
   provider: releases
