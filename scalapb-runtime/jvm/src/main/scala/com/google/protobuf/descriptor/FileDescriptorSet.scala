@@ -75,11 +75,11 @@ object FileDescriptorSet extends com.trueaccord.scalapb.GeneratedMessageCompanio
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorSet): com.google.protobuf.DescriptorProtos.FileDescriptorSet = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorSet.newBuilder
-    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorSet): com.google.protobuf.descriptor.FileDescriptorSet = com.google.protobuf.descriptor.FileDescriptorSet(
-    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut)
+    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorSet = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

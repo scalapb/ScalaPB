@@ -109,8 +109,8 @@ final case class CodeGeneratorRequest(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(fileToGenerate.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
-        case 2 => parameter.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => _root_.scalapb.descriptors.PRepeated(fileToGenerate.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
+        case 2 => parameter.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 15 => _root_.scalapb.descriptors.PRepeated(protoFile.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -124,13 +124,13 @@ object CodeGeneratorRequest extends com.trueaccord.scalapb.GeneratedMessageCompa
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest.newBuilder
     javaPbOut.addAllFileToGenerate(scalaPbSource.fileToGenerate.asJava)
     scalaPbSource.parameter.foreach(javaPbOut.setParameter)
-    javaPbOut.addAllProtoFile(scalaPbSource.protoFile.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllProtoFile(scalaPbSource.protoFile.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
     fileToGenerate = javaPbSource.getFileToGenerateList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut),
     parameter = if (javaPbSource.hasParameter) Some(javaPbSource.getParameter) else None,
-    protoFile = javaPbSource.getProtoFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut)
+    protoFile = javaPbSource.getProtoFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

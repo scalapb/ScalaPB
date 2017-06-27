@@ -260,18 +260,18 @@ final case class FileDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => `package`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
-        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
-        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => `package`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
+        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
+        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
         case 4 => _root_.scalapb.descriptors.PRepeated(messageType.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 5 => _root_.scalapb.descriptors.PRepeated(enumType.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 6 => _root_.scalapb.descriptors.PRepeated(service.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 7 => _root_.scalapb.descriptors.PRepeated(extension.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => sourceCodeInfo.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 12 => syntax.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 12 => syntax.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

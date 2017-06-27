@@ -91,7 +91,7 @@ final case class EnumDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => _root_.scalapb.descriptors.PRepeated(value.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
@@ -105,13 +105,13 @@ object EnumDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumDescriptorProto): com.google.protobuf.DescriptorProtos.EnumDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllValue(scalaPbSource.value.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.EnumOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    javaPbOut.addAllValue(scalaPbSource.value.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.EnumOptions.toJavaProto).foreach(javaPbOut.setOptions)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumDescriptorProto): com.google.protobuf.descriptor.EnumDescriptorProto = com.google.protobuf.descriptor.EnumDescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    value = javaPbSource.getValueList.asScala.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    value = javaPbSource.getValueList.asScala.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumOptions.fromJavaProto(javaPbSource.getOptions)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.EnumDescriptorProto = {

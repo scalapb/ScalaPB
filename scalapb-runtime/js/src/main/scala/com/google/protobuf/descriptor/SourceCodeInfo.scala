@@ -374,11 +374,11 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => _root_.scalapb.descriptors.PRepeated(path.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
-          case 2 => _root_.scalapb.descriptors.PRepeated(span.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
-          case 3 => leadingComments.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 4 => trailingComments.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 6 => _root_.scalapb.descriptors.PRepeated(leadingDetachedComments.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+          case 1 => _root_.scalapb.descriptors.PRepeated(path.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
+          case 2 => _root_.scalapb.descriptors.PRepeated(span.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
+          case 3 => leadingComments.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 4 => trailingComments.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 6 => _root_.scalapb.descriptors.PRepeated(leadingDetachedComments.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

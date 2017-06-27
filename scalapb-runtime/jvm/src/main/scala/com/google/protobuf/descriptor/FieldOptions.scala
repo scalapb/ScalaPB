@@ -206,11 +206,11 @@ final case class FieldOptions(
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => ctype.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => packed.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => packed.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => jstype.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 5 => `lazy`.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 10 => weak.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 5 => `lazy`.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => weak.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -222,13 +222,13 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FieldOptions): com.google.protobuf.DescriptorProtos.FieldOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FieldOptions.newBuilder
-    scalaPbSource.ctype.map(com.google.protobuf.descriptor.FieldOptions.CType.toJavaValue(_)).foreach(javaPbOut.setCtype)
+    scalaPbSource.ctype.map(com.google.protobuf.descriptor.FieldOptions.CType.toJavaValue).foreach(javaPbOut.setCtype)
     scalaPbSource.packed.foreach(javaPbOut.setPacked)
-    scalaPbSource.jstype.map(com.google.protobuf.descriptor.FieldOptions.JSType.toJavaValue(_)).foreach(javaPbOut.setJstype)
+    scalaPbSource.jstype.map(com.google.protobuf.descriptor.FieldOptions.JSType.toJavaValue).foreach(javaPbOut.setJstype)
     scalaPbSource.`lazy`.foreach(javaPbOut.setLazy)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.weak.foreach(javaPbOut.setWeak)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): com.google.protobuf.descriptor.FieldOptions = com.google.protobuf.descriptor.FieldOptions(
@@ -238,7 +238,7 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
     `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
     weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_))(_root_.scala.collection.breakOut)
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FieldOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

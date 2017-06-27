@@ -62,9 +62,15 @@ object ExpressionBuilder {
 
     if (needVariable)
       s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})$convert"""
-    else if (nontrivial.nonEmpty)
-      s"""$e.map(${runSingleton(nontrivial)("_")})$convert"""
-    else if (mustCopy) {
+    else if (nontrivial.nonEmpty) {
+      val f = nontrivial match {
+        case List(FunctionApplication(name)) =>
+          name
+        case _ =>
+          runSingleton(nontrivial)("_")
+      }
+      s"""$e.map($f)$convert"""
+    } else if (mustCopy) {
       s"""$e.map(_root_.scala.Predef.identity)$convert"""
     } else e
   }

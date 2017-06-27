@@ -120,11 +120,11 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo, com.google.protobuf.DescriptorProtos.SourceCodeInfo] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.SourceCodeInfo): com.google.protobuf.DescriptorProtos.SourceCodeInfo = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.SourceCodeInfo.newBuilder
-    javaPbOut.addAllLocation(scalaPbSource.location.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllLocation(scalaPbSource.location.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.SourceCodeInfo): com.google.protobuf.descriptor.SourceCodeInfo = com.google.protobuf.descriptor.SourceCodeInfo(
-    location = javaPbSource.getLocationList.asScala.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.fromJavaProto(_))(_root_.scala.collection.breakOut)
+    location = javaPbSource.getLocationList.asScala.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
@@ -382,11 +382,11 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => _root_.scalapb.descriptors.PRepeated(path.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
-          case 2 => _root_.scalapb.descriptors.PRepeated(span.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
-          case 3 => leadingComments.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 4 => trailingComments.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 6 => _root_.scalapb.descriptors.PRepeated(leadingDetachedComments.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+          case 1 => _root_.scalapb.descriptors.PRepeated(path.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
+          case 2 => _root_.scalapb.descriptors.PRepeated(span.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
+          case 3 => leadingComments.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 4 => trailingComments.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 6 => _root_.scalapb.descriptors.PRepeated(leadingDetachedComments.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -397,8 +397,8 @@ object SourceCodeInfo extends com.trueaccord.scalapb.GeneratedMessageCompanion[c
     implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.SourceCodeInfo.Location, com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.SourceCodeInfo.Location): com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location.newBuilder
-      javaPbOut.addAllPath(scalaPbSource.path.map(Int.box(_))(_root_.scala.collection.breakOut).asJava)
-      javaPbOut.addAllSpan(scalaPbSource.span.map(Int.box(_))(_root_.scala.collection.breakOut).asJava)
+      javaPbOut.addAllPath(scalaPbSource.path.map(Int.box)(_root_.scala.collection.breakOut).asJava)
+      javaPbOut.addAllSpan(scalaPbSource.span.map(Int.box)(_root_.scala.collection.breakOut).asJava)
       scalaPbSource.leadingComments.foreach(javaPbOut.setLeadingComments)
       scalaPbSource.trailingComments.foreach(javaPbOut.setTrailingComments)
       javaPbOut.addAllLeadingDetachedComments(scalaPbSource.leadingDetachedComments.asJava)

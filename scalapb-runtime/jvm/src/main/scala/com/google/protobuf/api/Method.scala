@@ -202,7 +202,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     javaPbOut.setRequestStreaming(scalaPbSource.requestStreaming)
     javaPbOut.setResponseTypeUrl(scalaPbSource.responseTypeUrl)
     javaPbOut.setResponseStreaming(scalaPbSource.responseStreaming)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
@@ -212,7 +212,7 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
     requestStreaming = javaPbSource.getRequestStreaming.booleanValue,
     responseTypeUrl = javaPbSource.getResponseTypeUrl,
     responseStreaming = javaPbSource.getResponseStreaming.booleanValue,
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Method = {
