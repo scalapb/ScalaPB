@@ -157,7 +157,7 @@ final case class Type(
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
         case 2 => _root_.scalapb.descriptors.PRepeated(fields.map(_.toPMessage)(_root_.scala.collection.breakOut))
-        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
         case 4 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 5 => sourceContext.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)

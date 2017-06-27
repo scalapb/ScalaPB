@@ -91,7 +91,7 @@ final case class ServiceDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => _root_.scalapb.descriptors.PRepeated(method.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
@@ -105,13 +105,13 @@ object ServiceDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCom
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceDescriptorProto): com.google.protobuf.DescriptorProtos.ServiceDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllMethod(scalaPbSource.method.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.ServiceOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    javaPbOut.addAllMethod(scalaPbSource.method.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.ServiceOptions.toJavaProto).foreach(javaPbOut.setOptions)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.ServiceDescriptorProto): com.google.protobuf.descriptor.ServiceDescriptorProto = com.google.protobuf.descriptor.ServiceDescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    method = javaPbSource.getMethodList.asScala.map(com.google.protobuf.descriptor.MethodDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    method = javaPbSource.getMethodList.asScala.map(com.google.protobuf.descriptor.MethodDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.ServiceOptions.fromJavaProto(javaPbSource.getOptions)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.ServiceDescriptorProto = {

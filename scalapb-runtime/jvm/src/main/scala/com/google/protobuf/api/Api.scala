@@ -215,21 +215,21 @@ object Api extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Api): com.google.protobuf.Api = {
     val javaPbOut = com.google.protobuf.Api.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllMethods(scalaPbSource.methods.map(com.google.protobuf.api.Method.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllMethods(scalaPbSource.methods.map(com.google.protobuf.api.Method.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.setVersion(scalaPbSource.version)
-    scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto(_)).foreach(javaPbOut.setSourceContext)
-    javaPbOut.addAllMixins(scalaPbSource.mixins.map(com.google.protobuf.api.Mixin.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto).foreach(javaPbOut.setSourceContext)
+    javaPbOut.addAllMixins(scalaPbSource.mixins.map(com.google.protobuf.api.Mixin.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Api): com.google.protobuf.api.Api = com.google.protobuf.api.Api(
     name = javaPbSource.getName,
-    methods = javaPbSource.getMethodsList.asScala.map(com.google.protobuf.api.Method.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    methods = javaPbSource.getMethodsList.asScala.map(com.google.protobuf.api.Method.fromJavaProto)(_root_.scala.collection.breakOut),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
     version = javaPbSource.getVersion,
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
-    mixins = javaPbSource.getMixinsList.asScala.map(com.google.protobuf.api.Mixin.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    mixins = javaPbSource.getMixinsList.asScala.map(com.google.protobuf.api.Mixin.fromJavaProto)(_root_.scala.collection.breakOut),
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Api = {

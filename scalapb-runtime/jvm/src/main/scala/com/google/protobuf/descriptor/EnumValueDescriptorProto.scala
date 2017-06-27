@@ -88,8 +88,8 @@ final case class EnumValueDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => number.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => number.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -103,7 +103,7 @@ object EnumValueDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageC
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
     scalaPbSource.number.foreach(javaPbOut.setNumber)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.EnumValueOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.EnumValueOptions.toJavaProto).foreach(javaPbOut.setOptions)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto): com.google.protobuf.descriptor.EnumValueDescriptorProto = com.google.protobuf.descriptor.EnumValueDescriptorProto(

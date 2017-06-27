@@ -264,7 +264,7 @@ final case class FieldMask(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(paths.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+        case 1 => _root_.scalapb.descriptors.PRepeated(paths.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

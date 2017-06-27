@@ -79,11 +79,11 @@ object ListValue extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.ListValue): com.google.protobuf.ListValue = {
     val javaPbOut = com.google.protobuf.ListValue.newBuilder
-    javaPbOut.addAllValues(scalaPbSource.values.map(com.google.protobuf.struct.Value.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllValues(scalaPbSource.values.map(com.google.protobuf.struct.Value.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.ListValue): com.google.protobuf.struct.ListValue = com.google.protobuf.struct.ListValue(
-    values = javaPbSource.getValuesList.asScala.map(com.google.protobuf.struct.Value.fromJavaProto(_))(_root_.scala.collection.breakOut)
+    values = javaPbSource.getValuesList.asScala.map(com.google.protobuf.struct.Value.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.ListValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

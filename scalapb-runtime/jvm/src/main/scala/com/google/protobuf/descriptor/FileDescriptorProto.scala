@@ -260,18 +260,18 @@ final case class FileDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => `package`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
-        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
-        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.map(_root_.scalapb.descriptors.PInt(_))(_root_.scala.collection.breakOut))
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => `package`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
+        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
+        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.map(_root_.scalapb.descriptors.PInt)(_root_.scala.collection.breakOut))
         case 4 => _root_.scalapb.descriptors.PRepeated(messageType.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 5 => _root_.scalapb.descriptors.PRepeated(enumType.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 6 => _root_.scalapb.descriptors.PRepeated(service.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 7 => _root_.scalapb.descriptors.PRepeated(extension.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => sourceCodeInfo.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 12 => syntax.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 12 => syntax.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -285,14 +285,14 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
     scalaPbSource.name.foreach(javaPbOut.setName)
     scalaPbSource.`package`.foreach(javaPbOut.setPackage)
     javaPbOut.addAllDependency(scalaPbSource.dependency.asJava)
-    javaPbOut.addAllPublicDependency(scalaPbSource.publicDependency.map(Int.box(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllWeakDependency(scalaPbSource.weakDependency.map(Int.box(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllMessageType(scalaPbSource.messageType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllService(scalaPbSource.service.map(com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.FileOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
-    scalaPbSource.sourceCodeInfo.map(com.google.protobuf.descriptor.SourceCodeInfo.toJavaProto(_)).foreach(javaPbOut.setSourceCodeInfo)
+    javaPbOut.addAllPublicDependency(scalaPbSource.publicDependency.map(Int.box)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllWeakDependency(scalaPbSource.weakDependency.map(Int.box)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllMessageType(scalaPbSource.messageType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllService(scalaPbSource.service.map(com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.FileOptions.toJavaProto).foreach(javaPbOut.setOptions)
+    scalaPbSource.sourceCodeInfo.map(com.google.protobuf.descriptor.SourceCodeInfo.toJavaProto).foreach(javaPbOut.setSourceCodeInfo)
     scalaPbSource.syntax.foreach(javaPbOut.setSyntax)
     javaPbOut.build
   }
@@ -302,10 +302,10 @@ object FileDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompan
     dependency = javaPbSource.getDependencyList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut),
     publicDependency = javaPbSource.getPublicDependencyList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
     weakDependency = javaPbSource.getWeakDependencyList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
-    messageType = javaPbSource.getMessageTypeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    service = javaPbSource.getServiceList.asScala.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    messageType = javaPbSource.getMessageTypeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    service = javaPbSource.getServiceList.asScala.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.FileOptions.fromJavaProto(javaPbSource.getOptions)) else None,
     sourceCodeInfo = if (javaPbSource.hasSourceCodeInfo) Some(com.google.protobuf.descriptor.SourceCodeInfo.fromJavaProto(javaPbSource.getSourceCodeInfo)) else None,
     syntax = if (javaPbSource.hasSyntax) Some(javaPbSource.getSyntax) else None

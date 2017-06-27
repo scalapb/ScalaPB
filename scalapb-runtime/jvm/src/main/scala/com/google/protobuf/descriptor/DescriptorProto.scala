@@ -205,7 +205,7 @@ final case class DescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => _root_.scalapb.descriptors.PRepeated(field.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 6 => _root_.scalapb.descriptors.PRepeated(extension.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 3 => _root_.scalapb.descriptors.PRepeated(nestedType.map(_.toPMessage)(_root_.scala.collection.breakOut))
@@ -214,7 +214,7 @@ final case class DescriptorProto(
         case 8 => _root_.scalapb.descriptors.PRepeated(oneofDecl.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 7 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => _root_.scalapb.descriptors.PRepeated(reservedRange.map(_.toPMessage)(_root_.scala.collection.breakOut))
-        case 10 => _root_.scalapb.descriptors.PRepeated(reservedName.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+        case 10 => _root_.scalapb.descriptors.PRepeated(reservedName.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -226,27 +226,27 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto): com.google.protobuf.DescriptorProtos.DescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllField(scalaPbSource.field.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllNestedType(scalaPbSource.nestedType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllExtensionRange(scalaPbSource.extensionRange.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllOneofDecl(scalaPbSource.oneofDecl.map(com.google.protobuf.descriptor.OneofDescriptorProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.MessageOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
-    javaPbOut.addAllReservedRange(scalaPbSource.reservedRange.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllField(scalaPbSource.field.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllExtension(scalaPbSource.extension.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllNestedType(scalaPbSource.nestedType.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllEnumType(scalaPbSource.enumType.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllExtensionRange(scalaPbSource.extensionRange.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllOneofDecl(scalaPbSource.oneofDecl.map(com.google.protobuf.descriptor.OneofDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.MessageOptions.toJavaProto).foreach(javaPbOut.setOptions)
+    javaPbOut.addAllReservedRange(scalaPbSource.reservedRange.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.addAllReservedName(scalaPbSource.reservedName.asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.DescriptorProto): com.google.protobuf.descriptor.DescriptorProto = com.google.protobuf.descriptor.DescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    field = javaPbSource.getFieldList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    nestedType = javaPbSource.getNestedTypeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    extensionRange = javaPbSource.getExtensionRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.fromJavaProto(_))(_root_.scala.collection.breakOut),
-    oneofDecl = javaPbSource.getOneofDeclList.asScala.map(com.google.protobuf.descriptor.OneofDescriptorProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    field = javaPbSource.getFieldList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    nestedType = javaPbSource.getNestedTypeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    extensionRange = javaPbSource.getExtensionRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.fromJavaProto)(_root_.scala.collection.breakOut),
+    oneofDecl = javaPbSource.getOneofDeclList.asScala.map(com.google.protobuf.descriptor.OneofDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.MessageOptions.fromJavaProto(javaPbSource.getOptions)) else None,
-    reservedRange = javaPbSource.getReservedRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    reservedRange = javaPbSource.getReservedRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.fromJavaProto)(_root_.scala.collection.breakOut),
     reservedName = javaPbSource.getReservedNameList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto = {
@@ -365,8 +365,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => start.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 2 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => start.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -491,8 +491,8 @@ object DescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => start.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 2 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => start.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)

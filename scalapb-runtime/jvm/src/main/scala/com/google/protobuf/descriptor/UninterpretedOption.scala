@@ -151,12 +151,12 @@ final case class UninterpretedOption(
       require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 2 => _root_.scalapb.descriptors.PRepeated(name.map(_.toPMessage)(_root_.scala.collection.breakOut))
-        case 3 => identifierValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 4 => positiveIntValue.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 5 => negativeIntValue.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 6 => doubleValue.map(_root_.scalapb.descriptors.PDouble(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 7 => stringValue.map(_root_.scalapb.descriptors.PByteString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 8 => aggregateValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => identifierValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 4 => positiveIntValue.map(_root_.scalapb.descriptors.PLong).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 5 => negativeIntValue.map(_root_.scalapb.descriptors.PLong).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 6 => doubleValue.map(_root_.scalapb.descriptors.PDouble).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 7 => stringValue.map(_root_.scalapb.descriptors.PByteString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => aggregateValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -167,7 +167,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
   implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption, com.google.protobuf.DescriptorProtos.UninterpretedOption] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.UninterpretedOption): com.google.protobuf.DescriptorProtos.UninterpretedOption = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.UninterpretedOption.newBuilder
-    javaPbOut.addAllName(scalaPbSource.name.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllName(scalaPbSource.name.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     scalaPbSource.identifierValue.foreach(javaPbOut.setIdentifierValue)
     scalaPbSource.positiveIntValue.foreach(javaPbOut.setPositiveIntValue)
     scalaPbSource.negativeIntValue.foreach(javaPbOut.setNegativeIntValue)
@@ -177,7 +177,7 @@ object UninterpretedOption extends com.trueaccord.scalapb.GeneratedMessageCompan
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.UninterpretedOption): com.google.protobuf.descriptor.UninterpretedOption = com.google.protobuf.descriptor.UninterpretedOption(
-    name = javaPbSource.getNameList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    name = javaPbSource.getNameList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.fromJavaProto)(_root_.scala.collection.breakOut),
     identifierValue = if (javaPbSource.hasIdentifierValue) Some(javaPbSource.getIdentifierValue) else None,
     positiveIntValue = if (javaPbSource.hasPositiveIntValue) Some(javaPbSource.getPositiveIntValue.longValue) else None,
     negativeIntValue = if (javaPbSource.hasNegativeIntValue) Some(javaPbSource.getNegativeIntValue.longValue) else None,

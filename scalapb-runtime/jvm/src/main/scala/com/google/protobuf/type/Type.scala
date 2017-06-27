@@ -157,7 +157,7 @@ final case class Type(
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
         case 2 => _root_.scalapb.descriptors.PRepeated(fields.map(_.toPMessage)(_root_.scala.collection.breakOut))
-        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.map(_root_.scalapb.descriptors.PString(_))(_root_.scala.collection.breakOut))
+        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
         case 4 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
         case 5 => sourceContext.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
@@ -172,18 +172,18 @@ object Type extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Type): com.google.protobuf.Type = {
     val javaPbOut = com.google.protobuf.Type.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllFields(scalaPbSource.fields.map(com.google.protobuf.`type`.Field.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllFields(scalaPbSource.fields.map(com.google.protobuf.`type`.Field.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.addAllOneofs(scalaPbSource.oneofs.asJava)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))(_root_.scala.collection.breakOut).asJava)
-    scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto(_)).foreach(javaPbOut.setSourceContext)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto).foreach(javaPbOut.setSourceContext)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Type): com.google.protobuf.`type`.Type = com.google.protobuf.`type`.Type(
     name = javaPbSource.getName,
-    fields = javaPbSource.getFieldsList.asScala.map(com.google.protobuf.`type`.Field.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    fields = javaPbSource.getFieldsList.asScala.map(com.google.protobuf.`type`.Field.fromJavaProto)(_root_.scala.collection.breakOut),
     oneofs = javaPbSource.getOneofsList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut),
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_))(_root_.scala.collection.breakOut),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )
