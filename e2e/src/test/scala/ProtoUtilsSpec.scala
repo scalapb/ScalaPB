@@ -1,7 +1,5 @@
 
-import com.google.protobuf.InvalidProtocolBufferException
 import com.trueaccord.scalapb.grpc.ProtoUtils
-import com.trueaccord.scalapb.TestUtil
 import com.trueaccord.proto.well_known._
 import org.scalatest.{FlatSpec, MustMatchers}
 

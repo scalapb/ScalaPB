@@ -30,22 +30,13 @@
 
 package com.trueaccord.scalapb
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
 import _root_.scalapb.descriptors
 import com.google.protobuf.ByteString
-import com.google.protobuf.CodedInputStream
-import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
-import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
 import com.trueaccord.scalapb.textformat._
-import fastparse.core.Parsed
 import org.scalatest.matchers.{MatchResult, Matcher}
 import org.scalatest.{TryValues, MustMatchers, FlatSpec}
 import org.scalatest.prop._
-import org.scalacheck.{Arbitrary, Gen}
-import protobuf_unittest.UnittestProto.ForeignMessage
 import protobuf_unittest.unittest.{TestAllTypes, TestOneof2}
-import scala.collection.mutable
 import scala.io.Source
 import scala.util._
 

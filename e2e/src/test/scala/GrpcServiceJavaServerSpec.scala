@@ -1,5 +1,4 @@
 
-import com.trueaccord.pb.Service1ScalaImpl
 import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
 
 import scala.concurrent.Await
