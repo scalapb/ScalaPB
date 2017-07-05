@@ -1,7 +1,4 @@
 
-import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
-
-import com.google.protobuf.CodedInputStream
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalatest._

@@ -1,5 +1,3 @@
-import com.trueaccord.pb.Service1ScalaImpl
-
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.Random
@@ -90,7 +88,6 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
           val client = Service1GrpcScala.stub(channel)
           val (responseObserver, future) = getObserverAndFutureVector[Res4]
           val requestObserver = client.bidiStreamingDoubler(responseObserver)
-          val request = Req4(a = Random.nextInt())
           requestObserver.onNext(Req4(11))
           requestObserver.onNext(Req4(3))
           requestObserver.onNext(Req4(6))

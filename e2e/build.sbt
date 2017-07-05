@@ -22,6 +22,10 @@ val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
 
 val commonSettings = Seq(
     scalacOptions ++= Seq("-deprecation"),
+    scalacOptions in Test ++= PartialFunction.condOpt(CrossVersion.partialVersion(scalaVersion.value)){
+      case Some((2, v)) if v >= 11 =>
+        Seq("-Ywarn-unused-import")
+    }.toList.flatten,
     javacOptions ++= Seq("-Xlint:deprecation"),
     PB.protocOptions in Compile ++= Seq(
         s"--plugin=protoc-gen-java_rpc=${grpcExePath.value.get}",

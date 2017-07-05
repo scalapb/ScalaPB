@@ -2,10 +2,9 @@ import java.util.concurrent.TimeUnit
 
 import com.trueaccord.pb.{Service1JavaImpl, Service1ScalaImpl}
 import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
-import com.trueaccord.proto.e2e.{Service1Grpc => Service1GrpcJava}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.stub.StreamObserver
-import io.grpc.{ManagedChannel, Server, ServerServiceDefinition}
+import io.grpc.{ManagedChannel, Server}
 import org.scalatest.{FunSpec, MustMatchers}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
