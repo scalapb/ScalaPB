@@ -56,10 +56,10 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       "com.trueaccord.lenses" %%% "lenses" % "0.4.12",
-      "com.lihaoyi" %%% "fastparse" % "0.4.2",
-      "com.lihaoyi" %%% "utest" % "0.4.5" % "test",
+      "com.lihaoyi" %%% "fastparse" % "0.4.3",
+      "com.lihaoyi" %%% "utest" % "0.4.7" % "test",
       "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.1" % "test"
+      "org.scalatest" %%% "scalatest" % "3.0.3" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
@@ -73,7 +73,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.16"
+      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.18"
     ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
@@ -94,8 +94,8 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     name := "scalapb-runtime-grpc",
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
-      "org.scalatest" %% "scalatest" % "3.0.1" % "test",
-      "org.mockito" % "mockito-core" % "2.7.22" % "test"
+      "org.scalatest" %% "scalatest" % "3.0.3" % "test",
+      "org.mockito" % "mockito-core" % "2.8.47" % "test"
     )
   )
 
@@ -120,8 +120,8 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.6",
-      "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.7",
+      "org.scalatest" %% "scalatest" % "3.0.3" % "test"
       ))
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -175,13 +175,13 @@ lazy val proptest = project.in(file("proptest"))
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
-        "com.github.os72" % "protoc-jar" % "3.3.0",
+        "com.github.os72" % "protoc-jar" % "3.3.0.1",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.12",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-        "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+        "org.scalatest" %% "scalatest" % "3.0.3" % "test"
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
