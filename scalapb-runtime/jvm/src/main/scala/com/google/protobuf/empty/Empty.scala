@@ -51,7 +51,6 @@ object Empty extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.empty.Empty = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
     com.google.protobuf.empty.Empty(
     )
   }
