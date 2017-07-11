@@ -1241,33 +1241,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor")
   }
 
-  private def encodeByteArray(a: GoogleByteString): Seq[String] = {
-    val CH_SLASH: java.lang.Byte = '\\'.toByte
-    val CH_SQ: java.lang.Byte = '\''.toByte
-    val CH_DQ: java.lang.Byte = '\"'.toByte
-    for {
-      groups <- a.asScala.grouped(60).toSeq
-    } yield {
-      val sb = scala.collection.mutable.StringBuilder.newBuilder
-      sb.append('\"')
-      groups.foreach {
-        b =>
-          b match {
-            case CH_SLASH => sb.append("\\\\")
-            case CH_SQ => sb.append("\\\'")
-            case CH_DQ => sb.append("\\\"")
-            case b if b >= 0x20 => sb.append(b)
-            case b =>
-              sb.append("\\u00")
-              sb.append(Integer.toHexString((b >>> 4) & 0xf))
-              sb.append(Integer.toHexString(b & 0xf))
-          }
-      }
-      sb.append('\"')
-      sb.result()
-    }
-  }
-
   def generateServiceFiles(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     if(params.grpc) {
       file.getServices.asScala.map { service =>
