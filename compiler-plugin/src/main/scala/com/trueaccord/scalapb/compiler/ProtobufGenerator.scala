@@ -754,7 +754,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer.add(s"def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): $myFullScalaName = {")
       .indent
       .add("require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), \"FieldDescriptor does not match message type.\")")
-      .add("val __fields = javaDescriptor.getFields")
+      .when(message.fields.nonEmpty)(
+        _.add("val __fields = javaDescriptor.getFields")
+      )
       .add(myFullScalaName + "(")
       .indent
       .call {
