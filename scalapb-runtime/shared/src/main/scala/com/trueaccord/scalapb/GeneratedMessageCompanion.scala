@@ -173,6 +173,8 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
 }
 
 trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
+  type ValueType = A
+
   def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
