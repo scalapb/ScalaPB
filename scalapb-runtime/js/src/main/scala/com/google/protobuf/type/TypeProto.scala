@@ -32,8 +32,9 @@ object TypeProto {
   XgYBSABKA4yFy5nb29nbGUucHJvdG9idWYuU3ludGF4UgZzeW50YXgiagoJRW51bVZhbHVlEhIKBG5hbWUYASABKAlSBG5hbWUSF
   goGbnVtYmVyGAIgASgFUgZudW1iZXISMQoHb3B0aW9ucxgDIAMoCzIXLmdvb2dsZS5wcm90b2J1Zi5PcHRpb25SB29wdGlvbnMiS
   AoGT3B0aW9uEhIKBG5hbWUYASABKAlSBG5hbWUSKgoFdmFsdWUYAiABKAsyFC5nb29nbGUucHJvdG9idWYuQW55UgV2YWx1ZSouC
-  gZTeW50YXgSEQoNU1lOVEFYX1BST1RPMhAAEhEKDVNZTlRBWF9QUk9UTzMQAUJMChNjb20uZ29vZ2xlLnByb3RvYnVmQglUeXBlU
-  HJvdG9QAaABAaICA0dQQqoCHkdvb2dsZS5Qcm90b2J1Zi5XZWxsS25vd25UeXBlc2IGcHJvdG8z"""
+  gZTeW50YXgSEQoNU1lOVEFYX1BST1RPMhAAEhEKDVNZTlRBWF9QUk9UTzMQAUJ9ChNjb20uZ29vZ2xlLnByb3RvYnVmQglUeXBlU
+  HJvdG9QAVovZ29vZ2xlLmdvbGFuZy5vcmcvZ2VucHJvdG8vcHJvdG9idWYvcHR5cGU7cHR5cGX4AQGiAgNHUEKqAh5Hb29nbGUuU
+  HJvdG9idWYuV2VsbEtub3duVHlwZXNiBnByb3RvMw=="""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)

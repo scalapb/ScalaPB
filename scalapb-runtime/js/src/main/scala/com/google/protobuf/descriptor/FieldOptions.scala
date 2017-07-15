@@ -48,7 +48,7 @@ package com.google.protobuf.descriptor
   *  
   *  
   *   Note that implementations may choose not to check required fields within
-  *   a lazy sub-message.  That is, calling IsInitialized() on the outher message
+  *   a lazy sub-message.  That is, calling IsInitialized() on the outer message
   *   may return true even if the inner message has missing required fields.
   *   This is necessary because otherwise the inner message would have to be
   *   parsed in order to perform the check, defeating the purpose of lazy

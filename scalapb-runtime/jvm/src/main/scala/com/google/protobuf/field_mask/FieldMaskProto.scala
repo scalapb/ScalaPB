@@ -11,8 +11,9 @@ object FieldMaskProto {
   private lazy val ProtoBytes: Array[Byte] =
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """CiBnb29nbGUvcHJvdG9idWYvZmllbGRfbWFzay5wcm90bxIPZ29vZ2xlLnByb3RvYnVmIiEKCUZpZWxkTWFzaxIUCgVwYXRoc
-  xgBIAMoCVIFcGF0aHNCUQoTY29tLmdvb2dsZS5wcm90b2J1ZkIORmllbGRNYXNrUHJvdG9QAaABAaICA0dQQqoCHkdvb2dsZS5Qc
-  m90b2J1Zi5XZWxsS25vd25UeXBlc2IGcHJvdG8z"""
+  xgBIAMoCVIFcGF0aHNCiQEKE2NvbS5nb29nbGUucHJvdG9idWZCDkZpZWxkTWFza1Byb3RvUAFaOWdvb2dsZS5nb2xhbmcub3JnL
+  2dlbnByb3RvL3Byb3RvYnVmL2ZpZWxkX21hc2s7ZmllbGRfbWFza6ICA0dQQqoCHkdvb2dsZS5Qcm90b2J1Zi5XZWxsS25vd25Ue
+  XBlc2IGcHJvdG8z"""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)

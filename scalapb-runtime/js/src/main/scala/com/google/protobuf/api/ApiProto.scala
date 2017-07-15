@@ -20,8 +20,9 @@ object ApiProto {
   WFtaW5nGAMgASgIUhByZXF1ZXN0U3RyZWFtaW5nEioKEXJlc3BvbnNlX3R5cGVfdXJsGAQgASgJUg9yZXNwb25zZVR5cGVVcmwSL
   QoScmVzcG9uc2Vfc3RyZWFtaW5nGAUgASgIUhFyZXNwb25zZVN0cmVhbWluZxIxCgdvcHRpb25zGAYgAygLMhcuZ29vZ2xlLnByb
   3RvYnVmLk9wdGlvblIHb3B0aW9ucxIvCgZzeW50YXgYByABKA4yFy5nb29nbGUucHJvdG9idWYuU3ludGF4UgZzeW50YXgiLwoFT
-  Wl4aW4SEgoEbmFtZRgBIAEoCVIEbmFtZRISCgRyb290GAIgASgJUgRyb290QksKE2NvbS5nb29nbGUucHJvdG9idWZCCEFwaVByb
-  3RvUAGgAQGiAgNHUEKqAh5Hb29nbGUuUHJvdG9idWYuV2VsbEtub3duVHlwZXNiBnByb3RvMw=="""
+  Wl4aW4SEgoEbmFtZRgBIAEoCVIEbmFtZRISCgRyb290GAIgASgJUgRyb290QnUKE2NvbS5nb29nbGUucHJvdG9idWZCCEFwaVByb
+  3RvUAFaK2dvb2dsZS5nb2xhbmcub3JnL2dlbnByb3RvL3Byb3RvYnVmL2FwaTthcGmiAgNHUEKqAh5Hb29nbGUuUHJvdG9idWYuV
+  2VsbEtub3duVHlwZXNiBnByb3RvMw=="""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)

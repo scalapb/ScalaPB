@@ -26,18 +26,7 @@ import scala.collection.JavaConverters._
   *   generated to contain the file's getDescriptor() method as well as any
   *   top-level extensions defined in the file.
   * @param javaGenerateEqualsAndHash
-  *   If set true, then the Java code generator will generate equals() and
-  *   hashCode() methods for all messages defined in the .proto file.
-  *   This increases generated code size, potentially substantially for large
-  *   protos, which may harm a memory-constrained application.
-  *   - In the full runtime this is a speed optimization, as the
-  *   AbstractMessage base class includes reflection-based implementations of
-  *   these methods.
-  *   - In the lite runtime, setting this option changes the semantics of
-  *   equals() and hashCode() to more closely match those of the full runtime;
-  *   the generated methods compute their results based on field values rather
-  *   than object identity. (Implementations should not assume that hashcodes
-  *   will be consistent across runtimes or versions of the protocol compiler.)
+  *   This option does nothing.
   * @param javaStringCheckUtf8
   *   If set true, then the Java2 code generator will generate code that
   *   throws an exception whenever an attempt is made to assign a non-UTF-8
@@ -75,6 +64,14 @@ import scala.collection.JavaConverters._
   *   generated classes from this .proto. There is no default.
   * @param csharpNamespace
   *   Namespace for generated classes; defaults to the package.
+  * @param swiftPrefix
+  *   By default Swift generators will take the proto package and CamelCase it
+  *   replacing '.' with underscore and use that to prefix the types/symbols
+  *   defined. When this options is provided, they will use this value instead
+  *   to prefix the types/symbols defined.
+  * @param phpClassPrefix
+  *   Sets the php class prefix which is prepended to all php generated classes
+  *   from this .proto. Default is empty.
   * @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
   */
@@ -94,6 +91,8 @@ final case class FileOptions(
     ccEnableArenas: scala.Option[Boolean] = None,
     objcClassPrefix: scala.Option[String] = None,
     csharpNamespace: scala.Option[String] = None,
+    swiftPrefix: scala.Option[String] = None,
+    phpClassPrefix: scala.Option[String] = None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FileOptions] with com.trueaccord.lenses.Updatable[FileOptions] with _root_.com.trueaccord.scalapb.ExtendableMessage[FileOptions] {
@@ -115,6 +114,8 @@ final case class FileOptions(
       if (ccEnableArenas.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(31, ccEnableArenas.get) }
       if (objcClassPrefix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(36, objcClassPrefix.get) }
       if (csharpNamespace.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(37, csharpNamespace.get) }
+      if (swiftPrefix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(39, swiftPrefix.get) }
+      if (phpClassPrefix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(40, phpClassPrefix.get) }
       uninterpretedOption.foreach(uninterpretedOption => __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
       __size += unknownFields.serializedSize
       __size
@@ -170,6 +171,12 @@ final case class FileOptions(
       csharpNamespace.foreach { __v =>
         _output__.writeString(37, __v)
       };
+      swiftPrefix.foreach { __v =>
+        _output__.writeString(39, __v)
+      };
+      phpClassPrefix.foreach { __v =>
+        _output__.writeString(40, __v)
+      };
       uninterpretedOption.foreach { __v =>
         _output__.writeTag(999, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
@@ -192,6 +199,8 @@ final case class FileOptions(
       var __ccEnableArenas = this.ccEnableArenas
       var __objcClassPrefix = this.objcClassPrefix
       var __csharpNamespace = this.csharpNamespace
+      var __swiftPrefix = this.swiftPrefix
+      var __phpClassPrefix = this.phpClassPrefix
       val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
       val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
@@ -227,6 +236,10 @@ final case class FileOptions(
             __objcClassPrefix = Some(_input__.readString())
           case 298 =>
             __csharpNamespace = Some(_input__.readString())
+          case 314 =>
+            __swiftPrefix = Some(_input__.readString())
+          case 322 =>
+            __phpClassPrefix = Some(_input__.readString())
           case 7994 =>
             __uninterpretedOption += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _unknownFields__.parseField(tag, _input__)
@@ -247,6 +260,8 @@ final case class FileOptions(
           ccEnableArenas = __ccEnableArenas,
           objcClassPrefix = __objcClassPrefix,
           csharpNamespace = __csharpNamespace,
+          swiftPrefix = __swiftPrefix,
+          phpClassPrefix = __phpClassPrefix,
           uninterpretedOption = __uninterpretedOption.result(),
           unknownFields = _unknownFields__.result()
       )
@@ -293,6 +308,12 @@ final case class FileOptions(
     def getCsharpNamespace: String = csharpNamespace.getOrElse("")
     def clearCsharpNamespace: FileOptions = copy(csharpNamespace = None)
     def withCsharpNamespace(__v: String): FileOptions = copy(csharpNamespace = Some(__v))
+    def getSwiftPrefix: String = swiftPrefix.getOrElse("")
+    def clearSwiftPrefix: FileOptions = copy(swiftPrefix = None)
+    def withSwiftPrefix(__v: String): FileOptions = copy(swiftPrefix = Some(__v))
+    def getPhpClassPrefix: String = phpClassPrefix.getOrElse("")
+    def clearPhpClassPrefix: FileOptions = copy(phpClassPrefix = None)
+    def withPhpClassPrefix(__v: String): FileOptions = copy(phpClassPrefix = Some(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FileOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -314,6 +335,8 @@ final case class FileOptions(
         case 31 => ccEnableArenas.orNull
         case 36 => objcClassPrefix.orNull
         case 37 => csharpNamespace.orNull
+        case 39 => swiftPrefix.orNull
+        case 40 => phpClassPrefix.orNull
         case 999 => uninterpretedOption
       }
     }
@@ -334,6 +357,8 @@ final case class FileOptions(
         case 31 => ccEnableArenas.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 36 => objcClassPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 37 => csharpNamespace.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 39 => swiftPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 40 => phpClassPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -359,6 +384,8 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     scalaPbSource.ccEnableArenas.foreach(javaPbOut.setCcEnableArenas)
     scalaPbSource.objcClassPrefix.foreach(javaPbOut.setObjcClassPrefix)
     scalaPbSource.csharpNamespace.foreach(javaPbOut.setCsharpNamespace)
+    scalaPbSource.swiftPrefix.foreach(javaPbOut.setSwiftPrefix)
+    scalaPbSource.phpClassPrefix.foreach(javaPbOut.setPhpClassPrefix)
     javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
@@ -377,6 +404,8 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Some(javaPbSource.getCcEnableArenas.booleanValue) else None,
     objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Some(javaPbSource.getObjcClassPrefix) else None,
     csharpNamespace = if (javaPbSource.hasCsharpNamespace) Some(javaPbSource.getCsharpNamespace) else None,
+    swiftPrefix = if (javaPbSource.hasSwiftPrefix) Some(javaPbSource.getSwiftPrefix) else None,
+    phpClassPrefix = if (javaPbSource.hasPhpClassPrefix) Some(javaPbSource.getPhpClassPrefix) else None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileOptions = {
@@ -397,7 +426,9 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       __fieldsMap.get(__fields.get(11)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(12)).asInstanceOf[scala.Option[String]],
       __fieldsMap.get(__fields.get(13)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.getOrElse(__fields.get(14), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
+      __fieldsMap.get(__fields.get(14)).asInstanceOf[scala.Option[String]],
+      __fieldsMap.get(__fields.get(15)).asInstanceOf[scala.Option[String]],
+      __fieldsMap.getOrElse(__fields.get(16), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileOptions] = _root_.scalapb.descriptors.Reads{
@@ -418,6 +449,8 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(31).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(36).get).flatMap(_.as[scala.Option[String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(37).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(39).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(40).get).flatMap(_.as[scala.Option[String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -516,6 +549,10 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     def optionalObjcClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
     def csharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Some(f_)))
     def optionalCsharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
+    def swiftPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getSwiftPrefix)((c_, f_) => c_.copy(swiftPrefix = Some(f_)))
+    def optionalSwiftPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.swiftPrefix)((c_, f_) => c_.copy(swiftPrefix = f_))
+    def phpClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = Some(f_)))
+    def optionalPhpClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.phpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = f_))
     def uninterpretedOption: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val JAVA_PACKAGE_FIELD_NUMBER = 1
@@ -532,5 +569,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
   final val CC_ENABLE_ARENAS_FIELD_NUMBER = 31
   final val OBJC_CLASS_PREFIX_FIELD_NUMBER = 36
   final val CSHARP_NAMESPACE_FIELD_NUMBER = 37
+  final val SWIFT_PREFIX_FIELD_NUMBER = 39
+  final val PHP_CLASS_PREFIX_FIELD_NUMBER = 40
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
 }

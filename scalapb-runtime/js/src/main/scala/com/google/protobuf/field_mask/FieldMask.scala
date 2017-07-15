@@ -50,7 +50,7 @@ package com.google.protobuf.field_mask
   *     }
   *
   * A repeated field is not allowed except at the last position of a
-  * field mask.
+  * paths string.
   *
   * If a FieldMask object is not present in a get operation, the
   * operation applies to all fields (as if a FieldMask of all fields
@@ -77,8 +77,8 @@ package com.google.protobuf.field_mask
   *
   * If a repeated field is specified for an update operation, the existing
   * repeated values in the target resource will be overwritten by the new values.
-  * Note that a repeated field is only allowed in the last position of a field
-  * mask.
+  * Note that a repeated field is only allowed in the last position of a `paths`
+  * string.
   *
   * If a sub-message is specified in the last position of the field mask for an
   * update operation, then the existing sub-message in the target resource is
