@@ -5,7 +5,8 @@ import scala.collection.JavaConverters._
 
 class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
   val ForbiddenFieldNames = Set(
-    "hashCode", "equals", "clone", "copy", "finalize", "getClass", "notify", "notifyAll", "toString", "wait")
+    "hashCode", "equals", "clone", "copy", "finalize", "getClass", "notify", "notifyAll", "toString", "wait",
+    "productArity", "productIterator", "productPrefix")
 
   def validateFile(fd: FileDescriptor): Unit = {
     fd.getEnumTypes.asScala.foreach(validateEnum)

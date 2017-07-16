@@ -31,6 +31,9 @@ object SchemaGenerators {
     "long", "strictfp", "volatile", "const", "float",
     "native", "super", "while",
 
+    // From scala.Product
+    "productArity", "productIterator", "productPrefix",
+
     // Java object methods
     "clone", "equals", "finalize", "getclass", "hashcode", "notify",
     "notifyall", "tostring", "wait",
