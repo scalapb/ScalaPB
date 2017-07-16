@@ -10,6 +10,8 @@ public final class Scalapb {
     registry.add(com.trueaccord.scalapb.Scalapb.options);
     registry.add(com.trueaccord.scalapb.Scalapb.message);
     registry.add(com.trueaccord.scalapb.Scalapb.field);
+    registry.add(com.trueaccord.scalapb.Scalapb.enumOptions);
+    registry.add(com.trueaccord.scalapb.Scalapb.enumValue);
   }
 
   public static void registerAllExtensions(
@@ -4325,6 +4327,1548 @@ public final class Scalapb {
 
   }
 
+  public interface EnumOptionsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:scalapb.EnumOptions)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    java.util.List<java.lang.String>
+        getExtendsList();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    int getExtendsCount();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    java.lang.String getExtends(int index);
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtendsBytes(int index);
+
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    java.util.List<java.lang.String>
+        getCompanionExtendsList();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    int getCompanionExtendsCount();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    java.lang.String getCompanionExtends(int index);
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getCompanionExtendsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code scalapb.EnumOptions}
+   */
+  public  static final class EnumOptions extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:scalapb.EnumOptions)
+      EnumOptionsOrBuilder {
+    // Use EnumOptions.newBuilder() to construct.
+    private EnumOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private EnumOptions() {
+      extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private EnumOptions(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                extends_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              extends_.add(bs);
+              break;
+            }
+            case 18: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                companionExtends_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000002;
+              }
+              companionExtends_.add(bs);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          companionExtends_ = companionExtends_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumOptions_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumOptions_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.trueaccord.scalapb.Scalapb.EnumOptions.class, com.trueaccord.scalapb.Scalapb.EnumOptions.Builder.class);
+    }
+
+    public static final int EXTENDS_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList extends_;
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getExtendsList() {
+      return extends_;
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public int getExtendsCount() {
+      return extends_.size();
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public java.lang.String getExtends(int index) {
+      return extends_.get(index);
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the base trait
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtendsBytes(int index) {
+      return extends_.getByteString(index);
+    }
+
+    public static final int COMPANION_EXTENDS_FIELD_NUMBER = 2;
+    private com.google.protobuf.LazyStringList companionExtends_;
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getCompanionExtendsList() {
+      return companionExtends_;
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    public int getCompanionExtendsCount() {
+      return companionExtends_.size();
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    public java.lang.String getCompanionExtends(int index) {
+      return companionExtends_.get(index);
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to the companion object.
+     * </pre>
+     *
+     * <code>repeated string companion_extends = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCompanionExtendsBytes(int index) {
+      return companionExtends_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < extends_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, extends_.getRaw(i));
+      }
+      for (int i = 0; i < companionExtends_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, companionExtends_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < extends_.size(); i++) {
+          dataSize += computeStringSizeNoTag(extends_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getExtendsList().size();
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < companionExtends_.size(); i++) {
+          dataSize += computeStringSizeNoTag(companionExtends_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getCompanionExtendsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.trueaccord.scalapb.Scalapb.EnumOptions)) {
+        return super.equals(obj);
+      }
+      com.trueaccord.scalapb.Scalapb.EnumOptions other = (com.trueaccord.scalapb.Scalapb.EnumOptions) obj;
+
+      boolean result = true;
+      result = result && getExtendsList()
+          .equals(other.getExtendsList());
+      result = result && getCompanionExtendsList()
+          .equals(other.getCompanionExtendsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getExtendsCount() > 0) {
+        hash = (37 * hash) + EXTENDS_FIELD_NUMBER;
+        hash = (53 * hash) + getExtendsList().hashCode();
+      }
+      if (getCompanionExtendsCount() > 0) {
+        hash = (37 * hash) + COMPANION_EXTENDS_FIELD_NUMBER;
+        hash = (53 * hash) + getCompanionExtendsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.EnumOptions prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code scalapb.EnumOptions}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:scalapb.EnumOptions)
+        com.trueaccord.scalapb.Scalapb.EnumOptionsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumOptions_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumOptions_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.trueaccord.scalapb.Scalapb.EnumOptions.class, com.trueaccord.scalapb.Scalapb.EnumOptions.Builder.class);
+      }
+
+      // Construct using com.trueaccord.scalapb.Scalapb.EnumOptions.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumOptions_descriptor;
+      }
+
+      public com.trueaccord.scalapb.Scalapb.EnumOptions getDefaultInstanceForType() {
+        return com.trueaccord.scalapb.Scalapb.EnumOptions.getDefaultInstance();
+      }
+
+      public com.trueaccord.scalapb.Scalapb.EnumOptions build() {
+        com.trueaccord.scalapb.Scalapb.EnumOptions result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.trueaccord.scalapb.Scalapb.EnumOptions buildPartial() {
+        com.trueaccord.scalapb.Scalapb.EnumOptions result = new com.trueaccord.scalapb.Scalapb.EnumOptions(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.extends_ = extends_;
+        if (((bitField0_ & 0x00000002) == 0x00000002)) {
+          companionExtends_ = companionExtends_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000002);
+        }
+        result.companionExtends_ = companionExtends_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.trueaccord.scalapb.Scalapb.EnumOptions) {
+          return mergeFrom((com.trueaccord.scalapb.Scalapb.EnumOptions)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.trueaccord.scalapb.Scalapb.EnumOptions other) {
+        if (other == com.trueaccord.scalapb.Scalapb.EnumOptions.getDefaultInstance()) return this;
+        if (!other.extends_.isEmpty()) {
+          if (extends_.isEmpty()) {
+            extends_ = other.extends_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureExtendsIsMutable();
+            extends_.addAll(other.extends_);
+          }
+          onChanged();
+        }
+        if (!other.companionExtends_.isEmpty()) {
+          if (companionExtends_.isEmpty()) {
+            companionExtends_ = other.companionExtends_;
+            bitField0_ = (bitField0_ & ~0x00000002);
+          } else {
+            ensureCompanionExtendsIsMutable();
+            companionExtends_.addAll(other.companionExtends_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.trueaccord.scalapb.Scalapb.EnumOptions parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.trueaccord.scalapb.Scalapb.EnumOptions) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureExtendsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = new com.google.protobuf.LazyStringArrayList(extends_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getExtendsList() {
+        return extends_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public int getExtendsCount() {
+        return extends_.size();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public java.lang.String getExtends(int index) {
+        return extends_.get(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getExtendsBytes(int index) {
+        return extends_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder setExtends(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addExtends(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addAllExtends(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureExtendsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, extends_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder clearExtends() {
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the base trait
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addExtendsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureCompanionExtendsIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          companionExtends_ = new com.google.protobuf.LazyStringArrayList(companionExtends_);
+          bitField0_ |= 0x00000002;
+         }
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getCompanionExtendsList() {
+        return companionExtends_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public int getCompanionExtendsCount() {
+        return companionExtends_.size();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public java.lang.String getCompanionExtends(int index) {
+        return companionExtends_.get(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCompanionExtendsBytes(int index) {
+        return companionExtends_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public Builder setCompanionExtends(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureCompanionExtendsIsMutable();
+        companionExtends_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public Builder addCompanionExtends(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureCompanionExtendsIsMutable();
+        companionExtends_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public Builder addAllCompanionExtends(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureCompanionExtendsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, companionExtends_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public Builder clearCompanionExtends() {
+        companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to the companion object.
+       * </pre>
+       *
+       * <code>repeated string companion_extends = 2;</code>
+       */
+      public Builder addCompanionExtendsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureCompanionExtendsIsMutable();
+        companionExtends_.add(value);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:scalapb.EnumOptions)
+    }
+
+    // @@protoc_insertion_point(class_scope:scalapb.EnumOptions)
+    private static final com.trueaccord.scalapb.Scalapb.EnumOptions DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.trueaccord.scalapb.Scalapb.EnumOptions();
+    }
+
+    public static com.trueaccord.scalapb.Scalapb.EnumOptions getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<EnumOptions>
+        PARSER = new com.google.protobuf.AbstractParser<EnumOptions>() {
+      public EnumOptions parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new EnumOptions(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<EnumOptions> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnumOptions> getParserForType() {
+      return PARSER;
+    }
+
+    public com.trueaccord.scalapb.Scalapb.EnumOptions getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface EnumValueOptionsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:scalapb.EnumValueOptions)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    java.util.List<java.lang.String>
+        getExtendsList();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    int getExtendsCount();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    java.lang.String getExtends(int index);
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtendsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code scalapb.EnumValueOptions}
+   */
+  public  static final class EnumValueOptions extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:scalapb.EnumValueOptions)
+      EnumValueOptionsOrBuilder {
+    // Use EnumValueOptions.newBuilder() to construct.
+    private EnumValueOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private EnumValueOptions() {
+      extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private EnumValueOptions(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                extends_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              extends_.add(bs);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumValueOptions_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumValueOptions_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              com.trueaccord.scalapb.Scalapb.EnumValueOptions.class, com.trueaccord.scalapb.Scalapb.EnumValueOptions.Builder.class);
+    }
+
+    public static final int EXTENDS_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList extends_;
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getExtendsList() {
+      return extends_;
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public int getExtendsCount() {
+      return extends_.size();
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public java.lang.String getExtends(int index) {
+      return extends_.get(index);
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to an individual enum value.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtendsBytes(int index) {
+      return extends_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < extends_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, extends_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < extends_.size(); i++) {
+          dataSize += computeStringSizeNoTag(extends_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getExtendsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof com.trueaccord.scalapb.Scalapb.EnumValueOptions)) {
+        return super.equals(obj);
+      }
+      com.trueaccord.scalapb.Scalapb.EnumValueOptions other = (com.trueaccord.scalapb.Scalapb.EnumValueOptions) obj;
+
+      boolean result = true;
+      result = result && getExtendsList()
+          .equals(other.getExtendsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getExtendsCount() > 0) {
+        hash = (37 * hash) + EXTENDS_FIELD_NUMBER;
+        hash = (53 * hash) + getExtendsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(com.trueaccord.scalapb.Scalapb.EnumValueOptions prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code scalapb.EnumValueOptions}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:scalapb.EnumValueOptions)
+        com.trueaccord.scalapb.Scalapb.EnumValueOptionsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumValueOptions_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumValueOptions_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                com.trueaccord.scalapb.Scalapb.EnumValueOptions.class, com.trueaccord.scalapb.Scalapb.EnumValueOptions.Builder.class);
+      }
+
+      // Construct using com.trueaccord.scalapb.Scalapb.EnumValueOptions.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.trueaccord.scalapb.Scalapb.internal_static_scalapb_EnumValueOptions_descriptor;
+      }
+
+      public com.trueaccord.scalapb.Scalapb.EnumValueOptions getDefaultInstanceForType() {
+        return com.trueaccord.scalapb.Scalapb.EnumValueOptions.getDefaultInstance();
+      }
+
+      public com.trueaccord.scalapb.Scalapb.EnumValueOptions build() {
+        com.trueaccord.scalapb.Scalapb.EnumValueOptions result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public com.trueaccord.scalapb.Scalapb.EnumValueOptions buildPartial() {
+        com.trueaccord.scalapb.Scalapb.EnumValueOptions result = new com.trueaccord.scalapb.Scalapb.EnumValueOptions(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.extends_ = extends_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.trueaccord.scalapb.Scalapb.EnumValueOptions) {
+          return mergeFrom((com.trueaccord.scalapb.Scalapb.EnumValueOptions)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(com.trueaccord.scalapb.Scalapb.EnumValueOptions other) {
+        if (other == com.trueaccord.scalapb.Scalapb.EnumValueOptions.getDefaultInstance()) return this;
+        if (!other.extends_.isEmpty()) {
+          if (extends_.isEmpty()) {
+            extends_ = other.extends_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureExtendsIsMutable();
+            extends_.addAll(other.extends_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.trueaccord.scalapb.Scalapb.EnumValueOptions parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (com.trueaccord.scalapb.Scalapb.EnumValueOptions) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureExtendsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = new com.google.protobuf.LazyStringArrayList(extends_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getExtendsList() {
+        return extends_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public int getExtendsCount() {
+        return extends_.size();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public java.lang.String getExtends(int index) {
+        return extends_.get(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getExtendsBytes(int index) {
+        return extends_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder setExtends(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addExtends(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addAllExtends(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureExtendsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, extends_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder clearExtends() {
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to an individual enum value.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addExtendsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:scalapb.EnumValueOptions)
+    }
+
+    // @@protoc_insertion_point(class_scope:scalapb.EnumValueOptions)
+    private static final com.trueaccord.scalapb.Scalapb.EnumValueOptions DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new com.trueaccord.scalapb.Scalapb.EnumValueOptions();
+    }
+
+    public static com.trueaccord.scalapb.Scalapb.EnumValueOptions getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<EnumValueOptions>
+        PARSER = new com.google.protobuf.AbstractParser<EnumValueOptions>() {
+      public EnumValueOptions parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new EnumValueOptions(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<EnumValueOptions> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<EnumValueOptions> getParserForType() {
+      return PARSER;
+    }
+
+    public com.trueaccord.scalapb.Scalapb.EnumValueOptions getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public static final int OPTIONS_FIELD_NUMBER = 1020;
   /**
    * <pre>
@@ -4360,7 +5904,7 @@ public final class Scalapb {
   public static final int FIELD_FIELD_NUMBER = 1020;
   /**
    * <pre>
-   * File-level optionals for ScalaPB.
+   * Field-level optionals for ScalaPB.
    * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
    * </pre>
    *
@@ -4373,6 +5917,39 @@ public final class Scalapb {
           .newFileScopedGeneratedExtension(
         com.trueaccord.scalapb.Scalapb.FieldOptions.class,
         com.trueaccord.scalapb.Scalapb.FieldOptions.getDefaultInstance());
+  public static final int ENUM_OPTIONS_FIELD_NUMBER = 1020;
+  /**
+   * <pre>
+   * Enum-level optionals for ScalaPB.
+   * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
+   * The field is called enum_options and not enum since enum is not allowed in Java.
+   * </pre>
+   *
+   * <code>extend .google.protobuf.EnumOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.EnumOptions,
+      com.trueaccord.scalapb.Scalapb.EnumOptions> enumOptions = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        com.trueaccord.scalapb.Scalapb.EnumOptions.class,
+        com.trueaccord.scalapb.Scalapb.EnumOptions.getDefaultInstance());
+  public static final int ENUM_VALUE_FIELD_NUMBER = 1020;
+  /**
+   * <pre>
+   * Enum-level optionals for ScalaPB.
+   * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
+   * </pre>
+   *
+   * <code>extend .google.protobuf.EnumValueOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.EnumValueOptions,
+      com.trueaccord.scalapb.Scalapb.EnumValueOptions> enumValue = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        com.trueaccord.scalapb.Scalapb.EnumValueOptions.class,
+        com.trueaccord.scalapb.Scalapb.EnumValueOptions.getDefaultInstance());
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_ScalaPbOptions_descriptor;
   private static final 
@@ -4388,6 +5965,16 @@ public final class Scalapb {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_scalapb_FieldOptions_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_scalapb_EnumOptions_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_scalapb_EnumOptions_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_scalapb_EnumValueOptions_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_scalapb_EnumValueOptions_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4409,13 +5996,19 @@ public final class Scalapb {
       "tends\030\002 \003(\t\"o\n\014FieldOptions\022\014\n\004type\030\001 \001(",
       "\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type" +
       "\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005" +
-      " \001(\t:G\n\007options\022\034.google.protobuf.FileOp" +
-      "tions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n" +
-      "\007message\022\037.google.protobuf.MessageOption" +
-      "s\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fie" +
-      "ld\022\035.google.protobuf.FieldOptions\030\374\007 \001(\013" +
-      "2\025.scalapb.FieldOptionsB\030\n\026com.trueaccor" +
-      "d.scalapb"
+      " \001(\t\"9\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021" +
+      "companion_extends\030\002 \003(\t\"#\n\020EnumValueOpti" +
+      "ons\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034.google" +
+      ".protobuf.FileOptions\030\374\007 \001(\0132\027.scalapb.S" +
+      "calaPbOptions:J\n\007message\022\037.google.protob" +
+      "uf.MessageOptions\030\374\007 \001(\0132\027.scalapb.Messa" +
+      "geOptions:D\n\005field\022\035.google.protobuf.Fie" +
+      "ldOptions\030\374\007 \001(\0132\025.scalapb.FieldOptions:",
+      "I\n\014enum_options\022\034.google.protobuf.EnumOp" +
+      "tions\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nen" +
+      "um_value\022!.google.protobuf.EnumValueOpti" +
+      "ons\030\374\007 \001(\0132\031.scalapb.EnumValueOptionsB\030\n" +
+      "\026com.trueaccord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4448,9 +6041,23 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_FieldOptions_descriptor,
         new java.lang.String[] { "Type", "ScalaName", "CollectionType", "KeyType", "ValueType", });
+    internal_static_scalapb_EnumOptions_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_scalapb_EnumOptions_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_scalapb_EnumOptions_descriptor,
+        new java.lang.String[] { "Extends", "CompanionExtends", });
+    internal_static_scalapb_EnumValueOptions_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_scalapb_EnumValueOptions_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_scalapb_EnumValueOptions_descriptor,
+        new java.lang.String[] { "Extends", });
     options.internalInit(descriptor.getExtensions().get(0));
     message.internalInit(descriptor.getExtensions().get(1));
     field.internalInit(descriptor.getExtensions().get(2));
+    enumOptions.internalInit(descriptor.getExtensions().get(3));
+    enumValue.internalInit(descriptor.getExtensions().get(4));
     com.google.protobuf.DescriptorProtos.getDescriptor();
   }
 

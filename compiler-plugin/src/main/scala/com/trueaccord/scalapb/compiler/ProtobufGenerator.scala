@@ -20,7 +20,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name = e.nameSymbol
     printer
-      .add(s"sealed trait $name extends _root_.com.trueaccord.scalapb.GeneratedEnum {")
+      .add(s"sealed trait $name extends ${e.baseTraitExtends.mkString(" with ")} {")
       .indent
       .add(s"type EnumType = $name")
       .print(e.getValues.asScala) {
@@ -31,13 +31,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .outdent
       .add("}")
       .add("")
-      .add(s"object $name extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[$name] {")
+      .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
       .add(s"implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) {
         case (p, v) => p.addStringMargin(
           s"""@SerialVersionUID(0L)
-             |case object ${v.getName.asSymbol} extends $name {
+             |case object ${v.getName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
              |  val value = ${v.getNumber}
              |  val index = ${v.getIndex}
              |  val name = "${v.getName}"

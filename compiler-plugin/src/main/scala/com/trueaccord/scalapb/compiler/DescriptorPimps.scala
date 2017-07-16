@@ -4,7 +4,7 @@ import com.google.protobuf.DescriptorProtos.{DescriptorProto, FileDescriptorProt
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
 import com.trueaccord.scalapb.Scalapb
-import com.trueaccord.scalapb.Scalapb.{FieldOptions, MessageOptions, ScalaPbOptions}
+import com.trueaccord.scalapb.Scalapb.{EnumValueOptions, EnumOptions, FieldOptions, MessageOptions, ScalaPbOptions}
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
@@ -375,6 +375,8 @@ trait DescriptorPimps {
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
     def parentMessage: Option[Descriptor] = Option(enum.getContainingType)
 
+    def scalaOptions: EnumOptions = enum.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
+
     def name: String = enum.getName match {
       case "Option" => "OptionEnum"
       case n => n
@@ -403,9 +405,17 @@ trait DescriptorPimps {
     def scalaDescriptorSource: String = if (enum.isTopLevel)
       s"${enum.getFile.fileDescriptorObjectName}.scalaDescriptor.enums(${enum.getIndex})"
     else s"${enum.getContainingType.scalaTypeName}.scalaDescriptor.enums(${enum.getIndex})"
+
+    def baseTraitExtends: Seq[String] = "_root_.com.trueaccord.scalapb.GeneratedEnum" +: scalaOptions.getExtendsList.asScala
+
+    def companionExtends: Seq[String] = s"_root_.com.trueaccord.scalapb.GeneratedEnumCompanion[${nameSymbol}]" +: scalaOptions.getCompanionExtendsList.asScala
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
+    def scalaOptions: EnumValueOptions = enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
+
+    def valueExtends: Seq[String] = enumValue.getType.nameSymbol +: scalaOptions.getExtendsList.asScala
+
     def isName = {
       Helper.makeUniqueNames(
         enumValue.getType.getValues.asScala.sortBy(v => (v.getNumber, v.getName)).map {

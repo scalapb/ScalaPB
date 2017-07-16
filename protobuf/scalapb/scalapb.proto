@@ -86,7 +86,34 @@ message FieldOptions {
 }
 
 extend google.protobuf.FieldOptions {
-  // File-level optionals for ScalaPB.
+  // Field-level optionals for ScalaPB.
   // Extension number officially assigned by protobuf-global-extension-registry@google.com
   optional FieldOptions field = 1020;
+}
+
+message EnumOptions {
+  // Additional classes and traits to mix in to the base trait
+  repeated string extends = 1;
+
+  // Additional classes and traits to mix in to the companion object.
+  repeated string companion_extends = 2;
+}
+
+extend google.protobuf.EnumOptions {
+  // Enum-level optionals for ScalaPB.
+  // Extension number officially assigned by protobuf-global-extension-registry@google.com
+  //
+  // The field is called enum_options and not enum since enum is not allowed in Java.
+  optional EnumOptions enum_options = 1020;
+}
+
+message EnumValueOptions {
+  // Additional classes and traits to mix in to an individual enum value.
+  repeated string extends = 1;
+}
+
+extend google.protobuf.EnumValueOptions {
+  // Enum-level optionals for ScalaPB.
+  // Extension number officially assigned by protobuf-global-extension-registry@google.com
+  optional EnumValueOptions enum_value = 1020;
 }
