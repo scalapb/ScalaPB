@@ -179,23 +179,15 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
     val grpcServiceDescriptor = "_root_.io.grpc.ServiceDescriptor"
 
-    val schemaDescriptor: String =
-      s""".setSchemaDescriptor(new _root_.io.grpc.protobuf.ProtoFileDescriptorSupplier {
-         |  override def getFileDescriptor: _root_.com.google.protobuf.Descriptors.FileDescriptor =
-         |    ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor
-         |})"""
-
-    def addMethod(method: MethodDescriptor): PrinterEndo = PrinterEndo(
-      _.add(s".addMethod(${method.descriptorName})")
-    )
-
     PrinterEndo(
       _.add(s"val ${service.descriptorName}: $grpcServiceDescriptor =")
         .indent
         .add(s"""$grpcServiceDescriptor.newBuilder("${service.getFullName}")""")
         .indent
-        .addStringMargin(schemaDescriptor)
-        .call(service.methods.map(addMethod): _*)
+        .add(s""".setSchemaDescriptor(new _root_.com.trueaccord.scalapb.grpc.ConcreteProtoFileDescriptorSupplier(${service.getFile.fileDescriptorObjectFullName}.javaDescriptor))""")
+        .print(service.methods) { case (p, method) =>
+          p.add(s".addMethod(${method.descriptorName})")
+        }
         .add(".build()")
         .outdent
         .outdent
