@@ -178,6 +178,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.github.os72" % "protoc-jar" % "3.3.0.1",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
+        "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
         "com.trueaccord.lenses" %% "lenses" % "0.4.12",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
