@@ -66,6 +66,8 @@ trait DescriptorPimps {
     def stub = self.getName + "Stub"
 
     def methods = self.getMethods.asScala.toIndexedSeq
+
+    def descriptorName = s"SERVICE"
   }
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {

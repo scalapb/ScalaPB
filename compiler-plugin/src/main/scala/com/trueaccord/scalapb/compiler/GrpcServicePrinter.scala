@@ -175,6 +175,34 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
           |""")
   }
 
+  private[this] def serviceDescriptor(service: ServiceDescriptor) = {
+
+    val grpcServiceDescriptor = "_root_.io.grpc.ServiceDescriptor"
+
+    val schemaDescriptor: String =
+      s""".setSchemaDescriptor(new _root_.io.grpc.protobuf.ProtoFileDescriptorSupplier {
+         |  override def getFileDescriptor: _root_.com.google.protobuf.Descriptors.FileDescriptor =
+         |    ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor
+         |})"""
+
+    def addMethod(method: MethodDescriptor): PrinterEndo = PrinterEndo(
+      _.add(s".addMethod(${method.descriptorName})")
+    )
+
+    PrinterEndo(
+      _.add(s"val ${service.descriptorName}: $grpcServiceDescriptor =")
+        .indent
+        .add(s"""$grpcServiceDescriptor.newBuilder("${service.getFullName}")""")
+        .indent
+        .addStringMargin(schemaDescriptor)
+        .call(service.methods.map(addMethod): _*)
+        .add(".build()")
+        .outdent
+        .outdent
+        .newline
+    )
+  }
+
   private[this] def addMethodImplementation(method: MethodDescriptor): PrinterEndo = PrinterEndo {
     _.add(".addMethod(")
       .add(s"  ${method.descriptorName},")
@@ -231,7 +259,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
     PrinterEndo(
       _.add(s"""def bindService(serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef =""")
         .indent
-        .add(s"""$serverServiceDef.builder("${service.getFullName}")""")
+        .add(s"""$serverServiceDef.builder(${service.descriptorName})""")
         .call(methods: _*)
         .add(".build()")
         .outdent)
@@ -244,6 +272,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
       s"object ${service.objectName} {")
     .indent
     .call(service.methods.map(methodDescriptor): _*)
+    .call(serviceDescriptor(service))
     .call(serviceTrait)
     .newline
     .call(serviceTraitCompanion)
