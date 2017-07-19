@@ -10,8 +10,8 @@ object Grpc {
   def guavaFuture2ScalaFuture[A](guavaFuture: ListenableFuture[A]): Future[A] = {
     val p = Promise[A]()
     Futures.addCallback(guavaFuture, new FutureCallback[A] {
-      override def onFailure(t: Throwable) = p.tryFailure(t)
-      override def onSuccess(a: A) = p.trySuccess(a)
+      override def onFailure(t: Throwable): Unit = p.failure(t)
+      override def onSuccess(a: A): Unit = p.success(a)
     })
     p.future
   }
