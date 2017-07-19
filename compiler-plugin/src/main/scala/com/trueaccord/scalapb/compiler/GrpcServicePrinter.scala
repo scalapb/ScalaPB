@@ -167,11 +167,12 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
 
     p.addStringMargin(
       s"""val ${method.descriptorName}: $grpcMethodDescriptor[${method.scalaIn}, ${method.scalaOut}] =
-          |  $grpcMethodDescriptor.create(
-          |    $grpcMethodDescriptor.MethodType.$methodType,
-          |    $grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"),
-          |    ${marshaller(method.scalaIn)},
-          |    ${marshaller(method.scalaOut)})
+          |  $grpcMethodDescriptor.newBuilder()
+          |    .setType($grpcMethodDescriptor.MethodType.$methodType)
+          |    .setFullMethodName($grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"))
+          |    .setRequestMarshaller(${marshaller(method.scalaIn)})
+          |    .setResponseMarshaller(${marshaller(method.scalaOut)})
+          |    .build()
           |""")
   }
 
