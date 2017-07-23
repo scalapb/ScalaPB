@@ -2,7 +2,6 @@ package scalapb
 
 import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream, InvalidProtocolBufferException}
 import com.trueaccord.lenses.Lens
-import com.trueaccord.lenses.Lens.MapLens
 
 import scala.collection.mutable
 
