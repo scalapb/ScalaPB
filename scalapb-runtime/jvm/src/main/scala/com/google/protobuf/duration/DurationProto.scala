@@ -5,7 +5,7 @@
 
 package com.google.protobuf.duration
 
-import scala.collection.JavaConverters._
+
 
 object DurationProto {
   private lazy val ProtoBytes: Array[Byte] =
