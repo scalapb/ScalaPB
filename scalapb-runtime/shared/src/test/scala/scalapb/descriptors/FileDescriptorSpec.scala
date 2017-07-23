@@ -1,7 +1,6 @@
 package scalapb.descriptors
 
 import com.google.protobuf.descriptor.FileDescriptorProto
-import com.trueaccord.scalapb.TextFormat
 import org.scalatest._
 
 class FileDescriptorSpec extends FlatSpec with MustMatchers with OptionValues {

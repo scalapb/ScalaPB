@@ -1,6 +1,5 @@
 package com.trueaccord.scalapb.textformat
 
-import com.google.protobuf.ByteString
 import com.google.protobuf.descriptor.FieldDescriptorProto
 
 import scalapb.descriptors._

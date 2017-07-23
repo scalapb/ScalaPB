@@ -4,7 +4,6 @@ import com.google.protobuf.descriptor._
 
 import annotation.tailrec
 import scala.collection.breakOut
-import scala.ref.WeakReference
 
 sealed trait ScalaType {
   type PValueType <: PValue

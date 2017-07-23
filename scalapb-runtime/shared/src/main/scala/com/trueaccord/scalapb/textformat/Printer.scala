@@ -1,8 +1,6 @@
 package com.trueaccord.scalapb.textformat
 
-import com.google.protobuf.ByteString
-
-import scalapb.descriptors.{FieldDescriptor, PEmpty, PRepeated, ScalaType}
+import scalapb.descriptors.{FieldDescriptor, PEmpty, PRepeated}
 import com.trueaccord.scalapb.{GeneratedMessage, textformat}
 
 object Printer {
