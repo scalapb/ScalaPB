@@ -5,7 +5,7 @@
 
 package com.google.protobuf.field_mask
 
-import scala.collection.JavaConverters._
+
 
 object FieldMaskProto {
   private lazy val ProtoBytes: Array[Byte] =

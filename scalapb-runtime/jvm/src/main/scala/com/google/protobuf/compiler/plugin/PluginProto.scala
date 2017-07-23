@@ -5,7 +5,7 @@
 
 package com.google.protobuf.compiler.plugin
 
-import scala.collection.JavaConverters._
+
 
 object PluginProto {
   private lazy val ProtoBytes: Array[Byte] =

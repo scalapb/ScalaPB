@@ -5,7 +5,7 @@
 
 package com.google.protobuf.source_context
 
-import scala.collection.JavaConverters._
+
 
 object SourceContextProto {
   private lazy val ProtoBytes: Array[Byte] =

@@ -5,7 +5,7 @@
 
 package com.google.protobuf.timestamp
 
-import scala.collection.JavaConverters._
+
 
 object TimestampProto {
   private lazy val ProtoBytes: Array[Byte] =

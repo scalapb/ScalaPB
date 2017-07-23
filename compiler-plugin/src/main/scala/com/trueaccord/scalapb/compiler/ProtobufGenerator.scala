@@ -1182,7 +1182,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .call(generateMessageCompanion(message))
   }
 
-  def scalaFileHeader(file: FileDescriptor): FunctionalPrinter = {
+  def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter = {
     if (file.scalaOptions.getPreambleList.asScala.nonEmpty && !file.scalaOptions.getSingleFile) {
       throw new GeneratorException(s"${file.getName}: single_file must be true when a preamble is provided.")
     }
@@ -1194,7 +1194,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
          |
          |${if (file.scalaPackageName.nonEmpty) ("package " + file.scalaPackageName) else ""}
          |
-         |${if (file.javaConversions) "import scala.collection.JavaConverters._" else ""}""")
+         |${if (javaConverterImport) "import scala.collection.JavaConverters._" else ""}""")
     .print(file.scalaOptions.getImportList.asScala) {
       case (printer, i) => printer.add(s"import $i")
     }
@@ -1270,7 +1270,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateSingleScalaFileForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     val code =
-      scalaFileHeader(file)
+      scalaFileHeader(file, file.javaConversions)
       .print(file.getEnumTypes.asScala)(printEnum)
       .print(file.getMessageTypes.asScala)(printMessage)
       .call(createFileDescriptorCompanionObject(file)).result()
@@ -1289,7 +1289,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + enum.getName + ".scala")
       b.setContent(
-        scalaFileHeader(file)
+        scalaFileHeader(file, file.javaConversions)
           .call(printEnum(_, enum)).result())
       b.build
     }
@@ -1300,7 +1300,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + message.scalaName + ".scala")
       b.setContent(
-        scalaFileHeader(file)
+        scalaFileHeader(file, file.javaConversions)
           .call(printMessage(_, message)).result())
       b.build
     }
@@ -1309,7 +1309,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + s"/${file.fileDescriptorObjectName}.scala")
       b.setContent(
-        scalaFileHeader(file)
+        scalaFileHeader(file, false)
           .call(createFileDescriptorCompanionObject(file)).result())
       b.build
     }
