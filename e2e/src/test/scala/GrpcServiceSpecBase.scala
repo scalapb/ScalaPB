@@ -3,6 +3,7 @@ import java.util.concurrent.TimeUnit
 import com.trueaccord.pb.{Service1JavaImpl, Service1ScalaImpl}
 import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
+import io.grpc.protobuf.services.ProtoReflectionService
 import io.grpc.stub.StreamObserver
 import io.grpc.{ManagedChannel, Server}
 import org.scalatest.{FunSpec, MustMatchers}
@@ -13,7 +14,12 @@ import scala.util.Random
 abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
 
   protected[this] final def withScalaServer[A](f: ManagedChannel => A): A = {
-    withServer(_.addService(Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)).build())(f)
+    withServer(
+      _.addService(ProtoReflectionService.newInstance())
+       .addService(
+         Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)
+       ).build()
+    )(f)
   }
 
   protected[this] final def withJavaServer[A](f: ManagedChannel => A): A = {
