@@ -1,3 +1,6 @@
+
+import io.grpc.reflection.v1alpha.reflection._
+import io.grpc.reflection.v1alpha.reflection.ServerReflectionRequest.MessageRequest
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.Random
@@ -16,6 +19,41 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
   }
 
   describe("scala server") {
+
+    describe("reflection service") {
+      // https://github.com/grpc/grpc-java/blob/v1.5.0/services/src/test/java/io/grpc/protobuf/services/ProtoReflectionServiceTest.java
+
+      it("listServices") {
+        withScalaServer { channel =>
+          val stub = ServerReflectionGrpc.stub(channel)
+          val (responseObserver, future) = getObserverAndFutureVector[ServerReflectionResponse]
+          val requestObserver = stub.serverReflectionInfo(responseObserver)
+          val request = ServerReflectionRequest(
+            host = "localhost",
+            messageRequest = MessageRequest.ListServices("services")
+          )
+          requestObserver.onNext(request)
+          requestObserver.onCompleted()
+          val expect = Seq(
+            ServerReflectionResponse(
+              validHost = "localhost",
+              originalRequest = Some(
+                request
+              ),
+              messageResponse = ServerReflectionResponse.MessageResponse.ListServicesResponse(
+                ListServiceResponse(
+                  service = Seq(
+                    "com.trueaccord.proto.e2e.Service1",
+                    "grpc.reflection.v1alpha.ServerReflection"
+                  ).map(ServiceResponse(_))
+                )
+              )
+            )
+          )
+          assert(Await.result(future, 3.seconds) === expect)
+        }
+      }
+    }
 
     describe("java client") {
       import com.trueaccord.proto.e2e.{Service1Grpc => Service1GrpcJava, _}
