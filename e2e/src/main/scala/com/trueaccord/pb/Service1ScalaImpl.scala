@@ -51,4 +51,8 @@ class Service1ScalaImpl extends Service1 {
   override def throwException(request: Req5): Future[Res5] = {
     Future.failed(new RuntimeException("Error!"))
   }
+
+  override def throwException2(request: Req6) = {
+    throw new RuntimeException("Error!")
+  }
 }

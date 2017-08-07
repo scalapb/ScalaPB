@@ -217,16 +217,24 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
               val serverMethod = s"$serverCalls.UnaryMethod[${method.scalaIn}, ${method.scalaOut}]"
               p.addStringMargin(
                 s"""$call(new $serverMethod {
-                   |  override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
+                   |  override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit = try {
                    |    $serviceImpl.${method.name}(request).onComplete(com.trueaccord.scalapb.grpc.Grpc.completeObserver(observer))(
                    |      $executionContext)
+                   |  } catch {
+                   |    case _root_.scala.util.control.NonFatal(e) =>
+                   |      _root_.com.trueaccord.scalapb.grpc.Grpc.handleError(observer, e)
+                   |  }
                    |}))""")
             case StreamType.ServerStreaming =>
               val serverMethod = s"$serverCalls.ServerStreamingMethod[${method.scalaIn}, ${method.scalaOut}]"
               p.addStringMargin(
                 s"""$call(new $serverMethod {
-                   |  override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit =
+                   |  override def invoke(request: ${method.scalaIn}, observer: $streamObserver[${method.scalaOut}]): Unit = try {
                    |    $serviceImpl.${method.name}(request, observer)
+                   |  } catch {
+                   |    case _root_.scala.util.control.NonFatal(e) =>
+                   |      _root_.com.trueaccord.scalapb.grpc.Grpc.handleError(observer, e)
+                   |  }
                    |}))""")
             case _ =>
               val serverMethod = if (method.streamType == StreamType.ClientStreaming) {

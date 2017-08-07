@@ -31,6 +31,9 @@ message Res4 {
 message Req5 {}
 message Res5 {}
 
+message Req6 {}
+message Res6 {}
+
 service Service1 {
   // Computes string length
   rpc UnaryStringLength(Req1) returns (Res1) {}
@@ -46,4 +49,6 @@ service Service1 {
 
   // Throws a runtime exception.
   rpc ThrowException(Req5) returns (Res5) {}
+
+  rpc ThrowException2(Req6) returns (Res6) {}
 }
