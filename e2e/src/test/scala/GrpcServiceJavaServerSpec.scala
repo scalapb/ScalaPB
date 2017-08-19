@@ -69,6 +69,10 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
         intercept[io.grpc.StatusRuntimeException] {
           Await.result( client.throwException( Req5() ), 2.seconds )
         }
+
+        intercept[io.grpc.StatusRuntimeException] {
+          Await.result( client.throwException2( Req6() ), 2.seconds )
+        }
       }
     }
 

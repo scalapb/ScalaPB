@@ -16,17 +16,22 @@ object Grpc {
     p.future
   }
 
+  def handleError[T](observer: StreamObserver[T], e: Throwable): Unit = e match {
+    case s: StatusException =>
+      observer.onError(s)
+    case s: StatusRuntimeException =>
+      observer.onError(s)
+    case e =>
+      observer.onError(
+        Status.INTERNAL.withDescription(e.getMessage).withCause(e).asException()
+      )
+  }
+
   def completeObserver[T](observer: StreamObserver[T])(t: Try[T]): Unit = t match {
     case scala.util.Success(value) =>
       observer.onNext(value)
       observer.onCompleted()
-    case scala.util.Failure(s: StatusException) =>
-      observer.onError(s)
-    case scala.util.Failure(s: StatusRuntimeException) =>
-      observer.onError(s)
     case scala.util.Failure(e) =>
-      observer.onError(
-        Status.INTERNAL.withDescription(e.getMessage).withCause(e).asException()
-      )
+      handleError(observer, e)
   }
 }
