@@ -6,8 +6,10 @@ import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
-
 import scala.collection.JavaConverters._
+
+import com.trueaccord.scalapb.Scalapb
+import com.trueaccord.scalapb.Scalapb.MessageOptions
 
 case class GeneratorParams(
   javaConversions: Boolean = false, flatPackage: Boolean = false,
@@ -1124,6 +1126,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     printer
       .call(generateScalaDoc(message))
       .add(s"@SerialVersionUID(0L)")
+      .seq(message.annotationList)
       .add(s"final case class ${message.nameSymbol}(")
       .indent
       .indent

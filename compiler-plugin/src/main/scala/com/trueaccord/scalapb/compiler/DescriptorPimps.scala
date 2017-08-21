@@ -286,6 +286,8 @@ trait DescriptorPimps {
 
     def messageOptions: MessageOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
 
+    def annotationList = messageOptions.getAnnotationsList().asScala.toSeq
+
     def extendsOption = messageOptions.getExtendsList.asScala.filterNot(valueClassNames).toSeq
 
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
