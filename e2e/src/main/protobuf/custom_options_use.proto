@@ -1,12 +1,18 @@
 syntax = "proto2";
 
 import "custom_options.proto";
+import "scalapb/scalapb.proto";
 
 package com.trueaccord.proto.e2e;
+
+option (scalapb.options) = {
+  import: "com.trueaccord.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2}"
+};
 
 option (message_a).a = "AAA";
 
 message FooMessage {
+  option (scalapb.message).annotations = "@CustomAnnotation";
   option (message_b).b = "BBB";
 
   optional int32 myField1 = 1 [(message_c).c = "CCC", (opt_name).first = "John"];
@@ -14,6 +20,10 @@ message FooMessage {
 }
 
 message BarMessage {
+  option (scalapb.message).annotations = "@CustomAnnotation";
+  option (scalapb.message).annotations = "@CustomAnnotation1";
+  option (scalapb.message).annotations = "@CustomAnnotation2";
+
   option (rep_int32) = 1;
   option (rep_int32) = 2;
   option (rep_int32) = -16;

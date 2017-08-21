@@ -2154,6 +2154,41 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getCompanionExtendsBytes(int index);
+
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    java.util.List<java.lang.String>
+        getAnnotationsList();
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    int getAnnotationsCount();
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    java.lang.String getAnnotations(int index);
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getAnnotationsBytes(int index);
   }
   /**
    * Protobuf type {@code scalapb.MessageOptions}
@@ -2169,6 +2204,7 @@ public final class Scalapb {
     private MessageOptions() {
       extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -2217,6 +2253,15 @@ public final class Scalapb {
               companionExtends_.add(bs);
               break;
             }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+                annotations_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000004;
+              }
+              annotations_.add(bs);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2230,6 +2275,9 @@ public final class Scalapb {
         }
         if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
           companionExtends_ = companionExtends_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
+          annotations_ = annotations_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2337,6 +2385,51 @@ public final class Scalapb {
       return companionExtends_.getByteString(index);
     }
 
+    public static final int ANNOTATIONS_FIELD_NUMBER = 3;
+    private com.google.protobuf.LazyStringList annotations_;
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getAnnotationsList() {
+      return annotations_;
+    }
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    public int getAnnotationsCount() {
+      return annotations_.size();
+    }
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    public java.lang.String getAnnotations(int index) {
+      return annotations_.get(index);
+    }
+    /**
+     * <pre>
+     * Custom annotations to add to the generated case class.
+     * </pre>
+     *
+     * <code>repeated string annotations = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getAnnotationsBytes(int index) {
+      return annotations_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2354,6 +2447,9 @@ public final class Scalapb {
       }
       for (int i = 0; i < companionExtends_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, companionExtends_.getRaw(i));
+      }
+      for (int i = 0; i < annotations_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, annotations_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -2379,6 +2475,14 @@ public final class Scalapb {
         size += dataSize;
         size += 1 * getCompanionExtendsList().size();
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < annotations_.size(); i++) {
+          dataSize += computeStringSizeNoTag(annotations_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getAnnotationsList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2400,6 +2504,8 @@ public final class Scalapb {
           .equals(other.getExtendsList());
       result = result && getCompanionExtendsList()
           .equals(other.getCompanionExtendsList());
+      result = result && getAnnotationsList()
+          .equals(other.getAnnotationsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2418,6 +2524,10 @@ public final class Scalapb {
       if (getCompanionExtendsCount() > 0) {
         hash = (37 * hash) + COMPANION_EXTENDS_FIELD_NUMBER;
         hash = (53 * hash) + getCompanionExtendsList().hashCode();
+      }
+      if (getAnnotationsCount() > 0) {
+        hash = (37 * hash) + ANNOTATIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getAnnotationsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2552,6 +2662,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000001);
         companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -2585,6 +2697,11 @@ public final class Scalapb {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.companionExtends_ = companionExtends_;
+        if (((bitField0_ & 0x00000004) == 0x00000004)) {
+          annotations_ = annotations_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000004);
+        }
+        result.annotations_ = annotations_;
         onBuilt();
         return result;
       }
@@ -2643,6 +2760,16 @@ public final class Scalapb {
           } else {
             ensureCompanionExtendsIsMutable();
             companionExtends_.addAll(other.companionExtends_);
+          }
+          onChanged();
+        }
+        if (!other.annotations_.isEmpty()) {
+          if (annotations_.isEmpty()) {
+            annotations_ = other.annotations_;
+            bitField0_ = (bitField0_ & ~0x00000004);
+          } else {
+            ensureAnnotationsIsMutable();
+            annotations_.addAll(other.annotations_);
           }
           onChanged();
         }
@@ -2928,6 +3055,135 @@ public final class Scalapb {
   }
   ensureCompanionExtendsIsMutable();
         companionExtends_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureAnnotationsIsMutable() {
+        if (!((bitField0_ & 0x00000004) == 0x00000004)) {
+          annotations_ = new com.google.protobuf.LazyStringArrayList(annotations_);
+          bitField0_ |= 0x00000004;
+         }
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getAnnotationsList() {
+        return annotations_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public int getAnnotationsCount() {
+        return annotations_.size();
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public java.lang.String getAnnotations(int index) {
+        return annotations_.get(index);
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getAnnotationsBytes(int index) {
+        return annotations_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public Builder setAnnotations(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAnnotationsIsMutable();
+        annotations_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public Builder addAnnotations(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAnnotationsIsMutable();
+        annotations_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public Builder addAllAnnotations(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureAnnotationsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, annotations_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public Builder clearAnnotations() {
+        annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the generated case class.
+       * </pre>
+       *
+       * <code>repeated string annotations = 3;</code>
+       */
+      public Builder addAnnotationsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureAnnotationsIsMutable();
+        annotations_.add(value);
         onChanged();
         return this;
       }
@@ -5991,24 +6247,25 @@ public final class Scalapb {
       "\003(\t\022\023\n\013single_file\030\005 \001(\010\022\035\n\025no_primitive" +
       "_wrappers\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 " +
       "\001(\010\022\027\n\017collection_type\030\010 \001(\t\022\'\n\035test_onl" +
-      "y_no_java_conversions\030\241\215\006 \001(\010\"<\n\016Message" +
+      "y_no_java_conversions\030\241\215\006 \001(\010\"Q\n\016Message" +
       "Options\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_ex" +
-      "tends\030\002 \003(\t\"o\n\014FieldOptions\022\014\n\004type\030\001 \001(",
-      "\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type" +
-      "\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005" +
-      " \001(\t\"9\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021" +
-      "companion_extends\030\002 \003(\t\"#\n\020EnumValueOpti" +
-      "ons\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034.google" +
-      ".protobuf.FileOptions\030\374\007 \001(\0132\027.scalapb.S" +
-      "calaPbOptions:J\n\007message\022\037.google.protob" +
-      "uf.MessageOptions\030\374\007 \001(\0132\027.scalapb.Messa" +
-      "geOptions:D\n\005field\022\035.google.protobuf.Fie" +
-      "ldOptions\030\374\007 \001(\0132\025.scalapb.FieldOptions:",
-      "I\n\014enum_options\022\034.google.protobuf.EnumOp" +
-      "tions\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nen" +
-      "um_value\022!.google.protobuf.EnumValueOpti" +
-      "ons\030\374\007 \001(\0132\031.scalapb.EnumValueOptionsB\030\n" +
-      "\026com.trueaccord.scalapb"
+      "tends\030\002 \003(\t\022\023\n\013annotations\030\003 \003(\t\"o\n\014Fiel",
+      "dOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001" +
+      "(\t\022\027\n\017collection_type\030\003 \001(\t\022\020\n\010key_type\030" +
+      "\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\"9\n\013EnumOptions" +
+      "\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030\002" +
+      " \003(\t\"#\n\020EnumValueOptions\022\017\n\007extends\030\001 \003(" +
+      "\t:G\n\007options\022\034.google.protobuf.FileOptio" +
+      "ns\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n\007me" +
+      "ssage\022\037.google.protobuf.MessageOptions\030\374" +
+      "\007 \001(\0132\027.scalapb.MessageOptions:D\n\005field\022" +
+      "\035.google.protobuf.FieldOptions\030\374\007 \001(\0132\025.",
+      "scalapb.FieldOptions:I\n\014enum_options\022\034.g" +
+      "oogle.protobuf.EnumOptions\030\374\007 \001(\0132\024.scal" +
+      "apb.EnumOptions:Q\n\nenum_value\022!.google.p" +
+      "rotobuf.EnumValueOptions\030\374\007 \001(\0132\031.scalap" +
+      "b.EnumValueOptionsB\030\n\026com.trueaccord.sca" +
+      "lapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6034,7 +6291,7 @@ public final class Scalapb {
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_MessageOptions_descriptor,
-        new java.lang.String[] { "Extends", "CompanionExtends", });
+        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", });
     internal_static_scalapb_FieldOptions_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new

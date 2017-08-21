@@ -1,3 +1,5 @@
+import scala.reflect.runtime.universe._
+
 import com.trueaccord.scalapb.{GeneratedExtension, JavaProtoSupport}
 import com.trueaccord.proto.e2e.custom_options.GoodOrBad._
 import com.trueaccord.proto.e2e.custom_options_p3.GoodOrBadP3._
@@ -18,6 +20,20 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
 
   def validateSetter[T](extension: GeneratedExtension[MessageOptions, T])(value: T) = {
     barOptions.withExtension(extension)(value).extension(extension) must be(value)
+  }
+
+  "CustomAnnotation" should "exist" in {
+    val annotations = typeOf[FooMessage].typeSymbol.asClass.annotations
+    annotations.count(_.toString == "com.trueaccord.pb.CustomAnnotation") must be (1)
+  }
+
+  "CustomAnnotation, CustomAnnotation1, CustomAnnotation2" should "exist" in {
+    val annotations = typeOf[BarMessage].typeSymbol.asClass.annotations.map(_.toString)
+    Seq(
+      "com.trueaccord.pb.CustomAnnotation",
+      "com.trueaccord.pb.CustomAnnotation1",
+      "com.trueaccord.pb.CustomAnnotation2"
+    ).forall(annotations.contains) must be (true)
   }
 
   "Options existing" should "return Some(option)" in {
