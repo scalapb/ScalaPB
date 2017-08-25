@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package foo;
+
+message Foo {
+    extensions 10000 to 10099;
+}
+
+extend Foo {
+    optional string bar = 10000;
+}
