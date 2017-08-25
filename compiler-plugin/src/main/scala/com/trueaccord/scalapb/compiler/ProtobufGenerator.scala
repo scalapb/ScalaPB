@@ -432,7 +432,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
-    if (message.fields.nonEmpty) {
+    if (message.fields.nonEmpty || message.isExtendable) {
       fp
       .when(!message.isValueClass) {
         _.add("@transient")
