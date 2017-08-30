@@ -1,3 +1,3 @@
 libraryDependencies ++= Seq(
-  "com.google.protobuf" % "protobuf-java" % "3.3.1"
+  "com.google.protobuf" % "protobuf-java" % "3.4.0"
 )
