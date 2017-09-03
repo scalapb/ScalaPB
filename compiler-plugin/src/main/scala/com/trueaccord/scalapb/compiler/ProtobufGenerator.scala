@@ -410,7 +410,19 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (field.isRequired) {
       fp.add("__size += " + sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol)))
     } else if (field.isSingular) {
-      fp.add(s"if (${toBaseType(field)(fieldNameSymbol)} != ${defaultValueForGet(field, true)}) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol))} }")
+      if (field.customSingleScalaTypeName.isDefined) {
+        fp.add(
+          "",
+          "{",
+          s"  val __value = ${toBaseType(field)(fieldNameSymbol)}",
+          s"  if (__value != ${defaultValueForGet(field, true)}) {",
+          s"    __size += ${sizeExpressionForSingleField(field, "__value")}",
+          "  }",
+          "};"
+        )
+      } else {
+        fp.add(s"if (${toBaseType(field)(fieldNameSymbol)} != ${defaultValueForGet(field, true)}) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol))} }")
+      }
     } else if (field.isOptional) {
       fp.add(s"if ($fieldNameSymbol.isDefined) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol + ".get"))} }")
     } else if (field.isRepeated) {
