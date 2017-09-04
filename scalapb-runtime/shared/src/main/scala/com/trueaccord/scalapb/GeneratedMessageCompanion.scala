@@ -207,6 +207,10 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor
 
+  // Companion object of all nested messages. That is, all messages that are defined directly inside this
+  // message.
+  def nestedMessagesCompanions: Seq[GeneratedMessageCompanion[_]]
+
   def messageReads: _root_.scalapb.descriptors.Reads[A]
 
   def messageCompanionForFieldNumber(field: Int): GeneratedMessageCompanion[_]
@@ -236,3 +240,13 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 }
 
 case class KeyValue[K, V](key: K, value: V)
+
+abstract class GeneratedFileObject {
+  def scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor
+  def javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor
+  // Other file objects that this file depends on.
+  def dependencies: Seq[GeneratedFileObject]
+
+  // Companion object of all top-level messages
+  def messagesCompanions: Seq[GeneratedMessageCompanion[_]]
+}

@@ -971,26 +971,60 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       )
   }
 
-  def generateMessageCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val signature = "def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = "
+  def generateMessageCompanionMatcher(methodName: String, messageNumbers: Seq[(Descriptor, Int)])(fp: FunctionalPrinter): FunctionalPrinter = {
+    val signature = s"def $methodName(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = "
     // Due to https://issues.scala-lang.org/browse/SI-9111 we can't directly return the companion
     // object.
-    if (message.fields.exists(_.isMessage))
+    if (messageNumbers.nonEmpty)
       fp.add(signature + "{")
         .indent
         .add("var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null")
-        .add("(__fieldNumber: @_root_.scala.unchecked) match {")
+        .add("(__number: @_root_.scala.unchecked) match {")
         .indent
-        .print(message.fields.filter(_.isMessage)) {
-          case (fp, f) =>
-            fp.add(s"case ${f.getNumber} => __out = ${f.getMessageType.scalaTypeName}")
+        .print(messageNumbers) {
+          case (fp, (f, number)) =>
+            fp.add(s"case $number => __out = ${f.scalaTypeName}")
         }
         .outdent
         .add("}")
         .add("__out")
         .outdent
         .add("}")
-    else fp.add(signature + "throw new MatchError(__fieldNumber)")
+    else fp.add(signature + "throw new MatchError(__number)")
+  }
+
+  // Finding companion objects by field number
+  def generateMessageCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter =
+    generateMessageCompanionMatcher(
+      "messageCompanionForFieldNumber",
+      message.fields.filter(_.isMessage).map(f => (f.getMessageType, f.getNumber)))(fp)
+
+  // Finding companion objects for nested types.
+  def generateNestedMessagesCompanions(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    val signature = "lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = "
+    if (message.nestedTypes.isEmpty)
+      fp.add(signature + "Seq.empty")
+    else
+      fp
+        .add(signature + "Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]](")
+        .indent
+        .addWithDelimiter(",")(message.nestedTypes.map(m => s"_root_.${m.scalaTypeName}"))
+        .outdent
+        .add(")")
+  }
+
+  // Finding companion objects for top-level types.
+  def generateMessagesCompanions(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    val signature = "lazy val messagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = "
+    if (file.getMessageTypes.isEmpty)
+      fp.add(signature + "Seq.empty")
+    else
+      fp
+        .add(signature + "Seq(")
+        .indent
+        .addWithDelimiter(",")(file.getMessageTypes.asScala.map(_.scalaTypeName))
+        .outdent
+        .add(")")
   }
 
   def generateEnumCompanionForField(message: Descriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
@@ -1096,6 +1130,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .call(generateMessageReads(message))
       .call(generateDescriptors(message))
       .call(generateMessageCompanionForField(message))
+      .call(generateNestedMessagesCompanions(message))
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
       .print(message.getEnumTypes.asScala)(printEnum)
@@ -1235,11 +1270,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("    ).mkString)")
       .add("lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {")
       .add("  val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)")
-      .add("  _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(")
-      .addWithDelimiter(",")(file.getDependencies.asScala.map {
-        d => s"    ${d.fileDescriptorObjectFullName}.scalaDescriptor"
-      })
-      .add("  ))")
+      .add("  _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))")
       .add("}")
       .when(file.javaConversions) {
         _.add("lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =")
@@ -1273,9 +1304,15 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     } else Nil
   }
 
-  def createFileDescriptorCompanionObject(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    fp.add(s"object ${file.fileDescriptorObjectName} {")
+  def generateFileObject(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    fp.add(s"object ${file.fileDescriptorObjectName} extends _root_.com.trueaccord.scalapb.GeneratedFileObject {")
       .indent
+      .add("lazy val dependencies: Seq[_root_.com.trueaccord.scalapb.GeneratedFileObject] = Seq(")
+      .indent
+      .addWithDelimiter(",")(file.getDependencies.asScala.map(_.fileDescriptorObjectFullName))
+      .outdent
+      .add(")")
+      .call(generateMessagesCompanions(file))
       .call(generateFileDescriptor(file))
       .print(file.getExtensions.asScala)(printExtension)
       .call(generateTypeMappers(file.getExtensions.asScala))
@@ -1288,7 +1325,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       scalaFileHeader(file, file.javaConversions)
       .print(file.getEnumTypes.asScala)(printEnum)
       .print(file.getMessageTypes.asScala)(printMessage)
-      .call(createFileDescriptorCompanionObject(file)).result()
+      .call(generateFileObject(file)).result()
     val b = CodeGeneratorResponse.File.newBuilder()
     b.setName(file.scalaDirectory + "/" + file.fileDescriptorObjectName + ".scala")
     b.setContent(code)
@@ -1325,7 +1362,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       b.setName(file.scalaDirectory + s"/${file.fileDescriptorObjectName}.scala")
       b.setContent(
         scalaFileHeader(file, false)
-          .call(createFileDescriptorCompanionObject(file)).result())
+          .call(generateFileObject(file)).result())
       b.build
     }
 

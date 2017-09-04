@@ -7,7 +7,14 @@ package com.google.protobuf.struct
 
 
 
-object StructProto {
+object StructProto extends _root_.com.trueaccord.scalapb.GeneratedFileObject {
+  lazy val dependencies: Seq[_root_.com.trueaccord.scalapb.GeneratedFileObject] = Seq(
+  )
+  lazy val messagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq(
+    com.google.protobuf.struct.Struct,
+    com.google.protobuf.struct.Value,
+    com.google.protobuf.struct.ListValue
+  )
   private lazy val ProtoBytes: Array[Byte] =
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """Chxnb29nbGUvcHJvdG9idWYvc3RydWN0LnByb3RvEg9nb29nbGUucHJvdG9idWYimAEKBlN0cnVjdBI7CgZmaWVsZHMYASADK
@@ -23,8 +30,7 @@ object StructProto {
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
-    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(
-    ))
+    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =
     com.google.protobuf.StructProto.getDescriptor()

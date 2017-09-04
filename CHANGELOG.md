@@ -1,6 +1,13 @@
 # Change Log
 
 ## [Unreleased](https://github.com/scalapb/ScalaPB/tree/HEAD)
+- GeneratedMessageCompanion: add `nestedMessagesCompanions` and Add
+- Added base class GeneratedFileObject that will be the base class for the
+  singleton object generated for each proto file.
+- Custom base classes for enums
+
+## [v0.6.0](https://github.com/scalapb/ScalaPB/tree/v0.5.47) (2017-01-07)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.47...v0.6.0)
 - Support for custom names for fields: https://scalapb.github.io/customizations.html#custom-names
   This enables users to get around name conflicts in the generated code.
 - Add messageCompanionForFieldNumber and enumCompanionForFieldNumber to

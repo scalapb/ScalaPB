@@ -7,7 +7,20 @@ package com.google.protobuf.wrappers
 
 
 
-object WrappersProto {
+object WrappersProto extends _root_.com.trueaccord.scalapb.GeneratedFileObject {
+  lazy val dependencies: Seq[_root_.com.trueaccord.scalapb.GeneratedFileObject] = Seq(
+  )
+  lazy val messagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq(
+    com.google.protobuf.wrappers.DoubleValue,
+    com.google.protobuf.wrappers.FloatValue,
+    com.google.protobuf.wrappers.Int64Value,
+    com.google.protobuf.wrappers.UInt64Value,
+    com.google.protobuf.wrappers.Int32Value,
+    com.google.protobuf.wrappers.UInt32Value,
+    com.google.protobuf.wrappers.BoolValue,
+    com.google.protobuf.wrappers.StringValue,
+    com.google.protobuf.wrappers.BytesValue
+  )
   private lazy val ProtoBytes: Array[Byte] =
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """Ch5nb29nbGUvcHJvdG9idWYvd3JhcHBlcnMucHJvdG8SD2dvb2dsZS5wcm90b2J1ZiIjCgtEb3VibGVWYWx1ZRIUCgV2YWx1Z
@@ -20,8 +33,7 @@ object WrappersProto {
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
-    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(
-    ))
+    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =
     com.google.protobuf.WrappersProto.getDescriptor()

@@ -7,7 +7,12 @@ package com.google.protobuf.timestamp
 
 
 
-object TimestampProto {
+object TimestampProto extends _root_.com.trueaccord.scalapb.GeneratedFileObject {
+  lazy val dependencies: Seq[_root_.com.trueaccord.scalapb.GeneratedFileObject] = Seq(
+  )
+  lazy val messagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq(
+    com.google.protobuf.timestamp.Timestamp
+  )
   private lazy val ProtoBytes: Array[Byte] =
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """Ch9nb29nbGUvcHJvdG9idWYvdGltZXN0YW1wLnByb3RvEg9nb29nbGUucHJvdG9idWYiOwoJVGltZXN0YW1wEhgKB3NlY29uZ
@@ -17,8 +22,7 @@ object TimestampProto {
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
-    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(
-    ))
+    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)

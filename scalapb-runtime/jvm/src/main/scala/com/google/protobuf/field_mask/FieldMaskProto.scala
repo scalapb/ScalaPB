@@ -7,7 +7,12 @@ package com.google.protobuf.field_mask
 
 
 
-object FieldMaskProto {
+object FieldMaskProto extends _root_.com.trueaccord.scalapb.GeneratedFileObject {
+  lazy val dependencies: Seq[_root_.com.trueaccord.scalapb.GeneratedFileObject] = Seq(
+  )
+  lazy val messagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq(
+    com.google.protobuf.field_mask.FieldMask
+  )
   private lazy val ProtoBytes: Array[Byte] =
       com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
   """CiBnb29nbGUvcHJvdG9idWYvZmllbGRfbWFzay5wcm90bxIPZ29vZ2xlLnByb3RvYnVmIiEKCUZpZWxkTWFzaxIUCgVwYXRoc
@@ -17,8 +22,7 @@ object FieldMaskProto {
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
-    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, Seq(
-    ))
+    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor =
     com.google.protobuf.FieldMaskProto.getDescriptor()

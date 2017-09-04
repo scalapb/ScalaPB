@@ -269,7 +269,7 @@ trait DescriptorPimps {
 
     // When the first component of the package name is the same as one of the fields in the
     // current context, we need to disambiguate or we get a compile error.
-    def scalaTypeNameWithMaybeRoot(context: Descriptor) = {
+    def scalaTypeNameWithMaybeRoot(context: Descriptor): String = {
       val fullName = scalaTypeName
       val topLevelPackage = fullName.split('.')(0)
       if (context.fields.map(_.scalaName).contains(topLevelPackage))

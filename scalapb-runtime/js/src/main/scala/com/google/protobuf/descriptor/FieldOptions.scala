@@ -249,13 +249,14 @@ object FieldOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(11)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(11)
-  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    (__fieldNumber: @_root_.scala.unchecked) match {
+    (__number: @_root_.scala.unchecked) match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
   }
+  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => com.google.protobuf.descriptor.FieldOptions.CType

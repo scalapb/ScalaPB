@@ -148,13 +148,14 @@ object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(13)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(13)
-  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
+  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
-    (__fieldNumber: @_root_.scala.unchecked) match {
+    (__number: @_root_.scala.unchecked) match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
   }
+  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.EnumOptions(
   )

@@ -63,7 +63,8 @@ object Empty extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = EmptyProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = EmptyProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__fieldNumber)
+  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.empty.Empty(
   )
