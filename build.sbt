@@ -1,8 +1,8 @@
 import ReleaseTransformations._
 
-scalaVersion in ThisBuild := "2.11.11"
+scalaVersion in ThisBuild := "2.12.3"
 
-crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.11", "2.12.2")
+crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.11", "2.12.3")
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -123,7 +123,18 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     libraryDependencies ++= Seq(
       "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.7",
       "org.scalatest" %% "scalatest" % "3.0.3" % "test"
-      ))
+    ),
+    //shade our output to replace com.trueaccord.scalapb.Scalapb on the classpath, suitable for using in sbt 1.x,
+    // which can cause runtime conflicts due to scalapb-runtime being included on the classpath as well
+    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = false),
+    assemblyJarName in assembly := artifactName.value.apply(ScalaVersion((scalaVersion in artifactName).value, (scalaBinaryVersion in artifactName).value), projectID.value, (artifact in (Compile, assembly)).value),
+    assemblyShadeRules in assembly := Seq(
+      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> "scalapbshade.@0").inProject
+    ),
+    packageBin in Compile := assembly.value,
+    //replace the main artifact with the shaded non-fat jar
+    artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value
+  )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
 // publishing compiler-plugin bundled with protoc-bridge, and linked against
@@ -164,6 +175,7 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
 	  }).transform(node).head
 	}
   )
+
 
 lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin)
