@@ -56,10 +56,10 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       "com.trueaccord.lenses" %%% "lenses" % "0.4.12",
-      "com.lihaoyi" %%% "fastparse" % "0.4.3",
+      "com.lihaoyi" %%% "fastparse" % "0.4.4",
       "com.lihaoyi" %%% "utest" % "0.5.3" % "test",
       "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.3" % "test"
+      "org.scalatest" %%% "scalatest" % "3.0.4" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
@@ -95,8 +95,8 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
       "io.grpc" % "grpc-protobuf" % grpcVersion,
-      "org.scalatest" %% "scalatest" % "3.0.3" % "test",
-      "org.mockito" % "mockito-core" % "2.8.47" % "test"
+      "org.scalatest" %% "scalatest" % "3.0.4" % "test",
+      "org.mockito" % "mockito-core" % "2.10.0" % "test"
     )
   )
 
@@ -122,7 +122,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.7",
-      "org.scalatest" %% "scalatest" % "3.0.3" % "test"
+      "org.scalatest" %% "scalatest" % "3.0.4" % "test"
       ))
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -183,7 +183,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.trueaccord.lenses" %% "lenses" % "0.4.12",
         "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-        "org.scalatest" %% "scalatest" % "3.0.3" % "test"
+        "org.scalatest" %% "scalatest" % "3.0.4" % "test"
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
