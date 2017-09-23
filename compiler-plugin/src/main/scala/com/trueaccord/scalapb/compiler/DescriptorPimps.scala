@@ -383,6 +383,7 @@ trait DescriptorPimps {
 
     def name: String = enum.getName match {
       case "Option" => "OptionEnum"
+      case "ValueType" => "ValueTypeEnum"  // Issue 348, conflicts with "type ValueType" in GeneratedEnumCompanion.
       case n => n
     }
 

@@ -75,3 +75,13 @@ message Issue137 {
   repeated int32 val = 3;
   repeated int64 var = 4;
 }
+
+message Issue348 {
+  enum ValueType {
+    STRING = 0;
+    BOOL = 1;
+    INT64 = 2;
+  }
+
+  optional ValueType value_type = 1;
+}
