@@ -125,19 +125,37 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.7",
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.3.0-M1",
       "org.scalatest" %% "scalatest" % "3.0.4" % "test"
     ),
     // shade our output to replace com.trueaccord.scalapb.Scalapb on the classpath, suitable for using in sbt 1.x,
     // which can cause runtime conflicts due to scalapb-runtime being included on the classpath as well
-    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = false),
+    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = true),
     assemblyJarName in assembly := artifactName.value.apply(ScalaVersion((scalaVersion in artifactName).value, (scalaBinaryVersion in artifactName).value), projectID.value, (artifact in (Compile, assembly)).value),
     assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject
+      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject,
+      ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll
     ),
+    assemblyExcludedJars in assembly := {
+      val toInclude = Seq(
+        "protobuf-java"
+      )
+      (fullClasspath in assembly).value.filterNot {
+        c => toInclude.exists(prefix => c.data.getName.startsWith(prefix))
+      }
+    },
     packageBin in Compile := assembly.value,
     //replace the main artifact with the shaded non-fat jar
-    artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value
+    artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value,
+    pomPostProcess := { (node: scala.xml.Node) =>
+      new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
+        override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
+          case e: scala.xml.Elem if e.label == "dependency" && e.child.exists(child => child.label == "artifactId" && child.text.startsWith("protobuf-java")) =>
+            scala.xml.Comment(s"protobuf-java has been removed.")
+          case _ => node
+        }
+      }).transform(node).head
+    }
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -149,36 +167,30 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
   .settings(
     name := "compilerplugin-shaded",
     assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll,
-      ShadeRule.rename("org.apache.**" -> shadeTarget.value).inAll,
-      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject
+      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject,
+      ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll
     ),
     assemblyExcludedJars in assembly := {
       val toInclude = Seq(
         "protobuf-java",
-        "protoc-bridge",
-        "commons-io"
+        "protoc-bridge"
       )
 
       (fullClasspath in assembly).value.filterNot {
         c => toInclude.exists(prefix => c.data.getName.startsWith(prefix))
       }
     },
-    artifact in (Compile, packageBin) := {
-      val art = (artifact in (Compile, assembly)).value
-      // art.copy(`classifier` = Some("assembly"))
-      art
-    },
+    artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value,
     addArtifact(artifact in (Compile, packageBin), assembly),
-	pomPostProcess := { (node: scala.xml.Node) =>
-	  new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
-		override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
-		  case e: scala.xml.Elem if e.label == "dependency" && e.child.exists(child => child.label == "artifactId" && child.text.startsWith("compilerplugin")) =>
-			scala.xml.Comment(s"compilerplugin has been removed.")
-		  case _ => node
-		}
-	  }).transform(node).head
-	}
+    pomPostProcess := { (node: scala.xml.Node) =>
+      new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
+        override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
+          case e: scala.xml.Elem if e.label == "dependency" && e.child.exists(child => child.label == "artifactId" && child.text.startsWith("compilerplugin")) =>
+            scala.xml.Comment(s"compilerplugin has been removed.")
+          case _ => node
+        }
+      }).transform(node).head
+    }
   )
 
 
