@@ -130,20 +130,11 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     ),
     // shade our output to replace com.trueaccord.scalapb.Scalapb on the classpath, suitable for using in sbt 1.x,
     // which can cause runtime conflicts due to scalapb-runtime being included on the classpath as well
-    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = true),
+    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = false),
     assemblyJarName in assembly := artifactName.value.apply(ScalaVersion((scalaVersion in artifactName).value, (scalaBinaryVersion in artifactName).value), projectID.value, (artifact in (Compile, assembly)).value),
     assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject,
-      ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll
+      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject
     ),
-    assemblyExcludedJars in assembly := {
-      val toInclude = Seq(
-        "protobuf-java"
-      )
-      (fullClasspath in assembly).value.filterNot {
-        c => toInclude.exists(prefix => c.data.getName.startsWith(prefix))
-      }
-    },
     packageBin in Compile := assembly.value,
     //replace the main artifact with the shaded non-fat jar
     artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value,
@@ -192,7 +183,6 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
       }).transform(node).head
     }
   )
-
 
 lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin)
