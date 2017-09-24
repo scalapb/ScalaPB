@@ -11,7 +11,7 @@ object ScalaPbCodeGenerator extends ProtocCodeGenerator {
   override def run(req: Array[Byte]): Array[Byte] = {
     val registry = ExtensionRegistry.newInstance()
     Scalapb.registerAllExtensions(registry)
-    val request = CodeGeneratorRequest.parseFrom(req)
+    val request = CodeGeneratorRequest.parseFrom(req, registry)
     ProtobufGenerator.handleCodeGeneratorRequest(request).toByteArray
   }
 
