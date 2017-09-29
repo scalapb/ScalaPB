@@ -1,6 +1,6 @@
 import com.google.protobuf.{InvalidProtocolBufferException, UnknownFieldSet}
 import com.trueaccord.proto.e2e.Enum
-import com.trueaccord.proto.e2e.enum._
+import com.trueaccord.proto.e2e.`enum`._
 import com.trueaccord.proto.e2e.enum3._
 import com.trueaccord.scalapb.GeneratedEnumCompanion
 import org.scalatest._
