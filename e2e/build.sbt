@@ -1,4 +1,4 @@
-import com.trueaccord.scalapb.Version.grpcJavaVersion
+import com.trueaccord.scalapb.compiler.Version.grpcJavaVersion
 scalaVersion in ThisBuild := "2.11.11"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
