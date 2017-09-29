@@ -223,7 +223,6 @@ def genVersionFile(out: File, version: String): File = {
               |object Version {
               |  val sbtPluginVersion = "$sbtPluginVersion"
               |  val scalapbVersion = "$version"
-              |  val grpcJavaVersion = "${grpcVersion}"
               |}
               |""".stripMargin.getBytes("UTF-8"))
   w.close()
