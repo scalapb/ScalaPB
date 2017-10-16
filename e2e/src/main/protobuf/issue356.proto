@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package foo.barbaz;
+
+message Foo {
+  optional string name = 1;
+}
+
+enum Bar {
+  UNKNOWN = 0;
+}
+
+message FooContainer {
+  optional Foo foo = 1;
+}
+
+message BarContainer {
+  optional Bar foo = 1;
+}

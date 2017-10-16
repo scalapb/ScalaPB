@@ -194,8 +194,8 @@ trait DescriptorPimps {
       case FieldDescriptor.JavaType.BOOLEAN => "Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING => "String"
-      case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaTypeName
-      case FieldDescriptor.JavaType.ENUM => fd.getEnumType.scalaTypeName
+      case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaTypeNameWithMaybeRoot(fd.getContainingType)
+      case FieldDescriptor.JavaType.ENUM => fd.getEnumType.scalaTypeNameWithMaybeRoot(fd.getContainingType)
     }
 
     def singleScalaTypeName = customSingleScalaTypeName.getOrElse(baseSingleScalaTypeName)
@@ -392,6 +392,14 @@ trait DescriptorPimps {
     lazy val scalaTypeName: String = parentMessage match {
       case Some(p) => p.scalaTypeName + "." + nameSymbol
       case None => (enum.getFile.scalaPackagePartsAsSymbols :+ nameSymbol).mkString(".")
+    }
+
+    def scalaTypeNameWithMaybeRoot(context: Descriptor): String = {
+      val fullName = scalaTypeName
+      val topLevelPackage = fullName.split('.')(0)
+      if (context.fields.map(_.scalaName).contains(topLevelPackage))
+        s"_root_.$fullName"
+      else fullName
     }
 
     def isTopLevel = enum.getContainingType == null

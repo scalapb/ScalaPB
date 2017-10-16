@@ -158,9 +158,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           d.asScala.map(_.toString).mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
       case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
-        field.getMessageType.scalaTypeName + ".defaultInstance"
+        field.getMessageType.scalaTypeNameWithMaybeRoot(field.getContainingType) + ".defaultInstance"
       case FieldDescriptor.JavaType.ENUM =>
-        field.getEnumType.scalaTypeName + "." + defaultValue.asInstanceOf[EnumValueDescriptor].getName.asSymbol
+        field.getEnumType.scalaTypeNameWithMaybeRoot(field.getContainingType) + "." + defaultValue.asInstanceOf[EnumValueDescriptor].getName.asSymbol
     }
     if (!uncustomized && field.customSingleScalaTypeName.isDefined)
       s"${field.typeMapper}.toCustom($baseDefaultValue)" else baseDefaultValue
@@ -636,7 +636,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
         val p = {
           val newValBase = if (field.isMessage) {
-            val defInstance = s"${field.getMessageType.scalaTypeName}.defaultInstance"
+            val defInstance = s"${field.getMessageType.scalaTypeNameWithMaybeRoot(message)}.defaultInstance"
             val baseInstance = if (field.isRepeated) defInstance else {
               val expr = if (field.isInOneof)
                 fieldAccessorSymbol(field) else s"__${field.scalaName}"
@@ -647,7 +647,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             }
             s"_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, $baseInstance)"
           } else if (field.isEnum)
-            s"${field.getEnumType.scalaTypeName}.fromValue(_input__.readEnum())"
+            s"${field.getEnumType.scalaTypeNameWithMaybeRoot(message)}.fromValue(_input__.readEnum())"
           else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
           val newVal = toCustomType(field)(newValBase)
