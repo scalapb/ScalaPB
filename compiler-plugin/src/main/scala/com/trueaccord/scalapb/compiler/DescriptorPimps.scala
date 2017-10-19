@@ -149,9 +149,11 @@ trait DescriptorPimps {
       else base
     }
 
-    def scalaTypeName: String = if (fd.isMapField)
-      fd.mapType.scalaTypeName else
-      typeCategory(singleScalaTypeName)
+    def scalaTypeName: String =
+      if (fd.isMapField) fd.mapType.scalaTypeName
+      else if (fd.isMessage && fd.getMessageType.messageOptions.hasType)
+        typeCategory(fd.getMessageType.messageOptions.getType)
+      else typeCategory(singleScalaTypeName)
 
     def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
@@ -167,6 +169,7 @@ trait DescriptorPimps {
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
+      else if (fd.isMessage && fd.getMessageType.messageOptions.hasType) Some(fd.getMessageType.messageOptions.getType)
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType)
         Some(fieldReferencingMap.fieldOptions.getKeyType)
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)
@@ -374,6 +377,14 @@ trait DescriptorPimps {
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
     }
+
+    def typeMapperValName: String = "_typemapper_" + scalaName
+
+    def typeMapper: String =
+      s"${message.getFile.fileDescriptorObjectFullName}.$typeMapperValName"
+
+    def typeMapperType: String =
+      s"_root_.com.trueaccord.scalapb.TypeMapper[$scalaTypeName, ${message.messageOptions.getType}]"
   }
 
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
