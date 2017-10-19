@@ -961,8 +961,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           s"_root_.com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]"
         printer
           .add("@transient")
-          .add(s"$modifier val ${field.typeMapperValName}: $typeMapperType =")
-          .addIndented(s"implicitly[$typeMapperType]")
+          .add(s"$modifier val ${field.typeMapperValName}: $typeMapperType = implicitly[$typeMapperType]")
     }
   }
 
