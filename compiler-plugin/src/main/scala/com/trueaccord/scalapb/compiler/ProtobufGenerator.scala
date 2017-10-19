@@ -6,10 +6,9 @@ import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
-import scala.collection.JavaConverters._
-
 import com.trueaccord.scalapb.Scalapb
 import com.trueaccord.scalapb.Scalapb.MessageOptions
+import scala.collection.JavaConverters._
 
 case class GeneratorParams(
   javaConversions: Boolean = false, flatPackage: Boolean = false,
@@ -163,7 +162,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         field.getEnumType.scalaTypeNameWithMaybeRoot(field.getContainingType) + "." + defaultValue.asInstanceOf[EnumValueDescriptor].getName.asSymbol
     }
     if (!uncustomized && field.customSingleScalaTypeName.isDefined)
-      s"${field.typeMapper}.toCustom($baseDefaultValue)" else baseDefaultValue
+      s"${field.typeMapper}.toCustom($baseDefaultValue)"
+    else if (!uncustomized && field.isMessage && field.getMessageType.messageOptions.hasType)
+      s"implicitly[${field.getMessageType.typeMapperType}].toCustom($baseDefaultValue)"
+    else baseDefaultValue
   }
 
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
@@ -383,7 +385,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       field.scalaName.asSymbol
 
   def toBaseTypeExpr(field: FieldDescriptor) =
-    if (field.customSingleScalaTypeName.isDefined) FunctionApplication(field.typeMapper + ".toBase")
+    if (field.customSingleScalaTypeName.isDefined)
+      FunctionApplication(s"${field.typeMapper}.toBase")
+    else if (field.isMessage && field.getMessageType.messageOptions.hasType)
+      FunctionApplication(s"implicitly[${field.getMessageType.typeMapperType}].toBase")
     else Identity
 
   def toBaseFieldType(field: FieldDescriptor) = if (field.isEnum)
@@ -398,8 +403,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     toBaseTypeExpr(field).apply(expr, EnclosingType.None)
 
   def toCustomTypeExpr(field: FieldDescriptor) =
-    if (field.customSingleScalaTypeName.isEmpty) Identity
-    else FunctionApplication(s"${field.typeMapper}.toCustom")
+    if (field.customSingleScalaTypeName.isDefined)
+      FunctionApplication(s"${field.typeMapper}.toCustom")
+    else if (field.isMessage && field.getMessageType.messageOptions.hasType)
+      FunctionApplication(s"implicitly[${field.getMessageType.typeMapperType}].toCustom")
+    else Identity
 
   def toCustomType(field: FieldDescriptor)(expr: String) =
     toCustomTypeExpr(field).apply(expr, EnclosingType.None)
@@ -497,8 +505,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               val capTypeName = Types.capitalizedType(field.getType)
               val sizeFunc = FunctionApplication(s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag")
               val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
-              val fromCustom = if (field.customSingleScalaTypeName.isDefined)
-                FunctionApplication(s"${field.typeMapper}.toBase")
+              val fromCustom =
+                if (field.customSingleScalaTypeName.isDefined)
+                  FunctionApplication(s"${field.typeMapper}.toBase")
+                else if (field.isMessage && field.getMessageType.messageOptions.hasType)
+                  FunctionApplication(s"implicitly[${field.getMessageType.typeMapperType}].toBase")
                 else Identity
               val funcs = List(sizeFunc, fromEnum, fromCustom)
               val sizeExpr = ExpressionBuilder.runSingleton(funcs)("__i")
@@ -533,8 +544,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               s"_output__.write${capTypeName}NoTag") ++ (
               if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).value") else Nil
               ) ++ (
-              if (field.customSingleScalaTypeName.isDefined)
-                Seq(s"${field.typeMapper}.toBase")
+              if (field.customSingleScalaTypeName.isDefined) Seq(s"${field.typeMapper}.toBase")
+              else if (field.isMessage && field.getMessageType.messageOptions.hasType)
+                Seq(s"implicitly[${field.getMessageType.typeMapperType}].toBase")
               else Nil
               ))
 
@@ -945,9 +957,12 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         val modifier =
           if (field.getContainingType.isMapEntry) s"private[${field.getContainingType.getContainingType.scalaName}]"
           else s"private"
+        val typeMapperType =
+          s"_root_.com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]"
         printer
           .add("@transient")
-          .add(s"$modifier val ${field.typeMapperValName}: _root_.com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.com.trueaccord.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]")
+          .add(s"$modifier val ${field.typeMapperValName}: $typeMapperType =")
+          .addIndented(s"implicitly[$typeMapperType]")
     }
   }
 
@@ -969,6 +984,19 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         s"""implicit val keyValueMapper: _root_.com.trueaccord.scalapb.TypeMapper[${message.scalaTypeName}, ${message.mapType.pairType}] =
            |  _root_.com.trueaccord.scalapb.TypeMapper[${message.scalaTypeName}, ${message.mapType.pairType}]($messageToPair)($pairToMessage)"""
       )
+  }
+
+  def generateTypeMapperForMessage(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val customTypeName = message.messageOptions.getType.split("\\.").last
+    val typeMapperType =
+      s"_root_.com.trueaccord.scalapb.TypeMapper[${message.scalaTypeName}, ${message.messageOptions.getType}]"
+    printer
+      .add(s"implicit class ${customTypeName}ProtoConverter(message: ${message.messageOptions.getType}) {")
+      .indent
+      .add(s"def toByteArray(implicit typeMapper: $typeMapperType): Array[Byte] =")
+      .addIndented("typeMapper.toBase(message).toByteArray")
+      .outdent
+      .add("}")
   }
 
   def generateMessageCompanionMatcher(methodName: String, messageNumbers: Seq[(Descriptor, Int)])(fp: FunctionalPrinter): FunctionalPrinter = {
@@ -1141,6 +1169,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .call(generateFieldNumbers(message))
       .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
+      .when(message.messageOptions.hasType)(generateTypeMapperForMessage(message))
       .outdent
       .add("}")
       .add("")
