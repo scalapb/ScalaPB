@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+// Tests for types that are defined on the message level.
+
+message XYMessage {
+  option (scalapb.message).type = "com.trueaccord.pb.Point2D";
+  optional int32 x = 1;
+  optional int32 y = 2;
+}
+
+message UsesMessageLevelType {
+  optional XYMessage opt_point = 1;
+  repeated XYMessage rep_point = 2;
+  map<int32, XYMessage> map_point = 3;
+}

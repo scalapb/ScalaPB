@@ -64,6 +64,10 @@ message MessageOptions {
 
   // Custom annotations to add to the generated case class.
   repeated string annotations = 3;
+
+  // All instances of this message be converted to this type. An implicit TypeMapper
+  // must be present.
+  optional string type = 4;
 }
 
 extend google.protobuf.MessageOptions {

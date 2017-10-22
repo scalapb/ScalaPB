@@ -265,8 +265,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         scalaGetter, enclosingType = field.enclosingType)
       if (field.supportsPresence || field.isInOneof)
         s"$scalaExpr.foreach($javaSetter)"
-      else
-      if (field.isRepeated)
+      else if (field.isRepeated)
         s"$javaSetter($scalaExpr.asJava)"
       else
         s"$javaSetter($scalaExpr)"
