@@ -5,7 +5,7 @@
 
 package com.google.protobuf.descriptor
 
-import scala.collection.JavaConverters._
+
 
 /** Describes a field within a message.
   *

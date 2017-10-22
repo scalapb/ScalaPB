@@ -5,7 +5,7 @@
 
 package com.google.protobuf.duration
 
-import scala.collection.JavaConverters._
+
 
 /** A Duration represents a signed, fixed-length span of time represented
   * as a count of seconds and fractions of seconds at nanosecond

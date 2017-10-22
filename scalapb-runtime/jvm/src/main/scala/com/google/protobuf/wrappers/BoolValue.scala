@@ -5,7 +5,7 @@
 
 package com.google.protobuf.wrappers
 
-import scala.collection.JavaConverters._
+
 
 /** Wrapper message for `bool`.
   *

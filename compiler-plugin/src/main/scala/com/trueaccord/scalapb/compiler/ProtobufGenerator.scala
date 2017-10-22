@@ -8,9 +8,6 @@ import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGene
 import com.trueaccord.scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scala.collection.JavaConverters._
 
-import com.trueaccord.scalapb.Scalapb
-import com.trueaccord.scalapb.Scalapb.MessageOptions
-
 case class GeneratorParams(
   javaConversions: Boolean = false, flatPackage: Boolean = false,
   grpc: Boolean = false, singleLineToString: Boolean = false)
@@ -1319,9 +1316,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
   }
 
+  private def messageContainsRepeatedFields(message: Descriptor): Boolean = {
+    message.fields.exists(_.isRepeated) || message.nestedTypes.exists(messageContainsRepeatedFields)
+  }
+
   def generateSingleScalaFileForFileDescriptor(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     val code =
-      scalaFileHeader(file, file.javaConversions)
+      scalaFileHeader(file, file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields))
       .print(file.getEnumTypes.asScala)(printEnum)
       .print(file.getMessageTypes.asScala)(printMessage)
       .call(generateFileObject(file)).result()
@@ -1351,7 +1352,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + message.scalaName + ".scala")
       b.setContent(
-        scalaFileHeader(file, file.javaConversions)
+        scalaFileHeader(file, file.javaConversions && messageContainsRepeatedFields(message))
           .call(printMessage(_, message)).result())
       b.build
     }

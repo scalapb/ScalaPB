@@ -5,7 +5,7 @@
 
 package com.google.protobuf.empty
 
-import scala.collection.JavaConverters._
+
 
 /** A generic empty message that you can re-use to avoid defining duplicated
   * empty messages in your APIs. A typical example is to use it as the request

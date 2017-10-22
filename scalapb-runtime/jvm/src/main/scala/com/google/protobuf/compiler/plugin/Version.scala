@@ -5,7 +5,7 @@
 
 package com.google.protobuf.compiler.plugin
 
-import scala.collection.JavaConverters._
+
 
 /** The version number of protocol compiler.
   *

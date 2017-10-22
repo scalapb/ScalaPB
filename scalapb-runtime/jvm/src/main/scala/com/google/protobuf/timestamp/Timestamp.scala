@@ -5,7 +5,7 @@
 
 package com.google.protobuf.timestamp
 
-import scala.collection.JavaConverters._
+
 
 /** A Timestamp represents a point in time independent of any time zone
   * or calendar, represented as seconds and fractions of seconds at
