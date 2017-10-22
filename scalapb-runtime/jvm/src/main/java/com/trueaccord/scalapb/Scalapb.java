@@ -2192,7 +2192,7 @@ public final class Scalapb {
 
     /**
      * <pre>
-     * All instances of this message be converted to this type. An implicit TypeMapper
+     * All instances of this message will be converted to this type. An implicit TypeMapper
      * must be present.
      * </pre>
      *
@@ -2201,7 +2201,7 @@ public final class Scalapb {
     boolean hasType();
     /**
      * <pre>
-     * All instances of this message be converted to this type. An implicit TypeMapper
+     * All instances of this message will be converted to this type. An implicit TypeMapper
      * must be present.
      * </pre>
      *
@@ -2210,7 +2210,7 @@ public final class Scalapb {
     java.lang.String getType();
     /**
      * <pre>
-     * All instances of this message be converted to this type. An implicit TypeMapper
+     * All instances of this message will be converted to this type. An implicit TypeMapper
      * must be present.
      * </pre>
      *
@@ -2472,7 +2472,7 @@ public final class Scalapb {
     private volatile java.lang.Object type_;
     /**
      * <pre>
-     * All instances of this message be converted to this type. An implicit TypeMapper
+     * All instances of this message will be converted to this type. An implicit TypeMapper
      * must be present.
      * </pre>
      *
@@ -2483,7 +2483,7 @@ public final class Scalapb {
     }
     /**
      * <pre>
-     * All instances of this message be converted to this type. An implicit TypeMapper
+     * All instances of this message will be converted to this type. An implicit TypeMapper
      * must be present.
      * </pre>
      *
@@ -2505,7 +2505,7 @@ public final class Scalapb {
     }
     /**
      * <pre>
-     * All instances of this message be converted to this type. An implicit TypeMapper
+     * All instances of this message will be converted to this type. An implicit TypeMapper
      * must be present.
      * </pre>
      *
@@ -3313,7 +3313,7 @@ public final class Scalapb {
       private java.lang.Object type_ = "";
       /**
        * <pre>
-       * All instances of this message be converted to this type. An implicit TypeMapper
+       * All instances of this message will be converted to this type. An implicit TypeMapper
        * must be present.
        * </pre>
        *
@@ -3324,7 +3324,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * All instances of this message be converted to this type. An implicit TypeMapper
+       * All instances of this message will be converted to this type. An implicit TypeMapper
        * must be present.
        * </pre>
        *
@@ -3346,7 +3346,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * All instances of this message be converted to this type. An implicit TypeMapper
+       * All instances of this message will be converted to this type. An implicit TypeMapper
        * must be present.
        * </pre>
        *
@@ -3367,7 +3367,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * All instances of this message be converted to this type. An implicit TypeMapper
+       * All instances of this message will be converted to this type. An implicit TypeMapper
        * must be present.
        * </pre>
        *
@@ -3385,7 +3385,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * All instances of this message be converted to this type. An implicit TypeMapper
+       * All instances of this message will be converted to this type. An implicit TypeMapper
        * must be present.
        * </pre>
        *
@@ -3399,7 +3399,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * All instances of this message be converted to this type. An implicit TypeMapper
+       * All instances of this message will be converted to this type. An implicit TypeMapper
        * must be present.
        * </pre>
        *
@@ -4884,6 +4884,35 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getCompanionExtendsBytes(int index);
+
+    /**
+     * <pre>
+     * All instances of this enum will be converted to this type. An implicit TypeMapper
+     * must be present.
+     * </pre>
+     *
+     * <code>optional string type = 3;</code>
+     */
+    boolean hasType();
+    /**
+     * <pre>
+     * All instances of this enum will be converted to this type. An implicit TypeMapper
+     * must be present.
+     * </pre>
+     *
+     * <code>optional string type = 3;</code>
+     */
+    java.lang.String getType();
+    /**
+     * <pre>
+     * All instances of this enum will be converted to this type. An implicit TypeMapper
+     * must be present.
+     * </pre>
+     *
+     * <code>optional string type = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getTypeBytes();
   }
   /**
    * Protobuf type {@code scalapb.EnumOptions}
@@ -4900,6 +4929,7 @@ public final class Scalapb {
     private EnumOptions() {
       extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      type_ = "";
     }
 
     @java.lang.Override
@@ -4948,6 +4978,12 @@ public final class Scalapb {
               companionExtends_.add(bs);
               break;
             }
+            case 26: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              bitField0_ |= 0x00000001;
+              type_ = bs;
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4978,6 +5014,7 @@ public final class Scalapb {
               com.trueaccord.scalapb.Scalapb.EnumOptions.class, com.trueaccord.scalapb.Scalapb.EnumOptions.Builder.class);
     }
 
+    private int bitField0_;
     public static final int EXTENDS_FIELD_NUMBER = 1;
     private com.google.protobuf.LazyStringList extends_;
     /**
@@ -5068,6 +5105,63 @@ public final class Scalapb {
       return companionExtends_.getByteString(index);
     }
 
+    public static final int TYPE_FIELD_NUMBER = 3;
+    private volatile java.lang.Object type_;
+    /**
+     * <pre>
+     * All instances of this enum will be converted to this type. An implicit TypeMapper
+     * must be present.
+     * </pre>
+     *
+     * <code>optional string type = 3;</code>
+     */
+    public boolean hasType() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    /**
+     * <pre>
+     * All instances of this enum will be converted to this type. An implicit TypeMapper
+     * must be present.
+     * </pre>
+     *
+     * <code>optional string type = 3;</code>
+     */
+    public java.lang.String getType() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          type_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * All instances of this enum will be converted to this type. An implicit TypeMapper
+     * must be present.
+     * </pre>
+     *
+     * <code>optional string type = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTypeBytes() {
+      java.lang.Object ref = type_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        type_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -5085,6 +5179,9 @@ public final class Scalapb {
       }
       for (int i = 0; i < companionExtends_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 2, companionExtends_.getRaw(i));
+      }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, type_);
       }
       unknownFields.writeTo(output);
     }
@@ -5110,6 +5207,9 @@ public final class Scalapb {
         size += dataSize;
         size += 1 * getCompanionExtendsList().size();
       }
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, type_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -5130,6 +5230,11 @@ public final class Scalapb {
           .equals(other.getExtendsList());
       result = result && getCompanionExtendsList()
           .equals(other.getCompanionExtendsList());
+      result = result && (hasType() == other.hasType());
+      if (hasType()) {
+        result = result && getType()
+            .equals(other.getType());
+      }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -5148,6 +5253,10 @@ public final class Scalapb {
       if (getCompanionExtendsCount() > 0) {
         hash = (37 * hash) + COMPANION_EXTENDS_FIELD_NUMBER;
         hash = (53 * hash) + getCompanionExtendsList().hashCode();
+      }
+      if (hasType()) {
+        hash = (37 * hash) + TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getType().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -5282,6 +5391,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000001);
         companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000002);
+        type_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
         return this;
       }
 
@@ -5305,6 +5416,7 @@ public final class Scalapb {
       public com.trueaccord.scalapb.Scalapb.EnumOptions buildPartial() {
         com.trueaccord.scalapb.Scalapb.EnumOptions result = new com.trueaccord.scalapb.Scalapb.EnumOptions(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
         if (((bitField0_ & 0x00000001) == 0x00000001)) {
           extends_ = extends_.getUnmodifiableView();
           bitField0_ = (bitField0_ & ~0x00000001);
@@ -5315,6 +5427,11 @@ public final class Scalapb {
           bitField0_ = (bitField0_ & ~0x00000002);
         }
         result.companionExtends_ = companionExtends_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.type_ = type_;
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -5374,6 +5491,11 @@ public final class Scalapb {
             ensureCompanionExtendsIsMutable();
             companionExtends_.addAll(other.companionExtends_);
           }
+          onChanged();
+        }
+        if (other.hasType()) {
+          bitField0_ |= 0x00000004;
+          type_ = other.type_;
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -5658,6 +5780,112 @@ public final class Scalapb {
   }
   ensureCompanionExtendsIsMutable();
         companionExtends_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object type_ = "";
+      /**
+       * <pre>
+       * All instances of this enum will be converted to this type. An implicit TypeMapper
+       * must be present.
+       * </pre>
+       *
+       * <code>optional string type = 3;</code>
+       */
+      public boolean hasType() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      /**
+       * <pre>
+       * All instances of this enum will be converted to this type. An implicit TypeMapper
+       * must be present.
+       * </pre>
+       *
+       * <code>optional string type = 3;</code>
+       */
+      public java.lang.String getType() {
+        java.lang.Object ref = type_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            type_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * All instances of this enum will be converted to this type. An implicit TypeMapper
+       * must be present.
+       * </pre>
+       *
+       * <code>optional string type = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTypeBytes() {
+        java.lang.Object ref = type_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          type_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * All instances of this enum will be converted to this type. An implicit TypeMapper
+       * must be present.
+       * </pre>
+       *
+       * <code>optional string type = 3;</code>
+       */
+      public Builder setType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * All instances of this enum will be converted to this type. An implicit TypeMapper
+       * must be present.
+       * </pre>
+       *
+       * <code>optional string type = 3;</code>
+       */
+      public Builder clearType() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        type_ = getDefaultInstance().getType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * All instances of this enum will be converted to this type. An implicit TypeMapper
+       * must be present.
+       * </pre>
+       *
+       * <code>optional string type = 3;</code>
+       */
+      public Builder setTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        type_ = value;
         onChanged();
         return this;
       }
@@ -6481,19 +6709,19 @@ public final class Scalapb {
       "\030\004 \001(\t\"o\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\n" +
       "scala_name\030\002 \001(\t\022\027\n\017collection_type\030\003 \001(" +
       "\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\"" +
-      "9\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021compa" +
-      "nion_extends\030\002 \003(\t\"#\n\020EnumValueOptions\022\017" +
-      "\n\007extends\030\001 \003(\t:G\n\007options\022\034.google.prot" +
-      "obuf.FileOptions\030\374\007 \001(\0132\027.scalapb.ScalaP" +
-      "bOptions:J\n\007message\022\037.google.protobuf.Me" +
-      "ssageOptions\030\374\007 \001(\0132\027.scalapb.MessageOpt" +
-      "ions:D\n\005field\022\035.google.protobuf.FieldOpt",
-      "ions\030\374\007 \001(\0132\025.scalapb.FieldOptions:I\n\014en" +
-      "um_options\022\034.google.protobuf.EnumOptions" +
-      "\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nenum_va" +
-      "lue\022!.google.protobuf.EnumValueOptions\030\374" +
-      "\007 \001(\0132\031.scalapb.EnumValueOptionsB\030\n\026com." +
-      "trueaccord.scalapb"
+      "G\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021compa" +
+      "nion_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020Enum" +
+      "ValueOptions\022\017\n\007extends\030\001 \003(\t:G\n\007options" +
+      "\022\034.google.protobuf.FileOptions\030\374\007 \001(\0132\027." +
+      "scalapb.ScalaPbOptions:J\n\007message\022\037.goog" +
+      "le.protobuf.MessageOptions\030\374\007 \001(\0132\027.scal" +
+      "apb.MessageOptions:D\n\005field\022\035.google.pro",
+      "tobuf.FieldOptions\030\374\007 \001(\0132\025.scalapb.Fiel" +
+      "dOptions:I\n\014enum_options\022\034.google.protob" +
+      "uf.EnumOptions\030\374\007 \001(\0132\024.scalapb.EnumOpti" +
+      "ons:Q\n\nenum_value\022!.google.protobuf.Enum" +
+      "ValueOptions\030\374\007 \001(\0132\031.scalapb.EnumValueO" +
+      "ptionsB\030\n\026com.trueaccord.scalapb"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -6531,7 +6759,7 @@ public final class Scalapb {
     internal_static_scalapb_EnumOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_EnumOptions_descriptor,
-        new java.lang.String[] { "Extends", "CompanionExtends", });
+        new java.lang.String[] { "Extends", "CompanionExtends", "Type", });
     internal_static_scalapb_EnumValueOptions_descriptor =
       getDescriptor().getMessageTypes().get(4);
     internal_static_scalapb_EnumValueOptions_fieldAccessorTable = new

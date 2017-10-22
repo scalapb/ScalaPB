@@ -12,8 +12,20 @@ message XYMessage {
   optional int32 y = 2;
 }
 
+enum DirEnum {
+  option (scalapb.enum_options).type = "com.trueaccord.pb.Dir2D";
+  UNKNOWN = 0;
+  UP = 1;
+  DOWN = 2;
+}
+
 message UsesMessageLevelType {
   optional XYMessage opt_point = 1;
   repeated XYMessage rep_point = 2;
   map<int32, XYMessage> map_point = 3;
+
+  optional DirEnum opt_dir = 4;
+  repeated DirEnum rep_dir = 5;
+  map<int32, DirEnum> map_dir = 6;
 }
+

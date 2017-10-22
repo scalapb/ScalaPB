@@ -14,7 +14,7 @@ package com.trueaccord.scalapb.scalapb
   * @param annotations
   *   Custom annotations to add to the generated case class.
   * @param type
-  *   All instances of this message be converted to this type. An implicit TypeMapper
+  *   All instances of this message will be converted to this type. An implicit TypeMapper
   *   must be present.
   */
 @SerialVersionUID(0L)

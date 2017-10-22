@@ -168,6 +168,7 @@ trait DescriptorPimps {
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType) Some(fd.getMessageType.messageOptions.getType)
+      else if (isEnum && fd.getEnumType.scalaOptions.hasType) Some(fd.getEnumType.scalaOptions.getType)
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType)
         Some(fieldReferencingMap.fieldOptions.getKeyType)
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)

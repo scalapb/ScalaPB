@@ -11,11 +11,15 @@ package com.trueaccord.scalapb.scalapb
   *   Additional classes and traits to mix in to the base trait
   * @param companionExtends
   *   Additional classes and traits to mix in to the companion object.
+  * @param type
+  *   All instances of this enum will be converted to this type. An implicit TypeMapper
+  *   must be present.
   */
 @SerialVersionUID(0L)
 final case class EnumOptions(
     `extends`: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
-    companionExtends: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty
+    companionExtends: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
+    `type`: scala.Option[String] = None
     ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[EnumOptions] with com.trueaccord.lenses.Updatable[EnumOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
@@ -23,6 +27,7 @@ final case class EnumOptions(
       var __size = 0
       `extends`.foreach(`extends` => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, `extends`))
       companionExtends.foreach(companionExtends => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, companionExtends))
+      if (`type`.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, `type`.get) }
       __size
     }
     final override def serializedSize: Int = {
@@ -40,10 +45,14 @@ final case class EnumOptions(
       companionExtends.foreach { __v =>
         _output__.writeString(2, __v)
       };
+      `type`.foreach { __v =>
+        _output__.writeString(3, __v)
+      };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.trueaccord.scalapb.scalapb.EnumOptions = {
       val __extends = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.`extends`)
       val __companionExtends = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.companionExtends)
+      var __type = this.`type`
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -53,12 +62,15 @@ final case class EnumOptions(
             __extends += _input__.readString()
           case 18 =>
             __companionExtends += _input__.readString()
+          case 26 =>
+            __type = Some(_input__.readString())
           case tag => _input__.skipField(tag)
         }
       }
       com.trueaccord.scalapb.scalapb.EnumOptions(
           `extends` = __extends.result(),
-          companionExtends = __companionExtends.result()
+          companionExtends = __companionExtends.result(),
+          `type` = __type
       )
     }
     def clearExtends = copy(`extends` = _root_.scala.collection.Seq.empty)
@@ -69,10 +81,14 @@ final case class EnumOptions(
     def addCompanionExtends(__vs: String*): EnumOptions = addAllCompanionExtends(__vs)
     def addAllCompanionExtends(__vs: TraversableOnce[String]): EnumOptions = copy(companionExtends = companionExtends ++ __vs)
     def withCompanionExtends(__v: _root_.scala.collection.Seq[String]): EnumOptions = copy(companionExtends = __v)
+    def getType: String = `type`.getOrElse("")
+    def clearType: EnumOptions = copy(`type` = None)
+    def withType(__v: String): EnumOptions = copy(`type` = Some(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
         case 2 => companionExtends
+        case 3 => `type`.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -80,6 +96,7 @@ final case class EnumOptions(
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
         case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
+        case 3 => `type`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
@@ -93,7 +110,8 @@ object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     val __fields = javaDescriptor.getFields
     com.trueaccord.scalapb.scalapb.EnumOptions(
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[String]]
+      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
+      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.trueaccord.scalapb.scalapb.EnumOptions] = _root_.scalapb.descriptors.Reads{
@@ -101,7 +119,8 @@ object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.trueaccord.scalapb.scalapb.EnumOptions(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -115,7 +134,10 @@ object EnumOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
   implicit class EnumOptionsLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.trueaccord.scalapb.scalapb.EnumOptions]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.trueaccord.scalapb.scalapb.EnumOptions](_l) {
     def `extends`: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def companionExtends: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
+    def `type`: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Some(f_)))
+    def optionalType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
   final val COMPANION_EXTENDS_FIELD_NUMBER = 2
+  final val TYPE_FIELD_NUMBER = 3
 }
