@@ -116,7 +116,6 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def escapeString(raw: String): String = raw.map {
-    case u if u >= ' ' && u <= '~' => u.toString
     case '\b' => "\\b"
     case '\f' => "\\f"
     case '\n' => "\\n"
@@ -125,6 +124,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     case '\\' => "\\\\"
     case '\"' => "\\\""
     case '\'' => "\\\'"
+    case u if u >= ' ' && u <= '~' => u.toString
     case c: Char => "\\u%4s".format(c.toInt.toHexString).replace(' ','0')
   }.mkString("\"", "", "\"")
 

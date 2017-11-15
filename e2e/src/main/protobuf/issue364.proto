@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+message Issue364 {
+  optional string value = 1 [default="hello, \"world!\"\n"];
+}
