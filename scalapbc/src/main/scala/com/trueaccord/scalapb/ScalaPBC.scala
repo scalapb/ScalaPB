@@ -23,7 +23,7 @@ object ScalaPBC {
     args.foldLeft(State(Config(), false)) {
       case (state, item) =>
         (state.passThrough, item) match {
-          case (false, v) if v.startsWith("-v") =>state.copy(cfg = state.cfg.copy(version = v))
+          case (false, v) if v.startsWith("-v") => state.copy(cfg = state.cfg.copy(version = v))
           case (false, "--throw") => state.copy(cfg = state.cfg.copy(throwException = true))
           case (false, p) if p.startsWith(customPathArgument) => state.copy(cfg = state.cfg.copy(customProtocLocation = Some(p.substring(customPathArgument.length))))
           case (_, other) => state.copy(
