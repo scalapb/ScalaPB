@@ -15,7 +15,7 @@ case class Config(
 class ScalaPbcException(msg: String) extends RuntimeException(msg)
 
 object ScalaPBC {
-  private val customPathArgument =  "--protocPath="
+  private val customPathArgument =  "--protoc="
 
   def processArgs(args: Array[String]): Config = {
     case class State(cfg: Config, passThrough: Boolean)
