@@ -210,7 +210,7 @@ lazy val ShortTest = config("short") extend(Test)
 val protobufVersion = "3.4.0"
 
 // For e2e test
-val sbtPluginVersion = "0.99.12"
+val sbtPluginVersion = "0.99.13"
 
 def genVersionFile(out: File, version: String): File = {
   out.mkdirs()
