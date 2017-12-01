@@ -19,7 +19,7 @@ final case class Version(
     minor: scala.Option[Int] = None,
     patch: scala.Option[Int] = None,
     suffix: scala.Option[String] = None
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Version] with com.trueaccord.lenses.Updatable[Version] {
+    ) extends scalapb.GeneratedMessage with scalapb.Message[Version] with scalapb.lenses.Updatable[Version] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -109,12 +109,12 @@ final case class Version(
         case 4 => suffix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.compiler.plugin.Version
 }
 
-object Version extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] = this
+object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.Version = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
@@ -138,20 +138,20 @@ object Version extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.goog
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = PluginProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = PluginProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
-  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.compiler.plugin.Version(
   )
-  implicit class VersionLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.Version]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.Version](_l) {
-    def major: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getMajor)((c_, f_) => c_.copy(major = Some(f_)))
-    def optionalMajor: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.major)((c_, f_) => c_.copy(major = f_))
-    def minor: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getMinor)((c_, f_) => c_.copy(minor = Some(f_)))
-    def optionalMinor: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.minor)((c_, f_) => c_.copy(minor = f_))
-    def patch: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getPatch)((c_, f_) => c_.copy(patch = Some(f_)))
-    def optionalPatch: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.patch)((c_, f_) => c_.copy(patch = f_))
-    def suffix: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getSuffix)((c_, f_) => c_.copy(suffix = Some(f_)))
-    def optionalSuffix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.suffix)((c_, f_) => c_.copy(suffix = f_))
+  implicit class VersionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.Version]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.Version](_l) {
+    def major: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getMajor)((c_, f_) => c_.copy(major = Some(f_)))
+    def optionalMajor: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.major)((c_, f_) => c_.copy(major = f_))
+    def minor: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getMinor)((c_, f_) => c_.copy(minor = Some(f_)))
+    def optionalMinor: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.minor)((c_, f_) => c_.copy(minor = f_))
+    def patch: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getPatch)((c_, f_) => c_.copy(patch = Some(f_)))
+    def optionalPatch: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.patch)((c_, f_) => c_.copy(patch = f_))
+    def suffix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSuffix)((c_, f_) => c_.copy(suffix = Some(f_)))
+    def optionalSuffix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.suffix)((c_, f_) => c_.copy(suffix = f_))
   }
   final val MAJOR_FIELD_NUMBER = 1
   final val MINOR_FIELD_NUMBER = 2

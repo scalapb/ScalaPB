@@ -17,7 +17,7 @@ package com.google.protobuf.source_context
 @SerialVersionUID(0L)
 final case class SourceContext(
     fileName: String = ""
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[SourceContext] with com.trueaccord.lenses.Updatable[SourceContext] {
+    ) extends scalapb.GeneratedMessage with scalapb.Message[SourceContext] with scalapb.lenses.Updatable[SourceContext] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -72,12 +72,12 @@ final case class SourceContext(
         case 1 => _root_.scalapb.descriptors.PString(fileName)
       }
     }
-    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.source_context.SourceContext
 }
 
-object SourceContext extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] = this
+object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.source_context.SourceContext): com.google.protobuf.SourceContext = {
     val javaPbOut = com.google.protobuf.SourceContext.newBuilder
     javaPbOut.setFileName(scalaPbSource.fileName)
@@ -103,13 +103,13 @@ object SourceContext extends com.trueaccord.scalapb.GeneratedMessageCompanion[co
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = SourceContextProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = SourceContextProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
-  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.source_context.SourceContext(
   )
-  implicit class SourceContextLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.source_context.SourceContext](_l) {
-    def fileName: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))
+  implicit class SourceContextLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.source_context.SourceContext](_l) {
+    def fileName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))
   }
   final val FILE_NAME_FIELD_NUMBER = 1
 }

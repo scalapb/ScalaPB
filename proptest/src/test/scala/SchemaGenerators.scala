@@ -4,9 +4,9 @@ import java.nio.file.Files
 import javax.tools.ToolProvider
 
 import com.google.protobuf.Message.Builder
-import com.trueaccord.scalapb.compiler._
+import scalapb.compiler._
 import org.scalacheck.Gen
-import com.trueaccord.scalapb._
+import scalapb._
 import protocbridge.ProtocBridge
 
 import scala.reflect.ClassTag
@@ -122,7 +122,7 @@ object SchemaGenerators {
     println("Compiling Java sources.")
     val protobufJar = Seq(
       jarForClass[com.google.protobuf.Message].getPath,
-      jarForClass[com.trueaccord.scalapb.Scalapb].getPath)
+      jarForClass[scalapb.options.Scalapb].getPath)
 
     val compiler = ToolProvider.getSystemJavaCompiler()
     getFileTree(rootDir)
@@ -143,16 +143,16 @@ object SchemaGenerators {
     print("Compiling Scala sources. ")
     val classPath = Seq(
       jarForClass[annotation.Annotation].getPath,
-      jarForClass[com.trueaccord.scalapb.GeneratedMessage].getPath,
-      jarForClass[com.trueaccord.scalapb.Scalapb].getPath,
-      jarForClass[com.trueaccord.scalapb.grpc.Grpc.type].getPath,
+      jarForClass[scalapb.GeneratedMessage].getPath,
+      jarForClass[scalapb.options.Scalapb].getPath,
+      jarForClass[scalapb.grpc.Grpc.type].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
       jarForClass[io.grpc.Channel].getPath,
       jarForClass[io.grpc.stub.AbstractStub[_]].getPath,
       jarForClass[io.grpc.protobuf.ProtoFileDescriptorSupplier].getPath,
       jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
       jarForClass[javax.annotation.Nullable],
-      jarForClass[com.trueaccord.lenses.Lens[_, _]].getPath,
+      jarForClass[scalapb.lenses.Lens[_, _]].getPath,
       jarForClass[fastparse.core.Parsed[_, _, _]].getPath,
       rootDir
     )

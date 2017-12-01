@@ -1,7 +1,7 @@
 import GenUtils._
 import GenTypes.{FieldOptions, ProtoType}
-import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
-import com.trueaccord.scalapb.compiler.{NameUtils, StreamType}
+import scalapb.options.Scalapb.ScalaPbOptions
+import scalapb.compiler.{NameUtils, StreamType}
 import org.scalacheck.{Arbitrary, Gen}
 
 object GraphGen {

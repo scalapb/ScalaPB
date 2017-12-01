@@ -1,7 +1,7 @@
 
-import com.trueaccord.scalapb.Scalapb.ScalaPbOptions
-import com.trueaccord.scalapb.compiler
-import com.trueaccord.scalapb.compiler.{StreamType, FunctionalPrinter}
+import scalapb.options.Scalapb.ScalaPbOptions
+import scalapb.compiler
+import scalapb.compiler.{StreamType, FunctionalPrinter}
 
 import scala.collection.mutable
 import scala.util.Try

@@ -1,4 +1,4 @@
-import com.trueaccord.scalapb.compiler.FunctionalPrinter
+import scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Gen
 import scala.collection.JavaConversions._
 

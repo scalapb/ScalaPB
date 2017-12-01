@@ -2,8 +2,8 @@ package scalapb
 
 import com.google.protobuf.ExtensionRegistry
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
-import com.trueaccord.scalapb.Scalapb
-import com.trueaccord.scalapb.compiler.ProtobufGenerator
+import scalapb.compiler.ProtobufGenerator
+import scalapb.options.Scalapb
 import protocbridge.{ProtocCodeGenerator, Artifact}
 
 
@@ -16,7 +16,7 @@ object ScalaPbCodeGenerator extends ProtocCodeGenerator {
   }
 
   override def suggestedDependencies: Seq[Artifact] = Seq(
-    Artifact("com.trueaccord.scalapb", "scalapb-runtime",
-      com.trueaccord.scalapb.compiler.Version.scalapbVersion, crossVersion = true)
+    Artifact("com.thesamet.scalapb", "scalapb-runtime",
+      scalapb.compiler.Version.scalapbVersion, crossVersion = true)
   )
 }

@@ -1,6 +1,6 @@
 import ReleaseTransformations._
 
-scalaVersion in ThisBuild := "2.12.3"
+scalaVersion in ThisBuild := "2.10.6"
 
 crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.11", "2.12.3")
 
@@ -18,7 +18,7 @@ javacOptions in ThisBuild ++= {
   }
 }
 
-organization in ThisBuild := "com.trueaccord.scalapb"
+organization in ThisBuild := "com.thesamet.scalapb"
 
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
@@ -55,7 +55,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.trueaccord.lenses" %%% "lenses" % "0.4.12",
+      "com.thesamet.scalapb" %%% "lenses" % "0.7.0-test1",
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
       "com.lihaoyi" %%% "utest" % "0.5.3" % "test",
       "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
@@ -73,7 +73,7 @@ lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runti
   .jsSettings(
     // Add JS-specific settings here
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %%% "protobuf-runtime-scala" % "0.1.18"
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.0"
     ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
@@ -107,9 +107,9 @@ shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .settings(
     sourceGenerators in Compile += Def.task {
-      val file = (sourceManaged in Compile).value / "com" / "trueaccord" / "scalapb" / "compiler" / "Version.scala"
+      val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
       IO.write(file,
-        s"""package com.trueaccord.scalapb.compiler
+        s"""package scalapb.compiler
            |object Version {
            |  val scalapbVersion = "${version.value}"
            |  val protobufVersion = "${protobufVersion}"
@@ -118,22 +118,22 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(file)
     }.taskValue,
     sourceGenerators in Compile += Def.task {
-      val src = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "com" / "trueaccord" / "scalapb" / "Encoding.scala"
-      val dest = (sourceManaged in Compile).value / "com" / "trueaccord" / "scalapb" / "compiler" / "internal" /"Encoding.scala"
-      val s = IO.read(src).replace("package com.trueaccord.scalapb", "package com.trueaccord.scalapb.internal")
+      val src = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
+      val dest = (sourceManaged in Compile).value / "scalapb" / "compiler" / "internal" /"Encoding.scala"
+      val s = IO.read(src).replace("package scalapb", "package scalapb.internal")
       IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.3.0-M1",
+      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.0",
       "org.scalatest" %% "scalatest" % "3.0.4" % "test"
     ),
-    // shade our output to replace com.trueaccord.scalapb.Scalapb on the classpath, suitable for using in sbt 1.x,
+    // shade our output to replace com.thesamet.scalapb.Scalapb on the classpath, suitable for using in sbt 1.x,
     // which can cause runtime conflicts due to scalapb-runtime being included on the classpath as well
     assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = false),
     assemblyJarName in assembly := artifactName.value.apply(ScalaVersion((scalaVersion in artifactName).value, (scalaBinaryVersion in artifactName).value), projectID.value, (artifact in (Compile, assembly)).value),
     assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject
+      ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject
     ),
     packageBin in Compile := assembly.value,
     //replace the main artifact with the shaded non-fat jar
@@ -149,7 +149,7 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
   .settings(
     name := "compilerplugin-shaded",
     assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject,
+      ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject,
       ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll
     ),
     assemblyExcludedJars in assembly := {
@@ -190,8 +190,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
-        "com.trueaccord.lenses" %% "lenses" % "0.4.12",
-        "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.1.5",
+        "com.thesamet.scalapb" %% "lenses" % "0.7.0-test1",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
         "org.scalatest" %% "scalatest" % "3.0.4" % "test"
       ),
@@ -218,7 +217,7 @@ def genVersionFile(out: File, version: String): File = {
   val w = new java.io.FileOutputStream(f)
   w.write(s"""|// Generated by ScalaPB's build.sbt.
               |
-              |package com.trueaccord.scalapb
+              |package scalapb
               |
               |object Version {
               |  val sbtPluginVersion = "$sbtPluginVersion"

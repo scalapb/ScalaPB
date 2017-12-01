@@ -106,7 +106,7 @@ package com.google.protobuf.any
 final case class Any(
     typeUrl: String = "",
     value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Any] with com.trueaccord.lenses.Updatable[Any] with _root_.com.trueaccord.scalapb.AnyMethods {
+    ) extends scalapb.GeneratedMessage with scalapb.Message[Any] with scalapb.lenses.Updatable[Any] with _root_.scalapb.AnyMethods {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -178,12 +178,12 @@ final case class Any(
         case 2 => _root_.scalapb.descriptors.PByteString(value)
       }
     }
-    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.any.Any
 }
 
-object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with com.trueaccord.scalapb.AnyCompanionMethods = this
+object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods = this
   def toJavaProto(scalaPbSource: com.google.protobuf.any.Any): com.google.protobuf.Any = {
     val javaPbOut = com.google.protobuf.Any.newBuilder
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
@@ -213,14 +213,14 @@ object Any extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.p
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = AnyProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = AnyProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
-  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.any.Any(
   )
-  implicit class AnyLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.any.Any]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.any.Any](_l) {
-    def typeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
-    def value: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
+  implicit class AnyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.any.Any](_l) {
+    def typeUrl: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
+    def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val TYPE_URL_FIELD_NUMBER = 1
   final val VALUE_FIELD_NUMBER = 2

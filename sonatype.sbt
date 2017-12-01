@@ -1,4 +1,4 @@
-sonatypeProfileName := "com.trueaccord"
+sonatypeProfileName := "com.thesamet"
 
 pomExtra in Global := {
   <url>https://github.com/scalapb/ScalaPB</url>

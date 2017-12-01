@@ -7,10 +7,10 @@ package com.google.protobuf.wrappers
 
 
 
-object WrappersProto extends _root_.com.trueaccord.scalapb.GeneratedFileObject {
-  lazy val dependencies: Seq[_root_.com.trueaccord.scalapb.GeneratedFileObject] = Seq(
+object WrappersProto extends _root_.scalapb.GeneratedFileObject {
+  lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
   )
-  lazy val messagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
     com.google.protobuf.wrappers.DoubleValue,
     com.google.protobuf.wrappers.FloatValue,
     com.google.protobuf.wrappers.Int64Value,
@@ -22,7 +22,7 @@ object WrappersProto extends _root_.com.trueaccord.scalapb.GeneratedFileObject {
     com.google.protobuf.wrappers.BytesValue
   )
   private lazy val ProtoBytes: Array[Byte] =
-      com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
+      scalapb.Encoding.fromBase64(scala.collection.Seq(
   """Ch5nb29nbGUvcHJvdG9idWYvd3JhcHBlcnMucHJvdG8SD2dvb2dsZS5wcm90b2J1ZiIjCgtEb3VibGVWYWx1ZRIUCgV2YWx1Z
   RgBIAEoAVIFdmFsdWUiIgoKRmxvYXRWYWx1ZRIUCgV2YWx1ZRgBIAEoAlIFdmFsdWUiIgoKSW50NjRWYWx1ZRIUCgV2YWx1ZRgBI
   AEoA1IFdmFsdWUiIwoLVUludDY0VmFsdWUSFAoFdmFsdWUYASABKARSBXZhbHVlIiIKCkludDMyVmFsdWUSFAoFdmFsdWUYASABK

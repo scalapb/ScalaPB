@@ -7,14 +7,14 @@ package com.google.protobuf.source_context
 
 
 
-object SourceContextProto extends _root_.com.trueaccord.scalapb.GeneratedFileObject {
-  lazy val dependencies: Seq[_root_.com.trueaccord.scalapb.GeneratedFileObject] = Seq(
+object SourceContextProto extends _root_.scalapb.GeneratedFileObject {
+  lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
   )
-  lazy val messagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
     com.google.protobuf.source_context.SourceContext
   )
   private lazy val ProtoBytes: Array[Byte] =
-      com.trueaccord.scalapb.Encoding.fromBase64(scala.collection.Seq(
+      scalapb.Encoding.fromBase64(scala.collection.Seq(
   """CiRnb29nbGUvcHJvdG9idWYvc291cmNlX2NvbnRleHQucHJvdG8SD2dvb2dsZS5wcm90b2J1ZiIsCg1Tb3VyY2VDb250ZXh0E
   hsKCWZpbGVfbmFtZRgBIAEoCVIIZmlsZU5hbWVClQEKE2NvbS5nb29nbGUucHJvdG9idWZCElNvdXJjZUNvbnRleHRQcm90b1ABW
   kFnb29nbGUuZ29sYW5nLm9yZy9nZW5wcm90by9wcm90b2J1Zi9zb3VyY2VfY29udGV4dDtzb3VyY2VfY29udGV4dKICA0dQQqoCH

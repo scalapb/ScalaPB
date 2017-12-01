@@ -98,7 +98,7 @@ package com.google.protobuf.timestamp
 final case class Timestamp(
     seconds: Long = 0L,
     nanos: Int = 0
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Timestamp] with com.trueaccord.lenses.Updatable[Timestamp] {
+    ) extends scalapb.GeneratedMessage with scalapb.Message[Timestamp] with scalapb.lenses.Updatable[Timestamp] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -170,12 +170,12 @@ final case class Timestamp(
         case 2 => _root_.scalapb.descriptors.PInt(nanos)
       }
     }
-    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.timestamp.Timestamp
 }
 
-object Timestamp extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] = this
+object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.timestamp.Timestamp = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
@@ -195,14 +195,14 @@ object Timestamp extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.go
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = TimestampProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = TimestampProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
-  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.timestamp.Timestamp(
   )
-  implicit class TimestampLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.timestamp.Timestamp]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.timestamp.Timestamp](_l) {
-    def seconds: _root_.com.trueaccord.lenses.Lens[UpperPB, Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
-    def nanos: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.nanos)((c_, f_) => c_.copy(nanos = f_))
+  implicit class TimestampLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.timestamp.Timestamp]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.timestamp.Timestamp](_l) {
+    def seconds: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
+    def nanos: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.nanos)((c_, f_) => c_.copy(nanos = f_))
   }
   final val SECONDS_FIELD_NUMBER = 1
   final val NANOS_FIELD_NUMBER = 2

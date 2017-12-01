@@ -1,4 +1,4 @@
-import com.trueaccord.scalapb.compiler.Version.grpcJavaVersion
+import scalapb.compiler.Version.grpcJavaVersion
 scalaVersion in ThisBuild := "2.11.11"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
@@ -38,8 +38,8 @@ val commonSettings = Seq(
       "io.grpc" % "grpc-services" % grpcJavaVersion,
       "io.grpc" % "grpc-services" % grpcJavaVersion % "protobuf",
       "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-      "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % "protobuf",
-      "com.trueaccord.scalapb" %% "scalapb-json4s" % "0.3.2"
+      "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf",
+      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.0-rc1"
     ),
     grpcExePath := xsbti.SafeLazy {
       val exe: File = (baseDirectory in ThisBuild).value / ".bin" / grpcExeFileName
@@ -62,7 +62,7 @@ lazy val root = (project in file("."))
       scalapb.gen(javaConversions = true) -> (sourceManaged in Compile).value
     ),
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "scalapb-runtime-grpc" % com.trueaccord.scalapb.Version.scalapbVersion
+      "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.Version.scalapbVersion
     ))
 
 lazy val noJava = (project in file("nojava"))
@@ -72,6 +72,6 @@ lazy val noJava = (project in file("nojava"))
       scalapb.gen() -> (sourceManaged in Compile).value
     ),
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "scalapb-runtime" % com.trueaccord.scalapb.Version.scalapbVersion % "protobuf"
+      "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf"
     )
   )

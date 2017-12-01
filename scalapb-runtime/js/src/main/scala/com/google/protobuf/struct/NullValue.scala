@@ -7,14 +7,14 @@ package com.google.protobuf.struct
 
 
 
-sealed trait NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnum {
+sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: Boolean = false
-  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
+  def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
 }
 
-object NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] {
-  implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[NullValue] = this
+object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
+  implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
   @SerialVersionUID(0L)
   case object NULL_VALUE extends NullValue {
     val value = 0
@@ -24,7 +24,7 @@ object NullValue extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Nu
   }
   
   @SerialVersionUID(0L)
-  case class Unrecognized(value: Int) extends NullValue with _root_.com.trueaccord.scalapb.UnrecognizedEnum
+  case class Unrecognized(value: Int) extends NullValue with _root_.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.Seq(NULL_VALUE)
   def fromValue(value: Int): NullValue = value match {

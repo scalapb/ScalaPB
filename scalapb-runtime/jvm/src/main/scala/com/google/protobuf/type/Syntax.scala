@@ -7,15 +7,15 @@ package com.google.protobuf.`type`
 
 import scala.collection.JavaConverters._
 
-sealed trait Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnum {
+sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: Boolean = false
   def isSyntaxProto3: Boolean = false
-  def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
+  def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
 }
 
-object Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] {
-  implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Syntax] = this
+object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
+  implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = this
   @SerialVersionUID(0L)
   case object SYNTAX_PROTO2 extends Syntax {
     val value = 0
@@ -33,7 +33,7 @@ object Syntax extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Synta
   }
   
   @SerialVersionUID(0L)
-  case class Unrecognized(value: Int) extends Syntax with _root_.com.trueaccord.scalapb.UnrecognizedEnum
+  case class Unrecognized(value: Int) extends Syntax with _root_.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
   def fromValue(value: Int): Syntax = value match {

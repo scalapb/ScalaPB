@@ -2,7 +2,12 @@ syntax = "proto2";
 
 package scalapb;
 
-option java_package = "com.trueaccord.scalapb";
+option java_package = "scalapb.options";
+
+option (options) = {
+  package_name: "scalapb.options"
+  flat_package: true
+};
 
 import "google/protobuf/descriptor.proto";
 

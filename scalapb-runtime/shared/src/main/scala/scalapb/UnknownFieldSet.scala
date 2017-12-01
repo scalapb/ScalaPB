@@ -1,7 +1,7 @@
 package scalapb
 
 import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream, InvalidProtocolBufferException}
-import com.trueaccord.lenses.Lens
+import scalapb.lenses.Lens
 
 import scala.collection.mutable
 
@@ -24,7 +24,7 @@ case class UnknownFieldSet(private[scalapb] val fields: Map[Int, UnknownFieldSet
 }
 
 object UnknownFieldSet {
-  implicit class UnknownFieldSetLens[UpperPB](lens: _root_.com.trueaccord.lenses.Lens[UpperPB, UnknownFieldSet]) {
+  implicit class UnknownFieldSetLens[UpperPB](lens: _root_.scalapb.lenses.Lens[UpperPB, UnknownFieldSet]) {
     def apply(fieldNumber: Int): Lens[UpperPB, UnknownFieldSet.Field] =
       lens.compose(Lens[UnknownFieldSet, UnknownFieldSet.Field]({
         t => t.fields.getOrElse(fieldNumber, UnknownFieldSet.Field())

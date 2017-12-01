@@ -33,7 +33,7 @@ final case class Method(
     responseStreaming: Boolean = false,
     options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[Method] with com.trueaccord.lenses.Updatable[Method] {
+    ) extends scalapb.GeneratedMessage with scalapb.Message[Method] with scalapb.lenses.Updatable[Method] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -122,7 +122,7 @@ final case class Method(
           case 40 =>
             __responseStreaming = _input__.readBool()
           case 50 =>
-            __options += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
           case 56 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
           case tag => _input__.skipField(tag)
@@ -189,12 +189,12 @@ final case class Method(
         case 7 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
     }
-    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.api.Method
 }
 
-object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with com.trueaccord.scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] = this
+object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Method): com.google.protobuf.Method = {
     val javaPbOut = com.google.protobuf.Method.newBuilder
     javaPbOut.setName(scalaPbSource.name)
@@ -244,29 +244,29 @@ object Method extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.googl
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ApiProto.javaDescriptor.getMessageTypes.get(1)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ApiProto.scalaDescriptor.messages(1)
-  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+    var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 6 => __out = com.google.protobuf.`type`.OptionProto
     }
     __out
   }
-  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
       case 7 => com.google.protobuf.`type`.Syntax
     }
   }
   lazy val defaultInstance = com.google.protobuf.api.Method(
   )
-  implicit class MethodLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {
-    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def requestTypeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.requestTypeUrl)((c_, f_) => c_.copy(requestTypeUrl = f_))
-    def requestStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.requestStreaming)((c_, f_) => c_.copy(requestStreaming = f_))
-    def responseTypeUrl: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.responseTypeUrl)((c_, f_) => c_.copy(responseTypeUrl = f_))
-    def responseStreaming: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.responseStreaming)((c_, f_) => c_.copy(responseStreaming = f_))
-    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def syntax: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
+  implicit class MethodLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {
+    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def requestTypeUrl: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.requestTypeUrl)((c_, f_) => c_.copy(requestTypeUrl = f_))
+    def requestStreaming: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.requestStreaming)((c_, f_) => c_.copy(requestStreaming = f_))
+    def responseTypeUrl: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.responseTypeUrl)((c_, f_) => c_.copy(responseTypeUrl = f_))
+    def responseStreaming: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.responseStreaming)((c_, f_) => c_.copy(responseStreaming = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val REQUEST_TYPE_URL_FIELD_NUMBER = 2

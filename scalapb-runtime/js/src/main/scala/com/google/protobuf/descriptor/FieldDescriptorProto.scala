@@ -48,7 +48,7 @@ final case class FieldDescriptorProto(
     oneofIndex: scala.Option[Int] = None,
     jsonName: scala.Option[String] = None,
     options: scala.Option[com.google.protobuf.descriptor.FieldOptions] = None
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FieldDescriptorProto] with com.trueaccord.lenses.Updatable[FieldDescriptorProto] {
+    ) extends scalapb.GeneratedMessage with scalapb.Message[FieldDescriptorProto] with scalapb.lenses.Updatable[FieldDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -142,7 +142,7 @@ final case class FieldDescriptorProto(
           case 82 =>
             __jsonName = Some(_input__.readString())
           case 66 =>
-            __options = Some(_root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
+            __options = Some(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
           case tag => _input__.skipField(tag)
         }
       }
@@ -218,12 +218,12 @@ final case class FieldDescriptorProto(
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FieldDescriptorProto
 }
 
-object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] = this
+object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FieldDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
@@ -259,15 +259,15 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(3)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(3)
-  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+    var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 8 => __out = com.google.protobuf.descriptor.FieldOptions
     }
     __out
   }
-  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
       case 4 => com.google.protobuf.descriptor.FieldDescriptorProto.Label
       case 5 => com.google.protobuf.descriptor.FieldDescriptorProto.Type
@@ -275,7 +275,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FieldDescriptorProto(
   )
-  sealed trait Type extends _root_.com.trueaccord.scalapb.GeneratedEnum {
+  sealed trait Type extends _root_.scalapb.GeneratedEnum {
     type EnumType = Type
     def isTypeDouble: Boolean = false
     def isTypeFloat: Boolean = false
@@ -295,11 +295,11 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     def isTypeSfixed64: Boolean = false
     def isTypeSint32: Boolean = false
     def isTypeSint64: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Type] = com.google.protobuf.descriptor.FieldDescriptorProto.Type
+    def companion: _root_.scalapb.GeneratedEnumCompanion[Type] = com.google.protobuf.descriptor.FieldDescriptorProto.Type
   }
   
-  object Type extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Type] {
-    implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Type] = this
+  object Type extends _root_.scalapb.GeneratedEnumCompanion[Type] {
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Type] = this
     @SerialVersionUID(0L)
     case object TYPE_DOUBLE extends Type {
       val value = 1
@@ -445,7 +445,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends Type with _root_.com.trueaccord.scalapb.UnrecognizedEnum
+    case class Unrecognized(value: Int) extends Type with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
     def fromValue(value: Int): Type = value match {
@@ -472,16 +472,16 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
   }
-  sealed trait Label extends _root_.com.trueaccord.scalapb.GeneratedEnum {
+  sealed trait Label extends _root_.scalapb.GeneratedEnum {
     type EnumType = Label
     def isLabelOptional: Boolean = false
     def isLabelRequired: Boolean = false
     def isLabelRepeated: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Label] = com.google.protobuf.descriptor.FieldDescriptorProto.Label
+    def companion: _root_.scalapb.GeneratedEnumCompanion[Label] = com.google.protobuf.descriptor.FieldDescriptorProto.Label
   }
   
-  object Label extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Label] {
-    implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[Label] = this
+  object Label extends _root_.scalapb.GeneratedEnumCompanion[Label] {
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Label] = this
     @SerialVersionUID(0L)
     case object LABEL_OPTIONAL extends Label {
       val value = 1
@@ -507,7 +507,7 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends Label with _root_.com.trueaccord.scalapb.UnrecognizedEnum
+    case class Unrecognized(value: Int) extends Label with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(LABEL_OPTIONAL, LABEL_REQUIRED, LABEL_REPEATED)
     def fromValue(value: Int): Label = value match {
@@ -519,27 +519,27 @@ object FieldDescriptorProto extends com.trueaccord.scalapb.GeneratedMessageCompa
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(1)
   }
-  implicit class FieldDescriptorProtoLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto](_l) {
-    def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
-    def optionalName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def number: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getNumber)((c_, f_) => c_.copy(number = Some(f_)))
-    def optionalNumber: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
-    def label: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Label] = field(_.getLabel)((c_, f_) => c_.copy(label = Some(f_)))
-    def optionalLabel: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label]] = field(_.label)((c_, f_) => c_.copy(label = f_))
-    def `type`: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Type] = field(_.getType)((c_, f_) => c_.copy(`type` = Some(f_)))
-    def optionalType: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
-    def typeName: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getTypeName)((c_, f_) => c_.copy(typeName = Some(f_)))
-    def optionalTypeName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.typeName)((c_, f_) => c_.copy(typeName = f_))
-    def extendee: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getExtendee)((c_, f_) => c_.copy(extendee = Some(f_)))
-    def optionalExtendee: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.extendee)((c_, f_) => c_.copy(extendee = f_))
-    def defaultValue: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getDefaultValue)((c_, f_) => c_.copy(defaultValue = Some(f_)))
-    def optionalDefaultValue: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
-    def oneofIndex: _root_.com.trueaccord.lenses.Lens[UpperPB, Int] = field(_.getOneofIndex)((c_, f_) => c_.copy(oneofIndex = Some(f_)))
-    def optionalOneofIndex: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
-    def jsonName: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJsonName)((c_, f_) => c_.copy(jsonName = Some(f_)))
-    def optionalJsonName: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
-    def options: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
-    def optionalOptions: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+  implicit class FieldDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto](_l) {
+    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def number: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getNumber)((c_, f_) => c_.copy(number = Some(f_)))
+    def optionalNumber: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
+    def label: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Label] = field(_.getLabel)((c_, f_) => c_.copy(label = Some(f_)))
+    def optionalLabel: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label]] = field(_.label)((c_, f_) => c_.copy(label = f_))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Type] = field(_.getType)((c_, f_) => c_.copy(`type` = Some(f_)))
+    def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
+    def typeName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getTypeName)((c_, f_) => c_.copy(typeName = Some(f_)))
+    def optionalTypeName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.typeName)((c_, f_) => c_.copy(typeName = f_))
+    def extendee: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getExtendee)((c_, f_) => c_.copy(extendee = Some(f_)))
+    def optionalExtendee: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.extendee)((c_, f_) => c_.copy(extendee = f_))
+    def defaultValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getDefaultValue)((c_, f_) => c_.copy(defaultValue = Some(f_)))
+    def optionalDefaultValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
+    def oneofIndex: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getOneofIndex)((c_, f_) => c_.copy(oneofIndex = Some(f_)))
+    def optionalOneofIndex: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
+    def jsonName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJsonName)((c_, f_) => c_.copy(jsonName = Some(f_)))
+    def optionalJsonName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val NUMBER_FIELD_NUMBER = 3

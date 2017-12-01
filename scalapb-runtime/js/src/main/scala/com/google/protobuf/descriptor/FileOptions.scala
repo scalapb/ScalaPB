@@ -95,7 +95,7 @@ final case class FileOptions(
     phpClassPrefix: scala.Option[String] = None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
-    ) extends com.trueaccord.scalapb.GeneratedMessage with com.trueaccord.scalapb.Message[FileOptions] with com.trueaccord.lenses.Updatable[FileOptions] with _root_.com.trueaccord.scalapb.ExtendableMessage[FileOptions] {
+    ) extends scalapb.GeneratedMessage with scalapb.Message[FileOptions] with scalapb.lenses.Updatable[FileOptions] with _root_.scalapb.ExtendableMessage[FileOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: Int = 0
     private[this] def __computeSerializedValue(): Int = {
@@ -241,7 +241,7 @@ final case class FileOptions(
           case 322 =>
             __phpClassPrefix = Some(_input__.readString())
           case 7994 =>
-            __uninterpretedOption += _root_.com.trueaccord.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
@@ -362,12 +362,12 @@ final case class FileOptions(
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
-    override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FileOptions
 }
 
-object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] {
-  implicit def messageCompanion: com.trueaccord.scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] = this
+object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] = this
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
@@ -417,31 +417,31 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(9)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(9)
-  def messageCompanionForFieldNumber(__number: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = {
-    var __out: _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = null
+  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+    var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
   }
-  lazy val nestedMessagesCompanions: Seq[_root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = {
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
+  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
       case 9 => com.google.protobuf.descriptor.FileOptions.OptimizeMode
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FileOptions(
   )
-  sealed trait OptimizeMode extends _root_.com.trueaccord.scalapb.GeneratedEnum {
+  sealed trait OptimizeMode extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptimizeMode
     def isSpeed: Boolean = false
     def isCodeSize: Boolean = false
     def isLiteRuntime: Boolean = false
-    def companion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = com.google.protobuf.descriptor.FileOptions.OptimizeMode
+    def companion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = com.google.protobuf.descriptor.FileOptions.OptimizeMode
   }
   
-  object OptimizeMode extends _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] {
-    implicit def enumCompanion: _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
+  object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
     @SerialVersionUID(0L)
     case object SPEED extends OptimizeMode {
       val value = 1
@@ -467,7 +467,7 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: Int) extends OptimizeMode with _root_.com.trueaccord.scalapb.UnrecognizedEnum
+    case class Unrecognized(value: Int) extends OptimizeMode with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
     def fromValue(value: Int): OptimizeMode = value match {
@@ -479,40 +479,40 @@ object FileOptions extends com.trueaccord.scalapb.GeneratedMessageCompanion[com.
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.scalaDescriptor.enums(0)
   }
-  implicit class FileOptionsLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileOptions](_l) {
-    def javaPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Some(f_)))
-    def optionalJavaPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaPackage)((c_, f_) => c_.copy(javaPackage = f_))
-    def javaOuterClassname: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = Some(f_)))
-    def optionalJavaOuterClassname: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = f_))
-    def javaMultipleFiles: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = Some(f_)))
-    def optionalJavaMultipleFiles: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = f_))
-    def javaGenerateEqualsAndHash: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = Some(f_)))
-    def optionalJavaGenerateEqualsAndHash: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
-    def javaStringCheckUtf8: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = Some(f_)))
-    def optionalJavaStringCheckUtf8: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = f_))
-    def optimizeFor: _root_.com.trueaccord.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = Some(f_)))
-    def optionalOptimizeFor: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode]] = field(_.optimizeFor)((c_, f_) => c_.copy(optimizeFor = f_))
-    def goPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = Some(f_)))
-    def optionalGoPackage: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.goPackage)((c_, f_) => c_.copy(goPackage = f_))
-    def ccGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = Some(f_)))
-    def optionalCcGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccGenericServices)((c_, f_) => c_.copy(ccGenericServices = f_))
-    def javaGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = Some(f_)))
-    def optionalJavaGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenericServices)((c_, f_) => c_.copy(javaGenericServices = f_))
-    def pyGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Some(f_)))
-    def optionalPyGenericServices: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.pyGenericServices)((c_, f_) => c_.copy(pyGenericServices = f_))
-    def deprecated: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
-    def optionalDeprecated: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def ccEnableArenas: _root_.com.trueaccord.lenses.Lens[UpperPB, Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Some(f_)))
-    def optionalCcEnableArenas: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = f_))
-    def objcClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = Some(f_)))
-    def optionalObjcClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
-    def csharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Some(f_)))
-    def optionalCsharpNamespace: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
-    def swiftPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getSwiftPrefix)((c_, f_) => c_.copy(swiftPrefix = Some(f_)))
-    def optionalSwiftPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.swiftPrefix)((c_, f_) => c_.copy(swiftPrefix = f_))
-    def phpClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = Some(f_)))
-    def optionalPhpClassPrefix: _root_.com.trueaccord.lenses.Lens[UpperPB, scala.Option[String]] = field(_.phpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = f_))
-    def uninterpretedOption: _root_.com.trueaccord.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
+  implicit class FileOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileOptions](_l) {
+    def javaPackage: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Some(f_)))
+    def optionalJavaPackage: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaPackage)((c_, f_) => c_.copy(javaPackage = f_))
+    def javaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = Some(f_)))
+    def optionalJavaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = f_))
+    def javaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = Some(f_)))
+    def optionalJavaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = f_))
+    def javaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = Some(f_)))
+    def optionalJavaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
+    def javaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = Some(f_)))
+    def optionalJavaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = f_))
+    def optimizeFor: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = Some(f_)))
+    def optionalOptimizeFor: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode]] = field(_.optimizeFor)((c_, f_) => c_.copy(optimizeFor = f_))
+    def goPackage: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = Some(f_)))
+    def optionalGoPackage: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.goPackage)((c_, f_) => c_.copy(goPackage = f_))
+    def ccGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = Some(f_)))
+    def optionalCcGenericServices: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccGenericServices)((c_, f_) => c_.copy(ccGenericServices = f_))
+    def javaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = Some(f_)))
+    def optionalJavaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenericServices)((c_, f_) => c_.copy(javaGenericServices = f_))
+    def pyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Some(f_)))
+    def optionalPyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.pyGenericServices)((c_, f_) => c_.copy(pyGenericServices = f_))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
+    def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
+    def ccEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Some(f_)))
+    def optionalCcEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = f_))
+    def objcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = Some(f_)))
+    def optionalObjcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
+    def csharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Some(f_)))
+    def optionalCsharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
+    def swiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSwiftPrefix)((c_, f_) => c_.copy(swiftPrefix = Some(f_)))
+    def optionalSwiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.swiftPrefix)((c_, f_) => c_.copy(swiftPrefix = f_))
+    def phpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = Some(f_)))
+    def optionalPhpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.phpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = f_))
+    def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val JAVA_PACKAGE_FIELD_NUMBER = 1
   final val JAVA_OUTER_CLASSNAME_FIELD_NUMBER = 8
