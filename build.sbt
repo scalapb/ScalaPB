@@ -4,7 +4,7 @@ scalaVersion := "2.11.11"
 
 crossScalaVersions := Seq("2.11.11", "2.10.6", "2.12.2", "2.13.0-M1")
 
-organization in ThisBuild := "com.trueaccord.lenses"
+organization in ThisBuild := "com.thesamet.scalapb"
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -53,7 +53,7 @@ lazy val lenses = crossProject.in(file("."))
   .jsSettings(
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
-      val g = "https://raw.githubusercontent.com/trueaccord/Lenses/" + sys.process.Process("git rev-parse HEAD").lines_!.head
+      val g = "https://raw.githubusercontent.com/scalapb/Lenses/" + sys.process.Process("git rev-parse HEAD").lines_!.head
       s"-P:scalajs:mapSourceURI:$a->$g/"
     }
   )

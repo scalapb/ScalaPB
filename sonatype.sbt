@@ -1,7 +1,7 @@
-sonatypeProfileName := "com.trueaccord"
+sonatypeProfileName := "com.thesamet"
 
 pomExtra in Global := {
-  <url>https://github.com/trueaccord/lenses</url>
+  <url>https://github.com/scalapb/Lenses</url>
   <licenses>
     <license>
       <name>Apache 2</name>

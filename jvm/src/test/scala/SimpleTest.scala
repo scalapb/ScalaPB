@@ -1,5 +1,5 @@
 import org.scalatest.{OptionValues, Matchers, FlatSpec}
-import com.trueaccord.lenses._
+import scalapb.lenses._
 
 case class Person(firstName: String, lastName: String, age: Int, address: Address) extends Updatable[Person]
 

@@ -1,4 +1,4 @@
-package com.trueaccord.lenses
+package scalapb.lenses
 
 import scala.language.higherKinds
 
