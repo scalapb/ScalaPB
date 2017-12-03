@@ -1,6 +1,11 @@
 # Change Log
 
-## [Unreleased](https://github.com/scalapb/ScalaPB/tree/HEAD)
+## [Unreleased - 0.7.x](https://github.com/scalapb/ScalaPB/tree/HEAD)
+Note:
+- Maven artifacts are now published under a new group id: com.thesamet.scalapb
+- Classes were renamed from com.trueaccord.scalapb.X to scalapb.X
+
+Changes:
 - Update to protobuf-java 3.5.0
 - Added file-level option to preserve unknown fields in generated classes.
 
