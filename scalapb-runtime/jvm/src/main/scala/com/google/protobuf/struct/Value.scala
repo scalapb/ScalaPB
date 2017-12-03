@@ -214,44 +214,51 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
   object Kind extends {
     @SerialVersionUID(0L)
     case object Empty extends com.google.protobuf.struct.Value.Kind {
+      type ValueType = Nothing
       override def isEmpty: Boolean = true
       override def isDefined: Boolean = false
       override def number: Int = 0
-      override def value: scala.Any = throw new java.util.NoSuchElementException("Empty.value")
+      override def value: Nothing = throw new java.util.NoSuchElementException("Empty.value")
     }
   
     @SerialVersionUID(0L)
     case class NullValue(value: com.google.protobuf.struct.NullValue) extends com.google.protobuf.struct.Value.Kind {
+      type ValueType = com.google.protobuf.struct.NullValue
       override def isNullValue: Boolean = true
       override def nullValue: scala.Option[com.google.protobuf.struct.NullValue] = Some(value)
       override def number: Int = 1
     }
     @SerialVersionUID(0L)
     case class NumberValue(value: Double) extends com.google.protobuf.struct.Value.Kind {
+      type ValueType = Double
       override def isNumberValue: Boolean = true
       override def numberValue: scala.Option[Double] = Some(value)
       override def number: Int = 2
     }
     @SerialVersionUID(0L)
     case class StringValue(value: String) extends com.google.protobuf.struct.Value.Kind {
+      type ValueType = String
       override def isStringValue: Boolean = true
       override def stringValue: scala.Option[String] = Some(value)
       override def number: Int = 3
     }
     @SerialVersionUID(0L)
     case class BoolValue(value: Boolean) extends com.google.protobuf.struct.Value.Kind {
+      type ValueType = Boolean
       override def isBoolValue: Boolean = true
       override def boolValue: scala.Option[Boolean] = Some(value)
       override def number: Int = 4
     }
     @SerialVersionUID(0L)
     case class StructValue(value: com.google.protobuf.struct.Struct) extends com.google.protobuf.struct.Value.Kind {
+      type ValueType = com.google.protobuf.struct.Struct
       override def isStructValue: Boolean = true
       override def structValue: scala.Option[com.google.protobuf.struct.Struct] = Some(value)
       override def number: Int = 5
     }
     @SerialVersionUID(0L)
     case class ListValue(value: com.google.protobuf.struct.ListValue) extends com.google.protobuf.struct.Value.Kind {
+      type ValueType = com.google.protobuf.struct.ListValue
       override def isListValue: Boolean = true
       override def listValue: scala.Option[com.google.protobuf.struct.ListValue] = Some(value)
       override def number: Int = 6

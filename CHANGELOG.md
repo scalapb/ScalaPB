@@ -8,6 +8,10 @@ Note:
 Changes:
 - Update to protobuf-java 3.5.0
 - Added file-level option to preserve unknown fields in generated classes.
+- ScalaPBC can run custom ProtocGenerator if they are available on the class
+  path.
+- Added type member ValueType to GeneratedOneof that makes it easy to write
+  type classes that deal with Oneofs.
 
 ## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)

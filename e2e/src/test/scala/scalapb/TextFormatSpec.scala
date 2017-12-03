@@ -30,7 +30,6 @@
 
 package scalapb
 
-import _root_.scalapb.descriptors
 import com.google.protobuf.ByteString
 import scalapb.textformat._
 import org.scalatest.matchers.{MatchResult, Matcher}

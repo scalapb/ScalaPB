@@ -94,10 +94,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
            |object ${e.upperScalaName} extends {
            |  @SerialVersionUID(0L)
            |  case object Empty extends ${e.scalaTypeName} {
+           |    type ValueType = Nothing
            |    override def isEmpty: Boolean = true
            |    override def isDefined: Boolean = false
            |    override def number: Int = 0
-           |    override def value: scala.Any = throw new java.util.NoSuchElementException("Empty.value")
+           |    override def value: Nothing = throw new java.util.NoSuchElementException("Empty.value")
            |  }
            |""")
       .indent
@@ -106,6 +107,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           p.addStringMargin(
             s"""@SerialVersionUID(0L)
                |case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaTypeName} {
+               |  type ValueType = ${v.scalaTypeName}
                |  override def is${v.upperScalaName}: Boolean = true
                |  override def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = Some(value)
                |  override def number: Int = ${v.getNumber}

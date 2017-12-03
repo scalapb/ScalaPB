@@ -153,3 +153,4 @@ class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMat
     }
   }
 }
+
