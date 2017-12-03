@@ -77,6 +77,9 @@ message MessageOptions {
   // All instances of this message will be converted to this type. An implicit TypeMapper
   // must be present.
   optional string type = 4;
+
+  // Custom annotations to add to the companion object of the generated class.
+  repeated string companion_annotations = 5;
 }
 
 extend google.protobuf.MessageOptions {

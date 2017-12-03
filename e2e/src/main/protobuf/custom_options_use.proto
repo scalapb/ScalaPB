@@ -13,6 +13,8 @@ option (message_a).a = "AAA";
 
 message FooMessage {
   option (scalapb.message).annotations = "@CustomAnnotation";
+  option (scalapb.message).companion_annotations = "@CustomAnnotation1";
+  option (scalapb.message).companion_annotations = "@CustomAnnotation2";
   option (message_b).b = "BBB";
 
   optional int32 myField1 = 1 [(message_c).c = "CCC", (opt_name).first = "John"];

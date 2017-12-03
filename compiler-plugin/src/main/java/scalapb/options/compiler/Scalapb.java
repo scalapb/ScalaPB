@@ -2349,6 +2349,41 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getTypeBytes();
+
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    java.util.List<java.lang.String>
+        getCompanionAnnotationsList();
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    int getCompanionAnnotationsCount();
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    java.lang.String getCompanionAnnotations(int index);
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    com.google.protobuf.ByteString
+        getCompanionAnnotationsBytes(int index);
   }
   /**
    * Protobuf type {@code scalapb.MessageOptions}
@@ -2367,6 +2402,7 @@ public final class Scalapb {
       companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       type_ = "";
+      companionAnnotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -2433,6 +2469,15 @@ public final class Scalapb {
               type_ = bs;
               break;
             }
+            case 42: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+                companionAnnotations_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000010;
+              }
+              companionAnnotations_.add(bs);
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2449,6 +2494,9 @@ public final class Scalapb {
         }
         if (((mutable_bitField0_ & 0x00000004) == 0x00000004)) {
           annotations_ = annotations_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000010) == 0x00000010)) {
+          companionAnnotations_ = companionAnnotations_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -2659,6 +2707,51 @@ public final class Scalapb {
       }
     }
 
+    public static final int COMPANION_ANNOTATIONS_FIELD_NUMBER = 5;
+    private com.google.protobuf.LazyStringList companionAnnotations_;
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getCompanionAnnotationsList() {
+      return companionAnnotations_;
+    }
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    public int getCompanionAnnotationsCount() {
+      return companionAnnotations_.size();
+    }
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    public java.lang.String getCompanionAnnotations(int index) {
+      return companionAnnotations_.get(index);
+    }
+    /**
+     * <pre>
+     * Custom annotations to add to the companion object of the generated class.
+     * </pre>
+     *
+     * <code>repeated string companion_annotations = 5;</code>
+     */
+    public com.google.protobuf.ByteString
+        getCompanionAnnotationsBytes(int index) {
+      return companionAnnotations_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -2682,6 +2775,9 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 4, type_);
+      }
+      for (int i = 0; i < companionAnnotations_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, companionAnnotations_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -2718,6 +2814,14 @@ public final class Scalapb {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, type_);
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < companionAnnotations_.size(); i++) {
+          dataSize += computeStringSizeNoTag(companionAnnotations_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getCompanionAnnotationsList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -2745,6 +2849,8 @@ public final class Scalapb {
         result = result && getType()
             .equals(other.getType());
       }
+      result = result && getCompanionAnnotationsList()
+          .equals(other.getCompanionAnnotationsList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -2771,6 +2877,10 @@ public final class Scalapb {
       if (hasType()) {
         hash = (37 * hash) + TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getType().hashCode();
+      }
+      if (getCompanionAnnotationsCount() > 0) {
+        hash = (37 * hash) + COMPANION_ANNOTATIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getCompanionAnnotationsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -2909,6 +3019,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000004);
         type_ = "";
         bitField0_ = (bitField0_ & ~0x00000008);
+        companionAnnotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
@@ -2952,6 +3064,11 @@ public final class Scalapb {
           to_bitField0_ |= 0x00000001;
         }
         result.type_ = type_;
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          companionAnnotations_ = companionAnnotations_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000010);
+        }
+        result.companionAnnotations_ = companionAnnotations_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -3027,6 +3144,16 @@ public final class Scalapb {
         if (other.hasType()) {
           bitField0_ |= 0x00000008;
           type_ = other.type_;
+          onChanged();
+        }
+        if (!other.companionAnnotations_.isEmpty()) {
+          if (companionAnnotations_.isEmpty()) {
+            companionAnnotations_ = other.companionAnnotations_;
+            bitField0_ = (bitField0_ & ~0x00000010);
+          } else {
+            ensureCompanionAnnotationsIsMutable();
+            companionAnnotations_.addAll(other.companionAnnotations_);
+          }
           onChanged();
         }
         this.mergeUnknownFields(other.unknownFields);
@@ -3546,6 +3673,135 @@ public final class Scalapb {
   }
   bitField0_ |= 0x00000008;
         type_ = value;
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList companionAnnotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureCompanionAnnotationsIsMutable() {
+        if (!((bitField0_ & 0x00000010) == 0x00000010)) {
+          companionAnnotations_ = new com.google.protobuf.LazyStringArrayList(companionAnnotations_);
+          bitField0_ |= 0x00000010;
+         }
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getCompanionAnnotationsList() {
+        return companionAnnotations_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public int getCompanionAnnotationsCount() {
+        return companionAnnotations_.size();
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public java.lang.String getCompanionAnnotations(int index) {
+        return companionAnnotations_.get(index);
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public com.google.protobuf.ByteString
+          getCompanionAnnotationsBytes(int index) {
+        return companionAnnotations_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public Builder setCompanionAnnotations(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureCompanionAnnotationsIsMutable();
+        companionAnnotations_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public Builder addCompanionAnnotations(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureCompanionAnnotationsIsMutable();
+        companionAnnotations_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public Builder addAllCompanionAnnotations(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureCompanionAnnotationsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, companionAnnotations_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public Builder clearCompanionAnnotations() {
+        companionAnnotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Custom annotations to add to the companion object of the generated class.
+       * </pre>
+       *
+       * <code>repeated string companion_annotations = 5;</code>
+       */
+      public Builder addCompanionAnnotationsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureCompanionAnnotationsIsMutable();
+        companionAnnotations_.add(value);
         onChanged();
         return this;
       }
@@ -7103,26 +7359,27 @@ public final class Scalapb {
       "s\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 \001(\010\022\027\n\017c" +
       "ollection_type\030\010 \001(\t\022\037\n\027preserve_unknown" +
       "_fields\030\t \001(\010\022\'\n\035test_only_no_java_conve" +
-      "rsions\030\241\215\006 \001(\010\"_\n\016MessageOptions\022\017\n\007exte" +
+      "rsions\030\241\215\006 \001(\010\"~\n\016MessageOptions\022\017\n\007exte" +
       "nds\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\023\n\013" +
-      "annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\"\204\001\n\014Fiel" +
-      "dOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001" +
-      "(\t\022\027\n\017collection_type\030\003 \001(\t\022\020\n\010key_type\030" +
-      "\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n\013annotations" +
-      "\030\006 \003(\t\"G\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031" +
-      "\n\021companion_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"" +
-      "#\n\020EnumValueOptions\022\017\n\007extends\030\001 \003(\t:G\n\007" +
-      "options\022\034.google.protobuf.FileOptions\030\374\007" +
-      " \001(\0132\027.scalapb.ScalaPbOptions:J\n\007message" +
-      "\022\037.google.protobuf.MessageOptions\030\374\007 \001(\013" +
-      "2\027.scalapb.MessageOptions:D\n\005field\022\035.goo" +
-      "gle.protobuf.FieldOptions\030\374\007 \001(\0132\025.scala" +
-      "pb.FieldOptions:I\n\014enum_options\022\034.google" +
-      ".protobuf.EnumOptions\030\374\007 \001(\0132\024.scalapb.E" +
-      "numOptions:Q\n\nenum_value\022!.google.protob" +
-      "uf.EnumValueOptions\030\374\007 \001(\0132\031.scalapb.Enu" +
-      "mValueOptionsB9\n\030scalapb.options.compile" +
-      "r\342?\034\n\030scalapb.options.compiler\020\001"
+      "annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025compa" +
+      "nion_annotations\030\005 \003(\t\"\204\001\n\014FieldOptions\022" +
+      "\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017col" +
+      "lection_type\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\n" +
+      "value_type\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\"G\n" +
+      "\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021compani" +
+      "on_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumVa" +
+      "lueOptions\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034" +
+      ".google.protobuf.FileOptions\030\374\007 \001(\0132\027.sc" +
+      "alapb.ScalaPbOptions:J\n\007message\022\037.google" +
+      ".protobuf.MessageOptions\030\374\007 \001(\0132\027.scalap" +
+      "b.MessageOptions:D\n\005field\022\035.google.proto" +
+      "buf.FieldOptions\030\374\007 \001(\0132\025.scalapb.FieldO" +
+      "ptions:I\n\014enum_options\022\034.google.protobuf" +
+      ".EnumOptions\030\374\007 \001(\0132\024.scalapb.EnumOption" +
+      "s:Q\n\nenum_value\022!.google.protobuf.EnumVa" +
+      "lueOptions\030\374\007 \001(\0132\031.scalapb.EnumValueOpt" +
+      "ionsB9\n\030scalapb.options.compiler\342?\034\n\030sca" +
+      "lapb.options.compiler\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7148,7 +7405,7 @@ public final class Scalapb {
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_MessageOptions_descriptor,
-        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", });
+        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", "CompanionAnnotations", });
     internal_static_scalapb_FieldOptions_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new

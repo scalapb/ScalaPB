@@ -12,6 +12,7 @@ Changes:
   path.
 - Added type member ValueType to GeneratedOneof that makes it easy to write
   type classes that deal with Oneofs.
+- Add support for Scala annotations on field-level, and companion object level.
 
 ## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)
@@ -19,6 +20,7 @@ Changes:
 - Added base class GeneratedFileObject that will be the base class for the
   singleton object generated for each proto file.
 - Custom base classes for enums
+- Add support for custom Scala annotations on messages.
 
 ## [v0.6.0](https://github.com/scalapb/ScalaPB/tree/v0.5.47) (2017-01-07)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.5.47...v0.6.0)

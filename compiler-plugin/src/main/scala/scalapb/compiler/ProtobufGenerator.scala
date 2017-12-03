@@ -1121,7 +1121,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateMessageCompanion(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val className = message.nameSymbol
     val companionType = message.companionBaseClasses.mkString(" with ")
-    printer.addStringMargin(
+    printer
+      .seq(message.companionAnnotationList)
+      .addStringMargin(
       s"""object $className extends $companionType {
          |  implicit def messageCompanion: $companionType = this""")
       .indent
