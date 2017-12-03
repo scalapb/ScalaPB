@@ -297,6 +297,9 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2062,7 +2065,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new ScalaPbOptions(input, extensionRegistry);
+        return new ScalaPbOptions(input, extensionRegistry);
       }
     };
 
@@ -2248,6 +2251,9 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -3445,7 +3451,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new MessageOptions(input, extensionRegistry);
+        return new MessageOptions(input, extensionRegistry);
       }
     };
 
@@ -3601,6 +3607,9 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4792,7 +4801,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new FieldOptions(input, extensionRegistry);
+        return new FieldOptions(input, extensionRegistry);
       }
     };
 
@@ -4942,6 +4951,9 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5919,7 +5931,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new EnumOptions(input, extensionRegistry);
+        return new EnumOptions(input, extensionRegistry);
       }
     };
 
@@ -6003,6 +6015,9 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6562,7 +6577,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new EnumValueOptions(input, extensionRegistry);
+        return new EnumValueOptions(input, extensionRegistry);
       }
     };
 
@@ -6705,7 +6720,7 @@ public final class Scalapb {
       "ollection_type\030\010 \001(\t\022\'\n\035test_only_no_jav" +
       "a_conversions\030\241\215\006 \001(\010\"_\n\016MessageOptions\022" +
       "\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030\002 " +
-      "\003(\t\022\023\n\013annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\"o",
+      "\003(\t\022\023\n\013annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\"o" +
       "\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_na" +
       "me\030\002 \001(\t\022\027\n\017collection_type\030\003 \001(\t\022\020\n\010key" +
       "_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\"G\n\013EnumO" +
@@ -6715,7 +6730,7 @@ public final class Scalapb {
       "e.protobuf.FileOptions\030\374\007 \001(\0132\027.scalapb." +
       "ScalaPbOptions:J\n\007message\022\037.google.proto" +
       "buf.MessageOptions\030\374\007 \001(\0132\027.scalapb.Mess" +
-      "ageOptions:D\n\005field\022\035.google.protobuf.Fi",
+      "ageOptions:D\n\005field\022\035.google.protobuf.Fi" +
       "eldOptions\030\374\007 \001(\0132\025.scalapb.FieldOptions" +
       ":I\n\014enum_options\022\034.google.protobuf.EnumO" +
       "ptions\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\ne" +

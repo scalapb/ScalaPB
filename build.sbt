@@ -176,7 +176,7 @@ lazy val proptest = project.in(file("proptest"))
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
-        "com.github.os72" % "protoc-jar" % "3.4.0",
+        "com.github.os72" % "protoc-jar" % "3.5.0",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
@@ -196,7 +196,7 @@ lazy val proptest = project.in(file("proptest"))
 
 lazy val ShortTest = config("short") extend(Test)
 
-val protobufVersion = "3.4.0"
+val protobufVersion = "3.5.0"
 
 // For e2e test
 val sbtPluginVersion = "0.99.13"
