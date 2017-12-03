@@ -99,6 +99,9 @@ message FieldOptions {
   // or value.
   optional string key_type = 4;
   optional string value_type = 5;
+
+  // Custom annotations to add to the field.
+  repeated string annotations = 6;
 }
 
 extend google.protobuf.FieldOptions {

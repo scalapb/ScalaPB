@@ -572,6 +572,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("}")
 
   def printConstructorFieldList(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    def annotations(field: FieldDescriptor) =
+      if (field.annotationList.nonEmpty) field.annotationList.mkString("", " ", " ") else ""
+
     val regularFields = message.fields.collect {
       case field if !field.isInOneof =>
       val typeName = field.scalaTypeName
@@ -581,7 +584,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         else if (field.isMapField) " = scala.collection.immutable.Map.empty"
         else if (field.isRepeated) s" = ${field.collectionType}.empty"
         else ""
-        s"${field.scalaName.asSymbol}: $typeName$ctorDefaultValue"
+        s"${annotations(field)}${field.scalaName.asSymbol}: $typeName$ctorDefaultValue"
     }
     val oneOfFields = message.getOneofs.asScala.map {
       oneOf =>

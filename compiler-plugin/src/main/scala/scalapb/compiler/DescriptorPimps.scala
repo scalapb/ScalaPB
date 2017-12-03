@@ -155,6 +155,8 @@ trait DescriptorPimps {
 
     def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
+    def annotationList = fieldOptions.getAnnotationsList().asScala.toSeq
+
     def customSingleScalaTypeName: Option[String] = {
       // If the current message is within a MapEntry (that is a key, or a value), find the actual map
       // field in the enclosing message. This is used to determine map level options when processing the

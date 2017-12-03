@@ -82,3 +82,22 @@ message BarMessage {
   option (opt_bool) = true;
 }
 
+message FieldAnnotations {
+  optional string x = 1 [(scalapb.field).annotations = '@deprecated("Will be gone", "1.0")'];
+
+  optional string y = 2 [
+      (scalapb.field) = {
+        annotations: '@deprecated("Will be removed", "0.1")',
+        annotations: '@unchecked'
+    }
+  ];
+
+  optional string z = 3 [
+      (scalapb.field) = {
+        annotations: [
+            '@deprecated("Will be removed", "0.1")',
+            '@unchecked'
+        ]
+    }
+  ];
+}
