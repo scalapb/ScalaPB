@@ -28,11 +28,11 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "CustomAnnotation, CustomAnnotation1, CustomAnnotation2" should "exist" in {
     val annotations = typeOf[BarMessage].typeSymbol.asClass.annotations.map(_.toString)
-    Seq(
+    annotations must contain allOf (
       "com.trueaccord.pb.CustomAnnotation",
       "com.trueaccord.pb.CustomAnnotation1",
       "com.trueaccord.pb.CustomAnnotation2"
-    ).forall(annotations.contains) must be (true)
+    )
   }
   "Options existing" should "return Some(option)" in {
     fooOptions.extension(CustomOptionsProto.messageB).value must be (MessageB(b = Some("BBB")))
@@ -236,5 +236,18 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     FooMessage.MyOneOf.Empty.isInstanceOf[Base2] must be(true)
     FooMessage.MyOneOf.X(3).isInstanceOf[Base1] must be(true)
     FooMessage.MyOneOf.X(3).isInstanceOf[Base2] must be(true)
+  }
+
+  "field annotations" should "be set correctly" in {
+    typeOf[FieldAnnotations].member(TermName("z")).annotations.map(_.toString) must contain(
+      "scala.deprecated(\"Will be removed\", \"0.1\")"
+    )
+  }
+
+  "companion annotations" should "be set correctly" in {
+    typeOf[FooMessage.type].typeSymbol.asClass.annotations.map(_.toString) must contain only(
+      "com.trueaccord.pb.CustomAnnotation1",
+      "com.trueaccord.pb.CustomAnnotation2"
+    )
   }
 }
