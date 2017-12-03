@@ -1,5 +1,4 @@
 import scala.reflect.runtime.universe._
-
 import com.trueaccord.scalapb.{GeneratedExtension, JavaProtoSupport}
 import com.trueaccord.proto.e2e.custom_options.GoodOrBad._
 import com.trueaccord.proto.e2e.custom_options_p3.GoodOrBadP3._
@@ -9,7 +8,7 @@ import com.trueaccord.proto.e2e.custom_options_use._
 import org.scalatest._
 import com.google.protobuf.ByteString
 import com.google.protobuf.descriptor.MessageOptions
-import com.trueaccord.pb.FullName
+import com.trueaccord.pb.{Base1, Base2, FullName}
 
 class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   val barOptions = BarMessage.scalaDescriptor.getOptions
@@ -35,7 +34,6 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
       "com.trueaccord.pb.CustomAnnotation2"
     ).forall(annotations.contains) must be (true)
   }
-
   "Options existing" should "return Some(option)" in {
     fooOptions.extension(CustomOptionsProto.messageB).value must be (MessageB(b = Some("BBB")))
     validateSetter(CustomOptionsProto.messageB)(Some(MessageB(b = Some("ABC"))))
@@ -231,7 +229,12 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     validateSetter(CustomOptionsProto.packedEnum)(Seq(GoodOrBad.BAD, GoodOrBad.GOOD, GoodOrBad.Unrecognized(39)))
     validateSetter(CustomOptionsProto.packedUint32)(Seq(3, -15, 246))
     validateSetter(CustomOptionsProto.packedUint64)(Seq(-29, 35, 145))
-
   }
 
+  "my_one_of" should "extends Base1 and Base2" in {
+    FooMessage.MyOneOf.Empty.isInstanceOf[Base1] must be(true)
+    FooMessage.MyOneOf.Empty.isInstanceOf[Base2] must be(true)
+    FooMessage.MyOneOf.X(3).isInstanceOf[Base1] must be(true)
+    FooMessage.MyOneOf.X(3).isInstanceOf[Base2] must be(true)
+  }
 }

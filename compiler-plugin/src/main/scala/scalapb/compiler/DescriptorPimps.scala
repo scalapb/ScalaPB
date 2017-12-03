@@ -3,9 +3,9 @@ package scalapb.compiler
 import com.google.protobuf.DescriptorProtos.{DescriptorProto, FileDescriptorProto, SourceCodeInfo}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
-import scalapb.options.compiler.Scalapb
-import scalapb.options.compiler.Scalapb.{EnumValueOptions, EnumOptions, FieldOptions, MessageOptions, ScalaPbOptions}
 
+import scalapb.options.compiler.Scalapb
+import scalapb.options.compiler.Scalapb._
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
@@ -252,6 +252,10 @@ trait DescriptorPimps {
     def scalaTypeName = oneof.getContainingType.scalaTypeName + "." + upperScalaName
 
     def empty = scalaTypeName + ".Empty"
+
+    def oneofOptions: OneofOptions = oneof.getOptions.getExtension[OneofOptions](Scalapb.oneof)
+
+    def baseClasses = "_root_.scalapb.GeneratedOneof" +: oneofOptions.getExtendsList.asScala.toSeq
   }
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {

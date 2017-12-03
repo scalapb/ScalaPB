@@ -143,3 +143,14 @@ extend google.protobuf.EnumValueOptions {
   // Extension number officially assigned by protobuf-global-extension-registry@google.com
   optional EnumValueOptions enum_value = 1020;
 }
+
+message OneofOptions {
+  // Additional traits to mix in to a oneof.
+  repeated string extends = 1;
+}
+
+extend google.protobuf.OneofOptions {
+  // Enum-level optionals for ScalaPB.
+  // Extension number officially assigned by protobuf-global-extension-registry@google.com
+  optional OneofOptions oneof = 1020;
+}

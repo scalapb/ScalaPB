@@ -16,7 +16,8 @@ object ScalapbProto extends _root_.scalapb.GeneratedFileObject {
     scalapb.options.MessageOptions,
     scalapb.options.FieldOptions,
     scalapb.options.EnumOptions,
-    scalapb.options.EnumValueOptions
+    scalapb.options.EnumValueOptions,
+    scalapb.options.OneofOptions
   )
   private lazy val ProtoBytes: Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.Seq(
@@ -34,13 +35,14 @@ object ScalapbProto extends _root_.scalapb.GeneratedFileObject {
   AQgASgJUgdrZXlUeXBlEh0KCnZhbHVlX3R5cGUYBSABKAlSCXZhbHVlVHlwZRIgCgthbm5vdGF0aW9ucxgGIAMoCVILYW5ub3Rhd
   GlvbnMiaAoLRW51bU9wdGlvbnMSGAoHZXh0ZW5kcxgBIAMoCVIHZXh0ZW5kcxIrChFjb21wYW5pb25fZXh0ZW5kcxgCIAMoCVIQY
   29tcGFuaW9uRXh0ZW5kcxISCgR0eXBlGAMgASgJUgR0eXBlIiwKEEVudW1WYWx1ZU9wdGlvbnMSGAoHZXh0ZW5kcxgBIAMoCVIHZ
-  Xh0ZW5kczpQCgdvcHRpb25zEhwuZ29vZ2xlLnByb3RvYnVmLkZpbGVPcHRpb25zGPwHIAEoCzIXLnNjYWxhcGIuU2NhbGFQYk9wd
-  GlvbnNSB29wdGlvbnM6UwoHbWVzc2FnZRIfLmdvb2dsZS5wcm90b2J1Zi5NZXNzYWdlT3B0aW9ucxj8ByABKAsyFy5zY2FsYXBiL
-  k1lc3NhZ2VPcHRpb25zUgdtZXNzYWdlOksKBWZpZWxkEh0uZ29vZ2xlLnByb3RvYnVmLkZpZWxkT3B0aW9ucxj8ByABKAsyFS5zY
-  2FsYXBiLkZpZWxkT3B0aW9uc1IFZmllbGQ6VgoMZW51bV9vcHRpb25zEhwuZ29vZ2xlLnByb3RvYnVmLkVudW1PcHRpb25zGPwHI
-  AEoCzIULnNjYWxhcGIuRW51bU9wdGlvbnNSC2VudW1PcHRpb25zOlwKCmVudW1fdmFsdWUSIS5nb29nbGUucHJvdG9idWYuRW51b
-  VZhbHVlT3B0aW9ucxj8ByABKAsyGS5zY2FsYXBiLkVudW1WYWx1ZU9wdGlvbnNSCWVudW1WYWx1ZUInCg9zY2FsYXBiLm9wdGlvb
-  nPiPxMKD3NjYWxhcGIub3B0aW9ucxAB"""
+  Xh0ZW5kcyIoCgxPbmVvZk9wdGlvbnMSGAoHZXh0ZW5kcxgBIAMoCVIHZXh0ZW5kczpQCgdvcHRpb25zEhwuZ29vZ2xlLnByb3RvY
+  nVmLkZpbGVPcHRpb25zGPwHIAEoCzIXLnNjYWxhcGIuU2NhbGFQYk9wdGlvbnNSB29wdGlvbnM6UwoHbWVzc2FnZRIfLmdvb2dsZ
+  S5wcm90b2J1Zi5NZXNzYWdlT3B0aW9ucxj8ByABKAsyFy5zY2FsYXBiLk1lc3NhZ2VPcHRpb25zUgdtZXNzYWdlOksKBWZpZWxkE
+  h0uZ29vZ2xlLnByb3RvYnVmLkZpZWxkT3B0aW9ucxj8ByABKAsyFS5zY2FsYXBiLkZpZWxkT3B0aW9uc1IFZmllbGQ6VgoMZW51b
+  V9vcHRpb25zEhwuZ29vZ2xlLnByb3RvYnVmLkVudW1PcHRpb25zGPwHIAEoCzIULnNjYWxhcGIuRW51bU9wdGlvbnNSC2VudW1Pc
+  HRpb25zOlwKCmVudW1fdmFsdWUSIS5nb29nbGUucHJvdG9idWYuRW51bVZhbHVlT3B0aW9ucxj8ByABKAsyGS5zY2FsYXBiLkVud
+  W1WYWx1ZU9wdGlvbnNSCWVudW1WYWx1ZTpLCgVvbmVvZhIdLmdvb2dsZS5wcm90b2J1Zi5PbmVvZk9wdGlvbnMY/AcgASgLMhUuc
+  2NhbGFwYi5PbmVvZk9wdGlvbnNSBW9uZW9mQicKD3NjYWxhcGIub3B0aW9uc+I/EwoPc2NhbGFwYi5vcHRpb25zEAE="""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
@@ -64,4 +66,6 @@ object ScalapbProto extends _root_.scalapb.GeneratedFileObject {
     _root_.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _root_.scalapb.UnknownFieldSet.Field.lengthDelimitedLens)({__valueIn => _root_.scalapb.GeneratedExtension.readMessageFromByteString(scalapb.options.EnumOptions)(__valueIn)}, {__valueIn => __valueIn.toByteString})
   val enumValue: _root_.scalapb.GeneratedExtension[com.google.protobuf.descriptor.EnumValueOptions, scala.Option[scalapb.options.EnumValueOptions]] =
     _root_.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _root_.scalapb.UnknownFieldSet.Field.lengthDelimitedLens)({__valueIn => _root_.scalapb.GeneratedExtension.readMessageFromByteString(scalapb.options.EnumValueOptions)(__valueIn)}, {__valueIn => __valueIn.toByteString})
+  val oneof: _root_.scalapb.GeneratedExtension[com.google.protobuf.descriptor.OneofOptions, scala.Option[scalapb.options.OneofOptions]] =
+    _root_.scalapb.GeneratedExtension.forOptionalUnknownField(1020, _root_.scalapb.UnknownFieldSet.Field.lengthDelimitedLens)({__valueIn => _root_.scalapb.GeneratedExtension.readMessageFromByteString(scalapb.options.OneofOptions)(__valueIn)}, {__valueIn => __valueIn.toByteString})
 }

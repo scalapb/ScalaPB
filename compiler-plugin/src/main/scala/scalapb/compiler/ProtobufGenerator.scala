@@ -76,7 +76,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         s"another message name '${e.upperScalaName}'.")
     }
     printer
-      .add(s"sealed trait ${e.upperScalaName} extends _root_.scalapb.GeneratedOneof {")
+      .add(s"sealed trait ${e.upperScalaName} extends ${e.baseClasses.mkString(" with ")} {")
       .indent
       .add(s"def isEmpty: Boolean = false")
       .add(s"def isDefined: Boolean = true")

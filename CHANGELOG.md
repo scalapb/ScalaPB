@@ -13,6 +13,7 @@ Changes:
 - Added type member ValueType to GeneratedOneof that makes it easy to write
   type classes that deal with Oneofs.
 - Add support for Scala annotations on field-level, and companion object level.
+- It is now possible to specify additional traits for oneofs.
 
 ## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)

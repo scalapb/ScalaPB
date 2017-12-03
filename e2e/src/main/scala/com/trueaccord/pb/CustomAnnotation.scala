@@ -1,5 +1,3 @@
-// Copyright (C) 2014-2017 Anduin Transactions Inc.
-
 package com.trueaccord.pb
 
 import scala.annotation.StaticAnnotation

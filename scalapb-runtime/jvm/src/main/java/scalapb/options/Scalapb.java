@@ -12,6 +12,7 @@ public final class Scalapb {
     registry.add(scalapb.options.Scalapb.field);
     registry.add(scalapb.options.Scalapb.enumOptions);
     registry.add(scalapb.options.Scalapb.enumValue);
+    registry.add(scalapb.options.Scalapb.oneof);
   }
 
   public static void registerAllExtensions(
@@ -7236,6 +7237,652 @@ public final class Scalapb {
 
   }
 
+  public interface OneofOptionsOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:scalapb.OneofOptions)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    java.util.List<java.lang.String>
+        getExtendsList();
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    int getExtendsCount();
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    java.lang.String getExtends(int index);
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getExtendsBytes(int index);
+  }
+  /**
+   * Protobuf type {@code scalapb.OneofOptions}
+   */
+  public  static final class OneofOptions extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:scalapb.OneofOptions)
+      OneofOptionsOrBuilder {
+  private static final long serialVersionUID = 0L;
+    // Use OneofOptions.newBuilder() to construct.
+    private OneofOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private OneofOptions() {
+      extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return this.unknownFields;
+    }
+    private OneofOptions(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      if (extensionRegistry == null) {
+        throw new java.lang.NullPointerException();
+      }
+      int mutable_bitField0_ = 0;
+      com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder();
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                extends_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000001;
+              }
+              extends_.add(bs);
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+        }
+        this.unknownFields = unknownFields.build();
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              scalapb.options.Scalapb.OneofOptions.class, scalapb.options.Scalapb.OneofOptions.Builder.class);
+    }
+
+    public static final int EXTENDS_FIELD_NUMBER = 1;
+    private com.google.protobuf.LazyStringList extends_;
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getExtendsList() {
+      return extends_;
+    }
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public int getExtendsCount() {
+      return extends_.size();
+    }
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public java.lang.String getExtends(int index) {
+      return extends_.get(index);
+    }
+    /**
+     * <pre>
+     * Additional traits to mix in to a oneof.
+     * </pre>
+     *
+     * <code>repeated string extends = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getExtendsBytes(int index) {
+      return extends_.getByteString(index);
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      for (int i = 0; i < extends_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, extends_.getRaw(i));
+      }
+      unknownFields.writeTo(output);
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      {
+        int dataSize = 0;
+        for (int i = 0; i < extends_.size(); i++) {
+          dataSize += computeStringSizeNoTag(extends_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getExtendsList().size();
+      }
+      size += unknownFields.getSerializedSize();
+      memoizedSize = size;
+      return size;
+    }
+
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof scalapb.options.Scalapb.OneofOptions)) {
+        return super.equals(obj);
+      }
+      scalapb.options.Scalapb.OneofOptions other = (scalapb.options.Scalapb.OneofOptions) obj;
+
+      boolean result = true;
+      result = result && getExtendsList()
+          .equals(other.getExtendsList());
+      result = result && unknownFields.equals(other.unknownFields);
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptor().hashCode();
+      if (getExtendsCount() > 0) {
+        hash = (37 * hash) + EXTENDS_FIELD_NUMBER;
+        hash = (53 * hash) + getExtendsList().hashCode();
+      }
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static scalapb.options.Scalapb.OneofOptions parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(scalapb.options.Scalapb.OneofOptions prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code scalapb.OneofOptions}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:scalapb.OneofOptions)
+        scalapb.options.Scalapb.OneofOptionsOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                scalapb.options.Scalapb.OneofOptions.class, scalapb.options.Scalapb.OneofOptions.Builder.class);
+      }
+
+      // Construct using scalapb.options.Scalapb.OneofOptions.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_descriptor;
+      }
+
+      public scalapb.options.Scalapb.OneofOptions getDefaultInstanceForType() {
+        return scalapb.options.Scalapb.OneofOptions.getDefaultInstance();
+      }
+
+      public scalapb.options.Scalapb.OneofOptions build() {
+        scalapb.options.Scalapb.OneofOptions result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public scalapb.options.Scalapb.OneofOptions buildPartial() {
+        scalapb.options.Scalapb.OneofOptions result = new scalapb.options.Scalapb.OneofOptions(this);
+        int from_bitField0_ = bitField0_;
+        if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = extends_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        }
+        result.extends_ = extends_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, java.lang.Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          java.lang.Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof scalapb.options.Scalapb.OneofOptions) {
+          return mergeFrom((scalapb.options.Scalapb.OneofOptions)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(scalapb.options.Scalapb.OneofOptions other) {
+        if (other == scalapb.options.Scalapb.OneofOptions.getDefaultInstance()) return this;
+        if (!other.extends_.isEmpty()) {
+          if (extends_.isEmpty()) {
+            extends_ = other.extends_;
+            bitField0_ = (bitField0_ & ~0x00000001);
+          } else {
+            ensureExtendsIsMutable();
+            extends_.addAll(other.extends_);
+          }
+          onChanged();
+        }
+        this.mergeUnknownFields(other.unknownFields);
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        scalapb.options.Scalapb.OneofOptions parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (scalapb.options.Scalapb.OneofOptions) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+      private int bitField0_;
+
+      private com.google.protobuf.LazyStringList extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureExtendsIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          extends_ = new com.google.protobuf.LazyStringArrayList(extends_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getExtendsList() {
+        return extends_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public int getExtendsCount() {
+        return extends_.size();
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public java.lang.String getExtends(int index) {
+        return extends_.get(index);
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getExtendsBytes(int index) {
+        return extends_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder setExtends(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addExtends(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addAllExtends(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureExtendsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, extends_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder clearExtends() {
+        extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional traits to mix in to a oneof.
+       * </pre>
+       *
+       * <code>repeated string extends = 1;</code>
+       */
+      public Builder addExtendsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureExtendsIsMutable();
+        extends_.add(value);
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.setUnknownFields(unknownFields);
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return super.mergeUnknownFields(unknownFields);
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:scalapb.OneofOptions)
+    }
+
+    // @@protoc_insertion_point(class_scope:scalapb.OneofOptions)
+    private static final scalapb.options.Scalapb.OneofOptions DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new scalapb.options.Scalapb.OneofOptions();
+    }
+
+    public static scalapb.options.Scalapb.OneofOptions getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    @java.lang.Deprecated public static final com.google.protobuf.Parser<OneofOptions>
+        PARSER = new com.google.protobuf.AbstractParser<OneofOptions>() {
+      public OneofOptions parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return new OneofOptions(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<OneofOptions> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<OneofOptions> getParserForType() {
+      return PARSER;
+    }
+
+    public scalapb.options.Scalapb.OneofOptions getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public static final int OPTIONS_FIELD_NUMBER = 1020;
   /**
    * <pre>
@@ -7317,6 +7964,22 @@ public final class Scalapb {
           .newFileScopedGeneratedExtension(
         scalapb.options.Scalapb.EnumValueOptions.class,
         scalapb.options.Scalapb.EnumValueOptions.getDefaultInstance());
+  public static final int ONEOF_FIELD_NUMBER = 1020;
+  /**
+   * <pre>
+   * Enum-level optionals for ScalaPB.
+   * Extension number officially assigned by protobuf-global-extension-registry&#64;google.com
+   * </pre>
+   *
+   * <code>extend .google.protobuf.OneofOptions { ... }</code>
+   */
+  public static final
+    com.google.protobuf.GeneratedMessage.GeneratedExtension<
+      com.google.protobuf.DescriptorProtos.OneofOptions,
+      scalapb.options.Scalapb.OneofOptions> oneof = com.google.protobuf.GeneratedMessage
+          .newFileScopedGeneratedExtension(
+        scalapb.options.Scalapb.OneofOptions.class,
+        scalapb.options.Scalapb.OneofOptions.getDefaultInstance());
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_scalapb_ScalaPbOptions_descriptor;
   private static final 
@@ -7342,6 +8005,11 @@ public final class Scalapb {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_scalapb_EnumValueOptions_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_scalapb_OneofOptions_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_scalapb_OneofOptions_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7368,18 +8036,20 @@ public final class Scalapb {
       " \001(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n\013annotations\030" +
       "\006 \003(\t\"G\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n" +
       "\021companion_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#" +
-      "\n\020EnumValueOptions\022\017\n\007extends\030\001 \003(\t:G\n\007o" +
-      "ptions\022\034.google.protobuf.FileOptions\030\374\007 " +
-      "\001(\0132\027.scalapb.ScalaPbOptions:J\n\007message\022" +
-      "\037.google.protobuf.MessageOptions\030\374\007 \001(\0132" +
-      "\027.scalapb.MessageOptions:D\n\005field\022\035.goog" +
-      "le.protobuf.FieldOptions\030\374\007 \001(\0132\025.scalap" +
-      "b.FieldOptions:I\n\014enum_options\022\034.google." +
-      "protobuf.EnumOptions\030\374\007 \001(\0132\024.scalapb.En" +
-      "umOptions:Q\n\nenum_value\022!.google.protobu" +
-      "f.EnumValueOptions\030\374\007 \001(\0132\031.scalapb.Enum" +
-      "ValueOptionsB\'\n\017scalapb.options\342?\023\n\017scal" +
-      "apb.options\020\001"
+      "\n\020EnumValueOptions\022\017\n\007extends\030\001 \003(\t\"\037\n\014O" +
+      "neofOptions\022\017\n\007extends\030\001 \003(\t:G\n\007options\022" +
+      "\034.google.protobuf.FileOptions\030\374\007 \001(\0132\027.s" +
+      "calapb.ScalaPbOptions:J\n\007message\022\037.googl" +
+      "e.protobuf.MessageOptions\030\374\007 \001(\0132\027.scala" +
+      "pb.MessageOptions:D\n\005field\022\035.google.prot" +
+      "obuf.FieldOptions\030\374\007 \001(\0132\025.scalapb.Field" +
+      "Options:I\n\014enum_options\022\034.google.protobu" +
+      "f.EnumOptions\030\374\007 \001(\0132\024.scalapb.EnumOptio" +
+      "ns:Q\n\nenum_value\022!.google.protobuf.EnumV" +
+      "alueOptions\030\374\007 \001(\0132\031.scalapb.EnumValueOp" +
+      "tions:D\n\005oneof\022\035.google.protobuf.OneofOp" +
+      "tions\030\374\007 \001(\0132\025.scalapb.OneofOptionsB\'\n\017s" +
+      "calapb.options\342?\023\n\017scalapb.options\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -7424,11 +8094,18 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_EnumValueOptions_descriptor,
         new java.lang.String[] { "Extends", });
+    internal_static_scalapb_OneofOptions_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_scalapb_OneofOptions_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_scalapb_OneofOptions_descriptor,
+        new java.lang.String[] { "Extends", });
     options.internalInit(descriptor.getExtensions().get(0));
     message.internalInit(descriptor.getExtensions().get(1));
     field.internalInit(descriptor.getExtensions().get(2));
     enumOptions.internalInit(descriptor.getExtensions().get(3));
     enumValue.internalInit(descriptor.getExtensions().get(4));
+    oneof.internalInit(descriptor.getExtensions().get(5));
     com.google.protobuf.ExtensionRegistry registry =
         com.google.protobuf.ExtensionRegistry.newInstance();
     registry.add(scalapb.options.Scalapb.options);

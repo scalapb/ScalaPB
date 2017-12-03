@@ -6,7 +6,7 @@ import "scalapb/scalapb.proto";
 package com.trueaccord.proto.e2e;
 
 option (scalapb.options) = {
-  import: "com.trueaccord.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2}"
+  import: "com.trueaccord.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2, Base1, Base2}"
 };
 
 option (message_a).a = "AAA";
@@ -19,6 +19,13 @@ message FooMessage {
 
   optional int32 myField1 = 1 [(message_c).c = "CCC", (opt_name).first = "John"];
   optional int32 myField2 = 2 [(rep_name) = {last: "Doe"}, (rep_name) = {first: "Moe"}];
+
+  oneof my_one_of {
+      option (scalapb.oneof).extends = "Base1";
+      option (scalapb.oneof).extends = "Base2";
+      int32 x = 3;
+      int32 y = 4;
+  }
 }
 
 message BarMessage {
