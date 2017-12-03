@@ -24,6 +24,8 @@ case class UnknownFieldSet(private[scalapb] val fields: Map[Int, UnknownFieldSet
 }
 
 object UnknownFieldSet {
+  val empty = UnknownFieldSet()
+
   implicit class UnknownFieldSetLens[UpperPB](lens: _root_.scalapb.lenses.Lens[UpperPB, UnknownFieldSet]) {
     def apply(fieldNumber: Int): Lens[UpperPB, UnknownFieldSet.Field] =
       lens.compose(Lens[UnknownFieldSet, UnknownFieldSet.Field]({

@@ -36,6 +36,9 @@ package scalapb.options
   * @param collectionType
   *   Scala type to be used for repeated fields. If unspecified,
   *   `scala.collection.Seq` will be used.
+  * @param preserveUnknownFields
+  *   If set to true, all generated messages in this file will preserve unknown
+  *   fields.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
@@ -50,6 +53,7 @@ final case class ScalaPbOptions(
     noPrimitiveWrappers: scala.Option[Boolean] = None,
     primitiveWrappers: scala.Option[Boolean] = None,
     collectionType: scala.Option[String] = None,
+    preserveUnknownFields: scala.Option[Boolean] = None,
     testOnlyNoJavaConversions: scala.Option[Boolean] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ScalaPbOptions] with scalapb.lenses.Updatable[ScalaPbOptions] {
     @transient
@@ -64,6 +68,7 @@ final case class ScalaPbOptions(
       if (noPrimitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, noPrimitiveWrappers.get) }
       if (primitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, primitiveWrappers.get) }
       if (collectionType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, collectionType.get) }
+      if (preserveUnknownFields.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(9, preserveUnknownFields.get) }
       if (testOnlyNoJavaConversions.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(100001, testOnlyNoJavaConversions.get) }
       __size
     }
@@ -100,6 +105,9 @@ final case class ScalaPbOptions(
       collectionType.foreach { __v =>
         _output__.writeString(8, __v)
       };
+      preserveUnknownFields.foreach { __v =>
+        _output__.writeBool(9, __v)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         _output__.writeBool(100001, __v)
       };
@@ -113,6 +121,7 @@ final case class ScalaPbOptions(
       var __noPrimitiveWrappers = this.noPrimitiveWrappers
       var __primitiveWrappers = this.primitiveWrappers
       var __collectionType = this.collectionType
+      var __preserveUnknownFields = this.preserveUnknownFields
       var __testOnlyNoJavaConversions = this.testOnlyNoJavaConversions
       var _done__ = false
       while (!_done__) {
@@ -135,6 +144,8 @@ final case class ScalaPbOptions(
             __primitiveWrappers = Some(_input__.readBool())
           case 66 =>
             __collectionType = Some(_input__.readString())
+          case 72 =>
+            __preserveUnknownFields = Some(_input__.readBool())
           case 800008 =>
             __testOnlyNoJavaConversions = Some(_input__.readBool())
           case tag => _input__.skipField(tag)
@@ -149,6 +160,7 @@ final case class ScalaPbOptions(
           noPrimitiveWrappers = __noPrimitiveWrappers,
           primitiveWrappers = __primitiveWrappers,
           collectionType = __collectionType,
+          preserveUnknownFields = __preserveUnknownFields,
           testOnlyNoJavaConversions = __testOnlyNoJavaConversions
       )
     }
@@ -178,6 +190,9 @@ final case class ScalaPbOptions(
     def getCollectionType: String = collectionType.getOrElse("")
     def clearCollectionType: ScalaPbOptions = copy(collectionType = None)
     def withCollectionType(__v: String): ScalaPbOptions = copy(collectionType = Some(__v))
+    def getPreserveUnknownFields: Boolean = preserveUnknownFields.getOrElse(false)
+    def clearPreserveUnknownFields: ScalaPbOptions = copy(preserveUnknownFields = None)
+    def withPreserveUnknownFields(__v: Boolean): ScalaPbOptions = copy(preserveUnknownFields = Some(__v))
     def getTestOnlyNoJavaConversions: Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = None)
     def withTestOnlyNoJavaConversions(__v: Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Some(__v))
@@ -191,6 +206,7 @@ final case class ScalaPbOptions(
         case 7 => noPrimitiveWrappers.orNull
         case 6 => primitiveWrappers.orNull
         case 8 => collectionType.orNull
+        case 9 => preserveUnknownFields.orNull
         case 100001 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -205,6 +221,7 @@ final case class ScalaPbOptions(
         case 7 => noPrimitiveWrappers.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => primitiveWrappers.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 8 => collectionType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 9 => preserveUnknownFields.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -226,7 +243,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[Boolean]],
       __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(8)).asInstanceOf[scala.Option[Boolean]]
+      __fieldsMap.get(__fields.get(8)).asInstanceOf[scala.Option[Boolean]],
+      __fieldsMap.get(__fields.get(9)).asInstanceOf[scala.Option[Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.ScalaPbOptions] = _root_.scalapb.descriptors.Reads{
@@ -241,6 +259,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[scala.Option[Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[scala.Option[Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -267,6 +286,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def optionalPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.primitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = f_))
     def collectionType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Some(f_)))
     def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
+    def preserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getPreserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = Some(f_)))
+    def optionalPreserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.preserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Some(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -278,5 +299,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val NO_PRIMITIVE_WRAPPERS_FIELD_NUMBER = 7
   final val PRIMITIVE_WRAPPERS_FIELD_NUMBER = 6
   final val COLLECTION_TYPE_FIELD_NUMBER = 8
+  final val PRESERVE_UNKNOWN_FIELDS_FIELD_NUMBER = 9
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
 }

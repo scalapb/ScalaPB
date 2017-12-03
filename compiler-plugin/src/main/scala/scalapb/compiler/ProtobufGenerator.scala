@@ -442,7 +442,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
-    if (message.fields.nonEmpty || message.isExtendable) {
+    if (message.fields.nonEmpty || message.preservesUnknownFields) {
       fp
       .when(!message.isValueClass) {
         _.add("@transient")
@@ -452,7 +452,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .indent
       .add("var __size = 0")
       .print(message.fields)(generateSerializedSizeForField)
-      .when(message.isExtendable)(_.add("__size += unknownFields.serializedSize"))
+      .when(message.preservesUnknownFields)(_.add("__size += unknownFields.serializedSize"))
       .add("__size")
       .outdent
       .add("}")
@@ -565,7 +565,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             .add("};")
         }
     }
-      .when(message.isExtendable)(_.add("unknownFields.writeTo(_output__)"))
+      .when(message.preservesUnknownFields)(_.add("unknownFields.writeTo(_output__)"))
       .outdent
       .add("}")
 
@@ -585,7 +585,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       oneOf =>
         s"${oneOf.scalaName.asSymbol}: ${oneOf.scalaTypeName} = ${oneOf.empty}"
     }
-    val maybeUnknownFields = if (message.isExtendable)
+    val maybeUnknownFields = if (message.preservesUnknownFields)
       Seq("unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()")
     else Seq()
     printer.addWithDelimiter(",")(regularFields ++ oneOfFields ++ maybeUnknownFields)
@@ -606,7 +606,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         else
           printer.add(s"val __${field.scalaName} = (${field.collectionBuilder} ++= this.${field.scalaName.asSymbol})")
       )
-      .when(message.isExtendable)(_.add("val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)"))
+      .when(message.preservesUnknownFields)(_.add("val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)"))
       .when(requiredFieldMap.nonEmpty) {
         fp =>
           // Sets the bit 0...(n-1) inclusive to 1.
@@ -685,8 +685,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                |    }""")
         } else p
     }
-      .when(!message.isExtendable)(_.add("    case tag => _input__.skipField(tag)"))
-      .when(message.isExtendable)(_.add("    case tag => _unknownFields__.parseField(tag, _input__)"))
+      .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
+      .when(message.preservesUnknownFields)(_.add("    case tag => _unknownFields__.parseField(tag, _input__)"))
       .add("  }")
       .add("}")
       .when(requiredFieldMap.nonEmpty) {
@@ -703,7 +703,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
           case e: OneofDescriptor =>
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
-        } ++ (if (message.isExtendable) Seq("  unknownFields = _unknownFields__.result()") else Seq()))
+        } ++ (if (message.preservesUnknownFields) Seq("  unknownFields = _unknownFields__.result()") else Seq()))
       .outdent
       .add(")")
       .outdent
@@ -1215,7 +1215,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof.empty})
              |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)""")
     }
-      .when(message.isExtendable)(_.add("def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)"))
+      .when(message.preservesUnknownFields)(_
+        .add("def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)")
+        .add("def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)")
+      )
       .call(generateGetField(message))
       .call(generateGetFieldPValue(message))
       .when(!params.singleLineToString)(_.add(s"override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)"))

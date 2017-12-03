@@ -1,6 +1,11 @@
 # Change Log
 
 ## [Unreleased](https://github.com/scalapb/ScalaPB/tree/HEAD)
+- Update to protobuf-java 3.5.0
+- Added file-level option to preserve unknown fields in generated classes.
+
+## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)
 - GeneratedMessageCompanion: add `nestedMessagesCompanions` and Add
 - Added base class GeneratedFileObject that will be the base class for the
   singleton object generated for each proto file.

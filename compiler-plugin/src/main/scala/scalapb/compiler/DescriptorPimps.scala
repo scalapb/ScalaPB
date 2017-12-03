@@ -300,6 +300,12 @@ trait DescriptorPimps {
 
     def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
 
+    // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for value classes
+    // since they must have an exactly one val.
+    def preservesUnknownFields = (
+      message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
+      ) && !isValueClass
+
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
         case "google.protobuf.Any" => Seq("_root_.scalapb.AnyMethods")

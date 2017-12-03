@@ -49,6 +49,10 @@ message ScalaPbOptions {
   // `scala.collection.Seq` will be used.
   optional string collection_type = 8;
 
+  // If set to true, all generated messages in this file will preserve unknown
+  // fields.
+  optional bool preserve_unknown_fields = 9;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;
