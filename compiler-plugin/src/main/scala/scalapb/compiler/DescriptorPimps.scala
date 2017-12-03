@@ -3,8 +3,8 @@ package scalapb.compiler
 import com.google.protobuf.DescriptorProtos.{DescriptorProto, FileDescriptorProto, SourceCodeInfo}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
-import scalapb.options.Scalapb
-import scalapb.options.Scalapb.{EnumValueOptions, EnumOptions, FieldOptions, MessageOptions, ScalaPbOptions}
+import scalapb.options.compiler.Scalapb
+import scalapb.options.compiler.Scalapb.{EnumValueOptions, EnumOptions, FieldOptions, MessageOptions, ScalaPbOptions}
 
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq

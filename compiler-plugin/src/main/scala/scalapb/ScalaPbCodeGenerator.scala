@@ -1,9 +1,9 @@
 package scalapb
 
 import com.google.protobuf.ExtensionRegistry
-import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest
 import scalapb.compiler.ProtobufGenerator
-import scalapb.options.Scalapb
+import scalapb.options.compiler.Scalapb
 import protocbridge.{ProtocCodeGenerator, Artifact}
 
 

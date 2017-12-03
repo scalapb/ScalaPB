@@ -127,17 +127,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.0",
       "org.scalatest" %% "scalatest" % "3.0.4" % "test"
-    ),
-    // shade our output to replace com.thesamet.scalapb.Scalapb on the classpath, suitable for using in sbt 1.x,
-    // which can cause runtime conflicts due to scalapb-runtime being included on the classpath as well
-    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = false),
-    assemblyJarName in assembly := artifactName.value.apply(ScalaVersion((scalaVersion in artifactName).value, (scalaBinaryVersion in artifactName).value), projectID.value, (artifact in (Compile, assembly)).value),
-    assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject
-    ),
-    packageBin in Compile := assembly.value,
-    //replace the main artifact with the shaded non-fat jar
-    artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value
+    )
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
