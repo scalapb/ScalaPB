@@ -266,7 +266,7 @@ final case class FieldMask(
         case 1 => _root_.scalapb.descriptors.PRepeated(paths.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.field_mask.FieldMask
 }
 

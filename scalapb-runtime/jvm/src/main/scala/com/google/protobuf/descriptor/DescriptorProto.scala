@@ -216,7 +216,7 @@ final case class DescriptorProto(
         case 10 => _root_.scalapb.descriptors.PRepeated(reservedName.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.DescriptorProto
 }
 
@@ -372,7 +372,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
           case 2 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
-      override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange
   }
   
@@ -499,7 +499,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
           case 2 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
-      override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ReservedRange
   }
   

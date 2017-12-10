@@ -14,6 +14,9 @@ Changes:
   type classes that deal with Oneofs.
 - Add support for Scala annotations on field-level, and companion object level.
 - It is now possible to specify additional traits for oneofs.
+- #235: toString is now not overridden by ScalaPB and does not generate the
+  default TextFormat. To get the text format, use toProtoString. See issue #235
+  for how to achieve a backwards-compatible behavior.
 
 ## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)

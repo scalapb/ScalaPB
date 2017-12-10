@@ -121,7 +121,7 @@ final case class Value(
         case 6 => kind.listValue.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.struct.Value
 }
 

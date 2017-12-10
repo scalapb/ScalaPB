@@ -131,7 +131,7 @@ final case class MessageOptions(
         case 5 => _root_.scalapb.descriptors.PRepeated(companionAnnotations.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.MessageOptions
 }
 

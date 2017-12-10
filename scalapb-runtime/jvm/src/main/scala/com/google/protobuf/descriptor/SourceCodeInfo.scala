@@ -111,7 +111,7 @@ final case class SourceCodeInfo(
         case 1 => _root_.scalapb.descriptors.PRepeated(location.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.SourceCodeInfo
 }
 
@@ -391,7 +391,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
           case 6 => _root_.scalapb.descriptors.PRepeated(leadingDetachedComments.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
         }
       }
-      override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.SourceCodeInfo.Location
   }
   

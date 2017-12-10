@@ -250,7 +250,7 @@ final case class Field(
         case 11 => _root_.scalapb.descriptors.PString(defaultValue)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.Field
 }
 

@@ -193,7 +193,7 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
       "repeated_double: Infinity\n" +
       "repeated_double: -Infinity\n" +
       "repeated_double: NaN\n";
-    TestAllTypes.fromAscii(original).toString must be(canonical)
+    TestAllTypes.fromAscii(original).toProtoString must be(canonical)
   }
 
   "testParseExotic" should "pass" in {
@@ -469,7 +469,7 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
           "repeated_bool: false\n" +
           "repeated_bool: true\n"
       val good = TestAllTypes.fromAscii(goodText)
-      goodTextCanonical must be(good.toString)
+      goodTextCanonical must be(good.toProtoString)
 
       "optional_bool:2" must failParsingWith("")
       "optional_bool:foo" must failParsingWith("")
@@ -573,7 +573,7 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
         _.bazInt := 102,
         _.bazString := "103"
       )
-      TestOneof2.fromAscii(p.toString) must be(p)
+      TestOneof2.fromAscii(p.toProtoString) must be(p)
     }
 
     "testOneofOverwriteAllowed" should "pass" in {

@@ -176,7 +176,7 @@ final case class Any(
         case 2 => _root_.scalapb.descriptors.PByteString(value)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.any.Any
 }
 

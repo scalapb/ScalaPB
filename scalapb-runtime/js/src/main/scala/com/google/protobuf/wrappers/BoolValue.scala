@@ -70,7 +70,7 @@ final case class BoolValue(
         case 1 => _root_.scalapb.descriptors.PBoolean(value)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.BoolValue
 }
 

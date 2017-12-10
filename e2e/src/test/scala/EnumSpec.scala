@@ -129,7 +129,7 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "Unrecognized" should "be printable" in {
     // See https://github.com/scalapb/ScalaPB/issues/225
-    unrecognized.toString must be ("color: 37\n")
+    unrecognized.toProtoString must be ("color: 37\n")
   }
 
   "Unrecognized" should "be fine" in {

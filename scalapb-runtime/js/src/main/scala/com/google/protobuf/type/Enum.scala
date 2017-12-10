@@ -144,7 +144,7 @@ final case class Enum(
         case 5 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.Enum
 }
 

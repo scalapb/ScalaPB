@@ -10,7 +10,8 @@ import scala.collection.JavaConverters._
 
 case class GeneratorParams(
   javaConversions: Boolean = false, flatPackage: Boolean = false,
-  grpc: Boolean = false, singleLineToString: Boolean = false)
+  grpc: Boolean = false, singleLineToProtoString: Boolean = false,
+  asciiFormatToString: Boolean = false)
 
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
@@ -1228,8 +1229,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       )
       .call(generateGetField(message))
       .call(generateGetFieldPValue(message))
-      .when(!params.singleLineToString)(_.add(s"override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)"))
-      .when(params.singleLineToString)(_.add(s"override def toString: String = _root_.scalapb.TextFormat.printToSingleLineUnicodeString(this)"))
+      .when(!params.singleLineToProtoString)(_.add(s"def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)"))
+      .when(params.singleLineToProtoString)(_.add(s"def toProtoString: String = _root_.scalapb.TextFormat.printToSingleLineUnicodeString(this)"))
+      .when(params.asciiFormatToString)(_.add("override def toString: String = toProtoString"))
       .add(s"def companion = ${message.scalaTypeNameWithMaybeRoot(message)}")
       .outdent
       .outdent
@@ -1389,7 +1391,8 @@ object ProtobufGenerator {
       case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
       case (Right(params), "flat_package") => Right(params.copy(flatPackage = true))
       case (Right(params), "grpc") => Right(params.copy(grpc = true))
-      case (Right(params), "single_line_to_string") => Right(params.copy(singleLineToString = true))
+      case (Right(params), "single_line_to_proto_string") => Right(params.copy(singleLineToProtoString = true))
+      case (Right(params), "ascii_format_to_string") => Right(params.copy(asciiFormatToString = true))
       case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
       case (x, _) => x
     }

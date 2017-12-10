@@ -165,7 +165,7 @@ final case class Mixin(
         case 2 => _root_.scalapb.descriptors.PString(root)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.api.Mixin
 }
 

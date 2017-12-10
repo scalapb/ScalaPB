@@ -75,7 +75,7 @@ final case class Struct(
         case 1 => _root_.scalapb.descriptors.PRepeated(fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase(_).toPMessage)(_root_.scala.collection.breakOut))
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.struct.Struct
 }
 
@@ -199,7 +199,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
           case 2 => value.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
-      override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.struct.Struct.FieldsEntry
   }
   

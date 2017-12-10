@@ -151,11 +151,11 @@ class MapsSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatc
       personToYear = Map(PersonId("275") -> Years(188)))
 
     CustomMaps.parseFrom(c1.toByteArray) must be(c1)
-    CustomMaps.fromAscii(c1.toString) must be(c1)
+    CustomMaps.fromAscii(c1.toProtoString) must be(c1)
     CustomMaps.fromJavaProto(CustomMaps.toJavaProto(c1)) must be (c1)
 
     CustomMaps2.parseFrom(c2.toByteArray) must be(c2)
-    CustomMaps2.fromAscii(c2.toString) must be(c2)
+    CustomMaps2.fromAscii(c2.toProtoString) must be(c2)
     CustomMaps2.fromJavaProto(CustomMaps2.toJavaProto(c2)) must be (c2)
   }
 }

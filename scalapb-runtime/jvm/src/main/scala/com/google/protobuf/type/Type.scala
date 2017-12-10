@@ -162,7 +162,7 @@ final case class Type(
         case 6 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.Type
 }
 

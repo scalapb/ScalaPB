@@ -89,7 +89,7 @@ final case class CodeGeneratorResponse(
         case 15 => _root_.scalapb.descriptors.PRepeated(file.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.compiler.plugin.CodeGeneratorResponse
 }
 
@@ -274,7 +274,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
           case 15 => content.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
-      override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File
   }
   

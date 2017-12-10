@@ -45,7 +45,7 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
 
               // Parsing in Scala the serialized bytes should give the same object.
               val scalaParsedFromBytes = companion.parseFrom(scalaBytes)
-              scalaParsedFromBytes.toString should be(scalaProto.toString)
+              scalaParsedFromBytes.toProtoString should be(scalaProto.toProtoString)
               scalaParsedFromBytes should be(scalaProto)
 
               // Parsing in Java the bytes serialized by Scala should give back javaProto:

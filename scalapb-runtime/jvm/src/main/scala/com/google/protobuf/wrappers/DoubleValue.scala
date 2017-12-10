@@ -70,7 +70,7 @@ final case class DoubleValue(
         case 1 => _root_.scalapb.descriptors.PDouble(value)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.DoubleValue
 }
 

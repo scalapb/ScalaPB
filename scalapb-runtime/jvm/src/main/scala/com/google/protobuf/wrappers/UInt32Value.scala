@@ -70,7 +70,7 @@ final case class UInt32Value(
         case 1 => _root_.scalapb.descriptors.PInt(value)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.UInt32Value
 }
 

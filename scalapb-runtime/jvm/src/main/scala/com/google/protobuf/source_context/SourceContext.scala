@@ -70,7 +70,7 @@ final case class SourceContext(
         case 1 => _root_.scalapb.descriptors.PString(fileName)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.source_context.SourceContext
 }
 

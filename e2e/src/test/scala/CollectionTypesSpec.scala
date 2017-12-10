@@ -17,7 +17,7 @@ class CollectionTypesSpec extends FlatSpec with MustMatchers {
   "custom collection" should "work" in {
     val c = CustomCollection(repeatedInt32 = MyVector(Vector(11, 24, 19)))
     CustomCollection.parseFrom(c.toByteArray) must be(c)
-    CustomCollection.fromAscii(c.toString) must be(c)
+    CustomCollection.fromAscii(c.toProtoString) must be(c)
     CustomCollection.fromJavaProto(CustomCollection.toJavaProto(c)) must be(c)
   }
 

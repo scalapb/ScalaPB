@@ -157,7 +157,7 @@ final case class UninterpretedOption(
         case 8 => aggregateValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.UninterpretedOption
 }
 
@@ -275,7 +275,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
           case 2 => _root_.scalapb.descriptors.PBoolean(isExtension)
         }
       }
-      override def toString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.UninterpretedOption.NamePart
   }
   
