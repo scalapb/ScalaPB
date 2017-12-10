@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** Encapsulates information about the original source file from which a
   * FileDescriptorProto was generated.
   *

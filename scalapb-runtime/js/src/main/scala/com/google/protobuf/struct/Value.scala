@@ -5,8 +5,6 @@
 
 package com.google.protobuf.struct
 
-
-
 /** `Value` represents a dynamically typed value which can be either
   * null, a number, a string, a boolean, a recursive struct value, or a
   * list of values. A producer of value is expected to set one of that

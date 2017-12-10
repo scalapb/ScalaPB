@@ -5,8 +5,6 @@
 
 package com.google.protobuf.api
 
-
-
 /** Declares an API to be included in this API. The including API must
   * redeclare all the methods from the included API, but documentation
   * and options are inherited as follows:

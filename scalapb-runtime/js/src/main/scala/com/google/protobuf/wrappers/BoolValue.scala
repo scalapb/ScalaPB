@@ -5,8 +5,6 @@
 
 package com.google.protobuf.wrappers
 
-
-
 /** Wrapper message for `bool`.
   *
   * The JSON representation for `BoolValue` is JSON `true` and `false`.

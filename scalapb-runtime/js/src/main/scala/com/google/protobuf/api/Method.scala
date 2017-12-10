@@ -5,8 +5,6 @@
 
 package com.google.protobuf.api
 
-
-
 /** Method represents a method of an api.
   *
   * @param name

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.wrappers
 
-
-
 /** Wrapper message for `float`.
   *
   * The JSON representation for `FloatValue` is JSON number.

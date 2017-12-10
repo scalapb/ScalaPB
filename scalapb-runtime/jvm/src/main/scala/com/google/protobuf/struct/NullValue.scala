@@ -5,8 +5,6 @@
 
 package com.google.protobuf.struct
 
-import scala.collection.JavaConverters._
-
 sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: Boolean = false

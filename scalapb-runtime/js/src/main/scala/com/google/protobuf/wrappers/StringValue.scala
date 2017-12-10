@@ -5,8 +5,6 @@
 
 package com.google.protobuf.wrappers
 
-
-
 /** Wrapper message for `string`.
   *
   * The JSON representation for `StringValue` is JSON string.

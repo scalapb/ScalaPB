@@ -5,8 +5,6 @@
 
 package com.google.protobuf.`type`
 
-
-
 /** A protocol buffer option, which can be attached to a message, field,
   * enumeration, etc.
   *

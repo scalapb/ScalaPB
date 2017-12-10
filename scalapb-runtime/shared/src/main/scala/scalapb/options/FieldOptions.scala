@@ -5,8 +5,6 @@
 
 package scalapb.options
 
-
-
 /** @param collectionType
   *   Can be specified only if this field is repeated. If unspecified,
   *   it falls back to the file option named `collection_type`, which defaults

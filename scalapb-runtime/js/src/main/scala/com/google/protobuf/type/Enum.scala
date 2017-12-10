@@ -5,8 +5,6 @@
 
 package com.google.protobuf.`type`
 
-
-
 /** Enum type definition.
   *
   * @param name

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
   */

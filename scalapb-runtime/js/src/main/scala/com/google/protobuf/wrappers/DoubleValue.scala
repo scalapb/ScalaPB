@@ -5,8 +5,6 @@
 
 package com.google.protobuf.wrappers
 
-
-
 /** Wrapper message for `double`.
   *
   * The JSON representation for `DoubleValue` is JSON number.

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.wrappers
 
-
-
 /** Wrapper message for `int64`.
   *
   * The JSON representation for `Int64Value` is JSON string.

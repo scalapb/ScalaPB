@@ -5,8 +5,6 @@
 
 package com.google.protobuf.`type`
 
-
-
 object TypeProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
     com.google.protobuf.any.AnyProto,

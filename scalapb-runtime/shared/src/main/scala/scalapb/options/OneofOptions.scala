@@ -5,8 +5,6 @@
 
 package scalapb.options
 
-
-
 /** @param extends
   *   Additional traits to mix in to a oneof.
   */

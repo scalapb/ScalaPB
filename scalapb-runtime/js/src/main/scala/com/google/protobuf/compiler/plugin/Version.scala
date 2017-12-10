@@ -5,8 +5,6 @@
 
 package com.google.protobuf.compiler.plugin
 
-
-
 /** The version number of protocol compiler.
   *
   * @param suffix

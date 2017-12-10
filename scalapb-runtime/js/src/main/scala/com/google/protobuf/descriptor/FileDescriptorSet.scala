@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** The protocol compiler can output a FileDescriptorSet containing the .proto
   * files it parses.
   */

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.compiler.plugin
 
-
-
 /** An encoded CodeGeneratorRequest is written to the plugin's stdin.
   *
   * @param fileToGenerate

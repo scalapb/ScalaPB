@@ -5,8 +5,6 @@
 
 package com.google.protobuf.field_mask
 
-
-
 /** `FieldMask` represents a set of symbolic field paths, for example:
   *
   *     paths: "f.a"

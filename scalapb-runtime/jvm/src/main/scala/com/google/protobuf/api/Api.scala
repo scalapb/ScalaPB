@@ -4,7 +4,6 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.api
-
 import scala.collection.JavaConverters._
 
 /** Api is a light-weight descriptor for a protocol buffer service.

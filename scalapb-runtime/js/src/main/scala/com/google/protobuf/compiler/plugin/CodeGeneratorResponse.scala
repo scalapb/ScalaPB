@@ -5,8 +5,6 @@
 
 package com.google.protobuf.compiler.plugin
 
-
-
 /** The plugin writes an encoded CodeGeneratorResponse to stdout.
   *
   * @param error

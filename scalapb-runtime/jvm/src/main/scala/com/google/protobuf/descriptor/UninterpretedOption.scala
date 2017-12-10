@@ -4,7 +4,6 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-
 import scala.collection.JavaConverters._
 
 /** A message representing a option the parser does not recognize. This only

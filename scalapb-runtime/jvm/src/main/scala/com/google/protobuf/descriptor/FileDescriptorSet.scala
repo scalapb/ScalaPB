@@ -4,7 +4,6 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-
 import scala.collection.JavaConverters._
 
 /** The protocol compiler can output a FileDescriptorSet containing the .proto

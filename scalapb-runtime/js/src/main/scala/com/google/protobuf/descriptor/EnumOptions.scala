@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** @param allowAlias
   *   Set this option to true to allow mapping different tag names to the same
   *   value.

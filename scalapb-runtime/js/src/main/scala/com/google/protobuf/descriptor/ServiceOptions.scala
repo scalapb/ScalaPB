@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** @param deprecated
   *   Is this service deprecated?
   *   Depending on the target platform, this can emit Deprecated annotations

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** @param messageSetWireFormat
   *   Set true to use the old proto1 MessageSet wire format for extensions.
   *   This is provided for backwards-compatibility with the MessageSet wire

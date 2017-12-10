@@ -5,8 +5,6 @@
 
 package scalapb.options
 
-
-
 /** @param packageName
   *   If set then it overrides the java_package and package.
   * @param flatPackage

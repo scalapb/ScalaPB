@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** @param javaPackage
   *   Sets the Java package where classes generated from this .proto will be
   *   placed.  By default, the proto package is used, but this is often

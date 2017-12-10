@@ -4,7 +4,6 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.field_mask
-
 import scala.collection.JavaConverters._
 
 /** `FieldMask` represents a set of symbolic field paths, for example:

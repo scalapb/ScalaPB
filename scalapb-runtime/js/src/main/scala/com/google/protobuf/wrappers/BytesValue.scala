@@ -5,8 +5,6 @@
 
 package com.google.protobuf.wrappers
 
-
-
 /** Wrapper message for `bytes`.
   *
   * The JSON representation for `BytesValue` is JSON string.

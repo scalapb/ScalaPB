@@ -5,8 +5,6 @@
 
 package com.google.protobuf.wrappers
 
-
-
 /** Wrapper message for `int32`.
   *
   * The JSON representation for `Int32Value` is JSON number.

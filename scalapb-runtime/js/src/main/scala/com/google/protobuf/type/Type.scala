@@ -5,8 +5,6 @@
 
 package com.google.protobuf.`type`
 
-
-
 /** A protocol buffer message type.
   *
   * @param name

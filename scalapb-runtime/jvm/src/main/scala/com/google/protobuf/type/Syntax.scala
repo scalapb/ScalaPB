@@ -5,8 +5,6 @@
 
 package com.google.protobuf.`type`
 
-import scala.collection.JavaConverters._
-
 sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: Boolean = false

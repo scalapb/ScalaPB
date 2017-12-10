@@ -5,8 +5,6 @@
 
 package com.google.protobuf.struct
 
-
-
 /** `ListValue` is a wrapper around a repeated field of values.
   *
   * The JSON representation for `ListValue` is JSON array.

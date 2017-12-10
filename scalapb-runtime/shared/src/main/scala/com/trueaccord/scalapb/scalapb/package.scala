@@ -5,3 +5,4 @@ package object scalapb {
     "You might got this message since you are using an outdated version of scalapb.proto", "0.7.0")
   val ScalapbProto = _root_.scalapb.options.ScalapbProto
 }
+

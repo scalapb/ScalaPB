@@ -5,8 +5,6 @@
 
 package com.google.protobuf.api
 
-
-
 /** Api is a light-weight descriptor for a protocol buffer service.
   *
   * @param name

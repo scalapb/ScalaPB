@@ -5,8 +5,6 @@
 
 package com.google.protobuf.compiler.plugin
 
-
-
 object PluginProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
     com.google.protobuf.descriptor.DescriptorProtoCompanion

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.duration
 
-
-
 object DurationProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
   )

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.`type`
 
-
-
 /** A single field of a message type.
   *
   * @param kind

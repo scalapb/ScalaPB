@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** Describes the relationship between generated code and its original source
   * file. A GeneratedCodeInfo message is associated with only one generated
   * source file, but may contain references to different source .proto files.

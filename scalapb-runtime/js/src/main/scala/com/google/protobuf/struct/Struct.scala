@@ -5,8 +5,6 @@
 
 package com.google.protobuf.struct
 
-
-
 /** `Struct` represents a structured data value, consisting of fields
   * which map to dynamically typed values. In some languages, `Struct`
   * might be supported by a native representation. For example, in

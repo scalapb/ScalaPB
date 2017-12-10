@@ -5,8 +5,6 @@
 
 package scalapb.options
 
-
-
 /** @param extends
   *   Additional classes and traits to mix in to the case class.
   * @param companionExtends

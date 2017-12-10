@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** @param ctype
   *   The ctype option instructs the C++ code generator to use a different
   *   representation of the field than it normally would.  See the specific

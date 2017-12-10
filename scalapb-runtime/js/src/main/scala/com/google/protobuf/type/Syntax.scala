@@ -5,8 +5,6 @@
 
 package com.google.protobuf.`type`
 
-
-
 sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: Boolean = false

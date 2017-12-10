@@ -5,8 +5,6 @@
 
 package com.google.protobuf.any
 
-
-
 /** `Any` contains an arbitrary serialized protocol buffer message along with a
   * URL that describes the type of the serialized message.
   *

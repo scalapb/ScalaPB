@@ -4,7 +4,6 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.struct
-
 import scala.collection.JavaConverters._
 
 /** `Struct` represents a structured data value, consisting of fields

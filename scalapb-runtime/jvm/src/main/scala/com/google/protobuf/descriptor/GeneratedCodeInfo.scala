@@ -4,7 +4,6 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-
 import scala.collection.JavaConverters._
 
 /** Describes the relationship between generated code and its original source

@@ -1247,10 +1247,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
          |// Do not edit!
          |//
          |// Protofile syntax: ${file.getSyntax.toString}
-         |
-         |${if (file.scalaPackageName.nonEmpty) ("package " + file.scalaPackageName) else ""}
-         |
-         |${if (javaConverterImport) "import scala.collection.JavaConverters._" else ""}""")
+         |""")
+      .when(file.scalaPackageName.nonEmpty)(
+        _.add("package " + file.scalaPackageName).add()
+      )
+      .when(javaConverterImport)(
+        _.add("import scala.collection.JavaConverters._").add()
+      )
     .print(file.scalaOptions.getImportList.asScala) {
       case (printer, i) => printer.add(s"import $i")
     }
@@ -1351,7 +1354,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + enum.getName + ".scala")
       b.setContent(
-        scalaFileHeader(file, file.javaConversions)
+        scalaFileHeader(file, false)
           .call(printEnum(_, enum)).result())
       b.build
     }
@@ -1362,7 +1365,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + message.scalaName + ".scala")
       b.setContent(
-        scalaFileHeader(file, file.javaConversions && messageContainsRepeatedFields(message))
+        scalaFileHeader(file, javaConverterImport = file.javaConversions && messageContainsRepeatedFields(message))
           .call(printMessage(_, message)).result())
       b.build
     }

@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** Describes an enum type.
   */
 @SerialVersionUID(0L)

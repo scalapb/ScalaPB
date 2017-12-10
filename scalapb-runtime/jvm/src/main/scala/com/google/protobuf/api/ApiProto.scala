@@ -5,8 +5,6 @@
 
 package com.google.protobuf.api
 
-
-
 object ApiProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
     com.google.protobuf.source_context.SourceContextProto,

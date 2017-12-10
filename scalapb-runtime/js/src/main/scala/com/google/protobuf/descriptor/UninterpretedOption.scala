@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** A message representing a option the parser does not recognize. This only
   * appears in options protos created by the compiler::Parser class.
   * DescriptorPool resolves these when building Descriptor objects. Therefore,

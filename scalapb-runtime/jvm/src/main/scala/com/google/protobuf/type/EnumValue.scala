@@ -4,7 +4,6 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.`type`
-
 import scala.collection.JavaConverters._
 
 /** Enum value definition.

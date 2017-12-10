@@ -5,8 +5,6 @@
 
 package com.google.protobuf.descriptor
 
-
-
 /** Describes a service.
   */
 @SerialVersionUID(0L)
