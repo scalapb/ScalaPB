@@ -50,7 +50,7 @@ Versions
 
 Version | Description
 ------- | -----------
-0.6.x   | Stable. Supports Protobuf 2.6.x to 3.4.x
+0.6.x   | Stable. Supports Protobuf 2.6.x to 3.5.x
 0.5.x   | Supports Protobuf 2.6.x and Protobuf 3.1.x.
 0.4.x   | Stable, unsupported. Works with Protobuf 2.6.x
 
