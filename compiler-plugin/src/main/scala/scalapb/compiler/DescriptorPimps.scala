@@ -107,11 +107,11 @@ trait DescriptorPimps {
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage)
+      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
 
     // Is the Scala representation of this field is a singular type.
     def isSingular = fd.isRequired || (
-      fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage)
+      fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || fieldOptions.getNoBox
 
     def enclosingType: EnclosingType =
       if (isSingular) EnclosingType.None

@@ -105,6 +105,9 @@ message FieldOptions {
 
   // Custom annotations to add to the field.
   repeated string annotations = 6;
+
+  // Do not box this value in Option[T]
+  optional bool no_box = 30;
 }
 
 extend google.protobuf.FieldOptions {

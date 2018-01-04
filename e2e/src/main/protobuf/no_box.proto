@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+message Tyre {
+    int32 size = 1;
+}
+
+message Car {
+    Tyre tyre1 = 1 [(scalapb.field).no_box = true];
+    Tyre tyre2 = 2 [(scalapb.field).no_box = false];
+}
