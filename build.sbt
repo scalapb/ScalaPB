@@ -2,7 +2,7 @@ import ReleaseTransformations._
 
 scalaVersion := "2.11.11"
 
-crossScalaVersions := Seq("2.11.11", "2.10.6", "2.12.2", "2.13.0-M1")
+crossScalaVersions := Seq("2.11.11", "2.10.6", "2.12.2", "2.13.0-M2")
 
 organization in ThisBuild := "com.thesamet.scalapb"
 
@@ -47,7 +47,7 @@ lazy val lenses = crossProject.in(file("."))
   .jvmSettings(
     libraryDependencies ++= Seq(
       "org.scalacheck" %%% "scalacheck" % "1.13.5" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.3" % "test"
+      "org.scalatest" %%% "scalatest" % "3.0.4" % "test"
     )
   )
   .jsSettings(
