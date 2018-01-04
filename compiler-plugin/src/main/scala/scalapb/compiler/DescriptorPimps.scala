@@ -109,9 +109,9 @@ trait DescriptorPimps {
     def supportsPresence: Boolean =
       fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
 
-    // Is the Scala representation of this field is a singular type.
+    // Is the Scala representation of this field a singular type.
     def isSingular = fd.isRequired || (
-      fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || fieldOptions.getNoBox
+      fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (fieldOptions.getNoBox && fd.isOptional)
 
     def enclosingType: EnclosingType =
       if (isSingular) EnclosingType.None
