@@ -48,5 +48,8 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
     if (fd.isMapField && fd.fieldOptions.hasType)
       throw new GeneratorException(
         s"${fd.getFullName}: Field ${fd.getName} is a map and has type specified. Use key_type or value_type instead.")
+    if (!fd.isOptional && fd.fieldOptions.hasNoBox)
+      throw new GeneratorException(
+        s"${fd.getFullName}: Field ${fd.getName} has no_box set but is not an optional field.")
   }
 }
