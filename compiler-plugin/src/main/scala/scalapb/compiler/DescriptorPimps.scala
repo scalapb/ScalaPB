@@ -155,7 +155,15 @@ trait DescriptorPimps {
 
     def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
-    def annotationList = fieldOptions.getAnnotationsList().asScala.toSeq
+    def annotationList: Seq[String] = {
+      val deprecated = {
+        if (fd.getOptions.getDeprecated)
+          List(ProtobufGenerator.deprecatedAnnotation)
+        else
+          Nil
+      }
+      deprecated ++ fieldOptions.getAnnotationsList().asScala.toSeq
+    }
 
     def customSingleScalaTypeName: Option[String] = {
       // If the current message is within a MapEntry (that is a key, or a value), find the actual map
@@ -294,9 +302,20 @@ trait DescriptorPimps {
 
     def messageOptions: MessageOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
 
-    def annotationList = messageOptions.getAnnotationsList().asScala.toSeq
+    private[this] def deprecatedAnnotation: Seq[String] = {
+      if (message.getOptions.getDeprecated)
+        List(ProtobufGenerator.deprecatedAnnotation)
+      else
+        Nil
+    }
 
-    def companionAnnotationList = message.messageOptions.getCompanionAnnotationsList().asScala.toSeq
+    def annotationList: Seq[String] = {
+      deprecatedAnnotation ++ messageOptions.getAnnotationsList().asScala
+    }
+
+    def companionAnnotationList: Seq[String] = {
+      deprecatedAnnotation ++ message.messageOptions.getCompanionAnnotationsList().asScala
+    }
 
     def extendsOption = messageOptions.getExtendsList.asScala.filterNot(valueClassNames).toSeq
 

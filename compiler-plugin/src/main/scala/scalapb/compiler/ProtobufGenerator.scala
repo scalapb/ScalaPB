@@ -20,6 +20,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name = e.nameSymbol
     printer
+      .when(e.getOptions.getDeprecated) {
+        _.add(ProtobufGenerator.deprecatedAnnotation)
+      }
       .add(s"sealed trait $name extends ${e.baseTraitExtends.mkString(" with ")} {")
       .indent
       .add(s"type EnumType = $name")
@@ -31,12 +34,15 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .outdent
       .add("}")
       .add("")
+      .when(e.getOptions.getDeprecated) {
+        _.add(ProtobufGenerator.deprecatedAnnotation)
+      }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) {
         case (p, v) => p.addStringMargin(
-          s"""@SerialVersionUID(0L)
+          s"""@SerialVersionUID(0L)${if(v.getOptions.getDeprecated){" " + ProtobufGenerator.deprecatedAnnotation} else ""}
              |case object ${v.getName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
              |  val value = ${v.getNumber}
              |  val index = ${v.getIndex}
@@ -106,7 +112,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .print(e.fields) {
         case (p, v) =>
           p.addStringMargin(
-            s"""@SerialVersionUID(0L)
+            s"""@SerialVersionUID(0L)${if(v.getOptions.getDeprecated){" " + ProtobufGenerator.deprecatedAnnotation} else ""}
                |case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaTypeName} {
                |  type ValueType = ${v.scalaTypeName}
                |  override def is${v.upperScalaName}: Boolean = true
@@ -1431,4 +1437,6 @@ object ProtobufGenerator {
     }
     b.build
   }
+
+  val deprecatedAnnotation: String = """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
 }
