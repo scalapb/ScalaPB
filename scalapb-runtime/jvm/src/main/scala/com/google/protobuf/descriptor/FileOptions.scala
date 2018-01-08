@@ -79,7 +79,7 @@ final case class FileOptions(
     javaPackage: scala.Option[String] = None,
     javaOuterClassname: scala.Option[String] = None,
     javaMultipleFiles: scala.Option[Boolean] = None,
-    javaGenerateEqualsAndHash: scala.Option[Boolean] = None,
+    @scala.deprecated(message="Marked as deprecated in proto file", "") javaGenerateEqualsAndHash: scala.Option[Boolean] = None,
     javaStringCheckUtf8: scala.Option[Boolean] = None,
     optimizeFor: scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode] = None,
     goPackage: scala.Option[String] = None,
