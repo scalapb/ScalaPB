@@ -1,8 +1,11 @@
 import ReleaseTransformations._
+import sbtcrossproject.CrossPlugin.autoImport.crossProject
 
-scalaVersion := "2.11.11"
+val Scala211 = "2.11.12"
 
-crossScalaVersions := Seq("2.11.11", "2.10.6", "2.12.2", "2.13.0-M2")
+scalaVersion in ThisBuild := Scala211
+
+crossScalaVersions := Seq(Scala211, "2.10.6", "2.12.2", "2.13.0-M2")
 
 organization in ThisBuild := "com.thesamet.scalapb"
 
@@ -25,6 +28,7 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
+  releaseStepCommandAndRemaining(s";++${Scala211};lensesNative/publishSigned"),
   ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
   setNextVersion,
   commitNextVersion,
@@ -40,7 +44,7 @@ lazy val root = project.in(file("."))
     publishArtifact := false
   )
 
-lazy val lenses = crossProject.in(file("."))
+lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file("."))
   .settings(
     name := "lenses"
   )
@@ -60,4 +64,4 @@ lazy val lenses = crossProject.in(file("."))
 
 lazy val lensesJVM = lenses.jvm
 lazy val lensesJS = lenses.js
-
+lazy val lensesNative = lenses.native
