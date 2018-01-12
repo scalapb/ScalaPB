@@ -5,7 +5,7 @@ val Scala211 = "2.11.12"
 
 scalaVersion in ThisBuild := Scala211
 
-crossScalaVersions := Seq(Scala211, "2.10.6", "2.12.2", "2.13.0-M2")
+crossScalaVersions := Seq(Scala211, "2.10.7", "2.12.4", "2.13.0-M2")
 
 organization in ThisBuild := "com.thesamet.scalapb"
 
