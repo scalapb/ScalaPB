@@ -46,12 +46,9 @@ lazy val root = project.in(file("."))
 
 lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file("."))
   .settings(
-    name := "lenses"
-  )
-  .jvmSettings(
+    name := "lenses",
     libraryDependencies ++= Seq(
-      "org.scalacheck" %%% "scalacheck" % "1.13.5" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.4" % "test"
+      "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
     )
   )
   .jsSettings(
@@ -61,6 +58,11 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
       s"-P:scalajs:mapSourceURI:$a->$g/"
     }
   )
+  .nativeSettings(
+    nativeLinkStubs := true // for utest
+  )
+
+testFrameworks in ThisBuild += new TestFramework("utest.runner.Framework")
 
 lazy val lensesJVM = lenses.jvm
 lazy val lensesJS = lenses.js
