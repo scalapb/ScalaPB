@@ -1,4 +1,5 @@
 import ReleaseTransformations._
+import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 
 scalaVersion in ThisBuild := "2.10.6"
 
@@ -51,7 +52,7 @@ lazy val root =
     ).aggregate(
       runtimeJS, runtimeJVM, grpcRuntime, compilerPlugin, compilerPluginShaded, proptest, scalapbc)
 
-lazy val runtime = crossProject.crossType(CrossType.Full).in(file("scalapb-runtime"))
+lazy val runtime = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
