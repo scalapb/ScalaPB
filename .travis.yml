@@ -4,17 +4,8 @@ dist: trusty
 
 scala:
 - 2.10.6
-- 2.11.11
+- 2.11.12
 - 2.12.2
-- 2.13.0-M2
-- jdk: oraclejdk8
-  sudo: required
-  env: SCALA_NATIVE
-  before_install:
-  - curl https://raw.githubusercontent.com/scala-native/scala-native/9069e8d447f7a9/bin/travis_setup.sh | bash -x
-  script:
-  - sbt lensesNative/compile "show lensesNative/nativeMissingDependencies"
-
 
 env:
 - TEST_SCRIPT=e2e.sh E2E_SHADED=0
@@ -28,7 +19,14 @@ matrix:
   - scala: 2.10.6
     env: TEST_SCRIPT=e2e.sh E2E_SHADED=1
   include:
-  - scala: 2.11.11
+  - scala: 2.11.12
+    env: SCALA_NATIVE
+    before_install:
+    - curl https://raw.githubusercontent.com/scala-native/scala-native/9069e8d447f7a9/bin/travis_setup.sh | bash -x
+    script:
+    - sbt runtimeNative/test "show runtimeNative/nativeMissingDependencies"
+
+  - scala: 2.11.12
     env: TEST_SCRIPT=__misc__
     script:
     - cd examples && sbt test && cd ..
