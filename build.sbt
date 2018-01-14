@@ -1,9 +1,10 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 
-scalaVersion in ThisBuild := "2.10.6"
+val Scala211 = "2.11.12"
+scalaVersion in ThisBuild := Scala211
 
-crossScalaVersions in ThisBuild := Seq("2.10.6", "2.11.11", "2.12.3")
+crossScalaVersions in ThisBuild := Seq("2.10.6", Scala211, "2.12.3", "2.13.0-M2")
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -36,6 +37,7 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
+  releaseStepCommandAndRemaining(s";++${Scala211};lensesNative/publishSigned"),
   ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
   setNextVersion,
   commitNextVersion,
@@ -52,18 +54,25 @@ lazy val root =
     ).aggregate(
       runtimeJS, runtimeJVM, grpcRuntime, compilerPlugin, compilerPluginShaded, proptest, scalapbc)
 
-lazy val runtime = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Full).in(file("scalapb-runtime"))
+lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+  .crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "lenses" % "0.7.0-test1",
+      "com.thesamet.scalapb" %%% "lenses" % "0.7.0-test2",
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
-      "com.lihaoyi" %%% "utest" % "0.5.3" % "test",
-      "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.4" % "test"
+      "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
+      // "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
+      // "org.scalatest" %%% "scalatest" % "3.0.4" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
+  )
+  .platformsSettings(JSPlatform, NativePlatform)(
+    libraryDependencies ++= Seq(
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.0.1"
+    ),
+    (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
   .jvmSettings(
     // Add JVM-specific settings here
@@ -73,9 +82,6 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Ful
   )
   .jsSettings(
     // Add JS-specific settings here
-    libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.0"
-    ),
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
       val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process.Process("git rev-parse HEAD").lines_!.head
@@ -83,9 +89,14 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform).crossType(CrossType.Ful
     },
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
   )
+  .nativeSettings(
+    nativeLinkStubs := true  // for utest
+  )
 
-lazy val runtimeJVM = runtime.jvm
-lazy val runtimeJS = runtime.js
+
+lazy val runtimeJVM    = runtime.jvm
+lazy val runtimeJS     = runtime.js
+lazy val runtimeNative = runtime.native
 
 val grpcVersion = "1.9.0"
 
@@ -181,7 +192,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
-        "com.thesamet.scalapb" %% "lenses" % "0.7.0-test1",
+        "com.thesamet.scalapb" %% "lenses" % "0.7.0-test2",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
         "org.scalatest" %% "scalatest" % "3.0.4" % "test"
       ),

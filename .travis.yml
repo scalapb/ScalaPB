@@ -6,6 +6,15 @@ scala:
 - 2.10.6
 - 2.11.11
 - 2.12.2
+- 2.13.0-M2
+- jdk: oraclejdk8
+  sudo: required
+  env: SCALA_NATIVE
+  before_install:
+  - curl https://raw.githubusercontent.com/scala-native/scala-native/9069e8d447f7a9/bin/travis_setup.sh | bash -x
+  script:
+  - sbt lensesNative/compile "show lensesNative/nativeMissingDependencies"
+
 
 env:
 - TEST_SCRIPT=e2e.sh E2E_SHADED=0
