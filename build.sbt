@@ -37,7 +37,7 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  releaseStepCommandAndRemaining(s";++${Scala211};lensesNative/publishSigned"),
+  releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned"),
   ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
   setNextVersion,
   commitNextVersion,
