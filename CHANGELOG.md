@@ -17,6 +17,9 @@ Changes:
 - #235: toString is now not overridden by ScalaPB and does not generate the
   default TextFormat. To get the text format, use toProtoString. See issue #235
   for how to achieve a backwards-compatible behavior.
+- Added support for Scala Native.
+- `singleLineToString` has been renamed to `singleLineToProtoString`. If you are
+  using ScalaPBC, the new flag name is `single_line_to_proto_string`.
 
 ## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)
