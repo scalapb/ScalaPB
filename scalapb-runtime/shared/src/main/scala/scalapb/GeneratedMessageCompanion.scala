@@ -20,6 +20,11 @@ trait GeneratedEnum extends Any with Product with Serializable {
 
   override def toString = name
 
+  override def equals(obj: scala.Any) = obj match {
+    case enumObj: GeneratedEnum => (enumObj canEqual this) && this.value == enumObj.value
+    case _ => false
+  }
+
   def companion: GeneratedEnumCompanion[EnumType]
 
   def isUnrecognized: Boolean = false
