@@ -25,6 +25,8 @@ trait GeneratedEnum extends Any with Product with Serializable {
     case _ => false
   }
 
+  override def hashCode = value
+
   def companion: GeneratedEnumCompanion[EnumType]
 
   def isUnrecognized: Boolean = false
