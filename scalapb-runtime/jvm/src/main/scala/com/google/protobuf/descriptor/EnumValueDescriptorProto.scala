@@ -53,11 +53,11 @@ final case class EnumValueDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Some(_input__.readString())
+            __name = Option(_input__.readString())
           case 16 =>
-            __number = Some(_input__.readInt32())
+            __number = Option(_input__.readInt32())
           case 26 =>
-            __options = Some(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)))
+            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)))
           case tag => _input__.skipField(tag)
         }
       }
@@ -69,13 +69,13 @@ final case class EnumValueDescriptorProto(
     }
     def getName: String = name.getOrElse("")
     def clearName: EnumValueDescriptorProto = copy(name = None)
-    def withName(__v: String): EnumValueDescriptorProto = copy(name = Some(__v))
+    def withName(__v: String): EnumValueDescriptorProto = copy(name = Option(__v))
     def getNumber: Int = number.getOrElse(0)
     def clearNumber: EnumValueDescriptorProto = copy(number = None)
-    def withNumber(__v: Int): EnumValueDescriptorProto = copy(number = Some(__v))
+    def withNumber(__v: Int): EnumValueDescriptorProto = copy(number = Option(__v))
     def getOptions: com.google.protobuf.descriptor.EnumValueOptions = options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)
     def clearOptions: EnumValueDescriptorProto = copy(options = None)
-    def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = Some(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
@@ -105,9 +105,9 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto): com.google.protobuf.descriptor.EnumValueDescriptorProto = com.google.protobuf.descriptor.EnumValueDescriptorProto(
-    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    number = if (javaPbSource.hasNumber) Some(javaPbSource.getNumber.intValue) else None,
-    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumValueOptions.fromJavaProto(javaPbSource.getOptions)) else None
+    name = if (javaPbSource.hasName) Option(javaPbSource.getName) else None,
+    number = if (javaPbSource.hasNumber) Option(javaPbSource.getNumber.intValue) else None,
+    options = if (javaPbSource.hasOptions) Option(com.google.protobuf.descriptor.EnumValueOptions.fromJavaProto(javaPbSource.getOptions)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.EnumValueDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
@@ -142,11 +142,11 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
   lazy val defaultInstance = com.google.protobuf.descriptor.EnumValueDescriptorProto(
   )
   implicit class EnumValueDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def number: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getNumber)((c_, f_) => c_.copy(number = Some(f_)))
+    def number: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getNumber)((c_, f_) => c_.copy(number = Option(f_)))
     def optionalNumber: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.EnumValueOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
   }
   final val NAME_FIELD_NUMBER = 1

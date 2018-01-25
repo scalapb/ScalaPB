@@ -193,11 +193,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
               _input__.popLimit(oldLimit)
             }
             case 18 =>
-              __sourceFile = Some(_input__.readString())
+              __sourceFile = Option(_input__.readString())
             case 24 =>
-              __begin = Some(_input__.readInt32())
+              __begin = Option(_input__.readInt32())
             case 32 =>
-              __end = Some(_input__.readInt32())
+              __end = Option(_input__.readInt32())
             case tag => _input__.skipField(tag)
           }
         }
@@ -214,13 +214,13 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       def withPath(__v: _root_.scala.collection.Seq[Int]): Annotation = copy(path = __v)
       def getSourceFile: String = sourceFile.getOrElse("")
       def clearSourceFile: Annotation = copy(sourceFile = None)
-      def withSourceFile(__v: String): Annotation = copy(sourceFile = Some(__v))
+      def withSourceFile(__v: String): Annotation = copy(sourceFile = Option(__v))
       def getBegin: Int = begin.getOrElse(0)
       def clearBegin: Annotation = copy(begin = None)
-      def withBegin(__v: Int): Annotation = copy(begin = Some(__v))
+      def withBegin(__v: Int): Annotation = copy(begin = Option(__v))
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: Annotation = copy(end = None)
-      def withEnd(__v: Int): Annotation = copy(end = Some(__v))
+      def withEnd(__v: Int): Annotation = copy(end = Option(__v))
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => path
@@ -274,11 +274,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     )
     implicit class AnnotationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
-      def sourceFile: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Some(f_)))
+      def sourceFile: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Option(f_)))
       def optionalSourceFile: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.sourceFile)((c_, f_) => c_.copy(sourceFile = f_))
-      def begin: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getBegin)((c_, f_) => c_.copy(begin = Some(f_)))
+      def begin: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getBegin)((c_, f_) => c_.copy(begin = Option(f_)))
       def optionalBegin: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.begin)((c_, f_) => c_.copy(begin = f_))
-      def end: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
+      def end: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
       def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val PATH_FIELD_NUMBER = 1

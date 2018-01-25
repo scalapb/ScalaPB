@@ -85,19 +85,19 @@ final case class FieldOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __type = Some(_input__.readString())
+            __type = Option(_input__.readString())
           case 18 =>
-            __scalaName = Some(_input__.readString())
+            __scalaName = Option(_input__.readString())
           case 26 =>
-            __collectionType = Some(_input__.readString())
+            __collectionType = Option(_input__.readString())
           case 34 =>
-            __keyType = Some(_input__.readString())
+            __keyType = Option(_input__.readString())
           case 42 =>
-            __valueType = Some(_input__.readString())
+            __valueType = Option(_input__.readString())
           case 50 =>
             __annotations += _input__.readString()
           case 240 =>
-            __noBox = Some(_input__.readBool())
+            __noBox = Option(_input__.readBool())
           case tag => _input__.skipField(tag)
         }
       }
@@ -113,26 +113,26 @@ final case class FieldOptions(
     }
     def getType: String = `type`.getOrElse("")
     def clearType: FieldOptions = copy(`type` = None)
-    def withType(__v: String): FieldOptions = copy(`type` = Some(__v))
+    def withType(__v: String): FieldOptions = copy(`type` = Option(__v))
     def getScalaName: String = scalaName.getOrElse("")
     def clearScalaName: FieldOptions = copy(scalaName = None)
-    def withScalaName(__v: String): FieldOptions = copy(scalaName = Some(__v))
+    def withScalaName(__v: String): FieldOptions = copy(scalaName = Option(__v))
     def getCollectionType: String = collectionType.getOrElse("")
     def clearCollectionType: FieldOptions = copy(collectionType = None)
-    def withCollectionType(__v: String): FieldOptions = copy(collectionType = Some(__v))
+    def withCollectionType(__v: String): FieldOptions = copy(collectionType = Option(__v))
     def getKeyType: String = keyType.getOrElse("")
     def clearKeyType: FieldOptions = copy(keyType = None)
-    def withKeyType(__v: String): FieldOptions = copy(keyType = Some(__v))
+    def withKeyType(__v: String): FieldOptions = copy(keyType = Option(__v))
     def getValueType: String = valueType.getOrElse("")
     def clearValueType: FieldOptions = copy(valueType = None)
-    def withValueType(__v: String): FieldOptions = copy(valueType = Some(__v))
+    def withValueType(__v: String): FieldOptions = copy(valueType = Option(__v))
     def clearAnnotations = copy(annotations = _root_.scala.collection.Seq.empty)
     def addAnnotations(__vs: String*): FieldOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: TraversableOnce[String]): FieldOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.collection.Seq[String]): FieldOptions = copy(annotations = __v)
     def getNoBox: Boolean = noBox.getOrElse(false)
     def clearNoBox: FieldOptions = copy(noBox = None)
-    def withNoBox(__v: Boolean): FieldOptions = copy(noBox = Some(__v))
+    def withNoBox(__v: Boolean): FieldOptions = copy(noBox = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `type`.orNull
@@ -197,18 +197,18 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
   lazy val defaultInstance = scalapb.options.FieldOptions(
   )
   implicit class FieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.FieldOptions](_l) {
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Some(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
-    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Some(f_)))
+    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))
     def optionalScalaName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
-    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Some(f_)))
+    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
     def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
-    def keyType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getKeyType)((c_, f_) => c_.copy(keyType = Some(f_)))
+    def keyType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getKeyType)((c_, f_) => c_.copy(keyType = Option(f_)))
     def optionalKeyType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.keyType)((c_, f_) => c_.copy(keyType = f_))
-    def valueType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = Some(f_)))
+    def valueType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = Option(f_)))
     def optionalValueType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.valueType)((c_, f_) => c_.copy(valueType = f_))
     def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
-    def noBox: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Some(f_)))
+    def noBox: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Option(f_)))
     def optionalNoBox: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.noBox)((c_, f_) => c_.copy(noBox = f_))
   }
   final val TYPE_FIELD_NUMBER = 1

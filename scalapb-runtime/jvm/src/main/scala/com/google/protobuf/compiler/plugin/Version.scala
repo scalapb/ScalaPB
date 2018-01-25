@@ -61,13 +61,13 @@ final case class Version(
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            __major = Some(_input__.readInt32())
+            __major = Option(_input__.readInt32())
           case 16 =>
-            __minor = Some(_input__.readInt32())
+            __minor = Option(_input__.readInt32())
           case 24 =>
-            __patch = Some(_input__.readInt32())
+            __patch = Option(_input__.readInt32())
           case 34 =>
-            __suffix = Some(_input__.readString())
+            __suffix = Option(_input__.readString())
           case tag => _input__.skipField(tag)
         }
       }
@@ -80,16 +80,16 @@ final case class Version(
     }
     def getMajor: Int = major.getOrElse(0)
     def clearMajor: Version = copy(major = None)
-    def withMajor(__v: Int): Version = copy(major = Some(__v))
+    def withMajor(__v: Int): Version = copy(major = Option(__v))
     def getMinor: Int = minor.getOrElse(0)
     def clearMinor: Version = copy(minor = None)
-    def withMinor(__v: Int): Version = copy(minor = Some(__v))
+    def withMinor(__v: Int): Version = copy(minor = Option(__v))
     def getPatch: Int = patch.getOrElse(0)
     def clearPatch: Version = copy(patch = None)
-    def withPatch(__v: Int): Version = copy(patch = Some(__v))
+    def withPatch(__v: Int): Version = copy(patch = Option(__v))
     def getSuffix: String = suffix.getOrElse("")
     def clearSuffix: Version = copy(suffix = None)
-    def withSuffix(__v: String): Version = copy(suffix = Some(__v))
+    def withSuffix(__v: String): Version = copy(suffix = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => major.orNull
@@ -122,10 +122,10 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.Version): com.google.protobuf.compiler.plugin.Version = com.google.protobuf.compiler.plugin.Version(
-    major = if (javaPbSource.hasMajor) Some(javaPbSource.getMajor.intValue) else None,
-    minor = if (javaPbSource.hasMinor) Some(javaPbSource.getMinor.intValue) else None,
-    patch = if (javaPbSource.hasPatch) Some(javaPbSource.getPatch.intValue) else None,
-    suffix = if (javaPbSource.hasSuffix) Some(javaPbSource.getSuffix) else None
+    major = if (javaPbSource.hasMajor) Option(javaPbSource.getMajor.intValue) else None,
+    minor = if (javaPbSource.hasMinor) Option(javaPbSource.getMinor.intValue) else None,
+    patch = if (javaPbSource.hasPatch) Option(javaPbSource.getPatch.intValue) else None,
+    suffix = if (javaPbSource.hasSuffix) Option(javaPbSource.getSuffix) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.Version = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
@@ -156,13 +156,13 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
   lazy val defaultInstance = com.google.protobuf.compiler.plugin.Version(
   )
   implicit class VersionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.Version]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.Version](_l) {
-    def major: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getMajor)((c_, f_) => c_.copy(major = Some(f_)))
+    def major: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getMajor)((c_, f_) => c_.copy(major = Option(f_)))
     def optionalMajor: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.major)((c_, f_) => c_.copy(major = f_))
-    def minor: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getMinor)((c_, f_) => c_.copy(minor = Some(f_)))
+    def minor: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getMinor)((c_, f_) => c_.copy(minor = Option(f_)))
     def optionalMinor: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.minor)((c_, f_) => c_.copy(minor = f_))
-    def patch: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getPatch)((c_, f_) => c_.copy(patch = Some(f_)))
+    def patch: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getPatch)((c_, f_) => c_.copy(patch = Option(f_)))
     def optionalPatch: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.patch)((c_, f_) => c_.copy(patch = f_))
-    def suffix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSuffix)((c_, f_) => c_.copy(suffix = Some(f_)))
+    def suffix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSuffix)((c_, f_) => c_.copy(suffix = Option(f_)))
     def optionalSuffix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.suffix)((c_, f_) => c_.copy(suffix = f_))
   }
   final val MAJOR_FIELD_NUMBER = 1

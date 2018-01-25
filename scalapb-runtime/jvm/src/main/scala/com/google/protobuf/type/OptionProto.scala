@@ -64,7 +64,7 @@ final case class OptionProto(
           case 10 =>
             __name = _input__.readString()
           case 18 =>
-            __value = Some(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
+            __value = Option(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
           case tag => _input__.skipField(tag)
         }
       }
@@ -76,7 +76,7 @@ final case class OptionProto(
     def withName(__v: String): OptionProto = copy(name = __v)
     def getValue: com.google.protobuf.any.Any = value.getOrElse(com.google.protobuf.any.Any.defaultInstance)
     def clearValue: OptionProto = copy(value = None)
-    def withValue(__v: com.google.protobuf.any.Any): OptionProto = copy(value = Some(__v))
+    def withValue(__v: com.google.protobuf.any.Any): OptionProto = copy(value = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -107,7 +107,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Option): com.google.protobuf.`type`.OptionProto = com.google.protobuf.`type`.OptionProto(
     name = javaPbSource.getName,
-    value = if (javaPbSource.hasValue) Some(com.google.protobuf.any.Any.fromJavaProto(javaPbSource.getValue)) else None
+    value = if (javaPbSource.hasValue) Option(com.google.protobuf.any.Any.fromJavaProto(javaPbSource.getValue)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.OptionProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
@@ -141,7 +141,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   )
   implicit class OptionProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.OptionProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.OptionProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getValue)((c_, f_) => c_.copy(value = Some(f_)))
+    def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))
     def optionalValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.any.Any]] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val NAME_FIELD_NUMBER = 1

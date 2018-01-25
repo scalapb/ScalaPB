@@ -57,7 +57,7 @@ final case class ServiceOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 264 =>
-            __deprecated = Some(_input__.readBool())
+            __deprecated = Option(_input__.readBool())
           case 7994 =>
             __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _unknownFields__.parseField(tag, _input__)
@@ -71,7 +71,7 @@ final case class ServiceOptions(
     }
     def getDeprecated: Boolean = deprecated.getOrElse(false)
     def clearDeprecated: ServiceOptions = copy(deprecated = None)
-    def withDeprecated(__v: Boolean): ServiceOptions = copy(deprecated = Some(__v))
+    def withDeprecated(__v: Boolean): ServiceOptions = copy(deprecated = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): ServiceOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): ServiceOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -128,7 +128,7 @@ object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
   lazy val defaultInstance = com.google.protobuf.descriptor.ServiceOptions(
   )
   implicit class ServiceOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceOptions](_l) {
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

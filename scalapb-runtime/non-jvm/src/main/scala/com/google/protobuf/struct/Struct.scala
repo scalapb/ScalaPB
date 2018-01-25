@@ -155,7 +155,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
             case 10 =>
               __key = _input__.readString()
             case 18 =>
-              __value = Some(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)))
+              __value = Option(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)))
             case tag => _input__.skipField(tag)
           }
         }
@@ -167,7 +167,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       def withKey(__v: String): FieldsEntry = copy(key = __v)
       def getValue: com.google.protobuf.struct.Value = value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)
       def clearValue: FieldsEntry = copy(value = None)
-      def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = Some(__v))
+      def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = Option(__v))
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => {
@@ -222,7 +222,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     )
     implicit class FieldsEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry](_l) {
       def key: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.key)((c_, f_) => c_.copy(key = f_))
-      def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Value] = field(_.getValue)((c_, f_) => c_.copy(value = Some(f_)))
+      def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Value] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))
       def optionalValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.struct.Value]] = field(_.value)((c_, f_) => c_.copy(value = f_))
     }
     final val KEY_FIELD_NUMBER = 1

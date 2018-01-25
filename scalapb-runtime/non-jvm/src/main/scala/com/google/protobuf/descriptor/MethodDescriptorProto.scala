@@ -79,17 +79,17 @@ final case class MethodDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Some(_input__.readString())
+            __name = Option(_input__.readString())
           case 18 =>
-            __inputType = Some(_input__.readString())
+            __inputType = Option(_input__.readString())
           case 26 =>
-            __outputType = Some(_input__.readString())
+            __outputType = Option(_input__.readString())
           case 34 =>
-            __options = Some(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)))
+            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)))
           case 40 =>
-            __clientStreaming = Some(_input__.readBool())
+            __clientStreaming = Option(_input__.readBool())
           case 48 =>
-            __serverStreaming = Some(_input__.readBool())
+            __serverStreaming = Option(_input__.readBool())
           case tag => _input__.skipField(tag)
         }
       }
@@ -104,22 +104,22 @@ final case class MethodDescriptorProto(
     }
     def getName: String = name.getOrElse("")
     def clearName: MethodDescriptorProto = copy(name = None)
-    def withName(__v: String): MethodDescriptorProto = copy(name = Some(__v))
+    def withName(__v: String): MethodDescriptorProto = copy(name = Option(__v))
     def getInputType: String = inputType.getOrElse("")
     def clearInputType: MethodDescriptorProto = copy(inputType = None)
-    def withInputType(__v: String): MethodDescriptorProto = copy(inputType = Some(__v))
+    def withInputType(__v: String): MethodDescriptorProto = copy(inputType = Option(__v))
     def getOutputType: String = outputType.getOrElse("")
     def clearOutputType: MethodDescriptorProto = copy(outputType = None)
-    def withOutputType(__v: String): MethodDescriptorProto = copy(outputType = Some(__v))
+    def withOutputType(__v: String): MethodDescriptorProto = copy(outputType = Option(__v))
     def getOptions: com.google.protobuf.descriptor.MethodOptions = options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)
     def clearOptions: MethodDescriptorProto = copy(options = None)
-    def withOptions(__v: com.google.protobuf.descriptor.MethodOptions): MethodDescriptorProto = copy(options = Some(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.MethodOptions): MethodDescriptorProto = copy(options = Option(__v))
     def getClientStreaming: Boolean = clientStreaming.getOrElse(false)
     def clearClientStreaming: MethodDescriptorProto = copy(clientStreaming = None)
-    def withClientStreaming(__v: Boolean): MethodDescriptorProto = copy(clientStreaming = Some(__v))
+    def withClientStreaming(__v: Boolean): MethodDescriptorProto = copy(clientStreaming = Option(__v))
     def getServerStreaming: Boolean = serverStreaming.getOrElse(false)
     def clearServerStreaming: MethodDescriptorProto = copy(serverStreaming = None)
-    def withServerStreaming(__v: Boolean): MethodDescriptorProto = copy(serverStreaming = Some(__v))
+    def withServerStreaming(__v: Boolean): MethodDescriptorProto = copy(serverStreaming = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
@@ -186,17 +186,17 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
   lazy val defaultInstance = com.google.protobuf.descriptor.MethodDescriptorProto(
   )
   implicit class MethodDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def inputType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getInputType)((c_, f_) => c_.copy(inputType = Some(f_)))
+    def inputType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getInputType)((c_, f_) => c_.copy(inputType = Option(f_)))
     def optionalInputType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.inputType)((c_, f_) => c_.copy(inputType = f_))
-    def outputType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getOutputType)((c_, f_) => c_.copy(outputType = Some(f_)))
+    def outputType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getOutputType)((c_, f_) => c_.copy(outputType = Option(f_)))
     def optionalOutputType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.outputType)((c_, f_) => c_.copy(outputType = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MethodOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def clientStreaming: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getClientStreaming)((c_, f_) => c_.copy(clientStreaming = Some(f_)))
+    def clientStreaming: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getClientStreaming)((c_, f_) => c_.copy(clientStreaming = Option(f_)))
     def optionalClientStreaming: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.clientStreaming)((c_, f_) => c_.copy(clientStreaming = f_))
-    def serverStreaming: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getServerStreaming)((c_, f_) => c_.copy(serverStreaming = Some(f_)))
+    def serverStreaming: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getServerStreaming)((c_, f_) => c_.copy(serverStreaming = Option(f_)))
     def optionalServerStreaming: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.serverStreaming)((c_, f_) => c_.copy(serverStreaming = f_))
   }
   final val NAME_FIELD_NUMBER = 1

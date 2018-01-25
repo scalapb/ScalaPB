@@ -208,37 +208,37 @@ final case class FileOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __javaPackage = Some(_input__.readString())
+            __javaPackage = Option(_input__.readString())
           case 66 =>
-            __javaOuterClassname = Some(_input__.readString())
+            __javaOuterClassname = Option(_input__.readString())
           case 80 =>
-            __javaMultipleFiles = Some(_input__.readBool())
+            __javaMultipleFiles = Option(_input__.readBool())
           case 160 =>
-            __javaGenerateEqualsAndHash = Some(_input__.readBool())
+            __javaGenerateEqualsAndHash = Option(_input__.readBool())
           case 216 =>
-            __javaStringCheckUtf8 = Some(_input__.readBool())
+            __javaStringCheckUtf8 = Option(_input__.readBool())
           case 72 =>
-            __optimizeFor = Some(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
+            __optimizeFor = Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
           case 90 =>
-            __goPackage = Some(_input__.readString())
+            __goPackage = Option(_input__.readString())
           case 128 =>
-            __ccGenericServices = Some(_input__.readBool())
+            __ccGenericServices = Option(_input__.readBool())
           case 136 =>
-            __javaGenericServices = Some(_input__.readBool())
+            __javaGenericServices = Option(_input__.readBool())
           case 144 =>
-            __pyGenericServices = Some(_input__.readBool())
+            __pyGenericServices = Option(_input__.readBool())
           case 184 =>
-            __deprecated = Some(_input__.readBool())
+            __deprecated = Option(_input__.readBool())
           case 248 =>
-            __ccEnableArenas = Some(_input__.readBool())
+            __ccEnableArenas = Option(_input__.readBool())
           case 290 =>
-            __objcClassPrefix = Some(_input__.readString())
+            __objcClassPrefix = Option(_input__.readString())
           case 298 =>
-            __csharpNamespace = Some(_input__.readString())
+            __csharpNamespace = Option(_input__.readString())
           case 314 =>
-            __swiftPrefix = Some(_input__.readString())
+            __swiftPrefix = Option(_input__.readString())
           case 322 =>
-            __phpClassPrefix = Some(_input__.readString())
+            __phpClassPrefix = Option(_input__.readString())
           case 7994 =>
             __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _unknownFields__.parseField(tag, _input__)
@@ -267,52 +267,52 @@ final case class FileOptions(
     }
     def getJavaPackage: String = javaPackage.getOrElse("")
     def clearJavaPackage: FileOptions = copy(javaPackage = None)
-    def withJavaPackage(__v: String): FileOptions = copy(javaPackage = Some(__v))
+    def withJavaPackage(__v: String): FileOptions = copy(javaPackage = Option(__v))
     def getJavaOuterClassname: String = javaOuterClassname.getOrElse("")
     def clearJavaOuterClassname: FileOptions = copy(javaOuterClassname = None)
-    def withJavaOuterClassname(__v: String): FileOptions = copy(javaOuterClassname = Some(__v))
+    def withJavaOuterClassname(__v: String): FileOptions = copy(javaOuterClassname = Option(__v))
     def getJavaMultipleFiles: Boolean = javaMultipleFiles.getOrElse(false)
     def clearJavaMultipleFiles: FileOptions = copy(javaMultipleFiles = None)
-    def withJavaMultipleFiles(__v: Boolean): FileOptions = copy(javaMultipleFiles = Some(__v))
+    def withJavaMultipleFiles(__v: Boolean): FileOptions = copy(javaMultipleFiles = Option(__v))
     def getJavaGenerateEqualsAndHash: Boolean = javaGenerateEqualsAndHash.getOrElse(false)
     def clearJavaGenerateEqualsAndHash: FileOptions = copy(javaGenerateEqualsAndHash = None)
-    def withJavaGenerateEqualsAndHash(__v: Boolean): FileOptions = copy(javaGenerateEqualsAndHash = Some(__v))
+    def withJavaGenerateEqualsAndHash(__v: Boolean): FileOptions = copy(javaGenerateEqualsAndHash = Option(__v))
     def getJavaStringCheckUtf8: Boolean = javaStringCheckUtf8.getOrElse(false)
     def clearJavaStringCheckUtf8: FileOptions = copy(javaStringCheckUtf8 = None)
-    def withJavaStringCheckUtf8(__v: Boolean): FileOptions = copy(javaStringCheckUtf8 = Some(__v))
+    def withJavaStringCheckUtf8(__v: Boolean): FileOptions = copy(javaStringCheckUtf8 = Option(__v))
     def getOptimizeFor: com.google.protobuf.descriptor.FileOptions.OptimizeMode = optimizeFor.getOrElse(com.google.protobuf.descriptor.FileOptions.OptimizeMode.SPEED)
     def clearOptimizeFor: FileOptions = copy(optimizeFor = None)
-    def withOptimizeFor(__v: com.google.protobuf.descriptor.FileOptions.OptimizeMode): FileOptions = copy(optimizeFor = Some(__v))
+    def withOptimizeFor(__v: com.google.protobuf.descriptor.FileOptions.OptimizeMode): FileOptions = copy(optimizeFor = Option(__v))
     def getGoPackage: String = goPackage.getOrElse("")
     def clearGoPackage: FileOptions = copy(goPackage = None)
-    def withGoPackage(__v: String): FileOptions = copy(goPackage = Some(__v))
+    def withGoPackage(__v: String): FileOptions = copy(goPackage = Option(__v))
     def getCcGenericServices: Boolean = ccGenericServices.getOrElse(false)
     def clearCcGenericServices: FileOptions = copy(ccGenericServices = None)
-    def withCcGenericServices(__v: Boolean): FileOptions = copy(ccGenericServices = Some(__v))
+    def withCcGenericServices(__v: Boolean): FileOptions = copy(ccGenericServices = Option(__v))
     def getJavaGenericServices: Boolean = javaGenericServices.getOrElse(false)
     def clearJavaGenericServices: FileOptions = copy(javaGenericServices = None)
-    def withJavaGenericServices(__v: Boolean): FileOptions = copy(javaGenericServices = Some(__v))
+    def withJavaGenericServices(__v: Boolean): FileOptions = copy(javaGenericServices = Option(__v))
     def getPyGenericServices: Boolean = pyGenericServices.getOrElse(false)
     def clearPyGenericServices: FileOptions = copy(pyGenericServices = None)
-    def withPyGenericServices(__v: Boolean): FileOptions = copy(pyGenericServices = Some(__v))
+    def withPyGenericServices(__v: Boolean): FileOptions = copy(pyGenericServices = Option(__v))
     def getDeprecated: Boolean = deprecated.getOrElse(false)
     def clearDeprecated: FileOptions = copy(deprecated = None)
-    def withDeprecated(__v: Boolean): FileOptions = copy(deprecated = Some(__v))
+    def withDeprecated(__v: Boolean): FileOptions = copy(deprecated = Option(__v))
     def getCcEnableArenas: Boolean = ccEnableArenas.getOrElse(false)
     def clearCcEnableArenas: FileOptions = copy(ccEnableArenas = None)
-    def withCcEnableArenas(__v: Boolean): FileOptions = copy(ccEnableArenas = Some(__v))
+    def withCcEnableArenas(__v: Boolean): FileOptions = copy(ccEnableArenas = Option(__v))
     def getObjcClassPrefix: String = objcClassPrefix.getOrElse("")
     def clearObjcClassPrefix: FileOptions = copy(objcClassPrefix = None)
-    def withObjcClassPrefix(__v: String): FileOptions = copy(objcClassPrefix = Some(__v))
+    def withObjcClassPrefix(__v: String): FileOptions = copy(objcClassPrefix = Option(__v))
     def getCsharpNamespace: String = csharpNamespace.getOrElse("")
     def clearCsharpNamespace: FileOptions = copy(csharpNamespace = None)
-    def withCsharpNamespace(__v: String): FileOptions = copy(csharpNamespace = Some(__v))
+    def withCsharpNamespace(__v: String): FileOptions = copy(csharpNamespace = Option(__v))
     def getSwiftPrefix: String = swiftPrefix.getOrElse("")
     def clearSwiftPrefix: FileOptions = copy(swiftPrefix = None)
-    def withSwiftPrefix(__v: String): FileOptions = copy(swiftPrefix = Some(__v))
+    def withSwiftPrefix(__v: String): FileOptions = copy(swiftPrefix = Option(__v))
     def getPhpClassPrefix: String = phpClassPrefix.getOrElse("")
     def clearPhpClassPrefix: FileOptions = copy(phpClassPrefix = None)
-    def withPhpClassPrefix(__v: String): FileOptions = copy(phpClassPrefix = Some(__v))
+    def withPhpClassPrefix(__v: String): FileOptions = copy(phpClassPrefix = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FileOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -390,22 +390,22 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): com.google.protobuf.descriptor.FileOptions = com.google.protobuf.descriptor.FileOptions(
-    javaPackage = if (javaPbSource.hasJavaPackage) Some(javaPbSource.getJavaPackage) else None,
-    javaOuterClassname = if (javaPbSource.hasJavaOuterClassname) Some(javaPbSource.getJavaOuterClassname) else None,
-    javaMultipleFiles = if (javaPbSource.hasJavaMultipleFiles) Some(javaPbSource.getJavaMultipleFiles.booleanValue) else None,
-    javaGenerateEqualsAndHash = if (javaPbSource.hasJavaGenerateEqualsAndHash) Some(javaPbSource.getJavaGenerateEqualsAndHash.booleanValue) else None,
-    javaStringCheckUtf8 = if (javaPbSource.hasJavaStringCheckUtf8) Some(javaPbSource.getJavaStringCheckUtf8.booleanValue) else None,
-    optimizeFor = if (javaPbSource.hasOptimizeFor) Some(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromJavaValue(javaPbSource.getOptimizeFor)) else None,
-    goPackage = if (javaPbSource.hasGoPackage) Some(javaPbSource.getGoPackage) else None,
-    ccGenericServices = if (javaPbSource.hasCcGenericServices) Some(javaPbSource.getCcGenericServices.booleanValue) else None,
-    javaGenericServices = if (javaPbSource.hasJavaGenericServices) Some(javaPbSource.getJavaGenericServices.booleanValue) else None,
-    pyGenericServices = if (javaPbSource.hasPyGenericServices) Some(javaPbSource.getPyGenericServices.booleanValue) else None,
-    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
-    ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Some(javaPbSource.getCcEnableArenas.booleanValue) else None,
-    objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Some(javaPbSource.getObjcClassPrefix) else None,
-    csharpNamespace = if (javaPbSource.hasCsharpNamespace) Some(javaPbSource.getCsharpNamespace) else None,
-    swiftPrefix = if (javaPbSource.hasSwiftPrefix) Some(javaPbSource.getSwiftPrefix) else None,
-    phpClassPrefix = if (javaPbSource.hasPhpClassPrefix) Some(javaPbSource.getPhpClassPrefix) else None,
+    javaPackage = if (javaPbSource.hasJavaPackage) Option(javaPbSource.getJavaPackage) else None,
+    javaOuterClassname = if (javaPbSource.hasJavaOuterClassname) Option(javaPbSource.getJavaOuterClassname) else None,
+    javaMultipleFiles = if (javaPbSource.hasJavaMultipleFiles) Option(javaPbSource.getJavaMultipleFiles.booleanValue) else None,
+    javaGenerateEqualsAndHash = if (javaPbSource.hasJavaGenerateEqualsAndHash) Option(javaPbSource.getJavaGenerateEqualsAndHash.booleanValue) else None,
+    javaStringCheckUtf8 = if (javaPbSource.hasJavaStringCheckUtf8) Option(javaPbSource.getJavaStringCheckUtf8.booleanValue) else None,
+    optimizeFor = if (javaPbSource.hasOptimizeFor) Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromJavaValue(javaPbSource.getOptimizeFor)) else None,
+    goPackage = if (javaPbSource.hasGoPackage) Option(javaPbSource.getGoPackage) else None,
+    ccGenericServices = if (javaPbSource.hasCcGenericServices) Option(javaPbSource.getCcGenericServices.booleanValue) else None,
+    javaGenericServices = if (javaPbSource.hasJavaGenericServices) Option(javaPbSource.getJavaGenericServices.booleanValue) else None,
+    pyGenericServices = if (javaPbSource.hasPyGenericServices) Option(javaPbSource.getPyGenericServices.booleanValue) else None,
+    deprecated = if (javaPbSource.hasDeprecated) Option(javaPbSource.getDeprecated.booleanValue) else None,
+    ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Option(javaPbSource.getCcEnableArenas.booleanValue) else None,
+    objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Option(javaPbSource.getObjcClassPrefix) else None,
+    csharpNamespace = if (javaPbSource.hasCsharpNamespace) Option(javaPbSource.getCsharpNamespace) else None,
+    swiftPrefix = if (javaPbSource.hasSwiftPrefix) Option(javaPbSource.getSwiftPrefix) else None,
+    phpClassPrefix = if (javaPbSource.hasPhpClassPrefix) Option(javaPbSource.getPhpClassPrefix) else None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileOptions = {
@@ -522,37 +522,37 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def toJavaValue(pbScalaSource: OptimizeMode): com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode = com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode.forNumber(pbScalaSource.value)
   }
   implicit class FileOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileOptions](_l) {
-    def javaPackage: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Some(f_)))
+    def javaPackage: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Option(f_)))
     def optionalJavaPackage: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaPackage)((c_, f_) => c_.copy(javaPackage = f_))
-    def javaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = Some(f_)))
+    def javaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = Option(f_)))
     def optionalJavaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.javaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = f_))
-    def javaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = Some(f_)))
+    def javaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = Option(f_)))
     def optionalJavaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = f_))
-    def javaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = Some(f_)))
+    def javaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = Option(f_)))
     def optionalJavaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
-    def javaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = Some(f_)))
+    def javaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = Option(f_)))
     def optionalJavaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = f_))
-    def optimizeFor: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = Some(f_)))
+    def optimizeFor: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = Option(f_)))
     def optionalOptimizeFor: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode]] = field(_.optimizeFor)((c_, f_) => c_.copy(optimizeFor = f_))
-    def goPackage: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = Some(f_)))
+    def goPackage: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = Option(f_)))
     def optionalGoPackage: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.goPackage)((c_, f_) => c_.copy(goPackage = f_))
-    def ccGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = Some(f_)))
+    def ccGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = Option(f_)))
     def optionalCcGenericServices: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccGenericServices)((c_, f_) => c_.copy(ccGenericServices = f_))
-    def javaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = Some(f_)))
+    def javaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = Option(f_)))
     def optionalJavaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.javaGenericServices)((c_, f_) => c_.copy(javaGenericServices = f_))
-    def pyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Some(f_)))
+    def pyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Option(f_)))
     def optionalPyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.pyGenericServices)((c_, f_) => c_.copy(pyGenericServices = f_))
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def ccEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Some(f_)))
+    def ccEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Option(f_)))
     def optionalCcEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.ccEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = f_))
-    def objcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = Some(f_)))
+    def objcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = Option(f_)))
     def optionalObjcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
-    def csharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Some(f_)))
+    def csharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Option(f_)))
     def optionalCsharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
-    def swiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSwiftPrefix)((c_, f_) => c_.copy(swiftPrefix = Some(f_)))
+    def swiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getSwiftPrefix)((c_, f_) => c_.copy(swiftPrefix = Option(f_)))
     def optionalSwiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.swiftPrefix)((c_, f_) => c_.copy(swiftPrefix = f_))
-    def phpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = Some(f_)))
+    def phpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = Option(f_)))
     def optionalPhpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.phpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

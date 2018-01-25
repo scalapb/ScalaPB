@@ -89,17 +89,17 @@ final case class UninterpretedOption(
           case 18 =>
             __name += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
           case 26 =>
-            __identifierValue = Some(_input__.readString())
+            __identifierValue = Option(_input__.readString())
           case 32 =>
-            __positiveIntValue = Some(_input__.readUInt64())
+            __positiveIntValue = Option(_input__.readUInt64())
           case 40 =>
-            __negativeIntValue = Some(_input__.readInt64())
+            __negativeIntValue = Option(_input__.readInt64())
           case 49 =>
-            __doubleValue = Some(_input__.readDouble())
+            __doubleValue = Option(_input__.readDouble())
           case 58 =>
-            __stringValue = Some(_input__.readBytes())
+            __stringValue = Option(_input__.readBytes())
           case 66 =>
-            __aggregateValue = Some(_input__.readString())
+            __aggregateValue = Option(_input__.readString())
           case tag => _input__.skipField(tag)
         }
       }
@@ -119,22 +119,22 @@ final case class UninterpretedOption(
     def withName(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = __v)
     def getIdentifierValue: String = identifierValue.getOrElse("")
     def clearIdentifierValue: UninterpretedOption = copy(identifierValue = None)
-    def withIdentifierValue(__v: String): UninterpretedOption = copy(identifierValue = Some(__v))
+    def withIdentifierValue(__v: String): UninterpretedOption = copy(identifierValue = Option(__v))
     def getPositiveIntValue: Long = positiveIntValue.getOrElse(0L)
     def clearPositiveIntValue: UninterpretedOption = copy(positiveIntValue = None)
-    def withPositiveIntValue(__v: Long): UninterpretedOption = copy(positiveIntValue = Some(__v))
+    def withPositiveIntValue(__v: Long): UninterpretedOption = copy(positiveIntValue = Option(__v))
     def getNegativeIntValue: Long = negativeIntValue.getOrElse(0L)
     def clearNegativeIntValue: UninterpretedOption = copy(negativeIntValue = None)
-    def withNegativeIntValue(__v: Long): UninterpretedOption = copy(negativeIntValue = Some(__v))
+    def withNegativeIntValue(__v: Long): UninterpretedOption = copy(negativeIntValue = Option(__v))
     def getDoubleValue: Double = doubleValue.getOrElse(0.0)
     def clearDoubleValue: UninterpretedOption = copy(doubleValue = None)
-    def withDoubleValue(__v: Double): UninterpretedOption = copy(doubleValue = Some(__v))
+    def withDoubleValue(__v: Double): UninterpretedOption = copy(doubleValue = Option(__v))
     def getStringValue: _root_.com.google.protobuf.ByteString = stringValue.getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
     def clearStringValue: UninterpretedOption = copy(stringValue = None)
-    def withStringValue(__v: _root_.com.google.protobuf.ByteString): UninterpretedOption = copy(stringValue = Some(__v))
+    def withStringValue(__v: _root_.com.google.protobuf.ByteString): UninterpretedOption = copy(stringValue = Option(__v))
     def getAggregateValue: String = aggregateValue.getOrElse("")
     def clearAggregateValue: UninterpretedOption = copy(aggregateValue = None)
-    def withAggregateValue(__v: String): UninterpretedOption = copy(aggregateValue = Some(__v))
+    def withAggregateValue(__v: String): UninterpretedOption = copy(aggregateValue = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 2 => name
@@ -177,12 +177,12 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.UninterpretedOption): com.google.protobuf.descriptor.UninterpretedOption = com.google.protobuf.descriptor.UninterpretedOption(
     name = javaPbSource.getNameList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.fromJavaProto)(_root_.scala.collection.breakOut),
-    identifierValue = if (javaPbSource.hasIdentifierValue) Some(javaPbSource.getIdentifierValue) else None,
-    positiveIntValue = if (javaPbSource.hasPositiveIntValue) Some(javaPbSource.getPositiveIntValue.longValue) else None,
-    negativeIntValue = if (javaPbSource.hasNegativeIntValue) Some(javaPbSource.getNegativeIntValue.longValue) else None,
-    doubleValue = if (javaPbSource.hasDoubleValue) Some(javaPbSource.getDoubleValue.doubleValue) else None,
-    stringValue = if (javaPbSource.hasStringValue) Some(javaPbSource.getStringValue) else None,
-    aggregateValue = if (javaPbSource.hasAggregateValue) Some(javaPbSource.getAggregateValue) else None
+    identifierValue = if (javaPbSource.hasIdentifierValue) Option(javaPbSource.getIdentifierValue) else None,
+    positiveIntValue = if (javaPbSource.hasPositiveIntValue) Option(javaPbSource.getPositiveIntValue.longValue) else None,
+    negativeIntValue = if (javaPbSource.hasNegativeIntValue) Option(javaPbSource.getNegativeIntValue.longValue) else None,
+    doubleValue = if (javaPbSource.hasDoubleValue) Option(javaPbSource.getDoubleValue.doubleValue) else None,
+    stringValue = if (javaPbSource.hasStringValue) Option(javaPbSource.getStringValue) else None,
+    aggregateValue = if (javaPbSource.hasAggregateValue) Option(javaPbSource.getAggregateValue) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.UninterpretedOption = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
@@ -348,17 +348,17 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   
   implicit class UninterpretedOptionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def identifierValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Some(f_)))
+    def identifierValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Option(f_)))
     def optionalIdentifierValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.identifierValue)((c_, f_) => c_.copy(identifierValue = f_))
-    def positiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Some(f_)))
+    def positiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Option(f_)))
     def optionalPositiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.positiveIntValue)((c_, f_) => c_.copy(positiveIntValue = f_))
-    def negativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = Some(f_)))
+    def negativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = Option(f_)))
     def optionalNegativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.negativeIntValue)((c_, f_) => c_.copy(negativeIntValue = f_))
-    def doubleValue: _root_.scalapb.lenses.Lens[UpperPB, Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Some(f_)))
+    def doubleValue: _root_.scalapb.lenses.Lens[UpperPB, Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Option(f_)))
     def optionalDoubleValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Double]] = field(_.doubleValue)((c_, f_) => c_.copy(doubleValue = f_))
-    def stringValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Some(f_)))
+    def stringValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Option(f_)))
     def optionalStringValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.com.google.protobuf.ByteString]] = field(_.stringValue)((c_, f_) => c_.copy(stringValue = f_))
-    def aggregateValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Some(f_)))
+    def aggregateValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Option(f_)))
     def optionalAggregateValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.aggregateValue)((c_, f_) => c_.copy(aggregateValue = f_))
   }
   final val NAME_FIELD_NUMBER = 2

@@ -137,7 +137,7 @@ final case class Api(
           case 34 =>
             __version = _input__.readString()
           case 42 =>
-            __sourceContext = Some(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
+            __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
           case 50 =>
             __mixins += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Mixin.defaultInstance)
           case 56 =>
@@ -167,7 +167,7 @@ final case class Api(
     def withVersion(__v: String): Api = copy(version = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
     def clearSourceContext: Api = copy(sourceContext = None)
-    def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Api = copy(sourceContext = Some(__v))
+    def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Api = copy(sourceContext = Option(__v))
     def clearMixins = copy(mixins = _root_.scala.collection.Seq.empty)
     def addMixins(__vs: com.google.protobuf.api.Mixin*): Api = addAllMixins(__vs)
     def addAllMixins(__vs: TraversableOnce[com.google.protobuf.api.Mixin]): Api = copy(mixins = mixins ++ __vs)
@@ -227,7 +227,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     methods = javaPbSource.getMethodsList.asScala.map(com.google.protobuf.api.Method.fromJavaProto)(_root_.scala.collection.breakOut),
     options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
     version = javaPbSource.getVersion,
-    sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
+    sourceContext = if (javaPbSource.hasSourceContext) Option(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
     mixins = javaPbSource.getMixinsList.asScala.map(com.google.protobuf.api.Mixin.fromJavaProto)(_root_.scala.collection.breakOut),
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )
@@ -283,7 +283,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     def methods: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.api.Method]] = field(_.methods)((c_, f_) => c_.copy(methods = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def version: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.version)((c_, f_) => c_.copy(version = f_))
-    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Some(f_)))
+    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
     def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def mixins: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.api.Mixin]] = field(_.mixins)((c_, f_) => c_.copy(mixins = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
