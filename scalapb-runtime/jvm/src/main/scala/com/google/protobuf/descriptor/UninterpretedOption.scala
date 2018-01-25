@@ -177,12 +177,12 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.UninterpretedOption): com.google.protobuf.descriptor.UninterpretedOption = com.google.protobuf.descriptor.UninterpretedOption(
     name = javaPbSource.getNameList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.fromJavaProto)(_root_.scala.collection.breakOut),
-    identifierValue = if (javaPbSource.hasIdentifierValue) Option(javaPbSource.getIdentifierValue) else None,
-    positiveIntValue = if (javaPbSource.hasPositiveIntValue) Option(javaPbSource.getPositiveIntValue.longValue) else None,
-    negativeIntValue = if (javaPbSource.hasNegativeIntValue) Option(javaPbSource.getNegativeIntValue.longValue) else None,
-    doubleValue = if (javaPbSource.hasDoubleValue) Option(javaPbSource.getDoubleValue.doubleValue) else None,
-    stringValue = if (javaPbSource.hasStringValue) Option(javaPbSource.getStringValue) else None,
-    aggregateValue = if (javaPbSource.hasAggregateValue) Option(javaPbSource.getAggregateValue) else None
+    identifierValue = if (javaPbSource.hasIdentifierValue) Some(javaPbSource.getIdentifierValue) else None,
+    positiveIntValue = if (javaPbSource.hasPositiveIntValue) Some(javaPbSource.getPositiveIntValue.longValue) else None,
+    negativeIntValue = if (javaPbSource.hasNegativeIntValue) Some(javaPbSource.getNegativeIntValue.longValue) else None,
+    doubleValue = if (javaPbSource.hasDoubleValue) Some(javaPbSource.getDoubleValue.doubleValue) else None,
+    stringValue = if (javaPbSource.hasStringValue) Some(javaPbSource.getStringValue) else None,
+    aggregateValue = if (javaPbSource.hasAggregateValue) Some(javaPbSource.getAggregateValue) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.UninterpretedOption = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

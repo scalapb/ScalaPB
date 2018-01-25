@@ -237,16 +237,16 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto): com.google.protobuf.descriptor.FieldDescriptorProto = com.google.protobuf.descriptor.FieldDescriptorProto(
-    name = if (javaPbSource.hasName) Option(javaPbSource.getName) else None,
-    number = if (javaPbSource.hasNumber) Option(javaPbSource.getNumber.intValue) else None,
-    label = if (javaPbSource.hasLabel) Option(com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromJavaValue(javaPbSource.getLabel)) else None,
-    `type` = if (javaPbSource.hasType) Option(com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromJavaValue(javaPbSource.getType)) else None,
-    typeName = if (javaPbSource.hasTypeName) Option(javaPbSource.getTypeName) else None,
-    extendee = if (javaPbSource.hasExtendee) Option(javaPbSource.getExtendee) else None,
-    defaultValue = if (javaPbSource.hasDefaultValue) Option(javaPbSource.getDefaultValue) else None,
-    oneofIndex = if (javaPbSource.hasOneofIndex) Option(javaPbSource.getOneofIndex.intValue) else None,
-    jsonName = if (javaPbSource.hasJsonName) Option(javaPbSource.getJsonName) else None,
-    options = if (javaPbSource.hasOptions) Option(com.google.protobuf.descriptor.FieldOptions.fromJavaProto(javaPbSource.getOptions)) else None
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
+    number = if (javaPbSource.hasNumber) Some(javaPbSource.getNumber.intValue) else None,
+    label = if (javaPbSource.hasLabel) Some(com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromJavaValue(javaPbSource.getLabel)) else None,
+    `type` = if (javaPbSource.hasType) Some(com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromJavaValue(javaPbSource.getType)) else None,
+    typeName = if (javaPbSource.hasTypeName) Some(javaPbSource.getTypeName) else None,
+    extendee = if (javaPbSource.hasExtendee) Some(javaPbSource.getExtendee) else None,
+    defaultValue = if (javaPbSource.hasDefaultValue) Some(javaPbSource.getDefaultValue) else None,
+    oneofIndex = if (javaPbSource.hasOneofIndex) Some(javaPbSource.getOneofIndex.intValue) else None,
+    jsonName = if (javaPbSource.hasJsonName) Some(javaPbSource.getJsonName) else None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.FieldOptions.fromJavaProto(javaPbSource.getOptions)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FieldDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

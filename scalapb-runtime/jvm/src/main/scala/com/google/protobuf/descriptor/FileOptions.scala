@@ -390,22 +390,22 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): com.google.protobuf.descriptor.FileOptions = com.google.protobuf.descriptor.FileOptions(
-    javaPackage = if (javaPbSource.hasJavaPackage) Option(javaPbSource.getJavaPackage) else None,
-    javaOuterClassname = if (javaPbSource.hasJavaOuterClassname) Option(javaPbSource.getJavaOuterClassname) else None,
-    javaMultipleFiles = if (javaPbSource.hasJavaMultipleFiles) Option(javaPbSource.getJavaMultipleFiles.booleanValue) else None,
-    javaGenerateEqualsAndHash = if (javaPbSource.hasJavaGenerateEqualsAndHash) Option(javaPbSource.getJavaGenerateEqualsAndHash.booleanValue) else None,
-    javaStringCheckUtf8 = if (javaPbSource.hasJavaStringCheckUtf8) Option(javaPbSource.getJavaStringCheckUtf8.booleanValue) else None,
-    optimizeFor = if (javaPbSource.hasOptimizeFor) Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromJavaValue(javaPbSource.getOptimizeFor)) else None,
-    goPackage = if (javaPbSource.hasGoPackage) Option(javaPbSource.getGoPackage) else None,
-    ccGenericServices = if (javaPbSource.hasCcGenericServices) Option(javaPbSource.getCcGenericServices.booleanValue) else None,
-    javaGenericServices = if (javaPbSource.hasJavaGenericServices) Option(javaPbSource.getJavaGenericServices.booleanValue) else None,
-    pyGenericServices = if (javaPbSource.hasPyGenericServices) Option(javaPbSource.getPyGenericServices.booleanValue) else None,
-    deprecated = if (javaPbSource.hasDeprecated) Option(javaPbSource.getDeprecated.booleanValue) else None,
-    ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Option(javaPbSource.getCcEnableArenas.booleanValue) else None,
-    objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Option(javaPbSource.getObjcClassPrefix) else None,
-    csharpNamespace = if (javaPbSource.hasCsharpNamespace) Option(javaPbSource.getCsharpNamespace) else None,
-    swiftPrefix = if (javaPbSource.hasSwiftPrefix) Option(javaPbSource.getSwiftPrefix) else None,
-    phpClassPrefix = if (javaPbSource.hasPhpClassPrefix) Option(javaPbSource.getPhpClassPrefix) else None,
+    javaPackage = if (javaPbSource.hasJavaPackage) Some(javaPbSource.getJavaPackage) else None,
+    javaOuterClassname = if (javaPbSource.hasJavaOuterClassname) Some(javaPbSource.getJavaOuterClassname) else None,
+    javaMultipleFiles = if (javaPbSource.hasJavaMultipleFiles) Some(javaPbSource.getJavaMultipleFiles.booleanValue) else None,
+    javaGenerateEqualsAndHash = if (javaPbSource.hasJavaGenerateEqualsAndHash) Some(javaPbSource.getJavaGenerateEqualsAndHash.booleanValue) else None,
+    javaStringCheckUtf8 = if (javaPbSource.hasJavaStringCheckUtf8) Some(javaPbSource.getJavaStringCheckUtf8.booleanValue) else None,
+    optimizeFor = if (javaPbSource.hasOptimizeFor) Some(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromJavaValue(javaPbSource.getOptimizeFor)) else None,
+    goPackage = if (javaPbSource.hasGoPackage) Some(javaPbSource.getGoPackage) else None,
+    ccGenericServices = if (javaPbSource.hasCcGenericServices) Some(javaPbSource.getCcGenericServices.booleanValue) else None,
+    javaGenericServices = if (javaPbSource.hasJavaGenericServices) Some(javaPbSource.getJavaGenericServices.booleanValue) else None,
+    pyGenericServices = if (javaPbSource.hasPyGenericServices) Some(javaPbSource.getPyGenericServices.booleanValue) else None,
+    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
+    ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Some(javaPbSource.getCcEnableArenas.booleanValue) else None,
+    objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Some(javaPbSource.getObjcClassPrefix) else None,
+    csharpNamespace = if (javaPbSource.hasCsharpNamespace) Some(javaPbSource.getCsharpNamespace) else None,
+    swiftPrefix = if (javaPbSource.hasSwiftPrefix) Some(javaPbSource.getSwiftPrefix) else None,
+    phpClassPrefix = if (javaPbSource.hasPhpClassPrefix) Some(javaPbSource.getPhpClassPrefix) else None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileOptions = {

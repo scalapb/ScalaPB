@@ -237,14 +237,14 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.DescriptorProto): com.google.protobuf.descriptor.DescriptorProto = com.google.protobuf.descriptor.DescriptorProto(
-    name = if (javaPbSource.hasName) Option(javaPbSource.getName) else None,
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
     field = javaPbSource.getFieldList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     nestedType = javaPbSource.getNestedTypeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     extensionRange = javaPbSource.getExtensionRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.fromJavaProto)(_root_.scala.collection.breakOut),
     oneofDecl = javaPbSource.getOneofDeclList.asScala.map(com.google.protobuf.descriptor.OneofDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
-    options = if (javaPbSource.hasOptions) Option(com.google.protobuf.descriptor.MessageOptions.fromJavaProto(javaPbSource.getOptions)) else None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.MessageOptions.fromJavaProto(javaPbSource.getOptions)) else None,
     reservedRange = javaPbSource.getReservedRangeList.asScala.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.fromJavaProto)(_root_.scala.collection.breakOut),
     reservedName = javaPbSource.getReservedNameList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut)
   )
@@ -385,8 +385,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       javaPbOut.build
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
-      start = if (javaPbSource.hasStart) Option(javaPbSource.getStart.intValue) else None,
-      end = if (javaPbSource.hasEnd) Option(javaPbSource.getEnd.intValue) else None
+      start = if (javaPbSource.hasStart) Some(javaPbSource.getStart.intValue) else None,
+      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
@@ -512,8 +512,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       javaPbOut.build
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
-      start = if (javaPbSource.hasStart) Option(javaPbSource.getStart.intValue) else None,
-      end = if (javaPbSource.hasEnd) Option(javaPbSource.getEnd.intValue) else None
+      start = if (javaPbSource.hasStart) Some(javaPbSource.getStart.intValue) else None,
+      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

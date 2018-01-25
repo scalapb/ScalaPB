@@ -122,10 +122,10 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.Version): com.google.protobuf.compiler.plugin.Version = com.google.protobuf.compiler.plugin.Version(
-    major = if (javaPbSource.hasMajor) Option(javaPbSource.getMajor.intValue) else None,
-    minor = if (javaPbSource.hasMinor) Option(javaPbSource.getMinor.intValue) else None,
-    patch = if (javaPbSource.hasPatch) Option(javaPbSource.getPatch.intValue) else None,
-    suffix = if (javaPbSource.hasSuffix) Option(javaPbSource.getSuffix) else None
+    major = if (javaPbSource.hasMajor) Some(javaPbSource.getMajor.intValue) else None,
+    minor = if (javaPbSource.hasMinor) Some(javaPbSource.getMinor.intValue) else None,
+    patch = if (javaPbSource.hasPatch) Some(javaPbSource.getPatch.intValue) else None,
+    suffix = if (javaPbSource.hasSuffix) Some(javaPbSource.getSuffix) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.Version = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

@@ -158,12 +158,12 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MethodDescriptorProto): com.google.protobuf.descriptor.MethodDescriptorProto = com.google.protobuf.descriptor.MethodDescriptorProto(
-    name = if (javaPbSource.hasName) Option(javaPbSource.getName) else None,
-    inputType = if (javaPbSource.hasInputType) Option(javaPbSource.getInputType) else None,
-    outputType = if (javaPbSource.hasOutputType) Option(javaPbSource.getOutputType) else None,
-    options = if (javaPbSource.hasOptions) Option(com.google.protobuf.descriptor.MethodOptions.fromJavaProto(javaPbSource.getOptions)) else None,
-    clientStreaming = if (javaPbSource.hasClientStreaming) Option(javaPbSource.getClientStreaming.booleanValue) else None,
-    serverStreaming = if (javaPbSource.hasServerStreaming) Option(javaPbSource.getServerStreaming.booleanValue) else None
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
+    inputType = if (javaPbSource.hasInputType) Some(javaPbSource.getInputType) else None,
+    outputType = if (javaPbSource.hasOutputType) Some(javaPbSource.getOutputType) else None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.MethodOptions.fromJavaProto(javaPbSource.getOptions)) else None,
+    clientStreaming = if (javaPbSource.hasClientStreaming) Some(javaPbSource.getClientStreaming.booleanValue) else None,
+    serverStreaming = if (javaPbSource.hasServerStreaming) Some(javaPbSource.getServerStreaming.booleanValue) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MethodDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

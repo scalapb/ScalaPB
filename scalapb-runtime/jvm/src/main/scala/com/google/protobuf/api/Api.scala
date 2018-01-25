@@ -227,7 +227,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     methods = javaPbSource.getMethodsList.asScala.map(com.google.protobuf.api.Method.fromJavaProto)(_root_.scala.collection.breakOut),
     options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
     version = javaPbSource.getVersion,
-    sourceContext = if (javaPbSource.hasSourceContext) Option(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
+    sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else None,
     mixins = javaPbSource.getMixinsList.asScala.map(com.google.protobuf.api.Mixin.fromJavaProto)(_root_.scala.collection.breakOut),
     syntax = com.google.protobuf.`type`.Syntax.fromJavaValue(javaPbSource.getSyntax)
   )

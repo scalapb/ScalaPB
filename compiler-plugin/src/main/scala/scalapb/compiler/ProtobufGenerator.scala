@@ -200,7 +200,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val valueConversion: Expression = javaToScalaConversion(field)
 
     if (field.supportsPresence)
-      s"if ($javaHazzer) Option(${valueConversion.apply(javaGetter, enclosingType=EnclosingType.None)}) else None"
+      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, enclosingType=EnclosingType.None)}) else None"
     else if (field.isRepeated)
       valueConversion(javaGetter + ".asScala", EnclosingType.Collection, mustCopy = true)
     else valueConversion(javaGetter, EnclosingType.None)

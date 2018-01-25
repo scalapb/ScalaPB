@@ -90,8 +90,8 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.OneofDescriptorProto): com.google.protobuf.descriptor.OneofDescriptorProto = com.google.protobuf.descriptor.OneofDescriptorProto(
-    name = if (javaPbSource.hasName) Option(javaPbSource.getName) else None,
-    options = if (javaPbSource.hasOptions) Option(com.google.protobuf.descriptor.OneofOptions.fromJavaProto(javaPbSource.getOptions)) else None
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.OneofOptions.fromJavaProto(javaPbSource.getOptions)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.OneofDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

@@ -263,9 +263,9 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
       path = javaPbSource.getPathList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
-      sourceFile = if (javaPbSource.hasSourceFile) Option(javaPbSource.getSourceFile) else None,
-      begin = if (javaPbSource.hasBegin) Option(javaPbSource.getBegin.intValue) else None,
-      end = if (javaPbSource.hasEnd) Option(javaPbSource.getEnd.intValue) else None
+      sourceFile = if (javaPbSource.hasSourceFile) Some(javaPbSource.getSourceFile) else None,
+      begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else None,
+      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

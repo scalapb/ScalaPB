@@ -107,7 +107,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Option): com.google.protobuf.`type`.OptionProto = com.google.protobuf.`type`.OptionProto(
     name = javaPbSource.getName,
-    value = if (javaPbSource.hasValue) Option(com.google.protobuf.any.Any.fromJavaProto(javaPbSource.getValue)) else None
+    value = if (javaPbSource.hasValue) Some(com.google.protobuf.any.Any.fromJavaProto(javaPbSource.getValue)) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.OptionProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

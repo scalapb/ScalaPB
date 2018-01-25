@@ -232,12 +232,12 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): com.google.protobuf.descriptor.FieldOptions = com.google.protobuf.descriptor.FieldOptions(
-    ctype = if (javaPbSource.hasCtype) Option(com.google.protobuf.descriptor.FieldOptions.CType.fromJavaValue(javaPbSource.getCtype)) else None,
-    packed = if (javaPbSource.hasPacked) Option(javaPbSource.getPacked.booleanValue) else None,
-    jstype = if (javaPbSource.hasJstype) Option(com.google.protobuf.descriptor.FieldOptions.JSType.fromJavaValue(javaPbSource.getJstype)) else None,
-    `lazy` = if (javaPbSource.hasLazy) Option(javaPbSource.getLazy.booleanValue) else None,
-    deprecated = if (javaPbSource.hasDeprecated) Option(javaPbSource.getDeprecated.booleanValue) else None,
-    weak = if (javaPbSource.hasWeak) Option(javaPbSource.getWeak.booleanValue) else None,
+    ctype = if (javaPbSource.hasCtype) Some(com.google.protobuf.descriptor.FieldOptions.CType.fromJavaValue(javaPbSource.getCtype)) else None,
+    packed = if (javaPbSource.hasPacked) Some(javaPbSource.getPacked.booleanValue) else None,
+    jstype = if (javaPbSource.hasJstype) Some(com.google.protobuf.descriptor.FieldOptions.JSType.fromJavaValue(javaPbSource.getJstype)) else None,
+    `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else None,
+    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
+    weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FieldOptions = {

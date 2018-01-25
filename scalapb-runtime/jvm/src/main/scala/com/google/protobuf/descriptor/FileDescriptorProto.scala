@@ -296,8 +296,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorProto): com.google.protobuf.descriptor.FileDescriptorProto = com.google.protobuf.descriptor.FileDescriptorProto(
-    name = if (javaPbSource.hasName) Option(javaPbSource.getName) else None,
-    `package` = if (javaPbSource.hasPackage) Option(javaPbSource.getPackage) else None,
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
+    `package` = if (javaPbSource.hasPackage) Some(javaPbSource.getPackage) else None,
     dependency = javaPbSource.getDependencyList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut),
     publicDependency = javaPbSource.getPublicDependencyList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
     weakDependency = javaPbSource.getWeakDependencyList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
@@ -305,9 +305,9 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     enumType = javaPbSource.getEnumTypeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     service = javaPbSource.getServiceList.asScala.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     extension = javaPbSource.getExtensionList.asScala.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
-    options = if (javaPbSource.hasOptions) Option(com.google.protobuf.descriptor.FileOptions.fromJavaProto(javaPbSource.getOptions)) else None,
-    sourceCodeInfo = if (javaPbSource.hasSourceCodeInfo) Option(com.google.protobuf.descriptor.SourceCodeInfo.fromJavaProto(javaPbSource.getSourceCodeInfo)) else None,
-    syntax = if (javaPbSource.hasSyntax) Option(javaPbSource.getSyntax) else None
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.FileOptions.fromJavaProto(javaPbSource.getOptions)) else None,
+    sourceCodeInfo = if (javaPbSource.hasSourceCodeInfo) Some(com.google.protobuf.descriptor.SourceCodeInfo.fromJavaProto(javaPbSource.getSourceCodeInfo)) else None,
+    syntax = if (javaPbSource.hasSyntax) Some(javaPbSource.getSyntax) else None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

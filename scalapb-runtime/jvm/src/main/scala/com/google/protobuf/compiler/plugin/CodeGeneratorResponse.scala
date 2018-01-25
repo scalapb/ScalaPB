@@ -102,7 +102,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
-    error = if (javaPbSource.hasError) Option(javaPbSource.getError) else None,
+    error = if (javaPbSource.hasError) Some(javaPbSource.getError) else None,
     file = javaPbSource.getFileList.asScala.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
@@ -288,9 +288,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       javaPbOut.build
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
-      name = if (javaPbSource.hasName) Option(javaPbSource.getName) else None,
-      insertionPoint = if (javaPbSource.hasInsertionPoint) Option(javaPbSource.getInsertionPoint) else None,
-      content = if (javaPbSource.hasContent) Option(javaPbSource.getContent) else None
+      name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
+      insertionPoint = if (javaPbSource.hasInsertionPoint) Some(javaPbSource.getInsertionPoint) else None,
+      content = if (javaPbSource.hasContent) Some(javaPbSource.getContent) else None
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

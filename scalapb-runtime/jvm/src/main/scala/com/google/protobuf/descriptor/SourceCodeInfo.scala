@@ -409,8 +409,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location): com.google.protobuf.descriptor.SourceCodeInfo.Location = com.google.protobuf.descriptor.SourceCodeInfo.Location(
       path = javaPbSource.getPathList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
       span = javaPbSource.getSpanList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
-      leadingComments = if (javaPbSource.hasLeadingComments) Option(javaPbSource.getLeadingComments) else None,
-      trailingComments = if (javaPbSource.hasTrailingComments) Option(javaPbSource.getTrailingComments) else None,
+      leadingComments = if (javaPbSource.hasLeadingComments) Some(javaPbSource.getLeadingComments) else None,
+      trailingComments = if (javaPbSource.hasTrailingComments) Some(javaPbSource.getTrailingComments) else None,
       leadingDetachedComments = javaPbSource.getLeadingDetachedCommentsList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut)
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo.Location = {
