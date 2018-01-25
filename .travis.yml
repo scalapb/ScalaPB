@@ -56,6 +56,6 @@ deploy:
   on:
     repo: scalapb/ScalaPB
     tags: true
-    scala: 2.11.11
+    scala: 2.11.12
     condition: "$TEST_SCRIPT = __misc__"
 
