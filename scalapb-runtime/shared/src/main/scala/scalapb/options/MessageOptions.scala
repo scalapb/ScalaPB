@@ -79,7 +79,7 @@ final case class MessageOptions(
           case 26 =>
             __annotations += _input__.readString()
           case 34 =>
-            __type = Some(_input__.readString())
+            __type = Option(_input__.readString())
           case 42 =>
             __companionAnnotations += _input__.readString()
           case tag => _input__.skipField(tag)
@@ -107,7 +107,7 @@ final case class MessageOptions(
     def withAnnotations(__v: _root_.scala.collection.Seq[String]): MessageOptions = copy(annotations = __v)
     def getType: String = `type`.getOrElse("")
     def clearType: MessageOptions = copy(`type` = None)
-    def withType(__v: String): MessageOptions = copy(`type` = Some(__v))
+    def withType(__v: String): MessageOptions = copy(`type` = Option(__v))
     def clearCompanionAnnotations = copy(companionAnnotations = _root_.scala.collection.Seq.empty)
     def addCompanionAnnotations(__vs: String*): MessageOptions = addAllCompanionAnnotations(__vs)
     def addAllCompanionAnnotations(__vs: TraversableOnce[String]): MessageOptions = copy(companionAnnotations = companionAnnotations ++ __vs)
@@ -171,7 +171,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
     def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Some(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
     def companionAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.companionAnnotations)((c_, f_) => c_.copy(companionAnnotations = f_))
   }

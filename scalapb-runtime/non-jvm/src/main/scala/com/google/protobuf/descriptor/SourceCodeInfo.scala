@@ -329,9 +329,9 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
               _input__.popLimit(oldLimit)
             }
             case 26 =>
-              __leadingComments = Some(_input__.readString())
+              __leadingComments = Option(_input__.readString())
             case 34 =>
-              __trailingComments = Some(_input__.readString())
+              __trailingComments = Option(_input__.readString())
             case 50 =>
               __leadingDetachedComments += _input__.readString()
             case tag => _input__.skipField(tag)
@@ -355,10 +355,10 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       def withSpan(__v: _root_.scala.collection.Seq[Int]): Location = copy(span = __v)
       def getLeadingComments: String = leadingComments.getOrElse("")
       def clearLeadingComments: Location = copy(leadingComments = None)
-      def withLeadingComments(__v: String): Location = copy(leadingComments = Some(__v))
+      def withLeadingComments(__v: String): Location = copy(leadingComments = Option(__v))
       def getTrailingComments: String = trailingComments.getOrElse("")
       def clearTrailingComments: Location = copy(trailingComments = None)
-      def withTrailingComments(__v: String): Location = copy(trailingComments = Some(__v))
+      def withTrailingComments(__v: String): Location = copy(trailingComments = Option(__v))
       def clearLeadingDetachedComments = copy(leadingDetachedComments = _root_.scala.collection.Seq.empty)
       def addLeadingDetachedComments(__vs: String*): Location = addAllLeadingDetachedComments(__vs)
       def addAllLeadingDetachedComments(__vs: TraversableOnce[String]): Location = copy(leadingDetachedComments = leadingDetachedComments ++ __vs)
@@ -421,9 +421,9 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     implicit class LocationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
       def span: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[Int]] = field(_.span)((c_, f_) => c_.copy(span = f_))
-      def leadingComments: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getLeadingComments)((c_, f_) => c_.copy(leadingComments = Some(f_)))
+      def leadingComments: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getLeadingComments)((c_, f_) => c_.copy(leadingComments = Option(f_)))
       def optionalLeadingComments: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.leadingComments)((c_, f_) => c_.copy(leadingComments = f_))
-      def trailingComments: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getTrailingComments)((c_, f_) => c_.copy(trailingComments = Some(f_)))
+      def trailingComments: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getTrailingComments)((c_, f_) => c_.copy(trailingComments = Option(f_)))
       def optionalTrailingComments: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.trailingComments)((c_, f_) => c_.copy(trailingComments = f_))
       def leadingDetachedComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.leadingDetachedComments)((c_, f_) => c_.copy(leadingDetachedComments = f_))
     }

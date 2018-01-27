@@ -661,7 +661,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           val newVal = toCustomType(field)(newValBase)
 
           val updateOp =
-            if (field.supportsPresence) s"__${field.scalaName} = Some($newVal)"
+            if (field.supportsPresence) s"__${field.scalaName} = Option($newVal)"
             else if (field.isInOneof) {
               s"__${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}($newVal)"
             }
@@ -913,7 +913,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             val optionLensName = "optional" + field.upperScalaName
             printer
               .addStringMargin(
-                s"""def $fieldName: ${lensType(field.singleScalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Some(f_)))
+                s"""def $fieldName: ${lensType(field.singleScalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
                    |def ${optionLensName}: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""")
           } else
             printer.add(s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))")
@@ -1208,7 +1208,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
               p =>
                 p.addStringMargin(
                   s"""def $clearMethod: ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = None)
-                     |def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = Some(__v))""")
+                     |def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = Option(__v))""")
             }.when(field.isInOneof) {
             p =>
               p.add(

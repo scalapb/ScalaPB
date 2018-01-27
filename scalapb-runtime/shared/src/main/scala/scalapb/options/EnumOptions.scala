@@ -61,7 +61,7 @@ final case class EnumOptions(
           case 18 =>
             __companionExtends += _input__.readString()
           case 26 =>
-            __type = Some(_input__.readString())
+            __type = Option(_input__.readString())
           case tag => _input__.skipField(tag)
         }
       }
@@ -81,7 +81,7 @@ final case class EnumOptions(
     def withCompanionExtends(__v: _root_.scala.collection.Seq[String]): EnumOptions = copy(companionExtends = __v)
     def getType: String = `type`.getOrElse("")
     def clearType: EnumOptions = copy(`type` = None)
-    def withType(__v: String): EnumOptions = copy(`type` = Some(__v))
+    def withType(__v: String): EnumOptions = copy(`type` = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
@@ -132,7 +132,7 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
   implicit class EnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.EnumOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Some(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1

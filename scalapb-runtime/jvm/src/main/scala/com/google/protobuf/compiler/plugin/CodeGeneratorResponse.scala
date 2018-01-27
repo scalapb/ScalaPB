@@ -58,7 +58,7 @@ final case class CodeGeneratorResponse(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __error = Some(_input__.readString())
+            __error = Option(_input__.readString())
           case 122 =>
             __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.defaultInstance)
           case tag => _input__.skipField(tag)
@@ -71,7 +71,7 @@ final case class CodeGeneratorResponse(
     }
     def getError: String = error.getOrElse("")
     def clearError: CodeGeneratorResponse = copy(error = None)
-    def withError(__v: String): CodeGeneratorResponse = copy(error = Some(__v))
+    def withError(__v: String): CodeGeneratorResponse = copy(error = Option(__v))
     def clearFile = copy(file = _root_.scala.collection.Seq.empty)
     def addFile(__vs: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File*): CodeGeneratorResponse = addAllFile(__vs)
     def addAllFile(__vs: TraversableOnce[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = file ++ __vs)
@@ -236,11 +236,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
           _tag__ match {
             case 0 => _done__ = true
             case 10 =>
-              __name = Some(_input__.readString())
+              __name = Option(_input__.readString())
             case 18 =>
-              __insertionPoint = Some(_input__.readString())
+              __insertionPoint = Option(_input__.readString())
             case 122 =>
-              __content = Some(_input__.readString())
+              __content = Option(_input__.readString())
             case tag => _input__.skipField(tag)
           }
         }
@@ -252,13 +252,13 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       }
       def getName: String = name.getOrElse("")
       def clearName: File = copy(name = None)
-      def withName(__v: String): File = copy(name = Some(__v))
+      def withName(__v: String): File = copy(name = Option(__v))
       def getInsertionPoint: String = insertionPoint.getOrElse("")
       def clearInsertionPoint: File = copy(insertionPoint = None)
-      def withInsertionPoint(__v: String): File = copy(insertionPoint = Some(__v))
+      def withInsertionPoint(__v: String): File = copy(insertionPoint = Option(__v))
       def getContent: String = content.getOrElse("")
       def clearContent: File = copy(content = None)
-      def withContent(__v: String): File = copy(content = Some(__v))
+      def withContent(__v: String): File = copy(content = Option(__v))
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => name.orNull
@@ -319,11 +319,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     lazy val defaultInstance = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
     )
     implicit class FileLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File](_l) {
-      def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+      def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
       def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-      def insertionPoint: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getInsertionPoint)((c_, f_) => c_.copy(insertionPoint = Some(f_)))
+      def insertionPoint: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getInsertionPoint)((c_, f_) => c_.copy(insertionPoint = Option(f_)))
       def optionalInsertionPoint: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.insertionPoint)((c_, f_) => c_.copy(insertionPoint = f_))
-      def content: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getContent)((c_, f_) => c_.copy(content = Some(f_)))
+      def content: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getContent)((c_, f_) => c_.copy(content = Option(f_)))
       def optionalContent: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.content)((c_, f_) => c_.copy(content = f_))
     }
     final val NAME_FIELD_NUMBER = 1
@@ -332,7 +332,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   }
   
   implicit class CodeGeneratorResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse](_l) {
-    def error: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getError)((c_, f_) => c_.copy(error = Some(f_)))
+    def error: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getError)((c_, f_) => c_.copy(error = Option(f_)))
     def optionalError: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.error)((c_, f_) => c_.copy(error = f_))
     def file: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]] = field(_.file)((c_, f_) => c_.copy(file = f_))
   }

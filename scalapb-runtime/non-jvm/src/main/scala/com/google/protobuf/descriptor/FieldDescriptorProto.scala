@@ -122,25 +122,25 @@ final case class FieldDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Some(_input__.readString())
+            __name = Option(_input__.readString())
           case 24 =>
-            __number = Some(_input__.readInt32())
+            __number = Option(_input__.readInt32())
           case 32 =>
-            __label = Some(com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum()))
+            __label = Option(com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum()))
           case 40 =>
-            __type = Some(com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum()))
+            __type = Option(com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum()))
           case 50 =>
-            __typeName = Some(_input__.readString())
+            __typeName = Option(_input__.readString())
           case 18 =>
-            __extendee = Some(_input__.readString())
+            __extendee = Option(_input__.readString())
           case 58 =>
-            __defaultValue = Some(_input__.readString())
+            __defaultValue = Option(_input__.readString())
           case 72 =>
-            __oneofIndex = Some(_input__.readInt32())
+            __oneofIndex = Option(_input__.readInt32())
           case 82 =>
-            __jsonName = Some(_input__.readString())
+            __jsonName = Option(_input__.readString())
           case 66 =>
-            __options = Some(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
+            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
           case tag => _input__.skipField(tag)
         }
       }
@@ -159,34 +159,34 @@ final case class FieldDescriptorProto(
     }
     def getName: String = name.getOrElse("")
     def clearName: FieldDescriptorProto = copy(name = None)
-    def withName(__v: String): FieldDescriptorProto = copy(name = Some(__v))
+    def withName(__v: String): FieldDescriptorProto = copy(name = Option(__v))
     def getNumber: Int = number.getOrElse(0)
     def clearNumber: FieldDescriptorProto = copy(number = None)
-    def withNumber(__v: Int): FieldDescriptorProto = copy(number = Some(__v))
+    def withNumber(__v: Int): FieldDescriptorProto = copy(number = Option(__v))
     def getLabel: com.google.protobuf.descriptor.FieldDescriptorProto.Label = label.getOrElse(com.google.protobuf.descriptor.FieldDescriptorProto.Label.LABEL_OPTIONAL)
     def clearLabel: FieldDescriptorProto = copy(label = None)
-    def withLabel(__v: com.google.protobuf.descriptor.FieldDescriptorProto.Label): FieldDescriptorProto = copy(label = Some(__v))
+    def withLabel(__v: com.google.protobuf.descriptor.FieldDescriptorProto.Label): FieldDescriptorProto = copy(label = Option(__v))
     def getType: com.google.protobuf.descriptor.FieldDescriptorProto.Type = `type`.getOrElse(com.google.protobuf.descriptor.FieldDescriptorProto.Type.TYPE_DOUBLE)
     def clearType: FieldDescriptorProto = copy(`type` = None)
-    def withType(__v: com.google.protobuf.descriptor.FieldDescriptorProto.Type): FieldDescriptorProto = copy(`type` = Some(__v))
+    def withType(__v: com.google.protobuf.descriptor.FieldDescriptorProto.Type): FieldDescriptorProto = copy(`type` = Option(__v))
     def getTypeName: String = typeName.getOrElse("")
     def clearTypeName: FieldDescriptorProto = copy(typeName = None)
-    def withTypeName(__v: String): FieldDescriptorProto = copy(typeName = Some(__v))
+    def withTypeName(__v: String): FieldDescriptorProto = copy(typeName = Option(__v))
     def getExtendee: String = extendee.getOrElse("")
     def clearExtendee: FieldDescriptorProto = copy(extendee = None)
-    def withExtendee(__v: String): FieldDescriptorProto = copy(extendee = Some(__v))
+    def withExtendee(__v: String): FieldDescriptorProto = copy(extendee = Option(__v))
     def getDefaultValue: String = defaultValue.getOrElse("")
     def clearDefaultValue: FieldDescriptorProto = copy(defaultValue = None)
-    def withDefaultValue(__v: String): FieldDescriptorProto = copy(defaultValue = Some(__v))
+    def withDefaultValue(__v: String): FieldDescriptorProto = copy(defaultValue = Option(__v))
     def getOneofIndex: Int = oneofIndex.getOrElse(0)
     def clearOneofIndex: FieldDescriptorProto = copy(oneofIndex = None)
-    def withOneofIndex(__v: Int): FieldDescriptorProto = copy(oneofIndex = Some(__v))
+    def withOneofIndex(__v: Int): FieldDescriptorProto = copy(oneofIndex = Option(__v))
     def getJsonName: String = jsonName.getOrElse("")
     def clearJsonName: FieldDescriptorProto = copy(jsonName = None)
-    def withJsonName(__v: String): FieldDescriptorProto = copy(jsonName = Some(__v))
+    def withJsonName(__v: String): FieldDescriptorProto = copy(jsonName = Option(__v))
     def getOptions: com.google.protobuf.descriptor.FieldOptions = options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)
     def clearOptions: FieldDescriptorProto = copy(options = None)
-    def withOptions(__v: com.google.protobuf.descriptor.FieldOptions): FieldDescriptorProto = copy(options = Some(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.FieldOptions): FieldDescriptorProto = copy(options = Option(__v))
     def getFieldByNumber(__fieldNumber: Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
@@ -518,25 +518,25 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(1)
   }
   implicit class FieldDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def number: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getNumber)((c_, f_) => c_.copy(number = Some(f_)))
+    def number: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getNumber)((c_, f_) => c_.copy(number = Option(f_)))
     def optionalNumber: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
-    def label: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Label] = field(_.getLabel)((c_, f_) => c_.copy(label = Some(f_)))
+    def label: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Label] = field(_.getLabel)((c_, f_) => c_.copy(label = Option(f_)))
     def optionalLabel: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label]] = field(_.label)((c_, f_) => c_.copy(label = f_))
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Type] = field(_.getType)((c_, f_) => c_.copy(`type` = Some(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto.Type] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
-    def typeName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getTypeName)((c_, f_) => c_.copy(typeName = Some(f_)))
+    def typeName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getTypeName)((c_, f_) => c_.copy(typeName = Option(f_)))
     def optionalTypeName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.typeName)((c_, f_) => c_.copy(typeName = f_))
-    def extendee: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getExtendee)((c_, f_) => c_.copy(extendee = Some(f_)))
+    def extendee: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getExtendee)((c_, f_) => c_.copy(extendee = Option(f_)))
     def optionalExtendee: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.extendee)((c_, f_) => c_.copy(extendee = f_))
-    def defaultValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getDefaultValue)((c_, f_) => c_.copy(defaultValue = Some(f_)))
+    def defaultValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getDefaultValue)((c_, f_) => c_.copy(defaultValue = Option(f_)))
     def optionalDefaultValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
-    def oneofIndex: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getOneofIndex)((c_, f_) => c_.copy(oneofIndex = Some(f_)))
+    def oneofIndex: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getOneofIndex)((c_, f_) => c_.copy(oneofIndex = Option(f_)))
     def optionalOneofIndex: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
-    def jsonName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJsonName)((c_, f_) => c_.copy(jsonName = Some(f_)))
+    def jsonName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getJsonName)((c_, f_) => c_.copy(jsonName = Option(f_)))
     def optionalJsonName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FieldOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
   }
   final val NAME_FIELD_NUMBER = 1

@@ -66,9 +66,9 @@ final case class EnumOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 16 =>
-            __allowAlias = Some(_input__.readBool())
+            __allowAlias = Option(_input__.readBool())
           case 24 =>
-            __deprecated = Some(_input__.readBool())
+            __deprecated = Option(_input__.readBool())
           case 7994 =>
             __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _unknownFields__.parseField(tag, _input__)
@@ -83,10 +83,10 @@ final case class EnumOptions(
     }
     def getAllowAlias: Boolean = allowAlias.getOrElse(false)
     def clearAllowAlias: EnumOptions = copy(allowAlias = None)
-    def withAllowAlias(__v: Boolean): EnumOptions = copy(allowAlias = Some(__v))
+    def withAllowAlias(__v: Boolean): EnumOptions = copy(allowAlias = Option(__v))
     def getDeprecated: Boolean = deprecated.getOrElse(false)
     def clearDeprecated: EnumOptions = copy(deprecated = None)
-    def withDeprecated(__v: Boolean): EnumOptions = copy(deprecated = Some(__v))
+    def withDeprecated(__v: Boolean): EnumOptions = copy(deprecated = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): EnumOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): EnumOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -147,9 +147,9 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   lazy val defaultInstance = com.google.protobuf.descriptor.EnumOptions(
   )
   implicit class EnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumOptions](_l) {
-    def allowAlias: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getAllowAlias)((c_, f_) => c_.copy(allowAlias = Some(f_)))
+    def allowAlias: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getAllowAlias)((c_, f_) => c_.copy(allowAlias = Option(f_)))
     def optionalAllowAlias: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.allowAlias)((c_, f_) => c_.copy(allowAlias = f_))
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Some(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

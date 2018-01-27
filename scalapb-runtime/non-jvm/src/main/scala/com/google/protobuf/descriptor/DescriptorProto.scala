@@ -113,7 +113,7 @@ final case class DescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Some(_input__.readString())
+            __name = Option(_input__.readString())
           case 18 =>
             __field += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
           case 50 =>
@@ -127,7 +127,7 @@ final case class DescriptorProto(
           case 66 =>
             __oneofDecl += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.OneofDescriptorProto.defaultInstance)
           case 58 =>
-            __options = Some(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)))
+            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)))
           case 74 =>
             __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.defaultInstance)
           case 82 =>
@@ -150,7 +150,7 @@ final case class DescriptorProto(
     }
     def getName: String = name.getOrElse("")
     def clearName: DescriptorProto = copy(name = None)
-    def withName(__v: String): DescriptorProto = copy(name = Some(__v))
+    def withName(__v: String): DescriptorProto = copy(name = Option(__v))
     def clearField = copy(field = _root_.scala.collection.Seq.empty)
     def addField(__vs: com.google.protobuf.descriptor.FieldDescriptorProto*): DescriptorProto = addAllField(__vs)
     def addAllField(__vs: TraversableOnce[com.google.protobuf.descriptor.FieldDescriptorProto]): DescriptorProto = copy(field = field ++ __vs)
@@ -177,7 +177,7 @@ final case class DescriptorProto(
     def withOneofDecl(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]): DescriptorProto = copy(oneofDecl = __v)
     def getOptions: com.google.protobuf.descriptor.MessageOptions = options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)
     def clearOptions: DescriptorProto = copy(options = None)
-    def withOptions(__v: com.google.protobuf.descriptor.MessageOptions): DescriptorProto = copy(options = Some(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.MessageOptions): DescriptorProto = copy(options = Option(__v))
     def clearReservedRange = copy(reservedRange = _root_.scala.collection.Seq.empty)
     def addReservedRange(__vs: com.google.protobuf.descriptor.DescriptorProto.ReservedRange*): DescriptorProto = addAllReservedRange(__vs)
     def addAllReservedRange(__vs: TraversableOnce[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]): DescriptorProto = copy(reservedRange = reservedRange ++ __vs)
@@ -315,9 +315,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
           _tag__ match {
             case 0 => _done__ = true
             case 8 =>
-              __start = Some(_input__.readInt32())
+              __start = Option(_input__.readInt32())
             case 16 =>
-              __end = Some(_input__.readInt32())
+              __end = Option(_input__.readInt32())
             case tag => _input__.skipField(tag)
           }
         }
@@ -328,10 +328,10 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def getStart: Int = start.getOrElse(0)
       def clearStart: ExtensionRange = copy(start = None)
-      def withStart(__v: Int): ExtensionRange = copy(start = Some(__v))
+      def withStart(__v: Int): ExtensionRange = copy(start = Option(__v))
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: ExtensionRange = copy(end = None)
-      def withEnd(__v: Int): ExtensionRange = copy(end = Some(__v))
+      def withEnd(__v: Int): ExtensionRange = copy(end = Option(__v))
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => start.orNull
@@ -376,9 +376,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
     )
     implicit class ExtensionRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
-      def start: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Some(f_)))
+      def start: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
-      def end: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
+      def end: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
       def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
@@ -432,9 +432,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
           _tag__ match {
             case 0 => _done__ = true
             case 8 =>
-              __start = Some(_input__.readInt32())
+              __start = Option(_input__.readInt32())
             case 16 =>
-              __end = Some(_input__.readInt32())
+              __end = Option(_input__.readInt32())
             case tag => _input__.skipField(tag)
           }
         }
@@ -445,10 +445,10 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def getStart: Int = start.getOrElse(0)
       def clearStart: ReservedRange = copy(start = None)
-      def withStart(__v: Int): ReservedRange = copy(start = Some(__v))
+      def withStart(__v: Int): ReservedRange = copy(start = Option(__v))
       def getEnd: Int = end.getOrElse(0)
       def clearEnd: ReservedRange = copy(end = None)
-      def withEnd(__v: Int): ReservedRange = copy(end = Some(__v))
+      def withEnd(__v: Int): ReservedRange = copy(end = Option(__v))
       def getFieldByNumber(__fieldNumber: Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => start.orNull
@@ -493,9 +493,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
     )
     implicit class ReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
-      def start: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Some(f_)))
+      def start: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
-      def end: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Some(f_)))
+      def end: _root_.scalapb.lenses.Lens[UpperPB, Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
       def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
@@ -503,7 +503,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   }
   
   implicit class DescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Some(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def field: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.field)((c_, f_) => c_.copy(field = f_))
     def extension: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
@@ -511,7 +511,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     def enumType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
     def extensionRange: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]] = field(_.extensionRange)((c_, f_) => c_.copy(extensionRange = f_))
     def oneofDecl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]] = field(_.oneofDecl)((c_, f_) => c_.copy(oneofDecl = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Some(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def reservedRange: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]] = field(_.reservedRange)((c_, f_) => c_.copy(reservedRange = f_))
     def reservedName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.reservedName)((c_, f_) => c_.copy(reservedName = f_))
