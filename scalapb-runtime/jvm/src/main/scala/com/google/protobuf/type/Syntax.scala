@@ -7,8 +7,8 @@ package com.google.protobuf.`type`
 
 sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
-  def isSyntaxProto2: Boolean = false
-  def isSyntaxProto3: Boolean = false
+  def isSyntaxProto2: _root_.scala.Boolean = false
+  def isSyntaxProto3: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
 }
 
@@ -19,7 +19,7 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
     val value = 0
     val index = 0
     val name = "SYNTAX_PROTO2"
-    override def isSyntaxProto2: Boolean = true
+    override def isSyntaxProto2: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
@@ -27,14 +27,14 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
     val value = 1
     val index = 1
     val name = "SYNTAX_PROTO3"
-    override def isSyntaxProto3: Boolean = true
+    override def isSyntaxProto3: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
-  case class Unrecognized(value: Int) extends Syntax with _root_.scalapb.UnrecognizedEnum
+  case class Unrecognized(value: _root_.scala.Int) extends Syntax with _root_.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
-  def fromValue(value: Int): Syntax = value match {
+  def fromValue(value: _root_.scala.Int): Syntax = value match {
     case 0 => SYNTAX_PROTO2
     case 1 => SYNTAX_PROTO3
     case __other => Unrecognized(__other)

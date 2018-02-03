@@ -212,16 +212,16 @@ package com.google.protobuf.field_mask
   */
 @SerialVersionUID(0L)
 final case class FieldMask(
-    paths: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty
+    paths: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[FieldMask] with scalapb.lenses.Updatable[FieldMask] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       paths.foreach(paths => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, paths))
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -235,7 +235,7 @@ final case class FieldMask(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.field_mask.FieldMask = {
-      val __paths = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.paths)
+      val __paths = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.paths)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -251,10 +251,10 @@ final case class FieldMask(
       )
     }
     def clearPaths = copy(paths = _root_.scala.collection.Seq.empty)
-    def addPaths(__vs: String*): FieldMask = addAllPaths(__vs)
-    def addAllPaths(__vs: TraversableOnce[String]): FieldMask = copy(paths = paths ++ __vs)
-    def withPaths(__v: _root_.scala.collection.Seq[String]): FieldMask = copy(paths = __v)
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def addPaths(__vs: _root_.scala.Predef.String*): FieldMask = addAllPaths(__vs)
+    def addAllPaths(__vs: TraversableOnce[_root_.scala.Predef.String]): FieldMask = copy(paths = paths ++ __vs)
+    def withPaths(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): FieldMask = copy(paths = __v)
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => paths
       }
@@ -265,7 +265,7 @@ final case class FieldMask(
         case 1 => _root_.scalapb.descriptors.PRepeated(paths.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.field_mask.FieldMask
 }
 
@@ -275,26 +275,26 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.field_mask.FieldMask(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[String]]
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.field_mask.FieldMask] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.field_mask.FieldMask(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = FieldMaskProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = FieldMaskProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.field_mask.FieldMask(
   )
   implicit class FieldMaskLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.field_mask.FieldMask]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.field_mask.FieldMask](_l) {
-    def paths: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.paths)((c_, f_) => c_.copy(paths = f_))
+    def paths: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.paths)((c_, f_) => c_.copy(paths = f_))
   }
   final val PATHS_FIELD_NUMBER = 1
 }

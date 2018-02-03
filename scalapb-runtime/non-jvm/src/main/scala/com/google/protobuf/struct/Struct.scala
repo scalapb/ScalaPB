@@ -19,16 +19,16 @@ package com.google.protobuf.struct
   */
 @SerialVersionUID(0L)
 final case class Struct(
-    fields: scala.collection.immutable.Map[String, com.google.protobuf.struct.Value] = scala.collection.immutable.Map.empty
+    fields: scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value] = scala.collection.immutable.Map.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Struct] with scalapb.lenses.Updatable[Struct] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       fields.foreach(fields => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(com.google.protobuf.struct.Struct._typemapper_fields.toBase(fields).serializedSize) + com.google.protobuf.struct.Struct._typemapper_fields.toBase(fields).serializedSize)
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -44,7 +44,7 @@ final case class Struct(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Struct = {
-      val __fields = (scala.collection.immutable.Map.newBuilder[String, com.google.protobuf.struct.Value] ++= this.fields)
+      val __fields = (scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, com.google.protobuf.struct.Value] ++= this.fields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -60,10 +60,10 @@ final case class Struct(
       )
     }
     def clearFields = copy(fields = scala.collection.immutable.Map.empty)
-    def addFields(__vs: (String, com.google.protobuf.struct.Value)*): Struct = addAllFields(__vs)
-    def addAllFields(__vs: TraversableOnce[(String, com.google.protobuf.struct.Value)]): Struct = copy(fields = fields ++ __vs)
-    def withFields(__v: scala.collection.immutable.Map[String, com.google.protobuf.struct.Value]): Struct = copy(fields = __v)
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def addFields(__vs: (_root_.scala.Predef.String, com.google.protobuf.struct.Value)*): Struct = addAllFields(__vs)
+    def addAllFields(__vs: TraversableOnce[(_root_.scala.Predef.String, com.google.protobuf.struct.Value)]): Struct = copy(fields = fields ++ __vs)
+    def withFields(__v: scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]): Struct = copy(fields = __v)
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase)(_root_.scala.collection.breakOut)
       }
@@ -74,7 +74,7 @@ final case class Struct(
         case 1 => _root_.scalapb.descriptors.PRepeated(fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase(_).toPMessage)(_root_.scala.collection.breakOut))
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.struct.Struct
 }
 
@@ -97,7 +97,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = StructProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = StructProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 1 => __out = com.google.protobuf.struct.Struct.FieldsEntry
@@ -107,23 +107,23 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq[_root_.scalapb.GeneratedMessageCompanion[_]](
     _root_.com.google.protobuf.struct.Struct.FieldsEntry
   )
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.struct.Struct(
   )
   @SerialVersionUID(0L)
   final case class FieldsEntry(
-      key: String = "",
+      key: _root_.scala.Predef.String = "",
       value: scala.Option[com.google.protobuf.struct.Value] = None
       ) extends scalapb.GeneratedMessage with scalapb.Message[FieldsEntry] with scalapb.lenses.Updatable[FieldsEntry] {
       @transient
-      private[this] var __serializedSizeCachedValue: Int = 0
-      private[this] def __computeSerializedValue(): Int = {
+      private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+      private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
         if (key != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, key) }
         if (value.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(value.get.serializedSize) + value.get.serializedSize }
         __size
       }
-      final override def serializedSize: Int = {
+      final override def serializedSize: _root_.scala.Int = {
         var read = __serializedSizeCachedValue
         if (read == 0) {
           read = __computeSerializedValue()
@@ -164,11 +164,11 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
             value = __value
         )
       }
-      def withKey(__v: String): FieldsEntry = copy(key = __v)
+      def withKey(__v: _root_.scala.Predef.String): FieldsEntry = copy(key = __v)
       def getValue: com.google.protobuf.struct.Value = value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)
       def clearValue: FieldsEntry = copy(value = None)
       def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = Option(__v))
-      def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => {
             val __t = key
@@ -184,7 +184,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
           case 2 => value.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
-      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.struct.Struct.FieldsEntry
   }
   
@@ -194,7 +194,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.struct.Struct.FieldsEntry(
-        __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[String],
+        __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
         __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[com.google.protobuf.struct.Value]]
       )
     }
@@ -202,14 +202,14 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.struct.Struct.FieldsEntry(
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[String]).getOrElse(""),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
           __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[com.google.protobuf.struct.Value]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.struct.Struct.javaDescriptor.getNestedTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.struct.Struct.scalaDescriptor.nestedMessages(0)
-    def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+    def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
       var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
       (__number: @_root_.scala.unchecked) match {
         case 2 => __out = com.google.protobuf.struct.Value
@@ -217,24 +217,24 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       __out
     }
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-    def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+    def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.struct.Struct.FieldsEntry(
     )
     implicit class FieldsEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry](_l) {
-      def key: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.key)((c_, f_) => c_.copy(key = f_))
+      def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.key)((c_, f_) => c_.copy(key = f_))
       def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Value] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))
       def optionalValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.struct.Value]] = field(_.value)((c_, f_) => c_.copy(value = f_))
     }
     final val KEY_FIELD_NUMBER = 1
     final val VALUE_FIELD_NUMBER = 2
-    implicit val keyValueMapper: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (String, com.google.protobuf.struct.Value)] =
-      _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (String, com.google.protobuf.struct.Value)](__m => (__m.key, __m.getValue))(__p => com.google.protobuf.struct.Struct.FieldsEntry(__p._1, Some(__p._2)))
+    implicit val keyValueMapper: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)] =
+      _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)](__m => (__m.key, __m.getValue))(__p => com.google.protobuf.struct.Struct.FieldsEntry(__p._1, Some(__p._2)))
   }
   
   implicit class StructLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct](_l) {
-    def fields: _root_.scalapb.lenses.Lens[UpperPB, scala.collection.immutable.Map[String, com.google.protobuf.struct.Value]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))
+    def fields: _root_.scalapb.lenses.Lens[UpperPB, scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))
   }
   final val FIELDS_FIELD_NUMBER = 1
   @transient
-  private val _typemapper_fields: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (String, com.google.protobuf.struct.Value)] = implicitly[_root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (String, com.google.protobuf.struct.Value)]]
+  private val _typemapper_fields: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)] = implicitly[_root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)]]
 }

@@ -9,20 +9,20 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class ServiceDescriptorProto(
-    name: scala.Option[String] = None,
+    name: scala.Option[_root_.scala.Predef.String] = None,
     method: _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.collection.Seq.empty,
     options: scala.Option[com.google.protobuf.descriptor.ServiceOptions] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ServiceDescriptorProto] with scalapb.lenses.Updatable[ServiceDescriptorProto] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
       method.foreach(method => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(method.serializedSize) + method.serializedSize)
       if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -69,9 +69,9 @@ final case class ServiceDescriptorProto(
           options = __options
       )
     }
-    def getName: String = name.getOrElse("")
+    def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: ServiceDescriptorProto = copy(name = None)
-    def withName(__v: String): ServiceDescriptorProto = copy(name = Option(__v))
+    def withName(__v: _root_.scala.Predef.String): ServiceDescriptorProto = copy(name = Option(__v))
     def clearMethod = copy(method = _root_.scala.collection.Seq.empty)
     def addMethod(__vs: com.google.protobuf.descriptor.MethodDescriptorProto*): ServiceDescriptorProto = addAllMethod(__vs)
     def addAllMethod(__vs: TraversableOnce[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = method ++ __vs)
@@ -79,7 +79,7 @@ final case class ServiceDescriptorProto(
     def getOptions: com.google.protobuf.descriptor.ServiceOptions = options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)
     def clearOptions: ServiceDescriptorProto = copy(options = None)
     def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = Option(__v))
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 2 => method
@@ -94,7 +94,7 @@ final case class ServiceDescriptorProto(
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.ServiceDescriptorProto
 }
 
@@ -104,7 +104,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.ServiceDescriptorProto(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]],
       __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.ServiceOptions]]
     )
@@ -113,7 +113,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.ServiceDescriptorProto(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.ServiceOptions]])
       )
@@ -121,7 +121,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(7)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(7)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 2 => __out = com.google.protobuf.descriptor.MethodDescriptorProto
@@ -130,12 +130,12 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
     __out
   }
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.ServiceDescriptorProto(
   )
   implicit class ServiceDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
-    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
+    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def method: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]] = field(_.method)((c_, f_) => c_.copy(method = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.ServiceOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))

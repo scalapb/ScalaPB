@@ -10,16 +10,16 @@ package scalapb.options
   */
 @SerialVersionUID(0L)
 final case class OneofOptions(
-    `extends`: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty
+    `extends`: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[OneofOptions] with scalapb.lenses.Updatable[OneofOptions] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       `extends`.foreach(`extends` => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, `extends`))
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -33,7 +33,7 @@ final case class OneofOptions(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.OneofOptions = {
-      val __extends = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.`extends`)
+      val __extends = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.`extends`)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -49,10 +49,10 @@ final case class OneofOptions(
       )
     }
     def clearExtends = copy(`extends` = _root_.scala.collection.Seq.empty)
-    def addExtends(__vs: String*): OneofOptions = addAllExtends(__vs)
-    def addAllExtends(__vs: TraversableOnce[String]): OneofOptions = copy(`extends` = `extends` ++ __vs)
-    def withExtends(__v: _root_.scala.collection.Seq[String]): OneofOptions = copy(`extends` = __v)
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def addExtends(__vs: _root_.scala.Predef.String*): OneofOptions = addAllExtends(__vs)
+    def addAllExtends(__vs: TraversableOnce[_root_.scala.Predef.String]): OneofOptions = copy(`extends` = `extends` ++ __vs)
+    def withExtends(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): OneofOptions = copy(`extends` = __v)
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
       }
@@ -63,7 +63,7 @@ final case class OneofOptions(
         case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.OneofOptions
 }
 
@@ -73,26 +73,26 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     scalapb.options.OneofOptions(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[String]]
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.OneofOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.options.OneofOptions(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes.get(5)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(5)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.OneofOptions(
   )
   implicit class OneofOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.OneofOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.OneofOptions](_l) {
-    def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
+    def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
 }

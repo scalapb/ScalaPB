@@ -20,16 +20,16 @@ import scala.collection.JavaConverters._
 @SerialVersionUID(0L)
 final case class UninterpretedOption(
     name: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scala.collection.Seq.empty,
-    identifierValue: scala.Option[String] = None,
-    positiveIntValue: scala.Option[Long] = None,
-    negativeIntValue: scala.Option[Long] = None,
-    doubleValue: scala.Option[Double] = None,
+    identifierValue: scala.Option[_root_.scala.Predef.String] = None,
+    positiveIntValue: scala.Option[_root_.scala.Long] = None,
+    negativeIntValue: scala.Option[_root_.scala.Long] = None,
+    doubleValue: scala.Option[_root_.scala.Double] = None,
     stringValue: scala.Option[_root_.com.google.protobuf.ByteString] = None,
-    aggregateValue: scala.Option[String] = None
+    aggregateValue: scala.Option[_root_.scala.Predef.String] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[UninterpretedOption] with scalapb.lenses.Updatable[UninterpretedOption] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       name.foreach(name => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(name.serializedSize) + name.serializedSize)
       if (identifierValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, identifierValue.get) }
@@ -40,7 +40,7 @@ final case class UninterpretedOption(
       if (aggregateValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, aggregateValue.get) }
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -117,25 +117,25 @@ final case class UninterpretedOption(
     def addName(__vs: com.google.protobuf.descriptor.UninterpretedOption.NamePart*): UninterpretedOption = addAllName(__vs)
     def addAllName(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = name ++ __vs)
     def withName(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = __v)
-    def getIdentifierValue: String = identifierValue.getOrElse("")
+    def getIdentifierValue: _root_.scala.Predef.String = identifierValue.getOrElse("")
     def clearIdentifierValue: UninterpretedOption = copy(identifierValue = None)
-    def withIdentifierValue(__v: String): UninterpretedOption = copy(identifierValue = Option(__v))
-    def getPositiveIntValue: Long = positiveIntValue.getOrElse(0L)
+    def withIdentifierValue(__v: _root_.scala.Predef.String): UninterpretedOption = copy(identifierValue = Option(__v))
+    def getPositiveIntValue: _root_.scala.Long = positiveIntValue.getOrElse(0L)
     def clearPositiveIntValue: UninterpretedOption = copy(positiveIntValue = None)
-    def withPositiveIntValue(__v: Long): UninterpretedOption = copy(positiveIntValue = Option(__v))
-    def getNegativeIntValue: Long = negativeIntValue.getOrElse(0L)
+    def withPositiveIntValue(__v: _root_.scala.Long): UninterpretedOption = copy(positiveIntValue = Option(__v))
+    def getNegativeIntValue: _root_.scala.Long = negativeIntValue.getOrElse(0L)
     def clearNegativeIntValue: UninterpretedOption = copy(negativeIntValue = None)
-    def withNegativeIntValue(__v: Long): UninterpretedOption = copy(negativeIntValue = Option(__v))
-    def getDoubleValue: Double = doubleValue.getOrElse(0.0)
+    def withNegativeIntValue(__v: _root_.scala.Long): UninterpretedOption = copy(negativeIntValue = Option(__v))
+    def getDoubleValue: _root_.scala.Double = doubleValue.getOrElse(0.0)
     def clearDoubleValue: UninterpretedOption = copy(doubleValue = None)
-    def withDoubleValue(__v: Double): UninterpretedOption = copy(doubleValue = Option(__v))
+    def withDoubleValue(__v: _root_.scala.Double): UninterpretedOption = copy(doubleValue = Option(__v))
     def getStringValue: _root_.com.google.protobuf.ByteString = stringValue.getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
     def clearStringValue: UninterpretedOption = copy(stringValue = None)
     def withStringValue(__v: _root_.com.google.protobuf.ByteString): UninterpretedOption = copy(stringValue = Option(__v))
-    def getAggregateValue: String = aggregateValue.getOrElse("")
+    def getAggregateValue: _root_.scala.Predef.String = aggregateValue.getOrElse("")
     def clearAggregateValue: UninterpretedOption = copy(aggregateValue = None)
-    def withAggregateValue(__v: String): UninterpretedOption = copy(aggregateValue = Option(__v))
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def withAggregateValue(__v: _root_.scala.Predef.String): UninterpretedOption = copy(aggregateValue = Option(__v))
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 2 => name
         case 3 => identifierValue.orNull
@@ -158,7 +158,7 @@ final case class UninterpretedOption(
         case 8 => aggregateValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.UninterpretedOption
 }
 
@@ -189,12 +189,12 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.UninterpretedOption(
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[Long]],
-      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[Long]],
-      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[Double]],
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[_root_.scala.Long]],
+      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[_root_.scala.Long]],
+      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[_root_.scala.Double]],
       __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[_root_.com.google.protobuf.ByteString]],
-      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[String]]
+      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[_root_.scala.Predef.String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scalapb.descriptors.Reads{
@@ -202,18 +202,18 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.UninterpretedOption(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[Long]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[Long]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[Double]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[_root_.scala.Long]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[_root_.scala.Long]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[_root_.scala.Double]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[_root_.com.google.protobuf.ByteString]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(17)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(17)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 2 => __out = com.google.protobuf.descriptor.UninterpretedOption.NamePart
@@ -223,7 +223,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq[_root_.scalapb.GeneratedMessageCompanion[_]](
     _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart
   )
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.UninterpretedOption(
   )
   /** The name of the uninterpreted option.  Each string represents a segment in
@@ -234,18 +234,18 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     */
   @SerialVersionUID(0L)
   final case class NamePart(
-      namePart: String,
-      isExtension: Boolean
+      namePart: _root_.scala.Predef.String,
+      isExtension: _root_.scala.Boolean
       ) extends scalapb.GeneratedMessage with scalapb.Message[NamePart] with scalapb.lenses.Updatable[NamePart] {
       @transient
-      private[this] var __serializedSizeCachedValue: Int = 0
-      private[this] def __computeSerializedValue(): Int = {
+      private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+      private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, namePart)
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, isExtension)
         __size
       }
-      final override def serializedSize: Int = {
+      final override def serializedSize: _root_.scala.Int = {
         var read = __serializedSizeCachedValue
         if (read == 0) {
           read = __computeSerializedValue()
@@ -260,7 +260,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
         var __namePart = this.namePart
         var __isExtension = this.isExtension
-        var __requiredFields0: Long = 0x3L
+        var __requiredFields0: _root_.scala.Long = 0x3L
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -281,9 +281,9 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
             isExtension = __isExtension
         )
       }
-      def withNamePart(__v: String): NamePart = copy(namePart = __v)
-      def withIsExtension(__v: Boolean): NamePart = copy(isExtension = __v)
-      def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+      def withNamePart(__v: _root_.scala.Predef.String): NamePart = copy(namePart = __v)
+      def withIsExtension(__v: _root_.scala.Boolean): NamePart = copy(isExtension = __v)
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => namePart
           case 2 => isExtension
@@ -296,7 +296,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
           case 2 => _root_.scalapb.descriptors.PBoolean(isExtension)
         }
       }
-      def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.UninterpretedOption.NamePart
   }
   
@@ -316,31 +316,31 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.descriptor.UninterpretedOption.NamePart(
-        __fieldsMap(__fields.get(0)).asInstanceOf[String],
-        __fieldsMap(__fields.get(1)).asInstanceOf[Boolean]
+        __fieldsMap(__fields.get(0)).asInstanceOf[_root_.scala.Predef.String],
+        __fieldsMap(__fields.get(1)).asInstanceOf[_root_.scala.Boolean]
       )
     }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.descriptor.UninterpretedOption.NamePart(
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).get.as[String],
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).get.as[Boolean]
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).get.as[_root_.scala.Predef.String],
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).get.as[_root_.scala.Boolean]
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.UninterpretedOption.javaDescriptor.getNestedTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.UninterpretedOption.scalaDescriptor.nestedMessages(0)
-    def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+    def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-    def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+    def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.UninterpretedOption.NamePart(
       namePart = "",
       isExtension = false
     )
     implicit class NamePartLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart](_l) {
-      def namePart: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.namePart)((c_, f_) => c_.copy(namePart = f_))
-      def isExtension: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.isExtension)((c_, f_) => c_.copy(isExtension = f_))
+      def namePart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.namePart)((c_, f_) => c_.copy(namePart = f_))
+      def isExtension: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.isExtension)((c_, f_) => c_.copy(isExtension = f_))
     }
     final val NAME_PART_FIELD_NUMBER = 1
     final val IS_EXTENSION_FIELD_NUMBER = 2
@@ -348,18 +348,18 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   
   implicit class UninterpretedOptionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def identifierValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Option(f_)))
-    def optionalIdentifierValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.identifierValue)((c_, f_) => c_.copy(identifierValue = f_))
-    def positiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Option(f_)))
-    def optionalPositiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.positiveIntValue)((c_, f_) => c_.copy(positiveIntValue = f_))
-    def negativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = Option(f_)))
-    def optionalNegativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Long]] = field(_.negativeIntValue)((c_, f_) => c_.copy(negativeIntValue = f_))
-    def doubleValue: _root_.scalapb.lenses.Lens[UpperPB, Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Option(f_)))
-    def optionalDoubleValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Double]] = field(_.doubleValue)((c_, f_) => c_.copy(doubleValue = f_))
+    def identifierValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Option(f_)))
+    def optionalIdentifierValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.identifierValue)((c_, f_) => c_.copy(identifierValue = f_))
+    def positiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Option(f_)))
+    def optionalPositiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Long]] = field(_.positiveIntValue)((c_, f_) => c_.copy(positiveIntValue = f_))
+    def negativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = Option(f_)))
+    def optionalNegativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Long]] = field(_.negativeIntValue)((c_, f_) => c_.copy(negativeIntValue = f_))
+    def doubleValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Option(f_)))
+    def optionalDoubleValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Double]] = field(_.doubleValue)((c_, f_) => c_.copy(doubleValue = f_))
     def stringValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Option(f_)))
     def optionalStringValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.com.google.protobuf.ByteString]] = field(_.stringValue)((c_, f_) => c_.copy(stringValue = f_))
-    def aggregateValue: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Option(f_)))
-    def optionalAggregateValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.aggregateValue)((c_, f_) => c_.copy(aggregateValue = f_))
+    def aggregateValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Option(f_)))
+    def optionalAggregateValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.aggregateValue)((c_, f_) => c_.copy(aggregateValue = f_))
   }
   final val NAME_FIELD_NUMBER = 2
   final val IDENTIFIER_VALUE_FIELD_NUMBER = 3

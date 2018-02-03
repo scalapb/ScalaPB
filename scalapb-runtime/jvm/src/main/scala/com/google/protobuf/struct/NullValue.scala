@@ -7,7 +7,7 @@ package com.google.protobuf.struct
 
 sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
   type EnumType = NullValue
-  def isNullValue: Boolean = false
+  def isNullValue: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
 }
 
@@ -18,14 +18,14 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
     val value = 0
     val index = 0
     val name = "NULL_VALUE"
-    override def isNullValue: Boolean = true
+    override def isNullValue: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
-  case class Unrecognized(value: Int) extends NullValue with _root_.scalapb.UnrecognizedEnum
+  case class Unrecognized(value: _root_.scala.Int) extends NullValue with _root_.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.Seq(NULL_VALUE)
-  def fromValue(value: Int): NullValue = value match {
+  def fromValue(value: _root_.scala.Int): NullValue = value match {
     case 0 => NULL_VALUE
     case __other => Unrecognized(__other)
   }

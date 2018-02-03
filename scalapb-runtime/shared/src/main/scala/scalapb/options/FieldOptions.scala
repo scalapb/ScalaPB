@@ -19,17 +19,17 @@ package scalapb.options
   */
 @SerialVersionUID(0L)
 final case class FieldOptions(
-    `type`: scala.Option[String] = None,
-    scalaName: scala.Option[String] = None,
-    collectionType: scala.Option[String] = None,
-    keyType: scala.Option[String] = None,
-    valueType: scala.Option[String] = None,
-    annotations: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
-    noBox: scala.Option[Boolean] = None
+    `type`: scala.Option[_root_.scala.Predef.String] = None,
+    scalaName: scala.Option[_root_.scala.Predef.String] = None,
+    collectionType: scala.Option[_root_.scala.Predef.String] = None,
+    keyType: scala.Option[_root_.scala.Predef.String] = None,
+    valueType: scala.Option[_root_.scala.Predef.String] = None,
+    annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
+    noBox: scala.Option[_root_.scala.Boolean] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[FieldOptions] with scalapb.lenses.Updatable[FieldOptions] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (`type`.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, `type`.get) }
       if (scalaName.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, scalaName.get) }
@@ -40,7 +40,7 @@ final case class FieldOptions(
       if (noBox.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, noBox.get) }
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -77,7 +77,7 @@ final case class FieldOptions(
       var __collectionType = this.collectionType
       var __keyType = this.keyType
       var __valueType = this.valueType
-      val __annotations = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.annotations)
+      val __annotations = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.annotations)
       var __noBox = this.noBox
       var _done__ = false
       while (!_done__) {
@@ -111,29 +111,29 @@ final case class FieldOptions(
           noBox = __noBox
       )
     }
-    def getType: String = `type`.getOrElse("")
+    def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: FieldOptions = copy(`type` = None)
-    def withType(__v: String): FieldOptions = copy(`type` = Option(__v))
-    def getScalaName: String = scalaName.getOrElse("")
+    def withType(__v: _root_.scala.Predef.String): FieldOptions = copy(`type` = Option(__v))
+    def getScalaName: _root_.scala.Predef.String = scalaName.getOrElse("")
     def clearScalaName: FieldOptions = copy(scalaName = None)
-    def withScalaName(__v: String): FieldOptions = copy(scalaName = Option(__v))
-    def getCollectionType: String = collectionType.getOrElse("")
+    def withScalaName(__v: _root_.scala.Predef.String): FieldOptions = copy(scalaName = Option(__v))
+    def getCollectionType: _root_.scala.Predef.String = collectionType.getOrElse("")
     def clearCollectionType: FieldOptions = copy(collectionType = None)
-    def withCollectionType(__v: String): FieldOptions = copy(collectionType = Option(__v))
-    def getKeyType: String = keyType.getOrElse("")
+    def withCollectionType(__v: _root_.scala.Predef.String): FieldOptions = copy(collectionType = Option(__v))
+    def getKeyType: _root_.scala.Predef.String = keyType.getOrElse("")
     def clearKeyType: FieldOptions = copy(keyType = None)
-    def withKeyType(__v: String): FieldOptions = copy(keyType = Option(__v))
-    def getValueType: String = valueType.getOrElse("")
+    def withKeyType(__v: _root_.scala.Predef.String): FieldOptions = copy(keyType = Option(__v))
+    def getValueType: _root_.scala.Predef.String = valueType.getOrElse("")
     def clearValueType: FieldOptions = copy(valueType = None)
-    def withValueType(__v: String): FieldOptions = copy(valueType = Option(__v))
+    def withValueType(__v: _root_.scala.Predef.String): FieldOptions = copy(valueType = Option(__v))
     def clearAnnotations = copy(annotations = _root_.scala.collection.Seq.empty)
-    def addAnnotations(__vs: String*): FieldOptions = addAllAnnotations(__vs)
-    def addAllAnnotations(__vs: TraversableOnce[String]): FieldOptions = copy(annotations = annotations ++ __vs)
-    def withAnnotations(__v: _root_.scala.collection.Seq[String]): FieldOptions = copy(annotations = __v)
-    def getNoBox: Boolean = noBox.getOrElse(false)
+    def addAnnotations(__vs: _root_.scala.Predef.String*): FieldOptions = addAllAnnotations(__vs)
+    def addAllAnnotations(__vs: TraversableOnce[_root_.scala.Predef.String]): FieldOptions = copy(annotations = annotations ++ __vs)
+    def withAnnotations(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): FieldOptions = copy(annotations = __v)
+    def getNoBox: _root_.scala.Boolean = noBox.getOrElse(false)
     def clearNoBox: FieldOptions = copy(noBox = None)
-    def withNoBox(__v: Boolean): FieldOptions = copy(noBox = Option(__v))
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def withNoBox(__v: _root_.scala.Boolean): FieldOptions = copy(noBox = Option(__v))
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `type`.orNull
         case 2 => scalaName.orNull
@@ -156,7 +156,7 @@ final case class FieldOptions(
         case 30 => noBox.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.FieldOptions
 }
 
@@ -166,50 +166,50 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     scalapb.options.FieldOptions(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
-      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[Boolean]]
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[_root_.scala.Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.FieldOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.options.FieldOptions(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[scala.Option[Boolean]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes.get(2)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(2)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.FieldOptions(
   )
   implicit class FieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.FieldOptions](_l) {
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
-    def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
-    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))
-    def optionalScalaName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
-    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
-    def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
-    def keyType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getKeyType)((c_, f_) => c_.copy(keyType = Option(f_)))
-    def optionalKeyType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.keyType)((c_, f_) => c_.copy(keyType = f_))
-    def valueType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = Option(f_)))
-    def optionalValueType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.valueType)((c_, f_) => c_.copy(valueType = f_))
-    def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
-    def noBox: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Option(f_)))
-    def optionalNoBox: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.noBox)((c_, f_) => c_.copy(noBox = f_))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
+    def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
+    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))
+    def optionalScalaName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
+    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
+    def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
+    def keyType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKeyType)((c_, f_) => c_.copy(keyType = Option(f_)))
+    def optionalKeyType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.keyType)((c_, f_) => c_.copy(keyType = f_))
+    def valueType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = Option(f_)))
+    def optionalValueType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.valueType)((c_, f_) => c_.copy(valueType = f_))
+    def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
+    def noBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Option(f_)))
+    def optionalNoBox: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.noBox)((c_, f_) => c_.copy(noBox = f_))
   }
   final val TYPE_FIELD_NUMBER = 1
   final val SCALA_NAME_FIELD_NUMBER = 2

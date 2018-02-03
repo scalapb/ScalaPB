@@ -14,16 +14,16 @@ package com.google.protobuf.wrappers
   */
 @SerialVersionUID(0L)
 final case class DoubleValue(
-    value: Double = 0.0
+    value: _root_.scala.Double = 0.0
     ) extends scalapb.GeneratedMessage with scalapb.Message[DoubleValue] with scalapb.lenses.Updatable[DoubleValue] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (value != 0.0) { __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(1, value) }
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -55,8 +55,8 @@ final case class DoubleValue(
           value = __value
       )
     }
-    def withValue(__v: Double): DoubleValue = copy(value = __v)
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def withValue(__v: _root_.scala.Double): DoubleValue = copy(value = __v)
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = value
@@ -70,7 +70,7 @@ final case class DoubleValue(
         case 1 => _root_.scalapb.descriptors.PDouble(value)
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.DoubleValue
 }
 
@@ -80,26 +80,26 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.wrappers.DoubleValue(
-      __fieldsMap.getOrElse(__fields.get(0), 0.0).asInstanceOf[Double]
+      __fieldsMap.getOrElse(__fields.get(0), 0.0).asInstanceOf[_root_.scala.Double]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.DoubleValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.wrappers.DoubleValue(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[Double]).getOrElse(0.0)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Double]).getOrElse(0.0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = WrappersProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = WrappersProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.wrappers.DoubleValue(
   )
   implicit class DoubleValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.DoubleValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.DoubleValue](_l) {
-    def value: _root_.scalapb.lenses.Lens[UpperPB, Double] = field(_.value)((c_, f_) => c_.copy(value = f_))
+    def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Double] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1
 }

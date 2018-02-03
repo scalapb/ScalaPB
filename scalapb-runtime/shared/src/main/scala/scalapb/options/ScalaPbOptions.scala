@@ -43,20 +43,20 @@ package scalapb.options
   */
 @SerialVersionUID(0L)
 final case class ScalaPbOptions(
-    packageName: scala.Option[String] = None,
-    flatPackage: scala.Option[Boolean] = None,
-    `import`: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
-    preamble: _root_.scala.collection.Seq[String] = _root_.scala.collection.Seq.empty,
-    singleFile: scala.Option[Boolean] = None,
-    noPrimitiveWrappers: scala.Option[Boolean] = None,
-    primitiveWrappers: scala.Option[Boolean] = None,
-    collectionType: scala.Option[String] = None,
-    preserveUnknownFields: scala.Option[Boolean] = None,
-    testOnlyNoJavaConversions: scala.Option[Boolean] = None
+    packageName: scala.Option[_root_.scala.Predef.String] = None,
+    flatPackage: scala.Option[_root_.scala.Boolean] = None,
+    `import`: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
+    preamble: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
+    singleFile: scala.Option[_root_.scala.Boolean] = None,
+    noPrimitiveWrappers: scala.Option[_root_.scala.Boolean] = None,
+    primitiveWrappers: scala.Option[_root_.scala.Boolean] = None,
+    collectionType: scala.Option[_root_.scala.Predef.String] = None,
+    preserveUnknownFields: scala.Option[_root_.scala.Boolean] = None,
+    testOnlyNoJavaConversions: scala.Option[_root_.scala.Boolean] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ScalaPbOptions] with scalapb.lenses.Updatable[ScalaPbOptions] {
     @transient
-    private[this] var __serializedSizeCachedValue: Int = 0
-    private[this] def __computeSerializedValue(): Int = {
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (packageName.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, packageName.get) }
       if (flatPackage.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, flatPackage.get) }
@@ -70,7 +70,7 @@ final case class ScalaPbOptions(
       if (testOnlyNoJavaConversions.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(100001, testOnlyNoJavaConversions.get) }
       __size
     }
-    final override def serializedSize: Int = {
+    final override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -113,8 +113,8 @@ final case class ScalaPbOptions(
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.ScalaPbOptions = {
       var __packageName = this.packageName
       var __flatPackage = this.flatPackage
-      val __import = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.`import`)
-      val __preamble = (_root_.scala.collection.immutable.Vector.newBuilder[String] ++= this.preamble)
+      val __import = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.`import`)
+      val __preamble = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.preamble)
       var __singleFile = this.singleFile
       var __noPrimitiveWrappers = this.noPrimitiveWrappers
       var __primitiveWrappers = this.primitiveWrappers
@@ -162,39 +162,39 @@ final case class ScalaPbOptions(
           testOnlyNoJavaConversions = __testOnlyNoJavaConversions
       )
     }
-    def getPackageName: String = packageName.getOrElse("")
+    def getPackageName: _root_.scala.Predef.String = packageName.getOrElse("")
     def clearPackageName: ScalaPbOptions = copy(packageName = None)
-    def withPackageName(__v: String): ScalaPbOptions = copy(packageName = Option(__v))
-    def getFlatPackage: Boolean = flatPackage.getOrElse(false)
+    def withPackageName(__v: _root_.scala.Predef.String): ScalaPbOptions = copy(packageName = Option(__v))
+    def getFlatPackage: _root_.scala.Boolean = flatPackage.getOrElse(false)
     def clearFlatPackage: ScalaPbOptions = copy(flatPackage = None)
-    def withFlatPackage(__v: Boolean): ScalaPbOptions = copy(flatPackage = Option(__v))
+    def withFlatPackage(__v: _root_.scala.Boolean): ScalaPbOptions = copy(flatPackage = Option(__v))
     def clearImport = copy(`import` = _root_.scala.collection.Seq.empty)
-    def addImport(__vs: String*): ScalaPbOptions = addAllImport(__vs)
-    def addAllImport(__vs: TraversableOnce[String]): ScalaPbOptions = copy(`import` = `import` ++ __vs)
-    def withImport(__v: _root_.scala.collection.Seq[String]): ScalaPbOptions = copy(`import` = __v)
+    def addImport(__vs: _root_.scala.Predef.String*): ScalaPbOptions = addAllImport(__vs)
+    def addAllImport(__vs: TraversableOnce[_root_.scala.Predef.String]): ScalaPbOptions = copy(`import` = `import` ++ __vs)
+    def withImport(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): ScalaPbOptions = copy(`import` = __v)
     def clearPreamble = copy(preamble = _root_.scala.collection.Seq.empty)
-    def addPreamble(__vs: String*): ScalaPbOptions = addAllPreamble(__vs)
-    def addAllPreamble(__vs: TraversableOnce[String]): ScalaPbOptions = copy(preamble = preamble ++ __vs)
-    def withPreamble(__v: _root_.scala.collection.Seq[String]): ScalaPbOptions = copy(preamble = __v)
-    def getSingleFile: Boolean = singleFile.getOrElse(false)
+    def addPreamble(__vs: _root_.scala.Predef.String*): ScalaPbOptions = addAllPreamble(__vs)
+    def addAllPreamble(__vs: TraversableOnce[_root_.scala.Predef.String]): ScalaPbOptions = copy(preamble = preamble ++ __vs)
+    def withPreamble(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): ScalaPbOptions = copy(preamble = __v)
+    def getSingleFile: _root_.scala.Boolean = singleFile.getOrElse(false)
     def clearSingleFile: ScalaPbOptions = copy(singleFile = None)
-    def withSingleFile(__v: Boolean): ScalaPbOptions = copy(singleFile = Option(__v))
-    def getNoPrimitiveWrappers: Boolean = noPrimitiveWrappers.getOrElse(false)
+    def withSingleFile(__v: _root_.scala.Boolean): ScalaPbOptions = copy(singleFile = Option(__v))
+    def getNoPrimitiveWrappers: _root_.scala.Boolean = noPrimitiveWrappers.getOrElse(false)
     def clearNoPrimitiveWrappers: ScalaPbOptions = copy(noPrimitiveWrappers = None)
-    def withNoPrimitiveWrappers(__v: Boolean): ScalaPbOptions = copy(noPrimitiveWrappers = Option(__v))
-    def getPrimitiveWrappers: Boolean = primitiveWrappers.getOrElse(false)
+    def withNoPrimitiveWrappers(__v: _root_.scala.Boolean): ScalaPbOptions = copy(noPrimitiveWrappers = Option(__v))
+    def getPrimitiveWrappers: _root_.scala.Boolean = primitiveWrappers.getOrElse(false)
     def clearPrimitiveWrappers: ScalaPbOptions = copy(primitiveWrappers = None)
-    def withPrimitiveWrappers(__v: Boolean): ScalaPbOptions = copy(primitiveWrappers = Option(__v))
-    def getCollectionType: String = collectionType.getOrElse("")
+    def withPrimitiveWrappers(__v: _root_.scala.Boolean): ScalaPbOptions = copy(primitiveWrappers = Option(__v))
+    def getCollectionType: _root_.scala.Predef.String = collectionType.getOrElse("")
     def clearCollectionType: ScalaPbOptions = copy(collectionType = None)
-    def withCollectionType(__v: String): ScalaPbOptions = copy(collectionType = Option(__v))
-    def getPreserveUnknownFields: Boolean = preserveUnknownFields.getOrElse(false)
+    def withCollectionType(__v: _root_.scala.Predef.String): ScalaPbOptions = copy(collectionType = Option(__v))
+    def getPreserveUnknownFields: _root_.scala.Boolean = preserveUnknownFields.getOrElse(false)
     def clearPreserveUnknownFields: ScalaPbOptions = copy(preserveUnknownFields = None)
-    def withPreserveUnknownFields(__v: Boolean): ScalaPbOptions = copy(preserveUnknownFields = Option(__v))
-    def getTestOnlyNoJavaConversions: Boolean = testOnlyNoJavaConversions.getOrElse(false)
+    def withPreserveUnknownFields(__v: _root_.scala.Boolean): ScalaPbOptions = copy(preserveUnknownFields = Option(__v))
+    def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = None)
-    def withTestOnlyNoJavaConversions(__v: Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = {
+    def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => packageName.orNull
         case 2 => flatPackage.orNull
@@ -223,7 +223,7 @@ final case class ScalaPbOptions(
         case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.ScalaPbOptions
 }
 
@@ -233,61 +233,61 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     scalapb.options.ScalaPbOptions(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
-      __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.collection.Seq[String]],
-      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[String]],
-      __fieldsMap.get(__fields.get(8)).asInstanceOf[scala.Option[Boolean]],
-      __fieldsMap.get(__fields.get(9)).asInstanceOf[scala.Option[Boolean]]
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
+      __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(6)).asInstanceOf[scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(8)).asInstanceOf[scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(9)).asInstanceOf[scala.Option[_root_.scala.Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.ScalaPbOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.options.ScalaPbOptions(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.collection.Seq[String]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[scala.Option[Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[scala.Option[Boolean]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.ScalaPbOptions(
   )
   implicit class ScalaPbOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions](_l) {
-    def packageName: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getPackageName)((c_, f_) => c_.copy(packageName = Option(f_)))
-    def optionalPackageName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.packageName)((c_, f_) => c_.copy(packageName = f_))
-    def flatPackage: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getFlatPackage)((c_, f_) => c_.copy(flatPackage = Option(f_)))
-    def optionalFlatPackage: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.flatPackage)((c_, f_) => c_.copy(flatPackage = f_))
-    def `import`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.`import`)((c_, f_) => c_.copy(`import` = f_))
-    def preamble: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[String]] = field(_.preamble)((c_, f_) => c_.copy(preamble = f_))
-    def singleFile: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getSingleFile)((c_, f_) => c_.copy(singleFile = Option(f_)))
-    def optionalSingleFile: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.singleFile)((c_, f_) => c_.copy(singleFile = f_))
-    def noPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getNoPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = Option(f_)))
-    def optionalNoPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.noPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = f_))
-    def primitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getPrimitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = Option(f_)))
-    def optionalPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.primitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = f_))
-    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
-    def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
-    def preserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getPreserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = Option(f_)))
-    def optionalPreserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.preserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = f_))
-    def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
-    def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
+    def packageName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPackageName)((c_, f_) => c_.copy(packageName = Option(f_)))
+    def optionalPackageName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.packageName)((c_, f_) => c_.copy(packageName = f_))
+    def flatPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getFlatPackage)((c_, f_) => c_.copy(flatPackage = Option(f_)))
+    def optionalFlatPackage: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.flatPackage)((c_, f_) => c_.copy(flatPackage = f_))
+    def `import`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.`import`)((c_, f_) => c_.copy(`import` = f_))
+    def preamble: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.preamble)((c_, f_) => c_.copy(preamble = f_))
+    def singleFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getSingleFile)((c_, f_) => c_.copy(singleFile = Option(f_)))
+    def optionalSingleFile: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.singleFile)((c_, f_) => c_.copy(singleFile = f_))
+    def noPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = Option(f_)))
+    def optionalNoPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.noPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = f_))
+    def primitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPrimitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = Option(f_)))
+    def optionalPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.primitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = f_))
+    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
+    def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
+    def preserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPreserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = Option(f_)))
+    def optionalPreserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.preserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = f_))
+    def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
+    def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
   final val PACKAGE_NAME_FIELD_NUMBER = 1
   final val FLAT_PACKAGE_FIELD_NUMBER = 2

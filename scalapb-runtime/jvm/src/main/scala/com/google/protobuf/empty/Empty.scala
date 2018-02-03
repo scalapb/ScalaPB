@@ -18,7 +18,7 @@ package com.google.protobuf.empty
 @SerialVersionUID(0L)
 final case class Empty(
     ) extends scalapb.GeneratedMessage with scalapb.Message[Empty] with scalapb.lenses.Updatable[Empty] {
-    final override def serializedSize: Int = 0
+    final override def serializedSize: _root_.scala.Int = 0
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.empty.Empty = {
@@ -33,9 +33,9 @@ final case class Empty(
       com.google.protobuf.empty.Empty(
       )
     }
-    def getFieldByNumber(__fieldNumber: Int): scala.Any = throw new MatchError(__fieldNumber)
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = throw new MatchError(__fieldNumber)
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = throw new MatchError(__field)
-    def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.empty.Empty
 }
 
@@ -61,9 +61,9 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = EmptyProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = EmptyProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.empty.Empty(
   )
   implicit class EmptyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.empty.Empty]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.empty.Empty](_l) {

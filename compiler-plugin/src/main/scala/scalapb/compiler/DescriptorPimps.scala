@@ -184,14 +184,14 @@ trait DescriptorPimps {
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)
         Some(fieldReferencingMap.fieldOptions.getValueType)
       else if (isMessage && fd.getFile.usePrimitiveWrappers) (fd.getMessageType.getFullName match {
-        case "google.protobuf.Int32Value" => Some("Int")
-        case "google.protobuf.Int64Value" => Some("Long")
-        case "google.protobuf.UInt32Value" => Some("Int")
-        case "google.protobuf.UInt64Value" => Some("Long")
-        case "google.protobuf.DoubleValue" => Some("Double")
-        case "google.protobuf.FloatValue" => Some("Float")
-        case "google.protobuf.StringValue" => Some("String")
-        case "google.protobuf.BoolValue" => Some("Boolean")
+        case "google.protobuf.Int32Value" => Some("_root_.scala.Int")
+        case "google.protobuf.Int64Value" => Some("_root_.scala.Long")
+        case "google.protobuf.UInt32Value" => Some("_root_.scala.Int")
+        case "google.protobuf.UInt64Value" => Some("_root_.scala.Long")
+        case "google.protobuf.DoubleValue" => Some("_root_.scala.Double")
+        case "google.protobuf.FloatValue" => Some("_root_.scala.Float")
+        case "google.protobuf.StringValue" => Some("_root_.scala.Predef.String")
+        case "google.protobuf.BoolValue" => Some("_root_.scala.Boolean")
         case "google.protobuf.BytesValue" => Some("_root_.com.google.protobuf.ByteString")
         case _ => None
       })
@@ -199,13 +199,13 @@ trait DescriptorPimps {
     }
 
     def baseSingleScalaTypeName: String = fd.getJavaType match {
-      case FieldDescriptor.JavaType.INT => "Int"
-      case FieldDescriptor.JavaType.LONG => "Long"
-      case FieldDescriptor.JavaType.FLOAT => "Float"
-      case FieldDescriptor.JavaType.DOUBLE => "Double"
-      case FieldDescriptor.JavaType.BOOLEAN => "Boolean"
+      case FieldDescriptor.JavaType.INT => "_root_.scala.Int"
+      case FieldDescriptor.JavaType.LONG => "_root_.scala.Long"
+      case FieldDescriptor.JavaType.FLOAT => "_root_.scala.Float"
+      case FieldDescriptor.JavaType.DOUBLE => "_root_.scala.Double"
+      case FieldDescriptor.JavaType.BOOLEAN => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING => "String"
+      case FieldDescriptor.JavaType.STRING => "_root_.scala.Predef.String"
       case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaTypeNameWithMaybeRoot(fd.getContainingType)
       case FieldDescriptor.JavaType.ENUM => fd.getEnumType.scalaTypeNameWithMaybeRoot(fd.getContainingType)
     }
