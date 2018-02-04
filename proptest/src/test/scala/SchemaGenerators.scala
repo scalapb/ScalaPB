@@ -162,7 +162,7 @@ object SchemaGenerators {
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
     val s = new Settings(error => throw new RuntimeException(error))
-    s.processArgumentString( s"""-cp "${classPath.mkString(":")}" -d "$rootDir"""")
+    s.processArgumentString( s"""-cp "${classPath.mkString(":")}" -Ybreak-cycles -d "$rootDir"""")
     val g = new Global(s)
 
     val run = new g.Run
