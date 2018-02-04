@@ -496,7 +496,10 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type): Type = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Type): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type.forNumber(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Type): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type.forNumber(pbScalaSource.value)
+    }
   }
   sealed trait Label extends _root_.scalapb.GeneratedEnum {
     type EnumType = Label
@@ -545,7 +548,10 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label): Label = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Label): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.forNumber(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Label): com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label.forNumber(pbScalaSource.value)
+    }
   }
   implicit class FieldDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))

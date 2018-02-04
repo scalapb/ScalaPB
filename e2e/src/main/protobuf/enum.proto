@@ -18,4 +18,14 @@ message EnumTest {
     OtherCase = 3;
   }
   optional InnerEnum inner_enum = 3;
+  repeated Color repeated_color = 4;
+
+  enum ZeroBased {
+    ZERO = 0;
+  }
+  map<int32, ZeroBased> mapped_color = 5;
+}
+
+message RequiredEnum {
+  required Color color = 1;
 }

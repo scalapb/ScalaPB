@@ -66,7 +66,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .when(e.javaConversions) {
       _.addStringMargin(
         s"""|def fromJavaValue(pbJavaSource: ${e.javaTypeName}): $name = fromValue(pbJavaSource.getNumber)
-            |def toJavaValue(pbScalaSource: $name): ${e.javaTypeName} = ${e.javaTypeName}.forNumber(pbScalaSource.value)""")
+            |def toJavaValue(pbScalaSource: $name): ${e.javaTypeName} = {
+            |  _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+            |  ${e.javaTypeName}.forNumber(pbScalaSource.value)
+            |}""")
     }
       .outdent
       .add("}")
@@ -189,8 +192,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       case FieldDescriptor.JavaType.STRING => Identity
       case FieldDescriptor.JavaType.MESSAGE => FunctionApplication(
         field.getMessageType.scalaTypeName + ".fromJavaProto")
-      case FieldDescriptor.JavaType.ENUM => FunctionApplication(
-        field.getEnumType.scalaTypeName + ".fromJavaValue")
+      case FieldDescriptor.JavaType.ENUM => if (field.getFile.isProto3)
+        MethodApplication("intValue") andThen FunctionApplication(field.getEnumType.scalaTypeName + ".fromValue")
+      else FunctionApplication(field.getEnumType.scalaTypeName + ".fromJavaValue")
     }
     baseValueConversion andThen toCustomTypeExpr(field)
   }
@@ -208,10 +212,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def javaFieldToScala(container: String, field: FieldDescriptor): String = {
     val javaHazzer = container + ".has" + field.upperJavaName
+    val upperJavaName = if (field.isEnum && field.getFile.isProto3) (field.upperJavaName + "Value") else field.upperJavaName
     val javaGetter = if (field.isRepeated)
-      container + ".get" + field.upperJavaName + "List"
+      container + ".get" + upperJavaName + "List"
     else
-      container + ".get" + field.upperJavaName
+      container + ".get" + upperJavaName
 
     javaFieldToScala(javaHazzer, javaGetter, field)
   }
@@ -219,7 +224,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def javaMapFieldToScala(container: String, field: FieldDescriptor) = {
     // TODO(thesamet): if both unit conversions are NoOp, we can omit the map call.
     def unitConversion(n: String, field: FieldDescriptor) = javaToScalaConversion(field).apply(n, EnclosingType.None)
-    s"${container}.get${field.upperScalaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)})).toMap"
+    val upperJavaName = if (field.mapType.valueField.isEnum && field.getFile.isProto3)
+      (field.upperJavaName + "Value") else field.upperJavaName
+    s"${container}.get${upperJavaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)})).toMap"
   }
 
   def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): Expression = {
@@ -260,7 +267,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def assignScalaFieldToJava(scalaObject: String,
                              javaObject: String, field: FieldDescriptor): String =
-    if (field.isMapField) assignScalaMapToJava(scalaObject, javaObject, field) else {
+    if (field.isMapField) assignScalaMapToJava(scalaObject, javaObject, field)
+    else /* if (field.isEnum && field.getEnumType.getFile.isProto2) {
+      val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
+      if (field.isRequired) {
+        val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
+        s"${javaObject}.set${field.upperJavaName}(if (scala)"
+      } else ""
+    } else */ {
       val javaSetter = javaObject +
         (if (field.isRepeated) ".addAll" else
           ".set") + field.upperJavaName + (

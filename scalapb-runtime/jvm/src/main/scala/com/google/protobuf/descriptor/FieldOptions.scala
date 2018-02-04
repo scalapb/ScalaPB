@@ -332,7 +332,10 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.CType): CType = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: CType): com.google.protobuf.DescriptorProtos.FieldOptions.CType = com.google.protobuf.DescriptorProtos.FieldOptions.CType.forNumber(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: CType): com.google.protobuf.DescriptorProtos.FieldOptions.CType = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.DescriptorProtos.FieldOptions.CType.forNumber(pbScalaSource.value)
+    }
   }
   sealed trait JSType extends _root_.scalapb.GeneratedEnum {
     type EnumType = JSType
@@ -381,7 +384,10 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.JSType): JSType = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: JSType): com.google.protobuf.DescriptorProtos.FieldOptions.JSType = com.google.protobuf.DescriptorProtos.FieldOptions.JSType.forNumber(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: JSType): com.google.protobuf.DescriptorProtos.FieldOptions.JSType = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.DescriptorProtos.FieldOptions.JSType.forNumber(pbScalaSource.value)
+    }
   }
   implicit class FieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldOptions](_l) {
     def ctype: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.CType] = field(_.getCtype)((c_, f_) => c_.copy(ctype = Option(f_)))

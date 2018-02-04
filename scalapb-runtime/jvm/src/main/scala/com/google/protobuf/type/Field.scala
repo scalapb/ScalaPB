@@ -271,8 +271,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Field): com.google.protobuf.`type`.Field = com.google.protobuf.`type`.Field(
-    kind = com.google.protobuf.`type`.Field.Kind.fromJavaValue(javaPbSource.getKind),
-    cardinality = com.google.protobuf.`type`.Field.Cardinality.fromJavaValue(javaPbSource.getCardinality),
+    kind = com.google.protobuf.`type`.Field.Kind.fromValue(javaPbSource.getKindValue.intValue),
+    cardinality = com.google.protobuf.`type`.Field.Cardinality.fromValue(javaPbSource.getCardinalityValue.intValue),
     number = javaPbSource.getNumber.intValue,
     name = javaPbSource.getName,
     typeUrl = javaPbSource.getTypeUrl,
@@ -540,7 +540,10 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Kind): Kind = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Kind): com.google.protobuf.Field.Kind = com.google.protobuf.Field.Kind.forNumber(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Kind): com.google.protobuf.Field.Kind = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.Field.Kind.forNumber(pbScalaSource.value)
+    }
   }
   sealed trait Cardinality extends _root_.scalapb.GeneratedEnum {
     type EnumType = Cardinality
@@ -599,7 +602,10 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Cardinality): Cardinality = fromValue(pbJavaSource.getNumber)
-    def toJavaValue(pbScalaSource: Cardinality): com.google.protobuf.Field.Cardinality = com.google.protobuf.Field.Cardinality.forNumber(pbScalaSource.value)
+    def toJavaValue(pbScalaSource: Cardinality): com.google.protobuf.Field.Cardinality = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.Field.Cardinality.forNumber(pbScalaSource.value)
+    }
   }
   implicit class FieldLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Field](_l) {
     def kind: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Kind] = field(_.kind)((c_, f_) => c_.copy(kind = f_))

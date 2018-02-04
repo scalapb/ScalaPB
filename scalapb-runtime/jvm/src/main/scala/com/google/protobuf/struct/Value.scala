@@ -139,7 +139,7 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Value): com.google.protobuf.struct.Value = com.google.protobuf.struct.Value(
     kind = javaPbSource.getKindCase.getNumber match {
-      case 1 => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromJavaValue(javaPbSource.getNullValue))
+      case 1 => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(javaPbSource.getNullValueValue.intValue))
       case 2 => com.google.protobuf.struct.Value.Kind.NumberValue(javaPbSource.getNumberValue.doubleValue)
       case 3 => com.google.protobuf.struct.Value.Kind.StringValue(javaPbSource.getStringValue)
       case 4 => com.google.protobuf.struct.Value.Kind.BoolValue(javaPbSource.getBoolValue.booleanValue)

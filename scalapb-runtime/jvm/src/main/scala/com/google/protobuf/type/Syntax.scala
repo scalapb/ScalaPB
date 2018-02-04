@@ -42,5 +42,8 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = TypeProto.scalaDescriptor.enums(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.Syntax): Syntax = fromValue(pbJavaSource.getNumber)
-  def toJavaValue(pbScalaSource: Syntax): com.google.protobuf.Syntax = com.google.protobuf.Syntax.forNumber(pbScalaSource.value)
+  def toJavaValue(pbScalaSource: Syntax): com.google.protobuf.Syntax = {
+    _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+    com.google.protobuf.Syntax.forNumber(pbScalaSource.value)
+  }
 }
