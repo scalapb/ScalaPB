@@ -8,12 +8,11 @@ import protocbridge.{ProtocCodeGenerator, Artifact}
 
 
 object ScalaPbCodeGenerator extends ProtocCodeGenerator {
-  override def registerExtensions(registry: ExtensionRegistry): Unit = {
+  override def run(req: Array[Byte]): Array[Byte] = {
+    val registry = ExtensionRegistry.newInstance()
     Scalapb.registerAllExtensions(registry)
-  }
-
-  override def run(req: CodeGeneratorRequest): CodeGeneratorResponse = {
-    ProtobufGenerator.handleCodeGeneratorRequest(req)
+    val request = CodeGeneratorRequest.parseFrom(req, registry)
+    ProtobufGenerator.handleCodeGeneratorRequest(request).toByteArray
   }
 
   override def suggestedDependencies: Seq[Artifact] = Seq(

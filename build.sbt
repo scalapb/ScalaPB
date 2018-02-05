@@ -99,6 +99,10 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     )
   )
 
+val shadeTarget = settingKey[String]("Target to use when shading")
+
+shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_")}.@0"
+
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .dependsOn(runtimeJVM)
   .settings(
@@ -113,9 +117,20 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(file)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.2.5",
+      "com.trueaccord.scalapb" %% "protoc-bridge" % "0.3.0-M1",
       "org.scalatest" %% "scalatest" % "3.0.1" % "test"
-      ))
+    ),
+    // shade our output to replace com.trueaccord.scalapb.Scalapb on the classpath, suitable for using in sbt 1.x,
+    // which can cause runtime conflicts due to scalapb-runtime being included on the classpath as well
+    assemblyOption in assembly := (assemblyOption in assembly).value.copy(includeScala = false, includeDependency = false),
+    assemblyJarName in assembly := artifactName.value.apply(ScalaVersion((scalaVersion in artifactName).value, (scalaBinaryVersion in artifactName).value), projectID.value, (artifact in (Compile, assembly)).value),
+    assemblyShadeRules in assembly := Seq(
+      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject
+    ),
+    packageBin in Compile := assembly.value,
+    //replace the main artifact with the shaded non-fat jar
+    artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value
+  )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
 // publishing compiler-plugin bundled with protoc-bridge, and linked against
@@ -126,8 +141,9 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
   .settings(
     name := "compilerplugin-shaded",
     assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("com.google.**" -> "scalapb.@0").inAll,
-      ShadeRule.rename("org.apache.**" -> "scalapb.@0").inAll
+      ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll,
+      ShadeRule.rename("org.apache.**" -> shadeTarget.value).inAll,
+      ShadeRule.rename("com.trueaccord.scalapb.Scalapb**" -> shadeTarget.value).inProject
     ),
     assemblyExcludedJars in assembly := {
       val toInclude = Seq(
