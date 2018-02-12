@@ -29,7 +29,7 @@ matrix:
   - scala: 2.11.12
     env: TEST_SCRIPT=__misc__
     script:
-    - cd examples && sbt test && cd ..
+    - for d in examples/*; do cd "$d" && sbt test && cd ../..; done
     - sbt -J-Xmx4500M ++$TRAVIS_SCALA_VERSION universal:packageBin
     - ./test_generated_code_checked_in.sh
 
