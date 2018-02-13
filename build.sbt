@@ -104,7 +104,7 @@ lazy val runtimeJVM    = runtime.jvm
 lazy val runtimeJS     = runtime.js
 lazy val runtimeNative = runtime.native
 
-val grpcVersion = "1.9.0"
+val grpcVersion = "1.9.1"
 
 lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .dependsOn(runtimeJVM)
