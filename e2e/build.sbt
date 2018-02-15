@@ -15,7 +15,7 @@ def grpcExeFileName = {
 }
 
 lazy val grpcExeUrl =
-  url(s"http://repo1.maven.org/maven2/io/grpc/${grpcArtifactId}/${grpcJavaVersion}/${grpcExeFileName}")
+  url(s"https://repo1.maven.org/maven2/io/grpc/${grpcArtifactId}/${grpcJavaVersion}/${grpcExeFileName}")
 
 val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
 
