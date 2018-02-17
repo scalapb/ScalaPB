@@ -52,7 +52,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
              |""")
       }.addStringMargin(
         s"""@SerialVersionUID(0L)
-           |case class Unrecognized(value: _root_.scala.Int) extends $name with _root_.scalapb.UnrecognizedEnum
+           |final case class Unrecognized(value: _root_.scala.Int) extends $name with _root_.scalapb.UnrecognizedEnum
            |""")
       .add(s"lazy val values = scala.collection.Seq(${e.getValues.asScala.map(_.getName.asSymbol).mkString(", ")})")
       .add(s"def fromValue(value: _root_.scala.Int): $name = value match {")
@@ -116,7 +116,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         case (p, v) =>
           p.addStringMargin(
             s"""@SerialVersionUID(0L)${if(v.getOptions.getDeprecated){" " + ProtobufGenerator.deprecatedAnnotation} else ""}
-               |case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaTypeName} {
+               |final case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaTypeName} {
                |  type ValueType = ${v.scalaTypeName}
                |  override def is${v.upperScalaName}: _root_.scala.Boolean = true
                |  override def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = Some(value)
