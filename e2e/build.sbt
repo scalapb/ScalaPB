@@ -21,7 +21,7 @@ val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
 
 
 val commonSettings = Seq(
-    scalacOptions ++= Seq("-deprecation"),
+    scalacOptions ++= Seq("-deprecation", "-Ywarn-numeric-widen"),
     scalacOptions in Test ++= PartialFunction.condOpt(CrossVersion.partialVersion(scalaVersion.value)){
       case Some((2, v)) if v >= 11 =>
         Seq("-Ywarn-unused-import")

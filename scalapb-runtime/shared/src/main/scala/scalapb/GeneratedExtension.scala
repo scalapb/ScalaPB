@@ -110,4 +110,9 @@ object GeneratedExtension {
         .compose(listLens)
         .compose(repeatedUnknownFieldLensUnpackable(fromBase, toBase)))
   }
+
+  object Internal {
+    def bool2Long(b: Boolean) = if (b) 1L else 0L
+  }
+
 }

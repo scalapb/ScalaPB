@@ -1086,7 +1086,10 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             case Type.INT32 => ("varintLens", MethodApplication("toInt"), Identity)
             case Type.FIXED64 => ("fixed64Lens", Identity, Identity)
             case Type.FIXED32 => ("fixed32Lens", Identity, Identity)
-            case Type.BOOL => ("varintLens", OperatorApplication("!= 0"), MethodApplication("compareTo(false)"))
+            case Type.BOOL => (
+              "varintLens",
+              OperatorApplication("!= 0"),
+              FunctionApplication("_root_.scalapb.GeneratedExtension.Internal.bool2Long"))
             case Type.STRING => (
               "lengthDelimitedLens",
               MethodApplication("toStringUtf8"),
