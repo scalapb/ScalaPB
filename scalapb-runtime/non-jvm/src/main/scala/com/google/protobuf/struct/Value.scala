@@ -199,42 +199,42 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     }
   
     @SerialVersionUID(0L)
-    case class NullValue(value: com.google.protobuf.struct.NullValue) extends com.google.protobuf.struct.Value.Kind {
+    final case class NullValue(value: com.google.protobuf.struct.NullValue) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = com.google.protobuf.struct.NullValue
       override def isNullValue: _root_.scala.Boolean = true
       override def nullValue: scala.Option[com.google.protobuf.struct.NullValue] = Some(value)
       override def number: _root_.scala.Int = 1
     }
     @SerialVersionUID(0L)
-    case class NumberValue(value: _root_.scala.Double) extends com.google.protobuf.struct.Value.Kind {
+    final case class NumberValue(value: _root_.scala.Double) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = _root_.scala.Double
       override def isNumberValue: _root_.scala.Boolean = true
       override def numberValue: scala.Option[_root_.scala.Double] = Some(value)
       override def number: _root_.scala.Int = 2
     }
     @SerialVersionUID(0L)
-    case class StringValue(value: _root_.scala.Predef.String) extends com.google.protobuf.struct.Value.Kind {
+    final case class StringValue(value: _root_.scala.Predef.String) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = _root_.scala.Predef.String
       override def isStringValue: _root_.scala.Boolean = true
       override def stringValue: scala.Option[_root_.scala.Predef.String] = Some(value)
       override def number: _root_.scala.Int = 3
     }
     @SerialVersionUID(0L)
-    case class BoolValue(value: _root_.scala.Boolean) extends com.google.protobuf.struct.Value.Kind {
+    final case class BoolValue(value: _root_.scala.Boolean) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = _root_.scala.Boolean
       override def isBoolValue: _root_.scala.Boolean = true
       override def boolValue: scala.Option[_root_.scala.Boolean] = Some(value)
       override def number: _root_.scala.Int = 4
     }
     @SerialVersionUID(0L)
-    case class StructValue(value: com.google.protobuf.struct.Struct) extends com.google.protobuf.struct.Value.Kind {
+    final case class StructValue(value: com.google.protobuf.struct.Struct) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = com.google.protobuf.struct.Struct
       override def isStructValue: _root_.scala.Boolean = true
       override def structValue: scala.Option[com.google.protobuf.struct.Struct] = Some(value)
       override def number: _root_.scala.Int = 5
     }
     @SerialVersionUID(0L)
-    case class ListValue(value: com.google.protobuf.struct.ListValue) extends com.google.protobuf.struct.Value.Kind {
+    final case class ListValue(value: com.google.protobuf.struct.ListValue) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = com.google.protobuf.struct.ListValue
       override def isListValue: _root_.scala.Boolean = true
       override def listValue: scala.Option[com.google.protobuf.struct.ListValue] = Some(value)

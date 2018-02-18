@@ -320,7 +320,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: _root_.scala.Int) extends CType with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(value: _root_.scala.Int) extends CType with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(value: _root_.scala.Int): CType = value match {
@@ -372,7 +372,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: _root_.scala.Int) extends JSType with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(value: _root_.scala.Int) extends JSType with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(value: _root_.scala.Int): JSType = value match {

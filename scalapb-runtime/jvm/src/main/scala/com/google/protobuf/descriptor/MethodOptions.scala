@@ -195,7 +195,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     }
     
     @SerialVersionUID(0L)
-    case class Unrecognized(value: _root_.scala.Int) extends IdempotencyLevel with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(value: _root_.scala.Int) extends IdempotencyLevel with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
     def fromValue(value: _root_.scala.Int): IdempotencyLevel = value match {
