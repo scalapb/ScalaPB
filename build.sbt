@@ -5,7 +5,7 @@ val Scala211 = "2.11.12"
 
 scalaVersion in ThisBuild := Scala211
 
-crossScalaVersions := Seq(Scala211, "2.10.7", "2.12.4", "2.13.0-M2")
+crossScalaVersions := Seq(Scala211, "2.10.7", "2.12.4", "2.13.0-M3")
 
 organization in ThisBuild := "com.thesamet.scalapb"
 
@@ -47,9 +47,26 @@ lazy val root = project.in(file("."))
 lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file("."))
   .settings(
     name := "lenses",
-    libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
-    )
+    sources in Test := {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 13)) =>
+          // TODO utest_2.13.0-M3
+          Nil
+        case _ =>
+          (sources in Test).value
+      }
+    },
+    libraryDependencies ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 13)) =>
+          // TODO utest_2.13.0-M3
+          Nil
+        case _ =>
+          Seq(
+            "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
+          )
+      }
+    }
   )
   .jsSettings(
     scalacOptions += {
