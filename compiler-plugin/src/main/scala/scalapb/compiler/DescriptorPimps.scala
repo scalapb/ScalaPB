@@ -251,9 +251,21 @@ trait DescriptorPimps {
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
+
+    def javaEnumName = {
+      val name = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
+      s"get${name}Case"
+    }
+
     def scalaName = NameUtils.snakeCaseToCamelCase(oneof.getName)
 
-    def upperScalaName = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
+    def upperScalaName = {
+      val name = oneof.getName match {
+        case "ValueType" | "value_type" => "ValueTypeOneof"
+        case n => n
+      }
+      NameUtils.snakeCaseToCamelCase(name, true)
+    }
 
     def fields: IndexedSeq[FieldDescriptor] = (0 until oneof.getFieldCount).map(oneof.getField).filter(_.getLiteType != FieldType.GROUP)
 

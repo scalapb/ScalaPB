@@ -764,8 +764,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         }
         val oneOfs = message.getOneofs.asScala.map {
           case oneOf =>
-            val javaEnumName = s"get${oneOf.upperScalaName}Case"
-            val head = s"${oneOf.scalaName.asSymbol} = javaPbSource.$javaEnumName.getNumber match {"
+            val head = s"${oneOf.scalaName.asSymbol} = javaPbSource.${oneOf.javaEnumName}.getNumber match {"
             val body = oneOf.fields.map {
               field =>
                 s"  case ${field.getNumber} => ${field.oneOfTypeName}(${javaFieldToScala("javaPbSource", field)})"

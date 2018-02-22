@@ -86,6 +86,20 @@ message Issue348 {
   optional ValueType value_type = 1;
 }
 
+message ValueTypeOneOf {
+  oneof ValueType {
+    string value_1 = 1;
+    int32  value_2 = 2;
+  }
+}
+
+message ValueTypeOneOfUnderscore {
+  oneof value_type {
+    string value_1 = 1;
+    int32  value_2 = 2;
+  }
+}
+
 // https://github.com/scalapb/ScalaPB/issues/395
 message String {
   optional string value = 1;
