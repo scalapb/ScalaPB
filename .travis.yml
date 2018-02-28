@@ -3,7 +3,7 @@ sudo: required
 dist: trusty
 
 scala:
-- 2.10.6
+- 2.10.7
 - 2.11.12
 - 2.12.4
 
@@ -14,9 +14,9 @@ env:
 
 matrix:
   exclude:
-  - scala: 2.10.6
+  - scala: 2.10.7
     env: TEST_SCRIPT=e2e.sh E2E_SHADED=0
-  - scala: 2.10.6
+  - scala: 2.10.7
     env: TEST_SCRIPT=e2e.sh E2E_SHADED=1
   include:
   - scala: 2.11.12
