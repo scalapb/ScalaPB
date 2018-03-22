@@ -18,7 +18,7 @@ trait DescriptorPimps {
     "finally", "for", "forSome", "if", "implicit",
     "import", "lazy", "macro", "match", "new", "null",
     "object", "override", "package", "private", "protected",
-    "return", "sealed", "super", "this", "throw",
+    "return", "sealed", "super", "then", "this", "throw",
     "trait", "try", "true", "type", "val",
     "var", "while", "with", "yield",
     "ne", "scala")
