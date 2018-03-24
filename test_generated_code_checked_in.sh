@@ -2,7 +2,7 @@
 # Test that all generated code is checked in.
 set -e
 
-echo "java -jar ${HOME}/.ivy2/cache/com.github.os72/protoc-jar/jars/protoc-jar-3.5.0.jar -v350 \$@" > protoc
+echo "java -jar ${HOME}/.ivy2/cache/com.github.os72/protoc-jar/jars/protoc-jar-3.5.1.1.jar -v351 \$@" > protoc
 chmod +x protoc
 PATH=${PATH}:${PWD} ./make_plugin_proto.sh
 rm protoc

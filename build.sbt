@@ -67,7 +67,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %%% "lenses" % "0.7.0-test2",
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
-      "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
+      "com.lihaoyi" %%% "utest" % "0.6.4" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
@@ -83,7 +83,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     libraryDependencies ++= Seq(
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
       "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.4" % "test"
+      "org.scalatest" %%% "scalatest" % "3.0.5" % "test"
     )
   )
   .jsSettings(
@@ -104,7 +104,7 @@ lazy val runtimeJVM    = runtime.jvm
 lazy val runtimeJS     = runtime.js
 lazy val runtimeNative = runtime.native
 
-val grpcVersion = "1.10.0"
+val grpcVersion = "1.10.1"
 
 lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .dependsOn(runtimeJVM)
@@ -113,7 +113,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
       "io.grpc" % "grpc-protobuf" % grpcVersion,
-      "org.scalatest" %% "scalatest" % "3.0.4" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "org.mockito" % "mockito-core" % "2.10.0" % "test"
     )
   )
@@ -143,8 +143,8 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.2",
-      "org.scalatest" %% "scalatest" % "3.0.4" % "test"
+      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.3",
+      "org.scalatest" %% "scalatest" % "3.0.5" % "test"
     )
   )
 
@@ -194,13 +194,13 @@ lazy val proptest = project.in(file("proptest"))
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
-        "com.github.os72" % "protoc-jar" % "3.5.0",
+        "com.github.os72" % "protoc-jar" % "3.5.1.1",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
         "com.thesamet.scalapb" %% "lenses" % "0.7.0-test2",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
-        "org.scalatest" %% "scalatest" % "3.0.4" % "test"
+        "org.scalatest" %% "scalatest" % "3.0.5" % "test"
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
@@ -214,10 +214,10 @@ lazy val proptest = project.in(file("proptest"))
 
 lazy val ShortTest = config("short") extend(Test)
 
-val protobufVersion = "3.5.0"
+val protobufVersion = "3.5.1"
 
 // For e2e test
-val sbtPluginVersion = "0.99.15"
+val sbtPluginVersion = "0.99.18"
 
 def genVersionFile(out: File, version: String): File = {
   out.mkdirs()
