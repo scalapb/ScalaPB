@@ -14,6 +14,6 @@ matrix:
     scala: 2.11.12
     dist: trusty
     before_install:
-    - curl https://raw.githubusercontent.com/scala-native/scala-native/9069e8d447f7a9/bin/travis_setup.sh | bash -x
+    - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
     - sbt lensesNative/test "show lensesNative/nativeMissingDependencies"
