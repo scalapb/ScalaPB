@@ -16,4 +16,4 @@ matrix:
     before_install:
     - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
-    - sbt lensesNative/test "show lensesNative/nativeMissingDependencies"
+    - sbt lensesNative/test
