@@ -24,7 +24,7 @@ matrix:
     before_install:
     - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
-    - sbt runtimeNative/test "show runtimeNative/nativeMissingDependencies"
+    - sbt runtimeNative/test
 
   - scala: 2.11.12
     env: TEST_SCRIPT=__misc__
