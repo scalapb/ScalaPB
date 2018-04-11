@@ -65,7 +65,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "lenses" % "0.7.0-test2",
+      "com.thesamet.scalapb" %%% "lenses" % "0.7.0",
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
       "com.lihaoyi" %%% "utest" % "0.6.4" % "test"
     ),
@@ -74,7 +74,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   )
   .platformsSettings(JSPlatform, NativePlatform)(
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.0.1"
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.1"
     ),
     (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
@@ -198,7 +198,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
-        "com.thesamet.scalapb" %% "lenses" % "0.7.0-test2",
+        "com.thesamet.scalapb" %% "lenses" % "0.7.0",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
         "org.scalatest" %% "scalatest" % "3.0.5" % "test"
       ),
