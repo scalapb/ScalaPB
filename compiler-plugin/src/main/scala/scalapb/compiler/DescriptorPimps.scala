@@ -79,8 +79,9 @@ trait DescriptorPimps {
     else fd.getName match {
       case ("number" | "value") if fd.isInOneof => "_" + fd.getName
       case "serialized_size" => "_serializedSize"
-      case "class" => "_class"
-      case x => NameUtils.snakeCaseToCamelCase(x)
+      case x =>
+        val candidate = NameUtils.snakeCaseToCamelCase(x)
+        if (ProtoValidation.ForbiddenFieldNames.contains(candidate)) "_" + candidate else candidate
     }
 
     def upperScalaName: String = if (fieldOptions.getScalaName.nonEmpty)

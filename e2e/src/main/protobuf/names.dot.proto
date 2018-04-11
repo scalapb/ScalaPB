@@ -9,6 +9,12 @@ message Match {
   optional int32 for = 2;
 }
 
+message IfThenElse {
+  optional int32 if = 1;
+  optional int32 then = 2;
+  optional int32 else = 3;
+}
+
 message Option {
 }
 
@@ -47,6 +53,10 @@ message WeirdNamesRequired {
 }
 
 message yield {
+}
+
+// https://github.com/scalapb/ScalaPB/issues/427
+message Unit {
 }
 
 message Any {

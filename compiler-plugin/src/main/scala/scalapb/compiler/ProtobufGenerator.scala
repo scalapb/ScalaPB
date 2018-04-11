@@ -541,7 +541,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     else s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
 
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
-    fp.add(s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {")
+    fp.add(s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {")
       .indent
       .print(message.fields.sortBy(_.getNumber).zipWithIndex) {
         case (printer, (field, index)) =>
