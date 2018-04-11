@@ -36,7 +36,7 @@ final case class Version(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       major.foreach { __v =>
         _output__.writeInt32(1, __v)
       };

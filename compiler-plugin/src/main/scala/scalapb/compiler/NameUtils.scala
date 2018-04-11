@@ -41,5 +41,16 @@ object NameUtils {
     b.toString
   }
 
+  private[compiler] sealed abstract class Case extends Product with Serializable { def isPascal: Boolean }
+  private[compiler] object Case {
+    private[compiler] case object CamelCase extends Case { def isPascal = false }
+    private[compiler] case object PascalCase extends Case { def isPascal = true }
+  }
+
+  private[compiler] sealed abstract class Appendage extends Product with Serializable { def isPrefix: Boolean }
+  private[compiler] object Appendage {
+    private[compiler] case object Prefix extends Appendage { def isPrefix = true }
+    private[compiler] case object Postfix extends Appendage { def isPrefix = false }
+  }
 
 }

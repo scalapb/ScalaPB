@@ -47,7 +47,7 @@ final case class UninterpretedOption(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       name.foreach { __v =>
         _output__.writeTag(2, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
@@ -232,7 +232,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         }
         read
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         _output__.writeString(1, namePart)
         _output__.writeBool(2, isExtension)
       }
