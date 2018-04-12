@@ -36,7 +36,7 @@ final case class ServiceOptions(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       deprecated.foreach { __v =>
         _output__.writeBool(33, __v)
       };

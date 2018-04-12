@@ -73,7 +73,7 @@ final case class SourceCodeInfo(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       location.foreach { __v =>
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(__v.serializedSize)
@@ -285,7 +285,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         }
         read
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         if (path.nonEmpty) {
           _output__.writeTag(1, 2)
           _output__.writeUInt32NoTag(pathSerializedSize)

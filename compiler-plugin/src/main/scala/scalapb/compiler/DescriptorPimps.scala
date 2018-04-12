@@ -80,8 +80,7 @@ trait DescriptorPimps {
       case ("number" | "value") if fd.isInOneof => "_" + fd.getName
       case "serialized_size" => "_serializedSize"
       case x =>
-        val candidate = NameUtils.snakeCaseToCamelCase(x)
-        if (ProtoValidation.ForbiddenFieldNames.contains(candidate)) "_" + candidate else candidate
+        getNameWithFallback(x, false, true)
     }
 
     def upperScalaName: String = if (fieldOptions.getScalaName.nonEmpty)
@@ -89,13 +88,21 @@ trait DescriptorPimps {
     else fd.getName match {
       case "serialized_size" => "_SerializedSize"
       case "class" => "_Class"
-      case x => NameUtils.snakeCaseToCamelCase(x, true)
+      case x => getNameWithFallback(x, true, true)
+    }
+
+    private def getNameWithFallback(x: String, upperInitial: Boolean, prefix: Boolean) = {
+      val candidate = NameUtils.snakeCaseToCamelCase(x, upperInitial)
+      if (ProtoValidation.ForbiddenFieldNames.contains(candidate)) {
+        if (prefix) "_" + candidate
+        else candidate + "_"
+      } else candidate
     }
 
     def upperJavaName: String = fd.getName match {
       case "serialized_size" => "SerializedSize_"
       case "class" => "Class_"
-      case x => NameUtils.snakeCaseToCamelCase(x, true)
+      case x => getNameWithFallback(x, true, false)
     }
 
     def fieldNumberConstantName: String = fd.getName.toUpperCase() + "_FIELD_NUMBER"

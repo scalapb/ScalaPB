@@ -38,7 +38,7 @@ final case class CodeGeneratorResponse(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       error.foreach { __v =>
         _output__.writeString(1, __v)
       };
@@ -204,7 +204,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
         }
         read
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         name.foreach { __v =>
           _output__.writeString(1, __v)
         };

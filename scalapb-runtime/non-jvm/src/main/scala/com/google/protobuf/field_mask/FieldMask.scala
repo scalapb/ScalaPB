@@ -229,7 +229,7 @@ final case class FieldMask(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       paths.foreach { __v =>
         _output__.writeString(1, __v)
       };
