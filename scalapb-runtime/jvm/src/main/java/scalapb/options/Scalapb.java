@@ -290,7 +290,6 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.ScalaPbOptions)
       ScalaPbOptionsOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use ScalaPbOptions.newBuilder() to construct.
     private ScalaPbOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -318,9 +317,6 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -333,8 +329,8 @@ public final class Scalapb {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -902,6 +898,7 @@ public final class Scalapb {
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -1239,7 +1236,7 @@ public final class Scalapb {
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -1252,12 +1249,12 @@ public final class Scalapb {
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -2194,7 +2191,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new ScalaPbOptions(input, extensionRegistry);
+          return new ScalaPbOptions(input, extensionRegistry);
       }
     };
 
@@ -2393,7 +2390,6 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.MessageOptions)
       MessageOptionsOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use MessageOptions.newBuilder() to construct.
     private MessageOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -2416,9 +2412,6 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -2431,8 +2424,8 @@ public final class Scalapb {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -2828,6 +2821,7 @@ public final class Scalapb {
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -3080,7 +3074,7 @@ public final class Scalapb {
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -3093,12 +3087,12 @@ public final class Scalapb {
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -3836,7 +3830,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new MessageOptions(input, extensionRegistry);
+          return new MessageOptions(input, extensionRegistry);
       }
     };
 
@@ -4021,7 +4015,6 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.FieldOptions)
       FieldOptionsOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use FieldOptions.newBuilder() to construct.
     private FieldOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -4046,9 +4039,6 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -4061,8 +4051,8 @@ public final class Scalapb {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -4523,6 +4513,7 @@ public final class Scalapb {
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -4812,7 +4803,7 @@ public final class Scalapb {
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -4825,12 +4816,12 @@ public final class Scalapb {
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -5562,7 +5553,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new FieldOptions(input, extensionRegistry);
+          return new FieldOptions(input, extensionRegistry);
       }
     };
 
@@ -5691,7 +5682,6 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.EnumOptions)
       EnumOptionsOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use EnumOptions.newBuilder() to construct.
     private EnumOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -5712,9 +5702,6 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -5727,8 +5714,8 @@ public final class Scalapb {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -5988,6 +5975,7 @@ public final class Scalapb {
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -6214,7 +6202,7 @@ public final class Scalapb {
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -6227,12 +6215,12 @@ public final class Scalapb {
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -6692,7 +6680,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EnumOptions(input, extensionRegistry);
+          return new EnumOptions(input, extensionRegistry);
       }
     };
 
@@ -6757,7 +6745,6 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.EnumValueOptions)
       EnumValueOptionsOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use EnumValueOptions.newBuilder() to construct.
     private EnumValueOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -6776,9 +6763,6 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -6791,8 +6775,8 @@ public final class Scalapb {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -6914,6 +6898,7 @@ public final class Scalapb {
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -7110,7 +7095,7 @@ public final class Scalapb {
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -7123,12 +7108,12 @@ public final class Scalapb {
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -7338,7 +7323,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new EnumValueOptions(input, extensionRegistry);
+          return new EnumValueOptions(input, extensionRegistry);
       }
     };
 
@@ -7403,7 +7388,6 @@ public final class Scalapb {
       com.google.protobuf.GeneratedMessageV3 implements
       // @@protoc_insertion_point(message_implements:scalapb.OneofOptions)
       OneofOptionsOrBuilder {
-  private static final long serialVersionUID = 0L;
     // Use OneofOptions.newBuilder() to construct.
     private OneofOptions(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
       super(builder);
@@ -7422,9 +7406,6 @@ public final class Scalapb {
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       this();
-      if (extensionRegistry == null) {
-        throw new java.lang.NullPointerException();
-      }
       int mutable_bitField0_ = 0;
       com.google.protobuf.UnknownFieldSet.Builder unknownFields =
           com.google.protobuf.UnknownFieldSet.newBuilder();
@@ -7437,8 +7418,8 @@ public final class Scalapb {
               done = true;
               break;
             default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
                 done = true;
               }
               break;
@@ -7560,6 +7541,7 @@ public final class Scalapb {
       return size;
     }
 
+    private static final long serialVersionUID = 0L;
     @java.lang.Override
     public boolean equals(final java.lang.Object obj) {
       if (obj == this) {
@@ -7756,7 +7738,7 @@ public final class Scalapb {
       }
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.setField(field, value);
       }
       public Builder clearField(
@@ -7769,12 +7751,12 @@ public final class Scalapb {
       }
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          int index, java.lang.Object value) {
+          int index, Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
-          java.lang.Object value) {
+          Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
@@ -7984,7 +7966,7 @@ public final class Scalapb {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-        return new OneofOptions(input, extensionRegistry);
+          return new OneofOptions(input, extensionRegistry);
       }
     };
 
@@ -8148,7 +8130,7 @@ public final class Scalapb {
       "\001(\010\022\027\n\017collection_type\030\010 \001(\t\022\037\n\027preserve" +
       "_unknown_fields\030\t \001(\010\022\'\n\035test_only_no_ja" +
       "va_conversions\030\241\215\006 \001(\010\"~\n\016MessageOptions" +
-      "\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030\002" +
+      "\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030\002",
       " \003(\t\022\023\n\013annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022" +
       "\035\n\025companion_annotations\030\005 \003(\t\"\224\001\n\014Field" +
       "Options\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(" +
@@ -8158,7 +8140,7 @@ public final class Scalapb {
       "extends\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t" +
       "\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n\007ex" +
       "tends\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007extends\030\001" +
-      " \003(\t:G\n\007options\022\034.google.protobuf.FileOp" +
+      " \003(\t:G\n\007options\022\034.google.protobuf.FileOp",
       "tions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n" +
       "\007message\022\037.google.protobuf.MessageOption" +
       "s\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fie" +
@@ -8168,7 +8150,7 @@ public final class Scalapb {
       "calapb.EnumOptions:Q\n\nenum_value\022!.googl" +
       "e.protobuf.EnumValueOptions\030\374\007 \001(\0132\031.sca" +
       "lapb.EnumValueOptions:D\n\005oneof\022\035.google." +
-      "protobuf.OneofOptions\030\374\007 \001(\0132\025.scalapb.O" +
+      "protobuf.OneofOptions\030\374\007 \001(\0132\025.scalapb.O",
       "neofOptionsB\'\n\017scalapb.options\342?\023\n\017scala" +
       "pb.options\020\001"
     };
