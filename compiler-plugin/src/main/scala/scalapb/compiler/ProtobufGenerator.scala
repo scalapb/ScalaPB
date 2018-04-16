@@ -616,23 +616,21 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             .add("}")
             .outdent
             .add("};")
+        } else if (field.customSingleScalaTypeName.isDefined) {
+          printer
+            .add(s"${fieldNameSymbol}.foreach { __v =>")
+            .indent
+            .add(s"val __m = ${toBaseType(field)("__v")}")
+            .call(generateWriteSingleValue(field, "__m"))
+            .outdent
+            .add("};")
         } else {
-          if (field.customSingleScalaTypeName.isDefined) {
-            printer
-              .add(s"${fieldNameSymbol}.foreach { __v =>")
-              .indent
-              .add(s"val __m = ${toBaseType(field)("__v")}")
-              .call(generateWriteSingleValue(field, "__m"))
-              .outdent
-              .add("};")
-          } else {
-            printer
-              .add(s"${fieldNameSymbol}.foreach { __v =>")
-              .indent
-              .call(generateWriteSingleValue(field, toBaseType(field)("__v")))
-              .outdent
-              .add("};")
-          }
+          printer
+            .add(s"${fieldNameSymbol}.foreach { __v =>")
+            .indent
+            .call(generateWriteSingleValue(field, toBaseType(field)("__v")))
+            .outdent
+            .add("};")
         }
     }
       .when(message.preservesUnknownFields)(_.add("unknownFields.writeTo(_output__)"))
