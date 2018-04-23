@@ -30,13 +30,34 @@ final case class UninterpretedOption(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      name.foreach(name => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(name.serializedSize) + name.serializedSize)
-      if (identifierValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, identifierValue.get) }
-      if (positiveIntValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeUInt64Size(4, positiveIntValue.get) }
-      if (negativeIntValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt64Size(5, negativeIntValue.get) }
-      if (doubleValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(6, doubleValue.get) }
-      if (stringValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBytesSize(7, stringValue.get) }
-      if (aggregateValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, aggregateValue.get) }
+      name.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      if (identifierValue.isDefined) {
+        val __value = identifierValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+      };
+      if (positiveIntValue.isDefined) {
+        val __value = positiveIntValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeUInt64Size(4, __value)
+      };
+      if (negativeIntValue.isDefined) {
+        val __value = negativeIntValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeInt64Size(5, __value)
+      };
+      if (doubleValue.isDefined) {
+        val __value = doubleValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(6, __value)
+      };
+      if (stringValue.isDefined) {
+        val __value = stringValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBytesSize(7, __value)
+      };
+      if (aggregateValue.isDefined) {
+        val __value = aggregateValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, __value)
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -49,27 +70,34 @@ final case class UninterpretedOption(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
+        val __m = __v
         _output__.writeTag(2, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       identifierValue.foreach { __v =>
-        _output__.writeString(3, __v)
+        val __m = __v
+        _output__.writeString(3, __m)
       };
       positiveIntValue.foreach { __v =>
-        _output__.writeUInt64(4, __v)
+        val __m = __v
+        _output__.writeUInt64(4, __m)
       };
       negativeIntValue.foreach { __v =>
-        _output__.writeInt64(5, __v)
+        val __m = __v
+        _output__.writeInt64(5, __m)
       };
       doubleValue.foreach { __v =>
-        _output__.writeDouble(6, __v)
+        val __m = __v
+        _output__.writeDouble(6, __m)
       };
       stringValue.foreach { __v =>
-        _output__.writeBytes(7, __v)
+        val __m = __v
+        _output__.writeBytes(7, __m)
       };
       aggregateValue.foreach { __v =>
-        _output__.writeString(8, __v)
+        val __m = __v
+        _output__.writeString(8, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = {
@@ -220,8 +248,16 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, namePart)
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, isExtension)
+        
+        {
+          val __value = namePart
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+        };
+        
+        {
+          val __value = isExtension
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, __value)
+        };
         __size
       }
       final override def serializedSize: _root_.scala.Int = {
@@ -233,8 +269,16 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         read
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
-        _output__.writeString(1, namePart)
-        _output__.writeBool(2, isExtension)
+        
+        {
+          val __v = namePart
+          _output__.writeString(1, __v)
+        };
+        
+        {
+          val __v = isExtension
+          _output__.writeBool(2, __v)
+        };
       }
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
         var __namePart = this.namePart

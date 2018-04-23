@@ -16,8 +16,14 @@ final case class OneofDescriptorProto(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
+      if (name.isDefined) {
+        val __value = name.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      if (options.isDefined) {
+        val __value = options.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -30,12 +36,14 @@ final case class OneofDescriptorProto(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       options.foreach { __v =>
+        val __m = __v
         _output__.writeTag(2, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofDescriptorProto = {

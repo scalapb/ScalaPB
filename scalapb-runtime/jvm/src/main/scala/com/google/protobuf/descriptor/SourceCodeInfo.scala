@@ -62,7 +62,10 @@ final case class SourceCodeInfo(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      location.foreach(location => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(location.serializedSize) + location.serializedSize)
+      location.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -75,9 +78,10 @@ final case class SourceCodeInfo(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       location.foreach { __v =>
+        val __m = __v
         _output__.writeTag(1, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo = {
@@ -272,9 +276,18 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
           val __localsize = spanSerializedSize
           __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
         }
-        if (leadingComments.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, leadingComments.get) }
-        if (trailingComments.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, trailingComments.get) }
-        leadingDetachedComments.foreach(leadingDetachedComments => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, leadingDetachedComments))
+        if (leadingComments.isDefined) {
+          val __value = leadingComments.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+        };
+        if (trailingComments.isDefined) {
+          val __value = trailingComments.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
+        };
+        leadingDetachedComments.foreach { __item =>
+          val __value = __item
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, __value)
+        }
         __size
       }
       final override def serializedSize: _root_.scala.Int = {
@@ -297,13 +310,16 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
           span.foreach(_output__.writeInt32NoTag)
         };
         leadingComments.foreach { __v =>
-          _output__.writeString(3, __v)
+          val __m = __v
+          _output__.writeString(3, __m)
         };
         trailingComments.foreach { __v =>
-          _output__.writeString(4, __v)
+          val __m = __v
+          _output__.writeString(4, __m)
         };
         leadingDetachedComments.foreach { __v =>
-          _output__.writeString(6, __v)
+          val __m = __v
+          _output__.writeString(6, __m)
         };
       }
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo.Location = {

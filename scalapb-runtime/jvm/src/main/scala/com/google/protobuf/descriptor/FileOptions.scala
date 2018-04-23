@@ -99,23 +99,74 @@ final case class FileOptions(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (javaPackage.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, javaPackage.get) }
-      if (javaOuterClassname.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, javaOuterClassname.get) }
-      if (javaMultipleFiles.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(10, javaMultipleFiles.get) }
-      if (javaGenerateEqualsAndHash.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(20, javaGenerateEqualsAndHash.get) }
-      if (javaStringCheckUtf8.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(27, javaStringCheckUtf8.get) }
-      if (optimizeFor.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(9, optimizeFor.get.value) }
-      if (goPackage.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, goPackage.get) }
-      if (ccGenericServices.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(16, ccGenericServices.get) }
-      if (javaGenericServices.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(17, javaGenericServices.get) }
-      if (pyGenericServices.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(18, pyGenericServices.get) }
-      if (deprecated.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(23, deprecated.get) }
-      if (ccEnableArenas.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(31, ccEnableArenas.get) }
-      if (objcClassPrefix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(36, objcClassPrefix.get) }
-      if (csharpNamespace.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(37, csharpNamespace.get) }
-      if (swiftPrefix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(39, swiftPrefix.get) }
-      if (phpClassPrefix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(40, phpClassPrefix.get) }
-      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
+      if (javaPackage.isDefined) {
+        val __value = javaPackage.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      if (javaOuterClassname.isDefined) {
+        val __value = javaOuterClassname.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, __value)
+      };
+      if (javaMultipleFiles.isDefined) {
+        val __value = javaMultipleFiles.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(10, __value)
+      };
+      if (javaGenerateEqualsAndHash.isDefined) {
+        val __value = javaGenerateEqualsAndHash.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(20, __value)
+      };
+      if (javaStringCheckUtf8.isDefined) {
+        val __value = javaStringCheckUtf8.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(27, __value)
+      };
+      if (optimizeFor.isDefined) {
+        val __value = optimizeFor.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(9, __value.value)
+      };
+      if (goPackage.isDefined) {
+        val __value = goPackage.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, __value)
+      };
+      if (ccGenericServices.isDefined) {
+        val __value = ccGenericServices.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(16, __value)
+      };
+      if (javaGenericServices.isDefined) {
+        val __value = javaGenericServices.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(17, __value)
+      };
+      if (pyGenericServices.isDefined) {
+        val __value = pyGenericServices.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(18, __value)
+      };
+      if (deprecated.isDefined) {
+        val __value = deprecated.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(23, __value)
+      };
+      if (ccEnableArenas.isDefined) {
+        val __value = ccEnableArenas.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(31, __value)
+      };
+      if (objcClassPrefix.isDefined) {
+        val __value = objcClassPrefix.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(36, __value)
+      };
+      if (csharpNamespace.isDefined) {
+        val __value = csharpNamespace.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(37, __value)
+      };
+      if (swiftPrefix.isDefined) {
+        val __value = swiftPrefix.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(39, __value)
+      };
+      if (phpClassPrefix.isDefined) {
+        val __value = phpClassPrefix.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(40, __value)
+      };
+      uninterpretedOption.foreach { __item =>
+        val __value = __item
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
       __size += unknownFields.serializedSize
       __size
     }
@@ -129,57 +180,74 @@ final case class FileOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       javaPackage.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       javaOuterClassname.foreach { __v =>
-        _output__.writeString(8, __v)
+        val __m = __v
+        _output__.writeString(8, __m)
       };
       optimizeFor.foreach { __v =>
-        _output__.writeEnum(9, __v.value)
+        val __m = __v
+        _output__.writeEnum(9, __m.value)
       };
       javaMultipleFiles.foreach { __v =>
-        _output__.writeBool(10, __v)
+        val __m = __v
+        _output__.writeBool(10, __m)
       };
       goPackage.foreach { __v =>
-        _output__.writeString(11, __v)
+        val __m = __v
+        _output__.writeString(11, __m)
       };
       ccGenericServices.foreach { __v =>
-        _output__.writeBool(16, __v)
+        val __m = __v
+        _output__.writeBool(16, __m)
       };
       javaGenericServices.foreach { __v =>
-        _output__.writeBool(17, __v)
+        val __m = __v
+        _output__.writeBool(17, __m)
       };
       pyGenericServices.foreach { __v =>
-        _output__.writeBool(18, __v)
+        val __m = __v
+        _output__.writeBool(18, __m)
       };
       javaGenerateEqualsAndHash.foreach { __v =>
-        _output__.writeBool(20, __v)
+        val __m = __v
+        _output__.writeBool(20, __m)
       };
       deprecated.foreach { __v =>
-        _output__.writeBool(23, __v)
+        val __m = __v
+        _output__.writeBool(23, __m)
       };
       javaStringCheckUtf8.foreach { __v =>
-        _output__.writeBool(27, __v)
+        val __m = __v
+        _output__.writeBool(27, __m)
       };
       ccEnableArenas.foreach { __v =>
-        _output__.writeBool(31, __v)
+        val __m = __v
+        _output__.writeBool(31, __m)
       };
       objcClassPrefix.foreach { __v =>
-        _output__.writeString(36, __v)
+        val __m = __v
+        _output__.writeString(36, __m)
       };
       csharpNamespace.foreach { __v =>
-        _output__.writeString(37, __v)
+        val __m = __v
+        _output__.writeString(37, __m)
       };
       swiftPrefix.foreach { __v =>
-        _output__.writeString(39, __v)
+        val __m = __v
+        _output__.writeString(39, __m)
       };
       phpClassPrefix.foreach { __v =>
-        _output__.writeString(40, __v)
+        val __m = __v
+        _output__.writeString(40, __m)
       };
       uninterpretedOption.foreach { __v =>
+        val __m = __v
         _output__.writeTag(999, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       unknownFields.writeTo(_output__)
     }

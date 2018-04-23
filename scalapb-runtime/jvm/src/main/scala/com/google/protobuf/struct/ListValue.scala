@@ -21,7 +21,10 @@ final case class ListValue(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      values.foreach(values => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(values.serializedSize) + values.serializedSize)
+      values.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -34,9 +37,10 @@ final case class ListValue(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       values.foreach { __v =>
+        val __m = __v
         _output__.writeTag(1, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = {

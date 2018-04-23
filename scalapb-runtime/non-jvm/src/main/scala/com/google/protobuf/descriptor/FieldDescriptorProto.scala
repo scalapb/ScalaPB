@@ -51,16 +51,46 @@ final case class FieldDescriptorProto(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      if (number.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, number.get) }
-      if (label.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(4, label.get.value) }
-      if (`type`.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, `type`.get.value) }
-      if (typeName.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, typeName.get) }
-      if (extendee.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, extendee.get) }
-      if (defaultValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(7, defaultValue.get) }
-      if (oneofIndex.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(9, oneofIndex.get) }
-      if (jsonName.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, jsonName.get) }
-      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
+      if (name.isDefined) {
+        val __value = name.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      if (number.isDefined) {
+        val __value = number.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, __value)
+      };
+      if (label.isDefined) {
+        val __value = label.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(4, __value.value)
+      };
+      if (`type`.isDefined) {
+        val __value = `type`.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, __value.value)
+      };
+      if (typeName.isDefined) {
+        val __value = typeName.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, __value)
+      };
+      if (extendee.isDefined) {
+        val __value = extendee.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+      };
+      if (defaultValue.isDefined) {
+        val __value = defaultValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(7, __value)
+      };
+      if (oneofIndex.isDefined) {
+        val __value = oneofIndex.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(9, __value)
+      };
+      if (jsonName.isDefined) {
+        val __value = jsonName.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, __value)
+      };
+      if (options.isDefined) {
+        val __value = options.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -73,36 +103,46 @@ final case class FieldDescriptorProto(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       name.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       extendee.foreach { __v =>
-        _output__.writeString(2, __v)
+        val __m = __v
+        _output__.writeString(2, __m)
       };
       number.foreach { __v =>
-        _output__.writeInt32(3, __v)
+        val __m = __v
+        _output__.writeInt32(3, __m)
       };
       label.foreach { __v =>
-        _output__.writeEnum(4, __v.value)
+        val __m = __v
+        _output__.writeEnum(4, __m.value)
       };
       `type`.foreach { __v =>
-        _output__.writeEnum(5, __v.value)
+        val __m = __v
+        _output__.writeEnum(5, __m.value)
       };
       typeName.foreach { __v =>
-        _output__.writeString(6, __v)
+        val __m = __v
+        _output__.writeString(6, __m)
       };
       defaultValue.foreach { __v =>
-        _output__.writeString(7, __v)
+        val __m = __v
+        _output__.writeString(7, __m)
       };
       options.foreach { __v =>
+        val __m = __v
         _output__.writeTag(8, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       oneofIndex.foreach { __v =>
-        _output__.writeInt32(9, __v)
+        val __m = __v
+        _output__.writeInt32(9, __m)
       };
       jsonName.foreach { __v =>
-        _output__.writeString(10, __v)
+        val __m = __v
+        _output__.writeString(10, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldDescriptorProto = {

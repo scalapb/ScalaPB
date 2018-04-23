@@ -109,8 +109,20 @@ final case class Any(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (typeUrl != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, typeUrl) }
-      if (value != _root_.com.google.protobuf.ByteString.EMPTY) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBytesSize(2, value) }
+      
+      {
+        val __value = typeUrl
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+        }
+      };
+      
+      {
+        val __value = value
+        if (__value != _root_.com.google.protobuf.ByteString.EMPTY) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeBytesSize(2, __value)
+        }
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {

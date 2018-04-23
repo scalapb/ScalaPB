@@ -71,11 +71,26 @@ final case class MessageOptions(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (messageSetWireFormat.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(1, messageSetWireFormat.get) }
-      if (noStandardDescriptorAccessor.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, noStandardDescriptorAccessor.get) }
-      if (deprecated.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, deprecated.get) }
-      if (mapEntry.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, mapEntry.get) }
-      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
+      if (messageSetWireFormat.isDefined) {
+        val __value = messageSetWireFormat.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(1, __value)
+      };
+      if (noStandardDescriptorAccessor.isDefined) {
+        val __value = noStandardDescriptorAccessor.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, __value)
+      };
+      if (deprecated.isDefined) {
+        val __value = deprecated.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, __value)
+      };
+      if (mapEntry.isDefined) {
+        val __value = mapEntry.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, __value)
+      };
+      uninterpretedOption.foreach { __item =>
+        val __value = __item
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
       __size += unknownFields.serializedSize
       __size
     }
@@ -89,21 +104,26 @@ final case class MessageOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       messageSetWireFormat.foreach { __v =>
-        _output__.writeBool(1, __v)
+        val __m = __v
+        _output__.writeBool(1, __m)
       };
       noStandardDescriptorAccessor.foreach { __v =>
-        _output__.writeBool(2, __v)
+        val __m = __v
+        _output__.writeBool(2, __m)
       };
       deprecated.foreach { __v =>
-        _output__.writeBool(3, __v)
+        val __m = __v
+        _output__.writeBool(3, __m)
       };
       mapEntry.foreach { __v =>
-        _output__.writeBool(7, __v)
+        val __m = __v
+        _output__.writeBool(7, __m)
       };
       uninterpretedOption.foreach { __v =>
+        val __m = __v
         _output__.writeTag(999, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       unknownFields.writeTo(_output__)
     }

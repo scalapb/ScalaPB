@@ -20,7 +20,13 @@ final case class StringValue(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (value != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, value) }
+      
+      {
+        val __value = value
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+        }
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {

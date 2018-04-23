@@ -98,8 +98,20 @@ final case class Mixin(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (name != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name) }
-      if (root != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, root) }
+      
+      {
+        val __value = name
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+        }
+      };
+      
+      {
+        val __value = root
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+        }
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {

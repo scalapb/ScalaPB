@@ -31,13 +31,34 @@ final case class FieldOptions(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (`type`.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, `type`.get) }
-      if (scalaName.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, scalaName.get) }
-      if (collectionType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, collectionType.get) }
-      if (keyType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, keyType.get) }
-      if (valueType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(5, valueType.get) }
-      annotations.foreach(annotations => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, annotations))
-      if (noBox.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, noBox.get) }
+      if (`type`.isDefined) {
+        val __value = `type`.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      if (scalaName.isDefined) {
+        val __value = scalaName.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+      };
+      if (collectionType.isDefined) {
+        val __value = collectionType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+      };
+      if (keyType.isDefined) {
+        val __value = keyType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
+      };
+      if (valueType.isDefined) {
+        val __value = valueType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(5, __value)
+      };
+      annotations.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, __value)
+      }
+      if (noBox.isDefined) {
+        val __value = noBox.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, __value)
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -50,25 +71,32 @@ final case class FieldOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       `type`.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       scalaName.foreach { __v =>
-        _output__.writeString(2, __v)
+        val __m = __v
+        _output__.writeString(2, __m)
       };
       collectionType.foreach { __v =>
-        _output__.writeString(3, __v)
+        val __m = __v
+        _output__.writeString(3, __m)
       };
       keyType.foreach { __v =>
-        _output__.writeString(4, __v)
+        val __m = __v
+        _output__.writeString(4, __m)
       };
       valueType.foreach { __v =>
-        _output__.writeString(5, __v)
+        val __m = __v
+        _output__.writeString(5, __m)
       };
       annotations.foreach { __v =>
-        _output__.writeString(6, __v)
+        val __m = __v
+        _output__.writeString(6, __m)
       };
       noBox.foreach { __v =>
-        _output__.writeBool(30, __v)
+        val __m = __v
+        _output__.writeBool(30, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = {

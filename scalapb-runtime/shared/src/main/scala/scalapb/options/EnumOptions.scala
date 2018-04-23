@@ -23,9 +23,18 @@ final case class EnumOptions(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      `extends`.foreach(`extends` => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, `extends`))
-      companionExtends.foreach(companionExtends => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, companionExtends))
-      if (`type`.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, `type`.get) }
+      `extends`.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      }
+      companionExtends.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+      }
+      if (`type`.isDefined) {
+        val __value = `type`.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -38,13 +47,16 @@ final case class EnumOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       `extends`.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       companionExtends.foreach { __v =>
-        _output__.writeString(2, __v)
+        val __m = __v
+        _output__.writeString(2, __m)
       };
       `type`.foreach { __v =>
-        _output__.writeString(3, __v)
+        val __m = __v
+        _output__.writeString(3, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.EnumOptions = {

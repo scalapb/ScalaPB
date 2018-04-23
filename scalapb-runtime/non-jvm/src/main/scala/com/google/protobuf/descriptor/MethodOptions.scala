@@ -24,9 +24,18 @@ final case class MethodOptions(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (deprecated.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(33, deprecated.get) }
-      if (idempotencyLevel.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(34, idempotencyLevel.get.value) }
-      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
+      if (deprecated.isDefined) {
+        val __value = deprecated.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(33, __value)
+      };
+      if (idempotencyLevel.isDefined) {
+        val __value = idempotencyLevel.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(34, __value.value)
+      };
+      uninterpretedOption.foreach { __item =>
+        val __value = __item
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
       __size += unknownFields.serializedSize
       __size
     }
@@ -40,15 +49,18 @@ final case class MethodOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       deprecated.foreach { __v =>
-        _output__.writeBool(33, __v)
+        val __m = __v
+        _output__.writeBool(33, __m)
       };
       idempotencyLevel.foreach { __v =>
-        _output__.writeEnum(34, __v.value)
+        val __m = __v
+        _output__.writeEnum(34, __m.value)
       };
       uninterpretedOption.foreach { __v =>
+        val __m = __v
         _output__.writeTag(999, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       unknownFields.writeTo(_output__)
     }

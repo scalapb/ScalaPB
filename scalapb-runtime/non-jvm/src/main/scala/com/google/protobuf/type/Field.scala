@@ -47,16 +47,73 @@ final case class Field(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (kind != com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, kind.value) }
-      if (cardinality != com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(2, cardinality.value) }
-      if (number != 0) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, number) }
-      if (name != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, name) }
-      if (typeUrl != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, typeUrl) }
-      if (oneofIndex != 0) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(7, oneofIndex) }
-      if (packed != false) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(8, packed) }
-      options.foreach(options => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
-      if (jsonName != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, jsonName) }
-      if (defaultValue != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, defaultValue) }
+      
+      {
+        val __value = kind
+        if (__value != com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
+        }
+      };
+      
+      {
+        val __value = cardinality
+        if (__value != com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(2, __value.value)
+        }
+      };
+      
+      {
+        val __value = number
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, __value)
+        }
+      };
+      
+      {
+        val __value = name
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
+        }
+      };
+      
+      {
+        val __value = typeUrl
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, __value)
+        }
+      };
+      
+      {
+        val __value = oneofIndex
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(7, __value)
+        }
+      };
+      
+      {
+        val __value = packed
+        if (__value != false) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(8, __value)
+        }
+      };
+      options.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      
+      {
+        val __value = jsonName
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, __value)
+        }
+      };
+      
+      {
+        val __value = defaultValue
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, __value)
+        }
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -111,9 +168,10 @@ final case class Field(
         }
       };
       options.foreach { __v =>
+        val __m = __v
         _output__.writeTag(9, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       {
         val __v = jsonName

@@ -23,8 +23,14 @@ final case class EnumValueOptions(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (deprecated.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(1, deprecated.get) }
-      uninterpretedOption.foreach(uninterpretedOption => __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(uninterpretedOption.serializedSize) + uninterpretedOption.serializedSize)
+      if (deprecated.isDefined) {
+        val __value = deprecated.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(1, __value)
+      };
+      uninterpretedOption.foreach { __item =>
+        val __value = __item
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
       __size += unknownFields.serializedSize
       __size
     }
@@ -38,12 +44,14 @@ final case class EnumValueOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       deprecated.foreach { __v =>
-        _output__.writeBool(1, __v)
+        val __m = __v
+        _output__.writeBool(1, __m)
       };
       uninterpretedOption.foreach { __v =>
+        val __m = __v
         _output__.writeTag(999, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       unknownFields.writeTo(_output__)
     }

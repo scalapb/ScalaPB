@@ -20,12 +20,30 @@ final case class Value(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (kind.nullValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, kind.nullValue.get.value) }
-      if (kind.numberValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(2, kind.numberValue.get) }
-      if (kind.stringValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, kind.stringValue.get) }
-      if (kind.boolValue.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(4, kind.boolValue.get) }
-      if (kind.structValue.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(kind.structValue.get.serializedSize) + kind.structValue.get.serializedSize }
-      if (kind.listValue.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(kind.listValue.get.serializedSize) + kind.listValue.get.serializedSize }
+      if (kind.nullValue.isDefined) {
+        val __value = kind.nullValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
+      };
+      if (kind.numberValue.isDefined) {
+        val __value = kind.numberValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeDoubleSize(2, __value)
+      };
+      if (kind.stringValue.isDefined) {
+        val __value = kind.stringValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+      };
+      if (kind.boolValue.isDefined) {
+        val __value = kind.boolValue.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(4, __value)
+      };
+      if (kind.structValue.isDefined) {
+        val __value = kind.structValue.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
+      if (kind.listValue.isDefined) {
+        val __value = kind.listValue.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -38,26 +56,32 @@ final case class Value(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
       kind.nullValue.foreach { __v =>
-        _output__.writeEnum(1, __v.value)
+        val __m = __v
+        _output__.writeEnum(1, __m.value)
       };
       kind.numberValue.foreach { __v =>
-        _output__.writeDouble(2, __v)
+        val __m = __v
+        _output__.writeDouble(2, __m)
       };
       kind.stringValue.foreach { __v =>
-        _output__.writeString(3, __v)
+        val __m = __v
+        _output__.writeString(3, __m)
       };
       kind.boolValue.foreach { __v =>
-        _output__.writeBool(4, __v)
+        val __m = __v
+        _output__.writeBool(4, __m)
       };
       kind.structValue.foreach { __v =>
+        val __m = __v
         _output__.writeTag(5, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       kind.listValue.foreach { __v =>
+        val __m = __v
         _output__.writeTag(6, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = {
