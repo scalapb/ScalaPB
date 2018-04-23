@@ -102,7 +102,7 @@ final case class MessageOptions(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       messageSetWireFormat.foreach { __v =>
         val __m = __v
         _output__.writeBool(1, __m)

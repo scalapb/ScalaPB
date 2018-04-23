@@ -54,7 +54,7 @@ final case class Value(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       kind.nullValue.foreach { __v =>
         val __m = __v
         _output__.writeEnum(1, __m.value)

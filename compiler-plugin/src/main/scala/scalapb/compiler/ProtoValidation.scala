@@ -4,9 +4,6 @@ import com.google.protobuf.Descriptors._
 import scala.collection.JavaConverters._
 
 class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
-  val ForbiddenFieldNames = Set(
-    "hashCode", "equals", "clone", "copy", "finalize", "getClass", "notify", "notifyAll", "toString", "wait",
-    "productArity", "productIterator", "productPrefix")
 
   def validateFile(fd: FileDescriptor): Unit = {
     fd.getEnumTypes.asScala.foreach(validateEnum)
@@ -32,7 +29,7 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
   }
 
   def validateField(fd: FieldDescriptor): Unit = {
-    if (ForbiddenFieldNames.contains(fd.scalaName))
+    if (ProtoValidation.ForbiddenFieldNames.contains(fd.scalaName))
       throw new GeneratorException(
         s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed. See https://scalapb.github.io/customizations.html#custom-names")
     if (!fd.isRepeated && fd.fieldOptions.hasCollectionType)
@@ -52,4 +49,24 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
       throw new GeneratorException(
         s"${fd.getFullName}: Field ${fd.getName} has no_box set but is not an optional field.")
   }
+}
+
+object ProtoValidation {
+
+  val ForbiddenFieldNames = Set(
+    "hashCode",
+    "equals",
+    "class",
+    "clone",
+    "copy",
+    "finalize",
+    "getClass",
+    "notify",
+    "notifyAll",
+    "toString",
+    "wait",
+    "productArity",
+    "productIterator",
+    "productPrefix"
+  )
 }

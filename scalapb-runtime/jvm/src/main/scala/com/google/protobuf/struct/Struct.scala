@@ -40,7 +40,7 @@ final case class Struct(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       fields.foreach { __v =>
         val __m = com.google.protobuf.struct.Struct._typemapper_fields.toBase(__v)
         _output__.writeTag(1, 2)
@@ -159,7 +159,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
         }
         read
       }
-      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         {
           val __v = key
           if (__v != "") {

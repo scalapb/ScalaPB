@@ -178,7 +178,7 @@ final case class FileOptions(
       }
       read
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): Unit = {
+    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       javaPackage.foreach { __v =>
         val __m = __v
         _output__.writeString(1, __m)

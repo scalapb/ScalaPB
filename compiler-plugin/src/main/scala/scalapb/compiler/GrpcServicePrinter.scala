@@ -170,6 +170,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, override val params: 
           |  $grpcMethodDescriptor.newBuilder()
           |    .setType($grpcMethodDescriptor.MethodType.$methodType)
           |    .setFullMethodName($grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"))
+          |    .setSampledToLocalTracing(true)
           |    .setRequestMarshaller(${marshaller(method.scalaIn)})
           |    .setResponseMarshaller(${marshaller(method.scalaOut)})
           |    .build()
