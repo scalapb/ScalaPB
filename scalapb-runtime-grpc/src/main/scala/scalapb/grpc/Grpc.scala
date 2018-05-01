@@ -16,9 +16,8 @@ object Grpc {
     p.future
   }
 
-  def completeObserver[T](observer: StreamObserver[T])(t: Try[T]): Unit = t match {
-    case scala.util.Success(value) =>
-      observer.onNext(value)
+  def completeObserver[T](observer: StreamObserver[T])(t: Try[T]): Unit = t.map(observer.onNext) match {
+    case scala.util.Success(_) =>
       observer.onCompleted()
     case scala.util.Failure(s: StatusException) =>
       observer.onError(s)
