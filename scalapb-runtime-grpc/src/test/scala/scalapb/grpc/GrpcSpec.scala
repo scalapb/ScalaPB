@@ -19,8 +19,8 @@ class GrpcSpec extends FlatSpec with MockitoSugar {
   }
 
   "Complete observer" should "call onError when onNext fails" in {
-    val observer = mock[StreamObserver[_]]
-    Mockito.when(observer.onNext(ArgumentMatchers.any())).thenReturn(Failure(new RuntimeException("Error!")))
+    val observer = mock[StreamObserver[String]]
+    Mockito.when(observer.onNext(ArgumentMatchers.anyString())).thenThrow(new RuntimeException("Error!"))
 
     Grpc.completeObserver(observer)(Success("Success!"))
 
