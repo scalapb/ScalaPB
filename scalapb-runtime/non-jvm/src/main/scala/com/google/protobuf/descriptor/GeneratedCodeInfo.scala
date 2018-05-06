@@ -21,7 +21,10 @@ final case class GeneratedCodeInfo(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      annotation.foreach(annotation => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(annotation.serializedSize) + annotation.serializedSize)
+      annotation.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -34,9 +37,10 @@ final case class GeneratedCodeInfo(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       annotation.foreach { __v =>
+        val __m = __v
         _output__.writeTag(1, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = {
@@ -143,9 +147,18 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
           val __localsize = pathSerializedSize
           __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
         }
-        if (sourceFile.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, sourceFile.get) }
-        if (begin.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, begin.get) }
-        if (end.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(4, end.get) }
+        if (sourceFile.isDefined) {
+          val __value = sourceFile.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+        };
+        if (begin.isDefined) {
+          val __value = begin.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, __value)
+        };
+        if (end.isDefined) {
+          val __value = end.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(4, __value)
+        };
         __size
       }
       final override def serializedSize: _root_.scala.Int = {
@@ -163,13 +176,16 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
           path.foreach(_output__.writeInt32NoTag)
         };
         sourceFile.foreach { __v =>
-          _output__.writeString(2, __v)
+          val __m = __v
+          _output__.writeString(2, __m)
         };
         begin.foreach { __v =>
-          _output__.writeInt32(3, __v)
+          val __m = __v
+          _output__.writeInt32(3, __m)
         };
         end.foreach { __v =>
-          _output__.writeInt32(4, __v)
+          val __m = __v
+          _output__.writeInt32(4, __m)
         };
       }
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {

@@ -28,12 +28,30 @@ final case class MethodDescriptorProto(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      if (inputType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, inputType.get) }
-      if (outputType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, outputType.get) }
-      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
-      if (clientStreaming.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, clientStreaming.get) }
-      if (serverStreaming.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, serverStreaming.get) }
+      if (name.isDefined) {
+        val __value = name.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      if (inputType.isDefined) {
+        val __value = inputType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+      };
+      if (outputType.isDefined) {
+        val __value = outputType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+      };
+      if (options.isDefined) {
+        val __value = options.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
+      if (clientStreaming.isDefined) {
+        val __value = clientStreaming.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, __value)
+      };
+      if (serverStreaming.isDefined) {
+        val __value = serverStreaming.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, __value)
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -46,24 +64,30 @@ final case class MethodDescriptorProto(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       name.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       inputType.foreach { __v =>
-        _output__.writeString(2, __v)
+        val __m = __v
+        _output__.writeString(2, __m)
       };
       outputType.foreach { __v =>
-        _output__.writeString(3, __v)
+        val __m = __v
+        _output__.writeString(3, __m)
       };
       options.foreach { __v =>
+        val __m = __v
         _output__.writeTag(4, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       clientStreaming.foreach { __v =>
-        _output__.writeBool(5, __v)
+        val __m = __v
+        _output__.writeBool(5, __m)
       };
       serverStreaming.foreach { __v =>
-        _output__.writeBool(6, __v)
+        val __m = __v
+        _output__.writeBool(6, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodDescriptorProto = {

@@ -20,7 +20,13 @@ final case class FloatValue(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (value != 0.0f) { __size += _root_.com.google.protobuf.CodedOutputStream.computeFloatSize(1, value) }
+      
+      {
+        val __value = value
+        if (__value != 0.0f) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeFloatSize(1, __value)
+        }
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {

@@ -58,16 +58,46 @@ final case class ScalaPbOptions(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (packageName.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, packageName.get) }
-      if (flatPackage.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, flatPackage.get) }
-      `import`.foreach(`import` => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, `import`))
-      preamble.foreach(preamble => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, preamble))
-      if (singleFile.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, singleFile.get) }
-      if (noPrimitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, noPrimitiveWrappers.get) }
-      if (primitiveWrappers.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, primitiveWrappers.get) }
-      if (collectionType.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, collectionType.get) }
-      if (preserveUnknownFields.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(9, preserveUnknownFields.get) }
-      if (testOnlyNoJavaConversions.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(100001, testOnlyNoJavaConversions.get) }
+      if (packageName.isDefined) {
+        val __value = packageName.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      if (flatPackage.isDefined) {
+        val __value = flatPackage.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, __value)
+      };
+      `import`.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+      }
+      preamble.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
+      }
+      if (singleFile.isDefined) {
+        val __value = singleFile.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, __value)
+      };
+      if (noPrimitiveWrappers.isDefined) {
+        val __value = noPrimitiveWrappers.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, __value)
+      };
+      if (primitiveWrappers.isDefined) {
+        val __value = primitiveWrappers.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, __value)
+      };
+      if (collectionType.isDefined) {
+        val __value = collectionType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, __value)
+      };
+      if (preserveUnknownFields.isDefined) {
+        val __value = preserveUnknownFields.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(9, __value)
+      };
+      if (testOnlyNoJavaConversions.isDefined) {
+        val __value = testOnlyNoJavaConversions.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(100001, __value)
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -80,34 +110,44 @@ final case class ScalaPbOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       packageName.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       flatPackage.foreach { __v =>
-        _output__.writeBool(2, __v)
+        val __m = __v
+        _output__.writeBool(2, __m)
       };
       `import`.foreach { __v =>
-        _output__.writeString(3, __v)
+        val __m = __v
+        _output__.writeString(3, __m)
       };
       preamble.foreach { __v =>
-        _output__.writeString(4, __v)
+        val __m = __v
+        _output__.writeString(4, __m)
       };
       singleFile.foreach { __v =>
-        _output__.writeBool(5, __v)
+        val __m = __v
+        _output__.writeBool(5, __m)
       };
       primitiveWrappers.foreach { __v =>
-        _output__.writeBool(6, __v)
+        val __m = __v
+        _output__.writeBool(6, __m)
       };
       noPrimitiveWrappers.foreach { __v =>
-        _output__.writeBool(7, __v)
+        val __m = __v
+        _output__.writeBool(7, __m)
       };
       collectionType.foreach { __v =>
-        _output__.writeString(8, __v)
+        val __m = __v
+        _output__.writeString(8, __m)
       };
       preserveUnknownFields.foreach { __v =>
-        _output__.writeBool(9, __v)
+        val __m = __v
+        _output__.writeBool(9, __m)
       };
       testOnlyNoJavaConversions.foreach { __v =>
-        _output__.writeBool(100001, __v)
+        val __m = __v
+        _output__.writeBool(100001, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.ScalaPbOptions = {

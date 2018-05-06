@@ -28,16 +28,46 @@ final case class DescriptorProto(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (name.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name.get) }
-      field.foreach(field => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(field.serializedSize) + field.serializedSize)
-      extension.foreach(extension => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extension.serializedSize) + extension.serializedSize)
-      nestedType.foreach(nestedType => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(nestedType.serializedSize) + nestedType.serializedSize)
-      enumType.foreach(enumType => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(enumType.serializedSize) + enumType.serializedSize)
-      extensionRange.foreach(extensionRange => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(extensionRange.serializedSize) + extensionRange.serializedSize)
-      oneofDecl.foreach(oneofDecl => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(oneofDecl.serializedSize) + oneofDecl.serializedSize)
-      if (options.isDefined) { __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.get.serializedSize) + options.get.serializedSize }
-      reservedRange.foreach(reservedRange => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(reservedRange.serializedSize) + reservedRange.serializedSize)
-      reservedName.foreach(reservedName => __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, reservedName))
+      if (name.isDefined) {
+        val __value = name.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      field.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      extension.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      nestedType.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      enumType.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      extensionRange.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      oneofDecl.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      if (options.isDefined) {
+        val __value = options.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
+      reservedRange.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      reservedName.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, __value)
+      }
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -50,50 +80,60 @@ final case class DescriptorProto(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       name.foreach { __v =>
-        _output__.writeString(1, __v)
+        val __m = __v
+        _output__.writeString(1, __m)
       };
       field.foreach { __v =>
+        val __m = __v
         _output__.writeTag(2, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       nestedType.foreach { __v =>
+        val __m = __v
         _output__.writeTag(3, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       enumType.foreach { __v =>
+        val __m = __v
         _output__.writeTag(4, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       extensionRange.foreach { __v =>
+        val __m = __v
         _output__.writeTag(5, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       extension.foreach { __v =>
+        val __m = __v
         _output__.writeTag(6, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       options.foreach { __v =>
+        val __m = __v
         _output__.writeTag(7, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       oneofDecl.foreach { __v =>
+        val __m = __v
         _output__.writeTag(8, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       reservedRange.foreach { __v =>
+        val __m = __v
         _output__.writeTag(9, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       reservedName.foreach { __v =>
-        _output__.writeString(10, __v)
+        val __m = __v
+        _output__.writeString(10, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto = {
@@ -286,8 +326,14 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
-        if (start.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, start.get) }
-        if (end.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, end.get) }
+        if (start.isDefined) {
+          val __value = start.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
+        };
+        if (end.isDefined) {
+          val __value = end.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, __value)
+        };
         __size
       }
       final override def serializedSize: _root_.scala.Int = {
@@ -300,10 +346,12 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         start.foreach { __v =>
-          _output__.writeInt32(1, __v)
+          val __m = __v
+          _output__.writeInt32(1, __m)
         };
         end.foreach { __v =>
-          _output__.writeInt32(2, __v)
+          val __m = __v
+          _output__.writeInt32(2, __m)
         };
       }
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
@@ -403,8 +451,14 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
-        if (start.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, start.get) }
-        if (end.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, end.get) }
+        if (start.isDefined) {
+          val __value = start.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
+        };
+        if (end.isDefined) {
+          val __value = end.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, __value)
+        };
         __size
       }
       final override def serializedSize: _root_.scala.Int = {
@@ -417,10 +471,12 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         start.foreach { __v =>
-          _output__.writeInt32(1, __v)
+          val __m = __v
+          _output__.writeInt32(1, __m)
         };
         end.foreach { __v =>
-          _output__.writeInt32(2, __v)
+          val __m = __v
+          _output__.writeInt32(2, __m)
         };
       }
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {

@@ -85,8 +85,20 @@ final case class Duration(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (seconds != 0L) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt64Size(1, seconds) }
-      if (nanos != 0) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, nanos) }
+      
+      {
+        val __value = seconds
+        if (__value != 0L) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt64Size(1, __value)
+        }
+      };
+      
+      {
+        val __value = nanos
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, __value)
+        }
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {

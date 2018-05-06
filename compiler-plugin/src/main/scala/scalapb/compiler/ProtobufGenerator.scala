@@ -427,30 +427,42 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val fieldNameSymbol = fieldAccessorSymbol(field)
 
     if (field.isRequired) {
-      fp.add("__size += " + sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol)))
+      fp.add(
+        "",
+        "{",
+        s"  val __value = ${toBaseType(field)(fieldNameSymbol)}",
+        s"  __size += ${sizeExpressionForSingleField(field, "__value")}",
+        "};"
+      )
     } else if (field.isSingular) {
-      if (field.customSingleScalaTypeName.isDefined) {
-        fp.add(
-          "",
-          "{",
-          s"  val __value = ${toBaseType(field)(fieldNameSymbol)}",
-          s"  if (__value != ${defaultValueForGet(field, true)}) {",
-          s"    __size += ${sizeExpressionForSingleField(field, "__value")}",
-          "  }",
-          "};"
-        )
-      } else {
-        fp.add(s"if (${toBaseType(field)(fieldNameSymbol)} != ${defaultValueForGet(field, true)}) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol))} }")
-      }
+      fp.add(
+        "",
+        "{",
+        s"  val __value = ${toBaseType(field)(fieldNameSymbol)}",
+        s"  if (__value != ${defaultValueForGet(field, true)}) {",
+        s"    __size += ${sizeExpressionForSingleField(field, "__value")}",
+        "  }",
+        "};"
+      )
     } else if (field.isOptional) {
-      fp.add(s"if ($fieldNameSymbol.isDefined) { __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol + ".get"))} }")
+      fp.add(
+        s"if ($fieldNameSymbol.isDefined) {",
+        s"  val __value = ${toBaseType(field)(fieldNameSymbol + ".get")}",
+        s"  __size += ${sizeExpressionForSingleField(field, "__value")}",
+        s"};"
+      )
     } else if (field.isRepeated) {
       val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
       if (!field.isPacked) {
         Types.fixedSize(field.getType) match {
           case Some(size) => fp.add(s"__size += ${size + tagSize} * $fieldNameSymbol.size")
-          case None => fp.add(
-            s"$fieldNameSymbol.foreach($fieldNameSymbol => __size += ${sizeExpressionForSingleField(field, toBaseType(field)(fieldNameSymbol))})")
+          case None =>
+            fp.add(
+              s"$fieldNameSymbol.foreach { __item =>",
+              s"  val __value = ${toBaseType(field)("__item")}",
+              s"  __size += ${sizeExpressionForSingleField(field, "__value")}",
+              s"}"
+            )
         }
       } else {
         val fieldName = field.scalaName
@@ -564,7 +576,14 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                  |  ${fieldNameSymbol}.foreach($writeFunc)
                  |};""")
           } else if (field.isRequired) {
-          generateWriteSingleValue(field, toBaseType(field)(fieldNameSymbol))(printer)
+            printer
+              .add("")
+              .add("{")
+              .indent
+              .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
+              .call(generateWriteSingleValue(field, "__v"))
+              .outdent
+              .add("};")
         } else if (field.isSingular) {
           // Singular that are not required are written only if they don't equal their default
           // value.
@@ -583,7 +602,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
           printer
             .add(s"${fieldNameSymbol}.foreach { __v =>")
             .indent
-            .call(generateWriteSingleValue(field, toBaseType(field)("__v")))
+            .add(s"val __m = ${toBaseType(field)("__v")}")
+            .call(generateWriteSingleValue(field, "__m"))
             .outdent
             .add("};")
         }

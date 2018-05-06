@@ -36,13 +36,52 @@ final case class Method(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (name != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, name) }
-      if (requestTypeUrl != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, requestTypeUrl) }
-      if (requestStreaming != false) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, requestStreaming) }
-      if (responseTypeUrl != "") { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, responseTypeUrl) }
-      if (responseStreaming != false) { __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, responseStreaming) }
-      options.foreach(options => __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(options.serializedSize) + options.serializedSize)
-      if (syntax != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) { __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, syntax.value) }
+      
+      {
+        val __value = name
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+        }
+      };
+      
+      {
+        val __value = requestTypeUrl
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+        }
+      };
+      
+      {
+        val __value = requestStreaming
+        if (__value != false) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, __value)
+        }
+      };
+      
+      {
+        val __value = responseTypeUrl
+        if (__value != "") {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
+        }
+      };
+      
+      {
+        val __value = responseStreaming
+        if (__value != false) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, __value)
+        }
+      };
+      options.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      
+      {
+        val __value = syntax
+        if (__value != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, __value.value)
+        }
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -85,9 +124,10 @@ final case class Method(
         }
       };
       options.foreach { __v =>
+        val __m = __v
         _output__.writeTag(6, 2)
-        _output__.writeUInt32NoTag(__v.serializedSize)
-        __v.writeTo(_output__)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
       };
       {
         val __v = syntax

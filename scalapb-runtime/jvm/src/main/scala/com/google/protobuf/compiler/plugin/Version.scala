@@ -22,10 +22,22 @@ final case class Version(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if (major.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, major.get) }
-      if (minor.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, minor.get) }
-      if (patch.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, patch.get) }
-      if (suffix.isDefined) { __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, suffix.get) }
+      if (major.isDefined) {
+        val __value = major.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
+      };
+      if (minor.isDefined) {
+        val __value = minor.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, __value)
+      };
+      if (patch.isDefined) {
+        val __value = patch.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, __value)
+      };
+      if (suffix.isDefined) {
+        val __value = suffix.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
+      };
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -38,16 +50,20 @@ final case class Version(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       major.foreach { __v =>
-        _output__.writeInt32(1, __v)
+        val __m = __v
+        _output__.writeInt32(1, __m)
       };
       minor.foreach { __v =>
-        _output__.writeInt32(2, __v)
+        val __m = __v
+        _output__.writeInt32(2, __m)
       };
       patch.foreach { __v =>
-        _output__.writeInt32(3, __v)
+        val __m = __v
+        _output__.writeInt32(3, __m)
       };
       suffix.foreach { __v =>
-        _output__.writeString(4, __v)
+        val __m = __v
+        _output__.writeString(4, __m)
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.Version = {
