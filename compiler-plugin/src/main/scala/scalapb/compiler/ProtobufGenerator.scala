@@ -96,7 +96,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       }
       .print(e.fields) {
         case (p, v) => p
-          .add(s"def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = None")
+          .add(s"def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = None")
       }
       .outdent
       .addStringMargin(
@@ -119,7 +119,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                |final case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaTypeName} {
                |  type ValueType = ${v.scalaTypeName}
                |  override def is${v.upperScalaName}: _root_.scala.Boolean = true
-               |  override def ${v.scalaName.asSymbol}: scala.Option[${v.scalaTypeName}] = Some(value)
+               |  override def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = Some(value)
                |  override def number: _root_.scala.Int = ${v.getNumber}
                |}""")
     }
@@ -292,7 +292,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
 
   def generateGetField(message: Descriptor)(fp: FunctionalPrinter) = {
-    val signature = "def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = "
+    val signature = "def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = "
     if (message.fields.nonEmpty)
       fp.add(signature + "{")
         .indent
@@ -806,7 +806,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         toCustomTypeExpr(field)
 
     val myFullScalaName = message.scalaTypeName
-    printer.add(s"def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): $myFullScalaName = {")
+    printer.add(s"def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): $myFullScalaName = {")
       .indent
       .add("require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), \"FieldDescriptor does not match message type.\")")
       .when(message.fields.nonEmpty)(
@@ -839,7 +839,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
             val elems = oneOf.fields.map {
               field =>
                 val typeName = if (field.isEnum) "_root_.com.google.protobuf.Descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
-                val e = s"__fieldsMap.get(__fields.get(${field.getIndex})).asInstanceOf[scala.Option[$typeName]]"
+                val e = s"__fieldsMap.get(__fields.get(${field.getIndex})).asInstanceOf[_root_.scala.Option[$typeName]]"
                 (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
             }
             val expr = elems.reduceLeft((acc, field) => s"$acc\n    .orElse[${oneOf.scalaTypeName}]($field)")
@@ -895,7 +895,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
                 field =>
                   val value = s"__fieldsMap.get(scalaDescriptor.findFieldByNumber(${field.getNumber}).get)"
                   val typeName = if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor" else field.baseSingleScalaTypeName
-                  val e = s"$value.flatMap(_.as[scala.Option[$typeName]])"
+                  val e = s"$value.flatMap(_.as[_root_.scala.Option[$typeName]])"
                   (transform(field) andThen FunctionApplication(field.oneOfTypeName)).apply(e, EnclosingType.ScalaOption)
               }
               val expr = elems.reduceLeft((acc, field) => s"$acc\n    .orElse[${oneOf.scalaTypeName}]($field)")

@@ -41,6 +41,7 @@ message WeirdNames {
     t = 2;
   }
   optional int32 com = 12;
+  optional int32 scala = 13;
 }
 
 message WeirdNamesRequired {
