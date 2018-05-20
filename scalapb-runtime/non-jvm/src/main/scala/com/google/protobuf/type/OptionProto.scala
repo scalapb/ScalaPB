@@ -22,7 +22,7 @@ package com.google.protobuf.`type`
 @SerialVersionUID(0L)
 final case class OptionProto(
     name: _root_.scala.Predef.String = "",
-    value: scala.Option[com.google.protobuf.any.Any] = None
+    value: _root_.scala.Option[com.google.protobuf.any.Any] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[OptionProto] with scalapb.lenses.Updatable[OptionProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -87,7 +87,7 @@ final case class OptionProto(
     def getValue: com.google.protobuf.any.Any = value.getOrElse(com.google.protobuf.any.Any.defaultInstance)
     def clearValue: OptionProto = copy(value = None)
     def withValue(__v: com.google.protobuf.any.Any): OptionProto = copy(value = Option(__v))
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
@@ -109,12 +109,12 @@ final case class OptionProto(
 
 object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.OptionProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.`type`.OptionProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.OptionProto(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[com.google.protobuf.any.Any]]
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[com.google.protobuf.any.Any]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.OptionProto] = _root_.scalapb.descriptors.Reads{
@@ -122,7 +122,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.`type`.OptionProto(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[com.google.protobuf.any.Any]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.any.Any]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -142,7 +142,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   implicit class OptionProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.OptionProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.OptionProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))
-    def optionalValue: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.any.Any]] = field(_.value)((c_, f_) => c_.copy(value = f_))
+    def optionalValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.any.Any]] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val VALUE_FIELD_NUMBER = 2

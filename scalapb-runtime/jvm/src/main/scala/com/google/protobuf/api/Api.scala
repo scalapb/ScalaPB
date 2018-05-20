@@ -50,7 +50,7 @@ final case class Api(
     methods: _root_.scala.collection.Seq[com.google.protobuf.api.Method] = _root_.scala.collection.Seq.empty,
     options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
     version: _root_.scala.Predef.String = "",
-    sourceContext: scala.Option[com.google.protobuf.source_context.SourceContext] = None,
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = None,
     mixins: _root_.scala.collection.Seq[com.google.protobuf.api.Mixin] = _root_.scala.collection.Seq.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends scalapb.GeneratedMessage with scalapb.Message[Api] with scalapb.lenses.Updatable[Api] {
@@ -207,7 +207,7 @@ final case class Api(
     def addAllMixins(__vs: TraversableOnce[com.google.protobuf.api.Mixin]): Api = copy(mixins = mixins ++ __vs)
     def withMixins(__v: _root_.scala.collection.Seq[com.google.protobuf.api.Mixin]): Api = copy(mixins = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Api = copy(syntax = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
@@ -265,7 +265,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     mixins = javaPbSource.getMixinsList.asScala.map(com.google.protobuf.api.Mixin.fromJavaProto)(_root_.scala.collection.breakOut),
     syntax = com.google.protobuf.`type`.Syntax.fromValue(javaPbSource.getSyntaxValue.intValue)
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Api = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.api.Api = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.api.Api(
@@ -273,7 +273,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.api.Method]],
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
       __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[com.google.protobuf.source_context.SourceContext]],
+      __fieldsMap.get(__fields.get(4)).asInstanceOf[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]],
       __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.api.Mixin]],
       com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(6), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
@@ -286,7 +286,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.api.Method]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[com.google.protobuf.source_context.SourceContext]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.api.Mixin]]).getOrElse(_root_.scala.collection.Seq.empty),
         com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
@@ -318,7 +318,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def version: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.version)((c_, f_) => c_.copy(version = f_))
     def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
-    def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
+    def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def mixins: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.api.Mixin]] = field(_.mixins)((c_, f_) => c_.copy(mixins = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }

@@ -31,8 +31,8 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class FileDescriptorProto(
-    name: scala.Option[_root_.scala.Predef.String] = None,
-    `package`: scala.Option[_root_.scala.Predef.String] = None,
+    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    `package`: _root_.scala.Option[_root_.scala.Predef.String] = None,
     dependency: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
     publicDependency: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
     weakDependency: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
@@ -40,9 +40,9 @@ final case class FileDescriptorProto(
     enumType: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.collection.Seq.empty,
     service: _root_.scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scala.collection.Seq.empty,
     extension: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.collection.Seq.empty,
-    options: scala.Option[com.google.protobuf.descriptor.FileOptions] = None,
-    sourceCodeInfo: scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = None,
-    syntax: scala.Option[_root_.scala.Predef.String] = None
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = None,
+    sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = None,
+    syntax: _root_.scala.Option[_root_.scala.Predef.String] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[FileDescriptorProto] with scalapb.lenses.Updatable[FileDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -287,7 +287,7 @@ final case class FileDescriptorProto(
     def getSyntax: _root_.scala.Predef.String = syntax.getOrElse("")
     def clearSyntax: FileDescriptorProto = copy(syntax = None)
     def withSyntax(__v: _root_.scala.Predef.String): FileDescriptorProto = copy(syntax = Option(__v))
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 2 => `package`.orNull
@@ -326,12 +326,12 @@ final case class FileDescriptorProto(
 
 object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.FileDescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.FileDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.FileDescriptorProto(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Int]],
       __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Int]],
@@ -339,17 +339,17 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       __fieldsMap.getOrElse(__fields.get(6), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]],
       __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]],
       __fieldsMap.getOrElse(__fields.get(8), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
-      __fieldsMap.get(__fields.get(9)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.FileOptions]],
-      __fieldsMap.get(__fields.get(10)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]],
-      __fieldsMap.get(__fields.get(11)).asInstanceOf[scala.Option[_root_.scala.Predef.String]]
+      __fieldsMap.get(__fields.get(9)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.FileOptions]],
+      __fieldsMap.get(__fields.get(10)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]],
+      __fieldsMap.get(__fields.get(11)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.FileDescriptorProto(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.collection.Seq.empty),
@@ -357,9 +357,9 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.FileOptions]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FileOptions]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -383,9 +383,9 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   )
   implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
-    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def `package`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPackage)((c_, f_) => c_.copy(`package` = Option(f_)))
-    def optionalPackage: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.`package`)((c_, f_) => c_.copy(`package` = f_))
+    def optionalPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`package`)((c_, f_) => c_.copy(`package` = f_))
     def dependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.dependency)((c_, f_) => c_.copy(dependency = f_))
     def publicDependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Int]] = field(_.publicDependency)((c_, f_) => c_.copy(publicDependency = f_))
     def weakDependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Int]] = field(_.weakDependency)((c_, f_) => c_.copy(weakDependency = f_))
@@ -394,11 +394,11 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     def service: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]] = field(_.service)((c_, f_) => c_.copy(service = f_))
     def extension: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
-    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.FileOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FileOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def sourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo] = field(_.getSourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = Option(f_)))
-    def optionalSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]] = field(_.sourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = f_))
+    def optionalSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]] = field(_.sourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSyntax)((c_, f_) => c_.copy(syntax = Option(f_)))
-    def optionalSyntax: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
+    def optionalSyntax: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val PACKAGE_FIELD_NUMBER = 2

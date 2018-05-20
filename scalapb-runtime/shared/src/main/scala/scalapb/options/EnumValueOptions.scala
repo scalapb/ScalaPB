@@ -56,7 +56,7 @@ final case class EnumValueOptions(
     def addExtends(__vs: _root_.scala.Predef.String*): EnumValueOptions = addAllExtends(__vs)
     def addAllExtends(__vs: TraversableOnce[_root_.scala.Predef.String]): EnumValueOptions = copy(`extends` = `extends` ++ __vs)
     def withExtends(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): EnumValueOptions = copy(`extends` = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
       }
@@ -73,7 +73,7 @@ final case class EnumValueOptions(
 
 object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.EnumValueOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.EnumValueOptions] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): scalapb.options.EnumValueOptions = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): scalapb.options.EnumValueOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     scalapb.options.EnumValueOptions(

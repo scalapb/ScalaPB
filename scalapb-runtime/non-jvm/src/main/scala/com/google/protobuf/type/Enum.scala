@@ -23,7 +23,7 @@ final case class Enum(
     name: _root_.scala.Predef.String = "",
     enumvalue: _root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.collection.Seq.empty,
     options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
-    sourceContext: scala.Option[com.google.protobuf.source_context.SourceContext] = None,
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = None,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends scalapb.GeneratedMessage with scalapb.Message[Enum] with scalapb.lenses.Updatable[Enum] {
     @transient
@@ -143,7 +143,7 @@ final case class Enum(
     def clearSourceContext: Enum = copy(sourceContext = None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Enum = copy(sourceContext = Option(__v))
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Enum = copy(syntax = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
@@ -174,14 +174,14 @@ final case class Enum(
 
 object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.Enum = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.`type`.Enum = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.Enum(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue]],
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
-      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[com.google.protobuf.source_context.SourceContext]],
+      __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]],
       com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(4), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
   }
@@ -192,7 +192,7 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[com.google.protobuf.source_context.SourceContext]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
         com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -221,7 +221,7 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     def enumvalue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue]] = field(_.enumvalue)((c_, f_) => c_.copy(enumvalue = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
-    def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
+    def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1

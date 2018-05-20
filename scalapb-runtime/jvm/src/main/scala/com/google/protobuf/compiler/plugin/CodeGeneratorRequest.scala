@@ -35,9 +35,9 @@ import scala.collection.JavaConverters._
 @SerialVersionUID(0L)
 final case class CodeGeneratorRequest(
     fileToGenerate: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
-    parameter: scala.Option[_root_.scala.Predef.String] = None,
+    parameter: _root_.scala.Option[_root_.scala.Predef.String] = None,
     protoFile: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.collection.Seq.empty,
-    compilerVersion: scala.Option[com.google.protobuf.compiler.plugin.Version] = None
+    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[CodeGeneratorRequest] with scalapb.lenses.Updatable[CodeGeneratorRequest] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -133,7 +133,7 @@ final case class CodeGeneratorRequest(
     def getCompilerVersion: com.google.protobuf.compiler.plugin.Version = compilerVersion.getOrElse(com.google.protobuf.compiler.plugin.Version.defaultInstance)
     def clearCompilerVersion: CodeGeneratorRequest = copy(compilerVersion = None)
     def withCompilerVersion(__v: com.google.protobuf.compiler.plugin.Version): CodeGeneratorRequest = copy(compilerVersion = Option(__v))
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => fileToGenerate
         case 2 => parameter.orNull
@@ -170,14 +170,14 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     protoFile = javaPbSource.getProtoFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
     compilerVersion = if (javaPbSource.hasCompilerVersion) Some(com.google.protobuf.compiler.plugin.Version.fromJavaProto(javaPbSource.getCompilerVersion)) else None
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]],
-      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[com.google.protobuf.compiler.plugin.Version]]
+      __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[com.google.protobuf.compiler.plugin.Version]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.compiler.plugin.CodeGeneratorRequest] = _root_.scalapb.descriptors.Reads{
@@ -185,9 +185,9 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[com.google.protobuf.compiler.plugin.Version]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.compiler.plugin.Version]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -208,10 +208,10 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
   implicit class CodeGeneratorRequestLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest](_l) {
     def fileToGenerate: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.fileToGenerate)((c_, f_) => c_.copy(fileToGenerate = f_))
     def parameter: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getParameter)((c_, f_) => c_.copy(parameter = Option(f_)))
-    def optionalParameter: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.parameter)((c_, f_) => c_.copy(parameter = f_))
+    def optionalParameter: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.parameter)((c_, f_) => c_.copy(parameter = f_))
     def protoFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]] = field(_.protoFile)((c_, f_) => c_.copy(protoFile = f_))
     def compilerVersion: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.Version] = field(_.getCompilerVersion)((c_, f_) => c_.copy(compilerVersion = Option(f_)))
-    def optionalCompilerVersion: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.compiler.plugin.Version]] = field(_.compilerVersion)((c_, f_) => c_.copy(compilerVersion = f_))
+    def optionalCompilerVersion: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.compiler.plugin.Version]] = field(_.compilerVersion)((c_, f_) => c_.copy(compilerVersion = f_))
   }
   final val FILE_TO_GENERATE_FIELD_NUMBER = 1
   final val PARAMETER_FIELD_NUMBER = 2

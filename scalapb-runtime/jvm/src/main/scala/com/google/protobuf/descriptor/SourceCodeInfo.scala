@@ -104,7 +104,7 @@ final case class SourceCodeInfo(
     def addLocation(__vs: com.google.protobuf.descriptor.SourceCodeInfo.Location*): SourceCodeInfo = addAllLocation(__vs)
     def addAllLocation(__vs: TraversableOnce[com.google.protobuf.descriptor.SourceCodeInfo.Location]): SourceCodeInfo = copy(location = location ++ __vs)
     def withLocation(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]): SourceCodeInfo = copy(location = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => location
       }
@@ -129,7 +129,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.SourceCodeInfo): com.google.protobuf.descriptor.SourceCodeInfo = com.google.protobuf.descriptor.SourceCodeInfo(
     location = javaPbSource.getLocationList.asScala.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.fromJavaProto)(_root_.scala.collection.breakOut)
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.SourceCodeInfo(
@@ -242,8 +242,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   final case class Location(
       path: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
       span: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
-      leadingComments: scala.Option[_root_.scala.Predef.String] = None,
-      trailingComments: scala.Option[_root_.scala.Predef.String] = None,
+      leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = None,
+      trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = None,
       leadingDetachedComments: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
       ) extends scalapb.GeneratedMessage with scalapb.Message[Location] with scalapb.lenses.Updatable[Location] {
       private[this] def pathSerializedSize = {
@@ -388,7 +388,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       def addLeadingDetachedComments(__vs: _root_.scala.Predef.String*): Location = addAllLeadingDetachedComments(__vs)
       def addAllLeadingDetachedComments(__vs: TraversableOnce[_root_.scala.Predef.String]): Location = copy(leadingDetachedComments = leadingDetachedComments ++ __vs)
       def withLeadingDetachedComments(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): Location = copy(leadingDetachedComments = __v)
-      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => path
           case 2 => span
@@ -429,14 +429,14 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       trailingComments = if (javaPbSource.hasTrailingComments) Some(javaPbSource.getTrailingComments) else None,
       leadingDetachedComments = javaPbSource.getLeadingDetachedCommentsList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut)
     )
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo.Location = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo.Location = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.descriptor.SourceCodeInfo.Location(
         __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Int]],
         __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Int]],
-        __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-        __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+        __fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+        __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
         __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]]
       )
     }
@@ -446,8 +446,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         com.google.protobuf.descriptor.SourceCodeInfo.Location(
           __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.collection.Seq.empty),
           __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.collection.Seq.empty),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
           __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty)
         )
       case _ => throw new RuntimeException("Expected PMessage")
@@ -463,9 +463,9 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
       def span: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Int]] = field(_.span)((c_, f_) => c_.copy(span = f_))
       def leadingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getLeadingComments)((c_, f_) => c_.copy(leadingComments = Option(f_)))
-      def optionalLeadingComments: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.leadingComments)((c_, f_) => c_.copy(leadingComments = f_))
+      def optionalLeadingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.leadingComments)((c_, f_) => c_.copy(leadingComments = f_))
       def trailingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTrailingComments)((c_, f_) => c_.copy(trailingComments = Option(f_)))
-      def optionalTrailingComments: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.trailingComments)((c_, f_) => c_.copy(trailingComments = f_))
+      def optionalTrailingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.trailingComments)((c_, f_) => c_.copy(trailingComments = f_))
       def leadingDetachedComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.leadingDetachedComments)((c_, f_) => c_.copy(leadingDetachedComments = f_))
     }
     final val PATH_FIELD_NUMBER = 1

@@ -22,7 +22,7 @@ final case class MessageOptions(
     `extends`: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
     companionExtends: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
     annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
-    `type`: scala.Option[_root_.scala.Predef.String] = None,
+    `type`: _root_.scala.Option[_root_.scala.Predef.String] = None,
     companionAnnotations: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[MessageOptions] with scalapb.lenses.Updatable[MessageOptions] {
     @transient
@@ -132,7 +132,7 @@ final case class MessageOptions(
     def addCompanionAnnotations(__vs: _root_.scala.Predef.String*): MessageOptions = addAllCompanionAnnotations(__vs)
     def addAllCompanionAnnotations(__vs: TraversableOnce[_root_.scala.Predef.String]): MessageOptions = copy(companionAnnotations = companionAnnotations ++ __vs)
     def withCompanionAnnotations(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): MessageOptions = copy(companionAnnotations = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
         case 2 => companionExtends
@@ -157,14 +157,14 @@ final case class MessageOptions(
 
 object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): scalapb.options.MessageOptions = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): scalapb.options.MessageOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     scalapb.options.MessageOptions(
       __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]]
     )
   }
@@ -175,7 +175,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -192,7 +192,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
     def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
     def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
-    def optionalType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
+    def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
     def companionAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.companionAnnotations)((c_, f_) => c_.copy(companionAnnotations = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1

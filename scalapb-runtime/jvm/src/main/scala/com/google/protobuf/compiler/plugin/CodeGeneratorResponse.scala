@@ -20,7 +20,7 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class CodeGeneratorResponse(
-    error: scala.Option[_root_.scala.Predef.String] = None,
+    error: _root_.scala.Option[_root_.scala.Predef.String] = None,
     file: _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = _root_.scala.collection.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[CodeGeneratorResponse] with scalapb.lenses.Updatable[CodeGeneratorResponse] {
     @transient
@@ -84,7 +84,7 @@ final case class CodeGeneratorResponse(
     def addFile(__vs: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File*): CodeGeneratorResponse = addAllFile(__vs)
     def addAllFile(__vs: TraversableOnce[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = file ++ __vs)
     def withFile(__v: _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => error.orNull
         case 15 => file
@@ -113,11 +113,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     error = if (javaPbSource.hasError) Some(javaPbSource.getError) else None,
     file = javaPbSource.getFileList.asScala.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto)(_root_.scala.collection.breakOut)
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]
     )
   }
@@ -125,7 +125,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -202,9 +202,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     */
   @SerialVersionUID(0L)
   final case class File(
-      name: scala.Option[_root_.scala.Predef.String] = None,
-      insertionPoint: scala.Option[_root_.scala.Predef.String] = None,
-      content: scala.Option[_root_.scala.Predef.String] = None
+      name: _root_.scala.Option[_root_.scala.Predef.String] = None,
+      insertionPoint: _root_.scala.Option[_root_.scala.Predef.String] = None,
+      content: _root_.scala.Option[_root_.scala.Predef.String] = None
       ) extends scalapb.GeneratedMessage with scalapb.Message[File] with scalapb.lenses.Updatable[File] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -279,7 +279,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       def getContent: _root_.scala.Predef.String = content.getOrElse("")
       def clearContent: File = copy(content = None)
       def withContent(__v: _root_.scala.Predef.String): File = copy(content = Option(__v))
-      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => name.orNull
           case 2 => insertionPoint.orNull
@@ -312,22 +312,22 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       insertionPoint = if (javaPbSource.hasInsertionPoint) Some(javaPbSource.getInsertionPoint) else None,
       content = if (javaPbSource.hasContent) Some(javaPbSource.getContent) else None
     )
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
-        __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-        __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-        __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[_root_.scala.Predef.String]]
+        __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+        __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+        __fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]]
       )
     }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]])
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
@@ -340,11 +340,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     )
     implicit class FileLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File](_l) {
       def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
-      def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+      def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
       def insertionPoint: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getInsertionPoint)((c_, f_) => c_.copy(insertionPoint = Option(f_)))
-      def optionalInsertionPoint: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.insertionPoint)((c_, f_) => c_.copy(insertionPoint = f_))
+      def optionalInsertionPoint: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.insertionPoint)((c_, f_) => c_.copy(insertionPoint = f_))
       def content: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getContent)((c_, f_) => c_.copy(content = Option(f_)))
-      def optionalContent: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.content)((c_, f_) => c_.copy(content = f_))
+      def optionalContent: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.content)((c_, f_) => c_.copy(content = f_))
     }
     final val NAME_FIELD_NUMBER = 1
     final val INSERTION_POINT_FIELD_NUMBER = 2
@@ -353,7 +353,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   
   implicit class CodeGeneratorResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse](_l) {
     def error: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getError)((c_, f_) => c_.copy(error = Option(f_)))
-    def optionalError: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.error)((c_, f_) => c_.copy(error = f_))
+    def optionalError: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.error)((c_, f_) => c_.copy(error = f_))
     def file: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]] = field(_.file)((c_, f_) => c_.copy(file = f_))
   }
   final val ERROR_FIELD_NUMBER = 1

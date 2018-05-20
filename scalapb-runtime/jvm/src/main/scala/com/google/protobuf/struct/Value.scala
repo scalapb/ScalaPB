@@ -124,7 +124,7 @@ final case class Value(
     def withListValue(__v: com.google.protobuf.struct.ListValue): Value = copy(kind = com.google.protobuf.struct.Value.Kind.ListValue(__v))
     def clearKind: Value = copy(kind = com.google.protobuf.struct.Value.Kind.Empty)
     def withKind(__v: com.google.protobuf.struct.Value.Kind): Value = copy(kind = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => kind.nullValue.map(_.javaValueDescriptor).orNull
         case 2 => kind.numberValue.orNull
@@ -172,16 +172,16 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
       case _ => com.google.protobuf.struct.Value.Kind.Empty
     }
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.Value = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.struct.Value = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.struct.Value(
-      kind = __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(__e.getNumber)))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Double]].map(com.google.protobuf.struct.Value.Kind.NumberValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[_root_.scala.Predef.String]].map(com.google.protobuf.struct.Value.Kind.StringValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[_root_.scala.Boolean]].map(com.google.protobuf.struct.Value.Kind.BoolValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[com.google.protobuf.struct.Struct]].map(com.google.protobuf.struct.Value.Kind.StructValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[com.google.protobuf.struct.ListValue]].map(com.google.protobuf.struct.Value.Kind.ListValue))
+      kind = __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(__e.getNumber)))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Double]].map(com.google.protobuf.struct.Value.Kind.NumberValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]].map(com.google.protobuf.struct.Value.Kind.StringValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]].map(com.google.protobuf.struct.Value.Kind.BoolValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(4)).asInstanceOf[_root_.scala.Option[com.google.protobuf.struct.Struct]].map(com.google.protobuf.struct.Value.Kind.StructValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(5)).asInstanceOf[_root_.scala.Option[com.google.protobuf.struct.ListValue]].map(com.google.protobuf.struct.Value.Kind.ListValue))
     .getOrElse(com.google.protobuf.struct.Value.Kind.Empty)
     )
   }
@@ -189,12 +189,12 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.Value(
-        kind = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(__e.number)))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Double]]).map(com.google.protobuf.struct.Value.Kind.NumberValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]).map(com.google.protobuf.struct.Value.Kind.StringValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]).map(com.google.protobuf.struct.Value.Kind.BoolValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[com.google.protobuf.struct.Struct]]).map(com.google.protobuf.struct.Value.Kind.StructValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[com.google.protobuf.struct.ListValue]]).map(com.google.protobuf.struct.Value.Kind.ListValue))
+        kind = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(__e.number)))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Double]]).map(com.google.protobuf.struct.Value.Kind.NumberValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]).map(com.google.protobuf.struct.Value.Kind.StringValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]).map(com.google.protobuf.struct.Value.Kind.BoolValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.Struct]]).map(com.google.protobuf.struct.Value.Kind.StructValue))
+    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.ListValue]]).map(com.google.protobuf.struct.Value.Kind.ListValue))
     .getOrElse(com.google.protobuf.struct.Value.Kind.Empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -226,12 +226,12 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     def isBoolValue: _root_.scala.Boolean = false
     def isStructValue: _root_.scala.Boolean = false
     def isListValue: _root_.scala.Boolean = false
-    def nullValue: scala.Option[com.google.protobuf.struct.NullValue] = None
-    def numberValue: scala.Option[_root_.scala.Double] = None
-    def stringValue: scala.Option[_root_.scala.Predef.String] = None
-    def boolValue: scala.Option[_root_.scala.Boolean] = None
-    def structValue: scala.Option[com.google.protobuf.struct.Struct] = None
-    def listValue: scala.Option[com.google.protobuf.struct.ListValue] = None
+    def nullValue: _root_.scala.Option[com.google.protobuf.struct.NullValue] = None
+    def numberValue: _root_.scala.Option[_root_.scala.Double] = None
+    def stringValue: _root_.scala.Option[_root_.scala.Predef.String] = None
+    def boolValue: _root_.scala.Option[_root_.scala.Boolean] = None
+    def structValue: _root_.scala.Option[com.google.protobuf.struct.Struct] = None
+    def listValue: _root_.scala.Option[com.google.protobuf.struct.ListValue] = None
   }
   object Kind extends {
     @SerialVersionUID(0L)
@@ -247,42 +247,42 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     final case class NullValue(value: com.google.protobuf.struct.NullValue) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = com.google.protobuf.struct.NullValue
       override def isNullValue: _root_.scala.Boolean = true
-      override def nullValue: scala.Option[com.google.protobuf.struct.NullValue] = Some(value)
+      override def nullValue: _root_.scala.Option[com.google.protobuf.struct.NullValue] = Some(value)
       override def number: _root_.scala.Int = 1
     }
     @SerialVersionUID(0L)
     final case class NumberValue(value: _root_.scala.Double) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = _root_.scala.Double
       override def isNumberValue: _root_.scala.Boolean = true
-      override def numberValue: scala.Option[_root_.scala.Double] = Some(value)
+      override def numberValue: _root_.scala.Option[_root_.scala.Double] = Some(value)
       override def number: _root_.scala.Int = 2
     }
     @SerialVersionUID(0L)
     final case class StringValue(value: _root_.scala.Predef.String) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = _root_.scala.Predef.String
       override def isStringValue: _root_.scala.Boolean = true
-      override def stringValue: scala.Option[_root_.scala.Predef.String] = Some(value)
+      override def stringValue: _root_.scala.Option[_root_.scala.Predef.String] = Some(value)
       override def number: _root_.scala.Int = 3
     }
     @SerialVersionUID(0L)
     final case class BoolValue(value: _root_.scala.Boolean) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = _root_.scala.Boolean
       override def isBoolValue: _root_.scala.Boolean = true
-      override def boolValue: scala.Option[_root_.scala.Boolean] = Some(value)
+      override def boolValue: _root_.scala.Option[_root_.scala.Boolean] = Some(value)
       override def number: _root_.scala.Int = 4
     }
     @SerialVersionUID(0L)
     final case class StructValue(value: com.google.protobuf.struct.Struct) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = com.google.protobuf.struct.Struct
       override def isStructValue: _root_.scala.Boolean = true
-      override def structValue: scala.Option[com.google.protobuf.struct.Struct] = Some(value)
+      override def structValue: _root_.scala.Option[com.google.protobuf.struct.Struct] = Some(value)
       override def number: _root_.scala.Int = 5
     }
     @SerialVersionUID(0L)
     final case class ListValue(value: com.google.protobuf.struct.ListValue) extends com.google.protobuf.struct.Value.Kind {
       type ValueType = com.google.protobuf.struct.ListValue
       override def isListValue: _root_.scala.Boolean = true
-      override def listValue: scala.Option[com.google.protobuf.struct.ListValue] = Some(value)
+      override def listValue: _root_.scala.Option[com.google.protobuf.struct.ListValue] = Some(value)
       override def number: _root_.scala.Int = 6
     }
   }

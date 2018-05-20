@@ -64,7 +64,7 @@ final case class GeneratedCodeInfo(
     def addAnnotation(__vs: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation*): GeneratedCodeInfo = addAllAnnotation(__vs)
     def addAllAnnotation(__vs: TraversableOnce[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = annotation ++ __vs)
     def withAnnotation(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => annotation
       }
@@ -89,7 +89,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo): com.google.protobuf.descriptor.GeneratedCodeInfo = com.google.protobuf.descriptor.GeneratedCodeInfo(
     annotation = javaPbSource.getAnnotationList.asScala.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.fromJavaProto)(_root_.scala.collection.breakOut)
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.GeneratedCodeInfo(
@@ -135,9 +135,9 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   @SerialVersionUID(0L)
   final case class Annotation(
       path: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
-      sourceFile: scala.Option[_root_.scala.Predef.String] = None,
-      begin: scala.Option[_root_.scala.Int] = None,
-      end: scala.Option[_root_.scala.Int] = None
+      sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = None,
+      begin: _root_.scala.Option[_root_.scala.Int] = None,
+      end: _root_.scala.Option[_root_.scala.Int] = None
       ) extends scalapb.GeneratedMessage with scalapb.Message[Annotation] with scalapb.lenses.Updatable[Annotation] {
       private[this] def pathSerializedSize = {
         if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {
@@ -246,7 +246,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       def getEnd: _root_.scala.Int = end.getOrElse(0)
       def clearEnd: Annotation = copy(end = None)
       def withEnd(__v: _root_.scala.Int): Annotation = copy(end = Option(__v))
-      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => path
           case 2 => sourceFile.orNull
@@ -283,14 +283,14 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else None,
       end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None
     )
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
         __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Int]],
-        __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-        __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[_root_.scala.Int]],
-        __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[_root_.scala.Int]]
+        __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+        __fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[_root_.scala.Int]],
+        __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[_root_.scala.Int]]
       )
     }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scalapb.descriptors.Reads{
@@ -298,9 +298,9 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
           __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.collection.Seq.empty),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[_root_.scala.Int]]),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[_root_.scala.Int]])
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
@@ -314,11 +314,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     implicit class AnnotationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
       def sourceFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Option(f_)))
-      def optionalSourceFile: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.sourceFile)((c_, f_) => c_.copy(sourceFile = f_))
+      def optionalSourceFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.sourceFile)((c_, f_) => c_.copy(sourceFile = f_))
       def begin: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getBegin)((c_, f_) => c_.copy(begin = Option(f_)))
-      def optionalBegin: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Int]] = field(_.begin)((c_, f_) => c_.copy(begin = f_))
+      def optionalBegin: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.begin)((c_, f_) => c_.copy(begin = f_))
       def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
-      def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
+      def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val PATH_FIELD_NUMBER = 1
     final val SOURCE_FILE_FIELD_NUMBER = 2

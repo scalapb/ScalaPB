@@ -62,7 +62,7 @@ final case class ListValue(
     def addValues(__vs: com.google.protobuf.struct.Value*): ListValue = addAllValues(__vs)
     def addAllValues(__vs: TraversableOnce[com.google.protobuf.struct.Value]): ListValue = copy(values = values ++ __vs)
     def withValues(__v: _root_.scala.collection.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => values
       }
@@ -79,7 +79,7 @@ final case class ListValue(
 
 object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.struct.ListValue = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.struct.ListValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.struct.ListValue(

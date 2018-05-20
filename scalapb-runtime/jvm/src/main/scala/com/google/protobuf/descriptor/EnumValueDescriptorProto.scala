@@ -9,9 +9,9 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class EnumValueDescriptorProto(
-    name: scala.Option[_root_.scala.Predef.String] = None,
-    number: scala.Option[_root_.scala.Int] = None,
-    options: scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = None
+    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    number: _root_.scala.Option[_root_.scala.Int] = None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumValueDescriptorProto] with scalapb.lenses.Updatable[EnumValueDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -88,7 +88,7 @@ final case class EnumValueDescriptorProto(
     def getOptions: com.google.protobuf.descriptor.EnumValueOptions = options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)
     def clearOptions: EnumValueDescriptorProto = copy(options = None)
     def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = Option(__v))
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 2 => number.orNull
@@ -121,22 +121,22 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
     number = if (javaPbSource.hasNumber) Some(javaPbSource.getNumber.intValue) else None,
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumValueOptions.fromJavaProto(javaPbSource.getOptions)) else None
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.EnumValueDescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.EnumValueDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.EnumValueDescriptorProto(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Int]],
-      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.EnumValueOptions]]
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Int]],
+      __fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.EnumValueDescriptorProto(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Int]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.EnumValueOptions]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -155,11 +155,11 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
   )
   implicit class EnumValueDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
-    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def number: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getNumber)((c_, f_) => c_.copy(number = Option(f_)))
-    def optionalNumber: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
+    def optionalNumber: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
-    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.EnumValueOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val NUMBER_FIELD_NUMBER = 2

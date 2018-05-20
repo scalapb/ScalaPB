@@ -33,7 +33,7 @@ final case class Empty(
       com.google.protobuf.empty.Empty(
       )
     }
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = throw new MatchError(__fieldNumber)
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = throw new MatchError(__fieldNumber)
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = throw new MatchError(__field)
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.empty.Empty
@@ -41,7 +41,7 @@ final case class Empty(
 
 object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.empty.Empty = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.empty.Empty = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     com.google.protobuf.empty.Empty(
     )

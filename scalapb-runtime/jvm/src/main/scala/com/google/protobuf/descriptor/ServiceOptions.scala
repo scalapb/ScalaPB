@@ -16,7 +16,7 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class ServiceOptions(
-    deprecated: scala.Option[_root_.scala.Boolean] = None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[ServiceOptions] with scalapb.lenses.Updatable[ServiceOptions] with _root_.scalapb.ExtendableMessage[ServiceOptions] {
@@ -87,7 +87,7 @@ final case class ServiceOptions(
     def withUninterpretedOption(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): ServiceOptions = copy(uninterpretedOption = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 33 => deprecated.orNull
         case 999 => uninterpretedOption
@@ -116,11 +116,11 @@ object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.ServiceOptions = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.ServiceOptions = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.ServiceOptions(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
@@ -128,7 +128,7 @@ object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.ServiceOptions(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(33).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(33).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -148,7 +148,7 @@ object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
   )
   implicit class ServiceOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceOptions](_l) {
     def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
-    def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
+    def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val DEPRECATED_FIELD_NUMBER = 33

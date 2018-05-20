@@ -252,7 +252,7 @@ final case class Field(
     def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
     def withJsonName(__v: _root_.scala.Predef.String): Field = copy(jsonName = __v)
     def withDefaultValue(__v: _root_.scala.Predef.String): Field = copy(defaultValue = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = kind.javaValueDescriptor
@@ -340,7 +340,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     jsonName = javaPbSource.getJsonName,
     defaultValue = javaPbSource.getDefaultValue
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.`type`.Field = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.`type`.Field = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.Field(

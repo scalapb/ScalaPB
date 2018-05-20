@@ -13,14 +13,14 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class DescriptorProto(
-    name: scala.Option[_root_.scala.Predef.String] = None,
+    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
     field: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.collection.Seq.empty,
     extension: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.collection.Seq.empty,
     nestedType: _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.collection.Seq.empty,
     enumType: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.collection.Seq.empty,
     extensionRange: _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = _root_.scala.collection.Seq.empty,
     oneofDecl: _root_.scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto] = _root_.scala.collection.Seq.empty,
-    options: scala.Option[com.google.protobuf.descriptor.MessageOptions] = None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions] = None,
     reservedRange: _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = _root_.scala.collection.Seq.empty,
     reservedName: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[DescriptorProto] with scalapb.lenses.Updatable[DescriptorProto] {
@@ -226,7 +226,7 @@ final case class DescriptorProto(
     def addReservedName(__vs: _root_.scala.Predef.String*): DescriptorProto = addAllReservedName(__vs)
     def addAllReservedName(__vs: TraversableOnce[_root_.scala.Predef.String]): DescriptorProto = copy(reservedName = reservedName ++ __vs)
     def withReservedName(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): DescriptorProto = copy(reservedName = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 2 => field
@@ -261,18 +261,18 @@ final case class DescriptorProto(
 
 object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.DescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.DescriptorProto(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
       __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
       __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]],
       __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]],
       __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]],
       __fieldsMap.getOrElse(__fields.get(6), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]],
-      __fieldsMap.get(__fields.get(7)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.MessageOptions]],
+      __fieldsMap.get(__fields.get(7)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.MessageOptions]],
       __fieldsMap.getOrElse(__fields.get(8), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]],
       __fieldsMap.getOrElse(__fields.get(9), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]]
     )
@@ -281,14 +281,14 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.DescriptorProto(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.MessageOptions]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.MessageOptions]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]]).getOrElse(_root_.scala.collection.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
@@ -319,8 +319,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   )
   @SerialVersionUID(0L)
   final case class ExtensionRange(
-      start: scala.Option[_root_.scala.Int] = None,
-      end: scala.Option[_root_.scala.Int] = None
+      start: _root_.scala.Option[_root_.scala.Int] = None,
+      end: _root_.scala.Option[_root_.scala.Int] = None
       ) extends scalapb.GeneratedMessage with scalapb.Message[ExtensionRange] with scalapb.lenses.Updatable[ExtensionRange] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -380,7 +380,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       def getEnd: _root_.scala.Int = end.getOrElse(0)
       def clearEnd: ExtensionRange = copy(end = None)
       def withEnd(__v: _root_.scala.Int): ExtensionRange = copy(end = Option(__v))
-      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => start.orNull
           case 2 => end.orNull
@@ -399,20 +399,20 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   
   object ExtensionRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = this
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
-        __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Int]],
-        __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Int]]
+        __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Int]],
+        __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Int]]
       )
     }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Int]]),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Int]])
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
@@ -425,9 +425,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     )
     implicit class ExtensionRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
-      def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
+      def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
       def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
-      def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
+      def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
     final val END_FIELD_NUMBER = 2
@@ -444,8 +444,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     */
   @SerialVersionUID(0L)
   final case class ReservedRange(
-      start: scala.Option[_root_.scala.Int] = None,
-      end: scala.Option[_root_.scala.Int] = None
+      start: _root_.scala.Option[_root_.scala.Int] = None,
+      end: _root_.scala.Option[_root_.scala.Int] = None
       ) extends scalapb.GeneratedMessage with scalapb.Message[ReservedRange] with scalapb.lenses.Updatable[ReservedRange] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -505,7 +505,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       def getEnd: _root_.scala.Int = end.getOrElse(0)
       def clearEnd: ReservedRange = copy(end = None)
       def withEnd(__v: _root_.scala.Int): ReservedRange = copy(end = Option(__v))
-      def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => start.orNull
           case 2 => end.orNull
@@ -524,20 +524,20 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   
   object ReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = this
-    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
+    def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
       require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
-        __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Int]],
-        __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Int]]
+        __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Int]],
+        __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Int]]
       )
     }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Int]]),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Int]])
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
+          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
@@ -550,9 +550,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     )
     implicit class ReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
-      def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
+      def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
       def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
-      def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
+      def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
     final val END_FIELD_NUMBER = 2
@@ -560,7 +560,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   
   implicit class DescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
-    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def field: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.field)((c_, f_) => c_.copy(field = f_))
     def extension: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
     def nestedType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto]] = field(_.nestedType)((c_, f_) => c_.copy(nestedType = f_))
@@ -568,7 +568,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     def extensionRange: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]] = field(_.extensionRange)((c_, f_) => c_.copy(extensionRange = f_))
     def oneofDecl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]] = field(_.oneofDecl)((c_, f_) => c_.copy(oneofDecl = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
-    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def reservedRange: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]] = field(_.reservedRange)((c_, f_) => c_.copy(reservedRange = f_))
     def reservedName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.reservedName)((c_, f_) => c_.copy(reservedName = f_))
   }

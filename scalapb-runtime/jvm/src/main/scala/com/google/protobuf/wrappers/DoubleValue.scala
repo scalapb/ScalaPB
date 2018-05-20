@@ -62,7 +62,7 @@ final case class DoubleValue(
       )
     }
     def withValue(__v: _root_.scala.Double): DoubleValue = copy(value = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = value
@@ -90,7 +90,7 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def fromJavaProto(javaPbSource: com.google.protobuf.DoubleValue): com.google.protobuf.wrappers.DoubleValue = com.google.protobuf.wrappers.DoubleValue(
     value = javaPbSource.getValue.doubleValue
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.wrappers.DoubleValue = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.wrappers.DoubleValue = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.wrappers.DoubleValue(

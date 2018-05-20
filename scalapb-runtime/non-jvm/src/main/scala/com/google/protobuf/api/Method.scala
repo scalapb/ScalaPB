@@ -186,7 +186,7 @@ final case class Method(
     def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Method = copy(syntax = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = name
@@ -233,7 +233,7 @@ final case class Method(
 
 object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.api.Method = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.api.Method = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.api.Method(

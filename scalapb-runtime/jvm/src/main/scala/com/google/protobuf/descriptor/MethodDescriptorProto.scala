@@ -17,12 +17,12 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class MethodDescriptorProto(
-    name: scala.Option[_root_.scala.Predef.String] = None,
-    inputType: scala.Option[_root_.scala.Predef.String] = None,
-    outputType: scala.Option[_root_.scala.Predef.String] = None,
-    options: scala.Option[com.google.protobuf.descriptor.MethodOptions] = None,
-    clientStreaming: scala.Option[_root_.scala.Boolean] = None,
-    serverStreaming: scala.Option[_root_.scala.Boolean] = None
+    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    inputType: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    outputType: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions] = None,
+    clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = None,
+    serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[MethodDescriptorProto] with scalapb.lenses.Updatable[MethodDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -144,7 +144,7 @@ final case class MethodDescriptorProto(
     def getServerStreaming: _root_.scala.Boolean = serverStreaming.getOrElse(false)
     def clearServerStreaming: MethodDescriptorProto = copy(serverStreaming = None)
     def withServerStreaming(__v: _root_.scala.Boolean): MethodDescriptorProto = copy(serverStreaming = Option(__v))
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
         case 2 => inputType.orNull
@@ -189,28 +189,28 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     clientStreaming = if (javaPbSource.hasClientStreaming) Some(javaPbSource.getClientStreaming.booleanValue) else None,
     serverStreaming = if (javaPbSource.hasServerStreaming) Some(javaPbSource.getServerStreaming.booleanValue) else None
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.descriptor.MethodDescriptorProto = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.MethodDescriptorProto = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.MethodDescriptorProto(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(2)).asInstanceOf[scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(3)).asInstanceOf[scala.Option[com.google.protobuf.descriptor.MethodOptions]],
-      __fieldsMap.get(__fields.get(4)).asInstanceOf[scala.Option[_root_.scala.Boolean]],
-      __fieldsMap.get(__fields.get(5)).asInstanceOf[scala.Option[_root_.scala.Boolean]]
+      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.MethodOptions]],
+      __fieldsMap.get(__fields.get(4)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(5)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.MethodDescriptorProto(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[scala.Option[com.google.protobuf.descriptor.MethodOptions]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[scala.Option[_root_.scala.Boolean]])
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.MethodOptions]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -229,17 +229,17 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
   )
   implicit class MethodDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
-    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
+    def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def inputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getInputType)((c_, f_) => c_.copy(inputType = Option(f_)))
-    def optionalInputType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.inputType)((c_, f_) => c_.copy(inputType = f_))
+    def optionalInputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.inputType)((c_, f_) => c_.copy(inputType = f_))
     def outputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getOutputType)((c_, f_) => c_.copy(outputType = Option(f_)))
-    def optionalOutputType: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Predef.String]] = field(_.outputType)((c_, f_) => c_.copy(outputType = f_))
+    def optionalOutputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.outputType)((c_, f_) => c_.copy(outputType = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
-    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[com.google.protobuf.descriptor.MethodOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def clientStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getClientStreaming)((c_, f_) => c_.copy(clientStreaming = Option(f_)))
-    def optionalClientStreaming: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.clientStreaming)((c_, f_) => c_.copy(clientStreaming = f_))
+    def optionalClientStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.clientStreaming)((c_, f_) => c_.copy(clientStreaming = f_))
     def serverStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getServerStreaming)((c_, f_) => c_.copy(serverStreaming = Option(f_)))
-    def optionalServerStreaming: _root_.scalapb.lenses.Lens[UpperPB, scala.Option[_root_.scala.Boolean]] = field(_.serverStreaming)((c_, f_) => c_.copy(serverStreaming = f_))
+    def optionalServerStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.serverStreaming)((c_, f_) => c_.copy(serverStreaming = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val INPUT_TYPE_FIELD_NUMBER = 2

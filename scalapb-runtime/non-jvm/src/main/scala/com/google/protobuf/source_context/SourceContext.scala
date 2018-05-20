@@ -62,7 +62,7 @@ final case class SourceContext(
       )
     }
     def withFileName(__v: _root_.scala.Predef.String): SourceContext = copy(fileName = __v)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): scala.Any = {
+    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
           val __t = fileName
@@ -82,7 +82,7 @@ final case class SourceContext(
 
 object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): com.google.protobuf.source_context.SourceContext = {
+  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.source_context.SourceContext = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.source_context.SourceContext(
