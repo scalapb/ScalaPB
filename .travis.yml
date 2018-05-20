@@ -22,6 +22,7 @@ matrix:
   - scala: 2.11.12
     env: SCALA_NATIVE
     before_install:
+    - sudo apt-get update
     - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
     - sbt runtimeNative/test
