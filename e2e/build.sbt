@@ -17,7 +17,7 @@ def grpcExeFileName = {
 lazy val grpcExeUrl =
   url(s"https://repo1.maven.org/maven2/io/grpc/${grpcArtifactId}/${grpcJavaVersion}/${grpcExeFileName}")
 
-val grpcExePath = SettingKey[xsbti.api.Lazy[File]]("grpcExePath")
+val grpcExePath = SettingKey[File]("grpcExePath")
 
 
 val commonSettings = Seq(
@@ -41,17 +41,22 @@ val commonSettings = Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf",
       "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.0-rc1"
     ),
-    grpcExePath := xsbti.SafeLazy {
+
+    grpcExePath := {
       val exe: File = (baseDirectory in ThisBuild).value / ".bin" / grpcExeFileName
       if (!exe.exists) {
+        import scala.sys.process._
         println("grpc protoc plugin (for Java) does not exist. Downloading.")
-        IO.download(grpcExeUrl, exe)
+
+        grpcExeUrl #> (exe) !
+
         exe.setExecutable(true)
       } else {
         println("grpc protoc plugin (for Java) exists.")
       }
       exe
-    })
+    }
+  )
 
 lazy val root = (project in file("."))
   .settings(commonSettings)

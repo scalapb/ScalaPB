@@ -38,11 +38,11 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned"),
-  ReleaseStep(action = Command.process("publishSigned", _), enableCrossBuild = true),
+  releaseStepCommandAndRemaining(";++publishSigned"),
   setNextVersion,
   commitNextVersion,
   pushChanges,
-  ReleaseStep(action = Command.process("sonatypeReleaseAll", _), enableCrossBuild = true)
+  releaseStepCommand("sonatypeReleaseAll"),
 )
 
 lazy val root =
