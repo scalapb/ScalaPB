@@ -38,11 +38,11 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned"),
-  releaseStepCommandAndRemaining(";++publishSigned"),
+  ReleaseStep(action = "publishSigned" :: _, enableCrossBuild = true),
   setNextVersion,
   commitNextVersion,
   pushChanges,
-  releaseStepCommand("sonatypeReleaseAll"),
+  ReleaseStep(action = "sonatypeReleaseAll" :: _, enableCrossBuild = true)
 )
 
 lazy val root =
@@ -90,7 +90,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     // Add JS-specific settings here
     scalacOptions += {
       val a = (baseDirectory in LocalRootProject).value.toURI.toString
-      val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process.Process("git rev-parse HEAD").lines_!.head
+      val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process.Process("git rev-parse HEAD").lineStream_!.head
       s"-P:scalajs:mapSourceURI:$a->$g/"
     },
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
