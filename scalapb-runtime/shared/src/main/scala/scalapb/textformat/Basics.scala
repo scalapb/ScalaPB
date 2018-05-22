@@ -4,13 +4,9 @@ import fastparse.core.ParserApi
 
 import scala.language.implicitConversions
 
-object Basics {
+object Basics extends ParserCompat {
 
   import fastparse.all._
-
-  protected implicit def strToParserApi(s: String): ParserApi[Unit, Char, String] = parserApi(s)
-
-  protected implicit def parserToParserApi[T](s: Parser[T]): ParserApi[T, Char, String] = parserApi(s)
 
   val Newline = P(StringIn("\r\n", "\n"))
 
@@ -29,7 +25,7 @@ object Basics {
 
 
   // TODO(nadavsr): figure out this
-  val sameLineCharChunks = P(CharsWhile(CharChunk) | !Newline ~ AnyChar)
+  val sameLineCharChunks = P(CharsWhile(CharChunk) | (!Newline) ~ AnyChar)
 
   val lineComment = P("#" ~ sameLineCharChunks.rep ~ &(Newline | End))
 
