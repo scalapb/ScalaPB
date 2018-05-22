@@ -1393,13 +1393,13 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     val serviceFiles = generateServiceFiles(file)
 
     val enumFiles = for {
-      enum <- file.getEnumTypes.asScala
+      `enum` <- file.getEnumTypes.asScala
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaDirectory + "/" + enum.getName + ".scala")
+      b.setName(file.scalaDirectory + "/" + `enum`.getName + ".scala")
       b.setContent(
         scalaFileHeader(file, false)
-          .call(printEnum(_, enum)).result())
+          .call(printEnum(_, `enum`)).result())
       b.build
     }
 
