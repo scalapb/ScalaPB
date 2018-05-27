@@ -70,7 +70,15 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       "com.lihaoyi" %%% "utest" % "0.6.4" % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
-    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf"
+    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % "0.7.0"),
+    mimaBinaryIssueFilters ++= {
+        import com.typesafe.tools.mima.core._
+        Seq(
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.parserToParserApi"),
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.strToParserApi")
+        )
+    }
   )
   .platformsSettings(JSPlatform, NativePlatform)(
     libraryDependencies ++= Seq(
@@ -115,7 +123,8 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "io.grpc" % "grpc-protobuf" % grpcVersion,
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "org.mockito" % "mockito-core" % "2.10.0" % "test"
-    )
+    ),
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.7.0")
   )
 
 val shadeTarget = settingKey[String]("Target to use when shading")
@@ -145,7 +154,15 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.3",
       "org.scalatest" %% "scalatest" % "3.0.5" % "test"
-    )
+    ),
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % "0.7.0"),
+    mimaBinaryIssueFilters ++= {
+        import com.typesafe.tools.mima.core._
+        Seq(
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtoValidation.ForbiddenFieldNames"),
+            ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.compiler.FunctionalPrinter.print"),
+        )
+    }
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -248,4 +265,3 @@ createVersionFile := {
   val f2 = genVersionFile(base / "e2e/project/", v)
   log.info(s"Created $f2")
 }
-

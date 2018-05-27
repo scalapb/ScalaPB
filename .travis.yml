@@ -10,6 +10,7 @@ scala:
 env:
 - TEST_SCRIPT=e2e.sh E2E_SHADED=0
 - TEST_SCRIPT=e2e.sh E2E_SHADED=1
+- TEST_SCRIPT=mima.sh
 - TEST_SCRIPT=proptest.sh
 
 matrix:
