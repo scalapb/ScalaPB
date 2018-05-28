@@ -50,8 +50,16 @@ lazy val root =
     .settings(
       publishArtifact := false,
       publish := {},
-      publishLocal := {}
-    ).aggregate(
+      publishLocal := {},
+      siteSubdirName in ScalaUnidoc := "api/scalapb/latest",
+      addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+      unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(runtimeJVM, grpcRuntime),
+      git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
+      ghpagesBranch := "master",
+      includeFilter in ghpagesCleanSite := GlobFilter((ghpagesRepository.value / "api/scalapb/latest/*").getCanonicalPath)
+    )
+    .enablePlugins(ScalaUnidocPlugin, GhpagesPlugin)
+    .aggregate(
       runtimeJS,
       runtimeJVM,
       grpcRuntime,

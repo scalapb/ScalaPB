@@ -49,8 +49,16 @@ before_cache:
 - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
 - find $HOME/.sbt -name "*.lock" -print -delete
 
+before_deploy:
+- git config --global user.name "$USER"
+- git config --global user.email "$TRAVIS_BUILD_NUMBER@$TRAVIS_COMMIT"
+- openssl aes-256-cbc -K $encrypted_b42a4ae1e9e5_key -iv $encrypted_b42a4ae1e9e5_iv -in .travis/travis-deploy-key.enc -out .travis/travis-deploy-key -d
+- chmod 600 .travis/travis-deploy-key
+- eval "$(ssh-agent -s)"
+- ssh-add .travis/travis-deploy-key
+
 deploy:
-  provider: releases
+- provider: releases
   api_key:
     secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
   file: scalapbc/target/universal/scalapbc-${TRAVIS_TAG:1}.zip
@@ -59,5 +67,14 @@ deploy:
     repo: scalapb/ScalaPB
     tags: true
     scala: 2.11.12
-    condition: "$TEST_SCRIPT = __misc__"
+    condition: "$TRAVIS_PULL_REQUEST = false && $TEST_SCRIPT = __misc__"
+
+- provider: script
+  script: sbt ghpagesPushSite
+  skip_cleanup: true
+  on:
+    repo: scalapb/ScalaPB
+    tags: true
+    scala: 2.11.12
+    condition: "$TRAVIS_PULL_REQUEST = false && $TEST_SCRIPT = __misc__"
 
