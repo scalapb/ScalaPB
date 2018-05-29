@@ -56,6 +56,7 @@ lazy val root =
       unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(runtimeJVM, grpcRuntime),
       git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
       ghpagesBranch := "master",
+      ghpagesNoJekyll := false,
       includeFilter in ghpagesCleanSite := GlobFilter((ghpagesRepository.value / "api/scalapb/latest/*").getCanonicalPath)
     )
     .enablePlugins(ScalaUnidocPlugin, GhpagesPlugin)
