@@ -4,7 +4,7 @@ import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 val Scala211 = "2.11.12"
 scalaVersion in ThisBuild := Scala211
 
-crossScalaVersions in ThisBuild := Seq("2.10.7", Scala211, "2.12.4")
+crossScalaVersions in ThisBuild := Seq("2.10.7", Scala211, "2.12.6")
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -37,7 +37,7 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned"),
+  releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned;lensesNative/publishSigned"),
   ReleaseStep(action = "publishSigned" :: _, enableCrossBuild = true),
   setNextVersion,
   commitNextVersion,
@@ -53,7 +53,7 @@ lazy val root =
       publishLocal := {},
       siteSubdirName in ScalaUnidoc := "api/scalapb/latest",
       addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
-      unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(runtimeJVM, grpcRuntime),
+      unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(lensesJVM, runtimeJVM, grpcRuntime),
       git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
       ghpagesBranch := "master",
       ghpagesNoJekyll := false,
@@ -61,6 +61,8 @@ lazy val root =
     )
     .enablePlugins(ScalaUnidocPlugin, GhpagesPlugin)
     .aggregate(
+      lensesJS,
+      lensesJVM,
       runtimeJS,
       runtimeJVM,
       grpcRuntime,
@@ -74,7 +76,6 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "lenses" % "0.7.0",
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
       "com.lihaoyi" %%% "utest" % "0.6.4" % "test"
     ),
@@ -89,6 +90,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         )
     }
   )
+  .dependsOn(lenses)
   .platformsSettings(JSPlatform, NativePlatform)(
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.1"
@@ -224,7 +226,6 @@ lazy val proptest = project.in(file("proptest"))
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
-        "com.thesamet.scalapb" %% "lenses" % "0.7.0",
         "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
         "org.scalatest" %% "scalatest" % "3.0.5" % "test"
       ),
@@ -274,3 +275,51 @@ createVersionFile := {
   val f2 = genVersionFile(base / "e2e/project/", v)
   log.info(s"Created $f2")
 }
+
+lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file("lenses"))
+  .settings(
+    name := "lenses",
+    sources in Test := {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 13)) =>
+          // TODO utest_2.13.0-M3
+          Nil
+        case _ =>
+          (sources in Test).value
+      },
+    },
+    testFrameworks += new TestFramework("utest.runner.Framework"),
+    libraryDependencies ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, 13)) =>
+          // TODO utest_2.13.0-M3
+          Nil
+        case _ =>
+          Seq(
+            "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
+          )
+      }
+    },
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % "0.7.0"),
+    mimaBinaryIssueFilters ++= {
+        import com.typesafe.tools.mima.core._
+        Seq(
+            ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.lenses.Lens#MapLens.:++=$extension"),
+            ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.lenses.Lens#MapLens.:++=")
+        )
+    }
+  )
+  .jsSettings(
+    scalacOptions += {
+      val a = (baseDirectory in LocalRootProject).value.toURI.toString
+      val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process.Process("git rev-parse HEAD").lineStream_!.head
+      s"-P:scalajs:mapSourceURI:$a->$g/"
+    }
+  )
+  .nativeSettings(
+    nativeLinkStubs := true // for utest
+  )
+
+lazy val lensesJVM = lenses.jvm
+lazy val lensesJS = lenses.js
+lazy val lensesNative = lenses.native

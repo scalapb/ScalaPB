@@ -17,9 +17,7 @@ project/plugins/project/
 .worksheet
 .idea
 
-# Auto-generated file.
 compiler-plugin/src/main/scala/scalapb/compiler/Version.scala
 e2e/project/project/Version.scala
 e2e/project/Version.scala
 e2e/.bin
-atlassian-ide-plugin.xml

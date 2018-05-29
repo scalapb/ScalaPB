@@ -26,7 +26,7 @@ matrix:
     - sudo apt-get update
     - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
-    - sbt runtimeNative/test
+    - sbt runtimeNative/test lensesNative/test
 
   - scala: 2.11.12
     env: TEST_SCRIPT=__misc__
@@ -77,4 +77,3 @@ deploy:
     tags: true
     scala: 2.11.12
     condition: "$TRAVIS_PULL_REQUEST = false && $TEST_SCRIPT = __misc__"
-
