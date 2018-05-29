@@ -9,7 +9,7 @@ if [ "$E2E_SHADED" = "1" ]; then
 fi
 
 sbt ++2.12.6 compilerPlugin/publishLocal compilerPluginShaded/publishLocal createVersionFile \
-    ++$SCALA_VERSION runtimeJVM/publishLocal grpcRuntime/publishLocal
+    ++$SCALA_VERSION lensesJVM/publishLocal runtimeJVM/publishLocal grpcRuntime/publishLocal
 cd e2e
 sbt ++$SCALA_VERSION noJava/clean clean noJava/test test
 
