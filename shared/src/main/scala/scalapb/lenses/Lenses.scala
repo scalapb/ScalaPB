@@ -122,7 +122,7 @@ object Lens {
 
     def :+=(pair: (A, B)) = lens.modify(_ + pair)
 
-    def :++=(item: Traversable[(A, B)]) = lens.modify(_ ++ item)
+    def :++=(item: Iterable[(A, B)]) = lens.modify(_ ++ item)
 
     def foreach(f: Lens[(A, B), (A, B)] => Mutation[(A, B)]): Mutation[U] =
       lens.modify(s => s.map {
