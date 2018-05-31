@@ -94,7 +94,15 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         import com.typesafe.tools.mima.core._
         Seq(
             ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.parserToParserApi"),
-            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.strToParserApi")
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.strToParserApi"),
+
+            // getObjectName
+            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getObjectName"),
+            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getObjectNameBytes"),
+            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasObjectName"),
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.copy"),
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.this"),
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply")
         )
     }
   )
