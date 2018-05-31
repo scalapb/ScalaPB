@@ -573,7 +573,8 @@ trait DescriptorPimps {
       def inner(s: String): String =
         if (!hasConflictingJavaClassName(s)) s else (s + "Companion")
 
-      inner(NameUtils.snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
+      if (file.scalaOptions.hasObjectName) file.scalaOptions.getObjectName
+      else inner(NameUtils.snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
     }
 
     def fileDescriptorObjectFullName = (scalaPackagePartsAsSymbols :+ fileDescriptorObjectName).mkString(".")

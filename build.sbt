@@ -2,6 +2,14 @@ import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 
 val Scala211 = "2.11.12"
+
+val protobufVersion = "3.5.1"
+
+// For e2e test
+val sbtPluginVersion = "0.99.18"
+
+val grpcVersion = "1.12.0"
+
 scalaVersion in ThisBuild := Scala211
 
 crossScalaVersions in ThisBuild := Seq("2.10.7", Scala211, "2.12.6")
@@ -123,8 +131,6 @@ lazy val runtimeJVM    = runtime.jvm
 lazy val runtimeJS     = runtime.js
 lazy val runtimeNative = runtime.native
 
-val grpcVersion = "1.12.0"
-
 lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .dependsOn(runtimeJVM)
   .settings(
@@ -240,11 +246,6 @@ lazy val proptest = project.in(file("proptest"))
     )
 
 lazy val ShortTest = config("short") extend(Test)
-
-val protobufVersion = "3.5.1"
-
-// For e2e test
-val sbtPluginVersion = "0.99.18"
 
 def genVersionFile(out: File, version: String): File = {
   out.mkdirs()

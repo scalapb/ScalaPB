@@ -266,6 +266,38 @@ public final class Scalapb {
 
     /**
      * <pre>
+     * If defined, sets the name of the file-level object that would be generated. This
+     * object extends `GeneratedFileObject` and contains descriptors, and list of message
+     * and enum companions.
+     * </pre>
+     *
+     * <code>optional string object_name = 10;</code>
+     */
+    boolean hasObjectName();
+    /**
+     * <pre>
+     * If defined, sets the name of the file-level object that would be generated. This
+     * object extends `GeneratedFileObject` and contains descriptors, and list of message
+     * and enum companions.
+     * </pre>
+     *
+     * <code>optional string object_name = 10;</code>
+     */
+    java.lang.String getObjectName();
+    /**
+     * <pre>
+     * If defined, sets the name of the file-level object that would be generated. This
+     * object extends `GeneratedFileObject` and contains descriptors, and list of message
+     * and enum companions.
+     * </pre>
+     *
+     * <code>optional string object_name = 10;</code>
+     */
+    com.google.protobuf.ByteString
+        getObjectNameBytes();
+
+    /**
+     * <pre>
      * For use in tests only. Inhibit Java conversions even when when generator parameters
      * request for it.
      * </pre>
@@ -305,6 +337,7 @@ public final class Scalapb {
       primitiveWrappers_ = false;
       collectionType_ = "";
       preserveUnknownFields_ = false;
+      objectName_ = "";
       testOnlyNoJavaConversions_ = false;
     }
 
@@ -394,8 +427,14 @@ public final class Scalapb {
               preserveUnknownFields_ = input.readBool();
               break;
             }
-            case 800008: {
+            case 82: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000080;
+              objectName_ = bs;
+              break;
+            }
+            case 800008: {
+              bitField0_ |= 0x00000100;
               testOnlyNoJavaConversions_ = input.readBool();
               break;
             }
@@ -776,6 +815,66 @@ public final class Scalapb {
       return preserveUnknownFields_;
     }
 
+    public static final int OBJECT_NAME_FIELD_NUMBER = 10;
+    private volatile java.lang.Object objectName_;
+    /**
+     * <pre>
+     * If defined, sets the name of the file-level object that would be generated. This
+     * object extends `GeneratedFileObject` and contains descriptors, and list of message
+     * and enum companions.
+     * </pre>
+     *
+     * <code>optional string object_name = 10;</code>
+     */
+    public boolean hasObjectName() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    /**
+     * <pre>
+     * If defined, sets the name of the file-level object that would be generated. This
+     * object extends `GeneratedFileObject` and contains descriptors, and list of message
+     * and enum companions.
+     * </pre>
+     *
+     * <code>optional string object_name = 10;</code>
+     */
+    public java.lang.String getObjectName() {
+      java.lang.Object ref = objectName_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          objectName_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * If defined, sets the name of the file-level object that would be generated. This
+     * object extends `GeneratedFileObject` and contains descriptors, and list of message
+     * and enum companions.
+     * </pre>
+     *
+     * <code>optional string object_name = 10;</code>
+     */
+    public com.google.protobuf.ByteString
+        getObjectNameBytes() {
+      java.lang.Object ref = objectName_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        objectName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001;
     private boolean testOnlyNoJavaConversions_;
     /**
@@ -787,7 +886,7 @@ public final class Scalapb {
      * <code>optional bool test_only_no_java_conversions = 100001;</code>
      */
     public boolean hasTestOnlyNoJavaConversions() {
-      return ((bitField0_ & 0x00000080) == 0x00000080);
+      return ((bitField0_ & 0x00000100) == 0x00000100);
     }
     /**
      * <pre>
@@ -841,6 +940,9 @@ public final class Scalapb {
         output.writeBool(9, preserveUnknownFields_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 10, objectName_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         output.writeBool(100001, testOnlyNoJavaConversions_);
       }
       unknownFields.writeTo(output);
@@ -894,6 +996,9 @@ public final class Scalapb {
           .computeBoolSize(9, preserveUnknownFields_);
       }
       if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, objectName_);
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(100001, testOnlyNoJavaConversions_);
       }
@@ -952,6 +1057,11 @@ public final class Scalapb {
         result = result && (getPreserveUnknownFields()
             == other.getPreserveUnknownFields());
       }
+      result = result && (hasObjectName() == other.hasObjectName());
+      if (hasObjectName()) {
+        result = result && getObjectName()
+            .equals(other.getObjectName());
+      }
       result = result && (hasTestOnlyNoJavaConversions() == other.hasTestOnlyNoJavaConversions());
       if (hasTestOnlyNoJavaConversions()) {
         result = result && (getTestOnlyNoJavaConversions()
@@ -1008,6 +1118,10 @@ public final class Scalapb {
         hash = (37 * hash) + PRESERVE_UNKNOWN_FIELDS_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getPreserveUnknownFields());
+      }
+      if (hasObjectName()) {
+        hash = (37 * hash) + OBJECT_NAME_FIELD_NUMBER;
+        hash = (53 * hash) + getObjectName().hashCode();
       }
       if (hasTestOnlyNoJavaConversions()) {
         hash = (37 * hash) + TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER;
@@ -1161,8 +1275,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000080);
         preserveUnknownFields_ = false;
         bitField0_ = (bitField0_ & ~0x00000100);
-        testOnlyNoJavaConversions_ = false;
+        objectName_ = "";
         bitField0_ = (bitField0_ & ~0x00000200);
+        testOnlyNoJavaConversions_ = false;
+        bitField0_ = (bitField0_ & ~0x00000400);
         return this;
       }
 
@@ -1227,6 +1343,10 @@ public final class Scalapb {
         result.preserveUnknownFields_ = preserveUnknownFields_;
         if (((from_bitField0_ & 0x00000200) == 0x00000200)) {
           to_bitField0_ |= 0x00000080;
+        }
+        result.objectName_ = objectName_;
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000100;
         }
         result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
         result.bitField0_ = to_bitField0_;
@@ -1315,6 +1435,11 @@ public final class Scalapb {
         }
         if (other.hasPreserveUnknownFields()) {
           setPreserveUnknownFields(other.getPreserveUnknownFields());
+        }
+        if (other.hasObjectName()) {
+          bitField0_ |= 0x00000200;
+          objectName_ = other.objectName_;
+          onChanged();
         }
         if (other.hasTestOnlyNoJavaConversions()) {
           setTestOnlyNoJavaConversions(other.getTestOnlyNoJavaConversions());
@@ -2113,6 +2238,118 @@ public final class Scalapb {
         return this;
       }
 
+      private java.lang.Object objectName_ = "";
+      /**
+       * <pre>
+       * If defined, sets the name of the file-level object that would be generated. This
+       * object extends `GeneratedFileObject` and contains descriptors, and list of message
+       * and enum companions.
+       * </pre>
+       *
+       * <code>optional string object_name = 10;</code>
+       */
+      public boolean hasObjectName() {
+        return ((bitField0_ & 0x00000200) == 0x00000200);
+      }
+      /**
+       * <pre>
+       * If defined, sets the name of the file-level object that would be generated. This
+       * object extends `GeneratedFileObject` and contains descriptors, and list of message
+       * and enum companions.
+       * </pre>
+       *
+       * <code>optional string object_name = 10;</code>
+       */
+      public java.lang.String getObjectName() {
+        java.lang.Object ref = objectName_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            objectName_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * If defined, sets the name of the file-level object that would be generated. This
+       * object extends `GeneratedFileObject` and contains descriptors, and list of message
+       * and enum companions.
+       * </pre>
+       *
+       * <code>optional string object_name = 10;</code>
+       */
+      public com.google.protobuf.ByteString
+          getObjectNameBytes() {
+        java.lang.Object ref = objectName_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          objectName_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * If defined, sets the name of the file-level object that would be generated. This
+       * object extends `GeneratedFileObject` and contains descriptors, and list of message
+       * and enum companions.
+       * </pre>
+       *
+       * <code>optional string object_name = 10;</code>
+       */
+      public Builder setObjectName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        objectName_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If defined, sets the name of the file-level object that would be generated. This
+       * object extends `GeneratedFileObject` and contains descriptors, and list of message
+       * and enum companions.
+       * </pre>
+       *
+       * <code>optional string object_name = 10;</code>
+       */
+      public Builder clearObjectName() {
+        bitField0_ = (bitField0_ & ~0x00000200);
+        objectName_ = getDefaultInstance().getObjectName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If defined, sets the name of the file-level object that would be generated. This
+       * object extends `GeneratedFileObject` and contains descriptors, and list of message
+       * and enum companions.
+       * </pre>
+       *
+       * <code>optional string object_name = 10;</code>
+       */
+      public Builder setObjectNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000200;
+        objectName_ = value;
+        onChanged();
+        return this;
+      }
+
       private boolean testOnlyNoJavaConversions_ ;
       /**
        * <pre>
@@ -2123,7 +2360,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public boolean hasTestOnlyNoJavaConversions() {
-        return ((bitField0_ & 0x00000200) == 0x00000200);
+        return ((bitField0_ & 0x00000400) == 0x00000400);
       }
       /**
        * <pre>
@@ -2145,7 +2382,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder setTestOnlyNoJavaConversions(boolean value) {
-        bitField0_ |= 0x00000200;
+        bitField0_ |= 0x00000400;
         testOnlyNoJavaConversions_ = value;
         onChanged();
         return this;
@@ -2159,7 +2396,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder clearTestOnlyNoJavaConversions() {
-        bitField0_ = (bitField0_ & ~0x00000200);
+        bitField0_ = (bitField0_ & ~0x00000400);
         testOnlyNoJavaConversions_ = false;
         onChanged();
         return this;
@@ -8140,37 +8377,38 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\rscalapb.proto\022\007scalapb\032 google/protobu" +
-      "f/descriptor.proto\"\221\002\n\016ScalaPbOptions\022\024\n" +
+      "f/descriptor.proto\"\246\002\n\016ScalaPbOptions\022\024\n" +
       "\014package_name\030\001 \001(\t\022\024\n\014flat_package\030\002 \001(" +
       "\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 \003(\t\022\023\n\013s" +
       "ingle_file\030\005 \001(\010\022\035\n\025no_primitive_wrapper" +
       "s\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 \001(\010\022\027\n\017c" +
       "ollection_type\030\010 \001(\t\022\037\n\027preserve_unknown" +
-      "_fields\030\t \001(\010\022\'\n\035test_only_no_java_conve" +
-      "rsions\030\241\215\006 \001(\010\"~\n\016MessageOptions\022\017\n\007exte" +
-      "nds\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\023\n\013" +
-      "annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025compa" +
-      "nion_annotations\030\005 \003(\t\"\224\001\n\014FieldOptions\022" +
-      "\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017col" +
-      "lection_type\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\n" +
-      "value_type\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\022\016\n" +
-      "\006no_box\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007extends\030" +
-      "\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\014\n\004type" +
-      "\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n\007extends\030\001 " +
-      "\003(\t\"\037\n\014OneofOptions\022\017\n\007extends\030\001 \003(\t:G\n\007" +
-      "options\022\034.google.protobuf.FileOptions\030\374\007" +
-      " \001(\0132\027.scalapb.ScalaPbOptions:J\n\007message" +
-      "\022\037.google.protobuf.MessageOptions\030\374\007 \001(\013" +
-      "2\027.scalapb.MessageOptions:D\n\005field\022\035.goo" +
-      "gle.protobuf.FieldOptions\030\374\007 \001(\0132\025.scala" +
-      "pb.FieldOptions:I\n\014enum_options\022\034.google" +
-      ".protobuf.EnumOptions\030\374\007 \001(\0132\024.scalapb.E" +
-      "numOptions:Q\n\nenum_value\022!.google.protob" +
-      "uf.EnumValueOptions\030\374\007 \001(\0132\031.scalapb.Enu" +
-      "mValueOptions:D\n\005oneof\022\035.google.protobuf" +
-      ".OneofOptions\030\374\007 \001(\0132\025.scalapb.OneofOpti" +
-      "onsB9\n\030scalapb.options.compiler\342?\034\n\030scal" +
-      "apb.options.compiler\020\001"
+      "_fields\030\t \001(\010\022\023\n\013object_name\030\n \001(\t\022\'\n\035te" +
+      "st_only_no_java_conversions\030\241\215\006 \001(\010\"~\n\016M" +
+      "essageOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021compan" +
+      "ion_extends\030\002 \003(\t\022\023\n\013annotations\030\003 \003(\t\022\014" +
+      "\n\004type\030\004 \001(\t\022\035\n\025companion_annotations\030\005 " +
+      "\003(\t\"\224\001\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nsc" +
+      "ala_name\030\002 \001(\t\022\027\n\017collection_type\030\003 \001(\t\022" +
+      "\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n" +
+      "\013annotations\030\006 \003(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013En" +
+      "umOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_" +
+      "extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValue" +
+      "Options\022\017\n\007extends\030\001 \003(\t\"\037\n\014OneofOptions" +
+      "\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034.google.pr" +
+      "otobuf.FileOptions\030\374\007 \001(\0132\027.scalapb.Scal" +
+      "aPbOptions:J\n\007message\022\037.google.protobuf." +
+      "MessageOptions\030\374\007 \001(\0132\027.scalapb.MessageO" +
+      "ptions:D\n\005field\022\035.google.protobuf.FieldO" +
+      "ptions\030\374\007 \001(\0132\025.scalapb.FieldOptions:I\n\014" +
+      "enum_options\022\034.google.protobuf.EnumOptio" +
+      "ns\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nenum_" +
+      "value\022!.google.protobuf.EnumValueOptions" +
+      "\030\374\007 \001(\0132\031.scalapb.EnumValueOptions:D\n\005on" +
+      "eof\022\035.google.protobuf.OneofOptions\030\374\007 \001(" +
+      "\0132\025.scalapb.OneofOptionsB9\n\030scalapb.opti" +
+      "ons.compiler\342?\034\n\030scalapb.options.compile" +
+      "r\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8190,7 +8428,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "TestOnlyNoJavaConversions", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "TestOnlyNoJavaConversions", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package scalapb.e2e.issue412;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  object_name: "GettingAroundIt"
+};
+
+message CustomObjectNameProto {}

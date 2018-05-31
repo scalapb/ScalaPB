@@ -53,6 +53,11 @@ message ScalaPbOptions {
   // fields.
   optional bool preserve_unknown_fields = 9;
 
+  // If defined, sets the name of the file-level object that would be generated. This
+  // object extends `GeneratedFileObject` and contains descriptors, and list of message
+  // and enum companions.
+  optional string object_name = 10;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;
