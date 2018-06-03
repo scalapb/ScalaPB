@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 set -e
-SCALA_VERSION=${SCALA_VERSION:-${TRAVIS_SCALA_VERSION:-2.11.11}}
+SCALA_VERSION=${SCALA_VERSION:-${TRAVIS_SCALA_VERSION:-2.12.6}}
 
 # E2E_SHADED signals we will work with the shaded version of the
 # compilerplugin.

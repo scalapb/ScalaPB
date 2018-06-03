@@ -239,9 +239,8 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   }
 
   "field annotations" should "be set correctly" in {
-    typeOf[FieldAnnotations].member(TermName("z")).annotations.map(_.toString) must contain(
-      "scala.deprecated(\"Will be removed\", \"0.1\")"
-    )
+    typeOf[FieldAnnotations].member(TermName("z")).annotations.map(_.toString).filter(_.contains("deprecated")).head must
+      include ("deprecated(\"Will be removed\", \"0.1\")")
   }
 
   "companion annotations" should "be set correctly" in {
