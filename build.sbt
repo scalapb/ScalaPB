@@ -190,6 +190,11 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
         Seq(
             ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtoValidation.ForbiddenFieldNames"),
             ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.compiler.FunctionalPrinter.print"),
+
+            // objectName
+            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasObjectName"),
+            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getObjectNameBytes"),
+            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getObjectName"),
         )
     }
   )
