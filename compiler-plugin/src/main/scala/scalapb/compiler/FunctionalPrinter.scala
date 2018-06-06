@@ -41,18 +41,20 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
     add(s.stripMargin.split("\n", -1): _*)
 
   // Adds the strings, while putting a delimiter between two lines.
-  def addWithDelimiter(delimiter:String)(s: Seq[String]) = {
+  def addWithDelimiter(delimiter: String)(s: Seq[String]) = {
     add(s.zipWithIndex.map {
       case (line, index) => if (index == s.length - 1) line else (line + delimiter)
     }: _*)
   }
 
-  def addGroupsWithDelimiter(delimiter:String)(groups: Seq[Seq[String]]) = {
+  def addGroupsWithDelimiter(delimiter: String)(groups: Seq[Seq[String]]) = {
     val lines = for {
-      (group, index) <- groups.zipWithIndex
+      (group, index)      <- groups.zipWithIndex
       (line, lineInGroup) <- group.zipWithIndex
-    } yield if (index < groups.length - 1 && lineInGroup == group.length - 1)
-        (line + delimiter) else line
+    } yield
+      if (index < groups.length - 1 && lineInGroup == group.length - 1)
+        (line + delimiter)
+      else line
     add(lines: _*)
   }
 
@@ -66,7 +68,9 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
       this
     }
 
-  def print[M](objects: Iterable[M])(f: (FunctionalPrinter, M) => FunctionalPrinter): FunctionalPrinter = {
+  def print[M](
+      objects: Iterable[M]
+  )(f: (FunctionalPrinter, M) => FunctionalPrinter): FunctionalPrinter = {
     objects.foldLeft(this)(f)
   }
 

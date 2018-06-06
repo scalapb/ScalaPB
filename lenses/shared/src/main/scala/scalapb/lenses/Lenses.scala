@@ -4,6 +4,7 @@ import scala.language.higherKinds
 
 trait Lens[Container, A] extends Any {
   self =>
+
   /** get knows how to extract some field of type `A` from a container */
   def get(c: Container): A
 
@@ -36,15 +37,17 @@ trait Lens[Container, A] extends Any {
   /** Given two lenses with the same origin, returns a new lens that can mutate both values
     * represented by both lenses through a tuple.
     */
-  def zip[B](other: Lens[Container, B]): Lens[Container, (A, B)] = new Lens[Container, (A,B)] {
-    def get(c: Container): (A,B) = (self.get(c), other.get(c))
+  def zip[B](other: Lens[Container, B]): Lens[Container, (A, B)] = new Lens[Container, (A, B)] {
+    def get(c: Container): (A, B)           = (self.get(c), other.get(c))
     def set(t: (A, B)): Mutation[Container] = self.set(t._1).andThen(other.set(t._2))
   }
 }
 
 object Lens {
   /* Create a Lens from getter and setter. */
-  def apply[Container, A](getter: Container => A)(setter: (Container, A) => Container): Lens[Container, A] = new Lens[Container, A] {
+  def apply[Container, A](
+      getter: Container => A
+  )(setter: (Container, A) => Container): Lens[Container, A] = new Lens[Container, A] {
     def get(c: Container) = getter(c)
 
     def set(a: A): Mutation[Container] = setter(_, a)
@@ -60,7 +63,9 @@ object Lens {
   def unit[U]: Lens[U, U] = Lens(identity[U])((c, v) => v)
 
   /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
-  implicit class SeqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](val lens: Lens[U, Coll[A]]) extends AnyVal {
+  implicit class SeqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](
+      val lens: Lens[U, Coll[A]]
+  ) extends AnyVal {
     type CBF = collection.generic.CanBuildFrom[Coll[A], A, Coll[A]]
 
     private def field(getter: Coll[A] => A)(setter: (Coll[A], A) => Coll[A]): Lens[U, A] =
@@ -74,19 +79,24 @@ object Lens {
 
     def :+=(item: A)(implicit cbf: CBF) = lens.modify(_ :+ item)
 
-    def :++=(item: scala.collection.GenTraversableOnce[A])(implicit cbf: CBF) = lens.modify(_ ++ item)
+    def :++=(item: scala.collection.GenTraversableOnce[A])(implicit cbf: CBF) =
+      lens.modify(_ ++ item)
 
     def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
-      lens.modify(s => s.map {
-        (m: A) =>
-          val field: Lens[A, A] = Lens.unit[A]
-          val p: Mutation[A] = f(field)
-          p(m)
-      })
+      lens.modify(
+        s =>
+          s.map { (m: A) =>
+            val field: Lens[A, A] = Lens.unit[A]
+            val p: Mutation[A]    = f(field)
+            p(m)
+          }
+      )
   }
 
   /** Implicit that adds some syntactic sugar if our lens watches a Set-like collection. */
-  implicit class SetLikeLens[U, A, Coll[A] <: collection.SetLike[A, Coll[A]] with Set[A]](val lens: Lens[U, Coll[A]]) extends AnyVal {
+  implicit class SetLikeLens[U, A, Coll[A] <: collection.SetLike[A, Coll[A]] with Set[A]](
+      val lens: Lens[U, Coll[A]]
+  ) extends AnyVal {
     type CBF = collection.generic.CanBuildFrom[Coll[A], A, Coll[A]]
 
     private def field(getter: Coll[A] => A)(setter: (Coll[A], A) => Coll[A]): Lens[U, A] =
@@ -94,51 +104,61 @@ object Lens {
 
     def :+=(item: A)(implicit cbf: CBF) = lens.modify(_ + item)
 
-    def :++=(item: scala.collection.GenTraversableOnce[A])(implicit cbf: CBF) = lens.modify(_ ++ item)
+    def :++=(item: scala.collection.GenTraversableOnce[A])(implicit cbf: CBF) =
+      lens.modify(_ ++ item)
 
     def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
-      lens.modify(s => s.map {
-        (m: A) =>
-          val field: Lens[A, A] = Lens.unit[A]
-          val p: Mutation[A] = f(field)
-          p(m)
-      })
+      lens.modify(
+        s =>
+          s.map { (m: A) =>
+            val field: Lens[A, A] = Lens.unit[A]
+            val p: Mutation[A]    = f(field)
+            p(m)
+          }
+      )
   }
 
   /** Implicit that adds some syntactic sugar if our lens watches an Option[_]. */
   implicit class OptLens[U, A](val lens: Lens[U, Option[A]]) extends AnyVal {
     def inplaceMap(f: Lens[A, A] => Mutation[A]) =
-      lens.modify(opt => opt.map {
-        (m: A) =>
-          val field: Lens[A, A] = Lens.unit[A]
-          val p: Mutation[A] = f(field)
-          p(m)
-      })
+      lens.modify(
+        opt =>
+          opt.map { (m: A) =>
+            val field: Lens[A, A] = Lens.unit[A]
+            val p: Mutation[A]    = f(field)
+            p(m)
+          }
+      )
   }
 
   /** Implicit that adds some syntactic sugar if our lens watches a Map[_, _]. */
   implicit class MapLens[U, A, B](val lens: Lens[U, Map[A, B]]) extends AnyVal {
-    def apply(key: A): Lens[U, B] = lens.compose(Lens[Map[A, B], B](_.apply(key))((map, value) => map.updated(key, value)))
+    def apply(key: A): Lens[U, B] =
+      lens.compose(Lens[Map[A, B], B](_.apply(key))((map, value) => map.updated(key, value)))
 
     def :+=(pair: (A, B)) = lens.modify(_ + pair)
 
     def :++=(item: Iterable[(A, B)]) = lens.modify(_ ++ item)
 
     def foreach(f: Lens[(A, B), (A, B)] => Mutation[(A, B)]): Mutation[U] =
-      lens.modify(s => s.map {
-        (pair: (A, B)) =>
-          val field: Lens[(A, B), (A, B)] = Lens.unit[(A, B)]
-          val p: Mutation[(A, B)] = f(field)
-          p(pair)
-      })
+      lens.modify(
+        s =>
+          s.map { (pair: (A, B)) =>
+            val field: Lens[(A, B), (A, B)] = Lens.unit[(A, B)]
+            val p: Mutation[(A, B)]         = f(field)
+            p(pair)
+          }
+      )
 
     def foreachValue(f: Lens[B, B] => Mutation[B]): Mutation[U] =
-      lens.modify(s => s.mapValues {
-        (m: B) =>
-          val field: Lens[B, B] = Lens.unit[B]
-          val p: Mutation[B] = f(field)
-          p(m)
-      })
+      lens.modify(
+        s =>
+          s.mapValues { (m: B) =>
+            val field: Lens[B, B] = Lens.unit[B]
+            val p: Mutation[B]    = f(field)
+            p(m)
+          }
+      )
 
     def mapValues(f: B => B) = foreachValue(_.modify(f))
   }
@@ -146,6 +166,7 @@ object Lens {
 
 /** Represents a lens that has sub-lenses. */
 class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Container] {
+
   /** Creates a sub-lens */
   def field[A](lens: Lens[Container, A]): Lens[U, A] = self.compose(lens)
 
@@ -163,5 +184,6 @@ class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Contain
 
 trait Updatable[A] extends Any {
   self: A =>
-  def update(ms: (Lens[A, A] => Mutation[A])*): A = ms.foldLeft[A](self)((p, m) => m(Lens.unit[A])(p))
+  def update(ms: (Lens[A, A] => Mutation[A])*): A =
+    ms.foldLeft[A](self)((p, m) => m(Lens.unit[A])(p))
 }

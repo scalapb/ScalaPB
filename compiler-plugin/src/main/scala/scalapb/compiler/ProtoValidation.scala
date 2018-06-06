@@ -10,7 +10,8 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
     fd.getMessageTypes.asScala.foreach(validateMessage)
     if (fd.scalaOptions.hasPrimitiveWrappers && fd.scalaOptions.getNoPrimitiveWrappers) {
       throw new GeneratorException(
-        s"primitive_wrappers and no_primitive_wrappers must not be used at the same time.")
+        s"primitive_wrappers and no_primitive_wrappers must not be used at the same time."
+      )
     }
   }
 
@@ -18,7 +19,8 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
     if (e.getValues.asScala.exists(_.getName.toUpperCase == "UNRECOGNIZED")) {
       throw new GeneratorException(
         s"The enum value 'UNRECOGNIZED' in ${e.getName} is not allowed due to conflict with the catch-all " +
-          "Unrecognized(v: Int) value.")
+          "Unrecognized(v: Int) value."
+      )
     }
   }
 
@@ -31,23 +33,29 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
   def validateField(fd: FieldDescriptor): Unit = {
     if (ProtoValidation.ForbiddenFieldNames.contains(fd.scalaName))
       throw new GeneratorException(
-        s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed. See https://scalapb.github.io/customizations.html#custom-names")
+        s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed. See https://scalapb.github.io/customizations.html#custom-names"
+      )
     if (!fd.isRepeated && fd.fieldOptions.hasCollectionType)
       throw new GeneratorException(
-        s"${fd.getFullName}: Field ${fd.getName} has collection_type set but is not a repeated field.")
+        s"${fd.getFullName}: Field ${fd.getName} has collection_type set but is not a repeated field."
+      )
     if (!fd.isMapField && (fd.fieldOptions.hasKeyType || fd.fieldOptions.hasValueType)) {
       throw new GeneratorException(
-        s"${fd.getFullName}: Field ${fd.getName} is not a map but specifies key_type or value_type.")
+        s"${fd.getFullName}: Field ${fd.getName} is not a map but specifies key_type or value_type."
+      )
     }
     if (fd.isMapField && fd.fieldOptions.hasCollectionType)
       throw new GeneratorException(
-        s"${fd.getFullName}: Field ${fd.getName} is a map but has collection_type specified.")
+        s"${fd.getFullName}: Field ${fd.getName} is a map but has collection_type specified."
+      )
     if (fd.isMapField && fd.fieldOptions.hasType)
       throw new GeneratorException(
-        s"${fd.getFullName}: Field ${fd.getName} is a map and has type specified. Use key_type or value_type instead.")
+        s"${fd.getFullName}: Field ${fd.getName} is a map and has type specified. Use key_type or value_type instead."
+      )
     if (!fd.isOptional && fd.fieldOptions.hasNoBox)
       throw new GeneratorException(
-        s"${fd.getFullName}: Field ${fd.getName} has no_box set but is not an optional field.")
+        s"${fd.getFullName}: Field ${fd.getName} has no_box set but is not an optional field."
+      )
   }
 }
 

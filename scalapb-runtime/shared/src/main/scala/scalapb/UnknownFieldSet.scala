@@ -1,14 +1,22 @@
 package scalapb
 
-import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream, InvalidProtocolBufferException}
+import com.google.protobuf.{
+  ByteString,
+  CodedInputStream,
+  CodedOutputStream,
+  InvalidProtocolBufferException
+}
 import scalapb.lenses.Lens
 
 import scala.collection.mutable
 
-case class UnknownFieldSet(private[scalapb] val fields: Map[Int, UnknownFieldSet.Field] = Map.empty) {
+case class UnknownFieldSet(
+    private[scalapb] val fields: Map[Int, UnknownFieldSet.Field] = Map.empty
+) {
   def getField(fieldNumber: Int): Option[UnknownFieldSet.Field] = fields.get(fieldNumber)
 
-  def withField(fieldNumber: Int, value: UnknownFieldSet.Field) = copy(fields = fields + (fieldNumber -> value))
+  def withField(fieldNumber: Int, value: UnknownFieldSet.Field) =
+    copy(fields = fields + (fieldNumber -> value))
 
   def writeTo(output: CodedOutputStream): Unit = {
     fields.foreach {
@@ -26,20 +34,23 @@ case class UnknownFieldSet(private[scalapb] val fields: Map[Int, UnknownFieldSet
 object UnknownFieldSet {
   val empty = UnknownFieldSet()
 
-  implicit class UnknownFieldSetLens[UpperPB](lens: _root_.scalapb.lenses.Lens[UpperPB, UnknownFieldSet]) {
+  implicit class UnknownFieldSetLens[UpperPB](
+      lens: _root_.scalapb.lenses.Lens[UpperPB, UnknownFieldSet]
+  ) {
     def apply(fieldNumber: Int): Lens[UpperPB, UnknownFieldSet.Field] =
-      lens.compose(Lens[UnknownFieldSet, UnknownFieldSet.Field]({
-        t => t.fields.getOrElse(fieldNumber, UnknownFieldSet.Field())
-      })({
-        (c, t) => c.withField(fieldNumber, t)
+      lens.compose(Lens[UnknownFieldSet, UnknownFieldSet.Field]({ t =>
+        t.fields.getOrElse(fieldNumber, UnknownFieldSet.Field())
+      })({ (c, t) =>
+        c.withField(fieldNumber, t)
       }))
   }
 
   case class Field(
-    varint: Seq[Long] = Vector.empty,
-    fixed64: Seq[Long] = Vector.empty,
-    fixed32: Seq[Int] = Vector.empty,
-    lengthDelimited: Seq[ByteString] = Vector.empty) {
+      varint: Seq[Long] = Vector.empty,
+      fixed64: Seq[Long] = Vector.empty,
+      fixed32: Seq[Int] = Vector.empty,
+      lengthDelimited: Seq[ByteString] = Vector.empty
+  ) {
     def writeTo(fieldNumber: Int, output: CodedOutputStream): Unit = {
       varint.foreach(output.writeUInt64(fieldNumber, _))
       fixed32.foreach(output.writeFixed32(fieldNumber, _))
@@ -54,24 +65,26 @@ object UnknownFieldSet {
     }
   }
 
-
   object Field {
-    val varintLens = Lens[Field, Seq[Long]](_.varint)((c, v) => c.copy(varint=v))
-    val fixed64Lens = Lens[Field, Seq[Long]](_.fixed64)((c, v) => c.copy(fixed64=v))
-    val fixed32Lens = Lens[Field, Seq[Int]](_.fixed32)((c, v) => c.copy(fixed32=v))
-    val lengthDelimitedLens = Lens[Field, Seq[ByteString]](_.lengthDelimited)((c, v) => c.copy(lengthDelimited=v))
+    val varintLens  = Lens[Field, Seq[Long]](_.varint)((c, v) => c.copy(varint = v))
+    val fixed64Lens = Lens[Field, Seq[Long]](_.fixed64)((c, v) => c.copy(fixed64 = v))
+    val fixed32Lens = Lens[Field, Seq[Int]](_.fixed32)((c, v) => c.copy(fixed32 = v))
+    val lengthDelimitedLens =
+      Lens[Field, Seq[ByteString]](_.lengthDelimited)((c, v) => c.copy(lengthDelimited = v))
 
     class Builder {
-      private val varint = Vector.newBuilder[Long]
-      private val fixed64 = Vector.newBuilder[Long]
-      private val fixed32 = Vector.newBuilder[Int]
+      private val varint          = Vector.newBuilder[Long]
+      private val fixed64         = Vector.newBuilder[Long]
+      private val fixed32         = Vector.newBuilder[Int]
       private val lengthDelimited = Vector.newBuilder[ByteString]
 
-      def result() = Field(
-        varint = varint.result(),
-        fixed64 = fixed64.result(),
-        fixed32 = fixed32.result(),
-        lengthDelimited = lengthDelimited.result())
+      def result() =
+        Field(
+          varint = varint.result(),
+          fixed64 = fixed64.result(),
+          fixed32 = fixed32.result(),
+          lengthDelimited = lengthDelimited.result()
+        )
 
       def parseField(tag: Int, input: CodedInputStream) = {
         val wireType = WireType.getTagWireType(tag)
@@ -85,7 +98,10 @@ object UnknownFieldSet {
             lengthDelimited += input.readBytes
           case WireType.WIRETYPE_FIXED32 =>
             fixed32 += input.readFixed32
-          case _ => throw new InvalidProtocolBufferException(s"Protocol message tag had invalid wire type: ${wireType}")
+          case _ =>
+            throw new InvalidProtocolBufferException(
+              s"Protocol message tag had invalid wire type: ${wireType}"
+            )
         }
       }
     }
@@ -124,17 +140,17 @@ object WireType {
 
   def getTagFieldNumber(tag: Int) = tag >>> 3
 
-  val WIRETYPE_VARINT = 0
-  val WIRETYPE_FIXED64 = 1
+  val WIRETYPE_VARINT           = 0
+  val WIRETYPE_FIXED64          = 1
   val WIRETYPE_LENGTH_DELIMITED = 2
-  val WIRETYPE_START_GROUP = 3
-  val WIRETYPE_END_GROUP = 4
-  val WIRETYPE_FIXED32 = 5
+  val WIRETYPE_START_GROUP      = 3
+  val WIRETYPE_END_GROUP        = 4
+  val WIRETYPE_FIXED32          = 5
 
   sealed trait WireValue
 
-  case class Fixed64(value: Seq[Long]) extends WireValue
-  case class Fixed32(value: Seq[Long]) extends WireValue
-  case class Varint(value: Seq[Long]) extends WireValue
+  case class Fixed64(value: Seq[Long])               extends WireValue
+  case class Fixed32(value: Seq[Long])               extends WireValue
+  case class Varint(value: Seq[Long])                extends WireValue
   case class LengthDelimited(value: Seq[ByteString]) extends WireValue
 }

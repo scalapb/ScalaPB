@@ -3,9 +3,10 @@ package scalapb
 import java.io.{FilterInputStream, InputStream}
 
 /**
- * Based on com.google.protobuf.AbstractMessageLite.Builder#LimitedInputStream.
- */
-class LimitedInputStream(val is: InputStream, private var limit: Int) extends FilterInputStream(is) {
+  * Based on com.google.protobuf.AbstractMessageLite.Builder#LimitedInputStream.
+  */
+class LimitedInputStream(val is: InputStream, private var limit: Int)
+    extends FilterInputStream(is) {
 
   override def available(): Int = super.available min limit
 
@@ -24,7 +25,7 @@ class LimitedInputStream(val is: InputStream, private var limit: Int) extends Fi
       -1
     } else {
       val actualLen = len min limit
-      val result = super.read(bytes, off, actualLen)
+      val result    = super.read(bytes, off, actualLen)
       if (result >= 0) {
         limit -= result
       }

@@ -6,7 +6,7 @@ import scala.ref.WeakReference
 /** JVM implementation of ConcurrentWeakReferenceMap. We provide a separate implementation here
   * since some of the classes used are not available in JS runtime.
   */
-private [descriptors] class ConcurrentWeakReferenceMap[K, V <: AnyRef] {
+private[descriptors] class ConcurrentWeakReferenceMap[K, V <: AnyRef] {
   private val underlying = mutable.WeakHashMap.empty[K, WeakReference[V]]
 
   def getOrElseUpdate(key: K, newValue: => V): V = this.synchronized {

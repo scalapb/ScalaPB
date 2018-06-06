@@ -21,7 +21,7 @@ trait ParserSuite {
   }
 
   def checkFail[T](parser: P[T], input: String, expectedTrace: String) = {
-    val failure = parser.parse(input).asInstanceOf[Parsed.Failure[_, _]]
+    val failure     = parser.parse(input).asInstanceOf[Parsed.Failure[_, _]]
     val actualTrace = failure.extra.traced.trace
     assert(expectedTrace.trim == actualTrace.trim)
   }

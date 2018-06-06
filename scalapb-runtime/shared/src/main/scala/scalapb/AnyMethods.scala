@@ -22,15 +22,22 @@ object AnyMethods {
   }
 }
 
-
 trait AnyCompanionMethods {
-  def pack[A <: GeneratedMessage with Message[A]](generatedMessage: A): com.google.protobuf.any.Any =
+  def pack[A <: GeneratedMessage with Message[A]](
+      generatedMessage: A
+  ): com.google.protobuf.any.Any =
     pack(generatedMessage, "type.googleapis.com/")
 
-  def pack[A <: GeneratedMessage with Message[A]](generatedMessage: A, urlPrefix: String): com.google.protobuf.any.Any =
+  def pack[A <: GeneratedMessage with Message[A]](
+      generatedMessage: A,
+      urlPrefix: String
+  ): com.google.protobuf.any.Any =
     com.google.protobuf.any.Any(
-      typeUrl = if (urlPrefix.endsWith("/"))
-        urlPrefix + generatedMessage.companion.scalaDescriptor.fullName else
-        urlPrefix + "/" + generatedMessage.companion.scalaDescriptor.fullName,
-      value = generatedMessage.toByteString)
+      typeUrl =
+        if (urlPrefix.endsWith("/"))
+          urlPrefix + generatedMessage.companion.scalaDescriptor.fullName
+        else
+          urlPrefix + "/" + generatedMessage.companion.scalaDescriptor.fullName,
+      value = generatedMessage.toByteString
+    )
 }

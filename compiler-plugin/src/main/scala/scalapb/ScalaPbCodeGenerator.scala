@@ -6,7 +6,6 @@ import scalapb.compiler.ProtobufGenerator
 import scalapb.options.compiler.Scalapb
 import protocbridge.{ProtocCodeGenerator, Artifact}
 
-
 object ScalaPbCodeGenerator extends ProtocCodeGenerator {
   override def run(req: Array[Byte]): Array[Byte] = {
     val registry = ExtensionRegistry.newInstance()
@@ -16,7 +15,11 @@ object ScalaPbCodeGenerator extends ProtocCodeGenerator {
   }
 
   override def suggestedDependencies: Seq[Artifact] = Seq(
-    Artifact("com.thesamet.scalapb", "scalapb-runtime",
-      scalapb.compiler.Version.scalapbVersion, crossVersion = true)
+    Artifact(
+      "com.thesamet.scalapb",
+      "scalapb-runtime",
+      scalapb.compiler.Version.scalapbVersion,
+      crossVersion = true
+    )
   )
 }

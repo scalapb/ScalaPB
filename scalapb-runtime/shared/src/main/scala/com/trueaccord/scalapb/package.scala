@@ -23,7 +23,8 @@ package object scalapb {
   type Message[A] = _root_.scalapb.Message[A]
 
   @deprecated("Please use scalapb package instead of com.trueaccord.scalapb", "0.7.0")
-  type ExtendableMessage[A <: _root_.scalapb.ExtendableMessage[A]] = _root_.scalapb.ExtendableMessage[A]
+  type ExtendableMessage[A <: _root_.scalapb.ExtendableMessage[A]] =
+    _root_.scalapb.ExtendableMessage[A]
 
   @deprecated("Please use scalapb package instead of com.trueaccord.scalapb", "0.7.0")
   val ExtendableMessage = _root_.scalapb.ExtendableMessage
@@ -32,7 +33,8 @@ package object scalapb {
   type JavaProtoSupport[ScalaPB, JavaPB] = _root_.scalapb.JavaProtoSupport[ScalaPB, JavaPB]
 
   @deprecated("Please use scalapb package instead of com.trueaccord.scalapb", "0.7.0")
-  type GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] = _root_.scalapb.GeneratedMessageCompanion[A]
+  type GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] =
+    _root_.scalapb.GeneratedMessageCompanion[A]
 
   @deprecated("Please use scalapb package instead of com.trueaccord.scalapb", "0.7.0")
   type KeyValue[K, V] = _root_.scalapb.KeyValue[K, V]

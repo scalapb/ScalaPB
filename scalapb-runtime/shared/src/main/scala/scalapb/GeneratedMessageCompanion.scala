@@ -27,9 +27,11 @@ trait GeneratedEnum extends Any with Product with Serializable {
   @deprecated("Use javaValueDescriptor", "ScalaPB 0.5.47")
   def valueDescriptor: JavaDescriptors.EnumValueDescriptor = javaValueDescriptor
 
-  def javaValueDescriptor: JavaDescriptors.EnumValueDescriptor = companion.javaDescriptor.getValues.get(index)
+  def javaValueDescriptor: JavaDescriptors.EnumValueDescriptor =
+    companion.javaDescriptor.getValues.get(index)
 
-  def scalaValueDescriptor: _root_.scalapb.descriptors.EnumValueDescriptor = companion.scalaDescriptor.values(index)
+  def scalaValueDescriptor: _root_.scalapb.descriptors.EnumValueDescriptor =
+    companion.scalaDescriptor.values(index)
 }
 
 trait UnrecognizedEnum extends GeneratedEnum {
@@ -51,7 +53,10 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
 
-  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  @deprecated(
+    "Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.",
+    "ScalaPB 0.5.47"
+  )
   def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = javaDescriptor
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor
@@ -73,9 +78,9 @@ trait GeneratedMessage extends Any with Serializable {
 
   def writeTo(output: OutputStream): Unit = {
     val bufferSize =
-        LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
+      LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
     val codedOutput: CodedOutputStream =
-        CodedOutputStream.newInstance(output, bufferSize)
+      CodedOutputStream.newInstance(output, bufferSize)
     writeTo(codedOutput)
     codedOutput.flush()
   }
@@ -83,9 +88,10 @@ trait GeneratedMessage extends Any with Serializable {
   def writeDelimitedTo(output: OutputStream): Unit = {
     val serialized: Int = serializedSize
     val bufferSize: Int = LiteParser.preferredCodedOutputStreamBufferSize(
-        CodedOutputStream.computeUInt32SizeNoTag(serialized) + serialized)
+      CodedOutputStream.computeUInt32SizeNoTag(serialized) + serialized
+    )
     val codedOutput: CodedOutputStream =
-        CodedOutputStream.newInstance(output, bufferSize)
+      CodedOutputStream.newInstance(output, bufferSize)
     codedOutput.writeUInt32NoTag(serialized)
     writeTo(codedOutput)
     codedOutput.flush()
@@ -103,9 +109,10 @@ trait GeneratedMessage extends Any with Serializable {
   // Using a Scala field descriptor.
   def getField(field: _root_.scalapb.descriptors.FieldDescriptor): PValue
 
-  def toPMessage: PMessage = PMessage(companion.scalaDescriptor.fields.map {
-    case f => (f, getField(f))
-  }.toMap)
+  def toPMessage: PMessage =
+    PMessage(companion.scalaDescriptor.fields.map {
+      case f => (f, getField(f))
+    }.toMap)
 
   def companion: GeneratedMessageCompanion[_]
 
@@ -118,10 +125,10 @@ trait GeneratedMessage extends Any with Serializable {
       val f = i.next()
       if (f.getType != JavaDescriptors.FieldDescriptor.Type.GROUP) {
         getField(f) match {
-          case null => {}
+          case null                         => {}
           case bs: ByteString if bs.isEmpty => b += (f -> bs)
-          case Nil => {}
-          case v => b += (f -> v)
+          case Nil                          => {}
+          case v                            => b += (f -> v)
         }
       }
     }
@@ -129,7 +136,7 @@ trait GeneratedMessage extends Any with Serializable {
   }
 
   def toByteArray: Array[Byte] = {
-    val a = new Array[Byte](serializedSize)
+    val a            = new Array[Byte](serializedSize)
     val outputStream = CodedOutputStream.newInstance(a)
     writeTo(outputStream)
     outputStream.checkNoSpaceLeft()
@@ -210,7 +217,10 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   @deprecated("Use messageReads", "0.6.0")
   def fromFieldsMap(fields: Map[JavaDescriptors.FieldDescriptor, Any]): A
 
-  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  @deprecated(
+    "Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.",
+    "ScalaPB 0.5.47"
+  )
   def descriptor: com.google.protobuf.Descriptors.Descriptor = javaDescriptor
 
   def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
@@ -225,15 +235,23 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   def messageCompanionForFieldNumber(field: Int): GeneratedMessageCompanion[_]
 
-  def messageCompanionForField(field: JavaDescriptors.FieldDescriptor): GeneratedMessageCompanion[_] = {
-    require(field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+  def messageCompanionForField(
+      field: JavaDescriptors.FieldDescriptor
+  ): GeneratedMessageCompanion[_] = {
+    require(
+      field.getContainingType() == javaDescriptor,
+      "FieldDescriptor does not match message type."
+    )
     messageCompanionForFieldNumber(field.getNumber)
   }
 
   def enumCompanionForFieldNumber(field: Int): GeneratedEnumCompanion[_]
 
   def enumCompanionForField(field: JavaDescriptors.FieldDescriptor): GeneratedEnumCompanion[_] = {
-    require(field.getContainingType() == javaDescriptor, "FieldDescriptor does not match message type.")
+    require(
+      field.getContainingType() == javaDescriptor,
+      "FieldDescriptor does not match message type."
+    )
     enumCompanionForFieldNumber(field.getNumber)
   }
 
@@ -243,8 +261,8 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   // was generated by TextFormat.printToString can be parsed by these functions.
   def validateAscii(s: String): Either[TextFormatError, A] = TextFormat.fromAscii(this, s)
 
-  def fromAscii(s: String): A = validateAscii(s).fold(
-    t => throw new TextFormatException(t.msg), identity[A])
+  def fromAscii(s: String): A =
+    validateAscii(s).fold(t => throw new TextFormatException(t.msg), identity[A])
 
   def defaultInstance: A
 }

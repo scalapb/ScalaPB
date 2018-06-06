@@ -20,16 +20,20 @@ object Printer {
     out.result()
   }
 
-  def printField(fd: FieldDescriptor, value: scalapb.descriptors.PValue, out: TextGenerator): Unit = value match {
-    case PRepeated(values) =>
-      values.foreach(v => printSingleField(fd, v, out))
-    case PEmpty =>
-    case _ =>
-      printSingleField(fd, value, out)
-  }
+  def printField(fd: FieldDescriptor, value: scalapb.descriptors.PValue, out: TextGenerator): Unit =
+    value match {
+      case PRepeated(values) =>
+        values.foreach(v => printSingleField(fd, v, out))
+      case PEmpty =>
+      case _ =>
+        printSingleField(fd, value, out)
+    }
 
-
-  def printSingleField(fd: FieldDescriptor, value: scalapb.descriptors.PValue, out: TextGenerator) = {
+  def printSingleField(
+      fd: FieldDescriptor,
+      value: scalapb.descriptors.PValue,
+      out: TextGenerator
+  ) = {
     out.add(fd.name)
     value match {
       case scalapb.descriptors.PMessage(msg) =>
@@ -43,7 +47,11 @@ object Printer {
     }
   }
 
-  def printFieldValue(fd: FieldDescriptor, value: scalapb.descriptors.PValue, out: TextGenerator): Unit =
+  def printFieldValue(
+      fd: FieldDescriptor,
+      value: scalapb.descriptors.PValue,
+      out: TextGenerator
+  ): Unit =
     value match {
       case scalapb.descriptors.PInt(v) =>
         if (fd.protoType.isTypeUint32 || fd.protoType.isTypeFixed32)

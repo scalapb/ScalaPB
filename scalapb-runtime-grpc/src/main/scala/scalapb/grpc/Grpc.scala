@@ -11,21 +11,22 @@ object Grpc {
     val p = Promise[A]()
     Futures.addCallback(guavaFuture, new FutureCallback[A] {
       override def onFailure(t: Throwable): Unit = p.failure(t)
-      override def onSuccess(a: A): Unit = p.success(a)
+      override def onSuccess(a: A): Unit         = p.success(a)
     })
     p.future
   }
 
-  def completeObserver[T](observer: StreamObserver[T])(t: Try[T]): Unit = t.map(observer.onNext) match {
-    case scala.util.Success(_) =>
-      observer.onCompleted()
-    case scala.util.Failure(s: StatusException) =>
-      observer.onError(s)
-    case scala.util.Failure(s: StatusRuntimeException) =>
-      observer.onError(s)
-    case scala.util.Failure(e) =>
-      observer.onError(
-        Status.INTERNAL.withDescription(e.getMessage).withCause(e).asException()
-      )
-  }
+  def completeObserver[T](observer: StreamObserver[T])(t: Try[T]): Unit =
+    t.map(observer.onNext) match {
+      case scala.util.Success(_) =>
+        observer.onCompleted()
+      case scala.util.Failure(s: StatusException) =>
+        observer.onError(s)
+      case scala.util.Failure(s: StatusRuntimeException) =>
+        observer.onError(s)
+      case scala.util.Failure(e) =>
+        observer.onError(
+          Status.INTERNAL.withDescription(e.getMessage).withCause(e).asException()
+        )
+    }
 }

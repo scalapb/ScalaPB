@@ -38,51 +38,54 @@ class ReadsException(msg: String) extends Exception
 object Reads {
   implicit val intReads: Reads[Int] = Reads[Int] {
     case PInt(value) => value
-    case _ => throw new ReadsException("Expected PInt")
+    case _           => throw new ReadsException("Expected PInt")
   }
 
   implicit val longReads: Reads[Long] = Reads[Long] {
     case PLong(value) => value
-    case _ => throw new ReadsException("Expected PLong")
+    case _            => throw new ReadsException("Expected PLong")
   }
 
   implicit val stringReads: Reads[String] = Reads[String] {
     case PString(value) => value
-    case _ => throw new ReadsException("Expected PString")
+    case _              => throw new ReadsException("Expected PString")
   }
 
   implicit val doubleReads: Reads[Double] = Reads[Double] {
     case PDouble(value) => value
-    case _ => throw new ReadsException("Expected PDouble")
+    case _              => throw new ReadsException("Expected PDouble")
   }
 
   implicit val floatReads: Reads[Float] = Reads[Float] {
     case PFloat(value) => value
-    case _ => throw new ReadsException("Expected PFloat")
+    case _             => throw new ReadsException("Expected PFloat")
   }
 
   implicit val byteStringReads: Reads[ByteString] = Reads[ByteString] {
     case PByteString(value) => value
-    case _ => throw new ReadsException("Expected PByteString")
+    case _                  => throw new ReadsException("Expected PByteString")
   }
 
   implicit val booleanReads: Reads[Boolean] = Reads[Boolean] {
     case PBoolean(value) => value
-    case _ => throw new ReadsException("Expected PBoolean")
+    case _               => throw new ReadsException("Expected PBoolean")
   }
 
   implicit val enumReads: Reads[EnumValueDescriptor] = Reads[EnumValueDescriptor] {
     case PEnum(value) => value
-    case _ => throw new ReadsException("Expected PEnum")
+    case _            => throw new ReadsException("Expected PEnum")
   }
 
-  implicit def repeated[A, Coll[A]](implicit reads: Reads[A], bf: CanBuildFrom[Nothing, A, Coll[A]]): Reads[Coll[A]] = Reads[Coll[A]] {
+  implicit def repeated[A, Coll[A]](
+      implicit reads: Reads[A],
+      bf: CanBuildFrom[Nothing, A, Coll[A]]
+  ): Reads[Coll[A]] = Reads[Coll[A]] {
     case PRepeated(value) => value.map(reads.read)(scala.collection.breakOut)
-    case _ => throw new ReadsException("Expected PRepeated")
+    case _                => throw new ReadsException("Expected PRepeated")
   }
 
   implicit def optional[A](implicit reads: Reads[A]): Reads[Option[A]] = Reads[Option[A]] {
     case PEmpty => None
-    case x => Some(reads.read(x))
+    case x      => Some(reads.read(x))
   }
 }
