@@ -57,6 +57,12 @@ releaseProcess := Seq[ReleaseStep](
   ReleaseStep(action = "sonatypeReleaseAll" :: _, enableCrossBuild = true)
 )
 
+lazy val sharedNativeSettings = List(
+  nativeLinkStubs := true, // for utest
+  scalaVersion := Scala211,
+  crossScalaVersions := List(Scala211)
+)
+
 lazy val root =
   project.in(file("."))
     .settings(
@@ -135,7 +141,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
   )
   .nativeSettings(
-    nativeLinkStubs := true  // for utest
+    sharedNativeSettings
   )
 
 
@@ -335,7 +341,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
     }
   )
   .nativeSettings(
-    nativeLinkStubs := true // for utest
+    sharedNativeSettings
   )
 
 lazy val lensesJVM = lenses.jvm
