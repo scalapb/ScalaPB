@@ -4,8 +4,8 @@ import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scala.collection.JavaConverters._
 
-final class GrpcServicePrinter(service: ServiceDescriptor, override val params: GeneratorParams)
-    extends DescriptorPimps {
+final class GrpcServicePrinter(service: ServiceDescriptor, implicits: DescriptorImplicits) {
+  import implicits._
   private[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
 
   private[this] def serviceMethodSignature(method: MethodDescriptor) = {

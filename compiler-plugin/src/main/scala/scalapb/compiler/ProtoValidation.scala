@@ -3,7 +3,8 @@ package scalapb.compiler
 import com.google.protobuf.Descriptors._
 import scala.collection.JavaConverters._
 
-class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
+class ProtoValidation(implicits: DescriptorImplicits) {
+  import implicits._
 
   def validateFile(fd: FileDescriptor): Unit = {
     fd.getEnumTypes.asScala.foreach(validateEnum)
@@ -13,6 +14,20 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
         s"primitive_wrappers and no_primitive_wrappers must not be used at the same time."
       )
     }
+    val allSealedOneofCases = for {
+      msg   <- fd.getMessageTypes.asScala
+      cases <- msg.sealedOneofCases.getOrElse(Seq.empty)
+    } yield cases
+    allSealedOneofCases
+      .groupBy(identity)
+      .collect {
+        case (d, occurences) if occurences.length > 1 => d
+      }
+      .foreach { d =>
+        throw new GeneratorException(
+          s"${d.getFullName}: message may belong to at most one sealed oneof"
+        )
+      }
   }
 
   def validateEnum(e: EnumDescriptor): Unit = {
@@ -28,6 +43,49 @@ class ProtoValidation(val params: GeneratorParams) extends DescriptorPimps {
     m.getEnumTypes.asScala.foreach(validateEnum)
     m.getNestedTypes.asScala.foreach(validateMessage)
     m.getFields.asScala.foreach(validateField)
+    if (m.isSealedOneofType) {
+      val oneof = m.getOneofs.get(0)
+      if (m.getContainingType != null) {
+        throw new GeneratorException(s"${m.getFullName}: sealed oneofs must be top-level messages")
+      }
+      if (m.getFields.size() != oneof.getFields.size()) {
+        throw new GeneratorException(
+          s"${m.getFullName}: sealed oneofs must have all their fields inside a single oneof"
+        )
+      }
+      val fields = oneof.getFields.asScala
+      fields.find(!_.isMessage).foreach { field =>
+        throw new GeneratorException(
+          s"${m.getFullName}.${field.getName}: sealed oneofs must have all their fields be message types"
+        )
+      }
+      fields.find(_.getMessageType.isSealedOneofType).foreach { field =>
+        throw new GeneratorException(
+          s"${m.getFullName}.${field.getName}: sealed oneofs may not be a case within another sealed oneof"
+        )
+      }
+      fields.find(_.getMessageType.getContainingType != null).foreach { field =>
+        throw new GeneratorException(
+          s"${m.getFullName}.${field.getName}: all sealed oneof cases must be top-level"
+        )
+      }
+      val distinctTypes = fields.map(_.getMessageType).toSet
+      if (distinctTypes.size != fields.size) {
+        throw new GeneratorException(
+          s"${m.getFullName}: all sealed oneof cases must be of a distinct message type"
+        )
+      }
+      if (!m.getNestedTypes.isEmpty) {
+        throw new GeneratorException(
+          s"${m.getFullName}: sealed oneofs may not contain nested messages"
+        )
+      }
+      if (!m.getEnumTypes.isEmpty) {
+        throw new GeneratorException(
+          s"${m.getFullName}: sealed oneofs may not contain nested enums"
+        )
+      }
+    }
   }
 
   def validateField(fd: FieldDescriptor): Unit = {
