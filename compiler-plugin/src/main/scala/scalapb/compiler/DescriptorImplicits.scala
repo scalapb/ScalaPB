@@ -9,9 +9,7 @@ import scalapb.options.compiler.Scalapb._
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
-trait DescriptorPimps {
-  def params: GeneratorParams
-
+class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   val SCALA_RESERVED_WORDS = Set(
     "abstract",
     "case",
@@ -56,6 +54,16 @@ trait DescriptorPimps {
     "yield",
     "ne"
   )
+
+  // Needs to be lazy since the input may be invalid... For example, if one of
+  // the cases is not a message, the call to getMessageType would fail.
+  private lazy val sealedOneofsCache: SealedOneofsCache = {
+    val sealedOneof = for {
+      file    <- files
+      message <- file.allMessages if message.isSealedOneofType
+    } yield SealedOneof(message, message.getOneofs.get(0).getFields.asScala.map(_.getMessageType))
+    new SealedOneofsCache(sealedOneof)
+  }
 
   implicit class AsSymbolPimp(val s: String) {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
@@ -111,6 +119,8 @@ trait DescriptorPimps {
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
+    def isSealedOneofType: Boolean = fd.isMessage && fd.getMessageType.isSealedOneofType
+
     def scalaName: String =
       if (fieldOptions.getScalaName.nonEmpty) fieldOptions.getScalaName
       else
@@ -155,11 +165,14 @@ trait DescriptorPimps {
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
+      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) &&
+        !fieldOptions.getNoBox && !fd.isSealedOneofType
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
-      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (fieldOptions.getNoBox && fd.isOptional)
+      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (
+        fd.isOptional && (fieldOptions.getNoBox || fd.isSealedOneofType)
+      )
 
     def enclosingType: EnclosingType =
       if (isSingular) EnclosingType.None
@@ -231,6 +244,7 @@ trait DescriptorPimps {
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+      else if (isSealedOneofType) Some(fd.getMessageType.sealedOneofScalaType)
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
         Some(fd.getMessageType.messageOptions.getType)
@@ -340,16 +354,29 @@ trait DescriptorPimps {
     def baseClasses = "_root_.scalapb.GeneratedOneof" +: oneofOptions.getExtendsList.asScala.toSeq
   }
 
+  private val OneofMessageSuffix = "Message"
+
   implicit class MessageDescriptorPimp(val message: Descriptor) {
+
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP)
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
 
     def parent: Option[Descriptor] = Option(message.getContainingType)
 
+    // every message that passes this filter must be a sealed oneof. The check that it actually
+    // obeys the rules is done in ProtoValidation.
+    def isSealedOneofType: Boolean = {
+      message.getOneofs.asScala.exists(_.getName == "sealed_value")
+    }
+
+    def isSealedOneofCase: Boolean = sealedOneofsCache.getContainer(message).isDefined
+
     def scalaName: String = message.getName match {
       case "Option" => "OptionProto"
-      case n        => n
+      case name =>
+        if (message.isSealedOneofType) name + OneofMessageSuffix
+        else name
     }
 
     lazy val scalaTypeName: String = parent match {
@@ -398,6 +425,23 @@ trait DescriptorPimps {
 
     def nameSymbol = scalaName.asSymbol
 
+    def sealedOneofName = {
+      require(isSealedOneofType)
+      scalaName.stripSuffix(OneofMessageSuffix).asSymbol
+    }
+
+    def sealedOneofNameSymbol = {
+      sealedOneofName.asSymbol
+    }
+
+    def sealedOneofScalaType = {
+      parent match {
+        case Some(p) => p.scalaTypeName + "." + sealedOneofNameSymbol
+        case None =>
+          (message.getFile.scalaPackagePartsAsSymbols :+ sealedOneofNameSymbol).mkString(".")
+      }
+    }
+
     private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
 
     def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
@@ -408,6 +452,12 @@ trait DescriptorPimps {
       (
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
       ) && !isValueClass
+
+    def sealedOneofContainer: Option[Descriptor] =
+      sealedOneofsCache.getContainer(message)
+
+    def sealedOneofCases: Option[Seq[Descriptor]] =
+      sealedOneofsCache.getCases(message)
 
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
@@ -420,7 +470,12 @@ trait DescriptorPimps {
 
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
-      anyVal ++ Seq(
+      val sealedOneofTrait = sealedOneofContainer match {
+        case Some(parent) => List(parent.sealedOneofScalaType)
+        case _            => List()
+      }
+
+      anyVal ++ sealedOneofTrait ++ Seq(
         "scalapb.GeneratedMessage",
         s"scalapb.Message[$nameSymbol]",
         s"scalapb.lenses.Updatable[$nameSymbol]"
@@ -662,7 +717,7 @@ trait DescriptorPimps {
         inner(NameUtils.snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
     }
 
-    def fileDescriptorObjectFullName =
+    def fileDescriptorObjectFullName: String =
       (scalaPackagePartsAsSymbols :+ fileDescriptorObjectName).mkString(".")
 
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
@@ -674,6 +729,17 @@ trait DescriptorPimps {
     }
 
     def usePrimitiveWrappers: Boolean = !scalaOptions.getNoPrimitiveWrappers
+
+    /** Returns a vector with all messages (both top-level and nested) in the file. */
+    def allMessages: Vector[Descriptor] = {
+      val messages = Vector.newBuilder[Descriptor]
+      def visitMessage(d: Descriptor): Unit = {
+        messages += d
+        d.getNestedTypes.asScala.foreach(visitMessage)
+      }
+      file.getMessageTypes.asScala.foreach(visitMessage)
+      messages.result()
+    }
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {

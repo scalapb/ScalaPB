@@ -6,6 +6,7 @@ import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
+
 import scala.collection.JavaConverters._
 
 case class GeneratorParams(
@@ -19,7 +20,12 @@ case class GeneratorParams(
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
 
-class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
+class ProtobufGenerator(
+    params: GeneratorParams,
+    implicits: DescriptorImplicits
+) {
+  import implicits._
+
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name = e.nameSymbol
     printer
@@ -1405,8 +1411,61 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     } else fp
   }
 
-  def printMessage(printer: FunctionalPrinter, message: Descriptor) = {
+  def generateSealedOneofTrait(message: Descriptor): PrinterEndo = { fp =>
+    if (!message.isSealedOneofType) fp
+    else {
+      val baseType        = message.scalaTypeName
+      val sealedOneOfType = message.sealedOneofScalaType
+      val sealedOneofName = message.sealedOneofNameSymbol
+      val typeMapper      = s"_root_.scalapb.TypeMapper[${baseType}, ${sealedOneOfType}]"
+      val oneof           = message.getOneofs.get(0)
+      val typeMapperName  = { message.sealedOneofName } + "TypeMapper"
+      fp.add(s"sealed trait $sealedOneofName {")
+        .addIndented(
+          s"final def isEmpty = this.isInstanceOf[${sealedOneOfType}.Empty.type]",
+          s"final def isDefined = !isEmpty",
+          s"final def asMessage: $baseType = ${message.sealedOneofScalaType}.$typeMapperName.toBase(this)"
+        )
+        .add("}")
+        .add("")
+        .add(s"object $sealedOneofName {")
+        .indented(
+          _.add(
+            s"case object Empty extends $sealedOneOfType",
+            "",
+            s"def defaultInstance: ${sealedOneOfType} = Empty",
+            "",
+            s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
+          ).indented(
+              _.add(
+                s"override def toCustom(__base: $baseType): $sealedOneOfType = __base.${oneof.scalaName} match {"
+              ).indented(
+                  _.print(oneof.fields) {
+                    case (fp, field) =>
+                      fp.add(s"case __v: ${field.oneOfTypeName} => __v.value")
+                  }.add(s"case ${oneof.scalaTypeName}.Empty => Empty")
+                )
+                .add("}")
+                .add(
+                  s"override def toBase(__custom: $sealedOneOfType): $baseType = $baseType(__custom match {"
+                )
+                .indented(
+                  _.print(oneof.fields) {
+                    case (fp, field) =>
+                      fp.add(s"case __v: ${field.scalaTypeName} => ${field.oneOfTypeName}(__v)")
+                  }.add(s"case Empty => ${oneof.scalaTypeName}.Empty")
+                )
+                .add("})")
+            )
+            .add("}")
+        )
+        .add("}")
+    }
+  }
+
+  def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
     printer
+      .call(generateSealedOneofTrait(message))
       .call(generateScalaDoc(message))
       .add(s"@SerialVersionUID(0L)")
       .seq(message.annotationList)
@@ -1488,6 +1547,11 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         _.add("override def toString: _root_.scala.Predef.String = toProtoString")
       )
       .add(s"def companion = ${message.scalaTypeNameWithMaybeRoot(message)}")
+      .when(message.isSealedOneofType) { fp =>
+        val name      = message.sealedOneofName
+        val scalaType = message.sealedOneofScalaType
+        fp.add(s"def to$name: $scalaType = $scalaType.${name}TypeMapper.toCustom(this)")
+      }
       .outdent
       .outdent
       .addStringMargin(s"""}
@@ -1571,7 +1635,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
   def generateServiceFiles(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     if (params.grpc) {
       file.getServices.asScala.map { service =>
-        val p    = new GrpcServicePrinter(service, params)
+        val p    = new GrpcServicePrinter(service, implicits)
         val code = p.printService(FunctionalPrinter()).result()
         val b    = CodeGeneratorResponse.File.newBuilder()
         b.setName(file.scalaDirectory + "/" + service.objectName + ".scala")
@@ -1637,15 +1701,21 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     }
 
     val messageFiles = for {
-      message <- file.getMessageTypes.asScala
+      message <- file.getMessageTypes.asScala if !message.isSealedOneofCase
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaDirectory + "/" + message.scalaName + ".scala")
+      val filename = if (message.isSealedOneofType) {
+        file.scalaDirectory + "/" + message.sealedOneofName + ".scala"
+      } else {
+        file.scalaDirectory + "/" + message.scalaName + ".scala"
+      }
+      b.setName(filename)
       b.setContent(
         scalaFileHeader(
           file,
           javaConverterImport = file.javaConversions && messageContainsRepeatedFields(message)
         ).call(printMessage(_, message))
+          .print(message.sealedOneofCases.getOrElse(Seq.empty))(printMessage)
           .result()
       )
       b.build
@@ -1685,21 +1755,29 @@ object ProtobufGenerator {
       }
   }
 
+  def getFileDescByName(request: CodeGeneratorRequest): Map[String, FileDescriptor] =
+    request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
+      case (acc, fp) =>
+        val deps = fp.getDependencyList.asScala.map(acc)
+        acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
+    }
+
   def handleCodeGeneratorRequest(request: CodeGeneratorRequest): CodeGeneratorResponse = {
     val b = CodeGeneratorResponse.newBuilder
     parseParameters(request.getParameter) match {
       case Right(params) =>
         try {
-          val generator = new ProtobufGenerator(params)
-          import generator.FileDescriptorPimp
           val filesByName: Map[String, FileDescriptor] =
             request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
               case (acc, fp) =>
                 val deps = fp.getDependencyList.asScala.map(acc)
                 acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
             }
-          val validator = new ProtoValidation(params)
+          val implicits = new DescriptorImplicits(params, filesByName.values.toVector)
+          val generator = new ProtobufGenerator(params, implicits)
+          val validator = new ProtoValidation(implicits)
           filesByName.values.foreach(validator.validateFile)
+          import implicits.FileDescriptorPimp
           request.getFileToGenerateList.asScala.foreach { name =>
             val file = filesByName(name)
             val responseFiles =

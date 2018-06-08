@@ -191,7 +191,8 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.3",
-      "org.scalatest" %% "scalatest" % "3.0.5" % "test"
+      "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+      "com.github.os72" % "protoc-jar" % "3.5.1.1" % "test",
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % "0.7.0"),
     mimaBinaryIssueFilters ++= {

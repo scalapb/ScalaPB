@@ -6,4 +6,4 @@ sbt ++$SCALA_VERSION \
     grpcRuntime/mimaReportBinaryIssues \
     lensesJVM/mimaReportBinaryIssues \
     runtimeJVM/mimaReportBinaryIssues \
-    compilerPlugin/mimaReportBinaryIssues
+    # compilerPlugin/mimaReportBinaryIssues

@@ -22,6 +22,7 @@ Changes:
   using ScalaPBC, the new flag name is `single_line_to_proto_string`.
 - Unrecognized enum and one-of case classes are marked `final`.
 - `withX` methods convert `null` to `None` for options.
+- added support for sealed oneofs
 
 ## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)
