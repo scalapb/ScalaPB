@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+message Lit {
+    int32 value = 1;
+}
+
+message Add {
+    Expr lhs = 1;
+    Expr rhs = 2;
+}
+
+message Expr {
+    oneof value {
+        Lit lit = 1;
+        Add add = 2;
+    }
+}

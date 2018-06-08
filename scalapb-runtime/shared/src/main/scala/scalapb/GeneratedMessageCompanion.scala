@@ -73,6 +73,47 @@ trait GeneratedOneof extends Any with Product with Serializable {
 
 trait GeneratedOneofCompanion
 
+abstract class GeneratedSealedOneofMessage[T](value: T, tag: Int) extends GeneratedMessage with Message[T] {
+  def underlying: T = value
+  override def serializedSize: Int = {
+    value match {
+      case underlying: GeneratedMessage =>
+        CodedOutputStream.computeTagSize(tag) +
+          CodedOutputStream.computeInt32SizeNoTag(underlying.serializedSize) +
+          underlying.serializedSize
+      case _ =>
+        0
+    }
+  }
+  override def writeTo(output: CodedOutputStream): Unit = {
+    value match {
+      case underlying: GeneratedMessage =>
+        output.writeTag(tag, 2)
+        output.writeUInt32NoTag(underlying.serializedSize)
+        underlying.writeTo(output)
+      case _ =>
+        ()
+    }
+  }
+  override def getFieldByNumber(fieldNumber: Int): Any = {
+    if (fieldNumber == tag) value
+    else null
+  }
+  override def getField(field: descriptors.FieldDescriptor): PValue = {
+    if (field.number == tag) {
+      value match {
+        case underlying: GeneratedMessage =>
+          underlying.toPMessage
+        case _ =>
+          descriptors.PEmpty
+      }
+    } else {
+      descriptors.PEmpty
+    }
+  }
+  override def toProtoString: String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+}
+
 trait GeneratedMessage extends Any with Serializable {
   def writeTo(output: CodedOutputStream): Unit
 

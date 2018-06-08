@@ -36,6 +36,7 @@ case class Reads[A](read: PValue => A)
 class ReadsException(msg: String) extends Exception
 
 object Reads {
+
   implicit val intReads: Reads[Int] = Reads[Int] {
     case PInt(value) => value
     case _           => throw new ReadsException("Expected PInt")

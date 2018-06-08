@@ -149,6 +149,7 @@ lazy val runtimeJVM    = runtime.jvm
 lazy val runtimeJS     = runtime.js
 lazy val runtimeNative = runtime.native
 
+import java.util.concurrent.TimeUnit
 lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .dependsOn(runtimeJVM)
   .settings(

@@ -12,6 +12,8 @@ import scala.collection.immutable.IndexedSeq
 trait DescriptorPimps {
   def params: GeneratorParams
 
+  def sealedOneofs: Seq[SealedOneof] = Nil
+
   val SCALA_RESERVED_WORDS = Set(
     "abstract",
     "case",
@@ -111,6 +113,18 @@ trait DescriptorPimps {
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
+    def isSealedOneof: Boolean =
+      fd.isMessage && sealedOneofs.exists(_.name.getFullName == fd.getMessageType.getFullName)
+
+    def isSealedOneofChild: Boolean =
+      fd.isMessage && sealedOneofs.exists(_.children.exists(_.getFullName == fd.getMessageType.getFullName))
+
+    def asSealedOneofMessage: String = {
+      require(isSealedOneof)
+      s".as${fd.getMessageType.nameSymbol}Message"
+    }
+
+
     def scalaName: String =
       if (fieldOptions.getScalaName.nonEmpty) fieldOptions.getScalaName
       else
@@ -155,7 +169,7 @@ trait DescriptorPimps {
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
+      fd.isOptional && !fd.isInOneof && !fd.isSealedOneof && (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
@@ -313,6 +327,8 @@ trait DescriptorPimps {
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
 
+    def isSealedOneof: Boolean = oneof.getContainingType.isSealedOneof
+
     def javaEnumName = {
       val name = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
       s"get${name}Case"
@@ -341,6 +357,16 @@ trait DescriptorPimps {
   }
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {
+
+    def isSealedOneof: Boolean =
+      sealedOneofs.exists(_.name.getFullName == message.getFullName)
+
+    def sealedOneofCaseParent: Option[Descriptor] =
+      sealedOneofs.collectFirst {
+        case o if o.children.exists(child => child.getFullName == message.getFullName) =>
+          o.name
+      }
+
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP)
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
@@ -420,7 +446,13 @@ trait DescriptorPimps {
 
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
-      anyVal ++ Seq(
+      val sealedOneof =
+        message.sealedOneofCaseParent match {
+          case Some(parent) => Seq(parent.scalaTypeName)
+          case _ => Nil
+        }
+
+      anyVal ++ sealedOneof ++ Seq(
         "scalapb.GeneratedMessage",
         s"scalapb.Message[$nameSymbol]",
         s"scalapb.lenses.Updatable[$nameSymbol]"
@@ -662,7 +694,7 @@ trait DescriptorPimps {
         inner(NameUtils.snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
     }
 
-    def fileDescriptorObjectFullName =
+    def fileDescriptorObjectFullName: String =
       (scalaPackagePartsAsSymbols :+ fileDescriptorObjectName).mkString(".")
 
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2

@@ -34,6 +34,10 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
     this.indent.seq(s).outdent
   }
 
+  /** apply the function with indent */
+  def indented(f: PrinterEndo): FunctionalPrinter = this.indent.call(f).outdent
+
+
   def newline: FunctionalPrinter = add("")
 
   // Strips the margin, splits lines and adds.
