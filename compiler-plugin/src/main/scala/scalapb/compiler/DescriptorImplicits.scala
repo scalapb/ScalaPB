@@ -18,6 +18,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     "def",
     "do",
     "else",
+    "enum",
     "extends",
     "false",
     "final",

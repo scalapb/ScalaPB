@@ -62,14 +62,14 @@ object Lens {
     */
   def unit[U]: Lens[U, U] = Lens(identity[U])((c, v) => v)
 
-  /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
-  implicit class SeqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](
-      val lens: Lens[U, Coll[A]]
-  ) extends AnyVal {
-    type CBF = collection.generic.CanBuildFrom[Coll[A], A, Coll[A]]
+  // See https://github.com/lampepfl/dotty/issues/4647
+  implicit class SeqLikeLens[U, A, CA <: collection.SeqLike[A, CA]](val lens: Lens[U, CA])
+      extends AnyVal {
+    type CBF = collection.generic.CanBuildFrom[CA, A, CA]
 
-    private def field(getter: Coll[A] => A)(setter: (Coll[A], A) => Coll[A]): Lens[U, A] =
-      lens.compose[A](Lens[Coll[A], A](getter)(setter))
+    /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
+    private def field(getter: CA => A)(setter: (CA, A) => CA): Lens[U, A] =
+      lens.compose[A](Lens[CA, A](getter)(setter))
 
     def apply(i: Int)(implicit cbf: CBF): Lens[U, A] = field(_.apply(i))((c, v) => c.updated(i, v))
 

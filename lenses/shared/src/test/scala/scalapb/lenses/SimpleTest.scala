@@ -1,5 +1,6 @@
 package scalapb.lenses
 
+import scalapb.lenses.Lens.SeqLikeLens
 import utest._
 import scalapb.lenses._
 
@@ -117,6 +118,7 @@ object SimpleTest extends TestSuite {
     }
 
     "it should allow adding to a sequence" - {
+      mosh.update(t => new SeqLikeLens[Person, Person, Seq[Person]](t.address.residents) :+= josh)
       mosh.update(_.address.residents :+= josh) ==> (mosh.copy(
         address = mosh.address.copy(residents = mosh.address.residents :+ josh)
       ))

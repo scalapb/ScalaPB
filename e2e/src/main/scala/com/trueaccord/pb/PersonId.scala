@@ -13,21 +13,21 @@ case class FullName(firstName: String, lastName: String)
 case class WrappedWeather(weather: Weather)
 
 object PersonId {
-  implicit val mapper = TypeMapper(PersonId.apply)(_.untypedId)
+  implicit val mapper: TypeMapper[String, PersonId] = TypeMapper(PersonId.apply)(_.untypedId)
 }
 
 object Years {
-  implicit val mapper = TypeMapper(Years.apply)(_.number)
+  implicit val mapper: TypeMapper[Int, Years] = TypeMapper(Years.apply)(_.number)
 }
 
 object FullName {
-  implicit val mapper = TypeMapper[Name, FullName](n => FullName(n.getFirst, n.getLast))(fn =>
+  implicit val mapper: TypeMapper[Name, FullName] = TypeMapper((n: Name) => FullName(n.getFirst, n.getLast))(fn =>
     Name(first = Some(fn.firstName), last = Some(fn.lastName)))
 }
 
 // We import this into the generated code using a file-level option.
 object MisplacedMapper {
-  implicit val weatherMapper = TypeMapper(WrappedWeather.apply)(_.weather)
+  implicit val weatherMapper: TypeMapper[Weather, WrappedWeather] = TypeMapper(WrappedWeather.apply)(_.weather)
 }
 
 trait DomainEvent {

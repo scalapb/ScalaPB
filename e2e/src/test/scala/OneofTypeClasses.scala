@@ -7,13 +7,13 @@ class OneofTypeClasses extends FlatSpec with MustMatchers {
     def apply(a: T): Int
   }
   object TC {
-    implicit val int = new TC[Int] {
+    implicit val int: TC[Int] = new TC[Int] {
       def apply(a: Int) = a
     }
-    implicit val str = new TC[String] {
+    implicit val str: TC[String] = new TC[String] {
       def apply(a: String) = a.length
     }
-    implicit val sub = new TC[SubMessage] {
+    implicit val sub: TC[SubMessage] = new TC[SubMessage] {
       def apply(a: SubMessage) = a.getSubField
     }
   }

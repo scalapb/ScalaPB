@@ -9,6 +9,8 @@ val Scala212 = "2.12.6"
 
 val protobufVersion = "3.6.0"
 
+val ScalaDotty = "0.8.0-RC1"
+
 val scalacheckVersion = "1.14.0"
 
 // For e2e test
@@ -18,7 +20,9 @@ val grpcVersion = "1.14.0"
 
 scalaVersion in ThisBuild := Scala212
 
-crossScalaVersions in ThisBuild := Seq(Scala210, Scala211, Scala212)
+val ScalaVersionsWithoutDotty = Seq(Scala210, Scala211, Scala212)
+
+crossScalaVersions in ThisBuild := Seq(Scala210, Scala211, Scala212, ScalaDotty)
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -102,7 +106,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       "com.lihaoyi" %%% "utest" % "0.6.4" % "test",
       "commons-codec" % "commons-codec" % "1.11" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
-    ),
+    ).map(_.withDottyCompat(scalaVersion.value)),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % "0.7.0"),
@@ -126,16 +130,20 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .platformsSettings(JSPlatform, NativePlatform)(
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.1"
-    ),
+    ).map(_.withDottyCompat(scalaVersion.value)),
     (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
   .jvmSettings(
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
-      "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.5" % "test"
-    )
+    ),
+    libraryDependencies ++= (if (!isDotty.value) {
+      Seq(
+          "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
+          "org.scalatest" %%% "scalatest" % "3.0.5" % "test"
+      )
+    } else Nil),
   )
   .jsSettings(
     // Add JS-specific settings here
@@ -164,7 +172,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "io.grpc" % "grpc-protobuf" % grpcVersion,
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "org.mockito" % "mockito-core" % "2.10.0" % "test"
-    ),
+    ).map(_.withDottyCompat(scalaVersion.value)),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.7.0")
   )
 
@@ -174,6 +182,7 @@ shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .settings(
+    crossScalaVersions := ScalaVersionsWithoutDotty,
     sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
       IO.write(file,
@@ -320,17 +329,9 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
       },
     },
     testFrameworks += new TestFramework("utest.runner.Framework"),
-    libraryDependencies ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 13)) =>
-          // TODO utest_2.13.0-M3
-          Nil
-        case _ =>
-          Seq(
-            "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
-          )
-      }
-    },
+    libraryDependencies ++= Seq(
+        "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
+    ).map(_.withDottyCompat(scalaVersion.value)),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % "0.7.0"),
     mimaBinaryIssueFilters ++= {
         import com.typesafe.tools.mima.core._
