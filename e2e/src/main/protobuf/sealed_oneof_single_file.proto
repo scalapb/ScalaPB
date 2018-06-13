@@ -1,6 +1,13 @@
 syntax = "proto3";
 
-package com.trueaccord.proto.e2e;
+package com.trueaccord.proto.e2e.sealed_oneof_single_file;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  flat_package: true
+  single_file: true
+};
 
 message Lit {
     int32 value = 1;
@@ -16,8 +23,4 @@ message Expr {
         Lit lit = 1;
         Add add = 2;
     }
-}
-
-message Programs {
-    repeated Expr programs = 1;
 }
