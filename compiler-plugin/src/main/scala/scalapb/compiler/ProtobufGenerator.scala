@@ -1736,23 +1736,33 @@ object ProtobufGenerator {
       }
   }
 
+  def getFileDescByName(request: CodeGeneratorRequest): Map[String, FileDescriptor] =
+    request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
+      case (acc, fp) =>
+        val deps = fp.getDependencyList.asScala.map(acc)
+        acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
+    }
 
   def getSealedOneofs(request: CodeGeneratorRequest): Seq[SealedOneof] = {
+    val fileDescByName = getFileDescByName(request)
     for {
-      protofile <- request.getProtoFileList.asScala
-      message <- FileDescriptor
-        .buildFrom(protofile, Array.empty)
-        .getMessageTypes
-        .asScala
+      file <- request.getProtoFileList.asScala
+      fileDesc = fileDescByName(file.getName)
+      message <- fileDesc.getMessageTypes.asScala
+      // A sealed oneof may only have a single oneof
       if message.getOneofs.size() == 1
       oneof <- message.getOneofs.asScala
+      // The name of the oneof must be "sealed_oneof"
       if oneof.getName  == "sealed_value"
-      hasSingleOneofField = message.getFields.size() == oneof.getFields.size()
-      if hasSingleOneofField
-      fields                           = oneof.getFields.asScala
-      allFieldsAreDefinedInTheSameFile = fields.forall(_.getFile == oneof.getFile)
-      if allFieldsAreDefinedInTheSameFile
+      // The message may not contain fields outside of the oneof
+      if message.getFields.size() == oneof.getFields.size()
+      fields = oneof.getFields.asScala
+      // All fields must be message types
+      if fields.forall(_.getJavaType == FieldDescriptor.JavaType.MESSAGE)
+      // All field types must be defined in the same file as the message
+      if fields.forall(_.getFile == oneof.getFile)
       distinctFieldTypes = fields.map(_.getMessageType.getFullName).toSet
+      // All field types must be distinct
       if distinctFieldTypes.size == fields.size
       children = fields.map(_.getMessageType)
     } yield SealedOneof(message, children)
