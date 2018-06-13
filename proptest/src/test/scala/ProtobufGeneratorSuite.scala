@@ -84,7 +84,7 @@ class ProtobufGeneratorSuite extends FunSuite {
     val errors   = compiler.compile(response)
     if (errors == 0) {
       response.getFileList.asScala.foreach { file =>
-        if (file.getName.contains("Add")) {
+        if (file.getName.contains("Expr")) {
           println(file.getContent)
         }
       }

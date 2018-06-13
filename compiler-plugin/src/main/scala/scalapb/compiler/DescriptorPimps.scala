@@ -449,7 +449,12 @@ trait DescriptorPimps {
 
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
-      anyVal ++ Seq(
+      val sealedOneofTrait = sealedOneofCaseParent match {
+        case Some(parent) => List(parent.scalaTypeName.stripSuffix("Message"))
+        case _ => List()
+      }
+
+      anyVal ++ sealedOneofTrait ++ Seq(
         "scalapb.GeneratedMessage",
         s"scalapb.Message[$nameSymbol]",
         s"scalapb.lenses.Updatable[$nameSymbol]"
