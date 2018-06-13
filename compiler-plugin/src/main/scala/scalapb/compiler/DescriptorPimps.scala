@@ -245,6 +245,7 @@ trait DescriptorPimps {
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+      else if (isSealedOneof) Some(fd.baseSingleScalaTypeName.stripSuffix("Message"))
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
         Some(fd.getMessageType.messageOptions.getType)

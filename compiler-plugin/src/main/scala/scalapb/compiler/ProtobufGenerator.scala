@@ -1417,8 +1417,10 @@ class ProtobufGenerator(
       fp.add(s"trait $name")
         .add(s"object $name {")
         .indented(
-          _.add(s"case object Empty extends $name")
-            .add(s"def defaultInstance: $name = Empty")
+          _.add(
+            s"case object Empty extends $name",
+            s"def defaultInstance: $name = Empty"
+          )
         )
         .add("}")
     } else {
