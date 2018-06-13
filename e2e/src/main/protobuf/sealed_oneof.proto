@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package com.trueaccord.proto.e2e;
 
+import "sealed_oneof_to_import.proto";
+
 message Lit {
     int32 value = 1;
 }
@@ -20,4 +22,20 @@ message Expr {
 
 message Programs {
     repeated Expr programs = 1;
+}
+
+message PrimitiveSealedOneof {
+    oneof sealed_value {
+        // primitive types are not eligible for sealed oneofs
+        string message = 1;
+        int32 number = 2;
+    }
+}
+
+message ImportedSealedOneof {
+    oneof sealed_value {
+        Lit lit = 1;
+        Add add = 2;
+        Mult mult = 3;
+    }
 }

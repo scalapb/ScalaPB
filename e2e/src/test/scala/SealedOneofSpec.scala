@@ -41,5 +41,5 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
       expr.toExprMessage.toProtoString
     )
   }
-
 }
+
