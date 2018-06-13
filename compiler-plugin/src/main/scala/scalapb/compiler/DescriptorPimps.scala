@@ -375,7 +375,9 @@ trait DescriptorPimps {
 
     def scalaName: String = message.getName match {
       case "Option" => "OptionProto"
-      case n        => n
+      case n        =>
+        if (message.isSealedOneof) n + "Message"
+        else n
     }
 
     lazy val scalaTypeName: String = parent match {
