@@ -1746,11 +1746,14 @@ object ProtobufGenerator {
         .asScala
       if message.getOneofs.size() == 1
       oneof <- message.getOneofs.asScala
+      if oneof.getName  == "sealed_value"
       hasSingleOneofField = message.getFields.size() == oneof.getFields.size()
       if hasSingleOneofField
       fields                           = oneof.getFields.asScala
       allFieldsAreDefinedInTheSameFile = fields.forall(_.getFile == oneof.getFile)
       if allFieldsAreDefinedInTheSameFile
+      distinctFieldTypes = fields.map(_.getMessageType.getFullName).toSet
+      if distinctFieldTypes.size == fields.size
       children = fields.map(_.getMessageType)
     } yield SealedOneof(message, children)
   }
