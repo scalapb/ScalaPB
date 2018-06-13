@@ -12,7 +12,7 @@ message Add {
 }
 
 message Expr {
-    oneof value {
+    oneof sealed_value {
         Lit lit = 1;
         Add add = 2;
     }

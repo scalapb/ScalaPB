@@ -1414,13 +1414,15 @@ class ProtobufGenerator(
   def generateSealedOneofTrait(message: Descriptor): PrinterEndo = { fp =>
     if (message.isSealedOneof) {
       val base = message.nameSymbol
-      val custom = base.stripSuffix("Message")
+      val custom = message.sealedOneofNameSymbol
       val typeMapper =  s"_root_.scalapb.TypeMapper[$base, $custom]"
       val oneof = message.getOneofs.get(0)
+      val typeMapperName = custom + "TypeMapper"
       fp.add(s"trait $custom {")
         .addIndented(
           s"final def isEmpty = this.isInstanceOf[$custom.Empty.type]",
-          s"final def isDefined = !isEmpty"
+          s"final def isDefined = !isEmpty",
+          s"final def to${base}Message: $base = $custom.$typeMapperName.toBase(this)"
         )
         .add("}")
         .add(s"object $custom {")
@@ -1428,7 +1430,7 @@ class ProtobufGenerator(
           _.add(
             s"case object Empty extends $custom",
             s"def defaultInstance: $custom = Empty",
-            s"implicit val typeMapper: $typeMapper = new $typeMapper {"
+            s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
           ).indented(
             _.add(s"override def toCustom(__base: $base): $custom = __base.${oneof.scalaName} match {")
               .indented(
@@ -1538,6 +1540,10 @@ class ProtobufGenerator(
         _.add("override def toString: _root_.scala.Predef.String = toProtoString")
       )
       .add(s"def companion = ${message.scalaTypeNameWithMaybeRoot(message)}")
+      .when(message.isSealedOneof) { fp =>
+        val name = message.sealedOneofNameSymbol
+        fp.add(s"def to$name: $name = $name.${name}TypeMapper.toCustom(this)")
+      }
       .outdent
       .outdent
       .addStringMargin(s"""}

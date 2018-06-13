@@ -419,6 +419,10 @@ trait DescriptorPimps {
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 
     def nameSymbol = scalaName.asSymbol
+    def sealedOneofNameSymbol = {
+      require(isSealedOneof)
+      nameSymbol.stripSuffix("Message")
+    }
 
     private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
 

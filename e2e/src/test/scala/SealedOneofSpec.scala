@@ -6,7 +6,9 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
   val expr = Add(Lit(1), Add(Lit(2), Lit(3)))
 
   "sealed_oneof" should "serialize as supertype" in {
-    val bytes  =expr.asExprMessage.toByteArray
+    val expr2  = ExprMessage.parseFrom(expr.toExprMessage.toByteArray).toExpr
+    assert(expr2 == expr)
+    println(expr.toExprMessage.toProtoString)
   }
 
 }
