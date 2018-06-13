@@ -1412,53 +1412,54 @@ class ProtobufGenerator(
   }
 
   def generateSealedOneofTrait(message: Descriptor): PrinterEndo = { fp =>
-    if (message.isSealedOneof) {
-      val base = message.nameSymbol
-      val custom = message.sealedOneofNameSymbol
-      val typeMapper =  s"_root_.scalapb.TypeMapper[$base, $custom]"
-      val oneof = message.getOneofs.get(0)
-      val typeMapperName = custom + "TypeMapper"
-      fp.add(s"trait $custom {")
-        .addIndented(
-          s"final def isEmpty = this.isInstanceOf[$custom.Empty.type]",
-          s"final def isDefined = !isEmpty",
-          s"final def to${base}Message: $base = $custom.$typeMapperName.toBase(this)"
-        )
-        .add("}")
-        .add(s"object $custom {")
-        .indented(
-          _.add(
-            s"case object Empty extends $custom",
-            s"def defaultInstance: $custom = Empty",
-            s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
-          ).indented(
-            _.add(s"override def toCustom(__base: $base): $custom = __base.${oneof.scalaName} match {")
-              .indented(
-                _.print(oneof.fields){
-                  case (fp, field) =>
-                    fp.add(s"case v: ${field.oneOfTypeName} => v.value")
-                }
-                  .add(s"case ${oneof.scalaTypeName}.Empty => Empty")
-              )
-              .add("}")
-              .add(s"override def toBase(__custom: $custom): $base = $base(__custom match {")
-              .indented(
-                _.print(oneof.fields) {
-                  case (fp, field) =>
-                    fp.add(s"case v: ${field.scalaTypeName} => ${field.oneOfTypeName}(v)")
-                }.add(s"case Empty => ${oneof.scalaTypeName}.Empty")
-              )
-              .add("})")
-          ).add("}")
-        )
-        .add("}")
-    } else {
-      fp
+    message.sealedOneof match {
+      case None => fp
+      case Some(sealedOneof) =>
+        val base = message.nameSymbol
+        val custom = message.sealedOneofNameSymbol
+        val typeMapper =  s"_root_.scalapb.TypeMapper[$base, $custom]"
+        val oneof = message.getOneofs.get(0)
+        val typeMapperName = custom + "TypeMapper"
+        fp.add(s"sealed trait $custom {")
+          .addIndented(
+            s"final def isEmpty = this.isInstanceOf[$custom.Empty.type]",
+            s"final def isDefined = !isEmpty",
+            s"final def to$base: $base = $custom.$typeMapperName.toBase(this)"
+          )
+          .add("}")
+          .add(s"object $custom {")
+          .indented(
+            _.add(
+              s"case object Empty extends $custom",
+              s"def defaultInstance: $custom = Empty",
+              s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
+            ).indented(
+              _.add(s"override def toCustom(__base: $base): $custom = __base.${oneof.scalaName} match {")
+                .indented(
+                  _.print(oneof.fields){
+                    case (fp, field) =>
+                      fp.add(s"case v: ${field.oneOfTypeName} => v.value")
+                  }
+                    .add(s"case ${oneof.scalaTypeName}.Empty => Empty")
+                )
+                .add("}")
+                .add(s"override def toBase(__custom: $custom): $base = $base(__custom match {")
+                .indented(
+                  _.print(oneof.fields) {
+                    case (fp, field) =>
+                      fp.add(s"case v: ${field.scalaTypeName} => ${field.oneOfTypeName}(v)")
+                  }.add(s"case Empty => ${oneof.scalaTypeName}.Empty")
+                )
+                .add("})")
+            ).add("}")
+          )
+          .add("}")
     }
   }
 
-  def printMessage(printer: FunctionalPrinter, message: Descriptor) = {
+  def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
     printer
+      .call(generateSealedOneofTrait(message))
       .call(generateScalaDoc(message))
       .add(s"@SerialVersionUID(0L)")
       .seq(message.annotationList)
@@ -1549,7 +1550,9 @@ class ProtobufGenerator(
       .addStringMargin(s"""}
       |""")
       .call(generateMessageCompanion(message))
-      .call(generateSealedOneofTrait(message))
+      .when(!message.getFile.scalaOptions.getSingleFile) { fp =>
+        fp.print(message.sealedOneof.map(_.children).getOrElse(Nil))(printMessage)
+      }
   }
 
   def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter = {
@@ -1695,6 +1698,7 @@ class ProtobufGenerator(
 
     val messageFiles = for {
       message <- file.getMessageTypes.asScala
+      if !message.isSealedOneofChild
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + message.scalaName + ".scala")

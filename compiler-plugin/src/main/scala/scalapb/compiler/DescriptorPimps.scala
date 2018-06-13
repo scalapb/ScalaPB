@@ -353,7 +353,12 @@ trait DescriptorPimps {
   implicit class MessageDescriptorPimp(val message: Descriptor) {
 
     def isSealedOneof: Boolean =
-      sealedOneofs.exists(_.name.getFullName == message.getFullName)
+      sealedOneof.isDefined
+    def isSealedOneofChild: Boolean =
+      sealedOneofCaseParent.isDefined
+
+    def sealedOneof: Option[SealedOneof] =
+      sealedOneofs.find(_.name.getFullName == message.getFullName)
 
     def sealedOneofCaseParent: Option[Descriptor] =
       sealedOneofs.collectFirst {
