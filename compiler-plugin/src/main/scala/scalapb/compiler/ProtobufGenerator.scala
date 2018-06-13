@@ -1793,4 +1793,3 @@ object ProtobufGenerator {
   val deprecatedAnnotation: String =
     """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
 }
-
