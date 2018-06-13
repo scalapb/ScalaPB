@@ -169,7 +169,7 @@ trait DescriptorPimps {
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && !fd.isSealedOneof && (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
+      fd.isOptional && !fd.isInOneof &&  (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
@@ -446,13 +446,7 @@ trait DescriptorPimps {
 
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
-      val sealedOneof =
-        message.sealedOneofCaseParent match {
-          case Some(parent) => Seq(parent.scalaTypeName)
-          case _ => Nil
-        }
-
-      anyVal ++ sealedOneof ++ Seq(
+      anyVal ++ Seq(
         "scalapb.GeneratedMessage",
         s"scalapb.Message[$nameSymbol]",
         s"scalapb.lenses.Updatable[$nameSymbol]"

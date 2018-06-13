@@ -79,11 +79,7 @@ class ProtobufGeneratorSuite extends FunSuite {
     """.stripMargin
 
   test("basic") {
-    val request = CodeGeneratorRequest
-      .parseFrom(Files.readAllBytes(Paths.get("target/semanticdb")))
-      .toBuilder
-      .setParameter("sealed_oneof")
-      .build()
+    val request  = CodeGeneratorRequest.parseFrom(Files.readAllBytes(Paths.get("target/semanticdb")))
     val response = ProtobufGenerator.handleCodeGeneratorRequest(request)
     val errors   = compiler.compile(response)
     if (errors == 0) {
