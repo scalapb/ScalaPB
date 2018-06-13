@@ -20,10 +20,36 @@ message Expr {
     }
 }
 
-
 message Programs {
     repeated Expr programs = 1;
 }
+
+// Negative tests below: assert sealed oneof is not triggered.
+
+message Left { string value = 1; }
+message Right { string value = 1; }
+
+message Nested {
+    // Not eligible because sealed oneof is nested inside another message
+    message Either {
+        oneof sealed_value {
+            Left left = 1;
+            Right right = 2;
+        }
+    }
+
+    message Non { }
+    message Som { string value = 1; }
+}
+
+// Not eligible because field types are nested inside another value
+message Opt {
+    oneof sealed_value {
+        Nested.Non non = 1;
+        Nested.Som som = 2;
+    }
+}
+
 
 // Not eligible because Lit is already a sealed oneof child
 message DuplicateSealedOneof {

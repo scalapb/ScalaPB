@@ -45,6 +45,18 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
   // Negative tests below: assert that the following classes are not sealed oneofs by
   // checking that they don't have the "Message" suffix.
 
+  "nested field message types" should "trigger sealed oneof" in {
+    Opt()
+      .withNon(Nested.Non())
+      .withSom(Nested.Som("some"))
+  }
+
+  "sealed oneof" should "not trigger when nested" in {
+    Nested.Either()
+      .withLeft(Left("left"))
+      .withRight(Right("right"))
+  }
+
   "sealed oneof children" should "only have a single parent" in {
     DuplicateSealedOneof().withLit(Lit(3))
   }
