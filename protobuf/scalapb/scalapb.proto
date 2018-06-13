@@ -85,23 +85,6 @@ message MessageOptions {
 
   // Custom annotations to add to the companion object of the generated class.
   repeated string companion_annotations = 5;
-
-  // Whether to treat this message as a "sealed oneof" and generate an idiomatic
-  // Scala sealed trait. A "sealed oneof" is a special case of message that meets
-  // the following requirements:
-  // - All fields of the message are defined in a single oneof
-  // - All fields of the oneof are defined in the same proto file as the message
-  // - All fields of the oneof have distinct types
-  // - The message contains no nested message or enum types
-  // If false, use the default and most flexible code generation encoding for oneofs.
-  // The default encoding can handle any case of protobuf oneof.
-  // If true and the message meets the criteria for a sealed oneof, generate an
-  // idiomatic Scala sealed trait for this message. An error is reported if this
-  // setting is true and the message does not meet sealed oneof criteria.
-  // Beware, if interfacing with 3rd-party messages you may want to use
-  // sealed_oneof=false to avoid drastic breaking changes as the 3rd-party
-  // message types evolve.
-  optional bool sealed_oneof = 6;
 }
 
 extend google.protobuf.MessageOptions {
