@@ -27,6 +27,30 @@ class Compiler {
   settings.classpath.value = classpath
   settings.d.value = d.toString
   val global = new nsc.Global(settings, reporter)
+  def printDiagnostic(d: reporter.Info): Unit = {
+    println(s"${d.pos.source.file.name}:${d.pos.line}:${d.pos.column} error: ${d.msg}")
+    println(d.pos.lineContent)
+    println(d.pos.lineCaret)
+  }
+  private var counter = 0
+
+  def compile(snippet: String): Int = {
+    counter += 1
+    val template =
+      s"""
+         |object Main${counter} {
+         |$snippet
+         |}
+      """.stripMargin
+    reporter.reset()
+    val run    = new global.Run
+    val file   = new VirtualFile("<input>")
+    val source = new BatchSourceFile(file, template.toCharArray)
+    run.compileSources(source :: Nil)
+    val errors = reporter.infos.filter(_.severity.id == reporter.ERROR.id)
+    errors.foreach(printDiagnostic)
+    errors.size
+  }
 
   def compile(response: CodeGeneratorResponse): Int = {
     reporter.reset()
@@ -37,17 +61,15 @@ class Compiler {
     val run = new global.Run
     println(s"Compiling ${files.length} sources")
     run.compileSources(files.toList)
-    reporter.infos.find(_.severity.id == reporter.ERROR.id).foreach { msg =>
-      response.getFileList.asScala.find(_.getName == msg.pos.source.file.name).foreach { file =>
+    reporter.infos.find(_.severity.id == reporter.ERROR.id).foreach { diag =>
+      response.getFileList.asScala.find(_.getName == diag.pos.source.file.name).foreach { file =>
         file.getContent.lines.zipWithIndex.foreach {
           case (line, i) =>
             val prefix = s"${i + 1}:"
             println(f"$prefix%4s $line")
         }
+        printDiagnostic(diag)
       }
-      println(s"${msg.pos.source.file.name}:${msg.pos.line}:${msg.pos.column} error: ${msg.msg}")
-      println(msg.pos.lineContent)
-      println(msg.pos.lineCaret)
     }
     val errors = reporter.infos.count(_.severity.id == reporter.ERROR.id)
     println(s"$errors errors")
@@ -57,26 +79,6 @@ class Compiler {
 
 class ProtobufGeneratorSuite extends FunSuite {
   val compiler = new Compiler
-  val message =
-    """
-      |syntax = "proto3";
-      |
-      |package math;
-      |
-      |message Lit {
-      |  int32 value = 1;
-      |}
-      |message Add {
-      |  Expr lhs = 1;
-      |  Expr rhs = 2;
-      |}
-      |message Expr {
-      |  oneof value {
-      |    Lit lit = 1;
-      |    Add add = 2;
-      |  }
-      |}
-    """.stripMargin
 
   test("basic") {
     val request  = CodeGeneratorRequest.parseFrom(Files.readAllBytes(Paths.get("target/semanticdb")))
@@ -88,6 +90,12 @@ class ProtobufGeneratorSuite extends FunSuite {
           println(file.getContent)
         }
       }
+      compiler.compile(
+        """
+          |import myproto.test._
+          |val expr = Add(Lit(1), Add(Lit(2), Expr.Empty))
+        """.stripMargin
+      )
     }
   }
 }

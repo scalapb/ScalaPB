@@ -9,10 +9,11 @@ import scalapb.options.compiler.Scalapb._
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
+
 trait DescriptorPimps {
   def params: GeneratorParams
 
-  def sealedOneofs: Seq[SealedOneof] = Nil
+  def sealedOneofs: SealedOneofs = SealedOneofs(Nil)
 
   val SCALA_RESERVED_WORDS = Set(
     "abstract",
@@ -113,8 +114,7 @@ trait DescriptorPimps {
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
-    def isSealedOneof: Boolean =
-      fd.isMessage && sealedOneofs.exists(_.name.getFullName == fd.getMessageType.getFullName)
+    def isSealedOneof: Boolean = fd.isMessage && fd.getMessageType.isSealedOneof
 
     def scalaName: String =
       if (fieldOptions.getScalaName.nonEmpty) fieldOptions.getScalaName
@@ -158,8 +158,7 @@ trait DescriptorPimps {
     }
 
     def noBox: Boolean =
-      fieldOptions.getNoBox ||
-        fd.isSealedOneof
+      fieldOptions.getNoBox || fd.isSealedOneof
 
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
@@ -353,18 +352,14 @@ trait DescriptorPimps {
   implicit class MessageDescriptorPimp(val message: Descriptor) {
 
     def isSealedOneof: Boolean =
-      sealedOneof.isDefined
+      sealedOneofChildren.isDefined
     def isSealedOneofChild: Boolean =
-      sealedOneofCaseParent.isDefined
+      sealedOneofParent.isDefined
 
-    def sealedOneof: Option[SealedOneof] =
-      sealedOneofs.find(_.name.getFullName == message.getFullName)
-
-    def sealedOneofCaseParent: Option[Descriptor] =
-      sealedOneofs.collectFirst {
-        case o if o.children.exists(child => child.getFullName == message.getFullName) =>
-          o.name
-      }
+    def sealedOneofChildren: Option[Seq[Descriptor]] =
+      sealedOneofs.byParent(message)
+    def sealedOneofParent: Option[Descriptor] =
+      sealedOneofs.byChild(message)
 
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP)
 
@@ -451,7 +446,7 @@ trait DescriptorPimps {
 
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
-      val sealedOneofTrait = sealedOneofCaseParent match {
+      val sealedOneofTrait = sealedOneofParent match {
         case Some(parent) => List(parent.scalaTypeName.stripSuffix("Message"))
         case _ => List()
       }
