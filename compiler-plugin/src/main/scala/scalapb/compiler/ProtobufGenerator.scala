@@ -1411,8 +1411,24 @@ class ProtobufGenerator(
     } else fp
   }
 
+  def generateSealedOneofTrait(message: Descriptor): PrinterEndo = { fp =>
+    if (message.isSealedOneof) {
+      val name = message.nameSymbol.stripSuffix("Message")
+      fp.add(s"trait $name")
+        .add(s"object $name {")
+        .indented(
+          _.add(s"case object Empty extends $name")
+            .add(s"def defaultInstance: $name = Empty")
+        )
+        .add("}")
+    } else {
+      fp
+    }
+  }
+
   def printMessage(printer: FunctionalPrinter, message: Descriptor) = {
     printer
+      .call(generateSealedOneofTrait(message))
       .call(generateScalaDoc(message))
       .add(s"@SerialVersionUID(0L)")
       .seq(message.annotationList)
