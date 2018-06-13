@@ -20,22 +20,47 @@ message Expr {
     }
 }
 
+// TODO: Test that duplicate parents do not compile
+// message Expr2 {
+//     oneof sealed_value {
+//         Lit lit = 1;
+//         Add add = 2;
+//     }
+// }
+
 message Programs {
     repeated Expr programs = 1;
 }
 
-message PrimitiveSealedOneof {
-    oneof sealed_value {
-        // primitive types are not eligible for sealed oneofs
-        string message = 1;
-        int32 number = 2;
+// Not eligible because name must match "sealed_value"
+message BadNameSealedOneof {
+    oneof bad_name {
+        Lit lit = 1;
+        Add add = 2;
     }
 }
 
+// Not eligible because fields cannot be primitives
+message PrimitiveSealedOneof {
+    oneof sealed_value {
+        string primitive = 1;
+        Programs programs = 2;
+    }
+}
+
+// Not eligible because fields are imported from external file
 message ImportedSealedOneof {
     oneof sealed_value {
         Lit lit = 1;
         Add add = 2;
         Mult mult = 3;
+    }
+}
+
+// Not eligible because fields types are not distinct
+message NonDistinctSealedOneof {
+    oneof sealed_value {
+        Add add1 = 1;
+        Add add2 = 2;
     }
 }

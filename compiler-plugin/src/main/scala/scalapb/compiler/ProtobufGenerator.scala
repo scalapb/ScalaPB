@@ -1775,7 +1775,7 @@ object ProtobufGenerator {
       // All fields must be message types
       if fields.forall(_.getJavaType == FieldDescriptor.JavaType.MESSAGE)
       // All field types must be defined in the same file as the message
-      if fields.forall(_.getFile.getName == oneof.getFile.getName)
+      if fields.forall(_.getMessageType.getFile.getName == oneof.getFile.getName)
       distinctFieldTypes = fields.map(_.getMessageType.getFullName).toSet
       // All field types must be distinct
       if distinctFieldTypes.size == fields.size

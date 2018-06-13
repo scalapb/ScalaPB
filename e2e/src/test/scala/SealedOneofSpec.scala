@@ -41,5 +41,27 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
       expr.toExprMessage.toProtoString
     )
   }
+
+  // Negative tests below: assert that the following classes are not sealed oneofs by
+  // checking that they don't have the "Message" suffix.
+
+  "oneof name" should "be 'sealed_value'" in {
+    BadNameSealedOneof().withAdd(Add(Lit(1), Expr.Empty))
+  }
+
+  "primitives types" should "not trigger sealed oneof" in {
+    PrimitiveSealedOneof().withPrimitive("String")
+  }
+
+  "imported types" should "not trigger sealed oneof" in {
+    ImportedSealedOneof().withAdd(Add(Lit(1)))
+  }
+
+  "sealed oneof types" should "be distinct" in {
+    NonDistinctSealedOneof()
+      .withAdd1(Add(Lit(1)))
+      .withAdd2(Add(Lit(2)))
+  }
+
 }
 
