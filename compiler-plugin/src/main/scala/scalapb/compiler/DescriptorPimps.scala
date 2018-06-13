@@ -9,7 +9,6 @@ import scalapb.options.compiler.Scalapb._
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
-
 trait DescriptorPimps {
   def params: GeneratorParams
 
