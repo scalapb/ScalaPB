@@ -45,6 +45,10 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
   // Negative tests below: assert that the following classes are not sealed oneofs by
   // checking that they don't have the "Message" suffix.
 
+  "sealed oneof children" should "only have a single parent" in {
+    DuplicateSealedOneof().withLit(Lit(3))
+  }
+
   "oneof name" should "be 'sealed_value'" in {
     BadNameSealedOneof().withAdd(Add(Lit(1), Expr.Empty))
   }

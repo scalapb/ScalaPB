@@ -1760,6 +1760,7 @@ object ProtobufGenerator {
 
   def getSealedOneofs(request: CodeGeneratorRequest): SealedOneofs = {
     val fileDescByName = getFileDescByName(request)
+    val isSealedOneofChild = collection.mutable.Set.empty[String]
     val values = for {
       file <- request.getProtoFileList.asScala
       fileDesc = fileDescByName(file.getName)
@@ -1780,6 +1781,9 @@ object ProtobufGenerator {
       // All field types must be distinct
       if distinctFieldTypes.size == fields.size
       children = fields.map(_.getMessageType)
+      // All fields may only have a single sealed oneof parent
+      if children.forall(child => !isSealedOneofChild(child.getFullName))
+      _ = isSealedOneofChild ++= children.map(_.getFullName)
     } yield SealedOneof(message, children)
     SealedOneofs(values)
   }

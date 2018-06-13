@@ -20,16 +20,17 @@ message Expr {
     }
 }
 
-// TODO: Test that duplicate parents do not compile
-// message Expr2 {
-//     oneof sealed_value {
-//         Lit lit = 1;
-//         Add add = 2;
-//     }
-// }
 
 message Programs {
     repeated Expr programs = 1;
+}
+
+// Not eligible because Lit is already a sealed oneof child
+message DuplicateSealedOneof {
+    oneof sealed_value {
+        Lit lit = 1;
+        Programs programs = 2;
+    }
 }
 
 // Not eligible because name must match "sealed_value"
