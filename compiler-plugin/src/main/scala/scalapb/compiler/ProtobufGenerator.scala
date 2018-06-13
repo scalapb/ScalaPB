@@ -1417,7 +1417,12 @@ class ProtobufGenerator(
       val custom = base.stripSuffix("Message")
       val typeMapper =  s"_root_.scalapb.TypeMapper[$base, $custom]"
       val oneof = message.getOneofs.get(0)
-      fp.add(s"trait $custom")
+      fp.add(s"trait $custom {")
+        .addIndented(
+          s"final def isEmpty = this.isInstanceOf[$custom.Empty.type]",
+          s"final def isDefined = !isEmpty"
+        )
+        .add("}")
         .add(s"object $custom {")
         .indented(
           _.add(
@@ -1434,7 +1439,14 @@ class ProtobufGenerator(
                   .add(s"case ${oneof.scalaTypeName}.Empty => Empty")
               )
               .add("}")
-              .add(s"override def toBase(__custom: $custom): $base = ???")
+              .add(s"override def toBase(__custom: $custom): $base = $base(__custom match {")
+              .indented(
+                _.print(oneof.fields) {
+                  case (fp, field) =>
+                    fp.add(s"case v: ${field.scalaTypeName} => ${field.oneOfTypeName}(v)")
+                }.add(s"case Empty => ${oneof.scalaTypeName}.Empty")
+              )
+              .add("})")
           ).add("}")
         )
         .add("}")
