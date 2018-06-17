@@ -567,12 +567,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
-    def parentMessage: Option[Descriptor] = Option(enum.getContainingType)
+  implicit class EnumDescriptorPimp(val enumDescriptor: EnumDescriptor) {
+    def parentMessage: Option[Descriptor] = Option(enumDescriptor.getContainingType)
 
-    def scalaOptions: EnumOptions = enum.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
+    def scalaOptions: EnumOptions =
+      enumDescriptor.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
 
-    def name: String = enum.getName match {
+    def name: String = enumDescriptor.getName match {
       case "Option" => "OptionEnum"
       case "ValueType" =>
         "ValueTypeEnum" // Issue 348, conflicts with "type ValueType" in GeneratedEnumCompanion.
@@ -583,7 +584,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     lazy val scalaTypeName: String = parentMessage match {
       case Some(p) => p.scalaTypeName + "." + nameSymbol
-      case None    => (enum.getFile.scalaPackagePartsAsSymbols :+ nameSymbol).mkString(".")
+      case None    => (enumDescriptor.getFile.scalaPackagePartsAsSymbols :+ nameSymbol).mkString(".")
     }
 
     def scalaTypeNameWithMaybeRoot(context: Descriptor): String = {
@@ -594,14 +595,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       else fullName
     }
 
-    def isTopLevel = enum.getContainingType == null
+    def isTopLevel = enumDescriptor.getContainingType == null
 
-    def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
+    def javaTypeName = enumDescriptor.getFile.fullJavaName(enumDescriptor.getFullName)
 
-    def javaConversions = enum.getFile.javaConversions
+    def javaConversions = enumDescriptor.getFile.javaConversions
 
     def valuesWithNoDuplicates =
-      enum.getValues.asScala
+      enumDescriptor.getValues.asScala
         .groupBy(_.getNumber)
         .mapValues(_.head)
         .values
@@ -609,15 +610,16 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         .sortBy(_.getNumber)
 
     def javaDescriptorSource: String =
-      if (enum.isTopLevel)
-        s"${enum.getFile.fileDescriptorObjectName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+      if (enumDescriptor.isTopLevel)
+        s"${enumDescriptor.getFile.fileDescriptorObjectName}.javaDescriptor.getEnumTypes.get(${enumDescriptor.getIndex})"
       else
-        s"${enum.getContainingType.scalaTypeName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+        s"${enumDescriptor.getContainingType.scalaTypeName}.javaDescriptor.getEnumTypes.get(${enumDescriptor.getIndex})"
 
     def scalaDescriptorSource: String =
-      if (enum.isTopLevel)
-        s"${enum.getFile.fileDescriptorObjectName}.scalaDescriptor.enums(${enum.getIndex})"
-      else s"${enum.getContainingType.scalaTypeName}.scalaDescriptor.enums(${enum.getIndex})"
+      if (enumDescriptor.isTopLevel)
+        s"${enumDescriptor.getFile.fileDescriptorObjectName}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
+      else
+        s"${enumDescriptor.getContainingType.scalaTypeName}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
 
     def baseTraitExtends: Seq[String] =
       "_root_.scalapb.GeneratedEnum" +: scalaOptions.getExtendsList.asScala

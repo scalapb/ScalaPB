@@ -157,7 +157,7 @@ class ProtobufGenerator(
         case '\"'                      => "\\\""
         case '\''                      => "\\\'"
         case u if u >= ' ' && u <= '~' => u.toString
-        case c: Char                   => "\\u%4s".format(c.toInt.toHexString).replace(' ', '0')
+        case c                         => "\\u%4s".format(c.toInt.toHexString).replace(' ', '0')
       }
       .mkString("\"", "", "\"")
 
@@ -1688,13 +1688,13 @@ class ProtobufGenerator(
     val serviceFiles = generateServiceFiles(file)
 
     val enumFiles = for {
-      enum <- file.getEnumTypes.asScala
+      enumType <- file.getEnumTypes.asScala
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaDirectory + "/" + enum.getName + ".scala")
+      b.setName(file.scalaDirectory + "/" + enumType.getName + ".scala")
       b.setContent(
         scalaFileHeader(file, false)
-          .call(printEnum(_, enum))
+          .call(printEnum(_, enumType))
           .result()
       )
       b.build

@@ -99,7 +99,7 @@ object Lens {
 
   // Needed for Dotty, see https://github.com/lampepfl/dotty/issues/4647
   implicit def SeqLikeLensDotty[U, A, CA <: collection.SeqLike[A, CA]](
-    x: Lens[U, CA]
+      x: Lens[U, CA]
   ): SeqLikeLens[U, A, CA] = new SeqLikeLens[U, A, CA](x)
 
   /** Implicit that adds some syntactic sugar if our lens watches a Set-like collection. */
