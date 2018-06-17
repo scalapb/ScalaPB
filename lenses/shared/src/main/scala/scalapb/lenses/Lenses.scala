@@ -1,6 +1,7 @@
 package scalapb.lenses
 
 import scala.language.higherKinds
+import scala.language.implicitConversions
 
 trait Lens[Container, A] extends Any {
   self =>
@@ -62,14 +63,13 @@ object Lens {
     */
   def unit[U]: Lens[U, U] = Lens(identity[U])((c, v) => v)
 
-  // See https://github.com/lampepfl/dotty/issues/4647
-  implicit class SeqLikeLens[U, A, CA <: collection.SeqLike[A, CA]](val lens: Lens[U, CA])
+  /** Adds some syntactic sugar if our lens watches a Seq-like collection. */
+  class SeqLikeLens[U, A, CollA <: collection.SeqLike[A, CollA]](val lens: Lens[U, CollA])
       extends AnyVal {
-    type CBF = collection.generic.CanBuildFrom[CA, A, CA]
+    type CBF = collection.generic.CanBuildFrom[CollA, A, CollA]
 
-    /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
-    private def field(getter: CA => A)(setter: (CA, A) => CA): Lens[U, A] =
-      lens.compose[A](Lens[CA, A](getter)(setter))
+    private def field(getter: CollA => A)(setter: (CollA, A) => CollA): Lens[U, A] =
+      lens.compose[A](Lens[CollA, A](getter)(setter))
 
     def apply(i: Int)(implicit cbf: CBF): Lens[U, A] = field(_.apply(i))((c, v) => c.updated(i, v))
 
@@ -92,6 +92,15 @@ object Lens {
           }
       )
   }
+
+  implicit def seqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](
+      x: Lens[U, Coll[A]]
+  ): SeqLikeLens[U, A, Coll[A]] = new SeqLikeLens[U, A, Coll[A]](x)
+
+  // Needed for Dotty, see https://github.com/lampepfl/dotty/issues/4647
+  implicit def seqLikeLensDotty[U, A, CA <: collection.SeqLike[A, CA]](
+    x: Lens[U, CA]
+  ): SeqLikeLens[U, A, CA] = new SeqLikeLens[U, A, CA](x)
 
   /** Implicit that adds some syntactic sugar if our lens watches a Set-like collection. */
   implicit class SetLikeLens[U, A, Coll[A] <: collection.SetLike[A, Coll[A]] with Set[A]](

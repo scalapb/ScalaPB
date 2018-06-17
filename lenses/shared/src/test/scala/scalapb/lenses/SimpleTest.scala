@@ -1,8 +1,8 @@
 package scalapb.lenses
 
-import scalapb.lenses.Lens.SeqLikeLens
 import utest._
 import scalapb.lenses._
+
 
 case class Person(firstName: String, lastName: String, age: Int, address: Address)
     extends Updatable[Person]
@@ -118,7 +118,7 @@ object SimpleTest extends TestSuite {
     }
 
     "it should allow adding to a sequence" - {
-      mosh.update(t => new SeqLikeLens[Person, Person, Seq[Person]](t.address.residents) :+= josh)
+      mosh.update(t => t.address.residents :+= josh)
       mosh.update(_.address.residents :+= josh) ==> (mosh.copy(
         address = mosh.address.copy(residents = mosh.address.residents :+ josh)
       ))
