@@ -93,12 +93,12 @@ object Lens {
       )
   }
 
-  implicit def seqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](
+  implicit def SeqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](
       x: Lens[U, Coll[A]]
   ): SeqLikeLens[U, A, Coll[A]] = new SeqLikeLens[U, A, Coll[A]](x)
 
   // Needed for Dotty, see https://github.com/lampepfl/dotty/issues/4647
-  implicit def seqLikeLensDotty[U, A, CA <: collection.SeqLike[A, CA]](
+  implicit def SeqLikeLensDotty[U, A, CA <: collection.SeqLike[A, CA]](
     x: Lens[U, CA]
   ): SeqLikeLens[U, A, CA] = new SeqLikeLens[U, A, CA](x)
 

@@ -98,8 +98,8 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
       // Signed vs. unsigned numbers.
       _.repeatedInt32  :+= -1,
       _.repeatedUint32 :+= -1,
-      _.repeatedInt64  :+= -1,
-      _.repeatedUint64 :+= -1,
+      _.repeatedInt64  :+= -1L,
+      _.repeatedUint64 :+= -1L,
 
       _.repeatedInt32  :+= 1  << 31,
       _.repeatedUint32 :+= 1  << 31,
@@ -107,7 +107,7 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
       _.repeatedUint64 :+= 1L << 63,
 
       // Floats of various precisions and exponents.
-      _.repeatedDouble :+= 123,
+      _.repeatedDouble :+= 123.0,
       _.repeatedDouble :+= 123.5,
       _.repeatedDouble :+= 0.125,
       _.repeatedDouble :+= .125,
@@ -568,7 +568,7 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     // test oneof
     "testOneofTextFormat" should "pass" in {
       val p = TestOneof2().update(
-        _.fooLazyMessage.quxInt := 100,
+        _.fooLazyMessage.quxInt := 100L,
         _.barString := "101",
         _.bazInt := 102,
         _.bazString := "103"
