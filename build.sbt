@@ -216,6 +216,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
             ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasObjectName"),
             ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getObjectNameBytes"),
             ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getObjectName"),
+            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.DescriptorPimps#EnumDescriptorPimp.enum")
         )
     }
   )
