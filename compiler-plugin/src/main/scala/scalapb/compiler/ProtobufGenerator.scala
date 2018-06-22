@@ -521,9 +521,9 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       } else {
         val fieldName = field.scalaName
         fp.addStringMargin(s"""if($fieldNameSymbol.nonEmpty) {
-          |  val __localsize = ${fieldName}SerializedSize
-          |  __size += $tagSize + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
-          |}""")
+        |  val __localsize = ${fieldName}SerializedSize
+        |  __size += $tagSize + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
+        |}""")
       }
     } else throw new RuntimeException("Should not reach here.")
   }
@@ -566,39 +566,39 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
   def generateSerializedSizeForPackedFields(message: Descriptor)(fp: FunctionalPrinter) =
     fp.print(message.fields.filter(_.isPacked).zipWithIndex) {
-        case (printer, (field, index)) =>
-          val methodName = s"${field.scalaName}SerializedSize"
-          printer
-            .add(s"private[this] def $methodName = {") //closing brace is in each case
-            .call({ fp =>
-              Types.fixedSize(field.getType) match {
-                case Some(size) =>
-                  fp.add(s"  $size * ${field.scalaName.asSymbol}.size").add("}")
-                case None =>
-                  val capTypeName = Types.capitalizedType(field.getType)
-                  val sizeFunc = FunctionApplication(
-                    s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
-                  )
-                  val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
-                  val fromCustom =
-                    if (field.customSingleScalaTypeName.isDefined)
-                      FunctionApplication(s"${field.typeMapper}.toBase")
-                    else Identity
-                  val funcs    = List(sizeFunc, fromEnum, fromCustom)
-                  val sizeExpr = ExpressionBuilder.runSingleton(funcs)("__i")
-                  fp.indent
-                    .add(s"if (__${methodName}Field == 0) __${methodName}Field = {")
-                    .add(s"  var __s: _root_.scala.Int = 0")
-                    .add(s"  ${field.scalaName.asSymbol}.foreach(__i => __s += $sizeExpr)")
-                    .add(s"  __s")
-                    .add(s"}")
-                    .add(s"__${methodName}Field")
-                    .outdent
-                    .add("}") // closing brace for the method
-                    .add(s"@transient private[this] var __${methodName}Field: _root_.scala.Int = 0")
-              }
-            })
-      }
+      case (printer, (field, index)) =>
+        val methodName = s"${field.scalaName}SerializedSize"
+        printer
+          .add(s"private[this] def $methodName = {") //closing brace is in each case
+          .call({ fp =>
+            Types.fixedSize(field.getType) match {
+              case Some(size) =>
+                fp.add(s"  $size * ${field.scalaName.asSymbol}.size").add("}")
+              case None =>
+                val capTypeName = Types.capitalizedType(field.getType)
+                val sizeFunc = FunctionApplication(
+                  s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
+                )
+                val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
+                val fromCustom =
+                  if (field.customSingleScalaTypeName.isDefined)
+                    FunctionApplication(s"${field.typeMapper}.toBase")
+                  else Identity
+                val funcs    = List(sizeFunc, fromEnum, fromCustom)
+                val sizeExpr = ExpressionBuilder.runSingleton(funcs)("__i")
+                fp.indent
+                  .add(s"if (__${methodName}Field == 0) __${methodName}Field = {")
+                  .add(s"  var __s: _root_.scala.Int = 0")
+                  .add(s"  ${field.scalaName.asSymbol}.foreach(__i => __s += $sizeExpr)")
+                  .add(s"  __s")
+                  .add(s"}")
+                  .add(s"__${methodName}Field")
+                  .outdent
+                  .add("}") // closing brace for the method
+                  .add(s"@transient private[this] var __${methodName}Field: _root_.scala.Int = 0")
+            }
+          })
+    }
 
   private def composeGen(funcs: Seq[String]) =
     if (funcs.length == 1) funcs(0)
@@ -1469,8 +1469,8 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         _.add(
           "def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)"
         ).add(
-            "def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)"
-          )
+          "def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)"
+        )
       )
       .call(generateGetField(message))
       .call(generateGetFieldPValue(message))

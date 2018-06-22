@@ -7,5 +7,6 @@ trait ParserCompat {
 
   protected implicit def strToParserApi(s: String): ParserApi[Unit, Char, String] = parserApi(s)
 
-  protected implicit def parserToParserApi[T](s: Parser[T]): ParserApi[T, Char, String] = parserApi(s)
+  protected implicit def parserToParserApi[T](s: Parser[T]): ParserApi[T, Char, String] =
+    parserApi(s)
 }
