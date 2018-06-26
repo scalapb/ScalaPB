@@ -10,6 +10,7 @@ message Proto3WeirdNames {
   }
   string input = 6;
   string output = 7;
+  bool require = 8;
 }
 
 message Proto3Issue137 {
