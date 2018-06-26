@@ -395,7 +395,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     if (message.fields.nonEmpty)
       fp.add(signature + "{")
         .indent
-        .add("require(__field.containingMessage eq companion.scalaDescriptor)")
+        .add("_root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)")
         .add("(__field.number: @_root_.scala.unchecked) match {")
         .indent
         .print(message.fields) {
@@ -901,7 +901,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       )
       .indent
       .add(
-        "require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), \"FieldDescriptor does not match message type.\")"
+        "_root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), \"FieldDescriptor does not match message type.\")"
       )
       .when(message.fields.nonEmpty)(
         _.add("val __fields = javaDescriptor.getFields")
@@ -973,7 +973,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
       .add("case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>")
       .indent
       .add(
-        "require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), \"FieldDescriptor does not match message type.\")"
+        "_root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), \"FieldDescriptor does not match message type.\")"
       )
       .add(myFullScalaName + "(")
       .indent
