@@ -9,6 +9,8 @@ val Scala212 = "2.12.6"
 
 val protobufVersion = "3.5.1"
 
+val scalacheckVersion = "1.14.0"
+
 // For e2e test
 val sbtPluginVersion = "0.99.18"
 
@@ -127,7 +129,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
-      "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
+      "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
       "org.scalatest" %%% "scalatest" % "3.0.5" % "test"
     )
   )
@@ -255,7 +257,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
-        "org.scalacheck" %% "scalacheck" % "1.13.5" % "test",
+        "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
         "org.scalatest" %% "scalatest" % "3.0.5" % "test"
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
