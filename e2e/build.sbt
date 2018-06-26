@@ -40,7 +40,8 @@ val commonSettings = Seq(
       "io.grpc" % "grpc-services" % grpcJavaVersion % "protobuf",
       "org.scalacheck" %% "scalacheck" % "1.14.0" % "test",
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf",
-      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.0-rc1"
+      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.0-rc1",
+      "javax.annotation" % "javax.annotation-api" % "1.3.2",  // needed for grpc-java on JDK9
     ),
 
     grpcExePath := xsbti.api.SafeLazyProxy {
