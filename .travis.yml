@@ -1,6 +1,7 @@
 language: scala
 sudo: required
 dist: trusty
+jdk: oraclejdk9
 
 scala:
 - 2.10.7
