@@ -12,6 +12,8 @@ import scala.collection.immutable.IndexedSeq
 trait DescriptorPimps {
   def params: GeneratorParams
 
+  def sealedOneofs: SealedOneofs = SealedOneofs(Nil)
+
   val SCALA_RESERVED_WORDS = Set(
     "abstract",
     "case",
@@ -111,6 +113,8 @@ trait DescriptorPimps {
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
+    def isSealedOneof: Boolean = fd.isMessage && fd.getMessageType.isSealedOneof
+
     def scalaName: String =
       if (fieldOptions.getScalaName.nonEmpty) fieldOptions.getScalaName
       else
@@ -152,14 +156,17 @@ trait DescriptorPimps {
       fd.getContainingOneof.scalaTypeName + "." + upperScalaName
     }
 
+    def noBox: Boolean =
+      fieldOptions.getNoBox || fd.isSealedOneof
+
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) && !fieldOptions.getNoBox
+      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) && !noBox
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
-      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (fieldOptions.getNoBox && fd.isOptional)
+      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (noBox && fd.isOptional)
 
     def enclosingType: EnclosingType =
       if (isSingular) EnclosingType.None
@@ -231,6 +238,7 @@ trait DescriptorPimps {
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+      else if (isSealedOneof) Some(fd.baseSingleScalaTypeName.stripSuffix("Message"))
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
         Some(fd.getMessageType.messageOptions.getType)
@@ -341,6 +349,17 @@ trait DescriptorPimps {
   }
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {
+
+    def isSealedOneof: Boolean =
+      sealedOneofChildren.isDefined
+    def isSealedOneofChild: Boolean =
+      sealedOneofParent.isDefined
+
+    def sealedOneofChildren: Option[Seq[Descriptor]] =
+      sealedOneofs.byParent(message)
+    def sealedOneofParent: Option[Descriptor] =
+      sealedOneofs.byChild(message)
+
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP)
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
@@ -349,7 +368,9 @@ trait DescriptorPimps {
 
     def scalaName: String = message.getName match {
       case "Option" => "OptionProto"
-      case n        => n
+      case n        =>
+        if (message.isSealedOneof) n + "Message"
+        else n
     }
 
     lazy val scalaTypeName: String = parent match {
@@ -397,6 +418,10 @@ trait DescriptorPimps {
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 
     def nameSymbol = scalaName.asSymbol
+    def sealedOneofNameSymbol = {
+      require(isSealedOneof)
+      nameSymbol.stripSuffix("Message")
+    }
 
     private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
 
@@ -420,7 +445,12 @@ trait DescriptorPimps {
 
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
-      anyVal ++ Seq(
+      val sealedOneofTrait = sealedOneofParent match {
+        case Some(parent) => List(parent.scalaTypeName.stripSuffix("Message"))
+        case _ => List()
+      }
+
+      anyVal ++ sealedOneofTrait ++ Seq(
         "scalapb.GeneratedMessage",
         s"scalapb.Message[$nameSymbol]",
         s"scalapb.lenses.Updatable[$nameSymbol]"
@@ -662,7 +692,7 @@ trait DescriptorPimps {
         inner(NameUtils.snakeCaseToCamelCase(baseName(file.getName) + "Proto", upperInitial = true))
     }
 
-    def fileDescriptorObjectFullName =
+    def fileDescriptorObjectFullName: String =
       (scalaPackagePartsAsSymbols :+ fileDescriptorObjectName).mkString(".")
 
     def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2

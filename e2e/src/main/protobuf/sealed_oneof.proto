@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+import "sealed_oneof_to_import.proto";
+
+message Lit {
+    int32 value = 1;
+}
+
+message Add {
+    Expr lhs = 1;
+    Expr rhs = 2;
+}
+
+message Expr {
+    oneof sealed_value {
+        Lit lit = 1;
+        Add add = 2;
+    }
+}
+
+message Programs {
+    repeated Expr programs = 1;
+}
+
+// Negative tests below: assert sealed oneof is not triggered.
+
+message Left { string value = 1; }
+message Right { string value = 1; }
+
+message Nested {
+    // Not eligible because sealed oneof is nested inside another message
+    message Either {
+        oneof sealed_value {
+            Left left = 1;
+            Right right = 2;
+        }
+    }
+
+    message Non { }
+    message Som { string value = 1; }
+}
+
+// Not eligible because field types are nested inside another value
+message Opt {
+    oneof sealed_value {
+        Nested.Non non = 1;
+        Nested.Som som = 2;
+    }
+}
+
+
+// Not eligible because Lit is already a sealed oneof child
+message DuplicateSealedOneof {
+    oneof sealed_value {
+        Lit lit = 1;
+        Programs programs = 2;
+    }
+}
+
+// Not eligible because name must match "sealed_value"
+message BadNameSealedOneof {
+    oneof bad_name {
+        Lit lit = 1;
+        Add add = 2;
+    }
+}
+
+// Not eligible because fields cannot be primitives
+message PrimitiveSealedOneof {
+    oneof sealed_value {
+        string primitive = 1;
+        Programs programs = 2;
+    }
+}
+
+// Not eligible because fields are imported from external file
+message ImportedSealedOneof {
+    oneof sealed_value {
+        Lit lit = 1;
+        Add add = 2;
+        Mult mult = 3;
+    }
+}
+
+// Not eligible because fields types are not distinct
+message NonDistinctSealedOneof {
+    oneof sealed_value {
+        Add add1 = 1;
+        Add add2 = 2;
+    }
+}

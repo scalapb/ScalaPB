@@ -16,10 +16,22 @@ case class GeneratorParams(
     asciiFormatToString: Boolean = false
 )
 
+case class SealedOneof(parent: Descriptor, children: Seq[Descriptor])
+case class SealedOneofs(values: Seq[SealedOneof]) {
+  private val _byParent: Map[String, Seq[Descriptor]] = values.map(s => s.parent.getFullName -> s.children).toMap
+  private val _byChild: Map[String, Descriptor] = values.flatMap(s => s.children.map(_.getFullName -> s.parent)).toMap
+  def byParent(parent: Descriptor): Option[Seq[Descriptor]] = _byParent.get(parent.getFullName)
+  def byChild(child: Descriptor): Option[Descriptor] = _byChild.get(child.getFullName)
+}
+
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
 
-class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
+class ProtobufGenerator(
+    val params: GeneratorParams,
+    override val sealedOneofs: SealedOneofs
+) extends DescriptorPimps {
+  def this(params: GeneratorParams) = this(params, SealedOneofs(Nil))
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name = e.nameSymbol
     printer
@@ -1405,8 +1417,54 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
     } else fp
   }
 
-  def printMessage(printer: FunctionalPrinter, message: Descriptor) = {
+  def generateSealedOneofTrait(message: Descriptor): PrinterEndo = { fp =>
+    if (!message.isSealedOneof) fp
+    else {
+      val base = message.nameSymbol
+      val custom = message.sealedOneofNameSymbol
+      val typeMapper =  s"_root_.scalapb.TypeMapper[$base, $custom]"
+      val oneof = message.getOneofs.get(0)
+      val typeMapperName = custom + "TypeMapper"
+      fp.add(s"sealed trait $custom {")
+        .addIndented(
+          s"final def isEmpty = this.isInstanceOf[$custom.Empty.type]",
+          s"final def isDefined = !isEmpty",
+          s"final def to$base: $base = $custom.$typeMapperName.toBase(this)"
+        )
+        .add("}")
+        .add(s"object $custom {")
+        .indented(
+          _.add(
+            s"case object Empty extends $custom",
+            s"def defaultInstance: $custom = Empty",
+            s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
+          ).indented(
+            _.add(s"override def toCustom(__base: $base): $custom = __base.${oneof.scalaName} match {")
+              .indented(
+                _.print(oneof.fields){
+                  case (fp, field) =>
+                    fp.add(s"case v: ${field.oneOfTypeName} => v.value")
+                }
+                  .add(s"case ${oneof.scalaTypeName}.Empty => Empty")
+              )
+              .add("}")
+              .add(s"override def toBase(__custom: $custom): $base = $base(__custom match {")
+              .indented(
+                _.print(oneof.fields) {
+                  case (fp, field) =>
+                    fp.add(s"case v: ${field.scalaTypeName} => ${field.oneOfTypeName}(v)")
+                }.add(s"case Empty => ${oneof.scalaTypeName}.Empty")
+              )
+              .add("})")
+          ).add("}")
+        )
+        .add("}")
+    }
+  }
+
+  def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
     printer
+      .call(generateSealedOneofTrait(message))
       .call(generateScalaDoc(message))
       .add(s"@SerialVersionUID(0L)")
       .seq(message.annotationList)
@@ -1488,11 +1546,18 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
         _.add("override def toString: _root_.scala.Predef.String = toProtoString")
       )
       .add(s"def companion = ${message.scalaTypeNameWithMaybeRoot(message)}")
+      .when(message.isSealedOneof) { fp =>
+        val name = message.sealedOneofNameSymbol
+        fp.add(s"def to$name: $name = $name.${name}TypeMapper.toCustom(this)")
+      }
       .outdent
       .outdent
       .addStringMargin(s"""}
       |""")
       .call(generateMessageCompanion(message))
+      .when(!message.getFile.scalaOptions.getSingleFile) { fp =>
+        fp.print(message.sealedOneofChildren.getOrElse(Nil))(printMessage)
+      }
   }
 
   def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter = {
@@ -1638,6 +1703,7 @@ class ProtobufGenerator(val params: GeneratorParams) extends DescriptorPimps {
 
     val messageFiles = for {
       message <- file.getMessageTypes.asScala
+      if !message.isSealedOneofChild
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + message.scalaName + ".scala")
@@ -1685,12 +1751,53 @@ object ProtobufGenerator {
       }
   }
 
+  def getFileDescByName(request: CodeGeneratorRequest): Map[String, FileDescriptor] =
+    request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
+      case (acc, fp) =>
+        val deps = fp.getDependencyList.asScala.map(acc)
+        acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
+    }
+
+  def getSealedOneofs(request: CodeGeneratorRequest): SealedOneofs = {
+    val fileDescByName = getFileDescByName(request)
+    val isSealedOneofChild = collection.mutable.Set.empty[String]
+    val values = for {
+      file <- request.getProtoFileList.asScala
+      fileDesc = fileDescByName(file.getName)
+      message <- fileDesc.getMessageTypes.asScala
+      // A sealed oneof may only have a single oneof
+      if message.getOneofs.size() == 1
+      oneof <- message.getOneofs.asScala
+      // The name of the oneof must be "sealed_oneof"
+      if oneof.getName  == "sealed_value"
+      // The message may not contain fields outside of the oneof
+      if message.getFields.size() == oneof.getFields.size()
+      fields = oneof.getFields.asScala
+      // All fields must be message types
+      if fields.forall(_.getJavaType == FieldDescriptor.JavaType.MESSAGE)
+      // All field types must be defined in the same file as the message
+      if fields.forall(_.getMessageType.getFile.getName == oneof.getFile.getName)
+      // All field types must not be nested inside other types
+      if fields.forall(_.getMessageType.getContainingType == null)
+      distinctFieldTypes = fields.map(_.getMessageType.getFullName).toSet
+      // All field types must be distinct
+      if distinctFieldTypes.size == fields.size
+      children = fields.map(_.getMessageType)
+      // All fields may only have a single sealed oneof parent
+      if children.forall(child => !isSealedOneofChild(child.getFullName))
+      _ = isSealedOneofChild ++= children.map(_.getFullName)
+    } yield SealedOneof(message, children)
+    SealedOneofs(values)
+  }
+
+
   def handleCodeGeneratorRequest(request: CodeGeneratorRequest): CodeGeneratorResponse = {
     val b = CodeGeneratorResponse.newBuilder
     parseParameters(request.getParameter) match {
       case Right(params) =>
         try {
-          val generator = new ProtobufGenerator(params)
+          val sealedOneofs = getSealedOneofs(request)
+          val generator = new ProtobufGenerator(params, sealedOneofs)
           import generator.FileDescriptorPimp
           val filesByName: Map[String, FileDescriptor] =
             request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
