@@ -99,6 +99,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
       "com.lihaoyi" %%% "utest" % "0.6.4" % "test",
       "commons-codec" % "commons-codec" % "1.11" % "test",
+      "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
