@@ -257,6 +257,7 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies ++= Seq(
         "com.github.os72" % "protoc-jar" % "3.5.1.1",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
+        "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
         "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
