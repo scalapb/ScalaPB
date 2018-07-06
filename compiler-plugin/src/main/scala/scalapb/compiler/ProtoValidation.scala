@@ -7,11 +7,18 @@ class ProtoValidation(implicits: DescriptorImplicits) {
   import implicits._
 
   def validateFile(fd: FileDescriptor): Unit = {
+    if (fd.scalaPackageName.isEmpty) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: a package name is required when flat_package is set. " +
+          "The package name can be provided by either a package statement, or by setting java_package or " +
+          " scala_package options."
+      )
+    }
     fd.getEnumTypes.asScala.foreach(validateEnum)
     fd.getMessageTypes.asScala.foreach(validateMessage)
     if (fd.scalaOptions.hasPrimitiveWrappers && fd.scalaOptions.getNoPrimitiveWrappers) {
       throw new GeneratorException(
-        s"primitive_wrappers and no_primitive_wrappers must not be used at the same time."
+        s"${fd.getFullName}: primitive_wrappers and no_primitive_wrappers must not be used at the same time."
       )
     }
     val allSealedOneofCases = for {

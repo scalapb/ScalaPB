@@ -52,11 +52,14 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
     fileset
   }
 
-  def runValidation(files: (String, String)*): Unit = {
+  def runValidation(generatorParams: GeneratorParams, files: (String, String)*): Unit = {
     val fileset    = generateFileSet(files)
-    val params     = new GeneratorParams()
-    val validation = new ProtoValidation(new DescriptorImplicits(params, fileset))
+    val validation = new ProtoValidation(new DescriptorImplicits(generatorParams, fileset))
     fileset.foreach(validation.validateFile)
+  }
+
+  def runValidation(files: (String, String)*): Unit = {
+    runValidation(new GeneratorParams(), files: _*)
   }
 
   "simple message" should "validate" in {
@@ -66,6 +69,20 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
           |syntax = "proto2";
           |message Foo { };
     """.stripMargin
+    )
+  }
+
+  "No package name" should "fail validation when flat_package is true" in {
+    intercept[GeneratorException] {
+      runValidation(
+         new GeneratorParams(flatPackage = true),
+        "file.proto" ->
+          """
+            |syntax = "proto2";
+          """.stripMargin
+      )
+    }.message must include(
+      "a package name is required"
     )
   }
 
