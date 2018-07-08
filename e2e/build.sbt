@@ -1,6 +1,6 @@
 import scalapb.compiler.Version.grpcJavaVersion
 
-val ScalaDotty = "0.8.0-RC1"
+val ScalaDotty = "0.9.0-RC1"
 
 crossScalaVersions in ThisBuild := Seq("2.10.7", "2.11.12", "2.12.6", ScalaDotty)
 
