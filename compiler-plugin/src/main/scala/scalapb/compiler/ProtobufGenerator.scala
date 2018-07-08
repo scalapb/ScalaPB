@@ -1204,7 +1204,7 @@ class ProtobufGenerator(
     else
       fp.add(signature + "Seq[_root_.scalapb.GeneratedMessageCompanion[_]](")
         .indent
-        .addWithDelimiter(",")(message.nestedTypes.map(m => s"_root_.${m.scalaTypeName}"))
+        .addWithDelimiter(",")(message.nestedTypes.map(m => m.scalaTypeNameWithMaybeRoot))
         .outdent
         .add(")")
   }
