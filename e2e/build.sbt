@@ -36,6 +36,7 @@ val commonSettings = Seq(
         s"--plugin=protoc-gen-java_rpc=${grpcExePath.value.get}",
         s"--java_rpc_out=${((sourceManaged in Compile).value).getAbsolutePath}"
     ),
+    PB.additionalDependencies := Nil,
     libraryDependencies ++= Seq(
       "org.scalatest" %% "scalatest" % "3.0.3" % "test",
       "io.grpc" % "grpc-netty" % grpcJavaVersion, //netty transport of grpc
@@ -77,7 +78,7 @@ lazy val root = (project in file("."))
     ),
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.Version.scalapbVersion
-    )
+    ).map(_.withDottyCompat(scalaVersion.value))
   )
 
 lazy val noJava = (project in file("nojava"))

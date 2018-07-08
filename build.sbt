@@ -14,7 +14,7 @@ val ScalaDotty = "0.9.0-RC1"
 val scalacheckVersion = "1.14.0"
 
 // For e2e test
-val sbtPluginVersion = "0.99.18"
+val sbtPluginVersion = "0.99.19-SNAPSHOT"
 
 val grpcVersion = "1.14.0"
 
