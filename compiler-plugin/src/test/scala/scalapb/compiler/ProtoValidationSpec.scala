@@ -72,20 +72,6 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
     )
   }
 
-  "No package name" should "fail validation when flat_package is true" in {
-    intercept[GeneratorException] {
-      runValidation(
-         new GeneratorParams(flatPackage = true),
-        "file.proto" ->
-          """
-            |syntax = "proto2";
-          """.stripMargin
-      )
-    }.message must include(
-      "a package name is required"
-    )
-  }
-
   "UNRECOGNIZED enum value" should "fail validation" in {
     intercept[GeneratorException] {
       runValidation(
