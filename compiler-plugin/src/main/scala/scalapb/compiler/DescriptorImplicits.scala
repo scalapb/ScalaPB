@@ -389,7 +389,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def scalaTypeNameWithMaybeRoot(context: Descriptor): String = {
       val fullName        = scalaTypeName
       val topLevelPackage = fullName.split('.')(0)
-      if (context.fields.map(_.scalaName).contains(topLevelPackage) && !message.getFile.scalaPackageName.isEmpty)
+      if (context.fields
+            .map(_.scalaName)
+            .contains(topLevelPackage) && !message.getFile.scalaPackageName.isEmpty)
         s"_root_.$fullName"
       else fullName
     }
