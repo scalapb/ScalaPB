@@ -39,6 +39,8 @@ organization in ThisBuild := "com.thesamet.scalapb"
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
+publishTo in ThisBuild := sonatypePublishTo.value
+
 releaseCrossBuild := true
 
 releasePublishArtifactsAction := PgpKeys.publishSigned.value
