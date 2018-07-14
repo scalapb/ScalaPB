@@ -7,7 +7,7 @@ val Scala211 = "2.11.12"
 
 val Scala212 = "2.12.6"
 
-val protobufVersion = "3.5.1"
+val protobufVersion = "3.6.0"
 
 val scalacheckVersion = "1.14.0"
 
