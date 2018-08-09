@@ -132,6 +132,8 @@ object ProtoValidation {
     "toString",
     "wait",
     "productArity",
+    "productElementName",
+    "productElementNames",
     "productIterator",
     "productPrefix"
   )
