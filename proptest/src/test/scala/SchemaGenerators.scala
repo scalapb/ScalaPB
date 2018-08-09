@@ -73,6 +73,8 @@ object SchemaGenerators {
     "while",
     // From scala.Product
     "productArity",
+    "productElementName",
+    "productElementNames",
     "productIterator",
     "productPrefix",
     // Java object methods
