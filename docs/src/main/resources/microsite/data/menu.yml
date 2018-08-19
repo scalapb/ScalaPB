@@ -1,0 +1,29 @@
+options:
+- title: About
+  url:
+- title: SBT Settings
+  url: sbt-settings.html
+- title: Generated Code
+  url: generated-code.html
+- title: User-defined Options
+  url: user_defined_options.html
+- title: Customizations
+  url: customizations.html
+- title: Sealed oneofs
+  url: sealed-oneofs.html
+- title: gRPC
+  url: grpc.html
+- title: Scala.js
+  url: scala.js.html
+- title: SparkSQL
+  url: sparksql.html
+- title: JSON
+  url: json.html
+- title: ScalaPBC
+  url: scalapbc.html
+- title: API Docs
+  url: api/scalapb/latest/
+- title: FAQ
+  url: faq.html
+- title: Migrating
+  url: migrating.html

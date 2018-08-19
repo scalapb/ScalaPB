@@ -68,9 +68,8 @@ deploy:
     condition: "$TRAVIS_PULL_REQUEST = false && $TEST_SCRIPT = __misc__"
 
 - provider: script
-  script: sbt ghpagesPushSite
+  script: sbt docs/publishMicrosite
   skip_cleanup: true
   on:
     repo: scalapb/ScalaPB
-    tags: true
-    condition: "$TRAVIS_PULL_REQUEST = false && $TEST_SCRIPT = __misc__"
+    condition: "$TRAVIS_PULL_REQUEST = false && $TRAVIS_BRANCH = master && $TEST_SCRIPT = __misc__"

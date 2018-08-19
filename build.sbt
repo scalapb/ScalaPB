@@ -73,15 +73,7 @@ lazy val root =
       publishArtifact := false,
       publish := {},
       publishLocal := {},
-      siteSubdirName in ScalaUnidoc := "api/scalapb/latest",
-      addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
-      unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(lensesJVM, runtimeJVM, grpcRuntime),
-      git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
-      ghpagesBranch := "master",
-      ghpagesNoJekyll := false,
-      includeFilter in ghpagesCleanSite := GlobFilter((ghpagesRepository.value / "api/scalapb/latest").getCanonicalPath + java.io.File.separator + "*")
     )
-    .enablePlugins(ScalaUnidocPlugin, GhpagesPlugin)
     .aggregate(
       lensesJS,
       lensesJVM,
@@ -354,3 +346,33 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
 lazy val lensesJVM = lenses.jvm
 lazy val lensesJS = lenses.js
 lazy val lensesNative = lenses.native
+
+lazy val docs = project.in(file("docs")) 
+  .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
+  .settings(
+    micrositeName := "ScalaPB",
+    micrositeDescription := "Protocol buffer compiler for Scala",
+    micrositeDocumentationUrl := "/",
+    micrositeAuthor := "Nadav Samet",
+    micrositeGithubOwner := "scalapb",
+    micrositeGithubRepo := "ScalaPB",
+    micrositeGitterChannelUrl := "trueaccord/ScalaPB",
+    micrositeHighlightTheme := "atom-one-light",
+    micrositeHighlightLanguages := Seq("scala", "java", "bash", "protobuf"),
+    micrositePalette := Map(
+            "brand-primary"     -> "#D62828",  // active item marker on the left
+            "brand-secondary"   -> "#003049",  // menu background
+            "brand-tertiary"    -> "#F77F00",  // active item
+            "gray-dark"         -> "#F77F00",  // headlines
+            "gray"              -> "#000000",  // text
+            "gray-light"        -> "#D0D0D0",  // stats on top
+            "gray-lighter"      -> "#F4F3F4",  // content wrapper background
+            "white-color"       -> "#FFFFFF"   // ???
+    ),
+    siteSubdirName in ScalaUnidoc := "api/scalapb/latest",
+    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(lensesJVM, runtimeJVM, grpcRuntime),
+    git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
+    ghpagesBranch := "master",
+    includeFilter in ghpagesCleanSite := GlobFilter((ghpagesRepository.value / "README.md").getCanonicalPath)
+  )
