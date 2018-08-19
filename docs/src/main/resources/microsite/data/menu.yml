@@ -5,12 +5,12 @@ options:
   url: sbt-settings.html
 - title: Generated Code
   url: generated-code.html
-- title: User-defined Options
-  url: user_defined_options.html
 - title: Customizations
   url: customizations.html
 - title: Sealed oneofs
   url: sealed-oneofs.html
+- title: User-defined Options
+  url: user_defined_options.html
 - title: gRPC
   url: grpc.html
 - title: Scala.js
