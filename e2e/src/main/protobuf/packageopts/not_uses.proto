@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+package packageopts;
+
+message NotUsesMessage {
+  repeated int32 my_rep = 1;
+}

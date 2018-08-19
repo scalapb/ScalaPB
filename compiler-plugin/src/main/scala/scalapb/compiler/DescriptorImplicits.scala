@@ -65,6 +65,21 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     new SealedOneofsCache(sealedOneof)
   }
 
+  private lazy val fileOptionsCache: Map[FileDescriptor, ScalaPbOptions] = {
+    files.map {
+      f =>
+        f.getDependencies.asScala
+          .find(_.rawScalaOptions.hasPackageOptions)
+          .map(_.rawScalaOptions.getPackageOptions)
+          .fold(f -> f.rawScalaOptions) {
+            importedPackageOptions =>
+              f -> ScalaPbOptions.newBuilder(importedPackageOptions)
+                .mergeFrom(f.rawScalaOptions)
+                .build()
+          }
+    }(collection.breakOut)
+  }
+
   implicit class AsSymbolPimp(val s: String) {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
   }
@@ -642,7 +657,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   }
 
   implicit class FileDescriptorPimp(val file: FileDescriptor) {
-    def scalaOptions: ScalaPbOptions = file.getOptions.getExtension[ScalaPbOptions](Scalapb.options)
+    def rawScalaOptions: ScalaPbOptions = file.getOptions.getExtension[ScalaPbOptions](Scalapb.options)
+
+    def scalaOptions: ScalaPbOptions = fileOptionsCache(file)
 
     def javaConversions = params.javaConversions && !scalaOptions.getTestOnlyNoJavaConversions
 

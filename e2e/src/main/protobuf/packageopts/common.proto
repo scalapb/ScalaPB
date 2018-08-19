@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package packageopts;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  package_options: {
+      preamble: "object Foo { val c = 32 }"
+      collection_type: "Vector"
+  }
+};
+
+message CommonMessage {
+  optional int32 f = 1;
+}

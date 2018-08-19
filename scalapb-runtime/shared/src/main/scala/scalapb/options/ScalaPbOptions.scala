@@ -57,6 +57,7 @@ final case class ScalaPbOptions(
     collectionType: _root_.scala.Option[_root_.scala.Predef.String] = None,
     preserveUnknownFields: _root_.scala.Option[_root_.scala.Boolean] = None,
     objectName: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    packageOptions: _root_.scala.Option[scalapb.options.ScalaPbOptions] = None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ScalaPbOptions] with scalapb.lenses.Updatable[ScalaPbOptions] {
     @transient
@@ -102,6 +103,10 @@ final case class ScalaPbOptions(
       if (objectName.isDefined) {
         val __value = objectName.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, __value)
+      };
+      if (packageOptions.isDefined) {
+        val __value = packageOptions.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
@@ -158,6 +163,12 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeString(10, __m)
       };
+      packageOptions.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(11, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(100001, __m)
@@ -174,6 +185,7 @@ final case class ScalaPbOptions(
       var __collectionType = this.collectionType
       var __preserveUnknownFields = this.preserveUnknownFields
       var __objectName = this.objectName
+      var __packageOptions = this.packageOptions
       var __testOnlyNoJavaConversions = this.testOnlyNoJavaConversions
       var _done__ = false
       while (!_done__) {
@@ -200,6 +212,8 @@ final case class ScalaPbOptions(
             __preserveUnknownFields = Option(_input__.readBool())
           case 82 =>
             __objectName = Option(_input__.readString())
+          case 90 =>
+            __packageOptions = Option(_root_.scalapb.LiteParser.readMessage(_input__, __packageOptions.getOrElse(scalapb.options.ScalaPbOptions.defaultInstance)))
           case 800008 =>
             __testOnlyNoJavaConversions = Option(_input__.readBool())
           case tag => _input__.skipField(tag)
@@ -216,6 +230,7 @@ final case class ScalaPbOptions(
           collectionType = __collectionType,
           preserveUnknownFields = __preserveUnknownFields,
           objectName = __objectName,
+          packageOptions = __packageOptions,
           testOnlyNoJavaConversions = __testOnlyNoJavaConversions
       )
     }
@@ -251,6 +266,9 @@ final case class ScalaPbOptions(
     def getObjectName: _root_.scala.Predef.String = objectName.getOrElse("")
     def clearObjectName: ScalaPbOptions = copy(objectName = None)
     def withObjectName(__v: _root_.scala.Predef.String): ScalaPbOptions = copy(objectName = Option(__v))
+    def getPackageOptions: scalapb.options.ScalaPbOptions = packageOptions.getOrElse(scalapb.options.ScalaPbOptions.defaultInstance)
+    def clearPackageOptions: ScalaPbOptions = copy(packageOptions = None)
+    def withPackageOptions(__v: scalapb.options.ScalaPbOptions): ScalaPbOptions = copy(packageOptions = Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
@@ -266,6 +284,7 @@ final case class ScalaPbOptions(
         case 8 => collectionType.orNull
         case 9 => preserveUnknownFields.orNull
         case 10 => objectName.orNull
+        case 11 => packageOptions.orNull
         case 100001 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -282,6 +301,7 @@ final case class ScalaPbOptions(
         case 8 => collectionType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => preserveUnknownFields.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 10 => objectName.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 11 => packageOptions.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -305,7 +325,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       __fieldsMap.get(__fields.get(7)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.get(__fields.get(8)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.get(__fields.get(9)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(10)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
+      __fieldsMap.get(__fields.get(10)).asInstanceOf[_root_.scala.Option[scalapb.options.ScalaPbOptions]],
+      __fieldsMap.get(__fields.get(11)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.ScalaPbOptions] = _root_.scalapb.descriptors.Reads{
@@ -322,13 +343,20 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).flatMap(_.as[_root_.scala.Option[scalapb.options.ScalaPbOptions]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+    var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
+    (__number: @_root_.scala.unchecked) match {
+      case 11 => __out = scalapb.options.ScalaPbOptions
+    }
+    __out
+  }
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.ScalaPbOptions(
@@ -352,6 +380,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def optionalPreserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.preserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = f_))
     def objectName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getObjectName)((c_, f_) => c_.copy(objectName = Option(f_)))
     def optionalObjectName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.objectName)((c_, f_) => c_.copy(objectName = f_))
+    def packageOptions: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions] = field(_.getPackageOptions)((c_, f_) => c_.copy(packageOptions = Option(f_)))
+    def optionalPackageOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.ScalaPbOptions]] = field(_.packageOptions)((c_, f_) => c_.copy(packageOptions = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -365,5 +395,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val COLLECTION_TYPE_FIELD_NUMBER = 8
   final val PRESERVE_UNKNOWN_FIELDS_FIELD_NUMBER = 9
   final val OBJECT_NAME_FIELD_NUMBER = 10
+  final val PACKAGE_OPTIONS_FIELD_NUMBER = 11
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
 }

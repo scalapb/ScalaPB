@@ -297,6 +297,19 @@ public final class Scalapb {
         getObjectNameBytes();
 
     /**
+     * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+     */
+    boolean hasPackageOptions();
+    /**
+     * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+     */
+    scalapb.options.compiler.Scalapb.ScalaPbOptions getPackageOptions();
+    /**
+     * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+     */
+    scalapb.options.compiler.Scalapb.ScalaPbOptionsOrBuilder getPackageOptionsOrBuilder();
+
+    /**
      * <pre>
      * For use in tests only. Inhibit Java conversions even when when generator parameters
      * request for it.
@@ -433,8 +446,21 @@ public final class Scalapb {
               objectName_ = bs;
               break;
             }
-            case 800008: {
+            case 90: {
+              scalapb.options.compiler.Scalapb.ScalaPbOptions.Builder subBuilder = null;
+              if (((bitField0_ & 0x00000100) == 0x00000100)) {
+                subBuilder = packageOptions_.toBuilder();
+              }
+              packageOptions_ = input.readMessage(scalapb.options.compiler.Scalapb.ScalaPbOptions.PARSER, extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(packageOptions_);
+                packageOptions_ = subBuilder.buildPartial();
+              }
               bitField0_ |= 0x00000100;
+              break;
+            }
+            case 800008: {
+              bitField0_ |= 0x00000200;
               testOnlyNoJavaConversions_ = input.readBool();
               break;
             }
@@ -875,6 +901,27 @@ public final class Scalapb {
       }
     }
 
+    public static final int PACKAGE_OPTIONS_FIELD_NUMBER = 11;
+    private scalapb.options.compiler.Scalapb.ScalaPbOptions packageOptions_;
+    /**
+     * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+     */
+    public boolean hasPackageOptions() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+     */
+    public scalapb.options.compiler.Scalapb.ScalaPbOptions getPackageOptions() {
+      return packageOptions_ == null ? scalapb.options.compiler.Scalapb.ScalaPbOptions.getDefaultInstance() : packageOptions_;
+    }
+    /**
+     * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+     */
+    public scalapb.options.compiler.Scalapb.ScalaPbOptionsOrBuilder getPackageOptionsOrBuilder() {
+      return packageOptions_ == null ? scalapb.options.compiler.Scalapb.ScalaPbOptions.getDefaultInstance() : packageOptions_;
+    }
+
     public static final int TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001;
     private boolean testOnlyNoJavaConversions_;
     /**
@@ -886,7 +933,7 @@ public final class Scalapb {
      * <code>optional bool test_only_no_java_conversions = 100001;</code>
      */
     public boolean hasTestOnlyNoJavaConversions() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
      * <pre>
@@ -943,6 +990,9 @@ public final class Scalapb {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 10, objectName_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeMessage(11, getPackageOptions());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeBool(100001, testOnlyNoJavaConversions_);
       }
       unknownFields.writeTo(output);
@@ -999,6 +1049,10 @@ public final class Scalapb {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, objectName_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(11, getPackageOptions());
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(100001, testOnlyNoJavaConversions_);
       }
@@ -1062,6 +1116,11 @@ public final class Scalapb {
         result = result && getObjectName()
             .equals(other.getObjectName());
       }
+      result = result && (hasPackageOptions() == other.hasPackageOptions());
+      if (hasPackageOptions()) {
+        result = result && getPackageOptions()
+            .equals(other.getPackageOptions());
+      }
       result = result && (hasTestOnlyNoJavaConversions() == other.hasTestOnlyNoJavaConversions());
       if (hasTestOnlyNoJavaConversions()) {
         result = result && (getTestOnlyNoJavaConversions()
@@ -1122,6 +1181,10 @@ public final class Scalapb {
       if (hasObjectName()) {
         hash = (37 * hash) + OBJECT_NAME_FIELD_NUMBER;
         hash = (53 * hash) + getObjectName().hashCode();
+      }
+      if (hasPackageOptions()) {
+        hash = (37 * hash) + PACKAGE_OPTIONS_FIELD_NUMBER;
+        hash = (53 * hash) + getPackageOptions().hashCode();
       }
       if (hasTestOnlyNoJavaConversions()) {
         hash = (37 * hash) + TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER;
@@ -1253,6 +1316,7 @@ public final class Scalapb {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessageV3
                 .alwaysUseFieldBuilders) {
+          getPackageOptionsFieldBuilder();
         }
       }
       public Builder clear() {
@@ -1277,8 +1341,14 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000100);
         objectName_ = "";
         bitField0_ = (bitField0_ & ~0x00000200);
-        testOnlyNoJavaConversions_ = false;
+        if (packageOptionsBuilder_ == null) {
+          packageOptions_ = null;
+        } else {
+          packageOptionsBuilder_.clear();
+        }
         bitField0_ = (bitField0_ & ~0x00000400);
+        testOnlyNoJavaConversions_ = false;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -1347,6 +1417,14 @@ public final class Scalapb {
         result.objectName_ = objectName_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000100;
+        }
+        if (packageOptionsBuilder_ == null) {
+          result.packageOptions_ = packageOptions_;
+        } else {
+          result.packageOptions_ = packageOptionsBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000200;
         }
         result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
         result.bitField0_ = to_bitField0_;
@@ -1440,6 +1518,9 @@ public final class Scalapb {
           bitField0_ |= 0x00000200;
           objectName_ = other.objectName_;
           onChanged();
+        }
+        if (other.hasPackageOptions()) {
+          mergePackageOptions(other.getPackageOptions());
         }
         if (other.hasTestOnlyNoJavaConversions()) {
           setTestOnlyNoJavaConversions(other.getTestOnlyNoJavaConversions());
@@ -2350,6 +2431,124 @@ public final class Scalapb {
         return this;
       }
 
+      private scalapb.options.compiler.Scalapb.ScalaPbOptions packageOptions_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          scalapb.options.compiler.Scalapb.ScalaPbOptions, scalapb.options.compiler.Scalapb.ScalaPbOptions.Builder, scalapb.options.compiler.Scalapb.ScalaPbOptionsOrBuilder> packageOptionsBuilder_;
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public boolean hasPackageOptions() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public scalapb.options.compiler.Scalapb.ScalaPbOptions getPackageOptions() {
+        if (packageOptionsBuilder_ == null) {
+          return packageOptions_ == null ? scalapb.options.compiler.Scalapb.ScalaPbOptions.getDefaultInstance() : packageOptions_;
+        } else {
+          return packageOptionsBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public Builder setPackageOptions(scalapb.options.compiler.Scalapb.ScalaPbOptions value) {
+        if (packageOptionsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          packageOptions_ = value;
+          onChanged();
+        } else {
+          packageOptionsBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000400;
+        return this;
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public Builder setPackageOptions(
+          scalapb.options.compiler.Scalapb.ScalaPbOptions.Builder builderForValue) {
+        if (packageOptionsBuilder_ == null) {
+          packageOptions_ = builderForValue.build();
+          onChanged();
+        } else {
+          packageOptionsBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000400;
+        return this;
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public Builder mergePackageOptions(scalapb.options.compiler.Scalapb.ScalaPbOptions value) {
+        if (packageOptionsBuilder_ == null) {
+          if (((bitField0_ & 0x00000400) == 0x00000400) &&
+              packageOptions_ != null &&
+              packageOptions_ != scalapb.options.compiler.Scalapb.ScalaPbOptions.getDefaultInstance()) {
+            packageOptions_ =
+              scalapb.options.compiler.Scalapb.ScalaPbOptions.newBuilder(packageOptions_).mergeFrom(value).buildPartial();
+          } else {
+            packageOptions_ = value;
+          }
+          onChanged();
+        } else {
+          packageOptionsBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000400;
+        return this;
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public Builder clearPackageOptions() {
+        if (packageOptionsBuilder_ == null) {
+          packageOptions_ = null;
+          onChanged();
+        } else {
+          packageOptionsBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000400);
+        return this;
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public scalapb.options.compiler.Scalapb.ScalaPbOptions.Builder getPackageOptionsBuilder() {
+        bitField0_ |= 0x00000400;
+        onChanged();
+        return getPackageOptionsFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      public scalapb.options.compiler.Scalapb.ScalaPbOptionsOrBuilder getPackageOptionsOrBuilder() {
+        if (packageOptionsBuilder_ != null) {
+          return packageOptionsBuilder_.getMessageOrBuilder();
+        } else {
+          return packageOptions_ == null ?
+              scalapb.options.compiler.Scalapb.ScalaPbOptions.getDefaultInstance() : packageOptions_;
+        }
+      }
+      /**
+       * <code>optional .scalapb.ScalaPbOptions package_options = 11;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          scalapb.options.compiler.Scalapb.ScalaPbOptions, scalapb.options.compiler.Scalapb.ScalaPbOptions.Builder, scalapb.options.compiler.Scalapb.ScalaPbOptionsOrBuilder> 
+          getPackageOptionsFieldBuilder() {
+        if (packageOptionsBuilder_ == null) {
+          packageOptionsBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              scalapb.options.compiler.Scalapb.ScalaPbOptions, scalapb.options.compiler.Scalapb.ScalaPbOptions.Builder, scalapb.options.compiler.Scalapb.ScalaPbOptionsOrBuilder>(
+                  getPackageOptions(),
+                  getParentForChildren(),
+                  isClean());
+          packageOptions_ = null;
+        }
+        return packageOptionsBuilder_;
+      }
+
       private boolean testOnlyNoJavaConversions_ ;
       /**
        * <pre>
@@ -2360,7 +2559,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public boolean hasTestOnlyNoJavaConversions() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
        * <pre>
@@ -2382,7 +2581,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder setTestOnlyNoJavaConversions(boolean value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         testOnlyNoJavaConversions_ = value;
         onChanged();
         return this;
@@ -2396,7 +2595,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder clearTestOnlyNoJavaConversions() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         testOnlyNoJavaConversions_ = false;
         onChanged();
         return this;
@@ -8377,38 +8576,39 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\rscalapb.proto\022\007scalapb\032 google/protobu" +
-      "f/descriptor.proto\"\246\002\n\016ScalaPbOptions\022\024\n" +
+      "f/descriptor.proto\"\330\002\n\016ScalaPbOptions\022\024\n" +
       "\014package_name\030\001 \001(\t\022\024\n\014flat_package\030\002 \001(" +
       "\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 \003(\t\022\023\n\013s" +
       "ingle_file\030\005 \001(\010\022\035\n\025no_primitive_wrapper" +
       "s\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 \001(\010\022\027\n\017c" +
       "ollection_type\030\010 \001(\t\022\037\n\027preserve_unknown" +
-      "_fields\030\t \001(\010\022\023\n\013object_name\030\n \001(\t\022\'\n\035te" +
-      "st_only_no_java_conversions\030\241\215\006 \001(\010\"~\n\016M" +
-      "essageOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021compan" +
-      "ion_extends\030\002 \003(\t\022\023\n\013annotations\030\003 \003(\t\022\014" +
-      "\n\004type\030\004 \001(\t\022\035\n\025companion_annotations\030\005 " +
-      "\003(\t\"\224\001\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nsc" +
-      "ala_name\030\002 \001(\t\022\027\n\017collection_type\030\003 \001(\t\022" +
-      "\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n" +
-      "\013annotations\030\006 \003(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013En" +
-      "umOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_" +
-      "extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValue" +
-      "Options\022\017\n\007extends\030\001 \003(\t\"\037\n\014OneofOptions" +
-      "\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034.google.pr" +
-      "otobuf.FileOptions\030\374\007 \001(\0132\027.scalapb.Scal" +
-      "aPbOptions:J\n\007message\022\037.google.protobuf." +
-      "MessageOptions\030\374\007 \001(\0132\027.scalapb.MessageO" +
-      "ptions:D\n\005field\022\035.google.protobuf.FieldO" +
-      "ptions\030\374\007 \001(\0132\025.scalapb.FieldOptions:I\n\014" +
-      "enum_options\022\034.google.protobuf.EnumOptio" +
-      "ns\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nenum_" +
-      "value\022!.google.protobuf.EnumValueOptions" +
-      "\030\374\007 \001(\0132\031.scalapb.EnumValueOptions:D\n\005on" +
-      "eof\022\035.google.protobuf.OneofOptions\030\374\007 \001(" +
-      "\0132\025.scalapb.OneofOptionsB9\n\030scalapb.opti" +
-      "ons.compiler\342?\034\n\030scalapb.options.compile" +
-      "r\020\001"
+      "_fields\030\t \001(\010\022\023\n\013object_name\030\n \001(\t\0220\n\017pa" +
+      "ckage_options\030\013 \001(\0132\027.scalapb.ScalaPbOpt" +
+      "ions\022\'\n\035test_only_no_java_conversions\030\241\215" +
+      "\006 \001(\010\"~\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t" +
+      "\022\031\n\021companion_extends\030\002 \003(\t\022\023\n\013annotatio" +
+      "ns\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_anno" +
+      "tations\030\005 \003(\t\"\224\001\n\014FieldOptions\022\014\n\004type\030\001" +
+      " \001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_t" +
+      "ype\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_typ" +
+      "e\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\022\016\n\006no_box\030\036" +
+      " \001(\010\"G\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021" +
+      "companion_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n" +
+      "\020EnumValueOptions\022\017\n\007extends\030\001 \003(\t\"\037\n\014On" +
+      "eofOptions\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034" +
+      ".google.protobuf.FileOptions\030\374\007 \001(\0132\027.sc" +
+      "alapb.ScalaPbOptions:J\n\007message\022\037.google" +
+      ".protobuf.MessageOptions\030\374\007 \001(\0132\027.scalap" +
+      "b.MessageOptions:D\n\005field\022\035.google.proto" +
+      "buf.FieldOptions\030\374\007 \001(\0132\025.scalapb.FieldO" +
+      "ptions:I\n\014enum_options\022\034.google.protobuf" +
+      ".EnumOptions\030\374\007 \001(\0132\024.scalapb.EnumOption" +
+      "s:Q\n\nenum_value\022!.google.protobuf.EnumVa" +
+      "lueOptions\030\374\007 \001(\0132\031.scalapb.EnumValueOpt" +
+      "ions:D\n\005oneof\022\035.google.protobuf.OneofOpt" +
+      "ions\030\374\007 \001(\0132\025.scalapb.OneofOptionsB9\n\030sc" +
+      "alapb.options.compiler\342?\034\n\030scalapb.optio" +
+      "ns.compiler\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8428,7 +8628,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "TestOnlyNoJavaConversions", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "PackageOptions", "TestOnlyNoJavaConversions", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

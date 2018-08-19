@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+package other_package;
+
+import "packageopts/common.proto";
+
+message OtherPackageMessage {
+  optional packageopts.CommonMessage comm = 1;
+}
