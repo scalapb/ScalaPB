@@ -1,6 +1,6 @@
 package scalapb.grpc
 
-import com.google.common.util.concurrent.{FutureCallback, Futures, ListenableFuture}
+import com.google.common.util.concurrent.{FutureCallback, Futures, ListenableFuture, MoreExecutors}
 import io.grpc.{Status, StatusException, StatusRuntimeException}
 import io.grpc.stub.StreamObserver
 import scala.concurrent.{Future, Promise}
@@ -12,7 +12,7 @@ object Grpc {
     Futures.addCallback(guavaFuture, new FutureCallback[A] {
       override def onFailure(t: Throwable): Unit = p.failure(t)
       override def onSuccess(a: A): Unit         = p.success(a)
-    })
+    }, MoreExecutors.directExecutor())
     p.future
   }
 
