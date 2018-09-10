@@ -88,6 +88,7 @@ class Service1ScalaImpl extends Service1 {
     (1 to count).foreach {
       _ => observer.onNext(Res2())
     }
+    observer.onCompleted()
   }
 
   override def sealedBidiStreaming(
