@@ -31,6 +31,20 @@ message Res4 {
 message Req5 {}
 message Res5 {}
 
+message SealedRequest {
+    oneof sealed_value {
+        Req1 req1 = 1;
+        Req2 req2 = 2;
+    }
+}
+
+message SealedResponse {
+    oneof sealed_value {
+        Res1 res1 = 1;
+        Res2 res2 = 2;
+    }
+}
+
 service Service1 {
   // Computes string length
   rpc UnaryStringLength(Req1) returns (Res1) {}
@@ -46,4 +60,13 @@ service Service1 {
 
   // Throws a runtime exception.
   rpc ThrowException(Req5) returns (Res5) {}
+
+  // Sealed request response methods
+  rpc SealedUnary(SealedRequest) returns (SealedResponse) {}
+
+  rpc SealedClientStreaming(stream SealedRequest) returns (SealedResponse) {}
+
+  rpc SealedServerStreaming(SealedRequest) returns (stream SealedResponse) {}
+
+  rpc SealedBidiStreaming(stream SealedRequest) returns (stream SealedResponse) {}
 }
