@@ -143,6 +143,64 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
           }
         }
       }
+
+      import com.trueaccord.proto.e2e.service
+
+      it("sealed unary call should work") {
+
+        withScalaServer { channel =>
+
+          val client = Service1GrpcScala.stub(channel)
+
+          Await.result( client.sealedUnary(service.Req1("5")), 2.seconds ) must be(service.Res1(5))
+          Await.result( client.sealedUnary(service.Req2()), 2.seconds ) must be(service.Res2(17))
+
+        }
+
+      }
+
+      it ("clientStreaming with sealed trait should work") {
+
+        withScalaServer { channel =>
+
+          val client = Service1GrpcScala.stub(channel)
+
+          val (responseObserver, future) = getObserverAndFuture[service.SealedResponse]
+          val requestObserver = client.sealedClientStreaming(responseObserver)
+          val n = Random.nextInt(10)
+          for (_ <- 1 to n) {
+            requestObserver.onNext(Req2())
+          }
+          requestObserver.onCompleted()
+          Await.result(future, 2.seconds) must be(service.Res2(n))
+
+        }
+
+      }
+
+      it("serverStreamingFan with sealed trait should work") {
+        withScalaServer { channel =>
+          val client = Service1GrpcScala.stub(channel)
+          val (observer, future) = getObserverAndFutureVector[service.SealedResponse]
+
+          client.sealedServerStreaming(service.Req2(), observer)
+
+          Await.result(future, 2.seconds) must be(Vector.fill(14)(Res2()))
+        }
+      }
+
+      it("bidiStreaming with sealed trait should work") {
+        withScalaServer { channel =>
+          val client = Service1GrpcScala.stub(channel)
+          val (responseObserver, future) = getObserverAndFutureVector[SealedResponse]
+          val requestObserver = client.sealedBidiStreaming(responseObserver)
+          requestObserver.onNext(Req1())
+          requestObserver.onNext(Req2())
+          requestObserver.onCompleted()
+          Await.result(future, 2.seconds) must be(Vector(Res1(17), Res2(3), Res1(17), Res2(3)))
+        }
+      }
+
     }
   }
 }
