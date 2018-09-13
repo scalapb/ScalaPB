@@ -1,7 +1,7 @@
 
 import com.trueaccord.proto.e2e.sealed_oneof._
+import com.trueaccord.proto.e2e.sealed_oneof_in_oneof._
 import com.trueaccord.proto.e2e.{sealed_oneof_single_file => f}
-
 import org.scalatest._
 
 class SealedOneofSpec extends FlatSpec with MustMatchers {
@@ -40,6 +40,28 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
       fexpr.asMessage.toProtoString ==
       expr.asMessage.toProtoString
     )
+  }
+
+  "sealed_oneof message" should "work as a oneof case of another message" in {
+    // Exhaustive matching of all possible cases
+    assertCompiles(
+      """
+        |Animal.defaultInstance.value match {
+        |  case Animal.Value.Empty =>
+        |  case Animal.Value.Mammal(v) =>
+        |    v match {
+        |      case Mammal.Empty =>
+        |      case Dog() =>
+        |      case Cat() =>
+        |    }
+        |  case Animal.Value.Bird(v) =>
+        |    v match {
+        |      case Bird.Empty =>
+        |      case Eagle() =>
+        |      case Sparrow() =>
+        |    }
+        |}
+      """.stripMargin)
   }
 }
 
