@@ -69,14 +69,25 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
   }
 
-  implicit final class MethodDescriptorPimp(self: MethodDescriptor) {
-    def scalaOut: String = self.getOutputType.scalaTypeName
+  implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
 
-    def scalaIn: String = self.getInputType.scalaTypeName
+    class MethodTypeWrapper(nameSuffix: String, descriptor: Descriptor) {
+      def customScalaType = if (descriptor.isSealedOneofType)
+        Some(descriptor.sealedOneofScalaType)
+      else None
 
-    def isClientStreaming = self.toProto.getClientStreaming
+      def baseScalaType = descriptor.scalaTypeName
 
-    def isServerStreaming = self.toProto.getServerStreaming
+      def scalaType = customScalaType.getOrElse(baseScalaType)
+    }
+
+    def inputType = new MethodTypeWrapper("input", method.getInputType)
+
+    def outputType = new MethodTypeWrapper("output", method.getOutputType)
+
+    def isClientStreaming = method.toProto.getClientStreaming
+
+    def isServerStreaming = method.toProto.getServerStreaming
 
     def streamType: StreamType = {
       (isClientStreaming, isServerStreaming) match {
@@ -87,13 +98,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       }
     }
 
-    def canBeBlocking = !self.toProto.getClientStreaming
+    def canBeBlocking = !method.toProto.getClientStreaming
 
-    private def name0: String = NameUtils.snakeCaseToCamelCase(self.getName)
+    private def name0: String = NameUtils.snakeCaseToCamelCase(method.getName)
 
     def name: String = name0.asSymbol
 
-    def descriptorName = s"METHOD_${NameUtils.toAllCaps(self.getName)}"
+    def descriptorName = s"METHOD_${NameUtils.toAllCaps(method.getName)}"
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {

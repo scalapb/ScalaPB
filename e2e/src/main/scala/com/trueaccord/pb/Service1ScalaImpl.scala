@@ -2,6 +2,7 @@ package com.trueaccord.pb
 
 import java.util.concurrent.atomic.AtomicInteger
 
+import com.trueaccord.proto.e2e.service.SealedRequest
 import com.trueaccord.proto.e2e.service.Service1Grpc.Service1
 import com.trueaccord.proto.e2e.service._
 import io.grpc.stub.StreamObserver
@@ -50,5 +51,58 @@ class Service1ScalaImpl extends Service1 {
 
   override def throwException(request: Req5): Future[Res5] = {
     Future.failed(new RuntimeException("Error!"))
+  }
+
+  override def sealedUnary(
+    request: SealedRequest): Future[SealedResponse] = {
+    Future.successful(request match {
+      case Req1(l) => Res1(l.toInt)
+      case Req2() => Res2(17)
+      case SealedRequest.Empty => SealedResponse.Empty
+    })
+  }
+
+  override def sealedClientStreaming(
+    observer: StreamObserver[SealedResponse]): StreamObserver[SealedRequest] = new StreamObserver[SealedRequest] {
+    private[this] val counter = new AtomicInteger()
+
+    override def onError(e: Throwable): Unit =
+      observer.onError(e)
+
+    override def onCompleted(): Unit = {
+      observer.onNext(Res2(counter.getAndSet(0)))
+    }
+
+    override def onNext(v: SealedRequest): Unit = {
+      counter.incrementAndGet()
+    }
+  }
+
+  override def sealedServerStreaming(request: SealedRequest,
+    observer: StreamObserver[SealedResponse]): Unit = {
+    val count = request match {
+      case Req1(r) => r.length
+      case Req2() => 14
+      case SealedRequest.Empty => 17
+    }
+    (1 to count).foreach {
+      _ => observer.onNext(Res2())
+    }
+    observer.onCompleted()
+  }
+
+  override def sealedBidiStreaming(
+    observer: StreamObserver[SealedResponse]): StreamObserver[SealedRequest] = new StreamObserver[SealedRequest] {
+    override def onNext(value: SealedRequest): Unit = {
+      observer.onNext(Res1(17))
+      observer.onNext(Res2(3))
+    }
+
+    override def onError(t: Throwable): Unit = {}
+
+    override def onCompleted(): Unit = {
+      observer.onCompleted()
+    }
+
   }
 }
