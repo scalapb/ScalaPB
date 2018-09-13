@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e;
+
+message Dog {
+}
+message Cat {
+}
+
+message Mammal {
+  oneof sealed_value {
+    Dog dog = 1;
+    Cat cat = 2;
+  }
+}
+
+message Eagle {
+}
+message Sparrow {
+}
+
+message Bird {
+  oneof sealed_value {
+    Eagle eagle = 1;
+    Sparrow sparrow = 2;
+  }
+}
+
+message Animal {
+  oneof value {
+    Mammal mammal = 1;
+    Bird bird = 2;
+  }
+}

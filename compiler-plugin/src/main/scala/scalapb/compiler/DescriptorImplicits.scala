@@ -171,7 +171,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     // Is the Scala representation of this field a singular type.
     def isSingular =
       fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (
-        fd.isOptional && (fieldOptions.getNoBox || fd.isSealedOneofType)
+        fd.isOptional && (fieldOptions.getNoBox || (fd.isSealedOneofType && !fd.isInOneof))
       )
 
     def enclosingType: EnclosingType =
