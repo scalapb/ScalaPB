@@ -82,68 +82,31 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   private[this] val streamObserver = "_root_.io.grpc.stub.StreamObserver"
 
   private[this] val serverCalls = "_root_.io.grpc.stub.ServerCalls"
-  private[this] val clientCalls = "_root_.io.grpc.stub.ClientCalls"
-
-  private[this] val guavaFuture2ScalaFuture = "scalapb.grpc.Grpc.guavaFuture2ScalaFuture"
+  private[this] val clientCalls = "_root_.scalapb.grpc.ClientCalls"
 
   private[this] def clientMethodImpl(m: MethodDescriptor, blocking: Boolean) =
     PrinterEndo { p =>
-      m.streamType match {
-        case StreamType.Unary =>
-          if (blocking) {
-            p.add(
-                "override " + blockingMethodSignature(m) + " = {"
-              )
-              .add(
-                s"""  $clientCalls.blockingUnaryCall(channel.newCall(${m.descriptorName}, options), request)""",
-                "}"
-              )
-          } else {
-            p.add(
-                "override " + serviceMethodSignature(m) + " = {"
-              )
-              .add(
-                s"""  $guavaFuture2ScalaFuture($clientCalls.futureUnaryCall(channel.newCall(${m.descriptorName}, options), request))""",
-                "}"
-              )
-          }
-        case StreamType.ServerStreaming =>
-          if (blocking) {
-            p.add(
-                "override " + blockingMethodSignature(m) + " = {"
-              )
-              .addIndented(
-                s"scala.collection.JavaConverters.asScalaIteratorConverter($clientCalls.blockingServerStreamingCall(channel.newCall(${m.descriptorName}, options), request)).asScala"
-              )
-              .add("}")
-          } else {
-            p.add(
-                "override " + serviceMethodSignature(m) + " = {"
-              )
-              .addIndented(
-                s"$clientCalls.asyncServerStreamingCall(channel.newCall(${m.descriptorName}, options), request, responseObserver)"
-              )
-              .add("}")
-          }
-        case streamType =>
-          require(!blocking)
-          val call = if (streamType == StreamType.ClientStreaming) {
-            s"$clientCalls.asyncClientStreamingCall"
-          } else {
-            s"$clientCalls.asyncBidiStreamingCall"
-          }
+      val sig =
+        if (blocking) "override " + blockingMethodSignature(m) + " = {"
+        else "override " + serviceMethodSignature(m) + " = {"
 
-          p.add(
-              "override " + serviceMethodSignature(m) + " = {"
-            )
-            .indent
-            .add(
-              s"$call(channel.newCall(${m.descriptorName}, options), responseObserver)"
-            )
-            .outdent
-            .add("}")
-      }
-    } andThen PrinterEndo { _.newline }
+      val prefix = if (blocking) "blocking" else "async"
+
+      val methodName = prefix + (m.streamType match {
+        case StreamType.Unary           => "UnaryCall"
+        case StreamType.ServerStreaming => "ServerStreamingCall"
+        case StreamType.ClientStreaming => "ClientStreamingCall"
+        case StreamType.Bidirectional   => "BidiStreamingCall"
+      })
+
+      val args = Seq("channel", m.descriptorName, "options") ++
+        (if (m.isClientStreaming) Seq() else Seq("request")) ++
+        (if ((m.isClientStreaming || m.isServerStreaming) && !blocking) Seq("responseObserver")
+         else Seq())
+
+      val body = s"${clientCalls}.${methodName}(${args.mkString(", ")})"
+      p.add(sig).addIndented(body).add("}").newline
+    }
 
   private def stubImplementation(
       className: String,

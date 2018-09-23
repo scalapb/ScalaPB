@@ -71,7 +71,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
 
-    class MethodTypeWrapper(nameSuffix: String, descriptor: Descriptor) {
+    class MethodTypeWrapper(descriptor: Descriptor) {
       def customScalaType =
         if (descriptor.isSealedOneofType)
           Some(descriptor.sealedOneofScalaType)
@@ -82,9 +82,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       def scalaType = customScalaType.getOrElse(baseScalaType)
     }
 
-    def inputType = new MethodTypeWrapper("input", method.getInputType)
+    def inputType = new MethodTypeWrapper(method.getInputType)
 
-    def outputType = new MethodTypeWrapper("output", method.getOutputType)
+    def outputType = new MethodTypeWrapper(method.getOutputType)
 
     def isClientStreaming = method.toProto.getClientStreaming
 
