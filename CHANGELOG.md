@@ -1,6 +1,19 @@
 # Change Log
 
-## [Unreleased - 0.7.x](https://github.com/scalapb/ScalaPB/tree/HEAD)
+## [Unreleased - 0.8.x](https://github.com/scalapb/ScalaPB/tree/HEAD)
+
+## [v0.8.0](https://github.com/scalapb/ScalaPB/tree/v0.8.0) (2018-05-01)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.7.4...v0.8.0)
+- Build with protobuf 3.6.0
+- ScalaPBC uses 3.6.0 by default
+- Optimize cases where custom mappers are called twice during serialization
+- Added file-level option to set the proto object name (#412)
+- Implementation of [sealed oneofs](https://scalapb.github.io/sealed-oneofs.html)
+- Added FieldMaskUtil (Thanks @xuwei-k)
+
+## [v0.7.4](https://github.com/scalapb/ScalaPB/tree/v0.7.4) (2018-05-01)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.7...v0.7.4)
+
 Note:
 - Maven artifacts are now published under a new group id: com.thesamet.scalapb
 - Classes were renamed from com.trueaccord.scalapb.X to scalapb.X
@@ -22,7 +35,6 @@ Changes:
   using ScalaPBC, the new flag name is `single_line_to_proto_string`.
 - Unrecognized enum and one-of case classes are marked `final`.
 - `withX` methods convert `null` to `None` for options.
-- added support for sealed oneofs
 
 ## [v0.6.7](https://github.com/scalapb/ScalaPB/tree/v0.6.6) (2017-11-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.6.0...v0.6.7)
