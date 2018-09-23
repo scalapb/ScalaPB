@@ -91,7 +91,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
-      "com.lihaoyi" %%% "utest" % "0.6.4" % "test",
+      "com.lihaoyi" %%% "utest" % "0.6.5" % "test",
       "commons-codec" % "commons-codec" % "1.11" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
@@ -244,8 +244,6 @@ lazy val scalapbc = project.in(file("scalapbc"))
 
 lazy val proptest = project.in(file("proptest"))
   .dependsOn(runtimeJVM, grpcRuntime, compilerPlugin)
-    .configs( ShortTest )
-    .settings( inConfig(ShortTest)(Defaults.testTasks): _*)
     .settings(
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
@@ -259,15 +257,7 @@ lazy val proptest = project.in(file("proptest"))
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
-      testOptions += Tests.Argument(),
-      fork in Test := false,
-      testOptions in ShortTest += Tests.Argument(
-        // verbosity specified because of ScalaCheck #108.
-        "-verbosity", "3",
-        "-minSuccessfulTests", "10")
     )
-
-lazy val ShortTest = config("short") extend(Test)
 
 def genVersionFile(out: File, version: String): File = {
   out.mkdirs()
@@ -319,7 +309,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
           Nil
         case _ =>
           Seq(
-            "com.lihaoyi" %%% "utest" % "0.6.3" % "test"
+            "com.lihaoyi" %%% "utest" % "0.6.5" % "test"
           )
       }
     },

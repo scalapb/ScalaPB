@@ -5,12 +5,12 @@ import java.nio.file.{Files, Paths}
 import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.{Message, TextFormat => GTextFormat}
-
 import scalapb.{GeneratedMessage, JavaProtoSupport, TextFormat}
 import org.scalatest._
 import org.scalatest.prop.GeneratorDrivenPropertyChecks
-
+import org.scalatest.tagobjects.Slow
 import scalapb.descriptors.ScalaType
+
 import scala.language.existentials
 import scala.collection.JavaConverters._
 
@@ -31,7 +31,7 @@ class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with
     }
   }
 
-  property("Java and Scala protos are equivalent") {
+  property("Java and Scala protos are equivalent", Slow) {
     forAll(SchemaGenerators.genCompiledSchema, workers(1), minSuccessful(20)) {
       schema: CompiledSchema =>
         forAll(GenData.genMessageValueInstance(schema.rootNode)) {
