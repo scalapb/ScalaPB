@@ -2,7 +2,7 @@
 
 ## [Unreleased - 0.8.x](https://github.com/scalapb/ScalaPB/tree/HEAD)
 
-## [v0.8.0](https://github.com/scalapb/ScalaPB/tree/v0.8.0) (2018-05-01)
+## [v0.8.0](https://github.com/scalapb/ScalaPB/tree/v0.8.0) (2018-09-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.7.4...v0.8.0)
 - Build with protobuf 3.6.0
 - ScalaPBC uses 3.6.0 by default
