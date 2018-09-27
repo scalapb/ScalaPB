@@ -691,7 +691,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
       if (scalaOptions.getFlatPackage || (params.flatPackage && !isNonFlatDependency))
         requestedPackageName
-      else requestedPackageName :+ baseName(file.getName).replace('-', '_')
+      else requestedPackageName ++ baseName(file.getName).replace('-', '_').split('.')
     }
 
     def scalaPackagePartsAsSymbols = {
