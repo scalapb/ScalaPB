@@ -116,9 +116,8 @@ See
 
 ## Streaming clients, streaming servers, bidi
 
-See [example
-code](https://github.com/xuwei-k/grpc-scala-sample/tree/master/grpc-scala/src/main/scala/io/grpc/examples/routeguide) based on the
-[route_guide gRPC example](https://github.com/grpc/grpc-java/blob/63503c2989df6d895c56e22f430f2b934e7a41d3/examples/protos/route_guide.proto).
+Scalapb-grpc supports both client and server streaming. The Scala API follows
+closely the offical `grpc-java` API.
 
 ## grpc-netty issues
 
