@@ -5,9 +5,9 @@ val Scala210 = "2.10.7"
 
 val Scala211 = "2.11.12"
 
-val Scala212 = "2.12.6"
+val Scala212 = "2.12.7"
 
-val protobufVersion = "3.6.0"
+val protobufVersion = "3.6.1"
 
 val scalacheckVersion = "1.14.0"
 
@@ -91,7 +91,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
-      "com.lihaoyi" %%% "utest" % "0.6.5" % "test",
+      "com.lihaoyi" %%% "utest" % "0.6.6" % "test",
       "commons-codec" % "commons-codec" % "1.11" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
@@ -155,7 +155,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "io.grpc" % "grpc-stub" % grpcVersion,
       "io.grpc" % "grpc-protobuf" % grpcVersion,
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-      "org.mockito" % "mockito-core" % "2.10.0" % "test"
+      "org.mockito" % "mockito-core" % "2.22.0" % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.7.0")
   )
@@ -187,7 +187,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.3",
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-      "com.github.os72" % "protoc-jar" % "3.5.1.1" % "test",
+      "com.github.os72" % "protoc-jar" % "3.6.0" % "test",
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % "0.7.0"),
     mimaBinaryIssueFilters ++= {
@@ -248,7 +248,7 @@ lazy val proptest = project.in(file("proptest"))
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
-        "com.github.os72" % "protoc-jar" % "3.5.1.1",
+        "com.github.os72" % "protoc-jar" % "3.6.0",
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
@@ -309,7 +309,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
           Nil
         case _ =>
           Seq(
-            "com.lihaoyi" %%% "utest" % "0.6.5" % "test"
+            "com.lihaoyi" %%% "utest" % "0.6.6" % "test"
           )
       }
     },

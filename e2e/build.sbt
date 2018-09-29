@@ -1,6 +1,6 @@
 import scalapb.compiler.Version.grpcJavaVersion
 
-crossScalaVersions in ThisBuild := Seq("2.10.7", "2.11.12", "2.12.6")
+crossScalaVersions in ThisBuild := Seq("2.10.7", "2.11.12", "2.12.7")
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
@@ -33,7 +33,7 @@ val commonSettings = Seq(
         s"--java_rpc_out=${((sourceManaged in Compile).value).getAbsolutePath}"
     ),
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.3" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "io.grpc" % "grpc-netty" % grpcJavaVersion, //netty transport of grpc
       "io.grpc" % "grpc-protobuf" % grpcJavaVersion, //protobuf message encoding for java implementation
       "io.grpc" % "grpc-services" % grpcJavaVersion,
