@@ -97,22 +97,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % "0.7.0"),
-    mimaBinaryIssueFilters ++= {
-        import com.typesafe.tools.mima.core._
-        Seq(
-            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.parserToParserApi"),
-            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.strToParserApi"),
-
-            // getObjectName
-            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getObjectName"),
-            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getObjectNameBytes"),
-            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasObjectName"),
-            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.copy"),
-            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.this"),
-            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply")
-        )
-    }
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % "0.8.0"),
   )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform, NativePlatform)(
@@ -157,7 +142,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "org.mockito" % "mockito-core" % "2.22.0" % "test"
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.7.0")
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.8.0")
   )
 
 val shadeTarget = settingKey[String]("Target to use when shading")
@@ -189,19 +174,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "com.github.os72" % "protoc-jar" % "3.6.0" % "test",
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % "0.7.0"),
-    mimaBinaryIssueFilters ++= {
-        import com.typesafe.tools.mima.core._
-        Seq(
-            ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtoValidation.ForbiddenFieldNames"),
-            ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.compiler.FunctionalPrinter.print"),
-
-            // objectName
-            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasObjectName"),
-            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getObjectNameBytes"),
-            ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getObjectName"),
-        )
-    }
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % "0.8.0"),
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -313,14 +286,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
           )
       }
     },
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % "0.7.0"),
-    mimaBinaryIssueFilters ++= {
-        import com.typesafe.tools.mima.core._
-        Seq(
-            ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.lenses.Lens#MapLens.:++=$extension"),
-            ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.lenses.Lens#MapLens.:++=")
-        )
-    }
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % "0.8.0"),
   )
   .jsSettings(
     scalacOptions += {
