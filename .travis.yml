@@ -3,6 +3,11 @@ sudo: required
 dist: trusty
 jdk: oraclejdk9
 
+stages:
+- name: test
+- name: release
+  if: (branch = master AND type = push) OR (tag IS present)
+
 scala:
 - 2.10.7
 - 2.11.12
@@ -20,19 +25,37 @@ matrix:
     env: TEST_SCRIPT=e2e.sh E2E_SHADED=0
   - scala: 2.10.7
     env: TEST_SCRIPT=e2e.sh E2E_SHADED=1
+
+jobs:
   include:
   - env: SCALA_NATIVE
+    scala: 2.11.12
     before_install:
     - sudo apt-get update
     - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
     script:
     - sbt ++2.11.12 runtimeNative/test lensesNative/test
-
-  - env: TEST_SCRIPT=__misc__
+  - env: EXAMPLES_AND_FORMATTING
+    scala: 2.11.12
     script:
     - for d in examples/*; do cd "$d" && sbt test && cd ../..; done
-    - sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck universal:packageBin
+    - sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck
     - ./test_generated_code_checked_in.sh
+  - stage: release
+    env: UPDATE_DOCS
+    scala: 2.11.12
+    script: .travis/push_website.sh
+  - stage: release
+    if: tag IS present
+    scala: 2.11.12
+    env: DEPLOY_SCALAPBC
+    script: sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck universal:packageBin
+    deploy:
+    - provider: releases
+      api_key:
+        secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
+      file: scalapbc/target/universal/scalapbc-${TRAVIS_TAG:1}.zip
+      skip_cleanup: true
 
 # These directories are cached to S3 at the end of the build
 cache:
@@ -55,21 +78,3 @@ before_deploy:
 - chmod 600 .travis/travis-deploy-key
 - eval "$(ssh-agent -s)"
 - ssh-add .travis/travis-deploy-key
-
-deploy:
-- provider: releases
-  api_key:
-    secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
-  file: scalapbc/target/universal/scalapbc-${TRAVIS_TAG:1}.zip
-  skip_cleanup: true
-  on:
-    repo: scalapb/ScalaPB
-    tags: true
-    condition: "$TRAVIS_PULL_REQUEST = false && $TEST_SCRIPT = __misc__"
-
-- provider: script
-  script: .travis/push_website.sh
-  skip_cleanup: true
-  on:
-    repo: scalapb/ScalaPB
-    condition: "$TRAVIS_PULL_REQUEST = false && $TRAVIS_BRANCH = master && $TEST_SCRIPT = __misc__"
