@@ -64,7 +64,8 @@ jobs:
 cache:
   directories:
   - $HOME/.ivy2/cache
-  - $HOME/.sbt
+  - $HOME/.sbt/1.0
+  - $HOME/.sbt/boot
 
 script:
 - ./$TEST_SCRIPT
