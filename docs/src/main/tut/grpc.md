@@ -117,7 +117,7 @@ See
 ## Streaming clients, streaming servers, bidi
 
 Scalapb-grpc supports both client and server streaming. The Scala API follows
-closely the offical `grpc-java` API.
+closely the offical `grpc-java` API. Example project coming soon.
 
 ## grpc-netty issues
 
