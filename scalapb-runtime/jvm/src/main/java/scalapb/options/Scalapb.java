@@ -365,13 +365,6 @@ public final class Scalapb {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -438,6 +431,13 @@ public final class Scalapb {
               testOnlyNoJavaConversions_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -461,6 +461,7 @@ public final class Scalapb {
       return scalapb.options.Scalapb.internal_static_scalapb_ScalaPbOptions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return scalapb.options.Scalapb.internal_static_scalapb_ScalaPbOptions_fieldAccessorTable
@@ -901,6 +902,7 @@ public final class Scalapb {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -910,6 +912,7 @@ public final class Scalapb {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -948,6 +951,7 @@ public final class Scalapb {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -1203,6 +1207,7 @@ public final class Scalapb {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -1210,6 +1215,7 @@ public final class Scalapb {
     public static Builder newBuilder(scalapb.options.Scalapb.ScalaPbOptions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -1233,6 +1239,7 @@ public final class Scalapb {
         return scalapb.options.Scalapb.internal_static_scalapb_ScalaPbOptions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return scalapb.options.Scalapb.internal_static_scalapb_ScalaPbOptions_fieldAccessorTable
@@ -1255,6 +1262,7 @@ public final class Scalapb {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         packageName_ = "";
@@ -1282,15 +1290,18 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return scalapb.options.Scalapb.internal_static_scalapb_ScalaPbOptions_descriptor;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.ScalaPbOptions getDefaultInstanceForType() {
         return scalapb.options.Scalapb.ScalaPbOptions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.ScalaPbOptions build() {
         scalapb.options.Scalapb.ScalaPbOptions result = buildPartial();
         if (!result.isInitialized()) {
@@ -1299,6 +1310,7 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.ScalaPbOptions buildPartial() {
         scalapb.options.Scalapb.ScalaPbOptions result = new scalapb.options.Scalapb.ScalaPbOptions(this);
         int from_bitField0_ = bitField0_;
@@ -1354,32 +1366,39 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof scalapb.options.Scalapb.ScalaPbOptions) {
           return mergeFrom((scalapb.options.Scalapb.ScalaPbOptions)other);
@@ -1449,10 +1468,12 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2401,11 +2422,13 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -2427,6 +2450,7 @@ public final class Scalapb {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<ScalaPbOptions>
         PARSER = new com.google.protobuf.AbstractParser<ScalaPbOptions>() {
+      @java.lang.Override
       public ScalaPbOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -2444,6 +2468,7 @@ public final class Scalapb {
       return PARSER;
     }
 
+    @java.lang.Override
     public scalapb.options.Scalapb.ScalaPbOptions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -2667,13 +2692,6 @@ public final class Scalapb {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -2716,6 +2734,13 @@ public final class Scalapb {
               companionAnnotations_.add(bs);
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2745,6 +2770,7 @@ public final class Scalapb {
       return scalapb.options.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return scalapb.options.Scalapb.internal_static_scalapb_MessageOptions_fieldAccessorTable
@@ -2991,6 +3017,7 @@ public final class Scalapb {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -3000,6 +3027,7 @@ public final class Scalapb {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < extends_.size(); i++) {
@@ -3020,6 +3048,7 @@ public final class Scalapb {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -3195,6 +3224,7 @@ public final class Scalapb {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -3202,6 +3232,7 @@ public final class Scalapb {
     public static Builder newBuilder(scalapb.options.Scalapb.MessageOptions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -3225,6 +3256,7 @@ public final class Scalapb {
         return scalapb.options.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return scalapb.options.Scalapb.internal_static_scalapb_MessageOptions_fieldAccessorTable
@@ -3247,6 +3279,7 @@ public final class Scalapb {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -3262,15 +3295,18 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return scalapb.options.Scalapb.internal_static_scalapb_MessageOptions_descriptor;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.MessageOptions getDefaultInstanceForType() {
         return scalapb.options.Scalapb.MessageOptions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.MessageOptions build() {
         scalapb.options.Scalapb.MessageOptions result = buildPartial();
         if (!result.isInitialized()) {
@@ -3279,6 +3315,7 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.MessageOptions buildPartial() {
         scalapb.options.Scalapb.MessageOptions result = new scalapb.options.Scalapb.MessageOptions(this);
         int from_bitField0_ = bitField0_;
@@ -3312,32 +3349,39 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof scalapb.options.Scalapb.MessageOptions) {
           return mergeFrom((scalapb.options.Scalapb.MessageOptions)other);
@@ -3399,10 +3443,12 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4043,11 +4089,13 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -4069,6 +4117,7 @@ public final class Scalapb {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<MessageOptions>
         PARSER = new com.google.protobuf.AbstractParser<MessageOptions>() {
+      @java.lang.Override
       public MessageOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -4086,6 +4135,7 @@ public final class Scalapb {
       return PARSER;
     }
 
+    @java.lang.Override
     public scalapb.options.Scalapb.MessageOptions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -4297,13 +4347,6 @@ public final class Scalapb {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
@@ -4348,6 +4391,13 @@ public final class Scalapb {
               noBox_ = input.readBool();
               break;
             }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -4368,6 +4418,7 @@ public final class Scalapb {
       return scalapb.options.Scalapb.internal_static_scalapb_FieldOptions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return scalapb.options.Scalapb.internal_static_scalapb_FieldOptions_fieldAccessorTable
@@ -4688,6 +4739,7 @@ public final class Scalapb {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -4697,6 +4749,7 @@ public final class Scalapb {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -4723,6 +4776,7 @@ public final class Scalapb {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -4918,6 +4972,7 @@ public final class Scalapb {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -4925,6 +4980,7 @@ public final class Scalapb {
     public static Builder newBuilder(scalapb.options.Scalapb.FieldOptions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -4948,6 +5004,7 @@ public final class Scalapb {
         return scalapb.options.Scalapb.internal_static_scalapb_FieldOptions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return scalapb.options.Scalapb.internal_static_scalapb_FieldOptions_fieldAccessorTable
@@ -4970,6 +5027,7 @@ public final class Scalapb {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         type_ = "";
@@ -4989,15 +5047,18 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return scalapb.options.Scalapb.internal_static_scalapb_FieldOptions_descriptor;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.FieldOptions getDefaultInstanceForType() {
         return scalapb.options.Scalapb.FieldOptions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.FieldOptions build() {
         scalapb.options.Scalapb.FieldOptions result = buildPartial();
         if (!result.isInitialized()) {
@@ -5006,6 +5067,7 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.FieldOptions buildPartial() {
         scalapb.options.Scalapb.FieldOptions result = new scalapb.options.Scalapb.FieldOptions(this);
         int from_bitField0_ = bitField0_;
@@ -5044,32 +5106,39 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof scalapb.options.Scalapb.FieldOptions) {
           return mergeFrom((scalapb.options.Scalapb.FieldOptions)other);
@@ -5124,10 +5193,12 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5769,11 +5840,13 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -5795,6 +5868,7 @@ public final class Scalapb {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<FieldOptions>
         PARSER = new com.google.protobuf.AbstractParser<FieldOptions>() {
+      @java.lang.Override
       public FieldOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -5812,6 +5886,7 @@ public final class Scalapb {
       return PARSER;
     }
 
+    @java.lang.Override
     public scalapb.options.Scalapb.FieldOptions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -5963,13 +6038,6 @@ public final class Scalapb {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -5992,6 +6060,13 @@ public final class Scalapb {
               com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000001;
               type_ = bs;
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -6017,6 +6092,7 @@ public final class Scalapb {
       return scalapb.options.Scalapb.internal_static_scalapb_EnumOptions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return scalapb.options.Scalapb.internal_static_scalapb_EnumOptions_fieldAccessorTable
@@ -6173,6 +6249,7 @@ public final class Scalapb {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -6182,6 +6259,7 @@ public final class Scalapb {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < extends_.size(); i++) {
@@ -6196,6 +6274,7 @@ public final class Scalapb {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -6343,6 +6422,7 @@ public final class Scalapb {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -6350,6 +6430,7 @@ public final class Scalapb {
     public static Builder newBuilder(scalapb.options.Scalapb.EnumOptions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -6373,6 +6454,7 @@ public final class Scalapb {
         return scalapb.options.Scalapb.internal_static_scalapb_EnumOptions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return scalapb.options.Scalapb.internal_static_scalapb_EnumOptions_fieldAccessorTable
@@ -6395,6 +6477,7 @@ public final class Scalapb {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -6406,15 +6489,18 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return scalapb.options.Scalapb.internal_static_scalapb_EnumOptions_descriptor;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.EnumOptions getDefaultInstanceForType() {
         return scalapb.options.Scalapb.EnumOptions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.EnumOptions build() {
         scalapb.options.Scalapb.EnumOptions result = buildPartial();
         if (!result.isInitialized()) {
@@ -6423,6 +6509,7 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.EnumOptions buildPartial() {
         scalapb.options.Scalapb.EnumOptions result = new scalapb.options.Scalapb.EnumOptions(this);
         int from_bitField0_ = bitField0_;
@@ -6446,32 +6533,39 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof scalapb.options.Scalapb.EnumOptions) {
           return mergeFrom((scalapb.options.Scalapb.EnumOptions)other);
@@ -6513,10 +6607,12 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6899,11 +6995,13 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -6925,6 +7023,7 @@ public final class Scalapb {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<EnumOptions>
         PARSER = new com.google.protobuf.AbstractParser<EnumOptions>() {
+      @java.lang.Override
       public EnumOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -6942,6 +7041,7 @@ public final class Scalapb {
       return PARSER;
     }
 
+    @java.lang.Override
     public scalapb.options.Scalapb.EnumOptions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7027,13 +7127,6 @@ public final class Scalapb {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -7041,6 +7134,13 @@ public final class Scalapb {
                 mutable_bitField0_ |= 0x00000001;
               }
               extends_.add(bs);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -7063,6 +7163,7 @@ public final class Scalapb {
       return scalapb.options.Scalapb.internal_static_scalapb_EnumValueOptions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return scalapb.options.Scalapb.internal_static_scalapb_EnumValueOptions_fieldAccessorTable
@@ -7116,6 +7217,7 @@ public final class Scalapb {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7125,6 +7227,7 @@ public final class Scalapb {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < extends_.size(); i++) {
@@ -7133,6 +7236,7 @@ public final class Scalapb {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7254,6 +7358,7 @@ public final class Scalapb {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7261,6 +7366,7 @@ public final class Scalapb {
     public static Builder newBuilder(scalapb.options.Scalapb.EnumValueOptions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7284,6 +7390,7 @@ public final class Scalapb {
         return scalapb.options.Scalapb.internal_static_scalapb_EnumValueOptions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return scalapb.options.Scalapb.internal_static_scalapb_EnumValueOptions_fieldAccessorTable
@@ -7306,6 +7413,7 @@ public final class Scalapb {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -7313,15 +7421,18 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return scalapb.options.Scalapb.internal_static_scalapb_EnumValueOptions_descriptor;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.EnumValueOptions getDefaultInstanceForType() {
         return scalapb.options.Scalapb.EnumValueOptions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.EnumValueOptions build() {
         scalapb.options.Scalapb.EnumValueOptions result = buildPartial();
         if (!result.isInitialized()) {
@@ -7330,6 +7441,7 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.EnumValueOptions buildPartial() {
         scalapb.options.Scalapb.EnumValueOptions result = new scalapb.options.Scalapb.EnumValueOptions(this);
         int from_bitField0_ = bitField0_;
@@ -7342,32 +7454,39 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof scalapb.options.Scalapb.EnumValueOptions) {
           return mergeFrom((scalapb.options.Scalapb.EnumValueOptions)other);
@@ -7394,10 +7513,12 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7545,11 +7666,13 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -7571,6 +7694,7 @@ public final class Scalapb {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<EnumValueOptions>
         PARSER = new com.google.protobuf.AbstractParser<EnumValueOptions>() {
+      @java.lang.Override
       public EnumValueOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -7588,6 +7712,7 @@ public final class Scalapb {
       return PARSER;
     }
 
+    @java.lang.Override
     public scalapb.options.Scalapb.EnumValueOptions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
@@ -7673,13 +7798,6 @@ public final class Scalapb {
             case 0:
               done = true;
               break;
-            default: {
-              if (!parseUnknownField(
-                  input, unknownFields, extensionRegistry, tag)) {
-                done = true;
-              }
-              break;
-            }
             case 10: {
               com.google.protobuf.ByteString bs = input.readBytes();
               if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -7687,6 +7805,13 @@ public final class Scalapb {
                 mutable_bitField0_ |= 0x00000001;
               }
               extends_.add(bs);
+              break;
+            }
+            default: {
+              if (!parseUnknownField(
+                  input, unknownFields, extensionRegistry, tag)) {
+                done = true;
+              }
               break;
             }
           }
@@ -7709,6 +7834,7 @@ public final class Scalapb {
       return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_descriptor;
     }
 
+    @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
       return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_fieldAccessorTable
@@ -7762,6 +7888,7 @@ public final class Scalapb {
     }
 
     private byte memoizedIsInitialized = -1;
+    @java.lang.Override
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized == 1) return true;
@@ -7771,6 +7898,7 @@ public final class Scalapb {
       return true;
     }
 
+    @java.lang.Override
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       for (int i = 0; i < extends_.size(); i++) {
@@ -7779,6 +7907,7 @@ public final class Scalapb {
       unknownFields.writeTo(output);
     }
 
+    @java.lang.Override
     public int getSerializedSize() {
       int size = memoizedSize;
       if (size != -1) return size;
@@ -7900,6 +8029,7 @@ public final class Scalapb {
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
 
+    @java.lang.Override
     public Builder newBuilderForType() { return newBuilder(); }
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
@@ -7907,6 +8037,7 @@ public final class Scalapb {
     public static Builder newBuilder(scalapb.options.Scalapb.OneofOptions prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
+    @java.lang.Override
     public Builder toBuilder() {
       return this == DEFAULT_INSTANCE
           ? new Builder() : new Builder().mergeFrom(this);
@@ -7930,6 +8061,7 @@ public final class Scalapb {
         return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_descriptor;
       }
 
+      @java.lang.Override
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
         return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_fieldAccessorTable
@@ -7952,6 +8084,7 @@ public final class Scalapb {
                 .alwaysUseFieldBuilders) {
         }
       }
+      @java.lang.Override
       public Builder clear() {
         super.clear();
         extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
@@ -7959,15 +8092,18 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
         return scalapb.options.Scalapb.internal_static_scalapb_OneofOptions_descriptor;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.OneofOptions getDefaultInstanceForType() {
         return scalapb.options.Scalapb.OneofOptions.getDefaultInstance();
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.OneofOptions build() {
         scalapb.options.Scalapb.OneofOptions result = buildPartial();
         if (!result.isInitialized()) {
@@ -7976,6 +8112,7 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public scalapb.options.Scalapb.OneofOptions buildPartial() {
         scalapb.options.Scalapb.OneofOptions result = new scalapb.options.Scalapb.OneofOptions(this);
         int from_bitField0_ = bitField0_;
@@ -7988,32 +8125,39 @@ public final class Scalapb {
         return result;
       }
 
+      @java.lang.Override
       public Builder clone() {
         return (Builder) super.clone();
       }
+      @java.lang.Override
       public Builder setField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.setField(field, value);
       }
+      @java.lang.Override
       public Builder clearField(
           com.google.protobuf.Descriptors.FieldDescriptor field) {
         return (Builder) super.clearField(field);
       }
+      @java.lang.Override
       public Builder clearOneof(
           com.google.protobuf.Descriptors.OneofDescriptor oneof) {
         return (Builder) super.clearOneof(oneof);
       }
+      @java.lang.Override
       public Builder setRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           int index, java.lang.Object value) {
         return (Builder) super.setRepeatedField(field, index, value);
       }
+      @java.lang.Override
       public Builder addRepeatedField(
           com.google.protobuf.Descriptors.FieldDescriptor field,
           java.lang.Object value) {
         return (Builder) super.addRepeatedField(field, value);
       }
+      @java.lang.Override
       public Builder mergeFrom(com.google.protobuf.Message other) {
         if (other instanceof scalapb.options.Scalapb.OneofOptions) {
           return mergeFrom((scalapb.options.Scalapb.OneofOptions)other);
@@ -8040,10 +8184,12 @@ public final class Scalapb {
         return this;
       }
 
+      @java.lang.Override
       public final boolean isInitialized() {
         return true;
       }
 
+      @java.lang.Override
       public Builder mergeFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8191,11 +8337,13 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+      @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
       }
 
+      @java.lang.Override
       public final Builder mergeUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.mergeUnknownFields(unknownFields);
@@ -8217,6 +8365,7 @@ public final class Scalapb {
 
     @java.lang.Deprecated public static final com.google.protobuf.Parser<OneofOptions>
         PARSER = new com.google.protobuf.AbstractParser<OneofOptions>() {
+      @java.lang.Override
       public OneofOptions parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
@@ -8234,6 +8383,7 @@ public final class Scalapb {
       return PARSER;
     }
 
+    @java.lang.Override
     public scalapb.options.Scalapb.OneofOptions getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }

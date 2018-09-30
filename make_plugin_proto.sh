@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 #
 # Script that compiles plugin.proto from Protocol buffer distribution into
 # Java, so it can be used by our compiler.
@@ -7,6 +7,22 @@ set -e
 OUTDIR=compiler-plugin/src/main/java
 
 TMPDIR=$(mktemp -d)
+
+# Setup protoc
+PROTOC_JAR_VERSION=3.6.0
+JAR_FILENAME=protoc-jar-$PROTOC_JAR_VERSION.jar
+JAR_PATH=${HOME}/.ivy2/cache/com.github.os72/protoc-jar/jars/$JAR_FILENAME
+JAR_URL=http://central.maven.org/maven2/com/github/os72/protoc-jar/$PROTOC_JAR_VERSION/$JAR_FILENAME
+
+if [ ! -f $JAR_PATH ]; then
+    mkdir -p $(dirname $JAR_PATH);
+    curl $JAR_URL -o $JAR_PATH;
+fi
+
+function protoc_jar() 
+{
+  java -jar $JAR_PATH -v360 "$@"
+}
 
 # SBT 1.x depends on scalapb-runtime which contains a compiled copy of
 # scalapb.proto.  When the compiler plugin is loaded into SBT it may cause a
@@ -17,14 +33,14 @@ TMPDIR=$(mktemp -d)
 sed 's/scalapb\.options/scalapb.options.compiler/' \
     ./protobuf/scalapb/scalapb.proto > $TMPDIR/scalapb.proto
 
-protoc --java_out="$OUTDIR" \
+protoc_jar --java_out="$OUTDIR" \
     --proto_path=$TMPDIR \
     --proto_path=./third_party \
     $TMPDIR/scalapb.proto
 
 rm -rf $TMPDIR
 
-protoc --java_out=scalapb-runtime/jvm/src/main/java --proto_path=./protobuf \
+protoc_jar --java_out=scalapb-runtime/jvm/src/main/java --proto_path=./protobuf \
     --proto_path=./third_party \
     ./protobuf/scalapb/scalapb.proto
 

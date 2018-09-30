@@ -44,7 +44,10 @@ jobs:
   - stage: release
     env: UPDATE_DOCS
     scala: 2.11.12
-    script: .travis/push_website.sh
+    script: skip  # we use a scripted deploy to have before_deploy run first.
+    deploy:
+    - provider: script
+      script: .travis/push_website.sh
   - stage: release
     if: tag IS present
     scala: 2.11.12
