@@ -14,7 +14,7 @@ your compiled protos.  Make sure in project/plugins.sbt you have a line
 that adds sbt-assembly:
 
 ```scala
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.2")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.8")
 ```
 
 In `build.sbt` add a dependency on `sparksql-scalapb`:
