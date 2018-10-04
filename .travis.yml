@@ -55,6 +55,9 @@ jobs:
     script: sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck universal:packageBin
     deploy:
     - provider: releases
+      on:
+        tags: true
+        repo: scalapb/ScalaPB
       api_key:
         secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
       file: scalapbc/target/universal/scalapbc-${TRAVIS_TAG:1}.zip
