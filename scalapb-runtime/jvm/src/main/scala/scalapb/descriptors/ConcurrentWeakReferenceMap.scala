@@ -10,12 +10,14 @@ private[descriptors] class ConcurrentWeakReferenceMap[K, V <: AnyRef] {
   private val underlying = mutable.WeakHashMap.empty[K, WeakReference[V]]
 
   def getOrElseUpdate(key: K, newValue: => V): V = this.synchronized {
-    underlying.get(key) match {
-      case Some(WeakReference(v)) => v
-      case None =>
-        val r: V = newValue
-        underlying.put(key, new WeakReference[V](r))
-        r
+    val optVal = for {
+      wr <- underlying.get(key)
+      v  <- wr.get
+    } yield v
+    optVal.getOrElse {
+      val r: V = newValue
+      underlying.put(key, new WeakReference[V](r))
+      r
     }
   }
 }
