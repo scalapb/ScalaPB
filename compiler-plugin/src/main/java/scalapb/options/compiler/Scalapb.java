@@ -298,6 +298,23 @@ public final class Scalapb {
 
     /**
      * <pre>
+     * Experimental: scope to apply the given options.
+     * </pre>
+     *
+     * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+     */
+    boolean hasScope();
+    /**
+     * <pre>
+     * Experimental: scope to apply the given options.
+     * </pre>
+     *
+     * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+     */
+    scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope getScope();
+
+    /**
+     * <pre>
      * For use in tests only. Inhibit Java conversions even when when generator parameters
      * request for it.
      * </pre>
@@ -338,6 +355,7 @@ public final class Scalapb {
       collectionType_ = "";
       preserveUnknownFields_ = false;
       objectName_ = "";
+      scope_ = 0;
       testOnlyNoJavaConversions_ = false;
     }
 
@@ -426,8 +444,20 @@ public final class Scalapb {
               objectName_ = bs;
               break;
             }
+            case 88: {
+              int rawValue = input.readEnum();
+                @SuppressWarnings("deprecation")
+              scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope value = scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope.valueOf(rawValue);
+              if (value == null) {
+                unknownFields.mergeVarintField(11, rawValue);
+              } else {
+                bitField0_ |= 0x00000100;
+                scope_ = rawValue;
+              }
+              break;
+            }
             case 800008: {
-              bitField0_ |= 0x00000100;
+              bitField0_ |= 0x00000200;
               testOnlyNoJavaConversions_ = input.readBool();
               break;
             }
@@ -467,6 +497,116 @@ public final class Scalapb {
       return scalapb.options.compiler.Scalapb.internal_static_scalapb_ScalaPbOptions_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
               scalapb.options.compiler.Scalapb.ScalaPbOptions.class, scalapb.options.compiler.Scalapb.ScalaPbOptions.Builder.class);
+    }
+
+    /**
+     * <pre>
+     * Whether to apply the options only to this file, or for the entire package (and its subpackages)
+     * </pre>
+     *
+     * Protobuf enum {@code scalapb.ScalaPbOptions.OptionsScope}
+     */
+    public enum OptionsScope
+        implements com.google.protobuf.ProtocolMessageEnum {
+      /**
+       * <pre>
+       * Apply the options for this file only (default)
+       * </pre>
+       *
+       * <code>FILE = 0;</code>
+       */
+      FILE(0),
+      /**
+       * <pre>
+       * Apply the options for the entire package and its subpackages.
+       * </pre>
+       *
+       * <code>PACKAGE = 1;</code>
+       */
+      PACKAGE(1),
+      ;
+
+      /**
+       * <pre>
+       * Apply the options for this file only (default)
+       * </pre>
+       *
+       * <code>FILE = 0;</code>
+       */
+      public static final int FILE_VALUE = 0;
+      /**
+       * <pre>
+       * Apply the options for the entire package and its subpackages.
+       * </pre>
+       *
+       * <code>PACKAGE = 1;</code>
+       */
+      public static final int PACKAGE_VALUE = 1;
+
+
+      public final int getNumber() {
+        return value;
+      }
+
+      /**
+       * @deprecated Use {@link #forNumber(int)} instead.
+       */
+      @java.lang.Deprecated
+      public static OptionsScope valueOf(int value) {
+        return forNumber(value);
+      }
+
+      public static OptionsScope forNumber(int value) {
+        switch (value) {
+          case 0: return FILE;
+          case 1: return PACKAGE;
+          default: return null;
+        }
+      }
+
+      public static com.google.protobuf.Internal.EnumLiteMap<OptionsScope>
+          internalGetValueMap() {
+        return internalValueMap;
+      }
+      private static final com.google.protobuf.Internal.EnumLiteMap<
+          OptionsScope> internalValueMap =
+            new com.google.protobuf.Internal.EnumLiteMap<OptionsScope>() {
+              public OptionsScope findValueByNumber(int number) {
+                return OptionsScope.forNumber(number);
+              }
+            };
+
+      public final com.google.protobuf.Descriptors.EnumValueDescriptor
+          getValueDescriptor() {
+        return getDescriptor().getValues().get(ordinal());
+      }
+      public final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptorForType() {
+        return getDescriptor();
+      }
+      public static final com.google.protobuf.Descriptors.EnumDescriptor
+          getDescriptor() {
+        return scalapb.options.compiler.Scalapb.ScalaPbOptions.getDescriptor().getEnumTypes().get(0);
+      }
+
+      private static final OptionsScope[] VALUES = values();
+
+      public static OptionsScope valueOf(
+          com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+        if (desc.getType() != getDescriptor()) {
+          throw new java.lang.IllegalArgumentException(
+            "EnumValueDescriptor is not for this type.");
+        }
+        return VALUES[desc.getIndex()];
+      }
+
+      private final int value;
+
+      private OptionsScope(int value) {
+        this.value = value;
+      }
+
+      // @@protoc_insertion_point(enum_scope:scalapb.ScalaPbOptions.OptionsScope)
     }
 
     private int bitField0_;
@@ -876,6 +1016,31 @@ public final class Scalapb {
       }
     }
 
+    public static final int SCOPE_FIELD_NUMBER = 11;
+    private int scope_;
+    /**
+     * <pre>
+     * Experimental: scope to apply the given options.
+     * </pre>
+     *
+     * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+     */
+    public boolean hasScope() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    /**
+     * <pre>
+     * Experimental: scope to apply the given options.
+     * </pre>
+     *
+     * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+     */
+    public scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope getScope() {
+      @SuppressWarnings("deprecation")
+      scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope result = scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope.valueOf(scope_);
+      return result == null ? scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope.FILE : result;
+    }
+
     public static final int TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001;
     private boolean testOnlyNoJavaConversions_;
     /**
@@ -887,7 +1052,7 @@ public final class Scalapb {
      * <code>optional bool test_only_no_java_conversions = 100001;</code>
      */
     public boolean hasTestOnlyNoJavaConversions() {
-      return ((bitField0_ & 0x00000100) == 0x00000100);
+      return ((bitField0_ & 0x00000200) == 0x00000200);
     }
     /**
      * <pre>
@@ -946,6 +1111,9 @@ public final class Scalapb {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 10, objectName_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeEnum(11, scope_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeBool(100001, testOnlyNoJavaConversions_);
       }
       unknownFields.writeTo(output);
@@ -1003,6 +1171,10 @@ public final class Scalapb {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(10, objectName_);
       }
       if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(11, scope_);
+      }
+      if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(100001, testOnlyNoJavaConversions_);
       }
@@ -1066,6 +1238,10 @@ public final class Scalapb {
         result = result && getObjectName()
             .equals(other.getObjectName());
       }
+      result = result && (hasScope() == other.hasScope());
+      if (hasScope()) {
+        result = result && scope_ == other.scope_;
+      }
       result = result && (hasTestOnlyNoJavaConversions() == other.hasTestOnlyNoJavaConversions());
       if (hasTestOnlyNoJavaConversions()) {
         result = result && (getTestOnlyNoJavaConversions()
@@ -1126,6 +1302,10 @@ public final class Scalapb {
       if (hasObjectName()) {
         hash = (37 * hash) + OBJECT_NAME_FIELD_NUMBER;
         hash = (53 * hash) + getObjectName().hashCode();
+      }
+      if (hasScope()) {
+        hash = (37 * hash) + SCOPE_FIELD_NUMBER;
+        hash = (53 * hash) + scope_;
       }
       if (hasTestOnlyNoJavaConversions()) {
         hash = (37 * hash) + TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER;
@@ -1285,8 +1465,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000100);
         objectName_ = "";
         bitField0_ = (bitField0_ & ~0x00000200);
-        testOnlyNoJavaConversions_ = false;
+        scope_ = 0;
         bitField0_ = (bitField0_ & ~0x00000400);
+        testOnlyNoJavaConversions_ = false;
+        bitField0_ = (bitField0_ & ~0x00000800);
         return this;
       }
 
@@ -1359,6 +1541,10 @@ public final class Scalapb {
         result.objectName_ = objectName_;
         if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
           to_bitField0_ |= 0x00000100;
+        }
+        result.scope_ = scope_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000200;
         }
         result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
         result.bitField0_ = to_bitField0_;
@@ -1459,6 +1645,9 @@ public final class Scalapb {
           bitField0_ |= 0x00000200;
           objectName_ = other.objectName_;
           onChanged();
+        }
+        if (other.hasScope()) {
+          setScope(other.getScope());
         }
         if (other.hasTestOnlyNoJavaConversions()) {
           setTestOnlyNoJavaConversions(other.getTestOnlyNoJavaConversions());
@@ -2371,6 +2560,59 @@ public final class Scalapb {
         return this;
       }
 
+      private int scope_ = 0;
+      /**
+       * <pre>
+       * Experimental: scope to apply the given options.
+       * </pre>
+       *
+       * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+       */
+      public boolean hasScope() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      /**
+       * <pre>
+       * Experimental: scope to apply the given options.
+       * </pre>
+       *
+       * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+       */
+      public scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope getScope() {
+        @SuppressWarnings("deprecation")
+        scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope result = scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope.valueOf(scope_);
+        return result == null ? scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope.FILE : result;
+      }
+      /**
+       * <pre>
+       * Experimental: scope to apply the given options.
+       * </pre>
+       *
+       * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+       */
+      public Builder setScope(scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        bitField0_ |= 0x00000400;
+        scope_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Experimental: scope to apply the given options.
+       * </pre>
+       *
+       * <code>optional .scalapb.ScalaPbOptions.OptionsScope scope = 11;</code>
+       */
+      public Builder clearScope() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        scope_ = 0;
+        onChanged();
+        return this;
+      }
+
       private boolean testOnlyNoJavaConversions_ ;
       /**
        * <pre>
@@ -2381,7 +2623,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public boolean hasTestOnlyNoJavaConversions() {
-        return ((bitField0_ & 0x00000400) == 0x00000400);
+        return ((bitField0_ & 0x00000800) == 0x00000800);
       }
       /**
        * <pre>
@@ -2403,7 +2645,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder setTestOnlyNoJavaConversions(boolean value) {
-        bitField0_ |= 0x00000400;
+        bitField0_ |= 0x00000800;
         testOnlyNoJavaConversions_ = value;
         onChanged();
         return this;
@@ -2417,7 +2659,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder clearTestOnlyNoJavaConversions() {
-        bitField0_ = (bitField0_ & ~0x00000400);
+        bitField0_ = (bitField0_ & ~0x00000800);
         testOnlyNoJavaConversions_ = false;
         onChanged();
         return this;
@@ -8527,38 +8769,40 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\rscalapb.proto\022\007scalapb\032 google/protobu" +
-      "f/descriptor.proto\"\246\002\n\016ScalaPbOptions\022\024\n" +
+      "f/descriptor.proto\"\202\003\n\016ScalaPbOptions\022\024\n" +
       "\014package_name\030\001 \001(\t\022\024\n\014flat_package\030\002 \001(" +
       "\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 \003(\t\022\023\n\013s" +
       "ingle_file\030\005 \001(\010\022\035\n\025no_primitive_wrapper" +
       "s\030\007 \001(\010\022\032\n\022primitive_wrappers\030\006 \001(\010\022\027\n\017c" +
       "ollection_type\030\010 \001(\t\022\037\n\027preserve_unknown" +
-      "_fields\030\t \001(\010\022\023\n\013object_name\030\n \001(\t\022\'\n\035te" +
-      "st_only_no_java_conversions\030\241\215\006 \001(\010\"~\n\016M" +
-      "essageOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021compan" +
-      "ion_extends\030\002 \003(\t\022\023\n\013annotations\030\003 \003(\t\022\014" +
-      "\n\004type\030\004 \001(\t\022\035\n\025companion_annotations\030\005 " +
-      "\003(\t\"\224\001\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nsc" +
-      "ala_name\030\002 \001(\t\022\027\n\017collection_type\030\003 \001(\t\022" +
-      "\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n" +
-      "\013annotations\030\006 \003(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013En" +
-      "umOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_" +
-      "extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValue" +
-      "Options\022\017\n\007extends\030\001 \003(\t\"\037\n\014OneofOptions" +
-      "\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034.google.pr" +
-      "otobuf.FileOptions\030\374\007 \001(\0132\027.scalapb.Scal" +
-      "aPbOptions:J\n\007message\022\037.google.protobuf." +
-      "MessageOptions\030\374\007 \001(\0132\027.scalapb.MessageO" +
-      "ptions:D\n\005field\022\035.google.protobuf.FieldO" +
-      "ptions\030\374\007 \001(\0132\025.scalapb.FieldOptions:I\n\014" +
-      "enum_options\022\034.google.protobuf.EnumOptio" +
-      "ns\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nenum_" +
-      "value\022!.google.protobuf.EnumValueOptions" +
-      "\030\374\007 \001(\0132\031.scalapb.EnumValueOptions:D\n\005on" +
-      "eof\022\035.google.protobuf.OneofOptions\030\374\007 \001(" +
-      "\0132\025.scalapb.OneofOptionsB9\n\030scalapb.opti" +
-      "ons.compiler\342?\034\n\030scalapb.options.compile" +
-      "r\020\001"
+      "_fields\030\t \001(\010\022\023\n\013object_name\030\n \001(\t\0223\n\005sc" +
+      "ope\030\013 \001(\0162$.scalapb.ScalaPbOptions.Optio" +
+      "nsScope\022\'\n\035test_only_no_java_conversions" +
+      "\030\241\215\006 \001(\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000\022\013\n\007PA" +
+      "CKAGE\020\001\"~\n\016MessageOptions\022\017\n\007extends\030\001 \003" +
+      "(\t\022\031\n\021companion_extends\030\002 \003(\t\022\023\n\013annotat" +
+      "ions\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_an" +
+      "notations\030\005 \003(\t\"\224\001\n\014FieldOptions\022\014\n\004type" +
+      "\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection" +
+      "_type\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_t" +
+      "ype\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\022\016\n\006no_box" +
+      "\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031" +
+      "\n\021companion_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"" +
+      "#\n\020EnumValueOptions\022\017\n\007extends\030\001 \003(\t\"\037\n\014" +
+      "OneofOptions\022\017\n\007extends\030\001 \003(\t:G\n\007options" +
+      "\022\034.google.protobuf.FileOptions\030\374\007 \001(\0132\027." +
+      "scalapb.ScalaPbOptions:J\n\007message\022\037.goog" +
+      "le.protobuf.MessageOptions\030\374\007 \001(\0132\027.scal" +
+      "apb.MessageOptions:D\n\005field\022\035.google.pro" +
+      "tobuf.FieldOptions\030\374\007 \001(\0132\025.scalapb.Fiel" +
+      "dOptions:I\n\014enum_options\022\034.google.protob" +
+      "uf.EnumOptions\030\374\007 \001(\0132\024.scalapb.EnumOpti" +
+      "ons:Q\n\nenum_value\022!.google.protobuf.Enum" +
+      "ValueOptions\030\374\007 \001(\0132\031.scalapb.EnumValueO" +
+      "ptions:D\n\005oneof\022\035.google.protobuf.OneofO" +
+      "ptions\030\374\007 \001(\0132\025.scalapb.OneofOptionsB9\n\030" +
+      "scalapb.options.compiler\342?\034\n\030scalapb.opt" +
+      "ions.compiler\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -8578,7 +8822,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "TestOnlyNoJavaConversions", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "Scope", "TestOnlyNoJavaConversions", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

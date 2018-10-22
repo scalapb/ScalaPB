@@ -6,7 +6,9 @@ import java.nio.file.Files
 import scala.collection.JavaConverters._
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
 import com.google.protobuf.Descriptors.FileDescriptor
+import com.google.protobuf.ExtensionRegistry
 import org.scalatest.{FlatSpec, MustMatchers}
+import scalapb.options.compiler.Scalapb
 
 class ProtoValidationSpec extends FlatSpec with MustMatchers {
   def generateFileSet(files: Seq[(String, String)]) = {
@@ -25,7 +27,7 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
       com.github.os72.protocjar.Protoc.runProtoc(
         Array(
           "-I",
-          tmpDir.toString,
+          tmpDir.toString + ":protobuf:third_party",
           s"--descriptor_set_out=${outFile.toString}",
           "--include_imports"
         ) ++ fileNames.map(_.toString)
@@ -34,9 +36,11 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
     )
 
     val fileset: Seq[FileDescriptor] = {
-      val fin = new FileInputStream(outFile)
+      val fin      = new FileInputStream(outFile)
+      val registry = ExtensionRegistry.newInstance()
+      Scalapb.registerAllExtensions(registry)
       val fileset = try {
-        FileDescriptorSet.parseFrom(fin)
+        FileDescriptorSet.parseFrom(fin, registry)
       } finally {
         fin.close()
       }
@@ -55,7 +59,7 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
   def runValidation(generatorParams: GeneratorParams, files: (String, String)*): Unit = {
     val fileset    = generateFileSet(files)
     val validation = new ProtoValidation(new DescriptorImplicits(generatorParams, fileset))
-    fileset.foreach(validation.validateFile)
+    validation.validateFiles(fileset)
   }
 
   def runValidation(files: (String, String)*): Unit = {
@@ -247,5 +251,56 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
           """.stripMargin
       )
     }.message must include("message may belong to at most one sealed oneof")
+  }
+
+  // package scoped options
+  it should "fail when multiple scoped option objects found for same package" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |option (scalapb.options) = {
+            |  scope: PACKAGE
+            };""".stripMargin,
+        "file2.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |option (scalapb.options) = {
+            |  scope: PACKAGE
+            };""".stripMargin
+      )
+    }.message must be(
+      "Multiple files contain package-scoped options for package 'a.b': file1.proto, file2.proto"
+    )
+  }
+
+  it should "fail when packge scoped option defined when no package specified" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |option (scalapb.options) = {
+            |  scope: PACKAGE
+            };""".stripMargin
+      )
+    }.message must be(
+      "file1.proto: a package statement is required when package-scoped options are used"
+    )
+
   }
 }

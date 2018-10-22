@@ -98,6 +98,16 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % "0.8.0"),
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      Seq(
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasScope"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getScope"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.copy"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.this"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply")
+      )
+    }
   )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform, NativePlatform)(
@@ -175,6 +185,13 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       "com.github.os72" % "protoc-jar" % "3.6.0" % "test",
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % "0.8.0"),
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      Seq(
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasScope"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getScope")
+      )
+    }
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are

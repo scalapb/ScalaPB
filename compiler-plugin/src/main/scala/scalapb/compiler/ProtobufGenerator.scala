@@ -1776,7 +1776,7 @@ object ProtobufGenerator {
           val implicits = new DescriptorImplicits(params, filesByName.values.toVector)
           val generator = new ProtobufGenerator(params, implicits)
           val validator = new ProtoValidation(implicits)
-          filesByName.values.foreach(validator.validateFile)
+          validator.validateFiles(filesByName.values.toSeq)
           import implicits.FileDescriptorPimp
           request.getFileToGenerateList.asScala.foreach { name =>
             val file = filesByName(name)

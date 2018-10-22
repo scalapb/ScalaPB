@@ -58,6 +58,17 @@ message ScalaPbOptions {
   // and enum companions.
   optional string object_name = 10;
 
+  // Whether to apply the options only to this file, or for the entire package (and its subpackages)
+  enum OptionsScope {
+    // Apply the options for this file only (default)
+    FILE = 0;
+
+    // Apply the options for the entire package and its subpackages.
+    PACKAGE = 1;
+  }
+  // Experimental: scope to apply the given options.
+  optional OptionsScope scope = 11;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

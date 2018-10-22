@@ -6,6 +6,11 @@ import scala.collection.JavaConverters._
 class ProtoValidation(implicits: DescriptorImplicits) {
   import implicits._
 
+  def validateFiles(files: Seq[FileDescriptor]) = {
+    files.foreach(validateFile)
+    FileOptionsCache.buildCache(files)
+  }
+
   def validateFile(fd: FileDescriptor): Unit = {
     fd.getEnumTypes.asScala.foreach(validateEnum)
     fd.getMessageTypes.asScala.foreach(validateMessage)
