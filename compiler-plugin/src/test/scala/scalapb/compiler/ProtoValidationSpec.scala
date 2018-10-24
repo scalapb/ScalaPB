@@ -285,7 +285,7 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
     )
   }
 
-  it should "fail when packge scoped option defined when no package specified" in {
+  it should "fail when package scoped option defined when no package specified" in {
     intercept[GeneratorException] {
       runValidation(
         "file1.proto" ->
@@ -301,6 +301,26 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
     }.message must be(
       "file1.proto: a package statement is required when package-scoped options are used"
     )
+  }
 
+  it should "fail when package scoped option defined an object name" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |option (scalapb.options) = {
+            |  scope: PACKAGE
+            |  object_name: "FOO"
+            };""".stripMargin
+      )
+    }.message must be(
+      "file1.proto: object_name is not allowed in package-scoped options."
+    )
   }
 }

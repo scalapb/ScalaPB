@@ -56,6 +56,13 @@ object FileOptionsCache {
         )
     }
 
+    filesAndOptions.find(_._2.options.hasObjectName).foreach {
+      case (pn, pso) =>
+        throw new GeneratorException(
+          s"${pso.fileName}: object_name is not allowed in package-scoped options."
+        )
+    }
+
     val optionsByPackage = new mutable.HashMap[String, ScalaPbOptions]
 
     filesAndOptions.foreach {
