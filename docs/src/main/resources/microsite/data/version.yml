@@ -1,2 +1,2 @@
-scalapb: 0.8.1
-sbt_protoc: 0.99.18
+scalapb: 0.8.2
+sbt_protoc: 0.99.19

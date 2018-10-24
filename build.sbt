@@ -12,7 +12,7 @@ val protobufVersion = "3.6.1"
 val scalacheckVersion = "1.14.0"
 
 // For e2e test
-val sbtPluginVersion = "0.99.18"
+val sbtPluginVersion = "0.99.19"
 
 val grpcVersion = "1.15.1"
 
