@@ -16,12 +16,13 @@ The file-level options are not required, unless you are interested in those
 customizations. If you do not want to customize the defaults, you can safely
 skip this section.
 
-# Package options
+# File-level options
 
 ```protobuf
 import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
+  scope: FILE
   package_name: "com.example.myprotos"
   flat_package: true
   single_file: true
@@ -31,6 +32,10 @@ option (scalapb.options) = {
   preamble: "sealed trait CommonMessage"
 };
 ```
+
+- `scope` controls whether the specified options apply only for this proto
+  files or for the entire package. Default is `FILE`. See [package-scoped options](#package-scoped-options)
+  for more details.
 
 - `package_name` sets the Scala base package name, if this is not defined,
 then it falls back to `java_package` and then to `package`.
@@ -52,6 +57,60 @@ enums to a single Scala file.
   companion objects for the generated messages and enums. This is useful in
   case you are running into issues where the generated class name conflicts
   with other things in your project.
+
+# Package-scoped options
+
+Note: this option is experimental and is available in ScalaPB 0.8.2 and later.
+
+Sometimes you want to have the same file-level options applied to all
+the proto files in your project.  To accomplish that, add a `package.proto`
+file (the name does not matter) next to your proto files that looks like this:
+
+```
+import "scalapb/scalapb.proto";
+
+package com.mypackage;
+
+option (scalapb.options) = {
+  scope: PACKAGE
+  flat_package: true
+};
+```
+
+All the options in this file will be applied to all proto files in the
+package `com.mypackage` and its sub-packages.
+
+There is no need to explictly import this file from other protos. If you are
+using `sbt-protoc` and the file is in the proto source directory (default is
+`src/main/protobuf`) then the file will be found and the options applied. If
+you are invoking protoc in another way, you need to ensure that this
+file is passed to protoc together with the rest of the files.
+
+If you are generating Scala code for proto files that you don't own, you can
+use this feature to customize code generation by creating a `package.proto`
+file for that third-party package and include it within your proto source
+directory.
+
+The following rules are applied when validating package-scoped options:
+
+- At most one file in each package may provide package-scoped options.
+- Sub-packages may override package-scoped options provided by their parent
+  packages. The options are merged using the Protocol Buffers `mergeFrom`
+  semantics. Specifically, this implies that repeated fields such as `import` 
+  and `preamble` are concatenated.
+- Proto files get the most specific package-scoped options for the package
+  they are in. File-level options defined in a proto file get merged with the
+  package-level options using `mergeFrom`.
+- Proto files with package-scoped options must have a `package` statement.
+  This is to prevent the possibility of options applied globally. Standard
+  classes that are shipped with ScalaPB already assume certain options, so
+  overriding options globally may lead to compilation errors.
+
+NOTE: If you are shipping a library that includes both protos and Scala generated code, and
+downstream users are expected to import the protos you ship, then you need to import the package
+options proto explicitly from all the proto files that are meant to inherit the options.  The
+reason is that if you don't do that, then downstream projects would not
+process the proto package file which may lead to compilation errors.
 
 # Primitive wrappers
 
@@ -341,3 +400,5 @@ through SBT is by adding the following to your `build.sbt`:
 If you are invoking `protoc` manually, you will need to ensure that the files in
 [`protobuf`](https://github.com/scalapb/ScalaPB/tree/master/protobuf)
 directory are available to your project.
+
+
