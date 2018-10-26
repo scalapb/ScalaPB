@@ -14,7 +14,7 @@ val scalacheckVersion = "1.14.0"
 // For e2e test
 val sbtPluginVersion = "0.99.19"
 
-val grpcVersion = "1.15.1"
+val grpcVersion = "1.16.1"
 
 scalaVersion in ThisBuild := Scala212
 
