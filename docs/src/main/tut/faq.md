@@ -115,3 +115,6 @@ It turns out that global generator parameters that affect source code compatibil
 - package B is compiled separately with a different value of this generator parameter, and imports protos from package A, as well as its generated classes.
 
 then the code generator for B has no way of knowing that package A has code generated with a different parameter, and that it needs to account for that in the way it references it. This leads to compilation errors in ScalaPB or in user-provided code generators.
+
+In version 0.8.2, we introduced [package-scoped options]({{site.baseurl}}/customizations.html#package-scoped-options) which let you set file-level options for an entire package at once.
+
