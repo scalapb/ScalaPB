@@ -1,7 +1,7 @@
 # Change Log
 
 ## [0.8.2](https://github.com/scalapb/ScalaPB/tree/HEAD)
-- Experimental support for [providing package-level options through a proto file](examples/custom_options/project/scalapb.sbt)
+- Experimental support for [providing package-level options through a proto file](https://scalapb.github.io/customizations.html#package-scoped-options)
 
 ## [v0.8.0](https://github.com/scalapb/ScalaPB/tree/v0.8.0) (2018-09-23)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.7.4...v0.8.0)

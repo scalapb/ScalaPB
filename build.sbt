@@ -90,7 +90,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "fastparse" % "1.0.0",
+      "com.lihaoyi" %%% "fastparse" % "2.0.4",
       "com.lihaoyi" %%% "utest" % "0.6.6" % "test",
       "commons-codec" % "commons-codec" % "1.11" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
