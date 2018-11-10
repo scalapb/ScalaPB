@@ -69,6 +69,9 @@ message ScalaPbOptions {
   // Experimental: scope to apply the given options.
   optional OptionsScope scope = 11;
 
+  // If true, lenses will not be generated.
+  optional bool lenses = 12 [default=true];
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

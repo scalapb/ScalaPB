@@ -96,7 +96,10 @@ scalapb.gen(
   flatPackage: Boolean = false,
   javaConversions: Boolean = false,
   grpc: Boolean = true,
-  singleLineToProtoString: Boolean = false)
+  singleLineToProtoString: Boolean = false,
+  asciiFormatToString: Boolean = false,
+  lenses: Boolean = true
+)
 ```
 
 Note that in ScalaPB 0.7, `singleLineToString` has been renamed to 
@@ -105,7 +108,16 @@ Note that in ScalaPB 0.7, `singleLineToString` has been renamed to
 **`flatPackage`**: When true, ScalaPB will not append the protofile base name
 to the package name.
 
-**`singleLineToProtoString`**: By default, ScalaPB generates a `toString()` method
+**`singleLineToProtoString`**: By default, ScalaPB generates a `toProtoString()` method
 that renders the message as a multi-line format (using `TextFormat.printToUnicodeString`).
 Set to true If you would like ScalaPB to generate `toString()` methods that use the single line
 format.
+
+**`asciiFormatToString`**: Setting this to true, overrides `toString` to
+return a standard ASCII representation of the message by calling
+`toProtoString`.
+
+**`lenses`**: By default, ScalaPB generates lenses for each message for easy
+updating. If you are not using this feature and would like to reduce code size
+or compilation time, you can set this to `false` and lenses will not be
+generated.

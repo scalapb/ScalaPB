@@ -30,6 +30,7 @@ option (scalapb.options) = {
   import: "com.thesamet.other._"
   preamble: "sealed trait BaseMessage"
   preamble: "sealed trait CommonMessage"
+  lenses: true
 };
 ```
 
@@ -57,6 +58,8 @@ enums to a single Scala file.
   companion objects for the generated messages and enums. This is useful in
   case you are running into issues where the generated class name conflicts
   with other things in your project.
+
+- Setting `lenses` to `false` inhibits generation of lenses (default is `true`).
 
 # Package-scoped options
 

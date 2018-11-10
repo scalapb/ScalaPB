@@ -14,7 +14,8 @@ case class GeneratorParams(
     flatPackage: Boolean = false,
     grpc: Boolean = false,
     singleLineToProtoString: Boolean = false,
-    asciiFormatToString: Boolean = false
+    asciiFormatToString: Boolean = false,
+    lenses: Boolean = true
 )
 
 // Exceptions that are caught and passed upstreams as errors.
@@ -1376,7 +1377,7 @@ class ProtobufGenerator(
       .print(message.getOneofs.asScala)(printOneof)
       .print(message.nestedTypes)(printMessage)
       .print(message.getExtensions.asScala)(printExtension)
-      .call(generateMessageLens(message))
+      .when(message.generateLenses)(generateMessageLens(message))
       .call(generateFieldNumbers(message))
       .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
@@ -1750,6 +1751,8 @@ object ProtobufGenerator {
           Right(params.copy(singleLineToProtoString = true))
         case (Right(params), "ascii_format_to_string") =>
           Right(params.copy(asciiFormatToString = true))
+        case (Right(params), "no_lenses") =>
+          Right(params.copy(lenses = false))
         case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
         case (x, _)             => x
       }

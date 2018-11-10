@@ -105,7 +105,11 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getScope"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.copy"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.this"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply")
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply"),
+
+        // lenses
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasLenses"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getLenses")
       )
     }
   )
@@ -189,7 +193,16 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       import com.typesafe.tools.mima.core._
       Seq(
         ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasScope"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getScope")
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getScope"),
+
+        // lenses related
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.package.gen"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasLenses"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getLenses"),
+        ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.GeneratorParams$"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.apply"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.copy"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.this")
       )
     }
   )

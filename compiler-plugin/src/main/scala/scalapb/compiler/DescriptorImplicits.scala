@@ -483,6 +483,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def sealedOneofCases: Option[Seq[Descriptor]] =
       sealedOneofsCache.getCases(message)
 
+    def generateLenses: Boolean =
+      if (message.getFile.scalaOptions.hasLenses)
+        (message.getFile.scalaOptions.getLenses)
+      else params.lenses
+
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
         case "google.protobuf.Any" => Seq("_root_.scalapb.AnyMethods")
