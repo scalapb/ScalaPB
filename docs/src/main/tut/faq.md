@@ -118,3 +118,6 @@ then the code generator for B has no way of knowing that package A has code gene
 
 In version 0.8.2, we introduced [package-scoped options]({{site.baseurl}}/customizations.html#package-scoped-options) which let you set file-level options for an entire package at once.
 
+## How do I write my own Scala code generator for protocol buffers?
+
+Easy! Check out [https://github.com/scalapb/scalapb-plugin-template.g8](giter8 template for writing new code generators).
