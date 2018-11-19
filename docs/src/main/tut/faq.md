@@ -120,4 +120,4 @@ In version 0.8.2, we introduced [package-scoped options]({{site.baseurl}}/custom
 
 ## How do I write my own Scala code generator for protocol buffers?
 
-Easy! Check out [https://github.com/scalapb/scalapb-plugin-template.g8](giter8 template for writing new code generators).
+Easy! Check out [giter8 template for writing new code generators](https://github.com/scalapb/scalapb-plugin-template.g8).
