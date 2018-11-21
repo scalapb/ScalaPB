@@ -22,6 +22,19 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     })
   }
 
+  private[this] def ioServiceMethodSignature(method: MethodDescriptor) = {
+    s"def ${method.name}" + (method.streamType match {
+      case StreamType.Unary =>
+        s"(request: ${method.inputType.scalaType}): cats.effect.IO[${method.outputType.scalaType}]"
+      case StreamType.ClientStreaming =>
+        s"(responseObserver: ${observer(method.outputType.scalaType)}): ${observer(method.inputType.scalaType)}"
+      case StreamType.ServerStreaming =>
+        s"(request: ${method.inputType.scalaType}, responseObserver: ${observer(method.outputType.scalaType)}): Unit"
+      case StreamType.Bidirectional =>
+        s"(responseObserver: ${observer(method.outputType.scalaType)}): ${observer(method.inputType.scalaType)}"
+    })
+  }
+
   private[this] def blockingMethodSignature(method: MethodDescriptor) = {
     s"def ${method.name}" + (method.streamType match {
       case StreamType.Unary =>
@@ -39,6 +52,20 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
     p =>
       p.add(s"trait ${service.name} extends _root_.scalapb.grpc.AbstractService {")
+        .indent
+        .add(s"override def serviceCompanion = ${service.name}")
+        .call(endos)
+        .outdent
+        .add("}")
+  }
+
+  private[this] def effectServiceTrait: PrinterEndo = {
+    val endos: PrinterEndo = { p =>
+      p.seq(service.methods.map(m => ioServiceMethodSignature(m)))
+    }
+
+    p =>
+      p.add(s"trait ${service.name}IO extends _root_.scalapb.grpc.AbstractService {")
         .indent
         .add(s"override def serviceCompanion = ${service.name}")
         .call(endos)
@@ -84,13 +111,25 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   private[this] val serverCalls = "_root_.io.grpc.stub.ServerCalls"
   private[this] val clientCalls = "_root_.scalapb.grpc.ClientCalls"
 
-  private[this] def clientMethodImpl(m: MethodDescriptor, blocking: Boolean) =
+  trait StubType
+  case object Blocking extends StubType
+  case object Future extends StubType
+  case object IO extends StubType
+
+  private[this] def clientMethodImpl(m: MethodDescriptor, stubType: StubType) =
     PrinterEndo { p =>
       val sig =
-        if (blocking) "override " + blockingMethodSignature(m) + " = {"
-        else "override " + serviceMethodSignature(m) + " = {"
+        stubType match {
+          case Blocking => "override " + blockingMethodSignature(m) + " = {"
+          case Future => "override " + serviceMethodSignature(m) + " = {"
+          case IO => "override " + ioServiceMethodSignature(m) + " = {"
+        }
 
-      val prefix = if (blocking) "blocking" else "async"
+      val prefix = stubType match {
+        case Blocking => "blocking"
+        case IO => "io"
+        case _ => "async"
+      }
 
       val methodName = prefix + (m.streamType match {
         case StreamType.Unary           => "UnaryCall"
@@ -101,7 +140,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
       val args = Seq("channel", m.descriptorName, "options") ++
         (if (m.isClientStreaming) Seq() else Seq("request")) ++
-        (if ((m.isClientStreaming || m.isServerStreaming) && !blocking) Seq("responseObserver")
+        (if ((m.isClientStreaming || m.isServerStreaming) && stubType != Blocking) Seq("responseObserver")
          else Seq())
 
       val body = s"${clientCalls}.${methodName}(${args.mkString(", ")})"
@@ -126,13 +165,18 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   }
 
   private[this] val blockingStub: PrinterEndo = {
-    val methods = service.methods.filter(_.canBeBlocking).map(clientMethodImpl(_, true))
+    val methods = service.methods.filter(_.canBeBlocking).map(clientMethodImpl(_, Blocking))
     stubImplementation(service.blockingStub, service.blockingClient, methods)
   }
 
   private[this] val stub: PrinterEndo = {
-    val methods = service.getMethods.asScala.map(clientMethodImpl(_, false))
+    val methods = service.getMethods.asScala.map(clientMethodImpl(_, Future))
     stubImplementation(service.stub, service.name, methods)
+  }
+
+  private[this] val ioStub: PrinterEndo = {
+    val methods = service.getMethods.asScala.map(clientMethodImpl(_, IO))
+    stubImplementation(service.ioStub, service.name + "IO", methods)
   }
 
   private[this] def methodDescriptor(method: MethodDescriptor) = PrinterEndo { p =>
@@ -256,6 +300,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .call(serviceDescriptor(service))
       .call(serviceTrait)
       .newline
+      .call(effectServiceTrait)
+      .newline
       .call(serviceTraitCompanion)
       .newline
       .call(blockingClientTrait)
@@ -264,6 +310,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .newline
       .call(stub)
       .newline
+      .call(ioStub)
+      .newline
       .call(bindService)
       .newline
       .add(
@@ -271,6 +319,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       )
       .newline
       .add(s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)")
+      .newline
+      .add(s"def iOstub(channel: $channel): ${service.ioStub} = new ${service.ioStub}(channel)")
       .newline
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices().get(${service.getIndex})"

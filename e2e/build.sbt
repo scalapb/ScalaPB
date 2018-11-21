@@ -38,6 +38,7 @@ val commonSettings = Seq(
       "io.grpc" % "grpc-protobuf" % grpcJavaVersion, //protobuf message encoding for java implementation
       "io.grpc" % "grpc-services" % grpcJavaVersion,
       "io.grpc" % "grpc-services" % grpcJavaVersion % "protobuf",
+      "org.typelevel" %% "cats-effect" % "1.0.0",
       "org.scalacheck" %% "scalacheck" % "1.14.0" % "test",
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf",
       "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.0-rc1",

@@ -121,6 +121,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def stub = self.getName + "Stub"
 
+    def ioStub = self.getName + "IOStub"
+
     def methods = self.getMethods.asScala.toIndexedSeq
 
     def descriptorName = "SERVICE"

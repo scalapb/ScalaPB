@@ -14,6 +14,7 @@ import scalapb.descriptors.ScalaType
 import scala.language.existentials
 import scala.collection.JavaConverters._
 
+
 class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with Matchers {
   property("min and max id are consecutive over files") {
     forAll(GraphGen.genRootNode) { node =>

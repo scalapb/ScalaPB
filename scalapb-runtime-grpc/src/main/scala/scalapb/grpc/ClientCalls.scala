@@ -1,4 +1,5 @@
 package scalapb.grpc
+import cats.effect.IO
 import io.grpc.stub.StreamObserver
 import io.grpc.{CallOptions, Channel, MethodDescriptor}
 
@@ -24,6 +25,48 @@ object ClientCalls {
     Grpc.guavaFuture2ScalaFuture(
       io.grpc.stub.ClientCalls.futureUnaryCall(channel.newCall(method, options), request)
     )
+  }
+
+  def ioUnaryCall[ReqT, RespT](
+      channel: Channel,
+      method: MethodDescriptor[ReqT, RespT],
+      options: CallOptions,
+      request: ReqT
+  ): IO[RespT] = {
+    Grpc.guavaFuture2IO(
+      io.grpc.stub.ClientCalls.futureUnaryCall(channel.newCall(method, options), request)
+    )
+  }
+
+  def ioServerStreamingCall[ReqT, RespT](
+                                             channel: Channel,
+                                             method: MethodDescriptor[ReqT, RespT],
+                                             options: CallOptions,
+                                             request: ReqT,
+                                             responseObserver: StreamObserver[RespT]
+                                           ): Unit = {
+    io.grpc.stub.ClientCalls
+      .asyncServerStreamingCall(channel.newCall(method, options), request, responseObserver)
+  }
+
+  def ioClientStreamingCall[ReqT, RespT](
+                                             channel: Channel,
+                                             method: MethodDescriptor[ReqT, RespT],
+                                             options: CallOptions,
+                                             responseObserver: StreamObserver[RespT]
+                                           ): StreamObserver[ReqT] = {
+    io.grpc.stub.ClientCalls
+      .asyncClientStreamingCall(channel.newCall(method, options), responseObserver)
+  }
+
+  def ioBidiStreamingCall[ReqT, RespT](
+                                           channel: Channel,
+                                           method: MethodDescriptor[ReqT, RespT],
+                                           options: CallOptions,
+                                           responseObserver: StreamObserver[RespT]
+                                         ): StreamObserver[ReqT] = {
+    io.grpc.stub.ClientCalls
+      .asyncBidiStreamingCall(channel.newCall(method, options), responseObserver)
   }
 
   def blockingServerStreamingCall[ReqT, RespT](

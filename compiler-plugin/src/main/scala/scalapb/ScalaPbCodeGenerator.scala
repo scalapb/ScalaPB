@@ -20,6 +20,14 @@ object ScalaPbCodeGenerator extends ProtocCodeGenerator {
       "scalapb-runtime",
       scalapb.compiler.Version.scalapbVersion,
       crossVersion = true
+    ),
+    Artifact(
+      "org.typelevel", "cats-core", "1.4.0"
+    ),
+    Artifact(
+      "org.typelevel",
+      "cats-effect",
+      "1.0.0",
     )
   )
 }

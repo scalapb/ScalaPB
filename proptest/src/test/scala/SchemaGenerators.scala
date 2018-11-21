@@ -213,10 +213,13 @@ object SchemaGenerators {
       }
   }
 
-  def compileScalaInDir(rootDir: File): Unit = {
+  def compileScalaInDir[F[_]](rootDir: File): Unit = {
     print("Compiling Scala sources. ")
     val classPath = Seq(
       jarForClass[annotation.Annotation].getPath,
+      jarForClass[cats.effect.IO[_]].getPath,
+      jarForClass[cats.SemigroupK[F]].getPath,
+      jarForClass[cats.kernel.Monoid[_]].getPath,
       jarForClass[scalapb.GeneratedMessage].getPath,
       jarForClass[scalapb.options.Scalapb].getPath,
       jarForClass[scalapb.grpc.Grpc.type].getPath,

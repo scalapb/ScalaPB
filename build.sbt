@@ -92,6 +92,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     libraryDependencies ++= Seq(
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
       "com.lihaoyi" %%% "utest" % "0.6.6" % "test",
+      "org.typelevel" %% "cats-effect" % "1.0.0",
       "commons-codec" % "commons-codec" % "1.11" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
@@ -153,6 +154,8 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
       "io.grpc" % "grpc-protobuf" % grpcVersion,
+      "org.typelevel" %% "cats-core" % "1.4.0",
+      "org.typelevel" %% "cats-effect" % "1.0.0",
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "org.mockito" % "mockito-core" % "2.23.0" % "test"
     ),
@@ -185,6 +188,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.3",
+      "org.typelevel" %% "cats-effect" % "1.0.0",
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
       "com.github.os72" % "protoc-jar" % "3.6.0" % "test",
     ),
@@ -255,6 +259,7 @@ lazy val proptest = project.in(file("proptest"))
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
+        "org.typelevel" %% "cats-effect" % "1.0.0",
         "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
         "org.scalatest" %% "scalatest" % "3.0.5" % "test"
       ),
