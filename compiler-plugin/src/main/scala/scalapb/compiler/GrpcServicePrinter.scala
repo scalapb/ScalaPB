@@ -113,34 +113,35 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
   trait StubType
   case object Blocking extends StubType
-  case object Future extends StubType
-  case object IO extends StubType
+  case object Future   extends StubType
+  case object IO       extends StubType
 
   private[this] def clientMethodImpl(m: MethodDescriptor, stubType: StubType) =
     PrinterEndo { p =>
       val sig =
         stubType match {
           case Blocking => "override " + blockingMethodSignature(m) + " = {"
-          case Future => "override " + serviceMethodSignature(m) + " = {"
-          case IO => "override " + ioServiceMethodSignature(m) + " = {"
+          case Future   => "override " + serviceMethodSignature(m) + " = {"
+          case IO       => "override " + ioServiceMethodSignature(m) + " = {"
         }
 
       val prefix = stubType match {
         case Blocking => "blocking"
-        case IO => "io"
-        case _ => "async"
+        case _        => "async"
       }
 
-      val methodName = prefix + (m.streamType match {
-        case StreamType.Unary           => "UnaryCall"
-        case StreamType.ServerStreaming => "ServerStreamingCall"
-        case StreamType.ClientStreaming => "ClientStreamingCall"
-        case StreamType.Bidirectional   => "BidiStreamingCall"
-      })
+      val methodName = m.streamType match {
+        case StreamType.Unary if stubType == IO => "ioUnaryCall"
+        case StreamType.Unary                   => prefix + "UnaryCall"
+        case StreamType.ServerStreaming         => prefix + "ServerStreamingCall"
+        case StreamType.ClientStreaming         => prefix + "ClientStreamingCall"
+        case StreamType.Bidirectional           => prefix + "BidiStreamingCall"
+      }
 
       val args = Seq("channel", m.descriptorName, "options") ++
         (if (m.isClientStreaming) Seq() else Seq("request")) ++
-        (if ((m.isClientStreaming || m.isServerStreaming) && stubType != Blocking) Seq("responseObserver")
+        (if ((m.isClientStreaming || m.isServerStreaming) && stubType != Blocking)
+           Seq("responseObserver")
          else Seq())
 
       val body = s"${clientCalls}.${methodName}(${args.mkString(", ")})"

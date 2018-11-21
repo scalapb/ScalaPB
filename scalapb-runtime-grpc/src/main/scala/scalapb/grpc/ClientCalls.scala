@@ -38,36 +38,36 @@ object ClientCalls {
     )
   }
 
-  def ioServerStreamingCall[ReqT, RespT](
-                                             channel: Channel,
-                                             method: MethodDescriptor[ReqT, RespT],
-                                             options: CallOptions,
-                                             request: ReqT,
-                                             responseObserver: StreamObserver[RespT]
-                                           ): Unit = {
-    io.grpc.stub.ClientCalls
-      .asyncServerStreamingCall(channel.newCall(method, options), request, responseObserver)
-  }
-
-  def ioClientStreamingCall[ReqT, RespT](
-                                             channel: Channel,
-                                             method: MethodDescriptor[ReqT, RespT],
-                                             options: CallOptions,
-                                             responseObserver: StreamObserver[RespT]
-                                           ): StreamObserver[ReqT] = {
-    io.grpc.stub.ClientCalls
-      .asyncClientStreamingCall(channel.newCall(method, options), responseObserver)
-  }
-
-  def ioBidiStreamingCall[ReqT, RespT](
-                                           channel: Channel,
-                                           method: MethodDescriptor[ReqT, RespT],
-                                           options: CallOptions,
-                                           responseObserver: StreamObserver[RespT]
-                                         ): StreamObserver[ReqT] = {
-    io.grpc.stub.ClientCalls
-      .asyncBidiStreamingCall(channel.newCall(method, options), responseObserver)
-  }
+//  def ioServerStreamingCall[ReqT, RespT](
+//                                             channel: Channel,
+//                                             method: MethodDescriptor[ReqT, RespT],
+//                                             options: CallOptions,
+//                                             request: ReqT,
+//                                             responseObserver: StreamObserver[RespT]
+//                                           ): Unit = {
+//    io.grpc.stub.ClientCalls
+//      .asyncServerStreamingCall(channel.newCall(method, options), request, responseObserver)
+//  }
+//
+//  def ioClientStreamingCall[ReqT, RespT](
+//                                             channel: Channel,
+//                                             method: MethodDescriptor[ReqT, RespT],
+//                                             options: CallOptions,
+//                                             responseObserver: StreamObserver[RespT]
+//                                           ): StreamObserver[ReqT] = {
+//    io.grpc.stub.ClientCalls
+//      .asyncClientStreamingCall(channel.newCall(method, options), responseObserver)
+//  }
+//
+//  def ioBidiStreamingCall[ReqT, RespT](
+//                                           channel: Channel,
+//                                           method: MethodDescriptor[ReqT, RespT],
+//                                           options: CallOptions,
+//                                           responseObserver: StreamObserver[RespT]
+//                                         ): StreamObserver[ReqT] = {
+//    io.grpc.stub.ClientCalls
+//      .asyncBidiStreamingCall(channel.newCall(method, options), responseObserver)
+//  }
 
   def blockingServerStreamingCall[ReqT, RespT](
       channel: Channel,

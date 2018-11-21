@@ -8,7 +8,6 @@ PB.targets in Compile := Seq(
 
 libraryDependencies ++= Seq(
   // For finding google/protobuf/descriptor.proto
-  "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf",
-  "org.typelevel" %% "cats-effect" % "1.0.0"
+  "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf"
 )
 
