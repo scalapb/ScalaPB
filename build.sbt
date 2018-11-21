@@ -154,7 +154,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "io.grpc" % "grpc-stub" % grpcVersion,
       "io.grpc" % "grpc-protobuf" % grpcVersion,
       "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-      "org.mockito" % "mockito-core" % "2.23.0" % "test"
+      "org.mockito" % "mockito-core" % "2.23.4" % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.8.0")
   )
