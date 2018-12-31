@@ -9,7 +9,7 @@ OUTDIR=compiler-plugin/src/main/java
 TMPDIR=$(mktemp -d)
 
 # Setup protoc
-PROTOC_JAR_VERSION=3.6.0
+PROTOC_JAR_VERSION=3.6.0.1
 JAR_FILENAME=protoc-jar-$PROTOC_JAR_VERSION.jar
 JAR_PATH=${HOME}/.ivy2/cache/com.github.os72/protoc-jar/jars/$JAR_FILENAME
 JAR_URL=http://central.maven.org/maven2/com/github/os72/protoc-jar/$PROTOC_JAR_VERSION/$JAR_FILENAME
