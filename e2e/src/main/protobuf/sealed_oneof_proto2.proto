@@ -1,0 +1,55 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+message Page0 {
+  optional string id = 1;
+}
+
+message Page1 {
+  required string id = 1;
+}
+
+message Page2 {
+  required string id = 1;
+  repeated PageType tpe = 2;
+}
+
+message Page3 {
+  required string id = 1;
+  optional PageType tpe = 2;
+}
+
+message Page4 {
+  required string id = 1;
+  required PageType tpe = 2;
+}
+
+message Page5 {
+  required string id = 1;
+  map<string, PageType> tpe = 2;
+}
+
+message PageWithTypeContainer {
+  required string id = 1;
+  required PageTypeContainer container = 2;
+}
+
+message PageTypeContainer {
+  oneof page_type {
+    PageType tpe1 = 1;
+    PageType tpe2 = 2;
+  }
+}
+
+message PageType {
+  oneof sealed_value {
+    SimplePage t1 = 1;
+    RedirectPage t2 = 2;
+  }
+}
+
+message SimplePage {}
+message RedirectPage {
+  required string url = 1;
+}
