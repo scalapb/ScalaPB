@@ -331,7 +331,7 @@ class ProtobufGenerator(
            else
              ".set") + field.upperJavaName + (if (field.isEnum && field.getFile.isProto3) "Value"
                                               else "")
-        val scalaGetter = 
+        val scalaGetter =
           if (field.isSealedOneofType && field.isOptional && !field.isInOneof && field.getFile.isProto2 && !message.isMapEntry) {
             scalaObject + "." + fieldAccessorSymbol(field) + ".orNull"
           } else {
@@ -364,27 +364,29 @@ class ProtobufGenerator(
               fp.add(s"case ${f.getNumber} => $e.orNull")
             else if (f.isOptional) {
               if (f.isSealedOneofType && f.isOptional && f.getFile.isProto2 && !message.isMapEntry) {
-                    val fName = fieldAccessorSymbol(f)
+                val fName = fieldAccessorSymbol(f)
                 fp.add(s"case ${f.getNumber} => {")
                   .indent
-                  .add(s"${fName}.map(local_0 => ${toBaseFieldType(f).apply("local_0", enclosingType = f.enclosingType)} )")
+                  .add(
+                    s"${fName}.map(local_0 => ${toBaseFieldType(f).apply("local_0", enclosingType = f.enclosingType)} )"
+                  )
                   .outdent
                   .add("}")
               } else {
                 // In proto3, drop default value
-              fp.add(s"case ${f.getNumber} => {")
-                .indent
-                .add(s"val __t = $e")
-                .add({
-                  val cond =
-                    if (!f.isEnum)
-                      s"__t != ${defaultValueForGet(f, uncustomized = true)}"
-                    else
-                      s"__t.getNumber() != 0"
-                  s"if ($cond) __t else null"
-                })
-                .outdent
-                .add("}")
+                fp.add(s"case ${f.getNumber} => {")
+                  .indent
+                  .add(s"val __t = $e")
+                  .add({
+                    val cond =
+                      if (!f.isEnum)
+                        s"__t != ${defaultValueForGet(f, uncustomized = true)}"
+                      else
+                        s"__t.getNumber() != 0"
+                    s"if ($cond) __t else null"
+                  })
+                  .outdent
+                  .add("}")
               }
             } else fp.add(s"case ${f.getNumber} => $e")
         }
@@ -430,7 +432,9 @@ class ProtobufGenerator(
               val e1 = toBaseFieldTypeWithScalaDescriptors(f)
                 .andThen(singleFieldAsPvalue(f))
               val fName = fieldAccessorSymbol(f)
-              fp.add(s"case ${f.getNumber} => ${fName}.map(local_0 => ${e1.apply("local_0", enclosingType = f.enclosingType)}).getOrElse(_root_.scalapb.descriptors.PEmpty)")
+              fp.add(
+                s"case ${f.getNumber} => ${fName}.map(local_0 => ${e1.apply("local_0", enclosingType = f.enclosingType)}).getOrElse(_root_.scalapb.descriptors.PEmpty)"
+              )
             } else if (f.isRepeated) {
               fp.add(s"case ${f.getNumber} => _root_.scalapb.descriptors.PRepeated($e)")
             } else {
@@ -679,7 +683,9 @@ class ProtobufGenerator(
               .add(s"{")
               .indent
               .add(s"val __v = ${fieldNameSymbol}.map(local_0 => ${toBaseType(field)("local_0")} )")
-              .add(s"if (__v.isDefined && __v.get != ${defaultValueForGet(field, uncustomized = true)}) {")
+              .add(
+                s"if (__v.isDefined && __v.get != ${defaultValueForGet(field, uncustomized = true)}) {"
+              )
               .indent
               .call(generateWriteSingleValue(field, "__v.get"))
               .outdent
@@ -808,7 +814,8 @@ class ProtobufGenerator(
                 val expr =
                   if (field.isInOneof)
                     fieldAccessorSymbol(field)
-                  else if (field.isSealedOneofType && field.isOptional && field.getFile.isProto2 && !message.isMapEntry) s"""__${field.scalaName}.orNull"""
+                  else if (field.isSealedOneofType && field.isOptional && field.getFile.isProto2 && !message.isMapEntry)
+                    s"""__${field.scalaName}.orNull"""
                   else s"__${field.scalaName}"
                 val mappedType =
                   toBaseFieldType(field).apply(expr, field.enclosingType)
@@ -828,7 +835,8 @@ class ProtobufGenerator(
             else if (field.isInOneof) {
               s"__${field.getContainingOneof.scalaName} = ${field.oneOfTypeName}($newVal)"
             } else if (field.isRepeated) s"__${field.scalaName} += $newVal"
-            else if (field.isSealedOneofType && field.isOptional && field.getFile.isProto2 && !message.isMapEntry) s"__${field.scalaName} = Option($newVal)"
+            else if (field.isSealedOneofType && field.isOptional && field.getFile.isProto2 && !message.isMapEntry)
+              s"__${field.scalaName} = Option($newVal)"
             else s"__${field.scalaName} = $newVal"
 
           printer
@@ -1151,7 +1159,7 @@ class ProtobufGenerator(
               val lenseTpe = s"Option[${field.scalaTypeName}]"
               printer.add(
                 s"def $fieldName: ${lensType(lenseTpe)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
-              ) 
+              )
             } else
               printer.add(
                 s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
@@ -1507,7 +1515,8 @@ class ProtobufGenerator(
           _.add(
             if (message.getFile.isProto2) "" else s"case object Empty extends $sealedOneOfType",
             "",
-            if (message.getFile.isProto2) "" else s"def defaultInstance: ${sealedOneOfType} = Empty",
+            if (message.getFile.isProto2) ""
+            else s"def defaultInstance: ${sealedOneOfType} = Empty",
             "",
             s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
           ).indented(
@@ -1534,7 +1543,7 @@ class ProtobufGenerator(
                     case (fp, field) =>
                       fp.add(s"case __v: ${field.scalaTypeName} => ${field.oneOfTypeName}(__v)")
                   }.add(
-                    if (message.getFile.isProto2) { 
+                    if (message.getFile.isProto2) {
                       s"case null => ${oneof.scalaTypeName}.Empty"
                     } else {
                       s"case Empty => ${oneof.scalaTypeName}.Empty"
@@ -1597,12 +1606,16 @@ class ProtobufGenerator(
                 |def addAll${field.upperScalaName}(__vs: TraversableOnce[$singleType]): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)"""
               )
             }
-            .when(field.isSealedOneofType && field.isOptional && !field.isInOneof && field.getFile.isProto2 && !message.isMapEntry) {
+            .when(
+              field.isSealedOneofType && field.isOptional && !field.isInOneof && field.getFile.isProto2 && !message.isMapEntry
+            ) {
               _.add(
                 s"def $withMethod(__v: Option[${field.scalaTypeName}]): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)"
               )
             }
-            .when(field.isRepeated || field.isSingular && (field.getFile.isProto3 || !field.isSealedOneofType)) {
+            .when(
+              field.isRepeated || field.isSingular && (field.getFile.isProto3 || !field.isSealedOneofType)
+            ) {
               _.add(
                 s"def $withMethod(__v: ${field.scalaTypeName}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)"
               )
