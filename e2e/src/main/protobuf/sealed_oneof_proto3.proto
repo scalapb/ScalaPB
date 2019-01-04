@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package com.trueaccord.proto.e2e.proto3;
+
+message Page {
+  string id = 1;
+  PageType tpe = 2;
+}
+
+message PageType {
+  oneof sealed_value {
+    SimplePage t1 = 1;
+    RedirectPage t2 = 2;
+  }
+}
+
+message SimplePage {}
+message RedirectPage {
+  string url = 1;
+}

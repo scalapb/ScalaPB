@@ -107,4 +107,33 @@ class SealedOneofProto2Spec extends FreeSpec {
       assert(PageWithTypeContainer(id="123", container=PageTypeContainer(PageTypeContainer.PageType.Tpe2(RedirectPage(url="/test")))) === PageWithTypeContainer.parseFrom(bytes2))
     }
   }
+
+  import com.trueaccord.proto.e2e.proto3.sealed_oneof_proto3
+  "sealed trait for proto2 should be compatible with proto3" - {
+    "when proto2 is None" in {
+      val bytes = Page3(id="123", tpe=None).toByteArray
+      val p = sealed_oneof_proto3.Page.parseFrom(bytes)
+      assert(p.tpe === sealed_oneof_proto3.PageType.Empty)
+    }
+
+    "when proto3 is Empty and proto2 is optional" in {
+      val bytes = sealed_oneof_proto3.Page(id="123", tpe=sealed_oneof_proto3.PageType.Empty).toByteArray
+      val p = Page3.parseFrom(bytes)
+      assert(p.tpe === None)
+    }
+
+    "when proto3 is Empty and proto2 is required" in {
+      val bytes = sealed_oneof_proto3.Page(id="123", tpe=sealed_oneof_proto3.PageType.Empty).toByteArray
+      val e = intercept[com.google.protobuf.InvalidProtocolBufferException] {
+        Page4.parseFrom(bytes)
+      }
+      assert(e.getMessage === "Message missing required fields.")
+    }
+
+    "when proto3 is Empty and proto2 is missing" in {
+      val bytes = Page1(id="123").toByteArray
+      val p = sealed_oneof_proto3.Page.parseFrom(bytes)
+      assert(p.tpe === sealed_oneof_proto3.PageType.Empty)
+    }
+  }
 }
