@@ -2,11 +2,11 @@ val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("0.6.25"
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.9")
 
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.10")
+addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
 
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.14")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.15")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.6.0")
 
