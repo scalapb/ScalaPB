@@ -760,6 +760,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def usePrimitiveWrappers: Boolean = !scalaOptions.getNoPrimitiveWrappers
 
+    def retainSourceCodeInfo: Boolean = {
+      if (scalaOptions.hasRetainSourceCodeInfo) scalaOptions.getRetainSourceCodeInfo
+      else params.retainSourceCodeInfo
+    }
+
     /** Returns a vector with all messages (both top-level and nested) in the file. */
     def allMessages: Vector[Descriptor] = {
       val messages = Vector.newBuilder[Descriptor]

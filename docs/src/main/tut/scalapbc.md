@@ -64,4 +64,6 @@ bin/scalapbc my.proto --scala_out=flat_package,java_conversions:protos/src/scala
 ```
 
 The supported parameters are: `flat_package`, `java_conversions`, `grpc` and
-`single_line_to_proto_string`. Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.html)
+`single_line_to_proto_string`, `no_lenses`, `retain_source_code_info`. 
+
+Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.html)

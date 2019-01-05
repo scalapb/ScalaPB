@@ -15,7 +15,8 @@ case class GeneratorParams(
     grpc: Boolean = false,
     singleLineToProtoString: Boolean = false,
     asciiFormatToString: Boolean = false,
-    lenses: Boolean = true
+    lenses: Boolean = true,
+    retainSourceCodeInfo: Boolean = false
 )
 
 // Exceptions that are caught and passed upstreams as errors.
@@ -1587,12 +1588,13 @@ class ProtobufGenerator(
   }
 
   def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
+    val descriptor = if (file.retainSourceCodeInfo) file.toProto else file.toProto.toBuilder.clearSourceCodeInfo.build
+
     // Encoding the file descriptor proto in base64. JVM has a limit on string literal to be up
     // to 64k, so we chunk it into a sequence and combining in run time.  The chunks are less
     // than 64k to account for indentation and new lines.
-    val clearProto = file.toProto.toBuilder.clearSourceCodeInfo.build
     val base64: Seq[Seq[String]] = scalapb.internal.Encoding
-      .toBase64(clearProto.toByteArray)
+      .toBase64(descriptor.toByteArray)
       .grouped(55000)
       .map { group =>
         val lines = ("\"\"\"" + group).grouped(100).toSeq
@@ -1753,6 +1755,8 @@ object ProtobufGenerator {
           Right(params.copy(asciiFormatToString = true))
         case (Right(params), "no_lenses") =>
           Right(params.copy(lenses = false))
+        case (Right(params), "retain_source_code_info") =>
+          Right(params.copy(retainSourceCodeInfo = true))
         case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
         case (x, _)             => x
       }

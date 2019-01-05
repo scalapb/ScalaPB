@@ -17,6 +17,8 @@ package object scalapb {
     case object AsciiFormatToString extends GeneratorOption
 
     case object Lenses extends GeneratorOption
+
+    case object RetainSourceCodeInfo extends GeneratorOption
   }
 
   def gen(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
@@ -28,7 +30,8 @@ package object scalapb {
         "grpc"                        -> options(Grpc),
         "single_line_to_proto_string" -> options(SingleLineToProtoString),
         "ascii_format_to_string"      -> options(AsciiFormatToString),
-        "no_lenses"                   -> !options(Lenses)
+        "no_lenses"                   -> !options(Lenses),
+        "retain_source_code_info"     -> options(RetainSourceCodeInfo)
       ).collect { case (name, v) if v => name }
     )
 

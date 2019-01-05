@@ -45,6 +45,11 @@ package scalapb.options
   *   Experimental: scope to apply the given options.
   * @param lenses
   *   If true, lenses will not be generated.
+  * @param retainSourceCodeInfo
+  *   If true, then source-code info information will be included in the
+  *   generated code - normally the source code info is cleared out to reduce
+  *   code size.  The source code info is useful for extracting source code
+  *   location from the descriptors as well as comments.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
@@ -63,6 +68,7 @@ final case class ScalaPbOptions(
     objectName: _root_.scala.Option[_root_.scala.Predef.String] = None,
     scope: _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope] = None,
     lenses: _root_.scala.Option[_root_.scala.Boolean] = None,
+    retainSourceCodeInfo: _root_.scala.Option[_root_.scala.Boolean] = None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ScalaPbOptions] with scalapb.lenses.Updatable[ScalaPbOptions] {
     @transient
@@ -116,6 +122,10 @@ final case class ScalaPbOptions(
       if (lenses.isDefined) {
         val __value = lenses.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(12, __value)
+      };
+      if (retainSourceCodeInfo.isDefined) {
+        val __value = retainSourceCodeInfo.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(13, __value)
       };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
@@ -180,6 +190,10 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeBool(12, __m)
       };
+      retainSourceCodeInfo.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(13, __m)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(100001, __m)
@@ -198,6 +212,7 @@ final case class ScalaPbOptions(
       var __objectName = this.objectName
       var __scope = this.scope
       var __lenses = this.lenses
+      var __retainSourceCodeInfo = this.retainSourceCodeInfo
       var __testOnlyNoJavaConversions = this.testOnlyNoJavaConversions
       var _done__ = false
       while (!_done__) {
@@ -228,6 +243,8 @@ final case class ScalaPbOptions(
             __scope = Option(scalapb.options.ScalaPbOptions.OptionsScope.fromValue(_input__.readEnum()))
           case 96 =>
             __lenses = Option(_input__.readBool())
+          case 104 =>
+            __retainSourceCodeInfo = Option(_input__.readBool())
           case 800008 =>
             __testOnlyNoJavaConversions = Option(_input__.readBool())
           case tag => _input__.skipField(tag)
@@ -246,6 +263,7 @@ final case class ScalaPbOptions(
           objectName = __objectName,
           scope = __scope,
           lenses = __lenses,
+          retainSourceCodeInfo = __retainSourceCodeInfo,
           testOnlyNoJavaConversions = __testOnlyNoJavaConversions
       )
     }
@@ -287,6 +305,9 @@ final case class ScalaPbOptions(
     def getLenses: _root_.scala.Boolean = lenses.getOrElse(true)
     def clearLenses: ScalaPbOptions = copy(lenses = None)
     def withLenses(__v: _root_.scala.Boolean): ScalaPbOptions = copy(lenses = Option(__v))
+    def getRetainSourceCodeInfo: _root_.scala.Boolean = retainSourceCodeInfo.getOrElse(false)
+    def clearRetainSourceCodeInfo: ScalaPbOptions = copy(retainSourceCodeInfo = None)
+    def withRetainSourceCodeInfo(__v: _root_.scala.Boolean): ScalaPbOptions = copy(retainSourceCodeInfo = Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
@@ -304,6 +325,7 @@ final case class ScalaPbOptions(
         case 10 => objectName.orNull
         case 11 => scope.map(_.javaValueDescriptor).orNull
         case 12 => lenses.orNull
+        case 13 => retainSourceCodeInfo.orNull
         case 100001 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -322,6 +344,7 @@ final case class ScalaPbOptions(
         case 10 => objectName.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 11 => scope.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 12 => lenses.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 13 => retainSourceCodeInfo.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -347,7 +370,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       __fieldsMap.get(__fields.get(9)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.get(__fields.get(10)).asInstanceOf[_root_.scala.Option[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => scalapb.options.ScalaPbOptions.OptionsScope.fromValue(__e.getNumber)),
       __fieldsMap.get(__fields.get(11)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
-      __fieldsMap.get(__fields.get(12)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
+      __fieldsMap.get(__fields.get(12)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(13)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.ScalaPbOptions] = _root_.scalapb.descriptors.Reads{
@@ -366,6 +390,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => scalapb.options.ScalaPbOptions.OptionsScope.fromValue(__e.number)),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(13).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -441,6 +466,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def optionalScope: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope]] = field(_.scope)((c_, f_) => c_.copy(scope = f_))
     def lenses: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLenses)((c_, f_) => c_.copy(lenses = Option(f_)))
     def optionalLenses: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.lenses)((c_, f_) => c_.copy(lenses = f_))
+    def retainSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getRetainSourceCodeInfo)((c_, f_) => c_.copy(retainSourceCodeInfo = Option(f_)))
+    def optionalRetainSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.retainSourceCodeInfo)((c_, f_) => c_.copy(retainSourceCodeInfo = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -456,5 +483,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val OBJECT_NAME_FIELD_NUMBER = 10
   final val SCOPE_FIELD_NUMBER = 11
   final val LENSES_FIELD_NUMBER = 12
+  final val RETAIN_SOURCE_CODE_INFO_FIELD_NUMBER = 13
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
 }

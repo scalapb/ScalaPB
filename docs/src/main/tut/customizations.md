@@ -31,6 +31,7 @@ option (scalapb.options) = {
   preamble: "sealed trait BaseMessage"
   preamble: "sealed trait CommonMessage"
   lenses: true
+  retain_source_code_info: false
 };
 ```
 
@@ -60,6 +61,13 @@ enums to a single Scala file.
   with other things in your project.
 
 - Setting `lenses` to `false` inhibits generation of lenses (default is `true`).
+
+- Setting `retain_source_code_info` to true retains information in the descriptor that
+  can be used to retrieve source code information from the descriptor at
+  runtime (such as comments and source code locations). This option is turned
+  off by default to conserve source size and memory at runtime. When this
+  option is enabled, use the `location` method on various descriptors to
+  access source code information.
 
 # Package-scoped options
 

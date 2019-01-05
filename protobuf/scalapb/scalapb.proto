@@ -72,6 +72,12 @@ message ScalaPbOptions {
   // If true, lenses will not be generated.
   optional bool lenses = 12 [default=true];
 
+  // If true, then source-code info information will be included in the
+  // generated code - normally the source code info is cleared out to reduce
+  // code size.  The source code info is useful for extracting source code
+  // location from the descriptors as well as comments.
+  optional bool retain_source_code_info = 13;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

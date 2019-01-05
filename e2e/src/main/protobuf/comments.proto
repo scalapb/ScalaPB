@@ -1,0 +1,30 @@
+syntax = "proto2";
+
+package com.trueaccord.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options).retain_source_code_info = true;
+
+// This is the foo comment
+message Foo {
+    // more here
+
+    // field comment A
+    optional int32 field1 = 1; // more field comment A
+
+    // field comment B
+    optional int32 field2 = 2; // more field comment B
+
+    // Some inner comment
+    message Bar {
+        // MyBarEnum comment
+        enum MyBarEnum {
+            // My enum value
+            XYZ = 1;
+            // Def comment
+            DEF = 0;
+        }
+    }
+};
+// and here

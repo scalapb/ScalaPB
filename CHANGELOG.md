@@ -1,6 +1,11 @@
 # Change Log
 
-## [0.8.2](https://github.com/scalapb/ScalaPB/tree/HEAD)
+## [0.8.3](https://github.com/scalapb/ScalaPB/tree/HEAD)
+- Add `retain_source_code_info` setting for accessing source code information through
+  the `location` accessor on descriptors.
+
+## [0.8.2](https://github.com/scalapb/ScalaPB/tree/v0.8.2)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.8.0...v0.8.2)
 - Experimental support for [providing package-level options through a proto file](https://scalapb.github.io/customizations.html#package-scoped-options)
 
 ## [v0.8.0](https://github.com/scalapb/ScalaPB/tree/v0.8.0) (2018-09-23)

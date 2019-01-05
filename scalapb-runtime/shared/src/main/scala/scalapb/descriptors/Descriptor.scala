@@ -62,21 +62,24 @@ class PackageDescriptor private[descriptors] (val fullName: String) extends Base
 
 class Descriptor private[descriptors] (
     val fullName: String,
+    val index: Int,
     val asProto: DescriptorProto,
     val containingMessage: Option[Descriptor],
     val file: FileDescriptor
 ) extends BaseDescriptor {
 
-  val nestedMessages: Vector[Descriptor] = asProto.nestedType.map(
-    d => new Descriptor(FileDescriptor.join(fullName, d.getName), d, Some(this), file)
-  )(breakOut)
+  val nestedMessages: Vector[Descriptor] = asProto.nestedType.zipWithIndex.map {
+    case (d, index) => new Descriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
+  }(breakOut)
 
-  val enums: Vector[EnumDescriptor] = asProto.enumType.map(
-    d => new EnumDescriptor(FileDescriptor.join(fullName, d.getName), d, Some(this), file)
-  )(breakOut)
+  val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
+    case (d, index) => new EnumDescriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
+  }(breakOut)
 
   lazy val fields: Vector[FieldDescriptor] =
-    asProto.field.map(fd => FieldDescriptor.buildFieldDescriptor(fd, this))(breakOut)
+    asProto.field.zipWithIndex.map {
+      case (fd, index) => FieldDescriptor.buildFieldDescriptor(fd, index, this)
+    }(breakOut)
 
   lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map {
     case (oneof, index) =>
@@ -92,6 +95,8 @@ class Descriptor private[descriptors] (
 
   def findFieldByNumber(number: Int): Option[FieldDescriptor] = fields.find(_.number == number)
 
+  def location = file.findLocationByPath(SourceCodePath.get(this))
+
   def getOptions = asProto.getOptions
 
   override def toString: String = fullName
@@ -99,6 +104,7 @@ class Descriptor private[descriptors] (
 
 class EnumDescriptor private[descriptors] (
     val fullName: String,
+    val index: Int,
     val asProto: EnumDescriptorProto,
     val containingMessage: Option[Descriptor],
     val file: FileDescriptor
@@ -134,6 +140,8 @@ class EnumDescriptor private[descriptors] (
     }
   }
 
+  def location = file.findLocationByPath(SourceCodePath.get(this))
+
   def getOptions = asProto.getOptions
 
   override def toString: String = fullName
@@ -151,12 +159,15 @@ class EnumValueDescriptor private[descriptors] (
 
   def isUnrecognized = (index == -1)
 
+  def location = containingEnum.file.findLocationByPath(SourceCodePath.get(this))
+
   override def toString: String = fullName
 }
 
 class FieldDescriptor private[descriptors] (
     val containingMessage: Descriptor,
     val scalaType: ScalaType,
+    val index: Int,
     val file: FileDescriptor,
     val asProto: FieldDescriptorProto
 ) extends BaseDescriptor {
@@ -183,12 +194,15 @@ class FieldDescriptor private[descriptors] (
 
   def protoType = asProto.getType
 
+  def location = file.findLocationByPath(SourceCodePath.get(this))
+
   override def toString: String = fullName
 }
 
 object FieldDescriptor {
   private[descriptors] def buildFieldDescriptor(
       field: FieldDescriptorProto,
+      index: Int,
       m: Descriptor
   ): FieldDescriptor = {
     val scalaType = field.getType match {
@@ -245,7 +259,7 @@ object FieldDescriptor {
           s"Unrecognized type for field ${field.getName}: $x"
         )
     }
-    new FieldDescriptor(m, scalaType, m.file, field)
+    new FieldDescriptor(m, scalaType, index, m.file, field)
   }
 }
 
@@ -262,13 +276,13 @@ class FileDescriptor private[descriptors] (
     val asProto: FileDescriptorProto,
     dependencies: Seq[FileDescriptor]
 ) extends BaseDescriptor {
-  val messages: Vector[Descriptor] = asProto.messageType.map(
-    d => new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), d, None, this)
-  )(scala.collection.breakOut)
+  val messages: Vector[Descriptor] = asProto.messageType.zipWithIndex.map {
+    case (d, index) => new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
+  }(scala.collection.breakOut)
 
-  val enums: Vector[EnumDescriptor] = asProto.enumType.map(
-    d => new EnumDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), d, None, this)
-  )(scala.collection.breakOut)
+  val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
+    case (d, index) => new EnumDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
+  }(scala.collection.breakOut)
 
   private val descriptorsByName: Map[String, BaseDescriptor] = {
     def getAllDescriptors(m: Descriptor): Vector[(String, BaseDescriptor)] =
@@ -328,6 +342,10 @@ class FileDescriptor private[descriptors] (
     descriptorsByName.get(name).orElse {
       dependencies.view.flatMap(_.findSymbol(name)).headOption
     }
+  }
+
+  def findLocationByPath(path: Seq[Int]): Option[SourceCodeInfo.Location] = {
+    asProto.getSourceCodeInfo.location.find(_.path == path)
   }
 
   def isProto3: Boolean = (asProto.getSyntax == "proto3")

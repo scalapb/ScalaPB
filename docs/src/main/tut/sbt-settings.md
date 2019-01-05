@@ -98,7 +98,8 @@ scalapb.gen(
   grpc: Boolean = true,
   singleLineToProtoString: Boolean = false,
   asciiFormatToString: Boolean = false,
-  lenses: Boolean = true
+  lenses: Boolean = true,
+  retainSourceCodeInfo: Boolean = false
 )
 ```
 
@@ -121,3 +122,7 @@ return a standard ASCII representation of the message by calling
 updating. If you are not using this feature and would like to reduce code size
 or compilation time, you can set this to `false` and lenses will not be
 generated.
+
+**`retainSourceCodeInfo`**: Retain source code information (locations,
+comments) provided by protoc in the descriptors. Use the `location` accessor
+to get that information from a descriptor.
