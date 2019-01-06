@@ -109,7 +109,13 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
 
         // lenses
         ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasLenses"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getLenses")
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getLenses"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasRetainSourceCodeInfo"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getRetainSourceCodeInfo"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.FieldDescriptor.buildFieldDescriptor"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.FieldDescriptor.this"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.Descriptor.this"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.EnumDescriptor.this")
       )
     }
   )
