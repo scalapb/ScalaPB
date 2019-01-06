@@ -1588,7 +1588,9 @@ class ProtobufGenerator(
   }
 
   def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val descriptor = if (file.retainSourceCodeInfo) file.toProto else file.toProto.toBuilder.clearSourceCodeInfo.build
+    val descriptor =
+      if (file.retainSourceCodeInfo) file.toProto
+      else file.toProto.toBuilder.clearSourceCodeInfo.build
 
     // Encoding the file descriptor proto in base64. JVM has a limit on string literal to be up
     // to 64k, so we chunk it into a sequence and combining in run time.  The chunks are less

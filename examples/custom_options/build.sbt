@@ -1,4 +1,4 @@
-import com.trueaccord.scalapb.compiler.Version.scalapbVersion
+import scalapb.compiler.Version.scalapbVersion
 
 scalaVersion := "2.12.7"
 

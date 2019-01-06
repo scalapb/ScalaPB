@@ -69,11 +69,13 @@ class Descriptor private[descriptors] (
 ) extends BaseDescriptor {
 
   val nestedMessages: Vector[Descriptor] = asProto.nestedType.zipWithIndex.map {
-    case (d, index) => new Descriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
+    case (d, index) =>
+      new Descriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
   }(breakOut)
 
   val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
-    case (d, index) => new EnumDescriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
+    case (d, index) =>
+      new EnumDescriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
   }(breakOut)
 
   lazy val fields: Vector[FieldDescriptor] =
@@ -277,11 +279,13 @@ class FileDescriptor private[descriptors] (
     dependencies: Seq[FileDescriptor]
 ) extends BaseDescriptor {
   val messages: Vector[Descriptor] = asProto.messageType.zipWithIndex.map {
-    case (d, index) => new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
+    case (d, index) =>
+      new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
   }(scala.collection.breakOut)
 
   val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
-    case (d, index) => new EnumDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
+    case (d, index) =>
+      new EnumDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
   }(scala.collection.breakOut)
 
   private val descriptorsByName: Map[String, BaseDescriptor] = {
