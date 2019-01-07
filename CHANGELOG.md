@@ -3,6 +3,7 @@
 ## [0.8.3](https://github.com/scalapb/ScalaPB/tree/HEAD)
 - Add `retain_source_code_info` setting for accessing source code information through
   the `location` accessor on descriptors.
+- Add option to not generate lenses.
 
 ## [0.8.2](https://github.com/scalapb/ScalaPB/tree/v0.8.2)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.8.0...v0.8.2)
