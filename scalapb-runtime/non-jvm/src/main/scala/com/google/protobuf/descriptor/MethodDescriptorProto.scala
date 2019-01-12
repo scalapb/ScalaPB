@@ -229,4 +229,19 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
   final val OPTIONS_FIELD_NUMBER = 4
   final val CLIENT_STREAMING_FIELD_NUMBER = 5
   final val SERVER_STREAMING_FIELD_NUMBER = 6
+  def of(
+    name: _root_.scala.Option[_root_.scala.Predef.String],
+    inputType: _root_.scala.Option[_root_.scala.Predef.String],
+    outputType: _root_.scala.Option[_root_.scala.Predef.String],
+    options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions],
+    clientStreaming: _root_.scala.Option[_root_.scala.Boolean],
+    serverStreaming: _root_.scala.Option[_root_.scala.Boolean]
+  ): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = _root_.com.google.protobuf.descriptor.MethodDescriptorProto(
+    name,
+    inputType,
+    outputType,
+    options,
+    clientStreaming,
+    serverStreaming
+  )
 }

@@ -120,4 +120,9 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
     def values: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))
   }
   final val VALUES_FIELD_NUMBER = 1
+  def of(
+    values: _root_.scala.collection.Seq[com.google.protobuf.struct.Value]
+  ): _root_.com.google.protobuf.struct.ListValue = _root_.com.google.protobuf.struct.ListValue(
+    values
+  )
 }

@@ -443,4 +443,31 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   final val OPTIONS_FIELD_NUMBER = 8
   final val SOURCE_CODE_INFO_FIELD_NUMBER = 9
   final val SYNTAX_FIELD_NUMBER = 12
+  def of(
+    name: _root_.scala.Option[_root_.scala.Predef.String],
+    `package`: _root_.scala.Option[_root_.scala.Predef.String],
+    dependency: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    publicDependency: _root_.scala.collection.Seq[_root_.scala.Int],
+    weakDependency: _root_.scala.collection.Seq[_root_.scala.Int],
+    messageType: _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto],
+    enumType: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto],
+    service: _root_.scala.collection.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto],
+    extension: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions],
+    sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo],
+    syntax: _root_.scala.Option[_root_.scala.Predef.String]
+  ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = _root_.com.google.protobuf.descriptor.FileDescriptorProto(
+    name,
+    `package`,
+    dependency,
+    publicDependency,
+    weakDependency,
+    messageType,
+    enumType,
+    service,
+    extension,
+    options,
+    sourceCodeInfo,
+    syntax
+  )
 }

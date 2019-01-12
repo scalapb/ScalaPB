@@ -216,4 +216,15 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   final val DEPRECATED_FIELD_NUMBER = 33
   final val IDEMPOTENCY_LEVEL_FIELD_NUMBER = 34
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
+  def of(
+    deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel],
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    unknownFields: _root_.scalapb.UnknownFieldSet
+  ): _root_.com.google.protobuf.descriptor.MethodOptions = _root_.com.google.protobuf.descriptor.MethodOptions(
+    deprecated,
+    idempotencyLevel,
+    uninterpretedOption,
+    unknownFields
+  )
 }

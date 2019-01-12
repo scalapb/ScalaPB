@@ -293,4 +293,21 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
   final val RESPONSE_STREAMING_FIELD_NUMBER = 5
   final val OPTIONS_FIELD_NUMBER = 6
   final val SYNTAX_FIELD_NUMBER = 7
+  def of(
+    name: _root_.scala.Predef.String,
+    requestTypeUrl: _root_.scala.Predef.String,
+    requestStreaming: _root_.scala.Boolean,
+    responseTypeUrl: _root_.scala.Predef.String,
+    responseStreaming: _root_.scala.Boolean,
+    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto],
+    syntax: com.google.protobuf.`type`.Syntax
+  ): _root_.com.google.protobuf.api.Method = _root_.com.google.protobuf.api.Method(
+    name,
+    requestTypeUrl,
+    requestStreaming,
+    responseTypeUrl,
+    responseStreaming,
+    options,
+    syntax
+  )
 }

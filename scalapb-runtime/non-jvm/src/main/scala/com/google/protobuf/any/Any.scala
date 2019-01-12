@@ -224,4 +224,11 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
   }
   final val TYPE_URL_FIELD_NUMBER = 1
   final val VALUE_FIELD_NUMBER = 2
+  def of(
+    typeUrl: _root_.scala.Predef.String,
+    value: _root_.com.google.protobuf.ByteString
+  ): _root_.com.google.protobuf.any.Any = _root_.com.google.protobuf.any.Any(
+    typeUrl,
+    value
+  )
 }

@@ -108,4 +108,9 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
     def fileName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))
   }
   final val FILE_NAME_FIELD_NUMBER = 1
+  def of(
+    fileName: _root_.scala.Predef.String
+  ): _root_.com.google.protobuf.source_context.SourceContext = _root_.com.google.protobuf.source_context.SourceContext(
+    fileName
+  )
 }

@@ -687,4 +687,27 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   final val OPTIONS_FIELD_NUMBER = 9
   final val JSON_NAME_FIELD_NUMBER = 10
   final val DEFAULT_VALUE_FIELD_NUMBER = 11
+  def of(
+    kind: com.google.protobuf.`type`.Field.Kind,
+    cardinality: com.google.protobuf.`type`.Field.Cardinality,
+    number: _root_.scala.Int,
+    name: _root_.scala.Predef.String,
+    typeUrl: _root_.scala.Predef.String,
+    oneofIndex: _root_.scala.Int,
+    packed: _root_.scala.Boolean,
+    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto],
+    jsonName: _root_.scala.Predef.String,
+    defaultValue: _root_.scala.Predef.String
+  ): _root_.com.google.protobuf.`type`.Field = _root_.com.google.protobuf.`type`.Field(
+    kind,
+    cardinality,
+    number,
+    name,
+    typeUrl,
+    oneofIndex,
+    packed,
+    options,
+    jsonName,
+    defaultValue
+  )
 }

@@ -408,4 +408,23 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   final val DEPRECATED_FIELD_NUMBER = 3
   final val WEAK_FIELD_NUMBER = 10
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
+  def of(
+    ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType],
+    packed: _root_.scala.Option[_root_.scala.Boolean],
+    jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType],
+    `lazy`: _root_.scala.Option[_root_.scala.Boolean],
+    deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    weak: _root_.scala.Option[_root_.scala.Boolean],
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    unknownFields: _root_.scalapb.UnknownFieldSet
+  ): _root_.com.google.protobuf.descriptor.FieldOptions = _root_.com.google.protobuf.descriptor.FieldOptions(
+    ctype,
+    packed,
+    jstype,
+    `lazy`,
+    deprecated,
+    weak,
+    uninterpretedOption,
+    unknownFields
+  )
 }

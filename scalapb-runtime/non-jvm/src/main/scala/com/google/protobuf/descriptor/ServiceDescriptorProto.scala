@@ -155,4 +155,13 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   final val NAME_FIELD_NUMBER = 1
   final val METHOD_FIELD_NUMBER = 2
   final val OPTIONS_FIELD_NUMBER = 3
+  def of(
+    name: _root_.scala.Option[_root_.scala.Predef.String],
+    method: _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto],
+    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]
+  ): _root_.com.google.protobuf.descriptor.ServiceDescriptorProto = _root_.com.google.protobuf.descriptor.ServiceDescriptorProto(
+    name,
+    method,
+    options
+  )
 }

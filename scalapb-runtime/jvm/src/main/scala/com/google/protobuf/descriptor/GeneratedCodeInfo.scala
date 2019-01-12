@@ -324,10 +324,26 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     final val SOURCE_FILE_FIELD_NUMBER = 2
     final val BEGIN_FIELD_NUMBER = 3
     final val END_FIELD_NUMBER = 4
+    def of(
+      path: _root_.scala.collection.Seq[_root_.scala.Int],
+      sourceFile: _root_.scala.Option[_root_.scala.Predef.String],
+      begin: _root_.scala.Option[_root_.scala.Int],
+      end: _root_.scala.Option[_root_.scala.Int]
+    ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
+      path,
+      sourceFile,
+      begin,
+      end
+    )
   }
   
   implicit class GeneratedCodeInfoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo](_l) {
     def annotation: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]] = field(_.annotation)((c_, f_) => c_.copy(annotation = f_))
   }
   final val ANNOTATION_FIELD_NUMBER = 1
+  def of(
+    annotation: _root_.scala.collection.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]
+  ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo(
+    annotation
+  )
 }

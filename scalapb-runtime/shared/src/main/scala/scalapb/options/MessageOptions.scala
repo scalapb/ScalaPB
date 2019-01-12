@@ -200,4 +200,17 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val ANNOTATIONS_FIELD_NUMBER = 3
   final val TYPE_FIELD_NUMBER = 4
   final val COMPANION_ANNOTATIONS_FIELD_NUMBER = 5
+  def of(
+    `extends`: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    companionExtends: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    `type`: _root_.scala.Option[_root_.scala.Predef.String],
+    companionAnnotations: _root_.scala.collection.Seq[_root_.scala.Predef.String]
+  ): _root_.scalapb.options.MessageOptions = _root_.scalapb.options.MessageOptions(
+    `extends`,
+    companionExtends,
+    annotations,
+    `type`,
+    companionAnnotations
+  )
 }

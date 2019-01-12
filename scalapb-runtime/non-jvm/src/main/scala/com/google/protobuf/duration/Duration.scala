@@ -200,4 +200,11 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
   }
   final val SECONDS_FIELD_NUMBER = 1
   final val NANOS_FIELD_NUMBER = 2
+  def of(
+    seconds: _root_.scala.Long,
+    nanos: _root_.scala.Int
+  ): _root_.com.google.protobuf.duration.Duration = _root_.com.google.protobuf.duration.Duration(
+    seconds,
+    nanos
+  )
 }

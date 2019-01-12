@@ -185,4 +185,15 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
   final val MINOR_FIELD_NUMBER = 2
   final val PATCH_FIELD_NUMBER = 3
   final val SUFFIX_FIELD_NUMBER = 4
+  def of(
+    major: _root_.scala.Option[_root_.scala.Int],
+    minor: _root_.scala.Option[_root_.scala.Int],
+    patch: _root_.scala.Option[_root_.scala.Int],
+    suffix: _root_.scala.Option[_root_.scala.Predef.String]
+  ): _root_.com.google.protobuf.compiler.plugin.Version = _root_.com.google.protobuf.compiler.plugin.Version(
+    major,
+    minor,
+    patch,
+    suffix
+  )
 }

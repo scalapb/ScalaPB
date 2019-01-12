@@ -114,4 +114,11 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
+  def of(
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    unknownFields: _root_.scalapb.UnknownFieldSet
+  ): _root_.com.google.protobuf.descriptor.OneofOptions = _root_.com.google.protobuf.descriptor.OneofOptions(
+    uninterpretedOption,
+    unknownFields
+  )
 }

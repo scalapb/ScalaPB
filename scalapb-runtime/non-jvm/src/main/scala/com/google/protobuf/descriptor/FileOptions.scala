@@ -598,4 +598,43 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   final val SWIFT_PREFIX_FIELD_NUMBER = 39
   final val PHP_CLASS_PREFIX_FIELD_NUMBER = 40
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
+  def of(
+    javaPackage: _root_.scala.Option[_root_.scala.Predef.String],
+    javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String],
+    javaMultipleFiles: _root_.scala.Option[_root_.scala.Boolean],
+    javaGenerateEqualsAndHash: _root_.scala.Option[_root_.scala.Boolean],
+    javaStringCheckUtf8: _root_.scala.Option[_root_.scala.Boolean],
+    optimizeFor: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode],
+    goPackage: _root_.scala.Option[_root_.scala.Predef.String],
+    ccGenericServices: _root_.scala.Option[_root_.scala.Boolean],
+    javaGenericServices: _root_.scala.Option[_root_.scala.Boolean],
+    pyGenericServices: _root_.scala.Option[_root_.scala.Boolean],
+    deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    ccEnableArenas: _root_.scala.Option[_root_.scala.Boolean],
+    objcClassPrefix: _root_.scala.Option[_root_.scala.Predef.String],
+    csharpNamespace: _root_.scala.Option[_root_.scala.Predef.String],
+    swiftPrefix: _root_.scala.Option[_root_.scala.Predef.String],
+    phpClassPrefix: _root_.scala.Option[_root_.scala.Predef.String],
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    unknownFields: _root_.scalapb.UnknownFieldSet
+  ): _root_.com.google.protobuf.descriptor.FileOptions = _root_.com.google.protobuf.descriptor.FileOptions(
+    javaPackage,
+    javaOuterClassname,
+    javaMultipleFiles,
+    javaGenerateEqualsAndHash,
+    javaStringCheckUtf8,
+    optimizeFor,
+    goPackage,
+    ccGenericServices,
+    javaGenericServices,
+    pyGenericServices,
+    deprecated,
+    ccEnableArenas,
+    objcClassPrefix,
+    csharpNamespace,
+    swiftPrefix,
+    phpClassPrefix,
+    uninterpretedOption,
+    unknownFields
+  )
 }

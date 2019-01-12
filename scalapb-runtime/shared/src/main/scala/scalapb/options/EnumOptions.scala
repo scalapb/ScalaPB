@@ -150,4 +150,13 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
   final val EXTENDS_FIELD_NUMBER = 1
   final val COMPANION_EXTENDS_FIELD_NUMBER = 2
   final val TYPE_FIELD_NUMBER = 3
+  def of(
+    `extends`: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    companionExtends: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    `type`: _root_.scala.Option[_root_.scala.Predef.String]
+  ): _root_.scalapb.options.EnumOptions = _root_.scalapb.options.EnumOptions(
+    `extends`,
+    companionExtends,
+    `type`
+  )
 }

@@ -674,31 +674,53 @@ class ProtobufGenerator(
       .outdent
       .add("}")
 
-  def printConstructorFieldList(
-      message: Descriptor
-  )(printer: FunctionalPrinter): FunctionalPrinter = {
+  def constructorFields(message: Descriptor): Seq[ConstructorField] = {
     def annotations(field: FieldDescriptor) =
-      if (field.annotationList.nonEmpty) field.annotationList.mkString("", " ", " ") else ""
+      if (field.annotationList.nonEmpty) field.annotationList else Nil
 
     val regularFields = message.fields.collect {
       case field if !field.isInOneof =>
         val typeName = field.scalaTypeName
-        val ctorDefaultValue =
-          if (field.isOptional && field.supportsPresence) " = None"
-          else if (field.isSingular && !field.isRequired) " = " + defaultValueForGet(field)
-          else if (field.isMapField) " = scala.collection.immutable.Map.empty"
-          else if (field.isRepeated) s" = ${field.collectionType}.empty"
-          else ""
-        s"${annotations(field)}${field.scalaName.asSymbol}: $typeName$ctorDefaultValue"
+        val ctorDefaultValue: Option[String] =
+          if (field.isOptional && field.supportsPresence) Some("None")
+          else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
+          else if (field.isMapField) Some("scala.collection.immutable.Map.empty")
+          else if (field.isRepeated) Some(s"${field.collectionType}.empty")
+          else None
+
+        ConstructorField(
+          name = field.scalaName.asSymbol,
+          typeName = typeName,
+          default = ctorDefaultValue,
+          annotations = annotations(field)
+        )
     }
     val oneOfFields = message.getOneofs.asScala.map { oneOf =>
-      s"${oneOf.scalaName.asSymbol}: ${oneOf.scalaTypeName} = ${oneOf.empty}"
+      ConstructorField(
+        name = oneOf.scalaName.asSymbol,
+        typeName = oneOf.scalaTypeName,
+        default = Some(oneOf.empty)
+      )
     }
     val maybeUnknownFields =
       if (message.preservesUnknownFields)
-        Seq("unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()")
-      else Seq()
-    printer.addWithDelimiter(",")(regularFields ++ oneOfFields ++ maybeUnknownFields)
+        Seq(
+          ConstructorField(
+            name = "unknownFields",
+            typeName = "_root_.scalapb.UnknownFieldSet",
+            default = Some("_root_.scalapb.UnknownFieldSet()")
+          )
+        )
+      else
+        Seq()
+
+    regularFields ++ oneOfFields ++ maybeUnknownFields
+  }
+
+  def printConstructorFieldList(
+      message: Descriptor
+  )(printer: FunctionalPrinter): FunctionalPrinter = {
+    printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
   def generateMergeFrom(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -891,6 +913,26 @@ class ProtobufGenerator(
         printer.addGroupsWithDelimiter(",")(normal ++ oneOfs)
       }
       .outdent
+      .add(")")
+  }
+
+  def generateNoDefaultArgsFactory(
+      message: Descriptor
+  )(printer: FunctionalPrinter): FunctionalPrinter = {
+
+    val fields = constructorFields(message)
+
+    printer
+      .add(
+        s"def of("
+      )
+      .indented(
+        _.addWithDelimiter(",")(fields.map(_.nameAndType))
+      )
+      .add(s"): ${message.scalaTypeNameWithMaybeRoot} = ${message.scalaTypeNameWithMaybeRoot}(")
+      .indented(
+        _.addWithDelimiter(",")(fields.map(_.name))
+      )
       .add(")")
   }
 
@@ -1382,6 +1424,7 @@ class ProtobufGenerator(
       .call(generateFieldNumbers(message))
       .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
+      .call(generateNoDefaultArgsFactory(message))
       .outdent
       .add("}")
       .add("")

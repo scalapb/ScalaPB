@@ -625,4 +625,27 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   final val ONEOF_INDEX_FIELD_NUMBER = 9
   final val JSON_NAME_FIELD_NUMBER = 10
   final val OPTIONS_FIELD_NUMBER = 8
+  def of(
+    name: _root_.scala.Option[_root_.scala.Predef.String],
+    number: _root_.scala.Option[_root_.scala.Int],
+    label: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label],
+    `type`: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type],
+    typeName: _root_.scala.Option[_root_.scala.Predef.String],
+    extendee: _root_.scala.Option[_root_.scala.Predef.String],
+    defaultValue: _root_.scala.Option[_root_.scala.Predef.String],
+    oneofIndex: _root_.scala.Option[_root_.scala.Int],
+    jsonName: _root_.scala.Option[_root_.scala.Predef.String],
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]
+  ): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = _root_.com.google.protobuf.descriptor.FieldDescriptorProto(
+    name,
+    number,
+    label,
+    `type`,
+    typeName,
+    extendee,
+    defaultValue,
+    oneofIndex,
+    jsonName,
+    options
+  )
 }

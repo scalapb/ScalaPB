@@ -146,4 +146,11 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   final val NAME_FIELD_NUMBER = 1
   final val VALUE_FIELD_NUMBER = 2
+  def of(
+    name: _root_.scala.Predef.String,
+    value: _root_.scala.Option[com.google.protobuf.any.Any]
+  ): _root_.com.google.protobuf.`type`.OptionProto = _root_.com.google.protobuf.`type`.OptionProto(
+    name,
+    value
+  )
 }

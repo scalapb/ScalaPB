@@ -273,4 +273,19 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   final val OPTIONS_FIELD_NUMBER = 4
   final val SOURCE_CONTEXT_FIELD_NUMBER = 5
   final val SYNTAX_FIELD_NUMBER = 6
+  def of(
+    name: _root_.scala.Predef.String,
+    fields: _root_.scala.collection.Seq[com.google.protobuf.`type`.Field],
+    oneofs: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto],
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
+    syntax: com.google.protobuf.`type`.Syntax
+  ): _root_.com.google.protobuf.`type`.Type = _root_.com.google.protobuf.`type`.Type(
+    name,
+    fields,
+    oneofs,
+    options,
+    sourceContext,
+    syntax
+  )
 }

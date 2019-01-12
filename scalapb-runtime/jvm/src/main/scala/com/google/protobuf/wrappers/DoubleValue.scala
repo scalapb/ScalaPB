@@ -116,4 +116,9 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Double] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1
+  def of(
+    value: _root_.scala.Double
+  ): _root_.com.google.protobuf.wrappers.DoubleValue = _root_.com.google.protobuf.wrappers.DoubleValue(
+    value
+  )
 }
