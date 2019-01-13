@@ -1588,10 +1588,9 @@ class ProtobufGenerator(
       .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
   }
 
-
   def updateDescriptor(tmp: FileDescriptor): DescriptorProtos.FileDescriptorProto = {
     def updateField(field: FieldDescriptor): DescriptorProtos.FieldDescriptorProto = {
-      val fb = field.toProto.toBuilder
+      val fb         = field.toProto.toBuilder
       val extBuilder = fb.getOptions.getExtension[FieldOptions](Scalapb.field).toBuilder
       assert(!extBuilder.hasScalaName || extBuilder.getScalaName == field.scalaName)
       extBuilder.setScalaName(field.scalaName)
@@ -1600,14 +1599,19 @@ class ProtobufGenerator(
     }
 
     def updateMessageType(msg: Descriptor): DescriptorProtos.DescriptorProto = {
-        msg.toProto.toBuilder
-        .clearField().addAllField(msg.getFields.asScala.map(updateField(_)).asJava)
-        .clearNestedType().addAllNestedType(msg.getNestedTypes.asScala.map(updateMessageType(_)).asJava)
+      msg.toProto.toBuilder
+        .clearField()
+        .addAllField(msg.getFields.asScala.map(updateField(_)).asJava)
+        .clearNestedType()
+        .addAllNestedType(msg.getNestedTypes.asScala.map(updateMessageType(_)).asJava)
         .build()
     }
 
     val fileProto = tmp.toProto
-    fileProto.toBuilder.clearMessageType().addAllMessageType(tmp.getMessageTypes.asScala.map(updateMessageType).asJava).build
+    fileProto.toBuilder
+      .clearMessageType()
+      .addAllMessageType(tmp.getMessageTypes.asScala.map(updateMessageType).asJava)
+      .build
   }
 
   def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
