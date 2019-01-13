@@ -13,10 +13,10 @@ object TimestampProto extends _root_.scalapb.GeneratedFileObject {
   )
   private lazy val ProtoBytes: Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.Seq(
-  """Ch9nb29nbGUvcHJvdG9idWYvdGltZXN0YW1wLnByb3RvEg9nb29nbGUucHJvdG9idWYiOwoJVGltZXN0YW1wEhgKB3NlY29uZ
-  HMYASABKANSB3NlY29uZHMSFAoFbmFub3MYAiABKAVSBW5hbm9zQn4KE2NvbS5nb29nbGUucHJvdG9idWZCDlRpbWVzdGFtcFByb
-  3RvUAFaK2dpdGh1Yi5jb20vZ29sYW5nL3Byb3RvYnVmL3B0eXBlcy90aW1lc3RhbXD4AQGiAgNHUEKqAh5Hb29nbGUuUHJvdG9id
-  WYuV2VsbEtub3duVHlwZXNiBnByb3RvMw=="""
+  """Ch9nb29nbGUvcHJvdG9idWYvdGltZXN0YW1wLnByb3RvEg9nb29nbGUucHJvdG9idWYiVQoJVGltZXN0YW1wEiYKB3NlY29uZ
+  HMYASABKANCDOI/CRIHc2Vjb25kc1IHc2Vjb25kcxIgCgVuYW5vcxgCIAEoBUIK4j8HEgVuYW5vc1IFbmFub3NCfgoTY29tLmdvb
+  2dsZS5wcm90b2J1ZkIOVGltZXN0YW1wUHJvdG9QAVorZ2l0aHViLmNvbS9nb2xhbmcvcHJvdG9idWYvcHR5cGVzL3RpbWVzdGFtc
+  PgBAaICA0dQQqoCHkdvb2dsZS5Qcm90b2J1Zi5XZWxsS25vd25UeXBlc2IGcHJvdG8z"""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)

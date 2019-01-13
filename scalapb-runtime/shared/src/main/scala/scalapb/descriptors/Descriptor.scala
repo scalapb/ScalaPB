@@ -175,6 +175,9 @@ class FieldDescriptor private[descriptors] (
 ) extends BaseDescriptor {
   def name: String = asProto.getName
 
+  def scalaName: String = asProto.getOptions.extension(scalapb.options.ScalapbProto.field)
+    .getOrElse(scalapb.options.FieldOptions.defaultInstance).getScalaName
+
   def number: Int = asProto.getNumber
 
   def containingOneof: Option[OneofDescriptor] = asProto.oneofIndex.map(containingMessage.oneofs)

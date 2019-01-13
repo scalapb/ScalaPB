@@ -24,6 +24,8 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     aField.isRepeated must be(false)
     aField.containingOneof must be(None)
     aField.containingMessage must be(OneofTest.scalaDescriptor)
+    println(aField.asProto)
+    aField.scalaName must be("a")
     SubMessage.scalaDescriptor.fields.find(_.name == "name").map(_.scalaType).value must be(ScalaType.String)
 
     val tempField = OneofTest.scalaDescriptor.fields.find(_.name == "temp_field").get
@@ -31,6 +33,7 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     tempField.isOptional must be(true)
     tempField.containingOneof.value must be (oneofDesc)
     tempField.containingMessage must be(OneofTest.scalaDescriptor)
+    tempField.scalaName must be("tempField")
     SubMessage.scalaDescriptor.nestedMessages mustBe empty
 
     oneofDesc.fields must have size(3)
@@ -45,6 +48,7 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     xyzs.isOptional must be(false)
     xyzs.isRequired must be(false)
     xyzs.scalaType must be (ScalaType.Enum(OneofTest.XYZ.scalaDescriptor))
+    xyzs.scalaName must be ("xyzs")
 
     OneofTest.XYZ.scalaDescriptor.fullName must be ("com.trueaccord.proto.e2e.OneofTest.XYZ")
   }

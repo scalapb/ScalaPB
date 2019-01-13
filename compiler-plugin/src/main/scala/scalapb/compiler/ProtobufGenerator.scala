@@ -1,11 +1,12 @@
 package scalapb.compiler
 
 import com.google.protobuf.Descriptors._
-import com.google.protobuf.CodedOutputStream
+import com.google.protobuf.{CodedOutputStream, DescriptorProtos, ByteString => GoogleByteString}
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
-import com.google.protobuf.{ByteString => GoogleByteString}
 import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
+import scalapb.options.compiler.Scalapb
+import scalapb.options.compiler.Scalapb.FieldOptions
 
 import scala.collection.JavaConverters._
 
@@ -1587,10 +1588,35 @@ class ProtobufGenerator(
       .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
   }
 
+
+  def updateDescriptor(tmp: FileDescriptor): DescriptorProtos.FileDescriptorProto = {
+    def updateField(field: FieldDescriptor): DescriptorProtos.FieldDescriptorProto = {
+      val fb = field.toProto.toBuilder
+      val extBuilder = fb.getOptions.getExtension[FieldOptions](Scalapb.field).toBuilder
+      assert(!extBuilder.hasScalaName || extBuilder.getScalaName == field.scalaName)
+      extBuilder.setScalaName(field.scalaName)
+      fb.getOptionsBuilder.setExtension(Scalapb.field, extBuilder.build())
+      fb.build()
+    }
+
+    def updateMessageType(msg: Descriptor): DescriptorProtos.DescriptorProto = {
+        msg.toProto.toBuilder
+        .clearField().addAllField(msg.getFields.asScala.map(updateField(_)).asJava)
+        .clearNestedType().addAllNestedType(msg.getNestedTypes.asScala.map(updateMessageType(_)).asJava)
+        .build()
+    }
+
+    val fileProto = tmp.toProto
+    fileProto.toBuilder.clearMessageType().addAllMessageType(tmp.getMessageTypes.asScala.map(updateMessageType).asJava).build
+  }
+
   def generateFileDescriptor(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val descriptor =
-      if (file.retainSourceCodeInfo) file.toProto
-      else file.toProto.toBuilder.clearSourceCodeInfo.build
+    val descriptor = {
+      val withScalaName = updateDescriptor(file)
+
+      if (file.retainSourceCodeInfo) withScalaName
+      else withScalaName.toBuilder.clearSourceCodeInfo.build
+    }
 
     // Encoding the file descriptor proto in base64. JVM has a limit on string literal to be up
     // to 64k, so we chunk it into a sequence and combining in run time.  The chunks are less
