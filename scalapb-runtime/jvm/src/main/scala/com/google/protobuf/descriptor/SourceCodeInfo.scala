@@ -473,10 +473,28 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     final val LEADING_COMMENTS_FIELD_NUMBER = 3
     final val TRAILING_COMMENTS_FIELD_NUMBER = 4
     final val LEADING_DETACHED_COMMENTS_FIELD_NUMBER = 6
+    def of(
+      path: _root_.scala.collection.Seq[_root_.scala.Int],
+      span: _root_.scala.collection.Seq[_root_.scala.Int],
+      leadingComments: _root_.scala.Option[_root_.scala.Predef.String],
+      trailingComments: _root_.scala.Option[_root_.scala.Predef.String],
+      leadingDetachedComments: _root_.scala.collection.Seq[_root_.scala.Predef.String]
+    ): _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location = _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location(
+      path,
+      span,
+      leadingComments,
+      trailingComments,
+      leadingDetachedComments
+    )
   }
   
   implicit class SourceCodeInfoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo](_l) {
     def location: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]] = field(_.location)((c_, f_) => c_.copy(location = f_))
   }
   final val LOCATION_FIELD_NUMBER = 1
+  def of(
+    location: _root_.scala.collection.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]
+  ): _root_.com.google.protobuf.descriptor.SourceCodeInfo = _root_.com.google.protobuf.descriptor.SourceCodeInfo(
+    location
+  )
 }

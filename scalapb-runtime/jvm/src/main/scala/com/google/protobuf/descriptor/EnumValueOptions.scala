@@ -153,4 +153,13 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
   }
   final val DEPRECATED_FIELD_NUMBER = 1
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
+  def of(
+    deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    unknownFields: _root_.scalapb.UnknownFieldSet
+  ): _root_.com.google.protobuf.descriptor.EnumValueOptions = _root_.com.google.protobuf.descriptor.EnumValueOptions(
+    deprecated,
+    uninterpretedOption,
+    unknownFields
+  )
 }

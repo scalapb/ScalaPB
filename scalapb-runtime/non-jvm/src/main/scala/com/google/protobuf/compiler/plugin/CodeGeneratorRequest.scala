@@ -202,4 +202,15 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
   final val PARAMETER_FIELD_NUMBER = 2
   final val PROTO_FILE_FIELD_NUMBER = 15
   final val COMPILER_VERSION_FIELD_NUMBER = 3
+  def of(
+    fileToGenerate: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    parameter: _root_.scala.Option[_root_.scala.Predef.String],
+    protoFile: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto],
+    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version]
+  ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorRequest = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
+    fileToGenerate,
+    parameter,
+    protoFile,
+    compilerVersion
+  )
 }

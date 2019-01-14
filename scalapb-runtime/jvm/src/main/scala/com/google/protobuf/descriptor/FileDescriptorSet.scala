@@ -116,4 +116,9 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
     def file: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]] = field(_.file)((c_, f_) => c_.copy(file = f_))
   }
   final val FILE_FIELD_NUMBER = 1
+  def of(
+    file: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]
+  ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = _root_.com.google.protobuf.descriptor.FileDescriptorSet(
+    file
+  )
 }

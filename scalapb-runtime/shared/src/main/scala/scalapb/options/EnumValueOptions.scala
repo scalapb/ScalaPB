@@ -99,4 +99,9 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
+  def of(
+    `extends`: _root_.scala.collection.Seq[_root_.scala.Predef.String]
+  ): _root_.scalapb.options.EnumValueOptions = _root_.scalapb.options.EnumValueOptions(
+    `extends`
+  )
 }

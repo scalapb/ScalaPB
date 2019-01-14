@@ -168,4 +168,13 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   final val NAME_FIELD_NUMBER = 1
   final val VALUE_FIELD_NUMBER = 2
   final val OPTIONS_FIELD_NUMBER = 3
+  def of(
+    name: _root_.scala.Option[_root_.scala.Predef.String],
+    value: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto],
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions]
+  ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = _root_.com.google.protobuf.descriptor.EnumDescriptorProto(
+    name,
+    value,
+    options
+  )
 }

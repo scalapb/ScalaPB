@@ -108,4 +108,9 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Float] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1
+  def of(
+    value: _root_.scala.Float
+  ): _root_.com.google.protobuf.wrappers.FloatValue = _root_.com.google.protobuf.wrappers.FloatValue(
+    value
+  )
 }

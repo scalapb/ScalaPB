@@ -388,6 +388,13 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     }
     final val NAME_PART_FIELD_NUMBER = 1
     final val IS_EXTENSION_FIELD_NUMBER = 2
+    def of(
+      namePart: _root_.scala.Predef.String,
+      isExtension: _root_.scala.Boolean
+    ): _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart = _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart(
+      namePart,
+      isExtension
+    )
   }
   
   implicit class UninterpretedOptionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
@@ -412,4 +419,21 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   final val DOUBLE_VALUE_FIELD_NUMBER = 6
   final val STRING_VALUE_FIELD_NUMBER = 7
   final val AGGREGATE_VALUE_FIELD_NUMBER = 8
+  def of(
+    name: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart],
+    identifierValue: _root_.scala.Option[_root_.scala.Predef.String],
+    positiveIntValue: _root_.scala.Option[_root_.scala.Long],
+    negativeIntValue: _root_.scala.Option[_root_.scala.Long],
+    doubleValue: _root_.scala.Option[_root_.scala.Double],
+    stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString],
+    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String]
+  ): _root_.com.google.protobuf.descriptor.UninterpretedOption = _root_.com.google.protobuf.descriptor.UninterpretedOption(
+    name,
+    identifierValue,
+    positiveIntValue,
+    negativeIntValue,
+    doubleValue,
+    stringValue,
+    aggregateValue
+  )
 }

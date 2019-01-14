@@ -485,4 +485,35 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val LENSES_FIELD_NUMBER = 12
   final val RETAIN_SOURCE_CODE_INFO_FIELD_NUMBER = 13
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
+  def of(
+    packageName: _root_.scala.Option[_root_.scala.Predef.String],
+    flatPackage: _root_.scala.Option[_root_.scala.Boolean],
+    `import`: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    preamble: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    singleFile: _root_.scala.Option[_root_.scala.Boolean],
+    noPrimitiveWrappers: _root_.scala.Option[_root_.scala.Boolean],
+    primitiveWrappers: _root_.scala.Option[_root_.scala.Boolean],
+    collectionType: _root_.scala.Option[_root_.scala.Predef.String],
+    preserveUnknownFields: _root_.scala.Option[_root_.scala.Boolean],
+    objectName: _root_.scala.Option[_root_.scala.Predef.String],
+    scope: _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope],
+    lenses: _root_.scala.Option[_root_.scala.Boolean],
+    retainSourceCodeInfo: _root_.scala.Option[_root_.scala.Boolean],
+    testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
+  ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
+    packageName,
+    flatPackage,
+    `import`,
+    preamble,
+    singleFile,
+    noPrimitiveWrappers,
+    primitiveWrappers,
+    collectionType,
+    preserveUnknownFields,
+    objectName,
+    scope,
+    lenses,
+    retainSourceCodeInfo,
+    testOnlyNoJavaConversions
+  )
 }

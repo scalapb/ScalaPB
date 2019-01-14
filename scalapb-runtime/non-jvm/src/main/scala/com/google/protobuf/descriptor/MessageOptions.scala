@@ -256,4 +256,19 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
   final val DEPRECATED_FIELD_NUMBER = 3
   final val MAP_ENTRY_FIELD_NUMBER = 7
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
+  def of(
+    messageSetWireFormat: _root_.scala.Option[_root_.scala.Boolean],
+    noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean],
+    deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    mapEntry: _root_.scala.Option[_root_.scala.Boolean],
+    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    unknownFields: _root_.scalapb.UnknownFieldSet
+  ): _root_.com.google.protobuf.descriptor.MessageOptions = _root_.com.google.protobuf.descriptor.MessageOptions(
+    messageSetWireFormat,
+    noStandardDescriptorAccessor,
+    deprecated,
+    mapEntry,
+    uninterpretedOption,
+    unknownFields
+  )
 }

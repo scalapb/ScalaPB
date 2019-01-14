@@ -62,4 +62,7 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
   )
   implicit class EmptyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.empty.Empty]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.empty.Empty](_l) {
   }
+  def of(
+  ): _root_.com.google.protobuf.empty.Empty = _root_.com.google.protobuf.empty.Empty(
+  )
 }

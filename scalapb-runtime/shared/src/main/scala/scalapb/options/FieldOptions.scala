@@ -246,4 +246,21 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
   final val VALUE_TYPE_FIELD_NUMBER = 5
   final val ANNOTATIONS_FIELD_NUMBER = 6
   final val NO_BOX_FIELD_NUMBER = 30
+  def of(
+    `type`: _root_.scala.Option[_root_.scala.Predef.String],
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String],
+    collectionType: _root_.scala.Option[_root_.scala.Predef.String],
+    keyType: _root_.scala.Option[_root_.scala.Predef.String],
+    valueType: _root_.scala.Option[_root_.scala.Predef.String],
+    annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    noBox: _root_.scala.Option[_root_.scala.Boolean]
+  ): _root_.scalapb.options.FieldOptions = _root_.scalapb.options.FieldOptions(
+    `type`,
+    scalaName,
+    collectionType,
+    keyType,
+    valueType,
+    annotations,
+    noBox
+  )
 }

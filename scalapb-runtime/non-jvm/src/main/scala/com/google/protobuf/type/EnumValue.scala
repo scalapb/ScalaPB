@@ -169,4 +169,13 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
   final val NAME_FIELD_NUMBER = 1
   final val NUMBER_FIELD_NUMBER = 2
   final val OPTIONS_FIELD_NUMBER = 3
+  def of(
+    name: _root_.scala.Predef.String,
+    number: _root_.scala.Int,
+    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]
+  ): _root_.com.google.protobuf.`type`.EnumValue = _root_.com.google.protobuf.`type`.EnumValue(
+    name,
+    number,
+    options
+  )
 }

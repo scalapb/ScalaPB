@@ -431,6 +431,13 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     }
     final val START_FIELD_NUMBER = 1
     final val END_FIELD_NUMBER = 2
+    def of(
+      start: _root_.scala.Option[_root_.scala.Int],
+      end: _root_.scala.Option[_root_.scala.Int]
+    ): _root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = _root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
+      start,
+      end
+    )
   }
   
   /** Range of reserved tag numbers. Reserved tag numbers may not be used by
@@ -556,6 +563,13 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     }
     final val START_FIELD_NUMBER = 1
     final val END_FIELD_NUMBER = 2
+    def of(
+      start: _root_.scala.Option[_root_.scala.Int],
+      end: _root_.scala.Option[_root_.scala.Int]
+    ): _root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange = _root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
+      start,
+      end
+    )
   }
   
   implicit class DescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto](_l) {
@@ -582,4 +596,27 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   final val OPTIONS_FIELD_NUMBER = 7
   final val RESERVED_RANGE_FIELD_NUMBER = 9
   final val RESERVED_NAME_FIELD_NUMBER = 10
+  def of(
+    name: _root_.scala.Option[_root_.scala.Predef.String],
+    field: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
+    extension: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
+    nestedType: _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto],
+    enumType: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto],
+    extensionRange: _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange],
+    oneofDecl: _root_.scala.collection.Seq[com.google.protobuf.descriptor.OneofDescriptorProto],
+    options: _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions],
+    reservedRange: _root_.scala.collection.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange],
+    reservedName: _root_.scala.collection.Seq[_root_.scala.Predef.String]
+  ): _root_.com.google.protobuf.descriptor.DescriptorProto = _root_.com.google.protobuf.descriptor.DescriptorProto(
+    name,
+    field,
+    extension,
+    nestedType,
+    enumType,
+    extensionRange,
+    oneofDecl,
+    options,
+    reservedRange,
+    reservedName
+  )
 }

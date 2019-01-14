@@ -310,4 +310,9 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
     def paths: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.paths)((c_, f_) => c_.copy(paths = f_))
   }
   final val PATHS_FIELD_NUMBER = 1
+  def of(
+    paths: _root_.scala.collection.Seq[_root_.scala.Predef.String]
+  ): _root_.com.google.protobuf.field_mask.FieldMask = _root_.com.google.protobuf.field_mask.FieldMask(
+    paths
+  )
 }

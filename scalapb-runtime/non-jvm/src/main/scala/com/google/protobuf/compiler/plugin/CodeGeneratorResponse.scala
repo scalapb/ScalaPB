@@ -326,6 +326,15 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     final val NAME_FIELD_NUMBER = 1
     final val INSERTION_POINT_FIELD_NUMBER = 2
     final val CONTENT_FIELD_NUMBER = 15
+    def of(
+      name: _root_.scala.Option[_root_.scala.Predef.String],
+      insertionPoint: _root_.scala.Option[_root_.scala.Predef.String],
+      content: _root_.scala.Option[_root_.scala.Predef.String]
+    ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
+      name,
+      insertionPoint,
+      content
+    )
   }
   
   implicit class CodeGeneratorResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse](_l) {
@@ -335,4 +344,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   }
   final val ERROR_FIELD_NUMBER = 1
   final val FILE_FIELD_NUMBER = 15
+  def of(
+    error: _root_.scala.Option[_root_.scala.Predef.String],
+    file: _root_.scala.collection.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]
+  ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
+    error,
+    file
+  )
 }
