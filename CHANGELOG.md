@@ -5,6 +5,8 @@
   accessible from the descriptor. This is done by updating
   `scalapb.FieldOptions` in the descriptor we serialize in the proto file
   companion object.
+- Add `of` method to companion object to enable construction of case classes
+  without having default values.
 
 ## [0.8.3](https://github.com/scalapb/ScalaPB/tree/v0.8.3)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.8.2...v0.8.3)
