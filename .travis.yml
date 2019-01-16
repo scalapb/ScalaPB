@@ -6,7 +6,7 @@ jdk: oraclejdk9
 stages:
 - name: test
 - name: release
-  if: (branch = master AND type = push) OR (tag IS present)
+  if: (branch = master AND type = push AND repo = "scalapb/ScalaPB") OR (tag IS present)
 
 scala:
 - 2.10.7
