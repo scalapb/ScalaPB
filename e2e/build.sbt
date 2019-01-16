@@ -65,7 +65,7 @@ val commonSettings = Seq(
 lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
-    PB.protoSources in Compile += (PB.externalIncludePath in Compile).value / "io" / "grpc" / "reflection",
+    PB.protoSources in Compile += (PB.externalIncludePath in Compile).value / "grpc" / "reflection",
     PB.targets in Compile := Seq(
       PB.gens.java -> (sourceManaged in Compile).value,
       scalapb.gen(javaConversions = true) -> (sourceManaged in Compile).value
