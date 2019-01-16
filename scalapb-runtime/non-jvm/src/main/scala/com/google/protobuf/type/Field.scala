@@ -364,6 +364,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Field(
   )
+  /** Basic field types.
+    */
   sealed trait Kind extends _root_.scalapb.GeneratedEnum {
     type EnumType = Kind
     def isTypeUnknown: _root_.scala.Boolean = false
@@ -390,6 +392,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   
   object Kind extends _root_.scalapb.GeneratedEnumCompanion[Kind] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Kind] = this
+    /** Field type unknown.
+      */
     @SerialVersionUID(0L)
     case object TYPE_UNKNOWN extends Kind {
       val value = 0
@@ -398,6 +402,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeUnknown: _root_.scala.Boolean = true
     }
     
+    /** Field type double.
+      */
     @SerialVersionUID(0L)
     case object TYPE_DOUBLE extends Kind {
       val value = 1
@@ -406,6 +412,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeDouble: _root_.scala.Boolean = true
     }
     
+    /** Field type float.
+      */
     @SerialVersionUID(0L)
     case object TYPE_FLOAT extends Kind {
       val value = 2
@@ -414,6 +422,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeFloat: _root_.scala.Boolean = true
     }
     
+    /** Field type int64.
+      */
     @SerialVersionUID(0L)
     case object TYPE_INT64 extends Kind {
       val value = 3
@@ -422,6 +432,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeInt64: _root_.scala.Boolean = true
     }
     
+    /** Field type uint64.
+      */
     @SerialVersionUID(0L)
     case object TYPE_UINT64 extends Kind {
       val value = 4
@@ -430,6 +442,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeUint64: _root_.scala.Boolean = true
     }
     
+    /** Field type int32.
+      */
     @SerialVersionUID(0L)
     case object TYPE_INT32 extends Kind {
       val value = 5
@@ -438,6 +452,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeInt32: _root_.scala.Boolean = true
     }
     
+    /** Field type fixed64.
+      */
     @SerialVersionUID(0L)
     case object TYPE_FIXED64 extends Kind {
       val value = 6
@@ -446,6 +462,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeFixed64: _root_.scala.Boolean = true
     }
     
+    /** Field type fixed32.
+      */
     @SerialVersionUID(0L)
     case object TYPE_FIXED32 extends Kind {
       val value = 7
@@ -454,6 +472,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeFixed32: _root_.scala.Boolean = true
     }
     
+    /** Field type bool.
+      */
     @SerialVersionUID(0L)
     case object TYPE_BOOL extends Kind {
       val value = 8
@@ -462,6 +482,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeBool: _root_.scala.Boolean = true
     }
     
+    /** Field type string.
+      */
     @SerialVersionUID(0L)
     case object TYPE_STRING extends Kind {
       val value = 9
@@ -470,6 +492,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeString: _root_.scala.Boolean = true
     }
     
+    /** Field type group. Proto2 syntax only, and deprecated.
+      */
     @SerialVersionUID(0L)
     case object TYPE_GROUP extends Kind {
       val value = 10
@@ -478,6 +502,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeGroup: _root_.scala.Boolean = true
     }
     
+    /** Field type message.
+      */
     @SerialVersionUID(0L)
     case object TYPE_MESSAGE extends Kind {
       val value = 11
@@ -486,6 +512,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeMessage: _root_.scala.Boolean = true
     }
     
+    /** Field type bytes.
+      */
     @SerialVersionUID(0L)
     case object TYPE_BYTES extends Kind {
       val value = 12
@@ -494,6 +522,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeBytes: _root_.scala.Boolean = true
     }
     
+    /** Field type uint32.
+      */
     @SerialVersionUID(0L)
     case object TYPE_UINT32 extends Kind {
       val value = 13
@@ -502,6 +532,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeUint32: _root_.scala.Boolean = true
     }
     
+    /** Field type enum.
+      */
     @SerialVersionUID(0L)
     case object TYPE_ENUM extends Kind {
       val value = 14
@@ -510,6 +542,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeEnum: _root_.scala.Boolean = true
     }
     
+    /** Field type sfixed32.
+      */
     @SerialVersionUID(0L)
     case object TYPE_SFIXED32 extends Kind {
       val value = 15
@@ -518,6 +552,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeSfixed32: _root_.scala.Boolean = true
     }
     
+    /** Field type sfixed64.
+      */
     @SerialVersionUID(0L)
     case object TYPE_SFIXED64 extends Kind {
       val value = 16
@@ -526,6 +562,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeSfixed64: _root_.scala.Boolean = true
     }
     
+    /** Field type sint32.
+      */
     @SerialVersionUID(0L)
     case object TYPE_SINT32 extends Kind {
       val value = 17
@@ -534,6 +572,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isTypeSint32: _root_.scala.Boolean = true
     }
     
+    /** Field type sint64.
+      */
     @SerialVersionUID(0L)
     case object TYPE_SINT64 extends Kind {
       val value = 18
@@ -571,6 +611,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(0)
   }
+  /** Whether a field is optional, required, or repeated.
+    */
   sealed trait Cardinality extends _root_.scalapb.GeneratedEnum {
     type EnumType = Cardinality
     def isCardinalityUnknown: _root_.scala.Boolean = false
@@ -582,6 +624,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   
   object Cardinality extends _root_.scalapb.GeneratedEnumCompanion[Cardinality] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Cardinality] = this
+    /** For fields with unknown cardinality.
+      */
     @SerialVersionUID(0L)
     case object CARDINALITY_UNKNOWN extends Cardinality {
       val value = 0
@@ -590,6 +634,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isCardinalityUnknown: _root_.scala.Boolean = true
     }
     
+    /** For optional fields.
+      */
     @SerialVersionUID(0L)
     case object CARDINALITY_OPTIONAL extends Cardinality {
       val value = 1
@@ -598,6 +644,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isCardinalityOptional: _root_.scala.Boolean = true
     }
     
+    /** For required fields. Proto2 syntax only.
+      */
     @SerialVersionUID(0L)
     case object CARDINALITY_REQUIRED extends Cardinality {
       val value = 2
@@ -606,6 +654,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       override def isCardinalityRequired: _root_.scala.Boolean = true
     }
     
+    /** For repeated fields.
+      */
     @SerialVersionUID(0L)
     case object CARDINALITY_REPEATED extends Cardinality {
       val value = 3

@@ -28,6 +28,7 @@ class ProtobufGenerator(
     implicits: DescriptorImplicits
 ) {
   import implicits._
+  import ProtobufGenerator._
 
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name = e.nameSymbol
@@ -35,6 +36,7 @@ class ProtobufGenerator(
       .when(e.getOptions.getDeprecated) {
         _.add(ProtobufGenerator.deprecatedAnnotation)
       }
+      .call(generateScalaDoc(e))
       .add(s"sealed trait $name extends ${e.baseTraitExtends.mkString(" with ")} {")
       .indent
       .add(s"type EnumType = $name")
@@ -53,16 +55,17 @@ class ProtobufGenerator(
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) {
         case (p, v) =>
-          p.addStringMargin(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
-            " " + ProtobufGenerator.deprecatedAnnotation
-          } else ""}
-          |case object ${v.getName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
-          |  val value = ${v.getNumber}
-          |  val index = ${v.getIndex}
-          |  val name = "${v.getName}"
-          |  override def ${v.isName}: _root_.scala.Boolean = true
-          |}
-          |""")
+          p.call(generateScalaDoc(v))
+            .addStringMargin(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
+              " " + ProtobufGenerator.deprecatedAnnotation
+            } else ""}
+            |case object ${v.getName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
+            |  val value = ${v.getNumber}
+            |  val index = ${v.getIndex}
+            |  val name = "${v.getName}"
+            |  override def ${v.isName}: _root_.scala.Boolean = true
+            |}
+            |""")
       }
       .addStringMargin(s"""@SerialVersionUID(0L)
       |final case class Unrecognized(value: _root_.scala.Int) extends $name with _root_.scalapb.UnrecognizedEnum
@@ -1431,6 +1434,16 @@ class ProtobufGenerator(
       .add("")
   }
 
+  def generateScalaDoc(enum: EnumDescriptor): PrinterEndo = { fp =>
+    val lines = asScalaDocBlock(enum.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
+    fp.add(lines: _*)
+  }
+
+  def generateScalaDoc(enumValue: EnumValueDescriptor): PrinterEndo = { fp =>
+    val lines = asScalaDocBlock(enumValue.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
+    fp.add(lines: _*)
+  }
+
   def generateScalaDoc(message: Descriptor): PrinterEndo = { fp =>
     val mainDoc: Seq[String] = message.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty)
 
@@ -1447,14 +1460,7 @@ class ProtobufGenerator(
 
     val sep = if (mainDoc.nonEmpty && fieldsDoc.nonEmpty) Seq("") else Seq.empty
 
-    if (mainDoc.nonEmpty || fieldsDoc.nonEmpty) {
-      val doc = (mainDoc ++ sep ++ fieldsDoc).zipWithIndex.map {
-        case (line, index) =>
-          val prefix = if (index == 0) "/**" else "  *"
-          if (line.startsWith(" ") || line.isEmpty) (prefix + line) else (prefix + " " + line)
-      } :+ "  */"
-      fp.add(doc: _*)
-    } else fp
+    fp.add(asScalaDocBlock(mainDoc ++ sep ++ fieldsDoc): _*)
   }
 
   def generateSealedOneofTrait(message: Descriptor): PrinterEndo = { fp =>
@@ -1876,6 +1882,16 @@ object ProtobufGenerator {
         b.setError(error)
     }
     b.build
+  }
+
+  def asScalaDocBlock(contentLines: Seq[String]): Seq[String] = {
+    if (contentLines.nonEmpty) {
+      contentLines.zipWithIndex.map {
+        case (line, index) =>
+          val prefix = if (index == 0) "/**" else "  *"
+          if (line.startsWith(" ") || line.isEmpty) (prefix + line) else (prefix + " " + line)
+      } :+ "  */"
+    } else contentLines
   }
 
   val deprecatedAnnotation: String =
