@@ -373,7 +373,7 @@ f.getWeather match {
 
 ## ASCII Representation
 
-Each message case-class has `toString` method that returns a string
+Each message case-class has `toProtoString` method that returns a string
 representation of the message in an ASCII format. The ASCII format can be
 parsed back by the `fromAscii()` method available on the companion object.
 
