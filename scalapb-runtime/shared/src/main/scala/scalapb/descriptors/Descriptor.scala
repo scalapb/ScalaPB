@@ -104,6 +104,41 @@ class Descriptor private[descriptors] (
   override def toString: String = fullName
 }
 
+class ServiceDescriptor private[descriptors] (
+    val fullName: String,
+    val index: Int,
+    val asProto: ServiceDescriptorProto,
+    val file: FileDescriptor
+) extends BaseDescriptor {
+
+  val methods: Vector[MethodDescriptor] =
+    (asProto.method.zipWithIndex).map {
+      case (m, index) =>
+        new MethodDescriptor(FileDescriptor.join(fullName, m.getName), index, m, this)
+    }(breakOut)
+
+  def name = asProto.getName
+
+  def location = file.findLocationByPath(SourceCodePath.get(this))
+
+  def getOptions = asProto.getOptions
+
+}
+
+class MethodDescriptor private[descriptors] (
+    val fullName: String,
+    val index: Int,
+    val asProto: MethodDescriptorProto,
+    val containingService: ServiceDescriptor
+) extends BaseDescriptor {
+
+  def name = asProto.getName
+
+  def location = containingService.file.findLocationByPath(SourceCodePath.get(this))
+
+  def getOptions = asProto.getOptions
+}
+
 class EnumDescriptor private[descriptors] (
     val fullName: String,
     val index: Int,
@@ -284,6 +319,12 @@ class FileDescriptor private[descriptors] (
     val asProto: FileDescriptorProto,
     dependencies: Seq[FileDescriptor]
 ) extends BaseDescriptor {
+
+  val services: Vector[ServiceDescriptor] = asProto.service.zipWithIndex.map {
+    case (d, index) =>
+      new ServiceDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, this)
+  }(scala.collection.breakOut)
+
   val messages: Vector[Descriptor] = asProto.messageType.zipWithIndex.map {
     case (d, index) =>
       new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)

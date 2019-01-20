@@ -146,6 +146,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def descriptorName = "SERVICE"
 
+    def scalaDescriptorSource: String =
+      s"${self.getFile.fileDescriptorObjectName}.scalaDescriptor.services(${self.getIndex})"
+
     def sourcePath: Seq[Int] = Seq(FileDescriptorProto.SERVICE_FIELD_NUMBER, self.getIndex)
 
     def comment: Option[String] = {

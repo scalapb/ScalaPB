@@ -57,6 +57,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices().get(${service.getIndex})"
       )
+      .add(
+        s"def scalaDescriptor: _root_.scalapb.descriptors.ServiceDescriptor = ${service.scalaDescriptorSource}"
+      )
       .outdent
       .add("}")
   }

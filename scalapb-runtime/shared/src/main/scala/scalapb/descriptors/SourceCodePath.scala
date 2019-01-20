@@ -21,4 +21,13 @@ object SourceCodePath {
   def get(fd: FieldDescriptor): Seq[Int] = {
     get(fd.containingMessage) ++ Seq(DescriptorProto.FIELD_FIELD_NUMBER, fd.index)
   }
+
+  def get(fd: ServiceDescriptor): Seq[Int] = {
+    Seq(FileDescriptorProto.SERVICE_FIELD_NUMBER, fd.index)
+  }
+
+  def get(fd: MethodDescriptor): Seq[Int] = {
+    get(fd.containingService) ++ Seq(ServiceDescriptorProto.METHOD_FIELD_NUMBER, fd.index)
+  }
+
 }
