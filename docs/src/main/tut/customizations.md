@@ -107,7 +107,7 @@ The following rules are applied when validating package-scoped options:
 - At most one file in each package may provide package-scoped options.
 - Sub-packages may override package-scoped options provided by their parent
   packages. The options are merged using the Protocol Buffers `mergeFrom`
-  semantics. Specifically, this implies that repeated fields such as `import` 
+  semantics. Specifically, this implies that repeated fields such as `import`
   and `preamble` are concatenated.
 - Proto files get the most specific package-scoped options for the package
   they are in. File-level options defined in a proto file get merged with the
@@ -246,7 +246,7 @@ enum MyEnum {
 The generated code will look something like this:
 
 ```scala
-sealed trait MyEnum extends GeneratedEnum 
+sealed trait MyEnum extends GeneratedEnum
     with example.EnumOptions.EnumBase {
   /* ... */
 }
@@ -255,7 +255,7 @@ object MyEnum extends GeneratedEnumCompanion[MyEnum]
     with example.EnumOptions.EnumCompanionBase {
   case object Unknown extends MyEnum { /* ... */ }
 
-  case object V1 extends MyEnum 
+  case object V1 extends MyEnum
       with example.EnumOptions.ValueMixin { /* ... */ }
 
   case object V2 extends MyEnum { /* ... */ }
@@ -340,13 +340,26 @@ message CustomMaps {
 
 Example: see `CustomMaps` in [maps.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/maps.proto)
 
+You can also customize the collection type used for a map. See the next
+section for details.
+
 # Custom collection types
 
 By default, ScalaPB compiles repeated fields into a `Seq[T]`. When a message
-is parsed from bytes, the default implementation generates a `Vector[T]`,
+is parsed from bytes, the default implementation instantiates a `Vector[T]`,
 which is a subtype of `Seq[T]`.  You can instruct ScalaPB to use a different
-collection type for a file, or just for one repeated field. If both are
-defined then the field-level setting wins.
+collection type for one field by specifying the `collection_type` option. You
+can also specify a `collection_type` for the entire proto file by specifying a
+`collection_type` at the file-level.
+
+If both are defined then the field-level setting wins.
+
+Similar to `collection_type`, we have `map_type` for map types. By default,
+ScalaPB generates `scala.collection.immutable.Map` for maps, and you can
+customize it at the field level, or file-level by specifying a `map_type`
+option.
+
+`map_type` was introduced in ScalaPB 0.8.5.
 
 ```protobuf
 import "scalapb/scalapb.proto";
@@ -365,15 +378,26 @@ message CollTest {
     // Will generate Seq[collection.immutable.Seq]
     repeated bool rep3 = 3  [
       (scalapb.field).collection_type="collection.immutable.Seq"];
+
+    map<int32, string> my_map [
+      (scalapb.field).map_type="collection.mutable.Map"];
+    ]
 }
 ```
+
+Note on mutable collection: ScalaPB assumes that all data is immutable. For example, the result
+of `serializedSize` is cached in a private field. When choosing mutable collections, you must be
+careful not to mutate any collection after it has been passed to any message, or you might get some
+surprising results!
 
 Note: using `Array` is not supported along with Java conversions.
 
 Note: Most Scala collections can be used with this feature. If you are trying
-to implement your own collection type, it may be useful to check `MyVector`,
-the simplest custom collection that is compatible with ScalaPB:
+to implement your own collection type, it may be useful to check `MyVector`
+and `MyMap`, the simplest custom collection that is compatible with ScalaPB:
+
 - [MyVector.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala/com/thesamet/pb/MyVector.scala)
+- [MyMap.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala/com/thesamet/pb/MyMap.scala)
 - [collection_types.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/collection_types.proto)
 
 # Custom names

@@ -6,11 +6,18 @@ import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
   collection_type: "scala.collection.immutable.Seq"
+  map_type: "scala.collection.mutable.Map"
 };
 
 enum Enum {
   ONE = 1;
   TWO = 2;
+}
+
+enum Enum0 {
+  E0_ZERO = 0;
+  E0_ONE = 1;
+  E0_TWO = 2;
 }
 
 message SubMsg {
@@ -131,6 +138,15 @@ message CollectionTypesPackedSet {
   repeated     Enum repeated_enum     = 46 [packed=true, (scalapb.field).collection_type="Set"];
 }
 
+message CollectionTypesMap {
+  map<int32, bool> map_int32_bool = 1;
+  map<int32, Enum0> map_int32_enum = 2;
+  map<int32, SubMsg> map_int32_submsg = 3;
+  map<int32, bool> mymap_int32_bool = 4 [(scalapb.field).map_type="com.thesamet.pb.MyMap"];
+  map<int32, Enum0> mymap_int32_enum = 5 [(scalapb.field).map_type="com.thesamet.pb.MyMap"];
+  map<int32, SubMsg> mymap_int32_submsg = 6 [(scalapb.field).map_type="com.thesamet.pb.MyMap"];
+}
+
 message CustomCollection {
-  repeated int32 repeated_int32 = 31 [(scalapb.field).collection_type="com.trueaccord.pb.MyVector"];
+  repeated int32 repeated_int32 = 31 [(scalapb.field).collection_type="com.thesamet.pb.MyVector"];
 }

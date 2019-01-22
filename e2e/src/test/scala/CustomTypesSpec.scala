@@ -3,7 +3,7 @@ import com.trueaccord.proto.e2e.custom_types.CustomMessage.Weather
 import com.trueaccord.proto.e2e.CustomTypes.{CustomMessage => CustomMessageJava}
 import com.trueaccord.proto.e2e.CustomTypes.CustomMessage.{Weather => WeatherJava}
 import org.scalatest._
-import com.trueaccord.pb._
+import com.thesamet.pb._
 
 class CustomTypesSpec extends FlatSpec with MustMatchers {
 

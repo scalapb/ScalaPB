@@ -7,7 +7,7 @@ import "scalapb/scalapb.proto";
 package com.trueaccord.proto.e2e;
 
 option (scalapb.options) = {
-  import: "com.trueaccord.pb.MisplacedMapper.weatherMapper"
+  import: "com.thesamet.pb.MisplacedMapper.weatherMapper"
 };
 
 // Extensions in this file are 51xxx
@@ -98,12 +98,12 @@ message PackedStuff {
 
 extend google.protobuf.FieldOptions {
   optional MessageC message_c = 51300;
-  optional CustomMessage.Name opt_name = 51301 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-  repeated CustomMessage.Name rep_name = 51302 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-  optional string opt_custom_string = 51303 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
-  repeated string rep_custom_string = 51304 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
-  optional CustomMessage.Weather opt_weather = 51305 [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
-  repeated CustomMessage.Weather rep_weather = 51306 [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
+  optional CustomMessage.Name opt_name = 51301 [(scalapb.field).type = "com.thesamet.pb.FullName"];
+  repeated CustomMessage.Name rep_name = 51302 [(scalapb.field).type = "com.thesamet.pb.FullName"];
+  optional string opt_custom_string = 51303 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+  repeated string rep_custom_string = 51304 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+  optional CustomMessage.Weather opt_weather = 51305 [(scalapb.field).type = "com.thesamet.pb.WrappedWeather"];
+  repeated CustomMessage.Weather rep_weather = 51306 [(scalapb.field).type = "com.thesamet.pb.WrappedWeather"];
 }
 
 message MagicContainer {
@@ -113,9 +113,9 @@ message MagicContainer {
     optional MessageC message_c = 51402;
     repeated MessageC rep_message_c = 51403;
 
-    optional CustomMessage.Name opt_name = 51404 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-    repeated CustomMessage.Name rep_name = 51405 [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-    optional string opt_custom_string = 51406 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
-    repeated string rep_custom_string = 51407 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+    optional CustomMessage.Name opt_name = 51404 [(scalapb.field).type = "com.thesamet.pb.FullName"];
+    repeated CustomMessage.Name rep_name = 51405 [(scalapb.field).type = "com.thesamet.pb.FullName"];
+    optional string opt_custom_string = 51406 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+    repeated string rep_custom_string = 51407 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
   }
 }

@@ -1,4 +1,4 @@
-package com.trueaccord.pb
+package com.thesamet.pb
 
 import com.trueaccord.scalapb.TypeMapper
 import com.trueaccord.proto.e2e.custom_types.CustomMessage.Name

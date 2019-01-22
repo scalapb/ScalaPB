@@ -1,6 +1,5 @@
+import com.trueaccord.pb.flat.{FlatTest, Priority}
 import com.trueaccord.proto.e2e.one_of._
-import com.trueaccord.pb.flat.Priority
-import com.trueaccord.pb.flat.FlatTest
 import org.scalatest._
 
 class elatPackageSpec extends FlatSpec with MustMatchers {

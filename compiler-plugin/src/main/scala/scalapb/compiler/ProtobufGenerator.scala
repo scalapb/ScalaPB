@@ -208,8 +208,7 @@ class ProtobufGenerator(
 
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
     if (field.supportsPresence) "None"
-    else if (field.isMapField) "scala.collection.immutable.Map.empty"
-    else if (field.isRepeated) field.collectionType + ".empty"
+    else if (field.isRepeated) field.emptyCollection
     else defaultValueForGet(field)
 
   def javaToScalaConversion(field: FieldDescriptor) = {
@@ -265,7 +264,7 @@ class ProtobufGenerator(
       if (field.mapType.valueField.isEnum && field.getFile.isProto3)
         (field.upperJavaName + "Value")
       else field.upperJavaName
-    s"${container}.get${upperJavaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)})).toMap"
+    s"${container}.get${upperJavaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)}))(_root_.scala.collection.breakOut)"
   }
 
   def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): Expression = {
@@ -302,6 +301,10 @@ class ProtobufGenerator(
                                                                   "Value"
                                                                 else "")
 
+    val maybeToMap =
+      if (field.collectionType != DescriptorImplicits.ScalaMap) "(scala.collection.breakOut).toMap"
+      else ""
+
     s"""$javaObject
        |  .$getMutableMap()
        |  .putAll(
@@ -310,7 +313,7 @@ class ProtobufGenerator(
          "__kv._2",
          field.mapType.valueField
        )})
-       |  }.asJava)
+       |  }$maybeToMap.asJava)
        |""".stripMargin
   }
 
@@ -685,8 +688,7 @@ class ProtobufGenerator(
         val ctorDefaultValue: Option[String] =
           if (field.isOptional && field.supportsPresence) Some("None")
           else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
-          else if (field.isMapField) Some("scala.collection.immutable.Map.empty")
-          else if (field.isRepeated) Some(s"${field.collectionType}.empty")
+          else if (field.isRepeated) Some(s"${field.emptyCollection}")
           else None
 
         ConstructorField(
@@ -737,10 +739,6 @@ class ProtobufGenerator(
         (printer, field) =>
           if (!field.isRepeated)
             printer.add(s"var __${field.scalaName} = this.${field.scalaName.asSymbol}")
-          else if (field.isMapField)
-            printer.add(
-              s"val __${field.scalaName} = (scala.collection.immutable.Map.newBuilder[${field.mapType.keyType}, ${field.mapType.valueType}] ++= this.${field.scalaName.asSymbol})"
-            )
           else
             printer.add(
               s"val __${field.scalaName} = (${field.collectionBuilder} ++= this.${field.scalaName.asSymbol})"
@@ -962,7 +960,7 @@ class ProtobufGenerator(
       .call { printer =>
         val fields = message.fields.collect {
           case field if !field.isInOneof =>
-            val baseTypeName = field.typeCategory(
+            val baseTypeName = field.fieldMapCollection(
               if (field.isEnum) "_root_.com.google.protobuf.Descriptors.EnumValueDescriptor"
               else field.baseSingleScalaTypeName
             )
@@ -1031,7 +1029,7 @@ class ProtobufGenerator(
       .call { printer =>
         val fields = message.fields.collect {
           case field if !field.isInOneof =>
-            val baseTypeName = field.typeCategory(
+            val baseTypeName = field.fieldMapCollection(
               if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor"
               else field.baseSingleScalaTypeName
             )
@@ -1041,7 +1039,7 @@ class ProtobufGenerator(
               if (field.supportsPresence)
                 s"$value.flatMap(_.as[$baseTypeName])"
               else if (field.isRepeated)
-                s"$value.map(_.as[${baseTypeName}]).getOrElse(${field.collectionType}.empty)"
+                s"$value.map(_.as[${baseTypeName}]).getOrElse(${field.fieldsMapEmptyCollection})"
               else if (field.isRequired)
                 s"$value.get.as[$baseTypeName]"
               else {
@@ -1548,9 +1546,7 @@ class ProtobufGenerator(
               )
             }
             .when(field.isRepeated) { p =>
-              val emptyValue =
-                if (field.isMapField) "scala.collection.immutable.Map.empty"
-                else field.collectionType + ".empty"
+              val emptyValue = field.emptyCollection
               p.addStringMargin(
                 s"""def $clearMethod = copy(${field.scalaName.asSymbol} = $emptyValue)
                 |def add${field.upperScalaName}(__vs: $singleType*): ${message.nameSymbol} = addAll${field.upperScalaName}(__vs)

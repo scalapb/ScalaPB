@@ -14,6 +14,10 @@ package scalapb.options
   *   or value.
   * @param annotations
   *   Custom annotations to add to the field.
+  * @param mapType
+  *   Can be specified only if this field is a map. If unspecified,
+  *   it falls back to the file option named `map_type` which defaults to
+  *   `scala.collection.immutable.Map`
   * @param noBox
   *   Do not box this value in Option[T]
   */
@@ -25,6 +29,7 @@ final case class FieldOptions(
     keyType: _root_.scala.Option[_root_.scala.Predef.String] = None,
     valueType: _root_.scala.Option[_root_.scala.Predef.String] = None,
     annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
+    mapType: _root_.scala.Option[_root_.scala.Predef.String] = None,
     noBox: _root_.scala.Option[_root_.scala.Boolean] = None
     ) extends scalapb.GeneratedMessage with scalapb.Message[FieldOptions] with scalapb.lenses.Updatable[FieldOptions] {
     @transient
@@ -55,6 +60,10 @@ final case class FieldOptions(
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, __value)
       }
+      if (mapType.isDefined) {
+        val __value = mapType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(7, __value)
+      };
       if (noBox.isDefined) {
         val __value = noBox.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, __value)
@@ -94,6 +103,10 @@ final case class FieldOptions(
         val __m = __v
         _output__.writeString(6, __m)
       };
+      mapType.foreach { __v =>
+        val __m = __v
+        _output__.writeString(7, __m)
+      };
       noBox.foreach { __v =>
         val __m = __v
         _output__.writeBool(30, __m)
@@ -106,6 +119,7 @@ final case class FieldOptions(
       var __keyType = this.keyType
       var __valueType = this.valueType
       val __annotations = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.annotations)
+      var __mapType = this.mapType
       var __noBox = this.noBox
       var _done__ = false
       while (!_done__) {
@@ -124,6 +138,8 @@ final case class FieldOptions(
             __valueType = Option(_input__.readString())
           case 50 =>
             __annotations += _input__.readString()
+          case 58 =>
+            __mapType = Option(_input__.readString())
           case 240 =>
             __noBox = Option(_input__.readBool())
           case tag => _input__.skipField(tag)
@@ -136,6 +152,7 @@ final case class FieldOptions(
           keyType = __keyType,
           valueType = __valueType,
           annotations = __annotations.result(),
+          mapType = __mapType,
           noBox = __noBox
       )
     }
@@ -158,6 +175,9 @@ final case class FieldOptions(
     def addAnnotations(__vs: _root_.scala.Predef.String*): FieldOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: TraversableOnce[_root_.scala.Predef.String]): FieldOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): FieldOptions = copy(annotations = __v)
+    def getMapType: _root_.scala.Predef.String = mapType.getOrElse("")
+    def clearMapType: FieldOptions = copy(mapType = None)
+    def withMapType(__v: _root_.scala.Predef.String): FieldOptions = copy(mapType = Option(__v))
     def getNoBox: _root_.scala.Boolean = noBox.getOrElse(false)
     def clearNoBox: FieldOptions = copy(noBox = None)
     def withNoBox(__v: _root_.scala.Boolean): FieldOptions = copy(noBox = Option(__v))
@@ -169,6 +189,7 @@ final case class FieldOptions(
         case 4 => keyType.orNull
         case 5 => valueType.orNull
         case 6 => annotations
+        case 7 => mapType.orNull
         case 30 => noBox.orNull
       }
     }
@@ -181,6 +202,7 @@ final case class FieldOptions(
         case 4 => keyType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 5 => valueType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => _root_.scalapb.descriptors.PRepeated(annotations.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
+        case 7 => mapType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 30 => noBox.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -200,7 +222,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.get(__fields.get(4)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(6)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
+      __fieldsMap.get(__fields.get(6)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(7)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.FieldOptions] = _root_.scalapb.descriptors.Reads{
@@ -213,6 +236,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -236,6 +260,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     def valueType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = Option(f_)))
     def optionalValueType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.valueType)((c_, f_) => c_.copy(valueType = f_))
     def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
+    def mapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getMapType)((c_, f_) => c_.copy(mapType = Option(f_)))
+    def optionalMapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.mapType)((c_, f_) => c_.copy(mapType = f_))
     def noBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Option(f_)))
     def optionalNoBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noBox)((c_, f_) => c_.copy(noBox = f_))
   }
@@ -245,6 +271,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
   final val KEY_TYPE_FIELD_NUMBER = 4
   final val VALUE_TYPE_FIELD_NUMBER = 5
   final val ANNOTATIONS_FIELD_NUMBER = 6
+  final val MAP_TYPE_FIELD_NUMBER = 7
   final val NO_BOX_FIELD_NUMBER = 30
   def of(
     `type`: _root_.scala.Option[_root_.scala.Predef.String],
@@ -253,6 +280,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     keyType: _root_.scala.Option[_root_.scala.Predef.String],
     valueType: _root_.scala.Option[_root_.scala.Predef.String],
     annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String],
+    mapType: _root_.scala.Option[_root_.scala.Predef.String],
     noBox: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.FieldOptions = _root_.scalapb.options.FieldOptions(
     `type`,
@@ -261,6 +289,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     keyType,
     valueType,
     annotations,
+    mapType,
     noBox
   )
 }

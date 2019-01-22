@@ -1,6 +1,10 @@
 # Change Log
 
-## [0.8.4](https://github.com/scalapb/ScalaPB/tree/HEAD)
+## [0.8.5](https://github.com/scalapb/ScalaPB/tree/HEAD)
+- Add support for custom map types (#410)
+
+## [0.8.4](https://github.com/scalapb/ScalaPB/tree/v0.8.4)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.8.3...v0.8.4)
 - Add `scalaName` to FieldDescriptor to make the name of the Scala field
   accessible from the descriptor. This is done by updating
   `scalapb.FieldOptions` in the descriptor we serialize in the proto file

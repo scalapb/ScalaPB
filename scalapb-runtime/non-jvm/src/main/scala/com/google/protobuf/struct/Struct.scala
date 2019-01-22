@@ -19,7 +19,7 @@ package com.google.protobuf.struct
   */
 @SerialVersionUID(0L)
 final case class Struct(
-    fields: scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value] = scala.collection.immutable.Map.empty
+    fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value] = _root_.scala.collection.immutable.Map.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Struct] with scalapb.lenses.Updatable[Struct] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -48,7 +48,7 @@ final case class Struct(
       };
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Struct = {
-      val __fields = (scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, com.google.protobuf.struct.Value] ++= this.fields)
+      val __fields = (_root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, com.google.protobuf.struct.Value] ++= this.fields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -63,10 +63,10 @@ final case class Struct(
           fields = __fields.result()
       )
     }
-    def clearFields = copy(fields = scala.collection.immutable.Map.empty)
+    def clearFields = copy(fields = _root_.scala.collection.immutable.Map.empty)
     def addFields(__vs: (_root_.scala.Predef.String, com.google.protobuf.struct.Value)*): Struct = addAllFields(__vs)
     def addAllFields(__vs: TraversableOnce[(_root_.scala.Predef.String, com.google.protobuf.struct.Value)]): Struct = copy(fields = fields ++ __vs)
-    def withFields(__v: scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]): Struct = copy(fields = __v)
+    def withFields(__v: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]): Struct = copy(fields = __v)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => fields.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase)(_root_.scala.collection.breakOut)
@@ -253,13 +253,13 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   }
   
   implicit class StructLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct](_l) {
-    def fields: _root_.scalapb.lenses.Lens[UpperPB, scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))
+    def fields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))
   }
   final val FIELDS_FIELD_NUMBER = 1
   @transient
   private val _typemapper_fields: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)] = implicitly[_root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)]]
   def of(
-    fields: scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]
+    fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]
   ): _root_.com.google.protobuf.struct.Struct = _root_.com.google.protobuf.struct.Struct(
     fields
   )

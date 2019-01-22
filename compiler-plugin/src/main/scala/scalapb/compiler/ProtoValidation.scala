@@ -107,10 +107,16 @@ class ProtoValidation(implicits: DescriptorImplicits) {
         s"${fd.getFullName}: Field ${fd.getName} is not a map but specifies key_type or value_type."
       )
     }
-    if (fd.isMapField && fd.fieldOptions.hasCollectionType)
+    if (fd.isMapField && fd.fieldOptions.hasCollectionType) {
       throw new GeneratorException(
-        s"${fd.getFullName}: Field ${fd.getName} is a map but has collection_type specified."
+        s"${fd.getFullName}: Field ${fd.getName} is a map but has collection_type specified. Use map_type instead."
       )
+    }
+    if (!fd.isMapField && fd.fieldOptions.hasMapType) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: Field ${fd.getName} has map_type specified, but it is not a map field"
+      )
+    }
     if (fd.isMapField && fd.fieldOptions.hasType)
       throw new GeneratorException(
         s"${fd.getFullName}: Field ${fd.getName} is a map and has type specified. Use key_type or value_type instead."

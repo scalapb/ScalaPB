@@ -7,13 +7,13 @@ import "scalapb/scalapb.proto";
 // Tests for types that are defined on the message level.
 
 message XYMessage {
-  option (scalapb.message).type = "com.trueaccord.pb.Point2D";
+  option (scalapb.message).type = "com.thesamet.pb.Point2D";
   optional int32 x = 1;
   optional int32 y = 2;
 }
 
 enum DirEnum {
-  option (scalapb.enum_options).type = "com.trueaccord.pb.Dir2D";
+  option (scalapb.enum_options).type = "com.thesamet.pb.Dir2D";
   UNKNOWN = 0;
   UP = 1;
   DOWN = 2;

@@ -103,6 +103,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
       Seq(
         ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasScope"),
         ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getScope"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getMapType"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasMapType"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getMapTypeBytes"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#FieldOptionsOrBuilder.hasMapType"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#FieldOptionsOrBuilder.getMapType"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#FieldOptionsOrBuilder.getMapTypeBytes"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.copy"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.this"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply"),

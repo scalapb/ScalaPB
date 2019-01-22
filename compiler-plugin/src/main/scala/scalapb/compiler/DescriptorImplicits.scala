@@ -10,6 +10,7 @@ import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
 class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
+  import DescriptorImplicits._
   val SCALA_RESERVED_WORDS = Set(
     "abstract",
     "case",
@@ -204,33 +205,53 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def collectionBuilder: String = {
       require(fd.isRepeated)
-      val t =
+      val t = if (collectionType == ScalaSeq) ScalaVector else collectionType
+
+      if (!fd.isMapField)
+        s"$t.newBuilder[$singleScalaTypeName]"
+      else {
+        s"$t.newBuilder[${fd.mapType.keyType}, ${fd.mapType.valueType}]"
+      }
+    }
+
+    def emptyCollection: String = {
+      s"${collectionType}.empty"
+    }
+
+    // In scalapb.proto, we separate between collection_type and map_type, but internally this is unified.
+    def collectionType: String = {
+      require(fd.isRepeated)
+      if (fd.isMapField) {
+        if (fd.fieldOptions.hasMapType) fd.fieldOptions.getMapType
+        else if (fd.getFile.scalaOptions.hasMapType) fd.getFile.scalaOptions.getMapType
+        else ScalaMap
+      } else {
         if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
         else if (fd.getFile.scalaOptions.hasCollectionType)
           fd.getFile.scalaOptions.getCollectionType
-        else "_root_.scala.collection.immutable.Vector"
-
-      s"$t.newBuilder[$singleScalaTypeName]"
+        else ScalaSeq
+      }
     }
 
-    def collectionType: String = {
+    def fieldMapCollection(innerType: String) = {
+      if (supportsPresence) s"_root_.scala.Option[$innerType]"
+      else if (fd.isRepeated && !fd.isMapField) s"${collectionType}[$innerType]"
+      else if (fd.isRepeated && fd.isMapField) s"${ScalaSeq}[$innerType]"
+      else innerType
+    }
+
+    def fieldsMapEmptyCollection: String = {
       require(fd.isRepeated)
-      if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
-      else if (fd.getFile.scalaOptions.hasCollectionType) fd.getFile.scalaOptions.getCollectionType
-      else "_root_.scala.collection.Seq"
-    }
-
-    def typeCategory(base: String): String = {
-      if (supportsPresence) s"_root_.scala.Option[$base]"
-      else if (fd.isRepeated) s"${collectionType}[$base]"
-      else base
+      if (fd.isMapField) s"$ScalaSeq.empty"
+      else s"${collectionType}.empty"
     }
 
     def scalaTypeName: String =
-      if (fd.isMapField)
-        fd.mapType.scalaTypeName
-      else
-        typeCategory(singleScalaTypeName)
+      if (fd.isMapField) {
+        s"$collectionType[${mapType.keyType}, ${mapType.valueType}]"
+      } else if (fd.isRepeated) s"${collectionType}[$singleScalaTypeName]"
+      else if (supportsPresence) s"${ScalaOption}[$singleScalaTypeName]"
+      else singleScalaTypeName
 
     def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
@@ -545,8 +566,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
       def valueType = valueField.singleScalaTypeName
 
-      def scalaTypeName = s"scala.collection.immutable.Map[$keyType, $valueType]"
-
       def pairType = s"($keyType, $valueType)"
     }
 
@@ -801,6 +820,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   def baseName(fileName: String) =
     fileName.split("/").last.replaceAll(raw"[.]proto$$|[.]protodevel", "")
+}
+
+private[scalapb] object DescriptorImplicits {
+  val ScalaSeq    = "_root_.scala.collection.Seq"
+  val ScalaMap    = "_root_.scala.collection.immutable.Map"
+  val ScalaVector = "_root_.scala.collection.immutable.Vector"
+  val ScalaOption = "_root_.scala.Option"
 }
 
 object Helper {

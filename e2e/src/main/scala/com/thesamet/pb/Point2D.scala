@@ -1,4 +1,4 @@
-package com.trueaccord.pb
+package com.thesamet.pb
 
 import com.trueaccord.proto.e2e.type_level.{XYMessage, DirEnum}
 import com.trueaccord.scalapb.TypeMapper

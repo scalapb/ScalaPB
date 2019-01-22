@@ -6,7 +6,7 @@ import "scalapb/scalapb.proto";
 package com.trueaccord.proto.e2e;
 
 option (scalapb.options) = {
-  import: "com.trueaccord.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2, Base1, Base2}"
+  import: "com.thesamet.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2, Base1, Base2}"
 };
 
 option (message_a).a = "AAA";

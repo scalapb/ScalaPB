@@ -78,6 +78,10 @@ message ScalaPbOptions {
   // location from the descriptors as well as comments.
   optional bool retain_source_code_info = 13;
 
+  // Scala type to be used for maps. If unspecified,
+  // `scala.collection.immutable.Map` will be used.
+  optional string map_type = 14;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;
@@ -130,6 +134,11 @@ message FieldOptions {
 
   // Custom annotations to add to the field.
   repeated string annotations = 6;
+
+  // Can be specified only if this field is a map. If unspecified,
+  // it falls back to the file option named `map_type` which defaults to
+  // `scala.collection.immutable.Map`
+  optional string map_type = 7;
 
   // Do not box this value in Option[T]
   optional bool no_box = 30;

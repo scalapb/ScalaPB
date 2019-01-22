@@ -1,8 +1,7 @@
-
-import com.trueaccord.pb.{PersonId, Years}
 import com.trueaccord.proto.e2e.maps.{CustomMaps, MapsTest}
 import com.trueaccord.proto.e2e.maps2.{MapsTest2, CustomMaps2}
 import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
+import com.thesamet.pb.{PersonId, Years}
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest._
 import org.scalatest.prop._

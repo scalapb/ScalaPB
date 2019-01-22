@@ -355,6 +355,35 @@ public final class Scalapb {
 
     /**
      * <pre>
+     * Scala type to be used for maps. If unspecified,
+     * `scala.collection.immutable.Map` will be used.
+     * </pre>
+     *
+     * <code>optional string map_type = 14;</code>
+     */
+    boolean hasMapType();
+    /**
+     * <pre>
+     * Scala type to be used for maps. If unspecified,
+     * `scala.collection.immutable.Map` will be used.
+     * </pre>
+     *
+     * <code>optional string map_type = 14;</code>
+     */
+    java.lang.String getMapType();
+    /**
+     * <pre>
+     * Scala type to be used for maps. If unspecified,
+     * `scala.collection.immutable.Map` will be used.
+     * </pre>
+     *
+     * <code>optional string map_type = 14;</code>
+     */
+    com.google.protobuf.ByteString
+        getMapTypeBytes();
+
+    /**
+     * <pre>
      * For use in tests only. Inhibit Java conversions even when when generator parameters
      * request for it.
      * </pre>
@@ -398,6 +427,7 @@ public final class Scalapb {
       scope_ = 0;
       lenses_ = true;
       retainSourceCodeInfo_ = false;
+      mapType_ = "";
       testOnlyNoJavaConversions_ = false;
     }
 
@@ -508,8 +538,14 @@ public final class Scalapb {
               retainSourceCodeInfo_ = input.readBool();
               break;
             }
-            case 800008: {
+            case 114: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000800;
+              mapType_ = bs;
+              break;
+            }
+            case 800008: {
+              bitField0_ |= 0x00001000;
               testOnlyNoJavaConversions_ = input.readBool();
               break;
             }
@@ -1145,6 +1181,63 @@ public final class Scalapb {
       return retainSourceCodeInfo_;
     }
 
+    public static final int MAP_TYPE_FIELD_NUMBER = 14;
+    private volatile java.lang.Object mapType_;
+    /**
+     * <pre>
+     * Scala type to be used for maps. If unspecified,
+     * `scala.collection.immutable.Map` will be used.
+     * </pre>
+     *
+     * <code>optional string map_type = 14;</code>
+     */
+    public boolean hasMapType() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    /**
+     * <pre>
+     * Scala type to be used for maps. If unspecified,
+     * `scala.collection.immutable.Map` will be used.
+     * </pre>
+     *
+     * <code>optional string map_type = 14;</code>
+     */
+    public java.lang.String getMapType() {
+      java.lang.Object ref = mapType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          mapType_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Scala type to be used for maps. If unspecified,
+     * `scala.collection.immutable.Map` will be used.
+     * </pre>
+     *
+     * <code>optional string map_type = 14;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMapTypeBytes() {
+      java.lang.Object ref = mapType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        mapType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001;
     private boolean testOnlyNoJavaConversions_;
     /**
@@ -1156,7 +1249,7 @@ public final class Scalapb {
      * <code>optional bool test_only_no_java_conversions = 100001;</code>
      */
     public boolean hasTestOnlyNoJavaConversions() {
-      return ((bitField0_ & 0x00000800) == 0x00000800);
+      return ((bitField0_ & 0x00001000) == 0x00001000);
     }
     /**
      * <pre>
@@ -1224,6 +1317,9 @@ public final class Scalapb {
         output.writeBool(13, retainSourceCodeInfo_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 14, mapType_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
         output.writeBool(100001, testOnlyNoJavaConversions_);
       }
       unknownFields.writeTo(output);
@@ -1293,6 +1389,9 @@ public final class Scalapb {
           .computeBoolSize(13, retainSourceCodeInfo_);
       }
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(14, mapType_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(100001, testOnlyNoJavaConversions_);
       }
@@ -1370,6 +1469,11 @@ public final class Scalapb {
         result = result && (getRetainSourceCodeInfo()
             == other.getRetainSourceCodeInfo());
       }
+      result = result && (hasMapType() == other.hasMapType());
+      if (hasMapType()) {
+        result = result && getMapType()
+            .equals(other.getMapType());
+      }
       result = result && (hasTestOnlyNoJavaConversions() == other.hasTestOnlyNoJavaConversions());
       if (hasTestOnlyNoJavaConversions()) {
         result = result && (getTestOnlyNoJavaConversions()
@@ -1444,6 +1548,10 @@ public final class Scalapb {
         hash = (37 * hash) + RETAIN_SOURCE_CODE_INFO_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
             getRetainSourceCodeInfo());
+      }
+      if (hasMapType()) {
+        hash = (37 * hash) + MAP_TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getMapType().hashCode();
       }
       if (hasTestOnlyNoJavaConversions()) {
         hash = (37 * hash) + TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER;
@@ -1609,8 +1717,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000800);
         retainSourceCodeInfo_ = false;
         bitField0_ = (bitField0_ & ~0x00001000);
-        testOnlyNoJavaConversions_ = false;
+        mapType_ = "";
         bitField0_ = (bitField0_ & ~0x00002000);
+        testOnlyNoJavaConversions_ = false;
+        bitField0_ = (bitField0_ & ~0x00004000);
         return this;
       }
 
@@ -1695,6 +1805,10 @@ public final class Scalapb {
         result.retainSourceCodeInfo_ = retainSourceCodeInfo_;
         if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
           to_bitField0_ |= 0x00000800;
+        }
+        result.mapType_ = mapType_;
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00001000;
         }
         result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
         result.bitField0_ = to_bitField0_;
@@ -1804,6 +1918,11 @@ public final class Scalapb {
         }
         if (other.hasRetainSourceCodeInfo()) {
           setRetainSourceCodeInfo(other.getRetainSourceCodeInfo());
+        }
+        if (other.hasMapType()) {
+          bitField0_ |= 0x00002000;
+          mapType_ = other.mapType_;
+          onChanged();
         }
         if (other.hasTestOnlyNoJavaConversions()) {
           setTestOnlyNoJavaConversions(other.getTestOnlyNoJavaConversions());
@@ -2877,6 +2996,112 @@ public final class Scalapb {
         return this;
       }
 
+      private java.lang.Object mapType_ = "";
+      /**
+       * <pre>
+       * Scala type to be used for maps. If unspecified,
+       * `scala.collection.immutable.Map` will be used.
+       * </pre>
+       *
+       * <code>optional string map_type = 14;</code>
+       */
+      public boolean hasMapType() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      /**
+       * <pre>
+       * Scala type to be used for maps. If unspecified,
+       * `scala.collection.immutable.Map` will be used.
+       * </pre>
+       *
+       * <code>optional string map_type = 14;</code>
+       */
+      public java.lang.String getMapType() {
+        java.lang.Object ref = mapType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            mapType_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Scala type to be used for maps. If unspecified,
+       * `scala.collection.immutable.Map` will be used.
+       * </pre>
+       *
+       * <code>optional string map_type = 14;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMapTypeBytes() {
+        java.lang.Object ref = mapType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          mapType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Scala type to be used for maps. If unspecified,
+       * `scala.collection.immutable.Map` will be used.
+       * </pre>
+       *
+       * <code>optional string map_type = 14;</code>
+       */
+      public Builder setMapType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00002000;
+        mapType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Scala type to be used for maps. If unspecified,
+       * `scala.collection.immutable.Map` will be used.
+       * </pre>
+       *
+       * <code>optional string map_type = 14;</code>
+       */
+      public Builder clearMapType() {
+        bitField0_ = (bitField0_ & ~0x00002000);
+        mapType_ = getDefaultInstance().getMapType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Scala type to be used for maps. If unspecified,
+       * `scala.collection.immutable.Map` will be used.
+       * </pre>
+       *
+       * <code>optional string map_type = 14;</code>
+       */
+      public Builder setMapTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00002000;
+        mapType_ = value;
+        onChanged();
+        return this;
+      }
+
       private boolean testOnlyNoJavaConversions_ ;
       /**
        * <pre>
@@ -2887,7 +3112,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public boolean hasTestOnlyNoJavaConversions() {
-        return ((bitField0_ & 0x00002000) == 0x00002000);
+        return ((bitField0_ & 0x00004000) == 0x00004000);
       }
       /**
        * <pre>
@@ -2909,7 +3134,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder setTestOnlyNoJavaConversions(boolean value) {
-        bitField0_ |= 0x00002000;
+        bitField0_ |= 0x00004000;
         testOnlyNoJavaConversions_ = value;
         onChanged();
         return this;
@@ -2923,7 +3148,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder clearTestOnlyNoJavaConversions() {
-        bitField0_ = (bitField0_ & ~0x00002000);
+        bitField0_ = (bitField0_ & ~0x00004000);
         testOnlyNoJavaConversions_ = false;
         onChanged();
         return this;
@@ -4792,6 +5017,38 @@ public final class Scalapb {
 
     /**
      * <pre>
+     * Can be specified only if this field is a map. If unspecified,
+     * it falls back to the file option named `map_type` which defaults to
+     * `scala.collection.immutable.Map`
+     * </pre>
+     *
+     * <code>optional string map_type = 7;</code>
+     */
+    boolean hasMapType();
+    /**
+     * <pre>
+     * Can be specified only if this field is a map. If unspecified,
+     * it falls back to the file option named `map_type` which defaults to
+     * `scala.collection.immutable.Map`
+     * </pre>
+     *
+     * <code>optional string map_type = 7;</code>
+     */
+    java.lang.String getMapType();
+    /**
+     * <pre>
+     * Can be specified only if this field is a map. If unspecified,
+     * it falls back to the file option named `map_type` which defaults to
+     * `scala.collection.immutable.Map`
+     * </pre>
+     *
+     * <code>optional string map_type = 7;</code>
+     */
+    com.google.protobuf.ByteString
+        getMapTypeBytes();
+
+    /**
+     * <pre>
      * Do not box this value in Option[T]
      * </pre>
      *
@@ -4826,6 +5083,7 @@ public final class Scalapb {
       keyType_ = "";
       valueType_ = "";
       annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      mapType_ = "";
       noBox_ = false;
     }
 
@@ -4892,8 +5150,14 @@ public final class Scalapb {
               annotations_.add(bs);
               break;
             }
-            case 240: {
+            case 58: {
+              com.google.protobuf.ByteString bs = input.readBytes();
               bitField0_ |= 0x00000020;
+              mapType_ = bs;
+              break;
+            }
+            case 240: {
+              bitField0_ |= 0x00000040;
               noBox_ = input.readBool();
               break;
             }
@@ -5221,6 +5485,66 @@ public final class Scalapb {
       return annotations_.getByteString(index);
     }
 
+    public static final int MAP_TYPE_FIELD_NUMBER = 7;
+    private volatile java.lang.Object mapType_;
+    /**
+     * <pre>
+     * Can be specified only if this field is a map. If unspecified,
+     * it falls back to the file option named `map_type` which defaults to
+     * `scala.collection.immutable.Map`
+     * </pre>
+     *
+     * <code>optional string map_type = 7;</code>
+     */
+    public boolean hasMapType() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    /**
+     * <pre>
+     * Can be specified only if this field is a map. If unspecified,
+     * it falls back to the file option named `map_type` which defaults to
+     * `scala.collection.immutable.Map`
+     * </pre>
+     *
+     * <code>optional string map_type = 7;</code>
+     */
+    public java.lang.String getMapType() {
+      java.lang.Object ref = mapType_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        if (bs.isValidUtf8()) {
+          mapType_ = s;
+        }
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * Can be specified only if this field is a map. If unspecified,
+     * it falls back to the file option named `map_type` which defaults to
+     * `scala.collection.immutable.Map`
+     * </pre>
+     *
+     * <code>optional string map_type = 7;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMapTypeBytes() {
+      java.lang.Object ref = mapType_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        mapType_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
     public static final int NO_BOX_FIELD_NUMBER = 30;
     private boolean noBox_;
     /**
@@ -5231,7 +5555,7 @@ public final class Scalapb {
      * <code>optional bool no_box = 30;</code>
      */
     public boolean hasNoBox() {
-      return ((bitField0_ & 0x00000020) == 0x00000020);
+      return ((bitField0_ & 0x00000040) == 0x00000040);
     }
     /**
      * <pre>
@@ -5277,6 +5601,9 @@ public final class Scalapb {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, annotations_.getRaw(i));
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 7, mapType_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         output.writeBool(30, noBox_);
       }
       unknownFields.writeTo(output);
@@ -5312,6 +5639,9 @@ public final class Scalapb {
         size += 1 * getAnnotationsList().size();
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, mapType_);
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(30, noBox_);
       }
@@ -5358,6 +5688,11 @@ public final class Scalapb {
       }
       result = result && getAnnotationsList()
           .equals(other.getAnnotationsList());
+      result = result && (hasMapType() == other.hasMapType());
+      if (hasMapType()) {
+        result = result && getMapType()
+            .equals(other.getMapType());
+      }
       result = result && (hasNoBox() == other.hasNoBox());
       if (hasNoBox()) {
         result = result && (getNoBox()
@@ -5397,6 +5732,10 @@ public final class Scalapb {
       if (getAnnotationsCount() > 0) {
         hash = (37 * hash) + ANNOTATIONS_FIELD_NUMBER;
         hash = (53 * hash) + getAnnotationsList().hashCode();
+      }
+      if (hasMapType()) {
+        hash = (37 * hash) + MAP_TYPE_FIELD_NUMBER;
+        hash = (53 * hash) + getMapType().hashCode();
       }
       if (hasNoBox()) {
         hash = (37 * hash) + NO_BOX_FIELD_NUMBER;
@@ -5548,8 +5887,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000010);
         annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000020);
-        noBox_ = false;
+        mapType_ = "";
         bitField0_ = (bitField0_ & ~0x00000040);
+        noBox_ = false;
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
 
@@ -5605,6 +5946,10 @@ public final class Scalapb {
         result.annotations_ = annotations_;
         if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
           to_bitField0_ |= 0x00000020;
+        }
+        result.mapType_ = mapType_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
         }
         result.noBox_ = noBox_;
         result.bitField0_ = to_bitField0_;
@@ -5689,6 +6034,11 @@ public final class Scalapb {
             ensureAnnotationsIsMutable();
             annotations_.addAll(other.annotations_);
           }
+          onChanged();
+        }
+        if (other.hasMapType()) {
+          bitField0_ |= 0x00000040;
+          mapType_ = other.mapType_;
           onChanged();
         }
         if (other.hasNoBox()) {
@@ -6299,6 +6649,118 @@ public final class Scalapb {
         return this;
       }
 
+      private java.lang.Object mapType_ = "";
+      /**
+       * <pre>
+       * Can be specified only if this field is a map. If unspecified,
+       * it falls back to the file option named `map_type` which defaults to
+       * `scala.collection.immutable.Map`
+       * </pre>
+       *
+       * <code>optional string map_type = 7;</code>
+       */
+      public boolean hasMapType() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is a map. If unspecified,
+       * it falls back to the file option named `map_type` which defaults to
+       * `scala.collection.immutable.Map`
+       * </pre>
+       *
+       * <code>optional string map_type = 7;</code>
+       */
+      public java.lang.String getMapType() {
+        java.lang.Object ref = mapType_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          if (bs.isValidUtf8()) {
+            mapType_ = s;
+          }
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is a map. If unspecified,
+       * it falls back to the file option named `map_type` which defaults to
+       * `scala.collection.immutable.Map`
+       * </pre>
+       *
+       * <code>optional string map_type = 7;</code>
+       */
+      public com.google.protobuf.ByteString
+          getMapTypeBytes() {
+        java.lang.Object ref = mapType_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          mapType_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is a map. If unspecified,
+       * it falls back to the file option named `map_type` which defaults to
+       * `scala.collection.immutable.Map`
+       * </pre>
+       *
+       * <code>optional string map_type = 7;</code>
+       */
+      public Builder setMapType(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        mapType_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is a map. If unspecified,
+       * it falls back to the file option named `map_type` which defaults to
+       * `scala.collection.immutable.Map`
+       * </pre>
+       *
+       * <code>optional string map_type = 7;</code>
+       */
+      public Builder clearMapType() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        mapType_ = getDefaultInstance().getMapType();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Can be specified only if this field is a map. If unspecified,
+       * it falls back to the file option named `map_type` which defaults to
+       * `scala.collection.immutable.Map`
+       * </pre>
+       *
+       * <code>optional string map_type = 7;</code>
+       */
+      public Builder setMapTypeBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000040;
+        mapType_ = value;
+        onChanged();
+        return this;
+      }
+
       private boolean noBox_ ;
       /**
        * <pre>
@@ -6308,7 +6770,7 @@ public final class Scalapb {
        * <code>optional bool no_box = 30;</code>
        */
       public boolean hasNoBox() {
-        return ((bitField0_ & 0x00000040) == 0x00000040);
+        return ((bitField0_ & 0x00000080) == 0x00000080);
       }
       /**
        * <pre>
@@ -6328,7 +6790,7 @@ public final class Scalapb {
        * <code>optional bool no_box = 30;</code>
        */
       public Builder setNoBox(boolean value) {
-        bitField0_ |= 0x00000040;
+        bitField0_ |= 0x00000080;
         noBox_ = value;
         onChanged();
         return this;
@@ -6341,7 +6803,7 @@ public final class Scalapb {
        * <code>optional bool no_box = 30;</code>
        */
       public Builder clearNoBox() {
-        bitField0_ = (bitField0_ & ~0x00000040);
+        bitField0_ = (bitField0_ & ~0x00000080);
         noBox_ = false;
         onChanged();
         return this;
@@ -9033,7 +9495,7 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\rscalapb.proto\022\007scalapb\032 google/protobu" +
-      "f/descriptor.proto\"\271\003\n\016ScalaPbOptions\022\024\n" +
+      "f/descriptor.proto\"\313\003\n\016ScalaPbOptions\022\024\n" +
       "\014package_name\030\001 \001(\t\022\024\n\014flat_package\030\002 \001(" +
       "\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 \003(\t\022\023\n\013s" +
       "ingle_file\030\005 \001(\010\022\035\n\025no_primitive_wrapper" +
@@ -9042,32 +9504,33 @@ public final class Scalapb {
       "_fields\030\t \001(\010\022\023\n\013object_name\030\n \001(\t\0223\n\005sc" +
       "ope\030\013 \001(\0162$.scalapb.ScalaPbOptions.Optio" +
       "nsScope\022\024\n\006lenses\030\014 \001(\010:\004true\022\037\n\027retain_" +
-      "source_code_info\030\r \001(\010\022\'\n\035test_only_no_j" +
-      "ava_conversions\030\241\215\006 \001(\010\"%\n\014OptionsScope\022" +
-      "\010\n\004FILE\020\000\022\013\n\007PACKAGE\020\001\"~\n\016MessageOptions" +
-      "\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030\002" +
-      " \003(\t\022\023\n\013annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022" +
-      "\035\n\025companion_annotations\030\005 \003(\t\"\224\001\n\014Field" +
-      "Options\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(" +
-      "\t\022\027\n\017collection_type\030\003 \001(\t\022\020\n\010key_type\030\004" +
-      " \001(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n\013annotations\030" +
-      "\006 \003(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007" +
-      "extends\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t" +
-      "\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n\007ex" +
-      "tends\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007extends\030\001" +
-      " \003(\t:G\n\007options\022\034.google.protobuf.FileOp" +
-      "tions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n" +
-      "\007message\022\037.google.protobuf.MessageOption" +
-      "s\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fie" +
-      "ld\022\035.google.protobuf.FieldOptions\030\374\007 \001(\013" +
-      "2\025.scalapb.FieldOptions:I\n\014enum_options\022" +
-      "\034.google.protobuf.EnumOptions\030\374\007 \001(\0132\024.s" +
-      "calapb.EnumOptions:Q\n\nenum_value\022!.googl" +
-      "e.protobuf.EnumValueOptions\030\374\007 \001(\0132\031.sca" +
-      "lapb.EnumValueOptions:D\n\005oneof\022\035.google." +
-      "protobuf.OneofOptions\030\374\007 \001(\0132\025.scalapb.O" +
-      "neofOptionsB9\n\030scalapb.options.compiler\342" +
-      "?\034\n\030scalapb.options.compiler\020\001"
+      "source_code_info\030\r \001(\010\022\020\n\010map_type\030\016 \001(\t" +
+      "\022\'\n\035test_only_no_java_conversions\030\241\215\006 \001(" +
+      "\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000\022\013\n\007PACKAGE\020\001" +
+      "\"~\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021c" +
+      "ompanion_extends\030\002 \003(\t\022\023\n\013annotations\030\003 " +
+      "\003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_annotatio" +
+      "ns\030\005 \003(\t\"\246\001\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022" +
+      "\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type\030\003" +
+      " \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001" +
+      "(\t\022\023\n\013annotations\030\006 \003(\t\022\020\n\010map_type\030\007 \001(" +
+      "\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007exte" +
+      "nds\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\014\n\004" +
+      "type\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n\007extend" +
+      "s\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007extends\030\001 \003(\t" +
+      ":G\n\007options\022\034.google.protobuf.FileOption" +
+      "s\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n\007mes" +
+      "sage\022\037.google.protobuf.MessageOptions\030\374\007" +
+      " \001(\0132\027.scalapb.MessageOptions:D\n\005field\022\035" +
+      ".google.protobuf.FieldOptions\030\374\007 \001(\0132\025.s" +
+      "calapb.FieldOptions:I\n\014enum_options\022\034.go" +
+      "ogle.protobuf.EnumOptions\030\374\007 \001(\0132\024.scala" +
+      "pb.EnumOptions:Q\n\nenum_value\022!.google.pr" +
+      "otobuf.EnumValueOptions\030\374\007 \001(\0132\031.scalapb" +
+      ".EnumValueOptions:D\n\005oneof\022\035.google.prot" +
+      "obuf.OneofOptions\030\374\007 \001(\0132\025.scalapb.Oneof" +
+      "OptionsB9\n\030scalapb.options.compiler\342?\034\n\030" +
+      "scalapb.options.compiler\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9087,7 +9550,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "Scope", "Lenses", "RetainSourceCodeInfo", "TestOnlyNoJavaConversions", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "Scope", "Lenses", "RetainSourceCodeInfo", "MapType", "TestOnlyNoJavaConversions", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
@@ -9099,7 +9562,7 @@ public final class Scalapb {
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_FieldOptions_descriptor,
-        new java.lang.String[] { "Type", "ScalaName", "CollectionType", "KeyType", "ValueType", "Annotations", "NoBox", });
+        new java.lang.String[] { "Type", "ScalaName", "CollectionType", "KeyType", "ValueType", "Annotations", "MapType", "NoBox", });
     internal_static_scalapb_EnumOptions_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_scalapb_EnumOptions_fieldAccessorTable = new

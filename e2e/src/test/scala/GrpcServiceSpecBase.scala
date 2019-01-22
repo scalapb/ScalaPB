@@ -1,6 +1,7 @@
 import java.util.concurrent.TimeUnit
 
-import com.trueaccord.pb.{Service1JavaImpl, Service1ScalaImpl}
+import com.thesamet.pb.Service1JavaImpl
+import com.thesamet.pb.Service1ScalaImpl
 import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.protobuf.services.ProtoReflectionService

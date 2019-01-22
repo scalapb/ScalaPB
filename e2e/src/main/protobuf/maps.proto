@@ -6,7 +6,7 @@ import "scalapb/scalapb.proto";
 
 
 option (scalapb.options) = {
-  import: "com.trueaccord.pb.MisplacedMapper.weatherMapper"
+  import: "com.thesamet.pb.MisplacedMapper.weatherMapper"
 };
 
 message MapsTest {
@@ -27,10 +27,10 @@ message MapsTest {
 }
 
 message CustomMaps {
-  map<string, int32> string_to_year = 1 [(scalapb.field).value_type = "com.trueaccord.pb.Years"];
-  map<string, int32> person_to_int = 2 [(scalapb.field).key_type = "com.trueaccord.pb.PersonId"];
+  map<string, int32> string_to_year = 1 [(scalapb.field).value_type = "com.thesamet.pb.Years"];
+  map<string, int32> person_to_int = 2 [(scalapb.field).key_type = "com.thesamet.pb.PersonId"];
   map<string, int32> person_to_year = 3 [
-    (scalapb.field).key_type = "com.trueaccord.pb.PersonId",
-    (scalapb.field).value_type = "com.trueaccord.pb.Years"
+    (scalapb.field).key_type = "com.thesamet.pb.PersonId",
+    (scalapb.field).value_type = "com.thesamet.pb.Years"
   ];
 }

@@ -8,7 +8,7 @@ import com.trueaccord.proto.e2e.custom_options_use._
 import org.scalatest._
 import com.google.protobuf.ByteString
 import com.google.protobuf.descriptor.MessageOptions
-import com.trueaccord.pb.{Base1, Base2, FullName}
+import com.thesamet.pb.{Base1, Base2, FullName}
 
 class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   val barOptions = BarMessage.scalaDescriptor.getOptions
@@ -23,15 +23,15 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "CustomAnnotation" should "exist" in {
     val annotations = typeOf[FooMessage].typeSymbol.asClass.annotations
-    annotations.count(_.toString == "com.trueaccord.pb.CustomAnnotation") must be (1)
+    annotations.count(_.toString == "com.thesamet.pb.CustomAnnotation") must be (1)
   }
 
   "CustomAnnotation, CustomAnnotation1, CustomAnnotation2" should "exist" in {
     val annotations = typeOf[BarMessage].typeSymbol.asClass.annotations.map(_.toString)
     annotations must contain allOf (
-      "com.trueaccord.pb.CustomAnnotation",
-      "com.trueaccord.pb.CustomAnnotation1",
-      "com.trueaccord.pb.CustomAnnotation2"
+      "com.thesamet.pb.CustomAnnotation",
+      "com.thesamet.pb.CustomAnnotation1",
+      "com.thesamet.pb.CustomAnnotation2"
     )
   }
   "Options existing" should "return Some(option)" in {
@@ -245,8 +245,8 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "companion annotations" should "be set correctly" in {
     typeOf[FooMessage.type].typeSymbol.asClass.annotations.map(_.toString) must contain only(
-      "com.trueaccord.pb.CustomAnnotation1",
-      "com.trueaccord.pb.CustomAnnotation2"
+      "com.thesamet.pb.CustomAnnotation1",
+      "com.thesamet.pb.CustomAnnotation2"
     )
   }
 }

@@ -1,4 +1,4 @@
-package com.trueaccord.pb
+package com.thesamet.pb
 
 object EnumOptions {
   trait EnumBase

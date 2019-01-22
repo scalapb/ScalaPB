@@ -5,7 +5,7 @@ package com.trueaccord.proto.e2e;
 import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
-  import: "com.trueaccord.pb.CustomAnnotation"
+  import: "com.thesamet.pb.CustomAnnotation"
 };
 
 message CustomAnnotationMessage {

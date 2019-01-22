@@ -5,51 +5,51 @@ package com.trueaccord.proto.e2e;
 import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
-  import: "com.trueaccord.pb.MisplacedMapper.weatherMapper"
+  import: "com.thesamet.pb.MisplacedMapper.weatherMapper"
 };
 
 message CustomMessage {
-  optional string person_id = 2          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
-  required string required_person_id = 3 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
-  repeated string person_ids = 4         [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  optional string person_id = 2          [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+  required string required_person_id = 3 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+  repeated string person_ids = 4         [(scalapb.field).type = "com.thesamet.pb.PersonId"];
 
-  optional int32 age = 5                 [(scalapb.field).type = "com.trueaccord.pb.Years"];
-  required int32 required_age = 6        [(scalapb.field).type = "com.trueaccord.pb.Years"];
-  repeated int32 ages = 7                [(scalapb.field).type = "com.trueaccord.pb.Years"];
-  repeated int32 packed_ages = 8         [(scalapb.field).type = "com.trueaccord.pb.Years", packed=true];
+  optional int32 age = 5                 [(scalapb.field).type = "com.thesamet.pb.Years"];
+  required int32 required_age = 6        [(scalapb.field).type = "com.thesamet.pb.Years"];
+  repeated int32 ages = 7                [(scalapb.field).type = "com.thesamet.pb.Years"];
+  repeated int32 packed_ages = 8         [(scalapb.field).type = "com.thesamet.pb.Years", packed=true];
 
   enum Weather {
     SUNNY = 1;
     RAIN = 2;
   }
-  optional Weather weather = 9           [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
-  required Weather required_weather = 10 [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
-  repeated Weather weathers = 11         [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
-  repeated Weather packed_weathers = 12  [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather", packed=true];
+  optional Weather weather = 9           [(scalapb.field).type = "com.thesamet.pb.WrappedWeather"];
+  required Weather required_weather = 10 [(scalapb.field).type = "com.thesamet.pb.WrappedWeather"];
+  repeated Weather weathers = 11         [(scalapb.field).type = "com.thesamet.pb.WrappedWeather"];
+  repeated Weather packed_weathers = 12  [(scalapb.field).type = "com.thesamet.pb.WrappedWeather", packed=true];
 
   message Name {
     optional string first = 1;
     optional string last = 2;
   }
-  optional Name name = 13                [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-  required Name required_name = 14       [(scalapb.field).type = "com.trueaccord.pb.FullName"];
-  repeated Name names = 15               [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+  optional Name name = 13                [(scalapb.field).type = "com.thesamet.pb.FullName"];
+  required Name required_name = 14       [(scalapb.field).type = "com.thesamet.pb.FullName"];
+  repeated Name names = 15               [(scalapb.field).type = "com.thesamet.pb.FullName"];
 }
 
 message OneofMessage {
   oneof one_of {
-    string person_id = 1                 [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
-    int32 age = 2                        [(scalapb.field).type = "com.trueaccord.pb.Years"];
-    CustomMessage.Weather weather = 3    [(scalapb.field).type = "com.trueaccord.pb.WrappedWeather"];
-    CustomMessage.Name name = 4          [(scalapb.field).type = "com.trueaccord.pb.FullName"];
+    string person_id = 1                 [(scalapb.field).type = "com.thesamet.pb.PersonId"];
+    int32 age = 2                        [(scalapb.field).type = "com.thesamet.pb.Years"];
+    CustomMessage.Weather weather = 3    [(scalapb.field).type = "com.thesamet.pb.WrappedWeather"];
+    CustomMessage.Name name = 4          [(scalapb.field).type = "com.thesamet.pb.FullName"];
   }
 }
 
 message CustomerEvent {
-  option (scalapb.message).extends = "com.trueaccord.pb.DomainEvent";
-  option (scalapb.message).companion_extends = "com.trueaccord.pb.DomainEventCompanion";
+  option (scalapb.message).extends = "com.thesamet.pb.DomainEvent";
+  option (scalapb.message).companion_extends = "com.thesamet.pb.DomainEventCompanion";
 
-  optional string person_id = 1          [(scalapb.field).type = "com.trueaccord.pb.PersonId"];
+  optional string person_id = 1          [(scalapb.field).type = "com.thesamet.pb.PersonId"];
   optional int32 optional_number = 2;
   repeated int32 repeated_number = 3;
   required int32 required_number = 4;

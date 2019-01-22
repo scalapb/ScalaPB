@@ -24,7 +24,6 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     aField.isRepeated must be(false)
     aField.containingOneof must be(None)
     aField.containingMessage must be(OneofTest.scalaDescriptor)
-    println(aField.asProto)
     aField.scalaName must be("a")
     SubMessage.scalaDescriptor.fields.find(_.name == "name").map(_.scalaType).value must be(ScalaType.String)
 

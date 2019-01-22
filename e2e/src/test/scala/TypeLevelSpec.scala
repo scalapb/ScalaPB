@@ -1,6 +1,6 @@
-import com.trueaccord.pb.{Point2D, Dir2D}
 import com.trueaccord.proto.e2e.type_level.UsesMessageLevelType
 import org.scalatest.{FlatSpec, MustMatchers}
+import com.thesamet.pb.{Point2D, Dir2D}
 
 class TypeLevelSpec extends FlatSpec with MustMatchers {
   "message level type" should "generate correct types" in {

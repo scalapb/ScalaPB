@@ -1,4 +1,4 @@
-package com.trueaccord.pb
+package com.thesamet.pb
 
 import scala.collection.mutable
 import scala.collection.generic.CanBuildFrom

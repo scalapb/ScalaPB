@@ -1,6 +1,8 @@
-import com.trueaccord.pb.MyVector
+import com.thesamet.pb.{MyMap, MyVector}
 import com.trueaccord.proto.e2e.collection_types._
 import org.scalatest._
+
+import scala.collection.mutable
 
 class CollectionTypesSpec extends FlatSpec with MustMatchers {
   "lenses" should "compile" in {
@@ -25,5 +27,23 @@ class CollectionTypesSpec extends FlatSpec with MustMatchers {
   "packed sets serialization" should "work" in {
     val m = CollectionTypesPackedSet(repeatedUint32 = Set(1,2,3,4,5))
     CollectionTypesPackedSet.parseFrom(m.toByteArray) must be(m)
+  }
+
+  "custom maps" should "have expected types" in {
+    val m = CollectionTypesMap()
+    m.mapInt32Bool must be (a[mutable.Map[_, _]])
+    m.mapInt32Enum must be (a[mutable.Map[_, _]])
+    m.mymapInt32Bool must be (a[MyMap[_, _]])
+  }
+
+  "custom maps" should "serialize and deserialize" in {
+    val m = CollectionTypesMap(mymapInt32Bool = MyMap(Map(3 -> true, 4 -> false)))
+    CollectionTypesMap.parseFrom(m.toByteArray) must be(m)
+    m.mapInt32Bool += (3 -> true)
+  }
+
+  "custom maps" should "convertible to and from Java" in {
+    val m = CollectionTypesMap(mymapInt32Bool = MyMap(Map(3 -> true, 4 -> false)))
+    CollectionTypesMap.fromJavaProto(CollectionTypesMap.toJavaProto(m)) must be(m)
   }
 }
