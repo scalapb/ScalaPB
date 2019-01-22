@@ -1,11 +1,17 @@
 package scalapb.compiler
 
-import com.google.protobuf.DescriptorProtos.{DescriptorProto, FileDescriptorProto, SourceCodeInfo}
+import com.google.protobuf.DescriptorProtos.{
+  DescriptorProto,
+  EnumDescriptorProto,
+  FileDescriptorProto,
+  ServiceDescriptorProto,
+  SourceCodeInfo
+}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
-
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb._
+
 import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
@@ -109,6 +115,21 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def name: String = name0.asSymbol
 
     def descriptorName = s"METHOD_${NameUtils.toAllCaps(method.getName)}"
+
+    def sourcePath: Seq[Int] = {
+      method.getService.sourcePath ++ Seq(
+        ServiceDescriptorProto.METHOD_FIELD_NUMBER,
+        method.getIndex
+      )
+    }
+
+    def comment: Option[String] = {
+      method.getFile
+        .findLocationByPath(sourcePath)
+        .map(t => t.getLeadingComments + t.getTrailingComments)
+        .map(Helper.escapeComment)
+        .filter(_.nonEmpty)
+    }
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
@@ -125,6 +146,19 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def methods = self.getMethods.asScala.toIndexedSeq
 
     def descriptorName = "SERVICE"
+
+    def scalaDescriptorSource: String =
+      s"${self.getFile.fileDescriptorObjectName}.scalaDescriptor.services(${self.getIndex})"
+
+    def sourcePath: Seq[Int] = Seq(FileDescriptorProto.SERVICE_FIELD_NUMBER, self.getIndex)
+
+    def comment: Option[String] = {
+      self.getFile
+        .findLocationByPath(sourcePath)
+        .map(t => t.getLeadingComments + t.getTrailingComments)
+        .map(Helper.escapeComment)
+        .filter(_.nonEmpty)
+    }
   }
 
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
@@ -661,6 +695,23 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def companionExtends: Seq[String] =
       s"_root_.scalapb.GeneratedEnumCompanion[${nameSymbol}]" +: scalaOptions.getCompanionExtendsList.asScala
+
+    def sourcePath: Seq[Int] = {
+      if (enum.isTopLevel) Seq(FileDescriptorProto.ENUM_TYPE_FIELD_NUMBER, enum.getIndex)
+      else
+        enum.getContainingType.sourcePath ++ Seq(
+          DescriptorProto.ENUM_TYPE_FIELD_NUMBER,
+          enum.getIndex
+        )
+    }
+
+    def comment: Option[String] = {
+      enum.getFile
+        .findLocationByPath(sourcePath)
+        .map(t => t.getLeadingComments + t.getTrailingComments)
+        .map(Helper.escapeComment)
+        .filter(_.nonEmpty)
+    }
   }
 
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
@@ -676,6 +727,21 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
           e -> ("is" + allCapsToCamelCase(e.getName, true))
         }
       )(enumValue)
+    }
+
+    def sourcePath: Seq[Int] = {
+      enumValue.getType.sourcePath ++ Seq(
+        EnumDescriptorProto.VALUE_FIELD_NUMBER,
+        enumValue.getIndex
+      )
+    }
+
+    def comment: Option[String] = {
+      enumValue.getFile
+        .findLocationByPath(sourcePath)
+        .map(t => t.getLeadingComments + t.getTrailingComments)
+        .map(Helper.escapeComment)
+        .filter(_.nonEmpty)
     }
   }
 

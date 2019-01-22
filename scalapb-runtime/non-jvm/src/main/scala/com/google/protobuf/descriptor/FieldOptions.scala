@@ -302,6 +302,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[CType] = this
+    /** Default mode.
+      */
     @SerialVersionUID(0L)
     case object STRING extends CType {
       val value = 0
@@ -349,6 +351,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[JSType] = this
+    /** Use the default type.
+      */
     @SerialVersionUID(0L)
     case object JS_NORMAL extends JSType {
       val value = 0
@@ -357,6 +361,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       override def isJsNormal: _root_.scala.Boolean = true
     }
     
+    /** Use JavaScript strings.
+      */
     @SerialVersionUID(0L)
     case object JS_STRING extends JSType {
       val value = 1
@@ -365,6 +371,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       override def isJsString: _root_.scala.Boolean = true
     }
     
+    /** Use JavaScript numbers.
+      */
     @SerialVersionUID(0L)
     case object JS_NUMBER extends JSType {
       val value = 2

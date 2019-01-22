@@ -338,6 +338,9 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   
   object Type extends _root_.scalapb.GeneratedEnumCompanion[Type] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Type] = this
+    /** 0 is reserved for errors.
+      * Order is weird for historical reasons.
+      */
     @SerialVersionUID(0L)
     case object TYPE_DOUBLE extends Type {
       val value = 1
@@ -354,6 +357,9 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       override def isTypeFloat: _root_.scala.Boolean = true
     }
     
+    /** Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT64 if
+      * negative values are likely.
+      */
     @SerialVersionUID(0L)
     case object TYPE_INT64 extends Type {
       val value = 3
@@ -370,6 +376,9 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       override def isTypeUint64: _root_.scala.Boolean = true
     }
     
+    /** Not ZigZag encoded.  Negative numbers take 10 bytes.  Use TYPE_SINT32 if
+      * negative values are likely.
+      */
     @SerialVersionUID(0L)
     case object TYPE_INT32 extends Type {
       val value = 5
@@ -410,6 +419,11 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       override def isTypeString: _root_.scala.Boolean = true
     }
     
+    /** Tag-delimited aggregate.
+      * Group type is deprecated and not supported in proto3. However, Proto3
+      * implementations should still be able to parse the group wire format and
+      * treat group fields as unknown fields.
+      */
     @SerialVersionUID(0L)
     case object TYPE_GROUP extends Type {
       val value = 10
@@ -418,6 +432,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       override def isTypeGroup: _root_.scala.Boolean = true
     }
     
+    /** Length-delimited aggregate.
+      */
     @SerialVersionUID(0L)
     case object TYPE_MESSAGE extends Type {
       val value = 11
@@ -426,6 +442,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       override def isTypeMessage: _root_.scala.Boolean = true
     }
     
+    /** New in version 2.
+      */
     @SerialVersionUID(0L)
     case object TYPE_BYTES extends Type {
       val value = 12
@@ -466,6 +484,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       override def isTypeSfixed64: _root_.scala.Boolean = true
     }
     
+    /** Uses ZigZag encoding.
+      */
     @SerialVersionUID(0L)
     case object TYPE_SINT32 extends Type {
       val value = 17
@@ -474,6 +494,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       override def isTypeSint32: _root_.scala.Boolean = true
     }
     
+    /** Uses ZigZag encoding.
+      */
     @SerialVersionUID(0L)
     case object TYPE_SINT64 extends Type {
       val value = 18
@@ -520,6 +542,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   
   object Label extends _root_.scalapb.GeneratedEnumCompanion[Label] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Label] = this
+    /** 0 is reserved for errors
+      */
     @SerialVersionUID(0L)
     case object LABEL_OPTIONAL extends Label {
       val value = 1

@@ -28,3 +28,9 @@ message Foo {
     }
 };
 // and here
+
+// a commented service
+service CommentedService {
+    // a commented RPC
+    rpc CommentedRPC (Foo) returns (Foo) {}
+}

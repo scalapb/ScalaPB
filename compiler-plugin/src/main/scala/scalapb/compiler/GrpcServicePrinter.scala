@@ -2,6 +2,7 @@ package scalapb.compiler
 
 import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
+import scalapb.compiler.ProtobufGenerator.asScalaDocBlock
 
 import scala.collection.JavaConverters._
 
@@ -32,18 +33,17 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     })
   }
 
-  private[this] def serviceTrait: PrinterEndo = {
-    val endos: PrinterEndo = { p =>
-      p.seq(service.methods.map(m => serviceMethodSignature(m)))
-    }
-
-    p =>
-      p.add(s"trait ${service.name} extends _root_.scalapb.grpc.AbstractService {")
-        .indent
-        .add(s"override def serviceCompanion = ${service.name}")
-        .call(endos)
-        .outdent
-        .add("}")
+  private[this] def serviceTrait: PrinterEndo = { p =>
+    p.call(generateScalaDoc(service))
+      .add(s"trait ${service.name} extends _root_.scalapb.grpc.AbstractService {")
+      .indent
+      .add(s"override def serviceCompanion = ${service.name}")
+      .print(service.methods) {
+        case (p, method) =>
+          p.call(generateScalaDoc(method)).add(serviceMethodSignature(method))
+      }
+      .outdent
+      .add("}")
   }
 
   private[this] def serviceTraitCompanion: PrinterEndo = { p =>
@@ -57,22 +57,24 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices().get(${service.getIndex})"
       )
+      .add(
+        s"def scalaDescriptor: _root_.scalapb.descriptors.ServiceDescriptor = ${service.scalaDescriptorSource}"
+      )
       .outdent
       .add("}")
   }
 
-  private[this] def blockingClientTrait: PrinterEndo = {
-    val endos: PrinterEndo = { p =>
-      p.seq(service.methods.filter(_.canBeBlocking).map(m => blockingMethodSignature(m)))
-    }
-
-    p =>
-      p.add(s"trait ${service.blockingClient} {")
-        .indent
-        .add(s"def serviceCompanion = ${service.name}")
-        .call(endos)
-        .outdent
-        .add("}")
+  private[this] def blockingClientTrait: PrinterEndo = { p =>
+    p.call(generateScalaDoc(service))
+      .add(s"trait ${service.blockingClient} {")
+      .indent
+      .add(s"def serviceCompanion = ${service.name}")
+      .print(service.methods.filter(_.canBeBlocking)) {
+        case (p, method) =>
+          p.call(generateScalaDoc(method)).add(blockingMethodSignature(method))
+      }
+      .outdent
+      .add("}")
   }
 
   private[this] val channel     = "_root_.io.grpc.Channel"
@@ -105,7 +107,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
          else Seq())
 
       val body = s"${clientCalls}.${methodName}(${args.mkString(", ")})"
-      p.add(sig).addIndented(body).add("}").newline
+      p.call(generateScalaDoc(m)).add(sig).addIndented(body).add("}").newline
     }
 
   private def stubImplementation(
@@ -278,5 +280,15 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .newline
       .outdent
       .add("}")
+  }
+
+  def generateScalaDoc(service: ServiceDescriptor): PrinterEndo = { fp =>
+    val lines = asScalaDocBlock(service.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
+    fp.add(lines: _*)
+  }
+
+  def generateScalaDoc(method: MethodDescriptor): PrinterEndo = { fp =>
+    val lines = asScalaDocBlock(method.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
+    fp.add(lines: _*)
   }
 }

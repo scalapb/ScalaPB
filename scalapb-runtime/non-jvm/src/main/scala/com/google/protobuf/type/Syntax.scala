@@ -5,6 +5,8 @@
 
 package com.google.protobuf.`type`
 
+/** The syntax in which a protocol buffer element is defined.
+  */
 sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: _root_.scala.Boolean = false
@@ -14,6 +16,8 @@ sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
 
 object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = this
+  /** Syntax `proto2`.
+    */
   @SerialVersionUID(0L)
   case object SYNTAX_PROTO2 extends Syntax {
     val value = 0
@@ -22,6 +26,8 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
     override def isSyntaxProto2: _root_.scala.Boolean = true
   }
   
+  /** Syntax `proto3`.
+    */
   @SerialVersionUID(0L)
   case object SYNTAX_PROTO3 extends Syntax {
     val value = 1

@@ -429,6 +429,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   lazy val defaultInstance = scalapb.options.ScalaPbOptions(
   )
+  /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
+    */
   sealed trait OptionsScope extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptionsScope
     def isFile: _root_.scala.Boolean = false
@@ -438,6 +440,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = this
+    /** Apply the options for this file only (default)
+      */
     @SerialVersionUID(0L)
     case object FILE extends OptionsScope {
       val value = 0
@@ -446,6 +450,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       override def isFile: _root_.scala.Boolean = true
     }
     
+    /** Apply the options for the entire package and its subpackages.
+      */
     @SerialVersionUID(0L)
     case object PACKAGE extends OptionsScope {
       val value = 1

@@ -499,6 +499,8 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FileOptions(
   )
+  /** Generated classes can be optimized for speed or code size.
+    */
   sealed trait OptimizeMode extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptimizeMode
     def isSpeed: _root_.scala.Boolean = false
@@ -509,6 +511,8 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
+    /** Generate complete code for parsing, serialization,
+      */
     @SerialVersionUID(0L)
     case object SPEED extends OptimizeMode {
       val value = 1
@@ -517,6 +521,9 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       override def isSpeed: _root_.scala.Boolean = true
     }
     
+    /** etc.
+      * Use ReflectionOps to implement these methods.
+      */
     @SerialVersionUID(0L)
     case object CODE_SIZE extends OptimizeMode {
       val value = 2
@@ -525,6 +532,8 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       override def isCodeSize: _root_.scala.Boolean = true
     }
     
+    /** Generate code using MessageLite and the lite runtime.
+      */
     @SerialVersionUID(0L)
     case object LITE_RUNTIME extends OptimizeMode {
       val value = 3

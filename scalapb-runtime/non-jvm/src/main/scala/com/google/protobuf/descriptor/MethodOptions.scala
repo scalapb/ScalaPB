@@ -159,6 +159,10 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.MethodOptions(
   )
+  /** Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
+    * or neither? HTTP based RPC implementation may choose GET verb for safe
+    * methods, and PUT verb for idempotent methods instead of the default POST.
+    */
   sealed trait IdempotencyLevel extends _root_.scalapb.GeneratedEnum {
     type EnumType = IdempotencyLevel
     def isIdempotencyUnknown: _root_.scala.Boolean = false
@@ -177,6 +181,8 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
       override def isIdempotencyUnknown: _root_.scala.Boolean = true
     }
     
+    /** implies idempotent
+      */
     @SerialVersionUID(0L)
     case object NO_SIDE_EFFECTS extends IdempotencyLevel {
       val value = 1
@@ -185,6 +191,8 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
       override def isNoSideEffects: _root_.scala.Boolean = true
     }
     
+    /** idempotent, but may have side effects
+      */
     @SerialVersionUID(0L)
     case object IDEMPOTENT extends IdempotencyLevel {
       val value = 2

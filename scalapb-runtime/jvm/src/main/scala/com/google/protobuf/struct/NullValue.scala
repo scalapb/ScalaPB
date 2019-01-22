@@ -5,6 +5,11 @@
 
 package com.google.protobuf.struct
 
+/** `NullValue` is a singleton enumeration to represent the null value for the
+  * `Value` type union.
+  *
+  *  The JSON representation for `NullValue` is JSON `null`.
+  */
 sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: _root_.scala.Boolean = false
@@ -13,6 +18,8 @@ sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
 
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
+  /** Null value.
+    */
   @SerialVersionUID(0L)
   case object NULL_VALUE extends NullValue {
     val value = 0

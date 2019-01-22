@@ -1,3 +1,4 @@
+import com.trueaccord.proto.e2e.comments.CommentedServiceGrpc.CommentedService
 import com.trueaccord.proto.e2e.comments._
 import org.scalatest._
 
@@ -10,6 +11,8 @@ class CommentsSpec extends FlatSpec with MustMatchers {
     val enumLocation = Foo.Bar.scalaDescriptor.enums(0).location.get
     val enumXyzLocation = Foo.Bar.MyBarEnum.XYZ.scalaValueDescriptor.location.get
     val enumDefLocation = Foo.Bar.MyBarEnum.DEF.scalaValueDescriptor.location.get
+    val serviceLocation = CommentedService.scalaDescriptor.location.get
+    val methodLocation = CommentedService.scalaDescriptor.methods(0).location.get
 
     fooLocation.getLeadingComments must be(" This is the foo comment\n")
 
@@ -26,5 +29,10 @@ class CommentsSpec extends FlatSpec with MustMatchers {
     enumXyzLocation.getLeadingComments must be(" My enum value\n")
 
     enumDefLocation.getLeadingComments must be(" Def comment\n")
+
+    serviceLocation.getLeadingComments must be(" a commented service\n")
+
+    methodLocation.getLeadingComments must be(" a commented RPC\n")
+
   }
 }

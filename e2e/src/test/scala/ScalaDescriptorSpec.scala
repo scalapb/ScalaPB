@@ -1,5 +1,6 @@
 import com.trueaccord.proto.e2e.one_of.OneofTest.SubMessage
 import com.trueaccord.proto.e2e.one_of.{OneOfProto, OneofTest}
+import com.trueaccord.proto.e2e.service.Service1Grpc.Service1
 import scalapb.descriptors._
 import org.scalatest._
 
@@ -50,5 +51,9 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     xyzs.scalaName must be ("xyzs")
 
     OneofTest.XYZ.scalaDescriptor.fullName must be ("com.trueaccord.proto.e2e.OneofTest.XYZ")
+
+    Service1.scalaDescriptor.fullName must be("com.trueaccord.proto.e2e.Service1")
+    val method = Service1.scalaDescriptor.methods.find(_.name == "SealedUnary").get
+    method.fullName must be("com.trueaccord.proto.e2e.Service1.SealedUnary")
   }
 }
