@@ -112,6 +112,9 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.copy"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.this"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.FieldOptions.copy"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.FieldOptions.this"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.FieldOptions.apply"),
 
         // lenses
         ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasLenses"),
