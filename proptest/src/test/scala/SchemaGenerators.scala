@@ -109,6 +109,7 @@ object SchemaGenerators {
     // Words that are not allowed by the Java protocol buffer compiler:
     "tag",
     // internal names
+    "of",
     "java_pb_source",
     "scala_pb_source",
     "pb_byte_array_source",
