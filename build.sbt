@@ -20,7 +20,7 @@ val MimaPreviousVersion = "0.9.0-RC1"
 
 scalaVersion in ThisBuild := Scala212
 
-crossScalaVersions in ThisBuild := Seq(Scala210, Scala211, Scala212)
+crossScalaVersions in ThisBuild := Seq(Scala211, Scala212)
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -87,12 +87,14 @@ lazy val root =
       proptest,
       scalapbc)
 
-lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+// fastparse 2 is not available for Scala Native yet
+// https://github.com/lihaoyi/fastparse/issues/215
+lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
   .crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "fastparse" % "1.0.0",
+      "com.lihaoyi" %%% "fastparse" % "2.1.0",
       "com.lihaoyi" %%% "utest" % "0.6.6" % "test",
       "commons-codec" % "commons-codec" % "1.12" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
@@ -107,7 +109,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     }
   )
   .dependsOn(lenses)
-  .platformsSettings(JSPlatform, NativePlatform)(
+  .platformsSettings(JSPlatform/*, NativePlatform*/)(
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.1"
     ),
@@ -130,14 +132,16 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     },
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
   )
+/*
   .nativeSettings(
     sharedNativeSettings
   )
+*/
 
 
 lazy val runtimeJVM    = runtime.jvm
 lazy val runtimeJS     = runtime.js
-lazy val runtimeNative = runtime.native
+//lazy val runtimeNative = runtime.native
 
 lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .dependsOn(runtimeJVM)
@@ -158,6 +162,7 @@ shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .settings(
+    crossScalaVersions := Seq(Scala210, Scala211, Scala212),
     sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
       IO.write(file,
@@ -197,6 +202,7 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
   .dependsOn(compilerPlugin)
   .settings(
     name := "compilerplugin-shaded",
+    crossScalaVersions := Seq(Scala210, Scala211, Scala212),
     assemblyShadeRules in assembly := Seq(
       ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject,
       ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll
@@ -274,7 +280,7 @@ createVersionFile := {
   log.info(s"Created $f2")
 }
 
-lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file("lenses"))
+lazy val lenses = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).in(file("lenses"))
   .settings(
     name := "lenses",
     sources in Test := {
@@ -313,13 +319,15 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
       s"-P:scalajs:mapSourceURI:$a->$g/"
     }
   )
+/*
   .nativeSettings(
     sharedNativeSettings
   )
+*/
 
 lazy val lensesJVM = lenses.jvm
 lazy val lensesJS = lenses.js
-lazy val lensesNative = lenses.native
+//lazy val lensesNative = lenses.native
 
 lazy val docs = project.in(file("docs")) 
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)

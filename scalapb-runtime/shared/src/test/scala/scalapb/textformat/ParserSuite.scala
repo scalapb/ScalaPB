@@ -1,28 +1,27 @@
 package scalapb.textformat
 
-import fastparse.core.Parsed
 import utest.assert
 
 trait ParserSuite {
-  import fastparse.all.P
+  import fastparse._
 
-  def check[T](parser: P[T], input: String, expected: T) = {
-    val Parsed.Success(value, _) = parser.parse(input)
+  def check[T](parser: P[_] => P[T], input: String, expected: T) = {
+    val Parsed.Success(value, _) = parse(input, parser(_))
     assert(value == expected)
   }
 
-  def check[T](parser: P[T], input: String)(checker: T => Boolean) = {
-    val Parsed.Success(value, _) = parser.parse(input)
+  def check[T](parser: P[_] => P[T], input: String)(checker: T => Boolean) = {
+    val Parsed.Success(value, _) = parse(input, parser(_))
     assert(checker(value))
   }
 
-  def checkFail[T](parser: P[T], input: String) = {
-    assert(parser.parse(input).isInstanceOf[Parsed.Failure[_, _]])
+  def checkFail[T](parser: P[_] => P[T], input: String) = {
+    assert(parse(input, parser(_)).isInstanceOf[Parsed.Failure])
   }
 
-  def checkFail[T](parser: P[T], input: String, expectedTrace: String) = {
-    val failure     = parser.parse(input).asInstanceOf[Parsed.Failure[_, _]]
-    val actualTrace = failure.extra.traced.trace
+  def checkFail[T](parser: P[_] => P[T], input: String, expectedTrace: String) = {
+    val failure     = parse(input, parser(_)).asInstanceOf[Parsed.Failure]
+    val actualTrace = failure.extra.trace(true).msg
     assert(expectedTrace.trim == actualTrace.trim)
   }
 }

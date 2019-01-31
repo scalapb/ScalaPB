@@ -6,18 +6,18 @@ object ParserSpec extends TestSuite with ParserSuite {
 
   import ProtoAsciiParser._
 
-  val tests = TestSuite {
+  val tests = Tests {
     'KeyValue {
-      check(KeyValue, "foo: 17", TField(0, "foo", TIntLiteral(5, 17)))
-      check(KeyValue, "foo:    0x13   ", TField(0, "foo", TIntLiteral(8, 0x13)))
-      check(KeyValue, "bar: true", TField(0, "bar", TLiteral(5, "true")))
-      check(KeyValue, "bar:        true   ", TField(0, "bar", TLiteral(12, "true")))
-      check(KeyValue, "bar  :        true   ", TField(0, "bar", TLiteral(14, "true")))
-      check(KeyValue, "barr:        true   ", TField(0, "barr", TLiteral(13, "true")))
+      check(KeyValue(_), "foo: 17", TField(0, "foo", TIntLiteral(5, 17)))
+      check(KeyValue(_), "foo:    0x13   ", TField(0, "foo", TIntLiteral(8, 0x13)))
+      check(KeyValue(_), "bar: true", TField(0, "bar", TLiteral(5, "true")))
+      check(KeyValue(_), "bar:        true   ", TField(0, "bar", TLiteral(12, "true")))
+      check(KeyValue(_), "bar  :        true   ", TField(0, "bar", TLiteral(14, "true")))
+      check(KeyValue(_), "barr:        true   ", TField(0, "barr", TLiteral(13, "true")))
       //      check(KeyValue, "barr:        1e-17   ", PField(0, "barr", PLiteral(13, "1e-17")))
 
       check(
-        KeyValue,
+        KeyValue(_),
         "foo { x: 3 }",
         TField(
           0,
@@ -32,7 +32,7 @@ object ParserSpec extends TestSuite with ParserSuite {
       )
 
       check(
-        KeyValue,
+        KeyValue(_),
         "foo { x: 3 y: 4}",
         TField(
           0,
@@ -48,7 +48,7 @@ object ParserSpec extends TestSuite with ParserSuite {
       )
 
       check(
-        KeyValue,
+        KeyValue(_),
         """foo {
           |
           |     x: 3 y: 4
@@ -67,7 +67,7 @@ object ParserSpec extends TestSuite with ParserSuite {
       )
 
       check(
-        KeyValue,
+        KeyValue(_),
         """foo {
           |     # comment
           |     x: 3 # comment 2
@@ -91,7 +91,7 @@ object ParserSpec extends TestSuite with ParserSuite {
       )
 
       check(
-        KeyValue,
+        KeyValue(_),
         """foo <
           |     # comment
           |     x: 3 # comment 2
@@ -115,7 +115,7 @@ object ParserSpec extends TestSuite with ParserSuite {
       )
 
       check(
-        KeyValue,
+        KeyValue(_),
         "foo [{bar: 4}, {t: 17}]",
         TField(
           0,
@@ -131,41 +131,41 @@ object ParserSpec extends TestSuite with ParserSuite {
       )
 
       check(
-        KeyValue,
+        KeyValue(_),
         "foo: [0, 2]",
         TField(0, "foo", TArray(5, Seq(TIntLiteral(6, 0), TIntLiteral(9, 2))))
       )
 
-      check(KeyValue, "foo: []", TField(0, "foo", TArray(5, Seq())))
+      check(KeyValue(_), "foo: []", TField(0, "foo", TArray(5, Seq())))
 
-      check(KeyValue, "foo []", TField(0, "foo", TArray(4, Seq())))
+      check(KeyValue(_), "foo []", TField(0, "foo", TArray(4, Seq())))
 
-      check(KeyValue, "foo {  }", TField(0, "foo", TMessage(4, Seq())))
+      check(KeyValue(_), "foo {  }", TField(0, "foo", TMessage(4, Seq())))
 
-      check(KeyValue, "foo: {  }", TField(0, "foo", TMessage(5, Seq())))
+      check(KeyValue(_), "foo: {  }", TField(0, "foo", TMessage(5, Seq())))
 
       check(
-        KeyValue,
+        KeyValue(_),
         "foo: \"\u5d8b\u2367\u633d\"",
         TField(0, "foo", TBytes(5, "\u5d8b\u2367\u633d"))
       )
 
       check(
-        KeyValue,
+        KeyValue(_),
         "foo: [{bar: 4}]",
         TField(0, "foo", TArray(5, Seq(TMessage(6, Seq(TField(7, "bar", TIntLiteral(12, 4)))))))
       )
 
-      checkFail(KeyValue, "foo 17")
-      checkFail(KeyValue, "foo: [[17, 5]]")
-      checkFail(KeyValue, "foo { x: 3")
-      checkFail(KeyValue, "foo [{bar: 4}, 17]")
-      checkFail(KeyValue, "foo [,]")
+      checkFail(KeyValue(_), "foo 17")
+      checkFail(KeyValue(_), "foo: [[17, 5]]")
+      checkFail(KeyValue(_), "foo { x: 3")
+      checkFail(KeyValue(_), "foo [{bar: 4}, 17]")
+      checkFail(KeyValue(_), "foo [,]")
     }
 
     'Message {
       check(
-        Message,
+        Message(_),
         """foo: 4
           |baz: true
           |bal: [3, 4, 5]
@@ -206,7 +206,7 @@ object ParserSpec extends TestSuite with ParserSuite {
         )
       )
       check(
-        Message,
+        Message(_),
         """wa {
           |  e5 {
           |    brr {
