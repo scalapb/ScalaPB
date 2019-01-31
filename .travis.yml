@@ -9,7 +9,6 @@ stages:
   if: (branch = master AND type = push AND repo = "scalapb/ScalaPB") OR (tag IS present)
 
 scala:
-- 2.10.7
 - 2.11.12
 - 2.12.8
 
@@ -18,13 +17,6 @@ env:
 - TEST_SCRIPT=e2e.sh E2E_SHADED=1
 - TEST_SCRIPT=mima.sh
 - TEST_SCRIPT=proptest.sh
-
-matrix:
-  exclude:
-  - scala: 2.10.7
-    env: TEST_SCRIPT=e2e.sh E2E_SHADED=0
-  - scala: 2.10.7
-    env: TEST_SCRIPT=e2e.sh E2E_SHADED=1
 
 jobs:
   include:
