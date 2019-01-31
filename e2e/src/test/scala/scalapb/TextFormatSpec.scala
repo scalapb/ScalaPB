@@ -324,16 +324,16 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     }
 
     def parseInt32[T](input: String): Int =
-      AstUtils.parseInt32(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
+      AstUtils.parseInt32(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value).right.get.value
 
     def parseInt64[T](input: String): Long =
-      AstUtils.parseInt64(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
+      AstUtils.parseInt64(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value).right.get.value
 
     def parseUInt32[T](input: String): Int =
-      AstUtils.parseUint32(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
+      AstUtils.parseUint32(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value).right.get.value
 
     def parseUInt64[T](input: String): Long =
-      AstUtils.parseUint64(ProtoAsciiParser.PrimitiveValue.parse(input).get.value).right.get.value
+      AstUtils.parseUint64(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value).right.get.value
 
     "testParseInteger" should "pass" in {
                 0 must be(parseInt32(          "0"))
