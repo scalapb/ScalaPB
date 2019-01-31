@@ -26,7 +26,7 @@ object TextFormat {
           TextFormatError(s"${a.error} (${indexToLineCol(s, a.index)})")
         }
       case f: Parsed.Failure =>
-        Left(TextFormatError(f.longMsg))
+        Left(TextFormatError(f.trace(true).longMsg))
     }
   }
 

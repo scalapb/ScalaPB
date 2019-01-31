@@ -250,9 +250,9 @@ class TextFormatSpec extends FlatSpec with GeneratorDrivenPropertyChecks with Mu
     "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(
         EXPECTED_FIELD)
     "[nosuchext]: 123" must failParsingWith(
-        "expected identifier")
+        "Expected Message")
     "[protobuf_unittest.optional_int32_extension]: 123" must failParsingWith(
-        "expected identifier")
+        "Expected Message")
     "nosuchfield: 123" must failParsingWith(
         "Unknown field name 'nosuchfield' (line 1, column 1)")
     "optional_nested_enum: NO_SUCH_VALUE" must failParsingWith(
