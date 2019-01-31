@@ -126,7 +126,11 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.FieldDescriptor.buildFieldDescriptor"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.FieldDescriptor.this"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.Descriptor.this"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.EnumDescriptor.this")
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.EnumDescriptor.this"),
+
+        // Parsing
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.Basics.*"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.textformat.ProtoAsciiParser.*"),
       )
     }
   )
