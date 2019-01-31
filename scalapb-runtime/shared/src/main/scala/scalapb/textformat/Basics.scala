@@ -32,7 +32,7 @@ object Basics extends ParserCompat {
 
   def identifier[_: P] = P(CharIn("a-z", "A-Z", "0-9", "_").rep(1).!).opaque("identifier")
 
-  def literal[_: P] = P(CharIn("a-z",  "A-Z", "0-9", "_\\-.").rep(1).!).opaque("literal")
+  def literal[_: P] = P(CharIn("a-z", "A-Z", "0-9", "_\\-.").rep(1).!).opaque("literal")
 
   def digits[_: P]    = P(CharsWhile(Digits))
   def hexDigits[_: P] = P(CharsWhile(HexDigits))
@@ -48,25 +48,28 @@ object Basics extends ParserCompat {
 
   def integral[_: P]: P[BigInt] = P(hexIntegral | octIntegral | decIntegral)
 
-  def bigInt[_: P]: P[BigInt] = P(CharIn("+\\-").!.? ~ integral).map({
-    case (Some("-"), number) => -number
-    case (_, number)         => number
-  })
+  def bigInt[_: P]: P[BigInt] =
+    P(CharIn("+\\-").!.? ~ integral).map({
+      case (Some("-"), number) => -number
+      case (_, number)         => number
+    })
 
   def strNoDQChars[_: P] = P(CharsWhile(!"\"\n\\".contains(_: Char)))
-  def strNoQChars [_: P] = P(CharsWhile(!"'\n\\".contains(_: Char)))
-  def escape      [_: P] = P("\\" ~ AnyChar)
-  def singleBytesLiteral[_: P] = P(
-    "\"" ~/ (strNoDQChars | escape).rep.! ~ "\"" |
-      "'" ~/ (strNoQChars | escape).rep.! ~ "'"
-  ).opaque("string")
+  def strNoQChars[_: P]  = P(CharsWhile(!"'\n\\".contains(_: Char)))
+  def escape[_: P]       = P("\\" ~ AnyChar)
+  def singleBytesLiteral[_: P] =
+    P(
+      "\"" ~/ (strNoDQChars | escape).rep.! ~ "\"" |
+        "'" ~/ (strNoQChars | escape).rep.! ~ "'"
+    ).opaque("string")
 
   def bytesLiteral[_: P] = P(singleBytesLiteral.rep(1, whiteSpace)).map(_.mkString)
 
-  def boolean[_: P]: P[Boolean] = P(
-    ("true" | "t" | "1").map(_ => true) |
-      ("false" | "f" | "0").map(_ => false)
-  ).opaque("'true' or 'false'")
+  def boolean[_: P]: P[Boolean] =
+    P(
+      ("true" | "t" | "1").map(_ => true) |
+        ("false" | "f" | "0").map(_ => false)
+    ).opaque("'true' or 'false'")
 
   def ws[_: P](s: String): P[Unit] = P(s ~ &(whiteSpace))
 }
