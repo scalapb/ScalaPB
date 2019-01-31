@@ -85,12 +85,14 @@ lazy val root =
       proptest,
       scalapbc)
 
-lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
+// fastparse 2 is not available for Scala Native yet
+// https://github.com/lihaoyi/fastparse/issues/215
+lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
   .crossType(CrossType.Full).in(file("scalapb-runtime"))
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "fastparse" % "1.0.0",
+      "com.lihaoyi" %%% "fastparse" % "2.1.0",
       "com.lihaoyi" %%% "utest" % "0.6.6" % "test",
       "commons-codec" % "commons-codec" % "1.11" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
@@ -129,7 +131,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     }
   )
   .dependsOn(lenses)
-  .platformsSettings(JSPlatform, NativePlatform)(
+  .platformsSettings(JSPlatform/*, NativePlatform*/)(
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.1"
     ),
@@ -152,14 +154,16 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     },
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
   )
+/*
   .nativeSettings(
     sharedNativeSettings
   )
+*/
 
 
 lazy val runtimeJVM    = runtime.jvm
 lazy val runtimeJS     = runtime.js
-lazy val runtimeNative = runtime.native
+//lazy val runtimeNative = runtime.native
 
 lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
   .dependsOn(runtimeJVM)
@@ -307,7 +311,7 @@ createVersionFile := {
   log.info(s"Created $f2")
 }
 
-lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file("lenses"))
+lazy val lenses = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).in(file("lenses"))
   .settings(
     name := "lenses",
     sources in Test := {
@@ -340,13 +344,15 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
       s"-P:scalajs:mapSourceURI:$a->$g/"
     }
   )
+/*
   .nativeSettings(
     sharedNativeSettings
   )
+*/
 
 lazy val lensesJVM = lenses.jvm
 lazy val lensesJS = lenses.js
-lazy val lensesNative = lenses.native
+//lazy val lensesNative = lenses.native
 
 lazy val docs = project.in(file("docs")) 
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)

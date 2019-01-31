@@ -228,7 +228,7 @@ object SchemaGenerators {
       jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
       jarForClass[javax.annotation.Nullable],
       jarForClass[scalapb.lenses.Lens[_, _]].getPath,
-      jarForClass[fastparse.core.Parsed[_, _, _]].getPath,
+      jarForClass[fastparse.Parsed[_]].getPath,
       rootDir
     )
     val annotationJar =

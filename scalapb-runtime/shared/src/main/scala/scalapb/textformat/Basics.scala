@@ -1,14 +1,14 @@
 package scalapb.textformat
 
-import fastparse.core.ParserApi
+import fastparse.NoWhitespace._
 
 import scala.language.implicitConversions
 
 object Basics extends ParserCompat {
 
-  import fastparse.all._
+  import fastparse._
 
-  val Newline = P(StringIn("\r\n", "\n"))
+  def Newline[_: P] = P(StringIn("\r\n", "\n"))
 
   case class NamedFunction[T, V](f: T => V, name: String) extends (T => V) {
     def apply(t: T) = f(t)
@@ -24,49 +24,49 @@ object Basics extends ParserCompat {
   val CharChunk = NamedFunction((c: Char) => !"\n\r".contains(c), "CharChunk")
 
   // TODO(nadavsr): figure out this
-  val sameLineCharChunks = P(CharsWhile(CharChunk) | (!Newline) ~ AnyChar)
+  def sameLineCharChunks[_: P] = P(CharsWhile(CharChunk) | (!Newline) ~ AnyChar)
 
-  val lineComment = P("#" ~ sameLineCharChunks.rep ~ &(Newline | End))
+  def lineComment[_: P] = P("#" ~ sameLineCharChunks.rep ~ &(Newline | End))
 
-  val whiteSpace = (CharIn(" \n\r\t\f") | lineComment).opaque("whitespace").rep
+  def whiteSpace[_: P] = (CharIn(" \n\r\t\f") | lineComment).opaque("whitespace").rep
 
-  val identifier = P(CharIn('a' to 'z', 'A' to 'Z', '0' to '9', "_").rep(1).!).opaque("identifier")
+  def identifier[_: P] = P(CharIn("a-z", "A-Z", "0-9", "_").rep(1).!).opaque("identifier")
 
-  val literal = P(CharIn('a' to 'z', 'A' to 'Z', '0' to '9', "_-.").rep(1).!).opaque("literal")
+  def literal[_: P] = P(CharIn("a-z",  "A-Z", "0-9", "_\\-.").rep(1).!).opaque("literal")
 
-  val digits    = P(CharsWhile(Digits))
-  val hexDigits = P(CharsWhile(HexDigits))
-  val octDigits = P(CharsWhile(OctDigits))
+  def digits[_: P]    = P(CharsWhile(Digits))
+  def hexDigits[_: P] = P(CharsWhile(HexDigits))
+  def octDigits[_: P] = P(CharsWhile(OctDigits))
 
-  val exponent = P(CharIn("eE") ~ CharIn("+-").? ~ digits)
-  val fractional =
-    (CharIn("+-").? ~ (digits ~ "." ~ digits.? | "." ~ digits) ~ exponent.? ~ CharIn("fF").?).!
+  def exponent[_: P] = P(CharIn("eE") ~ CharIn("+\\-").? ~ digits)
+  def fractional[_: P] =
+    (CharIn("+\\-").? ~ (digits ~ "." ~ digits.? | "." ~ digits) ~ exponent.? ~ CharIn("fF").?).!
 
-  val decIntegral = P("0" | CharIn('1' to '9') ~ digits.?).!.map(p => BigInt(p))
-  val hexIntegral = P("0x" ~/ hexDigits.!).map(p => BigInt(p, 16))
-  val octIntegral = P("0" ~ octDigits.!).map(p => BigInt(p, 8))
+  def decIntegral[_: P] = P("0" | CharIn("1-9") ~ digits.?).!.map(p => BigInt(p))
+  def hexIntegral[_: P] = P("0x" ~/ hexDigits.!).map(p => BigInt(p, 16))
+  def octIntegral[_: P] = P("0" ~ octDigits.!).map(p => BigInt(p, 8))
 
-  val integral: P[BigInt] = P(hexIntegral | octIntegral | decIntegral)
+  def integral[_: P]: P[BigInt] = P(hexIntegral | octIntegral | decIntegral)
 
-  val bigInt: P[BigInt] = P(CharIn("+-").!.? ~ integral).map({
+  def bigInt[_: P]: P[BigInt] = P(CharIn("+\\-").!.? ~ integral).map({
     case (Some("-"), number) => -number
     case (_, number)         => number
   })
 
-  val strNoDQChars = P(CharsWhile(!"\"\n\\".contains(_: Char)))
-  val strNoQChars  = P(CharsWhile(!"'\n\\".contains(_: Char)))
-  val escape       = P("\\" ~ AnyChar)
-  val singleBytesLiteral = P(
+  def strNoDQChars[_: P] = P(CharsWhile(!"\"\n\\".contains(_: Char)))
+  def strNoQChars [_: P] = P(CharsWhile(!"'\n\\".contains(_: Char)))
+  def escape      [_: P] = P("\\" ~ AnyChar)
+  def singleBytesLiteral[_: P] = P(
     "\"" ~/ (strNoDQChars | escape).rep.! ~ "\"" |
       "'" ~/ (strNoQChars | escape).rep.! ~ "'"
   ).opaque("string")
 
-  val bytesLiteral = P(singleBytesLiteral.rep(1, whiteSpace)).map(_.mkString)
+  def bytesLiteral[_: P] = P(singleBytesLiteral.rep(1, whiteSpace)).map(_.mkString)
 
-  val boolean: P[Boolean] = P(
+  def boolean[_: P]: P[Boolean] = P(
     ("true" | "t" | "1").map(_ => true) |
       ("false" | "f" | "0").map(_ => false)
   ).opaque("'true' or 'false'")
 
-  def ws(s: String): P[Unit] = P(s ~ &(whiteSpace))
+  def ws[_: P](s: String): P[Unit] = P(s ~ &(whiteSpace))
 }

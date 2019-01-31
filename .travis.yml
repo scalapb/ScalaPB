@@ -28,13 +28,13 @@ matrix:
 
 jobs:
   include:
-  - env: SCALA_NATIVE
-    scala: 2.11.12
-    before_install:
-    - sudo apt-get update
-    - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
-    script:
-    - sbt ++2.11.12 runtimeNative/test lensesNative/test
+  #- env: SCALA_NATIVE
+  #  scala: 2.11.12
+  #  before_install:
+  #  - sudo apt-get update
+  #  - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
+  #  script:
+  #  - sbt ++2.11.12 runtimeNative/test lensesNative/test
   - env: EXAMPLES_AND_FORMATTING
     scala: 2.11.12
     script:

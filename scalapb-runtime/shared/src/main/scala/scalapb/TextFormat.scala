@@ -1,7 +1,7 @@
 package scalapb
 
 import scalapb.textformat.{AstUtils, Printer, ProtoAsciiParser}
-import fastparse.core.{ParseError, Parsed}
+import fastparse._
 
 case class TextFormatError(msg: String)
 
@@ -20,13 +20,13 @@ object TextFormat {
       d: GeneratedMessageCompanion[T],
       s: String
   ): Either[TextFormatError, T] = {
-    ProtoAsciiParser.Message.parse(s) match {
+    parse(s, ProtoAsciiParser.Message(_)) match {
       case Parsed.Success(msg, _) =>
         AstUtils.parseMessage(d, msg).left.map { a =>
           TextFormatError(s"${a.error} (${indexToLineCol(s, a.index)})")
         }
-      case f: Parsed.Failure[Char, String] =>
-        Left(TextFormatError(ParseError(f).getMessage))
+      case f: Parsed.Failure =>
+        Left(TextFormatError(f.longMsg))
     }
   }
 
