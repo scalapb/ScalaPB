@@ -10,8 +10,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   import implicits._
   private[this] def observer(typeParam: String): String = s"$streamObserver[$typeParam]"
 
-  private[this] def serviceMethodSignature(method: MethodDescriptor) = {
-    s"def ${method.name}" + (method.streamType match {
+  private[this] def serviceMethodSignature(method: MethodDescriptor, overrideSig: Boolean) = {
+    val overrideStr = if (overrideSig) "override " else ""
+    s"${method.deprecatedAnnotation}${overrideStr}def ${method.name}" + (method.streamType match {
       case StreamType.Unary =>
         s"(request: ${method.inputType.scalaType}): scala.concurrent.Future[${method.outputType.scalaType}]"
       case StreamType.ClientStreaming =>
@@ -23,8 +24,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     })
   }
 
-  private[this] def blockingMethodSignature(method: MethodDescriptor) = {
-    s"def ${method.name}" + (method.streamType match {
+  private[this] def blockingMethodSignature(method: MethodDescriptor, overrideSig: Boolean) = {
+    val overrideStr = if (overrideSig) "override " else ""
+    s"${method.deprecatedAnnotation}${overrideStr}def ${method.name}" + (method.streamType match {
       case StreamType.Unary =>
         s"(request: ${method.inputType.scalaType}): ${method.outputType.scalaType}"
       case StreamType.ServerStreaming =>
@@ -40,7 +42,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(s"override def serviceCompanion = ${service.name}")
       .print(service.methods) {
         case (p, method) =>
-          p.call(generateScalaDoc(method)).add(serviceMethodSignature(method))
+          p.call(generateScalaDoc(method)).add(serviceMethodSignature(method, overrideSig = false))
       }
       .outdent
       .add("}")
@@ -71,7 +73,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(s"def serviceCompanion = ${service.name}")
       .print(service.methods.filter(_.canBeBlocking)) {
         case (p, method) =>
-          p.call(generateScalaDoc(method)).add(blockingMethodSignature(method))
+          p.call(generateScalaDoc(method)).add(blockingMethodSignature(method, overrideSig = false))
       }
       .outdent
       .add("}")
@@ -89,8 +91,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   private[this] def clientMethodImpl(m: MethodDescriptor, blocking: Boolean) =
     PrinterEndo { p =>
       val sig =
-        if (blocking) "override " + blockingMethodSignature(m) + " = {"
-        else "override " + serviceMethodSignature(m) + " = {"
+        if (blocking) blockingMethodSignature(m, overrideSig = true) + " = {"
+        else serviceMethodSignature(m, overrideSig = true) + " = {"
 
       val prefix = if (blocking) "blocking" else "async"
 
@@ -154,7 +156,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
     p.addStringMargin(
-      s"""val ${method.descriptorName}: $grpcMethodDescriptor[${method.inputType.scalaType}, ${method.outputType.scalaType}] =
+      s"""${method.deprecatedAnnotation}val ${method.descriptorName}: $grpcMethodDescriptor[${method.inputType.scalaType}, ${method.outputType.scalaType}] =
       |  $grpcMethodDescriptor.newBuilder()
       |    .setType($grpcMethodDescriptor.MethodType.$methodType)
       |    .setFullMethodName($grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"))
@@ -252,7 +254,11 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
   def printService(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
-      .add("package " + service.getFile.scalaPackageName, "", s"object ${service.objectName} {")
+      .add(
+        "package " + service.getFile.scalaPackageName,
+        "",
+        s"${service.deprecatedAnnotation}object ${service.objectName} {"
+      )
       .indent
       .call(service.methods.map(methodDescriptor): _*)
       .call(serviceDescriptor(service))

@@ -130,6 +130,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
     }
+
+    def deprecatedAnnotation: String = {
+      if (method.getOptions.getDeprecated) {
+        ProtobufGenerator.deprecatedAnnotation + " "
+      } else {
+        ""
+      }
+    }
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
@@ -158,6 +166,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         .map(t => t.getLeadingComments + t.getTrailingComments)
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
+    }
+
+    def deprecatedAnnotation: String = {
+      if (self.getOptions.getDeprecated) {
+        ProtobufGenerator.deprecatedAnnotation + " "
+      } else {
+        ""
+      }
     }
   }
 
