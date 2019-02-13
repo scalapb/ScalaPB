@@ -86,7 +86,20 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
           Some(descriptor.sealedOneofScalaType)
         else None
 
-      def baseScalaType = descriptor.scalaTypeName
+      def baseScalaType = {
+        val fullName        = descriptor.scalaTypeName
+        val topLevelPackage = fullName.split('.')(0)
+
+        // there is often a build method generated
+        val fieldsAndMethodsForCollisions = "build" :: descriptor.fields.map(_.scalaName).toList
+
+        if (fieldsAndMethodsForCollisions
+              .contains(topLevelPackage) && !method.getFile.scalaPackageName.isEmpty) {
+          s"_root_.$fullName"
+        } else {
+          fullName
+        }
+      }
 
       def scalaType = customScalaType.getOrElse(baseScalaType)
     }
@@ -458,11 +471,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def scalaTypeNameWithMaybeRoot(context: Descriptor): String = {
       val fullName        = scalaTypeName
       val topLevelPackage = fullName.split('.')(0)
-      if (context.fields
-            .map(_.scalaName)
-            .contains(topLevelPackage) && !message.getFile.scalaPackageName.isEmpty)
+      // there is often a build method generated
+      val fieldsAndMethodsForCollisions = "build" :: context.fields.map(_.scalaName).toList
+
+      if (fieldsAndMethodsForCollisions
+            .contains(topLevelPackage) && !message.getFile.scalaPackageName.isEmpty) {
         s"_root_.$fullName"
-      else fullName
+      } else fullName
     }
 
     def scalaTypeNameWithMaybeRoot: String = {
@@ -658,16 +673,19 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def scalaTypeNameWithMaybeRoot(context: Descriptor): String = {
-      val fullName        = scalaTypeName
-      val topLevelPackage = fullName.split('.')(0)
-      if (context.fields.map(_.scalaName).contains(topLevelPackage))
+      val fullName                      = scalaTypeName
+      val topLevelPackage               = fullName.split('.')(0)
+      val fieldsAndMethodsForCollisions = "build" :: context.fields.map(_.scalaName).toList
+
+      if (fieldsAndMethodsForCollisions.contains(topLevelPackage))
         s"_root_.$fullName"
       else fullName
     }
 
     def isTopLevel = enum.getContainingType == null
 
-    def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
+    def javaTypeName: String =
+      enum.getFile.fullJavaName(enum.getFullName)
 
     def javaConversions = enum.getFile.javaConversions
 
