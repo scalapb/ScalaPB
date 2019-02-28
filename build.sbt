@@ -14,7 +14,7 @@ val scalacheckVersion = "1.14.0"
 // For e2e test
 val sbtPluginVersion = "0.99.19"
 
-val grpcVersion = "1.18.0"
+val grpcVersion = "1.19.0"
 
 scalaVersion in ThisBuild := Scala212
 
@@ -92,7 +92,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     libraryDependencies ++= Seq(
       "com.lihaoyi" %%% "fastparse" % "1.0.0",
       "com.lihaoyi" %%% "utest" % "0.6.6" % "test",
-      "commons-codec" % "commons-codec" % "1.11" % "test",
+      "commons-codec" % "commons-codec" % "1.12" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
