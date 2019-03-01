@@ -33,7 +33,7 @@ val commonSettings = Seq(
         s"--java_rpc_out=${((sourceManaged in Compile).value).getAbsolutePath}"
     ),
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.5" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.6" % "test",
       "io.grpc" % "grpc-netty" % grpcJavaVersion, //netty transport of grpc
       "io.grpc" % "grpc-protobuf" % grpcJavaVersion, //protobuf message encoding for java implementation
       "io.grpc" % "grpc-services" % grpcJavaVersion,
