@@ -6,7 +6,7 @@
 package com.google.protobuf.api
 import scala.collection.JavaConverters._
 
-/** Method represents a method of an api.
+/** Method represents a method of an API interface.
   *
   * @param name
   *   The simple name of this method.

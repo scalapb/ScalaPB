@@ -71,8 +71,21 @@ import scala.collection.JavaConverters._
   * @param phpClassPrefix
   *   Sets the php class prefix which is prepended to all php generated classes
   *   from this .proto. Default is empty.
+  * @param phpNamespace
+  *   Use this option to change the namespace of php generated classes. Default
+  *   is empty. When this option is empty, the package name will be used for
+  *   determining the namespace.
+  * @param phpMetadataNamespace
+  *   Use this option to change the namespace of php generated metadata classes.
+  *   Default is empty. When this option is empty, the proto file name will be used
+  *   for determining the namespace.
+  * @param rubyPackage
+  *   Use this option to change the package of ruby generated classes. Default
+  *   is empty. When this option is not set, the package name will be used for
+  *   determining the ruby package.
   * @param uninterpretedOption
-  *   The parser stores options it doesn't recognize here. See above.
+  *   The parser stores options it doesn't recognize here.
+  *   See the documentation for the "Options" section above.
   */
 @SerialVersionUID(0L)
 final case class FileOptions(
@@ -86,12 +99,16 @@ final case class FileOptions(
     ccGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
     javaGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
     pyGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
+    phpGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
     ccEnableArenas: _root_.scala.Option[_root_.scala.Boolean] = None,
     objcClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = None,
     csharpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = None,
     swiftPrefix: _root_.scala.Option[_root_.scala.Predef.String] = None,
     phpClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    phpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    rubyPackage: _root_.scala.Option[_root_.scala.Predef.String] = None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[FileOptions] with scalapb.lenses.Updatable[FileOptions] with _root_.scalapb.ExtendableMessage[FileOptions] {
@@ -139,6 +156,10 @@ final case class FileOptions(
         val __value = pyGenericServices.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(18, __value)
       };
+      if (phpGenericServices.isDefined) {
+        val __value = phpGenericServices.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(42, __value)
+      };
       if (deprecated.isDefined) {
         val __value = deprecated.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(23, __value)
@@ -162,6 +183,18 @@ final case class FileOptions(
       if (phpClassPrefix.isDefined) {
         val __value = phpClassPrefix.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(40, __value)
+      };
+      if (phpNamespace.isDefined) {
+        val __value = phpNamespace.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(41, __value)
+      };
+      if (phpMetadataNamespace.isDefined) {
+        val __value = phpMetadataNamespace.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(44, __value)
+      };
+      if (rubyPackage.isDefined) {
+        val __value = rubyPackage.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(45, __value)
       };
       uninterpretedOption.foreach { __item =>
         val __value = __item
@@ -243,6 +276,22 @@ final case class FileOptions(
         val __m = __v
         _output__.writeString(40, __m)
       };
+      phpNamespace.foreach { __v =>
+        val __m = __v
+        _output__.writeString(41, __m)
+      };
+      phpGenericServices.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(42, __m)
+      };
+      phpMetadataNamespace.foreach { __v =>
+        val __m = __v
+        _output__.writeString(44, __m)
+      };
+      rubyPackage.foreach { __v =>
+        val __m = __v
+        _output__.writeString(45, __m)
+      };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
@@ -262,12 +311,16 @@ final case class FileOptions(
       var __ccGenericServices = this.ccGenericServices
       var __javaGenericServices = this.javaGenericServices
       var __pyGenericServices = this.pyGenericServices
+      var __phpGenericServices = this.phpGenericServices
       var __deprecated = this.deprecated
       var __ccEnableArenas = this.ccEnableArenas
       var __objcClassPrefix = this.objcClassPrefix
       var __csharpNamespace = this.csharpNamespace
       var __swiftPrefix = this.swiftPrefix
       var __phpClassPrefix = this.phpClassPrefix
+      var __phpNamespace = this.phpNamespace
+      var __phpMetadataNamespace = this.phpMetadataNamespace
+      var __rubyPackage = this.rubyPackage
       val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
       val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
@@ -295,6 +348,8 @@ final case class FileOptions(
             __javaGenericServices = Option(_input__.readBool())
           case 144 =>
             __pyGenericServices = Option(_input__.readBool())
+          case 336 =>
+            __phpGenericServices = Option(_input__.readBool())
           case 184 =>
             __deprecated = Option(_input__.readBool())
           case 248 =>
@@ -307,6 +362,12 @@ final case class FileOptions(
             __swiftPrefix = Option(_input__.readString())
           case 322 =>
             __phpClassPrefix = Option(_input__.readString())
+          case 330 =>
+            __phpNamespace = Option(_input__.readString())
+          case 354 =>
+            __phpMetadataNamespace = Option(_input__.readString())
+          case 362 =>
+            __rubyPackage = Option(_input__.readString())
           case 7994 =>
             __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag => _unknownFields__.parseField(tag, _input__)
@@ -323,12 +384,16 @@ final case class FileOptions(
           ccGenericServices = __ccGenericServices,
           javaGenericServices = __javaGenericServices,
           pyGenericServices = __pyGenericServices,
+          phpGenericServices = __phpGenericServices,
           deprecated = __deprecated,
           ccEnableArenas = __ccEnableArenas,
           objcClassPrefix = __objcClassPrefix,
           csharpNamespace = __csharpNamespace,
           swiftPrefix = __swiftPrefix,
           phpClassPrefix = __phpClassPrefix,
+          phpNamespace = __phpNamespace,
+          phpMetadataNamespace = __phpMetadataNamespace,
+          rubyPackage = __rubyPackage,
           uninterpretedOption = __uninterpretedOption.result(),
           unknownFields = _unknownFields__.result()
       )
@@ -363,6 +428,9 @@ final case class FileOptions(
     def getPyGenericServices: _root_.scala.Boolean = pyGenericServices.getOrElse(false)
     def clearPyGenericServices: FileOptions = copy(pyGenericServices = None)
     def withPyGenericServices(__v: _root_.scala.Boolean): FileOptions = copy(pyGenericServices = Option(__v))
+    def getPhpGenericServices: _root_.scala.Boolean = phpGenericServices.getOrElse(false)
+    def clearPhpGenericServices: FileOptions = copy(phpGenericServices = None)
+    def withPhpGenericServices(__v: _root_.scala.Boolean): FileOptions = copy(phpGenericServices = Option(__v))
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
     def clearDeprecated: FileOptions = copy(deprecated = None)
     def withDeprecated(__v: _root_.scala.Boolean): FileOptions = copy(deprecated = Option(__v))
@@ -381,6 +449,15 @@ final case class FileOptions(
     def getPhpClassPrefix: _root_.scala.Predef.String = phpClassPrefix.getOrElse("")
     def clearPhpClassPrefix: FileOptions = copy(phpClassPrefix = None)
     def withPhpClassPrefix(__v: _root_.scala.Predef.String): FileOptions = copy(phpClassPrefix = Option(__v))
+    def getPhpNamespace: _root_.scala.Predef.String = phpNamespace.getOrElse("")
+    def clearPhpNamespace: FileOptions = copy(phpNamespace = None)
+    def withPhpNamespace(__v: _root_.scala.Predef.String): FileOptions = copy(phpNamespace = Option(__v))
+    def getPhpMetadataNamespace: _root_.scala.Predef.String = phpMetadataNamespace.getOrElse("")
+    def clearPhpMetadataNamespace: FileOptions = copy(phpMetadataNamespace = None)
+    def withPhpMetadataNamespace(__v: _root_.scala.Predef.String): FileOptions = copy(phpMetadataNamespace = Option(__v))
+    def getRubyPackage: _root_.scala.Predef.String = rubyPackage.getOrElse("")
+    def clearRubyPackage: FileOptions = copy(rubyPackage = None)
+    def withRubyPackage(__v: _root_.scala.Predef.String): FileOptions = copy(rubyPackage = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FileOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -399,12 +476,16 @@ final case class FileOptions(
         case 16 => ccGenericServices.orNull
         case 17 => javaGenericServices.orNull
         case 18 => pyGenericServices.orNull
+        case 42 => phpGenericServices.orNull
         case 23 => deprecated.orNull
         case 31 => ccEnableArenas.orNull
         case 36 => objcClassPrefix.orNull
         case 37 => csharpNamespace.orNull
         case 39 => swiftPrefix.orNull
         case 40 => phpClassPrefix.orNull
+        case 41 => phpNamespace.orNull
+        case 44 => phpMetadataNamespace.orNull
+        case 45 => rubyPackage.orNull
         case 999 => uninterpretedOption
       }
     }
@@ -421,12 +502,16 @@ final case class FileOptions(
         case 16 => ccGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 17 => javaGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 18 => pyGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 42 => phpGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 23 => deprecated.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 31 => ccEnableArenas.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 36 => objcClassPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 37 => csharpNamespace.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 39 => swiftPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 40 => phpClassPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 41 => phpNamespace.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 44 => phpMetadataNamespace.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 45 => rubyPackage.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage)(_root_.scala.collection.breakOut))
       }
     }
@@ -448,12 +533,16 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     scalaPbSource.ccGenericServices.foreach(javaPbOut.setCcGenericServices)
     scalaPbSource.javaGenericServices.foreach(javaPbOut.setJavaGenericServices)
     scalaPbSource.pyGenericServices.foreach(javaPbOut.setPyGenericServices)
+    scalaPbSource.phpGenericServices.foreach(javaPbOut.setPhpGenericServices)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.ccEnableArenas.foreach(javaPbOut.setCcEnableArenas)
     scalaPbSource.objcClassPrefix.foreach(javaPbOut.setObjcClassPrefix)
     scalaPbSource.csharpNamespace.foreach(javaPbOut.setCsharpNamespace)
     scalaPbSource.swiftPrefix.foreach(javaPbOut.setSwiftPrefix)
     scalaPbSource.phpClassPrefix.foreach(javaPbOut.setPhpClassPrefix)
+    scalaPbSource.phpNamespace.foreach(javaPbOut.setPhpNamespace)
+    scalaPbSource.phpMetadataNamespace.foreach(javaPbOut.setPhpMetadataNamespace)
+    scalaPbSource.rubyPackage.foreach(javaPbOut.setRubyPackage)
     javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)(_root_.scala.collection.breakOut).asJava)
     javaPbOut.build
   }
@@ -468,12 +557,16 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     ccGenericServices = if (javaPbSource.hasCcGenericServices) Some(javaPbSource.getCcGenericServices.booleanValue) else None,
     javaGenericServices = if (javaPbSource.hasJavaGenericServices) Some(javaPbSource.getJavaGenericServices.booleanValue) else None,
     pyGenericServices = if (javaPbSource.hasPyGenericServices) Some(javaPbSource.getPyGenericServices.booleanValue) else None,
+    phpGenericServices = if (javaPbSource.hasPhpGenericServices) Some(javaPbSource.getPhpGenericServices.booleanValue) else None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
     ccEnableArenas = if (javaPbSource.hasCcEnableArenas) Some(javaPbSource.getCcEnableArenas.booleanValue) else None,
     objcClassPrefix = if (javaPbSource.hasObjcClassPrefix) Some(javaPbSource.getObjcClassPrefix) else None,
     csharpNamespace = if (javaPbSource.hasCsharpNamespace) Some(javaPbSource.getCsharpNamespace) else None,
     swiftPrefix = if (javaPbSource.hasSwiftPrefix) Some(javaPbSource.getSwiftPrefix) else None,
     phpClassPrefix = if (javaPbSource.hasPhpClassPrefix) Some(javaPbSource.getPhpClassPrefix) else None,
+    phpNamespace = if (javaPbSource.hasPhpNamespace) Some(javaPbSource.getPhpNamespace) else None,
+    phpMetadataNamespace = if (javaPbSource.hasPhpMetadataNamespace) Some(javaPbSource.getPhpMetadataNamespace) else None,
+    rubyPackage = if (javaPbSource.hasRubyPackage) Some(javaPbSource.getRubyPackage) else None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.FileOptions = {
@@ -492,11 +585,15 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       __fieldsMap.get(__fields.get(9)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.get(__fields.get(10)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.get(__fields.get(11)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
-      __fieldsMap.get(__fields.get(12)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(12)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.get(__fields.get(13)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.get(__fields.get(14)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.get(__fields.get(15)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.getOrElse(__fields.get(16), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
+      __fieldsMap.get(__fields.get(16)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(17)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(18)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.get(__fields.get(19)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
+      __fieldsMap.getOrElse(__fields.get(20), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileOptions] = _root_.scalapb.descriptors.Reads{
@@ -513,18 +610,22 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(16).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(17).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(18).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(42).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(23).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(31).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(36).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(37).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(39).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(40).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(41).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(44).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(45).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.collection.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(9)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(9)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(10)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(10)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
@@ -622,6 +723,8 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def optionalJavaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaGenericServices)((c_, f_) => c_.copy(javaGenericServices = f_))
     def pyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Option(f_)))
     def optionalPyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.pyGenericServices)((c_, f_) => c_.copy(pyGenericServices = f_))
+    def phpGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPhpGenericServices)((c_, f_) => c_.copy(phpGenericServices = Option(f_)))
+    def optionalPhpGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.phpGenericServices)((c_, f_) => c_.copy(phpGenericServices = f_))
     def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def ccEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Option(f_)))
@@ -634,6 +737,12 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def optionalSwiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.swiftPrefix)((c_, f_) => c_.copy(swiftPrefix = f_))
     def phpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = Option(f_)))
     def optionalPhpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.phpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = f_))
+    def phpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpNamespace)((c_, f_) => c_.copy(phpNamespace = Option(f_)))
+    def optionalPhpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.phpNamespace)((c_, f_) => c_.copy(phpNamespace = f_))
+    def phpMetadataNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpMetadataNamespace)((c_, f_) => c_.copy(phpMetadataNamespace = Option(f_)))
+    def optionalPhpMetadataNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.phpMetadataNamespace)((c_, f_) => c_.copy(phpMetadataNamespace = f_))
+    def rubyPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getRubyPackage)((c_, f_) => c_.copy(rubyPackage = Option(f_)))
+    def optionalRubyPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.rubyPackage)((c_, f_) => c_.copy(rubyPackage = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val JAVA_PACKAGE_FIELD_NUMBER = 1
@@ -646,12 +755,16 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   final val CC_GENERIC_SERVICES_FIELD_NUMBER = 16
   final val JAVA_GENERIC_SERVICES_FIELD_NUMBER = 17
   final val PY_GENERIC_SERVICES_FIELD_NUMBER = 18
+  final val PHP_GENERIC_SERVICES_FIELD_NUMBER = 42
   final val DEPRECATED_FIELD_NUMBER = 23
   final val CC_ENABLE_ARENAS_FIELD_NUMBER = 31
   final val OBJC_CLASS_PREFIX_FIELD_NUMBER = 36
   final val CSHARP_NAMESPACE_FIELD_NUMBER = 37
   final val SWIFT_PREFIX_FIELD_NUMBER = 39
   final val PHP_CLASS_PREFIX_FIELD_NUMBER = 40
+  final val PHP_NAMESPACE_FIELD_NUMBER = 41
+  final val PHP_METADATA_NAMESPACE_FIELD_NUMBER = 44
+  final val RUBY_PACKAGE_FIELD_NUMBER = 45
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   def of(
     javaPackage: _root_.scala.Option[_root_.scala.Predef.String],
@@ -664,12 +777,16 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     ccGenericServices: _root_.scala.Option[_root_.scala.Boolean],
     javaGenericServices: _root_.scala.Option[_root_.scala.Boolean],
     pyGenericServices: _root_.scala.Option[_root_.scala.Boolean],
+    phpGenericServices: _root_.scala.Option[_root_.scala.Boolean],
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     ccEnableArenas: _root_.scala.Option[_root_.scala.Boolean],
     objcClassPrefix: _root_.scala.Option[_root_.scala.Predef.String],
     csharpNamespace: _root_.scala.Option[_root_.scala.Predef.String],
     swiftPrefix: _root_.scala.Option[_root_.scala.Predef.String],
     phpClassPrefix: _root_.scala.Option[_root_.scala.Predef.String],
+    phpNamespace: _root_.scala.Option[_root_.scala.Predef.String],
+    phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String],
+    rubyPackage: _root_.scala.Option[_root_.scala.Predef.String],
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
     unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.descriptor.FileOptions = _root_.com.google.protobuf.descriptor.FileOptions(
@@ -683,12 +800,16 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     ccGenericServices,
     javaGenericServices,
     pyGenericServices,
+    phpGenericServices,
     deprecated,
     ccEnableArenas,
     objcClassPrefix,
     csharpNamespace,
     swiftPrefix,
     phpClassPrefix,
+    phpNamespace,
+    phpMetadataNamespace,
+    rubyPackage,
     uninterpretedOption,
     unknownFields
   )

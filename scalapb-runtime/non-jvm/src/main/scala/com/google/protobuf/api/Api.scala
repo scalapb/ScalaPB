@@ -5,23 +5,30 @@
 
 package com.google.protobuf.api
 
-/** Api is a light-weight descriptor for a protocol buffer service.
+/** Api is a light-weight descriptor for an API Interface.
+  *
+  * Interfaces are also described as "protocol buffer services" in some contexts,
+  * such as by the "service" keyword in a .proto file, but they are different
+  * from API Services, which represent a concrete implementation of an interface
+  * as opposed to simply a description of methods and bindings. They are also
+  * sometimes simply referred to as "APIs" in other contexts, such as the name of
+  * this message itself. See https://cloud.google.com/apis/design/glossary for
+  * detailed terminology.
   *
   * @param name
-  *   The fully qualified name of this api, including package name
-  *   followed by the api's simple name.
+  *   The fully qualified name of this interface, including package name
+  *   followed by the interface's simple name.
   * @param methods
-  *   The methods of this api, in unspecified order.
+  *   The methods of this interface, in unspecified order.
   * @param options
-  *   Any metadata attached to the API.
+  *   Any metadata attached to the interface.
   * @param version
-  *   A version string for this api. If specified, must have the form
-  *   `major-version.minor-version`, as in `1.10`. If the minor version
-  *   is omitted, it defaults to zero. If the entire version field is
-  *   empty, the major version is derived from the package name, as
-  *   outlined below. If the field is not empty, the version in the
-  *   package name will be verified to be consistent with what is
-  *   provided here.
+  *   A version string for this interface. If specified, must have the form
+  *   `major-version.minor-version`, as in `1.10`. If the minor version is
+  *   omitted, it defaults to zero. If the entire version field is empty, the
+  *   major version is derived from the package name, as outlined below. If the
+  *   field is not empty, the version in the package name will be verified to be
+  *   consistent with what is provided here.
   *  
   *   The versioning schema uses [semantic
   *   versioning](http://semver.org) where the major version number
@@ -31,15 +38,15 @@ package com.google.protobuf.api
   *   chosen based on the product plan.
   *  
   *   The major version is also reflected in the package name of the
-  *   API, which must end in `v&lt;major-version&gt;`, as in
+  *   interface, which must end in `v&lt;major-version&gt;`, as in
   *   `google.feature.v1`. For major versions 0 and 1, the suffix can
   *   be omitted. Zero major versions must only be used for
-  *   experimental, none-GA apis.
+  *   experimental, non-GA interfaces.
   * @param sourceContext
   *   Source context for the protocol buffer service represented by this
   *   message.
   * @param mixins
-  *   Included APIs. See [Mixin][].
+  *   Included interfaces. See [Mixin][].
   * @param syntax
   *   The source syntax of the service.
   */

@@ -19,13 +19,15 @@ package com.google.protobuf.descriptor
   * @param jstype
   *   The jstype option determines the JavaScript type used for values of the
   *   field.  The option is permitted only for 64 bit integral and fixed types
-  *   (int64, uint64, sint64, fixed64, sfixed64).  By default these types are
-  *   represented as JavaScript strings.  This avoids loss of precision that can
-  *   happen when a large value is converted to a floating point JavaScript
-  *   numbers.  Specifying JS_NUMBER for the jstype causes the generated
-  *   JavaScript code to use the JavaScript "number" type instead of strings.
-  *   This option is an enum to permit additional types to be added,
-  *   e.g. goog.math.Integer.
+  *   (int64, uint64, sint64, fixed64, sfixed64).  A field with jstype JS_STRING
+  *   is represented as JavaScript string, which avoids loss of precision that
+  *   can happen when a large value is converted to a floating point JavaScript.
+  *   Specifying JS_NUMBER for the jstype causes the generated JavaScript code to
+  *   use the JavaScript "number" type.  The behavior of the default option
+  *   JS_NORMAL is implementation dependent.
+  *  
+  *   This option is an enum to permit additional types to be added, e.g.
+  *   goog.math.Integer.
   * @param lazy
   *   Should this field be parsed lazily?  Lazy applies only to message-type
   *   fields.  It means that when the outer message is initially parsed, the
@@ -274,8 +276,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(11)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(11)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(12)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(12)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {

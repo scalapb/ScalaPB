@@ -9,7 +9,7 @@ OUTDIR=compiler-plugin/src/main/java
 TMPDIR=$(mktemp -d)
 
 # Setup protoc
-PROTOC_JAR_VERSION=3.6.0.1
+PROTOC_JAR_VERSION=3.7.0
 JAR_FILENAME=protoc-jar-$PROTOC_JAR_VERSION.jar
 JAR_PATH=${HOME}/.ivy2/cache/com.github.os72/protoc-jar/jars/$JAR_FILENAME
 JAR_URL=http://central.maven.org/maven2/com/github/os72/protoc-jar/$PROTOC_JAR_VERSION/$JAR_FILENAME
@@ -21,7 +21,7 @@ fi
 
 function protoc_jar() 
 {
-  java -jar $JAR_PATH -v360 "$@"
+  java -jar $JAR_PATH -v370 "$@"
 }
 
 # SBT 1.x depends on scalapb-runtime which contains a compiled copy of

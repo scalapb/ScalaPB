@@ -5,9 +5,9 @@
 
 package com.google.protobuf.api
 
-/** Declares an API to be included in this API. The including API must
-  * redeclare all the methods from the included API, but documentation
-  * and options are inherited as follows:
+/** Declares an API Interface to be included in this interface. The including
+  * interface must redeclare all the methods from the included interface, but
+  * documentation and options are inherited as follows:
   *
   * - If after comment and whitespace stripping, the documentation
   *   string of the redeclared method is empty, it will be inherited
@@ -19,7 +19,8 @@ package com.google.protobuf.api
   *
   * - If an http annotation is inherited, the path pattern will be
   *   modified as follows. Any version prefix will be replaced by the
-  *   version of the including API plus the [root][] path if specified.
+  *   version of the including interface plus the [root][] path if
+  *   specified.
   *
   * Example of a simple mixin:
   *
@@ -84,7 +85,7 @@ package com.google.protobuf.api
   *     }
   *
   * @param name
-  *   The fully qualified name of the API which is included.
+  *   The fully qualified name of the interface which is included.
   * @param root
   *   If non-empty specifies a path under which inherited HTTP paths
   *   are rooted.
