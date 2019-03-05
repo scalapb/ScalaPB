@@ -382,7 +382,7 @@ Java and C++ implementations of protobuf attempt to generate (and be able to par
 compatible ASCII representations. ScalaPB's `toString()` and `fromAscii`
 follow the Java implementation.
 
-The format looks lie this:
+The format looks like this:
 
 ```protobuf
 int_field: 17
