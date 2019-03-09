@@ -1,6 +1,6 @@
 package com.thesamet.pb
 
-import com.thesamet.scalapb.TypeMapper
+import scalapb.TypeMapper
 import com.thesamet.proto.e2e.custom_types.CustomMessage.Name
 import com.thesamet.proto.e2e.custom_types.CustomMessage.Weather
 

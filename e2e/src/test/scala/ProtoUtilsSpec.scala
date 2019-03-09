@@ -1,5 +1,5 @@
 
-import com.thesamet.scalapb.grpc.ProtoUtils
+import scalapb.grpc.ProtoUtils
 import com.thesamet.proto.well_known._
 import org.scalatest.{FlatSpec, MustMatchers}
 

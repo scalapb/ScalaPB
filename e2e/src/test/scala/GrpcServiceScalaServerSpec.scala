@@ -13,7 +13,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
       Service1GrpcScala.javaDescriptor.getName must be("Service1")
 
       Service1GrpcScala.Service1.javaDescriptor.getName must be("Service1")
-      implicitly[com.thesamet.scalapb.grpc.ServiceCompanion[Service1GrpcScala.Service1]].javaDescriptor must be(
+      implicitly[scalapb.grpc.ServiceCompanion[Service1GrpcScala.Service1]].javaDescriptor must be(
         Service1GrpcScala.Service1.javaDescriptor)
     }
   }

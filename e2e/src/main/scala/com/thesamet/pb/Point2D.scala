@@ -1,7 +1,7 @@
 package com.thesamet.pb
 
 import com.thesamet.proto.e2e.type_level.{XYMessage, DirEnum}
-import com.thesamet.scalapb.TypeMapper
+import scalapb.TypeMapper
 
 case class Point2D(x: Int, y: Int) {
   def toXYMessage = XYMessage().update(_.x := x, _.y := y)

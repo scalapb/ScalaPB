@@ -4,7 +4,7 @@ import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalatest._
 import org.scalatest.prop._
 import org.scalacheck.{Arbitrary, Gen}
-import com.thesamet.scalapb.json.JsonFormat
+import scalapb.json4s.JsonFormat
 
 class JsonSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
 

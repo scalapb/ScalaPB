@@ -1,5 +1,5 @@
 import scala.reflect.runtime.universe._
-import com.thesamet.scalapb.{GeneratedExtension, JavaProtoSupport}
+import scalapb.{GeneratedExtension, JavaProtoSupport}
 import com.thesamet.proto.e2e.custom_options.GoodOrBad._
 import com.thesamet.proto.e2e.custom_options_p3.GoodOrBadP3._
 import com.thesamet.proto.e2e.custom_options._
