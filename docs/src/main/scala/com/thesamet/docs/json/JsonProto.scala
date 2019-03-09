@@ -3,18 +3,21 @@
 //
 // Protofile syntax: PROTO3
 
-package com.thesamet.docs.examples
+package com.thesamet.docs.json
 
-object ExamplesProto extends _root_.scalapb.GeneratedFileObject {
+object JsonProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
+    com.google.protobuf.any.AnyProto
   )
   lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
-    com.thesamet.docs.examples.MyMessage
+    com.thesamet.docs.json.MyMessage,
+    com.thesamet.docs.json.MyContainer
   )
   private lazy val ProtoBytes: Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.Seq(
-  """Cg5leGFtcGxlcy5wcm90bxIRY29tLnRoZXNhbWV0LmRvY3MiIQoJTXlNZXNzYWdlEhQKAXgYASABKAVCBuI/AxIBeFIBeGIGc
-  HJvdG8z"""
+  """Cgpqc29uLnByb3RvEhFjb20udGhlc2FtZXQuZG9jcxoZZ29vZ2xlL3Byb3RvYnVmL2FueS5wcm90byIhCglNeU1lc3NhZ2USF
+  AoBeBgBIAEoBUIG4j8DEgF4UgF4IkYKC015Q29udGFpbmVyEjcKBm15X2FueRgBIAEoCzIULmdvb2dsZS5wcm90b2J1Zi5BbnlCC
+  uI/BxIFbXlBbnlSBW15QW55YgZwcm90bzM="""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
@@ -23,6 +26,7 @@ object ExamplesProto extends _root_.scalapb.GeneratedFileObject {
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
     com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(
+      com.google.protobuf.any.AnyProto.javaDescriptor
     ))
   }
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")

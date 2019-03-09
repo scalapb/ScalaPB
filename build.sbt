@@ -351,6 +351,9 @@ lazy val lensesNative = lenses.native
 lazy val docs = project.in(file("docs")) 
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
   .settings(
+    libraryDependencies ++= Seq(
+        "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.2",
+    ),
     micrositeName := "ScalaPB",
     micrositeCompilingDocsTool := WithMdoc,
     mdocIn := baseDirectory.value / "src" / "main" / "markdown",

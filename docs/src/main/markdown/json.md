@@ -85,3 +85,41 @@ Options:
 
 See the list of [constructor paramerters here](https://github.com/scalapb/scalapb-json4s/blob/master/src/main/scala/scalapb/json4s/JsonFormat.scala)
 
+# Printing and parsing Anys
+
+In Protocol Buffers, `google.protobuf.Any` is a type that embeds an arbitrary protobuf message. An `Any` is represented as a message that contains a `typeUrl` field that identifies the type, and a bytes field `value` which contains the serialized contents of a message. In JSON, the message embedded in the `Any` is serialized as usual, and there is a `@type` key added to it to identify which message it is. The parser expects this `@type` key to know which message it is. To accomplish this, all the expected embedded types need to be registered with a `TypeRegistry` so the printer and parser know how to process the embedded message.
+
+The following example is based [on this proto](https://github.com/scalapb/ScalaPB/blob/master/docs/src/main/protobuf/josn.proto)
+
+```scala mdoc
+import com.thesamet.docs.json._
+import scalapb.json4s.{Printer, Parser, TypeRegistry}
+
+val c = MyContainer(
+  myAny=Some(
+    com.google.protobuf.any.Any.pack(
+      MyMessage(x=17)
+    )
+  )
+)
+
+val typeRegistry = TypeRegistry().addMessage[MyMessage]
+
+val printer = new Printer().withTypeRegistry(typeRegistry)
+
+printer.print(c)
+```
+
+Conversely, you can start from a JSON and parse it back to a `MyContainer` that contains an `Any` field:
+
+```scala mdoc
+val parser = new Parser().withTypeRegistry(typeRegistry)
+
+parser.fromJsonString[MyContainer]("""
+  {
+    "myAny": {
+      "@type": "type.googleapis.com/com.thesamet.docs.MyMessage",
+      "x": 17
+    }
+  }""")
+```

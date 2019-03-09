@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package com.thesamet.docs;
+
+import "google/protobuf/any.proto";
+
+message MyMessage {
+  int32 x = 1;
+}
+
+message MyContainer {
+  google.protobuf.Any my_any = 1;
+}
