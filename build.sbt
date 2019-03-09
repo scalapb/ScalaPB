@@ -16,6 +16,8 @@ val sbtPluginVersion = "0.99.19"
 
 val grpcVersion = "1.19.0"
 
+val MimaPreviousVersion = "0.9.0-RC1"
+
 scalaVersion in ThisBuild := Scala212
 
 crossScalaVersions in ThisBuild := Seq(Scala210, Scala211, Scala212)
@@ -97,34 +99,10 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % "0.8.0"),
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasScope"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getScope"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getMapType"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasMapType"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getMapTypeBytes"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#FieldOptionsOrBuilder.hasMapType"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#FieldOptionsOrBuilder.getMapType"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#FieldOptionsOrBuilder.getMapTypeBytes"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.copy"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.this"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.apply"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.FieldOptions.copy"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.FieldOptions.this"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.FieldOptions.apply"),
-
-        // lenses
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasLenses"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getLenses"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasRetainSourceCodeInfo"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getRetainSourceCodeInfo"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.FieldDescriptor.buildFieldDescriptor"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.FieldDescriptor.this"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.Descriptor.this"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.descriptors.EnumDescriptor.this")
       )
     }
   )
@@ -171,7 +149,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "org.scalatest" %% "scalatest" % "3.0.6" % "test",
       "org.mockito" % "mockito-core" % "2.23.4" % "test"
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % "0.8.0")
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion)
   )
 
 val shadeTarget = settingKey[String]("Target to use when shading")
@@ -203,21 +181,10 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       "org.scalatest" %% "scalatest" % "3.0.6" % "test",
       "com.github.os72" % "protoc-jar" % "3.7.0" % "test",
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % "0.8.0"),
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasScope"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getScope"),
-
-        // lenses related
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.package.gen"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasLenses"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getLenses"),
-        ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.GeneratorParams$"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.apply"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.copy"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.this")
       )
     }
   )
@@ -331,7 +298,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
           )
       }
     },
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % "0.8.0"),
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
   .jsSettings(
     scalacOptions += {
