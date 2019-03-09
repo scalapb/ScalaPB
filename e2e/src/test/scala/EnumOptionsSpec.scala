@@ -1,5 +1,5 @@
 import com.thesamet.pb.EnumOptions.{EnumBase, EnumCompanionBase, ValueMixin}
-import com.trueaccord.proto.e2e.enum_options._
+import com.thesamet.proto.e2e.enum_options._
 import org.scalatest._
 
 class EnumOptionsSpec extends FlatSpec with MustMatchers with OptionValues {

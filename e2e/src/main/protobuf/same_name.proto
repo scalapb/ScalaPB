@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package com.trueaccord.e2e;
+package com.thesamet.e2e;
 
 message SameNAME {
 }

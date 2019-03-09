@@ -1,6 +1,6 @@
 import com.google.protobuf.ByteString
-import com.trueaccord.proto.e2e.bytes._
-import com.trueaccord.proto.e2e.bytes_proto2.ByteMessage2
+import com.thesamet.proto.e2e.bytes._
+import com.thesamet.proto.e2e.bytes_proto2.ByteMessage2
 import org.scalatest._
 
 class BytesSpec extends FlatSpec with MustMatchers {

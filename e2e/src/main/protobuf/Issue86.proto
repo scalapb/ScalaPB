@@ -6,7 +6,7 @@ import "scalapb/scalapb.proto";
 
 // Otherwise we conflict with Java.
 option (scalapb.options) = {
-  package_name: "com.trueaccord.pb.Issue86"
+  package_name: "com.thesamet.pb.Issue86"
 };
 
 message Issue86Proto {

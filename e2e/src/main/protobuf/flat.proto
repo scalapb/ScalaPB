@@ -1,13 +1,13 @@
 syntax = "proto2";
 
-package com.trueaccord.proto.e2e;
+package com.thesamet.proto.e2e;
 
 import "scalapb/scalapb.proto";
 
 import "one_of.proto";  // testing an import of non-flat proto
 
 option (scalapb.options) = {
-  package_name: "com.trueaccord.pb.flat"
+  package_name: "com.thesamet.pb.flat"
   flat_package: true
 };
 

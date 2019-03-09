@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package com.trueaccord.proto.e2e;
+package com.thesamet.proto.e2e;
 
 message DefaultsTest {
   optional int32 i1 = 2 [default=99];

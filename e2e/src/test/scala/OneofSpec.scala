@@ -1,4 +1,4 @@
-import com.trueaccord.proto.e2e.one_of._
+import com.thesamet.proto.e2e.one_of._
 import org.scalatest._
 import org.scalatest.prop._
 import org.scalacheck.Gen

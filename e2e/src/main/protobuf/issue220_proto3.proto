@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.trueaccord.proto.e2e.proto3;
+package com.thesamet.proto.e2e.proto3;
 
 import "scalapb/scalapb.proto";
 

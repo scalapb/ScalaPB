@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.trueaccord.proto.e2e;
+package com.thesamet.proto.e2e;
 
 import "google/protobuf/wrappers.proto";
 

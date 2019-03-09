@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.trueaccord.proto.e2e.sealed_oneof_single_file;
+package com.thesamet.proto.e2e.sealed_oneof_single_file;
 
 import "scalapb/scalapb.proto";
 

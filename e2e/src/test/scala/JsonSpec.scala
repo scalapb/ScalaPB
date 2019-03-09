@@ -1,10 +1,10 @@
 
-import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
-import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
+import com.thesamet.proto.e2e.repeatables.RepeatablesTest
+import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalatest._
 import org.scalatest.prop._
 import org.scalacheck.{Arbitrary, Gen}
-import com.trueaccord.scalapb.json.JsonFormat
+import com.thesamet.scalapb.json.JsonFormat
 
 class JsonSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
 

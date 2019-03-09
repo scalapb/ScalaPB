@@ -1,4 +1,4 @@
-import com.trueaccord.proto.e2e.defaults._
+import com.thesamet.proto.e2e.defaults._
 import org.scalatest._
 
 class DefaultsSpec extends FlatSpec with MustMatchers {

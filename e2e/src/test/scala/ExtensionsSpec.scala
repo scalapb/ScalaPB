@@ -1,4 +1,4 @@
-import com.trueaccord.proto.e2e.extensions._
+import com.thesamet.proto.e2e.extensions._
 import org.scalatest._
 
 class ExtensionsSpec extends FlatSpec with MustMatchers with OptionValues {

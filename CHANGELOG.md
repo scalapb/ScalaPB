@@ -1,7 +1,9 @@
 # Change Log
 
-## [0.8.5](https://github.com/scalapb/ScalaPB/tree/HEAD)
+## [0.9.0](https://github.com/scalapb/ScalaPB/tree/HEAD)
 - Add support for custom map types (#410)
+- Upgrade to protobuf 3.7.0
+- Removed deprecated com.trueaccord symbols
 
 ## [0.8.4](https://github.com/scalapb/ScalaPB/tree/v0.8.4)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.8.3...v0.8.4)

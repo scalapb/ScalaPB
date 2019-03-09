@@ -2,9 +2,9 @@ package com.thesamet.pb
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.trueaccord.proto.e2e.service.SealedRequest
-import com.trueaccord.proto.e2e.service.Service1Grpc.Service1
-import com.trueaccord.proto.e2e.service._
+import com.thesamet.proto.e2e.service.SealedRequest
+import com.thesamet.proto.e2e.service.Service1Grpc.Service1
+import com.thesamet.proto.e2e.service._
 import io.grpc.stub.StreamObserver
 
 import scala.concurrent.Future

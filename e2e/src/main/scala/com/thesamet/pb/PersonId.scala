@@ -1,8 +1,8 @@
 package com.thesamet.pb
 
-import com.trueaccord.scalapb.TypeMapper
-import com.trueaccord.proto.e2e.custom_types.CustomMessage.Name
-import com.trueaccord.proto.e2e.custom_types.CustomMessage.Weather
+import com.thesamet.scalapb.TypeMapper
+import com.thesamet.proto.e2e.custom_types.CustomMessage.Name
+import com.thesamet.proto.e2e.custom_types.CustomMessage.Weather
 
 case class PersonId(untypedId: String)
 

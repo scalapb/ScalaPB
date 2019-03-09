@@ -1,16 +1,16 @@
-import com.trueaccord.proto.e2e.one_of.OneofTest.SubMessage
-import com.trueaccord.proto.e2e.one_of.{OneOfProto, OneofTest}
-import com.trueaccord.proto.e2e.service.Service1Grpc.Service1
+import com.thesamet.proto.e2e.one_of.OneofTest.SubMessage
+import com.thesamet.proto.e2e.one_of.{OneOfProto, OneofTest}
+import com.thesamet.proto.e2e.service.Service1Grpc.Service1
 import scalapb.descriptors._
 import org.scalatest._
 
 class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement with OptionValues {
   "scalaDescriptor" must "contain all messages" in {
-    OneOfProto.scalaDescriptor.packageName must be("com.trueaccord.proto.e2e")
+    OneOfProto.scalaDescriptor.packageName must be("com.thesamet.proto.e2e")
     OneOfProto.scalaDescriptor.messages.loneElement must be(OneofTest.scalaDescriptor)
-    OneofTest.scalaDescriptor.fullName must be("com.trueaccord.proto.e2e.OneofTest")
+    OneofTest.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.OneofTest")
     OneofTest.scalaDescriptor.nestedMessages.loneElement must be(SubMessage.scalaDescriptor)
-    SubMessage.scalaDescriptor.fullName must be("com.trueaccord.proto.e2e.OneofTest.SubMessage")
+    SubMessage.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.OneofTest.SubMessage")
     OneofTest.scalaDescriptor.fields must have size (5)
 
     OneofTest.scalaDescriptor.oneofs must have size(1)
@@ -50,10 +50,10 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     xyzs.scalaType must be (ScalaType.Enum(OneofTest.XYZ.scalaDescriptor))
     xyzs.scalaName must be ("xyzs")
 
-    OneofTest.XYZ.scalaDescriptor.fullName must be ("com.trueaccord.proto.e2e.OneofTest.XYZ")
+    OneofTest.XYZ.scalaDescriptor.fullName must be ("com.thesamet.proto.e2e.OneofTest.XYZ")
 
-    Service1.scalaDescriptor.fullName must be("com.trueaccord.proto.e2e.Service1")
+    Service1.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.Service1")
     val method = Service1.scalaDescriptor.methods.find(_.name == "SealedUnary").get
-    method.fullName must be("com.trueaccord.proto.e2e.Service1.SealedUnary")
+    method.fullName must be("com.thesamet.proto.e2e.Service1.SealedUnary")
   }
 }

@@ -2,8 +2,8 @@ package com.thesamet.pb
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.trueaccord.proto.e2e.Service._
-import com.trueaccord.proto.e2e.Service1Grpc._
+import com.thesamet.proto.e2e.Service._
+import com.thesamet.proto.e2e.Service1Grpc._
 import io.grpc.stub.StreamObserver
 
 class Service1JavaImpl extends Service1ImplBase{

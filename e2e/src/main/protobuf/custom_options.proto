@@ -4,7 +4,7 @@ import "google/protobuf/descriptor.proto";
 import "custom_types.proto";
 import "scalapb/scalapb.proto";
 
-package com.trueaccord.proto.e2e;
+package com.thesamet.proto.e2e;
 
 option (scalapb.options) = {
   import: "com.thesamet.pb.MisplacedMapper.weatherMapper"

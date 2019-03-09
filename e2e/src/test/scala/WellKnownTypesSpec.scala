@@ -1,4 +1,4 @@
-import com.trueaccord.proto.well_known._
+import com.thesamet.proto.well_known._
 import org.scalatest._
 import org.scalatest.prop._
 

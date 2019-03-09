@@ -8,12 +8,12 @@ import scala.util.Random
 class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
   describe("scala companion object") {
     it("provides descriptor object") {
-      import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
+      import com.thesamet.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
       // Deprecated usage
       Service1GrpcScala.javaDescriptor.getName must be("Service1")
 
       Service1GrpcScala.Service1.javaDescriptor.getName must be("Service1")
-      implicitly[com.trueaccord.scalapb.grpc.ServiceCompanion[Service1GrpcScala.Service1]].javaDescriptor must be(
+      implicitly[com.thesamet.scalapb.grpc.ServiceCompanion[Service1GrpcScala.Service1]].javaDescriptor must be(
         Service1GrpcScala.Service1.javaDescriptor)
     }
   }
@@ -43,7 +43,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
               messageResponse = ServerReflectionResponse.MessageResponse.ListServicesResponse(
                 ListServiceResponse(
                   service = Seq(
-                    "com.trueaccord.proto.e2e.Service1",
+                    "com.thesamet.proto.e2e.Service1",
                     "grpc.reflection.v1alpha.ServerReflection"
                   ).map(ServiceResponse(_))
                 )
@@ -56,7 +56,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
     }
 
     describe("java client") {
-      import com.trueaccord.proto.e2e.{Service1Grpc => Service1GrpcJava, _}
+      import com.thesamet.proto.e2e.{Service1Grpc => Service1GrpcJava, _}
 
       it("unaryStringLength BlockingStub") {
         withScalaServer { channel =>
@@ -78,7 +78,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
     }
 
     describe("scala client") {
-      import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
+      import com.thesamet.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
 
       it("unaryStringLength blockingStub") {
         withScalaServer { channel =>
@@ -144,7 +144,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
         }
       }
 
-      import com.trueaccord.proto.e2e.service
+      import com.thesamet.proto.e2e.service
 
       it("sealed unary call should work") {
 

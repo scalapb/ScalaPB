@@ -1,7 +1,7 @@
-import com.trueaccord.proto.e2e.custom_types._
-import com.trueaccord.proto.e2e.custom_types.CustomMessage.Weather
-import com.trueaccord.proto.e2e.CustomTypes.{CustomMessage => CustomMessageJava}
-import com.trueaccord.proto.e2e.CustomTypes.CustomMessage.{Weather => WeatherJava}
+import com.thesamet.proto.e2e.custom_types._
+import com.thesamet.proto.e2e.custom_types.CustomMessage.Weather
+import com.thesamet.proto.e2e.CustomTypes.{CustomMessage => CustomMessageJava}
+import com.thesamet.proto.e2e.CustomTypes.CustomMessage.{Weather => WeatherJava}
 import org.scalatest._
 import com.thesamet.pb._
 

@@ -1,5 +1,5 @@
-import com.trueaccord.proto.e2e.comments.CommentedServiceGrpc.CommentedService
-import com.trueaccord.proto.e2e.comments._
+import com.thesamet.proto.e2e.comments.CommentedServiceGrpc.CommentedService
+import com.thesamet.proto.e2e.comments._
 import org.scalatest._
 
 class CommentsSpec extends FlatSpec with MustMatchers {

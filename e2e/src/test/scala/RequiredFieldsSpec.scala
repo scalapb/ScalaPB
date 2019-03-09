@@ -1,7 +1,7 @@
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.InvalidProtocolBufferException
-import com.trueaccord.proto.e2e.reqs.OptionalFields
-import com.trueaccord.proto.e2e.reqs.RequiredFields
+import com.thesamet.proto.e2e.reqs.OptionalFields
+import com.thesamet.proto.e2e.reqs.RequiredFields
 import org.scalatest._
 
 import scala.collection.JavaConverters._

@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.trueaccord.proto;
+package com.thesamet.proto;
 
 import "google/protobuf/wrappers.proto";
 import "scalapb/scalapb.proto";

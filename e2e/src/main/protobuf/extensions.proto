@@ -4,7 +4,7 @@
 
 syntax = "proto2";
 
-package com.trueaccord.proto.e2e;
+package com.thesamet.proto.e2e;
 
 message BaseMessage {
   extensions 1000 to 2000;

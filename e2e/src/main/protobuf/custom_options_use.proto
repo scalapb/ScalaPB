@@ -3,7 +3,7 @@ syntax = "proto2";
 import "custom_options.proto";
 import "scalapb/scalapb.proto";
 
-package com.trueaccord.proto.e2e;
+package com.thesamet.proto.e2e;
 
 option (scalapb.options) = {
   import: "com.thesamet.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2, Base1, Base2}"

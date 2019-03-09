@@ -1,8 +1,8 @@
-import com.trueaccord.proto.any._
+import com.thesamet.proto.any._
 import com.google.protobuf.any.Any
 import org.scalatest._
-import com.trueaccord.proto.e2e.enum.EnumTest
-import com.trueaccord.proto.e2e.enum.Color
+import com.thesamet.proto.e2e.enum.EnumTest
+import com.thesamet.proto.e2e.enum.Color
 
 class AnySpec extends FlatSpec with MustMatchers {
   val green = EnumTest(color = Some(Color.GREEN))
@@ -23,9 +23,9 @@ class AnySpec extends FlatSpec with MustMatchers {
     t.myAny.get.is[com.google.protobuf.any.Any] must be (false)
     t.myAny.get.is[EnumTest] must be (true)
     t.myAny.get.unpack[EnumTest] must be (green)
-    t.update(_.myAny.typeUrl := "foobar/com.trueaccord.proto.e2e.EnumTest").myAny.get.unpack[EnumTest] must be (green)
+    t.update(_.myAny.typeUrl := "foobar/com.thesamet.proto.e2e.EnumTest").myAny.get.unpack[EnumTest] must be (green)
     intercept[IllegalArgumentException] {
-      t.update(_.myAny.typeUrl := "foobar/com.trueaccord.proto.e2e.EnumTestWrong").myAny.get.unpack[EnumTest]
+      t.update(_.myAny.typeUrl := "foobar/com.thesamet.proto.e2e.EnumTestWrong").myAny.get.unpack[EnumTest]
     }
   }
 }

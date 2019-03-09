@@ -1,9 +1,9 @@
 
 import java.io.{ByteArrayInputStream, ByteArrayOutputStream, ObjectInputStream, ObjectOutputStream}
 
-import com.trueaccord.proto.e2e.repeatables.RepeatablesTest
-import com.trueaccord.proto.e2e.repeatables.RepeatablesTest.Nested
-import com.trueaccord.scalapb.GeneratedMessage
+import com.thesamet.proto.e2e.repeatables.RepeatablesTest
+import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
+import com.thesamet.scalapb.GeneratedMessage
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest._
 import org.scalatest.prop._

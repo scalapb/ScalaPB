@@ -1,4 +1,4 @@
-import com.trueaccord.proto.e2e.type_level.UsesMessageLevelType
+import com.thesamet.proto.e2e.type_level.UsesMessageLevelType
 import org.scalatest.{FlatSpec, MustMatchers}
 import com.thesamet.pb.{Point2D, Dir2D}
 

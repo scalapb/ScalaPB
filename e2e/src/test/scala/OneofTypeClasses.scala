@@ -1,5 +1,5 @@
-import com.trueaccord.proto.e2e.one_of.OneofTest
-import com.trueaccord.proto.e2e.one_of.OneofTest.SubMessage
+import com.thesamet.proto.e2e.one_of.OneofTest
+import com.thesamet.proto.e2e.one_of.OneofTest.SubMessage
 import org.scalatest.{FlatSpec, MustMatchers}
 
 class OneofTypeClasses extends FlatSpec with MustMatchers {

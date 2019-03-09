@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package com.trueaccord.proto.e2e;
+package com.thesamet.proto.e2e;
 
 message ByteMessage2 {
   optional bytes s = 1;

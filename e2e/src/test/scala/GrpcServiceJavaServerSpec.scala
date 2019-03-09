@@ -1,5 +1,5 @@
 
-import com.trueaccord.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
+import com.thesamet.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
 
 import scala.concurrent.Await
 import scala.concurrent.duration._

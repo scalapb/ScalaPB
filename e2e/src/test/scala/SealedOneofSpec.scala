@@ -1,7 +1,7 @@
 
-import com.trueaccord.proto.e2e.sealed_oneof._
-import com.trueaccord.proto.e2e.sealed_oneof_in_oneof._
-import com.trueaccord.proto.e2e.{sealed_oneof_single_file => f}
+import com.thesamet.proto.e2e.sealed_oneof._
+import com.thesamet.proto.e2e.sealed_oneof_in_oneof._
+import com.thesamet.proto.e2e.{sealed_oneof_single_file => f}
 import org.scalatest._
 
 class SealedOneofSpec extends FlatSpec with MustMatchers {

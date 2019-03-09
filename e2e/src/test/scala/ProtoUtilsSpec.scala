@@ -1,6 +1,6 @@
 
-import com.trueaccord.scalapb.grpc.ProtoUtils
-import com.trueaccord.proto.well_known._
+import com.thesamet.scalapb.grpc.ProtoUtils
+import com.thesamet.proto.well_known._
 import org.scalatest.{FlatSpec, MustMatchers}
 
 
@@ -16,7 +16,7 @@ class ProtoUtilsSpec extends FlatSpec with MustMatchers{
     val marshaller = ProtoUtils.metadataMarshaller[TestWrappers]
     val proto = TestWrappers()
 
-    val javaProto = com.trueaccord.proto.WellKnown.TestWrappers.newBuilder().build()
+    val javaProto = com.thesamet.proto.WellKnown.TestWrappers.newBuilder().build()
     val javaMarshaller = io.grpc.protobuf.lite.ProtoLiteUtils.metadataMarshaller(javaProto)
 
     marshaller.parseBytes(javaMarshaller.toBytes(javaProto)) must be (proto)
@@ -32,6 +32,6 @@ class ProtoUtilsSpec extends FlatSpec with MustMatchers{
   "keyForProto" should "returns a key with name \"type\"-bin" in {
     val key = ProtoUtils.keyForProto[TestWrappers]
 
-    key.originalName() must be ("com.trueaccord.proto.TestWrappers-bin")
+    key.originalName() must be ("com.thesamet.proto.TestWrappers-bin")
   }
 }

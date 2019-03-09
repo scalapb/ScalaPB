@@ -1,6 +1,6 @@
-import com.trueaccord.proto.e2e.NoBox
-import com.trueaccord.proto.e2e.no_box.Car
-import com.trueaccord.proto.e2e.no_box.Tyre
+import com.thesamet.proto.e2e.NoBox
+import com.thesamet.proto.e2e.no_box.Car
+import com.thesamet.proto.e2e.no_box.Tyre
 import org.scalatest._
 
 class NoBoxSpec extends FlatSpec with MustMatchers {
