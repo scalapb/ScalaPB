@@ -352,6 +352,8 @@ lazy val docs = project.in(file("docs"))
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
   .settings(
     micrositeName := "ScalaPB",
+    micrositeCompilingDocsTool := WithMdoc,
+    mdocIn := baseDirectory.value / "src" / "main" / "markdown",
     micrositeDescription := "Protocol buffer compiler for Scala",
     micrositeDocumentationUrl := "/",
     micrositeAuthor := "Nadav Samet",
