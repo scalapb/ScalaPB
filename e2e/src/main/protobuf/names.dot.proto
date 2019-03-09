@@ -135,3 +135,7 @@ message Long {
 message Boolean {
   optional bool value = 1;
 }
+
+// See https://github.com/scalapb/ScalaPB/issues/543
+message None {
+}

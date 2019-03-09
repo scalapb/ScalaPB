@@ -13,10 +13,10 @@ package com.google.protobuf.compiler.plugin
   */
 @SerialVersionUID(0L)
 final case class Version(
-    major: _root_.scala.Option[_root_.scala.Int] = None,
-    minor: _root_.scala.Option[_root_.scala.Int] = None,
-    patch: _root_.scala.Option[_root_.scala.Int] = None,
-    suffix: _root_.scala.Option[_root_.scala.Predef.String] = None
+    major: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    minor: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    patch: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    suffix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[Version] with scalapb.lenses.Updatable[Version] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -95,16 +95,16 @@ final case class Version(
       )
     }
     def getMajor: _root_.scala.Int = major.getOrElse(0)
-    def clearMajor: Version = copy(major = None)
+    def clearMajor: Version = copy(major = _root_.scala.None)
     def withMajor(__v: _root_.scala.Int): Version = copy(major = Option(__v))
     def getMinor: _root_.scala.Int = minor.getOrElse(0)
-    def clearMinor: Version = copy(minor = None)
+    def clearMinor: Version = copy(minor = _root_.scala.None)
     def withMinor(__v: _root_.scala.Int): Version = copy(minor = Option(__v))
     def getPatch: _root_.scala.Int = patch.getOrElse(0)
-    def clearPatch: Version = copy(patch = None)
+    def clearPatch: Version = copy(patch = _root_.scala.None)
     def withPatch(__v: _root_.scala.Int): Version = copy(patch = Option(__v))
     def getSuffix: _root_.scala.Predef.String = suffix.getOrElse("")
-    def clearSuffix: Version = copy(suffix = None)
+    def clearSuffix: Version = copy(suffix = _root_.scala.None)
     def withSuffix(__v: _root_.scala.Predef.String): Version = copy(suffix = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
@@ -138,10 +138,10 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.Version): com.google.protobuf.compiler.plugin.Version = com.google.protobuf.compiler.plugin.Version(
-    major = if (javaPbSource.hasMajor) Some(javaPbSource.getMajor.intValue) else None,
-    minor = if (javaPbSource.hasMinor) Some(javaPbSource.getMinor.intValue) else None,
-    patch = if (javaPbSource.hasPatch) Some(javaPbSource.getPatch.intValue) else None,
-    suffix = if (javaPbSource.hasSuffix) Some(javaPbSource.getSuffix) else None
+    major = if (javaPbSource.hasMajor) Some(javaPbSource.getMajor.intValue) else _root_.scala.None,
+    minor = if (javaPbSource.hasMinor) Some(javaPbSource.getMinor.intValue) else _root_.scala.None,
+    patch = if (javaPbSource.hasPatch) Some(javaPbSource.getPatch.intValue) else _root_.scala.None,
+    suffix = if (javaPbSource.hasSuffix) Some(javaPbSource.getSuffix) else _root_.scala.None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.compiler.plugin.Version = {
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

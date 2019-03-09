@@ -22,7 +22,7 @@ package com.google.protobuf.`type`
 @SerialVersionUID(0L)
 final case class OptionProto(
     name: _root_.scala.Predef.String = "",
-    value: _root_.scala.Option[com.google.protobuf.any.Any] = None
+    value: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[OptionProto] with scalapb.lenses.Updatable[OptionProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -85,7 +85,7 @@ final case class OptionProto(
     }
     def withName(__v: _root_.scala.Predef.String): OptionProto = copy(name = __v)
     def getValue: com.google.protobuf.any.Any = value.getOrElse(com.google.protobuf.any.Any.defaultInstance)
-    def clearValue: OptionProto = copy(value = None)
+    def clearValue: OptionProto = copy(value = _root_.scala.None)
     def withValue(__v: com.google.protobuf.any.Any): OptionProto = copy(value = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

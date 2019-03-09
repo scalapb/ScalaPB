@@ -23,7 +23,7 @@ final case class Enum(
     name: _root_.scala.Predef.String = "",
     enumvalue: _root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.collection.Seq.empty,
     options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
-    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = None,
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends scalapb.GeneratedMessage with scalapb.Message[Enum] with scalapb.lenses.Updatable[Enum] {
     @transient
@@ -140,7 +140,7 @@ final case class Enum(
     def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
-    def clearSourceContext: Enum = copy(sourceContext = None)
+    def clearSourceContext: Enum = copy(sourceContext = _root_.scala.None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Enum = copy(sourceContext = Option(__v))
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Enum = copy(syntax = __v)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

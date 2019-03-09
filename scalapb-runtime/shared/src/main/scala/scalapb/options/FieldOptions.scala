@@ -23,14 +23,14 @@ package scalapb.options
   */
 @SerialVersionUID(0L)
 final case class FieldOptions(
-    `type`: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    scalaName: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    collectionType: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    keyType: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    valueType: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    collectionType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    keyType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    valueType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
-    mapType: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    noBox: _root_.scala.Option[_root_.scala.Boolean] = None
+    mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[FieldOptions] with scalapb.lenses.Updatable[FieldOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -157,29 +157,29 @@ final case class FieldOptions(
       )
     }
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
-    def clearType: FieldOptions = copy(`type` = None)
+    def clearType: FieldOptions = copy(`type` = _root_.scala.None)
     def withType(__v: _root_.scala.Predef.String): FieldOptions = copy(`type` = Option(__v))
     def getScalaName: _root_.scala.Predef.String = scalaName.getOrElse("")
-    def clearScalaName: FieldOptions = copy(scalaName = None)
+    def clearScalaName: FieldOptions = copy(scalaName = _root_.scala.None)
     def withScalaName(__v: _root_.scala.Predef.String): FieldOptions = copy(scalaName = Option(__v))
     def getCollectionType: _root_.scala.Predef.String = collectionType.getOrElse("")
-    def clearCollectionType: FieldOptions = copy(collectionType = None)
+    def clearCollectionType: FieldOptions = copy(collectionType = _root_.scala.None)
     def withCollectionType(__v: _root_.scala.Predef.String): FieldOptions = copy(collectionType = Option(__v))
     def getKeyType: _root_.scala.Predef.String = keyType.getOrElse("")
-    def clearKeyType: FieldOptions = copy(keyType = None)
+    def clearKeyType: FieldOptions = copy(keyType = _root_.scala.None)
     def withKeyType(__v: _root_.scala.Predef.String): FieldOptions = copy(keyType = Option(__v))
     def getValueType: _root_.scala.Predef.String = valueType.getOrElse("")
-    def clearValueType: FieldOptions = copy(valueType = None)
+    def clearValueType: FieldOptions = copy(valueType = _root_.scala.None)
     def withValueType(__v: _root_.scala.Predef.String): FieldOptions = copy(valueType = Option(__v))
     def clearAnnotations = copy(annotations = _root_.scala.collection.Seq.empty)
     def addAnnotations(__vs: _root_.scala.Predef.String*): FieldOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: TraversableOnce[_root_.scala.Predef.String]): FieldOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): FieldOptions = copy(annotations = __v)
     def getMapType: _root_.scala.Predef.String = mapType.getOrElse("")
-    def clearMapType: FieldOptions = copy(mapType = None)
+    def clearMapType: FieldOptions = copy(mapType = _root_.scala.None)
     def withMapType(__v: _root_.scala.Predef.String): FieldOptions = copy(mapType = Option(__v))
     def getNoBox: _root_.scala.Boolean = noBox.getOrElse(false)
-    def clearNoBox: FieldOptions = copy(noBox = None)
+    def clearNoBox: FieldOptions = copy(noBox = _root_.scala.None)
     def withNoBox(__v: _root_.scala.Boolean): FieldOptions = copy(noBox = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

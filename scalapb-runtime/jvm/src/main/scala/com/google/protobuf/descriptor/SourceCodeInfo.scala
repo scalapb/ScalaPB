@@ -242,8 +242,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   final case class Location(
       path: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
       span: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
-      leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = None,
-      trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = None,
+      leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       leadingDetachedComments: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
       ) extends scalapb.GeneratedMessage with scalapb.Message[Location] with scalapb.lenses.Updatable[Location] {
       private[this] def pathSerializedSize = {
@@ -379,10 +379,10 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       def addAllSpan(__vs: TraversableOnce[_root_.scala.Int]): Location = copy(span = span ++ __vs)
       def withSpan(__v: _root_.scala.collection.Seq[_root_.scala.Int]): Location = copy(span = __v)
       def getLeadingComments: _root_.scala.Predef.String = leadingComments.getOrElse("")
-      def clearLeadingComments: Location = copy(leadingComments = None)
+      def clearLeadingComments: Location = copy(leadingComments = _root_.scala.None)
       def withLeadingComments(__v: _root_.scala.Predef.String): Location = copy(leadingComments = Option(__v))
       def getTrailingComments: _root_.scala.Predef.String = trailingComments.getOrElse("")
-      def clearTrailingComments: Location = copy(trailingComments = None)
+      def clearTrailingComments: Location = copy(trailingComments = _root_.scala.None)
       def withTrailingComments(__v: _root_.scala.Predef.String): Location = copy(trailingComments = Option(__v))
       def clearLeadingDetachedComments = copy(leadingDetachedComments = _root_.scala.collection.Seq.empty)
       def addLeadingDetachedComments(__vs: _root_.scala.Predef.String*): Location = addAllLeadingDetachedComments(__vs)
@@ -425,8 +425,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location): com.google.protobuf.descriptor.SourceCodeInfo.Location = com.google.protobuf.descriptor.SourceCodeInfo.Location(
       path = javaPbSource.getPathList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
       span = javaPbSource.getSpanList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
-      leadingComments = if (javaPbSource.hasLeadingComments) Some(javaPbSource.getLeadingComments) else None,
-      trailingComments = if (javaPbSource.hasTrailingComments) Some(javaPbSource.getTrailingComments) else None,
+      leadingComments = if (javaPbSource.hasLeadingComments) Some(javaPbSource.getLeadingComments) else _root_.scala.None,
+      trailingComments = if (javaPbSource.hasTrailingComments) Some(javaPbSource.getTrailingComments) else _root_.scala.None,
       leadingDetachedComments = javaPbSource.getLeadingDetachedCommentsList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut)
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.SourceCodeInfo.Location = {

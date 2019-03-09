@@ -19,12 +19,12 @@ package com.google.protobuf.descriptor
 @SerialVersionUID(0L)
 final case class UninterpretedOption(
     name: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scala.collection.Seq.empty,
-    identifierValue: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    positiveIntValue: _root_.scala.Option[_root_.scala.Long] = None,
-    negativeIntValue: _root_.scala.Option[_root_.scala.Long] = None,
-    doubleValue: _root_.scala.Option[_root_.scala.Double] = None,
-    stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString] = None,
-    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String] = None
+    identifierValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    positiveIntValue: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None,
+    negativeIntValue: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None,
+    doubleValue: _root_.scala.Option[_root_.scala.Double] = _root_.scala.None,
+    stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString] = _root_.scala.None,
+    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[UninterpretedOption] with scalapb.lenses.Updatable[UninterpretedOption] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -145,22 +145,22 @@ final case class UninterpretedOption(
     def addAllName(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = name ++ __vs)
     def withName(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = __v)
     def getIdentifierValue: _root_.scala.Predef.String = identifierValue.getOrElse("")
-    def clearIdentifierValue: UninterpretedOption = copy(identifierValue = None)
+    def clearIdentifierValue: UninterpretedOption = copy(identifierValue = _root_.scala.None)
     def withIdentifierValue(__v: _root_.scala.Predef.String): UninterpretedOption = copy(identifierValue = Option(__v))
     def getPositiveIntValue: _root_.scala.Long = positiveIntValue.getOrElse(0L)
-    def clearPositiveIntValue: UninterpretedOption = copy(positiveIntValue = None)
+    def clearPositiveIntValue: UninterpretedOption = copy(positiveIntValue = _root_.scala.None)
     def withPositiveIntValue(__v: _root_.scala.Long): UninterpretedOption = copy(positiveIntValue = Option(__v))
     def getNegativeIntValue: _root_.scala.Long = negativeIntValue.getOrElse(0L)
-    def clearNegativeIntValue: UninterpretedOption = copy(negativeIntValue = None)
+    def clearNegativeIntValue: UninterpretedOption = copy(negativeIntValue = _root_.scala.None)
     def withNegativeIntValue(__v: _root_.scala.Long): UninterpretedOption = copy(negativeIntValue = Option(__v))
     def getDoubleValue: _root_.scala.Double = doubleValue.getOrElse(0.0)
-    def clearDoubleValue: UninterpretedOption = copy(doubleValue = None)
+    def clearDoubleValue: UninterpretedOption = copy(doubleValue = _root_.scala.None)
     def withDoubleValue(__v: _root_.scala.Double): UninterpretedOption = copy(doubleValue = Option(__v))
     def getStringValue: _root_.com.google.protobuf.ByteString = stringValue.getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
-    def clearStringValue: UninterpretedOption = copy(stringValue = None)
+    def clearStringValue: UninterpretedOption = copy(stringValue = _root_.scala.None)
     def withStringValue(__v: _root_.com.google.protobuf.ByteString): UninterpretedOption = copy(stringValue = Option(__v))
     def getAggregateValue: _root_.scala.Predef.String = aggregateValue.getOrElse("")
-    def clearAggregateValue: UninterpretedOption = copy(aggregateValue = None)
+    def clearAggregateValue: UninterpretedOption = copy(aggregateValue = _root_.scala.None)
     def withAggregateValue(__v: _root_.scala.Predef.String): UninterpretedOption = copy(aggregateValue = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

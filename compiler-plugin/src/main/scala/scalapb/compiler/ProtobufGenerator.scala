@@ -120,7 +120,7 @@ class ProtobufGenerator(
       }
       .print(e.fields) {
         case (p, v) =>
-          p.add(s"def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = None")
+          p.add(s"def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = ${C.None}")
       }
       .outdent
       .addStringMargin(s"""}
@@ -210,7 +210,7 @@ class ProtobufGenerator(
   }
 
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
-    if (field.supportsPresence) "None"
+    if (field.supportsPresence) C.None
     else if (field.isRepeated) field.emptyCollection
     else defaultValueForGet(field)
 
@@ -239,7 +239,7 @@ class ProtobufGenerator(
     val valueConversion: Expression = javaToScalaConversion(field)
 
     if (field.supportsPresence)
-      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, enclosingType = EnclosingType.None)}) else None"
+      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, enclosingType = EnclosingType.None)}) else ${C.None}"
     else if (field.isRepeated)
       valueConversion(javaGetter + ".asScala", EnclosingType.Collection, mustCopy = true)
     else valueConversion(javaGetter, EnclosingType.None)
@@ -689,7 +689,7 @@ class ProtobufGenerator(
       case field if !field.isInOneof =>
         val typeName = field.scalaTypeName
         val ctorDefaultValue: Option[String] =
-          if (field.isOptional && field.supportsPresence) Some("None")
+          if (field.isOptional && field.supportsPresence) Some(C.None)
           else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
           else if (field.isRepeated) Some(s"${field.emptyCollection}")
           else None
@@ -1542,7 +1542,7 @@ class ProtobufGenerator(
             }
             .when(field.supportsPresence) { p =>
               p.addStringMargin(
-                s"""def $clearMethod: ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = None)
+                s"""def $clearMethod: ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = ${C.None})
                 |def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = Option(__v))"""
               )
             }
@@ -1814,6 +1814,10 @@ class ProtobufGenerator(
 
     serviceFiles ++ enumFiles ++ messageFiles :+ fileDescriptorObjectFile
   }
+}
+
+private[this] object C {
+  val None = "_root_.scala.None"
 }
 
 object ProtobufGenerator {

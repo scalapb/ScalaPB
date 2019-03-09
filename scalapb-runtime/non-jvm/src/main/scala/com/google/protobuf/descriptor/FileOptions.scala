@@ -88,26 +88,26 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class FileOptions(
-    javaPackage: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    javaMultipleFiles: _root_.scala.Option[_root_.scala.Boolean] = None,
-    @scala.deprecated(message="Marked as deprecated in proto file", "") javaGenerateEqualsAndHash: _root_.scala.Option[_root_.scala.Boolean] = None,
-    javaStringCheckUtf8: _root_.scala.Option[_root_.scala.Boolean] = None,
-    optimizeFor: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode] = None,
-    goPackage: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    ccGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
-    javaGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
-    pyGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
-    phpGenericServices: _root_.scala.Option[_root_.scala.Boolean] = None,
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
-    ccEnableArenas: _root_.scala.Option[_root_.scala.Boolean] = None,
-    objcClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    csharpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    swiftPrefix: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    phpClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    phpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    rubyPackage: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    javaPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    javaMultipleFiles: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    @scala.deprecated(message="Marked as deprecated in proto file", "") javaGenerateEqualsAndHash: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    javaStringCheckUtf8: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    optimizeFor: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode] = _root_.scala.None,
+    goPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    ccGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    javaGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    pyGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    phpGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    ccEnableArenas: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    objcClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    csharpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    swiftPrefix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    phpClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    phpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    rubyPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[FileOptions] with scalapb.lenses.Updatable[FileOptions] with _root_.scalapb.ExtendableMessage[FileOptions] {
@@ -398,64 +398,64 @@ final case class FileOptions(
       )
     }
     def getJavaPackage: _root_.scala.Predef.String = javaPackage.getOrElse("")
-    def clearJavaPackage: FileOptions = copy(javaPackage = None)
+    def clearJavaPackage: FileOptions = copy(javaPackage = _root_.scala.None)
     def withJavaPackage(__v: _root_.scala.Predef.String): FileOptions = copy(javaPackage = Option(__v))
     def getJavaOuterClassname: _root_.scala.Predef.String = javaOuterClassname.getOrElse("")
-    def clearJavaOuterClassname: FileOptions = copy(javaOuterClassname = None)
+    def clearJavaOuterClassname: FileOptions = copy(javaOuterClassname = _root_.scala.None)
     def withJavaOuterClassname(__v: _root_.scala.Predef.String): FileOptions = copy(javaOuterClassname = Option(__v))
     def getJavaMultipleFiles: _root_.scala.Boolean = javaMultipleFiles.getOrElse(false)
-    def clearJavaMultipleFiles: FileOptions = copy(javaMultipleFiles = None)
+    def clearJavaMultipleFiles: FileOptions = copy(javaMultipleFiles = _root_.scala.None)
     def withJavaMultipleFiles(__v: _root_.scala.Boolean): FileOptions = copy(javaMultipleFiles = Option(__v))
     def getJavaGenerateEqualsAndHash: _root_.scala.Boolean = javaGenerateEqualsAndHash.getOrElse(false)
-    def clearJavaGenerateEqualsAndHash: FileOptions = copy(javaGenerateEqualsAndHash = None)
+    def clearJavaGenerateEqualsAndHash: FileOptions = copy(javaGenerateEqualsAndHash = _root_.scala.None)
     def withJavaGenerateEqualsAndHash(__v: _root_.scala.Boolean): FileOptions = copy(javaGenerateEqualsAndHash = Option(__v))
     def getJavaStringCheckUtf8: _root_.scala.Boolean = javaStringCheckUtf8.getOrElse(false)
-    def clearJavaStringCheckUtf8: FileOptions = copy(javaStringCheckUtf8 = None)
+    def clearJavaStringCheckUtf8: FileOptions = copy(javaStringCheckUtf8 = _root_.scala.None)
     def withJavaStringCheckUtf8(__v: _root_.scala.Boolean): FileOptions = copy(javaStringCheckUtf8 = Option(__v))
     def getOptimizeFor: com.google.protobuf.descriptor.FileOptions.OptimizeMode = optimizeFor.getOrElse(com.google.protobuf.descriptor.FileOptions.OptimizeMode.SPEED)
-    def clearOptimizeFor: FileOptions = copy(optimizeFor = None)
+    def clearOptimizeFor: FileOptions = copy(optimizeFor = _root_.scala.None)
     def withOptimizeFor(__v: com.google.protobuf.descriptor.FileOptions.OptimizeMode): FileOptions = copy(optimizeFor = Option(__v))
     def getGoPackage: _root_.scala.Predef.String = goPackage.getOrElse("")
-    def clearGoPackage: FileOptions = copy(goPackage = None)
+    def clearGoPackage: FileOptions = copy(goPackage = _root_.scala.None)
     def withGoPackage(__v: _root_.scala.Predef.String): FileOptions = copy(goPackage = Option(__v))
     def getCcGenericServices: _root_.scala.Boolean = ccGenericServices.getOrElse(false)
-    def clearCcGenericServices: FileOptions = copy(ccGenericServices = None)
+    def clearCcGenericServices: FileOptions = copy(ccGenericServices = _root_.scala.None)
     def withCcGenericServices(__v: _root_.scala.Boolean): FileOptions = copy(ccGenericServices = Option(__v))
     def getJavaGenericServices: _root_.scala.Boolean = javaGenericServices.getOrElse(false)
-    def clearJavaGenericServices: FileOptions = copy(javaGenericServices = None)
+    def clearJavaGenericServices: FileOptions = copy(javaGenericServices = _root_.scala.None)
     def withJavaGenericServices(__v: _root_.scala.Boolean): FileOptions = copy(javaGenericServices = Option(__v))
     def getPyGenericServices: _root_.scala.Boolean = pyGenericServices.getOrElse(false)
-    def clearPyGenericServices: FileOptions = copy(pyGenericServices = None)
+    def clearPyGenericServices: FileOptions = copy(pyGenericServices = _root_.scala.None)
     def withPyGenericServices(__v: _root_.scala.Boolean): FileOptions = copy(pyGenericServices = Option(__v))
     def getPhpGenericServices: _root_.scala.Boolean = phpGenericServices.getOrElse(false)
-    def clearPhpGenericServices: FileOptions = copy(phpGenericServices = None)
+    def clearPhpGenericServices: FileOptions = copy(phpGenericServices = _root_.scala.None)
     def withPhpGenericServices(__v: _root_.scala.Boolean): FileOptions = copy(phpGenericServices = Option(__v))
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
-    def clearDeprecated: FileOptions = copy(deprecated = None)
+    def clearDeprecated: FileOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): FileOptions = copy(deprecated = Option(__v))
     def getCcEnableArenas: _root_.scala.Boolean = ccEnableArenas.getOrElse(false)
-    def clearCcEnableArenas: FileOptions = copy(ccEnableArenas = None)
+    def clearCcEnableArenas: FileOptions = copy(ccEnableArenas = _root_.scala.None)
     def withCcEnableArenas(__v: _root_.scala.Boolean): FileOptions = copy(ccEnableArenas = Option(__v))
     def getObjcClassPrefix: _root_.scala.Predef.String = objcClassPrefix.getOrElse("")
-    def clearObjcClassPrefix: FileOptions = copy(objcClassPrefix = None)
+    def clearObjcClassPrefix: FileOptions = copy(objcClassPrefix = _root_.scala.None)
     def withObjcClassPrefix(__v: _root_.scala.Predef.String): FileOptions = copy(objcClassPrefix = Option(__v))
     def getCsharpNamespace: _root_.scala.Predef.String = csharpNamespace.getOrElse("")
-    def clearCsharpNamespace: FileOptions = copy(csharpNamespace = None)
+    def clearCsharpNamespace: FileOptions = copy(csharpNamespace = _root_.scala.None)
     def withCsharpNamespace(__v: _root_.scala.Predef.String): FileOptions = copy(csharpNamespace = Option(__v))
     def getSwiftPrefix: _root_.scala.Predef.String = swiftPrefix.getOrElse("")
-    def clearSwiftPrefix: FileOptions = copy(swiftPrefix = None)
+    def clearSwiftPrefix: FileOptions = copy(swiftPrefix = _root_.scala.None)
     def withSwiftPrefix(__v: _root_.scala.Predef.String): FileOptions = copy(swiftPrefix = Option(__v))
     def getPhpClassPrefix: _root_.scala.Predef.String = phpClassPrefix.getOrElse("")
-    def clearPhpClassPrefix: FileOptions = copy(phpClassPrefix = None)
+    def clearPhpClassPrefix: FileOptions = copy(phpClassPrefix = _root_.scala.None)
     def withPhpClassPrefix(__v: _root_.scala.Predef.String): FileOptions = copy(phpClassPrefix = Option(__v))
     def getPhpNamespace: _root_.scala.Predef.String = phpNamespace.getOrElse("")
-    def clearPhpNamespace: FileOptions = copy(phpNamespace = None)
+    def clearPhpNamespace: FileOptions = copy(phpNamespace = _root_.scala.None)
     def withPhpNamespace(__v: _root_.scala.Predef.String): FileOptions = copy(phpNamespace = Option(__v))
     def getPhpMetadataNamespace: _root_.scala.Predef.String = phpMetadataNamespace.getOrElse("")
-    def clearPhpMetadataNamespace: FileOptions = copy(phpMetadataNamespace = None)
+    def clearPhpMetadataNamespace: FileOptions = copy(phpMetadataNamespace = _root_.scala.None)
     def withPhpMetadataNamespace(__v: _root_.scala.Predef.String): FileOptions = copy(phpMetadataNamespace = Option(__v))
     def getRubyPackage: _root_.scala.Predef.String = rubyPackage.getOrElse("")
-    def clearRubyPackage: FileOptions = copy(rubyPackage = None)
+    def clearRubyPackage: FileOptions = copy(rubyPackage = _root_.scala.None)
     def withRubyPackage(__v: _root_.scala.Predef.String): FileOptions = copy(rubyPackage = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FileOptions = addAllUninterpretedOption(__vs)

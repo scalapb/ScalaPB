@@ -9,8 +9,8 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class OneofDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = None
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[OneofDescriptorProto] with scalapb.lenses.Updatable[OneofDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -67,10 +67,10 @@ final case class OneofDescriptorProto(
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
-    def clearName: OneofDescriptorProto = copy(name = None)
+    def clearName: OneofDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): OneofDescriptorProto = copy(name = Option(__v))
     def getOptions: com.google.protobuf.descriptor.OneofOptions = options.getOrElse(com.google.protobuf.descriptor.OneofOptions.defaultInstance)
-    def clearOptions: OneofDescriptorProto = copy(options = None)
+    def clearOptions: OneofDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.OneofOptions): OneofDescriptorProto = copy(options = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
@@ -98,8 +98,8 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.OneofDescriptorProto): com.google.protobuf.descriptor.OneofDescriptorProto = com.google.protobuf.descriptor.OneofDescriptorProto(
-    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.OneofOptions.fromJavaProto(javaPbSource.getOptions)) else None
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.OneofOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.OneofDescriptorProto = {
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

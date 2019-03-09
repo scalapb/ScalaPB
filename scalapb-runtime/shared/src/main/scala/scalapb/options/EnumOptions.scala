@@ -17,7 +17,7 @@ package scalapb.options
 final case class EnumOptions(
     `extends`: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
     companionExtends: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
-    `type`: _root_.scala.Option[_root_.scala.Predef.String] = None
+    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumOptions] with scalapb.lenses.Updatable[EnumOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -92,7 +92,7 @@ final case class EnumOptions(
     def addAllCompanionExtends(__vs: TraversableOnce[_root_.scala.Predef.String]): EnumOptions = copy(companionExtends = companionExtends ++ __vs)
     def withCompanionExtends(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): EnumOptions = copy(companionExtends = __v)
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
-    def clearType: EnumOptions = copy(`type` = None)
+    def clearType: EnumOptions = copy(`type` = _root_.scala.None)
     def withType(__v: _root_.scala.Predef.String): EnumOptions = copy(`type` = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

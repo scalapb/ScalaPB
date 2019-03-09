@@ -15,8 +15,8 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class MethodOptions(
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
-    idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[MethodOptions] with scalapb.lenses.Updatable[MethodOptions] with _root_.scalapb.ExtendableMessage[MethodOptions] {
@@ -91,10 +91,10 @@ final case class MethodOptions(
       )
     }
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
-    def clearDeprecated: MethodOptions = copy(deprecated = None)
+    def clearDeprecated: MethodOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): MethodOptions = copy(deprecated = Option(__v))
     def getIdempotencyLevel: com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel = idempotencyLevel.getOrElse(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.IDEMPOTENCY_UNKNOWN)
-    def clearIdempotencyLevel: MethodOptions = copy(idempotencyLevel = None)
+    def clearIdempotencyLevel: MethodOptions = copy(idempotencyLevel = _root_.scala.None)
     def withIdempotencyLevel(__v: com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel): MethodOptions = copy(idempotencyLevel = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): MethodOptions = addAllUninterpretedOption(__vs)

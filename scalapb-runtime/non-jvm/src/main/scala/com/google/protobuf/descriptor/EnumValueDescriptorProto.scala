@@ -9,9 +9,9 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class EnumValueDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    number: _root_.scala.Option[_root_.scala.Int] = None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = None
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumValueDescriptorProto] with scalapb.lenses.Updatable[EnumValueDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -80,13 +80,13 @@ final case class EnumValueDescriptorProto(
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
-    def clearName: EnumValueDescriptorProto = copy(name = None)
+    def clearName: EnumValueDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): EnumValueDescriptorProto = copy(name = Option(__v))
     def getNumber: _root_.scala.Int = number.getOrElse(0)
-    def clearNumber: EnumValueDescriptorProto = copy(number = None)
+    def clearNumber: EnumValueDescriptorProto = copy(number = _root_.scala.None)
     def withNumber(__v: _root_.scala.Int): EnumValueDescriptorProto = copy(number = Option(__v))
     def getOptions: com.google.protobuf.descriptor.EnumValueOptions = options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)
-    def clearOptions: EnumValueDescriptorProto = copy(options = None)
+    def clearOptions: EnumValueDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

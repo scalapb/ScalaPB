@@ -9,9 +9,9 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class ServiceDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     method: _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.collection.Seq.empty,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = None
+    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ServiceDescriptorProto] with scalapb.lenses.Updatable[ServiceDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -82,14 +82,14 @@ final case class ServiceDescriptorProto(
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
-    def clearName: ServiceDescriptorProto = copy(name = None)
+    def clearName: ServiceDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): ServiceDescriptorProto = copy(name = Option(__v))
     def clearMethod = copy(method = _root_.scala.collection.Seq.empty)
     def addMethod(__vs: com.google.protobuf.descriptor.MethodDescriptorProto*): ServiceDescriptorProto = addAllMethod(__vs)
     def addAllMethod(__vs: TraversableOnce[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = method ++ __vs)
     def withMethod(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = __v)
     def getOptions: com.google.protobuf.descriptor.ServiceOptions = options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)
-    def clearOptions: ServiceDescriptorProto = copy(options = None)
+    def clearOptions: ServiceDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

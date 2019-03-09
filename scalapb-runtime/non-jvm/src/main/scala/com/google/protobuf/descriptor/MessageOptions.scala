@@ -60,10 +60,10 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class MessageOptions(
-    messageSetWireFormat: _root_.scala.Option[_root_.scala.Boolean] = None,
-    noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean] = None,
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
-    mapEntry: _root_.scala.Option[_root_.scala.Boolean] = None,
+    messageSetWireFormat: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    mapEntry: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[MessageOptions] with scalapb.lenses.Updatable[MessageOptions] with _root_.scalapb.ExtendableMessage[MessageOptions] {
@@ -162,16 +162,16 @@ final case class MessageOptions(
       )
     }
     def getMessageSetWireFormat: _root_.scala.Boolean = messageSetWireFormat.getOrElse(false)
-    def clearMessageSetWireFormat: MessageOptions = copy(messageSetWireFormat = None)
+    def clearMessageSetWireFormat: MessageOptions = copy(messageSetWireFormat = _root_.scala.None)
     def withMessageSetWireFormat(__v: _root_.scala.Boolean): MessageOptions = copy(messageSetWireFormat = Option(__v))
     def getNoStandardDescriptorAccessor: _root_.scala.Boolean = noStandardDescriptorAccessor.getOrElse(false)
-    def clearNoStandardDescriptorAccessor: MessageOptions = copy(noStandardDescriptorAccessor = None)
+    def clearNoStandardDescriptorAccessor: MessageOptions = copy(noStandardDescriptorAccessor = _root_.scala.None)
     def withNoStandardDescriptorAccessor(__v: _root_.scala.Boolean): MessageOptions = copy(noStandardDescriptorAccessor = Option(__v))
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
-    def clearDeprecated: MessageOptions = copy(deprecated = None)
+    def clearDeprecated: MessageOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): MessageOptions = copy(deprecated = Option(__v))
     def getMapEntry: _root_.scala.Boolean = mapEntry.getOrElse(false)
-    def clearMapEntry: MessageOptions = copy(mapEntry = None)
+    def clearMapEntry: MessageOptions = copy(mapEntry = _root_.scala.None)
     def withMapEntry(__v: _root_.scala.Boolean): MessageOptions = copy(mapEntry = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): MessageOptions = addAllUninterpretedOption(__vs)

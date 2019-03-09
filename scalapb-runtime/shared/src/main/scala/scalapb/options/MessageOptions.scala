@@ -22,7 +22,7 @@ final case class MessageOptions(
     `extends`: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
     companionExtends: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
     annotations: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
-    `type`: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     companionAnnotations: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[MessageOptions] with scalapb.lenses.Updatable[MessageOptions] {
     @transient
@@ -126,7 +126,7 @@ final case class MessageOptions(
     def addAllAnnotations(__vs: TraversableOnce[_root_.scala.Predef.String]): MessageOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): MessageOptions = copy(annotations = __v)
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
-    def clearType: MessageOptions = copy(`type` = None)
+    def clearType: MessageOptions = copy(`type` = _root_.scala.None)
     def withType(__v: _root_.scala.Predef.String): MessageOptions = copy(`type` = Option(__v))
     def clearCompanionAnnotations = copy(companionAnnotations = _root_.scala.collection.Seq.empty)
     def addCompanionAnnotations(__vs: _root_.scala.Predef.String*): MessageOptions = addAllCompanionAnnotations(__vs)

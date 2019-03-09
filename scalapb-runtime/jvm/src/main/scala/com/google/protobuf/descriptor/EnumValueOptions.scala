@@ -16,7 +16,7 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class EnumValueOptions(
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumValueOptions] with scalapb.lenses.Updatable[EnumValueOptions] with _root_.scalapb.ExtendableMessage[EnumValueOptions] {
@@ -79,7 +79,7 @@ final case class EnumValueOptions(
       )
     }
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
-    def clearDeprecated: EnumValueOptions = copy(deprecated = None)
+    def clearDeprecated: EnumValueOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): EnumValueOptions = copy(deprecated = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): EnumValueOptions = addAllUninterpretedOption(__vs)
@@ -113,7 +113,7 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumValueOptions): com.google.protobuf.descriptor.EnumValueOptions = com.google.protobuf.descriptor.EnumValueOptions(
-    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
+    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.EnumValueOptions = {

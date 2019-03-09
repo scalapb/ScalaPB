@@ -226,12 +226,12 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     def isBoolValue: _root_.scala.Boolean = false
     def isStructValue: _root_.scala.Boolean = false
     def isListValue: _root_.scala.Boolean = false
-    def nullValue: _root_.scala.Option[com.google.protobuf.struct.NullValue] = None
-    def numberValue: _root_.scala.Option[_root_.scala.Double] = None
-    def stringValue: _root_.scala.Option[_root_.scala.Predef.String] = None
-    def boolValue: _root_.scala.Option[_root_.scala.Boolean] = None
-    def structValue: _root_.scala.Option[com.google.protobuf.struct.Struct] = None
-    def listValue: _root_.scala.Option[com.google.protobuf.struct.ListValue] = None
+    def nullValue: _root_.scala.Option[com.google.protobuf.struct.NullValue] = _root_.scala.None
+    def numberValue: _root_.scala.Option[_root_.scala.Double] = _root_.scala.None
+    def stringValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    def boolValue: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    def structValue: _root_.scala.Option[com.google.protobuf.struct.Struct] = _root_.scala.None
+    def listValue: _root_.scala.Option[com.google.protobuf.struct.ListValue] = _root_.scala.None
   }
   object Kind extends {
     @SerialVersionUID(0L)

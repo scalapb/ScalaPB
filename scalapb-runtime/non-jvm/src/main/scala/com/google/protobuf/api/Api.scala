@@ -56,7 +56,7 @@ final case class Api(
     methods: _root_.scala.collection.Seq[com.google.protobuf.api.Method] = _root_.scala.collection.Seq.empty,
     options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
     version: _root_.scala.Predef.String = "",
-    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = None,
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     mixins: _root_.scala.collection.Seq[com.google.protobuf.api.Mixin] = _root_.scala.collection.Seq.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends scalapb.GeneratedMessage with scalapb.Message[Api] with scalapb.lenses.Updatable[Api] {
@@ -206,7 +206,7 @@ final case class Api(
     def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Api = copy(options = __v)
     def withVersion(__v: _root_.scala.Predef.String): Api = copy(version = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
-    def clearSourceContext: Api = copy(sourceContext = None)
+    def clearSourceContext: Api = copy(sourceContext = _root_.scala.None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Api = copy(sourceContext = Option(__v))
     def clearMixins = copy(mixins = _root_.scala.collection.Seq.empty)
     def addMixins(__vs: com.google.protobuf.api.Mixin*): Api = addAllMixins(__vs)

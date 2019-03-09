@@ -36,16 +36,16 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class FieldDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    number: _root_.scala.Option[_root_.scala.Int] = None,
-    label: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label] = None,
-    `type`: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type] = None,
-    typeName: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    extendee: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    defaultValue: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    oneofIndex: _root_.scala.Option[_root_.scala.Int] = None,
-    jsonName: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = None
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    label: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label] = _root_.scala.None,
+    `type`: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type] = _root_.scala.None,
+    typeName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    extendee: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    defaultValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    oneofIndex: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    jsonName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[FieldDescriptorProto] with scalapb.lenses.Updatable[FieldDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -198,34 +198,34 @@ final case class FieldDescriptorProto(
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
-    def clearName: FieldDescriptorProto = copy(name = None)
+    def clearName: FieldDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): FieldDescriptorProto = copy(name = Option(__v))
     def getNumber: _root_.scala.Int = number.getOrElse(0)
-    def clearNumber: FieldDescriptorProto = copy(number = None)
+    def clearNumber: FieldDescriptorProto = copy(number = _root_.scala.None)
     def withNumber(__v: _root_.scala.Int): FieldDescriptorProto = copy(number = Option(__v))
     def getLabel: com.google.protobuf.descriptor.FieldDescriptorProto.Label = label.getOrElse(com.google.protobuf.descriptor.FieldDescriptorProto.Label.LABEL_OPTIONAL)
-    def clearLabel: FieldDescriptorProto = copy(label = None)
+    def clearLabel: FieldDescriptorProto = copy(label = _root_.scala.None)
     def withLabel(__v: com.google.protobuf.descriptor.FieldDescriptorProto.Label): FieldDescriptorProto = copy(label = Option(__v))
     def getType: com.google.protobuf.descriptor.FieldDescriptorProto.Type = `type`.getOrElse(com.google.protobuf.descriptor.FieldDescriptorProto.Type.TYPE_DOUBLE)
-    def clearType: FieldDescriptorProto = copy(`type` = None)
+    def clearType: FieldDescriptorProto = copy(`type` = _root_.scala.None)
     def withType(__v: com.google.protobuf.descriptor.FieldDescriptorProto.Type): FieldDescriptorProto = copy(`type` = Option(__v))
     def getTypeName: _root_.scala.Predef.String = typeName.getOrElse("")
-    def clearTypeName: FieldDescriptorProto = copy(typeName = None)
+    def clearTypeName: FieldDescriptorProto = copy(typeName = _root_.scala.None)
     def withTypeName(__v: _root_.scala.Predef.String): FieldDescriptorProto = copy(typeName = Option(__v))
     def getExtendee: _root_.scala.Predef.String = extendee.getOrElse("")
-    def clearExtendee: FieldDescriptorProto = copy(extendee = None)
+    def clearExtendee: FieldDescriptorProto = copy(extendee = _root_.scala.None)
     def withExtendee(__v: _root_.scala.Predef.String): FieldDescriptorProto = copy(extendee = Option(__v))
     def getDefaultValue: _root_.scala.Predef.String = defaultValue.getOrElse("")
-    def clearDefaultValue: FieldDescriptorProto = copy(defaultValue = None)
+    def clearDefaultValue: FieldDescriptorProto = copy(defaultValue = _root_.scala.None)
     def withDefaultValue(__v: _root_.scala.Predef.String): FieldDescriptorProto = copy(defaultValue = Option(__v))
     def getOneofIndex: _root_.scala.Int = oneofIndex.getOrElse(0)
-    def clearOneofIndex: FieldDescriptorProto = copy(oneofIndex = None)
+    def clearOneofIndex: FieldDescriptorProto = copy(oneofIndex = _root_.scala.None)
     def withOneofIndex(__v: _root_.scala.Int): FieldDescriptorProto = copy(oneofIndex = Option(__v))
     def getJsonName: _root_.scala.Predef.String = jsonName.getOrElse("")
-    def clearJsonName: FieldDescriptorProto = copy(jsonName = None)
+    def clearJsonName: FieldDescriptorProto = copy(jsonName = _root_.scala.None)
     def withJsonName(__v: _root_.scala.Predef.String): FieldDescriptorProto = copy(jsonName = Option(__v))
     def getOptions: com.google.protobuf.descriptor.FieldOptions = options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)
-    def clearOptions: FieldDescriptorProto = copy(options = None)
+    def clearOptions: FieldDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.FieldOptions): FieldDescriptorProto = copy(options = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

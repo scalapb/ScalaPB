@@ -70,12 +70,12 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class FieldOptions(
-    ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType] = None,
-    packed: _root_.scala.Option[_root_.scala.Boolean] = None,
-    jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = None,
-    `lazy`: _root_.scala.Option[_root_.scala.Boolean] = None,
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
-    weak: _root_.scala.Option[_root_.scala.Boolean] = None,
+    ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType] = _root_.scala.None,
+    packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = _root_.scala.None,
+    `lazy`: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[FieldOptions] with scalapb.lenses.Updatable[FieldOptions] with _root_.scalapb.ExtendableMessage[FieldOptions] {
@@ -198,22 +198,22 @@ final case class FieldOptions(
       )
     }
     def getCtype: com.google.protobuf.descriptor.FieldOptions.CType = ctype.getOrElse(com.google.protobuf.descriptor.FieldOptions.CType.STRING)
-    def clearCtype: FieldOptions = copy(ctype = None)
+    def clearCtype: FieldOptions = copy(ctype = _root_.scala.None)
     def withCtype(__v: com.google.protobuf.descriptor.FieldOptions.CType): FieldOptions = copy(ctype = Option(__v))
     def getPacked: _root_.scala.Boolean = packed.getOrElse(false)
-    def clearPacked: FieldOptions = copy(packed = None)
+    def clearPacked: FieldOptions = copy(packed = _root_.scala.None)
     def withPacked(__v: _root_.scala.Boolean): FieldOptions = copy(packed = Option(__v))
     def getJstype: com.google.protobuf.descriptor.FieldOptions.JSType = jstype.getOrElse(com.google.protobuf.descriptor.FieldOptions.JSType.JS_NORMAL)
-    def clearJstype: FieldOptions = copy(jstype = None)
+    def clearJstype: FieldOptions = copy(jstype = _root_.scala.None)
     def withJstype(__v: com.google.protobuf.descriptor.FieldOptions.JSType): FieldOptions = copy(jstype = Option(__v))
     def getLazy: _root_.scala.Boolean = `lazy`.getOrElse(false)
-    def clearLazy: FieldOptions = copy(`lazy` = None)
+    def clearLazy: FieldOptions = copy(`lazy` = _root_.scala.None)
     def withLazy(__v: _root_.scala.Boolean): FieldOptions = copy(`lazy` = Option(__v))
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
-    def clearDeprecated: FieldOptions = copy(deprecated = None)
+    def clearDeprecated: FieldOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): FieldOptions = copy(deprecated = Option(__v))
     def getWeak: _root_.scala.Boolean = weak.getOrElse(false)
-    def clearWeak: FieldOptions = copy(weak = None)
+    def clearWeak: FieldOptions = copy(weak = _root_.scala.None)
     def withWeak(__v: _root_.scala.Boolean): FieldOptions = copy(weak = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): FieldOptions = addAllUninterpretedOption(__vs)
@@ -262,12 +262,12 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): com.google.protobuf.descriptor.FieldOptions = com.google.protobuf.descriptor.FieldOptions(
-    ctype = if (javaPbSource.hasCtype) Some(com.google.protobuf.descriptor.FieldOptions.CType.fromJavaValue(javaPbSource.getCtype)) else None,
-    packed = if (javaPbSource.hasPacked) Some(javaPbSource.getPacked.booleanValue) else None,
-    jstype = if (javaPbSource.hasJstype) Some(com.google.protobuf.descriptor.FieldOptions.JSType.fromJavaValue(javaPbSource.getJstype)) else None,
-    `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else None,
-    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
-    weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else None,
+    ctype = if (javaPbSource.hasCtype) Some(com.google.protobuf.descriptor.FieldOptions.CType.fromJavaValue(javaPbSource.getCtype)) else _root_.scala.None,
+    packed = if (javaPbSource.hasPacked) Some(javaPbSource.getPacked.booleanValue) else _root_.scala.None,
+    jstype = if (javaPbSource.hasJstype) Some(com.google.protobuf.descriptor.FieldOptions.JSType.fromJavaValue(javaPbSource.getJstype)) else _root_.scala.None,
+    `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else _root_.scala.None,
+    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
+    weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.FieldOptions = {

@@ -18,9 +18,9 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class EnumDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     value: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scala.collection.Seq.empty,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions] = None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions] = _root_.scala.None,
     reservedRange: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scala.collection.Seq.empty,
     reservedName: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumDescriptorProto] with scalapb.lenses.Updatable[EnumDescriptorProto] {
@@ -119,14 +119,14 @@ final case class EnumDescriptorProto(
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
-    def clearName: EnumDescriptorProto = copy(name = None)
+    def clearName: EnumDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): EnumDescriptorProto = copy(name = Option(__v))
     def clearValue = copy(value = _root_.scala.collection.Seq.empty)
     def addValue(__vs: com.google.protobuf.descriptor.EnumValueDescriptorProto*): EnumDescriptorProto = addAllValue(__vs)
     def addAllValue(__vs: TraversableOnce[com.google.protobuf.descriptor.EnumValueDescriptorProto]): EnumDescriptorProto = copy(value = value ++ __vs)
     def withValue(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto]): EnumDescriptorProto = copy(value = __v)
     def getOptions: com.google.protobuf.descriptor.EnumOptions = options.getOrElse(com.google.protobuf.descriptor.EnumOptions.defaultInstance)
-    def clearOptions: EnumDescriptorProto = copy(options = None)
+    def clearOptions: EnumDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.EnumOptions): EnumDescriptorProto = copy(options = Option(__v))
     def clearReservedRange = copy(reservedRange = _root_.scala.collection.Seq.empty)
     def addReservedRange(__vs: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange*): EnumDescriptorProto = addAllReservedRange(__vs)
@@ -171,9 +171,9 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumDescriptorProto): com.google.protobuf.descriptor.EnumDescriptorProto = com.google.protobuf.descriptor.EnumDescriptorProto(
-    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
     value = javaPbSource.getValueList.asScala.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
-    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumOptions.fromJavaProto(javaPbSource.getOptions)) else None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
     reservedRange = javaPbSource.getReservedRangeList.asScala.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.fromJavaProto)(_root_.scala.collection.breakOut),
     reservedName = javaPbSource.getReservedNameList.asScala.map(_root_.scala.Predef.identity)(_root_.scala.collection.breakOut)
   )
@@ -231,8 +231,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     */
   @SerialVersionUID(0L)
   final case class EnumReservedRange(
-      start: _root_.scala.Option[_root_.scala.Int] = None,
-      end: _root_.scala.Option[_root_.scala.Int] = None
+      start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       ) extends scalapb.GeneratedMessage with scalapb.Message[EnumReservedRange] with scalapb.lenses.Updatable[EnumReservedRange] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -287,10 +287,10 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         )
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)
-      def clearStart: EnumReservedRange = copy(start = None)
+      def clearStart: EnumReservedRange = copy(start = _root_.scala.None)
       def withStart(__v: _root_.scala.Int): EnumReservedRange = copy(start = Option(__v))
       def getEnd: _root_.scala.Int = end.getOrElse(0)
-      def clearEnd: EnumReservedRange = copy(end = None)
+      def clearEnd: EnumReservedRange = copy(end = _root_.scala.None)
       def withEnd(__v: _root_.scala.Int): EnumReservedRange = copy(end = Option(__v))
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
@@ -318,8 +318,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       javaPbOut.build
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumDescriptorProto.EnumReservedRange): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
-      start = if (javaPbSource.hasStart) Some(javaPbSource.getStart.intValue) else None,
-      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None
+      start = if (javaPbSource.hasStart) Some(javaPbSource.getStart.intValue) else _root_.scala.None,
+      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = {
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

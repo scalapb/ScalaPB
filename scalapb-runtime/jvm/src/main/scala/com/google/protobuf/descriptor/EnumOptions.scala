@@ -19,8 +19,8 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class EnumOptions(
-    allowAlias: _root_.scala.Option[_root_.scala.Boolean] = None,
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
+    allowAlias: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumOptions] with scalapb.lenses.Updatable[EnumOptions] with _root_.scalapb.ExtendableMessage[EnumOptions] {
@@ -95,10 +95,10 @@ final case class EnumOptions(
       )
     }
     def getAllowAlias: _root_.scala.Boolean = allowAlias.getOrElse(false)
-    def clearAllowAlias: EnumOptions = copy(allowAlias = None)
+    def clearAllowAlias: EnumOptions = copy(allowAlias = _root_.scala.None)
     def withAllowAlias(__v: _root_.scala.Boolean): EnumOptions = copy(allowAlias = Option(__v))
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
-    def clearDeprecated: EnumOptions = copy(deprecated = None)
+    def clearDeprecated: EnumOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): EnumOptions = copy(deprecated = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): EnumOptions = addAllUninterpretedOption(__vs)
@@ -135,8 +135,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumOptions): com.google.protobuf.descriptor.EnumOptions = com.google.protobuf.descriptor.EnumOptions(
-    allowAlias = if (javaPbSource.hasAllowAlias) Some(javaPbSource.getAllowAlias.booleanValue) else None,
-    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else None,
+    allowAlias = if (javaPbSource.hasAllowAlias) Some(javaPbSource.getAllowAlias.booleanValue) else _root_.scala.None,
+    deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.EnumOptions = {

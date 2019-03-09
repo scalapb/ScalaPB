@@ -17,12 +17,12 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class MethodDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    inputType: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    outputType: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions] = None,
-    clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = None,
-    serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = None
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    inputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    outputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions] = _root_.scala.None,
+    clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[MethodDescriptorProto] with scalapb.lenses.Updatable[MethodDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -127,22 +127,22 @@ final case class MethodDescriptorProto(
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
-    def clearName: MethodDescriptorProto = copy(name = None)
+    def clearName: MethodDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): MethodDescriptorProto = copy(name = Option(__v))
     def getInputType: _root_.scala.Predef.String = inputType.getOrElse("")
-    def clearInputType: MethodDescriptorProto = copy(inputType = None)
+    def clearInputType: MethodDescriptorProto = copy(inputType = _root_.scala.None)
     def withInputType(__v: _root_.scala.Predef.String): MethodDescriptorProto = copy(inputType = Option(__v))
     def getOutputType: _root_.scala.Predef.String = outputType.getOrElse("")
-    def clearOutputType: MethodDescriptorProto = copy(outputType = None)
+    def clearOutputType: MethodDescriptorProto = copy(outputType = _root_.scala.None)
     def withOutputType(__v: _root_.scala.Predef.String): MethodDescriptorProto = copy(outputType = Option(__v))
     def getOptions: com.google.protobuf.descriptor.MethodOptions = options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)
-    def clearOptions: MethodDescriptorProto = copy(options = None)
+    def clearOptions: MethodDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.MethodOptions): MethodDescriptorProto = copy(options = Option(__v))
     def getClientStreaming: _root_.scala.Boolean = clientStreaming.getOrElse(false)
-    def clearClientStreaming: MethodDescriptorProto = copy(clientStreaming = None)
+    def clearClientStreaming: MethodDescriptorProto = copy(clientStreaming = _root_.scala.None)
     def withClientStreaming(__v: _root_.scala.Boolean): MethodDescriptorProto = copy(clientStreaming = Option(__v))
     def getServerStreaming: _root_.scala.Boolean = serverStreaming.getOrElse(false)
-    def clearServerStreaming: MethodDescriptorProto = copy(serverStreaming = None)
+    def clearServerStreaming: MethodDescriptorProto = copy(serverStreaming = _root_.scala.None)
     def withServerStreaming(__v: _root_.scala.Boolean): MethodDescriptorProto = copy(serverStreaming = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
@@ -182,12 +182,12 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MethodDescriptorProto): com.google.protobuf.descriptor.MethodDescriptorProto = com.google.protobuf.descriptor.MethodDescriptorProto(
-    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    inputType = if (javaPbSource.hasInputType) Some(javaPbSource.getInputType) else None,
-    outputType = if (javaPbSource.hasOutputType) Some(javaPbSource.getOutputType) else None,
-    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.MethodOptions.fromJavaProto(javaPbSource.getOptions)) else None,
-    clientStreaming = if (javaPbSource.hasClientStreaming) Some(javaPbSource.getClientStreaming.booleanValue) else None,
-    serverStreaming = if (javaPbSource.hasServerStreaming) Some(javaPbSource.getServerStreaming.booleanValue) else None
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
+    inputType = if (javaPbSource.hasInputType) Some(javaPbSource.getInputType) else _root_.scala.None,
+    outputType = if (javaPbSource.hasOutputType) Some(javaPbSource.getOutputType) else _root_.scala.None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.MethodOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
+    clientStreaming = if (javaPbSource.hasClientStreaming) Some(javaPbSource.getClientStreaming.booleanValue) else _root_.scala.None,
+    serverStreaming = if (javaPbSource.hasServerStreaming) Some(javaPbSource.getServerStreaming.booleanValue) else _root_.scala.None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.MethodDescriptorProto = {
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

@@ -9,9 +9,9 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class EnumValueDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = None,
-    number: _root_.scala.Option[_root_.scala.Int] = None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = None
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumValueDescriptorProto] with scalapb.lenses.Updatable[EnumValueDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -80,13 +80,13 @@ final case class EnumValueDescriptorProto(
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
-    def clearName: EnumValueDescriptorProto = copy(name = None)
+    def clearName: EnumValueDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): EnumValueDescriptorProto = copy(name = Option(__v))
     def getNumber: _root_.scala.Int = number.getOrElse(0)
-    def clearNumber: EnumValueDescriptorProto = copy(number = None)
+    def clearNumber: EnumValueDescriptorProto = copy(number = _root_.scala.None)
     def withNumber(__v: _root_.scala.Int): EnumValueDescriptorProto = copy(number = Option(__v))
     def getOptions: com.google.protobuf.descriptor.EnumValueOptions = options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)
-    def clearOptions: EnumValueDescriptorProto = copy(options = None)
+    def clearOptions: EnumValueDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
@@ -117,9 +117,9 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto): com.google.protobuf.descriptor.EnumValueDescriptorProto = com.google.protobuf.descriptor.EnumValueDescriptorProto(
-    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else None,
-    number = if (javaPbSource.hasNumber) Some(javaPbSource.getNumber.intValue) else None,
-    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumValueOptions.fromJavaProto(javaPbSource.getOptions)) else None
+    name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
+    number = if (javaPbSource.hasNumber) Some(javaPbSource.getNumber.intValue) else _root_.scala.None,
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumValueOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.EnumValueDescriptorProto = {
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

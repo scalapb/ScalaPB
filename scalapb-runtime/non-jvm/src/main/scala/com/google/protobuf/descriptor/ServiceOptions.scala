@@ -15,7 +15,7 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class ServiceOptions(
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[ServiceOptions] with scalapb.lenses.Updatable[ServiceOptions] with _root_.scalapb.ExtendableMessage[ServiceOptions] {
@@ -78,7 +78,7 @@ final case class ServiceOptions(
       )
     }
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
-    def clearDeprecated: ServiceOptions = copy(deprecated = None)
+    def clearDeprecated: ServiceOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): ServiceOptions = copy(deprecated = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): ServiceOptions = addAllUninterpretedOption(__vs)

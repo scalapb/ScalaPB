@@ -7,7 +7,7 @@ package com.thesamet.docs.json
 
 @SerialVersionUID(0L)
 final case class MyContainer(
-    myAny: _root_.scala.Option[com.google.protobuf.any.Any] = None
+    myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[MyContainer] with scalapb.lenses.Updatable[MyContainer] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -52,7 +52,7 @@ final case class MyContainer(
       )
     }
     def getMyAny: com.google.protobuf.any.Any = myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)
-    def clearMyAny: MyContainer = copy(myAny = None)
+    def clearMyAny: MyContainer = copy(myAny = _root_.scala.None)
     def withMyAny(__v: com.google.protobuf.any.Any): MyContainer = copy(myAny = Option(__v))
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {

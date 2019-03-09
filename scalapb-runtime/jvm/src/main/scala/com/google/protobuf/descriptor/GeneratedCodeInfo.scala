@@ -135,9 +135,9 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   @SerialVersionUID(0L)
   final case class Annotation(
       path: _root_.scala.collection.Seq[_root_.scala.Int] = _root_.scala.collection.Seq.empty,
-      sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = None,
-      begin: _root_.scala.Option[_root_.scala.Int] = None,
-      end: _root_.scala.Option[_root_.scala.Int] = None
+      sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       ) extends scalapb.GeneratedMessage with scalapb.Message[Annotation] with scalapb.lenses.Updatable[Annotation] {
       private[this] def pathSerializedSize = {
         if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {
@@ -238,13 +238,13 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       def addAllPath(__vs: TraversableOnce[_root_.scala.Int]): Annotation = copy(path = path ++ __vs)
       def withPath(__v: _root_.scala.collection.Seq[_root_.scala.Int]): Annotation = copy(path = __v)
       def getSourceFile: _root_.scala.Predef.String = sourceFile.getOrElse("")
-      def clearSourceFile: Annotation = copy(sourceFile = None)
+      def clearSourceFile: Annotation = copy(sourceFile = _root_.scala.None)
       def withSourceFile(__v: _root_.scala.Predef.String): Annotation = copy(sourceFile = Option(__v))
       def getBegin: _root_.scala.Int = begin.getOrElse(0)
-      def clearBegin: Annotation = copy(begin = None)
+      def clearBegin: Annotation = copy(begin = _root_.scala.None)
       def withBegin(__v: _root_.scala.Int): Annotation = copy(begin = Option(__v))
       def getEnd: _root_.scala.Int = end.getOrElse(0)
-      def clearEnd: Annotation = copy(end = None)
+      def clearEnd: Annotation = copy(end = _root_.scala.None)
       def withEnd(__v: _root_.scala.Int): Annotation = copy(end = Option(__v))
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
@@ -279,9 +279,9 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     }
     def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
       path = javaPbSource.getPathList.asScala.map(_.intValue)(_root_.scala.collection.breakOut),
-      sourceFile = if (javaPbSource.hasSourceFile) Some(javaPbSource.getSourceFile) else None,
-      begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else None,
-      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else None
+      sourceFile = if (javaPbSource.hasSourceFile) Some(javaPbSource.getSourceFile) else _root_.scala.None,
+      begin = if (javaPbSource.hasBegin) Some(javaPbSource.getBegin.intValue) else _root_.scala.None,
+      end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None
     )
     def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")

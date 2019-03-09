@@ -132,7 +132,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   @SerialVersionUID(0L)
   final case class FieldsEntry(
       key: _root_.scala.Predef.String = "",
-      value: _root_.scala.Option[com.google.protobuf.struct.Value] = None
+      value: _root_.scala.Option[com.google.protobuf.struct.Value] = _root_.scala.None
       ) extends scalapb.GeneratedMessage with scalapb.Message[FieldsEntry] with scalapb.lenses.Updatable[FieldsEntry] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -195,7 +195,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       }
       def withKey(__v: _root_.scala.Predef.String): FieldsEntry = copy(key = __v)
       def getValue: com.google.protobuf.struct.Value = value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)
-      def clearValue: FieldsEntry = copy(value = None)
+      def clearValue: FieldsEntry = copy(value = _root_.scala.None)
       def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = Option(__v))
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
