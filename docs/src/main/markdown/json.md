@@ -89,7 +89,7 @@ See the list of [constructor paramerters here](https://github.com/scalapb/scalap
 
 In Protocol Buffers, `google.protobuf.Any` is a type that embeds an arbitrary protobuf message. An `Any` is represented as a message that contains a `typeUrl` field that identifies the type, and a bytes field `value` which contains the serialized contents of a message. In JSON, the message embedded in the `Any` is serialized as usual, and there is a `@type` key added to it to identify which message it is. The parser expects this `@type` key to know which message it is. To accomplish this, all the expected embedded types need to be registered with a `TypeRegistry` so the printer and parser know how to process the embedded message.
 
-The following example is based [on this proto](https://github.com/scalapb/ScalaPB/blob/master/docs/src/main/protobuf/josn.proto)
+The following example is based [on this proto](https://github.com/scalapb/ScalaPB/blob/master/docs/src/main/protobuf/json.proto).
 
 ```scala mdoc
 import com.thesamet.docs.json._
