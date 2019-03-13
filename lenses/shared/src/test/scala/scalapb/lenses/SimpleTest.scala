@@ -116,6 +116,14 @@ object SimpleTest extends TestSuite {
       mosh.update(_.address := portland) ==> (mosh.copy(address = portland))
     }
 
+    "it should support an existing value for an optional set" - {
+      mosh.update(_.firstName setOptional Some("foo")) ==> mosh.copy(firstName = "foo")
+    }
+
+    "it should support a non-existing value for an optional set" - {
+      mosh.update(_.firstName setOptional None) ==> mosh
+    }
+
     "it should allow adding to a sequence" - {
       mosh.update(_.address.residents :+= josh) ==> (mosh.copy(
         address = mosh.address.copy(residents = mosh.address.residents :+ josh)

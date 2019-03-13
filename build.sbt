@@ -298,7 +298,13 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
           )
       }
     },
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
+    mimaBinaryIssueFilters ++= {
+      import com.typesafe.tools.mima.core._
+      Seq(
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setOptional")
+      )
+    }
   )
   .jsSettings(
     scalacOptions += {

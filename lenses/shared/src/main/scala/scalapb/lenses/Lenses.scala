@@ -20,6 +20,14 @@ trait Lens[Container, A] extends Any {
   /** alias to set */
   def :=(a: A) = set(a)
 
+  /** Optional assignment.
+    *
+    * Given a `Some[A]`, assign the `Some`'s value to the field. Given `None`, the
+    * container is unchanged.
+    */
+  def setOptional(aOpt: Option[A]): Mutation[Container] =
+    c => aOpt.fold(c)(set(_)(c))
+
   /** Represent an update operator (like x.y += 1 ) */
   def modify(f: A => A): Mutation[Container] = c => set(f(get(c)))(c)
 
