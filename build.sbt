@@ -7,6 +7,8 @@ val Scala211 = "2.11.12"
 
 val Scala212 = "2.12.8"
 
+val Scala213 = "2.13.0-M5"
+
 val protobufVersion = "3.7.0"
 
 val scalacheckVersion = "1.14.0"
@@ -20,7 +22,7 @@ val MimaPreviousVersion = "0.9.0-RC1"
 
 scalaVersion in ThisBuild := Scala212
 
-crossScalaVersions in ThisBuild := Seq(Scala211, Scala212)
+crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
 
 scalacOptions in ThisBuild ++= {
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -162,7 +164,7 @@ shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .settings(
-    crossScalaVersions := Seq(Scala210, Scala211, Scala212),
+    crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
     sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
       IO.write(file,
@@ -202,7 +204,7 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
   .dependsOn(compilerPlugin)
   .settings(
     name := "compilerplugin-shaded",
-    crossScalaVersions := Seq(Scala210, Scala211, Scala212),
+    crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
     assemblyShadeRules in assembly := Seq(
       ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject,
       ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll
