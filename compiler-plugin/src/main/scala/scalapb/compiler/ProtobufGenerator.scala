@@ -267,7 +267,7 @@ class ProtobufGenerator(
       if (field.mapType.valueField.isEnum && field.getFile.isProto3)
         (field.upperJavaName + "Value")
       else field.upperJavaName
-    s"${container}.get${upperJavaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)}))(_root_.scala.collection.breakOut)"
+    s"${container}.get${upperJavaName}Map.asScala.map(__pv => (${unitConversion("__pv._1", field.mapType.keyField)}, ${unitConversion("__pv._2", field.mapType.valueField)}))"
   }
 
   def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): Expression = {
@@ -305,7 +305,7 @@ class ProtobufGenerator(
                                                                 else "")
 
     val maybeToMap =
-      if (field.collectionType != DescriptorImplicits.ScalaMap) "(scala.collection.breakOut).toMap"
+      if (field.collectionType != DescriptorImplicits.ScalaMap) ".toMap"
       else ""
 
     s"""$javaObject

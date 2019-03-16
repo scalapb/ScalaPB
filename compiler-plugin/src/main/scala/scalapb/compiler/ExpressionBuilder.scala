@@ -63,7 +63,7 @@ object ExpressionBuilder {
 
     val convert =
       if (enclosingType == EnclosingType.Collection)
-        "(_root_.scala.collection.breakOut)"
+        ""
       else ""
 
     if (needVariable)
