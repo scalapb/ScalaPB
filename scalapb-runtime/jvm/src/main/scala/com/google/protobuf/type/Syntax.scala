@@ -39,7 +39,7 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   @SerialVersionUID(0L)
   final case class Unrecognized(value: _root_.scala.Int) extends Syntax with _root_.scalapb.UnrecognizedEnum
   
-  lazy val values = scala.collection.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
+  lazy val values = scala.collection.immutable.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
   def fromValue(value: _root_.scala.Int): Syntax = value match {
     case 0 => SYNTAX_PROTO2
     case 1 => SYNTAX_PROTO3

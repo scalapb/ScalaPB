@@ -13,6 +13,8 @@ case class MyMap[K, V](stuff: Map[K, V]) {
   }
 
   def ++(s: TraversableOnce[(K, V)]): MyMap[K, V] = MyMap(stuff ++ s)
+
+  def iterator: Iterator[(K, V)] = stuff.iterator
 }
 
 object MyMap {

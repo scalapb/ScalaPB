@@ -48,7 +48,7 @@ object SimpleTest extends TestSuite {
 
     def street = field(_.street)((p, f) => p.copy(street = f))
 
-    def residents = field(_.residents)((p, f) => p.copy(residents = f))
+    def residents: Lens[U, Seq[Person]] = field(_.residents)((p, f) => p.copy(residents = f))
   }
 
   implicit class MapTestLens[U](val f: Lens[U, MapTest]) extends ObjectLens[U, MapTest](f) {
@@ -206,7 +206,8 @@ object SimpleTest extends TestSuite {
         )
         .nameMap
         .values
-        .map(_.firstName) ==> (Seq("ttt", "ttt"))
+        .map(_.firstName)
+        .toSeq ==> (Seq("ttt", "ttt"))
     }
 
     "it should allow transforming the map values with mapValues" - {
@@ -224,7 +225,8 @@ object SimpleTest extends TestSuite {
         )
         .nameMap
         .values
-        .map(_.firstName) ==> (Seq("*Mosh", "*Josh"))
+        .map(_.firstName)
+        .toSeq ==> (Seq("*Mosh", "*Josh"))
     }
 
     "it should allow transforming the map values with forEach" - {

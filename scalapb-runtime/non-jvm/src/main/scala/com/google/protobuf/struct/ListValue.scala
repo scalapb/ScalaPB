@@ -14,7 +14,7 @@ package com.google.protobuf.struct
   */
 @SerialVersionUID(0L)
 final case class ListValue(
-    values: _root_.scala.collection.Seq[com.google.protobuf.struct.Value] = _root_.scala.collection.Seq.empty
+    values: _root_.scala.Seq[com.google.protobuf.struct.Value] = _root_.scala.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[ListValue] with scalapb.lenses.Updatable[ListValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -58,10 +58,10 @@ final case class ListValue(
           values = __values.result()
       )
     }
-    def clearValues = copy(values = _root_.scala.collection.Seq.empty)
+    def clearValues = copy(values = _root_.scala.Seq.empty)
     def addValues(__vs: com.google.protobuf.struct.Value*): ListValue = addAllValues(__vs)
-    def addAllValues(__vs: TraversableOnce[com.google.protobuf.struct.Value]): ListValue = copy(values = values ++ __vs)
-    def withValues(__v: _root_.scala.collection.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
+    def addAllValues(__vs: Iterable[com.google.protobuf.struct.Value]): ListValue = copy(values = values ++ __vs)
+    def withValues(__v: _root_.scala.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => values
@@ -70,7 +70,7 @@ final case class ListValue(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(values.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 1 => _root_.scalapb.descriptors.PRepeated(values.iterator.map(_.toPMessage).toVector)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -83,14 +83,14 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.struct.ListValue(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.struct.Value]]
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.struct.Value]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.ListValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.ListValue(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.struct.Value]]).getOrElse(_root_.scala.collection.Seq.empty)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[com.google.protobuf.struct.Value]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -108,11 +108,11 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   lazy val defaultInstance = com.google.protobuf.struct.ListValue(
   )
   implicit class ListValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.ListValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.ListValue](_l) {
-    def values: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))
+    def values: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))
   }
   final val VALUES_FIELD_NUMBER = 1
   def of(
-    values: _root_.scala.collection.Seq[com.google.protobuf.struct.Value]
+    values: _root_.scala.Seq[com.google.protobuf.struct.Value]
   ): _root_.com.google.protobuf.struct.ListValue = _root_.com.google.protobuf.struct.ListValue(
     values
   )

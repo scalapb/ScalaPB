@@ -12,6 +12,8 @@ case class MyVector[T](stuff: Vector[T]) {
     b.result()
   }
 
+  def iterator = stuff.iterator
+
   def ++(s: TraversableOnce[T]): MyVector[T] = MyVector(stuff ++ s)
 }
 

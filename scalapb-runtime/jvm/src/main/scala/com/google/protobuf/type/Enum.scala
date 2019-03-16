@@ -22,8 +22,8 @@ import scala.collection.JavaConverters._
 @SerialVersionUID(0L)
 final case class Enum(
     name: _root_.scala.Predef.String = "",
-    enumvalue: _root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.collection.Seq.empty,
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
+    enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.Seq.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends scalapb.GeneratedMessage with scalapb.Message[Enum] with scalapb.lenses.Updatable[Enum] {
@@ -132,14 +132,14 @@ final case class Enum(
       )
     }
     def withName(__v: _root_.scala.Predef.String): Enum = copy(name = __v)
-    def clearEnumvalue = copy(enumvalue = _root_.scala.collection.Seq.empty)
+    def clearEnumvalue = copy(enumvalue = _root_.scala.Seq.empty)
     def addEnumvalue(__vs: com.google.protobuf.`type`.EnumValue*): Enum = addAllEnumvalue(__vs)
-    def addAllEnumvalue(__vs: TraversableOnce[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = enumvalue ++ __vs)
-    def withEnumvalue(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = __v)
-    def clearOptions = copy(options = _root_.scala.collection.Seq.empty)
+    def addAllEnumvalue(__vs: Iterable[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = enumvalue ++ __vs)
+    def withEnumvalue(__v: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = __v)
+    def clearOptions = copy(options = _root_.scala.Seq.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Enum = addAllOptions(__vs)
-    def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = options ++ __vs)
-    def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = __v)
+    def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = options ++ __vs)
+    def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
     def clearSourceContext: Enum = copy(sourceContext = _root_.scala.None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Enum = copy(sourceContext = Option(__v))
@@ -163,8 +163,8 @@ final case class Enum(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
-        case 2 => _root_.scalapb.descriptors.PRepeated(enumvalue.map(_.toPMessage)(_root_.scala.collection.breakOut))
-        case 3 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 2 => _root_.scalapb.descriptors.PRepeated(enumvalue.iterator.map(_.toPMessage).toVector)
+        case 3 => _root_.scalapb.descriptors.PRepeated(options.iterator.map(_.toPMessage).toVector)
         case 4 => sourceContext.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 5 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
@@ -178,16 +178,16 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Enum): com.google.protobuf.Enum = {
     val javaPbOut = com.google.protobuf.Enum.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllEnumvalue(scalaPbSource.enumvalue.map(com.google.protobuf.`type`.EnumValue.toJavaProto)(_root_.scala.collection.breakOut).asJava)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllEnumvalue(scalaPbSource.enumvalue.iterator.map(com.google.protobuf.`type`.EnumValue.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto).toIterable.asJava)
     scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto).foreach(javaPbOut.setSourceContext)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Enum): com.google.protobuf.`type`.Enum = com.google.protobuf.`type`.Enum(
     name = javaPbSource.getName,
-    enumvalue = javaPbSource.getEnumvalueList.asScala.map(com.google.protobuf.`type`.EnumValue.fromJavaProto)(_root_.scala.collection.breakOut),
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    enumvalue = javaPbSource.getEnumvalueList.asScala.iterator.map(com.google.protobuf.`type`.EnumValue.fromJavaProto).toSeq,
+    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto).toSeq,
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else _root_.scala.None,
     syntax = com.google.protobuf.`type`.Syntax.fromValue(javaPbSource.getSyntaxValue.intValue)
   )
@@ -196,8 +196,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.Enum(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue]],
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
+      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.EnumValue]],
+      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
       __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]],
       com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(4), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
@@ -207,8 +207,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.`type`.Enum(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.EnumValue]]).getOrElse(_root_.scala.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
         com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
@@ -235,8 +235,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   )
   implicit class EnumLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Enum]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Enum](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def enumvalue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue]] = field(_.enumvalue)((c_, f_) => c_.copy(enumvalue = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def enumvalue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]] = field(_.enumvalue)((c_, f_) => c_.copy(enumvalue = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
     def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
@@ -248,8 +248,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   final val SYNTAX_FIELD_NUMBER = 5
   def of(
     name: _root_.scala.Predef.String,
-    enumvalue: _root_.scala.collection.Seq[com.google.protobuf.`type`.EnumValue],
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto],
+    enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue],
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     syntax: com.google.protobuf.`type`.Syntax
   ): _root_.com.google.protobuf.`type`.Enum = _root_.com.google.protobuf.`type`.Enum(

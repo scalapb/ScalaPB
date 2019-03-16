@@ -40,7 +40,6 @@ private[scalapb] object TextFormatUtils {
   }
 
   def escapeBytes(bytes: ByteString): String = {
-    import scala.collection.JavaConversions._
     val sb = mutable.StringBuilder.newBuilder
     bytes.foreach {
       case CH_SLASH_A => sb.append("\\a")
@@ -64,10 +63,18 @@ private[scalapb] object TextFormatUtils {
     sb.result()
   }
 
+  // JavaConversions is removed in 2.13. Using JavaConverters doesn't work for us; asScala is not available
+  // on the pure Scala implementation of ByteString.
+  implicit class JavaConversions(val iter: java.lang.Iterable[java.lang.Byte]) extends AnyVal {
+    import scala.collection.JavaConverters._
+    def foldLeft[B](z: B)(op: (B, java.lang.Byte)=>B) = iter.asScala.foldLeft(z)(op)
+
+    def foreach[U](f: java.lang.Byte => U): Unit = iter.asScala.foreach(f)
+  }
+
   def unescapeBytes(
       charString: String
   ): Either[TextFormatError, ByteString] with Product with Serializable = {
-    import scala.collection.JavaConversions._
     val input: ByteString = ByteString.copyFromUtf8(charString)
     val result            = mutable.ArrayBuilder.make[Byte]
     result.sizeHint(input.size)

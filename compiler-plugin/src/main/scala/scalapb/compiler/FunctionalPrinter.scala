@@ -41,7 +41,7 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
 
   // Strips the margin, splits lines and adds.
   def addStringMargin(s: String): FunctionalPrinter =
-    add(s.stripMargin.split("\n", -1): _*)
+    add(s.stripMargin.split("\n", -1).toSeq: _*)
 
   // Adds the strings, while putting a delimiter between two lines.
   def addWithDelimiter(delimiter: String)(s: Seq[String]) = {

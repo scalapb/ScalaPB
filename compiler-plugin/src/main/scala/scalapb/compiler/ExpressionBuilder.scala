@@ -1,4 +1,5 @@
 package scalapb.compiler
+import scalapb.compiler.EnclosingType.Collection
 
 sealed trait Expression extends Product with Serializable {
   def andThen(other: Expression) = (this, other) match {
@@ -50,24 +51,35 @@ object ExpressionBuilder {
     case OperatorApplication(name) :: tail => s"${runSingleton(tail)(e)} $name"
   }
 
+  def convertCollection(expr: String, enclosingType: EnclosingType): String = {
+    val convert = List(enclosingType match {
+      case Collection(DescriptorImplicits.ScalaVector)   => MethodApplication("toVector")
+      case Collection(DescriptorImplicits.ScalaSeq)      => MethodApplication("toSeq")
+      case Collection(DescriptorImplicits.ScalaMap)      => MethodApplication("toMap")
+      case Collection(DescriptorImplicits.ScalaIterable) => MethodApplication("toIterable")
+      case Collection(cc)                                => FunctionApplication("_root_.scalapb.Utils.convertTo")
+      case _                                             => Identity
+    })
+    runSingleton(convert)(expr)
+  }
+
   def runCollection(
       es: List[LiteralExpression]
-  )(e: String, enclosingType: EnclosingType, mustCopy: Boolean): String = {
+  )(e0: String, enclosingType: EnclosingType, mustCopy: Boolean): String = {
     require(enclosingType != EnclosingType.None)
-    val nontrivial = es.filterNot(_.isIdentity)
+    val nontrivial: List[LiteralExpression] = es.filterNot(_.isIdentity)
     val needVariable =
       nontrivial
         .filterNot(_.isIdentity)
         .dropRight(1)
         .exists(_.isFunctionApplication)
 
-    val convert =
-      if (enclosingType == EnclosingType.Collection)
-        "(_root_.scala.collection.breakOut)"
-      else ""
+    val e = if (enclosingType.isInstanceOf[Collection]) {
+      e0 + ".iterator"
+    } else e0
 
     if (needVariable)
-      s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})$convert"""
+      convertCollection(s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})""", enclosingType)
     else if (nontrivial.nonEmpty) {
       val f = nontrivial match {
         case List(FunctionApplication(name)) =>
@@ -75,10 +87,10 @@ object ExpressionBuilder {
         case _ =>
           runSingleton(nontrivial)("_")
       }
-      s"""$e.map($f)$convert"""
+      convertCollection(s"""$e.map($f)""", enclosingType)
     } else if (mustCopy) {
-      s"""$e.map(_root_.scala.Predef.identity)$convert"""
-    } else e
+      convertCollection(s"""$e.map(_root_.scala.Predef.identity)""", enclosingType)
+    } else e0
   }
 
   def run(
@@ -103,5 +115,8 @@ sealed trait EnclosingType
 object EnclosingType {
   case object None        extends EnclosingType
   case object ScalaOption extends EnclosingType
-  case object Collection  extends EnclosingType
+
+  /** Indicates that the result should be a collection with type constructor cc, such as List, Map.
+    */
+  case class Collection(cc: String) extends EnclosingType
 }

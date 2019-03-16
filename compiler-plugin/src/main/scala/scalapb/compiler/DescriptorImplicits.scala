@@ -68,7 +68,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     val sealedOneof = for {
       file    <- files
       message <- file.allMessages if message.isSealedOneofType
-    } yield SealedOneof(message, message.getOneofs.get(0).getFields.asScala.map(_.getMessageType))
+    } yield
+      SealedOneof(
+        message,
+        message.getOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
+      )
     new SealedOneofsCache(sealedOneof)
   }
 
@@ -243,8 +247,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
       else {
-        EnclosingType.Collection
+        EnclosingType.Collection(collectionType)
       }
+
+    def fieldMapEnclosingType: EnclosingType =
+      if (isSingular) EnclosingType.None
+      else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
+      else if (!fd.isMapField) EnclosingType.Collection(collectionType)
+      else EnclosingType.Collection(ScalaSeq)
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
@@ -293,7 +303,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def fieldsMapEmptyCollection: String = {
       require(fd.isRepeated)
       if (fd.isMapField) s"$ScalaSeq.empty"
-      else s"${collectionType}.empty"
+      else emptyCollection
     }
 
     def scalaTypeName: String =
@@ -443,7 +453,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {
 
-    def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP)
+    def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP).toSeq
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
 
@@ -707,10 +717,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       else s"${enum.getContainingType.scalaTypeName}.scalaDescriptor.enums(${enum.getIndex})"
 
     def baseTraitExtends: Seq[String] =
-      "_root_.scalapb.GeneratedEnum" +: scalaOptions.getExtendsList.asScala
+      "_root_.scalapb.GeneratedEnum" +: scalaOptions.getExtendsList.asScala.toSeq
 
     def companionExtends: Seq[String] =
-      s"_root_.scalapb.GeneratedEnumCompanion[${nameSymbol}]" +: scalaOptions.getCompanionExtendsList.asScala
+      s"_root_.scalapb.GeneratedEnumCompanion[${nameSymbol}]" +: scalaOptions.getCompanionExtendsList.asScala.toSeq
 
     def sourcePath: Seq[Int] = {
       if (enum.isTopLevel) Seq(FileDescriptorProto.ENUM_TYPE_FIELD_NUMBER, enum.getIndex)
@@ -735,13 +745,16 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
 
     def valueExtends: Seq[String] =
-      enumValue.getType.nameSymbol +: scalaOptions.getExtendsList.asScala
+      enumValue.getType.nameSymbol +: scalaOptions.getExtendsList.asScala.toSeq
 
     def isName = {
       Helper.makeUniqueNames(
-        enumValue.getType.getValues.asScala.sortBy(v => (v.getNumber, v.getName)).map { e =>
-          e -> ("is" + allCapsToCamelCase(e.getName, true))
-        }
+        enumValue.getType.getValues.asScala
+          .sortBy(v => (v.getNumber, v.getName))
+          .map { e =>
+            e -> ("is" + allCapsToCamelCase(e.getName, true))
+          }
+          .toSeq
       )(enumValue)
     }
 
@@ -796,7 +809,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     private def scalaPackageParts: Seq[String] = {
       val requestedPackageName: Seq[String] =
         (if (scalaOptions.hasPackageName) scalaOptions.getPackageName.split('.')
-         else javaPackage.split('.')).filterNot(_.isEmpty)
+         else javaPackage.split('.')).toIndexedSeq.filterNot(_.isEmpty)
 
       if (scalaOptions.getFlatPackage || (params.flatPackage && !isNonFlatDependency))
         requestedPackageName
@@ -905,10 +918,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 }
 
 private[scalapb] object DescriptorImplicits {
-  val ScalaSeq    = "_root_.scala.collection.Seq"
-  val ScalaMap    = "_root_.scala.collection.immutable.Map"
-  val ScalaVector = "_root_.scala.collection.immutable.Vector"
-  val ScalaOption = "_root_.scala.Option"
+  val ScalaSeq      = "_root_.scala.Seq"
+  val ScalaMap      = "_root_.scala.collection.immutable.Map"
+  val ScalaVector   = "_root_.scala.collection.immutable.Vector"
+  val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
+  val ScalaOption   = "_root_.scala.Option"
 }
 
 object Helper {

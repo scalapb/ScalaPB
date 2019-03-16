@@ -2,7 +2,6 @@ package scalapb.descriptors
 
 import com.google.protobuf.ByteString
 
-import scala.collection.generic.CanBuildFrom
 import scala.language.higherKinds
 
 sealed trait PValue extends Any {
@@ -35,7 +34,7 @@ case class Reads[A](read: PValue => A)
 
 class ReadsException(msg: String) extends Exception
 
-object Reads {
+object Reads extends ReadsCompat {
   implicit val intReads: Reads[Int] = Reads[Int] {
     case PInt(value) => value
     case _           => throw new ReadsException("Expected PInt")
@@ -74,14 +73,6 @@ object Reads {
   implicit val enumReads: Reads[EnumValueDescriptor] = Reads[EnumValueDescriptor] {
     case PEnum(value) => value
     case _            => throw new ReadsException("Expected PEnum")
-  }
-
-  implicit def repeated[A, Coll[A]](
-      implicit reads: Reads[A],
-      bf: CanBuildFrom[Nothing, A, Coll[A]]
-  ): Reads[Coll[A]] = Reads[Coll[A]] {
-    case PRepeated(value) => value.map(reads.read)(scala.collection.breakOut)
-    case _                => throw new ReadsException("Expected PRepeated")
   }
 
   implicit def optional[A](implicit reads: Reads[A]): Reads[Option[A]] = Reads[Option[A]] {

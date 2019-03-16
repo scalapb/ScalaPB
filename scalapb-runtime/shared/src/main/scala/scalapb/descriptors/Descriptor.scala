@@ -3,7 +3,6 @@ package scalapb.descriptors
 import com.google.protobuf.descriptor._
 
 import annotation.tailrec
-import scala.collection.breakOut
 
 sealed trait ScalaType {
   type PValueType <: PValue
@@ -71,17 +70,17 @@ class Descriptor private[descriptors] (
   val nestedMessages: Vector[Descriptor] = asProto.nestedType.zipWithIndex.map {
     case (d, index) =>
       new Descriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
-  }(breakOut)
+  }.toVector
 
   val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
     case (d, index) =>
       new EnumDescriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
-  }(breakOut)
+  }.toVector
 
   lazy val fields: Vector[FieldDescriptor] =
     asProto.field.zipWithIndex.map {
       case (fd, index) => FieldDescriptor.buildFieldDescriptor(fd, index, this)
-    }(breakOut)
+    }.toVector
 
   lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map {
     case (oneof, index) =>
@@ -115,7 +114,7 @@ class ServiceDescriptor private[descriptors] (
     (asProto.method.zipWithIndex).map {
       case (m, index) =>
         new MethodDescriptor(FileDescriptor.join(fullName, m.getName), index, m, this)
-    }(breakOut)
+    }.toVector
 
   def name = asProto.getName
 
@@ -151,7 +150,7 @@ class EnumDescriptor private[descriptors] (
     (asProto.value.zipWithIndex).map {
       case (v, index) =>
         new EnumValueDescriptor(FileDescriptor.join(fullName, v.getName), this, v, index)
-    }(breakOut)
+    }.toVector
 
   def name = asProto.getName
 
@@ -323,17 +322,17 @@ class FileDescriptor private[descriptors] (
   val services: Vector[ServiceDescriptor] = asProto.service.zipWithIndex.map {
     case (d, index) =>
       new ServiceDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, this)
-  }(scala.collection.breakOut)
+  }.toVector
 
   val messages: Vector[Descriptor] = asProto.messageType.zipWithIndex.map {
     case (d, index) =>
       new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
-  }(scala.collection.breakOut)
+  }.toVector
 
   val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
     case (d, index) =>
       new EnumDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
-  }(scala.collection.breakOut)
+  }.toVector
 
   private val descriptorsByName: Map[String, BaseDescriptor] = {
     def getAllDescriptors(m: Descriptor): Vector[(String, BaseDescriptor)] =

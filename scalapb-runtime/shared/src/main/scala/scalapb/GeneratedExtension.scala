@@ -115,7 +115,13 @@ object GeneratedExtension {
       ExtendableMessage
         .unknownFieldsLen(fieldNumber)
         .compose(listLens zip UnknownFieldSet.Field.lengthDelimitedLens)
-        .compose(repeatedUnknownFieldLensPackable(fromBase, toBase, unpack))
+        .compose(
+          repeatedUnknownFieldLensPackable(
+            fromBase,
+            toBase,
+            unpack
+          )
+        )
     )
   }
 

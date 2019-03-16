@@ -135,7 +135,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   }
 
   private[this] val stub: PrinterEndo = {
-    val methods = service.getMethods.asScala.map(clientMethodImpl(_, false))
+    val methods = service.getMethods.asScala.map(clientMethodImpl(_, false)).toSeq
     stubImplementation(service.stub, service.name, methods)
   }
 

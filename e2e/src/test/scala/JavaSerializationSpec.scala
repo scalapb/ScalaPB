@@ -6,9 +6,9 @@ import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
 import scalapb.GeneratedMessage
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest._
-import org.scalatest.prop._
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
-class JavaSerializationSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
+class JavaSerializationSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers {
 
   val nestedGen =
     Arbitrary.arbitrary[Option[Int]].map(s => Nested(nestedField = s))
@@ -44,7 +44,7 @@ class JavaSerializationSpec extends FlatSpec with GeneratorDrivenPropertyChecks 
     abytes mustBe bbytes
   }
 
-  "fromJson" should "invert toJson (single)" in {
+  "a message" should "invert toJson (single)" in {
     val rep = RepeatablesTest(strings=Seq("s1", "s2"), ints=Seq(14, 19), doubles=Seq(3.14, 2.17), nesteds=Seq(Nested()))
     checkJavaSerialization(rep)
   }

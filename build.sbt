@@ -7,6 +7,8 @@ val Scala211 = "2.11.12"
 
 val Scala212 = "2.12.8"
 
+val Scala213 = "2.13.0-M5"
+
 val protobufVersion = "3.7.0"
 
 val scalacheckVersion = "1.14.0"
@@ -18,11 +20,11 @@ val grpcVersion = "1.19.0"
 
 val MimaPreviousVersion = "0.9.0-RC1"
 
-scalaVersion in ThisBuild := Scala212
+scalaVersion in ThisBuild := Scala213
 
-crossScalaVersions in ThisBuild := Seq(Scala211, Scala212)
+crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
 
-scalacOptions in ThisBuild ++= {
+scalacOptions in ThisBuild ++= "-deprecation" :: {
   CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, v)) if v <= 11 => List("-target:jvm-1.7")
     case _ => Nil
@@ -56,7 +58,7 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining(";+publishSigned"),
-  releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned;lensesNative/publishSigned"),
+  // releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned;lensesNative/publishSigned"),
   setNextVersion,
   commitNextVersion,
   pushChanges,
@@ -99,6 +101,15 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       "commons-codec" % "commons-codec" % "1.12" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
+    unmanagedSourceDirectories in Compile ++= {
+      val base = (baseDirectory in LocalRootProject).value / "scalapb-runtime" / "shared" / "src" / "main"
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, v)) if v < 13 =>
+          Seq(base / "scala-pre-2.13")
+        case _ =>
+          Nil
+      }
+    },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
@@ -106,7 +117,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       import com.typesafe.tools.mima.core._
       Seq(
       )
-    }
+    },
   )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform/*, NativePlatform*/)(
@@ -162,7 +173,7 @@ shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .settings(
-    crossScalaVersions := Seq(Scala210, Scala211, Scala212),
+    crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
     sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
       IO.write(file,
@@ -202,7 +213,7 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
   .dependsOn(compilerPlugin)
   .settings(
     name := "compilerplugin-shaded",
-    crossScalaVersions := Seq(Scala210, Scala211, Scala212),
+    crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
     assemblyShadeRules in assembly := Seq(
       ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject,
       ShadeRule.rename("com.google.**" -> shadeTarget.value).inAll
@@ -280,30 +291,23 @@ createVersionFile := {
   log.info(s"Created $f2")
 }
 
+
 lazy val lenses = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).in(file("lenses"))
   .settings(
     name := "lenses",
-    sources in Test := {
+    unmanagedSourceDirectories in Compile ++= {
+      val base = (baseDirectory in LocalRootProject).value / "lenses" / "shared" / "src" / "main"
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 13)) =>
-          // TODO utest_2.13.0-M3
-          Nil
+        case Some((2, v)) if v < 13 =>
+          Seq(base / "scala-pre-2.13")
         case _ =>
-          (sources in Test).value
-      },
-    },
-    testFrameworks += new TestFramework("utest.runner.Framework"),
-    libraryDependencies ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 13)) =>
-          // TODO utest_2.13.0-M3
           Nil
-        case _ =>
-          Seq(
-            "com.lihaoyi" %%% "utest" % "0.6.6" % "test"
-          )
       }
     },
+    testFrameworks += new TestFramework("utest.runner.Framework"),
+    libraryDependencies ++= Seq(
+        "com.lihaoyi" %%% "utest" % "0.6.6" % "test"
+    ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
@@ -332,9 +336,11 @@ lazy val lensesJS = lenses.js
 lazy val docs = project.in(file("docs")) 
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
   .settings(
+    scalaVersion := Scala212,
+    crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
         "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.2",
-    ),
+    ), 
     micrositeName := "ScalaPB",
     micrositeCompilingDocsTool := WithMdoc,
     mdocIn := baseDirectory.value / "src" / "main" / "markdown",

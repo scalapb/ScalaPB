@@ -101,7 +101,8 @@ class FileOptionsCacheSpec extends FlatSpec with MustMatchers {
           p1_x_p2_x_p3
         )
       )
-      .mapValues(_.toString) must be(
+      .mapValues(_.toString)
+      .toMap must be(
       Map(
         p1 ->
           """package_name: "scc.p1"
