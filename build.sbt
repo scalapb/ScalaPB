@@ -20,11 +20,11 @@ val grpcVersion = "1.19.0"
 
 val MimaPreviousVersion = "0.9.0-RC1"
 
-scalaVersion in ThisBuild := Scala212
+scalaVersion in ThisBuild := Scala213
 
 crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
 
-scalacOptions in ThisBuild ++= {
+scalacOptions in ThisBuild ++= "-deprecation" :: {
   CrossVersion.partialVersion(scalaVersion.value) match {
     case Some((2, v)) if v <= 11 => List("-target:jvm-1.7")
     case _ => Nil
@@ -113,7 +113,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
   .dependsOn(lenses)
   .platformsSettings(JSPlatform/*, NativePlatform*/)(
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.1"
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.2"
     ),
     (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
@@ -184,7 +184,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.3",
+      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.4",
       "org.scalatest" %% "scalatest" % "3.0.6" % "test",
       "com.github.os72" % "protoc-jar" % "3.7.0" % "test",
     ),
@@ -334,9 +334,11 @@ lazy val lensesJS = lenses.js
 lazy val docs = project.in(file("docs")) 
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
   .settings(
+    scalaVersion := Scala212,
+    crossScalaVersions in ThisBuild := Seq(Scala212),
     libraryDependencies ++= Seq(
         "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.2",
-    ),
+    ), 
     micrositeName := "ScalaPB",
     micrositeCompilingDocsTool := WithMdoc,
     mdocIn := baseDirectory.value / "src" / "main" / "markdown",
