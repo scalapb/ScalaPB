@@ -302,7 +302,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform, NativePlatform).in(file(
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setOptional")
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setIfDefined")
       )
     }
   )

@@ -117,11 +117,11 @@ object SimpleTest extends TestSuite {
     }
 
     "it should support an existing value for an optional set" - {
-      mosh.update(_.firstName setOptional Some("foo")) ==> mosh.copy(firstName = "foo")
+      mosh.update(_.firstName setIfDefined Some("foo")) ==> mosh.copy(firstName = "foo")
     }
 
     "it should support a non-existing value for an optional set" - {
-      mosh.update(_.firstName setOptional None) ==> mosh
+      mosh.update(_.firstName setIfDefined None) ==> mosh
     }
 
     "it should allow adding to a sequence" - {
