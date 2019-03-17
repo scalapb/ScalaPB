@@ -31,7 +31,7 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   @SerialVersionUID(0L)
   final case class Unrecognized(value: _root_.scala.Int) extends NullValue with _root_.scalapb.UnrecognizedEnum
   
-  lazy val values = scala.collection.Seq(NULL_VALUE)
+  lazy val values = scala.collection.immutable.Seq(NULL_VALUE)
   def fromValue(value: _root_.scala.Int): NullValue = value match {
     case 0 => NULL_VALUE
     case __other => Unrecognized(__other)

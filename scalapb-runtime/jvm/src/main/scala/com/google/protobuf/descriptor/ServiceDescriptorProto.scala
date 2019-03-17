@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
 @SerialVersionUID(0L)
 final case class ServiceDescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    method: _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.collection.Seq.empty,
+    method: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.collection.immutable.Seq.empty,
     options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ServiceDescriptorProto] with scalapb.lenses.Updatable[ServiceDescriptorProto] {
     @transient
@@ -85,10 +85,10 @@ final case class ServiceDescriptorProto(
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: ServiceDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): ServiceDescriptorProto = copy(name = Option(__v))
-    def clearMethod = copy(method = _root_.scala.collection.Seq.empty)
+    def clearMethod = copy(method = _root_.scala.collection.immutable.Seq.empty)
     def addMethod(__vs: com.google.protobuf.descriptor.MethodDescriptorProto*): ServiceDescriptorProto = addAllMethod(__vs)
-    def addAllMethod(__vs: TraversableOnce[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = method ++ __vs)
-    def withMethod(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = __v)
+    def addAllMethod(__vs: Iterable[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = method ++ __vs)
+    def withMethod(__v: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = __v)
     def getOptions: com.google.protobuf.descriptor.ServiceOptions = options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)
     def clearOptions: ServiceDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = Option(__v))
@@ -103,7 +103,7 @@ final case class ServiceDescriptorProto(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => _root_.scalapb.descriptors.PRepeated(method.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 2 => _root_.scalapb.descriptors.PRepeated(method.map(_.toPMessage).to(Vector))
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -116,13 +116,13 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceDescriptorProto): com.google.protobuf.DescriptorProtos.ServiceDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllMethod(scalaPbSource.method.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllMethod(scalaPbSource.method.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto).to(_root_.scala.collection.immutable.Seq).asJava)
     scalaPbSource.options.map(com.google.protobuf.descriptor.ServiceOptions.toJavaProto).foreach(javaPbOut.setOptions)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.ServiceDescriptorProto): com.google.protobuf.descriptor.ServiceDescriptorProto = com.google.protobuf.descriptor.ServiceDescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
-    method = javaPbSource.getMethodList.asScala.map(com.google.protobuf.descriptor.MethodDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    method = javaPbSource.getMethodList.asScala.map(com.google.protobuf.descriptor.MethodDescriptorProto.fromJavaProto).to(_root_.scala.collection.immutable.Seq),
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.ServiceOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.ServiceDescriptorProto = {
@@ -130,7 +130,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.ServiceDescriptorProto(
       __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]],
+      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]],
       __fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]]
     )
   }
@@ -139,7 +139,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.ServiceDescriptorProto(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]]).getOrElse(_root_.scala.collection.immutable.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -161,7 +161,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   implicit class ServiceDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def method: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]] = field(_.method)((c_, f_) => c_.copy(method = f_))
+    def method: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]] = field(_.method)((c_, f_) => c_.copy(method = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
   }
@@ -170,7 +170,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   final val OPTIONS_FIELD_NUMBER = 3
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
-    method: _root_.scala.collection.Seq[com.google.protobuf.descriptor.MethodDescriptorProto],
+    method: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.MethodDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]
   ): _root_.com.google.protobuf.descriptor.ServiceDescriptorProto = _root_.com.google.protobuf.descriptor.ServiceDescriptorProto(
     name,

@@ -40,7 +40,7 @@ final case class Field(
     typeUrl: _root_.scala.Predef.String = "",
     oneofIndex: _root_.scala.Int = 0,
     packed: _root_.scala.Boolean = false,
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
+    options: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.immutable.Seq.empty,
     jsonName: _root_.scala.Predef.String = "",
     defaultValue: _root_.scala.Predef.String = ""
     ) extends scalapb.GeneratedMessage with scalapb.Message[Field] with scalapb.lenses.Updatable[Field] {
@@ -246,10 +246,10 @@ final case class Field(
     def withTypeUrl(__v: _root_.scala.Predef.String): Field = copy(typeUrl = __v)
     def withOneofIndex(__v: _root_.scala.Int): Field = copy(oneofIndex = __v)
     def withPacked(__v: _root_.scala.Boolean): Field = copy(packed = __v)
-    def clearOptions = copy(options = _root_.scala.collection.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.collection.immutable.Seq.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Field = addAllOptions(__vs)
-    def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Field = copy(options = options ++ __vs)
-    def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
+    def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Field = copy(options = options ++ __vs)
+    def withOptions(__v: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
     def withJsonName(__v: _root_.scala.Predef.String): Field = copy(jsonName = __v)
     def withDefaultValue(__v: _root_.scala.Predef.String): Field = copy(defaultValue = __v)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -303,7 +303,7 @@ final case class Field(
         case 6 => _root_.scalapb.descriptors.PString(typeUrl)
         case 7 => _root_.scalapb.descriptors.PInt(oneofIndex)
         case 8 => _root_.scalapb.descriptors.PBoolean(packed)
-        case 9 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 9 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage).to(Vector))
         case 10 => _root_.scalapb.descriptors.PString(jsonName)
         case 11 => _root_.scalapb.descriptors.PString(defaultValue)
       }
@@ -323,7 +323,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
     javaPbOut.setOneofIndex(scalaPbSource.oneofIndex)
     javaPbOut.setPacked(scalaPbSource.packed)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto).to(_root_.scala.collection.immutable.Seq).asJava)
     javaPbOut.setJsonName(scalaPbSource.jsonName)
     javaPbOut.setDefaultValue(scalaPbSource.defaultValue)
     javaPbOut.build
@@ -336,7 +336,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     typeUrl = javaPbSource.getTypeUrl,
     oneofIndex = javaPbSource.getOneofIndex.intValue,
     packed = javaPbSource.getPacked.booleanValue,
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto).to(_root_.scala.collection.immutable.Seq),
     jsonName = javaPbSource.getJsonName,
     defaultValue = javaPbSource.getDefaultValue
   )
@@ -351,7 +351,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       __fieldsMap.getOrElse(__fields.get(4), "").asInstanceOf[_root_.scala.Predef.String],
       __fieldsMap.getOrElse(__fields.get(5), 0).asInstanceOf[_root_.scala.Int],
       __fieldsMap.getOrElse(__fields.get(6), false).asInstanceOf[_root_.scala.Boolean],
-      __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
+      __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]],
       __fieldsMap.getOrElse(__fields.get(8), "").asInstanceOf[_root_.scala.Predef.String],
       __fieldsMap.getOrElse(__fields.get(9), "").asInstanceOf[_root_.scala.Predef.String]
     )
@@ -367,7 +367,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Int]).getOrElse(0),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.immutable.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
@@ -612,7 +612,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     @SerialVersionUID(0L)
     final case class Unrecognized(value: _root_.scala.Int) extends Kind with _root_.scalapb.UnrecognizedEnum
     
-    lazy val values = scala.collection.Seq(TYPE_UNKNOWN, TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
+    lazy val values = scala.collection.immutable.Seq(TYPE_UNKNOWN, TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
     def fromValue(value: _root_.scala.Int): Kind = value match {
       case 0 => TYPE_UNKNOWN
       case 1 => TYPE_DOUBLE
@@ -699,7 +699,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     @SerialVersionUID(0L)
     final case class Unrecognized(value: _root_.scala.Int) extends Cardinality with _root_.scalapb.UnrecognizedEnum
     
-    lazy val values = scala.collection.Seq(CARDINALITY_UNKNOWN, CARDINALITY_OPTIONAL, CARDINALITY_REQUIRED, CARDINALITY_REPEATED)
+    lazy val values = scala.collection.immutable.Seq(CARDINALITY_UNKNOWN, CARDINALITY_OPTIONAL, CARDINALITY_REQUIRED, CARDINALITY_REPEATED)
     def fromValue(value: _root_.scala.Int): Cardinality = value match {
       case 0 => CARDINALITY_UNKNOWN
       case 1 => CARDINALITY_OPTIONAL
@@ -723,7 +723,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     def typeUrl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
     def oneofIndex: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
     def packed: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.packed)((c_, f_) => c_.copy(packed = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def jsonName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
     def defaultValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
   }
@@ -745,7 +745,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     typeUrl: _root_.scala.Predef.String,
     oneofIndex: _root_.scala.Int,
     packed: _root_.scala.Boolean,
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto],
+    options: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto],
     jsonName: _root_.scala.Predef.String,
     defaultValue: _root_.scala.Predef.String
   ): _root_.com.google.protobuf.`type`.Field = _root_.com.google.protobuf.`type`.Field(

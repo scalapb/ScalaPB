@@ -2,6 +2,7 @@ package scalapb.descriptors
 
 import com.google.protobuf.ByteString
 
+import scala.collection.{BuildFrom, IterableFactory, SeqOps}
 import scala.collection.generic.CanBuildFrom
 import scala.language.higherKinds
 
@@ -76,6 +77,19 @@ object Reads {
     case _            => throw new ReadsException("Expected PEnum")
   }
 
+  implicit def repeated[A, CC[A] <: SeqOps[A, CC, _]]: Reads[CC[A]] = {
+    ???
+  }
+  /*
+  implicit def repeated[A, CC[_], C <: SeqOps[A, CC, C]](implicit reads: Reads[A]): Reads[C] = {
+    Reads[C] {
+    case PRepeated(value) => ???  // bf.from(value.map(reads.read))
+    case _                => throw new ReadsException("Expected PRepeated")
+  }
+  }
+  */
+
+  /*
   implicit def repeated[A, Coll[A]](
       implicit reads: Reads[A],
       bf: CanBuildFrom[Nothing, A, Coll[A]]
@@ -83,6 +97,7 @@ object Reads {
     case PRepeated(value) => value.map(reads.read)(scala.collection.breakOut)
     case _                => throw new ReadsException("Expected PRepeated")
   }
+  */
 
   implicit def optional[A](implicit reads: Reads[A]): Reads[Option[A]] = Reads[Option[A]] {
     case PEmpty => None

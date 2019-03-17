@@ -40,9 +40,9 @@ private[scalapb] object TextFormatUtils {
   }
 
   def escapeBytes(bytes: ByteString): String = {
-    import scala.collection.JavaConversions._
+    import scala.collection.JavaConverters._
     val sb = mutable.StringBuilder.newBuilder
-    bytes.foreach {
+    bytes.asScala.foreach {
       case CH_SLASH_A => sb.append("\\a")
       case CH_SLASH_B => sb.append("\\b")
       case CH_SLASH_F => sb.append("\\f")
@@ -67,7 +67,7 @@ private[scalapb] object TextFormatUtils {
   def unescapeBytes(
       charString: String
   ): Either[TextFormatError, ByteString] with Product with Serializable = {
-    import scala.collection.JavaConversions._
+    import scala.collection.JavaConverters._
     val input: ByteString = ByteString.copyFromUtf8(charString)
     val result            = mutable.ArrayBuilder.make[Byte]
     result.sizeHint(input.size)
@@ -80,7 +80,7 @@ private[scalapb] object TextFormatUtils {
       }
     }
 
-    val endState = input.foldLeft[ByteParsingState](Default) { (state, b) =>
+    val endState = input.asScala.foldLeft[ByteParsingState](Default) { (state, b) =>
       (state, b) match {
         case (e: Error, _)                           => e
         case (Default, b)                            => defaultHandle(b)

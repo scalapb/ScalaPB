@@ -1,6 +1,5 @@
 package scalapb.lenses
 
-import scala.collection.BuildFrom
 import scala.language.higherKinds
 
 trait Lens[Container, A] extends Any {
@@ -52,7 +51,7 @@ trait Lens[Container, A] extends Any {
   }
 }
 
-object Lens {
+object Lens extends CompatLensImplicits {
   /* Create a Lens from getter and setter. */
   def apply[Container, A](
       getter: Container => A
@@ -70,56 +69,6 @@ object Lens {
     * no matter what the original value was.
     */
   def unit[U]: Lens[U, U] = Lens(identity[U])((c, v) => v)
-
-  /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
-  implicit class SeqLikeLens[U, A, CC[_], C <: collection.SeqOps[A, CC, C]](
-      val lens: Lens[U, C]
-  ) extends AnyVal {
-    private def field(getter: C => A)(setter: (C, A) => C): Lens[U, A] =
-      lens.compose[A](Lens[C, A](getter)(setter))
-
-    def apply(i: Int)(implicit ev: CC[A] =:= C): Lens[U, A] = field(_.apply(i))((c, v) => c.updated(i, v))
-
-    def head(implicit ev: CC[A] =:= C): Lens[U, A] = apply(0)
-
-    def last(implicit ev: CC[A] =:= C): Lens[U, A] = field(_.last)((c, v) => c.updated(c.size - 1, v))
-
-    def :+=(item: A)(implicit ev: CC[A] =:= C) = lens.modify(_ :+ item)
-
-    def :++=(item: IterableOnce[A])(implicit ev: CC[A] =:= C) =
-      lens.modify(_ ++ item)
-
-    def foreach(f: Lens[A, A] => Mutation[A])(implicit ev: CC[A] =:= C): Mutation[U] =
-      lens.modify(
-        s =>
-          s.map { (m: A) =>
-            val field: Lens[A, A] = Lens.unit[A]
-            val p: Mutation[A]    = f(field)
-            p(m)
-          }
-      )
-  }
-
-  /** Implicit that adds some syntactic sugar if our lens watches a Set-like collection. */
-  implicit class SetLens[U, A, CC[_], C <: collection.immutable.SetOps[A, CC, C]](val lens: Lens[U, C]) extends AnyVal {
-    private def field(getter: C => A)(setter: (C, A) => C): Lens[U, A] =
-      lens.compose[A](Lens[C, A](getter)(setter))
-
-    def :+=(item: A) = lens.modify(_ + item)
-
-    def :++=(item: scala.collection.IterableOnce[A])(implicit ev: CC[A] =:= C) =
-      lens.modify(_ ++ item)
-
-    def foreach(f: Lens[A, A] => Mutation[A])(implicit ev: CC[A] =:= C): Mutation[U] =
-      lens.modify(
-        s =>
-          s.map { (m: A) =>
-            val field: Lens[A, A] = Lens.unit[A]
-            val p: Mutation[A]    = f(field)
-            p(m)
-          }
-      )
-  }
 
   /** Implicit that adds some syntactic sugar if our lens watches an Option[_]. */
   implicit class OptLens[U, A](val lens: Lens[U, Option[A]]) extends AnyVal {
@@ -156,7 +105,7 @@ object Lens {
     def foreachValue(f: Lens[B, B] => Mutation[B]): Mutation[U] =
       lens.modify(
         s =>
-          s.view.mapValues { (m: B) =>
+          s.mapValues { (m: B) =>
             val field: Lens[B, B] = Lens.unit[B]
             val p: Mutation[B]    = f(field)
             p(m)

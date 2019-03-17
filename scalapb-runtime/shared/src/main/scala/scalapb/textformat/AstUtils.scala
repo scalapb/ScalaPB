@@ -14,7 +14,7 @@ private[scalapb] object AstUtils {
   private def flatten[T](s: Seq[Either[AstError, T]]): Either[AstError, Vector[T]] = {
     s.find(_.isLeft) match {
       case Some(Left(e)) => Left(e)
-      case _             => Right(s.map(_.right.get)(scala.collection.breakOut))
+      case _             => Right(s.view.map(_.right.get).toVector)
     }
   }
 

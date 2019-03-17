@@ -32,7 +32,7 @@ object DescriptorProtoCompanion extends _root_.scalapb.GeneratedFileObject {
     com.google.protobuf.descriptor.GeneratedCodeInfo
   )
   private lazy val ProtoBytes: Array[Byte] =
-      scalapb.Encoding.fromBase64(scala.collection.Seq(
+      scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """CiBnb29nbGUvcHJvdG9idWYvZGVzY3JpcHRvci5wcm90bxIPZ29vZ2xlLnByb3RvYnVmIlgKEUZpbGVEZXNjcmlwdG9yU2V0E
   kMKBGZpbGUYASADKAsyJC5nb29nbGUucHJvdG9idWYuRmlsZURlc2NyaXB0b3JQcm90b0IJ4j8GEgRmaWxlUgRmaWxlIqkGChNGa
   WxlRGVzY3JpcHRvclByb3RvEh0KBG5hbWUYASABKAlCCeI/BhIEbmFtZVIEbmFtZRImCgdwYWNrYWdlGAIgASgJQgziPwkSB3BhY

@@ -23,9 +23,9 @@ package com.google.protobuf.`type`
 @SerialVersionUID(0L)
 final case class Type(
     name: _root_.scala.Predef.String = "",
-    fields: _root_.scala.collection.Seq[com.google.protobuf.`type`.Field] = _root_.scala.collection.Seq.empty,
-    oneofs: _root_.scala.collection.Seq[_root_.scala.Predef.String] = _root_.scala.collection.Seq.empty,
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
+    fields: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.Field] = _root_.scala.collection.immutable.Seq.empty,
+    oneofs: _root_.scala.collection.immutable.Seq[_root_.scala.Predef.String] = _root_.scala.collection.immutable.Seq.empty,
+    options: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.immutable.Seq.empty,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends scalapb.GeneratedMessage with scalapb.Message[Type] with scalapb.lenses.Updatable[Type] {
@@ -146,18 +146,18 @@ final case class Type(
       )
     }
     def withName(__v: _root_.scala.Predef.String): Type = copy(name = __v)
-    def clearFields = copy(fields = _root_.scala.collection.Seq.empty)
+    def clearFields = copy(fields = _root_.scala.collection.immutable.Seq.empty)
     def addFields(__vs: com.google.protobuf.`type`.Field*): Type = addAllFields(__vs)
-    def addAllFields(__vs: TraversableOnce[com.google.protobuf.`type`.Field]): Type = copy(fields = fields ++ __vs)
-    def withFields(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.Field]): Type = copy(fields = __v)
-    def clearOneofs = copy(oneofs = _root_.scala.collection.Seq.empty)
+    def addAllFields(__vs: Iterable[com.google.protobuf.`type`.Field]): Type = copy(fields = fields ++ __vs)
+    def withFields(__v: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.Field]): Type = copy(fields = __v)
+    def clearOneofs = copy(oneofs = _root_.scala.collection.immutable.Seq.empty)
     def addOneofs(__vs: _root_.scala.Predef.String*): Type = addAllOneofs(__vs)
-    def addAllOneofs(__vs: TraversableOnce[_root_.scala.Predef.String]): Type = copy(oneofs = oneofs ++ __vs)
-    def withOneofs(__v: _root_.scala.collection.Seq[_root_.scala.Predef.String]): Type = copy(oneofs = __v)
-    def clearOptions = copy(options = _root_.scala.collection.Seq.empty)
+    def addAllOneofs(__vs: Iterable[_root_.scala.Predef.String]): Type = copy(oneofs = oneofs ++ __vs)
+    def withOneofs(__v: _root_.scala.collection.immutable.Seq[_root_.scala.Predef.String]): Type = copy(oneofs = __v)
+    def clearOptions = copy(options = _root_.scala.collection.immutable.Seq.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Type = addAllOptions(__vs)
-    def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Type = copy(options = options ++ __vs)
-    def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Type = copy(options = __v)
+    def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Type = copy(options = options ++ __vs)
+    def withOptions(__v: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]): Type = copy(options = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
     def clearSourceContext: Type = copy(sourceContext = _root_.scala.None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Type = copy(sourceContext = Option(__v))
@@ -182,9 +182,9 @@ final case class Type(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
-        case 2 => _root_.scalapb.descriptors.PRepeated(fields.map(_.toPMessage)(_root_.scala.collection.breakOut))
-        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.map(_root_.scalapb.descriptors.PString)(_root_.scala.collection.breakOut))
-        case 4 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 2 => _root_.scalapb.descriptors.PRepeated(fields.map(_.toPMessage).to(Vector))
+        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.map(_root_.scalapb.descriptors.PString).to(Vector))
+        case 4 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage).to(Vector))
         case 5 => sourceContext.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
@@ -200,9 +200,9 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.Type(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.Field]],
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.Seq[_root_.scala.Predef.String]],
-      __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
+      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.Field]],
+      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[_root_.scala.Predef.String]],
+      __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]],
       __fieldsMap.get(__fields.get(4)).asInstanceOf[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]],
       com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(5), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
@@ -212,9 +212,9 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.`type`.Type(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.Field]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.Field]]).getOrElse(_root_.scala.collection.immutable.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.collection.immutable.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.collection.immutable.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.immutable.Seq.empty),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
         com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
@@ -241,9 +241,9 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   )
   implicit class TypeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Type]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Type](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def fields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.Field]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))
-    def oneofs: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[_root_.scala.Predef.String]] = field(_.oneofs)((c_, f_) => c_.copy(oneofs = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def fields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.Field]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))
+    def oneofs: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[_root_.scala.Predef.String]] = field(_.oneofs)((c_, f_) => c_.copy(oneofs = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
     def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
@@ -256,9 +256,9 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   final val SYNTAX_FIELD_NUMBER = 6
   def of(
     name: _root_.scala.Predef.String,
-    fields: _root_.scala.collection.Seq[com.google.protobuf.`type`.Field],
-    oneofs: _root_.scala.collection.Seq[_root_.scala.Predef.String],
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto],
+    fields: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.Field],
+    oneofs: _root_.scala.collection.immutable.Seq[_root_.scala.Predef.String],
+    options: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     syntax: com.google.protobuf.`type`.Syntax
   ): _root_.com.google.protobuf.`type`.Type = _root_.com.google.protobuf.`type`.Type(

@@ -65,7 +65,7 @@ final case class MessageOptions(
     noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     mapEntry: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.Seq.empty,
+    uninterpretedOption: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.collection.immutable.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
     ) extends scalapb.GeneratedMessage with scalapb.Message[MessageOptions] with scalapb.lenses.Updatable[MessageOptions] with _root_.scalapb.ExtendableMessage[MessageOptions] {
     @transient
@@ -174,10 +174,10 @@ final case class MessageOptions(
     def getMapEntry: _root_.scala.Boolean = mapEntry.getOrElse(false)
     def clearMapEntry: MessageOptions = copy(mapEntry = _root_.scala.None)
     def withMapEntry(__v: _root_.scala.Boolean): MessageOptions = copy(mapEntry = Option(__v))
-    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.collection.immutable.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): MessageOptions = addAllUninterpretedOption(__vs)
-    def addAllUninterpretedOption(__vs: TraversableOnce[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
-    def withUninterpretedOption(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = __v)
+    def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
+    def withUninterpretedOption(__v: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -196,7 +196,7 @@ final case class MessageOptions(
         case 2 => noStandardDescriptorAccessor.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 7 => mapEntry.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.map(_.toPMessage).to(Vector))
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -211,7 +211,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     scalaPbSource.noStandardDescriptorAccessor.foreach(javaPbOut.setNoStandardDescriptorAccessor)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.mapEntry.foreach(javaPbOut.setMapEntry)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto).to(_root_.scala.collection.immutable.Seq).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MessageOptions): com.google.protobuf.descriptor.MessageOptions = com.google.protobuf.descriptor.MessageOptions(
@@ -219,7 +219,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     noStandardDescriptorAccessor = if (javaPbSource.hasNoStandardDescriptorAccessor) Some(javaPbSource.getNoStandardDescriptorAccessor.booleanValue) else _root_.scala.None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
     mapEntry = if (javaPbSource.hasMapEntry) Some(javaPbSource.getMapEntry.booleanValue) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto)(_root_.scala.collection.breakOut)
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto).to(_root_.scala.collection.immutable.Seq)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.MessageOptions = {
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
@@ -229,7 +229,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
       __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
-      __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
+      __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.MessageOptions] = _root_.scalapb.descriptors.Reads{
@@ -240,7 +240,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.collection.Seq.empty)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.collection.immutable.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -266,7 +266,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def mapEntry: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMapEntry)((c_, f_) => c_.copy(mapEntry = Option(f_)))
     def optionalMapEntry: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.mapEntry)((c_, f_) => c_.copy(mapEntry = f_))
-    def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
+    def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val MESSAGE_SET_WIRE_FORMAT_FIELD_NUMBER = 1
   final val NO_STANDARD_DESCRIPTOR_ACCESSOR_FIELD_NUMBER = 2
@@ -278,7 +278,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean],
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     mapEntry: _root_.scala.Option[_root_.scala.Boolean],
-    uninterpretedOption: _root_.scala.collection.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    uninterpretedOption: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.UninterpretedOption],
     unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.descriptor.MessageOptions = _root_.com.google.protobuf.descriptor.MessageOptions(
     messageSetWireFormat,

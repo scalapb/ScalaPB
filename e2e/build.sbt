@@ -1,6 +1,6 @@
 import scalapb.compiler.Version.grpcJavaVersion
 
-crossScalaVersions in ThisBuild := Seq("2.11.12", "2.12.8")
+crossScalaVersions in ThisBuild := Seq("2.11.12", "2.12.8", "2.13.0-M5")
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 

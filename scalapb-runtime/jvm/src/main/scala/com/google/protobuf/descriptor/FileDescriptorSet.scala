@@ -11,7 +11,7 @@ import scala.collection.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class FileDescriptorSet(
-    file: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.collection.Seq.empty
+    file: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.collection.immutable.Seq.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[FileDescriptorSet] with scalapb.lenses.Updatable[FileDescriptorSet] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -55,10 +55,10 @@ final case class FileDescriptorSet(
           file = __file.result()
       )
     }
-    def clearFile = copy(file = _root_.scala.collection.Seq.empty)
+    def clearFile = copy(file = _root_.scala.collection.immutable.Seq.empty)
     def addFile(__vs: com.google.protobuf.descriptor.FileDescriptorProto*): FileDescriptorSet = addAllFile(__vs)
-    def addAllFile(__vs: TraversableOnce[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = file ++ __vs)
-    def withFile(__v: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = __v)
+    def addAllFile(__vs: Iterable[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = file ++ __vs)
+    def withFile(__v: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = __v)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => file
@@ -67,7 +67,7 @@ final case class FileDescriptorSet(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(file.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 1 => _root_.scalapb.descriptors.PRepeated(file.map(_.toPMessage).to(Vector))
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -78,24 +78,24 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorSet): com.google.protobuf.DescriptorProtos.FileDescriptorSet = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorSet.newBuilder
-    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllFile(scalaPbSource.file.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto).to(_root_.scala.collection.immutable.Seq).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorSet): com.google.protobuf.descriptor.FileDescriptorSet = com.google.protobuf.descriptor.FileDescriptorSet(
-    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto)(_root_.scala.collection.breakOut)
+    file = javaPbSource.getFileList.asScala.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto).to(_root_.scala.collection.immutable.Seq)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.FileDescriptorSet = {
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.descriptor.FileDescriptorSet(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]]
+      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.FileDescriptorProto]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileDescriptorSet] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.FileDescriptorSet(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]]).getOrElse(_root_.scala.collection.Seq.empty)
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.FileDescriptorProto]]).getOrElse(_root_.scala.collection.immutable.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -113,11 +113,11 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorSet(
   )
   implicit class FileDescriptorSetLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorSet]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorSet](_l) {
-    def file: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]] = field(_.file)((c_, f_) => c_.copy(file = f_))
+    def file: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.FileDescriptorProto]] = field(_.file)((c_, f_) => c_.copy(file = f_))
   }
   final val FILE_FIELD_NUMBER = 1
   def of(
-    file: _root_.scala.collection.Seq[com.google.protobuf.descriptor.FileDescriptorProto]
+    file: _root_.scala.collection.immutable.Seq[com.google.protobuf.descriptor.FileDescriptorProto]
   ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = _root_.com.google.protobuf.descriptor.FileDescriptorSet(
     file
   )

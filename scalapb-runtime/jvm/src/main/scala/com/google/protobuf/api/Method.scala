@@ -30,7 +30,7 @@ final case class Method(
     requestStreaming: _root_.scala.Boolean = false,
     responseTypeUrl: _root_.scala.Predef.String = "",
     responseStreaming: _root_.scala.Boolean = false,
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.Seq.empty,
+    options: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.collection.immutable.Seq.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
     ) extends scalapb.GeneratedMessage with scalapb.Message[Method] with scalapb.lenses.Updatable[Method] {
     @transient
@@ -182,10 +182,10 @@ final case class Method(
     def withRequestStreaming(__v: _root_.scala.Boolean): Method = copy(requestStreaming = __v)
     def withResponseTypeUrl(__v: _root_.scala.Predef.String): Method = copy(responseTypeUrl = __v)
     def withResponseStreaming(__v: _root_.scala.Boolean): Method = copy(responseStreaming = __v)
-    def clearOptions = copy(options = _root_.scala.collection.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.collection.immutable.Seq.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Method = addAllOptions(__vs)
-    def addAllOptions(__vs: TraversableOnce[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
-    def withOptions(__v: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
+    def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
+    def withOptions(__v: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Method = copy(syntax = __v)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
@@ -224,7 +224,7 @@ final case class Method(
         case 3 => _root_.scalapb.descriptors.PBoolean(requestStreaming)
         case 4 => _root_.scalapb.descriptors.PString(responseTypeUrl)
         case 5 => _root_.scalapb.descriptors.PBoolean(responseStreaming)
-        case 6 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage)(_root_.scala.collection.breakOut))
+        case 6 => _root_.scalapb.descriptors.PRepeated(options.map(_.toPMessage).to(Vector))
         case 7 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
       }
     }
@@ -241,7 +241,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     javaPbOut.setRequestStreaming(scalaPbSource.requestStreaming)
     javaPbOut.setResponseTypeUrl(scalaPbSource.responseTypeUrl)
     javaPbOut.setResponseStreaming(scalaPbSource.responseStreaming)
-    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto)(_root_.scala.collection.breakOut).asJava)
+    javaPbOut.addAllOptions(scalaPbSource.options.map(com.google.protobuf.`type`.OptionProto.toJavaProto).to(_root_.scala.collection.immutable.Seq).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
@@ -251,7 +251,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     requestStreaming = javaPbSource.getRequestStreaming.booleanValue,
     responseTypeUrl = javaPbSource.getResponseTypeUrl,
     responseStreaming = javaPbSource.getResponseStreaming.booleanValue,
-    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto)(_root_.scala.collection.breakOut),
+    options = javaPbSource.getOptionsList.asScala.map(com.google.protobuf.`type`.OptionProto.fromJavaProto).to(_root_.scala.collection.immutable.Seq),
     syntax = com.google.protobuf.`type`.Syntax.fromValue(javaPbSource.getSyntaxValue.intValue)
   )
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.api.Method = {
@@ -263,7 +263,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
       __fieldsMap.getOrElse(__fields.get(2), false).asInstanceOf[_root_.scala.Boolean],
       __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[_root_.scala.Predef.String],
       __fieldsMap.getOrElse(__fields.get(4), false).asInstanceOf[_root_.scala.Boolean],
-      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]],
+      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]],
       com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(6), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
   }
@@ -276,7 +276,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.Seq.empty),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.collection.immutable.Seq.empty),
         com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -304,7 +304,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     def requestStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.requestStreaming)((c_, f_) => c_.copy(requestStreaming = f_))
     def responseTypeUrl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.responseTypeUrl)((c_, f_) => c_.copy(responseTypeUrl = f_))
     def responseStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.responseStreaming)((c_, f_) => c_.copy(responseStreaming = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1
@@ -320,7 +320,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     requestStreaming: _root_.scala.Boolean,
     responseTypeUrl: _root_.scala.Predef.String,
     responseStreaming: _root_.scala.Boolean,
-    options: _root_.scala.collection.Seq[com.google.protobuf.`type`.OptionProto],
+    options: _root_.scala.collection.immutable.Seq[com.google.protobuf.`type`.OptionProto],
     syntax: com.google.protobuf.`type`.Syntax
   ): _root_.com.google.protobuf.api.Method = _root_.com.google.protobuf.api.Method(
     name,
