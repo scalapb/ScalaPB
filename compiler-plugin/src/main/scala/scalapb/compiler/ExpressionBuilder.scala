@@ -1,4 +1,5 @@
 package scalapb.compiler
+import scalapb.compiler.EnclosingType.Collection
 
 sealed trait Expression extends Product with Serializable {
   def andThen(other: Expression) = (this, other) match {
@@ -61,10 +62,10 @@ object ExpressionBuilder {
         .dropRight(1)
         .exists(_.isFunctionApplication)
 
-    val convert =
-      if (enclosingType == EnclosingType.Collection)
-        ""
-      else ""
+    val convert = enclosingType match {
+      case Collection(cc) => s".to($cc)"
+      case _ => ""
+    }
 
     if (needVariable)
       s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})$convert"""
@@ -103,5 +104,8 @@ sealed trait EnclosingType
 object EnclosingType {
   case object None        extends EnclosingType
   case object ScalaOption extends EnclosingType
-  case object Collection  extends EnclosingType
+
+  /** Indicates that the result should be a collection with type constructor cc, such as List, Map.
+    */
+  case class Collection(cc: String) extends EnclosingType
 }

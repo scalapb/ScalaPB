@@ -243,8 +243,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
       else {
-        EnclosingType.Collection
+        EnclosingType.Collection(collectionType)
       }
+
+    def fieldMapEnclosingType: EnclosingType =
+      if (isSingular) EnclosingType.None
+      else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
+      else if (!fd.isMapField) EnclosingType.Collection(collectionType)
+      else EnclosingType.Collection(ScalaSeq)
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
@@ -905,7 +911,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 }
 
 private[scalapb] object DescriptorImplicits {
-  val ScalaSeq    = "_root_.scala.collection.Seq"
+  val ScalaSeq    = "_root_.scala.collection.immutable.Seq"
   val ScalaMap    = "_root_.scala.collection.immutable.Map"
   val ScalaVector = "_root_.scala.collection.immutable.Vector"
   val ScalaOption = "_root_.scala.Option"

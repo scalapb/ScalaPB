@@ -20,7 +20,7 @@ val grpcVersion = "1.19.0"
 
 val MimaPreviousVersion = "0.9.0-RC1"
 
-scalaVersion in ThisBuild := Scala213
+scalaVersion in ThisBuild := Scala212
 
 crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
 
@@ -108,7 +108,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       import com.typesafe.tools.mima.core._
       Seq(
       )
-    }
+    },
   )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform/*, NativePlatform*/)(
@@ -285,27 +285,19 @@ createVersionFile := {
 lazy val lenses = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).in(file("lenses"))
   .settings(
     name := "lenses",
-    sources in Test := {
+    unmanagedSourceDirectories in Compile ++= {
+      val base = (baseDirectory in LocalRootProject).value / "lenses" / "shared" / "src" / "main"
       CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 13)) =>
-          // TODO utest_2.13.0-M3
-          Nil
+        case Some((2, v)) if v < 13 =>
+          Seq(base / "scala-pre-2.13")
         case _ =>
-          (sources in Test).value
-      },
-    },
-    testFrameworks += new TestFramework("utest.runner.Framework"),
-    libraryDependencies ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, 13)) =>
-          // TODO utest_2.13.0-M3
           Nil
-        case _ =>
-          Seq(
-            "com.lihaoyi" %%% "utest" % "0.6.6" % "test"
-          )
       }
     },
+    testFrameworks += new TestFramework("utest.runner.Framework"),
+    libraryDependencies ++= Seq(
+        "com.lihaoyi" %%% "utest" % "0.6.6" % "test"
+    ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
@@ -335,7 +327,7 @@ lazy val docs = project.in(file("docs"))
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
   .settings(
     scalaVersion := Scala212,
-    crossScalaVersions in ThisBuild := Seq(Scala212),
+    crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
         "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.2",
     ), 
