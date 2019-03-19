@@ -109,7 +109,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
   .dependsOn(lenses)
   .platformsSettings(JSPlatform, NativePlatform)(
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.1"
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.2"
     ),
     (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
@@ -118,7 +118,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform, NativePlatform)
     libraryDependencies ++= Seq(
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
       "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
-      "org.scalatest" %%% "scalatest" % "3.0.6" % "test"
+      "org.scalatest" %%% "scalatest" % "3.0.7" % "test"
     )
   )
   .jsSettings(
@@ -146,7 +146,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
       "io.grpc" % "grpc-protobuf" % grpcVersion,
-      "org.scalatest" %% "scalatest" % "3.0.6" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.7" % "test",
       "org.mockito" % "mockito-core" % "2.23.4" % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion)
@@ -177,8 +177,8 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.3",
-      "org.scalatest" %% "scalatest" % "3.0.6" % "test",
+      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.4",
+      "org.scalatest" %% "scalatest" % "3.0.7" % "test",
       "com.github.os72" % "protoc-jar" % "3.7.0" % "test",
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
@@ -238,7 +238,7 @@ lazy val proptest = project.in(file("proptest"))
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",
         "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
-        "org.scalatest" %% "scalatest" % "3.0.6" % "test"
+        "org.scalatest" %% "scalatest" % "3.0.7" % "test"
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
