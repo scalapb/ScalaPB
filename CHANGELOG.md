@@ -8,6 +8,8 @@
   - The generated code compiles for Scala 2.13 and older version, so deprecation warnings
     are expected when compiling for 2.13. In a future release, we may have a
     generator that generates code that compiles cleanly, but only for 2.13.
+- Dropped support for Scala 2.10.
+- Temporarily dropped support for Scala Native (pending on fastparse2 support)
 - Add support for custom map types (#410)
 - Upgrade to protobuf 3.7.0
 - Removed deprecated com.trueaccord symbols
