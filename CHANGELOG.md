@@ -10,6 +10,7 @@
     generator that generates code that compiles cleanly, but only for 2.13.
 - Dropped support for Scala 2.10.
 - Temporarily dropped support for Scala Native (pending on fastparse2 support)
+- Bumped fastparse to 2.1.0 (which is binary-incompatible with fastparse 1)
 - Add support for custom map types (#410)
 - Upgrade to protobuf 3.7.0
 - Removed deprecated com.trueaccord symbols
