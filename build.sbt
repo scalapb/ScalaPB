@@ -20,7 +20,7 @@ val grpcVersion = "1.19.0"
 
 val MimaPreviousVersion = "0.9.0-M1"
 
-scalaVersion in ThisBuild := Scala213
+scalaVersion in ThisBuild := Scala212
 
 crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
 

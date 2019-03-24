@@ -1,6 +1,6 @@
 import scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Gen
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 
 object GenData {
 
@@ -97,7 +97,7 @@ object GenData {
 
     val x: Seq[Gen[Seq[(String, ProtoValue)]]] = fieldGens ++ oneofGens
 
-    Gen.sequence(x).map(s => MessageValue(s.flatten))
+    Gen.sequence(x).map(s => MessageValue(s.asScala.toSeq.flatten))
   }
 
   def genMessageValueInstance(rootNode: RootNode): Gen[(MessageNode, MessageValue)] =

@@ -2,7 +2,7 @@ import scalapb.compiler.Version.grpcJavaVersion
 
 crossScalaVersions in ThisBuild := Seq("2.11.12", "2.12.8", "2.13.0-M5")
 
-scalaVersion in ThisBuild := "2.13.0-M5"
+scalaVersion in ThisBuild := "2.12.8"
 
 val grpcArtifactId = "protoc-gen-grpc-java"
 
@@ -52,7 +52,7 @@ val commonSettings = Seq(
       "io.grpc" % "grpc-services" % grpcJavaVersion % "protobuf",
       "org.scalacheck" %% "scalacheck" % "1.14.0" % "test",
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf",
-      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.3",
+      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.9.0-M1",
       "javax.annotation" % "javax.annotation-api" % "1.3.2",  // needed for grpc-java on JDK9
     ),
 
