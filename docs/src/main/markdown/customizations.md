@@ -396,8 +396,8 @@ Note: Most Scala collections can be used with this feature. If you are trying
 to implement your own collection type, it may be useful to check `MyVector`
 and `MyMap`, the simplest custom collection that is compatible with ScalaPB:
 
-- [MyVector.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala/com/thesamet/pb/MyVector.scala)
-- [MyMap.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala/com/thesamet/pb/MyMap.scala)
+- [MyVector.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala-pre-2.13/com/thesamet/pb/MyVector.scala)
+- [MyMap.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala-pre-2.13/com/thesamet/pb/MyMap.scala)
 - [collection_types.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/collection_types.proto)
 
 # Custom names
