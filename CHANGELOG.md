@@ -1,6 +1,13 @@
 # Change Log
 
 ## [0.9.0](https://github.com/scalapb/ScalaPB/tree/HEAD)
+- Experimental support for Scala 2.13.0-M5. Notes:
+  - ScalaPB now generates `scala.Seq` by default for repeated
+    fields (previously was `scala.collection.Seq`). This ensures usage of
+    immutable Seqs on Scala 2.13 without breaking compatibility for old code.
+  - The generated code compiles for Scala 2.13 and older version, so deprecation warnings
+    are expected when compiling for 2.13. In a future release, we may have a
+    generator that generates code that compiles cleanly, but only for 2.13.
 - Add support for custom map types (#410)
 - Upgrade to protobuf 3.7.0
 - Removed deprecated com.trueaccord symbols
