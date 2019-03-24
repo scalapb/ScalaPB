@@ -9,6 +9,8 @@
     are expected when compiling for 2.13. In a future release, we may have a
     generator that generates code that compiles cleanly, but only for 2.13.
 - Dropped support for Scala 2.10.
+- Custom collections are now required to provide an `iterator` method that
+  returns an `Iterator[A]` over their elements.
 - Temporarily dropped support for Scala Native (pending on fastparse2 support)
 - Bumped fastparse to 2.1.0 (which is binary-incompatible with fastparse 1)
 - Add support for custom map types (#410)
