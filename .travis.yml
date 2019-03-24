@@ -1,7 +1,6 @@
 language: scala
-sudo: required
-dist: trusty
-jdk: oraclejdk9
+dist: xenial
+jdk: openjdk11
 
 stages:
 - name: test
@@ -64,8 +63,7 @@ cache:
   - $HOME/.sbt/boot
 
 script:
-# proptest timeout within 10 mintues some time during compilation.
-- travis_wait 60 ./$TEST_SCRIPT
+- ./$TEST_SCRIPT
 
 before_cache:
 # Tricks to avoid unnecessary cache updates
