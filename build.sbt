@@ -18,7 +18,7 @@ val sbtPluginVersion = "0.99.19"
 
 val grpcVersion = "1.19.0"
 
-val MimaPreviousVersion = "0.9.0-RC1"
+val MimaPreviousVersion = "0.9.0-M1"
 
 scalaVersion in ThisBuild := Scala213
 
@@ -339,7 +339,7 @@ lazy val docs = project.in(file("docs"))
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
-        "com.thesamet.scalapb" %% "scalapb-json4s" % "0.7.2",
+        "com.thesamet.scalapb" %% "scalapb-json4s" % "0.9.0-M1",
     ), 
     micrositeName := "ScalaPB",
     micrositeCompilingDocsTool := WithMdoc,

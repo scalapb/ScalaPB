@@ -67,7 +67,7 @@ private[scalapb] object TextFormatUtils {
   // on the pure Scala implementation of ByteString.
   implicit class JavaConversions(val iter: java.lang.Iterable[java.lang.Byte]) extends AnyVal {
     import scala.collection.JavaConverters._
-    def foldLeft[B](z: B)(op: (B, java.lang.Byte)=>B) = iter.asScala.foldLeft(z)(op)
+    def foldLeft[B](z: B)(op: (B, java.lang.Byte) => B) = iter.asScala.foldLeft(z)(op)
 
     def foreach[U](f: java.lang.Byte => U): Unit = iter.asScala.foreach(f)
   }
