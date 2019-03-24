@@ -64,7 +64,8 @@ cache:
   - $HOME/.sbt/boot
 
 script:
-- ./$TEST_SCRIPT
+# proptest timeout within 10 mintues some time during compilation.
+- travis_wait 60 ./$TEST_SCRIPT
 
 before_cache:
 # Tricks to avoid unnecessary cache updates
