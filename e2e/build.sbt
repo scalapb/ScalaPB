@@ -33,7 +33,6 @@ val commonSettings = Seq(
     javacOptions ++= Seq("-Xlint:deprecation"),
     PB.protocOptions in Compile ++= Seq(
         s"--plugin=protoc-gen-java_rpc=${grpcExePath.value.get}",
-        s"--java_rpc_out=${((sourceManaged in Compile).value).getAbsolutePath}"
     ),
     unmanagedSourceDirectories in Compile ++= {
       val base = (baseDirectory in Compile).value / "src" / "main"
@@ -80,6 +79,9 @@ lazy val root = (project in file("."))
   .settings(commonSettings)
   .settings(
     PB.protoSources in Compile += (PB.externalIncludePath in Compile).value / "grpc" / "reflection",
+    PB.protocOptions in Compile ++= Seq(
+        s"--java_rpc_out=${((sourceManaged in Compile).value).getAbsolutePath}"
+    ),
     PB.targets in Compile := Seq(
       PB.gens.java -> (sourceManaged in Compile).value,
       scalapb.gen(javaConversions = true) -> (sourceManaged in Compile).value
@@ -95,6 +97,7 @@ lazy val noJava = (project in file("nojava"))
       scalapb.gen() -> (sourceManaged in Compile).value
     ),
     libraryDependencies ++= Seq(
+      "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.Version.scalapbVersion,
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf"
     )
   )

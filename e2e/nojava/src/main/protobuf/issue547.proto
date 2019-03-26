@@ -1,0 +1,34 @@
+syntax = "proto3";
+package build.test_package.anywhere;
+
+import "google/protobuf/descriptor.proto";
+
+
+option java_multiple_files = true;
+option java_outer_classname = "RemoteExecutionProto";
+option java_package = "build.bazel.remote.execution.v2";
+
+extend google.protobuf.MethodOptions {
+  Response my_option = 51234;
+}
+
+message ByteMessage {
+  bytes s = 1;
+}
+
+
+message Request {
+  bytes s = 1;
+}
+
+message Response {
+  string post = 2;
+}
+
+// a commented service
+service CommentedService {
+    // a commented RPC
+  rpc Execute(Request) returns (stream ByteMessage) {
+    option (my_option) = { post: "/v2/{instance_name=**}/actions:execute" };
+  }
+}

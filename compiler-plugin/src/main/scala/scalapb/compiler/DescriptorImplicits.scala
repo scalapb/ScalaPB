@@ -90,7 +90,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
           Some(descriptor.sealedOneofScalaType)
         else None
 
-      def baseScalaType = descriptor.scalaTypeName
+      def baseScalaType = descriptor.scalaTypeNameWithMaybeRoot
 
       def scalaType = customScalaType.getOrElse(baseScalaType)
     }
@@ -494,7 +494,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def scalaTypeNameWithMaybeRoot: String = {
       val fullName        = scalaTypeName
       val topLevelPackage = fullName.split('.')(0)
-      if (!message.getFile.scalaPackageName.isEmpty)
+      val ConflictingNames = Seq(
+        "build" // Grpc stubs have a method build, so we need _root_ to disambiguate from that.
+      )
+      if (!message.getFile.scalaPackageName.isEmpty || ConflictingNames.contains(topLevelPackage))
         s"_root_.$fullName"
       else fullName
     }
