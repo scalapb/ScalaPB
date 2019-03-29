@@ -1,6 +1,6 @@
 language: scala
 dist: xenial
-jdk: openjdk11
+jdk: oraclejdk11
 
 stages:
 - name: test
