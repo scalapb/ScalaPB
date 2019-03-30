@@ -71,7 +71,7 @@ lazy val sharedNativeSettings = List(
   crossScalaVersions := List(Scala211)
 )
 
-lazy val root =
+lazy val root: Project =
   project.in(file("."))
     .settings(
       publishArtifact := false,
@@ -259,6 +259,9 @@ lazy val proptest = project.in(file("proptest"))
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
+      Test / fork := true,
+      Test / baseDirectory := baseDirectory.value / "..",
+      Test / javaOptions += "-Xmx5G"
     )
 
 def genVersionFile(out: File, version: String): File = {
