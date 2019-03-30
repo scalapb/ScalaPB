@@ -261,7 +261,7 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
-      Test / javaOptions += "-Xmx5G"
+      Test / javaOptions += "-Xmx4G"
     )
 
 def genVersionFile(out: File, version: String): File = {
