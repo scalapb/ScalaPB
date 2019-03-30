@@ -14,7 +14,7 @@ val protobufVersion = "3.7.0"
 val scalacheckVersion = "1.14.0"
 
 // For e2e test
-val sbtPluginVersion = "0.99.19"
+val sbtPluginVersion = "0.99.20"
 
 val grpcVersion = "1.19.0"
 
@@ -261,7 +261,7 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
-      Test / javaOptions += "-Xmx4G"
+      Test / javaOptions += (if (scalaVersion.value.startsWith("2.13.")) "-Xmx4G" else "-Xmx3G")
     )
 
 def genVersionFile(out: File, version: String): File = {
