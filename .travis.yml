@@ -8,8 +8,8 @@ stages:
   if: (branch = master AND type = push AND repo = "scalapb/ScalaPB") OR (tag IS present)
 
 scala:
-- 2.11.12
-- 2.12.8
+# - 2.11.12
+# - 2.12.8
 - 2.13.0-M5
 
 env:
@@ -64,6 +64,11 @@ cache:
 
 script:
 - ./$TEST_SCRIPT
+
+after_failure:
+    - test $TEST_SCRIPT = "proptest.sh" && \
+      echo "The following is base64 of a tgz containing the failed protos. Decode using `base64 -d`" && \
+      base64 /tmp/protos.tgz
 
 before_cache:
 # Tricks to avoid unnecessary cache updates

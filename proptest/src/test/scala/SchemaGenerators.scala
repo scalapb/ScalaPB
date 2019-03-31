@@ -176,7 +176,9 @@ object SchemaGenerators {
       "--scala_out",
       "grpc,java_conversions:" + tmpDir.toString
     ) ++ files
-    runProtoc(args: _*)
+    if (runProtoc(args: _*) != 0) {
+      throw new RuntimeException("Protoc failed")
+    }
   }
 
   def getFileTree(f: File): Stream[File] =
@@ -290,9 +292,15 @@ object SchemaGenerators {
     GraphGen.genRootNode.map { rootNode =>
       val tmpDir = writeFileSet(rootNode)
       println(s"Compiling in $tmpDir.")
-      compileProtos(rootNode, tmpDir)
-      compileJavaInDir(tmpDir)
-      compileScalaInDir(tmpDir)
+      try {
+        compileProtos(rootNode, tmpDir)
+        compileJavaInDir(tmpDir)
+        compileScalaInDir(tmpDir)
+      } catch {
+        case e: Exception =>
+          sys.process.Process(Seq("tar", "czf", "/tmp/protos.tgz", "."), tmpDir).!!
+          throw e
+      }
 
       CompiledSchema(rootNode, tmpDir)
     }

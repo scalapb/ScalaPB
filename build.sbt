@@ -262,7 +262,7 @@ lazy val proptest = project.in(file("proptest"))
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
       Test / javaOptions ++= (if (scalaVersion.value.startsWith("2.13."))
-          Seq("-Xmx5G", "-XX:LoopStripMiningIter=0") else Seq("-Xmx3G")),
+          Seq("-Xmx3G", "-XX:LoopStripMiningIter=0") else Seq("-Xmx3G")),
       Test / javaOptions += "-XX:MetaspaceSize=256M"
     )
 
