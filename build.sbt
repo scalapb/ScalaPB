@@ -261,7 +261,9 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
-      Test / javaOptions += (if (scalaVersion.value.startsWith("2.13.")) "-Xmx4G" else "-Xmx3G")
+      Test / javaOptions ++= (if (scalaVersion.value.startsWith("2.13."))
+          Seq("-Xmx5G", "-XX:LoopStripMiningIter=0") else Seq("-Xmx3G")),
+      Test / javaOptions += "-XX:MetaspaceSize=256M"
     )
 
 def genVersionFile(out: File, version: String): File = {
@@ -336,14 +338,14 @@ lazy val lensesJVM = lenses.jvm
 lazy val lensesJS = lenses.js
 //lazy val lensesNative = lenses.native
 
-lazy val docs = project.in(file("docs")) 
+lazy val docs = project.in(file("docs"))
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
   .settings(
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
         "com.thesamet.scalapb" %% "scalapb-json4s" % "0.9.0-M1",
-    ), 
+    ),
     micrositeName := "ScalaPB",
     micrositeCompilingDocsTool := WithMdoc,
     mdocIn := baseDirectory.value / "src" / "main" / "markdown",
