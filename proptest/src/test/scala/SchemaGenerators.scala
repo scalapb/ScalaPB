@@ -173,6 +173,8 @@ object SchemaGenerators {
          |
          |classDirectory in Compile := baseDirectory.value / "out"
          |
+         |compileOrder := CompileOrder.JavaThenScala
+         |
          |scalacOptions in ThisBuild ++= Seq("-Ybreak-cycles")
          |
          |PB.targets in Compile := Seq(
