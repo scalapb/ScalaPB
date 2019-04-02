@@ -219,6 +219,23 @@ message MyMessage {
 Will generate a case class that extends `MySuperClass`, and the companion
 object will extend `MySuperCompanionClass`.
 
+# Custom base traits for sealed oneofs
+
+Note: this option is available in ScalaPB 0.9.0 and later.
+
+Use the following option to define one or more base traits for a generated SealedOneof:
+
+```protobuf
+message MyEither {
+  option (scalapb.message).sealed_oneof_extends = "MyBaseTrait";
+
+  oneof sealed_value {
+    Left left = 1;
+    Right right = 2;
+  }
+}
+```
+
 # Custom base traits for enums
 
 In a similar fashion to custom base traits for messages, it is possible to
