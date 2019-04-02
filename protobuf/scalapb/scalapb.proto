@@ -109,6 +109,9 @@ message MessageOptions {
 
   // Custom annotations to add to the companion object of the generated class.
   repeated string companion_annotations = 5;
+
+  // Additional classes and traits to mix in to generated sealed_oneof base trait.
+  repeated string sealed_oneof_extends = 6;
 }
 
 extend google.protobuf.MessageOptions {

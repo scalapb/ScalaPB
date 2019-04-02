@@ -90,6 +90,10 @@ class ProtoValidation(implicits: DescriptorImplicits) {
           s"${m.getFullName}: sealed oneofs may not contain nested enums"
         )
       }
+    } else if (m.sealedOneOfExtendsCount > 0) {
+      throw new GeneratorException(
+        s"${m.getFullName}: is not a Sealed oneof and may not contain a sealed_oneof_extends message option. Use extends instead."
+      )
     }
   }
 

@@ -2,6 +2,7 @@
 import com.thesamet.proto.e2e.sealed_oneof._
 import com.thesamet.proto.e2e.sealed_oneof_in_oneof._
 import com.thesamet.proto.e2e.{sealed_oneof_single_file => f}
+import com.thesamet.proto.e2e.sealed_oneof_extends._
 import org.scalatest._
 
 class SealedOneofSpec extends FlatSpec with MustMatchers {
@@ -62,6 +63,13 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
         |    }
         |}
       """.stripMargin)
+  }
+
+  "messages using sealed_oneof_extends" should "all extend from custom user trait" in {
+    PlayerShim.defaultInstance mustBe a [PlayerBaseTrait]
+    BasketBallPlayer() mustBe a [PlayerBaseTrait]
+    SoccerPlayer() mustBe a [PlayerBaseTrait]
+    SoccerPlayer() mustBe a [scalapb.GeneratedSealedOneof]
   }
 }
 
