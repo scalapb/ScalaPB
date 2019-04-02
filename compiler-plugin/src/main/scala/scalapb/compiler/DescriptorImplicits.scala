@@ -531,6 +531,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 
+    def sealedOneofExtendsOption = messageOptions.getSealedOneofExtendsList.asScala.toSeq
+
+    def sealedOneOfExtendsCount = messageOptions.getSealedOneofExtendsCount
+
     def nameSymbol = scalaName.asSymbol
 
     def sealedOneofName = {
@@ -611,6 +615,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         companionExtendsOption ++
         specialMixins
     }
+
+    def sealedOneofBaseClasses: Seq[String] =
+      s"scalapb.GeneratedSealedOneOf" +: scalaOptions.getSealedOneofExtendsList.asScala.toSeq
 
     def nestedTypes: Seq[Descriptor] = message.getNestedTypes.asScala.toSeq
 

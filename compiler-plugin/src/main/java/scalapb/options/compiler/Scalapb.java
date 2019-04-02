@@ -3370,6 +3370,41 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getCompanionAnnotationsBytes(int index);
+
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    java.util.List<java.lang.String>
+        getSealedOneofExtendsList();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    int getSealedOneofExtendsCount();
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    java.lang.String getSealedOneofExtends(int index);
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    com.google.protobuf.ByteString
+        getSealedOneofExtendsBytes(int index);
   }
   /**
    * Protobuf type {@code scalapb.MessageOptions}
@@ -3389,6 +3424,7 @@ public final class Scalapb {
       annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       type_ = "";
       companionAnnotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      sealedOneofExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
     }
 
     @java.lang.Override
@@ -3457,6 +3493,15 @@ public final class Scalapb {
               companionAnnotations_.add(bs);
               break;
             }
+            case 50: {
+              com.google.protobuf.ByteString bs = input.readBytes();
+              if (!((mutable_bitField0_ & 0x00000020) != 0)) {
+                sealedOneofExtends_ = new com.google.protobuf.LazyStringArrayList();
+                mutable_bitField0_ |= 0x00000020;
+              }
+              sealedOneofExtends_.add(bs);
+              break;
+            }
             default: {
               if (!parseUnknownField(
                   input, unknownFields, extensionRegistry, tag)) {
@@ -3483,6 +3528,9 @@ public final class Scalapb {
         }
         if (((mutable_bitField0_ & 0x00000010) != 0)) {
           companionAnnotations_ = companionAnnotations_.getUnmodifiableView();
+        }
+        if (((mutable_bitField0_ & 0x00000020) != 0)) {
+          sealedOneofExtends_ = sealedOneofExtends_.getUnmodifiableView();
         }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
@@ -3739,6 +3787,51 @@ public final class Scalapb {
       return companionAnnotations_.getByteString(index);
     }
 
+    public static final int SEALED_ONEOF_EXTENDS_FIELD_NUMBER = 6;
+    private com.google.protobuf.LazyStringList sealedOneofExtends_;
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    public com.google.protobuf.ProtocolStringList
+        getSealedOneofExtendsList() {
+      return sealedOneofExtends_;
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    public int getSealedOneofExtendsCount() {
+      return sealedOneofExtends_.size();
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    public java.lang.String getSealedOneofExtends(int index) {
+      return sealedOneofExtends_.get(index);
+    }
+    /**
+     * <pre>
+     * Additional classes and traits to mix in to generated sealed_oneof base trait.
+     * </pre>
+     *
+     * <code>repeated string sealed_oneof_extends = 6;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSealedOneofExtendsBytes(int index) {
+      return sealedOneofExtends_.getByteString(index);
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3767,6 +3860,9 @@ public final class Scalapb {
       }
       for (int i = 0; i < companionAnnotations_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, companionAnnotations_.getRaw(i));
+      }
+      for (int i = 0; i < sealedOneofExtends_.size(); i++) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 6, sealedOneofExtends_.getRaw(i));
       }
       unknownFields.writeTo(output);
     }
@@ -3812,6 +3908,14 @@ public final class Scalapb {
         size += dataSize;
         size += 1 * getCompanionAnnotationsList().size();
       }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < sealedOneofExtends_.size(); i++) {
+          dataSize += computeStringSizeNoTag(sealedOneofExtends_.getRaw(i));
+        }
+        size += dataSize;
+        size += 1 * getSealedOneofExtendsList().size();
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3840,6 +3944,8 @@ public final class Scalapb {
       }
       if (!getCompanionAnnotationsList()
           .equals(other.getCompanionAnnotationsList())) return false;
+      if (!getSealedOneofExtendsList()
+          .equals(other.getSealedOneofExtendsList())) return false;
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3870,6 +3976,10 @@ public final class Scalapb {
       if (getCompanionAnnotationsCount() > 0) {
         hash = (37 * hash) + COMPANION_ANNOTATIONS_FIELD_NUMBER;
         hash = (53 * hash) + getCompanionAnnotationsList().hashCode();
+      }
+      if (getSealedOneofExtendsCount() > 0) {
+        hash = (37 * hash) + SEALED_ONEOF_EXTENDS_FIELD_NUMBER;
+        hash = (53 * hash) + getSealedOneofExtendsList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4014,6 +4124,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000008);
         companionAnnotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000010);
+        sealedOneofExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
         return this;
       }
 
@@ -4066,6 +4178,11 @@ public final class Scalapb {
           bitField0_ = (bitField0_ & ~0x00000010);
         }
         result.companionAnnotations_ = companionAnnotations_;
+        if (((bitField0_ & 0x00000020) != 0)) {
+          sealedOneofExtends_ = sealedOneofExtends_.getUnmodifiableView();
+          bitField0_ = (bitField0_ & ~0x00000020);
+        }
+        result.sealedOneofExtends_ = sealedOneofExtends_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4157,6 +4274,16 @@ public final class Scalapb {
           } else {
             ensureCompanionAnnotationsIsMutable();
             companionAnnotations_.addAll(other.companionAnnotations_);
+          }
+          onChanged();
+        }
+        if (!other.sealedOneofExtends_.isEmpty()) {
+          if (sealedOneofExtends_.isEmpty()) {
+            sealedOneofExtends_ = other.sealedOneofExtends_;
+            bitField0_ = (bitField0_ & ~0x00000020);
+          } else {
+            ensureSealedOneofExtendsIsMutable();
+            sealedOneofExtends_.addAll(other.sealedOneofExtends_);
           }
           onChanged();
         }
@@ -4808,6 +4935,135 @@ public final class Scalapb {
   }
   ensureCompanionAnnotationsIsMutable();
         companionAnnotations_.add(value);
+        onChanged();
+        return this;
+      }
+
+      private com.google.protobuf.LazyStringList sealedOneofExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureSealedOneofExtendsIsMutable() {
+        if (!((bitField0_ & 0x00000020) != 0)) {
+          sealedOneofExtends_ = new com.google.protobuf.LazyStringArrayList(sealedOneofExtends_);
+          bitField0_ |= 0x00000020;
+         }
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public com.google.protobuf.ProtocolStringList
+          getSealedOneofExtendsList() {
+        return sealedOneofExtends_.getUnmodifiableView();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public int getSealedOneofExtendsCount() {
+        return sealedOneofExtends_.size();
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public java.lang.String getSealedOneofExtends(int index) {
+        return sealedOneofExtends_.get(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSealedOneofExtendsBytes(int index) {
+        return sealedOneofExtends_.getByteString(index);
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public Builder setSealedOneofExtends(
+          int index, java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureSealedOneofExtendsIsMutable();
+        sealedOneofExtends_.set(index, value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public Builder addSealedOneofExtends(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureSealedOneofExtendsIsMutable();
+        sealedOneofExtends_.add(value);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public Builder addAllSealedOneofExtends(
+          java.lang.Iterable<java.lang.String> values) {
+        ensureSealedOneofExtendsIsMutable();
+        com.google.protobuf.AbstractMessageLite.Builder.addAll(
+            values, sealedOneofExtends_);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public Builder clearSealedOneofExtends() {
+        sealedOneofExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000020);
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Additional classes and traits to mix in to generated sealed_oneof base trait.
+       * </pre>
+       *
+       * <code>repeated string sealed_oneof_extends = 6;</code>
+       */
+      public Builder addSealedOneofExtendsBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureSealedOneofExtendsIsMutable();
+        sealedOneofExtends_.add(value);
         onChanged();
         return this;
       }
@@ -9493,30 +9749,31 @@ public final class Scalapb {
       "source_code_info\030\r \001(\010\022\020\n\010map_type\030\016 \001(\t" +
       "\022\'\n\035test_only_no_java_conversions\030\241\215\006 \001(" +
       "\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000\022\013\n\007PACKAGE\020\001" +
-      "\"~\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021c" +
-      "ompanion_extends\030\002 \003(\t\022\023\n\013annotations\030\003 " +
-      "\003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_annotatio" +
-      "ns\030\005 \003(\t\"\246\001\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022" +
-      "\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type\030\003" +
-      " \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001" +
-      "(\t\022\023\n\013annotations\030\006 \003(\t\022\020\n\010map_type\030\007 \001(" +
-      "\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007exte" +
-      "nds\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\014\n\004" +
-      "type\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n\007extend" +
-      "s\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007extends\030\001 \003(\t" +
-      ":G\n\007options\022\034.google.protobuf.FileOption" +
-      "s\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n\007mes" +
-      "sage\022\037.google.protobuf.MessageOptions\030\374\007" +
-      " \001(\0132\027.scalapb.MessageOptions:D\n\005field\022\035" +
-      ".google.protobuf.FieldOptions\030\374\007 \001(\0132\025.s" +
-      "calapb.FieldOptions:I\n\014enum_options\022\034.go" +
-      "ogle.protobuf.EnumOptions\030\374\007 \001(\0132\024.scala" +
-      "pb.EnumOptions:Q\n\nenum_value\022!.google.pr" +
-      "otobuf.EnumValueOptions\030\374\007 \001(\0132\031.scalapb" +
-      ".EnumValueOptions:D\n\005oneof\022\035.google.prot" +
-      "obuf.OneofOptions\030\374\007 \001(\0132\025.scalapb.Oneof" +
-      "OptionsB9\n\030scalapb.options.compiler\342?\034\n\030" +
-      "scalapb.options.compiler\020\001"
+      "\"\234\001\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021" +
+      "companion_extends\030\002 \003(\t\022\023\n\013annotations\030\003" +
+      " \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_annotati" +
+      "ons\030\005 \003(\t\022\034\n\024sealed_oneof_extends\030\006 \003(\t\"" +
+      "\246\001\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_" +
+      "name\030\002 \001(\t\022\027\n\017collection_type\030\003 \001(\t\022\020\n\010k" +
+      "ey_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n\013ann" +
+      "otations\030\006 \003(\t\022\020\n\010map_type\030\007 \001(\t\022\016\n\006no_b" +
+      "ox\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007extends\030\001 \003(\t" +
+      "\022\031\n\021companion_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(" +
+      "\t\"#\n\020EnumValueOptions\022\017\n\007extends\030\001 \003(\t\"\037" +
+      "\n\014OneofOptions\022\017\n\007extends\030\001 \003(\t:G\n\007optio" +
+      "ns\022\034.google.protobuf.FileOptions\030\374\007 \001(\0132" +
+      "\027.scalapb.ScalaPbOptions:J\n\007message\022\037.go" +
+      "ogle.protobuf.MessageOptions\030\374\007 \001(\0132\027.sc" +
+      "alapb.MessageOptions:D\n\005field\022\035.google.p" +
+      "rotobuf.FieldOptions\030\374\007 \001(\0132\025.scalapb.Fi" +
+      "eldOptions:I\n\014enum_options\022\034.google.prot" +
+      "obuf.EnumOptions\030\374\007 \001(\0132\024.scalapb.EnumOp" +
+      "tions:Q\n\nenum_value\022!.google.protobuf.En" +
+      "umValueOptions\030\374\007 \001(\0132\031.scalapb.EnumValu" +
+      "eOptions:D\n\005oneof\022\035.google.protobuf.Oneo" +
+      "fOptions\030\374\007 \001(\0132\025.scalapb.OneofOptionsB9" +
+      "\n\030scalapb.options.compiler\342?\034\n\030scalapb.o" +
+      "ptions.compiler\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9542,7 +9799,7 @@ public final class Scalapb {
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_MessageOptions_descriptor,
-        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", "CompanionAnnotations", });
+        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", "CompanionAnnotations", "SealedOneofExtends", });
     internal_static_scalapb_FieldOptions_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
