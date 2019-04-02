@@ -280,7 +280,7 @@ abstract class GeneratedFileObject {
 }
 
 trait GeneratedSealedOneOf extends Any with Product with Serializable {
-  type MessageType = GeneratedMessage with Message[MessageType]
+  type MessageType <: GeneratedMessage with Message[MessageType]
   def isEmpty: Boolean
   def isDefined: Boolean
   def asMessage: MessageType

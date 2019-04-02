@@ -1487,7 +1487,7 @@ class ProtobufGenerator(
       val typeMapperName  = { message.sealedOneofName } + "TypeMapper"
       fp.add(s"sealed trait $sealedOneofName extends ${message.sealedOneofBaseClasses.mkString(" with ")} {")
         .addIndented(
-          s"override type MessageType = $baseType",
+          s"type MessageType = $baseType",
           s"final def isEmpty = this.isInstanceOf[${sealedOneOfType}.Empty.type]",
           s"final def isDefined = !isEmpty",
           s"final def asMessage: $baseType = ${message.sealedOneofScalaType}.$typeMapperName.toBase(this)"
