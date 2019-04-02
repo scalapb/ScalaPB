@@ -63,5 +63,12 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
         |}
       """.stripMargin)
   }
+
+  "message with sealed_oneof_extends" should "extend from custom user trait" in {
+    assertCompiles(
+      """
+        |PlayerShim.defaultInstance.sayPI
+      """.stripMargin)
+  }
 }
 

@@ -253,6 +253,25 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
     }.message must include("message may belong to at most one sealed oneof")
   }
 
+  it should "fail when sealed_oneof_extends used outside of a sealed oneof type" in  {
+    intercept[GeneratorException] {
+      runValidation(
+        "file.proto" ->
+          """
+            |syntax = "proto2";
+            |message Foo {
+            |  option (scalapb.message).sealed_oneof_extends = "SomeTrait";
+            |}
+            |message MyOneof {
+            |  oneof sealed_value {
+            |    Foo foo = 1;
+            |  }
+            |}
+          """.stripMargin
+      )
+    }.message must include("is not a Sealed oneof and may not contain a sealed_oneof_extends message option. Use extends instead.")
+  }
+
   // package scoped options
   it should "fail when multiple scoped option objects found for same package" in {
     intercept[GeneratorException] {
