@@ -38,13 +38,6 @@ javacOptions in ThisBuild ++= {
   }
 }
 
-// Can be removed after JDK 11.0.3 is available on Travis
-(Test / javaOptions) in ThisBuild ++= (
-    if (scalaVersion.value.startsWith("2.13."))
-          Seq("-XX:LoopStripMiningIter=0")
-          else Nil
-)
-
 organization in ThisBuild := "com.thesamet.scalapb"
 
 resolvers in ThisBuild +=
@@ -139,6 +132,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
       "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
       "org.scalatest" %%% "scalatest" % "3.0.7" % "test"
+    ),
+    // Can be removed after JDK 11.0.3 is available on Travis
+    Test / javaOptions ++= (
+        if (scalaVersion.value.startsWith("2.13."))
+              Seq("-XX:LoopStripMiningIter=0")
+              else Nil
     )
   )
   .jsSettings(

@@ -177,6 +177,8 @@ object SchemaGenerators {
          |
          |scalacOptions in ThisBuild ++= Seq("-Ybreak-cycles")
          |
+         |updateOptions := updateOptions.value.withLatestSnapshots(false)
+         |
          |PB.targets in Compile := Seq(
          |   PB.gens.java -> (sourceManaged in Compile).value,
          |   scalapb.gen(javaConversions=true, grpc=true) -> (sourceManaged in Compile).value
@@ -244,7 +246,12 @@ object SchemaGenerators {
         if (res != 0) throw new RuntimeException("sub-project sbt failed")
       } catch {
         case e: Exception =>
-          sys.process.Process(Seq("tar", "czf", "/tmp/protos.tgz", "--exclude=*/target", "--exclude=./out", "."), tmpDir).!!
+          sys.process
+            .Process(
+              Seq("tar", "czf", "/tmp/protos.tgz", "--exclude=*/target", "--exclude=./out", "."),
+              tmpDir
+            )
+            .!!
           throw e
       }
 
