@@ -268,7 +268,7 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
-      Test / javaOptions ++= Seq("-Xmx3G", "-XX:MetaspaceSize=256M")
+      Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
     )
 
 def genVersionFile(out: File, version: String): File = {
