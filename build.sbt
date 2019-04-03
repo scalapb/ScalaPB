@@ -251,7 +251,7 @@ lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin)
 
 lazy val proptest = project.in(file("proptest"))
-  .dependsOn(runtimeJVM, grpcRuntime, compilerPlugin)
+    .dependsOn(compilerPlugin, runtimeJVM)
     .settings(
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),

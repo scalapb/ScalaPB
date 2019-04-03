@@ -242,7 +242,7 @@ object SchemaGenerators {
       val tmpDir = writeFileSet(rootNode)
       println(s"Compiling in $tmpDir.")
       try {
-        val res = sys.process.Process(Seq("sbt", "-J-Xmx2G", "compile"), tmpDir).!
+        val res = sys.process.Process(Seq("sbt", "-J-Xmx3G", "compile"), tmpDir).!
         if (res != 0) throw new RuntimeException("sub-project sbt failed")
       } catch {
         case e: Exception =>
