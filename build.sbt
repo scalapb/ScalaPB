@@ -265,7 +265,6 @@ lazy val proptest = project.in(file("proptest"))
       ),
       scalacOptions in Compile ++= Seq("-Xmax-classfile-name", "128"),
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
-      Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
       Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
     )
