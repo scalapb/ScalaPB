@@ -617,7 +617,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def sealedOneofBaseClasses: Seq[String] =
-      s"scalapb.GeneratedSealedOneOf" +: scalaOptions.getSealedOneofExtendsList.asScala.toSeq
+      s"scalapb.GeneratedSealedOneOf" +: messageOptions.getSealedOneofExtendsList.asScala.toSeq
 
     def nestedTypes: Seq[Descriptor] = message.getNestedTypes.asScala.toSeq
 
