@@ -38,6 +38,13 @@ javacOptions in ThisBuild ++= {
   }
 }
 
+// Can be removed after JDK 11.0.3 is available on Travis
+(Test / javaOptions) in ThisBuild ++= (
+    if (scalaVersion.value.startsWith("2.13."))
+          Seq("-XX:LoopStripMiningIter=0")
+          else Nil
+)
+
 organization in ThisBuild := "com.thesamet.scalapb"
 
 resolvers in ThisBuild +=
@@ -261,9 +268,7 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
-      Test / javaOptions ++= (if (scalaVersion.value.startsWith("2.13."))
-          Seq("-Xmx3G", "-XX:LoopStripMiningIter=0") else Seq("-Xmx3G")),
-      Test / javaOptions += "-XX:MetaspaceSize=256M"
+      Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
     )
 
 def genVersionFile(out: File, version: String): File = {
