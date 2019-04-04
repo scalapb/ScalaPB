@@ -244,7 +244,12 @@ object SchemaGenerators {
         if (res != 0) throw new RuntimeException("sub-project sbt failed")
       } catch {
         case e: Exception =>
-          sys.process.Process(Seq("tar", "czf", "/tmp/protos.tgz", "--exclude=*/target", "--exclude=./out", "."), tmpDir).!!
+          sys.process
+            .Process(
+              Seq("tar", "czf", "/tmp/protos.tgz", "--exclude=*/target", "--exclude=./out", "."),
+              tmpDir
+            )
+            .!!
           throw e
       }
 
