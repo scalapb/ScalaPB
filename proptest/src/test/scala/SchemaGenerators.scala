@@ -244,7 +244,10 @@ object SchemaGenerators {
       if (!scala.util.Properties.versionNumberString.startsWith("2.10."))
         Seq("-Ybreak-cycles")
       else Seq.empty
-    val args = Seq("-cp", classPath.mkString(":")) ++ maybeBreakCycles ++ Seq("-d", rootDir.toString) ++ scalaFiles.map(_.toString)
+    val args = Seq("-cp", classPath.mkString(":")) ++ maybeBreakCycles ++ Seq(
+      "-d",
+      rootDir.toString
+    ) ++ scalaFiles.map(_.toString)
 
     scala.tools.nsc.Main.process(args.toArray)
     println("[DONE]")

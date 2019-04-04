@@ -67,7 +67,7 @@ script:
 
 after_failure:
     - test $TEST_SCRIPT = "proptest.sh" && \
-      base64 /tmp/protos.tgz &&
+      base64 /tmp/protos.tgz
     - echo Use base64 -d to get a tgz with the failing protos.
 
 before_cache:
