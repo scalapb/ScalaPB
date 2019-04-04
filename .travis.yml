@@ -8,8 +8,8 @@ stages:
   if: (branch = master AND type = push AND repo = "scalapb/ScalaPB") OR (tag IS present)
 
 scala:
-- 2.11.12
-- 2.12.8
+# - 2.11.12
+# - 2.12.8
 - 2.13.0-M5
 
 env:
