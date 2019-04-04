@@ -20,7 +20,7 @@ val grpcVersion = "1.19.0"
 
 val MimaPreviousVersion = "0.9.0-M1"
 
-scalaVersion in ThisBuild := Scala212
+scalaVersion in ThisBuild := Scala211
 
 crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
 
@@ -251,7 +251,7 @@ lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin)
 
 lazy val proptest = project.in(file("proptest"))
-    .dependsOn(compilerPlugin, runtimeJVM)
+    .dependsOn(compilerPlugin, runtimeJVM, grpcRuntime)
     .settings(
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
