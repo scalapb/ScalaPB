@@ -271,7 +271,7 @@ lazy val proptest = project.in(file("proptest"))
       // Can be removed after JDK 11.0.3 is available on Travis
       Test / javaOptions ++= (
           if (scalaVersion.value.startsWith("2.13."))
-                Seq("-XX:LoopStripMiningIter=0")
+                Seq("-XX:LoopStripMiningIter=0", "-Xmx4G")
                 else Nil
       )
     )
