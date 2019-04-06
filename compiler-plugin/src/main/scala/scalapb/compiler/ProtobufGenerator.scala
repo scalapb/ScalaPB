@@ -1273,11 +1273,13 @@ class ProtobufGenerator(
   // Finding companion objects for top-level types.
   def generateMessagesCompanions(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
     val signature =
-      "lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = "
+      "lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] ="
     if (file.getMessageTypes.isEmpty)
       fp.add(signature + "Seq.empty")
     else
-      fp.add(signature + "Seq(")
+      fp.add(
+          signature + "Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]]("
+        )
         .indent
         .addWithDelimiter(",")(file.getMessageTypes.asScala.map(_.scalaTypeName).toSeq)
         .outdent

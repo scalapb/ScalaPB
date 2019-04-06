@@ -8,7 +8,7 @@ package com.google.protobuf.struct
 object StructProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
     com.google.protobuf.struct.Struct,
     com.google.protobuf.struct.Value,
     com.google.protobuf.struct.ListValue

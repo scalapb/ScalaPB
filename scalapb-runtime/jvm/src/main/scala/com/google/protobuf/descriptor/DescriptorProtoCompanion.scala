@@ -8,7 +8,7 @@ package com.google.protobuf.descriptor
 object DescriptorProtoCompanion extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
     com.google.protobuf.descriptor.FileDescriptorSet,
     com.google.protobuf.descriptor.FileDescriptorProto,
     com.google.protobuf.descriptor.DescriptorProto,

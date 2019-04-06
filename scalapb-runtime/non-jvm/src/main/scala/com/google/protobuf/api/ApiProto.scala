@@ -10,7 +10,7 @@ object ApiProto extends _root_.scalapb.GeneratedFileObject {
     com.google.protobuf.source_context.SourceContextProto,
     com.google.protobuf.`type`.TypeProto
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
     com.google.protobuf.api.Api,
     com.google.protobuf.api.Method,
     com.google.protobuf.api.Mixin

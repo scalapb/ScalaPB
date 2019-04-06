@@ -9,7 +9,7 @@ object JsonProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
     com.google.protobuf.any.AnyProto
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
     com.thesamet.docs.json.MyMessage,
     com.thesamet.docs.json.MyContainer
   )

@@ -8,7 +8,7 @@ package com.google.protobuf.any
 object AnyProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
     com.google.protobuf.any.Any
   )
   private lazy val ProtoBytes: Array[Byte] =

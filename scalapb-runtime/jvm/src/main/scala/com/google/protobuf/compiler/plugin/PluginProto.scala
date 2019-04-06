@@ -9,7 +9,7 @@ object PluginProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
     com.google.protobuf.descriptor.DescriptorProtoCompanion
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
     com.google.protobuf.compiler.plugin.Version,
     com.google.protobuf.compiler.plugin.CodeGeneratorRequest,
     com.google.protobuf.compiler.plugin.CodeGeneratorResponse

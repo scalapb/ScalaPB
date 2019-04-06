@@ -276,5 +276,5 @@ abstract class GeneratedFileObject {
   def dependencies: Seq[GeneratedFileObject]
 
   // Companion object of all top-level messages
-  def messagesCompanions: Seq[GeneratedMessageCompanion[_]]
+  def messagesCompanions: Seq[GeneratedMessageCompanion[_ <: GeneratedMessage]]
 }
