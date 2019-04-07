@@ -1,13 +1,16 @@
 import java.io.{File, PrintWriter}
 import java.net.{URL, URLClassLoader}
-import java.nio.file.{Files, Paths}
+import java.nio.file.Files
+import javax.tools.ToolProvider
 
 import com.google.protobuf.Message.Builder
+import scalapb.compiler._
 import org.scalacheck.Gen
 import scalapb._
-import scalapb.compiler.FunctionalPrinter
+import protocbridge.ProtocBridge
 
 import scala.reflect.ClassTag
+import _root_.scalapb.ScalaPbCodeGenerator
 
 object SchemaGenerators {
 
@@ -141,54 +144,41 @@ object SchemaGenerators {
     Literal(Constant(raw)).toString
   }
 
-  private def writeFile(f: File, content: String): Unit = {
-    val pw = new PrintWriter(f)
-    pw.write(content)
-    pw.close()
+  def writeFileSet(rootNode: RootNode) = {
+    val tmpDir = Files.createTempDirectory(s"set_").toFile.getAbsoluteFile
+    rootNode.files.foreach { fileNode =>
+      val file = new File(tmpDir, fileNode.baseFileName + ".proto")
+      val pw   = new PrintWriter(file)
+      pw.write(fileNode.print(rootNode, FunctionalPrinter()).result())
+      pw.close()
+    }
+    tmpDir
   }
 
-  def writeFileSet(rootNode: RootNode) = {
-    val baseDir    = Files.createTempDirectory(s"set_").toFile.getAbsoluteFile
-    val protosDir  = Paths.get(baseDir.getAbsolutePath, "src", "main", "protobuf").toFile
-    val projectDir = Paths.get(baseDir.getAbsolutePath, "project").toFile
-    protosDir.mkdirs()
-    projectDir.mkdirs()
-    rootNode.files.foreach { fileNode =>
-      val file = new File(protosDir, fileNode.baseFileName + ".proto")
-      writeFile(file, fileNode.print(rootNode, FunctionalPrinter()).result())
+  private def runProtoc(args: String*) =
+    ProtocBridge.runWithGenerators(
+      args => com.github.os72.protocjar.Protoc.runProtoc("-v370" +: args.toArray),
+      Seq("scala" -> ScalaPbCodeGenerator),
+      args
+    )
+
+  def compileProtos(rootNode: RootNode, tmpDir: File): Unit = {
+    val files = rootNode.files.map { fileNode =>
+      val file = new File(tmpDir, fileNode.baseFileName + ".proto")
+      println(file.getAbsolutePath)
+      file.getAbsolutePath
     }
-    writeFile(
-      Paths.get(projectDir.toString, "plugins.sbt").toFile,
-      s"""
-         |addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.20")
-         |libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "${scalapb.compiler.Version.scalapbVersion}"
-      """.stripMargin
-    )
-    writeFile(
-      Paths.get(baseDir.toString, "build.sbt").toFile,
-      s"""
-         |name := "testproj"
-         |
-         |scalaVersion := "${scala.util.Properties.versionNumberString}"
-         |
-         |classDirectory in Compile := baseDirectory.value / "out"
-         |
-         |compileOrder := CompileOrder.JavaThenScala
-         |
-         |scalacOptions in ThisBuild ++= Seq("-Ybreak-cycles")
-         |
-         |PB.targets in Compile := Seq(
-         |   PB.gens.java -> (sourceManaged in Compile).value,
-         |   scalapb.gen(javaConversions=true, grpc=true) -> (sourceManaged in Compile).value
-         |)
-         |
-         |libraryDependencies ++= Seq(
-         |  "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
-         |  "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion
-         |)
-      """.stripMargin
-    )
-    baseDir
+    val args = Seq(
+      "--proto_path",
+      (tmpDir.toString + ":protobuf:third_party"),
+      "--java_out",
+      tmpDir.toString,
+      "--scala_out",
+      "grpc,java_conversions:" + tmpDir.toString
+    ) ++ files
+    if (runProtoc(args: _*) != 0) {
+      throw new RuntimeException("Protoc failed")
+    }
   }
 
   def getFileTree(f: File): Stream[File] =
@@ -198,15 +188,79 @@ object SchemaGenerators {
   def jarForClass[T](implicit c: ClassTag[T]): URL =
     c.runtimeClass.getProtectionDomain.getCodeSource.getLocation
 
+  def compileJavaInDir(rootDir: File): Unit = {
+    println("Compiling Java sources.")
+    val protobufJar = Seq(
+      jarForClass[com.google.protobuf.Message].getPath,
+      jarForClass[scalapb.options.Scalapb].getPath
+    )
+
+    val compiler = ToolProvider.getSystemJavaCompiler()
+    getFileTree(rootDir)
+      .filter(f => f.isFile && f.getName.endsWith(".java"))
+      .foreach { file =>
+        if (compiler.run(
+              null,
+              null,
+              null,
+              "-sourcepath",
+              rootDir.toString,
+              "-cp",
+              protobufJar.mkString(":"),
+              "-d",
+              rootDir.toString,
+              file.getAbsolutePath
+            ) != 0) {
+          throw new RuntimeException(s"Compilation of $file failed.")
+        }
+      }
+  }
+
+  def compileScalaInDir(rootDir: File): Unit = {
+    print("Compiling Scala sources. ")
+    val classPath = Seq(
+      jarForClass[annotation.Annotation].getPath,
+      jarForClass[scalapb.GeneratedMessage].getPath,
+      jarForClass[scalapb.options.Scalapb].getPath,
+      jarForClass[scalapb.grpc.Grpc.type].getPath,
+      jarForClass[com.google.protobuf.Message].getPath,
+      jarForClass[io.grpc.Channel].getPath,
+      jarForClass[io.grpc.stub.AbstractStub[_]].getPath,
+      jarForClass[io.grpc.protobuf.ProtoFileDescriptorSupplier].getPath,
+      jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
+      jarForClass[javax.annotation.Nullable],
+      jarForClass[scalapb.lenses.Lens[_, _]].getPath,
+      jarForClass[fastparse.Parsed[_]].getPath,
+      rootDir
+    )
+    val annotationJar =
+      classOf[annotation.Annotation].getProtectionDomain.getCodeSource.getLocation.getPath
+    import scala.tools.nsc._
+
+    val scalaFiles = getFileTree(rootDir)
+      .filter(f => f.isFile && f.getName.endsWith(".scala"))
+    val s = new Settings(error => throw new RuntimeException(error))
+    val maybeBreakCycles: Seq[String] =
+      if (!scala.util.Properties.versionNumberString.startsWith("2.10."))
+        Seq("-Ybreak-cycles")
+      else Seq.empty
+
+    s.processArgumentString(
+      s"""-cp "${classPath.mkString(":")}" ${maybeBreakCycles} -d "$rootDir""""
+    )
+
+    val g   = new Global(s)
+    val run = new g.Run
+    run.compile(scalaFiles.map(_.toString).toList)
+    println("[DONE]")
+  }
+
   type CompanionWithJavaSupport[A <: GeneratedMessage with Message[A]] =
     GeneratedMessageCompanion[A] with JavaProtoSupport[A, _]
 
   case class CompiledSchema(rootNode: RootNode, rootDir: File) {
     lazy val classLoader =
-      URLClassLoader.newInstance(
-        Array[URL](Paths.get(rootDir.toString, "out").toFile.toURI.toURL),
-        this.getClass.getClassLoader
-      )
+      URLClassLoader.newInstance(Array[URL](rootDir.toURI.toURL), this.getClass.getClassLoader)
 
     def javaBuilder(m: MessageNode): Builder = {
       val className = rootNode.javaClassName(m)
@@ -240,16 +294,12 @@ object SchemaGenerators {
       val tmpDir = writeFileSet(rootNode)
       println(s"Compiling in $tmpDir.")
       try {
-        val res = sys.process.Process(Seq("sbt", "-J-Xmx2G", "compile"), tmpDir).!
-        if (res != 0) throw new RuntimeException("sub-project sbt failed")
+        compileProtos(rootNode, tmpDir)
+        compileJavaInDir(tmpDir)
+        compileScalaInDir(tmpDir)
       } catch {
         case e: Exception =>
-          sys.process
-            .Process(
-              Seq("tar", "czf", "/tmp/protos.tgz", "--exclude=*/target", "--exclude=./out", "."),
-              tmpDir
-            )
-            .!!
+          sys.process.Process(Seq("tar", "czf", "/tmp/protos.tgz", "."), tmpDir).!!
           throw e
       }
 

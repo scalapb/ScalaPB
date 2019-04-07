@@ -1,5 +1,3 @@
 #!/usr/bin/env sh
 set -e
-sbt ++2.12.8 compilerPlugin/publishLocal \
-    ++$TRAVIS_SCALA_VERSION \
-    lensesJVM/publishLocal runtimeJVM/publishLocal grpcRuntime/publishLocal test
+sbt -J-XX:LoopStripMiningIter=0 ++$TRAVIS_SCALA_VERSION test

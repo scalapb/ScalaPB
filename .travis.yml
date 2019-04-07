@@ -66,9 +66,8 @@ script:
 - ./$TEST_SCRIPT
 
 after_failure:
-    - test $TEST_SCRIPT = "proptest.sh" && \
-      sh -c "echo The following is base64 of a tgz containing the failed protos. Use 'base64 -d' to decode" && \
-      base64 /tmp/protos.tgz
+    - test $TEST_SCRIPT = "proptest.sh" && cat /tmp/protos.tgz | openssl enc -base64
+    - echo Use base64 -d to get a tgz with the failing protos.
 
 before_cache:
 # Tricks to avoid unnecessary cache updates

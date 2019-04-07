@@ -18,7 +18,7 @@ val sbtPluginVersion = "0.99.20"
 
 val grpcVersion = "1.19.0"
 
-val MimaPreviousVersion = "0.9.0-M1"
+val MimaPreviousVersion = "0.9.0-M2"
 
 scalaVersion in ThisBuild := Scala212
 
@@ -37,13 +37,6 @@ javacOptions in ThisBuild ++= {
     case _ => Nil
   }
 }
-
-// Can be removed after JDK 11.0.3 is available on Travis
-(Test / javaOptions) in ThisBuild ++= (
-    if (scalaVersion.value.startsWith("2.13."))
-          Seq("-XX:LoopStripMiningIter=0")
-          else Nil
-)
 
 organization in ThisBuild := "com.thesamet.scalapb"
 
@@ -139,6 +132,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
       "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
       "org.scalatest" %%% "scalatest" % "3.0.7" % "test"
+    ),
+    // Can be removed after JDK 11.0.3 is available on Travis
+    Test / javaOptions ++= (
+        if (scalaVersion.value.startsWith("2.13."))
+              Seq("-XX:LoopStripMiningIter=0")
+              else Nil
     )
   )
   .jsSettings(
@@ -252,7 +251,7 @@ lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin)
 
 lazy val proptest = project.in(file("proptest"))
-  .dependsOn(runtimeJVM, grpcRuntime, compilerPlugin)
+    .dependsOn(compilerPlugin, runtimeJVM, grpcRuntime)
     .settings(
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
@@ -268,7 +267,13 @@ lazy val proptest = project.in(file("proptest"))
       libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
-      Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
+      Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M"),
+      // Can be removed after JDK 11.0.3 is available on Travis
+      Test / javaOptions ++= (
+          if (scalaVersion.value.startsWith("2.13."))
+                Seq("-XX:LoopStripMiningIter=0", "-Xmx4G")
+                else Nil
+      )
     )
 
 def genVersionFile(out: File, version: String): File = {
