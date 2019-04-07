@@ -259,13 +259,9 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
         "file.proto" ->
           """
             |syntax = "proto2";
+            |import "scalapb/scalapb.proto";
             |message Foo {
             |  option (scalapb.message).sealed_oneof_extends = "SomeTrait";
-            |}
-            |message MyOneof {
-            |  oneof sealed_value {
-            |    Foo foo = 1;
-            |  }
             |}
           """.stripMargin
       )
