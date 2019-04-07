@@ -8,29 +8,30 @@ package com.google.protobuf.descriptor
 object DescriptorProtoCompanion extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
-    com.google.protobuf.descriptor.FileDescriptorSet,
-    com.google.protobuf.descriptor.FileDescriptorProto,
-    com.google.protobuf.descriptor.DescriptorProto,
-    com.google.protobuf.descriptor.ExtensionRangeOptions,
-    com.google.protobuf.descriptor.FieldDescriptorProto,
-    com.google.protobuf.descriptor.OneofDescriptorProto,
-    com.google.protobuf.descriptor.EnumDescriptorProto,
-    com.google.protobuf.descriptor.EnumValueDescriptorProto,
-    com.google.protobuf.descriptor.ServiceDescriptorProto,
-    com.google.protobuf.descriptor.MethodDescriptorProto,
-    com.google.protobuf.descriptor.FileOptions,
-    com.google.protobuf.descriptor.MessageOptions,
-    com.google.protobuf.descriptor.FieldOptions,
-    com.google.protobuf.descriptor.OneofOptions,
-    com.google.protobuf.descriptor.EnumOptions,
-    com.google.protobuf.descriptor.EnumValueOptions,
-    com.google.protobuf.descriptor.ServiceOptions,
-    com.google.protobuf.descriptor.MethodOptions,
-    com.google.protobuf.descriptor.UninterpretedOption,
-    com.google.protobuf.descriptor.SourceCodeInfo,
-    com.google.protobuf.descriptor.GeneratedCodeInfo
-  )
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
+    Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
+      com.google.protobuf.descriptor.FileDescriptorSet,
+      com.google.protobuf.descriptor.FileDescriptorProto,
+      com.google.protobuf.descriptor.DescriptorProto,
+      com.google.protobuf.descriptor.ExtensionRangeOptions,
+      com.google.protobuf.descriptor.FieldDescriptorProto,
+      com.google.protobuf.descriptor.OneofDescriptorProto,
+      com.google.protobuf.descriptor.EnumDescriptorProto,
+      com.google.protobuf.descriptor.EnumValueDescriptorProto,
+      com.google.protobuf.descriptor.ServiceDescriptorProto,
+      com.google.protobuf.descriptor.MethodDescriptorProto,
+      com.google.protobuf.descriptor.FileOptions,
+      com.google.protobuf.descriptor.MessageOptions,
+      com.google.protobuf.descriptor.FieldOptions,
+      com.google.protobuf.descriptor.OneofOptions,
+      com.google.protobuf.descriptor.EnumOptions,
+      com.google.protobuf.descriptor.EnumValueOptions,
+      com.google.protobuf.descriptor.ServiceOptions,
+      com.google.protobuf.descriptor.MethodOptions,
+      com.google.protobuf.descriptor.UninterpretedOption,
+      com.google.protobuf.descriptor.SourceCodeInfo,
+      com.google.protobuf.descriptor.GeneratedCodeInfo
+    )
   private lazy val ProtoBytes: Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """CiBnb29nbGUvcHJvdG9idWYvZGVzY3JpcHRvci5wcm90bxIPZ29vZ2xlLnByb3RvYnVmIlgKEUZpbGVEZXNjcmlwdG9yU2V0E

@@ -229,7 +229,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
 
   // Companion object of all nested messages. That is, all messages that are defined directly inside this
   // message.
-  def nestedMessagesCompanions: Seq[GeneratedMessageCompanion[_]]
+  def nestedMessagesCompanions: Seq[GeneratedMessageCompanion[_ <: GeneratedMessage]]
 
   def messageReads: _root_.scalapb.descriptors.Reads[A]
 
@@ -276,7 +276,7 @@ abstract class GeneratedFileObject {
   def dependencies: Seq[GeneratedFileObject]
 
   // Companion object of all top-level messages
-  def messagesCompanions: Seq[GeneratedMessageCompanion[_]]
+  def messagesCompanions: Seq[GeneratedMessageCompanion[_ <: GeneratedMessage]]
 }
 
 trait GeneratedSealedOneof extends Any with Product with Serializable {

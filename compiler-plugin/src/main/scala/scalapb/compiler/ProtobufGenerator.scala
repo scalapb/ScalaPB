@@ -1259,29 +1259,34 @@ class ProtobufGenerator(
       message: Descriptor
   )(fp: FunctionalPrinter): FunctionalPrinter = {
     val signature =
-      "lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = "
+      s"lazy val nestedMessagesCompanions: ${ProtobufGenerator.CompSeqType} ="
     if (message.nestedTypes.isEmpty)
-      fp.add(signature + "Seq.empty")
+      fp.add(signature + " Seq.empty")
     else
-      fp.add(signature + "Seq[_root_.scalapb.GeneratedMessageCompanion[_]](")
+      fp.add(signature)
+        .indent
+        .add(ProtobufGenerator.CompSeqType + "(")
         .indent
         .addWithDelimiter(",")(message.nestedTypes.map(m => m.scalaTypeNameWithMaybeRoot))
         .outdent
         .add(")")
+        .outdent
   }
 
   // Finding companion objects for top-level types.
   def generateMessagesCompanions(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val signature =
-      "lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = "
+    val signature = s"lazy val messagesCompanions: ${ProtobufGenerator.CompSeqType} ="
     if (file.getMessageTypes.isEmpty)
-      fp.add(signature + "Seq.empty")
+      fp.add(signature + " Seq.empty")
     else
-      fp.add(signature + "Seq(")
+      fp.add(signature)
+        .indent
+        .add(ProtobufGenerator.CompSeqType + "(")
         .indent
         .addWithDelimiter(",")(file.getMessageTypes.asScala.map(_.scalaTypeName).toSeq)
         .outdent
         .add(")")
+        .outdent
   }
 
   def generateEnumCompanionForField(
@@ -1915,4 +1920,6 @@ object ProtobufGenerator {
 
   val deprecatedAnnotation: String =
     """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
+
+  private val CompSeqType = "Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]]"
 }

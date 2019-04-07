@@ -9,14 +9,15 @@ object ScalapbProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
     com.google.protobuf.descriptor.DescriptorProtoCompanion
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_]] = Seq(
-    scalapb.options.ScalaPbOptions,
-    scalapb.options.MessageOptions,
-    scalapb.options.FieldOptions,
-    scalapb.options.EnumOptions,
-    scalapb.options.EnumValueOptions,
-    scalapb.options.OneofOptions
-  )
+  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
+    Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
+      scalapb.options.ScalaPbOptions,
+      scalapb.options.MessageOptions,
+      scalapb.options.FieldOptions,
+      scalapb.options.EnumOptions,
+      scalapb.options.EnumValueOptions,
+      scalapb.options.OneofOptions
+    )
   private lazy val ProtoBytes: Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """ChVzY2FsYXBiL3NjYWxhcGIucHJvdG8SB3NjYWxhcGIaIGdvb2dsZS9wcm90b2J1Zi9kZXNjcmlwdG9yLnByb3RvIs4HCg5TY
