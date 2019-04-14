@@ -18,6 +18,7 @@
 - Removed deprecated com.trueaccord symbols
 - Added `scalapb.GeneratedSealedOneof` as a base trait for all sealed oneofs.
 - Added `sealed_oneof_extends` option to allow adding base classes for sealed oneofs.
+- Add support for services & methods comments (scaladoc & runtime inspection)
 
 ## [0.8.4](https://github.com/scalapb/ScalaPB/tree/v0.8.4)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.8.3...v0.8.4)
