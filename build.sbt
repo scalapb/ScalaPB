@@ -122,7 +122,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
   .dependsOn(lenses)
   .platformsSettings(JSPlatform/*, NativePlatform*/)(
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.2"
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.7.3"
     ),
     (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
