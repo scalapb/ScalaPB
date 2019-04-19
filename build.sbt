@@ -9,14 +9,14 @@ val Scala212 = "2.12.8"
 
 val Scala213 = "2.13.0-M5"
 
-val protobufVersion = "3.7.0"
+val protobufVersion = "3.7.1"
 
 val scalacheckVersion = "1.14.0"
 
 // For e2e test
 val sbtPluginVersion = "0.99.20"
 
-val grpcVersion = "1.19.0"
+val grpcVersion = "1.20.0"
 
 val MimaPreviousVersion = "0.9.0-M2"
 
