@@ -20,6 +20,8 @@ val grpcVersion = "1.20.0"
 
 val MimaPreviousVersion = "0.9.0-M2"
 
+val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.0.1"
+
 scalaVersion in ThisBuild := Scala212
 
 crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
@@ -201,7 +203,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.4",
       "org.scalatest" %% "scalatest" % "3.0.7" % "test",
-      "com.github.os72" % "protoc-jar" % "3.7.0.1" % "test",
+      ProtocJar % "test",
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
@@ -249,6 +251,22 @@ lazy val compilerPluginShaded = project.in(file("compiler-plugin-shaded"))
 
 lazy val scalapbc = project.in(file("scalapbc"))
   .dependsOn(compilerPlugin)
+  .enablePlugins(JavaAppPackaging)
+  .settings(
+    libraryDependencies ++= Seq(
+      ProtocJar
+    ),
+
+    /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
+    * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the
+      * executable it generates became scala-pbc. To avoid breakage we create under the scalapb.scripts the scripts
+      * with the names we would like to feed into scala-native-packager. We keep the original scalapb.ScalaPBC to not
+      * break integrations that use it (maven, pants), but we still want to exclude it below so a script named scala-pbc
+      * is not generated for it.
+      */
+    discoveredMainClasses in Compile := (discoveredMainClasses in Compile).value.filter(_.startsWith("scalapb.scripts.")),
+    maintainer := "thesamet@gmail.com"
+  )
 
 lazy val proptest = project.in(file("proptest"))
     .dependsOn(compilerPlugin, runtimeJVM, grpcRuntime)
@@ -256,7 +274,7 @@ lazy val proptest = project.in(file("proptest"))
       publishArtifact := false,
       publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
       libraryDependencies ++= Seq(
-        "com.github.os72" % "protoc-jar" % "3.7.0.1",
+        ProtocJar,
         "com.google.protobuf" % "protobuf-java" % protobufVersion,
         "io.grpc" % "grpc-netty" % grpcVersion % "test",
         "io.grpc" % "grpc-protobuf" % grpcVersion % "test",

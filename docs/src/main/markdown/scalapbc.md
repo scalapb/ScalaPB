@@ -67,3 +67,17 @@ The supported parameters are: `flat_package`, `java_conversions`, `grpc` and
 `single_line_to_proto_string`, `no_lenses`, `retain_source_code_info`. 
 
 Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.html)
+
+## Using ScalaPB as a proper protoc plugin
+
+You may want to use ScalaPB code generator as a standard protoc plugin (rather
+than using scalapbc as a wrapper or the various other solutions we have). From
+version 0.9.0, you will find in [scalapbc-{{site.data.version.scalapb}}.zip](https://github.com/scalapb/ScalaPB/releases/download/v{{site.data.version.scalapb}}/scalapbc-{{site.data.version.scalapb}}.zip) an executable named `bin/protoc-gen-scala`. You can use it as follows:
+
+    protoc my.protos --plugin=/path/to/bin/protoc-gen-scala --scala_out=scala
+
+On Windows:
+
+    protoc my.protos --plugin=protoc-gen-scala=/path/to/bin/protoc-gen-scala.bat --scala_out=scala
+
+For passing parameters to the plugin, see the section above.
