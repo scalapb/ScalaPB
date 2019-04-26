@@ -17,7 +17,7 @@ object ScalaPbCodeGenerator extends ProtocCodeGenerator {
       ProtobufGenerator.handleCodeGeneratorRequest(request).toByteArray
     } catch {
       case t: Throwable =>
-      CodeGeneratorResponse.newBuilder().setError(t.toString).build().toByteArray
+        CodeGeneratorResponse.newBuilder().setError(t.toString).build().toByteArray
     }
   }
 
