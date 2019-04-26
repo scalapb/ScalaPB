@@ -265,6 +265,7 @@ lazy val scalapbc = project.in(file("scalapbc"))
       * is not generated for it.
       */
     discoveredMainClasses in Compile := (discoveredMainClasses in Compile).value.filter(_.startsWith("scalapb.scripts.")),
+    mainClass in Compile := Some("scalapb.scripts.scalapbc"),
     maintainer := "thesamet@gmail.com"
   )
 
