@@ -1,7 +1,7 @@
 # Change Log
 
 ## [0.9.0](https://github.com/scalapb/ScalaPB/tree/HEAD)
-- Experimental support for Scala 2.13.0-M5. Notes:
+- Experimental support for Scala 2.13.0. Notes:
   - ScalaPB now generates `scala.Seq` by default for repeated
     fields (previously was `scala.collection.Seq`). This ensures usage of
     immutable Seqs on Scala 2.13 without breaking compatibility for old code.

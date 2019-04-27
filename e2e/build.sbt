@@ -1,6 +1,6 @@
 import scalapb.compiler.Version.grpcJavaVersion
 
-crossScalaVersions in ThisBuild := Seq("2.11.12", "2.12.8", "2.13.0-M5")
+crossScalaVersions in ThisBuild := Seq("2.11.12", "2.12.8", "2.13.0-RC1")
 
 scalaVersion in ThisBuild := "2.12.8"
 
