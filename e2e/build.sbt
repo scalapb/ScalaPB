@@ -44,14 +44,13 @@ val commonSettings = Seq(
       }
     },
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.7" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.8-RC2" % "test",
       "io.grpc" % "grpc-netty" % grpcJavaVersion, //netty transport of grpc
       "io.grpc" % "grpc-protobuf" % grpcJavaVersion, //protobuf message encoding for java implementation
       "io.grpc" % "grpc-services" % grpcJavaVersion,
       "io.grpc" % "grpc-services" % grpcJavaVersion % "protobuf",
       "org.scalacheck" %% "scalacheck" % "1.14.0" % "test",
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.Version.scalapbVersion % "protobuf",
-      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.9.0-M1",
       "javax.annotation" % "javax.annotation-api" % "1.3.2",  // needed for grpc-java on JDK9
     ),
 
