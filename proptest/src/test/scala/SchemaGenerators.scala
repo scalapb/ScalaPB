@@ -297,10 +297,10 @@ object SchemaGenerators {
         compileProtos(rootNode, tmpDir)
         compileJavaInDir(tmpDir)
         compileScalaInDir(tmpDir)
-      } catch {
-        case e: Exception =>
-          sys.process.Process(Seq("tar", "czf", "/tmp/protos.tgz", "."), tmpDir).!!
-          throw e
+      } finally {
+        // Some versions of run.compile throw an exception, some exit with an int (depends on Scala
+        // version). Let's generate protos.tgz anyway for debugging.
+        sys.process.Process(Seq("tar", "czf", "/tmp/protos.tgz", "."), tmpDir).!!
       }
 
       CompiledSchema(rootNode, tmpDir)
