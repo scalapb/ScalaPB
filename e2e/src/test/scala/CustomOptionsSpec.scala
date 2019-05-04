@@ -35,7 +35,7 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     )
   }
   "Options existing" should "return Some(option)" in {
-    fooOptions.extension(CustomOptionsProto.messageB).value must be (MessageB(b = Some("BBB")))
+    fooOptions.extension(CustomOptionsProto.messageB).value must be (MessageB(b = Some("BBB"), c=Some("CCC"), d=Seq("D1", "D2")))
     validateSetter(CustomOptionsProto.messageB)(Some(MessageB(b = Some("ABC"))))
   }
 

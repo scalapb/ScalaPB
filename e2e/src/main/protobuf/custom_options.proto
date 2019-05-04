@@ -18,6 +18,8 @@ message MessageA {
 
 message MessageB {
   optional string b = 1;
+  optional string c = 2;
+  repeated string d = 3;
 }
 
 message MessageC {

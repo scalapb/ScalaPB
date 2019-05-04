@@ -7,6 +7,8 @@ case class GeneratedExtension[C <: ExtendableMessage[C], T](lens: Lens[C, T]) ex
   def get(c: C): T = lens.get(c)
 
   def set(t: T): Mutation[C] = lens.set(t)
+
+  def withLens[B](other: Lens[T, B]) = GeneratedExtension(lens.compose(other))
 }
 
 object GeneratedExtension {
@@ -22,6 +24,24 @@ object GeneratedExtension {
 
   def optionalUnknownFieldLens[E, T](fromBase: E => T, toBase: T => E): Lens[Seq[E], Option[T]] =
     Lens[Seq[E], Option[T]](c => c.lastOption.map(fromBase))((c, t) => t.map(toBase).toVector)
+
+  // For messages we concatenate all ByteStrings (https://github.com/scalapb/ScalaPB/issues/574)
+  def singleUnknownMessageFieldLens[T](
+      fromBase: ByteString => T,
+      toBase: T => ByteString,
+      default: T
+  ): Lens[Seq[ByteString], T] =
+    Lens[Seq[ByteString], T](
+      c => c.reduceOption((bs1, bs2) => bs1.concat(bs2)).lastOption.map(fromBase).getOrElse(default)
+    )((c, t) => Vector(toBase(t)))
+
+  def optionalUnknownMessageFieldLens[T](
+      fromBase: ByteString => T,
+      toBase: T => ByteString
+  ): Lens[Seq[ByteString], Option[T]] =
+    Lens[Seq[ByteString], Option[T]](
+      c => c.reduceOption((bs1, bs2) => bs1.concat(bs2)).map(fromBase)
+    )((c, t) => t.map(toBase).toVector)
 
   private def unpackLengthDelimited[E, T](
       bss: Seq[ByteString],
@@ -80,28 +100,42 @@ object GeneratedExtension {
       }
     )
 
+  def forUnknownField[C <: ExtendableMessage[C], E](
+      fieldNumber: Int,
+      listLens: Lens[UnknownFieldSet.Field, Seq[E]]
+  ): GeneratedExtension[C, Seq[E]] = {
+    GeneratedExtension[C, Seq[E]](
+      ExtendableMessage.unknownFieldsLen(fieldNumber).compose(listLens)
+    )
+  }
+
   def forSingularUnknownField[C <: ExtendableMessage[C], E, T](
       fieldNumber: Int,
       listLens: Lens[UnknownFieldSet.Field, Seq[E]]
-  )(fromBase: E => T, toBase: T => E, default: T): GeneratedExtension[C, T] = {
-    GeneratedExtension(
-      ExtendableMessage
-        .unknownFieldsLen(fieldNumber)
-        .compose(listLens)
-        .compose(singleUnknownFieldLens(fromBase, toBase, default))
-    )
-  }
+  )(fromBase: E => T, toBase: T => E, default: T): GeneratedExtension[C, T] =
+    forUnknownField(fieldNumber, listLens)
+      .withLens(singleUnknownFieldLens(fromBase, toBase, default))
 
   def forOptionalUnknownField[C <: ExtendableMessage[C], E, T](
       fieldNumber: Int,
       listLens: Lens[UnknownFieldSet.Field, Seq[E]]
   )(fromBase: E => T, toBase: T => E): GeneratedExtension[C, Option[T]] =
-    GeneratedExtension(
-      ExtendableMessage
-        .unknownFieldsLen(fieldNumber)
-        .compose(listLens)
-        .compose(optionalUnknownFieldLens(fromBase, toBase))
-    )
+    forUnknownField(fieldNumber, listLens)
+      .withLens(optionalUnknownFieldLens(fromBase, toBase))
+
+  def forSingularUnknownMessageField[C <: ExtendableMessage[C], T](
+      fieldNumber: Int,
+      listLens: Lens[UnknownFieldSet.Field, Seq[ByteString]]
+  )(fromBase: ByteString => T, toBase: T => ByteString, default: T): GeneratedExtension[C, T] =
+    forUnknownField(fieldNumber, listLens)
+      .withLens(singleUnknownMessageFieldLens(fromBase, toBase, default))
+
+  def forOptionalUnknownMessageField[C <: ExtendableMessage[C], T](
+      fieldNumber: Int,
+      listLens: Lens[UnknownFieldSet.Field, Seq[ByteString]]
+  )(fromBase: ByteString => T, toBase: T => ByteString): GeneratedExtension[C, Option[T]] =
+    forUnknownField(fieldNumber, listLens)
+      .withLens(optionalUnknownMessageFieldLens(fromBase, toBase))
 
   def forRepeatedUnknownFieldPackable[C <: ExtendableMessage[C], E, T](
       fieldNumber: Int,

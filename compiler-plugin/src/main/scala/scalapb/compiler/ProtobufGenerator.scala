@@ -1385,8 +1385,10 @@ class ProtobufGenerator(
         val fromCustomToField = toBaseTypeExpr(fd) andThen fromBaseToField
 
         val (factoryMethod, args) = {
-          if (fd.supportsPresence)
+          if (fd.supportsPresence && !fd.isMessage)
             ("_root_.scalapb.GeneratedExtension.forOptionalUnknownField", Seq.empty)
+          else if (fd.supportsPresence && fd.isMessage)
+            ("_root_.scalapb.GeneratedExtension.forOptionalUnknownMessageField", Seq.empty)
           else if (fd.isRepeated && fd.isPackable)
             (
               "_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldPackable",
@@ -1404,7 +1406,8 @@ class ProtobufGenerator(
             ("_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldUnpackable", Seq())
           } else
             (
-              "_root_.scalapb.GeneratedExtension.forSingularUnknownField",
+              if (!fd.isMessage) "_root_.scalapb.GeneratedExtension.forSingularUnknownField"
+              else "_root_.scalapb.GeneratedExtension.forSingularUnknownMessageField",
               Seq(defaultValueForGet(fd))
             )
         }
