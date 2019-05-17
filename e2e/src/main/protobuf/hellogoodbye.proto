@@ -1,0 +1,9 @@
+// See https://github.com/scalapb/ScalaPB/issues/580
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+message HelloGoodbyeProto {
+  string hi = 1;
+  string bye = 2;
+}

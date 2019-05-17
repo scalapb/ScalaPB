@@ -799,10 +799,17 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def javaPackageAsSymbol: String =
       javaPackage.split('.').map(_.asSymbol).mkString(".")
 
-    private def hasConflictingJavaClassName(className: String) =
+    private def hasConflictingJavaClassName(className: String): Boolean =
       (file.getEnumTypes.asScala.exists(_.getName == className) ||
         file.getServices.asScala.exists(_.getName == className) ||
         file.getMessageTypes.asScala.exists(_.hasConflictingJavaClassName(className)))
+
+    // This method does not scan recursively. Currently it is used to determine whether the file
+    // companion object would conflict with any top-level generated class.
+    private def hasConflictingScalaClassName(str: String): Boolean =
+      file.getMessageTypes.asScala.exists(_.getName.toLowerCase == str.toLowerCase) ||
+        file.getEnumTypes.asScala.exists(_.getName.toLowerCase == str.toLowerCase) ||
+        file.getServices.asScala.exists(_.getName.toLowerCase == str.toLowerCase)
 
     def javaOuterClassName: String =
       if (file.getOptions.hasJavaOuterClassname)
@@ -863,8 +870,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def fileDescriptorObjectName = {
+
       def inner(s: String): String =
-        if (!hasConflictingJavaClassName(s)) s else (s + "Companion")
+        if (!hasConflictingJavaClassName(s) && !hasConflictingScalaClassName(s)) s else (s + "Companion")
 
       if (file.scalaOptions.hasObjectName) file.scalaOptions.getObjectName
       else
