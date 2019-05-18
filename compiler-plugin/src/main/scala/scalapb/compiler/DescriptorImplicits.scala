@@ -872,7 +872,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def fileDescriptorObjectName = {
 
       def inner(s: String): String =
-        if (!hasConflictingJavaClassName(s) && !hasConflictingScalaClassName(s)) s else (s + "Companion")
+        if (!hasConflictingJavaClassName(s) && !hasConflictingScalaClassName(s)) s
+        else (s + "Companion")
 
       if (file.scalaOptions.hasObjectName) file.scalaOptions.getObjectName
       else
