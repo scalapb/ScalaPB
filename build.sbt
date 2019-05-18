@@ -62,6 +62,7 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining(";+publishSigned"),
+  releaseStepCommandAndRemaining(s";++${Scala212};protocGenScalapb/publishSigned"),
   // releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned;lensesNative/publishSigned"),
   setNextVersion,
   commitNextVersion,
@@ -91,7 +92,8 @@ lazy val root: Project =
       compilerPlugin,
       compilerPluginShaded,
       proptest,
-      scalapbc)
+      scalapbc
+    )
 
 // fastparse 2 is not available for Scala Native yet
 // https://github.com/lihaoyi/fastparse/issues/215
@@ -270,6 +272,42 @@ lazy val scalapbc = project.in(file("scalapbc"))
     mainClass in Compile := Some("scalapb.scripts.scalapbc"),
     maintainer := "thesamet@gmail.com"
   )
+
+lazy val protocGenScalapbUnix = project
+    .enablePlugins(AssemblyPlugin)
+    .dependsOn(scalapbc)
+    .settings(
+        assemblyOption in assembly := (assemblyOption in
+        assembly).value.copy(prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))),
+        skip in publish := true,
+        mainClass in Compile := Some("scalapb.scripts.ProtocGenScala"),
+    )
+
+lazy val protocGenScalapbWindows = project
+  .enablePlugins(AssemblyPlugin)
+  .dependsOn(scalapbc)
+  .settings(
+    assemblyOption in assembly := (assemblyOption in
+      assembly).value.copy(prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = false))),
+    skip in publish := true,
+    mainClass in Compile := Some("scalapb.scripts.ProtocGenScala")
+  )
+
+lazy val protocGenScalapb = project
+    .settings(
+      crossScalaVersions := List(Scala212),
+      name := "protoc-gen-scalapb",
+      publishArtifact in (Compile, packageDoc) := false,
+      publishArtifact in (Compile, packageSrc) := false,
+      crossPaths := false,
+      addArtifact(
+        Artifact("protoc-gen-scalapb", "jar", "sh", "unix"), assembly in (protocGenScalapbUnix, Compile)
+      ),
+      addArtifact(
+        Artifact("protoc-gen-scalapb", "jar", "bat", "windows"), assembly in (protocGenScalapbWindows, Compile)
+      ),
+      autoScalaLibrary := false
+    )
 
 lazy val proptest = project.in(file("proptest"))
     .dependsOn(compilerPlugin, runtimeJVM, grpcRuntime)
