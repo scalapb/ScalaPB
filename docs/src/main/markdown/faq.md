@@ -44,7 +44,7 @@ The relevant parts are marked with "Add the generated folder as a source" and
 ## How do I get grpc, java conversions, flat packages, etc with Maven?
 
 The example maven project invokes ScalaPBC. To get these ScalaPB features, you need to pass a
-generator parameter to ScalaPBC. See the supported generator parameters and how to use them in 
+generator parameter to ScalaPBC. See the supported generator parameters and how to use them in
 [ScalaPBC]({{site.baseurl}}/scalapbc.html) documentation.
 
 ## I am getting "Import was not found or had errors"
@@ -121,3 +121,49 @@ In version 0.8.2, we introduced [package-scoped options]({{site.baseurl}}/custom
 ## How do I write my own Scala code generator for protocol buffers?
 
 Easy! Check out [giter8 template for writing new code generators](https://github.com/scalapb/scalapb-plugin-template.g8).
+
+## How do I use ScalaPB with Gradle?
+
+You can use ScalaPB with the official [Protobuf Plugin for Gradle](https://github.com/google/protobuf-gradle-plugin).
+
+In your `build.gradle` the `protobuf` section should look like this:
+
+```groovy
+ext {
+  scalapbVersion = '{{site.data.version.scalapb}}'
+}
+
+dependencies {
+  compile "com.thesamet.scalapb:scalapb-runtime_2.12:${scalapbVersion}"
+}
+
+protobuf {
+  protoc {
+    artifact = 'com.google.protobuf:protoc:{{site.data.version.protoc}}'
+  }
+  plugins {
+    scalapb {
+      artifact = (org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) ?
+          "com.thesamet.scalapb:protoc-gen-scalapb:${scalapbVersion}:windows@bat" :
+          "com.thesamet.scalapb:protoc-gen-scalapb:${scalapbVersion}:unix@sh"
+    }
+  }
+
+  generateProtoTasks {
+    all().each { task ->
+      task.builtins {
+          // if you don't want jave to be generated.
+          remove java
+      }
+      task.plugins {
+          scalapb {
+            // add any ScalaPB generator options here. See: https://scalapb.github.io/scalapbc.html#passing-generator-parameters
+            // option 'flat_package'
+          }
+      }
+    }
+  }
+}
+```
+
+See full example at https://github.com/scalapb/gradle-demo

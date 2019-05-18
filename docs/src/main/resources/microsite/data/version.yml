@@ -1,2 +1,3 @@
-scalapb: 0.8.4
+scalapb: 0.9.0-M5
 sbt_protoc: 0.99.20
+protoc: 3.7.1
