@@ -128,7 +128,7 @@ You can use ScalaPB with the official [Protobuf Plugin for Gradle](https://githu
 
 In your `build.gradle` the `protobuf` section should look like this:
 
-```groovy
+```gradle
 ext {
   scalapbVersion = '{{site.data.version.scalapb}}'
 }
@@ -152,7 +152,7 @@ protobuf {
   generateProtoTasks {
     all().each { task ->
       task.builtins {
-          // if you don't want jave to be generated.
+          // if you don't want java code to be generated.
           remove java
       }
       task.plugins {
