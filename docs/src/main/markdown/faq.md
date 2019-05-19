@@ -35,11 +35,9 @@ Check out [ScalaPBC]({{site.baseurl}}/scalapbc.html).
 
 ## How do I use ScalaPB with Maven?
 
-ScalaPB can be invoked in your Maven build by calling ScalaPBC, a standalone
-Java application that generates code. See an [example project](https://github.com/thesamet/scalapb-maven-example).
+ScalaPB code generator can be invoked in your Maven build through the protobuf-maven-plugin. See [example project](https://github.com/thesamet/scalapb-maven-example).
 
-The relevant parts are marked with "Add the generated folder as a source" and
-"Compile the proto file(s)".
+The relevant parts are marked with "Add protobuf-maven-plugin..."
 
 ## How do I get grpc, java conversions, flat packages, etc with Maven?
 
@@ -161,6 +159,15 @@ protobuf {
             // option 'flat_package'
           }
       }
+    }
+  }
+}
+
+// Add geneated Scala code as a source directory
+sourceSets {
+  main {
+    scala {
+        srcDirs "${protobuf.generatedFilesBaseDir}/main/scalapb"
     }
   }
 }
