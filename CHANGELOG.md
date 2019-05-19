@@ -8,6 +8,8 @@
   - The generated code compiles for Scala 2.13 and older version, so deprecation warnings
     are expected when compiling for 2.13. In a future release, we may have a
     generator that generates code that compiles cleanly, but only for 2.13.
+- ScalaPB code generator is published to maven as a plugin. This enabled
+  Gradle and Maven protobuf plugins to download and invoke ScalaPB.
 - Dropped support for Scala 2.10.
 - Custom collections are now required to provide an `iterator` method that
   returns an `Iterator[A]` over their elements.
