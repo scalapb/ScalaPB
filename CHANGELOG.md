@@ -16,7 +16,7 @@
 - Temporarily dropped support for Scala Native (pending on fastparse2 support)
 - Bumped fastparse to 2.1.0 (which is binary-incompatible with fastparse 1)
 - Add support for custom map types (#410)
-- Upgrade to protobuf 3.7.0
+- Upgrade to protobuf 3.7.1
 - Removed deprecated com.trueaccord symbols
 - Added `scalapb.GeneratedSealedOneof` as a base trait for all sealed oneofs.
 - Added `sealed_oneof_extends` option to allow adding base classes for sealed oneofs.
