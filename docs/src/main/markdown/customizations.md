@@ -330,6 +330,23 @@ For more examples, see:
 - [`PersonId.scala`](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala/com/thesamet/pb/PersonId.scala)
 - [`CustomTypesSpec.scala`](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/test/scala/CustomTypesSpec.scala)
 
+If you have a TypeMapper that maps a generated type into a type you don't own
+(such as `String`, or a third-party class) then you don't have access to the
+companion object to define the typemapper in. Instead, you can place the
+typemapper in one of the parent package objects of the generated code. For
+example, if you want to map an enum to a string, and the message containing it
+goes into the `a.b.c` package, you can define the type mapper like this:
+
+```scala
+// src/main/scala/a/b/c/package.scala:
+package a.b
+
+package object c {
+  implicit val segmentType =
+    TypeMapper[SegmentType, String](_.name)(SegmentType.fromName(_).get)
+}
+```
+
 ## Custom types on maps
 
 Since version 0.6.0 it is possible to customize the key and value types of
