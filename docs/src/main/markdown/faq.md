@@ -166,4 +166,4 @@ protobuf {
 }
 ```
 
-See full example at https://github.com/scalapb/gradle-demo
+See [full example here](https://github.com/scalapb/gradle-demo).
