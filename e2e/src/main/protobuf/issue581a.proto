@@ -1,0 +1,16 @@
+syntax="proto2";
+
+import "google/protobuf/descriptor.proto";
+
+package com.thesamet.proto.e2e.myext;
+
+message TypeOpts {
+    oneof type {
+      bool option_a  =  7;
+      bool option_b  =  8;
+    }
+  }
+
+extend google.protobuf.FieldOptions {
+    optional TypeOpts type = 90210;
+}

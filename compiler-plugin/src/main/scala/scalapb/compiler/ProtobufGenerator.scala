@@ -1312,7 +1312,7 @@ class ProtobufGenerator(
 
   def printExtension(fp: FunctionalPrinter, fd: FieldDescriptor) = {
     fp.add(
-        s"val ${fd.scalaName}: _root_.scalapb.GeneratedExtension[${fd.getContainingType.scalaTypeName}, ${fd.scalaTypeName}] ="
+        s"val ${fd.scalaName.asSymbol}: _root_.scalapb.GeneratedExtension[${fd.getContainingType.scalaTypeName}, ${fd.scalaTypeName}] ="
       )
       .call { fp =>
         val (listLens, fromFieldToBase, fromBaseToField) = fd.getType match {
