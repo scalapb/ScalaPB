@@ -16,13 +16,13 @@ val scalacheckVersion = "1.14.0"
 // For e2e test
 val sbtPluginVersion = "0.99.20"
 
-val grpcVersion = "1.20.0"
+val grpcVersion = "1.21.0"
 
 val MimaPreviousVersion = "0.9.0-M2"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
 
-val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8-RC2"
+val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8-RC3"
 
 scalaVersion in ThisBuild := Scala212
 

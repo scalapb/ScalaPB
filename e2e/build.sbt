@@ -44,7 +44,7 @@ val commonSettings = Seq(
       }
     },
     libraryDependencies ++= Seq(
-      "org.scalatest" %% "scalatest" % "3.0.8-RC2" % "test",
+      "org.scalatest" %% "scalatest" % "3.0.8-RC3" % "test",
       "io.grpc" % "grpc-netty" % grpcJavaVersion, //netty transport of grpc
       "io.grpc" % "grpc-protobuf" % grpcJavaVersion, //protobuf message encoding for java implementation
       "io.grpc" % "grpc-services" % grpcJavaVersion,

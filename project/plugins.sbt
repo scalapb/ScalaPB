@@ -14,13 +14,13 @@ addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.6.0")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.8")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.9")
 
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.3")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.3.0")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.3.3")
 
 addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
 
