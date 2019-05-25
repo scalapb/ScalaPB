@@ -300,7 +300,9 @@ object SchemaGenerators {
       } finally {
         // Some versions of run.compile throw an exception, some exit with an int (depends on Scala
         // version). Let's generate protos.tgz anyway for debugging.
-        sys.process.Process(Seq("tar", "czf", "/tmp/protos.tgz", "."), tmpDir).!!
+        sys.process
+          .Process(Seq("tar", "czf", "/tmp/protos.tgz", "--exclude", "*.class", "."), tmpDir)
+          .!!
       }
 
       CompiledSchema(rootNode, tmpDir)
