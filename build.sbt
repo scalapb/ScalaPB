@@ -173,7 +173,7 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       "io.grpc" % "grpc-stub" % grpcVersion,
       "io.grpc" % "grpc-protobuf" % grpcVersion,
-      "org.mockito" % "mockito-core" % "2.23.4" % "test",
+      "org.mockito" % "mockito-core" % "2.27.0" % "test",
       ScalaTest % "test",
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion)
