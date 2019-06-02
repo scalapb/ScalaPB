@@ -129,6 +129,11 @@ class ProtoValidation(implicits: DescriptorImplicits) {
       throw new GeneratorException(
         s"${fd.getFullName}: Field ${fd.getName} has no_box set but is not an optional field."
       )
+    if (fd.isMessage && fd.getMessageType.isSealedOneofType && fd.fieldOptions.hasType) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: Sealed oneofs can not be type mapped. Use regular oneofs instead."
+      )
+    }
   }
 }
 

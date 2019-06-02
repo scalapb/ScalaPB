@@ -12,4 +12,3 @@ option (scalapb.options) = {
 message Issue86Proto {
   optional string msg = 1;
 }
-

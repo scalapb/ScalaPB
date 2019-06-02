@@ -253,6 +253,27 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
     }.message must include("message may belong to at most one sealed oneof")
   }
 
+  it should "fail when a sealed oneof field is typemapped" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file.proto" ->
+          """
+            |syntax = "proto2";
+            |import "scalapb/scalapb.proto";
+            |message Case1 {}
+            |message MyOneof {
+            |  oneof sealed_value {
+            |    Case1 case1 = 1;
+            |  }
+            |}
+            |message Use {
+            |  optional MyOneof usage = 1 [(scalapb.field).type="SomeType"];
+            |}
+          """.stripMargin
+      )
+    }.message must include("Sealed oneofs can not be type mapped. Use regular oneofs instead.")
+  }
+
   it should "fail when sealed_oneof_extends used outside of a sealed oneof type" in {
     intercept[GeneratorException] {
       runValidation(
