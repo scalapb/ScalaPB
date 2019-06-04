@@ -27,3 +27,5 @@ options:
   url: faq.html
 - title: Migrating
   url: migrating.html
+- title: Contact Us
+  url: contact.html

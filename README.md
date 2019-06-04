@@ -79,6 +79,12 @@ Using ScalaPB
 
 Documentation is available at [ScalaPB website](https://scalapb.github.io/).
 
+Questions?
+==========
+
+See [contacting us](https://scalapb.github.io/contact.html).
+
+
 Testing
 =======
 
