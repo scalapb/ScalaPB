@@ -7,7 +7,7 @@ val Scala211 = "2.11.12"
 
 val Scala212 = "2.12.8"
 
-val Scala213 = "2.13.0-RC1"
+val Scala213 = "2.13.0"
 
 val protobufVersion = "3.7.1"
 
@@ -22,7 +22,27 @@ val MimaPreviousVersion = "0.9.0-M2"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
 
-val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8-RC3"
+val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
+
+val utestVersion = Def.setting(
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, v)) if v <= 11 =>
+      // drop Scala 2.11 support since 0.6.9
+      "0.6.8"
+    case _ =>
+      "0.6.9"
+  }
+)
+
+val fastparseVersion = Def.setting(
+  CrossVersion.partialVersion(scalaVersion.value) match {
+    case Some((2, v)) if v <= 11 =>
+      // drop Scala 2.11 support since 2.1.3
+      "2.1.2"
+    case _ =>
+      "2.1.3"
+  }
+)
 
 scalaVersion in ThisBuild := Scala212
 
@@ -102,8 +122,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "fastparse" % "2.1.2",
-      "com.lihaoyi" %%% "utest" % "0.6.7" % "test",
+      "com.lihaoyi" %%% "fastparse" % fastparseVersion.value,
+      "com.lihaoyi" %%% "utest" % utestVersion.value % "test",
       "commons-codec" % "commons-codec" % "1.12" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
@@ -128,7 +148,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
   .dependsOn(lenses)
   .platformsSettings(JSPlatform/*, NativePlatform*/)(
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.8.1"
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.8.2"
     ),
     (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
@@ -379,7 +399,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).in(f
     },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     libraryDependencies ++= Seq(
-        "com.lihaoyi" %%% "utest" % "0.6.7" % "test"
+        "com.lihaoyi" %%% "utest" % utestVersion.value % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
