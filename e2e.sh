@@ -8,9 +8,7 @@ if [ "$E2E_SHADED" = "1" ]; then
   mv e2e/project/scalapb.sbt.shaded e2e/project/scalapb.sbt
 fi
 
-# -J-XX below is a workaround for XX:LoopStripMiningIter=0.
-# TODO: remove after JDK>=11.0.3
-sbt -J-XX:LoopStripMiningIter=0 \
+sbt \
     ++2.12.8 compilerPlugin/publishLocal compilerPluginShaded/publishLocal createVersionFile \
     ++$SCALA_VERSION lensesJVM/publishLocal runtimeJVM/publishLocal grpcRuntime/publishLocal
 cd e2e

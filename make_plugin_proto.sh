@@ -21,7 +21,7 @@ fi
 
 function protoc_jar() 
 {
-  java -jar $JAR_PATH -v380 "$@"
+  java -jar $JAR_PATH -v370 "$@"
 }
 
 # SBT 1.x depends on scalapb-runtime which contains a compiled copy of

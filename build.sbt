@@ -14,7 +14,7 @@ val protobufVersion = "3.8.0"
 val scalacheckVersion = "1.14.0"
 
 // For e2e test
-val sbtPluginVersion = "0.99.20"
+val sbtPluginVersion = "0.99.22"
 
 val grpcVersion = "1.21.0"
 
@@ -127,6 +127,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       "commons-codec" % "commons-codec" % "1.12" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
+    // Workaround for https://github.com/scala/bug/issues/9111
+    scalacOptions in (Compile, doc) += "-no-java-comments",
     unmanagedSourceDirectories in Compile ++= {
       val base = (baseDirectory in LocalRootProject).value / "scalapb-runtime" / "shared" / "src" / "main"
       CrossVersion.partialVersion(scalaVersion.value) match {
