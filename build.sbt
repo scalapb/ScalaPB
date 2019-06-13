@@ -225,7 +225,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.6",
+      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.7",
       ScalaTest % "test",
       ProtocJar % "test",
     ),
