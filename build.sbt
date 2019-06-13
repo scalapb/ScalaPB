@@ -9,7 +9,7 @@ val Scala212 = "2.12.8"
 
 val Scala213 = "2.13.0"
 
-val protobufVersion = "3.7.1"
+val protobufVersion = "3.8.0"
 
 val scalacheckVersion = "1.14.0"
 
@@ -20,7 +20,7 @@ val grpcVersion = "1.21.0"
 
 val MimaPreviousVersion = "0.9.0-M2"
 
-val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
+val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
 
 val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
 
@@ -205,6 +205,8 @@ shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .settings(
+    // Workaround for https://github.com/scala/bug/issues/9111
+    scalacOptions in (Compile, doc) += "-no-java-comments",
     crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
     sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
@@ -226,6 +228,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.7",
+      "com.google.protobuf" % "protobuf-java" % protobufVersion,
       ScalaTest % "test",
       ProtocJar % "test",
     ),
