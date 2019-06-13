@@ -2,7 +2,7 @@
 set -e
 SCALA_VERSION=${SCALA_VERSION:-${TRAVIS_SCALA_VERSION:-2.11.11}}
 
-if [ "$SCALA_VERSION" != "2.13.0-RC1" ]
+if [ "$SCALA_VERSION" != "2.13.0" ]
 then    sbt ++$SCALA_VERSION \
         grpcRuntime/mimaReportBinaryIssues \
         lensesJVM/mimaReportBinaryIssues \
