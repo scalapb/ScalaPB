@@ -205,8 +205,6 @@ shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]","_
 
 lazy val compilerPlugin = project.in(file("compiler-plugin"))
   .settings(
-    // Workaround for https://github.com/scala/bug/issues/9111
-    scalacOptions in (Compile, doc) += "-no-java-comments",
     crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
     sourceGenerators in Compile += Def.task {
       val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
