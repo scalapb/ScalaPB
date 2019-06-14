@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scala.collection.JavaConverters._
+import scalapb.internal.JavaConverters._
 
 /** @param allowAlias
   *   Set this option to true to allow mapping different tag names to the same

@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scala.collection.JavaConverters._
+import scalapb.internal.JavaConverters._
 
 /** @param ctype
   *   The ctype option instructs the C++ code generator to use a different

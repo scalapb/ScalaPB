@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scala.collection.JavaConverters._
+import scalapb.internal.JavaConverters._
 
 /** Encapsulates information about the original source file from which a
   * FileDescriptorProto was generated.

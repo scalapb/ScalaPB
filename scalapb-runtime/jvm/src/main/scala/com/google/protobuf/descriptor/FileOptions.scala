@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scala.collection.JavaConverters._
+import scalapb.internal.JavaConverters._
 
 /** @param javaPackage
   *   Sets the Java package where classes generated from this .proto will be

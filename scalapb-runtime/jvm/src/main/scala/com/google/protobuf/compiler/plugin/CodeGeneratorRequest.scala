@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.compiler.plugin
-import scala.collection.JavaConverters._
+import scalapb.internal.JavaConverters._
 
 /** An encoded CodeGeneratorRequest is written to the plugin's stdin.
   *

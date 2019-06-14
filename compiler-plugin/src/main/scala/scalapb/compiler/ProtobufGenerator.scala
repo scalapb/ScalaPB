@@ -1649,7 +1649,7 @@ class ProtobufGenerator(
         _.add("package " + file.scalaPackageName).add()
       )
       .when(javaConverterImport)(
-        _.add("import scala.collection.JavaConverters._").add()
+        _.add("import scalapb.internal.JavaConverters._").add()
       )
       .print(file.scalaOptions.getImportList.asScala) {
         case (printer, i) => printer.add(s"import $i")

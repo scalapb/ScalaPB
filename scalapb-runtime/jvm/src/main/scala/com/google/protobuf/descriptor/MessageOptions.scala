@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scala.collection.JavaConverters._
+import scalapb.internal.JavaConverters._
 
 /** @param messageSetWireFormat
   *   Set true to use the old proto1 MessageSet wire format for extensions.
