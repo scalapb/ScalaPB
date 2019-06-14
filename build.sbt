@@ -48,19 +48,9 @@ scalaVersion in ThisBuild := Scala212
 
 crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
 
-scalacOptions in ThisBuild ++= "-deprecation" :: {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, v)) if v <= 11 => List("-target:jvm-1.7")
-    case _ => Nil
-  }
-}
+scalacOptions in ThisBuild ++= Seq("-deprecation",  "-target:jvm-1.8")
 
-javacOptions in ThisBuild ++= {
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, v)) if v <= 11 => List("-target", "7", "-source", "7")
-    case _ => Nil
-  }
-}
+javacOptions in ThisBuild ++= List("-target", "8", "-source", "8")
 
 organization in ThisBuild := "com.thesamet.scalapb"
 
