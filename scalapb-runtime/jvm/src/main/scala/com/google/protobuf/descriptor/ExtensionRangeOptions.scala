@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scalapb.internal.JavaConverters._
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.

@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scalapb.internal.JavaConverters._
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** Describes a service.
   */

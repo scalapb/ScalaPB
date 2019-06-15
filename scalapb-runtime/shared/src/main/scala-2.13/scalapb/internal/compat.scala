@@ -1,7 +1,8 @@
-package scalapb
+package scalapb.internal
+
 import scala.collection.Factory
 
-object internal {
+object compat {
   def convertTo[A, To](from: IterableOnce[A])(implicit f: Factory[A, To]): To = {
     from.iterator.to(f)
   }

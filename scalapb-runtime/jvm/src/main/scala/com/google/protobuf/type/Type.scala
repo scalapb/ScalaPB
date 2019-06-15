@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.`type`
-import scalapb.internal.JavaConverters._
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** A protocol buffer message type.
   *

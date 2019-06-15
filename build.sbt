@@ -132,6 +132,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
+        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils"),
+        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils$")
       )
     },
   )

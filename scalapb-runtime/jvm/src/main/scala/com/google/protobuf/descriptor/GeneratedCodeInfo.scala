@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO2
 
 package com.google.protobuf.descriptor
-import scalapb.internal.JavaConverters._
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** Describes the relationship between generated code and its original source
   * file. A GeneratedCodeInfo message is associated with only one generated

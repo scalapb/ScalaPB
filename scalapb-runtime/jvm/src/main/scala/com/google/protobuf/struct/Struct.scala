@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.struct
-import scalapb.internal.JavaConverters._
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** `Struct` represents a structured data value, consisting of fields
   * which map to dynamically typed values. In some languages, `Struct`

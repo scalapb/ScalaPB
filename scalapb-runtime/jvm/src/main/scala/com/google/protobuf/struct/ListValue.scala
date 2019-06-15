@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.struct
-import scalapb.internal.JavaConverters._
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** `ListValue` is a wrapper around a repeated field of values.
   *

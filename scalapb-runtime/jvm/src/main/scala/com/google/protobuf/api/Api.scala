@@ -4,7 +4,7 @@
 // Protofile syntax: PROTO3
 
 package com.google.protobuf.api
-import scalapb.internal.JavaConverters._
+import _root_.scalapb.internal.compat.JavaConverters._
 
 /** Api is a light-weight descriptor for an API Interface.
   *
