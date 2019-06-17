@@ -20,7 +20,7 @@ val grpcVersion = "1.21.0"
 
 val MimaPreviousVersion = "0.9.0-M2"
 
-val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
+val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
 
 val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
 
