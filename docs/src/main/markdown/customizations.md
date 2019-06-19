@@ -289,6 +289,8 @@ correctness. For example, instead of using a raw integer for time fields, you ca
 wrap them in a `Seconds` class.
 
 ```protobuf
+import "scalapb/scalapb.proto";
+
 message Connection {
   optional int32 timeout = 1 [(scalapb.field).type = "mydomain.Seconds"];
 }
