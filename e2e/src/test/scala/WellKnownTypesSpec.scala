@@ -1,8 +1,8 @@
 import com.thesamet.proto.well_known._
 import org.scalatest._
-import org.scalatest.prop._
+import org.scalatestplus.scalacheck._
 
-class WellKnownTypesSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
+class WellKnownTypesSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers {
   "new TestWrapper" should "have Nones" in {
     val t = TestWrappers()
     t.myDouble must be (None)

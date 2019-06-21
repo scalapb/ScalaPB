@@ -4,9 +4,9 @@ import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
 import com.thesamet.pb.{PersonId, Years}
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest._
-import org.scalatest.prop._
+import org.scalatestplus.scalacheck._
 
-class MapsSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers with OptionValues {
+class MapsSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers with OptionValues {
 
   val nestedGen =
     Arbitrary.arbitrary[Option[Int]].map(s => Nested(nestedField = s))
