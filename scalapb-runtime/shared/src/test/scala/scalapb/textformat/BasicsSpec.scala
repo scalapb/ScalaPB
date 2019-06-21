@@ -7,7 +7,7 @@ object BasicsSpec extends TestSuite with ParserSuite {
   import Basics._
 
   val tests = Tests {
-    'identifier {
+    "identifier" - {
       check(identifier(_), "abcd", "abcd")
       check(identifier(_), "abcd_2", "abcd_2")
       check(identifier(_), "abcd_2_vxyz", "abcd_2_vxyz")
@@ -16,7 +16,7 @@ object BasicsSpec extends TestSuite with ParserSuite {
       checkFail(identifier(_), "  abcd")
     }
 
-    'number {
+    "number" - {
       check(fractional(_), "0.2", "0.2")
       check(fractional(_), "2.0", "2.0")
       check(fractional(_), "2.0f", "2.0f")
@@ -35,7 +35,7 @@ object BasicsSpec extends TestSuite with ParserSuite {
       checkFail(fractional(_), "0")
     }
 
-    'bigint {
+    "bigint" - {
       check(bigInt(_), "0", 0)
       check(bigInt(_), "-0", 0)
       check(bigInt(_), "0x14", 0x14)
@@ -49,18 +49,18 @@ object BasicsSpec extends TestSuite with ParserSuite {
       checkFail(bigInt(_), "abcd")
     }
 
-    'literal {
+    "literal" - {
       check(literal(_), "1.0f", "1.0f")
     }
 
-    'boolean {
+    "boolean" - {
       check(boolean(_), "t", true)
       check(boolean(_), "1", true)
       check(boolean(_), "f", false)
       check(boolean(_), "0", false)
     }
 
-    'bytes {
+    "bytes" - {
       check(bytesLiteral(_), "\"hello\"", "hello")
       check(bytesLiteral(_), "\"he'llo\"", "he'llo")
       check(bytesLiteral(_), "\"he\\\"llo\"", "he\\\"llo")
