@@ -1,10 +1,10 @@
 package scalapb
 
 import org.scalatest._
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.apache.commons.codec.binary.Base64
 
-class EncodingSpec extends PropSpec with GeneratorDrivenPropertyChecks with Matchers {
+class EncodingSpec extends PropSpec with ScalaCheckDrivenPropertyChecks with Matchers {
   property("fromBase64 is the inverse of toBase64") {
     forAll { b: Array[Byte] =>
       Encoding.fromBase64(Encoding.toBase64(b)) should be(b)

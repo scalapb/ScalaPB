@@ -7,14 +7,14 @@ import com.google.protobuf
 import com.google.protobuf.{Message, TextFormat => GTextFormat}
 import scalapb.{GeneratedMessage, JavaProtoSupport, TextFormat}
 import org.scalatest._
-import org.scalatest.prop.GeneratorDrivenPropertyChecks
+import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.tagobjects.Slow
 import scalapb.descriptors.ScalaType
 
 import scala.language.existentials
 import scala.collection.JavaConverters._
 
-class GeneratedCodeSpec extends PropSpec with GeneratorDrivenPropertyChecks with Matchers {
+class GeneratedCodeSpec extends PropSpec with ScalaCheckDrivenPropertyChecks with Matchers {
   property("min and max id are consecutive over files") {
     forAll(GraphGen.genRootNode) { node =>
       def validateMinMax(pairs: Seq[(Int, Int)]) =

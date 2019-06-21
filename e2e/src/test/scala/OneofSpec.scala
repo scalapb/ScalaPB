@@ -1,11 +1,11 @@
 import com.thesamet.proto.e2e.one_of._
 import org.scalatest._
-import org.scalatest.prop._
+import org.scalatestplus.scalacheck._
 import org.scalacheck.Gen
 import collection.JavaConverters._
 import Matchers._
 
-class OneofSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers with OptionValues {
+class OneofSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers with OptionValues {
   val unspecified = OneofTest()
   val tempField = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
   val otherField = OneofTest(myOneOf = OneofTest.MyOneOf.OtherField("boo"))

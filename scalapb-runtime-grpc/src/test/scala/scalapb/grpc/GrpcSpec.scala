@@ -4,7 +4,7 @@ import io.grpc.StatusException
 import io.grpc.stub.StreamObserver
 import org.mockito.{ArgumentMatchers, Mockito}
 import org.scalatest.FlatSpec
-import org.scalatest.mockito.MockitoSugar
+import org.scalatestplus.mockito.MockitoSugar
 
 import scala.util.{Failure, Success}
 

@@ -4,10 +4,10 @@ import com.google.protobuf.CodedInputStream
 import com.thesamet.proto.e2e.repeatables.RepeatablesTest
 import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
 import org.scalatest._
-import org.scalatest.prop._
+import org.scalatestplus.scalacheck._
 import org.scalacheck.{Arbitrary, Gen}
 
-class RepeatablesSpec extends FlatSpec with GeneratorDrivenPropertyChecks with MustMatchers {
+class RepeatablesSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers {
 
   val nestedGen =
     Arbitrary.arbitrary[Option[Int]].map(s => Nested(nestedField = s))
