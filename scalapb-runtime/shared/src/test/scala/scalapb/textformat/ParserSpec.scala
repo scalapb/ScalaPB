@@ -7,7 +7,7 @@ object ParserSpec extends TestSuite with ParserSuite {
   import ProtoAsciiParser._
 
   val tests = Tests {
-    'KeyValue {
+    "KeyValue" - {
       check(KeyValue(_), "foo: 17", TField(0, "foo", TIntLiteral(5, 17)))
       check(KeyValue(_), "foo:    0x13   ", TField(0, "foo", TIntLiteral(8, 0x13)))
       check(KeyValue(_), "bar: true", TField(0, "bar", TLiteral(5, "true")))
@@ -163,7 +163,7 @@ object ParserSpec extends TestSuite with ParserSuite {
       checkFail(KeyValue(_), "foo [,]")
     }
 
-    'Message {
+    "Message" - {
       check(
         Message(_),
         """foo: 4
