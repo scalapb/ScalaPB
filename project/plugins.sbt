@@ -18,7 +18,7 @@ addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.9")
 
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.5")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.3.0")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.4.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.0")
 
