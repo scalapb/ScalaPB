@@ -151,6 +151,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       "org.scalacheck" %% "scalacheck" % scalacheckVersion % "test",
       ScalaTest % "test",
     ),
+    // Can be removed after JDK 11.0.3 is available on Travis
+    Test / javaOptions ++= (
+        if (scalaVersion.value.startsWith("2.13."))
+              Seq("-XX:LoopStripMiningIter=0")
+              else Nil
+    )
   )
   .jsSettings(
     // Add JS-specific settings here
@@ -333,6 +339,12 @@ lazy val proptest = project.in(file("proptest"))
       Test / fork := true,
       Test / baseDirectory := baseDirectory.value / "..",
       Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M"),
+      // Can be removed after JDK 11.0.3 is available on Travis
+      Test / javaOptions ++= (
+          if (scalaVersion.value.startsWith("2.13."))
+                Seq("-XX:LoopStripMiningIter=0", "-Xmx4G")
+                else Nil
+      )
     )
 
 def genVersionFile(out: File, version: String): File = {
