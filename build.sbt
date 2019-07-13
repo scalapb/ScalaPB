@@ -18,7 +18,7 @@ val sbtPluginVersion = "0.99.23"
 
 val grpcVersion = "1.22.0"
 
-val MimaPreviousVersion = "0.9.0-M2"
+val MimaPreviousVersion = "0.9.0-M6"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
 
