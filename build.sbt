@@ -114,7 +114,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
     libraryDependencies ++= Seq(
       "com.lihaoyi" %%% "fastparse" % fastparseVersion.value,
       "com.lihaoyi" %%% "utest" % utestVersion.value % "test",
-      "commons-codec" % "commons-codec" % "1.12" % "test",
+      "commons-codec" % "commons-codec" % "1.13" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test",
     ),
     unmanagedSourceDirectories in Compile ++= {
