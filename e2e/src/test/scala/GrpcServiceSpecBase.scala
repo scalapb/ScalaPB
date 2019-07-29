@@ -1,7 +1,6 @@
 import java.util.concurrent.TimeUnit
 
-import com.thesamet.pb.Service1JavaImpl
-import com.thesamet.pb.Service1ScalaImpl
+import com.thesamet.pb.{Service1Interceptor, Service1JavaImpl, Service1ScalaImpl}
 import com.thesamet.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.protobuf.services.ProtoReflectionService
@@ -19,12 +18,14 @@ abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
       _.addService(ProtoReflectionService.newInstance())
        .addService(
          Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)
-       ).build()
+       )
+       .intercept(new Service1Interceptor)
+       .build()
     )(f)
   }
 
   protected[this] final def withJavaServer[A](f: ManagedChannel => A): A = {
-    withServer(_.addService(new Service1JavaImpl).build())(f)
+    withServer(_.addService(new Service1JavaImpl).intercept(new Service1Interceptor).build())(f)
   }
 
   private[this] def withServer[A](createServer: NettyServerBuilder => Server)(f: ManagedChannel => A): A = {
