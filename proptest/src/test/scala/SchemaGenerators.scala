@@ -246,7 +246,7 @@ object SchemaGenerators {
       else Seq.empty
 
     s.processArgumentString(
-      s"""-cp "${classPath.mkString(":")}" ${maybeBreakCycles} -d "$rootDir""""
+      s"""-cp "${classPath.mkString(":")}" ${maybeBreakCycles.mkString(" ")} -d "$rootDir""""
     )
 
     val g   = new Global(s)
