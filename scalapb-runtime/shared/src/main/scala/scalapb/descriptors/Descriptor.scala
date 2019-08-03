@@ -247,60 +247,56 @@ object FieldDescriptor {
       index: Int,
       m: Descriptor
   ): FieldDescriptor = {
-    val scalaType = field.getType match {
-      case FieldDescriptorProto.Type.TYPE_BOOL   => ScalaType.Boolean
-      case FieldDescriptorProto.Type.TYPE_BYTES  => ScalaType.ByteString
-      case FieldDescriptorProto.Type.TYPE_DOUBLE => ScalaType.Double
-      case FieldDescriptorProto.Type.TYPE_ENUM =>
-        FileDescriptor.find(m.file, m, field.getTypeName) match {
-          case Some(e: EnumDescriptor) =>
-            ScalaType.Enum(e)
-          case None =>
-            throw new DescriptorValidationException(
-              m,
-              s"Could not find enum ${field.getTypeName} for field ${field.getName}"
-            )
-          case Some(_) =>
-            throw new DescriptorValidationException(
-              m,
-              s"Invalid type ${field.getTypeName} for field ${field.getName}"
-            )
-        }
-      case FieldDescriptorProto.Type.TYPE_FIXED32 => ScalaType.Int
-      case FieldDescriptorProto.Type.TYPE_FIXED64 => ScalaType.Long
-      case FieldDescriptorProto.Type.TYPE_FLOAT   => ScalaType.Float
-      case FieldDescriptorProto.Type.TYPE_GROUP =>
-        throw new DescriptorValidationException(m, s"Groups are not supported.")
-      case FieldDescriptorProto.Type.TYPE_INT32 => ScalaType.Int
-      case FieldDescriptorProto.Type.TYPE_INT64 => ScalaType.Long
-      case FieldDescriptorProto.Type.TYPE_MESSAGE =>
-        FileDescriptor.find(m.file, m, field.getTypeName) match {
-          case Some(d: Descriptor) =>
-            ScalaType.Message(d)
-          case None =>
-            throw new DescriptorValidationException(
-              m,
-              s"Could not find message ${field.getTypeName} for field ${field.getName}"
-            )
-          case Some(_) =>
-            throw new DescriptorValidationException(
-              m,
-              s"Invalid type ${field.getTypeName} for field ${field.getName}"
-            )
-        }
-      case FieldDescriptorProto.Type.TYPE_SFIXED32 => ScalaType.Int
-      case FieldDescriptorProto.Type.TYPE_SFIXED64 => ScalaType.Long
-      case FieldDescriptorProto.Type.TYPE_SINT32   => ScalaType.Int
-      case FieldDescriptorProto.Type.TYPE_SINT64   => ScalaType.Long
-      case FieldDescriptorProto.Type.TYPE_STRING   => ScalaType.String
-      case FieldDescriptorProto.Type.TYPE_UINT32   => ScalaType.Int
-      case FieldDescriptorProto.Type.TYPE_UINT64   => ScalaType.Long
-      case FieldDescriptorProto.Type.Unrecognized(x) =>
-        throw new DescriptorValidationException(
-          m,
-          s"Unrecognized type for field ${field.getName}: $x"
-        )
-    }
+
+    def typeError =
+      new DescriptorValidationException(
+        m,
+        s"Invalid type ${field.getTypeName} for field ${field.getName}"
+      )
+    val scalaType = if (field.typeName.isDefined) {
+      FileDescriptor.find(m.file, m, field.getTypeName) match {
+        case Some(e: EnumDescriptor) =>
+          if (field.`type`.isEmpty || field.getType.isTypeEnum) ScalaType.Enum(e)
+          else throw typeError
+        case Some(d: Descriptor) =>
+          if (field.`type`.isEmpty || field.getType.isTypeMessage) ScalaType.Message(d)
+          else throw typeError
+        case _ =>
+          throw new DescriptorValidationException(
+            m,
+            s"Could not find type ${field.getTypeName} for field ${field.getName}"
+          )
+      }
+    } else
+      field.getType match {
+        case FieldDescriptorProto.Type.TYPE_BOOL    => ScalaType.Boolean
+        case FieldDescriptorProto.Type.TYPE_BYTES   => ScalaType.ByteString
+        case FieldDescriptorProto.Type.TYPE_DOUBLE  => ScalaType.Double
+        case FieldDescriptorProto.Type.TYPE_FIXED32 => ScalaType.Int
+        case FieldDescriptorProto.Type.TYPE_FIXED64 => ScalaType.Long
+        case FieldDescriptorProto.Type.TYPE_FLOAT   => ScalaType.Float
+        case FieldDescriptorProto.Type.TYPE_GROUP =>
+          throw new DescriptorValidationException(m, s"Groups are not supported.")
+        case FieldDescriptorProto.Type.TYPE_INT32    => ScalaType.Int
+        case FieldDescriptorProto.Type.TYPE_INT64    => ScalaType.Long
+        case FieldDescriptorProto.Type.TYPE_SFIXED32 => ScalaType.Int
+        case FieldDescriptorProto.Type.TYPE_SFIXED64 => ScalaType.Long
+        case FieldDescriptorProto.Type.TYPE_SINT32   => ScalaType.Int
+        case FieldDescriptorProto.Type.TYPE_SINT64   => ScalaType.Long
+        case FieldDescriptorProto.Type.TYPE_STRING   => ScalaType.String
+        case FieldDescriptorProto.Type.TYPE_UINT32   => ScalaType.Int
+        case FieldDescriptorProto.Type.TYPE_UINT64   => ScalaType.Long
+        case FieldDescriptorProto.Type.TYPE_ENUM | FieldDescriptorProto.Type.TYPE_MESSAGE =>
+          throw new DescriptorValidationException(
+            m,
+            s"Missing type_name for field ${field.getName}"
+          )
+        case FieldDescriptorProto.Type.Unrecognized(x) =>
+          throw new DescriptorValidationException(
+            m,
+            s"Unrecognized type for field ${field.getName}: $x"
+          )
+      }
     new FieldDescriptor(m, scalaType, index, m.file, field)
   }
 }

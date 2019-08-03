@@ -76,7 +76,7 @@ object FileDescriptorSpec extends TestSuite {
                                           |    type: TYPE_UINT64
                                           |  }
                                           |}
-          """.stripMargin),
+            """.stripMargin),
           Nil
         )
       }.getMessage ==> ("myfile.proto: Duplicate names found: mypkg.Msg1")
@@ -163,7 +163,7 @@ object FileDescriptorSpec extends TestSuite {
                                                 |}""".stripMargin)
       intercept[DescriptorValidationException] {
         FileDescriptor.buildFrom(fdp, Nil)
-      }.getMessage ==> ("mypkg.Msg1: Could not find message Msg2 for field ff")
+      }.getMessage ==> ("mypkg.Msg1: Could not find type Msg2 for field ff")
     }
 
     "buildFrom fails when message ref type is not a message" - {
@@ -197,6 +197,40 @@ object FileDescriptorSpec extends TestSuite {
       intercept[DescriptorValidationException] {
         FileDescriptor.buildFrom(fdp, Nil)
       }.getMessage ==> ("mypkg.Msg1: Invalid type Msg1 for field ff")
+    }
+
+    "buildFrom recognizes messages when type field is missing" - {
+      val fdp = FileDescriptorProto.fromAscii("""package: "mypkg"
+                                                |message_type {
+                                                |  name: "Msg1"
+                                                |  field {
+                                                |    name: "field_full"
+                                                |    type_name: ".mypkg.Msg1"
+                                                |  }
+                                                |}""".stripMargin)
+      val fd  = FileDescriptor.buildFrom(fdp, Nil)
+      val msg = fd.messages(0)
+      msg.fullName ==> ("mypkg.Msg1")
+      msg.findFieldByName("field_full").get.scalaType ==> (ScalaType.Message(msg))
+    }
+
+    "buildFrom recognizes enums when type field is missing" - {
+      val fdp  = FileDescriptorProto.fromAscii("""package: "mypkg"
+                                                |message_type {
+                                                |  name: "Msg1"
+                                                |  enum_type {
+                                                |    name: "TheEnum"
+                                                |  }
+                                                |  field {
+                                                |    name: "field_full"
+                                                |    type_name: "TheEnum"
+                                                |  }
+                                                |}""".stripMargin)
+      val fd   = FileDescriptor.buildFrom(fdp, Nil)
+      val msg  = fd.messages(0)
+      val enum = msg.enums(0)
+      msg.fullName ==> ("mypkg.Msg1")
+      msg.findFieldByName("field_full").get.scalaType ==> (ScalaType.Enum(enum))
     }
   }
 }
