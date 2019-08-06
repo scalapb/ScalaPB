@@ -10,7 +10,12 @@ val Scala212 = "2.12.9"
 
 val Scala213 = "2.13.0"
 
-val protobufVersion = "3.7.1"
+val protobufVersion = "3.8.0"
+
+// Different version for compiler-plugin since >=3.8.0 is not binary
+// compatible with 3.7.x. When loaded inside SBT (which has its own old
+// version), the binary incompatibility surfaces.
+val protobufCompilerVersion = "3.7.1"
 
 val scalacheckVersion = "1.14.0"
 
@@ -21,7 +26,7 @@ val grpcVersion = "1.22.1"
 
 val MimaPreviousVersion = "0.9.0"
 
-val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
+val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
 
 val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
 
@@ -228,7 +233,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.8",
-      "com.google.protobuf" % "protobuf-java" % protobufVersion,
+      "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion,
       ScalaTest % "test",
       ProtocJar % "test",
     ),
