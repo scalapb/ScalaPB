@@ -5,7 +5,7 @@ val Scala210 = "2.10.7"
 
 val Scala211 = "2.11.12"
 
-val Scala212 = "2.12.8"
+val Scala212 = "2.12.9"
 
 val Scala213 = "2.13.0"
 

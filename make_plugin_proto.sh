@@ -46,7 +46,7 @@ protoc_jar --java_out=scalapb-runtime/jvm/src/main/java --proto_path=./protobuf 
 
 GOOGLE_PROTOS=$(find third_party/google/protobuf/ -name '*.proto' -print)
 
-sbt "++2.12.8" "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/src/main/scala \
+sbt "++2.12.9" "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/src/main/scala \
     --proto_path=./third_party \
     $GOOGLE_PROTOS" \
     "scalapbc/run --scala_out=scalapb-runtime/non-jvm/src/main/scala \
