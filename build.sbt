@@ -9,7 +9,7 @@ val Scala212 = "2.12.9"
 
 val Scala213 = "2.13.0"
 
-val protobufVersion = "3.7.1"
+val protobufVersion = "3.8.0"
 
 val scalacheckVersion = "1.14.0"
 
@@ -20,7 +20,7 @@ val grpcVersion = "1.22.1"
 
 val MimaPreviousVersion = "0.9.0-M6"
 
-val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
+val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
 
 val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
 
