@@ -223,6 +223,8 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.timestamp.Timestamp(
+    seconds = 0L,
+    nanos = 0
   )
   implicit class TimestampLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.timestamp.Timestamp]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.timestamp.Timestamp](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))

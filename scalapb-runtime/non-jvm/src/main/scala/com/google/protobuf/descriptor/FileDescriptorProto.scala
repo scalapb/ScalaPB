@@ -380,6 +380,18 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorProto(
+    name = _root_.scala.None,
+    `package` = _root_.scala.None,
+    dependency = _root_.scala.Seq.empty,
+    publicDependency = _root_.scala.Seq.empty,
+    weakDependency = _root_.scala.Seq.empty,
+    messageType = _root_.scala.Seq.empty,
+    enumType = _root_.scala.Seq.empty,
+    service = _root_.scala.Seq.empty,
+    extension = _root_.scala.Seq.empty,
+    options = _root_.scala.None,
+    sourceCodeInfo = _root_.scala.None,
+    syntax = _root_.scala.None
   )
   implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))

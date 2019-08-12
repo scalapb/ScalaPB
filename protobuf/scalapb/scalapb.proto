@@ -82,6 +82,9 @@ message ScalaPbOptions {
   // `scala.collection.immutable.Map` will be used.
   optional string map_type = 14;
 
+  // If true, no default values will be generated in message constructors.
+  optional bool no_default_values_in_constructor = 15;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

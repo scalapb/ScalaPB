@@ -591,6 +591,27 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FileOptions(
+    javaPackage = _root_.scala.None,
+    javaOuterClassname = _root_.scala.None,
+    javaMultipleFiles = _root_.scala.None,
+    javaGenerateEqualsAndHash = _root_.scala.None,
+    javaStringCheckUtf8 = _root_.scala.None,
+    optimizeFor = _root_.scala.None,
+    goPackage = _root_.scala.None,
+    ccGenericServices = _root_.scala.None,
+    javaGenericServices = _root_.scala.None,
+    pyGenericServices = _root_.scala.None,
+    phpGenericServices = _root_.scala.None,
+    deprecated = _root_.scala.None,
+    ccEnableArenas = _root_.scala.None,
+    objcClassPrefix = _root_.scala.None,
+    csharpNamespace = _root_.scala.None,
+    swiftPrefix = _root_.scala.None,
+    phpClassPrefix = _root_.scala.None,
+    phpNamespace = _root_.scala.None,
+    phpMetadataNamespace = _root_.scala.None,
+    rubyPackage = _root_.scala.None,
+    uninterpretedOption = _root_.scala.Seq.empty
   )
   /** Generated classes can be optimized for speed or code size.
     */

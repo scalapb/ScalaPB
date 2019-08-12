@@ -363,6 +363,16 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     }
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Field(
+    kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
+    cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
+    number = 0,
+    name = "",
+    typeUrl = "",
+    oneofIndex = 0,
+    packed = false,
+    options = _root_.scala.Seq.empty,
+    jsonName = "",
+    defaultValue = ""
   )
   /** Basic field types.
     */

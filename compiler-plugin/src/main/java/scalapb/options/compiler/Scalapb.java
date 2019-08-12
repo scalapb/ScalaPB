@@ -384,6 +384,23 @@ public final class Scalapb {
 
     /**
      * <pre>
+     * If true, no default values will be generated in message constructors.
+     * </pre>
+     *
+     * <code>optional bool no_default_values_in_constructor = 15;</code>
+     */
+    boolean hasNoDefaultValuesInConstructor();
+    /**
+     * <pre>
+     * If true, no default values will be generated in message constructors.
+     * </pre>
+     *
+     * <code>optional bool no_default_values_in_constructor = 15;</code>
+     */
+    boolean getNoDefaultValuesInConstructor();
+
+    /**
+     * <pre>
      * For use in tests only. Inhibit Java conversions even when when generator parameters
      * request for it.
      * </pre>
@@ -537,8 +554,13 @@ public final class Scalapb {
               mapType_ = bs;
               break;
             }
-            case 800008: {
+            case 120: {
               bitField0_ |= 0x00001000;
+              noDefaultValuesInConstructor_ = input.readBool();
+              break;
+            }
+            case 800008: {
+              bitField0_ |= 0x00002000;
               testOnlyNoJavaConversions_ = input.readBool();
               break;
             }
@@ -1231,6 +1253,29 @@ public final class Scalapb {
       }
     }
 
+    public static final int NO_DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER = 15;
+    private boolean noDefaultValuesInConstructor_;
+    /**
+     * <pre>
+     * If true, no default values will be generated in message constructors.
+     * </pre>
+     *
+     * <code>optional bool no_default_values_in_constructor = 15;</code>
+     */
+    public boolean hasNoDefaultValuesInConstructor() {
+      return ((bitField0_ & 0x00001000) != 0);
+    }
+    /**
+     * <pre>
+     * If true, no default values will be generated in message constructors.
+     * </pre>
+     *
+     * <code>optional bool no_default_values_in_constructor = 15;</code>
+     */
+    public boolean getNoDefaultValuesInConstructor() {
+      return noDefaultValuesInConstructor_;
+    }
+
     public static final int TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001;
     private boolean testOnlyNoJavaConversions_;
     /**
@@ -1242,7 +1287,7 @@ public final class Scalapb {
      * <code>optional bool test_only_no_java_conversions = 100001;</code>
      */
     public boolean hasTestOnlyNoJavaConversions() {
-      return ((bitField0_ & 0x00001000) != 0);
+      return ((bitField0_ & 0x00002000) != 0);
     }
     /**
      * <pre>
@@ -1313,6 +1358,9 @@ public final class Scalapb {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 14, mapType_);
       }
       if (((bitField0_ & 0x00001000) != 0)) {
+        output.writeBool(15, noDefaultValuesInConstructor_);
+      }
+      if (((bitField0_ & 0x00002000) != 0)) {
         output.writeBool(100001, testOnlyNoJavaConversions_);
       }
       unknownFields.writeTo(output);
@@ -1385,6 +1433,10 @@ public final class Scalapb {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(14, mapType_);
       }
       if (((bitField0_ & 0x00001000) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(15, noDefaultValuesInConstructor_);
+      }
+      if (((bitField0_ & 0x00002000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(100001, testOnlyNoJavaConversions_);
       }
@@ -1466,6 +1518,11 @@ public final class Scalapb {
         if (!getMapType()
             .equals(other.getMapType())) return false;
       }
+      if (hasNoDefaultValuesInConstructor() != other.hasNoDefaultValuesInConstructor()) return false;
+      if (hasNoDefaultValuesInConstructor()) {
+        if (getNoDefaultValuesInConstructor()
+            != other.getNoDefaultValuesInConstructor()) return false;
+      }
       if (hasTestOnlyNoJavaConversions() != other.hasTestOnlyNoJavaConversions()) return false;
       if (hasTestOnlyNoJavaConversions()) {
         if (getTestOnlyNoJavaConversions()
@@ -1544,6 +1601,11 @@ public final class Scalapb {
       if (hasMapType()) {
         hash = (37 * hash) + MAP_TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getMapType().hashCode();
+      }
+      if (hasNoDefaultValuesInConstructor()) {
+        hash = (37 * hash) + NO_DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getNoDefaultValuesInConstructor());
       }
       if (hasTestOnlyNoJavaConversions()) {
         hash = (37 * hash) + TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER;
@@ -1711,8 +1773,10 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00001000);
         mapType_ = "";
         bitField0_ = (bitField0_ & ~0x00002000);
-        testOnlyNoJavaConversions_ = false;
+        noDefaultValuesInConstructor_ = false;
         bitField0_ = (bitField0_ & ~0x00004000);
+        testOnlyNoJavaConversions_ = false;
+        bitField0_ = (bitField0_ & ~0x00008000);
         return this;
       }
 
@@ -1800,8 +1864,12 @@ public final class Scalapb {
         }
         result.mapType_ = mapType_;
         if (((from_bitField0_ & 0x00004000) != 0)) {
-          result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
+          result.noDefaultValuesInConstructor_ = noDefaultValuesInConstructor_;
           to_bitField0_ |= 0x00001000;
+        }
+        if (((from_bitField0_ & 0x00008000) != 0)) {
+          result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
+          to_bitField0_ |= 0x00002000;
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -1915,6 +1983,9 @@ public final class Scalapb {
           bitField0_ |= 0x00002000;
           mapType_ = other.mapType_;
           onChanged();
+        }
+        if (other.hasNoDefaultValuesInConstructor()) {
+          setNoDefaultValuesInConstructor(other.getNoDefaultValuesInConstructor());
         }
         if (other.hasTestOnlyNoJavaConversions()) {
           setTestOnlyNoJavaConversions(other.getTestOnlyNoJavaConversions());
@@ -3094,6 +3165,54 @@ public final class Scalapb {
         return this;
       }
 
+      private boolean noDefaultValuesInConstructor_ ;
+      /**
+       * <pre>
+       * If true, no default values will be generated in message constructors.
+       * </pre>
+       *
+       * <code>optional bool no_default_values_in_constructor = 15;</code>
+       */
+      public boolean hasNoDefaultValuesInConstructor() {
+        return ((bitField0_ & 0x00004000) != 0);
+      }
+      /**
+       * <pre>
+       * If true, no default values will be generated in message constructors.
+       * </pre>
+       *
+       * <code>optional bool no_default_values_in_constructor = 15;</code>
+       */
+      public boolean getNoDefaultValuesInConstructor() {
+        return noDefaultValuesInConstructor_;
+      }
+      /**
+       * <pre>
+       * If true, no default values will be generated in message constructors.
+       * </pre>
+       *
+       * <code>optional bool no_default_values_in_constructor = 15;</code>
+       */
+      public Builder setNoDefaultValuesInConstructor(boolean value) {
+        bitField0_ |= 0x00004000;
+        noDefaultValuesInConstructor_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If true, no default values will be generated in message constructors.
+       * </pre>
+       *
+       * <code>optional bool no_default_values_in_constructor = 15;</code>
+       */
+      public Builder clearNoDefaultValuesInConstructor() {
+        bitField0_ = (bitField0_ & ~0x00004000);
+        noDefaultValuesInConstructor_ = false;
+        onChanged();
+        return this;
+      }
+
       private boolean testOnlyNoJavaConversions_ ;
       /**
        * <pre>
@@ -3104,7 +3223,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public boolean hasTestOnlyNoJavaConversions() {
-        return ((bitField0_ & 0x00004000) != 0);
+        return ((bitField0_ & 0x00008000) != 0);
       }
       /**
        * <pre>
@@ -3126,7 +3245,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder setTestOnlyNoJavaConversions(boolean value) {
-        bitField0_ |= 0x00004000;
+        bitField0_ |= 0x00008000;
         testOnlyNoJavaConversions_ = value;
         onChanged();
         return this;
@@ -3140,7 +3259,7 @@ public final class Scalapb {
        * <code>optional bool test_only_no_java_conversions = 100001;</code>
        */
       public Builder clearTestOnlyNoJavaConversions() {
-        bitField0_ = (bitField0_ & ~0x00004000);
+        bitField0_ = (bitField0_ & ~0x00008000);
         testOnlyNoJavaConversions_ = false;
         onChanged();
         return this;
@@ -9864,7 +9983,7 @@ public final class Scalapb {
   static {
     java.lang.String[] descriptorData = {
       "\n\rscalapb.proto\022\007scalapb\032 google/protobu" +
-      "f/descriptor.proto\"\313\003\n\016ScalaPbOptions\022\024\n" +
+      "f/descriptor.proto\"\365\003\n\016ScalaPbOptions\022\024\n" +
       "\014package_name\030\001 \001(\t\022\024\n\014flat_package\030\002 \001(" +
       "\010\022\016\n\006import\030\003 \003(\t\022\020\n\010preamble\030\004 \003(\t\022\023\n\013s" +
       "ingle_file\030\005 \001(\010\022\035\n\025no_primitive_wrapper" +
@@ -9874,33 +9993,34 @@ public final class Scalapb {
       "ope\030\013 \001(\0162$.scalapb.ScalaPbOptions.Optio" +
       "nsScope\022\024\n\006lenses\030\014 \001(\010:\004true\022\037\n\027retain_" +
       "source_code_info\030\r \001(\010\022\020\n\010map_type\030\016 \001(\t" +
-      "\022\'\n\035test_only_no_java_conversions\030\241\215\006 \001(" +
-      "\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000\022\013\n\007PACKAGE\020\001" +
-      "\"\254\001\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021" +
-      "companion_extends\030\002 \003(\t\022\023\n\013annotations\030\003" +
-      " \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_annotati" +
-      "ons\030\005 \003(\t\022\034\n\024sealed_oneof_extends\030\006 \003(\t\022" +
-      "\016\n\006no_box\030\007 \001(\010\"\246\001\n\014FieldOptions\022\014\n\004type" +
-      "\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection" +
-      "_type\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_t" +
-      "ype\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\022\020\n\010map_ty" +
-      "pe\030\007 \001(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013EnumOptions\022" +
-      "\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030\002 " +
-      "\003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n" +
-      "\007extends\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007extend" +
-      "s\030\001 \003(\t:G\n\007options\022\034.google.protobuf.Fil" +
-      "eOptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions" +
-      ":J\n\007message\022\037.google.protobuf.MessageOpt" +
-      "ions\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005" +
-      "field\022\035.google.protobuf.FieldOptions\030\374\007 " +
-      "\001(\0132\025.scalapb.FieldOptions:I\n\014enum_optio" +
-      "ns\022\034.google.protobuf.EnumOptions\030\374\007 \001(\0132" +
-      "\024.scalapb.EnumOptions:Q\n\nenum_value\022!.go" +
-      "ogle.protobuf.EnumValueOptions\030\374\007 \001(\0132\031." +
-      "scalapb.EnumValueOptions:D\n\005oneof\022\035.goog" +
-      "le.protobuf.OneofOptions\030\374\007 \001(\0132\025.scalap" +
-      "b.OneofOptionsB9\n\030scalapb.options.compil" +
-      "er\342?\034\n\030scalapb.options.compiler\020\001"
+      "\022(\n no_default_values_in_constructor\030\017 \001" +
+      "(\010\022\'\n\035test_only_no_java_conversions\030\241\215\006 " +
+      "\001(\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000\022\013\n\007PACKAGE" +
+      "\020\001\"\254\001\n\016MessageOptions\022\017\n\007extends\030\001 \003(\t\022\031" +
+      "\n\021companion_extends\030\002 \003(\t\022\023\n\013annotations" +
+      "\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_annota" +
+      "tions\030\005 \003(\t\022\034\n\024sealed_oneof_extends\030\006 \003(" +
+      "\t\022\016\n\006no_box\030\007 \001(\010\"\246\001\n\014FieldOptions\022\014\n\004ty" +
+      "pe\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collecti" +
+      "on_type\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue" +
+      "_type\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\022\020\n\010map_" +
+      "type\030\007 \001(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013EnumOption" +
+      "s\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_extends\030" +
+      "\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValueOptions\022" +
+      "\017\n\007extends\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007exte" +
+      "nds\030\001 \003(\t:G\n\007options\022\034.google.protobuf.F" +
+      "ileOptions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptio" +
+      "ns:J\n\007message\022\037.google.protobuf.MessageO" +
+      "ptions\030\374\007 \001(\0132\027.scalapb.MessageOptions:D" +
+      "\n\005field\022\035.google.protobuf.FieldOptions\030\374" +
+      "\007 \001(\0132\025.scalapb.FieldOptions:I\n\014enum_opt" +
+      "ions\022\034.google.protobuf.EnumOptions\030\374\007 \001(" +
+      "\0132\024.scalapb.EnumOptions:Q\n\nenum_value\022!." +
+      "google.protobuf.EnumValueOptions\030\374\007 \001(\0132" +
+      "\031.scalapb.EnumValueOptions:D\n\005oneof\022\035.go" +
+      "ogle.protobuf.OneofOptions\030\374\007 \001(\0132\025.scal" +
+      "apb.OneofOptionsB9\n\030scalapb.options.comp" +
+      "iler\342?\034\n\030scalapb.options.compiler\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9920,7 +10040,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "Scope", "Lenses", "RetainSourceCodeInfo", "MapType", "TestOnlyNoJavaConversions", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "Scope", "Lenses", "RetainSourceCodeInfo", "MapType", "NoDefaultValuesInConstructor", "TestOnlyNoJavaConversions", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

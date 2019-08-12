@@ -257,6 +257,12 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     }
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Type(
+    name = "",
+    fields = _root_.scala.Seq.empty,
+    oneofs = _root_.scala.Seq.empty,
+    options = _root_.scala.Seq.empty,
+    sourceContext = _root_.scala.None,
+    syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
   implicit class TypeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Type]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Type](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))

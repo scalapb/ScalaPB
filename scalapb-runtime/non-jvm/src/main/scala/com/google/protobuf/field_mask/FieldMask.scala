@@ -294,6 +294,7 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.field_mask.FieldMask(
+    paths = _root_.scala.Seq.empty
   )
   implicit class FieldMaskLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.field_mask.FieldMask]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.field_mask.FieldMask](_l) {
     def paths: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.paths)((c_, f_) => c_.copy(paths = f_))

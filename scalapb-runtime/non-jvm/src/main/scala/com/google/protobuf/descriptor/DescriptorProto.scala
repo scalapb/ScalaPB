@@ -317,6 +317,16 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto(
+    name = _root_.scala.None,
+    field = _root_.scala.Seq.empty,
+    extension = _root_.scala.Seq.empty,
+    nestedType = _root_.scala.Seq.empty,
+    enumType = _root_.scala.Seq.empty,
+    extensionRange = _root_.scala.Seq.empty,
+    oneofDecl = _root_.scala.Seq.empty,
+    options = _root_.scala.None,
+    reservedRange = _root_.scala.Seq.empty,
+    reservedName = _root_.scala.Seq.empty
   )
   @SerialVersionUID(0L)
   final case class ExtensionRange(
@@ -451,6 +461,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
+      start = _root_.scala.None,
+      end = _root_.scala.None,
+      options = _root_.scala.None
     )
     implicit class ExtensionRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
@@ -588,6 +601,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
+      start = _root_.scala.None,
+      end = _root_.scala.None
     )
     implicit class ReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))

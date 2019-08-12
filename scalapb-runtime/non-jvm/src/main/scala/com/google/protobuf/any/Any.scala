@@ -233,6 +233,8 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.any.Any(
+    typeUrl = "",
+    value = _root_.com.google.protobuf.ByteString.EMPTY
   )
   implicit class AnyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.any.Any](_l) {
     def typeUrl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))

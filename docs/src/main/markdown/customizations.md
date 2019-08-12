@@ -32,6 +32,7 @@ option (scalapb.options) = {
   preamble: "sealed trait CommonMessage"
   lenses: true
   retain_source_code_info: false
+  no_default_values_in_constructor: false,
 };
 ```
 
@@ -62,12 +63,16 @@ enums to a single Scala file.
 
 - Setting `lenses` to `false` inhibits generation of lenses (default is `true`).
 
-- Setting `retain_source_code_info` to true retains information in the descriptor that
+- Setting `retain_source_code_info` to `true` retains information in the descriptor that
   can be used to retrieve source code information from the descriptor at
   runtime (such as comments and source code locations). This option is turned
   off by default to conserve source size and memory at runtime. When this
   option is enabled, use the `location` method on various descriptors to
   access source code information.
+
+- By default, all non-required fields have default values in the constructor of the generated
+  case classes. When setting `no_default_values_in_constructor` to `true` no
+  default values will be generated for all fields.
 
 # Package-scoped options
 
@@ -382,7 +387,7 @@ case class MyDurationClass(seconds: Int)
 object MyDurationClass {
     implicit val tm = TypeMapper[Duration, MyDurationClass] {
         d: Duration => MyDurationClass(d.seconds) } {
-        m: MyDurationClass => Duration(m.seconds) 
+        m: MyDurationClass => Duration(m.seconds)
     }
 }
 ```
@@ -427,7 +432,7 @@ message Duration {
 ```
 
 Then when this message is used, it will not be wrapped in an `Option`. If
-`no_box` is specified at the field level, it overrides the value specified at 
+`no_box` is specified at the field level, it overrides the value specified at
 the message level.
 
 ## Custom types on maps

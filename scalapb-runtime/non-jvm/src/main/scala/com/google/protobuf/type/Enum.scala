@@ -215,6 +215,11 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     }
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Enum(
+    name = "",
+    enumvalue = _root_.scala.Seq.empty,
+    options = _root_.scala.Seq.empty,
+    sourceContext = _root_.scala.None,
+    syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
   implicit class EnumLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Enum]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Enum](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))

@@ -314,6 +314,13 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FieldOptions(
+    ctype = _root_.scala.None,
+    packed = _root_.scala.None,
+    jstype = _root_.scala.None,
+    `lazy` = _root_.scala.None,
+    deprecated = _root_.scala.None,
+    weak = _root_.scala.None,
+    uninterpretedOption = _root_.scala.Seq.empty
   )
   sealed trait CType extends _root_.scalapb.GeneratedEnum {
     type EnumType = CType

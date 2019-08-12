@@ -98,6 +98,7 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.thesamet.docs.json.MyContainer(
+    myAny = _root_.scala.None
   )
   implicit class MyContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.thesamet.docs.json.MyContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.thesamet.docs.json.MyContainer](_l) {
     def myAny: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getMyAny)((c_, f_) => c_.copy(myAny = Option(f_)))

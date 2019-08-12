@@ -704,7 +704,8 @@ class ProtobufGenerator(
       case field if !field.isInOneof =>
         val typeName = field.scalaTypeName
         val ctorDefaultValue: Option[String] =
-          if (field.isOptional && field.supportsPresence) Some(C.None)
+          if (message.getFile.noDefaultValuesInConstructor) None
+          else if (field.isOptional && field.supportsPresence) Some(C.None)
           else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
           else if (field.isRepeated) Some(s"${field.emptyCollection}")
           else None
@@ -717,12 +718,15 @@ class ProtobufGenerator(
         )
     }
     val oneOfFields = message.getOneofs.asScala.map { oneOf =>
+      val ctorDefaultValue: Option[String] =
+        if (message.getFile.noDefaultValuesInConstructor) None else Some(oneOf.empty)
+
       ConstructorField(
         name = oneOf.scalaName.asSymbol,
         typeName = oneOf.scalaTypeName,
-        default = Some(oneOf.empty)
+        default = ctorDefaultValue
       )
-    }.toSeq
+    }
     val maybeUnknownFields =
       if (message.preservesUnknownFields)
         Seq(
@@ -1115,9 +1119,12 @@ class ProtobufGenerator(
       .add(s"lazy val defaultInstance = $myFullScalaName(")
       .indent
       .addWithDelimiter(",")(message.fields.collect {
-        case field if field.isRequired =>
+        case field if !field.isInOneof =>
           val default = defaultValueForDefaultInstance(field)
           s"${field.scalaName.asSymbol} = $default"
+      } ++ message.getOneofs.asScala.map {
+        oneof =>
+          s"${oneof.scalaName.asSymbol} = ${oneof.empty}"
       })
       .outdent
       .add(")")

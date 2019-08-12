@@ -338,6 +338,16 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FieldDescriptorProto(
+    name = _root_.scala.None,
+    number = _root_.scala.None,
+    label = _root_.scala.None,
+    `type` = _root_.scala.None,
+    typeName = _root_.scala.None,
+    extendee = _root_.scala.None,
+    defaultValue = _root_.scala.None,
+    oneofIndex = _root_.scala.None,
+    jsonName = _root_.scala.None,
+    options = _root_.scala.None
   )
   sealed trait Type extends _root_.scalapb.GeneratedEnum {
     type EnumType = Type

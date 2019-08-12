@@ -171,6 +171,9 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.MethodOptions(
+    deprecated = _root_.scala.None,
+    idempotencyLevel = _root_.scala.None,
+    uninterpretedOption = _root_.scala.Seq.empty
   )
   /** Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
     * or neither? HTTP based RPC implementation may choose GET verb for safe

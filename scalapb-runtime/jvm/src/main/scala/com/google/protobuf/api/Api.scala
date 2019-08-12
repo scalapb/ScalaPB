@@ -318,6 +318,13 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     }
   }
   lazy val defaultInstance = com.google.protobuf.api.Api(
+    name = "",
+    methods = _root_.scala.Seq.empty,
+    options = _root_.scala.Seq.empty,
+    version = "",
+    sourceContext = _root_.scala.None,
+    mixins = _root_.scala.Seq.empty,
+    syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
   implicit class ApiLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Api]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Api](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))

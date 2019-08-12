@@ -9,6 +9,7 @@ import org.scalatest._
 import com.google.protobuf.ByteString
 import com.google.protobuf.descriptor.MessageOptions
 import com.thesamet.pb.{Base1, Base2, FullName}
+import com.thesamet.proto.e2e.no_default_values_in_constructor.NoDefaultValuesTest
 
 class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   val barOptions = BarMessage.scalaDescriptor.getOptions
@@ -248,5 +249,10 @@ class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
       "com.thesamet.pb.CustomAnnotation1",
       "com.thesamet.pb.CustomAnnotation2"
     )
+  }
+
+  "no default values" should "not generate default values" in {
+    assertDoesNotCompile("NoDefaultValuesTest()")
+    assertCompiles("NoDefaultValuesTest(a=1, b=3, oo=NoDefaultValuesTest.Oo.Empty)")
   }
 }

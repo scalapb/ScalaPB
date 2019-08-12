@@ -232,6 +232,13 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.MessageOptions(
+    `extends` = _root_.scala.Seq.empty,
+    companionExtends = _root_.scala.Seq.empty,
+    annotations = _root_.scala.Seq.empty,
+    `type` = _root_.scala.None,
+    companionAnnotations = _root_.scala.Seq.empty,
+    sealedOneofExtends = _root_.scala.Seq.empty,
+    noBox = _root_.scala.None
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.MessageOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))

@@ -129,6 +129,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.struct.Struct(
+    fields = _root_.scala.collection.immutable.Map.empty
   )
   @SerialVersionUID(0L)
   final case class FieldsEntry(
@@ -249,6 +250,8 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.struct.Struct.FieldsEntry(
+      key = "",
+      value = _root_.scala.None
     )
     implicit class FieldsEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry](_l) {
       def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.key)((c_, f_) => c_.copy(key = f_))

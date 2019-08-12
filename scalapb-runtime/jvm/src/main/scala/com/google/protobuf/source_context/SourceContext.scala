@@ -111,6 +111,7 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.source_context.SourceContext(
+    fileName = ""
   )
   implicit class SourceContextLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.source_context.SourceContext](_l) {
     def fileName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))

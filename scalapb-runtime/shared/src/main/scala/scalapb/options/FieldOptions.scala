@@ -247,6 +247,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.FieldOptions(
+    `type` = _root_.scala.None,
+    scalaName = _root_.scala.None,
+    collectionType = _root_.scala.None,
+    keyType = _root_.scala.None,
+    valueType = _root_.scala.None,
+    annotations = _root_.scala.Seq.empty,
+    mapType = _root_.scala.None,
+    noBox = _root_.scala.None
   )
   implicit class FieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.FieldOptions](_l) {
     def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))

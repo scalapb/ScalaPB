@@ -159,6 +159,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.SourceCodeInfo(
+    location = _root_.scala.Seq.empty
   )
   /** @param path
     *   Identifies which part of the FileDescriptorProto was defined at this
@@ -459,6 +460,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.SourceCodeInfo.Location(
+      path = _root_.scala.Seq.empty,
+      span = _root_.scala.Seq.empty,
+      leadingComments = _root_.scala.None,
+      trailingComments = _root_.scala.None,
+      leadingDetachedComments = _root_.scala.Seq.empty
     )
     implicit class LocationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))

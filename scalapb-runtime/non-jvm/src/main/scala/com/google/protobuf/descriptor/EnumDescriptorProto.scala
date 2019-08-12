@@ -200,6 +200,11 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.EnumDescriptorProto(
+    name = _root_.scala.None,
+    value = _root_.scala.Seq.empty,
+    options = _root_.scala.None,
+    reservedRange = _root_.scala.Seq.empty,
+    reservedName = _root_.scala.Seq.empty
   )
   /** Range of reserved numeric values. Reserved values may not be used by
     * entries in the same enum. Reserved ranges may not overlap.
@@ -318,6 +323,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
+      start = _root_.scala.None,
+      end = _root_.scala.None
     )
     implicit class EnumReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))

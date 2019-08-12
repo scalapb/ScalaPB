@@ -216,6 +216,7 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     }
   }
   lazy val defaultInstance = com.google.protobuf.struct.Value(
+    kind = com.google.protobuf.struct.Value.Kind.Empty
   )
   sealed trait Kind extends _root_.scalapb.GeneratedOneof {
     def isEmpty: _root_.scala.Boolean = false

@@ -276,6 +276,13 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     }
   }
   lazy val defaultInstance = com.google.protobuf.api.Method(
+    name = "",
+    requestTypeUrl = "",
+    requestStreaming = false,
+    responseTypeUrl = "",
+    responseStreaming = false,
+    options = _root_.scala.Seq.empty,
+    syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
   implicit class MethodLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))

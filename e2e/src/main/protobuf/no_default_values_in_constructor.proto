@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options).no_default_values_in_constructor = true;
+
+import "scalapb/scalapb.proto";
+
+message NoDefaultValuesTest {
+  int32 a = 1;
+  int32 b = 2;
+  oneof oo {
+    int32 x = 3;
+    string y = 4;
+  }
+}

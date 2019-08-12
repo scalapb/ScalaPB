@@ -5,6 +5,8 @@
 - Updated to Scala 2.12.9
 - Added `NonEmpty` marker trait to non-empty cases of sealed oneofs. A new
   method `asNonEmpty` returns an `Option[NonEmpty]`. See #633
+- Added `no_default_values_in_constructor` to inhibit generation of default
+  values in case class constructors.
 - Update to protobuf 3.8.0
 
 ## [0.9.0](https://github.com/scalapb/ScalaPB/tree/v0.9.0)

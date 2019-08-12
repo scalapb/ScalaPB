@@ -233,6 +233,13 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.UninterpretedOption(
+    name = _root_.scala.Seq.empty,
+    identifierValue = _root_.scala.None,
+    positiveIntValue = _root_.scala.None,
+    negativeIntValue = _root_.scala.None,
+    doubleValue = _root_.scala.None,
+    stringValue = _root_.scala.None,
+    aggregateValue = _root_.scala.None
   )
   /** The name of the uninterpreted option.  Each string represents a segment in
     * a dot-separated name.  is_extension is true iff a segment represents an
