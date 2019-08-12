@@ -17,7 +17,8 @@ case class GeneratorParams(
     singleLineToProtoString: Boolean = false,
     asciiFormatToString: Boolean = false,
     lenses: Boolean = true,
-    retainSourceCodeInfo: Boolean = false
+    retainSourceCodeInfo: Boolean = false,
+    defaultParameterValuesForFields: Boolean = true
 )
 
 // Exceptions that are caught and passed upstreams as errors.
@@ -704,9 +705,12 @@ class ProtobufGenerator(
       case field if !field.isInOneof =>
         val typeName = field.scalaTypeName
         val ctorDefaultValue: Option[String] =
-          if (field.isOptional && field.supportsPresence) Some(C.None)
-          else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
-          else if (field.isRepeated) Some(s"${field.emptyCollection}")
+          if (message.getFile.defaultParameterValuesForFields) {
+            if (field.isOptional && field.supportsPresence) Some(C.None)
+            else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
+            else if (field.isRepeated) Some(s"${field.emptyCollection}")
+            else None
+          }
           else None
 
         ConstructorField(
@@ -717,12 +721,16 @@ class ProtobufGenerator(
         )
     }
     val oneOfFields = message.getOneofs.asScala.map { oneOf =>
+      val ctorDefaultValue: Option[String] =
+        if (message.getFile.defaultParameterValuesForFields) Some(oneOf.empty)
+        else None
+
       ConstructorField(
         name = oneOf.scalaName.asSymbol,
         typeName = oneOf.scalaTypeName,
-        default = Some(oneOf.empty)
+        default = ctorDefaultValue
       )
-    }.toSeq
+    }
     val maybeUnknownFields =
       if (message.preservesUnknownFields)
         Seq(
@@ -1115,7 +1123,7 @@ class ProtobufGenerator(
       .add(s"lazy val defaultInstance = $myFullScalaName(")
       .indent
       .addWithDelimiter(",")(message.fields.collect {
-        case field if field.isRequired =>
+        case field if field.isRequired || !message.getFile.defaultParameterValuesForFields =>
           val default = defaultValueForDefaultInstance(field)
           s"${field.scalaName.asSymbol} = $default"
       })
@@ -1865,6 +1873,8 @@ object ProtobufGenerator {
           Right(params.copy(lenses = false))
         case (Right(params), "retain_source_code_info") =>
           Right(params.copy(retainSourceCodeInfo = true))
+        case (Right(params), "no_default_parameter_values_for_fields") =>
+          Right(params.copy(defaultParameterValuesForFields = false))
         case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
         case (x, _)             => x
       }

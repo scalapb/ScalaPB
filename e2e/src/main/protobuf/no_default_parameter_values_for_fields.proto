@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options).default_parameter_values_for_fields = false;
+
+import "scalapb/scalapb.proto";
+
+message NoDefaultParameterValuesForFieldsTest {
+  int32 a = 1;
+  int32 b = 2;
+}
