@@ -1,5 +1,6 @@
 import com.thesamet.proto.e2e.NoBox
 import com.thesamet.proto.e2e.no_box.Car
+import com.thesamet.proto.e2e.no_box.DontBoxMe
 import com.thesamet.proto.e2e.no_box.Tyre
 import org.scalatest._
 
@@ -35,5 +36,13 @@ class NoBoxSpec extends FlatSpec with MustMatchers {
   "Scala message with a no_box field with null value" should "throw exception when being serialized" in {
     val car = Car(tyre1 = null)
     a[NullPointerException] shouldBe thrownBy(car.toByteArray)
+  }
+
+  "Scala message with a no_box reference" should "generate correct types" in {
+    val car = Car()
+    car.dontBoxMeDef mustBe (DontBoxMe.defaultInstance)
+    car.dontBoxMeOverrideTrue mustBe (DontBoxMe.defaultInstance)
+    car.dontBoxMeOverrideFalse mustBe (None)
+    car.nameNoBox mustBe (com.thesamet.pb.FullName("", ""))
   }
 }

@@ -231,16 +231,18 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       fd.getContainingOneof.scalaTypeName + "." + upperScalaName
     }
 
+    def noBox = if (fieldOptions.hasNoBox) fieldOptions.getNoBox else if (fd.isMessage) fd.getMessageType.noBox else false
+
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
       fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) &&
-        !fieldOptions.getNoBox && !fd.isSealedOneofType
+        !noBox && !fd.isSealedOneofType
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
       fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (
-        fd.isOptional && (fieldOptions.getNoBox || (fd.isSealedOneofType && !fd.isInOneof))
+        fd.isOptional && (noBox || (fd.isSealedOneofType && !fd.isInOneof))
       )
 
     def enclosingType: EnclosingType =
@@ -511,6 +513,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def messageOptions: MessageOptions =
       message.getOptions.getExtension[MessageOptions](Scalapb.message)
+
+
+    def noBox = message.messageOptions.getNoBox
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)

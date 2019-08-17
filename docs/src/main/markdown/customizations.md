@@ -349,6 +349,83 @@ package object c {
 }
 ```
 
+# Message-level custom type and boxing
+
+In the previous section you saw how to customize the type generated for a
+specific field. ScalaPB also lets you specify a custom type at the message
+level. When `type` is set at the message level, that type is used for all the
+fields that use that message. This eliminates the need to specify `type` on each field
+of this type.
+
+```protobuf
+// duration.proto
+syntax = "proto3";
+
+package mytypes;
+
+import "scalapb/scalapb.proto";
+
+message Duration {
+    option (scalapb.message).type = "mytypes.MyDurationType";
+    int32 seconds = 1;
+}
+```
+
+In a Scala file define an implicit mapper:
+
+```scala
+package mytypes
+
+case class MyDuration(seconds: Int)
+
+object MyDurationType {
+    implicit val tm = TypeMapper[duration.Duration, MyDuration]
+        (MyDuration(_.seconds))(duration.Duration(_.seconds))
+}
+```
+
+Now, each time you reference `Duration` in a proto file, the generated field in Scala code
+will be of type `MyDuration`:
+
+```protobuf
+syntax = "proto3";
+
+package mytypes;
+
+import "scalapb/scalapb.proto";
+import "duration.proto";
+
+message Usage {
+    Duration dd = 1;           // will become dd: Option[MyDuration]
+    repeated Duration ds = 2;  // will become ds: Seq[MyDuration]
+
+    // You can eliminate the boxing of an optional field in an Option by using
+    // no_box
+    Duration dd_nobox = 3 [(scalapb.field).no_box = true];  // will become ddNoBox: MyDuration
+}
+
+If you do not want any instance of your message to be boxed (regardless if it
+has a custom type), you can set `no_box` at the message-level:
+
+```protobuf
+// duration_nobox.proto
+syntax = "proto3";
+
+package mytypes;
+
+import "scalapb/scalapb.proto";
+
+message Duration {
+    option (scalapb.message).type = "mytypes.MyDurationType";
+    option (scalapb.message).no_box = true;  // do not wrap in Option
+    int32 seconds = 1;
+}
+```
+
+Then when this message is used, it will not be wrapped in an `Option`. If
+`no_box` is specified at the field level, it overrides the value specified at 
+the message level.
+
 ## Custom types on maps
 
 Since version 0.6.0 it is possible to customize the key and value types of

@@ -3405,6 +3405,25 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getSealedOneofExtendsBytes(int index);
+
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    boolean hasNoBox();
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    boolean getNoBox();
   }
   /**
    * Protobuf type {@code scalapb.MessageOptions}
@@ -3500,6 +3519,11 @@ public final class Scalapb {
                 mutable_bitField0_ |= 0x00000020;
               }
               sealedOneofExtends_.add(bs);
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000002;
+              noBox_ = input.readBool();
               break;
             }
             default: {
@@ -3832,6 +3856,31 @@ public final class Scalapb {
       return sealedOneofExtends_.getByteString(index);
     }
 
+    public static final int NO_BOX_FIELD_NUMBER = 7;
+    private boolean noBox_;
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    public boolean hasNoBox() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    public boolean getNoBox() {
+      return noBox_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3863,6 +3912,9 @@ public final class Scalapb {
       }
       for (int i = 0; i < sealedOneofExtends_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, sealedOneofExtends_.getRaw(i));
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeBool(7, noBox_);
       }
       unknownFields.writeTo(output);
     }
@@ -3916,6 +3968,10 @@ public final class Scalapb {
         size += dataSize;
         size += 1 * getSealedOneofExtendsList().size();
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, noBox_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -3946,6 +4002,11 @@ public final class Scalapb {
           .equals(other.getCompanionAnnotationsList())) return false;
       if (!getSealedOneofExtendsList()
           .equals(other.getSealedOneofExtendsList())) return false;
+      if (hasNoBox() != other.hasNoBox()) return false;
+      if (hasNoBox()) {
+        if (getNoBox()
+            != other.getNoBox()) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -3980,6 +4041,11 @@ public final class Scalapb {
       if (getSealedOneofExtendsCount() > 0) {
         hash = (37 * hash) + SEALED_ONEOF_EXTENDS_FIELD_NUMBER;
         hash = (53 * hash) + getSealedOneofExtendsList().hashCode();
+      }
+      if (hasNoBox()) {
+        hash = (37 * hash) + NO_BOX_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getNoBox());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4126,6 +4192,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000010);
         sealedOneofExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000020);
+        noBox_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -4183,6 +4251,10 @@ public final class Scalapb {
           bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.sealedOneofExtends_ = sealedOneofExtends_;
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.noBox_ = noBox_;
+          to_bitField0_ |= 0x00000002;
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4286,6 +4358,9 @@ public final class Scalapb {
             sealedOneofExtends_.addAll(other.sealedOneofExtends_);
           }
           onChanged();
+        }
+        if (other.hasNoBox()) {
+          setNoBox(other.getNoBox());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5067,6 +5142,58 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+
+      private boolean noBox_ ;
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public boolean hasNoBox() {
+        return ((bitField0_ & 0x00000040) != 0);
+      }
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public boolean getNoBox() {
+        return noBox_;
+      }
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public Builder setNoBox(boolean value) {
+        bitField0_ |= 0x00000040;
+        noBox_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public Builder clearNoBox() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        noBox_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5296,7 +5423,7 @@ public final class Scalapb {
 
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -5304,7 +5431,7 @@ public final class Scalapb {
     boolean hasNoBox();
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -5795,7 +5922,7 @@ public final class Scalapb {
     private boolean noBox_;
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -5805,7 +5932,7 @@ public final class Scalapb {
     }
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -7009,7 +7136,7 @@ public final class Scalapb {
       private boolean noBox_ ;
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -7019,7 +7146,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -7029,7 +7156,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -7042,7 +7169,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -9749,31 +9876,31 @@ public final class Scalapb {
       "\027retain_source_code_info\030\r \001(\010\022\020\n\010map_ty" +
       "pe\030\016 \001(\t\022\'\n\035test_only_no_java_conversion" +
       "s\030\241\215\006 \001(\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000\022\013\n\007P" +
-      "ACKAGE\020\001\"\234\001\n\016MessageOptions\022\017\n\007extends\030\001" +
+      "ACKAGE\020\001\"\254\001\n\016MessageOptions\022\017\n\007extends\030\001" +
       " \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\023\n\013annot" +
       "ations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025companion_" +
       "annotations\030\005 \003(\t\022\034\n\024sealed_oneof_extend" +
-      "s\030\006 \003(\t\"\246\001\n\014FieldOptions\022\014\n\004type\030\001 \001(\t\022\022" +
-      "\n\nscala_name\030\002 \001(\t\022\027\n\017collection_type\030\003 " +
-      "\001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type\030\005 \001(" +
-      "\t\022\023\n\013annotations\030\006 \003(\t\022\020\n\010map_type\030\007 \001(\t" +
-      "\022\016\n\006no_box\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007exten" +
-      "ds\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\014\n\004t" +
-      "ype\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n\007extends" +
-      "\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007extends\030\001 \003(\t:" +
-      "G\n\007options\022\034.google.protobuf.FileOptions" +
-      "\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n\007mess" +
-      "age\022\037.google.protobuf.MessageOptions\030\374\007 " +
-      "\001(\0132\027.scalapb.MessageOptions:D\n\005field\022\035." +
-      "google.protobuf.FieldOptions\030\374\007 \001(\0132\025.sc" +
-      "alapb.FieldOptions:I\n\014enum_options\022\034.goo" +
-      "gle.protobuf.EnumOptions\030\374\007 \001(\0132\024.scalap" +
-      "b.EnumOptions:Q\n\nenum_value\022!.google.pro" +
-      "tobuf.EnumValueOptions\030\374\007 \001(\0132\031.scalapb." +
-      "EnumValueOptions:D\n\005oneof\022\035.google.proto" +
-      "buf.OneofOptions\030\374\007 \001(\0132\025.scalapb.OneofO" +
-      "ptionsB\'\n\017scalapb.options\342?\023\n\017scalapb.op" +
-      "tions\020\001"
+      "s\030\006 \003(\t\022\016\n\006no_box\030\007 \001(\010\"\246\001\n\014FieldOptions" +
+      "\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017co" +
+      "llection_type\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n" +
+      "\nvalue_type\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\022\020" +
+      "\n\010map_type\030\007 \001(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013Enum" +
+      "Options\022\017\n\007extends\030\001 \003(\t\022\031\n\021companion_ex" +
+      "tends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValueOp" +
+      "tions\022\017\n\007extends\030\001 \003(\t\"\037\n\014OneofOptions\022\017" +
+      "\n\007extends\030\001 \003(\t:G\n\007options\022\034.google.prot" +
+      "obuf.FileOptions\030\374\007 \001(\0132\027.scalapb.ScalaP" +
+      "bOptions:J\n\007message\022\037.google.protobuf.Me" +
+      "ssageOptions\030\374\007 \001(\0132\027.scalapb.MessageOpt" +
+      "ions:D\n\005field\022\035.google.protobuf.FieldOpt" +
+      "ions\030\374\007 \001(\0132\025.scalapb.FieldOptions:I\n\014en" +
+      "um_options\022\034.google.protobuf.EnumOptions" +
+      "\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nenum_va" +
+      "lue\022!.google.protobuf.EnumValueOptions\030\374" +
+      "\007 \001(\0132\031.scalapb.EnumValueOptions:D\n\005oneo" +
+      "f\022\035.google.protobuf.OneofOptions\030\374\007 \001(\0132" +
+      "\025.scalapb.OneofOptionsB\'\n\017scalapb.option" +
+      "s\342?\023\n\017scalapb.options\020\001"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -9799,7 +9926,7 @@ public final class Scalapb {
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_MessageOptions_descriptor,
-        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", "CompanionAnnotations", "SealedOneofExtends", });
+        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", "CompanionAnnotations", "SealedOneofExtends", "NoBox", });
     internal_static_scalapb_FieldOptions_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new
