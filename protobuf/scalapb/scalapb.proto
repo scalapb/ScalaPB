@@ -69,7 +69,7 @@ message ScalaPbOptions {
   // Experimental: scope to apply the given options.
   optional OptionsScope scope = 11;
 
-  // If true, lenses will not be generated.
+  // If true, lenses will be generated.
   optional bool lenses = 12 [default=true];
 
   // If true, then source-code info information will be included in the

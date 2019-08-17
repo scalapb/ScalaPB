@@ -44,7 +44,7 @@ package scalapb.options
   * @param scope
   *   Experimental: scope to apply the given options.
   * @param lenses
-  *   If true, lenses will not be generated.
+  *   If true, lenses will be generated.
   * @param retainSourceCodeInfo
   *   If true, then source-code info information will be included in the
   *   generated code - normally the source code info is cleared out to reduce

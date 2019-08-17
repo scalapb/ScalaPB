@@ -315,7 +315,7 @@ public final class Scalapb {
 
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -323,7 +323,7 @@ public final class Scalapb {
     boolean hasLenses();
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -1126,7 +1126,7 @@ public final class Scalapb {
     private boolean lenses_;
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -1136,7 +1136,7 @@ public final class Scalapb {
     }
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -2883,7 +2883,7 @@ public final class Scalapb {
       private boolean lenses_ = true;
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
@@ -2893,7 +2893,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
@@ -2903,7 +2903,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
@@ -2916,7 +2916,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
