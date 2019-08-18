@@ -403,6 +403,7 @@ message Usage {
     // no_box
     Duration dd_nobox = 3 [(scalapb.field).no_box = true];  // will become ddNoBox: MyDuration
 }
+```
 
 If you do not want any instance of your message to be boxed (regardless if it
 has a custom type), you can set `no_box` at the message-level:
