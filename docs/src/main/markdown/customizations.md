@@ -366,21 +366,24 @@ package mytypes;
 import "scalapb/scalapb.proto";
 
 message Duration {
-    option (scalapb.message).type = "mytypes.MyDurationType";
+    option (scalapb.message).type = "mytypes.MyDurationClass";
     int32 seconds = 1;
 }
 ```
 
 In a Scala file define an implicit mapper:
 
-```scala
-package mytypes
+```scala mdoc
+import scalapb.TypeMapper
+import mytypes.duration.Duration
 
-case class MyDuration(seconds: Int)
+case class MyDurationClass(seconds: Int)
 
-object MyDurationType {
-    implicit val tm = TypeMapper[duration.Duration, MyDuration]
-        (MyDuration(_.seconds))(duration.Duration(_.seconds))
+object MyDurationClass {
+    implicit val tm = TypeMapper[Duration, MyDurationClass] {
+        d: Duration => MyDurationClass(d.seconds) } {
+        m: MyDurationClass => Duration(m.seconds) 
+    }
 }
 ```
 
