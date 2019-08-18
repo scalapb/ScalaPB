@@ -231,7 +231,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       fd.getContainingOneof.scalaTypeName + "." + upperScalaName
     }
 
-    def noBox = if (fieldOptions.hasNoBox) fieldOptions.getNoBox else if (fd.isMessage) fd.getMessageType.noBox else false
+    def noBox =
+      if (fieldOptions.hasNoBox) fieldOptions.getNoBox
+      else if (fd.isMessage) fd.getMessageType.noBox
+      else false
 
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
@@ -513,7 +516,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def messageOptions: MessageOptions =
       message.getOptions.getExtension[MessageOptions](Scalapb.message)
-
 
     def noBox = message.messageOptions.getNoBox
 

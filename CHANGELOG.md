@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.9.1] (Unreleased)
+- It is now possible to specify no_box at the message-level.
+- Updated to Scala 2.12.9
+
 ## [0.9.0](https://github.com/scalapb/ScalaPB/tree/HEAD)
 - Experimental support for Scala 2.13.0. Notes:
   - ScalaPB now generates `scala.Seq` by default for repeated
