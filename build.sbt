@@ -1,5 +1,6 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
+import com.typesafe.tools.mima.core._
 
 val Scala210 = "2.10.7"
 
@@ -18,7 +19,7 @@ val sbtPluginVersion = "0.99.23"
 
 val grpcVersion = "1.22.1"
 
-val MimaPreviousVersion = "0.9.0-M6"
+val MimaPreviousVersion = "0.9.0"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
 
@@ -133,7 +134,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       import com.typesafe.tools.mima.core._
       Seq(
         ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils"),
-        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils$")
+        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils$"),
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
+        // Added noBox
+        ProblemFilters.exclude[Problem]("scalapb.options.MessageOptions.*"),
+        ProblemFilters.exclude[Problem]("scalapb.options.Scalapb#MessageOptionsOrBuilder.*"),
       )
     },
   )
@@ -188,7 +194,11 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "org.mockito" % "mockito-core" % "3.0.0" % "test",
       ScalaTest % "test",
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion)
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion),
+    mimaBinaryIssueFilters ++= Seq(
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*")
+    )
   )
 
 val shadeTarget = settingKey[String]("Target to use when shading")
@@ -226,6 +236,9 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
+        ProblemFilters.exclude[Problem]("scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.*"),
       )
     }
   )
@@ -398,7 +411,9 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).in(f
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setIfDefined")
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setIfDefined"),
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*")
       )
     }
   )
