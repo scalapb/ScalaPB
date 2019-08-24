@@ -18,6 +18,22 @@ env:
 - TEST_SCRIPT=mima.sh
 - TEST_SCRIPT=proptest.sh
 
+native_image: &native_image
+  stage: release
+  if: tag IS present
+  scala: 2.13.0
+  script: |
+      ./.travis/make_native_image.sh protoc-gen-scalapb-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
+  deploy:
+  - provider: releases
+    on:
+      tags: true
+      repo: scalapb/ScalaPB
+    api_key:
+      secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
+    file: protoc-gen-scalapb-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
+    skip_cleanup: true
+
 jobs:
   include:
   #- env: SCALA_NATIVE
@@ -40,6 +56,12 @@ jobs:
     deploy:
     - provider: script
       script: .travis/push_website.sh
+  - <<: *native_image
+    name: "Native Image (OSX)"
+    os: osx
+  - <<: *native_image
+    name: "Native Image (Linux)"
+    os: linux
   - stage: release
     if: tag IS present
     scala: 2.11.12

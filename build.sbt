@@ -335,9 +335,17 @@ lazy val scalapbc = project
   )
 
 lazy val protocGenScalapbUnix = project
-  .enablePlugins(AssemblyPlugin)
+  .enablePlugins(AssemblyPlugin, GraalVMNativeImagePlugin)
   .dependsOn(scalapbc)
   .settings(
+    graalVMNativeImageOptions ++= Seq(
+      "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
+      "-H:Name=protoc-gen-scalapb"
+    ) ++ (
+      if (System.getProperty("os.name").contains("linux"))
+        Seq("--static")
+      else Seq.empty,
+    ),
     assemblyOption in assembly := (assemblyOption in
       assembly).value.copy(
       prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))
