@@ -309,7 +309,7 @@ lazy val protocGenScalapbUnix = project
     .dependsOn(scalapbc)
     .settings(
         graalVMNativeImageOptions += "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
-        graalVMNativeImageOptions += "-H:Name=protoc-gen-scalapb",
+        graalVMNativeImageOptions += "-H:Name=protoc-gen-scalapb-linux-amd64",
         assemblyOption in assembly := (assemblyOption in
         assembly).value.copy(prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))),
         skip in publish := true,
