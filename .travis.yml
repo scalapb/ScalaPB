@@ -8,15 +8,15 @@ stages:
   if: (branch = master AND type = push AND repo = "scalapb/ScalaPB") OR (tag IS present)
 
 scala:
-- 2.11.12
-- 2.12.9
+# - 2.11.12
+# - 2.12.9
 - 2.13.0
 
 env:
-- TEST_SCRIPT=e2e.sh E2E_SHADED=0
-- TEST_SCRIPT=e2e.sh E2E_SHADED=1
+# - TEST_SCRIPT=e2e.sh E2E_SHADED=0
+# - TEST_SCRIPT=e2e.sh E2E_SHADED=1
 - TEST_SCRIPT=mima.sh
-- TEST_SCRIPT=proptest.sh
+# - TEST_SCRIPT=proptest.sh
 
 jobs:
   include:
@@ -27,12 +27,12 @@ jobs:
   #  - curl https://raw.githubusercontent.com/scala-native/scala-native/master/scripts/travis_setup.sh | bash -x
   #  script:
   #  - sbt ++2.11.12 runtimeNative/test lensesNative/test
-  - env: EXAMPLES_AND_FORMATTING
-    scala: 2.11.12
-    script:
-    - for d in examples/*; do cd "$d" && sbt test && cd ../..; done
-    - sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck
-    - ./test_generated_code_checked_in.sh
+  # - env: EXAMPLES_AND_FORMATTING
+  #   scala: 2.11.12
+  #   script:
+  #   - for d in examples/*; do cd "$d" && sbt test && cd ../..; done
+  #   - sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck
+  #   - ./test_generated_code_checked_in.sh
   - stage: release
     env: UPDATE_DOCS
     scala: 2.11.12
@@ -40,6 +40,26 @@ jobs:
     deploy:
     - provider: script
       script: .travis/push_website.sh
+  - stage: release
+    if: tag IS present
+    scala: 2.13.0
+    name: "GraalVM native image"
+    script: |
+        wget -qO- https://github.com/shyiko/jabba/raw/master/install.sh | bash && . ~/.jabba/jabba.sh;
+        GRAALVM=graalvm@19.2.0-1
+        $JABBA_HOME/bin/jabba install ${GRAALVM}
+        export JAVA_HOME="$JABBA_HOME/jdk/${GRAALVM}" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
+        $JAVA_HOME/bin/gu install native-image
+        sbt protocGenScalapbUnix/graalvm-native-image:packageBin
+    deploy:
+    - provider: releases
+      on:
+        tags: true
+        repo: scalapb/ScalaPB
+      api_key:
+        secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
+      file: protocGenScalapbUnix/target/graalvm-native-image/protoc-gen-scalapb
+      skip_cleanup: true
   - stage: release
     if: tag IS present
     scala: 2.11.12
