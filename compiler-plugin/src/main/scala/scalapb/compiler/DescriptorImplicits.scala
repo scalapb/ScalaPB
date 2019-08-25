@@ -141,6 +141,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         ""
       }
     }
+
+    def javaDescriptorSource: String =
+      s"${method.getService.javaDescriptorSource}.getMethods.get(${method.getIndex})"
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
@@ -160,6 +163,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def scalaDescriptorSource: String =
       s"${self.getFile.fileDescriptorObjectName}.scalaDescriptor.services(${self.getIndex})"
+
+    def javaDescriptorSource: String =
+      s"${self.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices.get(${self.getIndex})"
 
     def sourcePath: Seq[Int] = Seq(FileDescriptorProto.SERVICE_FIELD_NUMBER, self.getIndex)
 
