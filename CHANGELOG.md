@@ -3,6 +3,8 @@
 ## [0.9.1] (Unreleased)
 - It is now possible to specify no_box at the message-level.
 - Updated to Scala 2.12.9
+- Added `NonEmpty` marker trait to non-empty cases of sealed oneofs. A new
+  method `asNonEmpty` returns an `Option[NonEmpty]`. See #633
 
 ## [0.9.0](https://github.com/scalapb/ScalaPB/tree/HEAD)
 - Experimental support for Scala 2.13.0. Notes:

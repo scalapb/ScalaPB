@@ -71,5 +71,15 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
     SoccerPlayer() mustBe a [PlayerBaseTrait]
     SoccerPlayer() mustBe a [scalapb.GeneratedSealedOneof]
   }
-}
 
+  "asNonEmpty" should "return Some or None" in {
+    expr.asNonEmpty must be(Some(expr))
+    expr.lhs.asNonEmpty must be(Some(expr.lhs))
+    Expr.Empty.asNonEmpty must be(None)
+    expr.asNonEmpty match {
+      case Some(Add(_, _)) => "add"
+      case Some(Lit(_)) => "add"
+      case None => ""
+    }
+  }
+}

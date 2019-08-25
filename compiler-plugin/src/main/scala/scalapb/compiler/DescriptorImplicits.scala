@@ -561,6 +561,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       }
     }
 
+    def sealedOneofNonEmptyScalaType = sealedOneofScalaType + ".NonEmpty"
+
     private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
 
     def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
@@ -595,7 +597,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
       val sealedOneofTrait = sealedOneofContainer match {
-        case Some(parent) => List(parent.sealedOneofScalaType)
+        case Some(parent) => List(parent.sealedOneofScalaType, parent.sealedOneofNonEmptyScalaType)
         case _            => List()
       }
 
