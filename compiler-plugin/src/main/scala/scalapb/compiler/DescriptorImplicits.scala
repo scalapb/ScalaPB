@@ -591,6 +591,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         case _                     => Seq()
       }
 
+      val updatable =
+        if (message.generateLenses) Seq(s"scalapb.lenses.Updatable[$nameSymbol]") else Nil
+
       val extendable =
         if (message.isExtendable) Seq(s"_root_.scalapb.ExtendableMessage[$nameSymbol]") else Nil
 
@@ -603,9 +606,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
       anyVal ++ sealedOneofTrait ++ Seq(
         "scalapb.GeneratedMessage",
-        s"scalapb.Message[$nameSymbol]",
-        s"scalapb.lenses.Updatable[$nameSymbol]"
-      ) ++ extendable ++ extendsOption ++ specialMixins
+        s"scalapb.Message[$nameSymbol]"
+      ) ++ updatable ++ extendable ++ extendsOption ++ specialMixins
     }
 
     def companionBaseClasses: Seq[String] = {
