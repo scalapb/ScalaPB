@@ -51,6 +51,7 @@ jobs:
         export JAVA_HOME="$JABBA_HOME/jdk/${GRAALVM}" && export PATH="$JAVA_HOME/bin:$PATH" && java -version
         $JAVA_HOME/bin/gu install native-image
         sbt protocGenScalapbUnix/graalvm-native-image:packageBin
+        zip -j protoc-gen-scalapb-${TRAVIS_TAG:1}-linux-x86_64.zip protocGenScalapbUnix/target/graalvm-native-image/protoc-gen-scalapb
     deploy:
     - provider: releases
       on:
@@ -58,7 +59,7 @@ jobs:
         repo: scalapb/ScalaPB
       api_key:
         secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
-      file: protocGenScalapbUnix/target/graalvm-native-image/protoc-gen-scalapb
+      file: protoc-gen-scalapb-${TRAVIS_TAG:1}-linux-x86_64.zip
       skip_cleanup: true
   - stage: release
     if: tag IS present
