@@ -68,11 +68,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     val sealedOneof = for {
       file    <- files
       message <- file.allMessages if message.isSealedOneofType
-    } yield
-      SealedOneof(
-        message,
-        message.getOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
-      )
+    } yield SealedOneof(
+      message,
+      message.getOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
+    )
     new SealedOneofsCache(sealedOneof)
   }
 
