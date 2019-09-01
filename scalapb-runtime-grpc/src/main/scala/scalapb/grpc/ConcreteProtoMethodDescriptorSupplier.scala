@@ -11,3 +11,10 @@ class ConcreteProtoMethodDescriptorSupplier(
   override def getServiceDescriptor: Descriptors.ServiceDescriptor = methodDescriptor.getService
   override def getFileDescriptor: Descriptors.FileDescriptor       = getServiceDescriptor.getFile
 }
+
+object ConcreteProtoMethodDescriptorSupplier {
+  def fromMethodDescriptor(
+      methodDescriptor: Descriptors.MethodDescriptor
+  ): ConcreteProtoMethodDescriptorSupplier =
+    new ConcreteProtoMethodDescriptorSupplier(methodDescriptor)
+}
