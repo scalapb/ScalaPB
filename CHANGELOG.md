@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.9.1 (Unreleased)](https://github.com/scalapb/ScalaPB/tree/v0.9.0...HEAD)
+## [0.9.1 (Unreleased)](https://github.com/scalapb/ScalaPB/compare/v0.9.0...HEAD)
 - It is now possible to specify no_box at the message-level.
 - Updated to Scala 2.12.9
 - Added `NonEmpty` marker trait to non-empty cases of sealed oneofs. A new
