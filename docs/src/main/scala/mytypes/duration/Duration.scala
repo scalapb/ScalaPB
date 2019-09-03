@@ -79,14 +79,14 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     mytypes.duration.Duration(
-      __fieldsMap.getOrElse(__fields.get(0), 0).asInstanceOf[_root_.scala.Int]
+      seconds = __fieldsMap.getOrElse(__fields.get(0), 0).asInstanceOf[_root_.scala.Int]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[mytypes.duration.Duration] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       mytypes.duration.Duration(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Int]).getOrElse(0)
+        seconds = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Int]).getOrElse(0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }

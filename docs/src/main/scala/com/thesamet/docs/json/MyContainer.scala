@@ -75,14 +75,14 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.thesamet.docs.json.MyContainer(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[com.google.protobuf.any.Any]]
+      myAny = __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[com.google.protobuf.any.Any]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.thesamet.docs.json.MyContainer] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.thesamet.docs.json.MyContainer(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.any.Any]])
+        myAny = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.any.Any]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
