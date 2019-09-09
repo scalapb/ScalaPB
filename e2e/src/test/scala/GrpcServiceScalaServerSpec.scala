@@ -96,6 +96,13 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
         }
       }
 
+      it("customOption") {
+        withScalaServer { channel =>
+          val client = Service1GrpcScala.blockingStub(channel)
+          client.customOption(Req5()) must be(Res5())
+        }
+      }
+
       it("clientStreamingCount") {
         withScalaServer { channel =>
           val client = Service1GrpcScala.stub(channel)

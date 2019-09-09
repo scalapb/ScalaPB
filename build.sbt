@@ -1,26 +1,32 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
+import com.typesafe.tools.mima.core._
 
 val Scala210 = "2.10.7"
 
 val Scala211 = "2.11.12"
 
-val Scala212 = "2.12.8"
+val Scala212 = "2.12.9"
 
 val Scala213 = "2.13.0"
 
-val protobufVersion = "3.7.1"
+val protobufVersion = "3.8.0"
+
+// Different version for compiler-plugin since >=3.8.0 is not binary
+// compatible with 3.7.x. When loaded inside SBT (which has its own old
+// version), the binary incompatibility surfaces.
+val protobufCompilerVersion = "3.7.1"
 
 val scalacheckVersion = "1.14.0"
 
 // For e2e test
 val sbtPluginVersion = "0.99.23"
 
-val grpcVersion = "1.22.1"
+val grpcVersion = "1.23.0"
 
-val MimaPreviousVersion = "0.9.0-M6"
+val MimaPreviousVersion = "0.9.0"
 
-val ProtocJar = "com.github.os72" % "protoc-jar" % "3.7.1"
+val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
 
 val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
 
@@ -133,7 +139,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
       import com.typesafe.tools.mima.core._
       Seq(
         ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils"),
-        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils$")
+        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils$"),
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
+        // Added noBox
+        ProblemFilters.exclude[Problem]("scalapb.options.MessageOptions.*"),
+        ProblemFilters.exclude[Problem]("scalapb.options.Scalapb#MessageOptionsOrBuilder.*"),
       )
     },
   )
@@ -188,7 +199,11 @@ lazy val grpcRuntime = project.in(file("scalapb-runtime-grpc"))
       "org.mockito" % "mockito-core" % "3.0.0" % "test",
       ScalaTest % "test",
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion)
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion),
+    mimaBinaryIssueFilters ++= Seq(
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*")
+    )
   )
 
 val shadeTarget = settingKey[String]("Target to use when shading")
@@ -218,7 +233,7 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.8",
-      "com.google.protobuf" % "protobuf-java" % protobufVersion,
+      "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion,
       ScalaTest % "test",
       ProtocJar % "test",
     ),
@@ -226,6 +241,9 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
+        ProblemFilters.exclude[Problem]("scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.*"),
       )
     }
   )
@@ -398,7 +416,9 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/).in(f
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
       Seq(
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setIfDefined")
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setIfDefined"),
+        // introduced in 2.12.9
+        ProblemFilters.exclude[IncompatibleSignatureProblem]("*")
       )
     }
   )

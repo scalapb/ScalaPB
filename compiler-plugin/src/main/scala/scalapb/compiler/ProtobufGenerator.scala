@@ -1495,12 +1495,13 @@ class ProtobufGenerator(
   def generateSealedOneofTrait(message: Descriptor): PrinterEndo = { fp =>
     if (!message.isSealedOneofType) fp
     else {
-      val baseType        = message.scalaTypeName
-      val sealedOneOfType = message.sealedOneofScalaType
-      val sealedOneofName = message.sealedOneofNameSymbol
-      val typeMapper      = s"_root_.scalapb.TypeMapper[${baseType}, ${sealedOneOfType}]"
-      val oneof           = message.getOneofs.get(0)
-      val typeMapperName  = { message.sealedOneofName } + "TypeMapper"
+      val baseType                = message.scalaTypeName
+      val sealedOneOfType         = message.sealedOneofScalaType
+      val sealedOneOfNonEmptyType = message.sealedOneofNonEmptyScalaType
+      val sealedOneofName         = message.sealedOneofNameSymbol
+      val typeMapper              = s"_root_.scalapb.TypeMapper[${baseType}, ${sealedOneOfType}]"
+      val oneof                   = message.getOneofs.get(0)
+      val typeMapperName          = { message.sealedOneofName } + "TypeMapper"
       fp.add(
           s"sealed trait $sealedOneofName extends ${message.sealedOneofBaseClasses.mkString(" with ")} {"
         )
@@ -1508,7 +1509,8 @@ class ProtobufGenerator(
           s"type MessageType = $baseType",
           s"final def isEmpty = this.isInstanceOf[${sealedOneOfType}.Empty.type]",
           s"final def isDefined = !isEmpty",
-          s"final def asMessage: $baseType = ${message.sealedOneofScalaType}.$typeMapperName.toBase(this)"
+          s"final def asMessage: $baseType = ${message.sealedOneofScalaType}.$typeMapperName.toBase(this)",
+          s"final def asNonEmpty: Option[$sealedOneOfNonEmptyType] = if (isEmpty) None else Some(this.asInstanceOf[$sealedOneOfNonEmptyType])"
         )
         .add("}")
         .add("")
@@ -1516,6 +1518,8 @@ class ProtobufGenerator(
         .indented(
           _.add(
             s"case object Empty extends $sealedOneOfType",
+            "",
+            s"sealed trait NonEmpty extends $sealedOneOfType",
             "",
             s"def defaultInstance: ${sealedOneOfType} = Empty",
             "",

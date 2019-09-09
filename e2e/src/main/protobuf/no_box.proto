@@ -8,7 +8,25 @@ message Tyre {
     int32 size = 1;
 }
 
+message DontBoxMe {
+    option (scalapb.message).no_box = true;
+    int32 x = 1;
+}
+
+message NameNoBox {
+    option (scalapb.message).no_box = true;
+    option (scalapb.message).type = "com.thesamet.pb.FullName";
+    string first = 1;
+    string last = 2;
+}
+
 message Car {
     Tyre tyre1 = 1 [(scalapb.field).no_box = true];
     Tyre tyre2 = 2 [(scalapb.field).no_box = false];
+
+    DontBoxMe dont_box_me_def = 3;
+    DontBoxMe dont_box_me_override_true = 4 [(scalapb.field).no_box = true];
+    DontBoxMe dont_box_me_override_false = 5 [(scalapb.field).no_box = false];
+
+    NameNoBox name_no_box = 6;
 }

@@ -1,0 +1,11 @@
+// duration.proto
+syntax = "proto3";
+
+package mytypes;
+
+import "scalapb/scalapb.proto";
+
+message Duration {
+    option (scalapb.message).type = "mytypes.MyDurationType";
+    int32 seconds = 1;
+}

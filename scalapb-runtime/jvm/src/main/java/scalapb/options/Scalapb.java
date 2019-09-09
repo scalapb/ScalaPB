@@ -315,7 +315,7 @@ public final class Scalapb {
 
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -323,7 +323,7 @@ public final class Scalapb {
     boolean hasLenses();
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -439,6 +439,13 @@ public final class Scalapb {
       scope_ = 0;
       lenses_ = true;
       mapType_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new ScalaPbOptions();
     }
 
     @java.lang.Override
@@ -1148,7 +1155,7 @@ public final class Scalapb {
     private boolean lenses_;
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -1158,7 +1165,7 @@ public final class Scalapb {
     }
     /**
      * <pre>
-     * If true, lenses will not be generated.
+     * If true, lenses will be generated.
      * </pre>
      *
      * <code>optional bool lenses = 12 [default = true];</code>
@@ -2954,7 +2961,7 @@ public final class Scalapb {
       private boolean lenses_ = true;
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
@@ -2964,7 +2971,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
@@ -2974,7 +2981,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
@@ -2987,7 +2994,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * If true, lenses will not be generated.
+       * If true, lenses will be generated.
        * </pre>
        *
        * <code>optional bool lenses = 12 [default = true];</code>
@@ -3524,6 +3531,25 @@ public final class Scalapb {
      */
     com.google.protobuf.ByteString
         getSealedOneofExtendsBytes(int index);
+
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    boolean hasNoBox();
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    boolean getNoBox();
   }
   /**
    * Protobuf type {@code scalapb.MessageOptions}
@@ -3544,6 +3570,13 @@ public final class Scalapb {
       type_ = "";
       companionAnnotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       sealedOneofExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new MessageOptions();
     }
 
     @java.lang.Override
@@ -3619,6 +3652,11 @@ public final class Scalapb {
                 mutable_bitField0_ |= 0x00000020;
               }
               sealedOneofExtends_.add(bs);
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000002;
+              noBox_ = input.readBool();
               break;
             }
             default: {
@@ -3951,6 +3989,31 @@ public final class Scalapb {
       return sealedOneofExtends_.getByteString(index);
     }
 
+    public static final int NO_BOX_FIELD_NUMBER = 7;
+    private boolean noBox_;
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    public boolean hasNoBox() {
+      return ((bitField0_ & 0x00000002) != 0);
+    }
+    /**
+     * <pre>
+     * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+     * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+     * </pre>
+     *
+     * <code>optional bool no_box = 7;</code>
+     */
+    public boolean getNoBox() {
+      return noBox_;
+    }
+
     private byte memoizedIsInitialized = -1;
     @java.lang.Override
     public final boolean isInitialized() {
@@ -3982,6 +4045,9 @@ public final class Scalapb {
       }
       for (int i = 0; i < sealedOneofExtends_.size(); i++) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, sealedOneofExtends_.getRaw(i));
+      }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        output.writeBool(7, noBox_);
       }
       unknownFields.writeTo(output);
     }
@@ -4035,6 +4101,10 @@ public final class Scalapb {
         size += dataSize;
         size += 1 * getSealedOneofExtendsList().size();
       }
+      if (((bitField0_ & 0x00000002) != 0)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBoolSize(7, noBox_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -4065,6 +4135,11 @@ public final class Scalapb {
           .equals(other.getCompanionAnnotationsList())) return false;
       if (!getSealedOneofExtendsList()
           .equals(other.getSealedOneofExtendsList())) return false;
+      if (hasNoBox() != other.hasNoBox()) return false;
+      if (hasNoBox()) {
+        if (getNoBox()
+            != other.getNoBox()) return false;
+      }
       if (!unknownFields.equals(other.unknownFields)) return false;
       return true;
     }
@@ -4099,6 +4174,11 @@ public final class Scalapb {
       if (getSealedOneofExtendsCount() > 0) {
         hash = (37 * hash) + SEALED_ONEOF_EXTENDS_FIELD_NUMBER;
         hash = (53 * hash) + getSealedOneofExtendsList().hashCode();
+      }
+      if (hasNoBox()) {
+        hash = (37 * hash) + NO_BOX_FIELD_NUMBER;
+        hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
+            getNoBox());
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -4245,6 +4325,8 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00000010);
         sealedOneofExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
         bitField0_ = (bitField0_ & ~0x00000020);
+        noBox_ = false;
+        bitField0_ = (bitField0_ & ~0x00000040);
         return this;
       }
 
@@ -4302,6 +4384,10 @@ public final class Scalapb {
           bitField0_ = (bitField0_ & ~0x00000020);
         }
         result.sealedOneofExtends_ = sealedOneofExtends_;
+        if (((from_bitField0_ & 0x00000040) != 0)) {
+          result.noBox_ = noBox_;
+          to_bitField0_ |= 0x00000002;
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -4405,6 +4491,9 @@ public final class Scalapb {
             sealedOneofExtends_.addAll(other.sealedOneofExtends_);
           }
           onChanged();
+        }
+        if (other.hasNoBox()) {
+          setNoBox(other.getNoBox());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -5186,6 +5275,58 @@ public final class Scalapb {
         onChanged();
         return this;
       }
+
+      private boolean noBox_ ;
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public boolean hasNoBox() {
+        return ((bitField0_ & 0x00000040) != 0);
+      }
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public boolean getNoBox() {
+        return noBox_;
+      }
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public Builder setNoBox(boolean value) {
+        bitField0_ |= 0x00000040;
+        noBox_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * If true, when this message is used as an optional field, do not wrap it in an `Option`.
+       * This is equivalent of setting `(field).no_box` to true on each field with the message type.
+       * </pre>
+       *
+       * <code>optional bool no_box = 7;</code>
+       */
+      public Builder clearNoBox() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        noBox_ = false;
+        onChanged();
+        return this;
+      }
       @java.lang.Override
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
@@ -5415,7 +5556,7 @@ public final class Scalapb {
 
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -5423,7 +5564,7 @@ public final class Scalapb {
     boolean hasNoBox();
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -5450,6 +5591,13 @@ public final class Scalapb {
       valueType_ = "";
       annotations_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       mapType_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new FieldOptions();
     }
 
     @java.lang.Override
@@ -5914,7 +6062,7 @@ public final class Scalapb {
     private boolean noBox_;
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -5924,7 +6072,7 @@ public final class Scalapb {
     }
     /**
      * <pre>
-     * Do not box this value in Option[T]
+     * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
      * </pre>
      *
      * <code>optional bool no_box = 30;</code>
@@ -7128,7 +7276,7 @@ public final class Scalapb {
       private boolean noBox_ ;
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -7138,7 +7286,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -7148,7 +7296,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -7161,7 +7309,7 @@ public final class Scalapb {
       }
       /**
        * <pre>
-       * Do not box this value in Option[T]
+       * Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
        * </pre>
        *
        * <code>optional bool no_box = 30;</code>
@@ -7344,6 +7492,13 @@ public final class Scalapb {
       extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       companionExtends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
       type_ = "";
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnumOptions();
     }
 
     @java.lang.Override
@@ -8435,6 +8590,13 @@ public final class Scalapb {
     }
 
     @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new EnumValueOptions();
+    }
+
+    @java.lang.Override
     public final com.google.protobuf.UnknownFieldSet
     getUnknownFields() {
       return this.unknownFields;
@@ -9102,6 +9264,13 @@ public final class Scalapb {
     }
     private OneofOptions() {
       extends_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+    }
+
+    @java.lang.Override
+    @SuppressWarnings({"unused"})
+    protected java.lang.Object newInstance(
+        UnusedPrivateParameter unused) {
+      return new OneofOptions();
     }
 
     @java.lang.Override
@@ -9869,45 +10038,37 @@ public final class Scalapb {
       "pe\030\016 \001(\t\022+\n#default_parameter_values_for" +
       "_fields\030\017 \001(\010\022\'\n\035test_only_no_java_conve" +
       "rsions\030\241\215\006 \001(\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000" +
-      "\022\013\n\007PACKAGE\020\001\"\234\001\n\016MessageOptions\022\017\n\007exte" +
+      "\022\013\n\007PACKAGE\020\001\"\254\001\n\016MessageOptions\022\017\n\007exte" +
       "nds\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\023\n\013" +
       "annotations\030\003 \003(\t\022\014\n\004type\030\004 \001(\t\022\035\n\025compa" +
       "nion_annotations\030\005 \003(\t\022\034\n\024sealed_oneof_e" +
-      "xtends\030\006 \003(\t\"\246\001\n\014FieldOptions\022\014\n\004type\030\001 " +
-      "\001(\t\022\022\n\nscala_name\030\002 \001(\t\022\027\n\017collection_ty" +
-      "pe\030\003 \001(\t\022\020\n\010key_type\030\004 \001(\t\022\022\n\nvalue_type" +
-      "\030\005 \001(\t\022\023\n\013annotations\030\006 \003(\t\022\020\n\010map_type\030" +
-      "\007 \001(\t\022\016\n\006no_box\030\036 \001(\010\"G\n\013EnumOptions\022\017\n\007" +
-      "extends\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t" +
-      "\022\014\n\004type\030\003 \001(\t\"#\n\020EnumValueOptions\022\017\n\007ex" +
-      "tends\030\001 \003(\t\"\037\n\014OneofOptions\022\017\n\007extends\030\001" +
-      " \003(\t:G\n\007options\022\034.google.protobuf.FileOp" +
-      "tions\030\374\007 \001(\0132\027.scalapb.ScalaPbOptions:J\n" +
-      "\007message\022\037.google.protobuf.MessageOption" +
-      "s\030\374\007 \001(\0132\027.scalapb.MessageOptions:D\n\005fie" +
-      "ld\022\035.google.protobuf.FieldOptions\030\374\007 \001(\013" +
-      "2\025.scalapb.FieldOptions:I\n\014enum_options\022" +
-      "\034.google.protobuf.EnumOptions\030\374\007 \001(\0132\024.s" +
-      "calapb.EnumOptions:Q\n\nenum_value\022!.googl" +
-      "e.protobuf.EnumValueOptions\030\374\007 \001(\0132\031.sca" +
-      "lapb.EnumValueOptions:D\n\005oneof\022\035.google." +
-      "protobuf.OneofOptions\030\374\007 \001(\0132\025.scalapb.O" +
-      "neofOptionsB\'\n\017scalapb.options\342?\023\n\017scala" +
-      "pb.options\020\001"
+      "xtends\030\006 \003(\t\022\016\n\006no_box\030\007 \001(\010\"\246\001\n\014FieldOp" +
+      "tions\022\014\n\004type\030\001 \001(\t\022\022\n\nscala_name\030\002 \001(\t\022" +
+      "\027\n\017collection_type\030\003 \001(\t\022\020\n\010key_type\030\004 \001" +
+      "(\t\022\022\n\nvalue_type\030\005 \001(\t\022\023\n\013annotations\030\006 " +
+      "\003(\t\022\020\n\010map_type\030\007 \001(\t\022\016\n\006no_box\030\036 \001(\010\"G\n" +
+      "\013EnumOptions\022\017\n\007extends\030\001 \003(\t\022\031\n\021compani" +
+      "on_extends\030\002 \003(\t\022\014\n\004type\030\003 \001(\t\"#\n\020EnumVa" +
+      "lueOptions\022\017\n\007extends\030\001 \003(\t\"\037\n\014OneofOpti" +
+      "ons\022\017\n\007extends\030\001 \003(\t:G\n\007options\022\034.google" +
+      ".protobuf.FileOptions\030\374\007 \001(\0132\027.scalapb.S" +
+      "calaPbOptions:J\n\007message\022\037.google.protob" +
+      "uf.MessageOptions\030\374\007 \001(\0132\027.scalapb.Messa" +
+      "geOptions:D\n\005field\022\035.google.protobuf.Fie" +
+      "ldOptions\030\374\007 \001(\0132\025.scalapb.FieldOptions:" +
+      "I\n\014enum_options\022\034.google.protobuf.EnumOp" +
+      "tions\030\374\007 \001(\0132\024.scalapb.EnumOptions:Q\n\nen" +
+      "um_value\022!.google.protobuf.EnumValueOpti" +
+      "ons\030\374\007 \001(\0132\031.scalapb.EnumValueOptions:D\n" +
+      "\005oneof\022\035.google.protobuf.OneofOptions\030\374\007" +
+      " \001(\0132\025.scalapb.OneofOptionsB\'\n\017scalapb.o" +
+      "ptions\342?\023\n\017scalapb.options\020\001"
     };
-    com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
-        new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
-          public com.google.protobuf.ExtensionRegistry assignDescriptors(
-              com.google.protobuf.Descriptors.FileDescriptor root) {
-            descriptor = root;
-            return null;
-          }
-        };
-    com.google.protobuf.Descriptors.FileDescriptor
+    descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
           com.google.protobuf.DescriptorProtos.getDescriptor(),
-        }, assigner);
+        });
     internal_static_scalapb_ScalaPbOptions_descriptor =
       getDescriptor().getMessageTypes().get(0);
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
@@ -9919,7 +10080,7 @@ public final class Scalapb {
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_MessageOptions_descriptor,
-        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", "CompanionAnnotations", "SealedOneofExtends", });
+        new java.lang.String[] { "Extends", "CompanionExtends", "Annotations", "Type", "CompanionAnnotations", "SealedOneofExtends", "NoBox", });
     internal_static_scalapb_FieldOptions_descriptor =
       getDescriptor().getMessageTypes().get(2);
     internal_static_scalapb_FieldOptions_fieldAccessorTable = new

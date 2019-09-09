@@ -68,11 +68,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     val sealedOneof = for {
       file    <- files
       message <- file.allMessages if message.isSealedOneofType
-    } yield
-      SealedOneof(
-        message,
-        message.getOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
-      )
+    } yield SealedOneof(
+      message,
+      message.getOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
+    )
     new SealedOneofsCache(sealedOneof)
   }
 
@@ -142,6 +141,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         ""
       }
     }
+
+    def javaDescriptorSource: String =
+      s"${method.getService.javaDescriptorSource}.getMethods.get(${method.getIndex})"
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
@@ -161,6 +163,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def scalaDescriptorSource: String =
       s"${self.getFile.fileDescriptorObjectName}.scalaDescriptor.services(${self.getIndex})"
+
+    def javaDescriptorSource: String =
+      s"${self.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices.get(${self.getIndex})"
 
     def sourcePath: Seq[Int] = Seq(FileDescriptorProto.SERVICE_FIELD_NUMBER, self.getIndex)
 
@@ -231,16 +236,21 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       fd.getContainingOneof.scalaTypeName + "." + upperScalaName
     }
 
+    def noBox =
+      if (fieldOptions.hasNoBox) fieldOptions.getNoBox
+      else if (fd.isMessage) fd.getMessageType.noBox
+      else false
+
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
       fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) &&
-        !fieldOptions.getNoBox && !fd.isSealedOneofType
+        !noBox && !fd.isSealedOneofType
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
       fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (
-        fd.isOptional && (fieldOptions.getNoBox || (fd.isSealedOneofType && !fd.isInOneof))
+        fd.isOptional && (noBox || (fd.isSealedOneofType && !fd.isInOneof))
       )
 
     def enclosingType: EnclosingType =
@@ -512,6 +522,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def messageOptions: MessageOptions =
       message.getOptions.getExtension[MessageOptions](Scalapb.message)
 
+    def noBox = message.messageOptions.getNoBox
+
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)
         List(ProtobufGenerator.deprecatedAnnotation)
@@ -554,6 +566,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       }
     }
 
+    def sealedOneofNonEmptyScalaType = sealedOneofScalaType + ".NonEmpty"
+
     private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
 
     def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
@@ -582,21 +596,23 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         case _                     => Seq()
       }
 
+      val updatable =
+        if (message.generateLenses) Seq(s"scalapb.lenses.Updatable[$nameSymbol]") else Nil
+
       val extendable =
         if (message.isExtendable) Seq(s"_root_.scalapb.ExtendableMessage[$nameSymbol]") else Nil
 
       val anyVal = if (isValueClass) Seq("AnyVal") else Nil
 
       val sealedOneofTrait = sealedOneofContainer match {
-        case Some(parent) => List(parent.sealedOneofScalaType)
+        case Some(parent) => List(parent.sealedOneofScalaType, parent.sealedOneofNonEmptyScalaType)
         case _            => List()
       }
 
       anyVal ++ sealedOneofTrait ++ Seq(
         "scalapb.GeneratedMessage",
-        s"scalapb.Message[$nameSymbol]",
-        s"scalapb.lenses.Updatable[$nameSymbol]"
-      ) ++ extendable ++ extendsOption ++ specialMixins
+        s"scalapb.Message[$nameSymbol]"
+      ) ++ updatable ++ extendable ++ extendsOption ++ specialMixins
     }
 
     def companionBaseClasses: Seq[String] = {

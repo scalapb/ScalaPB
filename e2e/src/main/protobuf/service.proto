@@ -3,6 +3,7 @@ syntax = "proto3";
 package com.thesamet.proto.e2e;
 
 import "scalapb/scalapb.proto";
+import "google/protobuf/descriptor.proto";
 
 message Req1 {
   string request = 1;
@@ -45,9 +46,16 @@ message SealedResponse {
     }
 }
 
+extend google.protobuf.MethodOptions {
+    string custom_option = 50001;
+}
+
 service Service1 {
   // Computes string length
   rpc UnaryStringLength(Req1) returns (Res1) {}
+
+  // A custom option in method descriptor
+  rpc CustomOption(Req5) returns (Res5) { option (custom_option) = "custom_value"; }
 
   // Returns the count of messages received from the client.
   rpc ClientStreamingCount(stream Req2) returns (Res2) {}

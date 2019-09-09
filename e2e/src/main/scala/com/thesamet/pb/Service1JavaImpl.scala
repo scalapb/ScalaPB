@@ -14,6 +14,17 @@ class Service1JavaImpl extends Service1ImplBase{
     observer.onCompleted()
   }
 
+  override def customOption(request: Req5, observer: StreamObserver[Res5]): Unit = {
+    Service1Interceptor.contextKey.get() match {
+      case "custom_value" =>
+        val res = Res5.newBuilder.build()
+        observer.onNext(res)
+        observer.onCompleted()
+      case _ =>
+        observer.onError(new RuntimeException("error"))
+    }
+  }
+
   override def clientStreamingCount(observer: StreamObserver[Res2]) =
     new StreamObserver[Req2] {
       private[this] val counter = new AtomicInteger()

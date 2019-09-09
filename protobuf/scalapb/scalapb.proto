@@ -69,7 +69,7 @@ message ScalaPbOptions {
   // Experimental: scope to apply the given options.
   optional OptionsScope scope = 11;
 
-  // If true, lenses will not be generated.
+  // If true, lenses will be generated.
   optional bool lenses = 12 [default=true];
 
   // If true, then source-code info information will be included in the
@@ -115,6 +115,10 @@ message MessageOptions {
 
   // Additional classes and traits to mix in to generated sealed_oneof base trait.
   repeated string sealed_oneof_extends = 6;
+
+  // If true, when this message is used as an optional field, do not wrap it in an `Option`.
+  // This is equivalent of setting `(field).no_box` to true on each field with the message type.
+  optional bool no_box = 7;
 }
 
 extend google.protobuf.MessageOptions {
@@ -146,7 +150,7 @@ message FieldOptions {
   // `scala.collection.immutable.Map`
   optional string map_type = 7;
 
-  // Do not box this value in Option[T]
+  // Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
   optional bool no_box = 30;
 }
 

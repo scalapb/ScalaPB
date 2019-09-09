@@ -163,6 +163,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       |    .setSampledToLocalTracing(true)
       |    .setRequestMarshaller(${marshaller(method.inputType)})
       |    .setResponseMarshaller(${marshaller(method.outputType)})
+      |    .setSchemaDescriptor(_root_.scalapb.grpc.ConcreteProtoMethodDescriptorSupplier.fromMethodDescriptor(${method.javaDescriptorSource}))
       |    .build()
       |"""
     )

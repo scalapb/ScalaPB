@@ -118,17 +118,16 @@ object GraphGen {
         // in proto3 the first enum value must be zero.
         if (zeroDefined) v.updated(0, 0) else v
       }
-    } yield
-      (
-        EnumNode(
-          myId,
-          enumName,
-          names zip values,
-          parentMessageId = parentMessageId,
-          fileId = state.currentFileId
-        ),
-        state
-      )
+    } yield (
+      EnumNode(
+        myId,
+        enumName,
+        names zip values,
+        parentMessageId = parentMessageId,
+        fileId = state.currentFileId
+      ),
+      state
+    )
 
   sealed trait OneOfGrouping {
     def isOneof: Boolean
@@ -197,11 +196,10 @@ object GraphGen {
         fields = (fieldNames zip oneOfGroupings) zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
           case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts, oog, tag)
         }
-      } yield
-        (
-          MessageNode(myId, name, messages, enums, fields, parentMessageId, state.currentFileId),
-          state.closeNamespace
-        )
+      } yield (
+        MessageNode(myId, name, messages, enums, fields, parentMessageId, state.currentFileId),
+        state.closeNamespace
+      )
     }
 
   def genScalaOptions(state: State): Gen[(Option[ScalaPbOptions], State)] =
@@ -263,22 +261,21 @@ object GraphGen {
       (enums, state)    <- listWithStatefulGen(state, maxSize = 3)(genEnumNode(None, protoSyntax))
       javaMulti         <- implicitly[Arbitrary[Boolean]].arbitrary
       (services, state) <- listWithStatefulGen(state, maxSize = 3)(genService(messages))
-    } yield
-      (
-        FileNode(
-          baseName,
-          protoSyntax,
-          protoPackageOption,
-          javaPackageOption,
-          javaMulti,
-          scalaOptions,
-          messages,
-          services,
-          enums,
-          fileId
-        ),
-        if (protoPackage.isEmpty) state else state.closeNamespace
-      )
+    } yield (
+      FileNode(
+        baseName,
+        protoSyntax,
+        protoPackageOption,
+        javaPackageOption,
+        javaMulti,
+        scalaOptions,
+        messages,
+        services,
+        enums,
+        fileId
+      ),
+      if (protoPackage.isEmpty) state else state.closeNamespace
+    )
   }
 
   def genRootNode: Gen[RootNode] =

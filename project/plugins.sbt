@@ -6,7 +6,7 @@ addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.11")
 
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.1.2")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.3.25")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.4.1")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "0.6.1")
 
@@ -18,7 +18,7 @@ addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.9")
 
 addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "2.5")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.5.0")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.0")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.0")
 
@@ -26,6 +26,6 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
 
-addSbtPlugin("com.geirsson" % "sbt-scalafmt" % "1.6.0-RC4")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.4")
 
-addSbtPlugin("com.47deg"  % "sbt-microsites" % "0.9.2")
+addSbtPlugin("com.47deg"  % "sbt-microsites" % "0.9.4")

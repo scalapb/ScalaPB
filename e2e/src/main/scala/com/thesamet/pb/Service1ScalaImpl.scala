@@ -14,6 +14,13 @@ class Service1ScalaImpl extends Service1 {
   override def unaryStringLength(request: Req1): Future[Res1] =
     Future.successful(Res1(length = request.request.length))
 
+  override def customOption(request: Req5): Future[Res5] = {
+    Service1Interceptor.contextKey.get() match {
+      case "custom_value" => Future.successful(Res5())
+      case _ => Future.failed(new RuntimeException("error"))
+    }
+  }
+
   override def clientStreamingCount(observer: StreamObserver[Res2]) =
     new StreamObserver[Req2] {
       private[this] val counter = new AtomicInteger()
