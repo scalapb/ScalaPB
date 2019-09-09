@@ -17,8 +17,7 @@ case class GeneratorParams(
     singleLineToProtoString: Boolean = false,
     asciiFormatToString: Boolean = false,
     lenses: Boolean = true,
-    retainSourceCodeInfo: Boolean = false,
-    defaultParameterValuesForFields: Boolean = true
+    retainSourceCodeInfo: Boolean = false
 )
 
 // Exceptions that are caught and passed upstreams as errors.
@@ -1877,8 +1876,6 @@ object ProtobufGenerator {
           Right(params.copy(lenses = false))
         case (Right(params), "retain_source_code_info") =>
           Right(params.copy(retainSourceCodeInfo = true))
-        case (Right(params), "no_default_parameter_values_for_fields") =>
-          Right(params.copy(defaultParameterValuesForFields = false))
         case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
         case (x, _)             => x
       }
