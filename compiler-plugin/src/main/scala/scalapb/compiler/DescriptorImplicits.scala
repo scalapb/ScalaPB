@@ -914,7 +914,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       else params.retainSourceCodeInfo
     }
 
-    def defaultParameterValuesForFields: Boolean = scalaOptions.getDefaultParameterValuesForFields
+    def defaultValuesInConstructor: Boolean = scalaOptions.getDefaultValuesInConstructor
 
     /** Returns a vector with all messages (both top-level and nested) in the file. */
     def allMessages: Vector[Descriptor] = {

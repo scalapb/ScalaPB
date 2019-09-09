@@ -83,7 +83,7 @@ message ScalaPbOptions {
   optional string map_type = 14;
 
   // If true, default parameter values for fields in constructor will be generated.
-  optional bool default_parameter_values_for_fields = 15;
+  optional bool default_values_in_constructor = 15 [default=true];
 
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.

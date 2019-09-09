@@ -387,17 +387,17 @@ public final class Scalapb {
      * If true, default parameter values for fields in constructor will be generated.
      * </pre>
      *
-     * <code>optional bool default_parameter_values_for_fields = 15;</code>
+     * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
      */
-    boolean hasDefaultParameterValuesForFields();
+    boolean hasDefaultValuesInConstructor();
     /**
      * <pre>
      * If true, default parameter values for fields in constructor will be generated.
      * </pre>
      *
-     * <code>optional bool default_parameter_values_for_fields = 15;</code>
+     * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
      */
-    boolean getDefaultParameterValuesForFields();
+    boolean getDefaultValuesInConstructor();
 
     /**
      * <pre>
@@ -439,6 +439,7 @@ public final class Scalapb {
       scope_ = 0;
       lenses_ = true;
       mapType_ = "";
+      defaultValuesInConstructor_ = true;
     }
 
     @java.lang.Override
@@ -563,7 +564,7 @@ public final class Scalapb {
             }
             case 120: {
               bitField0_ |= 0x00001000;
-              defaultParameterValuesForFields_ = input.readBool();
+              defaultValuesInConstructor_ = input.readBool();
               break;
             }
             case 800008: {
@@ -1260,16 +1261,16 @@ public final class Scalapb {
       }
     }
 
-    public static final int DEFAULT_PARAMETER_VALUES_FOR_FIELDS_FIELD_NUMBER = 15;
-    private boolean defaultParameterValuesForFields_;
+    public static final int DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER = 15;
+    private boolean defaultValuesInConstructor_;
     /**
      * <pre>
      * If true, default parameter values for fields in constructor will be generated.
      * </pre>
      *
-     * <code>optional bool default_parameter_values_for_fields = 15;</code>
+     * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
      */
-    public boolean hasDefaultParameterValuesForFields() {
+    public boolean hasDefaultValuesInConstructor() {
       return ((bitField0_ & 0x00001000) != 0);
     }
     /**
@@ -1277,10 +1278,10 @@ public final class Scalapb {
      * If true, default parameter values for fields in constructor will be generated.
      * </pre>
      *
-     * <code>optional bool default_parameter_values_for_fields = 15;</code>
+     * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
      */
-    public boolean getDefaultParameterValuesForFields() {
-      return defaultParameterValuesForFields_;
+    public boolean getDefaultValuesInConstructor() {
+      return defaultValuesInConstructor_;
     }
 
     public static final int TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001;
@@ -1365,7 +1366,7 @@ public final class Scalapb {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 14, mapType_);
       }
       if (((bitField0_ & 0x00001000) != 0)) {
-        output.writeBool(15, defaultParameterValuesForFields_);
+        output.writeBool(15, defaultValuesInConstructor_);
       }
       if (((bitField0_ & 0x00002000) != 0)) {
         output.writeBool(100001, testOnlyNoJavaConversions_);
@@ -1441,7 +1442,7 @@ public final class Scalapb {
       }
       if (((bitField0_ & 0x00001000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBoolSize(15, defaultParameterValuesForFields_);
+          .computeBoolSize(15, defaultValuesInConstructor_);
       }
       if (((bitField0_ & 0x00002000) != 0)) {
         size += com.google.protobuf.CodedOutputStream
@@ -1525,10 +1526,10 @@ public final class Scalapb {
         if (!getMapType()
             .equals(other.getMapType())) return false;
       }
-      if (hasDefaultParameterValuesForFields() != other.hasDefaultParameterValuesForFields()) return false;
-      if (hasDefaultParameterValuesForFields()) {
-        if (getDefaultParameterValuesForFields()
-            != other.getDefaultParameterValuesForFields()) return false;
+      if (hasDefaultValuesInConstructor() != other.hasDefaultValuesInConstructor()) return false;
+      if (hasDefaultValuesInConstructor()) {
+        if (getDefaultValuesInConstructor()
+            != other.getDefaultValuesInConstructor()) return false;
       }
       if (hasTestOnlyNoJavaConversions() != other.hasTestOnlyNoJavaConversions()) return false;
       if (hasTestOnlyNoJavaConversions()) {
@@ -1609,10 +1610,10 @@ public final class Scalapb {
         hash = (37 * hash) + MAP_TYPE_FIELD_NUMBER;
         hash = (53 * hash) + getMapType().hashCode();
       }
-      if (hasDefaultParameterValuesForFields()) {
-        hash = (37 * hash) + DEFAULT_PARAMETER_VALUES_FOR_FIELDS_FIELD_NUMBER;
+      if (hasDefaultValuesInConstructor()) {
+        hash = (37 * hash) + DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER;
         hash = (53 * hash) + com.google.protobuf.Internal.hashBoolean(
-            getDefaultParameterValuesForFields());
+            getDefaultValuesInConstructor());
       }
       if (hasTestOnlyNoJavaConversions()) {
         hash = (37 * hash) + TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER;
@@ -1780,7 +1781,7 @@ public final class Scalapb {
         bitField0_ = (bitField0_ & ~0x00001000);
         mapType_ = "";
         bitField0_ = (bitField0_ & ~0x00002000);
-        defaultParameterValuesForFields_ = false;
+        defaultValuesInConstructor_ = true;
         bitField0_ = (bitField0_ & ~0x00004000);
         testOnlyNoJavaConversions_ = false;
         bitField0_ = (bitField0_ & ~0x00008000);
@@ -1871,9 +1872,9 @@ public final class Scalapb {
         }
         result.mapType_ = mapType_;
         if (((from_bitField0_ & 0x00004000) != 0)) {
-          result.defaultParameterValuesForFields_ = defaultParameterValuesForFields_;
           to_bitField0_ |= 0x00001000;
         }
+        result.defaultValuesInConstructor_ = defaultValuesInConstructor_;
         if (((from_bitField0_ & 0x00008000) != 0)) {
           result.testOnlyNoJavaConversions_ = testOnlyNoJavaConversions_;
           to_bitField0_ |= 0x00002000;
@@ -1991,8 +1992,8 @@ public final class Scalapb {
           mapType_ = other.mapType_;
           onChanged();
         }
-        if (other.hasDefaultParameterValuesForFields()) {
-          setDefaultParameterValuesForFields(other.getDefaultParameterValuesForFields());
+        if (other.hasDefaultValuesInConstructor()) {
+          setDefaultValuesInConstructor(other.getDefaultValuesInConstructor());
         }
         if (other.hasTestOnlyNoJavaConversions()) {
           setTestOnlyNoJavaConversions(other.getTestOnlyNoJavaConversions());
@@ -3172,15 +3173,15 @@ public final class Scalapb {
         return this;
       }
 
-      private boolean defaultParameterValuesForFields_ ;
+      private boolean defaultValuesInConstructor_ = true;
       /**
        * <pre>
        * If true, default parameter values for fields in constructor will be generated.
        * </pre>
        *
-       * <code>optional bool default_parameter_values_for_fields = 15;</code>
+       * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
        */
-      public boolean hasDefaultParameterValuesForFields() {
+      public boolean hasDefaultValuesInConstructor() {
         return ((bitField0_ & 0x00004000) != 0);
       }
       /**
@@ -3188,21 +3189,21 @@ public final class Scalapb {
        * If true, default parameter values for fields in constructor will be generated.
        * </pre>
        *
-       * <code>optional bool default_parameter_values_for_fields = 15;</code>
+       * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
        */
-      public boolean getDefaultParameterValuesForFields() {
-        return defaultParameterValuesForFields_;
+      public boolean getDefaultValuesInConstructor() {
+        return defaultValuesInConstructor_;
       }
       /**
        * <pre>
        * If true, default parameter values for fields in constructor will be generated.
        * </pre>
        *
-       * <code>optional bool default_parameter_values_for_fields = 15;</code>
+       * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
        */
-      public Builder setDefaultParameterValuesForFields(boolean value) {
+      public Builder setDefaultValuesInConstructor(boolean value) {
         bitField0_ |= 0x00004000;
-        defaultParameterValuesForFields_ = value;
+        defaultValuesInConstructor_ = value;
         onChanged();
         return this;
       }
@@ -3211,11 +3212,11 @@ public final class Scalapb {
        * If true, default parameter values for fields in constructor will be generated.
        * </pre>
        *
-       * <code>optional bool default_parameter_values_for_fields = 15;</code>
+       * <code>optional bool default_values_in_constructor = 15 [default = true];</code>
        */
-      public Builder clearDefaultParameterValuesForFields() {
+      public Builder clearDefaultValuesInConstructor() {
         bitField0_ = (bitField0_ & ~0x00004000);
-        defaultParameterValuesForFields_ = false;
+        defaultValuesInConstructor_ = true;
         onChanged();
         return this;
       }
@@ -10035,8 +10036,8 @@ public final class Scalapb {
       "(\t\0223\n\005scope\030\013 \001(\0162$.scalapb.ScalaPbOptio" +
       "ns.OptionsScope\022\024\n\006lenses\030\014 \001(\010:\004true\022\037\n" +
       "\027retain_source_code_info\030\r \001(\010\022\020\n\010map_ty" +
-      "pe\030\016 \001(\t\022+\n#default_parameter_values_for" +
-      "_fields\030\017 \001(\010\022\'\n\035test_only_no_java_conve" +
+      "pe\030\016 \001(\t\022+\n\035default_values_in_constructo" +
+      "r\030\017 \001(\010:\004true\022\'\n\035test_only_no_java_conve" +
       "rsions\030\241\215\006 \001(\010\"%\n\014OptionsScope\022\010\n\004FILE\020\000" +
       "\022\013\n\007PACKAGE\020\001\"\254\001\n\016MessageOptions\022\017\n\007exte" +
       "nds\030\001 \003(\t\022\031\n\021companion_extends\030\002 \003(\t\022\023\n\013" +
@@ -10074,7 +10075,7 @@ public final class Scalapb {
     internal_static_scalapb_ScalaPbOptions_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_scalapb_ScalaPbOptions_descriptor,
-        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "Scope", "Lenses", "RetainSourceCodeInfo", "MapType", "DefaultParameterValuesForFields", "TestOnlyNoJavaConversions", });
+        new java.lang.String[] { "PackageName", "FlatPackage", "Import", "Preamble", "SingleFile", "NoPrimitiveWrappers", "PrimitiveWrappers", "CollectionType", "PreserveUnknownFields", "ObjectName", "Scope", "Lenses", "RetainSourceCodeInfo", "MapType", "DefaultValuesInConstructor", "TestOnlyNoJavaConversions", });
     internal_static_scalapb_MessageOptions_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_scalapb_MessageOptions_fieldAccessorTable = new

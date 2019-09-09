@@ -53,7 +53,7 @@ package scalapb.options
   * @param mapType
   *   Scala type to be used for maps. If unspecified,
   *   `scala.collection.immutable.Map` will be used.
-  * @param defaultParameterValuesForFields
+  * @param defaultValuesInConstructor
   *   If true, default parameter values for fields in constructor will be generated.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
@@ -75,7 +75,7 @@ final case class ScalaPbOptions(
     lenses: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     retainSourceCodeInfo: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    defaultParameterValuesForFields: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    defaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ScalaPbOptions] with scalapb.lenses.Updatable[ScalaPbOptions] {
     @transient
@@ -138,8 +138,8 @@ final case class ScalaPbOptions(
         val __value = mapType.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(14, __value)
       };
-      if (defaultParameterValuesForFields.isDefined) {
-        val __value = defaultParameterValuesForFields.get
+      if (defaultValuesInConstructor.isDefined) {
+        val __value = defaultValuesInConstructor.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(15, __value)
       };
       if (testOnlyNoJavaConversions.isDefined) {
@@ -213,7 +213,7 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeString(14, __m)
       };
-      defaultParameterValuesForFields.foreach { __v =>
+      defaultValuesInConstructor.foreach { __v =>
         val __m = __v
         _output__.writeBool(15, __m)
       };
@@ -237,7 +237,7 @@ final case class ScalaPbOptions(
       var __lenses = this.lenses
       var __retainSourceCodeInfo = this.retainSourceCodeInfo
       var __mapType = this.mapType
-      var __defaultParameterValuesForFields = this.defaultParameterValuesForFields
+      var __defaultValuesInConstructor = this.defaultValuesInConstructor
       var __testOnlyNoJavaConversions = this.testOnlyNoJavaConversions
       var _done__ = false
       while (!_done__) {
@@ -273,7 +273,7 @@ final case class ScalaPbOptions(
           case 114 =>
             __mapType = Option(_input__.readString())
           case 120 =>
-            __defaultParameterValuesForFields = Option(_input__.readBool())
+            __defaultValuesInConstructor = Option(_input__.readBool())
           case 800008 =>
             __testOnlyNoJavaConversions = Option(_input__.readBool())
           case tag => _input__.skipField(tag)
@@ -294,7 +294,7 @@ final case class ScalaPbOptions(
           lenses = __lenses,
           retainSourceCodeInfo = __retainSourceCodeInfo,
           mapType = __mapType,
-          defaultParameterValuesForFields = __defaultParameterValuesForFields,
+          defaultValuesInConstructor = __defaultValuesInConstructor,
           testOnlyNoJavaConversions = __testOnlyNoJavaConversions
       )
     }
@@ -342,9 +342,9 @@ final case class ScalaPbOptions(
     def getMapType: _root_.scala.Predef.String = mapType.getOrElse("")
     def clearMapType: ScalaPbOptions = copy(mapType = _root_.scala.None)
     def withMapType(__v: _root_.scala.Predef.String): ScalaPbOptions = copy(mapType = Option(__v))
-    def getDefaultParameterValuesForFields: _root_.scala.Boolean = defaultParameterValuesForFields.getOrElse(false)
-    def clearDefaultParameterValuesForFields: ScalaPbOptions = copy(defaultParameterValuesForFields = _root_.scala.None)
-    def withDefaultParameterValuesForFields(__v: _root_.scala.Boolean): ScalaPbOptions = copy(defaultParameterValuesForFields = Option(__v))
+    def getDefaultValuesInConstructor: _root_.scala.Boolean = defaultValuesInConstructor.getOrElse(true)
+    def clearDefaultValuesInConstructor: ScalaPbOptions = copy(defaultValuesInConstructor = _root_.scala.None)
+    def withDefaultValuesInConstructor(__v: _root_.scala.Boolean): ScalaPbOptions = copy(defaultValuesInConstructor = Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
@@ -364,7 +364,7 @@ final case class ScalaPbOptions(
         case 12 => lenses.orNull
         case 13 => retainSourceCodeInfo.orNull
         case 14 => mapType.orNull
-        case 15 => defaultParameterValuesForFields.orNull
+        case 15 => defaultValuesInConstructor.orNull
         case 100001 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -385,7 +385,7 @@ final case class ScalaPbOptions(
         case 12 => lenses.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 13 => retainSourceCodeInfo.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 14 => mapType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 15 => defaultParameterValuesForFields.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 15 => defaultValuesInConstructor.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -521,8 +521,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def optionalRetainSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.retainSourceCodeInfo)((c_, f_) => c_.copy(retainSourceCodeInfo = f_))
     def mapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getMapType)((c_, f_) => c_.copy(mapType = Option(f_)))
     def optionalMapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.mapType)((c_, f_) => c_.copy(mapType = f_))
-    def defaultParameterValuesForFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDefaultParameterValuesForFields)((c_, f_) => c_.copy(defaultParameterValuesForFields = Option(f_)))
-    def optionalDefaultParameterValuesForFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.defaultParameterValuesForFields)((c_, f_) => c_.copy(defaultParameterValuesForFields = f_))
+    def defaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDefaultValuesInConstructor)((c_, f_) => c_.copy(defaultValuesInConstructor = Option(f_)))
+    def optionalDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.defaultValuesInConstructor)((c_, f_) => c_.copy(defaultValuesInConstructor = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -540,7 +540,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val LENSES_FIELD_NUMBER = 12
   final val RETAIN_SOURCE_CODE_INFO_FIELD_NUMBER = 13
   final val MAP_TYPE_FIELD_NUMBER = 14
-  final val DEFAULT_PARAMETER_VALUES_FOR_FIELDS_FIELD_NUMBER = 15
+  final val DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER = 15
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
   def of(
     packageName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -557,7 +557,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     lenses: _root_.scala.Option[_root_.scala.Boolean],
     retainSourceCodeInfo: _root_.scala.Option[_root_.scala.Boolean],
     mapType: _root_.scala.Option[_root_.scala.Predef.String],
-    defaultParameterValuesForFields: _root_.scala.Option[_root_.scala.Boolean],
+    defaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean],
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
@@ -574,7 +574,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     lenses,
     retainSourceCodeInfo,
     mapType,
-    defaultParameterValuesForFields,
+    defaultValuesInConstructor,
     testOnlyNoJavaConversions
   )
 }
