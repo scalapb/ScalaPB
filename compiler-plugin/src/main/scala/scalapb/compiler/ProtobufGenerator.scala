@@ -45,7 +45,7 @@ class ProtobufGenerator(
       }
       .add(s"def companion: _root_.scalapb.GeneratedEnumCompanion[$name] = ${e.scalaTypeName}")
       .add(
-        s"final def asRecognized: _root_.scala.Option[$name.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[$name.Recognized])"
+        s"final def asRecognized: _root_.scala.Option[${e.scalaTypeName}.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[${e.scalaTypeName}.Recognized])"
       )
       .outdent
       .add("}")
