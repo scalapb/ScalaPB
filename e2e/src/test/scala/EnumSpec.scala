@@ -236,4 +236,13 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
     proto3.toByteArray must be(EnumTest3.toJavaProto(proto3).toByteArray)
     EnumTest3.parseFrom(proto3.toByteArray) must be(proto3)
   }
+
+  "asRecognized" should "return Some(_) if defined" in {
+    red.color.get.asRecognized must be(Some(red.color.get))
+  }
+
+  "asRecognized" should "return None if Unrecognized" in {
+    unrecognized.color.get.asRecognized must be(None)
+  }
+
 }

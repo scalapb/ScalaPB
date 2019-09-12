@@ -44,6 +44,9 @@ class ProtobufGenerator(
         case (p, v) => p.add(s"def ${v.isName}: _root_.scala.Boolean = false")
       }
       .add(s"def companion: _root_.scalapb.GeneratedEnumCompanion[$name] = ${e.scalaTypeName}")
+      .add(
+        s"final def asRecognized: _root_.scala.Option[$name.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[$name.Recognized])"
+      )
       .outdent
       .add("}")
       .add("")
@@ -79,6 +82,7 @@ class ProtobufGenerator(
       }
       .add(s"  case __other => Unrecognized(__other)")
       .add("}")
+      .add(s"sealed trait Recognized extends $name")
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}"
       )

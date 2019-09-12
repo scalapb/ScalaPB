@@ -24,6 +24,8 @@ trait GeneratedEnum extends Any with Product with Serializable {
 
   def isUnrecognized: Boolean = false
 
+  def isRecognized: Boolean = !isUnrecognized
+
   @deprecated("Use javaValueDescriptor", "ScalaPB 0.5.47")
   def valueDescriptor: JavaDescriptors.EnumValueDescriptor = javaValueDescriptor
 
