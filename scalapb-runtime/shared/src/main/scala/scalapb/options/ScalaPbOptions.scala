@@ -496,6 +496,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def isFile: _root_.scala.Boolean = false
     def isPackage: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = scalapb.options.ScalaPbOptions.OptionsScope
+    final def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.OptionsScope.Recognized])
   }
   
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
@@ -503,7 +504,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Apply the options for this file only (default)
       */
     @SerialVersionUID(0L)
-    case object FILE extends OptionsScope {
+    case object FILE extends OptionsScope with OptionsScope.Recognized {
       val value = 0
       val index = 0
       val name = "FILE"
@@ -513,7 +514,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Apply the options for the entire package and its subpackages.
       */
     @SerialVersionUID(0L)
-    case object PACKAGE extends OptionsScope {
+    case object PACKAGE extends OptionsScope with OptionsScope.Recognized {
       val value = 1
       val index = 1
       val name = "PACKAGE"
@@ -529,6 +530,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       case 1 => PACKAGE
       case __other => Unrecognized(__other)
     }
+    sealed trait Recognized extends OptionsScope
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(0)
   }

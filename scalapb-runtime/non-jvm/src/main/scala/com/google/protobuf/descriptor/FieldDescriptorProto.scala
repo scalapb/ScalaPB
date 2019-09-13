@@ -344,6 +344,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def isTypeSint32: _root_.scala.Boolean = false
     def isTypeSint64: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[Type] = com.google.protobuf.descriptor.FieldDescriptorProto.Type
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldDescriptorProto.Type.Recognized])
   }
   
   object Type extends _root_.scalapb.GeneratedEnumCompanion[Type] {
@@ -352,7 +353,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * Order is weird for historical reasons.
       */
     @SerialVersionUID(0L)
-    case object TYPE_DOUBLE extends Type {
+    case object TYPE_DOUBLE extends Type with Type.Recognized {
       val value = 1
       val index = 0
       val name = "TYPE_DOUBLE"
@@ -360,7 +361,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_FLOAT extends Type {
+    case object TYPE_FLOAT extends Type with Type.Recognized {
       val value = 2
       val index = 1
       val name = "TYPE_FLOAT"
@@ -371,7 +372,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * negative values are likely.
       */
     @SerialVersionUID(0L)
-    case object TYPE_INT64 extends Type {
+    case object TYPE_INT64 extends Type with Type.Recognized {
       val value = 3
       val index = 2
       val name = "TYPE_INT64"
@@ -379,7 +380,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_UINT64 extends Type {
+    case object TYPE_UINT64 extends Type with Type.Recognized {
       val value = 4
       val index = 3
       val name = "TYPE_UINT64"
@@ -390,7 +391,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * negative values are likely.
       */
     @SerialVersionUID(0L)
-    case object TYPE_INT32 extends Type {
+    case object TYPE_INT32 extends Type with Type.Recognized {
       val value = 5
       val index = 4
       val name = "TYPE_INT32"
@@ -398,7 +399,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_FIXED64 extends Type {
+    case object TYPE_FIXED64 extends Type with Type.Recognized {
       val value = 6
       val index = 5
       val name = "TYPE_FIXED64"
@@ -406,7 +407,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_FIXED32 extends Type {
+    case object TYPE_FIXED32 extends Type with Type.Recognized {
       val value = 7
       val index = 6
       val name = "TYPE_FIXED32"
@@ -414,7 +415,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_BOOL extends Type {
+    case object TYPE_BOOL extends Type with Type.Recognized {
       val value = 8
       val index = 7
       val name = "TYPE_BOOL"
@@ -422,7 +423,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_STRING extends Type {
+    case object TYPE_STRING extends Type with Type.Recognized {
       val value = 9
       val index = 8
       val name = "TYPE_STRING"
@@ -435,7 +436,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * treat group fields as unknown fields.
       */
     @SerialVersionUID(0L)
-    case object TYPE_GROUP extends Type {
+    case object TYPE_GROUP extends Type with Type.Recognized {
       val value = 10
       val index = 9
       val name = "TYPE_GROUP"
@@ -445,7 +446,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** Length-delimited aggregate.
       */
     @SerialVersionUID(0L)
-    case object TYPE_MESSAGE extends Type {
+    case object TYPE_MESSAGE extends Type with Type.Recognized {
       val value = 11
       val index = 10
       val name = "TYPE_MESSAGE"
@@ -455,7 +456,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** New in version 2.
       */
     @SerialVersionUID(0L)
-    case object TYPE_BYTES extends Type {
+    case object TYPE_BYTES extends Type with Type.Recognized {
       val value = 12
       val index = 11
       val name = "TYPE_BYTES"
@@ -463,7 +464,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_UINT32 extends Type {
+    case object TYPE_UINT32 extends Type with Type.Recognized {
       val value = 13
       val index = 12
       val name = "TYPE_UINT32"
@@ -471,7 +472,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_ENUM extends Type {
+    case object TYPE_ENUM extends Type with Type.Recognized {
       val value = 14
       val index = 13
       val name = "TYPE_ENUM"
@@ -479,7 +480,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_SFIXED32 extends Type {
+    case object TYPE_SFIXED32 extends Type with Type.Recognized {
       val value = 15
       val index = 14
       val name = "TYPE_SFIXED32"
@@ -487,7 +488,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_SFIXED64 extends Type {
+    case object TYPE_SFIXED64 extends Type with Type.Recognized {
       val value = 16
       val index = 15
       val name = "TYPE_SFIXED64"
@@ -497,7 +498,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** Uses ZigZag encoding.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SINT32 extends Type {
+    case object TYPE_SINT32 extends Type with Type.Recognized {
       val value = 17
       val index = 16
       val name = "TYPE_SINT32"
@@ -507,7 +508,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** Uses ZigZag encoding.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SINT64 extends Type {
+    case object TYPE_SINT64 extends Type with Type.Recognized {
       val value = 18
       val index = 17
       val name = "TYPE_SINT64"
@@ -539,6 +540,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       case 18 => TYPE_SINT64
       case __other => Unrecognized(__other)
     }
+    sealed trait Recognized extends Type
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
   }
@@ -548,6 +550,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def isLabelRequired: _root_.scala.Boolean = false
     def isLabelRepeated: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[Label] = com.google.protobuf.descriptor.FieldDescriptorProto.Label
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized])
   }
   
   object Label extends _root_.scalapb.GeneratedEnumCompanion[Label] {
@@ -555,7 +558,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** 0 is reserved for errors
       */
     @SerialVersionUID(0L)
-    case object LABEL_OPTIONAL extends Label {
+    case object LABEL_OPTIONAL extends Label with Label.Recognized {
       val value = 1
       val index = 0
       val name = "LABEL_OPTIONAL"
@@ -563,7 +566,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object LABEL_REQUIRED extends Label {
+    case object LABEL_REQUIRED extends Label with Label.Recognized {
       val value = 2
       val index = 1
       val name = "LABEL_REQUIRED"
@@ -571,7 +574,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object LABEL_REPEATED extends Label {
+    case object LABEL_REPEATED extends Label with Label.Recognized {
       val value = 3
       val index = 2
       val name = "LABEL_REPEATED"
@@ -588,6 +591,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       case 3 => LABEL_REPEATED
       case __other => Unrecognized(__other)
     }
+    sealed trait Recognized extends Label
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(1)
   }

@@ -621,6 +621,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def isCodeSize: _root_.scala.Boolean = false
     def isLiteRuntime: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = com.google.protobuf.descriptor.FileOptions.OptimizeMode
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized])
   }
   
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
@@ -628,7 +629,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     /** Generate complete code for parsing, serialization,
       */
     @SerialVersionUID(0L)
-    case object SPEED extends OptimizeMode {
+    case object SPEED extends OptimizeMode with OptimizeMode.Recognized {
       val value = 1
       val index = 0
       val name = "SPEED"
@@ -639,7 +640,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       * Use ReflectionOps to implement these methods.
       */
     @SerialVersionUID(0L)
-    case object CODE_SIZE extends OptimizeMode {
+    case object CODE_SIZE extends OptimizeMode with OptimizeMode.Recognized {
       val value = 2
       val index = 1
       val name = "CODE_SIZE"
@@ -649,7 +650,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     /** Generate code using MessageLite and the lite runtime.
       */
     @SerialVersionUID(0L)
-    case object LITE_RUNTIME extends OptimizeMode {
+    case object LITE_RUNTIME extends OptimizeMode with OptimizeMode.Recognized {
       val value = 3
       val index = 2
       val name = "LITE_RUNTIME"
@@ -666,6 +667,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       case 3 => LITE_RUNTIME
       case __other => Unrecognized(__other)
     }
+    sealed trait Recognized extends OptimizeMode
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.scalaDescriptor.enums(0)
   }
