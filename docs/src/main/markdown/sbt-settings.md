@@ -99,7 +99,8 @@ scalapb.gen(
   singleLineToProtoString: Boolean = false,
   asciiFormatToString: Boolean = false,
   lenses: Boolean = true,
-  retainSourceCodeInfo: Boolean = false
+  retainSourceCodeInfo: Boolean = false,
+  oneofsAfterFieldsInConstructor: Boolean = false
 )
 ```
 
@@ -126,3 +127,9 @@ generated.
 **`retainSourceCodeInfo`**: Retain source code information (locations,
 comments) provided by protoc in the descriptors. Use the `location` accessor
 to get that information from a descriptor.
+
+**`oneofsAfterFieldsInConstructor`**: When set to `true`, brings back the deprecated
+behavior for constructor parameters order: up to ScalaPB 0.9.1, oneof fields appeared
+last in the constructor parameters list for generated messages, no matter where they
+were declared in the proto file. This flag was introduced to provide a smoother
+transition for clients that rely on the legacy order.

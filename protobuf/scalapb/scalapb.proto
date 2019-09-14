@@ -85,6 +85,10 @@ message ScalaPbOptions {
   // If true, no default values will be generated in message constructors.
   optional bool no_default_values_in_constructor = 15;
 
+  // If true, oneof fields appear last in the constructor parameters list for
+  // generated messages, no matter where they are declared in the proto file.
+  optional bool oneofs_after_fields_in_constructor = 16;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

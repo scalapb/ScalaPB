@@ -155,7 +155,14 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
         ProblemFilters.exclude[ReversedMissingMethodProblem](
           "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"
         ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.*")
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.*"),
+        // for oneofs_after_fields_in_constructor
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasOneofsAfterFieldsInConstructor"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getOneofsAfterFieldsInConstructor"
+        )
       )
     }
   )
@@ -300,6 +307,19 @@ lazy val compilerPlugin = project
         ),
         ProblemFilters.exclude[ReversedMissingMethodProblem](
           "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"
+        ),
+        // for index to ConstructorField
+        ProblemFilters.exclude[Problem]("scalapb.compiler.ConstructorField.*"),
+        ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.ConstructorField$"),
+        // for oneofs_after_fields_in_constructor
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.package.gen"),
+        ProblemFilters.exclude[Problem]("scalapb.compiler.GeneratorParams.*"),
+        ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.GeneratorParams$"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasOneofsAfterFieldsInConstructor"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getOneofsAfterFieldsInConstructor"
         )
       )
     },

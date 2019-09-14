@@ -1,3 +1,4 @@
+import com.thesamet.proto.e2e.oneofs_after_fields_in_constructor._
 import com.thesamet.proto.e2e.one_of._
 import org.scalatest._
 import org.scalatestplus.scalacheck._
@@ -152,5 +153,22 @@ class OneofSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMa
       }
     }
   }
+
+  "oneof field" should "not be the last contructor param by default" in {
+    OneofTest(
+      Some(1),
+      OneofTest.MyOneOf.TempField(9),
+      Seq(OneofTest.XYZ.Y)
+    )
+  }
+
+  "oneof field" should "be the last contructor param if oneofs_after_fields_in_constructor is set to true" in {
+    OneofTestOneOfsAfterFieldsInConstructor(
+      Some(1),
+      Seq(OneofTestOneOfsAfterFieldsInConstructor.XYZ.Y),
+      OneofTestOneOfsAfterFieldsInConstructor.MyOneOf.TempField(9)
+    )
+  }
+
 }
 

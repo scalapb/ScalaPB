@@ -63,8 +63,9 @@ where OPT1,OPT2 is a comma-separated list of options, followed by a colon
 bin/scalapbc my.proto --scala_out=flat_package,java_conversions:protos/src/scala/main/
 ```
 
-The supported parameters are: `flat_package`, `java_conversions`, `grpc` and
-`single_line_to_proto_string`, `no_lenses`, `retain_source_code_info`. 
+The supported parameters are: `flat_package`, `java_conversions`, `grpc`,
+`single_line_to_proto_string`, `no_lenses`, `retain_source_code_info`, and
+`oneofs_after_fields_in_constructor`.
 
 Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.html)
 

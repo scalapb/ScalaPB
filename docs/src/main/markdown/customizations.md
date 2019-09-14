@@ -32,7 +32,8 @@ option (scalapb.options) = {
   preamble: "sealed trait CommonMessage"
   lenses: true
   retain_source_code_info: false
-  no_default_values_in_constructor: false,
+  no_default_values_in_constructor: false
+  oneofs_after_fields_in_constructor: false
 };
 ```
 
@@ -73,6 +74,12 @@ enums to a single Scala file.
 - By default, all non-required fields have default values in the constructor of the generated
   case classes. When setting `no_default_values_in_constructor` to `true` no
   default values will be generated for all fields.
+
+- Setting `oneofs_after_fields_in_constructor` to `true` brings back the deprecated
+  behavior for constructor parameters order: up to ScalaPB 0.9.1, oneof fields
+  appeared last in the constructor parameters list for generated messages, no matter
+  where they were declared in the proto file. This flag was introduced to provide a
+  smoother transition for clients that rely on the legacy order.
 
 # Package-scoped options
 

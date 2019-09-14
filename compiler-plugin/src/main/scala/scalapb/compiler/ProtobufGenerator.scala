@@ -17,7 +17,8 @@ case class GeneratorParams(
     singleLineToProtoString: Boolean = false,
     asciiFormatToString: Boolean = false,
     lenses: Boolean = true,
-    retainSourceCodeInfo: Boolean = false
+    retainSourceCodeInfo: Boolean = false,
+    oneofsAfterFieldsInConstructor: Boolean = false
 )
 
 // Exceptions that are caught and passed upstreams as errors.
@@ -711,6 +712,7 @@ class ProtobufGenerator(
           else None
 
         ConstructorField(
+          index = Some(field.getIndex),
           name = field.scalaName.asSymbol,
           typeName = typeName,
           default = ctorDefaultValue,
@@ -722,6 +724,7 @@ class ProtobufGenerator(
         if (message.getFile.noDefaultValuesInConstructor) None else Some(oneOf.empty)
 
       ConstructorField(
+        index = Some(oneOf.getIndex),
         name = oneOf.scalaName.asSymbol,
         typeName = oneOf.scalaTypeName,
         default = ctorDefaultValue
@@ -731,6 +734,7 @@ class ProtobufGenerator(
       if (message.preservesUnknownFields)
         Seq(
           ConstructorField(
+            index = None,
             name = "unknownFields",
             typeName = "_root_.scalapb.UnknownFieldSet",
             default = Some("_root_.scalapb.UnknownFieldSet()")
@@ -739,7 +743,9 @@ class ProtobufGenerator(
       else
         Seq()
 
-    regularFields ++ oneOfFields ++ maybeUnknownFields
+    val fields = regularFields ++ oneOfFields ++ maybeUnknownFields
+    if (message.oneofsAfterFieldsInConstructor) fields
+    else fields.sorted
   }
 
   def printConstructorFieldList(
@@ -1001,7 +1007,8 @@ class ProtobufGenerator(
                 s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), $t).asInstanceOf[$baseTypeName]"
               }
 
-            transform(field).apply(e, enclosingType = field.enclosingType)
+            val expr = transform(field).apply(e, enclosingType = field.enclosingType)
+            s"${field.scalaName.asSymbol} = $expr"
         }
         val oneOfs = message.getOneofs.asScala.map { oneOf =>
           val elems = oneOf.fields.map { field =>
@@ -1072,7 +1079,8 @@ class ProtobufGenerator(
                 s"$value.map(_.as[$baseTypeName]).getOrElse($t)"
               }
 
-            transform(field).apply(e, enclosingType = field.enclosingType)
+            val expr = transform(field).apply(e, enclosingType = field.enclosingType)
+            s"${field.scalaName.asSymbol} = $expr"
         }
         val oneOfs = message.getOneofs.asScala.map { oneOf =>
           val elems = oneOf.fields.map { field =>
@@ -1875,6 +1883,8 @@ object ProtobufGenerator {
           Right(params.copy(lenses = false))
         case (Right(params), "retain_source_code_info") =>
           Right(params.copy(retainSourceCodeInfo = true))
+        case (Right(params), "oneofs_after_fields_in_constructor") =>
+          Right(params.copy(oneofsAfterFieldsInConstructor = true))
         case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
         case (x, _)             => x
       }

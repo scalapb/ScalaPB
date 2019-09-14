@@ -1,0 +1,22 @@
+syntax = "proto2";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options).oneofs_after_fields_in_constructor = true;
+
+import "scalapb/scalapb.proto";
+
+message OneofTestOneOfsAfterFieldsInConstructor {
+    enum XYZ { X = 0; Y = 1; Z = 2; }
+    optional int32 a = 1;
+    message SubMessage {
+        optional int32 sub_field = 1;
+        optional string name = 2;
+    }
+    oneof my_one_of {
+        int32 temp_field = 2 [default = 4];
+        string other_field = 3 [default = "Other value"];
+        SubMessage sub = 4;
+    }
+    repeated XYZ xyzs = 5;
+}

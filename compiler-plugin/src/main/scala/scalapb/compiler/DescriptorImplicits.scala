@@ -590,6 +590,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         (message.getFile.scalaOptions.getLenses)
       else params.lenses
 
+    def oneofsAfterFieldsInConstructor: Boolean =
+      if (message.getFile.scalaOptions.hasOneofsAfterFieldsInConstructor)
+        message.getFile.scalaOptions.getOneofsAfterFieldsInConstructor
+      else params.oneofsAfterFieldsInConstructor
+
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
         case "google.protobuf.Any" => Seq("_root_.scalapb.AnyMethods")
