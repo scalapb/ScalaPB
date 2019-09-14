@@ -1122,9 +1122,8 @@ class ProtobufGenerator(
         case field if !field.isInOneof =>
           val default = defaultValueForDefaultInstance(field)
           s"${field.scalaName.asSymbol} = $default"
-      } ++ message.getOneofs.asScala.map {
-        oneof =>
-          s"${oneof.scalaName.asSymbol} = ${oneof.empty}"
+      } ++ message.getOneofs.asScala.map { oneof =>
+        s"${oneof.scalaName.asSymbol} = ${oneof.empty}"
       })
       .outdent
       .add(")")
