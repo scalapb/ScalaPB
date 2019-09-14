@@ -1,3 +1,7 @@
+.bloop/
+.metals/
+project/.bloop/
+
 *.class
 *.log
 *.swp
