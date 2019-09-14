@@ -145,6 +145,10 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform/*, NativePlatform*/)
         // Added noBox
         ProblemFilters.exclude[Problem]("scalapb.options.MessageOptions.*"),
         ProblemFilters.exclude[Problem]("scalapb.options.Scalapb#MessageOptionsOrBuilder.*"),
+        // for no_default_values_in_constructor:
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasNoDefaultValuesInConstructor"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.*")
       )
     },
   )
@@ -244,6 +248,8 @@ lazy val compilerPlugin = project.in(file("compiler-plugin"))
         // introduced in 2.12.9
         ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
         ProblemFilters.exclude[Problem]("scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.*"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasNoDefaultValuesInConstructor"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor")
       )
     }
   )
