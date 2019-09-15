@@ -83,7 +83,7 @@ releaseProcess := Seq[ReleaseStep](
   releaseStepCommandAndRemaining(s"sonatypeReleaseBundle"),
   setNextVersion,
   commitNextVersion,
-  pushChanges,
+  pushChanges
 )
 
 lazy val sharedNativeSettings = List(
@@ -180,11 +180,11 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       else Nil
     ),
     PB.targets in Compile ++= Seq(
-      PB.gens.java(protobufVersion) -> (sourceManaged in Compile).value,
+      PB.gens.java(protobufVersion) -> (sourceManaged in Compile).value
     ),
     PB.protocVersion in Compile := "-v" + protobufVersion,
     PB.protoSources in Compile := Seq(
-        baseDirectory.value / ".." / ".." / "protobuf"
+      baseDirectory.value / ".." / ".." / "protobuf"
     )
   )
   .jsSettings(
@@ -275,11 +275,11 @@ lazy val compilerPlugin = project
       (PB.generate in Compile).value
     },
     sourceGenerators in Compile += Def.task {
-        val src  = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
-        val dest = (sourceManaged in Compile).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
-        val s    = IO.read(src).replace("package scalapb", "package scalapb.internal")
-        IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
-        Seq(dest)
+      val src  = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
+      val dest = (sourceManaged in Compile).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
+      val s    = IO.read(src).replace("package scalapb", "package scalapb.internal")
+      IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
+      Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.9",
@@ -307,7 +307,7 @@ lazy val compilerPlugin = project
     PB.targets in Compile := Seq(
       PB.gens.java(protobufCompilerVersion) -> (sourceManaged in Compile).value / "java_out"
     ),
-    PB.protoSources in Compile := Seq((resourceManaged in Compile).value / "protobuf"),
+    PB.protoSources in Compile := Seq((resourceManaged in Compile).value / "protobuf")
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
