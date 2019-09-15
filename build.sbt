@@ -63,7 +63,7 @@ organization in ThisBuild := "com.thesamet.scalapb"
 resolvers in ThisBuild +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-publishTo in ThisBuild := sonatypePublishTo.value
+publishTo in ThisBuild := sonatypePublishToBundle.value
 
 releaseCrossBuild := true
 
@@ -77,13 +77,13 @@ releaseProcess := Seq[ReleaseStep](
   setReleaseVersion,
   commitReleaseVersion,
   tagRelease,
-  releaseStepCommandAndRemaining(";+publishSigned"),
-  releaseStepCommandAndRemaining(s";++${Scala212};protocGenScalapb/publishSigned"),
+  releaseStepCommandAndRemaining("+publishSigned"),
+  releaseStepCommandAndRemaining(s"++${Scala212};protocGenScalapb/publishSigned"),
   // releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned;lensesNative/publishSigned"),
+  releaseStepCommandAndRemaining(s"sonatypeReleaseBundle"),
   setNextVersion,
   commitNextVersion,
   pushChanges,
-  ReleaseStep(action = "sonatypeReleaseAll" :: _, enableCrossBuild = true)
 )
 
 lazy val sharedNativeSettings = List(
@@ -121,6 +121,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       "com.lihaoyi"         %%% "fastparse"        % fastparseVersion.value,
+      "com.google.protobuf" % "protobuf-java"      % protobufVersion % "protobuf",
       "com.lihaoyi"         %%% "utest"            % utestVersion.value % "test",
       "commons-codec"       % "commons-codec"      % "1.13" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test"
@@ -177,6 +178,13 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       if (scalaVersion.value.startsWith("2.13."))
         Seq("-XX:LoopStripMiningIter=0")
       else Nil
+    ),
+    PB.targets in Compile ++= Seq(
+      PB.gens.java(protobufVersion) -> (sourceManaged in Compile).value,
+    ),
+    PB.protocVersion in Compile := "-v" + protobufVersion,
+    PB.protoSources in Compile := Seq(
+        baseDirectory.value / ".." / ".." / "protobuf"
     )
   )
   .jsSettings(
@@ -225,6 +233,9 @@ val shadeTarget = settingKey[String]("Target to use when shading")
 
 shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]", "_")}.@0"
 
+val scalapbProtoPackageReplaceTask =
+  TaskKey[Unit]("scalapb-proto-package-replace", "Replaces package name in scalapb.proto")
+
 lazy val compilerPlugin = project
   .in(file("compiler-plugin"))
   .settings(
@@ -242,16 +253,37 @@ lazy val compilerPlugin = project
       )
       Seq(file)
     }.taskValue,
-    sourceGenerators in Compile += Def.task {
-      val src  = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
-      val dest = (sourceManaged in Compile).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
-      val s    = IO.read(src).replace("package scalapb", "package scalapb.internal")
+    scalapbProtoPackageReplaceTask := {
+      /*
+       SBT 1.x depends on scalapb-runtime which contains a compiled copy of
+       scalapb.proto.  When the compiler plugin is loaded into SBT it may cause a
+       conflict. To prevent that, we use a different package name for the generated
+       code for the compiler-plugin.  In the past, we used shading for this
+       purpose, but this makes it harder to create more protoc plugins that depend
+       on compiler-plugin.
+       */
+      streams.value.log
+        .info(s"Generating scalapb.proto with package replaced to scalapb.options.compiler.")
+      val src  = baseDirectory.value / ".." / "protobuf" / "scalapb" / "scalapb.proto"
+      val dest = (resourceManaged in Compile).value / "protobuf" / "scalapb" / "scalapb.proto"
+      val s    = IO.read(src).replace("scalapb.options", "scalapb.options.compiler")
       IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
       Seq(dest)
+    },
+    PB.generate in Compile := {
+      scalapbProtoPackageReplaceTask.value
+      (PB.generate in Compile).value
+    },
+    sourceGenerators in Compile += Def.task {
+        val src  = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
+        val dest = (sourceManaged in Compile).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
+        val s    = IO.read(src).replace("package scalapb", "package scalapb.internal")
+        IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
+        Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.9",
-      "com.google.protobuf"  % "protobuf-java" % protobufCompilerVersion,
+      "com.google.protobuf"  % "protobuf-java" % protobufCompilerVersion % "protobuf",
       ScalaTest              % "test",
       ProtocJar              % "test"
     ),
@@ -270,7 +302,12 @@ lazy val compilerPlugin = project
           "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"
         )
       )
-    }
+    },
+    PB.protocVersion in Compile := "-v" + protobufCompilerVersion,
+    PB.targets in Compile := Seq(
+      PB.gens.java(protobufCompilerVersion) -> (sourceManaged in Compile).value / "java_out"
+    ),
+    PB.protoSources in Compile := Seq((resourceManaged in Compile).value / "protobuf"),
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
