@@ -349,6 +349,45 @@
   ]
 },
 {
+  "name":"com.google.protobuf.DescriptorProtos$MethodOptions",
+  "methods":[
+    {"name":"getDeprecated","parameterTypes":[] }, 
+    {"name":"getIdempotencyLevel","parameterTypes":[] }, 
+    {"name":"getUninterpretedOption","parameterTypes":["int"] }, 
+    {"name":"getUninterpretedOptionCount","parameterTypes":[] }, 
+    {"name":"getUninterpretedOptionList","parameterTypes":[] }, 
+    {"name":"hasDeprecated","parameterTypes":[] }, 
+    {"name":"hasIdempotencyLevel","parameterTypes":[] }
+  ]
+},
+{
+  "name":"com.google.protobuf.DescriptorProtos$MethodOptions$Builder",
+  "methods":[
+    {"name":"addUninterpretedOption","parameterTypes":["com.google.protobuf.DescriptorProtos$UninterpretedOption"] }, 
+    {"name":"clearDeprecated","parameterTypes":[] }, 
+    {"name":"clearIdempotencyLevel","parameterTypes":[] }, 
+    {"name":"clearUninterpretedOption","parameterTypes":[] }, 
+    {"name":"getDeprecated","parameterTypes":[] }, 
+    {"name":"getIdempotencyLevel","parameterTypes":[] }, 
+    {"name":"getUninterpretedOption","parameterTypes":["int"] }, 
+    {"name":"getUninterpretedOptionBuilder","parameterTypes":["int"] }, 
+    {"name":"getUninterpretedOptionCount","parameterTypes":[] }, 
+    {"name":"getUninterpretedOptionList","parameterTypes":[] }, 
+    {"name":"hasDeprecated","parameterTypes":[] }, 
+    {"name":"hasIdempotencyLevel","parameterTypes":[] }, 
+    {"name":"setDeprecated","parameterTypes":["boolean"] }, 
+    {"name":"setIdempotencyLevel","parameterTypes":["com.google.protobuf.DescriptorProtos$MethodOptions$IdempotencyLevel"] }, 
+    {"name":"setUninterpretedOption","parameterTypes":["int","com.google.protobuf.DescriptorProtos$UninterpretedOption"] }
+  ]
+},
+{
+  "name":"com.google.protobuf.DescriptorProtos$MethodOptions$IdempotencyLevel",
+  "methods":[
+    {"name":"getValueDescriptor","parameterTypes":[] }, 
+    {"name":"valueOf","parameterTypes":["com.google.protobuf.Descriptors$EnumValueDescriptor"] }
+  ]
+},
+{
   "name":"com.google.protobuf.DescriptorProtos$OneofOptions",
   "methods":[
     {"name":"getUninterpretedOption","parameterTypes":["int"] }, 
