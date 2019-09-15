@@ -80,7 +80,7 @@ releaseProcess := Seq[ReleaseStep](
   releaseStepCommandAndRemaining("+publishSigned"),
   releaseStepCommandAndRemaining(s"++${Scala212};protocGenScalapb/publishSigned"),
   // releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned;lensesNative/publishSigned"),
-  releaseStepCommandAndRemaining(s"sonatypeReleaseBundle"),
+  releaseStepCommand(s"sonatypeBundleRelease"),
   setNextVersion,
   commitNextVersion,
   pushChanges
