@@ -220,7 +220,7 @@ message BankTransferPayment {
 
 // Represents an order placed by a customer:
 message Order {
-    optional int amount = 1;
+    optional int32 amount = 1;
     optional string customer_id = 2;
 
     // How did we get paid? At most one option must be set.
