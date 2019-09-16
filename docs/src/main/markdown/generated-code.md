@@ -330,14 +330,14 @@ sealed trait Weather extends GeneratedEnum {
 }
 
 object Weather extends GeneratedEnumCompanion[Weather] {
-    case object Sunny extends Weather {
+    case object SUNNY extends Weather {
         val value = 1
         val name = "SUNNY"
     }
 
     // Similarly for the other enum values...
-    case object PartlyCloudy extends Weather { ... }
-    case object Rain extends Weather { ... }
+    case object PARTLY_CLOUDY extends Weather { ... }
+    case object RAIN extends Weather { ... }
 
     // In ScalaPB >= 0.5.x, this captures unknown value that are received
     // from the wire format.  Earlier versions throw a MatchError when
@@ -345,7 +345,7 @@ object Weather extends GeneratedEnumCompanion[Weather] {
     case class Unrecognized(value: Int) extends Weather { ... }
 
     // And a list of all possible values:
-    lazy val values = Seq(Sunny, PartlyCloudy, Rain)
+    lazy val values = Seq(SUNNY, PARTLY_CLOUDY, RAIN)
 }
 
 case class Forecast(weather: Option[Weather]) { ... }
@@ -354,9 +354,9 @@ case class Forecast(weather: Option[Weather]) { ... }
 And we can write:
 
 ```scala
-val f = Forecard().update(_.weather := Weather.PartlyCloud)
+val f = Forecast().update(_.weather := Weather.PARTLY_CLOUDY)
 
-assert(f.weather == Some(Weather.PartlyCloudy)
+assert(f.weather == Some(Weather.PARTLY_CLOUDY)
 
 if (f.getWeather.isRain) {
     // take an umbrella
@@ -364,8 +364,8 @@ if (f.getWeather.isRain) {
 
 // Pattern matching:
 f.getWeather match {
-    case Weather.Rain =>
-    case Weather.Sunny =>
+    case Weather.RAIN =>
+    case Weather.SUNNY =>
     case _ =>
 }
 
