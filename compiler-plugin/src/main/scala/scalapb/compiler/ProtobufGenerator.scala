@@ -31,6 +31,7 @@ class ProtobufGenerator(
   import ProtobufGenerator._
 
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
+    val recognizedEnumType = "Recognized"
     val name = e.nameSymbol
     printer
       .when(e.getOptions.getDeprecated) {
@@ -45,7 +46,7 @@ class ProtobufGenerator(
       }
       .add(s"def companion: _root_.scalapb.GeneratedEnumCompanion[$name] = ${e.scalaTypeName}")
       .add(
-        s"final def asRecognized: _root_.scala.Option[${e.scalaTypeName}.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[${e.scalaTypeName}.Recognized])"
+        s"final def asRecognized: _root_.scala.Option[${e.scalaTypeName}.$recognizedEnumType] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[${e.scalaTypeName}.$recognizedEnumType])"
       )
       .outdent
       .add("}")
@@ -62,7 +63,7 @@ class ProtobufGenerator(
             .addStringMargin(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
               " " + ProtobufGenerator.deprecatedAnnotation
             } else ""}
-            |case object ${v.scalaName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
+            |case object ${v.scalaName.asSymbol} extends ${v.valueExtends(recognizedEnumType).mkString(" with ")} {
             |  val value = ${v.getNumber}
             |  val index = ${v.getIndex}
             |  val name = "${v.getName}"
@@ -82,7 +83,7 @@ class ProtobufGenerator(
       }
       .add(s"  case __other => Unrecognized(__other)")
       .add("}")
-      .add(s"sealed trait Recognized extends $name")
+      .add(s"sealed trait $recognizedEnumType extends $name")
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}"
       )

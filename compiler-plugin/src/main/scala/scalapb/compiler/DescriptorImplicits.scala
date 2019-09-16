@@ -771,8 +771,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def scalaOptions: EnumValueOptions =
       enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
 
-    def valueExtends: Seq[String] =
-      enumValue.getType.nameSymbol +: s"${enumValue.getType.nameSymbol}.Recognized" +: scalaOptions.getExtendsList.asScala.toSeq
+    def valueExtends(recognizedEnumType: String): Seq[String] =
+      enumValue.getType.nameSymbol +: s"${enumValue.getType.nameSymbol}.$recognizedEnumType" +: scalaOptions.getExtendsList.asScala.toSeq
 
     def scalaName: String =
       if (scalaOptions.hasScalaName) scalaOptions.getScalaName
