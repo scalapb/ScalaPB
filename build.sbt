@@ -282,7 +282,7 @@ lazy val compilerPlugin = project
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.9",
+      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.10",
       "com.google.protobuf"  % "protobuf-java" % protobufCompilerVersion % "protobuf",
       ScalaTest              % "test",
       ProtocJar              % "test"
