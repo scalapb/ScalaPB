@@ -178,7 +178,19 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.copy"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.this"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.of"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.apply")
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.apply"),
+        // Added Recognized
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.descriptor.FieldDescriptorProto#Label.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.descriptor.FieldOptions#CType.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.descriptor.FieldOptions#JSType.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.descriptor.FieldDescriptorProto#Type.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.descriptor.FileOptions#OptimizeMode.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.descriptor.MethodOptions#IdempotencyLevel.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.struct.NullValue.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.type.Syntax.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.type.Field#Kind.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("com.google.protobuf.type.Field#Cardinality.asRecognized"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.ScalaPbOptions#OptionsScope.asRecognized"),
       )
     }
   )
