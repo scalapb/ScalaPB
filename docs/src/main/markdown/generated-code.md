@@ -178,16 +178,16 @@ Using `update()` is especially fun with repeated fields:
 ```scala
 val p = Person().update(
   // Override the addresses
-  _.addressses := newListOfAddress,
+  _.addresses := newListOfAddress,
 
   // Add one address:
-  _.addressses :+= address1,
+  _.addresses :+= address1,
 
   // Add a list of addresses:
   _.addresses :++= Seq(address1, address2),
 
   // Modify an address in the list by index!
-  _.addressses(1).street := "Townsend St.",
+  _.addresses(1).street := "Townsend St.",
 
   // Modify all addresses:
   _.addresses.foreach(_.city := "San Francisco"),
