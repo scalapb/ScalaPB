@@ -27,3 +27,6 @@ message Proto3Issue137Singular {
   int64 var = 4;
 }
 
+enum enumWithRecognized {
+  Recognized = 0;
+}
