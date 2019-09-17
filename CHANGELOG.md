@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.9.1 (Unreleased)](https://github.com/scalapb/ScalaPB/compare/v0.9.0...HEAD)
+## [0.9.1](https://github.com/scalapb/ScalaPB/compare/v0.9.0...v0.9.1)
 - It is now possible to specify no_box at the message-level.
 - We now release to github native binary version of ScalaPB codegen.
 - Updated to Scala 2.12.10
