@@ -45,8 +45,12 @@ message Person {
     optional string name = 1;
     optional int32 age = 2;
 
-    // Address is a message defined somewhere else.
     repeated Address addresses = 3;
+}
+
+message Address {
+  optional string street = 1;
+  optional string city = 2;
 }
 ```
 
@@ -68,6 +72,8 @@ object Person extends GeneratedMessageCompanion[Person] {
 
     // more stuff...
 }
+
+// similar stuff for Address...
 ```
 
 The case class contains various methods for serialization, and the companion
