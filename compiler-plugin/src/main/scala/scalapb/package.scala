@@ -19,6 +19,8 @@ package object scalapb {
     case object Lenses extends GeneratorOption
 
     case object RetainSourceCodeInfo extends GeneratorOption
+
+    case object HelperMethod extends GeneratorOption
   }
 
   def gen(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
@@ -31,7 +33,8 @@ package object scalapb {
         "single_line_to_proto_string" -> options(SingleLineToProtoString),
         "ascii_format_to_string"      -> options(AsciiFormatToString),
         "no_lenses"                   -> !options(Lenses),
-        "retain_source_code_info"     -> options(RetainSourceCodeInfo)
+        "retain_source_code_info"     -> options(RetainSourceCodeInfo),
+        "disable_helper_method"       -> !options(HelperMethod)
       ).collect { case (name, v) if v => name }
     )
 
@@ -41,7 +44,8 @@ package object scalapb {
       grpc: Boolean = true,
       singleLineToProtoString: Boolean = false,
       asciiFormatToString: Boolean = false,
-      lenses: Boolean = true
+      lenses: Boolean = true,
+      helperMethod: Boolean = true
   ): (JvmGenerator, Seq[String]) = {
     val optionsBuilder = Set.newBuilder[GeneratorOption]
     if (flatPackage) {
@@ -61,6 +65,9 @@ package object scalapb {
     }
     if (lenses) {
       optionsBuilder += Lenses
+    }
+    if (helperMethod) {
+      optionsBuilder += HelperMethod
     }
     gen(optionsBuilder.result())
   }

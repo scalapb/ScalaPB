@@ -17,7 +17,8 @@ case class GeneratorParams(
     singleLineToProtoString: Boolean = false,
     asciiFormatToString: Boolean = false,
     lenses: Boolean = true,
-    retainSourceCodeInfo: Boolean = false
+    retainSourceCodeInfo: Boolean = false,
+    helperMethod: Boolean = true
 )
 
 // Exceptions that are caught and passed upstreams as errors.
@@ -1875,6 +1876,8 @@ object ProtobufGenerator {
           Right(params.copy(lenses = false))
         case (Right(params), "retain_source_code_info") =>
           Right(params.copy(retainSourceCodeInfo = true))
+        case (Right(params), "disable_helper_method") =>
+          Right(params.copy(helperMethod = false))
         case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
         case (x, _)             => x
       }
