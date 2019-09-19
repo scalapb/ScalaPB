@@ -1567,9 +1567,6 @@ class ProtobufGenerator(
       .call(generateMergeFrom(message))
       .print(message.fields) {
         case (printer, field) =>
-          val withMethod  = "with" + field.upperScalaName
-          val clearMethod = "clear" + field.upperScalaName
-          val singleType  = field.singleScalaTypeName
           printer
             .when(field.supportsPresence || field.isInOneof) { p =>
               val default = defaultValueForGet(field)
@@ -1577,6 +1574,13 @@ class ProtobufGenerator(
                 s"def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)"
               )
             }
+      }
+      .when(params.helperMethod)(_.print(message.fields) {
+        case (printer, field) =>
+          val withMethod  = "with" + field.upperScalaName
+          val clearMethod = "clear" + field.upperScalaName
+          val singleType  = field.singleScalaTypeName
+          printer
             .when(field.supportsPresence) { p =>
               p.addStringMargin(
                 s"""def $clearMethod: ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = ${C.None})
@@ -1588,27 +1592,28 @@ class ProtobufGenerator(
                 s"""def $withMethod(__v: ${singleType}): ${message.nameSymbol} = copy(${field.getContainingOneof.scalaName.asSymbol} = ${field.oneOfTypeName}(__v))"""
               )
             }
-            .when(field.isRepeated) { p =>
-              val emptyValue = field.emptyCollection
-              p.addStringMargin(
-                s"""def $clearMethod = copy(${field.scalaName.asSymbol} = $emptyValue)
-                |def add${field.upperScalaName}(__vs: $singleType*): ${message.nameSymbol} = addAll${field.upperScalaName}(__vs)
-                |def addAll${field.upperScalaName}(__vs: Iterable[$singleType]): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)"""
-              )
+            .when(field.isRepeated) {
+              p =>
+                val emptyValue = field.emptyCollection
+                p.addStringMargin(
+                  s"""def $clearMethod = copy(${field.scalaName.asSymbol} = $emptyValue)
+                  |def add${field.upperScalaName}(__vs: $singleType*): ${message.nameSymbol} = addAll${field.upperScalaName}(__vs)
+                  |def addAll${field.upperScalaName}(__vs: Iterable[$singleType]): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)"""
+                )
             }
             .when(field.isRepeated || field.isSingular) {
               _.add(
                 s"def $withMethod(__v: ${field.scalaTypeName}): ${message.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)"
               )
             }
-      }
-      .print(message.getOneofs.asScala) {
+      })
+      .when(params.helperMethod)(_.print(message.getOneofs.asScala) {
         case (printer, oneof) =>
           printer.addStringMargin(
             s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof.empty})
             |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)"""
           )
-      }
+      })
       .when(message.preservesUnknownFields)(
         _.add(
           "def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)"
