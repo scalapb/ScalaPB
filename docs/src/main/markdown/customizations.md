@@ -33,6 +33,7 @@ option (scalapb.options) = {
   lenses: true
   retain_source_code_info: false
   no_default_values_in_constructor: false,
+  preserve_unknown_fields: false
 };
 ```
 
@@ -73,6 +74,10 @@ enums to a single Scala file.
 - By default, all non-required fields have default values in the constructor of the generated
   case classes. When setting `no_default_values_in_constructor` to `true` no
   default values will be generated for all fields.
+
+- By default, during deserialization only known fields are retained. 
+  When setting `preserve_unknown_fields` to `true`, all generated messages in this file will preserve unknown fields.
+  This is default behaviour in java for Proto3 messages since 3.5.0.
 
 # Package-scoped options
 
