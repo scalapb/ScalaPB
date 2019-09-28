@@ -379,7 +379,7 @@ lazy val protocGenScalapbUnix = project
       "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
       "-H:Name=protoc-gen-scalapb"
     ) ++ (
-      if (System.getProperty("os.name").contains("linux"))
+      if (System.getProperty("os.name").toLowerCase.contains("linux"))
         Seq("--static")
       else Seq.empty,
     ),
