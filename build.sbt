@@ -217,7 +217,7 @@ lazy val grpcRuntime = project
     libraryDependencies ++= Seq(
       "io.grpc"     % "grpc-stub" % grpcVersion,
       "io.grpc"     % "grpc-protobuf" % grpcVersion,
-      "org.mockito" % "mockito-core" % "3.0.0" % "test",
+      "org.mockito" % "mockito-core" % "3.1.0" % "test",
       ScalaTest     % "test"
     ),
     mimaPreviousArtifacts := Set(
