@@ -10,7 +10,7 @@ stages:
 scala:
 - 2.11.12
 - 2.12.10
-- 2.13.0
+- 2.13.1
 
 env:
 - TEST_SCRIPT=e2e.sh E2E_SHADED=0
@@ -21,7 +21,7 @@ env:
 native_image: &native_image
   stage: release
   if: tag IS present
-  scala: 2.13.0
+  scala: 2.13.1
   script: |
       ./.travis/make_native_image.sh protoc-gen-scalapb-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
   deploy:
