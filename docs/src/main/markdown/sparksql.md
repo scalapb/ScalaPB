@@ -85,10 +85,12 @@ Add the following to `project/plugins.sbt`:
 
 Then in `build.sbt`, call the UDT generator:
 
-    PB.targets in Compile := Seq(
-      scalapb.gen() -> (sourceManaged in Compile).value,
-      scalapb.UdtGenerator -> (sourceManaged in Compile).value
-    )
+```scala
+PB.targets in Compile := Seq(
+  scalapb.gen() -> (sourceManaged in Compile).value,
+  scalapb.UdtGenerator -> (sourceManaged in Compile).value
+)
+```
 
 In `sbt` run `clean` and `compile`. This would generate, for each proto file
 `file.proto` a scala file named `FileUdt.scala` containing an object with a
