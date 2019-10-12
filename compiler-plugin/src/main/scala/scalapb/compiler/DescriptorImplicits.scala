@@ -776,7 +776,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def scalaName: String =
       if (scalaOptions.hasScalaName) scalaOptions.getScalaName
-      else if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE) allCapsToCamelCase(enumValue.getName, true)
+      else if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE)
+        allCapsToCamelCase(enumValue.getName, true)
       else enumValue.getName
 
     def isName = {
