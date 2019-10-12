@@ -1,6 +1,14 @@
 # Change Log
 
-## [0.9.1](https://github.com/scalapb/ScalaPB/compare/v0.9.0...v0.9.1)
+## [0.9.3](https://github.com/scalapb/ScalaPB/tree/v0.9.3)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.1...v0.9.3)
+- Add option for generating enum values in CamelCase (#675)
+- Add option to specify names for enum values (#675)
+- Rename standalone code generators from `protoc-gen-scalapb` to `protoc-gen-scala`
+- Native protoc-gen-scala binary for Linux is now statically linked.
+
+## [0.9.1](https://github.com/scalapb/ScalaPB/tree/v0.9.1)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.0...v0.9.1)
 - It is now possible to specify no_box at the message-level.
 - We now release to github native binary version of ScalaPB codegen.
 - Updated to Scala 2.12.10
