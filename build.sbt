@@ -78,7 +78,7 @@ releaseProcess := Seq[ReleaseStep](
   commitReleaseVersion,
   tagRelease,
   releaseStepCommandAndRemaining("+publishSigned"),
-  releaseStepCommandAndRemaining(s"++${Scala212};protocGenScalapb/publishSigned"),
+  releaseStepCommandAndRemaining(s"++${Scala212};protocGenScala/publishSigned"),
   // releaseStepCommandAndRemaining(s";++${Scala211};runtimeNative/publishSigned;lensesNative/publishSigned"),
   releaseStepCommand(s"sonatypeBundleRelease"),
   setNextVersion,
@@ -371,13 +371,13 @@ lazy val scalapbc = project
     maintainer := "thesamet@gmail.com"
   )
 
-lazy val protocGenScalapbUnix = project
+lazy val protocGenScalaUnix = project
   .enablePlugins(AssemblyPlugin, GraalVMNativeImagePlugin)
   .dependsOn(scalapbc)
   .settings(
     graalVMNativeImageOptions ++= Seq(
       "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
-      "-H:Name=protoc-gen-scalapb"
+      "-H:Name=protoc-gen-scala"
     ) ++ (
       if (System.getProperty("os.name").toLowerCase.contains("linux"))
         Seq("--static")
@@ -391,7 +391,7 @@ lazy val protocGenScalapbUnix = project
     mainClass in Compile := Some("scalapb.scripts.ProtocGenScala")
   )
 
-lazy val protocGenScalapbWindows = project
+lazy val protocGenScalaWindows = project
   .enablePlugins(AssemblyPlugin)
   .dependsOn(scalapbc)
   .settings(
@@ -403,20 +403,20 @@ lazy val protocGenScalapbWindows = project
     mainClass in Compile := Some("scalapb.scripts.ProtocGenScala")
   )
 
-lazy val protocGenScalapb = project
+lazy val protocGenScala = project
   .settings(
     crossScalaVersions := List(Scala212),
-    name := "protoc-gen-scalapb",
+    name := "protoc-gen-scala",
     publishArtifact in (Compile, packageDoc) := false,
     publishArtifact in (Compile, packageSrc) := false,
     crossPaths := false,
     addArtifact(
-      Artifact("protoc-gen-scalapb", "jar", "sh", "unix"),
-      assembly in (protocGenScalapbUnix, Compile)
+      Artifact("protoc-gen-scala", "jar", "sh", "unix"),
+      assembly in (protocGenScalaUnix, Compile)
     ),
     addArtifact(
-      Artifact("protoc-gen-scalapb", "jar", "bat", "windows"),
-      assembly in (protocGenScalapbWindows, Compile)
+      Artifact("protoc-gen-scala", "jar", "bat", "windows"),
+      assembly in (protocGenScalaWindows, Compile)
     ),
     autoScalaLibrary := false
   )

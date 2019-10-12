@@ -11,5 +11,5 @@ fi
 export PATH="$JAVA_HOME/bin:$PATH"
 gu install native-image
 ./make_reflect_config.sh
-sbt protocGenScalapbUnix/graalvm-native-image:packageBin
-zip -j $1 protocGenScalapbUnix/target/graalvm-native-image/protoc-gen-scalapb
+sbt protocGenScalaUnix/graalvm-native-image:packageBin
+zip -j $1 protocGenScalaUnix/target/graalvm-native-image/protoc-gen-scala

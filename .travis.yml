@@ -23,7 +23,7 @@ native_image: &native_image
   if: tag IS present
   scala: 2.13.1
   script: |
-      ./.travis/make_native_image.sh protoc-gen-scalapb-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
+      ./.travis/make_native_image.sh protoc-gen-scala-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
   deploy:
   - provider: releases
     on:
@@ -31,7 +31,7 @@ native_image: &native_image
       repo: scalapb/ScalaPB
     api_key:
       secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
-    file: protoc-gen-scalapb-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
+    file: protoc-gen-scala-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
     skip_cleanup: true
 
 jobs:
