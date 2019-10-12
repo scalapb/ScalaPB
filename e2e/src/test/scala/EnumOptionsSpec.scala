@@ -20,4 +20,9 @@ class EnumOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
     MyEnum.V2 must not be a [ValueMixin]
     MyEnum.Unrecognized(-1) must not be a [ValueMixin]
   }
+
+  "enum values" should "use naming scheme correctly" in {
+    MyEnum.MyThing.isMyThing must be(true)
+    MyEnum.FuzzBUZZ.isFuzzBuzz must be(true)
+  }
 }

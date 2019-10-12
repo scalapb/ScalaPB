@@ -32,8 +32,9 @@ option (scalapb.options) = {
   preamble: "sealed trait CommonMessage"
   lenses: true
   retain_source_code_info: false
-  no_default_values_in_constructor: false,
+  no_default_values_in_constructor: false
   preserve_unknown_fields: false
+  enum_value_naming: CAMEL_CASE
 };
 ```
 
@@ -75,7 +76,10 @@ enums to a single Scala file.
   case classes. When setting `no_default_values_in_constructor` to `true` no
   default values will be generated for all fields.
 
-- By default, during deserialization only known fields are retained. 
+- Typically, enum values appear in UPPER_CASE in proto files, and ScalaPB generates case objects
+  with exactly the same name in Scala. If you would like ScalaPB to transform the names into CamelCase, set `enum_value_naming` to `CAMEL_CASE`.
+
+- By default, during deserialization only known fields are retained.
   When setting `preserve_unknown_fields` to `true`, all generated messages in this file will preserve unknown fields.
   This is default behaviour in java for Proto3 messages since 3.5.0.
 
@@ -539,6 +543,16 @@ alternative name by using the `scala_name` option:
 ```protobuf
 optional string hash_code = 1 [(scalapb.field).scala_name = "myHashCode"];
 ```
+
+It is also possible to customize the Scala name of an enum value:
+
+```protobuf
+enum MyEnum {
+  DEFAULT = 0;
+  FOO = 1 [(scalapb.enum_value).scala_name = "Bar"];
+}
+```
+
 
 # Adding annotations
 

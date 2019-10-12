@@ -76,6 +76,7 @@ final case class ScalaPbOptions(
     retainSourceCodeInfo: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    enumValueNaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     ) extends scalapb.GeneratedMessage with scalapb.Message[ScalaPbOptions] with scalapb.lenses.Updatable[ScalaPbOptions] {
     @transient
@@ -141,6 +142,10 @@ final case class ScalaPbOptions(
       if (noDefaultValuesInConstructor.isDefined) {
         val __value = noDefaultValuesInConstructor.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(15, __value)
+      };
+      if (enumValueNaming.isDefined) {
+        val __value = enumValueNaming.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(16, __value)
       };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
@@ -217,6 +222,10 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeBool(15, __m)
       };
+      enumValueNaming.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(16, __m)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(100001, __m)
@@ -238,6 +247,7 @@ final case class ScalaPbOptions(
       var __retainSourceCodeInfo = this.retainSourceCodeInfo
       var __mapType = this.mapType
       var __noDefaultValuesInConstructor = this.noDefaultValuesInConstructor
+      var __enumValueNaming = this.enumValueNaming
       var __testOnlyNoJavaConversions = this.testOnlyNoJavaConversions
       var _done__ = false
       while (!_done__) {
@@ -274,6 +284,8 @@ final case class ScalaPbOptions(
             __mapType = Option(_input__.readString())
           case 120 =>
             __noDefaultValuesInConstructor = Option(_input__.readBool())
+          case 128 =>
+            __enumValueNaming = Option(_input__.readBool())
           case 800008 =>
             __testOnlyNoJavaConversions = Option(_input__.readBool())
           case tag => _input__.skipField(tag)
@@ -295,6 +307,7 @@ final case class ScalaPbOptions(
           retainSourceCodeInfo = __retainSourceCodeInfo,
           mapType = __mapType,
           noDefaultValuesInConstructor = __noDefaultValuesInConstructor,
+          enumValueNaming = __enumValueNaming,
           testOnlyNoJavaConversions = __testOnlyNoJavaConversions
       )
     }
@@ -345,6 +358,9 @@ final case class ScalaPbOptions(
     def getNoDefaultValuesInConstructor: _root_.scala.Boolean = noDefaultValuesInConstructor.getOrElse(false)
     def clearNoDefaultValuesInConstructor: ScalaPbOptions = copy(noDefaultValuesInConstructor = _root_.scala.None)
     def withNoDefaultValuesInConstructor(__v: _root_.scala.Boolean): ScalaPbOptions = copy(noDefaultValuesInConstructor = Option(__v))
+    def getEnumValueNaming: _root_.scala.Boolean = enumValueNaming.getOrElse(false)
+    def clearEnumValueNaming: ScalaPbOptions = copy(enumValueNaming = _root_.scala.None)
+    def withEnumValueNaming(__v: _root_.scala.Boolean): ScalaPbOptions = copy(enumValueNaming = Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
@@ -365,6 +381,7 @@ final case class ScalaPbOptions(
         case 13 => retainSourceCodeInfo.orNull
         case 14 => mapType.orNull
         case 15 => noDefaultValuesInConstructor.orNull
+        case 16 => enumValueNaming.orNull
         case 100001 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -386,6 +403,7 @@ final case class ScalaPbOptions(
         case 13 => retainSourceCodeInfo.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 14 => mapType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 15 => noDefaultValuesInConstructor.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 16 => enumValueNaming.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -414,7 +432,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       __fieldsMap.get(__fields.get(12)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
       __fieldsMap.get(__fields.get(13)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
       __fieldsMap.get(__fields.get(14)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
-      __fieldsMap.get(__fields.get(15)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
+      __fieldsMap.get(__fields.get(15)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
+      __fieldsMap.get(__fields.get(16)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.ScalaPbOptions] = _root_.scalapb.descriptors.Reads{
@@ -436,6 +455,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(13).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(14).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        __fieldsMap.get(scalaDescriptor.findFieldByNumber(16).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -465,6 +485,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     retainSourceCodeInfo = _root_.scala.None,
     mapType = _root_.scala.None,
     noDefaultValuesInConstructor = _root_.scala.None,
+    enumValueNaming = _root_.scala.None,
     testOnlyNoJavaConversions = _root_.scala.None
   )
   /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
@@ -510,6 +531,49 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(0)
   }
+  /** Naming convention for generated enum values 
+    */
+  sealed trait EnumValueNaming extends _root_.scalapb.GeneratedEnum {
+    type EnumType = EnumValueNaming
+    def isAsInProto: _root_.scala.Boolean = false
+    def isCamelCase: _root_.scala.Boolean = false
+    def companion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = scalapb.options.ScalaPbOptions.EnumValueNaming
+  }
+  
+  object EnumValueNaming extends _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] {
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = this
+    /** Enum value names in Scala use the same name as in the proto
+      */
+    @SerialVersionUID(0L)
+    case object AS_IN_PROTO extends EnumValueNaming {
+      val value = 0
+      val index = 0
+      val name = "AS_IN_PROTO"
+      override def isAsInProto: _root_.scala.Boolean = true
+    }
+    
+    /** Convert enum values to CamelCase in Scala.
+      */
+    @SerialVersionUID(0L)
+    case object CAMEL_CASE extends EnumValueNaming {
+      val value = 1
+      val index = 1
+      val name = "CAMEL_CASE"
+      override def isCamelCase: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    final case class Unrecognized(value: _root_.scala.Int) extends EnumValueNaming with _root_.scalapb.UnrecognizedEnum
+    
+    lazy val values = scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
+    def fromValue(value: _root_.scala.Int): EnumValueNaming = value match {
+      case 0 => AS_IN_PROTO
+      case 1 => CAMEL_CASE
+      case __other => Unrecognized(__other)
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes.get(1)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(1)
+  }
   implicit class ScalaPbOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions](_l) {
     def packageName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPackageName)((c_, f_) => c_.copy(packageName = Option(f_)))
     def optionalPackageName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.packageName)((c_, f_) => c_.copy(packageName = f_))
@@ -539,6 +603,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def optionalMapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.mapType)((c_, f_) => c_.copy(mapType = f_))
     def noDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = Option(f_)))
     def optionalNoDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = f_))
+    def enumValueNaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getEnumValueNaming)((c_, f_) => c_.copy(enumValueNaming = Option(f_)))
+    def optionalEnumValueNaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.enumValueNaming)((c_, f_) => c_.copy(enumValueNaming = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -557,6 +623,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val RETAIN_SOURCE_CODE_INFO_FIELD_NUMBER = 13
   final val MAP_TYPE_FIELD_NUMBER = 14
   final val NO_DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER = 15
+  final val ENUM_VALUE_NAMING_FIELD_NUMBER = 16
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
   def of(
     packageName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -574,6 +641,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     retainSourceCodeInfo: _root_.scala.Option[_root_.scala.Boolean],
     mapType: _root_.scala.Option[_root_.scala.Predef.String],
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean],
+    enumValueNaming: _root_.scala.Option[_root_.scala.Boolean],
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
@@ -591,6 +659,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     retainSourceCodeInfo,
     mapType,
     noDefaultValuesInConstructor,
+    enumValueNaming,
     testOnlyNoJavaConversions
   )
 }

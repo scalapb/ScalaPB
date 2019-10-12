@@ -10,6 +10,7 @@ import com.google.protobuf.DescriptorProtos.{
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
 import scalapb.options.compiler.Scalapb
+import scalapb.options.compiler.Scalapb.ScalaPbOptions.EnumValueNaming
 import scalapb.options.compiler.Scalapb._
 
 import scala.collection.JavaConverters._
@@ -773,12 +774,17 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def valueExtends: Seq[String] =
       enumValue.getType.nameSymbol +: scalaOptions.getExtendsList.asScala.toSeq
 
+    def scalaName: String =
+      if (scalaOptions.hasScalaName) scalaOptions.getScalaName
+      else if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE) allCapsToCamelCase(enumValue.getName, true)
+      else enumValue.getName
+
     def isName = {
       Helper.makeUniqueNames(
         enumValue.getType.getValues.asScala
-          .sortBy(v => (v.getNumber, v.getName))
+          .sortBy(v => (v.getNumber, v.scalaName))
           .map { e =>
-            e -> ("is" + allCapsToCamelCase(e.getName, true))
+            e -> ("is" + allCapsToCamelCase(e.scalaName, true))
           }
           .toSeq
       )(enumValue)

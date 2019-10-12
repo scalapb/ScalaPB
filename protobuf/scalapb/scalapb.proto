@@ -85,6 +85,13 @@ message ScalaPbOptions {
   // If true, no default values will be generated in message constructors.
   optional bool no_default_values_in_constructor = 15;
 
+  /* Naming convention for generated enum values */
+  enum EnumValueNaming {
+    AS_IN_PROTO = 0;  // Enum value names in Scala use the same name as in the proto
+    CAMEL_CASE = 1;   // Convert enum values to CamelCase in Scala.
+  }
+  optional EnumValueNaming enum_value_naming = 16;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;
@@ -183,6 +190,9 @@ extend google.protobuf.EnumOptions {
 message EnumValueOptions {
   // Additional classes and traits to mix in to an individual enum value.
   repeated string extends = 1;
+
+  // Name in Scala to use for this enum value.
+  optional string scala_name = 2;
 }
 
 extend google.protobuf.EnumValueOptions {

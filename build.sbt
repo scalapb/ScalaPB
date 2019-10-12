@@ -155,7 +155,30 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
         ProblemFilters.exclude[ReversedMissingMethodProblem](
           "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"
         ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.*")
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.*"),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasEnumValueNaming"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getEnumValueNaming"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.hasScalaName"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.getScalaName"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.getScalaNameBytes"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "scalapb.options.EnumValueOptions.apply"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.of"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.copy"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.this"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.of"),
+        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.apply")
       )
     }
   )
@@ -300,6 +323,21 @@ lazy val compilerPlugin = project
         ),
         ProblemFilters.exclude[ReversedMissingMethodProblem](
           "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasEnumValueNaming"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getEnumValueNaming"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.hasScalaName"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.getScalaName"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.getScalaNameBytes"
         )
       )
     },

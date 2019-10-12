@@ -59,7 +59,7 @@ class ProtobufGenerator(
             .addStringMargin(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
               " " + ProtobufGenerator.deprecatedAnnotation
             } else ""}
-            |case object ${v.getName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
+            |case object ${v.scalaName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
             |  val value = ${v.getNumber}
             |  val index = ${v.getIndex}
             |  val name = "${v.getName}"
@@ -71,11 +71,11 @@ class ProtobufGenerator(
       |final case class Unrecognized(value: _root_.scala.Int) extends $name with _root_.scalapb.UnrecognizedEnum
       |""")
       .add(
-        s"lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala.map(_.getName.asSymbol).mkString(", ")})"
+        s"lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala.map(_.scalaName.asSymbol).mkString(", ")})"
       )
       .add(s"def fromValue(value: _root_.scala.Int): $name = value match {")
       .print(e.valuesWithNoDuplicates) {
-        case (p, v) => p.add(s"  case ${v.getNumber} => ${v.getName.asSymbol}")
+        case (p, v) => p.add(s"  case ${v.getNumber} => ${v.scalaName.asSymbol}")
       }
       .add(s"  case __other => Unrecognized(__other)")
       .add("}")

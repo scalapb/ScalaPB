@@ -4,10 +4,16 @@ package com.thesamet.proto.e2e;
 
 import "scalapb/scalapb.proto";
 
+option (scalapb.options) = {
+  enum_value_naming: CAMEL_CASE
+};
+
 enum MyEnum {
   option (scalapb.enum_options).extends = "com.thesamet.pb.EnumOptions.EnumBase";
   option (scalapb.enum_options).companion_extends = "com.thesamet.pb.EnumOptions.EnumCompanionBase";
   Unknown = 0;
   V1 = 1 [(scalapb.enum_value).extends = "com.thesamet.pb.EnumOptions.ValueMixin"];
   V2 = 2;
+  MY_THING = 3;
+  ANOTHER_ONE = 4 [(scalapb.enum_value).scala_name = "FuzzBUZZ"];
 }
