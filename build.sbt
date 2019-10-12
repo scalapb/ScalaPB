@@ -478,11 +478,9 @@ lazy val proptest = project
     Test / baseDirectory := baseDirectory.value / "..",
     Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M"),
     // Can be removed after JDK 11.0.3 is available on Travis
-    Test / javaOptions ++= (
-      if (scalaVersion.value.startsWith("2.13."))
-        Seq("-XX:LoopStripMiningIter=0", "-Xmx4G")
-      else Nil
-    )
+    Test / javaOptions ++= (if (scalaVersion.value.startsWith("2.13."))
+                              Seq("-XX:LoopStripMiningIter=0")
+                            else Nil)
   )
 
 def genVersionFile(out: File, version: String): File = {
