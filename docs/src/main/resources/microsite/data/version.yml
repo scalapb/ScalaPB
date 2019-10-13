@@ -1,4 +1,4 @@
-scalapb: 0.9.3
+scalapb: 0.9.4
 sbt_protoc: 0.99.25
 protoc: 3.8.0
 sparksql_scalapb: 0.8.2

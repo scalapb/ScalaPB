@@ -1,7 +1,7 @@
 # Change Log
 
-## [0.9.3](https://github.com/scalapb/ScalaPB/tree/v0.9.3)
-[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.1...v0.9.3)
+## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.3)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.1...v0.9.4)
 - Add option for generating enum values in CamelCase (#675)
 - Add option to specify names for enum values (#675)
 - Rename standalone code generators from `protoc-gen-scalapb` to `protoc-gen-scala`
