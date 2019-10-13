@@ -10,12 +10,12 @@ class EnumOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
   }
 
   "enum values" should "extend EnumBase" in {
-    MyEnum.Unknown mustBe a [EnumBase]
+    MyEnum.MyUnknown mustBe a [EnumBase]
     MyEnum.V1 mustBe a [EnumBase]
     MyEnum.V2 mustBe a [EnumBase]
     MyEnum.Unrecognized(-1) mustBe a [EnumBase]
 
-    MyEnum.Unknown must not be a [ValueMixin]
+    MyEnum.MyUnknown must not be a [ValueMixin]
     MyEnum.V1 mustBe a [ValueMixin]
     MyEnum.V2 must not be a [ValueMixin]
     MyEnum.Unrecognized(-1) must not be a [ValueMixin]

@@ -11,7 +11,7 @@ option (scalapb.options) = {
 enum MyEnum {
   option (scalapb.enum_options).extends = "com.thesamet.pb.EnumOptions.EnumBase";
   option (scalapb.enum_options).companion_extends = "com.thesamet.pb.EnumOptions.EnumCompanionBase";
-  UNKNOWN = 0;
+  MY_UNKNOWN = 0;
   V1 = 1 [(scalapb.enum_value).extends = "com.thesamet.pb.EnumOptions.ValueMixin"];
   V2 = 2;
   MY_THING = 3;
