@@ -201,7 +201,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.ENUM =>
         field.getEnumType.scalaTypeNameWithMaybeRoot(field.getContainingType) + "." + defaultValue
           .asInstanceOf[EnumValueDescriptor]
-          .getName
+          .scalaName
           .asSymbol
     }
     if (!uncustomized && field.customSingleScalaTypeName.isDefined)

@@ -200,6 +200,9 @@ object Nodes {
               .add("option (scalapb.options) = {")
               .indent
               .when(options.hasPackageName)(_.add(s"""package_name: "${options.getPackageName}""""))
+              .when(options.hasEnumValueNaming)(
+                _.add(s"""enum_value_naming: ${options.getEnumValueNaming}""")
+              )
               .add(s"flat_package: ${options.getFlatPackage}")
               .outdent
               .add("};")
