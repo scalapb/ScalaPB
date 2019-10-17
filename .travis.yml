@@ -1,6 +1,6 @@
 language: scala
 dist: bionic
-jdk: oraclejdk11
+jdk: openjdk11
 
 stages:
 - name: test
