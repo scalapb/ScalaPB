@@ -80,6 +80,7 @@ jobs:
 # These directories are cached to S3 at the end of the build
 cache:
   directories:
+  - $HOME/.cache/coursier
   - $HOME/.ivy2/cache
   - $HOME/.sbt/1.0
   - $HOME/.sbt/boot
