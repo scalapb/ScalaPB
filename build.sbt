@@ -178,7 +178,9 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.copy"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.this"),
         ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.of"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.apply"),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "scalapb.options.EnumValueOptions.apply"
+        ),
         // Added Recognized
         ProblemFilters.exclude[ReversedMissingMethodProblem](
           "com.google.protobuf.descriptor.FieldDescriptorProto#Label.asRecognized"
