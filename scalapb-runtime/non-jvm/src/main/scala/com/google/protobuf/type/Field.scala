@@ -324,32 +324,32 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.Field(
-      com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.getOrElse(__fields.get(0), com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
-      com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.getOrElse(__fields.get(1), com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
-      __fieldsMap.getOrElse(__fields.get(2), 0).asInstanceOf[_root_.scala.Int],
-      __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.getOrElse(__fields.get(4), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.getOrElse(__fields.get(5), 0).asInstanceOf[_root_.scala.Int],
-      __fieldsMap.getOrElse(__fields.get(6), false).asInstanceOf[_root_.scala.Boolean],
-      __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
-      __fieldsMap.getOrElse(__fields.get(8), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.getOrElse(__fields.get(9), "").asInstanceOf[_root_.scala.Predef.String]
+      kind = com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.getOrElse(__fields.get(0), com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
+      cardinality = com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.getOrElse(__fields.get(1), com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber),
+      number = __fieldsMap.getOrElse(__fields.get(2), 0).asInstanceOf[_root_.scala.Int],
+      name = __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[_root_.scala.Predef.String],
+      typeUrl = __fieldsMap.getOrElse(__fields.get(4), "").asInstanceOf[_root_.scala.Predef.String],
+      oneofIndex = __fieldsMap.getOrElse(__fields.get(5), 0).asInstanceOf[_root_.scala.Int],
+      packed = __fieldsMap.getOrElse(__fields.get(6), false).asInstanceOf[_root_.scala.Boolean],
+      options = __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+      jsonName = __fieldsMap.getOrElse(__fields.get(8), "").asInstanceOf[_root_.scala.Predef.String],
+      defaultValue = __fieldsMap.getOrElse(__fields.get(9), "").asInstanceOf[_root_.scala.Predef.String]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Field] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.`type`.Field(
-        com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.scalaValueDescriptor).number),
-        com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.scalaValueDescriptor).number),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Int]).getOrElse(0),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Int]).getOrElse(0),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
+        kind = com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.scalaValueDescriptor).number),
+        cardinality = com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.scalaValueDescriptor).number),
+        number = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Int]).getOrElse(0),
+        name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+        typeUrl = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+        oneofIndex = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Int]).getOrElse(0),
+        packed = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
+        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
+        jsonName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+        defaultValue = __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }

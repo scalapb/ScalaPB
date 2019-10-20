@@ -714,6 +714,7 @@ class ProtobufGenerator(
           name = field.scalaName.asSymbol,
           typeName = typeName,
           default = ctorDefaultValue,
+          index = field.getIndex,
           annotations = annotations(field)
         )
     }
@@ -724,7 +725,8 @@ class ProtobufGenerator(
       ConstructorField(
         name = oneOf.scalaName.asSymbol,
         typeName = oneOf.scalaTypeName,
-        default = ctorDefaultValue
+        default = ctorDefaultValue,
+        index = oneOf.getField(0).getIndex
       )
     }
     val maybeUnknownFields =
@@ -733,13 +735,14 @@ class ProtobufGenerator(
           ConstructorField(
             name = "unknownFields",
             typeName = "_root_.scalapb.UnknownFieldSet",
-            default = Some("_root_.scalapb.UnknownFieldSet.empty")
+            default = Some("_root_.scalapb.UnknownFieldSet.empty"),
+            index = Int.MaxValue
           )
         )
       else
         Seq()
 
-    regularFields ++ oneOfFields ++ maybeUnknownFields
+    (regularFields ++ oneOfFields ++ maybeUnknownFields).sortBy(_.index)
   }
 
   def printConstructorFieldList(
@@ -1001,7 +1004,7 @@ class ProtobufGenerator(
                 s"__fieldsMap.getOrElse(__fields.get(${field.getIndex}), $t).asInstanceOf[$baseTypeName]"
               }
 
-            transform(field).apply(e, enclosingType = field.enclosingType)
+            s"${field.scalaName.asSymbol} = " + transform(field).apply(e, enclosingType = field.enclosingType)
         }
         val oneOfs = message.getOneofs.asScala.map { oneOf =>
           val elems = oneOf.fields.map { field =>
@@ -1072,7 +1075,7 @@ class ProtobufGenerator(
                 s"$value.map(_.as[$baseTypeName]).getOrElse($t)"
               }
 
-            transform(field).apply(e, enclosingType = field.enclosingType)
+            s"${field.scalaName.asSymbol} = " + transform(field).apply(e, enclosingType = field.enclosingType)
         }
         val oneOfs = message.getOneofs.asScala.map { oneOf =>
           val elems = oneOf.fields.map { field =>

@@ -110,14 +110,14 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.struct.Struct(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.struct.Struct.FieldsEntry]].iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom).toMap
+      fields = __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.struct.Struct.FieldsEntry]].iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom).toMap
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.Struct(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[com.google.protobuf.struct.Struct.FieldsEntry]]).getOrElse(_root_.scala.Seq.empty).iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom).toMap
+        fields = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[com.google.protobuf.struct.Struct.FieldsEntry]]).getOrElse(_root_.scala.Seq.empty).iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom).toMap
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -239,16 +239,16 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
       val __fields = javaDescriptor.getFields
       com.google.protobuf.struct.Struct.FieldsEntry(
-        __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
-        __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[com.google.protobuf.struct.Value]]
+        key = __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
+        value = __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[com.google.protobuf.struct.Value]]
       )
     }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct.FieldsEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
         com.google.protobuf.struct.Struct.FieldsEntry(
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-          __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.Value]])
+          key = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+          value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.Value]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
