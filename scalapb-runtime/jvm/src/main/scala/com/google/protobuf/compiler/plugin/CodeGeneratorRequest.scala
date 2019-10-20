@@ -37,7 +37,8 @@ final case class CodeGeneratorRequest(
     fileToGenerate: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     parameter: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     protoFile: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Seq.empty,
-    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version] = _root_.scala.None
+    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[CodeGeneratorRequest] with scalapb.lenses.Updatable[CodeGeneratorRequest] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -59,6 +60,7 @@ final case class CodeGeneratorRequest(
         val __value = compilerVersion.get
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -90,12 +92,14 @@ final case class CodeGeneratorRequest(
         _output__.writeUInt32NoTag(__m.serializedSize)
         __m.writeTo(_output__)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
       val __fileToGenerate = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.fileToGenerate)
       var __parameter = this.parameter
       val __protoFile = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= this.protoFile)
       var __compilerVersion = this.compilerVersion
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -109,14 +113,15 @@ final case class CodeGeneratorRequest(
             __protoFile += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
           case 26 =>
             __compilerVersion = Option(_root_.scalapb.LiteParser.readMessage(_input__, __compilerVersion.getOrElse(com.google.protobuf.compiler.plugin.Version.defaultInstance)))
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
           fileToGenerate = __fileToGenerate.result(),
           parameter = __parameter,
           protoFile = __protoFile.result(),
-          compilerVersion = __compilerVersion
+          compilerVersion = __compilerVersion,
+          unknownFields = _unknownFields__.result()
       )
     }
     def clearFileToGenerate = copy(fileToGenerate = _root_.scala.Seq.empty)
@@ -133,6 +138,8 @@ final case class CodeGeneratorRequest(
     def getCompilerVersion: com.google.protobuf.compiler.plugin.Version = compilerVersion.getOrElse(com.google.protobuf.compiler.plugin.Version.defaultInstance)
     def clearCompilerVersion: CodeGeneratorRequest = copy(compilerVersion = _root_.scala.None)
     def withCompilerVersion(__v: com.google.protobuf.compiler.plugin.Version): CodeGeneratorRequest = copy(compilerVersion = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => fileToGenerate
@@ -225,11 +232,13 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     fileToGenerate: _root_.scala.Seq[_root_.scala.Predef.String],
     parameter: _root_.scala.Option[_root_.scala.Predef.String],
     protoFile: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto],
-    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version]
+    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorRequest = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
     fileToGenerate,
     parameter,
     protoFile,
-    compilerVersion
+    compilerVersion,
+    unknownFields
   )
 }

@@ -30,7 +30,8 @@ final case class Method(
     responseTypeUrl: _root_.scala.Predef.String = "",
     responseStreaming: _root_.scala.Boolean = false,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Method] with scalapb.lenses.Updatable[Method] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -82,6 +83,7 @@ final case class Method(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, __value.value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -135,6 +137,7 @@ final case class Method(
           _output__.writeEnum(7, __v.value)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = {
       var __name = this.name
@@ -144,6 +147,7 @@ final case class Method(
       var __responseStreaming = this.responseStreaming
       val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
       var __syntax = this.syntax
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -163,7 +167,7 @@ final case class Method(
             __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
           case 56 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.api.Method(
@@ -173,7 +177,8 @@ final case class Method(
           responseTypeUrl = __responseTypeUrl,
           responseStreaming = __responseStreaming,
           options = __options.result(),
-          syntax = __syntax
+          syntax = __syntax,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withName(__v: _root_.scala.Predef.String): Method = copy(name = __v)
@@ -186,6 +191,8 @@ final case class Method(
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Method = copy(syntax = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -307,7 +314,8 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseTypeUrl: _root_.scala.Predef.String,
     responseStreaming: _root_.scala.Boolean,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
-    syntax: com.google.protobuf.`type`.Syntax
+    syntax: com.google.protobuf.`type`.Syntax,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.api.Method = _root_.com.google.protobuf.api.Method(
     name,
     requestTypeUrl,
@@ -315,6 +323,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseTypeUrl,
     responseStreaming,
     options,
-    syntax
+    syntax,
+    unknownFields
   )
 }

@@ -7,7 +7,8 @@ package com.thesamet.docs.json
 
 @SerialVersionUID(0L)
 final case class MyContainer(
-    myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None
+    myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[MyContainer] with scalapb.lenses.Updatable[MyContainer] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -17,6 +18,7 @@ final case class MyContainer(
         val __value = myAny.get
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -34,9 +36,11 @@ final case class MyContainer(
         _output__.writeUInt32NoTag(__m.serializedSize)
         __m.writeTo(_output__)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyContainer = {
       var __myAny = this.myAny
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -44,16 +48,19 @@ final case class MyContainer(
           case 0 => _done__ = true
           case 10 =>
             __myAny = Option(_root_.scalapb.LiteParser.readMessage(_input__, __myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.thesamet.docs.json.MyContainer(
-          myAny = __myAny
+          myAny = __myAny,
+          unknownFields = _unknownFields__.result()
       )
     }
     def getMyAny: com.google.protobuf.any.Any = myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)
     def clearMyAny: MyContainer = copy(myAny = _root_.scala.None)
     def withMyAny(__v: com.google.protobuf.any.Any): MyContainer = copy(myAny = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => myAny.orNull
@@ -106,8 +113,10 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
   }
   final val MY_ANY_FIELD_NUMBER = 1
   def of(
-    myAny: _root_.scala.Option[com.google.protobuf.any.Any]
+    myAny: _root_.scala.Option[com.google.protobuf.any.Any],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.thesamet.docs.json.MyContainer = _root_.com.thesamet.docs.json.MyContainer(
-    myAny
+    myAny,
+    unknownFields
   )
 }

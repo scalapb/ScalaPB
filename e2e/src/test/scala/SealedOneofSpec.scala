@@ -52,14 +52,14 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
         |  case Animal.Value.Mammal(v) =>
         |    v match {
         |      case Mammal.Empty =>
-        |      case Dog() =>
-        |      case Cat() =>
+        |      case Dog(_) =>
+        |      case Cat(_) =>
         |    }
         |  case Animal.Value.Bird(v) =>
         |    v match {
         |      case Bird.Empty =>
-        |      case Eagle() =>
-        |      case Sparrow() =>
+        |      case Eagle(_) =>
+        |      case Sparrow(_) =>
         |    }
         |}
       """.stripMargin)
@@ -77,8 +77,8 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
     expr.lhs.asNonEmpty must be(Some(expr.lhs))
     Expr.Empty.asNonEmpty must be(None)
     expr.asNonEmpty match {
-      case Some(Add(_, _)) => "add"
-      case Some(Lit(_)) => "add"
+      case Some(Add(_, _, _)) => "add"
+      case Some(Lit(_, _)) => "add"
       case None => ""
     }
   }

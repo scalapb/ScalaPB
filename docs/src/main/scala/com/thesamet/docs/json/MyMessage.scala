@@ -7,7 +7,8 @@ package com.thesamet.docs.json
 
 @SerialVersionUID(0L)
 final case class MyMessage(
-    x: _root_.scala.Int = 0
+    x: _root_.scala.Int = 0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[MyMessage] with scalapb.lenses.Updatable[MyMessage] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -20,6 +21,7 @@ final case class MyMessage(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -37,9 +39,11 @@ final case class MyMessage(
           _output__.writeInt32(1, __v)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyMessage = {
       var __x = this.x
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -47,14 +51,17 @@ final case class MyMessage(
           case 0 => _done__ = true
           case 8 =>
             __x = _input__.readInt32()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.thesamet.docs.json.MyMessage(
-          x = __x
+          x = __x,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withX(__v: _root_.scala.Int): MyMessage = copy(x = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -103,8 +110,10 @@ object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.jso
   }
   final val X_FIELD_NUMBER = 1
   def of(
-    x: _root_.scala.Int
+    x: _root_.scala.Int,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.thesamet.docs.json.MyMessage = _root_.com.thesamet.docs.json.MyMessage(
-    x
+    x,
+    unknownFields
   )
 }

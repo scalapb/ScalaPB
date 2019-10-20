@@ -12,7 +12,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class ExtensionRangeOptions(
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[ExtensionRangeOptions] with scalapb.lenses.Updatable[ExtensionRangeOptions] with _root_.scalapb.ExtendableMessage[ExtensionRangeOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0

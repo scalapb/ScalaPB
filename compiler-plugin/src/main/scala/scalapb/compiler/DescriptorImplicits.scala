@@ -573,8 +573,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
 
-    // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for value classes
-    // since they must have an exactly one val.
+    // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for
+    // value classes since they must have an exactly one val.
     def preservesUnknownFields =
       (
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields

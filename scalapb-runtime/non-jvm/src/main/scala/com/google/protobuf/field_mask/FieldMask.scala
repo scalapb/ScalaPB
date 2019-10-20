@@ -210,7 +210,8 @@ package com.google.protobuf.field_mask
   */
 @SerialVersionUID(0L)
 final case class FieldMask(
-    paths: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty
+    paths: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[FieldMask] with scalapb.lenses.Updatable[FieldMask] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -220,6 +221,7 @@ final case class FieldMask(
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
       }
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -235,9 +237,11 @@ final case class FieldMask(
         val __m = __v
         _output__.writeString(1, __m)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.field_mask.FieldMask = {
       val __paths = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.paths)
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -245,17 +249,20 @@ final case class FieldMask(
           case 0 => _done__ = true
           case 10 =>
             __paths += _input__.readString()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.field_mask.FieldMask(
-          paths = __paths.result()
+          paths = __paths.result(),
+          unknownFields = _unknownFields__.result()
       )
     }
     def clearPaths = copy(paths = _root_.scala.Seq.empty)
     def addPaths(__vs: _root_.scala.Predef.String*): FieldMask = addAllPaths(__vs)
     def addAllPaths(__vs: Iterable[_root_.scala.Predef.String]): FieldMask = copy(paths = paths ++ __vs)
     def withPaths(__v: _root_.scala.Seq[_root_.scala.Predef.String]): FieldMask = copy(paths = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => paths
@@ -301,8 +308,10 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
   }
   final val PATHS_FIELD_NUMBER = 1
   def of(
-    paths: _root_.scala.Seq[_root_.scala.Predef.String]
+    paths: _root_.scala.Seq[_root_.scala.Predef.String],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.field_mask.FieldMask = _root_.com.google.protobuf.field_mask.FieldMask(
-    paths
+    paths,
+    unknownFields
   )
 }

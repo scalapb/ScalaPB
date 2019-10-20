@@ -7,7 +7,8 @@ package mytypes.duration
 
 @SerialVersionUID(0L)
 final case class Duration(
-    seconds: _root_.scala.Int = 0
+    seconds: _root_.scala.Int = 0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Duration] with scalapb.lenses.Updatable[Duration] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -20,6 +21,7 @@ final case class Duration(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -37,9 +39,11 @@ final case class Duration(
           _output__.writeInt32(1, __v)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = {
       var __seconds = this.seconds
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -47,14 +51,17 @@ final case class Duration(
           case 0 => _done__ = true
           case 8 =>
             __seconds = _input__.readInt32()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       mytypes.duration.Duration(
-          seconds = __seconds
+          seconds = __seconds,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withSeconds(__v: _root_.scala.Int): Duration = copy(seconds = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -103,8 +110,10 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
   }
   final val SECONDS_FIELD_NUMBER = 1
   def of(
-    seconds: _root_.scala.Int
+    seconds: _root_.scala.Int,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.mytypes.duration.Duration = _root_.mytypes.duration.Duration(
-    seconds
+    seconds,
+    unknownFields
   )
 }

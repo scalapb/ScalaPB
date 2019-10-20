@@ -14,7 +14,8 @@ package com.google.protobuf.wrappers
   */
 @SerialVersionUID(0L)
 final case class BoolValue(
-    value: _root_.scala.Boolean = false
+    value: _root_.scala.Boolean = false,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[BoolValue] with scalapb.lenses.Updatable[BoolValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -27,6 +28,7 @@ final case class BoolValue(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(1, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -44,9 +46,11 @@ final case class BoolValue(
           _output__.writeBool(1, __v)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.BoolValue = {
       var __value = this.value
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -54,14 +58,17 @@ final case class BoolValue(
           case 0 => _done__ = true
           case 8 =>
             __value = _input__.readBool()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.wrappers.BoolValue(
-          value = __value
+          value = __value,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withValue(__v: _root_.scala.Boolean): BoolValue = copy(value = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -118,8 +125,10 @@ object BoolValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.w
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.scala.Boolean
+    value: _root_.scala.Boolean,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.wrappers.BoolValue = _root_.com.google.protobuf.wrappers.BoolValue(
-    value
+    value,
+    unknownFields
   )
 }

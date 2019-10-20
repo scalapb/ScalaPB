@@ -77,7 +77,8 @@ final case class ScalaPbOptions(
     mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     enumValueNaming: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming] = _root_.scala.None,
-    testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[ScalaPbOptions] with scalapb.lenses.Updatable[ScalaPbOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -151,6 +152,7 @@ final case class ScalaPbOptions(
         val __value = testOnlyNoJavaConversions.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(100001, __value)
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -230,6 +232,7 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeBool(100001, __m)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.ScalaPbOptions = {
       var __packageName = this.packageName
@@ -249,6 +252,7 @@ final case class ScalaPbOptions(
       var __noDefaultValuesInConstructor = this.noDefaultValuesInConstructor
       var __enumValueNaming = this.enumValueNaming
       var __testOnlyNoJavaConversions = this.testOnlyNoJavaConversions
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -288,7 +292,7 @@ final case class ScalaPbOptions(
             __enumValueNaming = Option(scalapb.options.ScalaPbOptions.EnumValueNaming.fromValue(_input__.readEnum()))
           case 800008 =>
             __testOnlyNoJavaConversions = Option(_input__.readBool())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       scalapb.options.ScalaPbOptions(
@@ -308,7 +312,8 @@ final case class ScalaPbOptions(
           mapType = __mapType,
           noDefaultValuesInConstructor = __noDefaultValuesInConstructor,
           enumValueNaming = __enumValueNaming,
-          testOnlyNoJavaConversions = __testOnlyNoJavaConversions
+          testOnlyNoJavaConversions = __testOnlyNoJavaConversions,
+          unknownFields = _unknownFields__.result()
       )
     }
     def getPackageName: _root_.scala.Predef.String = packageName.getOrElse("")
@@ -337,7 +342,7 @@ final case class ScalaPbOptions(
     def getCollectionType: _root_.scala.Predef.String = collectionType.getOrElse("")
     def clearCollectionType: ScalaPbOptions = copy(collectionType = _root_.scala.None)
     def withCollectionType(__v: _root_.scala.Predef.String): ScalaPbOptions = copy(collectionType = Option(__v))
-    def getPreserveUnknownFields: _root_.scala.Boolean = preserveUnknownFields.getOrElse(false)
+    def getPreserveUnknownFields: _root_.scala.Boolean = preserveUnknownFields.getOrElse(true)
     def clearPreserveUnknownFields: ScalaPbOptions = copy(preserveUnknownFields = _root_.scala.None)
     def withPreserveUnknownFields(__v: _root_.scala.Boolean): ScalaPbOptions = copy(preserveUnknownFields = Option(__v))
     def getObjectName: _root_.scala.Predef.String = objectName.getOrElse("")
@@ -364,6 +369,8 @@ final case class ScalaPbOptions(
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => packageName.orNull
@@ -643,7 +650,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     mapType: _root_.scala.Option[_root_.scala.Predef.String],
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean],
     enumValueNaming: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming],
-    testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
+    testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
     flatPackage,
@@ -661,6 +669,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     mapType,
     noDefaultValuesInConstructor,
     enumValueNaming,
-    testOnlyNoJavaConversions
+    testOnlyNoJavaConversions,
+    unknownFields
   )
 }

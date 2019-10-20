@@ -21,7 +21,7 @@ final case class EnumOptions(
     allowAlias: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumOptions] with scalapb.lenses.Updatable[EnumOptions] with _root_.scalapb.ExtendableMessage[EnumOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0

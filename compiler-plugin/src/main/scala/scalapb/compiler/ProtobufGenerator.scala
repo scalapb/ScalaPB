@@ -733,7 +733,7 @@ class ProtobufGenerator(
           ConstructorField(
             name = "unknownFields",
             typeName = "_root_.scalapb.UnknownFieldSet",
-            default = Some("_root_.scalapb.UnknownFieldSet()")
+            default = Some("_root_.scalapb.UnknownFieldSet.empty")
           )
         )
       else

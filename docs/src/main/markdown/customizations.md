@@ -82,6 +82,8 @@ enums to a single Scala file.
 - By default, during deserialization only known fields are retained.
   When setting `preserve_unknown_fields` to `true`, all generated messages in this file will preserve unknown fields.
   This is default behaviour in java for Proto3 messages since 3.5.0.
+  In ScalaPB 0.10.0: the default of this field became `true` for consistency
+  with Java.
 
 # Package-scoped options
 

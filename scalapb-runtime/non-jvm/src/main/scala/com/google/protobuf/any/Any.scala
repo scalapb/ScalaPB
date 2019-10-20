@@ -119,7 +119,8 @@ package com.google.protobuf.any
 @SerialVersionUID(0L)
 final case class Any(
     typeUrl: _root_.scala.Predef.String = "",
-    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
+    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Any] with scalapb.lenses.Updatable[Any] with _root_.scalapb.AnyMethods {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -139,6 +140,7 @@ final case class Any(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeBytesSize(2, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -162,10 +164,12 @@ final case class Any(
           _output__.writeBytes(2, __v)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.any.Any = {
       var __typeUrl = this.typeUrl
       var __value = this.value
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -175,16 +179,19 @@ final case class Any(
             __typeUrl = _input__.readString()
           case 18 =>
             __value = _input__.readBytes()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.any.Any(
           typeUrl = __typeUrl,
-          value = __value
+          value = __value,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withTypeUrl(__v: _root_.scala.Predef.String): Any = copy(typeUrl = __v)
     def withValue(__v: _root_.com.google.protobuf.ByteString): Any = copy(value = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -244,9 +251,11 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
   final val VALUE_FIELD_NUMBER = 2
   def of(
     typeUrl: _root_.scala.Predef.String,
-    value: _root_.com.google.protobuf.ByteString
+    value: _root_.com.google.protobuf.ByteString,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.any.Any = _root_.com.google.protobuf.any.Any(
     typeUrl,
-    value
+    value,
+    unknownFields
   )
 }

@@ -30,7 +30,8 @@ final case class MessageOptions(
     `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[MessageOptions] with scalapb.lenses.Updatable[MessageOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -64,6 +65,7 @@ final case class MessageOptions(
         val __value = noBox.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, __value)
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -103,6 +105,7 @@ final case class MessageOptions(
         val __m = __v
         _output__.writeBool(7, __m)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = {
       val __extends = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.`extends`)
@@ -112,6 +115,7 @@ final case class MessageOptions(
       val __companionAnnotations = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.companionAnnotations)
       val __sealedOneofExtends = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.sealedOneofExtends)
       var __noBox = this.noBox
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -131,7 +135,7 @@ final case class MessageOptions(
             __sealedOneofExtends += _input__.readString()
           case 56 =>
             __noBox = Option(_input__.readBool())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       scalapb.options.MessageOptions(
@@ -141,7 +145,8 @@ final case class MessageOptions(
           `type` = __type,
           companionAnnotations = __companionAnnotations.result(),
           sealedOneofExtends = __sealedOneofExtends.result(),
-          noBox = __noBox
+          noBox = __noBox,
+          unknownFields = _unknownFields__.result()
       )
     }
     def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
@@ -170,6 +175,8 @@ final case class MessageOptions(
     def getNoBox: _root_.scala.Boolean = noBox.getOrElse(false)
     def clearNoBox: MessageOptions = copy(noBox = _root_.scala.None)
     def withNoBox(__v: _root_.scala.Boolean): MessageOptions = copy(noBox = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
@@ -265,7 +272,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     `type`: _root_.scala.Option[_root_.scala.Predef.String],
     companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
     sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String],
-    noBox: _root_.scala.Option[_root_.scala.Boolean]
+    noBox: _root_.scala.Option[_root_.scala.Boolean],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.scalapb.options.MessageOptions = _root_.scalapb.options.MessageOptions(
     `extends`,
     companionExtends,
@@ -273,6 +281,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     `type`,
     companionAnnotations,
     sealedOneofExtends,
-    noBox
+    noBox,
+    unknownFields
   )
 }

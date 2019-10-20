@@ -11,7 +11,8 @@ package com.google.protobuf.descriptor
 final case class ServiceDescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.Seq.empty,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None
+    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[ServiceDescriptorProto] with scalapb.lenses.Updatable[ServiceDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -29,6 +30,7 @@ final case class ServiceDescriptorProto(
         val __value = options.get
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -56,11 +58,13 @@ final case class ServiceDescriptorProto(
         _output__.writeUInt32NoTag(__m.serializedSize)
         __m.writeTo(_output__)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ServiceDescriptorProto = {
       var __name = this.name
       val __method = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.MethodDescriptorProto] ++= this.method)
       var __options = this.options
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -72,13 +76,14 @@ final case class ServiceDescriptorProto(
             __method += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.MethodDescriptorProto.defaultInstance)
           case 26 =>
             __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)))
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.ServiceDescriptorProto(
           name = __name,
           method = __method.result(),
-          options = __options
+          options = __options,
+          unknownFields = _unknownFields__.result()
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
@@ -91,6 +96,8 @@ final case class ServiceDescriptorProto(
     def getOptions: com.google.protobuf.descriptor.ServiceOptions = options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)
     def clearOptions: ServiceDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
@@ -161,10 +168,12 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
     method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto],
-    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]
+    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.descriptor.ServiceDescriptorProto = _root_.com.google.protobuf.descriptor.ServiceDescriptorProto(
     name,
     method,
-    options
+    options,
+    unknownFields
   )
 }

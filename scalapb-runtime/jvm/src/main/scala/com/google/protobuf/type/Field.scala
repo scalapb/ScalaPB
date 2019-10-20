@@ -42,7 +42,8 @@ final case class Field(
     packed: _root_.scala.Boolean = false,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
     jsonName: _root_.scala.Predef.String = "",
-    defaultValue: _root_.scala.Predef.String = ""
+    defaultValue: _root_.scala.Predef.String = "",
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Field] with scalapb.lenses.Updatable[Field] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -115,6 +116,7 @@ final case class Field(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -186,6 +188,7 @@ final case class Field(
           _output__.writeString(11, __v)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = {
       var __kind = this.kind
@@ -198,6 +201,7 @@ final case class Field(
       val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
       var __jsonName = this.jsonName
       var __defaultValue = this.defaultValue
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -223,7 +227,7 @@ final case class Field(
             __jsonName = _input__.readString()
           case 90 =>
             __defaultValue = _input__.readString()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.`type`.Field(
@@ -236,7 +240,8 @@ final case class Field(
           packed = __packed,
           options = __options.result(),
           jsonName = __jsonName,
-          defaultValue = __defaultValue
+          defaultValue = __defaultValue,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withKind(__v: com.google.protobuf.`type`.Field.Kind): Field = copy(kind = __v)
@@ -252,6 +257,8 @@ final case class Field(
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
     def withJsonName(__v: _root_.scala.Predef.String): Field = copy(jsonName = __v)
     def withDefaultValue(__v: _root_.scala.Predef.String): Field = copy(defaultValue = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -757,7 +764,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     packed: _root_.scala.Boolean,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     jsonName: _root_.scala.Predef.String,
-    defaultValue: _root_.scala.Predef.String
+    defaultValue: _root_.scala.Predef.String,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.`type`.Field = _root_.com.google.protobuf.`type`.Field(
     kind,
     cardinality,
@@ -768,6 +776,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     packed,
     options,
     jsonName,
-    defaultValue
+    defaultValue,
+    unknownFields
   )
 }

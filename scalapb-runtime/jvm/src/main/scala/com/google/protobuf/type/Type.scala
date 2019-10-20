@@ -28,7 +28,8 @@ final case class Type(
     oneofs: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Type] with scalapb.lenses.Updatable[Type] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -64,6 +65,7 @@ final case class Type(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(6, __value.value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -109,6 +111,7 @@ final case class Type(
           _output__.writeEnum(6, __v.value)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = {
       var __name = this.name
@@ -117,6 +120,7 @@ final case class Type(
       val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
       var __sourceContext = this.sourceContext
       var __syntax = this.syntax
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -134,7 +138,7 @@ final case class Type(
             __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
           case 48 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.`type`.Type(
@@ -143,7 +147,8 @@ final case class Type(
           oneofs = __oneofs.result(),
           options = __options.result(),
           sourceContext = __sourceContext,
-          syntax = __syntax
+          syntax = __syntax,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withName(__v: _root_.scala.Predef.String): Type = copy(name = __v)
@@ -163,6 +168,8 @@ final case class Type(
     def clearSourceContext: Type = copy(sourceContext = _root_.scala.None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Type = copy(sourceContext = Option(__v))
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Type = copy(syntax = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -285,13 +292,15 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     oneofs: _root_.scala.Seq[_root_.scala.Predef.String],
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
-    syntax: com.google.protobuf.`type`.Syntax
+    syntax: com.google.protobuf.`type`.Syntax,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.`type`.Type = _root_.com.google.protobuf.`type`.Type(
     name,
     fields,
     oneofs,
     options,
     sourceContext,
-    syntax
+    syntax,
+    unknownFields
   )
 }

@@ -25,7 +25,8 @@ final case class UninterpretedOption(
     negativeIntValue: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None,
     doubleValue: _root_.scala.Option[_root_.scala.Double] = _root_.scala.None,
     stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString] = _root_.scala.None,
-    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[UninterpretedOption] with scalapb.lenses.Updatable[UninterpretedOption] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -59,6 +60,7 @@ final case class UninterpretedOption(
         val __value = aggregateValue.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, __value)
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -100,6 +102,7 @@ final case class UninterpretedOption(
         val __m = __v
         _output__.writeString(8, __m)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = {
       val __name = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= this.name)
@@ -109,6 +112,7 @@ final case class UninterpretedOption(
       var __doubleValue = this.doubleValue
       var __stringValue = this.stringValue
       var __aggregateValue = this.aggregateValue
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -128,7 +132,7 @@ final case class UninterpretedOption(
             __stringValue = Option(_input__.readBytes())
           case 66 =>
             __aggregateValue = Option(_input__.readString())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.UninterpretedOption(
@@ -138,7 +142,8 @@ final case class UninterpretedOption(
           negativeIntValue = __negativeIntValue,
           doubleValue = __doubleValue,
           stringValue = __stringValue,
-          aggregateValue = __aggregateValue
+          aggregateValue = __aggregateValue,
+          unknownFields = _unknownFields__.result()
       )
     }
     def clearName = copy(name = _root_.scala.Seq.empty)
@@ -163,6 +168,8 @@ final case class UninterpretedOption(
     def getAggregateValue: _root_.scala.Predef.String = aggregateValue.getOrElse("")
     def clearAggregateValue: UninterpretedOption = copy(aggregateValue = _root_.scala.None)
     def withAggregateValue(__v: _root_.scala.Predef.String): UninterpretedOption = copy(aggregateValue = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 2 => name
@@ -271,7 +278,8 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   @SerialVersionUID(0L)
   final case class NamePart(
       namePart: _root_.scala.Predef.String,
-      isExtension: _root_.scala.Boolean
+      isExtension: _root_.scala.Boolean,
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.Message[NamePart] with scalapb.lenses.Updatable[NamePart] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -287,6 +295,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
           val __value = isExtension
           __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, __value)
         };
+        __size += unknownFields.serializedSize
         __size
       }
       final override def serializedSize: _root_.scala.Int = {
@@ -308,10 +317,12 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
           val __v = isExtension
           _output__.writeBool(2, __v)
         };
+        unknownFields.writeTo(_output__)
       }
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
         var __namePart = this.namePart
         var __isExtension = this.isExtension
+        val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
         var __requiredFields0: _root_.scala.Long = 0x3L
         var _done__ = false
         while (!_done__) {
@@ -324,17 +335,20 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
             case 16 =>
               __isExtension = _input__.readBool()
               __requiredFields0 &= 0xfffffffffffffffdL
-            case tag => _input__.skipField(tag)
+            case tag => _unknownFields__.parseField(tag, _input__)
           }
         }
         if (__requiredFields0 != 0L) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } 
         com.google.protobuf.descriptor.UninterpretedOption.NamePart(
             namePart = __namePart,
-            isExtension = __isExtension
+            isExtension = __isExtension,
+            unknownFields = _unknownFields__.result()
         )
       }
       def withNamePart(__v: _root_.scala.Predef.String): NamePart = copy(namePart = __v)
       def withIsExtension(__v: _root_.scala.Boolean): NamePart = copy(isExtension = __v)
+      def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+      def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => namePart
@@ -398,10 +412,12 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     final val IS_EXTENSION_FIELD_NUMBER = 2
     def of(
       namePart: _root_.scala.Predef.String,
-      isExtension: _root_.scala.Boolean
+      isExtension: _root_.scala.Boolean,
+      unknownFields: _root_.scalapb.UnknownFieldSet
     ): _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart = _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart(
       namePart,
-      isExtension
+      isExtension,
+      unknownFields
     )
   }
   
@@ -434,7 +450,8 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     negativeIntValue: _root_.scala.Option[_root_.scala.Long],
     doubleValue: _root_.scala.Option[_root_.scala.Double],
     stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString],
-    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String]
+    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.descriptor.UninterpretedOption = _root_.com.google.protobuf.descriptor.UninterpretedOption(
     name,
     identifierValue,
@@ -442,6 +459,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     negativeIntValue,
     doubleValue,
     stringValue,
-    aggregateValue
+    aggregateValue,
+    unknownFields
   )
 }

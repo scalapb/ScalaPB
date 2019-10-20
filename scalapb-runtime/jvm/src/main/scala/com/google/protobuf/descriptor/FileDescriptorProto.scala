@@ -43,7 +43,8 @@ final case class FileDescriptorProto(
     extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None,
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
-    syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[FileDescriptorProto] with scalapb.lenses.Updatable[FileDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -97,6 +98,7 @@ final case class FileDescriptorProto(
         val __value = syntax.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(12, __value)
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -168,6 +170,7 @@ final case class FileDescriptorProto(
         val __m = __v
         _output__.writeString(12, __m)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorProto = {
       var __name = this.name
@@ -182,6 +185,7 @@ final case class FileDescriptorProto(
       var __options = this.options
       var __sourceCodeInfo = this.sourceCodeInfo
       var __syntax = this.syntax
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -227,7 +231,7 @@ final case class FileDescriptorProto(
             __sourceCodeInfo = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceCodeInfo.getOrElse(com.google.protobuf.descriptor.SourceCodeInfo.defaultInstance)))
           case 98 =>
             __syntax = Option(_input__.readString())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.FileDescriptorProto(
@@ -242,7 +246,8 @@ final case class FileDescriptorProto(
           extension = __extension.result(),
           options = __options,
           sourceCodeInfo = __sourceCodeInfo,
-          syntax = __syntax
+          syntax = __syntax,
+          unknownFields = _unknownFields__.result()
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
@@ -288,6 +293,8 @@ final case class FileDescriptorProto(
     def getSyntax: _root_.scala.Predef.String = syntax.getOrElse("")
     def clearSyntax: FileDescriptorProto = copy(syntax = _root_.scala.None)
     def withSyntax(__v: _root_.scala.Predef.String): FileDescriptorProto = copy(syntax = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
@@ -467,7 +474,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions],
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo],
-    syntax: _root_.scala.Option[_root_.scala.Predef.String]
+    syntax: _root_.scala.Option[_root_.scala.Predef.String],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = _root_.com.google.protobuf.descriptor.FileDescriptorProto(
     name,
     `package`,
@@ -480,6 +488,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension,
     options,
     sourceCodeInfo,
-    syntax
+    syntax,
+    unknownFields
   )
 }

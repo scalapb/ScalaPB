@@ -10,7 +10,8 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class FileDescriptorSet(
-    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Seq.empty
+    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[FileDescriptorSet] with scalapb.lenses.Updatable[FileDescriptorSet] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -20,6 +21,7 @@ final case class FileDescriptorSet(
         val __value = __item
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       }
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -37,9 +39,11 @@ final case class FileDescriptorSet(
         _output__.writeUInt32NoTag(__m.serializedSize)
         __m.writeTo(_output__)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorSet = {
       val __file = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= this.file)
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -47,17 +51,20 @@ final case class FileDescriptorSet(
           case 0 => _done__ = true
           case 10 =>
             __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.FileDescriptorSet(
-          file = __file.result()
+          file = __file.result(),
+          unknownFields = _unknownFields__.result()
       )
     }
     def clearFile = copy(file = _root_.scala.Seq.empty)
     def addFile(__vs: com.google.protobuf.descriptor.FileDescriptorProto*): FileDescriptorSet = addAllFile(__vs)
     def addAllFile(__vs: Iterable[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = file ++ __vs)
     def withFile(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => file
@@ -109,8 +116,10 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   }
   final val FILE_FIELD_NUMBER = 1
   def of(
-    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]
+    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = _root_.com.google.protobuf.descriptor.FileDescriptorSet(
-    file
+    file,
+    unknownFields
   )
 }

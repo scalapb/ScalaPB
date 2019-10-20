@@ -126,7 +126,9 @@ object UnknownFieldSet {
       fieldBuilders ++= base.fields.mapValues(Field.Builder.fromField)
     }
 
-    def result() = UnknownFieldSet(fieldBuilders.mapValues(_.result()).toMap)
+    def result() =
+      if (fieldBuilders.isEmpty) UnknownFieldSet.empty
+      else UnknownFieldSet(fieldBuilders.mapValues(_.result()).toMap)
 
     def parseField(tag: Int, input: CodedInputStream) = {
       val fieldNumber = WireType.getTagFieldNumber(tag)
