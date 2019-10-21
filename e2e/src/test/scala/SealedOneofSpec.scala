@@ -88,7 +88,8 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
     OO.Programs(optionalExpr = OO.ExprOrEmpty.Empty)
     OO.Programs(optionalExpr = OO.Lit(32))
     OO.ExprOrEmpty.Empty.isEmpty
+    OO.ExprOrEmpty.Empty.asNonEmpty must be(None)
     OO.Lit(32).isEmpty must be(false)
-    OO.Lit(32).asNonEmpty must be(OO.Lit(32))
+    OO.Lit(32).asNonEmpty must be(Some(OO.Lit(32)))
   }
 }
