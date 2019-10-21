@@ -470,10 +470,19 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def parent: Option[Descriptor] = Option(message.getContainingType)
 
+    def sealedOneofStyle: SealedOneofStyle = {
+      assert(isSealedOneofType)
+      if (message.getOneofs.asScala.exists(_.getName == "sealed_value")) SealedOneofStyle.Default
+      else if (message.getOneofs.asScala.exists(_.getName == "sealed_value_or_empty"))
+        SealedOneofStyle.OrEmpty
+      else throw new RuntimeException("Unexpected oneof style")
+    }
+
     // every message that passes this filter must be a sealed oneof. The check that it actually
     // obeys the rules is done in ProtoValidation.
     def isSealedOneofType: Boolean = {
-      message.getOneofs.asScala.exists(_.getName == "sealed_value")
+      message.getOneofs.asScala
+        .exists(o => o.getName == "sealed_value" || o.getName == "sealed_value_or_empty")
     }
 
     def isSealedOneofCase: Boolean = sealedOneofsCache.getContainer(message).isDefined
@@ -552,12 +561,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def sealedOneofName = {
       require(isSealedOneofType)
-      scalaName.stripSuffix(OneofMessageSuffix).asSymbol
+      sealedOneofStyle match {
+        case SealedOneofStyle.Default => scalaName.stripSuffix(OneofMessageSuffix)
+        case SealedOneofStyle.OrEmpty =>
+          (scalaName.stripSuffix(OneofMessageSuffix) + "OrEmpty")
+      }
     }
 
-    def sealedOneofNameSymbol = {
-      sealedOneofName.asSymbol
-    }
+    def sealedOneofNameSymbol = sealedOneofName.asSymbol
 
     def sealedOneofScalaType = {
       parent match {
@@ -567,7 +578,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       }
     }
 
-    def sealedOneofNonEmptyScalaType = sealedOneofScalaType + ".NonEmpty"
+    def sealedOneofNonEmptyName = sealedOneofStyle match {
+      case SealedOneofStyle.Default => "NonEmpty"
+      case SealedOneofStyle.OrEmpty => sealedOneofName.stripSuffix("OrEmpty")
+    }
+
+    def sealedOneofNonEmptyScalaType = sealedOneofStyle match {
+      case SealedOneofStyle.Default => sealedOneofScalaType + "." + sealedOneofNonEmptyName.asSymbol
+      case SealedOneofStyle.OrEmpty => sealedOneofScalaType.stripSuffix("OrEmpty")
+    }
 
     private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
 
@@ -633,8 +652,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         specialMixins
     }
 
-    def sealedOneofBaseClasses: Seq[String] =
-      s"scalapb.GeneratedSealedOneof" +: messageOptions.getSealedOneofExtendsList.asScala.toSeq
+    def sealedOneofBaseClasses: Seq[String] = sealedOneofStyle match {
+      case SealedOneofStyle.Default =>
+        s"scalapb.GeneratedSealedOneof" +: messageOptions.getSealedOneofExtendsList.asScala.toSeq
+      case SealedOneofStyle.OrEmpty => messageOptions.getSealedOneofExtendsList.asScala.toSeq
+    }
 
     def nestedTypes: Seq[Descriptor] = message.getNestedTypes.asScala.toSeq
 

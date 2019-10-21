@@ -82,4 +82,13 @@ class SealedOneofSpec extends FlatSpec with MustMatchers {
       case None => ""
     }
   }
+
+  "or-empty sealed oneofs" should "Work" in {
+    import com.thesamet.proto.e2e.or_empty.{sealed_oneof_or_empty => OO}
+    OO.Programs(optionalExpr = OO.ExprOrEmpty.Empty)
+    OO.Programs(optionalExpr = OO.Lit(32))
+    OO.ExprOrEmpty.Empty.isEmpty
+    OO.Lit(32).isEmpty must be(false)
+    OO.Lit(32).asNonEmpty must be(OO.Lit(32))
+  }
 }
