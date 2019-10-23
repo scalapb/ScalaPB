@@ -22,7 +22,7 @@ val scalacheckVersion = "1.14.0"
 // For e2e test
 val sbtPluginVersion = "0.99.23"
 
-val grpcVersion = "1.24.0"
+val grpcVersion = "1.24.1"
 
 val MimaPreviousVersion = "0.9.0"
 
