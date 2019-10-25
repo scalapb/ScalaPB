@@ -32,7 +32,7 @@ addSbtPlugin("com.47deg" % "sbt-microsites" % "0.9.7")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.25")
 
-For https://github.com/lightbend/mima/issues/422
+// For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
   "typesafe sbt-plugins",
   url("https://dl.bintray.com/typesafe/sbt-plugins")
