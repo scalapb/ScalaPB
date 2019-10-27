@@ -599,3 +599,74 @@ lazy val docs = project
       (ghpagesRepository.value / "README.md").getCanonicalPath
     )
   )
+
+val e2eCommonSettings = Seq(
+  // https://github.com/thesamet/sbt-protoc/issues/104
+  useCoursier := false,
+  skip in publish := true,
+  scalacOptions in Test ++= PartialFunction
+    .condOpt(CrossVersion.partialVersion(scalaVersion.value)) {
+      case Some((2, v)) if v >= 11 && v < 12 =>
+        Seq("-Ywarn-unused-import")
+      case Some((2, v)) if v == 13 =>
+        Seq("-Ywarn-unused:imports")
+    }
+    .toList
+    .flatten,
+  javacOptions ++= Seq("-Xlint:deprecation"),
+  unmanagedSourceDirectories in Compile ++= {
+    val base = (baseDirectory in Compile).value / "src" / "main"
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((2, v)) if v < 13 =>
+        Seq(base / "scala-pre-2.13")
+      case _ =>
+        Nil
+    }
+  },
+  libraryDependencies ++= Seq(
+    "org.scalatest"    %% "scalatest"           % "3.0.8" % "test",
+    "io.grpc"          % "grpc-netty"           % grpcVersion, //netty transport of grpc
+    "io.grpc"          % "grpc-protobuf"        % grpcVersion, //protobuf message encoding for java implementation
+    "io.grpc"          % "grpc-services"        % grpcVersion,
+    "io.grpc"          % "grpc-services"        % grpcVersion % "protobuf",
+    "org.scalacheck"   %% "scalacheck"          % "1.14.0" % "test",
+    "javax.annotation" % "javax.annotation-api" % "1.3.2" // needed for grpc-java on JDK9
+  ),
+  libraryDependencies += ("io.grpc" % "protoc-gen-grpc-java" % grpcVersion) asProtocPlugin (),
+  fork in Test := true  // For https://github.com/scala/bug/issues/9237
+)
+
+lazy val e2e = (project in file("e2e"))
+  .dependsOn(runtimeJVM)
+  .dependsOn(grpcRuntime)
+  .settings(e2eCommonSettings)
+  .settings(
+    PB.protoSources in Compile += (PB.externalIncludePath in Compile).value / "grpc" / "reflection",
+    PB.generate in Compile := ((PB.generate in Compile) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
+    PB.targets in Compile := Seq(
+      PB.gens.java -> (sourceManaged in Compile).value,
+      (
+        PB.gens.plugin(
+          "scalapb",
+          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
+        ),
+        Seq("grpc", "java_conversions")
+      )                           -> (sourceManaged in Compile).value,
+      PB.gens.plugin("grpc-java") -> (sourceManaged in Compile).value
+    )
+  )
+
+lazy val e2eNoJava = (project in file("e2e-nojava"))
+  .dependsOn(runtimeJVM)
+  .settings(e2eCommonSettings)
+  .settings(
+    PB.targets in Compile := Seq(
+      (
+        PB.gens.plugin(
+          "scalapb",
+          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
+        ),
+        Seq()
+      )                           -> (sourceManaged in Compile).value,
+    )
+  )
