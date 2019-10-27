@@ -20,7 +20,9 @@ case class MyMap[K, V](stuff: Map[K, V]) {
 object MyMap {
   def empty[K, V] = new MyMap[K, V](Map.empty)
 
-  implicit def cbf[From, K, V](implicit vcbf: CanBuildFrom[From, (K, V), Map[K, V]]): CanBuildFrom[From, (K, V), MyMap[K, V]] =
+  implicit def cbf[From, K, V](
+      implicit vcbf: CanBuildFrom[From, (K, V), Map[K, V]]
+  ): CanBuildFrom[From, (K, V), MyMap[K, V]] =
     new CanBuildFrom[From, (K, V), MyMap[K, V]] {
       override def apply(from: From): mutable.Builder[(K, V), MyMap[K, V]] =
         vcbf(from).mapResult(MyMap(_))

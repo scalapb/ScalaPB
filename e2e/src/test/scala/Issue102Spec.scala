@@ -3,7 +3,7 @@ import org.scalatest._
 
 class Issue102Spec extends FunSpec {
 
-  it("issue102"){
+  it("issue102") {
     val a = Seq(1)
     assert(ProtoUnpacked.parseFrom(ProtoPacked(a).toByteArray).a == a)
     assert(ProtoPacked.parseFrom(ProtoUnpacked(a).toByteArray).a == a)

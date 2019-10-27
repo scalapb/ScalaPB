@@ -6,6 +6,6 @@ class NullValuesSpec extends FlatSpec with MustMatchers {
     .withFoo(null)
 
   "null values" should "be None" in {
-    container.foo must be (None)
+    container.foo must be(None)
   }
 }

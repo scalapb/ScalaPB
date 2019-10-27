@@ -6,7 +6,7 @@ import com.thesamet.proto.e2e.Service._
 import com.thesamet.proto.e2e.Service1Grpc._
 import io.grpc.stub.StreamObserver
 
-class Service1JavaImpl extends Service1ImplBase{
+class Service1JavaImpl extends Service1ImplBase {
 
   override def unaryStringLength(request: Req1, observer: StreamObserver[Res1]): Unit = {
     val res = Res1.newBuilder.setLength(request.getRequest.length).build()
@@ -43,8 +43,8 @@ class Service1JavaImpl extends Service1ImplBase{
     }
 
   override def serverStreamingFan(request: Req3, observer: StreamObserver[Res3]): Unit = {
-    (1 to request.getNum()).foreach {
-      _ => observer.onNext(Res3.getDefaultInstance)
+    (1 to request.getNum()).foreach { _ =>
+      observer.onNext(Res3.getDefaultInstance)
     }
     observer.onCompleted()
   }
@@ -52,12 +52,11 @@ class Service1JavaImpl extends Service1ImplBase{
   override def bidiStreamingDoubler(observer: StreamObserver[Res4]): StreamObserver[Req4] =
     new StreamObserver[Req4] {
       override def onError(e: Throwable): Unit = {}
-      override def onCompleted(): Unit = { observer.onCompleted() }
+      override def onCompleted(): Unit         = { observer.onCompleted() }
       override def onNext(request: Req4): Unit = {
         observer.onNext(Res4.newBuilder.setB(request.getA * 2).build())
       }
     }
-
 
   override def throwException(request: Req5, observer: StreamObserver[Res5]): Unit = {
     observer.onError(new RuntimeException("Error!"))

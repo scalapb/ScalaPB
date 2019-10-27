@@ -8,9 +8,10 @@ import scala.collection.JavaConverters._
 
 class RequiredFieldsSpec extends FlatSpec with MustMatchers {
 
-  val FullFieldMap: Map[FieldDescriptor, Any] = OptionalFields.javaDescriptor.getFields.asScala.map {
-    fd => fd -> 1
-  }.toMap
+  val FullFieldMap: Map[FieldDescriptor, Any] =
+    OptionalFields.javaDescriptor.getFields.asScala.map { fd =>
+      fd -> 1
+    }.toMap
 
   "RequiredMessage" should "throw InvalidProtocolBufferException for empty byte array" in {
     intercept[InvalidProtocolBufferException](RequiredFields.parseFrom(Array[Byte]()))

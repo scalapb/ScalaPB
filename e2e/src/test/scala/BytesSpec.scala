@@ -18,9 +18,10 @@ class BytesSpec extends FlatSpec with MustMatchers {
   "formFieldsMap" should "work with proto2" in {
     ByteMessage2().getAllFields must be(Map())
     val b = ByteMessage2(s = Some(ByteString.copyFromUtf8("boo")))
-    b.getAllFields must be(
-        Map(ByteMessage2.javaDescriptor.findFieldByName("s") -> b.getS))
-    b.getField(ByteMessage2.scalaDescriptor.findFieldByName("s").get) must be (scalapb.descriptors.PByteString(b.getS))
+    b.getAllFields must be(Map(ByteMessage2.javaDescriptor.findFieldByName("s") -> b.getS))
+    b.getField(ByteMessage2.scalaDescriptor.findFieldByName("s").get) must be(
+      scalapb.descriptors.PByteString(b.getS)
+    )
     ByteMessage2.fromFieldsMap(b.getAllFields) must be(b)
   }
 
@@ -29,4 +30,3 @@ class BytesSpec extends FlatSpec with MustMatchers {
     b.getSDef.toStringUtf8() must be("foobar")
   }
 }
-
