@@ -50,20 +50,20 @@ val fastparseVersion = Def.setting(
   }
 )
 
-scalaVersion in ThisBuild := Scala212
+ThisBuild / scalaVersion := Scala212
 
-crossScalaVersions in ThisBuild := Seq(Scala211, Scala212, Scala213)
+ThisBuild / crossScalaVersions := Seq(Scala211, Scala212, Scala213)
 
-scalacOptions in ThisBuild ++= Seq("-deprecation", "-target:jvm-1.8")
+ThisBuild / scalacOptions ++= Seq("-deprecation", "-target:jvm-1.8")
 
-javacOptions in ThisBuild ++= List("-target", "8", "-source", "8")
+ThisBuild / javacOptions ++= List("-target", "8", "-source", "8")
 
-organization in ThisBuild := "com.thesamet.scalapb"
+ThisBuild / organization := "com.thesamet.scalapb"
 
-resolvers in ThisBuild +=
+ThisBuild / resolvers +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-publishTo in ThisBuild := sonatypePublishToBundle.value
+ThisBuild / publishTo := sonatypePublishToBundle.value
 
 releaseCrossBuild := true
 
@@ -126,7 +126,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       "commons-codec"       % "commons-codec"      % "1.13" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test"
     ),
-    unmanagedSourceDirectories in Compile ++= {
+    Compile / unmanagedSourceDirectories ++= {
       val base = (baseDirectory in LocalRootProject).value / "scalapb-runtime" / "shared" / "src" / "main"
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, v)) if v < 13 =>
@@ -136,7 +136,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       }
     },
     testFrameworks += new TestFramework("utest.runner.Framework"),
-    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../protobuf",
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "../../protobuf",
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
@@ -187,7 +187,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.8.2"
     ),
-    (unmanagedSourceDirectories in Compile) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
+    (Compile / unmanagedSourceDirectories) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
   .jvmSettings(
     // Add JVM-specific settings here
@@ -202,11 +202,11 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
         Seq("-XX:LoopStripMiningIter=0")
       else Nil
     ),
-    PB.targets in Compile ++= Seq(
-      PB.gens.java(protobufVersion) -> (sourceManaged in Compile).value
+    Compile / PB.targets ++= Seq(
+      PB.gens.java(protobufVersion) -> (Compile / sourceManaged).value
     ),
-    PB.protocVersion in Compile := "-v" + protobufVersion,
-    PB.protoSources in Compile := Seq(
+    Compile / PB.protocVersion := "-v" + protobufVersion,
+    Compile / PB.protoSources := Seq(
       baseDirectory.value / ".." / ".." / "protobuf"
     )
   )
@@ -220,7 +220,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
         .head
       s"-P:scalajs:mapSourceURI:$a->$g/"
     },
-    unmanagedResourceDirectories in Compile += baseDirectory.value / "../../third_party"
+    Compile / unmanagedResourceDirectories += baseDirectory.value / "../../third_party"
   )
 /*
   .nativeSettings(
@@ -263,8 +263,8 @@ lazy val compilerPlugin = project
   .in(file("compiler-plugin"))
   .settings(
     crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
-    sourceGenerators in Compile += Def.task {
-      val file = (sourceManaged in Compile).value / "scalapb" / "compiler" / "Version.scala"
+    Compile / sourceGenerators += Def.task {
+      val file = (Compile / sourceManaged).value / "scalapb" / "compiler" / "Version.scala"
       IO.write(
         file,
         s"""package scalapb.compiler
@@ -288,18 +288,18 @@ lazy val compilerPlugin = project
       streams.value.log
         .info(s"Generating scalapb.proto with package replaced to scalapb.options.compiler.")
       val src  = baseDirectory.value / ".." / "protobuf" / "scalapb" / "scalapb.proto"
-      val dest = (resourceManaged in Compile).value / "protobuf" / "scalapb" / "scalapb.proto"
+      val dest = (Compile / resourceManaged).value / "protobuf" / "scalapb" / "scalapb.proto"
       val s    = IO.read(src).replace("scalapb.options", "scalapb.options.compiler")
       IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
       Seq(dest)
     },
-    PB.generate in Compile := {
+    Compile / PB.generate := {
       scalapbProtoPackageReplaceTask.value
-      (PB.generate in Compile).value
+      (Compile / PB.generate).value
     },
-    sourceGenerators in Compile += Def.task {
+    Compile / sourceGenerators += Def.task {
       val src  = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
-      val dest = (sourceManaged in Compile).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
+      val dest = (Compile / sourceManaged).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
       val s    = IO.read(src).replace("package scalapb", "package scalapb.internal")
       IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
       Seq(dest)
@@ -341,11 +341,11 @@ lazy val compilerPlugin = project
         )
       )
     },
-    PB.protocVersion in Compile := "-v" + protobufCompilerVersion,
-    PB.targets in Compile := Seq(
-      PB.gens.java(protobufCompilerVersion) -> (sourceManaged in Compile).value / "java_out"
+    Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
+    Compile / PB.targets := Seq(
+      PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
-    PB.protoSources in Compile := Seq((resourceManaged in Compile).value / "protobuf")
+    Compile / PB.protoSources := Seq((Compile / resourceManaged).value / "protobuf")
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -403,9 +403,9 @@ lazy val scalapbc = project
       * break integrations that use it (maven, pants), but we still want to exclude it below so a script named scala-pbc
       * is not generated for it.
       */
-    discoveredMainClasses in Compile := (discoveredMainClasses in Compile).value
+    Compile / discoveredMainClasses := (Compile / discoveredMainClasses).value
       .filter(_.startsWith("scalapb.scripts.")),
-    mainClass in Compile := Some("scalapb.scripts.scalapbc"),
+    Compile / mainClass := Some("scalapb.scripts.scalapbc"),
     maintainer := "thesamet@gmail.com"
   )
 
@@ -426,7 +426,7 @@ lazy val protocGenScalaUnix = project
       prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))
     ),
     skip in publish := true,
-    mainClass in Compile := Some("scalapb.scripts.ProtocGenScala")
+    Compile / mainClass := Some("scalapb.scripts.ProtocGenScala")
   )
 
 lazy val protocGenScalaWindows = project
@@ -438,7 +438,7 @@ lazy val protocGenScalaWindows = project
       prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = false))
     ),
     skip in publish := true,
-    mainClass in Compile := Some("scalapb.scripts.ProtocGenScala")
+    Compile / mainClass := Some("scalapb.scripts.ProtocGenScala")
   )
 
 lazy val protocGenScala = project
@@ -504,7 +504,7 @@ val createVersionFile =
   TaskKey[Unit]("create-version-file", "Creates a file with the project version to be used by e2e.")
 
 createVersionFile := {
-  val v    = (version in Compile).value
+  val v    = (Compile / version).value
   val log  = streams.value.log
   val base = baseDirectory.value
   val f1   = genVersionFile(base / "e2e/project/project", v)
@@ -517,7 +517,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .in(file("lenses"))
   .settings(
     name := "lenses",
-    unmanagedSourceDirectories in Compile ++= {
+    Compile / unmanagedSourceDirectories ++= {
       val base = (baseDirectory in LocalRootProject).value / "lenses" / "shared" / "src" / "main"
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, v)) if v < 13 =>
@@ -604,7 +604,7 @@ val e2eCommonSettings = Seq(
   // https://github.com/thesamet/sbt-protoc/issues/104
   useCoursier := false,
   skip in publish := true,
-  scalacOptions in Test ++= PartialFunction
+  Test / scalacOptions ++= PartialFunction
     .condOpt(CrossVersion.partialVersion(scalaVersion.value)) {
       case Some((2, v)) if v >= 11 && v < 12 =>
         Seq("-Ywarn-unused-import")
@@ -614,8 +614,8 @@ val e2eCommonSettings = Seq(
     .toList
     .flatten,
   javacOptions ++= Seq("-Xlint:deprecation"),
-  unmanagedSourceDirectories in Compile ++= {
-    val base = (baseDirectory in Compile).value / "src" / "main"
+  Compile / unmanagedSourceDirectories ++= {
+    val base = (Compile / baseDirectory).value / "src" / "main"
     CrossVersion.partialVersion(scalaVersion.value) match {
       case Some((2, v)) if v < 13 =>
         Seq(base / "scala-pre-2.13")
@@ -633,7 +633,7 @@ val e2eCommonSettings = Seq(
     "javax.annotation" % "javax.annotation-api" % "1.3.2" // needed for grpc-java on JDK9
   ),
   libraryDependencies += ("io.grpc" % "protoc-gen-grpc-java" % grpcVersion) asProtocPlugin (),
-  fork in Test := true // For https://github.com/scala/bug/issues/9237
+  Test / fork := true // For https://github.com/scala/bug/issues/9237
 )
 
 lazy val e2e = (project in file("e2e"))
@@ -641,18 +641,18 @@ lazy val e2e = (project in file("e2e"))
   .dependsOn(grpcRuntime)
   .settings(e2eCommonSettings)
   .settings(
-    PB.protoSources in Compile += (PB.externalIncludePath in Compile).value / "grpc" / "reflection",
-    PB.generate in Compile := ((PB.generate in Compile) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
-    PB.targets in Compile := Seq(
-      PB.gens.java -> (sourceManaged in Compile).value,
+    Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
+    Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
+    Compile / PB.targets := Seq(
+      PB.gens.java -> (Compile / sourceManaged).value,
       (
         PB.gens.plugin(
           "scalapb",
           (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
         ),
         Seq("grpc", "java_conversions")
-      )                           -> (sourceManaged in Compile).value,
-      PB.gens.plugin("grpc-java") -> (sourceManaged in Compile).value
+      )                           -> (Compile / sourceManaged).value,
+      PB.gens.plugin("grpc-java") -> (Compile / sourceManaged).value
     )
   )
 
@@ -660,13 +660,13 @@ lazy val e2eNoJava = (project in file("e2e-nojava"))
   .dependsOn(runtimeJVM)
   .settings(e2eCommonSettings)
   .settings(
-    PB.targets in Compile := Seq(
+    Compile / PB.targets := Seq(
       (
         PB.gens.plugin(
           "scalapb",
           (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
         ),
         Seq()
-      ) -> (sourceManaged in Compile).value
+      ) -> (Compile / sourceManaged).value
     )
   )
