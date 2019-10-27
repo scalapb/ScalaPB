@@ -30,7 +30,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.2.1")
 
 addSbtPlugin("com.47deg" % "sbt-microsites" % "0.9.7")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.25")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.26")
 
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
