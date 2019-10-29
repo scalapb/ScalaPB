@@ -83,7 +83,7 @@ Options:
 
 - `includingDefaultValueFields` (default: `false`): should fields
   that are set to their default value be included in the output.
-- `preservingProtoFileNames` (default: `false`): by default, field names are mapped to 
+- `preservingProtoFieldNames` (default: `false`): by default, field names are mapped to
   lowerCamelCase and become JSON object keys. Setting this option to `true` would
   make the parser and the printer use the original field names as specified in the proto
   file (normally, in snake_case)
