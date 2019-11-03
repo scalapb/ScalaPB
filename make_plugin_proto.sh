@@ -18,6 +18,7 @@ sbt "++2.12.10" "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/s
     --proto_path=./protobuf:./third_party:./docs/src/main/protobuf \
     ./docs/src/main/protobuf/duration.proto \
     ./docs/src/main/protobuf/json.proto \
+    ./docs/src/main/protobuf/person.proto \
     "
 
 echo Done!

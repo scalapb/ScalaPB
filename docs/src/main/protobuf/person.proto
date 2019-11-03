@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package scalapb.docs;
+
+message Person {
+  enum AddressType {
+    HOME = 0;
+    WORK = 1;
+  }
+
+  message Address {
+    AddressType address_type = 1;
+    string street = 2;
+    string city = 3;
+  }
+
+  string name = 1;
+  int32 age = 2;
+  repeated Address addresses = 3;
+}

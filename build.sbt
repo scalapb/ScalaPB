@@ -567,7 +567,9 @@ lazy val docs = project
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.9.0-M1"
+      "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.9.0-M1",
+      "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.0",
+      "org.apache.spark"     %% "spark-sql"        % "2.4.4"
     ),
     micrositeName := "ScalaPB",
     micrositeCompilingDocsTool := WithMdoc,
@@ -577,7 +579,7 @@ lazy val docs = project
     micrositeAuthor := "Nadav Samet",
     micrositeGithubOwner := "scalapb",
     micrositeGithubRepo := "ScalaPB",
-    micrositeGitterChannelUrl := "trueaccord/ScalaPB",
+    micrositeGitterChannelUrl := "ScalaPB/community",
     micrositeHighlightTheme := "atom-one-light",
     micrositeHighlightLanguages := Seq("scala", "java", "bash", "protobuf"),
     micrositePalette := Map(
