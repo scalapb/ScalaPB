@@ -93,13 +93,11 @@ df.printSchema()
 df.show()
 ```
 
-and then process it as any dataframe in Spark:
+and then process it as any other Dataframe in Spark:
 
 ```scala mdoc
 df.select($"name", F.size($"addresses").alias("address_count")).show()
-```
 
-```scala mdoc
 val nameAndAddress = df.select($"name", $"addresses".getItem(0).alias("firstAddress"))
 
 nameAndAddress.show()
