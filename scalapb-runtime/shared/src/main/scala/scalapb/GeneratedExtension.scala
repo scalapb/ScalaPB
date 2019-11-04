@@ -174,5 +174,4 @@ object GeneratedExtension {
   object Internal {
     def bool2Long(b: Boolean) = if (b) 1L else 0L
   }
-
 }

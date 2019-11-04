@@ -9,7 +9,6 @@ sealed trait ScalaType {
 }
 
 object ScalaType {
-
   case object Boolean extends ScalaType {
     type PValueType = PBoolean
   }
@@ -45,7 +44,6 @@ object ScalaType {
   case class Enum(descriptor: EnumDescriptor) extends ScalaType {
     type PValueType = PEnum
   }
-
 }
 
 class DescriptorValidationException(descriptor: BaseDescriptor, msg: String)
@@ -66,7 +64,6 @@ class Descriptor private[descriptors] (
     val containingMessage: Option[Descriptor],
     val file: FileDescriptor
 ) extends BaseDescriptor {
-
   val nestedMessages: Vector[Descriptor] = asProto.nestedType.zipWithIndex.map {
     case (d, index) =>
       new Descriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
@@ -109,7 +106,6 @@ class ServiceDescriptor private[descriptors] (
     val asProto: ServiceDescriptorProto,
     val file: FileDescriptor
 ) extends BaseDescriptor {
-
   val methods: Vector[MethodDescriptor] =
     (asProto.method.zipWithIndex).map {
       case (m, index) =>
@@ -121,7 +117,6 @@ class ServiceDescriptor private[descriptors] (
   def location = file.findLocationByPath(SourceCodePath.get(this))
 
   def getOptions = asProto.getOptions
-
 }
 
 class MethodDescriptor private[descriptors] (
@@ -130,7 +125,6 @@ class MethodDescriptor private[descriptors] (
     val asProto: MethodDescriptorProto,
     val containingService: ServiceDescriptor
 ) extends BaseDescriptor {
-
   def name = asProto.getName
 
   def location = containingService.file.findLocationByPath(SourceCodePath.get(this))
@@ -145,7 +139,6 @@ class EnumDescriptor private[descriptors] (
     val containingMessage: Option[Descriptor],
     val file: FileDescriptor
 ) extends BaseDescriptor {
-
   val values: Vector[EnumValueDescriptor] =
     (asProto.value.zipWithIndex).map {
       case (v, index) =>
@@ -247,7 +240,6 @@ object FieldDescriptor {
       index: Int,
       m: Descriptor
   ): FieldDescriptor = {
-
     def typeError =
       new DescriptorValidationException(
         m,
@@ -314,7 +306,6 @@ class FileDescriptor private[descriptors] (
     val asProto: FileDescriptorProto,
     dependencies: Seq[FileDescriptor]
 ) extends BaseDescriptor {
-
   val services: Vector[ServiceDescriptor] = asProto.service.zipWithIndex.map {
     case (d, index) =>
       new ServiceDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, this)

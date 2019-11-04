@@ -34,5 +34,4 @@ object Marshaller {
       companion: GeneratedMessageCompanion[T]
   ) =
     new TypeMappedMarshaller[T, Custom](typeMapper, companion)
-
 }

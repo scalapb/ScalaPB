@@ -26,7 +26,6 @@ case class CollectionTypes(
 ) extends Updatable[CollectionTypes]
 
 object SimpleTest extends TestSuite {
-
   implicit class RoleMutation[U](f: Lens[U, Role]) extends ObjectLens[U, Role](f) {
     def name = field(_.name)((p, f) => p.copy(name = f))
 

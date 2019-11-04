@@ -83,7 +83,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   }
 
   implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
-
     class MethodTypeWrapper(descriptor: Descriptor) {
       def customScalaType =
         if (descriptor.isSealedOneofType)
@@ -432,7 +431,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
-
     def javaEnumName = {
       val name = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
       s"get${name}Case"
@@ -463,7 +461,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   private val OneofMessageSuffix = "Message"
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {
-
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP).toSeq
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
@@ -915,7 +912,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def fileDescriptorObjectName = {
-
       def inner(s: String): String =
         if (!hasConflictingJavaClassName(s) && !hasConflictingScalaClassName(s)) s
         else (s + "Companion")

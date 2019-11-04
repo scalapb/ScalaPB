@@ -943,7 +943,6 @@ class ProtobufGenerator(
   def generateNoDefaultArgsFactory(
       message: Descriptor
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-
     val fields = constructorFields(message)
 
     printer

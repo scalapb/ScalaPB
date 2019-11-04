@@ -118,7 +118,6 @@ class GeneratedCodeSpec extends PropSpec with ScalaCheckDrivenPropertyChecks wit
                       case _ =>
                     }
                 }
-
             } catch {
               case e: Exception =>
                 println(e.printStackTrace)

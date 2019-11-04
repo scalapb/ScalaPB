@@ -13,7 +13,6 @@ import scala.reflect.ClassTag
 import _root_.scalapb.ScalaPbCodeGenerator
 
 object SchemaGenerators {
-
   import Nodes._
 
   val snakeRegex = "_[0-9][a-z]".r

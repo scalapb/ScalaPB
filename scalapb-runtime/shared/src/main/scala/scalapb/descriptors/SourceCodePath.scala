@@ -29,5 +29,4 @@ object SourceCodePath {
   def get(fd: MethodDescriptor): Seq[Int] = {
     get(fd.containingService) ++ Seq(ServiceDescriptorProto.METHOD_FIELD_NUMBER, fd.index)
   }
-
 }

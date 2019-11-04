@@ -5,7 +5,6 @@ import fastparse.NoWhitespace._
 import scala.language.implicitConversions
 
 object Basics extends ParserCompat {
-
   import fastparse._
 
   def Newline[_: P] = P(StringIn("\r\n", "\n"))

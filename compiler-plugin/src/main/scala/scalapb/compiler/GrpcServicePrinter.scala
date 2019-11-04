@@ -170,7 +170,6 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   }
 
   private[this] def serviceDescriptor(service: ServiceDescriptor) = {
-
     val grpcServiceDescriptor = "_root_.io.grpc.ServiceDescriptor"
 
     PrinterEndo(

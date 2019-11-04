@@ -263,5 +263,4 @@ private[scalapb] object AstUtils {
       }
     maybeMap.right.map(t => PMessage(t.toMap))
   }
-
 }

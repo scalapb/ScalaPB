@@ -6,7 +6,6 @@ import org.scalacheck.{Arbitrary, Gen}
   * Created by thesamet on 9/28/14.
   */
 object GenTypes {
-
   sealed trait ProtoType {
     def packable: Boolean
     def isMap: Boolean
