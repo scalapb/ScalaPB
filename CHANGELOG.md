@@ -21,7 +21,11 @@
 
 - Update to protobuf 3.10.0
 
-## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.3)
+## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.5)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.4...v0.9.5)
+- Fix a couple of cases of oneof naming conflicts. (#695)
+
+## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.4)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.1...v0.9.4)
 - Add option for generating enum values in CamelCase (#675)
 - Add option to specify names for enum values (#675)
