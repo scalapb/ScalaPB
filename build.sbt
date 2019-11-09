@@ -602,8 +602,8 @@ val e2eCommonSettings = Seq(
     "javax.annotation" % "javax.annotation-api" % "1.3.2" // needed for grpc-java on JDK9
   ),
   libraryDependencies += ("io.grpc" % "protoc-gen-grpc-java" % grpcVersion) asProtocPlugin (),
-  Test / fork := true, // For https://github.com/scala/bug/issues/9237
-  Compile / PB.recompile := true  // always regenerate protos, not cache
+  Test / fork := true,           // For https://github.com/scala/bug/issues/9237
+  Compile / PB.recompile := true // always regenerate protos, not cache
 )
 
 lazy val e2e = (project in file("e2e"))
