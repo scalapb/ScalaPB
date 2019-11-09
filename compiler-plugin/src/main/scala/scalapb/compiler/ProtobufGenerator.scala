@@ -103,12 +103,6 @@ class ProtobufGenerator(
       e.getContainingType.getEnumTypes.asScala.exists(_.name == e.upperScalaName) ||
         e.getContainingType.nestedTypes.exists(_.scalaName == e.upperScalaName)
 
-    if (possiblyConflictingName) {
-      throw new GeneratorException(
-        s"${e.getFile.getName}: The sealed trait generated for the oneof '${e.getName}' conflicts with " +
-          s"another message name '${e.upperScalaName}'."
-      )
-    }
     printer
       .add(s"sealed trait ${e.upperScalaName} extends ${e.baseClasses.mkString(" with ")} {")
       .indent
