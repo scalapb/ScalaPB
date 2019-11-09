@@ -19,9 +19,6 @@ val protobufCompilerVersion = "3.7.1"
 
 val scalacheckVersion = "1.14.0"
 
-// For e2e test
-val sbtPluginVersion = "0.99.23"
-
 val grpcVersion = "1.25.0"
 
 val MimaPreviousVersion = "0.9.0"
