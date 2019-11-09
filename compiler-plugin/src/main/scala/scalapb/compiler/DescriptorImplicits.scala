@@ -210,9 +210,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         snakeCaseToCamelCase(fieldOptions.getScalaName, true)
       else
         fd.getName match {
-          case "serialized_size" => "_SerializedSize"
-          case "class"           => "_Class"
-          case x                 => getNameWithFallback(x, Case.PascalCase, Appendage.Prefix)
+          case "serialized_size"       => "_SerializedSize"
+          case "class"                 => "_Class"
+          case "empty" if fd.isInOneof => "_Empty"
+          case x                       => getNameWithFallback(x, Case.PascalCase, Appendage.Prefix)
         }
 
     private def getNameWithFallback(x: String, targetCase: Case, appendage: Appendage) = {
@@ -441,9 +442,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def upperScalaName = {
       val name = oneof.getName match {
         case "ValueType" | "value_type" => "ValueTypeOneof"
-        case n                          => n
+        case n                          => NameUtils.snakeCaseToCamelCase(n, true)
       }
-      NameUtils.snakeCaseToCamelCase(name, true)
+
+      val conflictsWithMessage =
+        oneof.getContainingType.getEnumTypes.asScala.exists(_.name == name) ||
+          oneof.getContainingType.nestedTypes.exists(_.scalaName == name)
+
+      if (conflictsWithMessage) name + "Oneof"
+      else name
     }
 
     def fields: IndexedSeq[FieldDescriptor] =
