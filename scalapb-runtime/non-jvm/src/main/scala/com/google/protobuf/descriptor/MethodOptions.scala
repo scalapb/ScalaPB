@@ -172,12 +172,14 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     def isNoSideEffects: _root_.scala.Boolean = false
     def isIdempotent: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized])
   }
   
   object IdempotencyLevel extends _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] {
+    sealed trait Recognized extends IdempotencyLevel
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = this
     @SerialVersionUID(0L)
-    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel {
+    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel with IdempotencyLevel.Recognized {
       val value = 0
       val index = 0
       val name = "IDEMPOTENCY_UNKNOWN"
@@ -187,7 +189,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** implies idempotent
       */
     @SerialVersionUID(0L)
-    case object NO_SIDE_EFFECTS extends IdempotencyLevel {
+    case object NO_SIDE_EFFECTS extends IdempotencyLevel with IdempotencyLevel.Recognized {
       val value = 1
       val index = 1
       val name = "NO_SIDE_EFFECTS"
@@ -197,7 +199,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** idempotent, but may have side effects
       */
     @SerialVersionUID(0L)
-    case object IDEMPOTENT extends IdempotencyLevel {
+    case object IDEMPOTENT extends IdempotencyLevel with IdempotencyLevel.Recognized {
       val value = 2
       val index = 2
       val name = "IDEMPOTENT"

@@ -170,12 +170,14 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     def isHome: _root_.scala.Boolean = false
     def isWork: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = scalapb.docs.person.Person.AddressType
+    final def asRecognized: _root_.scala.Option[scalapb.docs.person.Person.AddressType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.docs.person.Person.AddressType.Recognized])
   }
   
   object AddressType extends _root_.scalapb.GeneratedEnumCompanion[AddressType] {
+    sealed trait Recognized extends AddressType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = this
     @SerialVersionUID(0L)
-    case object HOME extends AddressType {
+    case object HOME extends AddressType with AddressType.Recognized {
       val value = 0
       val index = 0
       val name = "HOME"
@@ -183,7 +185,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     }
     
     @SerialVersionUID(0L)
-    case object WORK extends AddressType {
+    case object WORK extends AddressType with AddressType.Recognized {
       val value = 1
       val index = 1
       val name = "WORK"

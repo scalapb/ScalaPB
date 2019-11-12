@@ -736,6 +736,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       case None    => (enum.getFile.scalaPackagePartsAsSymbols :+ nameSymbol).mkString(".")
     }
 
+    lazy val recognizedEnumTypeFull = s"$scalaTypeName.$RecognizedEnumType"
+
     def scalaTypeNameWithMaybeRoot(context: Descriptor): String = {
       val fullName        = scalaTypeName
       val topLevelPackage = fullName.split('.')(0)
@@ -793,12 +795,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
+  val RecognizedEnumType = "Recognized"
+
   implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
     def scalaOptions: EnumValueOptions =
       enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
 
     def valueExtends: Seq[String] =
-      enumValue.getType.nameSymbol +: scalaOptions.getExtendsList.asScala.toSeq
+      enumValue.getType.nameSymbol +: s"${enumValue.getType.nameSymbol}.$RecognizedEnumType" +: scalaOptions.getExtendsList.asScala.toSeq
 
     def scalaName: String =
       if (scalaOptions.hasScalaName) scalaOptions.getScalaName

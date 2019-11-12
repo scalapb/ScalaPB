@@ -307,14 +307,16 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def isCord: _root_.scala.Boolean = false
     def isStringPiece: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[CType] = com.google.protobuf.descriptor.FieldOptions.CType
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.CType.Recognized])
   }
   
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
+    sealed trait Recognized extends CType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[CType] = this
     /** Default mode.
       */
     @SerialVersionUID(0L)
-    case object STRING extends CType {
+    case object STRING extends CType with CType.Recognized {
       val value = 0
       val index = 0
       val name = "STRING"
@@ -322,7 +324,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    case object CORD extends CType {
+    case object CORD extends CType with CType.Recognized {
       val value = 1
       val index = 1
       val name = "CORD"
@@ -330,7 +332,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    case object STRING_PIECE extends CType {
+    case object STRING_PIECE extends CType with CType.Recognized {
       val value = 2
       val index = 2
       val name = "STRING_PIECE"
@@ -356,14 +358,16 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def isJsString: _root_.scala.Boolean = false
     def isJsNumber: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[JSType] = com.google.protobuf.descriptor.FieldOptions.JSType
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized])
   }
   
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {
+    sealed trait Recognized extends JSType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[JSType] = this
     /** Use the default type.
       */
     @SerialVersionUID(0L)
-    case object JS_NORMAL extends JSType {
+    case object JS_NORMAL extends JSType with JSType.Recognized {
       val value = 0
       val index = 0
       val name = "JS_NORMAL"
@@ -373,7 +377,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Use JavaScript strings.
       */
     @SerialVersionUID(0L)
-    case object JS_STRING extends JSType {
+    case object JS_STRING extends JSType with JSType.Recognized {
       val value = 1
       val index = 1
       val name = "JS_STRING"
@@ -383,7 +387,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Use JavaScript numbers.
       */
     @SerialVersionUID(0L)
-    case object JS_NUMBER extends JSType {
+    case object JS_NUMBER extends JSType with JSType.Recognized {
       val value = 2
       val index = 2
       val name = "JS_NUMBER"

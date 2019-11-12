@@ -14,14 +14,16 @@ sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
+  final def asRecognized: _root_.scala.Option[com.google.protobuf.struct.NullValue.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.struct.NullValue.Recognized])
 }
 
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
+  sealed trait Recognized extends NullValue
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
   /** Null value.
     */
   @SerialVersionUID(0L)
-  case object NULL_VALUE extends NullValue {
+  case object NULL_VALUE extends NullValue with NullValue.Recognized {
     val value = 0
     val index = 0
     val name = "NULL_VALUE"
