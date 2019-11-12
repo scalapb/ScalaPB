@@ -60,7 +60,7 @@ message Address {
 final case class Person(
     name: Option[String] = None,
     age: Option[Int] = None,
-    addresses: Seq[Address] = Nil) extends GeneratedMessage {
+    addresses: Seq[Address] = Nil, ...) extends GeneratedMessage {
 
     def toByteArray: Array[Byte] = { ... }
 

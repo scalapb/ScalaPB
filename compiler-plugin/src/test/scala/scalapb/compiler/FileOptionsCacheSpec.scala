@@ -8,7 +8,6 @@ import scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope
 import scala.collection.JavaConverters._
 
 class FileOptionsCacheSpec extends FlatSpec with MustMatchers {
-
   "parentPackages" should "return correct parent packages" in {
     FileOptionsCache.parentPackages("foo.bar.baz") must be(
       Seq("foo.bar", "foo")

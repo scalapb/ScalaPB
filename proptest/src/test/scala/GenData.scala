@@ -3,7 +3,6 @@ import org.scalacheck.Gen
 import scala.collection.JavaConverters._
 
 object GenData {
-
   import GenTypes._
   import Nodes._
   import org.scalacheck.Gen._
@@ -12,7 +11,6 @@ object GenData {
   case class PrimitiveValue(value: String) extends ProtoValue
   case class EnumValue(value: String)      extends ProtoValue
   case class MessageValue(values: Seq[(String, ProtoValue)]) extends ProtoValue {
-
     def toAscii: String =
       printAscii(new FunctionalPrinter()).result()
 

@@ -24,7 +24,8 @@ final case class Enum(
     enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.Seq.empty,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Enum] with scalapb.lenses.Updatable[Enum] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -56,6 +57,7 @@ final case class Enum(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, __value.value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -97,6 +99,7 @@ final case class Enum(
           _output__.writeEnum(5, __v.value)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Enum = {
       var __name = this.name
@@ -104,6 +107,7 @@ final case class Enum(
       val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
       var __sourceContext = this.sourceContext
       var __syntax = this.syntax
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -119,7 +123,7 @@ final case class Enum(
             __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
           case 40 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.`type`.Enum(
@@ -127,7 +131,8 @@ final case class Enum(
           enumvalue = __enumvalue.result(),
           options = __options.result(),
           sourceContext = __sourceContext,
-          syntax = __syntax
+          syntax = __syntax,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withName(__v: _root_.scala.Predef.String): Enum = copy(name = __v)
@@ -143,6 +148,8 @@ final case class Enum(
     def clearSourceContext: Enum = copy(sourceContext = _root_.scala.None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Enum = copy(sourceContext = Option(__v))
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Enum = copy(syntax = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -178,22 +185,22 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.`type`.Enum(
-      __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.EnumValue]],
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
-      __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]],
-      com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(4), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
+      name = __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
+      enumvalue = __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.EnumValue]],
+      options = __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+      sourceContext = __fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]],
+      syntax = com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(4), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Enum] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.`type`.Enum(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.EnumValue]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
-        com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
+        name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+        enumvalue = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.EnumValue]]).getOrElse(_root_.scala.Seq.empty),
+        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
+        sourceContext = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
+        syntax = com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -239,12 +246,14 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue],
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
-    syntax: com.google.protobuf.`type`.Syntax
+    syntax: com.google.protobuf.`type`.Syntax,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.`type`.Enum = _root_.com.google.protobuf.`type`.Enum(
     name,
     enumvalue,
     options,
     sourceContext,
-    syntax
+    syntax,
+    unknownFields
   )
 }

@@ -21,5 +21,4 @@ class NameUtilsSpec extends FlatSpec with MustMatchers {
     NameUtils.snakeCaseToCamelCase("fooBar_baz") must be("fooBarBaz")
     NameUtils.snakeCaseToCamelCase("FooBar") must be("fooBar")
   }
-
 }

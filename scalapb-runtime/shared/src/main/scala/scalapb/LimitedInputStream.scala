@@ -7,7 +7,6 @@ import java.io.{FilterInputStream, InputStream}
   */
 class LimitedInputStream(val is: InputStream, private var limit: Int)
     extends FilterInputStream(is) {
-
   override def available(): Int = super.available min limit
 
   override def read(): Int =

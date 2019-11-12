@@ -1,6 +1,31 @@
 # Change Log
 
-## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.3)
+## [0.10.0](https://github.com/scalapb/ScalaPB/tree/v0.9.4..HEAD)
+- BREAKING CHANGE: all messages are now preserving unknown fields by default.
+  This results in an additional parameter to the case class. This may break
+  your code if you are using pattern matching and expecting a specific number
+  of parameters. This feature can be disabled by settings
+  `preserve_unknown_fields` to `false` at the file or package level.
+
+  Why is this feature important? If your service receives messages that were
+  serialized by a future version of the proto, the unknown fields your service
+  does not know about will be deserialized into the unknown fields. Once the
+  message is serialized again, the unknown fields will be serialized too, so
+  this data will not be lost. When this feature is disabled, unknown fields
+  are dropped.
+
+- BREAKING CHANGE: in earlier version, constructor parameters for oneofs were
+  always generated after all the regular fields. From this version of ScalaPB,
+  oneofs are generated in the position that matches their index in the proto
+  file.
+
+- Update to protobuf 3.10.0
+
+## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.5)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.4...v0.9.5)
+- Fix a couple of cases of oneof naming conflicts. (#695)
+
+## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.4)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.1...v0.9.4)
 - Add option for generating enum values in CamelCase (#675)
 - Add option to specify names for enum values (#675)

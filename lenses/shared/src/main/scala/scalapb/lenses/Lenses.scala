@@ -118,7 +118,6 @@ object Lens extends CompatLensImplicits {
 
 /** Represents a lens that has sub-lenses. */
 class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Container] {
-
   /** Creates a sub-lens */
   def field[A](lens: Lens[Container, A]): Lens[U, A] = self.compose(lens)
 

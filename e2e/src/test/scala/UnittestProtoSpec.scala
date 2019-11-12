@@ -8,10 +8,9 @@ class UnittestProtoSpec extends FlatSpec with MustMatchers {
     message.getInfDouble.isPosInfinity must be(true)
     message.getNegInfDouble.isNegInfinity must be(true)
     message.getNanDouble.isNaN must be(true)
-    message.getInfFloat.isPosInfinity  must be(true)
+    message.getInfFloat.isPosInfinity must be(true)
     message.getNegInfFloat.isNegInfinity must be(true)
     message.getNanFloat.isNaN must be(true)
     "? ? ?? ?? ??? ??/ ??-" must be(message.getCppTrigraph)
   }
 }
-

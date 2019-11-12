@@ -99,7 +99,8 @@ package com.google.protobuf.timestamp
 @SerialVersionUID(0L)
 final case class Timestamp(
     seconds: _root_.scala.Long = 0L,
-    nanos: _root_.scala.Int = 0
+    nanos: _root_.scala.Int = 0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[Timestamp] with scalapb.lenses.Updatable[Timestamp] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -119,6 +120,7 @@ final case class Timestamp(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -142,10 +144,12 @@ final case class Timestamp(
           _output__.writeInt32(2, __v)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = {
       var __seconds = this.seconds
       var __nanos = this.nanos
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -155,16 +159,19 @@ final case class Timestamp(
             __seconds = _input__.readInt64()
           case 16 =>
             __nanos = _input__.readInt32()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.timestamp.Timestamp(
           seconds = __seconds,
-          nanos = __nanos
+          nanos = __nanos,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withSeconds(__v: _root_.scala.Long): Timestamp = copy(seconds = __v)
     def withNanos(__v: _root_.scala.Int): Timestamp = copy(nanos = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -204,16 +211,16 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.timestamp.Timestamp(
-      __fieldsMap.getOrElse(__fields.get(0), 0L).asInstanceOf[_root_.scala.Long],
-      __fieldsMap.getOrElse(__fields.get(1), 0).asInstanceOf[_root_.scala.Int]
+      seconds = __fieldsMap.getOrElse(__fields.get(0), 0L).asInstanceOf[_root_.scala.Long],
+      nanos = __fieldsMap.getOrElse(__fields.get(1), 0).asInstanceOf[_root_.scala.Int]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.timestamp.Timestamp] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.timestamp.Timestamp(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Int]).getOrElse(0)
+        seconds = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
+        nanos = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Int]).getOrElse(0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -234,9 +241,11 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
   final val NANOS_FIELD_NUMBER = 2
   def of(
     seconds: _root_.scala.Long,
-    nanos: _root_.scala.Int
+    nanos: _root_.scala.Int,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.timestamp.Timestamp = _root_.com.google.protobuf.timestamp.Timestamp(
     seconds,
-    nanos
+    nanos,
+    unknownFields
   )
 }

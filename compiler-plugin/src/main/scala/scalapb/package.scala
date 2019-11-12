@@ -2,7 +2,6 @@ import protocbridge.JvmGenerator
 import scalapb.GeneratorOption._
 
 package object scalapb {
-
   sealed trait GeneratorOption extends Product with Serializable
 
   object GeneratorOption {

@@ -42,11 +42,11 @@ libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.com
 The plugin assumes your `proto` files are under `src/main/protobuf`,
 however this is configurable using the `PB.protoSources in Compile` setting.
 
-By default, `sbt-protoc` invokes `protoc` 3.0.0 that is shipped with `protoc-jar`.
+By default, `sbt-protoc` invokes `protoc` 3.x that is shipped with `protoc-jar`.
 If you would like to run a different version of `protoc`:
 
 ```scala
-PB.protocVersion := "-v261"
+PB.protocVersion := "-v3.10.0"
 ```
 
 See all available options in [sbt-protoc documentation](https://github.com/thesamet/sbt-protoc)

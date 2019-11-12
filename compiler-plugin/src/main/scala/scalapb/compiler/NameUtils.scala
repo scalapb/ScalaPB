@@ -59,5 +59,4 @@ object NameUtils {
     private[compiler] case object Prefix  extends Appendage { def isPrefix = true  }
     private[compiler] case object Postfix extends Appendage { def isPrefix = false }
   }
-
 }

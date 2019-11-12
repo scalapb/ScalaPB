@@ -57,16 +57,11 @@ object TestUtil {
     message.setOptionalString("115")
     message.setOptionalBytes(toBytes("116"))
 
-    message.setOptionalNestedMessage(
-      TestAllTypes.NestedMessage.newBuilder().setBb(118).build())
-    message.setOptionalForeignMessage(
-      ForeignMessage.newBuilder().setC(119).build())
-    message.setOptionalImportMessage(
-      ImportMessage.newBuilder().setD(120).build())
-    message.setOptionalPublicImportMessage(
-      PublicImportMessage.newBuilder().setE(126).build())
-    message.setOptionalLazyMessage(
-      TestAllTypes.NestedMessage.newBuilder().setBb(127).build())
+    message.setOptionalNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(118).build())
+    message.setOptionalForeignMessage(ForeignMessage.newBuilder().setC(119).build())
+    message.setOptionalImportMessage(ImportMessage.newBuilder().setD(120).build())
+    message.setOptionalPublicImportMessage(PublicImportMessage.newBuilder().setE(126).build())
+    message.setOptionalLazyMessage(TestAllTypes.NestedMessage.newBuilder().setBb(127).build())
 
     message.setOptionalNestedEnum(TestAllTypes.NestedEnum.BAZ)
     message.setOptionalForeignEnum(ForeignEnum.FOREIGN_BAZ)
@@ -93,14 +88,10 @@ object TestUtil {
     message.addRepeatedString("215")
     message.addRepeatedBytes(toBytes("216"))
 
-    message.addRepeatedNestedMessage(
-      TestAllTypes.NestedMessage.newBuilder().setBb(218).build())
-    message.addRepeatedForeignMessage(
-      ForeignMessage.newBuilder().setC(219).build())
-    message.addRepeatedImportMessage(
-      ImportMessage.newBuilder().setD(220).build())
-    message.addRepeatedLazyMessage(
-      TestAllTypes.NestedMessage.newBuilder().setBb(227).build())
+    message.addRepeatedNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(218).build())
+    message.addRepeatedForeignMessage(ForeignMessage.newBuilder().setC(219).build())
+    message.addRepeatedImportMessage(ImportMessage.newBuilder().setD(220).build())
+    message.addRepeatedLazyMessage(TestAllTypes.NestedMessage.newBuilder().setBb(227).build())
 
     message.addRepeatedNestedEnum(TestAllTypes.NestedEnum.BAR)
     message.addRepeatedForeignEnum(ForeignEnum.FOREIGN_BAR)
@@ -126,14 +117,10 @@ object TestUtil {
     message.addRepeatedString("315")
     message.addRepeatedBytes(toBytes("316"))
 
-    message.addRepeatedNestedMessage(
-      TestAllTypes.NestedMessage.newBuilder().setBb(318).build())
-    message.addRepeatedForeignMessage(
-      ForeignMessage.newBuilder().setC(319).build())
-    message.addRepeatedImportMessage(
-      ImportMessage.newBuilder().setD(320).build())
-    message.addRepeatedLazyMessage(
-      TestAllTypes.NestedMessage.newBuilder().setBb(327).build())
+    message.addRepeatedNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(318).build())
+    message.addRepeatedForeignMessage(ForeignMessage.newBuilder().setC(319).build())
+    message.addRepeatedImportMessage(ImportMessage.newBuilder().setD(320).build())
+    message.addRepeatedLazyMessage(TestAllTypes.NestedMessage.newBuilder().setBb(327).build())
 
     message.addRepeatedNestedEnum(TestAllTypes.NestedEnum.BAZ)
     message.addRepeatedForeignEnum(ForeignEnum.FOREIGN_BAZ)
@@ -168,8 +155,7 @@ object TestUtil {
     message.setDefaultCord("425")
 
     message.setOneofUint32(601)
-    message.setOneofNestedMessage(
-      TestAllTypes.NestedMessage.newBuilder().setBb(602).build())
+    message.setOneofNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(602).build())
     message.setOneofString("603")
     message.setOneofBytes(toBytes("604"))
     protobuf_unittest.unittest.TestAllTypes.fromJavaProto(message.build())

@@ -138,7 +138,6 @@ class ProtoValidation(implicits: DescriptorImplicits) {
 }
 
 object ProtoValidation {
-
   val ForbiddenFieldNames = Set(
     "hashCode",
     "equals",

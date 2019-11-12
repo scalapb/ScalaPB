@@ -13,7 +13,8 @@ package scalapb.options
 @SerialVersionUID(0L)
 final case class EnumValueOptions(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[EnumValueOptions] with scalapb.lenses.Updatable[EnumValueOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -27,6 +28,7 @@ final case class EnumValueOptions(
         val __value = scalaName.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -46,10 +48,12 @@ final case class EnumValueOptions(
         val __m = __v
         _output__.writeString(2, __m)
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.EnumValueOptions = {
       val __extends = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.`extends`)
       var __scalaName = this.scalaName
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -59,12 +63,13 @@ final case class EnumValueOptions(
             __extends += _input__.readString()
           case 18 =>
             __scalaName = Option(_input__.readString())
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       scalapb.options.EnumValueOptions(
           `extends` = __extends.result(),
-          scalaName = __scalaName
+          scalaName = __scalaName,
+          unknownFields = _unknownFields__.result()
       )
     }
     def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
@@ -74,6 +79,8 @@ final case class EnumValueOptions(
     def getScalaName: _root_.scala.Predef.String = scalaName.getOrElse("")
     def clearScalaName: EnumValueOptions = copy(scalaName = _root_.scala.None)
     def withScalaName(__v: _root_.scala.Predef.String): EnumValueOptions = copy(scalaName = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
@@ -97,16 +104,16 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     scalapb.options.EnumValueOptions(
-      __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.Seq[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]]
+      `extends` = __fieldsMap.getOrElse(__fields.get(0), Nil).asInstanceOf[_root_.scala.Seq[_root_.scala.Predef.String]],
+      scalaName = __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.EnumValueOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.options.EnumValueOptions(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
+        `extends` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
+        scalaName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -128,9 +135,11 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
   final val SCALA_NAME_FIELD_NUMBER = 2
   def of(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
-    scalaName: _root_.scala.Option[_root_.scala.Predef.String]
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.scalapb.options.EnumValueOptions = _root_.scalapb.options.EnumValueOptions(
     `extends`,
-    scalaName
+    scalaName,
+    unknownFields
   )
 }

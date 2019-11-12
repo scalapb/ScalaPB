@@ -14,7 +14,8 @@ package com.google.protobuf.wrappers
   */
 @SerialVersionUID(0L)
 final case class UInt64Value(
-    value: _root_.scala.Long = 0L
+    value: _root_.scala.Long = 0L,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.Message[UInt64Value] with scalapb.lenses.Updatable[UInt64Value] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -27,6 +28,7 @@ final case class UInt64Value(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeUInt64Size(1, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
     final override def serializedSize: _root_.scala.Int = {
@@ -44,9 +46,11 @@ final case class UInt64Value(
           _output__.writeUInt64(1, __v)
         }
       };
+      unknownFields.writeTo(_output__)
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.UInt64Value = {
       var __value = this.value
+      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -54,14 +58,17 @@ final case class UInt64Value(
           case 0 => _done__ = true
           case 8 =>
             __value = _input__.readUInt64()
-          case tag => _input__.skipField(tag)
+          case tag => _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.wrappers.UInt64Value(
-          value = __value
+          value = __value,
+          unknownFields = _unknownFields__.result()
       )
     }
     def withValue(__v: _root_.scala.Long): UInt64Value = copy(value = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -94,14 +101,14 @@ object UInt64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
     com.google.protobuf.wrappers.UInt64Value(
-      __fieldsMap.getOrElse(__fields.get(0), 0L).asInstanceOf[_root_.scala.Long]
+      value = __fieldsMap.getOrElse(__fields.get(0), 0L).asInstanceOf[_root_.scala.Long]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.UInt64Value] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.wrappers.UInt64Value(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L)
+        value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -118,8 +125,10 @@ object UInt64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.scala.Long
+    value: _root_.scala.Long,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.wrappers.UInt64Value = _root_.com.google.protobuf.wrappers.UInt64Value(
-    value
+    value,
+    unknownFields
   )
 }

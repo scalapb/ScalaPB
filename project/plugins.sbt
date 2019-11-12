@@ -16,7 +16,7 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.9")
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.7")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.8")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.6.1")
 
@@ -26,8 +26,14 @@ addSbtPlugin("com.eed3si9n" % "sbt-unidoc" % "0.4.2")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.0.5")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.2.1")
 
 addSbtPlugin("com.47deg" % "sbt-microsites" % "0.9.7")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.25")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.27")
+
+// For https://github.com/lightbend/mima/issues/422
+resolvers += Resolver.url(
+  "typesafe sbt-plugins",
+  url("https://dl.bintray.com/typesafe/sbt-plugins")
+)(Resolver.ivyStylePatterns)

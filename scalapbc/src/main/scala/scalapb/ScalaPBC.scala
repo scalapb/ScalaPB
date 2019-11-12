@@ -5,7 +5,7 @@ import java.io.File
 import protocbridge.{ProtocBridge, ProtocCodeGenerator}
 
 case class Config(
-    version: String = "-v380",
+    version: String = "-v3.10.0",
     throwException: Boolean = false,
     args: Seq[String] = Seq.empty,
     customProtocLocation: Option[String] = None,

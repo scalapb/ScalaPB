@@ -1,7 +1,6 @@
 package scalapb.lenses
 
 object CompatLensImplicits {
-
   /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
   class SeqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](
       val lens: Lens[U, Coll[A]]

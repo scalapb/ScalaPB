@@ -5,5 +5,4 @@ object scalapbc {
   def main(args: Array[String]): Unit = {
     ScalaPBC.main(args)
   }
-
 }

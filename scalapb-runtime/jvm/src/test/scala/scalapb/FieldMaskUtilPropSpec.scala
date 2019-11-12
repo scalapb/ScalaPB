@@ -6,7 +6,6 @@ import org.scalatest.PropSpec
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 
 class FieldMaskUtilPropSpec extends PropSpec with ScalaCheckDrivenPropertyChecks {
-
   // protobuf-java use guava
   // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L175
   // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L159

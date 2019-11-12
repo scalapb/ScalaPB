@@ -5,15 +5,15 @@ import org.scalatestplus.scalacheck._
 class WellKnownTypesSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers {
   "new TestWrapper" should "have Nones" in {
     val t = TestWrappers()
-    t.myDouble must be (None)
-    t.myFloat must be (None)
-    t.myInt32 must be (None)
-    t.myInt64 must be (None)
-    t.myUint32 must be (None)
-    t.myUint64 must be (None)
-    t.myBool must be (None)
-    t.myString must be (None)
-    t.myBytes must be (None)
+    t.myDouble must be(None)
+    t.myFloat must be(None)
+    t.myInt32 must be(None)
+    t.myInt64 must be(None)
+    t.myUint32 must be(None)
+    t.myUint64 must be(None)
+    t.myBool must be(None)
+    t.myString must be(None)
+    t.myBytes must be(None)
   }
 
   "TestWrapper" should "be updatable with primitives" in {

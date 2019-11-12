@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+message OneOfFieldNamedEmpty {
+
+  oneof content {
+    Foo   foo   = 1;
+    Bar   empty = 2; // tests that we avoid a conflict with the `Empty` case object
+    Empty baz   = 3; // Message called `Empty` is fine.
+  }
+
+  message Foo {}
+  message Bar {}
+  message Empty {}
+}
+
+message OneOfNameOnSameLevel {
+
+  Options options = 1;
+
+  message Options {
+
+    // sealed trait will be named FooOptionsOneof to avoid conflict with
+    // FooOptions
+    oneof foo_options {
+      FooOptions for = 1;
+      BarOptions bar = 2;
+    }
+
+    message FooOptions { }
+
+    message BarOptions {
+      // Works fine when using same name as
+      // the enclosing message.
+      oneof bar_options {
+        uint64 baz1 = 1;
+        Empty  bar2 = 2;
+      }
+
+    }
+
+  }
+
+  message Empty {}
+}

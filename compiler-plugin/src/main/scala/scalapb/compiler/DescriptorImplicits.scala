@@ -83,7 +83,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   }
 
   implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
-
     class MethodTypeWrapper(descriptor: Descriptor) {
       def customScalaType =
         if (descriptor.isSealedOneofType)
@@ -211,9 +210,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         snakeCaseToCamelCase(fieldOptions.getScalaName, true)
       else
         fd.getName match {
-          case "serialized_size" => "_SerializedSize"
-          case "class"           => "_Class"
-          case x                 => getNameWithFallback(x, Case.PascalCase, Appendage.Prefix)
+          case "serialized_size"       => "_SerializedSize"
+          case "class"                 => "_Class"
+          case "empty" if fd.isInOneof => "_Empty"
+          case x                       => getNameWithFallback(x, Case.PascalCase, Appendage.Prefix)
         }
 
     private def getNameWithFallback(x: String, targetCase: Case, appendage: Appendage) = {
@@ -432,7 +432,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
-
     def javaEnumName = {
       val name = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
       s"get${name}Case"
@@ -443,9 +442,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def upperScalaName = {
       val name = oneof.getName match {
         case "ValueType" | "value_type" => "ValueTypeOneof"
-        case n                          => n
+        case n                          => NameUtils.snakeCaseToCamelCase(n, true)
       }
-      NameUtils.snakeCaseToCamelCase(name, true)
+
+      val conflictsWithMessage =
+        oneof.getContainingType.getEnumTypes.asScala.exists(_.name == name) ||
+          oneof.getContainingType.nestedTypes.exists(_.scalaName == name)
+
+      if (conflictsWithMessage) name + "Oneof"
+      else name
     }
 
     def fields: IndexedSeq[FieldDescriptor] =
@@ -463,17 +468,25 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   private val OneofMessageSuffix = "Message"
 
   implicit class MessageDescriptorPimp(val message: Descriptor) {
-
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP).toSeq
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
 
     def parent: Option[Descriptor] = Option(message.getContainingType)
 
+    def sealedOneofStyle: SealedOneofStyle = {
+      assert(isSealedOneofType)
+      if (message.getOneofs.asScala.exists(_.getName == "sealed_value")) SealedOneofStyle.Default
+      else if (message.getOneofs.asScala.exists(_.getName == "sealed_value_or_empty"))
+        SealedOneofStyle.OrEmpty
+      else throw new RuntimeException("Unexpected oneof style")
+    }
+
     // every message that passes this filter must be a sealed oneof. The check that it actually
     // obeys the rules is done in ProtoValidation.
     def isSealedOneofType: Boolean = {
-      message.getOneofs.asScala.exists(_.getName == "sealed_value")
+      message.getOneofs.asScala
+        .exists(o => o.getName == "sealed_value" || o.getName == "sealed_value_or_empty")
     }
 
     def isSealedOneofCase: Boolean = sealedOneofsCache.getContainer(message).isDefined
@@ -552,12 +565,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def sealedOneofName = {
       require(isSealedOneofType)
-      scalaName.stripSuffix(OneofMessageSuffix).asSymbol
+      sealedOneofStyle match {
+        case SealedOneofStyle.Default => scalaName.stripSuffix(OneofMessageSuffix)
+        case SealedOneofStyle.OrEmpty =>
+          (scalaName.stripSuffix(OneofMessageSuffix) + "OrEmpty")
+      }
     }
 
-    def sealedOneofNameSymbol = {
-      sealedOneofName.asSymbol
-    }
+    def sealedOneofNameSymbol = sealedOneofName.asSymbol
 
     def sealedOneofScalaType = {
       parent match {
@@ -567,14 +582,22 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       }
     }
 
-    def sealedOneofNonEmptyScalaType = sealedOneofScalaType + ".NonEmpty"
+    def sealedOneofNonEmptyName = sealedOneofStyle match {
+      case SealedOneofStyle.Default => "NonEmpty"
+      case SealedOneofStyle.OrEmpty => sealedOneofName.stripSuffix("OrEmpty")
+    }
+
+    def sealedOneofNonEmptyScalaType = sealedOneofStyle match {
+      case SealedOneofStyle.Default => sealedOneofScalaType + "." + sealedOneofNonEmptyName.asSymbol
+      case SealedOneofStyle.OrEmpty => sealedOneofScalaType.stripSuffix("OrEmpty")
+    }
 
     private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
 
     def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
 
-    // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for value classes
-    // since they must have an exactly one val.
+    // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for
+    // value classes since they must have an exactly one val.
     def preservesUnknownFields =
       (
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
@@ -633,8 +656,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         specialMixins
     }
 
-    def sealedOneofBaseClasses: Seq[String] =
-      s"scalapb.GeneratedSealedOneof" +: messageOptions.getSealedOneofExtendsList.asScala.toSeq
+    def sealedOneofBaseClasses: Seq[String] = sealedOneofStyle match {
+      case SealedOneofStyle.Default =>
+        s"scalapb.GeneratedSealedOneof" +: messageOptions.getSealedOneofExtendsList.asScala.toSeq
+      case SealedOneofStyle.OrEmpty => messageOptions.getSealedOneofExtendsList.asScala.toSeq
+    }
 
     def nestedTypes: Seq[Descriptor] = message.getNestedTypes.asScala.toSeq
 
@@ -897,7 +923,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def fileDescriptorObjectName = {
-
       def inner(s: String): String =
         if (!hasConflictingJavaClassName(s) && !hasConflictingScalaClassName(s)) s
         else (s + "Companion")

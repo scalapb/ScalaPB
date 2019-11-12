@@ -3,7 +3,6 @@ package scalapb.textformat
 import utest._
 
 object ParserSpec extends TestSuite with ParserSuite {
-
   import ProtoAsciiParser._
 
   val tests = Tests {
@@ -250,5 +249,4 @@ object ParserSpec extends TestSuite with ParserSuite {
       )
     }
   }
-
 }
