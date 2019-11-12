@@ -176,6 +176,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   }
   
   object IdempotencyLevel extends _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] {
+    sealed trait Recognized extends IdempotencyLevel
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = this
     @SerialVersionUID(0L)
     case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel with IdempotencyLevel.Recognized {
@@ -215,7 +216,6 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
       case 2 => IDEMPOTENT
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends IdempotencyLevel
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.scalaDescriptor.enums(0)
   }

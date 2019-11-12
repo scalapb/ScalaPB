@@ -374,6 +374,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   }
   
   object Type extends _root_.scalapb.GeneratedEnumCompanion[Type] {
+    sealed trait Recognized extends Type
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Type] = this
     /** 0 is reserved for errors.
       * Order is weird for historical reasons.
@@ -566,7 +567,6 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       case 18 => TYPE_SINT64
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends Type
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Type): Type = fromValue(pbJavaSource.getNumber)
@@ -585,6 +585,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   }
   
   object Label extends _root_.scalapb.GeneratedEnumCompanion[Label] {
+    sealed trait Recognized extends Label
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Label] = this
     /** 0 is reserved for errors
       */
@@ -622,7 +623,6 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       case 3 => LABEL_REPEATED
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends Label
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto.Label): Label = fromValue(pbJavaSource.getNumber)

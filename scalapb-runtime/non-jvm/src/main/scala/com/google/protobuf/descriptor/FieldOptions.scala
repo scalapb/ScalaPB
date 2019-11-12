@@ -311,6 +311,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
+    sealed trait Recognized extends CType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[CType] = this
     /** Default mode.
       */
@@ -348,7 +349,6 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       case 2 => STRING_PIECE
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends CType
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(0)
   }
@@ -362,6 +362,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {
+    sealed trait Recognized extends JSType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[JSType] = this
     /** Use the default type.
       */
@@ -403,7 +404,6 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       case 2 => JS_NUMBER
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends JSType
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(1)
   }

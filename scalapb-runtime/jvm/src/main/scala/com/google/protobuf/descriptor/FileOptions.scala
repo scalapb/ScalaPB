@@ -674,6 +674,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
+    sealed trait Recognized extends OptimizeMode
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
     /** Generate complete code for parsing, serialization,
       */
@@ -716,7 +717,6 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       case 3 => LITE_RUNTIME
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends OptimizeMode
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FileOptions.OptimizeMode): OptimizeMode = fromValue(pbJavaSource.getNumber)

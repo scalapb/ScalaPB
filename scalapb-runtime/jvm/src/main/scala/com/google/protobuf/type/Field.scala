@@ -429,6 +429,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   }
   
   object Kind extends _root_.scalapb.GeneratedEnumCompanion[Kind] {
+    sealed trait Recognized extends Kind
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Kind] = this
     /** Field type unknown.
       */
@@ -646,7 +647,6 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       case 18 => TYPE_SINT64
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends Kind
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Kind): Kind = fromValue(pbJavaSource.getNumber)
@@ -668,6 +668,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   }
   
   object Cardinality extends _root_.scalapb.GeneratedEnumCompanion[Cardinality] {
+    sealed trait Recognized extends Cardinality
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Cardinality] = this
     /** For fields with unknown cardinality.
       */
@@ -720,7 +721,6 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       case 3 => CARDINALITY_REPEATED
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends Cardinality
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Cardinality): Cardinality = fromValue(pbJavaSource.getNumber)

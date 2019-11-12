@@ -16,6 +16,7 @@ sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
 }
 
 object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
+  sealed trait Recognized extends Syntax
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = this
   /** Syntax `proto2`.
     */
@@ -46,7 +47,6 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
     case 1 => SYNTAX_PROTO3
     case __other => Unrecognized(__other)
   }
-  sealed trait Recognized extends Syntax
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = TypeProto.scalaDescriptor.enums(0)
 }

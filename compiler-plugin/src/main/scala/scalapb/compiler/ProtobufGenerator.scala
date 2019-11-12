@@ -55,6 +55,7 @@ class ProtobufGenerator(
       }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
+      .add(s"sealed trait $RecognizedEnumType extends $name")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) {
         case (p, v) =>
@@ -82,7 +83,6 @@ class ProtobufGenerator(
       }
       .add(s"  case __other => Unrecognized(__other)")
       .add("}")
-      .add(s"sealed trait $RecognizedEnumType extends $name")
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}"
       )

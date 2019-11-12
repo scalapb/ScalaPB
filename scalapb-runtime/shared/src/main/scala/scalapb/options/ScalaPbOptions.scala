@@ -500,6 +500,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
+    sealed trait Recognized extends OptionsScope
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = this
     /** Apply the options for this file only (default)
       */
@@ -530,7 +531,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       case 1 => PACKAGE
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends OptionsScope
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(0)
   }
@@ -545,6 +545,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   
   object EnumValueNaming extends _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] {
+    sealed trait Recognized extends EnumValueNaming
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = this
     /** Enum value names in Scala use the same name as in the proto
       */
@@ -575,7 +576,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       case 1 => CAMEL_CASE
       case __other => Unrecognized(__other)
     }
-    sealed trait Recognized extends EnumValueNaming
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes.get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(1)
   }

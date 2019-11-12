@@ -18,6 +18,7 @@ sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
 }
 
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
+  sealed trait Recognized extends NullValue
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
   /** Null value.
     */
@@ -37,7 +38,6 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
     case 0 => NULL_VALUE
     case __other => Unrecognized(__other)
   }
-  sealed trait Recognized extends NullValue
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = StructProto.javaDescriptor.getEnumTypes.get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = StructProto.scalaDescriptor.enums(0)
 }
