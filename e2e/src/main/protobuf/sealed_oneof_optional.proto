@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package com.thesamet.proto.e2e.or_empty;
+package com.thesamet.proto.e2e.optional;
 
 message Lit {
     int32 value = 1;
@@ -12,7 +12,7 @@ message Add {
 }
 
 message Expr {
-    oneof sealed_value_or_empty {
+    oneof sealed_value_optional {
         Lit lit = 1;
         Add add = 2;
     }

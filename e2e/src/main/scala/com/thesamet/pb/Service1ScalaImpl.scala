@@ -10,7 +10,6 @@ import io.grpc.stub.StreamObserver
 import scala.concurrent.Future
 
 class Service1ScalaImpl extends Service1 {
-
   override def unaryStringLength(request: Req1): Future[Res1] =
     Future.successful(Res1(length = request.request.length))
 
@@ -113,6 +112,5 @@ class Service1ScalaImpl extends Service1 {
     override def onCompleted(): Unit = {
       observer.onCompleted()
     }
-
   }
 }

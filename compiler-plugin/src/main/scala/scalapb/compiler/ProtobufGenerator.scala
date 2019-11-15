@@ -1582,7 +1582,9 @@ class ProtobufGenerator(
       .when(message.isSealedOneofType) { fp =>
         val name      = message.sealedOneofName
         val scalaType = message.sealedOneofScalaType
-        fp.add(s"def to$name: $scalaType = $scalaType.${name}TypeMapper.toCustom(this)")
+        fp.add(
+          s"def to$name: $scalaType = ${message.sealedOneofTraitScalaType}.${name}TypeMapper.toCustom(this)"
+        )
       }
       .outdent
       .outdent
