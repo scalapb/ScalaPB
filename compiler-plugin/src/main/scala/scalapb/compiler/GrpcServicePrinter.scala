@@ -57,7 +57,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
         s"implicit def serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = this"
       )
       .add(
-        s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices().get(${service.getIndex})"
+        s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.javaDescriptorSource}"
       )
       .add(
         s"def scalaDescriptor: _root_.scalapb.descriptors.ServiceDescriptor = ${service.scalaDescriptorSource}"
@@ -177,7 +177,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
         .add(s"""$grpcServiceDescriptor.newBuilder("${service.getFullName}")""")
         .indent
         .add(
-          s""".setSchemaDescriptor(new _root_.scalapb.grpc.ConcreteProtoFileDescriptorSupplier(${service.getFile.fileDescriptorObjectFullName}.javaDescriptor))"""
+          s""".setSchemaDescriptor(new _root_.scalapb.grpc.ConcreteProtoFileDescriptorSupplier(${service.getFile.fileDescriptorObject.fullName}.javaDescriptor))"""
         )
         .print(service.methods) {
           case (p, method) =>
@@ -255,7 +255,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   def printService(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
       .add(
-        "package " + service.getFile.scalaPackageName,
+        "package " + service.getFile.scalaPackage.fullName,
         "",
         s"${service.deprecatedAnnotation}object ${service.objectName} {"
       )
@@ -281,7 +281,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)")
       .newline
       .add(
-        s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.getFile.fileDescriptorObjectFullName}.javaDescriptor.getServices().get(${service.getIndex})"
+        s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.javaDescriptorSource}"
       )
       .newline
       .outdent

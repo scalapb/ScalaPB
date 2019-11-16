@@ -17,16 +17,16 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
   def generateSealedOneofTrait: PrinterEndo = { fp =>
     if (!message.isSealedOneofType) fp
     else {
-      val baseType        = message.scalaTypeName
+      val baseType        = message.scalaType.fullName
       val sealedOneofType = message.sealedOneofScalaType
-      val sealedOneofName = message.sealedOneofName
+      val sealedOneofName = message.sealedOneofTraitScalaType.nameSymbol
       val typeMapper      = s"_root_.scalapb.TypeMapper[${baseType}, ${sealedOneofType}]"
       val oneof           = message.getOneofs.get(0)
-      val typeMapperName  = message.sealedOneofNameSymbol + "TypeMapper"
+      val typeMapperName  = message.sealedOneofTypeMapper.name
 
       if (message.sealedOneofStyle != SealedOneofStyle.Optional) {
-        val sealedOneofNonEmptyName = message.sealedOneofNonEmptyName
-        val sealedOneofNonEmptyType = message.sealedOneofNonEmptyScalaType
+        val sealedOneofNonEmptyName = message.sealedOneofNonEmptyScalaType.nameSymbol
+        val sealedOneofNonEmptyType = message.sealedOneofNonEmptyScalaType.fullName
 
         fp.add(
             s"sealed trait $sealedOneofName extends ${message.sealedOneofBaseClasses.mkString(" with ")} {"
@@ -35,7 +35,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
             s"type MessageType = $baseType",
             s"final def isEmpty = this.isInstanceOf[${sealedOneofType}.Empty.type]",
             s"final def isDefined = !isEmpty",
-            s"final def asMessage: $baseType = ${message.sealedOneofScalaType}.$typeMapperName.toBase(this)",
+            s"final def asMessage: $baseType = ${message.sealedOneofTypeMapper.fullName}.toBase(this)",
             s"final def asNonEmpty: Option[$sealedOneofNonEmptyType] = if (isEmpty) None else Some(this.asInstanceOf[$sealedOneofNonEmptyType])"
           )
           .add("}")
@@ -51,12 +51,12 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
               )
               .indented(
                 _.add(
-                  s"override def toCustom(__base: $baseType): $sealedOneofType = __base.${oneof.scalaName} match {"
+                  s"override def toCustom(__base: $baseType): $sealedOneofType = __base.${oneof.scalaName.nameSymbol} match {"
                 ).indented(
                     _.print(oneof.fields) {
                       case (fp, field) =>
-                        fp.add(s"case __v: ${field.oneOfTypeName} => __v.value")
-                    }.add(s"case ${oneof.scalaTypeName}.Empty => Empty")
+                        fp.add(s"case __v: ${field.oneOfTypeName.fullName} => __v.value")
+                    }.add(s"case ${oneof.empty.fullName} => Empty")
                   )
                   .add("}")
                   .add(
@@ -65,8 +65,10 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
                   .indented(
                     _.print(oneof.fields) {
                       case (fp, field) =>
-                        fp.add(s"case __v: ${field.scalaTypeName} => ${field.oneOfTypeName}(__v)")
-                    }.add(s"case Empty => ${oneof.scalaTypeName}.Empty")
+                        fp.add(
+                          s"case __v: ${field.scalaTypeName} => ${field.oneOfTypeName.fullName}(__v)"
+                        )
+                    }.add(s"case Empty => ${oneof.empty.fullName}")
                   )
                   .add("})")
               )
@@ -79,7 +81,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           )
           .addIndented(
             s"type MessageType = $baseType",
-            s"final def asMessage: $baseType = ${message.sealedOneofTraitScalaType}.$typeMapperName.toBase(Some(this))"
+            s"final def asMessage: $baseType = ${message.sealedOneofTypeMapper.fullName}.toBase(Some(this))"
           )
           .add("}")
           .add("")
@@ -89,12 +91,12 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
               s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"
             ).indented(
                 _.add(
-                  s"override def toCustom(__base: $baseType): $sealedOneofType = __base.${oneof.scalaName} match {"
+                  s"override def toCustom(__base: $baseType): $sealedOneofType = __base.${oneof.scalaName.nameSymbol} match {"
                 ).indented(
                     _.print(oneof.fields) {
                       case (fp, field) =>
-                        fp.add(s"case __v: ${field.oneOfTypeName} => Some(__v.value)")
-                    }.add(s"case ${oneof.scalaTypeName}.Empty => None")
+                        fp.add(s"case __v: ${field.oneOfTypeName.fullName} => Some(__v.value)")
+                    }.add(s"case ${oneof.empty.fullName} => None")
                   )
                   .add("}")
                   .add(
@@ -104,9 +106,9 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
                     _.print(oneof.fields) {
                       case (fp, field) =>
                         fp.add(
-                          s"case Some(__v: ${field.scalaTypeName}) => ${field.oneOfTypeName}(__v)"
+                          s"case Some(__v: ${field.scalaTypeName}) => ${field.oneOfTypeName.fullName}(__v)"
                         )
-                    }.add(s"case None => ${oneof.scalaTypeName}.Empty")
+                    }.add(s"case None => ${oneof.empty.fullName}")
                   )
                   .add("})")
               )
