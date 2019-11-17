@@ -67,9 +67,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
     class MethodTypeWrapper(descriptor: Descriptor) {
-      def customScalaType =
+      def customScalaType: Option[String] =
         if (descriptor.isSealedOneofType)
           Some(descriptor.sealedOneofScalaType)
+        else if (descriptor.messageOptions.hasType) Some(descriptor.messageOptions.getType)
         else None
 
       def baseScalaType = descriptor.scalaType.fullNameWithMaybeRoot(Seq("build"))

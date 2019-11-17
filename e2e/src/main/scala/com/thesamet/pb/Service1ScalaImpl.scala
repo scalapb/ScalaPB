@@ -13,6 +13,9 @@ class Service1ScalaImpl extends Service1 {
   override def unaryStringLength(request: Req1): Future[Res1] =
     Future.successful(Res1(length = request.request.length))
 
+  override def customUnary(request: Point2D): Future[Res5] =
+    Future.successful(Res5())
+
   override def customOption(request: Req5): Future[Res5] = {
     Service1Interceptor.contextKey.get() match {
       case "custom_value" => Future.successful(Res5())
