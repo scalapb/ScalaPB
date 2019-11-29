@@ -55,9 +55,6 @@ class GeneratedCodeSpec extends PropSpec with ScalaCheckDrivenPropertyChecks wit
               val javaProto2 = schema.javaParse(message, scalaBytes)
               javaProto2 should be(javaProto)
 
-              // getAllFields and fromFieldsMap should return the same object
-              companion.fromFieldsMap(scalaProto.getAllFields) should be(scalaProto)
-
               // toJavaProto, fromJava should bring back the same object.
               val javaConversions =
                 companion.asInstanceOf[JavaProtoSupport[GeneratedMessage, protobuf.Message]]
