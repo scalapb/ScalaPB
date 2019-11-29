@@ -566,11 +566,12 @@ lazy val lensesJS  = lenses.js
 lazy val docs = project
   .in(file("docs"))
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
+  .dependsOn(runtimeJVM)
   .settings(
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.9.0-M1",
+      "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.10.1-M1",
       "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.0",
       "org.apache.spark"     %% "spark-sql"        % "2.4.4"
     ),
