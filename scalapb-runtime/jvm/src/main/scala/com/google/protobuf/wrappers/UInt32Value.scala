@@ -31,7 +31,7 @@ final case class UInt32Value(
       __size += unknownFields.serializedSize
       __size
     }
-    final override def serializedSize: _root_.scala.Int = {
+    override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -97,13 +97,6 @@ object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def fromJavaProto(javaPbSource: com.google.protobuf.UInt32Value): com.google.protobuf.wrappers.UInt32Value = com.google.protobuf.wrappers.UInt32Value(
     value = javaPbSource.getValue.intValue
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.wrappers.UInt32Value = {
-    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
-    com.google.protobuf.wrappers.UInt32Value(
-      value = __fieldsMap.getOrElse(__fields.get(0), 0).asInstanceOf[_root_.scala.Int]
-    )
-  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.UInt32Value] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

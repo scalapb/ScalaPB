@@ -31,7 +31,7 @@ final case class DoubleValue(
       __size += unknownFields.serializedSize
       __size
     }
-    final override def serializedSize: _root_.scala.Int = {
+    override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -89,13 +89,6 @@ final case class DoubleValue(
 
 object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.wrappers.DoubleValue = {
-    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
-    com.google.protobuf.wrappers.DoubleValue(
-      value = __fieldsMap.getOrElse(__fields.get(0), 0.0).asInstanceOf[_root_.scala.Double]
-    )
-  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.DoubleValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

@@ -24,9 +24,6 @@ trait GeneratedEnum extends Any with Product with Serializable {
 
   def isUnrecognized: Boolean = false
 
-  @deprecated("Use javaValueDescriptor", "ScalaPB 0.5.47")
-  def valueDescriptor: JavaDescriptors.EnumValueDescriptor = javaValueDescriptor
-
   def javaValueDescriptor: JavaDescriptors.EnumValueDescriptor =
     companion.javaDescriptor.getValues.get(index)
 
@@ -53,11 +50,6 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
 
-  @deprecated(
-    "Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.",
-    "ScalaPB 0.5.47"
-  )
-  def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = javaDescriptor
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor
 }
@@ -99,13 +91,6 @@ trait GeneratedMessage extends Any with Serializable {
 
   def getFieldByNumber(fieldNumber: Int): Any
 
-  // Using a Java field descriptor.
-  @deprecated("Use getField that accepts a ScalaPB descriptor and returns PValue", "0.6.0")
-  def getField(field: com.google.protobuf.Descriptors.FieldDescriptor): Any = {
-    require(field.getContainingType eq companion.javaDescriptor)
-    getFieldByNumber(field.getNumber)
-  }
-
   // Using a Scala field descriptor.
   def getField(field: _root_.scalapb.descriptors.FieldDescriptor): PValue
 
@@ -115,25 +100,6 @@ trait GeneratedMessage extends Any with Serializable {
     }.toMap)
 
   def companion: GeneratedMessageCompanion[_]
-
-  @deprecated("Use toPMessage", "0.6.0")
-  def getAllFields: Map[JavaDescriptors.FieldDescriptor, Any] = {
-    val b = Map.newBuilder[JavaDescriptors.FieldDescriptor, Any]
-    b.sizeHint(companion.javaDescriptor.getFields.size)
-    val i = companion.javaDescriptor.getFields.iterator
-    while (i.hasNext) {
-      val f = i.next()
-      if (f.getType != JavaDescriptors.FieldDescriptor.Type.GROUP) {
-        getField(f) match {
-          case null                         => {}
-          case bs: ByteString if bs.isEmpty => b += (f -> bs)
-          case Nil                          => {}
-          case v                            => b += (f -> v)
-        }
-      }
-    }
-    b.result()
-  }
 
   def toByteArray: Array[Byte] = {
     val a            = new Array[Byte](serializedSize)
@@ -213,15 +179,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
-
-  @deprecated("Use messageReads", "0.6.0")
-  def fromFieldsMap(fields: Map[JavaDescriptors.FieldDescriptor, Any]): A
-
-  @deprecated(
-    "Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.",
-    "ScalaPB 0.5.47"
-  )
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = javaDescriptor
 
   def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
 
