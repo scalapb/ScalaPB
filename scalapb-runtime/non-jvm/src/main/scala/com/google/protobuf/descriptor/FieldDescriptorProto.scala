@@ -47,7 +47,7 @@ final case class FieldDescriptorProto(
     jsonName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[FieldDescriptorProto] with scalapb.lenses.Updatable[FieldDescriptorProto] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -148,64 +148,6 @@ final case class FieldDescriptorProto(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldDescriptorProto = {
-      var __name = this.name
-      var __number = this.number
-      var __label = this.label
-      var __type = this.`type`
-      var __typeName = this.typeName
-      var __extendee = this.extendee
-      var __defaultValue = this.defaultValue
-      var __oneofIndex = this.oneofIndex
-      var __jsonName = this.jsonName
-      var __options = this.options
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __name = Option(_input__.readStringRequireUtf8())
-          case 24 =>
-            __number = Option(_input__.readInt32())
-          case 32 =>
-            __label = Option(com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum()))
-          case 40 =>
-            __type = Option(com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum()))
-          case 50 =>
-            __typeName = Option(_input__.readStringRequireUtf8())
-          case 18 =>
-            __extendee = Option(_input__.readStringRequireUtf8())
-          case 58 =>
-            __defaultValue = Option(_input__.readStringRequireUtf8())
-          case 72 =>
-            __oneofIndex = Option(_input__.readInt32())
-          case 82 =>
-            __jsonName = Option(_input__.readStringRequireUtf8())
-          case 66 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.FieldDescriptorProto(
-          name = __name,
-          number = __number,
-          label = __label,
-          `type` = __type,
-          typeName = __typeName,
-          extendee = __extendee,
-          defaultValue = __defaultValue,
-          oneofIndex = __oneofIndex,
-          jsonName = __jsonName,
-          options = __options,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: FieldDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): FieldDescriptorProto = copy(name = Option(__v))
@@ -273,6 +215,64 @@ final case class FieldDescriptorProto(
 
 object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] = this
+  def merge(`_message__`: com.google.protobuf.descriptor.FieldDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldDescriptorProto = {
+    var __name = `_message__`.name
+    var __number = `_message__`.number
+    var __label = `_message__`.label
+    var __type = `_message__`.`type`
+    var __typeName = `_message__`.typeName
+    var __extendee = `_message__`.extendee
+    var __defaultValue = `_message__`.defaultValue
+    var __oneofIndex = `_message__`.oneofIndex
+    var __jsonName = `_message__`.jsonName
+    var __options = `_message__`.options
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __name = Option(_input__.readStringRequireUtf8())
+        case 24 =>
+          __number = Option(_input__.readInt32())
+        case 32 =>
+          __label = Option(com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum()))
+        case 40 =>
+          __type = Option(com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum()))
+        case 50 =>
+          __typeName = Option(_input__.readStringRequireUtf8())
+        case 18 =>
+          __extendee = Option(_input__.readStringRequireUtf8())
+        case 58 =>
+          __defaultValue = Option(_input__.readStringRequireUtf8())
+        case 72 =>
+          __oneofIndex = Option(_input__.readInt32())
+        case 82 =>
+          __jsonName = Option(_input__.readStringRequireUtf8())
+        case 66 =>
+          __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.descriptor.FieldDescriptorProto(
+        name = __name,
+        number = __number,
+        label = __label,
+        `type` = __type,
+        typeName = __typeName,
+        extendee = __extendee,
+        defaultValue = __defaultValue,
+        oneofIndex = __oneofIndex,
+        jsonName = __jsonName,
+        options = __options,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

@@ -16,7 +16,7 @@ package com.google.protobuf.source_context
 final case class SourceContext(
     fileName: _root_.scala.Predef.String = "",
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[SourceContext] with scalapb.lenses.Updatable[SourceContext] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SourceContext] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -47,28 +47,6 @@ final case class SourceContext(
         }
       };
       unknownFields.writeTo(_output__)
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.source_context.SourceContext = {
-      var __fileName = this.fileName
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __fileName = _input__.readStringRequireUtf8()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.source_context.SourceContext(
-          fileName = __fileName,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
     }
     def withFileName(__v: _root_.scala.Predef.String): SourceContext = copy(fileName = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
@@ -101,6 +79,28 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
   def fromJavaProto(javaPbSource: com.google.protobuf.SourceContext): com.google.protobuf.source_context.SourceContext = com.google.protobuf.source_context.SourceContext(
     fileName = javaPbSource.getFileName
   )
+  def merge(`_message__`: com.google.protobuf.source_context.SourceContext, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.source_context.SourceContext = {
+    var __fileName = `_message__`.fileName
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __fileName = _input__.readStringRequireUtf8()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.source_context.SourceContext(
+        fileName = __fileName,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.source_context.SourceContext] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

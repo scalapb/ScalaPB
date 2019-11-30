@@ -14,13 +14,19 @@
   this data will not be lost. When this feature is disabled, unknown fields
   are dropped.
 
+- Deprecated `Message[T]`. Up to 0.10.x, generated messages would extend
+  `GeneratedMessage with Message[T]`. The additional `with Message[T]` added
+  noise to the code and did not provide much value. In 0.10.x, `Message[T]` is
+  a type-alias to `Any` for source compatibility.
+
 - BREAKING CHANGE: in earlier version, constructor parameters for oneofs were
   always generated after all the regular fields. From this version of ScalaPB,
   oneofs are generated in the position that matches their index in the proto
   file.
 
 - BREAKING CHANGE: Enums case objects now extend a sealed abstract base class
-  instead of a sealed trait for improved performance.
+  instead of a sealed trait for improved performance. This breaks binary
+  compatibility for the generated code. Source should remained compatible.
 
 - Strings are now parsed using CodedInputStream.readStringRequireUtf8 instead
   of CodedInputStream.readString (following protobuf-java)

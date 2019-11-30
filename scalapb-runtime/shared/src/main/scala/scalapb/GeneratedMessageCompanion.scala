@@ -126,10 +126,6 @@ trait GeneratedMessage extends Any with Serializable {
   def toProtoString: String
 }
 
-trait Message[A] extends Any {
-  def mergeFrom(input: CodedInputStream): A
-}
-
 trait ExtendableMessage[A <: ExtendableMessage[A]] extends Updatable[A] {
   self: A =>
   def unknownFields: _root_.scalapb.UnknownFieldSet
@@ -153,18 +149,19 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
   def toJavaProto(scalaProto: ScalaPB): JavaPB
 }
 
-trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
+trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   type ValueType = A
+  def merge(a: A, input: CodedInputStream): A
 
-  def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
+  def parseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
 
   def parseDelimitedFrom(input: CodedInputStream): Option[A] =
-    LiteParser.parseDelimitedFrom(this, input)
+    LiteParser.parseDelimitedFrom(input)(this)
 
   def parseDelimitedFrom(input: InputStream): Option[A] =
-    LiteParser.parseDelimitedFrom(this, input)
+    LiteParser.parseDelimitedFrom(input)(this)
 
   // Creates a stream that parses one message at a time from the delimited input stream.
   def streamFromDelimitedInput(input: InputStream): Stream[A] = {
@@ -222,8 +219,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def defaultInstance: A
 }
 
-case class KeyValue[K, V](key: K, value: V)
-
 abstract class GeneratedFileObject {
   def scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor
   def javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor
@@ -235,7 +230,7 @@ abstract class GeneratedFileObject {
 }
 
 trait GeneratedSealedOneof extends Any with Product with Serializable {
-  type MessageType <: GeneratedMessage with Message[MessageType]
+  type MessageType <: GeneratedMessage
   def isEmpty: Boolean
   def isDefined: Boolean
   def asMessage: MessageType

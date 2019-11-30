@@ -9,7 +9,7 @@ package mytypes.duration
 final case class Duration(
     seconds: _root_.scala.Int = 0,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[Duration] with scalapb.lenses.Updatable[Duration] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Duration] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -41,28 +41,6 @@ final case class Duration(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = {
-      var __seconds = this.seconds
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __seconds = _input__.readInt32()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      mytypes.duration.Duration(
-          seconds = __seconds,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def withSeconds(__v: _root_.scala.Int): Duration = copy(seconds = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
@@ -86,6 +64,28 @@ final case class Duration(
 
 object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] = this
+  def merge(`_message__`: mytypes.duration.Duration, `_input__`: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = {
+    var __seconds = `_message__`.seconds
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 8 =>
+          __seconds = _input__.readInt32()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    mytypes.duration.Duration(
+        seconds = __seconds,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[mytypes.duration.Duration] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

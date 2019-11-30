@@ -16,7 +16,7 @@ package com.google.protobuf.wrappers
 final case class DoubleValue(
     value: _root_.scala.Double = 0.0,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[DoubleValue] with scalapb.lenses.Updatable[DoubleValue] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[DoubleValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -47,28 +47,6 @@ final case class DoubleValue(
         }
       };
       unknownFields.writeTo(_output__)
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.DoubleValue = {
-      var __value = this.value
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 9 =>
-            __value = _input__.readDouble()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.wrappers.DoubleValue(
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
     }
     def withValue(__v: _root_.scala.Double): DoubleValue = copy(value = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
@@ -101,6 +79,28 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def fromJavaProto(javaPbSource: com.google.protobuf.DoubleValue): com.google.protobuf.wrappers.DoubleValue = com.google.protobuf.wrappers.DoubleValue(
     value = javaPbSource.getValue.doubleValue
   )
+  def merge(`_message__`: com.google.protobuf.wrappers.DoubleValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.DoubleValue = {
+    var __value = `_message__`.value
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 9 =>
+          __value = _input__.readDouble()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.wrappers.DoubleValue(
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.DoubleValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

@@ -26,7 +26,7 @@ final case class UninterpretedOption(
     stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString] = _root_.scala.None,
     aggregateValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[UninterpretedOption] with scalapb.lenses.Updatable[UninterpretedOption] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[UninterpretedOption] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -103,52 +103,6 @@ final case class UninterpretedOption(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = {
-      val __name = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= this.name)
-      var __identifierValue = this.identifierValue
-      var __positiveIntValue = this.positiveIntValue
-      var __negativeIntValue = this.negativeIntValue
-      var __doubleValue = this.doubleValue
-      var __stringValue = this.stringValue
-      var __aggregateValue = this.aggregateValue
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 18 =>
-            __name += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
-          case 26 =>
-            __identifierValue = Option(_input__.readStringRequireUtf8())
-          case 32 =>
-            __positiveIntValue = Option(_input__.readUInt64())
-          case 40 =>
-            __negativeIntValue = Option(_input__.readInt64())
-          case 49 =>
-            __doubleValue = Option(_input__.readDouble())
-          case 58 =>
-            __stringValue = Option(_input__.readBytes())
-          case 66 =>
-            __aggregateValue = Option(_input__.readStringRequireUtf8())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.UninterpretedOption(
-          name = __name.result(),
-          identifierValue = __identifierValue,
-          positiveIntValue = __positiveIntValue,
-          negativeIntValue = __negativeIntValue,
-          doubleValue = __doubleValue,
-          stringValue = __stringValue,
-          aggregateValue = __aggregateValue,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def clearName = copy(name = _root_.scala.Seq.empty)
     def addName(__vs: com.google.protobuf.descriptor.UninterpretedOption.NamePart*): UninterpretedOption = addAllName(__vs)
     def addAllName(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = name ++ __vs)
@@ -202,6 +156,52 @@ final case class UninterpretedOption(
 
 object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] = this
+  def merge(`_message__`: com.google.protobuf.descriptor.UninterpretedOption, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = {
+    val __name = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= `_message__`.name)
+    var __identifierValue = `_message__`.identifierValue
+    var __positiveIntValue = `_message__`.positiveIntValue
+    var __negativeIntValue = `_message__`.negativeIntValue
+    var __doubleValue = `_message__`.doubleValue
+    var __stringValue = `_message__`.stringValue
+    var __aggregateValue = `_message__`.aggregateValue
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 18 =>
+          __name += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
+        case 26 =>
+          __identifierValue = Option(_input__.readStringRequireUtf8())
+        case 32 =>
+          __positiveIntValue = Option(_input__.readUInt64())
+        case 40 =>
+          __negativeIntValue = Option(_input__.readInt64())
+        case 49 =>
+          __doubleValue = Option(_input__.readDouble())
+        case 58 =>
+          __stringValue = Option(_input__.readBytes())
+        case 66 =>
+          __aggregateValue = Option(_input__.readStringRequireUtf8())
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.descriptor.UninterpretedOption(
+        name = __name.result(),
+        identifierValue = __identifierValue,
+        positiveIntValue = __positiveIntValue,
+        negativeIntValue = __negativeIntValue,
+        doubleValue = __doubleValue,
+        stringValue = __stringValue,
+        aggregateValue = __aggregateValue,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -250,7 +250,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       namePart: _root_.scala.Predef.String,
       isExtension: _root_.scala.Boolean,
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-      ) extends scalapb.GeneratedMessage with scalapb.Message[NamePart] with scalapb.lenses.Updatable[NamePart] {
+      ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[NamePart] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -289,36 +289,6 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         };
         unknownFields.writeTo(_output__)
       }
-      def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
-        var __namePart = this.namePart
-        var __isExtension = this.isExtension
-        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-        var __requiredFields0: _root_.scala.Long = 0x3L
-        var _done__ = false
-        while (!_done__) {
-          val _tag__ = _input__.readTag()
-          _tag__ match {
-            case 0 => _done__ = true
-            case 10 =>
-              __namePart = _input__.readStringRequireUtf8()
-              __requiredFields0 &= 0xfffffffffffffffeL
-            case 16 =>
-              __isExtension = _input__.readBool()
-              __requiredFields0 &= 0xfffffffffffffffdL
-            case tag =>
-              if (_unknownFields__ == null) {
-                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-              }
-              _unknownFields__.parseField(tag, _input__)
-          }
-        }
-        if (__requiredFields0 != 0L) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } 
-        com.google.protobuf.descriptor.UninterpretedOption.NamePart(
-            namePart = __namePart,
-            isExtension = __isExtension,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-        )
-      }
       def withNamePart(__v: _root_.scala.Predef.String): NamePart = copy(namePart = __v)
       def withIsExtension(__v: _root_.scala.Boolean): NamePart = copy(isExtension = __v)
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
@@ -342,6 +312,36 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   
   object NamePart extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = this
+    def merge(`_message__`: com.google.protobuf.descriptor.UninterpretedOption.NamePart, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
+      var __namePart = `_message__`.namePart
+      var __isExtension = `_message__`.isExtension
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+      var __requiredFields0: _root_.scala.Long = 0x3L
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __namePart = _input__.readStringRequireUtf8()
+            __requiredFields0 &= 0xfffffffffffffffeL
+          case 16 =>
+            __isExtension = _input__.readBool()
+            __requiredFields0 &= 0xfffffffffffffffdL
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      if (__requiredFields0 != 0L) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } 
+      com.google.protobuf.descriptor.UninterpretedOption.NamePart(
+          namePart = __namePart,
+          isExtension = __isExtension,
+          unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+      )
+    }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

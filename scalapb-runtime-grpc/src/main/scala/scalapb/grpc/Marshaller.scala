@@ -4,7 +4,7 @@ import java.io.{ByteArrayInputStream, InputStream}
 
 import scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message, TypeMapper}
 
-class Marshaller[T <: GeneratedMessage with Message[T]](companion: GeneratedMessageCompanion[T])
+class Marshaller[T <: GeneratedMessage](companion: GeneratedMessageCompanion[T])
     extends io.grpc.MethodDescriptor.Marshaller[T] {
   override def stream(t: T): InputStream = new ByteArrayInputStream(t.toByteArray)
 
@@ -12,7 +12,7 @@ class Marshaller[T <: GeneratedMessage with Message[T]](companion: GeneratedMess
     companion.parseFrom(inputStream)
 }
 
-class TypeMappedMarshaller[T <: GeneratedMessage with Message[T], Custom](
+class TypeMappedMarshaller[T <: GeneratedMessage, Custom](
     typeMapper: TypeMapper[T, Custom],
     companion: GeneratedMessageCompanion[T]
 ) extends io.grpc.MethodDescriptor.Marshaller[Custom] {
@@ -24,12 +24,12 @@ class TypeMappedMarshaller[T <: GeneratedMessage with Message[T], Custom](
 }
 
 object Marshaller {
-  def forMessage[T <: GeneratedMessage with Message[T]](
+  def forMessage[T <: GeneratedMessage](
       implicit companion: GeneratedMessageCompanion[T]
   ) =
     new Marshaller[T](companion)
 
-  def forTypeMappedType[T <: GeneratedMessage with Message[T], Custom](
+  def forTypeMappedType[T <: GeneratedMessage, Custom](
       implicit typeMapper: TypeMapper[T, Custom],
       companion: GeneratedMessageCompanion[T]
   ) =

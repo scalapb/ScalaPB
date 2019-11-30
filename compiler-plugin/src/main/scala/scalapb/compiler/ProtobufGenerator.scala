@@ -754,21 +754,21 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
-  def generateMergeFrom(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+  def generateMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
     val requiredFieldMap: Map[FieldDescriptor, Int] =
       message.fields.filter(_.isRequired).zipWithIndex.toMap
     printer
       .add(
-        s"def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = {"
+        s"def merge(`_message__`: $myFullScalaName, `_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = {"
       )
       .indent
       .print(message.fieldsWithoutOneofs)((printer, field) =>
         if (!field.isRepeated)
-          printer.add(s"var __${field.scalaName} = this.${field.scalaName.asSymbol}")
+          printer.add(s"var __${field.scalaName} = `_message__`.${field.scalaName.asSymbol}")
         else
           printer.add(
-            s"val __${field.scalaName} = (${field.collectionBuilder} ++= this.${field.scalaName.asSymbol})"
+            s"val __${field.scalaName} = (${field.collectionBuilder} ++= `_message__`.${field.scalaName.asSymbol})"
           )
       )
       .when(message.preservesUnknownFields)(
@@ -790,7 +790,7 @@ class ProtobufGenerator(
         }
       }
       .print(message.getOneofs.asScala)((printer, oneof) =>
-        printer.add(s"var __${oneof.scalaName.name} = this.${oneof.scalaName.nameSymbol}")
+        printer.add(s"var __${oneof.scalaName.name} = `_message__`.${oneof.scalaName.nameSymbol}")
       )
       .add(s"""var _done__ = false
               |while (!_done__) {
@@ -807,7 +807,7 @@ class ProtobufGenerator(
               else {
                 val expr =
                   if (field.isInOneof)
-                    fieldAccessorSymbol(field)
+                    s"_message__.${fieldAccessorSymbol(field)}"
                   else s"__${field.scalaName}"
                 val mappedType =
                   toBaseFieldType(field).apply(expr, field.enclosingType)
@@ -866,7 +866,7 @@ class ProtobufGenerator(
         _.add(
           """    case tag =>
             |      if (_unknownFields__ == null) {
-            |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
             |      }
             |      _unknownFields__.parseField(tag, _input__)""".stripMargin
         )
@@ -1379,6 +1379,7 @@ class ProtobufGenerator(
       .indent
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))
+      .call(generateMerge(message))
       .call(generateMessageReads(message))
       .call(generateDescriptors(message))
       .call(generateMessageCompanionForField(message))
@@ -1442,7 +1443,6 @@ class ProtobufGenerator(
       .call(generateSerializedSizeForPackedFields(message))
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
-      .call(generateMergeFrom(message))
       .print(message.fields) {
         case (printer, field) =>
           val withMethod  = "with" + field.upperScalaName

@@ -9,7 +9,7 @@ package com.thesamet.docs.json
 final case class MyContainer(
     myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[MyContainer] with scalapb.lenses.Updatable[MyContainer] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MyContainer] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -38,28 +38,6 @@ final case class MyContainer(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyContainer = {
-      var __myAny = this.myAny
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __myAny = Option(_root_.scalapb.LiteParser.readMessage(_input__, __myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.thesamet.docs.json.MyContainer(
-          myAny = __myAny,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def getMyAny: com.google.protobuf.any.Any = myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)
     def clearMyAny: MyContainer = copy(myAny = _root_.scala.None)
     def withMyAny(__v: com.google.protobuf.any.Any): MyContainer = copy(myAny = Option(__v))
@@ -82,6 +60,28 @@ final case class MyContainer(
 
 object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] = this
+  def merge(`_message__`: com.thesamet.docs.json.MyContainer, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyContainer = {
+    var __myAny = `_message__`.myAny
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __myAny = Option(_root_.scalapb.LiteParser.readMessage(_input__, __myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.thesamet.docs.json.MyContainer(
+        myAny = __myAny,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.thesamet.docs.json.MyContainer] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

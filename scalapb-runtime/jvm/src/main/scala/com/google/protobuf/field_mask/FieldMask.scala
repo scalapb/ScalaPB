@@ -213,7 +213,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 final case class FieldMask(
     paths: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[FieldMask] with scalapb.lenses.Updatable[FieldMask] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldMask] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -239,28 +239,6 @@ final case class FieldMask(
         _output__.writeString(1, __m)
       };
       unknownFields.writeTo(_output__)
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.field_mask.FieldMask = {
-      val __paths = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.paths)
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __paths += _input__.readStringRequireUtf8()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.field_mask.FieldMask(
-          paths = __paths.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
     }
     def clearPaths = copy(paths = _root_.scala.Seq.empty)
     def addPaths(__vs: _root_.scala.Predef.String*): FieldMask = addAllPaths(__vs)
@@ -293,6 +271,28 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
   def fromJavaProto(javaPbSource: com.google.protobuf.FieldMask): com.google.protobuf.field_mask.FieldMask = com.google.protobuf.field_mask.FieldMask(
     paths = javaPbSource.getPathsList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq
   )
+  def merge(`_message__`: com.google.protobuf.field_mask.FieldMask, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.field_mask.FieldMask = {
+    val __paths = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= `_message__`.paths)
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __paths += _input__.readStringRequireUtf8()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.field_mask.FieldMask(
+        paths = __paths.result(),
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.field_mask.FieldMask] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

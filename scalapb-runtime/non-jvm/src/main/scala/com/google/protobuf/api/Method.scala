@@ -32,7 +32,7 @@ final case class Method(
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[Method] with scalapb.lenses.Updatable[Method] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Method] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -139,52 +139,6 @@ final case class Method(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = {
-      var __name = this.name
-      var __requestTypeUrl = this.requestTypeUrl
-      var __requestStreaming = this.requestStreaming
-      var __responseTypeUrl = this.responseTypeUrl
-      var __responseStreaming = this.responseStreaming
-      val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
-      var __syntax = this.syntax
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __name = _input__.readStringRequireUtf8()
-          case 18 =>
-            __requestTypeUrl = _input__.readStringRequireUtf8()
-          case 24 =>
-            __requestStreaming = _input__.readBool()
-          case 34 =>
-            __responseTypeUrl = _input__.readStringRequireUtf8()
-          case 40 =>
-            __responseStreaming = _input__.readBool()
-          case 50 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
-          case 56 =>
-            __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.api.Method(
-          name = __name,
-          requestTypeUrl = __requestTypeUrl,
-          requestStreaming = __requestStreaming,
-          responseTypeUrl = __responseTypeUrl,
-          responseStreaming = __responseStreaming,
-          options = __options.result(),
-          syntax = __syntax,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def withName(__v: _root_.scala.Predef.String): Method = copy(name = __v)
     def withRequestTypeUrl(__v: _root_.scala.Predef.String): Method = copy(requestTypeUrl = __v)
     def withRequestStreaming(__v: _root_.scala.Boolean): Method = copy(requestStreaming = __v)
@@ -244,6 +198,52 @@ final case class Method(
 
 object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] = this
+  def merge(`_message__`: com.google.protobuf.api.Method, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = {
+    var __name = `_message__`.name
+    var __requestTypeUrl = `_message__`.requestTypeUrl
+    var __requestStreaming = `_message__`.requestStreaming
+    var __responseTypeUrl = `_message__`.responseTypeUrl
+    var __responseStreaming = `_message__`.responseStreaming
+    val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= `_message__`.options)
+    var __syntax = `_message__`.syntax
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __name = _input__.readStringRequireUtf8()
+        case 18 =>
+          __requestTypeUrl = _input__.readStringRequireUtf8()
+        case 24 =>
+          __requestStreaming = _input__.readBool()
+        case 34 =>
+          __responseTypeUrl = _input__.readStringRequireUtf8()
+        case 40 =>
+          __responseStreaming = _input__.readBool()
+        case 50 =>
+          __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+        case 56 =>
+          __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.api.Method(
+        name = __name,
+        requestTypeUrl = __requestTypeUrl,
+        requestStreaming = __requestStreaming,
+        responseTypeUrl = __responseTypeUrl,
+        responseStreaming = __responseStreaming,
+        options = __options.result(),
+        syntax = __syntax,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.api.Method] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

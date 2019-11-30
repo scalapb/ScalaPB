@@ -32,7 +32,7 @@ final case class FieldOptions(
     mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[FieldOptions] with scalapb.lenses.Updatable[FieldOptions] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -115,56 +115,6 @@ final case class FieldOptions(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = {
-      var __type = this.`type`
-      var __scalaName = this.scalaName
-      var __collectionType = this.collectionType
-      var __keyType = this.keyType
-      var __valueType = this.valueType
-      val __annotations = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.annotations)
-      var __mapType = this.mapType
-      var __noBox = this.noBox
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __type = Option(_input__.readStringRequireUtf8())
-          case 18 =>
-            __scalaName = Option(_input__.readStringRequireUtf8())
-          case 26 =>
-            __collectionType = Option(_input__.readStringRequireUtf8())
-          case 34 =>
-            __keyType = Option(_input__.readStringRequireUtf8())
-          case 42 =>
-            __valueType = Option(_input__.readStringRequireUtf8())
-          case 50 =>
-            __annotations += _input__.readStringRequireUtf8()
-          case 58 =>
-            __mapType = Option(_input__.readStringRequireUtf8())
-          case 240 =>
-            __noBox = Option(_input__.readBool())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      scalapb.options.FieldOptions(
-          `type` = __type,
-          scalaName = __scalaName,
-          collectionType = __collectionType,
-          keyType = __keyType,
-          valueType = __valueType,
-          annotations = __annotations.result(),
-          mapType = __mapType,
-          noBox = __noBox,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: FieldOptions = copy(`type` = _root_.scala.None)
     def withType(__v: _root_.scala.Predef.String): FieldOptions = copy(`type` = Option(__v))
@@ -223,6 +173,56 @@ final case class FieldOptions(
 
 object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.FieldOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.FieldOptions] = this
+  def merge(`_message__`: scalapb.options.FieldOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = {
+    var __type = `_message__`.`type`
+    var __scalaName = `_message__`.scalaName
+    var __collectionType = `_message__`.collectionType
+    var __keyType = `_message__`.keyType
+    var __valueType = `_message__`.valueType
+    val __annotations = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= `_message__`.annotations)
+    var __mapType = `_message__`.mapType
+    var __noBox = `_message__`.noBox
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __type = Option(_input__.readStringRequireUtf8())
+        case 18 =>
+          __scalaName = Option(_input__.readStringRequireUtf8())
+        case 26 =>
+          __collectionType = Option(_input__.readStringRequireUtf8())
+        case 34 =>
+          __keyType = Option(_input__.readStringRequireUtf8())
+        case 42 =>
+          __valueType = Option(_input__.readStringRequireUtf8())
+        case 50 =>
+          __annotations += _input__.readStringRequireUtf8()
+        case 58 =>
+          __mapType = Option(_input__.readStringRequireUtf8())
+        case 240 =>
+          __noBox = Option(_input__.readBool())
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    scalapb.options.FieldOptions(
+        `type` = __type,
+        scalaName = __scalaName,
+        collectionType = __collectionType,
+        keyType = __keyType,
+        valueType = __valueType,
+        annotations = __annotations.result(),
+        mapType = __mapType,
+        noBox = __noBox,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.FieldOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

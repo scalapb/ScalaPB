@@ -111,7 +111,7 @@ final case class FileOptions(
     rubyPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[FileOptions] with scalapb.lenses.Updatable[FileOptions] with _root_.scalapb.ExtendableMessage[FileOptions] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileOptions] with _root_.scalapb.ExtendableMessage[FileOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -300,108 +300,6 @@ final case class FileOptions(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = {
-      var __javaPackage = this.javaPackage
-      var __javaOuterClassname = this.javaOuterClassname
-      var __javaMultipleFiles = this.javaMultipleFiles
-      var __javaGenerateEqualsAndHash = this.javaGenerateEqualsAndHash
-      var __javaStringCheckUtf8 = this.javaStringCheckUtf8
-      var __optimizeFor = this.optimizeFor
-      var __goPackage = this.goPackage
-      var __ccGenericServices = this.ccGenericServices
-      var __javaGenericServices = this.javaGenericServices
-      var __pyGenericServices = this.pyGenericServices
-      var __phpGenericServices = this.phpGenericServices
-      var __deprecated = this.deprecated
-      var __ccEnableArenas = this.ccEnableArenas
-      var __objcClassPrefix = this.objcClassPrefix
-      var __csharpNamespace = this.csharpNamespace
-      var __swiftPrefix = this.swiftPrefix
-      var __phpClassPrefix = this.phpClassPrefix
-      var __phpNamespace = this.phpNamespace
-      var __phpMetadataNamespace = this.phpMetadataNamespace
-      var __rubyPackage = this.rubyPackage
-      val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __javaPackage = Option(_input__.readStringRequireUtf8())
-          case 66 =>
-            __javaOuterClassname = Option(_input__.readStringRequireUtf8())
-          case 80 =>
-            __javaMultipleFiles = Option(_input__.readBool())
-          case 160 =>
-            __javaGenerateEqualsAndHash = Option(_input__.readBool())
-          case 216 =>
-            __javaStringCheckUtf8 = Option(_input__.readBool())
-          case 72 =>
-            __optimizeFor = Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
-          case 90 =>
-            __goPackage = Option(_input__.readStringRequireUtf8())
-          case 128 =>
-            __ccGenericServices = Option(_input__.readBool())
-          case 136 =>
-            __javaGenericServices = Option(_input__.readBool())
-          case 144 =>
-            __pyGenericServices = Option(_input__.readBool())
-          case 336 =>
-            __phpGenericServices = Option(_input__.readBool())
-          case 184 =>
-            __deprecated = Option(_input__.readBool())
-          case 248 =>
-            __ccEnableArenas = Option(_input__.readBool())
-          case 290 =>
-            __objcClassPrefix = Option(_input__.readStringRequireUtf8())
-          case 298 =>
-            __csharpNamespace = Option(_input__.readStringRequireUtf8())
-          case 314 =>
-            __swiftPrefix = Option(_input__.readStringRequireUtf8())
-          case 322 =>
-            __phpClassPrefix = Option(_input__.readStringRequireUtf8())
-          case 330 =>
-            __phpNamespace = Option(_input__.readStringRequireUtf8())
-          case 354 =>
-            __phpMetadataNamespace = Option(_input__.readStringRequireUtf8())
-          case 362 =>
-            __rubyPackage = Option(_input__.readStringRequireUtf8())
-          case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.FileOptions(
-          javaPackage = __javaPackage,
-          javaOuterClassname = __javaOuterClassname,
-          javaMultipleFiles = __javaMultipleFiles,
-          javaGenerateEqualsAndHash = __javaGenerateEqualsAndHash,
-          javaStringCheckUtf8 = __javaStringCheckUtf8,
-          optimizeFor = __optimizeFor,
-          goPackage = __goPackage,
-          ccGenericServices = __ccGenericServices,
-          javaGenericServices = __javaGenericServices,
-          pyGenericServices = __pyGenericServices,
-          phpGenericServices = __phpGenericServices,
-          deprecated = __deprecated,
-          ccEnableArenas = __ccEnableArenas,
-          objcClassPrefix = __objcClassPrefix,
-          csharpNamespace = __csharpNamespace,
-          swiftPrefix = __swiftPrefix,
-          phpClassPrefix = __phpClassPrefix,
-          phpNamespace = __phpNamespace,
-          phpMetadataNamespace = __phpMetadataNamespace,
-          rubyPackage = __rubyPackage,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def getJavaPackage: _root_.scala.Predef.String = javaPackage.getOrElse("")
     def clearJavaPackage: FileOptions = copy(javaPackage = _root_.scala.None)
     def withJavaPackage(__v: _root_.scala.Predef.String): FileOptions = copy(javaPackage = Option(__v))
@@ -573,6 +471,108 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     rubyPackage = if (javaPbSource.hasRubyPackage) Some(javaPbSource.getRubyPackage) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto).toSeq
   )
+  def merge(`_message__`: com.google.protobuf.descriptor.FileOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = {
+    var __javaPackage = `_message__`.javaPackage
+    var __javaOuterClassname = `_message__`.javaOuterClassname
+    var __javaMultipleFiles = `_message__`.javaMultipleFiles
+    var __javaGenerateEqualsAndHash = `_message__`.javaGenerateEqualsAndHash
+    var __javaStringCheckUtf8 = `_message__`.javaStringCheckUtf8
+    var __optimizeFor = `_message__`.optimizeFor
+    var __goPackage = `_message__`.goPackage
+    var __ccGenericServices = `_message__`.ccGenericServices
+    var __javaGenericServices = `_message__`.javaGenericServices
+    var __pyGenericServices = `_message__`.pyGenericServices
+    var __phpGenericServices = `_message__`.phpGenericServices
+    var __deprecated = `_message__`.deprecated
+    var __ccEnableArenas = `_message__`.ccEnableArenas
+    var __objcClassPrefix = `_message__`.objcClassPrefix
+    var __csharpNamespace = `_message__`.csharpNamespace
+    var __swiftPrefix = `_message__`.swiftPrefix
+    var __phpClassPrefix = `_message__`.phpClassPrefix
+    var __phpNamespace = `_message__`.phpNamespace
+    var __phpMetadataNamespace = `_message__`.phpMetadataNamespace
+    var __rubyPackage = `_message__`.rubyPackage
+    val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= `_message__`.uninterpretedOption)
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __javaPackage = Option(_input__.readStringRequireUtf8())
+        case 66 =>
+          __javaOuterClassname = Option(_input__.readStringRequireUtf8())
+        case 80 =>
+          __javaMultipleFiles = Option(_input__.readBool())
+        case 160 =>
+          __javaGenerateEqualsAndHash = Option(_input__.readBool())
+        case 216 =>
+          __javaStringCheckUtf8 = Option(_input__.readBool())
+        case 72 =>
+          __optimizeFor = Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
+        case 90 =>
+          __goPackage = Option(_input__.readStringRequireUtf8())
+        case 128 =>
+          __ccGenericServices = Option(_input__.readBool())
+        case 136 =>
+          __javaGenericServices = Option(_input__.readBool())
+        case 144 =>
+          __pyGenericServices = Option(_input__.readBool())
+        case 336 =>
+          __phpGenericServices = Option(_input__.readBool())
+        case 184 =>
+          __deprecated = Option(_input__.readBool())
+        case 248 =>
+          __ccEnableArenas = Option(_input__.readBool())
+        case 290 =>
+          __objcClassPrefix = Option(_input__.readStringRequireUtf8())
+        case 298 =>
+          __csharpNamespace = Option(_input__.readStringRequireUtf8())
+        case 314 =>
+          __swiftPrefix = Option(_input__.readStringRequireUtf8())
+        case 322 =>
+          __phpClassPrefix = Option(_input__.readStringRequireUtf8())
+        case 330 =>
+          __phpNamespace = Option(_input__.readStringRequireUtf8())
+        case 354 =>
+          __phpMetadataNamespace = Option(_input__.readStringRequireUtf8())
+        case 362 =>
+          __rubyPackage = Option(_input__.readStringRequireUtf8())
+        case 7994 =>
+          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.descriptor.FileOptions(
+        javaPackage = __javaPackage,
+        javaOuterClassname = __javaOuterClassname,
+        javaMultipleFiles = __javaMultipleFiles,
+        javaGenerateEqualsAndHash = __javaGenerateEqualsAndHash,
+        javaStringCheckUtf8 = __javaStringCheckUtf8,
+        optimizeFor = __optimizeFor,
+        goPackage = __goPackage,
+        ccGenericServices = __ccGenericServices,
+        javaGenericServices = __javaGenericServices,
+        pyGenericServices = __pyGenericServices,
+        phpGenericServices = __phpGenericServices,
+        deprecated = __deprecated,
+        ccEnableArenas = __ccEnableArenas,
+        objcClassPrefix = __objcClassPrefix,
+        csharpNamespace = __csharpNamespace,
+        swiftPrefix = __swiftPrefix,
+        phpClassPrefix = __phpClassPrefix,
+        phpNamespace = __phpNamespace,
+        phpMetadataNamespace = __phpMetadataNamespace,
+        rubyPackage = __rubyPackage,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

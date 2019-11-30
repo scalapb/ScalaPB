@@ -598,8 +598,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       }
 
       anyVal ++ Seq(
-        "scalapb.GeneratedMessage",
-        s"scalapb.Message[${scalaType.nameSymbol}]"
+        "scalapb.GeneratedMessage"
       ) ++ sealedOneofTrait ++ updatable ++ extendable ++ extendsOption ++ specialMixins
     }
 

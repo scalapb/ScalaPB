@@ -18,7 +18,7 @@ private[scalapb] object AstUtils {
     }
   }
 
-  def parseMessage[T <: GeneratedMessage with Message[T]](
+  def parseMessage[T <: GeneratedMessage](
       v: GeneratedMessageCompanion[T],
       ast: TMessage
   ): Either[AstError, T] = {

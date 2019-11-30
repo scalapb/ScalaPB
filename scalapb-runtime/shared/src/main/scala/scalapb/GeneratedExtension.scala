@@ -13,7 +13,7 @@ case class GeneratedExtension[C <: ExtendableMessage[C], T](lens: Lens[C, T]) ex
 
 object GeneratedExtension {
   /* To be used only be generated code */
-  def readMessageFromByteString[T <: GeneratedMessage with Message[T]](
+  def readMessageFromByteString[T <: GeneratedMessage](
       cmp: GeneratedMessageCompanion[T]
   )(bs: ByteString): T = {
     cmp.parseFrom(bs.newCodedInput())

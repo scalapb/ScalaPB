@@ -256,7 +256,7 @@ object SchemaGenerators {
     println("[DONE]")
   }
 
-  type CompanionWithJavaSupport[A <: GeneratedMessage with Message[A]] =
+  type CompanionWithJavaSupport[A <: GeneratedMessage] =
     GeneratedMessageCompanion[A] with JavaProtoSupport[A, _]
 
   case class CompiledSchema(rootNode: RootNode, rootDir: File) {

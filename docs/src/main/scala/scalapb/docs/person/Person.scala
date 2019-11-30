@@ -11,7 +11,7 @@ final case class Person(
     age: _root_.scala.Int = 0,
     addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[Person] with scalapb.lenses.Updatable[Person] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Person] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -66,36 +66,6 @@ final case class Person(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person = {
-      var __name = this.name
-      var __age = this.age
-      val __addresses = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.docs.person.Person.Address] ++= this.addresses)
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __name = _input__.readStringRequireUtf8()
-          case 16 =>
-            __age = _input__.readInt32()
-          case 26 =>
-            __addresses += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.docs.person.Person.Address.defaultInstance)
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      scalapb.docs.person.Person(
-          name = __name,
-          age = __age,
-          addresses = __addresses.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def withName(__v: _root_.scala.Predef.String): Person = copy(name = __v)
     def withAge(__v: _root_.scala.Int): Person = copy(age = __v)
     def clearAddresses = copy(addresses = _root_.scala.Seq.empty)
@@ -131,6 +101,36 @@ final case class Person(
 
 object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] = this
+  def merge(`_message__`: scalapb.docs.person.Person, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person = {
+    var __name = `_message__`.name
+    var __age = `_message__`.age
+    val __addresses = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.docs.person.Person.Address] ++= `_message__`.addresses)
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __name = _input__.readStringRequireUtf8()
+        case 16 =>
+          __age = _input__.readInt32()
+        case 26 =>
+          __addresses += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.docs.person.Person.Address.defaultInstance)
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    scalapb.docs.person.Person(
+        name = __name,
+        age = __age,
+        addresses = __addresses.result(),
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.docs.person.Person] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -203,7 +203,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       street: _root_.scala.Predef.String = "",
       city: _root_.scala.Predef.String = "",
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-      ) extends scalapb.GeneratedMessage with scalapb.Message[Address] with scalapb.lenses.Updatable[Address] {
+      ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Address] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -261,36 +261,6 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
         };
         unknownFields.writeTo(_output__)
       }
-      def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person.Address = {
-        var __addressType = this.addressType
-        var __street = this.street
-        var __city = this.city
-        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-        var _done__ = false
-        while (!_done__) {
-          val _tag__ = _input__.readTag()
-          _tag__ match {
-            case 0 => _done__ = true
-            case 8 =>
-              __addressType = scalapb.docs.person.Person.AddressType.fromValue(_input__.readEnum())
-            case 18 =>
-              __street = _input__.readStringRequireUtf8()
-            case 26 =>
-              __city = _input__.readStringRequireUtf8()
-            case tag =>
-              if (_unknownFields__ == null) {
-                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-              }
-              _unknownFields__.parseField(tag, _input__)
-          }
-        }
-        scalapb.docs.person.Person.Address(
-            addressType = __addressType,
-            street = __street,
-            city = __city,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-        )
-      }
       def withAddressType(__v: scalapb.docs.person.Person.AddressType): Address = copy(addressType = __v)
       def withStreet(__v: _root_.scala.Predef.String): Address = copy(street = __v)
       def withCity(__v: _root_.scala.Predef.String): Address = copy(city = __v)
@@ -326,6 +296,36 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   
   object Address extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] = this
+    def merge(`_message__`: scalapb.docs.person.Person.Address, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person.Address = {
+      var __addressType = `_message__`.addressType
+      var __street = `_message__`.street
+      var __city = `_message__`.city
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __addressType = scalapb.docs.person.Person.AddressType.fromValue(_input__.readEnum())
+          case 18 =>
+            __street = _input__.readStringRequireUtf8()
+          case 26 =>
+            __city = _input__.readStringRequireUtf8()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      scalapb.docs.person.Person.Address(
+          addressType = __addressType,
+          street = __street,
+          city = __city,
+          unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+      )
+    }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.docs.person.Person.Address] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")

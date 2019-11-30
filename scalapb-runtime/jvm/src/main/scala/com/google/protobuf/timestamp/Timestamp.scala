@@ -101,7 +101,7 @@ final case class Timestamp(
     seconds: _root_.scala.Long = 0L,
     nanos: _root_.scala.Int = 0,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[Timestamp] with scalapb.lenses.Updatable[Timestamp] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Timestamp] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -146,32 +146,6 @@ final case class Timestamp(
       };
       unknownFields.writeTo(_output__)
     }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = {
-      var __seconds = this.seconds
-      var __nanos = this.nanos
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __seconds = _input__.readInt64()
-          case 16 =>
-            __nanos = _input__.readInt32()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.timestamp.Timestamp(
-          seconds = __seconds,
-          nanos = __nanos,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
     def withSeconds(__v: _root_.scala.Long): Timestamp = copy(seconds = __v)
     def withNanos(__v: _root_.scala.Int): Timestamp = copy(nanos = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
@@ -211,6 +185,32 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
     seconds = javaPbSource.getSeconds.longValue,
     nanos = javaPbSource.getNanos.intValue
   )
+  def merge(`_message__`: com.google.protobuf.timestamp.Timestamp, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = {
+    var __seconds = `_message__`.seconds
+    var __nanos = `_message__`.nanos
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 8 =>
+          __seconds = _input__.readInt64()
+        case 16 =>
+          __nanos = _input__.readInt32()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.timestamp.Timestamp(
+        seconds = __seconds,
+        nanos = __nanos,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.timestamp.Timestamp] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
