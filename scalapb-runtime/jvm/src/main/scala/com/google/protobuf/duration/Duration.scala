@@ -129,7 +129,7 @@ final case class Duration(
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = {
       var __seconds = this.seconds
       var __nanos = this.nanos
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -139,13 +139,17 @@ final case class Duration(
             __seconds = _input__.readInt64()
           case 16 =>
             __nanos = _input__.readInt32()
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.duration.Duration(
           seconds = __seconds,
           nanos = __nanos,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def withSeconds(__v: _root_.scala.Long): Duration = copy(seconds = __v)

@@ -79,7 +79,7 @@ final case class EnumValue(
       var __name = this.name
       var __number = this.number
       val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -91,14 +91,18 @@ final case class EnumValue(
             __number = _input__.readInt32()
           case 26 =>
             __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.`type`.EnumValue(
           name = __name,
           number = __number,
           options = __options.result(),
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def withName(__v: _root_.scala.Predef.String): EnumValue = copy(name = __v)

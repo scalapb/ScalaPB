@@ -99,7 +99,7 @@ final case class CodeGeneratorRequest(
       var __parameter = this.parameter
       val __protoFile = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= this.protoFile)
       var __compilerVersion = this.compilerVersion
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -113,7 +113,11 @@ final case class CodeGeneratorRequest(
             __protoFile += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
           case 26 =>
             __compilerVersion = Option(_root_.scalapb.LiteParser.readMessage(_input__, __compilerVersion.getOrElse(com.google.protobuf.compiler.plugin.Version.defaultInstance)))
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
@@ -121,7 +125,7 @@ final case class CodeGeneratorRequest(
           parameter = __parameter,
           protoFile = __protoFile.result(),
           compilerVersion = __compilerVersion,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def clearFileToGenerate = copy(fileToGenerate = _root_.scala.Seq.empty)

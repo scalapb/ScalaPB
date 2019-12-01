@@ -123,7 +123,9 @@ object UnknownFieldSet {
 
     def this(base: UnknownFieldSet) = {
       this()
-      fieldBuilders ++= base.fields.mapValues(Field.Builder.fromField)
+      if (base.fields.nonEmpty) {
+        fieldBuilders ++= base.fields.mapValues(Field.Builder.fromField)
+      }
     }
 
     def result() =

@@ -143,7 +143,7 @@ final case class Mixin(
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Mixin = {
       var __name = this.name
       var __root = this.root
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -153,13 +153,17 @@ final case class Mixin(
             __name = _input__.readString()
           case 18 =>
             __root = _input__.readString()
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.api.Mixin(
           name = __name,
           root = __root,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def withName(__v: _root_.scala.Predef.String): Mixin = copy(name = __v)

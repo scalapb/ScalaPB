@@ -89,7 +89,7 @@ final case class SourceCodeInfo(
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo = {
       val __location = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] ++= this.location)
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -97,12 +97,16 @@ final case class SourceCodeInfo(
           case 0 => _done__ = true
           case 10 =>
             __location += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.SourceCodeInfo.Location.defaultInstance)
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.SourceCodeInfo(
           location = __location.result(),
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def clearLocation = copy(location = _root_.scala.Seq.empty)
@@ -333,7 +337,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         var __leadingComments = this.leadingComments
         var __trailingComments = this.trailingComments
         val __leadingDetachedComments = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.leadingDetachedComments)
-        val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -365,7 +369,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
               __trailingComments = Option(_input__.readString())
             case 50 =>
               __leadingDetachedComments += _input__.readString()
-            case tag => _unknownFields__.parseField(tag, _input__)
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+              }
+              _unknownFields__.parseField(tag, _input__)
           }
         }
         com.google.protobuf.descriptor.SourceCodeInfo.Location(
@@ -374,7 +382,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
             leadingComments = __leadingComments,
             trailingComments = __trailingComments,
             leadingDetachedComments = __leadingDetachedComments.result(),
-            unknownFields = _unknownFields__.result()
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
       def clearPath = copy(path = _root_.scala.Seq.empty)

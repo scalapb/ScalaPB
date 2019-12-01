@@ -74,7 +74,7 @@ final case class Version(
       var __minor = this.minor
       var __patch = this.patch
       var __suffix = this.suffix
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -88,7 +88,11 @@ final case class Version(
             __patch = Option(_input__.readInt32())
           case 34 =>
             __suffix = Option(_input__.readString())
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.compiler.plugin.Version(
@@ -96,7 +100,7 @@ final case class Version(
           minor = __minor,
           patch = __patch,
           suffix = __suffix,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def getMajor: _root_.scala.Int = major.getOrElse(0)

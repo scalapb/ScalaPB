@@ -63,7 +63,7 @@ final case class CodeGeneratorResponse(
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
       var __error = this.error
       val __file = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= this.file)
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -73,13 +73,17 @@ final case class CodeGeneratorResponse(
             __error = Option(_input__.readString())
           case 122 =>
             __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.defaultInstance)
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
           error = __error,
           file = __file.result(),
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def getError: _root_.scala.Predef.String = error.getOrElse("")
@@ -255,7 +259,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
         var __name = this.name
         var __insertionPoint = this.insertionPoint
         var __content = this.content
-        val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -267,14 +271,18 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
               __insertionPoint = Option(_input__.readString())
             case 122 =>
               __content = Option(_input__.readString())
-            case tag => _unknownFields__.parseField(tag, _input__)
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+              }
+              _unknownFields__.parseField(tag, _input__)
           }
         }
         com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
             name = __name,
             insertionPoint = __insertionPoint,
             content = __content,
-            unknownFields = _unknownFields__.result()
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
       def getName: _root_.scala.Predef.String = name.getOrElse("")

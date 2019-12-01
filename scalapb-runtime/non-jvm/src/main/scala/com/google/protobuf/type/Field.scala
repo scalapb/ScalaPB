@@ -200,7 +200,7 @@ final case class Field(
       val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
       var __jsonName = this.jsonName
       var __defaultValue = this.defaultValue
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -226,7 +226,11 @@ final case class Field(
             __jsonName = _input__.readString()
           case 90 =>
             __defaultValue = _input__.readString()
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.`type`.Field(
@@ -240,7 +244,7 @@ final case class Field(
           options = __options.result(),
           jsonName = __jsonName,
           defaultValue = __defaultValue,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def withKind(__v: com.google.protobuf.`type`.Field.Kind): Field = copy(kind = __v)

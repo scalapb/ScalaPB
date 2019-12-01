@@ -767,7 +767,7 @@ class ProtobufGenerator(
       )
       .when(message.preservesUnknownFields)(
         _.add(
-          "val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)"
+          "var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null"
         )
       )
       .when(requiredFieldMap.nonEmpty) { fp =>
@@ -857,7 +857,11 @@ class ProtobufGenerator(
       }
       .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
       .when(message.preservesUnknownFields)(
-        _.add("    case tag => _unknownFields__.parseField(tag, _input__)")
+        _.add("""    case tag =>
+                |      if (_unknownFields__ == null) {
+                |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+                |      }
+                |      _unknownFields__.parseField(tag, _input__)""".stripMargin)
       )
       .add("  }")
       .add("}")
@@ -879,7 +883,7 @@ class ProtobufGenerator(
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
           case e: OneofDescriptor =>
             s"  ${e.scalaName.nameSymbol} = __${e.scalaName.name}"
-        } ++ (if (message.preservesUnknownFields) Seq("  unknownFields = _unknownFields__.result()")
+        } ++ (if (message.preservesUnknownFields) Seq("  unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()")
               else Seq())
       )
       .outdent

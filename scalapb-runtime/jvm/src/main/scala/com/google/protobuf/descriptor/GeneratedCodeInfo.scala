@@ -49,7 +49,7 @@ final case class GeneratedCodeInfo(
     }
     def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = {
       val __annotation = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= this.annotation)
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -57,12 +57,16 @@ final case class GeneratedCodeInfo(
           case 0 => _done__ = true
           case 10 =>
             __annotation += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.defaultInstance)
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.GeneratedCodeInfo(
           annotation = __annotation.result(),
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def clearAnnotation = copy(annotation = _root_.scala.Seq.empty)
@@ -207,7 +211,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         var __sourceFile = this.sourceFile
         var __begin = this.begin
         var __end = this.end
-        val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -229,7 +233,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
               __begin = Option(_input__.readInt32())
             case 32 =>
               __end = Option(_input__.readInt32())
-            case tag => _unknownFields__.parseField(tag, _input__)
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+              }
+              _unknownFields__.parseField(tag, _input__)
           }
         }
         com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
@@ -237,7 +245,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
             sourceFile = __sourceFile,
             begin = __begin,
             end = __end,
-            unknownFields = _unknownFields__.result()
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
       def clearPath = copy(path = _root_.scala.Seq.empty)

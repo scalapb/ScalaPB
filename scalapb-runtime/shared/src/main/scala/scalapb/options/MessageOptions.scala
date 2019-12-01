@@ -115,7 +115,7 @@ final case class MessageOptions(
       val __companionAnnotations = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.companionAnnotations)
       val __sealedOneofExtends = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.sealedOneofExtends)
       var __noBox = this.noBox
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -135,7 +135,11 @@ final case class MessageOptions(
             __sealedOneofExtends += _input__.readString()
           case 56 =>
             __noBox = Option(_input__.readBool())
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       scalapb.options.MessageOptions(
@@ -146,7 +150,7 @@ final case class MessageOptions(
           companionAnnotations = __companionAnnotations.result(),
           sealedOneofExtends = __sealedOneofExtends.result(),
           noBox = __noBox,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def clearExtends = copy(`extends` = _root_.scala.Seq.empty)

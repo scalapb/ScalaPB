@@ -151,7 +151,7 @@ final case class DescriptorProto(
       var __options = this.options
       val __reservedRange = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] ++= this.reservedRange)
       val __reservedName = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.reservedName)
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -177,7 +177,11 @@ final case class DescriptorProto(
             __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.defaultInstance)
           case 82 =>
             __reservedName += _input__.readString()
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.DescriptorProto(
@@ -191,7 +195,7 @@ final case class DescriptorProto(
           options = __options,
           reservedRange = __reservedRange.result(),
           reservedName = __reservedName.result(),
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
@@ -401,7 +405,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
         var __start = this.start
         var __end = this.end
         var __options = this.options
-        val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -413,14 +417,18 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
               __end = Option(_input__.readInt32())
             case 26 =>
               __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.ExtensionRangeOptions.defaultInstance)))
-            case tag => _unknownFields__.parseField(tag, _input__)
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+              }
+              _unknownFields__.parseField(tag, _input__)
           }
         }
         com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
             start = __start,
             end = __end,
             options = __options,
-            unknownFields = _unknownFields__.result()
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)
@@ -569,7 +577,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
         var __start = this.start
         var __end = this.end
-        val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -579,13 +587,17 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
               __start = Option(_input__.readInt32())
             case 16 =>
               __end = Option(_input__.readInt32())
-            case tag => _unknownFields__.parseField(tag, _input__)
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+              }
+              _unknownFields__.parseField(tag, _input__)
           }
         }
         com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
             start = __start,
             end = __end,
-            unknownFields = _unknownFields__.result()
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)

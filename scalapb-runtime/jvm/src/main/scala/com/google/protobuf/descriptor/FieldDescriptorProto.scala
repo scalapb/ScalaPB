@@ -159,7 +159,7 @@ final case class FieldDescriptorProto(
       var __oneofIndex = this.oneofIndex
       var __jsonName = this.jsonName
       var __options = this.options
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -185,7 +185,11 @@ final case class FieldDescriptorProto(
             __jsonName = Option(_input__.readString())
           case 66 =>
             __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.FieldDescriptorProto(
@@ -199,7 +203,7 @@ final case class FieldDescriptorProto(
           oneofIndex = __oneofIndex,
           jsonName = __jsonName,
           options = __options,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")

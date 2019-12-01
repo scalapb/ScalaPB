@@ -100,7 +100,7 @@ final case class MethodDescriptorProto(
       var __options = this.options
       var __clientStreaming = this.clientStreaming
       var __serverStreaming = this.serverStreaming
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -118,7 +118,11 @@ final case class MethodDescriptorProto(
             __clientStreaming = Option(_input__.readBool())
           case 48 =>
             __serverStreaming = Option(_input__.readBool())
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       com.google.protobuf.descriptor.MethodDescriptorProto(
@@ -128,7 +132,7 @@ final case class MethodDescriptorProto(
           options = __options,
           clientStreaming = __clientStreaming,
           serverStreaming = __serverStreaming,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")

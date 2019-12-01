@@ -124,7 +124,7 @@ final case class FieldOptions(
       val __annotations = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.annotations)
       var __mapType = this.mapType
       var __noBox = this.noBox
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -146,7 +146,11 @@ final case class FieldOptions(
             __mapType = Option(_input__.readString())
           case 240 =>
             __noBox = Option(_input__.readBool())
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       scalapb.options.FieldOptions(
@@ -158,7 +162,7 @@ final case class FieldOptions(
           annotations = __annotations.result(),
           mapType = __mapType,
           noBox = __noBox,
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")

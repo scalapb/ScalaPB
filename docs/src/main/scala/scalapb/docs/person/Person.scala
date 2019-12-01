@@ -70,7 +70,7 @@ final case class Person(
       var __name = this.name
       var __age = this.age
       val __addresses = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.docs.person.Person.Address] ++= this.addresses)
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -82,14 +82,18 @@ final case class Person(
             __age = _input__.readInt32()
           case 26 =>
             __addresses += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.docs.person.Person.Address.defaultInstance)
-          case tag => _unknownFields__.parseField(tag, _input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            }
+            _unknownFields__.parseField(tag, _input__)
         }
       }
       scalapb.docs.person.Person(
           name = __name,
           age = __age,
           addresses = __addresses.result(),
-          unknownFields = _unknownFields__.result()
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
     def withName(__v: _root_.scala.Predef.String): Person = copy(name = __v)
@@ -263,7 +267,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
         var __addressType = this.addressType
         var __street = this.street
         var __city = this.city
-        val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+        var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
         var _done__ = false
         while (!_done__) {
           val _tag__ = _input__.readTag()
@@ -275,14 +279,18 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
               __street = _input__.readString()
             case 26 =>
               __city = _input__.readString()
-            case tag => _unknownFields__.parseField(tag, _input__)
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+              }
+              _unknownFields__.parseField(tag, _input__)
           }
         }
         scalapb.docs.person.Person.Address(
             addressType = __addressType,
             street = __street,
             city = __city,
-            unknownFields = _unknownFields__.result()
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
       def withAddressType(__v: scalapb.docs.person.Person.AddressType): Address = copy(addressType = __v)
