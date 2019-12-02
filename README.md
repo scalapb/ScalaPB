@@ -104,3 +104,9 @@ The tests take a few minutes to run. There is a smaller test suite called
 ScalaChecks on the outputs. To run it:
 
     $ ./e2e.sh
+
+Sponsors
+========
+We are very thankful to our sponsors: 
+
+* @ollyw
