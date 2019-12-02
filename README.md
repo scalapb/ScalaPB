@@ -109,4 +109,4 @@ Sponsors
 ========
 We are very thankful to our sponsors: 
 
-* @ollyw
+* [ollyw](https://github.com/ollyw)
