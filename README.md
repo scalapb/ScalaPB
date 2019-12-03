@@ -109,4 +109,4 @@ Sponsors
 ========
 We are very thankful to our sponsors: 
 
-* [ollyw](https://github.com/ollyw)
+* [Oliver Wickham (ollyw)](https://github.com/ollyw)
