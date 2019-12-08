@@ -635,7 +635,7 @@ val e2eCommonSettings = Seq(
     "io.grpc"          % "grpc-protobuf"        % grpcVersion, //protobuf message encoding for java implementation
     "io.grpc"          % "grpc-services"        % grpcVersion,
     "io.grpc"          % "grpc-services"        % grpcVersion % "protobuf",
-    "org.scalacheck"   %% "scalacheck"          % "1.14.0" % "test",
+    "org.scalacheck"   %% "scalacheck"          % "1.14.2" % "test",
     "javax.annotation" % "javax.annotation-api" % "1.3.2" // needed for grpc-java on JDK9
   ),
   libraryDependencies += ("io.grpc" % "protoc-gen-grpc-java" % grpcVersion) asProtocPlugin (),
