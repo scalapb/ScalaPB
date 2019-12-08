@@ -25,7 +25,7 @@ val MimaPreviousVersion = "0.9.0"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
 
-val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
+val ScalaTest = "org.scalatest" %% "scalatest" % "3.1.0"
 
 val utestVersion = Def.setting(
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -630,7 +630,7 @@ val e2eCommonSettings = Seq(
     }
   },
   libraryDependencies ++= Seq(
-    "org.scalatest"    %% "scalatest"           % "3.0.8" % "test",
+    "org.scalatest"    %% "scalatest"           % "3.1.0" % "test",
     "io.grpc"          % "grpc-netty"           % grpcVersion, //netty transport of grpc
     "io.grpc"          % "grpc-protobuf"        % grpcVersion, //protobuf message encoding for java implementation
     "io.grpc"          % "grpc-services"        % grpcVersion,
