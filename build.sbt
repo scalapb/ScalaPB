@@ -17,7 +17,7 @@ val protobufVersion = "3.10.0"
 // version), the binary incompatibility surfaces.
 val protobufCompilerVersion = "3.7.1"
 
-val scalacheckVersion = "1.14.0"
+val scalacheckVersion = "1.14.3"
 
 val grpcVersion = "1.25.0"
 
