@@ -1,6 +1,7 @@
 package scalapb.lenses
 
 object CompatLensImplicits {
+
   /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
   class SeqLikeLens[U, A, Coll[A] <: collection.SeqLike[A, Coll[A]]](
       val lens: Lens[U, Coll[A]]
@@ -22,13 +23,12 @@ object CompatLensImplicits {
       lens.modify(_ ++ item)
 
     def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
-      lens.modify(
-        s =>
-          s.map { (m: A) =>
-            val field: Lens[A, A] = Lens.unit[A]
-            val p: Mutation[A]    = f(field)
-            p(m)
-          }
+      lens.modify(s =>
+        s.map { (m: A) =>
+          val field: Lens[A, A] = Lens.unit[A]
+          val p: Mutation[A]    = f(field)
+          p(m)
+        }
       )
   }
 
@@ -47,13 +47,12 @@ object CompatLensImplicits {
       lens.modify(_ ++ item)
 
     def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
-      lens.modify(
-        s =>
-          s.map { (m: A) =>
-            val field: Lens[A, A] = Lens.unit[A]
-            val p: Mutation[A]    = f(field)
-            p(m)
-          }
+      lens.modify(s =>
+        s.map { (m: A) =>
+          val field: Lens[A, A] = Lens.unit[A]
+          val p: Mutation[A]    = f(field)
+          p(m)
+        }
       )
   }
 }

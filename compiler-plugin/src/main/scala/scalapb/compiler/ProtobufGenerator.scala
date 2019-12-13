@@ -756,14 +756,13 @@ class ProtobufGenerator(
         s"def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = {"
       )
       .indent
-      .print(message.fieldsWithoutOneofs)(
-        (printer, field) =>
-          if (!field.isRepeated)
-            printer.add(s"var __${field.scalaName} = this.${field.scalaName.asSymbol}")
-          else
-            printer.add(
-              s"val __${field.scalaName} = (${field.collectionBuilder} ++= this.${field.scalaName.asSymbol})"
-            )
+      .print(message.fieldsWithoutOneofs)((printer, field) =>
+        if (!field.isRepeated)
+          printer.add(s"var __${field.scalaName} = this.${field.scalaName.asSymbol}")
+        else
+          printer.add(
+            s"val __${field.scalaName} = (${field.collectionBuilder} ++= this.${field.scalaName.asSymbol})"
+          )
       )
       .when(message.preservesUnknownFields)(
         _.add(
@@ -783,9 +782,8 @@ class ProtobufGenerator(
             fp.add(s"var __requiredFields$index: _root_.scala.Long = $bn")
         }
       }
-      .print(message.getOneofs.asScala)(
-        (printer, oneof) =>
-          printer.add(s"var __${oneof.scalaName.name} = this.${oneof.scalaName.nameSymbol}")
+      .print(message.getOneofs.asScala)((printer, oneof) =>
+        printer.add(s"var __${oneof.scalaName.name} = this.${oneof.scalaName.nameSymbol}")
       )
       .add(s"""var _done__ = false
               |while (!_done__) {
@@ -857,11 +855,13 @@ class ProtobufGenerator(
       }
       .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
       .when(message.preservesUnknownFields)(
-        _.add("""    case tag =>
-                |      if (_unknownFields__ == null) {
-                |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-                |      }
-                |      _unknownFields__.parseField(tag, _input__)""".stripMargin)
+        _.add(
+          """    case tag =>
+            |      if (_unknownFields__ == null) {
+            |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
+            |      }
+            |      _unknownFields__.parseField(tag, _input__)""".stripMargin
+        )
       )
       .add("  }")
       .add("}")
@@ -883,7 +883,10 @@ class ProtobufGenerator(
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
           case e: OneofDescriptor =>
             s"  ${e.scalaName.nameSymbol} = __${e.scalaName.name}"
-        } ++ (if (message.preservesUnknownFields) Seq("  unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()")
+        } ++ (if (message.preservesUnknownFields)
+                Seq(
+                  "  unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()"
+                )
               else Seq())
       )
       .outdent
@@ -1017,8 +1020,8 @@ class ProtobufGenerator(
             )
           }
           val expr =
-            elems.reduceLeft(
-              (acc, field) => s"$acc\n    .orElse[${oneOf.scalaType.fullName}]($field)"
+            elems.reduceLeft((acc, field) =>
+              s"$acc\n    .orElse[${oneOf.scalaType.fullName}]($field)"
             )
           s"${oneOf.scalaName.nameSymbol} = $expr\n    .getOrElse(${oneOf.empty.fullName})"
         }

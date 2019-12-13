@@ -411,8 +411,8 @@ lazy val compilerPluginShaded = project
       new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
         override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
           case e: scala.xml.Elem
-              if e.label == "dependency" && e.child.exists(
-                child => child.label == "artifactId" && child.text.startsWith("compilerplugin")
+              if e.label == "dependency" && e.child.exists(child =>
+                child.label == "artifactId" && child.text.startsWith("compilerplugin")
               ) =>
             scala.xml.Comment(s"compilerplugin has been removed.")
           case _ => node

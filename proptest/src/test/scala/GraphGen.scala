@@ -84,8 +84,8 @@ object GraphGen {
     }
 
     def closeNamespace: State =
-      namespace.parent.fold(throw new IllegalStateException("Attempt to close root namespace"))(
-        p => copy(namespace = p)
+      namespace.parent.fold(throw new IllegalStateException("Attempt to close root namespace"))(p =>
+        copy(namespace = p)
       )
   }
 

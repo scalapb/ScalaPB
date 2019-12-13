@@ -84,12 +84,11 @@ object GenData {
 
     // Chooses at most one field from each one of and generates a value for it.
     val oneofGens: Seq[Gen[Seq[(String, ProtoValue)]]] = oneofGroups.values
-      .map(
-        group =>
-          chooseFieldFromGroup(group).flatMap {
-            case None        => Gen.const(Seq())
-            case Some(field) => genFieldValueByOptions(field)
-          }
+      .map(group =>
+        chooseFieldFromGroup(group).flatMap {
+          case None        => Gen.const(Seq())
+          case Some(field) => genFieldValueByOptions(field)
+        }
       )
       .toSeq
 

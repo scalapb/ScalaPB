@@ -194,18 +194,17 @@ object Nodes {
         .print(protoPackage)((p, pkg) => p.add(s"package $pkg;"))
         .print(javaPackage)((p, pkg) => p.add(s"""option java_package = "$pkg";"""))
         .when(javaMultipleFiles)(_.add("option java_multiple_files = true;"))
-        .print(scalaOptions)(
-          (p, options) =>
-            p.add("""import "scalapb/scalapb.proto";""")
-              .add("option (scalapb.options) = {")
-              .indent
-              .when(options.hasPackageName)(_.add(s"""package_name: "${options.getPackageName}""""))
-              .when(options.hasEnumValueNaming)(
-                _.add(s"""enum_value_naming: ${options.getEnumValueNaming}""")
-              )
-              .add(s"flat_package: ${options.getFlatPackage}")
-              .outdent
-              .add("};")
+        .print(scalaOptions)((p, options) =>
+          p.add("""import "scalapb/scalapb.proto";""")
+            .add("option (scalapb.options) = {")
+            .indent
+            .when(options.hasPackageName)(_.add(s"""package_name: "${options.getPackageName}""""))
+            .when(options.hasEnumValueNaming)(
+              _.add(s"""enum_value_naming: ${options.getEnumValueNaming}""")
+            )
+            .add(s"flat_package: ${options.getFlatPackage}")
+            .outdent
+            .add("};")
         )
         .add(
           fileReferences(rootNode)
@@ -233,8 +232,8 @@ object Nodes {
     }
 
     def scalaPackage = {
-      val scalaPackageName = scalaOptions.flatMap(
-        options => if (options.hasPackageName) Some(options.getPackageName) else None
+      val scalaPackageName = scalaOptions.flatMap(options =>
+        if (options.hasPackageName) Some(options.getPackageName) else None
       )
       val requestedPackageName = scalaPackageName.orElse(javaPackage).orElse(protoPackage)
       val flatPackage          = scalaOptions.exists(_.getFlatPackage)

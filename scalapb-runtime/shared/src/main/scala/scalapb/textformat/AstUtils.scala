@@ -204,12 +204,11 @@ private[scalapb] object AstUtils {
               else
                 flatten(
                   arr.values
-                    .map(
-                      t =>
-                        parseUnsafe(
-                          v.messageCompanionForFieldNumber(fd.number),
-                          t.asInstanceOf[TMessage]
-                        )
+                    .map(t =>
+                      parseUnsafe(
+                        v.messageCompanionForFieldNumber(fd.number),
+                        t.asInstanceOf[TMessage]
+                      )
                     )
                     .toVector
                 ).right.map(PRepeated)

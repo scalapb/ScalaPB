@@ -39,11 +39,12 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
       val fin      = new FileInputStream(outFile)
       val registry = ExtensionRegistry.newInstance()
       Scalapb.registerAllExtensions(registry)
-      val fileset = try {
-        FileDescriptorSet.parseFrom(fin, registry)
-      } finally {
-        fin.close()
-      }
+      val fileset =
+        try {
+          FileDescriptorSet.parseFrom(fin, registry)
+        } finally {
+          fin.close()
+        }
       fileset.getFileList.asScala
         .foldLeft[Map[String, FileDescriptor]](Map.empty) {
           case (acc, fp) =>
