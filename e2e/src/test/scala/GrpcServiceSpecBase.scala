@@ -6,12 +6,13 @@ import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.protobuf.services.ProtoReflectionService
 import io.grpc.stub.StreamObserver
 import io.grpc.{ManagedChannel, Server}
-import org.scalatest.{FunSpec, MustMatchers}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.util.Random
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.must.Matchers
 
-abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
+abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
 
   protected[this] final def withScalaServer[A](f: ManagedChannel => A): A = {
     withServer(

@@ -2,10 +2,10 @@ package scalapb
 
 import com.google.common.base.CaseFormat
 import org.scalacheck.Gen
-import org.scalatest.PropSpec
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import org.scalatest.propspec.AnyPropSpec
 
-class FieldMaskUtilPropSpec extends PropSpec with ScalaCheckDrivenPropertyChecks {
+class FieldMaskUtilPropSpec extends AnyPropSpec with ScalaCheckDrivenPropertyChecks {
   // protobuf-java use guava
   // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L175
   // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L159

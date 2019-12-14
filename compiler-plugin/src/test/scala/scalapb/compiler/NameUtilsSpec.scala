@@ -1,8 +1,9 @@
 package scalapb.compiler
 
-import org.scalatest.{FlatSpec, MustMatchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class NameUtilsSpec extends FlatSpec with MustMatchers {
+class NameUtilsSpec extends AnyFlatSpec with Matchers {
   "snakeCaseToCamelCase" should "work for normal names" in {
     NameUtils.snakeCaseToCamelCase("scala_pb") must be("scalaPb")
     NameUtils.snakeCaseToCamelCase("foo_bar") must be("fooBar")

@@ -17,15 +17,17 @@ val protobufVersion = "3.10.0"
 // version), the binary incompatibility surfaces.
 val protobufCompilerVersion = "3.7.1"
 
-val scalacheckVersion = "1.14.0"
-
 val grpcVersion = "1.25.0"
 
 val MimaPreviousVersion = "0.9.0"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
 
-val ScalaTest = "org.scalatest" %% "scalatest" % "3.0.8"
+val ScalaTest = "org.scalatest" %% "scalatest" % "3.1.0"
+
+val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.0.0"
+
+val ScalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % "3.1.0.0"
 
 val utestVersion = Def.setting(
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -226,8 +228,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
-      "org.scalacheck"      %% "scalacheck" % scalacheckVersion % "test",
-      ScalaTest             % "test"
+      ScalaTest             % "test",
+      ScalaTestPlusScalaCheck  % "test",
     ),
     // Can be removed after JDK 11.0.3 is available on Travis
     Test / javaOptions ++= (
@@ -273,8 +275,9 @@ lazy val grpcRuntime = project
     libraryDependencies ++= Seq(
       "io.grpc"     % "grpc-stub" % grpcVersion,
       "io.grpc"     % "grpc-protobuf" % grpcVersion,
-      "org.mockito" % "mockito-core" % "3.2.0" % "test",
-      ScalaTest     % "test"
+      ScalaTest     % "test",
+      ScalaTestPlusMockito     % "test",
+      "org.mockito" % "mockito-core" % "3.2.0" % "test"
     ),
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
@@ -503,8 +506,8 @@ lazy val proptest = project
       "com.google.protobuf" % "protobuf-java" % protobufVersion,
       "io.grpc"             % "grpc-netty" % grpcVersion % "test",
       "io.grpc"             % "grpc-protobuf" % grpcVersion % "test",
-      "org.scalacheck"      %% "scalacheck" % scalacheckVersion % "test",
-      ScalaTest             % "test"
+      ScalaTest             % "test",
+      ScalaTestPlusScalaCheck % "test"
     ),
     libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
     Test / fork := true,
@@ -630,7 +633,7 @@ val e2eCommonSettings = Seq(
     }
   },
   libraryDependencies ++= Seq(
-    "org.scalatest"    %% "scalatest"           % "3.0.8" % "test",
+    ScalaTest % "test",
     "io.grpc"          % "grpc-netty"           % grpcVersion, //netty transport of grpc
     "io.grpc"          % "grpc-protobuf"        % grpcVersion, //protobuf message encoding for java implementation
     "io.grpc"          % "grpc-services"        % grpcVersion,

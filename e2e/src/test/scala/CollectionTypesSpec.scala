@@ -3,8 +3,10 @@ import com.thesamet.proto.e2e.collection_types._
 import org.scalatest._
 
 import scala.collection.mutable
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class CollectionTypesSpec extends FlatSpec with MustMatchers {
+class CollectionTypesSpec extends AnyFlatSpec with Matchers {
   "lenses" should "compile" in {
     val cis = CollectionTypesMessage().update(_.repeatedInt32 :++= Seq(11, 9))
     val cv  = CollectionTypesVector().update(_.repeatedInt32 :++= Seq(11, 9))

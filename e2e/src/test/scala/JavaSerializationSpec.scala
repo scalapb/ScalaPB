@@ -6,8 +6,10 @@ import scalapb.GeneratedMessage
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest._
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class JavaSerializationSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers {
+class JavaSerializationSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers {
 
   val nestedGen =
     Arbitrary.arbitrary[Option[Int]].map(s => Nested(nestedField = s))

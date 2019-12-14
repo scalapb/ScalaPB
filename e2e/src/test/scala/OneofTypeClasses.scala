@@ -1,8 +1,9 @@
 import com.thesamet.proto.e2e.one_of.OneofTest
 import com.thesamet.proto.e2e.one_of.OneofTest.SubMessage
-import org.scalatest.{FlatSpec, MustMatchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class OneofTypeClasses extends FlatSpec with MustMatchers {
+class OneofTypeClasses extends AnyFlatSpec with Matchers {
   trait TC[T] {
     def apply(a: T): Int
   }

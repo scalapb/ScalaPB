@@ -33,16 +33,18 @@ package scalapb
 import com.google.protobuf.ByteString
 import scalapb.textformat._
 import org.scalatest.matchers.{MatchResult, Matcher}
-import org.scalatest.{TryValues, MustMatchers, FlatSpec}
+import org.scalatest.TryValues
 import org.scalatestplus.scalacheck._
 import protobuf_unittest.unittest.{TestAllTypes, TestOneof2}
 import scala.io.Source
 import scala.util._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
 class TextFormatSpec
-    extends FlatSpec
+    extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
-    with MustMatchers
+    with Matchers
     with TryValues {
 
   class ParseOk extends Matcher[String] {

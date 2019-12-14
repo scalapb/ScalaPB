@@ -1,8 +1,10 @@
 import com.thesamet.proto.e2e.comments.CommentedServiceGrpc.CommentedService
 import com.thesamet.proto.e2e.comments._
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class CommentsSpec extends FlatSpec with MustMatchers {
+class CommentsSpec extends AnyFlatSpec with Matchers {
   "comments proto" should "have comments enabled" in {
 
     val fooLocation     = Foo.scalaDescriptor.location.get

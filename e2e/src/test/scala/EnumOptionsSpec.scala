@@ -1,8 +1,10 @@
 import com.thesamet.pb.EnumOptions.{EnumBase, EnumCompanionBase, ValueMixin}
 import com.thesamet.proto.e2e.enum_options._
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class EnumOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
+class EnumOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
   "companion object" should "extend EnumCompanionBase" in {
     MyEnum mustBe a[EnumCompanionBase]
     MyEnum must not be a[EnumBase]

@@ -4,8 +4,10 @@ import com.thesamet.proto.e2e.CustomTypes.{CustomMessage => CustomMessageJava}
 import com.thesamet.proto.e2e.CustomTypes.CustomMessage.{Weather => WeatherJava}
 import org.scalatest._
 import com.thesamet.pb._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class CustomTypesSpec extends FlatSpec with MustMatchers {
+class CustomTypesSpec extends AnyFlatSpec with Matchers {
 
   "CustomMessage" should "serialize and parse" in {
     val message = CustomMessage(

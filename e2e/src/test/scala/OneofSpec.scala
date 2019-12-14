@@ -3,12 +3,13 @@ import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalacheck.Gen
 import collection.JavaConverters._
-import Matchers._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
 class OneofSpec
-    extends FlatSpec
+    extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
-    with MustMatchers
+    with Matchers
     with OptionValues {
   val unspecified = OneofTest()
   val tempField   = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
@@ -24,37 +25,37 @@ class OneofSpec
   }
 
   "oneof.isX function" should "return correct value" in {
-    unspecified.myOneOf shouldBe 'isEmpty
-    unspecified.myOneOf should not be 'isDefined
-    unspecified.myOneOf should not be 'isTempField
-    unspecified.myOneOf should not be 'isOtherField
-    unspecified.myOneOf should not be 'isSub
-    tempField.myOneOf shouldBe 'isTempField
-    tempField.myOneOf shouldBe 'isDefined
-    tempField.myOneOf should not be 'isEmpty
-    tempField.myOneOf should not be 'isOtherField
-    tempField.myOneOf should not be 'isSub
+    unspecified.myOneOf mustBe 'isEmpty
+    unspecified.myOneOf must not be 'isDefined
+    unspecified.myOneOf must not be 'isTempField
+    unspecified.myOneOf must not be 'isOtherField
+    unspecified.myOneOf must not be 'isSub
+    tempField.myOneOf mustBe 'isTempField
+    tempField.myOneOf mustBe 'isDefined
+    tempField.myOneOf must not be 'isEmpty
+    tempField.myOneOf must not be 'isOtherField
+    tempField.myOneOf must not be 'isSub
   }
 
   "oneof.number function" should "return correct value" in {
-    unspecified.myOneOf.number shouldBe 0
-    tempField.myOneOf.number shouldBe 2
-    otherField.myOneOf.number shouldBe 3
-    sub.myOneOf.number shouldBe 4
+    unspecified.myOneOf.number mustBe 0
+    tempField.myOneOf.number mustBe 2
+    otherField.myOneOf.number mustBe 3
+    sub.myOneOf.number mustBe 4
   }
 
   "oneof.valueOption function" should "return correct value" in {
-    unspecified.myOneOf.valueOption shouldBe None
-    tempField.myOneOf.valueOption shouldBe Some(9)
-    otherField.myOneOf.valueOption shouldBe Some("boo")
-    sub.myOneOf.valueOption shouldBe Some(subMessage)
+    unspecified.myOneOf.valueOption mustBe None
+    tempField.myOneOf.valueOption mustBe Some(9)
+    otherField.myOneOf.valueOption mustBe Some("boo")
+    sub.myOneOf.valueOption mustBe Some(subMessage)
   }
 
   "oneof.value function" should "return correct value" in {
     assertThrows[java.util.NoSuchElementException] { unspecified.myOneOf.value }
-    tempField.myOneOf.value shouldBe (9)
-    otherField.myOneOf.value shouldBe ("boo")
-    sub.myOneOf.value shouldBe (subMessage)
+    tempField.myOneOf.value mustBe (9)
+    otherField.myOneOf.value mustBe ("boo")
+    sub.myOneOf.value mustBe (subMessage)
   }
 
   "oneOf matching" should "work" in {
@@ -77,23 +78,23 @@ class OneofSpec
   }
 
   "clearMyOneOf" should "unset the oneof" in {
-    tempField.clearMyOneOf should be(unspecified)
-    unspecified.clearMyOneOf should be(unspecified)
-    otherField.clearMyOneOf should be(unspecified)
-    sub.clearMyOneOf should be(unspecified)
+    tempField.clearMyOneOf must be(unspecified)
+    unspecified.clearMyOneOf must be(unspecified)
+    otherField.clearMyOneOf must be(unspecified)
+    sub.clearMyOneOf must be(unspecified)
   }
 
   "withField" should "set the one off" in {
-    otherField.withTempField(9) should be(tempField)
-    tempField.withOtherField("boo") should be(otherField)
-    otherField.withOtherField("boo") should be(otherField)
-    otherField.withOtherField("zoo") should not be (otherField)
-    otherField.withOtherField("zoo").myOneOf.otherField should be(Some("zoo"))
+    otherField.withTempField(9) must be(tempField)
+    tempField.withOtherField("boo") must be(otherField)
+    otherField.withOtherField("boo") must be(otherField)
+    otherField.withOtherField("zoo") must not be (otherField)
+    otherField.withOtherField("zoo").myOneOf.otherField must be(Some("zoo"))
   }
 
   "withOneOf" should "set the one off" in {
-    tempField.withMyOneOf(otherField.myOneOf) should be(otherField)
-    otherField.withMyOneOf(tempField.myOneOf) should be(tempField)
+    tempField.withMyOneOf(otherField.myOneOf) must be(otherField)
+    otherField.withMyOneOf(tempField.myOneOf) must be(tempField)
   }
 
   "oneOf option getters" should "work" in {

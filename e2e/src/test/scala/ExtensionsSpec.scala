@@ -1,7 +1,9 @@
 import com.thesamet.proto.e2e.extensions._
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class ExtensionsSpec extends FlatSpec with MustMatchers with OptionValues {
+class ExtensionsSpec extends AnyFlatSpec with Matchers with OptionValues {
   "BaseMessage.parseFrom" should "parse unknown fields" in {
     val helper   = Helper(optInt = Some(37), optString = Some("foo"))
     val extended = BaseMessage.parseFrom(helper.toByteArray)

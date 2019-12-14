@@ -4,8 +4,10 @@ import com.thesamet.proto.e2e.enum._
 import com.thesamet.proto.e2e.enum3._
 import scalapb.GeneratedEnumCompanion
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
+class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
   val red          = EnumTest(color = Some(Color.RED))
   val green        = EnumTest(color = Some(Color.GREEN))
   val blue         = EnumTest(color = Some(Color.BLUE))

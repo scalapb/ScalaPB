@@ -3,12 +3,12 @@ package scalapb.grpc
 import io.grpc.StatusException
 import io.grpc.stub.StreamObserver
 import org.mockito.{ArgumentMatchers, Mockito}
-import org.scalatest.FlatSpec
 import org.scalatestplus.mockito.MockitoSugar
 
 import scala.util.{Failure, Success}
+import org.scalatest.flatspec.AnyFlatSpec
 
-class GrpcSpec extends FlatSpec with MockitoSugar {
+class GrpcSpec extends AnyFlatSpec with MockitoSugar {
   "Complete observer" should "wrap an exception as a StatusException on failure" in {
     val observer = mock[StreamObserver[_]]
 

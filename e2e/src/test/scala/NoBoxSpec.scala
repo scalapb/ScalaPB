@@ -3,8 +3,10 @@ import com.thesamet.proto.e2e.no_box.Car
 import com.thesamet.proto.e2e.no_box.DontBoxMe
 import com.thesamet.proto.e2e.no_box.Tyre
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class NoBoxSpec extends FlatSpec with MustMatchers {
+class NoBoxSpec extends AnyFlatSpec with Matchers {
   val car = Car(tyre1 = Tyre(size = 10), tyre2 = Some(Tyre(size = 20)))
 
   "no_box" should "create correct methods" in {

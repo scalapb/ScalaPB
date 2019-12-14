@@ -5,11 +5,13 @@ import com.thesamet.pb.{PersonId, Years}
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest._
 import org.scalatestplus.scalacheck._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
 class MapsSpec
-    extends FlatSpec
+    extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
-    with MustMatchers
+    with Matchers
     with OptionValues {
 
   val nestedGen =

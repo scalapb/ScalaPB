@@ -1,8 +1,9 @@
 import scalapb.grpc.ProtoUtils
 import com.thesamet.proto.well_known._
-import org.scalatest.{FlatSpec, MustMatchers}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class ProtoUtilsSpec extends FlatSpec with MustMatchers {
+class ProtoUtilsSpec extends AnyFlatSpec with Matchers {
   "marshaller from metadataMarshaller" should "make a un/marshall roundtrip" in {
     val marshaller = ProtoUtils.metadataMarshaller[TestWrappers]
     val proto      = TestWrappers()

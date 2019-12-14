@@ -3,8 +3,10 @@ import com.google.protobuf.any.Any
 import org.scalatest._
 import com.thesamet.proto.e2e.enum.EnumTest
 import com.thesamet.proto.e2e.enum.Color
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class AnySpec extends FlatSpec with MustMatchers {
+class AnySpec extends AnyFlatSpec with Matchers {
   val green = EnumTest(color = Some(Color.GREEN))
 
   "Any" should "have standard fields" in {

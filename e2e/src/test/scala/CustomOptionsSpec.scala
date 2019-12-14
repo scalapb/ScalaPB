@@ -10,8 +10,10 @@ import com.google.protobuf.ByteString
 import com.google.protobuf.descriptor.MessageOptions
 import com.thesamet.pb.{Base1, Base2, FullName}
 import com.thesamet.proto.e2e.no_default_values_in_constructor.NoDefaultValuesTest
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class CustomOptionsSpec extends FlatSpec with MustMatchers with OptionValues {
+class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
   val barOptions   = BarMessage.scalaDescriptor.getOptions
   val barP3Options = BarP3.scalaDescriptor.getOptions
   val fooOptions   = FooMessage.scalaDescriptor.getOptions
