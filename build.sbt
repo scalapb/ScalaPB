@@ -227,9 +227,9 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .jvmSettings(
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
-      "com.google.protobuf" % "protobuf-java" % protobufVersion,
-      ScalaTest             % "test",
-      ScalaTestPlusScalaCheck  % "test",
+      "com.google.protobuf"   % "protobuf-java" % protobufVersion,
+      ScalaTest               % "test",
+      ScalaTestPlusScalaCheck % "test"
     ),
     // Can be removed after JDK 11.0.3 is available on Travis
     Test / javaOptions ++= (
@@ -273,11 +273,11 @@ lazy val grpcRuntime = project
   .settings(
     name := "scalapb-runtime-grpc",
     libraryDependencies ++= Seq(
-      "io.grpc"     % "grpc-stub" % grpcVersion,
-      "io.grpc"     % "grpc-protobuf" % grpcVersion,
-      ScalaTest     % "test",
-      ScalaTestPlusMockito     % "test",
-      "org.mockito" % "mockito-core" % "3.2.0" % "test"
+      "io.grpc"            % "grpc-stub" % grpcVersion,
+      "io.grpc"            % "grpc-protobuf" % grpcVersion,
+      ScalaTest            % "test",
+      ScalaTestPlusMockito % "test",
+      "org.mockito"        % "mockito-core" % "3.2.0" % "test"
     ),
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
@@ -503,10 +503,10 @@ lazy val proptest = project
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
       ProtocJar,
-      "com.google.protobuf" % "protobuf-java" % protobufVersion,
-      "io.grpc"             % "grpc-netty" % grpcVersion % "test",
-      "io.grpc"             % "grpc-protobuf" % grpcVersion % "test",
-      ScalaTest             % "test",
+      "com.google.protobuf"   % "protobuf-java" % protobufVersion,
+      "io.grpc"               % "grpc-netty" % grpcVersion % "test",
+      "io.grpc"               % "grpc-protobuf" % grpcVersion % "test",
+      ScalaTest               % "test",
       ScalaTestPlusScalaCheck % "test"
     ),
     libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
@@ -634,13 +634,13 @@ val e2eCommonSettings = Seq(
     }
   },
   libraryDependencies ++= Seq(
-    ScalaTest % "test",
+    ScalaTest               % "test",
     ScalaTestPlusScalaCheck % "test",
-    "io.grpc"          % "grpc-netty"           % grpcVersion, //netty transport of grpc
-    "io.grpc"          % "grpc-protobuf"        % grpcVersion, //protobuf message encoding for java implementation
-    "io.grpc"          % "grpc-services"        % grpcVersion,
-    "io.grpc"          % "grpc-services"        % grpcVersion % "protobuf",
-    "javax.annotation" % "javax.annotation-api" % "1.3.2" // needed for grpc-java on JDK9
+    "io.grpc"               % "grpc-netty" % grpcVersion, //netty transport of grpc
+    "io.grpc"               % "grpc-protobuf" % grpcVersion, //protobuf message encoding for java implementation
+    "io.grpc"               % "grpc-services" % grpcVersion,
+    "io.grpc"               % "grpc-services" % grpcVersion % "protobuf",
+    "javax.annotation"      % "javax.annotation-api" % "1.3.2" // needed for grpc-java on JDK9
   ),
   libraryDependencies += ("io.grpc" % "protoc-gen-grpc-java" % grpcVersion) asProtocPlugin (),
   Test / fork := true,           // For https://github.com/scala/bug/issues/9237
