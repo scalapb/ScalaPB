@@ -10,7 +10,7 @@ val Scala212 = "2.12.10"
 
 val Scala213 = "2.13.1"
 
-val protobufVersion = "3.10.0"
+val protobufVersion = "3.11.1"
 
 // Different version for compiler-plugin since >=3.8.0 is not binary
 // compatible with 3.7.x. When loaded inside SBT (which has its own old
@@ -21,7 +21,7 @@ val grpcVersion = "1.25.0"
 
 val MimaPreviousVersion = "0.9.0"
 
-val ProtocJar = "com.github.os72" % "protoc-jar" % "3.8.0"
+val ProtocJar = "com.github.os72" % "protoc-jar" % "3.11.1"
 
 val ScalaTest = "org.scalatest" %% "scalatest" % "3.1.0"
 

@@ -5,7 +5,7 @@ import java.io.File
 import protocbridge.{ProtocBridge, ProtocCodeGenerator}
 
 case class Config(
-    version: String = "-v3.10.0",
+    version: String = "-v" + scalapb.compiler.Version.protobufVersion,
     throwException: Boolean = false,
     args: Seq[String] = Seq.empty,
     customProtocLocation: Option[String] = None,

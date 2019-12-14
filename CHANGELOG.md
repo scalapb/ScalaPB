@@ -19,7 +19,7 @@
   oneofs are generated in the position that matches their index in the proto
   file.
 
-- Update to protobuf 3.10.0
+- Update to protobuf 3.11.1
 
 ## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.5)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.4...v0.9.5)
