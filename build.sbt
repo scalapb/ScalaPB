@@ -589,6 +589,7 @@ lazy val docs = project
     micrositeGitterChannelUrl := "ScalaPB/community",
     micrositeHighlightTheme := "atom-one-light",
     micrositeHighlightLanguages := Seq("scala", "java", "bash", "protobuf"),
+    micrositeTheme := "pattern",
     micrositePalette := Map(
       "brand-primary"   -> "#D62828", // active item marker on the left
       "brand-secondary" -> "#003049", // menu background
