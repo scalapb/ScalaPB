@@ -277,7 +277,7 @@ lazy val grpcRuntime = project
       "io.grpc"            % "grpc-protobuf" % grpcVersion,
       ScalaTest            % "test",
       ScalaTestPlusMockito % "test",
-      "org.mockito"        % "mockito-core" % "3.2.0" % "test"
+      "org.mockito"        % "mockito-core" % "3.2.4" % "test"
     ),
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
