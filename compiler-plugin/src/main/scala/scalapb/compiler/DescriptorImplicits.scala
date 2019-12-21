@@ -487,6 +487,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       parent.fold(message.getFile().scalaPackage)(_.scalaType) / name
     }
 
+    @deprecated("Use scalaType.fullName instead", "0.10.0")
+    def scalaTypeName: String = scalaType.fullName
+
     private[compiler] def hasConflictingJavaClassName(className: String): Boolean =
       ((message.getName == className) ||
         (message.getEnumTypes.asScala.exists(_.getName == className)) ||
@@ -836,6 +839,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def scalaPackage = ScalaName(scalaPackageParts.isEmpty, scalaPackageParts)
+
+    @deprecated("Use scalaPackage.fullName", "0.10.0")
+    def scalaPackageName = scalaPackage.fullName
 
     def scalaDirectory = {
       scalaPackageParts.mkString("/")
