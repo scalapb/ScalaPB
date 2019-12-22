@@ -328,9 +328,9 @@ final case class FileOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __javaPackage = Option(_input__.readString())
+            __javaPackage = Option(_input__.readStringRequireUtf8())
           case 66 =>
-            __javaOuterClassname = Option(_input__.readString())
+            __javaOuterClassname = Option(_input__.readStringRequireUtf8())
           case 80 =>
             __javaMultipleFiles = Option(_input__.readBool())
           case 160 =>
@@ -340,7 +340,7 @@ final case class FileOptions(
           case 72 =>
             __optimizeFor = Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
           case 90 =>
-            __goPackage = Option(_input__.readString())
+            __goPackage = Option(_input__.readStringRequireUtf8())
           case 128 =>
             __ccGenericServices = Option(_input__.readBool())
           case 136 =>
@@ -354,19 +354,19 @@ final case class FileOptions(
           case 248 =>
             __ccEnableArenas = Option(_input__.readBool())
           case 290 =>
-            __objcClassPrefix = Option(_input__.readString())
+            __objcClassPrefix = Option(_input__.readStringRequireUtf8())
           case 298 =>
-            __csharpNamespace = Option(_input__.readString())
+            __csharpNamespace = Option(_input__.readStringRequireUtf8())
           case 314 =>
-            __swiftPrefix = Option(_input__.readString())
+            __swiftPrefix = Option(_input__.readStringRequireUtf8())
           case 322 =>
-            __phpClassPrefix = Option(_input__.readString())
+            __phpClassPrefix = Option(_input__.readStringRequireUtf8())
           case 330 =>
-            __phpNamespace = Option(_input__.readString())
+            __phpNamespace = Option(_input__.readStringRequireUtf8())
           case 354 =>
-            __phpMetadataNamespace = Option(_input__.readString())
+            __phpMetadataNamespace = Option(_input__.readStringRequireUtf8())
           case 362 =>
-            __rubyPackage = Option(_input__.readString())
+            __rubyPackage = Option(_input__.readStringRequireUtf8())
           case 7994 =>
             __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
           case tag =>
@@ -592,7 +592,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   )
   /** Generated classes can be optimized for speed or code size.
     */
-  sealed trait OptimizeMode extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class OptimizeMode(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptimizeMode
     def isSpeed: _root_.scala.Boolean = false
     def isCodeSize: _root_.scala.Boolean = false
@@ -607,8 +607,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     /** Generate complete code for parsing, serialization,
       */
     @SerialVersionUID(0L)
-    case object SPEED extends OptimizeMode with OptimizeMode.Recognized {
-      val value = 1
+    case object SPEED extends OptimizeMode(1) with OptimizeMode.Recognized {
       val index = 0
       val name = "SPEED"
       override def isSpeed: _root_.scala.Boolean = true
@@ -618,8 +617,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       * Use ReflectionOps to implement these methods.
       */
     @SerialVersionUID(0L)
-    case object CODE_SIZE extends OptimizeMode with OptimizeMode.Recognized {
-      val value = 2
+    case object CODE_SIZE extends OptimizeMode(2) with OptimizeMode.Recognized {
       val index = 1
       val name = "CODE_SIZE"
       override def isCodeSize: _root_.scala.Boolean = true
@@ -628,15 +626,14 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     /** Generate code using MessageLite and the lite runtime.
       */
     @SerialVersionUID(0L)
-    case object LITE_RUNTIME extends OptimizeMode with OptimizeMode.Recognized {
-      val value = 3
+    case object LITE_RUNTIME extends OptimizeMode(3) with OptimizeMode.Recognized {
       val index = 2
       val name = "LITE_RUNTIME"
       override def isLiteRuntime: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends OptimizeMode with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptimizeMode(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
     def fromValue(value: _root_.scala.Int): OptimizeMode = value match {

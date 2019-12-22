@@ -597,10 +597,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         case _            => List()
       }
 
-      anyVal ++ sealedOneofTrait ++ Seq(
+      anyVal ++ Seq(
         "scalapb.GeneratedMessage",
         s"scalapb.Message[${scalaType.nameSymbol}]"
-      ) ++ updatable ++ extendable ++ extendsOption ++ specialMixins
+      ) ++ sealedOneofTrait ++ updatable ++ extendable ++ extendsOption ++ specialMixins
     }
 
     def companionBaseClasses: Seq[String] = {
@@ -622,7 +622,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def sealedOneofBaseClasses: Seq[String] = sealedOneofStyle match {
       case SealedOneofStyle.Default =>
-        s"scalapb.GeneratedSealedOneof" +: messageOptions.getSealedOneofExtendsList.asScala.toSeq
+        messageOptions.getSealedOneofExtendsList.asScala.toSeq :+ "scalapb.GeneratedSealedOneof"
       case SealedOneofStyle.Optional => messageOptions.getSealedOneofExtendsList.asScala.toSeq
     }
 
@@ -753,7 +753,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
 
     def valueExtends: Seq[String] =
-      enumValue.getType.scalaType.nameSymbol +: enumValue.getType.recognizedEnum
+      s"${enumValue.getType.scalaType.nameSymbol}(${enumValue.getNumber})" +: enumValue.getType.recognizedEnum
         .nameRelative(1) +: scalaOptions.getExtendsList.asScala.toSeq
 
     def scalaName: String =

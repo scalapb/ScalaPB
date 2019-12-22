@@ -313,7 +313,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     weak = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
-  sealed trait CType extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class CType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = CType
     def isString: _root_.scala.Boolean = false
     def isCord: _root_.scala.Boolean = false
@@ -328,31 +328,28 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Default mode.
       */
     @SerialVersionUID(0L)
-    case object STRING extends CType with CType.Recognized {
-      val value = 0
+    case object STRING extends CType(0) with CType.Recognized {
       val index = 0
       val name = "STRING"
       override def isString: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object CORD extends CType with CType.Recognized {
-      val value = 1
+    case object CORD extends CType(1) with CType.Recognized {
       val index = 1
       val name = "CORD"
       override def isCord: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object STRING_PIECE extends CType with CType.Recognized {
-      val value = 2
+    case object STRING_PIECE extends CType(2) with CType.Recognized {
       val index = 2
       val name = "STRING_PIECE"
       override def isStringPiece: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends CType with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(value: _root_.scala.Int): CType = value match {
@@ -369,7 +366,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       com.google.protobuf.DescriptorProtos.FieldOptions.CType.forNumber(pbScalaSource.value)
     }
   }
-  sealed trait JSType extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class JSType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = JSType
     def isJsNormal: _root_.scala.Boolean = false
     def isJsString: _root_.scala.Boolean = false
@@ -384,8 +381,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Use the default type.
       */
     @SerialVersionUID(0L)
-    case object JS_NORMAL extends JSType with JSType.Recognized {
-      val value = 0
+    case object JS_NORMAL extends JSType(0) with JSType.Recognized {
       val index = 0
       val name = "JS_NORMAL"
       override def isJsNormal: _root_.scala.Boolean = true
@@ -394,8 +390,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Use JavaScript strings.
       */
     @SerialVersionUID(0L)
-    case object JS_STRING extends JSType with JSType.Recognized {
-      val value = 1
+    case object JS_STRING extends JSType(1) with JSType.Recognized {
       val index = 1
       val name = "JS_STRING"
       override def isJsString: _root_.scala.Boolean = true
@@ -404,15 +399,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Use JavaScript numbers.
       */
     @SerialVersionUID(0L)
-    case object JS_NUMBER extends JSType with JSType.Recognized {
-      val value = 2
+    case object JS_NUMBER extends JSType(2) with JSType.Recognized {
       val index = 2
       val name = "JS_NUMBER"
       override def isJsNumber: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends JSType with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(value: _root_.scala.Int): JSType = value match {

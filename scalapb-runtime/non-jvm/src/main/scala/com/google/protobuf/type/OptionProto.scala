@@ -32,7 +32,7 @@ final case class OptionProto(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
@@ -54,7 +54,7 @@ final case class OptionProto(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
@@ -76,7 +76,7 @@ final case class OptionProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 18 =>
             __value = Option(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
           case tag =>

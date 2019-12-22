@@ -174,7 +174,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     * or neither? HTTP based RPC implementation may choose GET verb for safe
     * methods, and PUT verb for idempotent methods instead of the default POST.
     */
-  sealed trait IdempotencyLevel extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class IdempotencyLevel(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = IdempotencyLevel
     def isIdempotencyUnknown: _root_.scala.Boolean = false
     def isNoSideEffects: _root_.scala.Boolean = false
@@ -187,8 +187,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     sealed trait Recognized extends IdempotencyLevel
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = this
     @SerialVersionUID(0L)
-    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel with IdempotencyLevel.Recognized {
-      val value = 0
+    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel(0) with IdempotencyLevel.Recognized {
       val index = 0
       val name = "IDEMPOTENCY_UNKNOWN"
       override def isIdempotencyUnknown: _root_.scala.Boolean = true
@@ -197,8 +196,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** implies idempotent
       */
     @SerialVersionUID(0L)
-    case object NO_SIDE_EFFECTS extends IdempotencyLevel with IdempotencyLevel.Recognized {
-      val value = 1
+    case object NO_SIDE_EFFECTS extends IdempotencyLevel(1) with IdempotencyLevel.Recognized {
       val index = 1
       val name = "NO_SIDE_EFFECTS"
       override def isNoSideEffects: _root_.scala.Boolean = true
@@ -207,15 +205,14 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** idempotent, but may have side effects
       */
     @SerialVersionUID(0L)
-    case object IDEMPOTENT extends IdempotencyLevel with IdempotencyLevel.Recognized {
-      val value = 2
+    case object IDEMPOTENT extends IdempotencyLevel(2) with IdempotencyLevel.Recognized {
       val index = 2
       val name = "IDEMPOTENT"
       override def isIdempotent: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends IdempotencyLevel with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
     def fromValue(value: _root_.scala.Int): IdempotencyLevel = value match {

@@ -32,8 +32,6 @@ trait GeneratedEnum extends Any with Product with Serializable {
 }
 
 trait UnrecognizedEnum extends GeneratedEnum {
-  def value: Int
-
   def name = "UNRECOGNIZED"
 
   def index = -1
@@ -68,7 +66,7 @@ trait GeneratedOneofCompanion
 trait GeneratedMessage extends Any with Serializable {
   def writeTo(output: CodedOutputStream): Unit
 
-  def writeTo(output: OutputStream): Unit = {
+  final def writeTo(output: OutputStream): Unit = {
     val bufferSize =
       LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
     val codedOutput: CodedOutputStream =
@@ -77,7 +75,7 @@ trait GeneratedMessage extends Any with Serializable {
     codedOutput.flush()
   }
 
-  def writeDelimitedTo(output: OutputStream): Unit = {
+  final def writeDelimitedTo(output: OutputStream): Unit = {
     val serialized: Int = serializedSize
     val bufferSize: Int = LiteParser.preferredCodedOutputStreamBufferSize(
       CodedOutputStream.computeUInt32SizeNoTag(serialized) + serialized
@@ -94,14 +92,14 @@ trait GeneratedMessage extends Any with Serializable {
   // Using a Scala field descriptor.
   def getField(field: _root_.scalapb.descriptors.FieldDescriptor): PValue
 
-  def toPMessage: PMessage =
+  final def toPMessage: PMessage =
     PMessage(companion.scalaDescriptor.fields.map {
       case f => (f, getField(f))
     }.toMap)
 
   def companion: GeneratedMessageCompanion[_]
 
-  def toByteArray: Array[Byte] = {
+  final def toByteArray: Array[Byte] = {
     val a            = new Array[Byte](serializedSize)
     val outputStream = CodedOutputStream.newInstance(a)
     writeTo(outputStream)
@@ -109,7 +107,7 @@ trait GeneratedMessage extends Any with Serializable {
     a
   }
 
-  def toByteString: ByteString = {
+  final def toByteString: ByteString = {
     val output = ByteString.newOutput(serializedSize)
     writeTo(output)
     output.close()

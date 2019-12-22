@@ -10,7 +10,7 @@ package com.google.protobuf.struct
   *
   *  The JSON representation for `NullValue` is JSON `null`.
   */
-sealed trait NullValue extends _root_.scalapb.GeneratedEnum {
+sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = NullValue
   def isNullValue: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
@@ -23,15 +23,14 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   /** Null value.
     */
   @SerialVersionUID(0L)
-  case object NULL_VALUE extends NullValue with NullValue.Recognized {
-    val value = 0
+  case object NULL_VALUE extends NullValue(0) with NullValue.Recognized {
     val index = 0
     val name = "NULL_VALUE"
     override def isNullValue: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
-  final case class Unrecognized(value: _root_.scala.Int) extends NullValue with _root_.scalapb.UnrecognizedEnum
+  final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends NullValue(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.immutable.Seq(NULL_VALUE)
   def fromValue(value: _root_.scala.Int): NullValue = value match {

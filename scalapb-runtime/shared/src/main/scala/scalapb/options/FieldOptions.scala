@@ -131,19 +131,19 @@ final case class FieldOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __type = Option(_input__.readString())
+            __type = Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __scalaName = Option(_input__.readString())
+            __scalaName = Option(_input__.readStringRequireUtf8())
           case 26 =>
-            __collectionType = Option(_input__.readString())
+            __collectionType = Option(_input__.readStringRequireUtf8())
           case 34 =>
-            __keyType = Option(_input__.readString())
+            __keyType = Option(_input__.readStringRequireUtf8())
           case 42 =>
-            __valueType = Option(_input__.readString())
+            __valueType = Option(_input__.readStringRequireUtf8())
           case 50 =>
-            __annotations += _input__.readString()
+            __annotations += _input__.readStringRequireUtf8()
           case 58 =>
-            __mapType = Option(_input__.readString())
+            __mapType = Option(_input__.readStringRequireUtf8())
           case 240 =>
             __noBox = Option(_input__.readBool())
           case tag =>

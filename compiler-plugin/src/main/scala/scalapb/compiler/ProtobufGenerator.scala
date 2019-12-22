@@ -38,7 +38,9 @@ class ProtobufGenerator(
         _.add(ProtobufGenerator.deprecatedAnnotation)
       }
       .call(generateScalaDoc(e))
-      .add(s"sealed trait $name extends ${e.baseTraitExtends.mkString(" with ")} {")
+      .add(
+        s"sealed abstract class $name(val value: _root_.scala.Int) extends ${e.baseTraitExtends.mkString(" with ")} {"
+      )
       .indent
       .add(s"type EnumType = $name")
       .print(e.getValues.asScala) {
@@ -66,7 +68,6 @@ class ProtobufGenerator(
                     } else ""}
                     |case object ${v.scalaName.asSymbol} extends ${v.valueExtends
                       .mkString(" with ")} {
-                    |  val value = ${v.getNumber}
                     |  val index = ${v.getIndex}
                     |  val name = "${v.getName}"
                     |  override def ${v.isName}: _root_.scala.Boolean = true
@@ -74,7 +75,7 @@ class ProtobufGenerator(
                     |""".stripMargin)
       }
       .add(s"""@SerialVersionUID(0L)
-              |final case class Unrecognized(value: _root_.scala.Int) extends $name with _root_.scalapb.UnrecognizedEnum
+              |final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
               |
               |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
                 .map(_.scalaName.asSymbol)
@@ -521,7 +522,7 @@ class ProtobufGenerator(
         s"""
            |{
            |  val __value = ${toBaseType(field)(fieldNameSymbol)}
-           |  if (__value != ${defaultValueForGet(field, true)}) {
+           |  if (${isNonEmpty("__value", field)}) {
            |    __size += ${sizeExpressionForSingleField(field, "__value")}
            |  }
            |};""".stripMargin
@@ -630,6 +631,12 @@ class ProtobufGenerator(
     if (funcs.length == 1) funcs(0)
     else s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
 
+  private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
+    if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
+    else if (field.getType == Type.ENUM) s"${expr}.value != 0"
+    else s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"
+  }
+
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
     fp.add(
         s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {"
@@ -671,7 +678,7 @@ class ProtobufGenerator(
               .add(s"{")
               .indent
               .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
-              .add(s"if (__v != ${defaultValueForGet(field, uncustomized = true)}) {")
+              .add(s"if (${isNonEmpty("__v", field)}) {")
               .indent
               .call(generateWriteSingleValue(field, "__v"))
               .outdent
@@ -811,6 +818,7 @@ class ProtobufGenerator(
             s"_root_.scalapb.LiteParser.readMessage(_input__, $baseInstance)"
           } else if (field.isEnum)
             s"${field.getEnumType.scalaType.fullNameWithMaybeRoot(message)}.fromValue(_input__.readEnum())"
+          else if (field.getType == Type.STRING) s"_input__.readStringRequireUtf8()"
           else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
           val newVal = toCustomType(field)(newValBase)

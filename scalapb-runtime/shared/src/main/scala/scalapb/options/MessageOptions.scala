@@ -122,17 +122,17 @@ final case class MessageOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __extends += _input__.readString()
+            __extends += _input__.readStringRequireUtf8()
           case 18 =>
-            __companionExtends += _input__.readString()
+            __companionExtends += _input__.readStringRequireUtf8()
           case 26 =>
-            __annotations += _input__.readString()
+            __annotations += _input__.readStringRequireUtf8()
           case 34 =>
-            __type = Option(_input__.readString())
+            __type = Option(_input__.readStringRequireUtf8())
           case 42 =>
-            __companionAnnotations += _input__.readString()
+            __companionAnnotations += _input__.readStringRequireUtf8()
           case 50 =>
-            __sealedOneofExtends += _input__.readString()
+            __sealedOneofExtends += _input__.readStringRequireUtf8()
           case 56 =>
             __noBox = Option(_input__.readBool())
           case tag =>

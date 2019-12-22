@@ -364,11 +364,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
               _input__.popLimit(oldLimit)
             }
             case 26 =>
-              __leadingComments = Option(_input__.readString())
+              __leadingComments = Option(_input__.readStringRequireUtf8())
             case 34 =>
-              __trailingComments = Option(_input__.readString())
+              __trailingComments = Option(_input__.readStringRequireUtf8())
             case 50 =>
-              __leadingDetachedComments += _input__.readString()
+              __leadingDetachedComments += _input__.readStringRequireUtf8()
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

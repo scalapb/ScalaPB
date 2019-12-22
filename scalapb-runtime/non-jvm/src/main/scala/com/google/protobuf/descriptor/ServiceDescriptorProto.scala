@@ -71,7 +71,7 @@ final case class ServiceDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Option(_input__.readString())
+            __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
             __method += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.MethodDescriptorProto.defaultInstance)
           case 26 =>

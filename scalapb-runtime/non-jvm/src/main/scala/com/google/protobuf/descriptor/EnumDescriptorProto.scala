@@ -101,7 +101,7 @@ final case class EnumDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Option(_input__.readString())
+            __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
             __value += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumValueDescriptorProto.defaultInstance)
           case 26 =>
@@ -109,7 +109,7 @@ final case class EnumDescriptorProto(
           case 34 =>
             __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.defaultInstance)
           case 42 =>
-            __reservedName += _input__.readString()
+            __reservedName += _input__.readStringRequireUtf8()
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

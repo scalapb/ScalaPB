@@ -103,14 +103,14 @@ final case class Mixin(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
       
       {
         val __value = root
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
         }
       };
@@ -128,13 +128,13 @@ final case class Mixin(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
       {
         val __v = root
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(2, __v)
         }
       };
@@ -150,9 +150,9 @@ final case class Mixin(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 18 =>
-            __root = _input__.readString()
+            __root = _input__.readStringRequireUtf8()
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

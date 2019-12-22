@@ -7,7 +7,7 @@ package com.google.protobuf.`type`
 
 /** The syntax in which a protocol buffer element is defined.
   */
-sealed trait Syntax extends _root_.scalapb.GeneratedEnum {
+sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
   def isSyntaxProto2: _root_.scala.Boolean = false
   def isSyntaxProto3: _root_.scala.Boolean = false
@@ -21,8 +21,7 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   /** Syntax `proto2`.
     */
   @SerialVersionUID(0L)
-  case object SYNTAX_PROTO2 extends Syntax with Syntax.Recognized {
-    val value = 0
+  case object SYNTAX_PROTO2 extends Syntax(0) with Syntax.Recognized {
     val index = 0
     val name = "SYNTAX_PROTO2"
     override def isSyntaxProto2: _root_.scala.Boolean = true
@@ -31,15 +30,14 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   /** Syntax `proto3`.
     */
   @SerialVersionUID(0L)
-  case object SYNTAX_PROTO3 extends Syntax with Syntax.Recognized {
-    val value = 1
+  case object SYNTAX_PROTO3 extends Syntax(1) with Syntax.Recognized {
     val index = 1
     val name = "SYNTAX_PROTO3"
     override def isSyntaxProto3: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
-  final case class Unrecognized(value: _root_.scala.Int) extends Syntax with _root_.scalapb.UnrecognizedEnum
+  final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Syntax(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.immutable.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
   def fromValue(value: _root_.scala.Int): Syntax = value match {

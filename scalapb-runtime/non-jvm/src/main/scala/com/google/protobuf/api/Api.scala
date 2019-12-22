@@ -68,7 +68,7 @@ final case class Api(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
@@ -83,7 +83,7 @@ final case class Api(
       
       {
         val __value = version
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
         }
       };
@@ -98,7 +98,7 @@ final case class Api(
       
       {
         val __value = syntax
-        if (__value != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
+        if (__value.value != 0) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, __value.value)
         }
       };
@@ -116,7 +116,7 @@ final case class Api(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
@@ -134,7 +134,7 @@ final case class Api(
       };
       {
         val __v = version
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(4, __v)
         }
       };
@@ -152,7 +152,7 @@ final case class Api(
       };
       {
         val __v = syntax
-        if (__v != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
+        if (__v.value != 0) {
           _output__.writeEnum(7, __v.value)
         }
       };
@@ -173,13 +173,13 @@ final case class Api(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 18 =>
             __methods += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Method.defaultInstance)
           case 26 =>
             __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
           case 34 =>
-            __version = _input__.readString()
+            __version = _input__.readStringRequireUtf8()
           case 42 =>
             __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
           case 50 =>

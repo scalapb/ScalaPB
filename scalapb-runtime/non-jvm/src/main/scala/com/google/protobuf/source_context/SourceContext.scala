@@ -24,7 +24,7 @@ final case class SourceContext(
       
       {
         val __value = fileName
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
@@ -42,7 +42,7 @@ final case class SourceContext(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = fileName
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
@@ -57,7 +57,7 @@ final case class SourceContext(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __fileName = _input__.readString()
+            __fileName = _input__.readStringRequireUtf8()
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

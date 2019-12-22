@@ -191,11 +191,11 @@ final case class FileDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Option(_input__.readString())
+            __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __package = Option(_input__.readString())
+            __package = Option(_input__.readStringRequireUtf8())
           case 26 =>
-            __dependency += _input__.readString()
+            __dependency += _input__.readStringRequireUtf8()
           case 80 =>
             __publicDependency += _input__.readInt32()
           case 82 => {
@@ -229,7 +229,7 @@ final case class FileDescriptorProto(
           case 74 =>
             __sourceCodeInfo = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceCodeInfo.getOrElse(com.google.protobuf.descriptor.SourceCodeInfo.defaultInstance)))
           case 98 =>
-            __syntax = Option(_input__.readString())
+            __syntax = Option(_input__.readStringRequireUtf8())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

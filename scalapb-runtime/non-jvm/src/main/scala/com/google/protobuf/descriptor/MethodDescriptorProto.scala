@@ -107,11 +107,11 @@ final case class MethodDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Option(_input__.readString())
+            __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __inputType = Option(_input__.readString())
+            __inputType = Option(_input__.readStringRequireUtf8())
           case 26 =>
-            __outputType = Option(_input__.readString())
+            __outputType = Option(_input__.readStringRequireUtf8())
           case 34 =>
             __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)))
           case 40 =>

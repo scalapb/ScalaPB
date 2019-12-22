@@ -129,14 +129,14 @@ final case class Any(
       
       {
         val __value = typeUrl
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
       
       {
         val __value = value
-        if (__value != _root_.com.google.protobuf.ByteString.EMPTY) {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeBytesSize(2, __value)
         }
       };
@@ -154,13 +154,13 @@ final case class Any(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = typeUrl
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
       {
         val __v = value
-        if (__v != _root_.com.google.protobuf.ByteString.EMPTY) {
+        if (!__v.isEmpty) {
           _output__.writeBytes(2, __v)
         }
       };
@@ -176,7 +176,7 @@ final case class Any(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __typeUrl = _input__.readString()
+            __typeUrl = _input__.readStringRequireUtf8()
           case 18 =>
             __value = _input__.readBytes()
           case tag =>

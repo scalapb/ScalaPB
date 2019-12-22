@@ -259,13 +259,13 @@ final case class ScalaPbOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __packageName = Option(_input__.readString())
+            __packageName = Option(_input__.readStringRequireUtf8())
           case 16 =>
             __flatPackage = Option(_input__.readBool())
           case 26 =>
-            __import += _input__.readString()
+            __import += _input__.readStringRequireUtf8()
           case 34 =>
-            __preamble += _input__.readString()
+            __preamble += _input__.readStringRequireUtf8()
           case 40 =>
             __singleFile = Option(_input__.readBool())
           case 56 =>
@@ -273,11 +273,11 @@ final case class ScalaPbOptions(
           case 48 =>
             __primitiveWrappers = Option(_input__.readBool())
           case 66 =>
-            __collectionType = Option(_input__.readString())
+            __collectionType = Option(_input__.readStringRequireUtf8())
           case 72 =>
             __preserveUnknownFields = Option(_input__.readBool())
           case 82 =>
-            __objectName = Option(_input__.readString())
+            __objectName = Option(_input__.readStringRequireUtf8())
           case 88 =>
             __scope = Option(scalapb.options.ScalaPbOptions.OptionsScope.fromValue(_input__.readEnum()))
           case 96 =>
@@ -285,7 +285,7 @@ final case class ScalaPbOptions(
           case 104 =>
             __retainSourceCodeInfo = Option(_input__.readBool())
           case 114 =>
-            __mapType = Option(_input__.readString())
+            __mapType = Option(_input__.readStringRequireUtf8())
           case 120 =>
             __noDefaultValuesInConstructor = Option(_input__.readBool())
           case 128 =>
@@ -479,7 +479,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   )
   /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
     */
-  sealed trait OptionsScope extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class OptionsScope(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptionsScope
     def isFile: _root_.scala.Boolean = false
     def isPackage: _root_.scala.Boolean = false
@@ -493,8 +493,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Apply the options for this file only (default)
       */
     @SerialVersionUID(0L)
-    case object FILE extends OptionsScope with OptionsScope.Recognized {
-      val value = 0
+    case object FILE extends OptionsScope(0) with OptionsScope.Recognized {
       val index = 0
       val name = "FILE"
       override def isFile: _root_.scala.Boolean = true
@@ -503,15 +502,14 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Apply the options for the entire package and its subpackages.
       */
     @SerialVersionUID(0L)
-    case object PACKAGE extends OptionsScope with OptionsScope.Recognized {
-      val value = 1
+    case object PACKAGE extends OptionsScope(1) with OptionsScope.Recognized {
       val index = 1
       val name = "PACKAGE"
       override def isPackage: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends OptionsScope with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionsScope(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(FILE, PACKAGE)
     def fromValue(value: _root_.scala.Int): OptionsScope = value match {
@@ -524,7 +522,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   /** Naming convention for generated enum values 
     */
-  sealed trait EnumValueNaming extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class EnumValueNaming(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = EnumValueNaming
     def isAsInProto: _root_.scala.Boolean = false
     def isCamelCase: _root_.scala.Boolean = false
@@ -538,8 +536,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Enum value names in Scala use the same name as in the proto
       */
     @SerialVersionUID(0L)
-    case object AS_IN_PROTO extends EnumValueNaming with EnumValueNaming.Recognized {
-      val value = 0
+    case object AS_IN_PROTO extends EnumValueNaming(0) with EnumValueNaming.Recognized {
       val index = 0
       val name = "AS_IN_PROTO"
       override def isAsInProto: _root_.scala.Boolean = true
@@ -548,15 +545,14 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Convert enum values to CamelCase in Scala.
       */
     @SerialVersionUID(0L)
-    case object CAMEL_CASE extends EnumValueNaming with EnumValueNaming.Recognized {
-      val value = 1
+    case object CAMEL_CASE extends EnumValueNaming(1) with EnumValueNaming.Recognized {
       val index = 1
       val name = "CAMEL_CASE"
       override def isCamelCase: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends EnumValueNaming with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends EnumValueNaming(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
     def fromValue(value: _root_.scala.Int): EnumValueNaming = value match {

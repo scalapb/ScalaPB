@@ -52,14 +52,14 @@ final case class Field(
       
       {
         val __value = kind
-        if (__value != com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN) {
+        if (__value.value != 0) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
         }
       };
       
       {
         val __value = cardinality
-        if (__value != com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN) {
+        if (__value.value != 0) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(2, __value.value)
         }
       };
@@ -73,14 +73,14 @@ final case class Field(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
         }
       };
       
       {
         val __value = typeUrl
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(6, __value)
         }
       };
@@ -105,14 +105,14 @@ final case class Field(
       
       {
         val __value = jsonName
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, __value)
         }
       };
       
       {
         val __value = defaultValue
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(11, __value)
         }
       };
@@ -130,13 +130,13 @@ final case class Field(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = kind
-        if (__v != com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN) {
+        if (__v.value != 0) {
           _output__.writeEnum(1, __v.value)
         }
       };
       {
         val __v = cardinality
-        if (__v != com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN) {
+        if (__v.value != 0) {
           _output__.writeEnum(2, __v.value)
         }
       };
@@ -148,13 +148,13 @@ final case class Field(
       };
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(4, __v)
         }
       };
       {
         val __v = typeUrl
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(6, __v)
         }
       };
@@ -178,13 +178,13 @@ final case class Field(
       };
       {
         val __v = jsonName
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(10, __v)
         }
       };
       {
         val __v = defaultValue
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(11, __v)
         }
       };
@@ -214,9 +214,9 @@ final case class Field(
           case 24 =>
             __number = _input__.readInt32()
           case 34 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 50 =>
-            __typeUrl = _input__.readString()
+            __typeUrl = _input__.readStringRequireUtf8()
           case 56 =>
             __oneofIndex = _input__.readInt32()
           case 64 =>
@@ -224,9 +224,9 @@ final case class Field(
           case 74 =>
             __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
           case 82 =>
-            __jsonName = _input__.readString()
+            __jsonName = _input__.readStringRequireUtf8()
           case 90 =>
-            __defaultValue = _input__.readString()
+            __defaultValue = _input__.readStringRequireUtf8()
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
@@ -398,7 +398,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   )
   /** Basic field types.
     */
-  sealed trait Kind extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class Kind(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Kind
     def isTypeUnknown: _root_.scala.Boolean = false
     def isTypeDouble: _root_.scala.Boolean = false
@@ -429,8 +429,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type unknown.
       */
     @SerialVersionUID(0L)
-    case object TYPE_UNKNOWN extends Kind with Kind.Recognized {
-      val value = 0
+    case object TYPE_UNKNOWN extends Kind(0) with Kind.Recognized {
       val index = 0
       val name = "TYPE_UNKNOWN"
       override def isTypeUnknown: _root_.scala.Boolean = true
@@ -439,8 +438,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type double.
       */
     @SerialVersionUID(0L)
-    case object TYPE_DOUBLE extends Kind with Kind.Recognized {
-      val value = 1
+    case object TYPE_DOUBLE extends Kind(1) with Kind.Recognized {
       val index = 1
       val name = "TYPE_DOUBLE"
       override def isTypeDouble: _root_.scala.Boolean = true
@@ -449,8 +447,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type float.
       */
     @SerialVersionUID(0L)
-    case object TYPE_FLOAT extends Kind with Kind.Recognized {
-      val value = 2
+    case object TYPE_FLOAT extends Kind(2) with Kind.Recognized {
       val index = 2
       val name = "TYPE_FLOAT"
       override def isTypeFloat: _root_.scala.Boolean = true
@@ -459,8 +456,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type int64.
       */
     @SerialVersionUID(0L)
-    case object TYPE_INT64 extends Kind with Kind.Recognized {
-      val value = 3
+    case object TYPE_INT64 extends Kind(3) with Kind.Recognized {
       val index = 3
       val name = "TYPE_INT64"
       override def isTypeInt64: _root_.scala.Boolean = true
@@ -469,8 +465,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type uint64.
       */
     @SerialVersionUID(0L)
-    case object TYPE_UINT64 extends Kind with Kind.Recognized {
-      val value = 4
+    case object TYPE_UINT64 extends Kind(4) with Kind.Recognized {
       val index = 4
       val name = "TYPE_UINT64"
       override def isTypeUint64: _root_.scala.Boolean = true
@@ -479,8 +474,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type int32.
       */
     @SerialVersionUID(0L)
-    case object TYPE_INT32 extends Kind with Kind.Recognized {
-      val value = 5
+    case object TYPE_INT32 extends Kind(5) with Kind.Recognized {
       val index = 5
       val name = "TYPE_INT32"
       override def isTypeInt32: _root_.scala.Boolean = true
@@ -489,8 +483,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type fixed64.
       */
     @SerialVersionUID(0L)
-    case object TYPE_FIXED64 extends Kind with Kind.Recognized {
-      val value = 6
+    case object TYPE_FIXED64 extends Kind(6) with Kind.Recognized {
       val index = 6
       val name = "TYPE_FIXED64"
       override def isTypeFixed64: _root_.scala.Boolean = true
@@ -499,8 +492,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type fixed32.
       */
     @SerialVersionUID(0L)
-    case object TYPE_FIXED32 extends Kind with Kind.Recognized {
-      val value = 7
+    case object TYPE_FIXED32 extends Kind(7) with Kind.Recognized {
       val index = 7
       val name = "TYPE_FIXED32"
       override def isTypeFixed32: _root_.scala.Boolean = true
@@ -509,8 +501,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type bool.
       */
     @SerialVersionUID(0L)
-    case object TYPE_BOOL extends Kind with Kind.Recognized {
-      val value = 8
+    case object TYPE_BOOL extends Kind(8) with Kind.Recognized {
       val index = 8
       val name = "TYPE_BOOL"
       override def isTypeBool: _root_.scala.Boolean = true
@@ -519,8 +510,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type string.
       */
     @SerialVersionUID(0L)
-    case object TYPE_STRING extends Kind with Kind.Recognized {
-      val value = 9
+    case object TYPE_STRING extends Kind(9) with Kind.Recognized {
       val index = 9
       val name = "TYPE_STRING"
       override def isTypeString: _root_.scala.Boolean = true
@@ -529,8 +519,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type group. Proto2 syntax only, and deprecated.
       */
     @SerialVersionUID(0L)
-    case object TYPE_GROUP extends Kind with Kind.Recognized {
-      val value = 10
+    case object TYPE_GROUP extends Kind(10) with Kind.Recognized {
       val index = 10
       val name = "TYPE_GROUP"
       override def isTypeGroup: _root_.scala.Boolean = true
@@ -539,8 +528,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type message.
       */
     @SerialVersionUID(0L)
-    case object TYPE_MESSAGE extends Kind with Kind.Recognized {
-      val value = 11
+    case object TYPE_MESSAGE extends Kind(11) with Kind.Recognized {
       val index = 11
       val name = "TYPE_MESSAGE"
       override def isTypeMessage: _root_.scala.Boolean = true
@@ -549,8 +537,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type bytes.
       */
     @SerialVersionUID(0L)
-    case object TYPE_BYTES extends Kind with Kind.Recognized {
-      val value = 12
+    case object TYPE_BYTES extends Kind(12) with Kind.Recognized {
       val index = 12
       val name = "TYPE_BYTES"
       override def isTypeBytes: _root_.scala.Boolean = true
@@ -559,8 +546,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type uint32.
       */
     @SerialVersionUID(0L)
-    case object TYPE_UINT32 extends Kind with Kind.Recognized {
-      val value = 13
+    case object TYPE_UINT32 extends Kind(13) with Kind.Recognized {
       val index = 13
       val name = "TYPE_UINT32"
       override def isTypeUint32: _root_.scala.Boolean = true
@@ -569,8 +555,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type enum.
       */
     @SerialVersionUID(0L)
-    case object TYPE_ENUM extends Kind with Kind.Recognized {
-      val value = 14
+    case object TYPE_ENUM extends Kind(14) with Kind.Recognized {
       val index = 14
       val name = "TYPE_ENUM"
       override def isTypeEnum: _root_.scala.Boolean = true
@@ -579,8 +564,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type sfixed32.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SFIXED32 extends Kind with Kind.Recognized {
-      val value = 15
+    case object TYPE_SFIXED32 extends Kind(15) with Kind.Recognized {
       val index = 15
       val name = "TYPE_SFIXED32"
       override def isTypeSfixed32: _root_.scala.Boolean = true
@@ -589,8 +573,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type sfixed64.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SFIXED64 extends Kind with Kind.Recognized {
-      val value = 16
+    case object TYPE_SFIXED64 extends Kind(16) with Kind.Recognized {
       val index = 16
       val name = "TYPE_SFIXED64"
       override def isTypeSfixed64: _root_.scala.Boolean = true
@@ -599,8 +582,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type sint32.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SINT32 extends Kind with Kind.Recognized {
-      val value = 17
+    case object TYPE_SINT32 extends Kind(17) with Kind.Recognized {
       val index = 17
       val name = "TYPE_SINT32"
       override def isTypeSint32: _root_.scala.Boolean = true
@@ -609,15 +591,14 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** Field type sint64.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SINT64 extends Kind with Kind.Recognized {
-      val value = 18
+    case object TYPE_SINT64 extends Kind(18) with Kind.Recognized {
       val index = 18
       val name = "TYPE_SINT64"
       override def isTypeSint64: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends Kind with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Kind(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(TYPE_UNKNOWN, TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
     def fromValue(value: _root_.scala.Int): Kind = value match {
@@ -652,7 +633,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   }
   /** Whether a field is optional, required, or repeated.
     */
-  sealed trait Cardinality extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class Cardinality(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Cardinality
     def isCardinalityUnknown: _root_.scala.Boolean = false
     def isCardinalityOptional: _root_.scala.Boolean = false
@@ -668,8 +649,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** For fields with unknown cardinality.
       */
     @SerialVersionUID(0L)
-    case object CARDINALITY_UNKNOWN extends Cardinality with Cardinality.Recognized {
-      val value = 0
+    case object CARDINALITY_UNKNOWN extends Cardinality(0) with Cardinality.Recognized {
       val index = 0
       val name = "CARDINALITY_UNKNOWN"
       override def isCardinalityUnknown: _root_.scala.Boolean = true
@@ -678,8 +658,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** For optional fields.
       */
     @SerialVersionUID(0L)
-    case object CARDINALITY_OPTIONAL extends Cardinality with Cardinality.Recognized {
-      val value = 1
+    case object CARDINALITY_OPTIONAL extends Cardinality(1) with Cardinality.Recognized {
       val index = 1
       val name = "CARDINALITY_OPTIONAL"
       override def isCardinalityOptional: _root_.scala.Boolean = true
@@ -688,8 +667,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** For required fields. Proto2 syntax only.
       */
     @SerialVersionUID(0L)
-    case object CARDINALITY_REQUIRED extends Cardinality with Cardinality.Recognized {
-      val value = 2
+    case object CARDINALITY_REQUIRED extends Cardinality(2) with Cardinality.Recognized {
       val index = 2
       val name = "CARDINALITY_REQUIRED"
       override def isCardinalityRequired: _root_.scala.Boolean = true
@@ -698,15 +676,14 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     /** For repeated fields.
       */
     @SerialVersionUID(0L)
-    case object CARDINALITY_REPEATED extends Cardinality with Cardinality.Recognized {
-      val value = 3
+    case object CARDINALITY_REPEATED extends Cardinality(3) with Cardinality.Recognized {
       val index = 3
       val name = "CARDINALITY_REPEATED"
       override def isCardinalityRepeated: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends Cardinality with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Cardinality(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(CARDINALITY_UNKNOWN, CARDINALITY_OPTIONAL, CARDINALITY_REQUIRED, CARDINALITY_REPEATED)
     def fromValue(value: _root_.scala.Int): Cardinality = value match {

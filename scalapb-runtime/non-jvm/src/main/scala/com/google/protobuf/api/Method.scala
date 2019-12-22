@@ -40,14 +40,14 @@ final case class Method(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
       
       {
         val __value = requestTypeUrl
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
         }
       };
@@ -61,7 +61,7 @@ final case class Method(
       
       {
         val __value = responseTypeUrl
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
         }
       };
@@ -79,7 +79,7 @@ final case class Method(
       
       {
         val __value = syntax
-        if (__value != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
+        if (__value.value != 0) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, __value.value)
         }
       };
@@ -97,13 +97,13 @@ final case class Method(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
       {
         val __v = requestTypeUrl
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(2, __v)
         }
       };
@@ -115,7 +115,7 @@ final case class Method(
       };
       {
         val __v = responseTypeUrl
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(4, __v)
         }
       };
@@ -133,7 +133,7 @@ final case class Method(
       };
       {
         val __v = syntax
-        if (__v != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
+        if (__v.value != 0) {
           _output__.writeEnum(7, __v.value)
         }
       };
@@ -154,13 +154,13 @@ final case class Method(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 18 =>
-            __requestTypeUrl = _input__.readString()
+            __requestTypeUrl = _input__.readStringRequireUtf8()
           case 24 =>
             __requestStreaming = _input__.readBool()
           case 34 =>
-            __responseTypeUrl = _input__.readString()
+            __responseTypeUrl = _input__.readStringRequireUtf8()
           case 40 =>
             __responseStreaming = _input__.readBool()
           case 50 =>

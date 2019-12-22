@@ -70,7 +70,7 @@ final case class CodeGeneratorResponse(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __error = Option(_input__.readString())
+            __error = Option(_input__.readStringRequireUtf8())
           case 122 =>
             __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.defaultInstance)
           case tag =>
@@ -266,11 +266,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
           _tag__ match {
             case 0 => _done__ = true
             case 10 =>
-              __name = Option(_input__.readString())
+              __name = Option(_input__.readStringRequireUtf8())
             case 18 =>
-              __insertionPoint = Option(_input__.readString())
+              __insertionPoint = Option(_input__.readStringRequireUtf8())
             case 122 =>
-              __content = Option(_input__.readString())
+              __content = Option(_input__.readStringRequireUtf8())
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

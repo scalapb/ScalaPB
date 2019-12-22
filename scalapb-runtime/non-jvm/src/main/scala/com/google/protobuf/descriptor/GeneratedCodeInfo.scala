@@ -219,7 +219,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
               _input__.popLimit(oldLimit)
             }
             case 18 =>
-              __sourceFile = Option(_input__.readString())
+              __sourceFile = Option(_input__.readStringRequireUtf8())
             case 24 =>
               __begin = Option(_input__.readInt32())
             case 32 =>

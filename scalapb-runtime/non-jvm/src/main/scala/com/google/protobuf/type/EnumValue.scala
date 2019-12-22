@@ -28,7 +28,7 @@ final case class EnumValue(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
@@ -57,7 +57,7 @@ final case class EnumValue(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
@@ -86,7 +86,7 @@ final case class EnumValue(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 16 =>
             __number = _input__.readInt32()
           case 26 =>

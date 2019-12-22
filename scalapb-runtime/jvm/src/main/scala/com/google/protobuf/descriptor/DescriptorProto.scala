@@ -158,7 +158,7 @@ final case class DescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Option(_input__.readString())
+            __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
             __field += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
           case 50 =>
@@ -176,7 +176,7 @@ final case class DescriptorProto(
           case 74 =>
             __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.defaultInstance)
           case 82 =>
-            __reservedName += _input__.readString()
+            __reservedName += _input__.readStringRequireUtf8()
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

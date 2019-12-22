@@ -100,7 +100,7 @@ final case class Value(
           case 17 =>
             __kind = com.google.protobuf.struct.Value.Kind.NumberValue(_input__.readDouble())
           case 26 =>
-            __kind = com.google.protobuf.struct.Value.Kind.StringValue(_input__.readString())
+            __kind = com.google.protobuf.struct.Value.Kind.StringValue(_input__.readStringRequireUtf8())
           case 32 =>
             __kind = com.google.protobuf.struct.Value.Kind.BoolValue(_input__.readBool())
           case 42 =>

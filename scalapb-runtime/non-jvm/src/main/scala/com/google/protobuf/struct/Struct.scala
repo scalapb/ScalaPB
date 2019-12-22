@@ -133,7 +133,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
         
         {
           val __value = key
-          if (__value != "") {
+          if (!__value.isEmpty) {
             __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
           }
         };
@@ -155,7 +155,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         {
           val __v = key
-          if (__v != "") {
+          if (!__v.isEmpty) {
             _output__.writeString(1, __v)
           }
         };
@@ -177,7 +177,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
           _tag__ match {
             case 0 => _done__ = true
             case 10 =>
-              __key = _input__.readString()
+              __key = _input__.readStringRequireUtf8()
             case 18 =>
               __value = Option(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)))
             case tag =>

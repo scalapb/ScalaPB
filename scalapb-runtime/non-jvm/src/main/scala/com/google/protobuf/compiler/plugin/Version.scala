@@ -87,7 +87,7 @@ final case class Version(
           case 24 =>
             __patch = Option(_input__.readInt32())
           case 34 =>
-            __suffix = Option(_input__.readString())
+            __suffix = Option(_input__.readStringRequireUtf8())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

@@ -166,7 +166,7 @@ final case class FieldDescriptorProto(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Option(_input__.readString())
+            __name = Option(_input__.readStringRequireUtf8())
           case 24 =>
             __number = Option(_input__.readInt32())
           case 32 =>
@@ -174,15 +174,15 @@ final case class FieldDescriptorProto(
           case 40 =>
             __type = Option(com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum()))
           case 50 =>
-            __typeName = Option(_input__.readString())
+            __typeName = Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __extendee = Option(_input__.readString())
+            __extendee = Option(_input__.readStringRequireUtf8())
           case 58 =>
-            __defaultValue = Option(_input__.readString())
+            __defaultValue = Option(_input__.readStringRequireUtf8())
           case 72 =>
             __oneofIndex = Option(_input__.readInt32())
           case 82 =>
-            __jsonName = Option(_input__.readString())
+            __jsonName = Option(_input__.readStringRequireUtf8())
           case 66 =>
             __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
           case tag =>
@@ -318,7 +318,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     jsonName = _root_.scala.None,
     options = _root_.scala.None
   )
-  sealed trait Type extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class Type(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Type
     def isTypeDouble: _root_.scala.Boolean = false
     def isTypeFloat: _root_.scala.Boolean = false
@@ -349,16 +349,14 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * Order is weird for historical reasons.
       */
     @SerialVersionUID(0L)
-    case object TYPE_DOUBLE extends Type with Type.Recognized {
-      val value = 1
+    case object TYPE_DOUBLE extends Type(1) with Type.Recognized {
       val index = 0
       val name = "TYPE_DOUBLE"
       override def isTypeDouble: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_FLOAT extends Type with Type.Recognized {
-      val value = 2
+    case object TYPE_FLOAT extends Type(2) with Type.Recognized {
       val index = 1
       val name = "TYPE_FLOAT"
       override def isTypeFloat: _root_.scala.Boolean = true
@@ -368,16 +366,14 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * negative values are likely.
       */
     @SerialVersionUID(0L)
-    case object TYPE_INT64 extends Type with Type.Recognized {
-      val value = 3
+    case object TYPE_INT64 extends Type(3) with Type.Recognized {
       val index = 2
       val name = "TYPE_INT64"
       override def isTypeInt64: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_UINT64 extends Type with Type.Recognized {
-      val value = 4
+    case object TYPE_UINT64 extends Type(4) with Type.Recognized {
       val index = 3
       val name = "TYPE_UINT64"
       override def isTypeUint64: _root_.scala.Boolean = true
@@ -387,40 +383,35 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * negative values are likely.
       */
     @SerialVersionUID(0L)
-    case object TYPE_INT32 extends Type with Type.Recognized {
-      val value = 5
+    case object TYPE_INT32 extends Type(5) with Type.Recognized {
       val index = 4
       val name = "TYPE_INT32"
       override def isTypeInt32: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_FIXED64 extends Type with Type.Recognized {
-      val value = 6
+    case object TYPE_FIXED64 extends Type(6) with Type.Recognized {
       val index = 5
       val name = "TYPE_FIXED64"
       override def isTypeFixed64: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_FIXED32 extends Type with Type.Recognized {
-      val value = 7
+    case object TYPE_FIXED32 extends Type(7) with Type.Recognized {
       val index = 6
       val name = "TYPE_FIXED32"
       override def isTypeFixed32: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_BOOL extends Type with Type.Recognized {
-      val value = 8
+    case object TYPE_BOOL extends Type(8) with Type.Recognized {
       val index = 7
       val name = "TYPE_BOOL"
       override def isTypeBool: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_STRING extends Type with Type.Recognized {
-      val value = 9
+    case object TYPE_STRING extends Type(9) with Type.Recognized {
       val index = 8
       val name = "TYPE_STRING"
       override def isTypeString: _root_.scala.Boolean = true
@@ -432,8 +423,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       * treat group fields as unknown fields.
       */
     @SerialVersionUID(0L)
-    case object TYPE_GROUP extends Type with Type.Recognized {
-      val value = 10
+    case object TYPE_GROUP extends Type(10) with Type.Recognized {
       val index = 9
       val name = "TYPE_GROUP"
       override def isTypeGroup: _root_.scala.Boolean = true
@@ -442,8 +432,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** Length-delimited aggregate.
       */
     @SerialVersionUID(0L)
-    case object TYPE_MESSAGE extends Type with Type.Recognized {
-      val value = 11
+    case object TYPE_MESSAGE extends Type(11) with Type.Recognized {
       val index = 10
       val name = "TYPE_MESSAGE"
       override def isTypeMessage: _root_.scala.Boolean = true
@@ -452,40 +441,35 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** New in version 2.
       */
     @SerialVersionUID(0L)
-    case object TYPE_BYTES extends Type with Type.Recognized {
-      val value = 12
+    case object TYPE_BYTES extends Type(12) with Type.Recognized {
       val index = 11
       val name = "TYPE_BYTES"
       override def isTypeBytes: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_UINT32 extends Type with Type.Recognized {
-      val value = 13
+    case object TYPE_UINT32 extends Type(13) with Type.Recognized {
       val index = 12
       val name = "TYPE_UINT32"
       override def isTypeUint32: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_ENUM extends Type with Type.Recognized {
-      val value = 14
+    case object TYPE_ENUM extends Type(14) with Type.Recognized {
       val index = 13
       val name = "TYPE_ENUM"
       override def isTypeEnum: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_SFIXED32 extends Type with Type.Recognized {
-      val value = 15
+    case object TYPE_SFIXED32 extends Type(15) with Type.Recognized {
       val index = 14
       val name = "TYPE_SFIXED32"
       override def isTypeSfixed32: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object TYPE_SFIXED64 extends Type with Type.Recognized {
-      val value = 16
+    case object TYPE_SFIXED64 extends Type(16) with Type.Recognized {
       val index = 15
       val name = "TYPE_SFIXED64"
       override def isTypeSfixed64: _root_.scala.Boolean = true
@@ -494,8 +478,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** Uses ZigZag encoding.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SINT32 extends Type with Type.Recognized {
-      val value = 17
+    case object TYPE_SINT32 extends Type(17) with Type.Recognized {
       val index = 16
       val name = "TYPE_SINT32"
       override def isTypeSint32: _root_.scala.Boolean = true
@@ -504,15 +487,14 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** Uses ZigZag encoding.
       */
     @SerialVersionUID(0L)
-    case object TYPE_SINT64 extends Type with Type.Recognized {
-      val value = 18
+    case object TYPE_SINT64 extends Type(18) with Type.Recognized {
       val index = 17
       val name = "TYPE_SINT64"
       override def isTypeSint64: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends Type with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Type(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
     def fromValue(value: _root_.scala.Int): Type = value match {
@@ -539,7 +521,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes.get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
   }
-  sealed trait Label extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class Label(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Label
     def isLabelOptional: _root_.scala.Boolean = false
     def isLabelRequired: _root_.scala.Boolean = false
@@ -554,31 +536,28 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     /** 0 is reserved for errors
       */
     @SerialVersionUID(0L)
-    case object LABEL_OPTIONAL extends Label with Label.Recognized {
-      val value = 1
+    case object LABEL_OPTIONAL extends Label(1) with Label.Recognized {
       val index = 0
       val name = "LABEL_OPTIONAL"
       override def isLabelOptional: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object LABEL_REQUIRED extends Label with Label.Recognized {
-      val value = 2
+    case object LABEL_REQUIRED extends Label(2) with Label.Recognized {
       val index = 1
       val name = "LABEL_REQUIRED"
       override def isLabelRequired: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object LABEL_REPEATED extends Label with Label.Recognized {
-      val value = 3
+    case object LABEL_REPEATED extends Label(3) with Label.Recognized {
       val index = 2
       val name = "LABEL_REPEATED"
       override def isLabelRepeated: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends Label with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Label(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(LABEL_OPTIONAL, LABEL_REQUIRED, LABEL_REPEATED)
     def fromValue(value: _root_.scala.Int): Label = value match {

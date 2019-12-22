@@ -105,9 +105,9 @@ final case class CodeGeneratorRequest(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __fileToGenerate += _input__.readString()
+            __fileToGenerate += _input__.readStringRequireUtf8()
           case 18 =>
-            __parameter = Option(_input__.readString())
+            __parameter = Option(_input__.readStringRequireUtf8())
           case 122 =>
             __protoFile += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
           case 26 =>

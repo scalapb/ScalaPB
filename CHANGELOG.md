@@ -19,6 +19,12 @@
   oneofs are generated in the position that matches their index in the proto
   file.
 
+- BREAKING CHANGE: Enums case objects now extend a sealed abstract base class
+  instead of a sealed trait for improved performance.
+
+- Strings are now parsed using CodedInputStream.readStringRequireUtf8 instead
+  of CodedInputStream.readString (following protobuf-java)
+
 - Update to protobuf 3.11.1
 
 ## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.5)

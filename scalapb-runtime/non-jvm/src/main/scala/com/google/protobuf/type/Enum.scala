@@ -34,7 +34,7 @@ final case class Enum(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
@@ -53,7 +53,7 @@ final case class Enum(
       
       {
         val __value = syntax
-        if (__value != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
+        if (__value.value != 0) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, __value.value)
         }
       };
@@ -71,7 +71,7 @@ final case class Enum(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
@@ -95,7 +95,7 @@ final case class Enum(
       };
       {
         val __v = syntax
-        if (__v != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
+        if (__v.value != 0) {
           _output__.writeEnum(5, __v.value)
         }
       };
@@ -114,7 +114,7 @@ final case class Enum(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 18 =>
             __enumvalue += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.EnumValue.defaultInstance)
           case 26 =>

@@ -249,7 +249,7 @@ final case class FieldMask(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __paths += _input__.readString()
+            __paths += _input__.readStringRequireUtf8()
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

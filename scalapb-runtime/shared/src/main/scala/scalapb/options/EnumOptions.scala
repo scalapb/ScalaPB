@@ -73,11 +73,11 @@ final case class EnumOptions(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __extends += _input__.readString()
+            __extends += _input__.readStringRequireUtf8()
           case 18 =>
-            __companionExtends += _input__.readString()
+            __companionExtends += _input__.readStringRequireUtf8()
           case 26 =>
-            __type = Option(_input__.readString())
+            __type = Option(_input__.readStringRequireUtf8())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

@@ -19,7 +19,7 @@ final case class Person(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
@@ -48,7 +48,7 @@ final case class Person(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
@@ -77,7 +77,7 @@ final case class Person(
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = _input__.readString()
+            __name = _input__.readStringRequireUtf8()
           case 16 =>
             __age = _input__.readInt32()
           case 26 =>
@@ -160,7 +160,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     age = 0,
     addresses = _root_.scala.Seq.empty
   )
-  sealed trait AddressType extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class AddressType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = AddressType
     def isHome: _root_.scala.Boolean = false
     def isWork: _root_.scala.Boolean = false
@@ -172,23 +172,21 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     sealed trait Recognized extends AddressType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = this
     @SerialVersionUID(0L)
-    case object HOME extends AddressType with AddressType.Recognized {
-      val value = 0
+    case object HOME extends AddressType(0) with AddressType.Recognized {
       val index = 0
       val name = "HOME"
       override def isHome: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object WORK extends AddressType with AddressType.Recognized {
-      val value = 1
+    case object WORK extends AddressType(1) with AddressType.Recognized {
       val index = 1
       val name = "WORK"
       override def isWork: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends AddressType with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends AddressType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(HOME, WORK)
     def fromValue(value: _root_.scala.Int): AddressType = value match {
@@ -213,21 +211,21 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
         
         {
           val __value = addressType
-          if (__value != scalapb.docs.person.Person.AddressType.HOME) {
+          if (__value.value != 0) {
             __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
           }
         };
         
         {
           val __value = street
-          if (__value != "") {
+          if (!__value.isEmpty) {
             __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
           }
         };
         
         {
           val __value = city
-          if (__value != "") {
+          if (!__value.isEmpty) {
             __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
           }
         };
@@ -245,19 +243,19 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         {
           val __v = addressType
-          if (__v != scalapb.docs.person.Person.AddressType.HOME) {
+          if (__v.value != 0) {
             _output__.writeEnum(1, __v.value)
           }
         };
         {
           val __v = street
-          if (__v != "") {
+          if (!__v.isEmpty) {
             _output__.writeString(2, __v)
           }
         };
         {
           val __v = city
-          if (__v != "") {
+          if (!__v.isEmpty) {
             _output__.writeString(3, __v)
           }
         };
@@ -276,9 +274,9 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
             case 8 =>
               __addressType = scalapb.docs.person.Person.AddressType.fromValue(_input__.readEnum())
             case 18 =>
-              __street = _input__.readString()
+              __street = _input__.readStringRequireUtf8()
             case 26 =>
-              __city = _input__.readString()
+              __city = _input__.readStringRequireUtf8()
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)

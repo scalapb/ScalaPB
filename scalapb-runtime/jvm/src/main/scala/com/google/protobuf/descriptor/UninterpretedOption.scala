@@ -121,7 +121,7 @@ final case class UninterpretedOption(
           case 18 =>
             __name += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
           case 26 =>
-            __identifierValue = Option(_input__.readString())
+            __identifierValue = Option(_input__.readStringRequireUtf8())
           case 32 =>
             __positiveIntValue = Option(_input__.readUInt64())
           case 40 =>
@@ -131,7 +131,7 @@ final case class UninterpretedOption(
           case 58 =>
             __stringValue = Option(_input__.readBytes())
           case 66 =>
-            __aggregateValue = Option(_input__.readString())
+            __aggregateValue = Option(_input__.readStringRequireUtf8())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
@@ -321,7 +321,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
           _tag__ match {
             case 0 => _done__ = true
             case 10 =>
-              __namePart = _input__.readString()
+              __namePart = _input__.readStringRequireUtf8()
               __requiredFields0 &= 0xfffffffffffffffeL
             case 16 =>
               __isExtension = _input__.readBool()

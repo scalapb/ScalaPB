@@ -25,9 +25,11 @@ case class UnknownFieldSet(
   }
 
   def serializedSize: Int = {
-    fields.map {
-      case (fieldNumber, field) => field.serializedSize(fieldNumber)
-    }.sum
+    var size: Int = 0
+    fields.foreach {
+      case (fieldNumber, field) => size += field.serializedSize(fieldNumber)
+    }
+    size
   }
 }
 
