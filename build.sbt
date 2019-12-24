@@ -576,7 +576,10 @@ lazy val docs = project
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.10.0-M3",
       "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.0",
-      "org.apache.spark"     %% "spark-sql"        % "2.4.4"
+      "org.apache.spark"     %% "spark-sql"        % "2.4.4",
+      "com.lihaoyi"          %% "ujson"            % "0.9.0",
+      "com.lihaoyi"          %% "os-lib"           % "0.5.0",
+      "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
     ),
     micrositeName := "ScalaPB",
     micrositeCompilingDocsTool := WithMdoc,
