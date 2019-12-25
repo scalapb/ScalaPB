@@ -118,7 +118,8 @@ object SchemaGenerators {
   )
 
   // identifier must not have be of the Java keywords.
-  val identifier = Gen.resize(4, Gen.identifier).retryUntil(e => !RESERVED.contains(e))
+  val identifier =
+    Gen.resize(4, Gen.identifier).retryUntil(e => !RESERVED.contains(e) && !e.startsWith("is"))
 
   /** Generates an alphanumerical character */
   def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const("_")), (9, Gen.alphaChar))
