@@ -9,11 +9,12 @@ object UniquePortGenerator {
     @annotation.tailrec
     def loop(loopCount: Int): Option[Int] = {
       val socket = new ServerSocket(0)
-      val port = try {
-        socket.getLocalPort
-      } finally {
-        socket.close()
-      }
+      val port =
+        try {
+          socket.getLocalPort
+        } finally {
+          socket.close()
+        }
 
       if (usingPorts(port)) {
         if (loopCount == 0) {

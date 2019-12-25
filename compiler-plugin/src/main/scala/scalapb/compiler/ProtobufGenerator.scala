@@ -893,7 +893,7 @@ class ProtobufGenerator(
             s"  ${e.scalaName.nameSymbol} = __${e.scalaName.name}"
         } ++ (if (message.preservesUnknownFields)
                 Seq(
-                  "  unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()"
+                  "  unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()"
                 )
               else Seq())
       )

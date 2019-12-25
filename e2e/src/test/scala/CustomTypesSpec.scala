@@ -81,9 +81,9 @@ class CustomTypesSpec extends AnyFlatSpec with Matchers {
         WrappedWeather(Weather.SUNNY)
       )
     ).update(
-        _.name := FullName("Foo", "Bar"),
-        _.age := Years(5)
-      )
+      _.name := FullName("Foo", "Bar"),
+      _.age := Years(5)
+    )
     val concat = (m1.toByteArray ++ m2.toByteArray)
     CustomMessage.parseFrom(concat) must be(expected)
   }
