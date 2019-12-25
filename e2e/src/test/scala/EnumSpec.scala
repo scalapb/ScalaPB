@@ -145,13 +145,14 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
     x = Color.Unrecognized(117).scalaValueDescriptor
   }
 
-  "Required Unrecognized enum" should "support conversion to Java" in {
-    /*
+  "Required Unrecognized enum" should "not work in Java" in {
     val scalaRequiredEnum = RequiredEnum(color = Color.Unrecognized(17))
-    val javaRequiredEnum = RequiredEnum.toJavaProto(scalaRequiredEnum)
-    RequiredEnum.fromJavaProto(javaRequiredEnum) must be (scalaRequiredEnum)
-    RequiredEnum.parseFrom(javaRequiredEnum.toByteArray) must be (scalaRequiredEnum)
-   */
+    assertThrows[IllegalArgumentException] {
+      RequiredEnum.toJavaProto(scalaRequiredEnum)
+    }
+    assertThrows[InvalidProtocolBufferException] {
+      val javaRequiredEnum = Enum.RequiredEnum.parseFrom(scalaRequiredEnum.toByteArray)
+    }
   }
 
   val scalaRequiredUnrecognizedEnum = RequiredEnum(color = Color.Unrecognized(17))
