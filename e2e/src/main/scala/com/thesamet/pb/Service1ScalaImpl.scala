@@ -116,4 +116,6 @@ class Service1ScalaImpl extends Service1 {
       observer.onCompleted()
     }
   }
+
+  override def primitiveValues(request: Int): Future[String] = Future.successful("boo")
 }

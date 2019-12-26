@@ -33,15 +33,20 @@ class UnknownFieldSetSpec extends AnyFlatSpec with Matchers {
 
   "Unknown fields" should "be combined" in {
     val mergedBase = BaseCase.parseFrom(baseX.toByteArray ++ ext.toByteArray)
-    val mergedOnceMore = BaseCase.merge(mergedBase, CodedInputStream.newInstance(Extended(extInt=35).toByteArray))
+    val mergedOnceMore =
+      BaseCase.merge(mergedBase, CodedInputStream.newInstance(Extended(extInt = 35).toByteArray))
 
-    Extended.parseFrom(mergedOnceMore.toByteArray).withUnknownFields(UnknownFieldSet.empty) must be(ext.withExtInt(35))
+    Extended.parseFrom(mergedOnceMore.toByteArray).withUnknownFields(UnknownFieldSet.empty) must be(
+      ext.withExtInt(35)
+    )
   }
 
   "Unknown fields" should "stay untouched when merging with known fields" in {
-    val mergedBase = BaseCase.parseFrom(baseX.toByteArray ++ ext.toByteArray)
+    val mergedBase     = BaseCase.parseFrom(baseX.toByteArray ++ ext.toByteArray)
     val mergedOnceMore = BaseCase.merge(mergedBase, CodedInputStream.newInstance(baseY.toByteArray))
 
-    Extended.parseFrom(mergedOnceMore.toByteArray).withUnknownFields(UnknownFieldSet.empty) must be(ext)
+    Extended.parseFrom(mergedOnceMore.toByteArray).withUnknownFields(UnknownFieldSet.empty) must be(
+      ext
+    )
   }
 }

@@ -71,6 +71,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         if (descriptor.isSealedOneofType)
           Some(descriptor.sealedOneofScalaType)
         else if (descriptor.messageOptions.hasType) Some(descriptor.messageOptions.getType)
+        else if (descriptor.getFile.usePrimitiveWrappers)
+          DescriptorImplicits.primitiveWrapperType(descriptor)
         else None
 
       def baseScalaType = descriptor.scalaType.fullNameWithMaybeRoot(Seq("build"))
@@ -344,18 +346,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         Some(fieldReferencingMap.fieldOptions.getKeyType)
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)
         Some(fieldReferencingMap.fieldOptions.getValueType)
-      else if (isMessage && fd.getFile.usePrimitiveWrappers) (fd.getMessageType.getFullName match {
-        case "google.protobuf.Int32Value"  => Some("_root_.scala.Int")
-        case "google.protobuf.Int64Value"  => Some("_root_.scala.Long")
-        case "google.protobuf.UInt32Value" => Some("_root_.scala.Int")
-        case "google.protobuf.UInt64Value" => Some("_root_.scala.Long")
-        case "google.protobuf.DoubleValue" => Some("_root_.scala.Double")
-        case "google.protobuf.FloatValue"  => Some("_root_.scala.Float")
-        case "google.protobuf.StringValue" => Some("_root_.scala.Predef.String")
-        case "google.protobuf.BoolValue"   => Some("_root_.scala.Boolean")
-        case "google.protobuf.BytesValue"  => Some("_root_.com.google.protobuf.ByteString")
-        case _                             => None
-      })
+      else if (isMessage && fd.getFile.usePrimitiveWrappers)
+        DescriptorImplicits.primitiveWrapperType(fd.getMessageType)
       else None
     }
 
@@ -995,6 +987,20 @@ object DescriptorImplicits {
     "yield",
     "ne"
   )
+
+  def primitiveWrapperType(messageType: Descriptor): Option[String] =
+    messageType.getFullName match {
+      case "google.protobuf.Int32Value"  => Some("_root_.scala.Int")
+      case "google.protobuf.Int64Value"  => Some("_root_.scala.Long")
+      case "google.protobuf.UInt32Value" => Some("_root_.scala.Int")
+      case "google.protobuf.UInt64Value" => Some("_root_.scala.Long")
+      case "google.protobuf.DoubleValue" => Some("_root_.scala.Double")
+      case "google.protobuf.FloatValue"  => Some("_root_.scala.Float")
+      case "google.protobuf.StringValue" => Some("_root_.scala.Predef.String")
+      case "google.protobuf.BoolValue"   => Some("_root_.scala.Boolean")
+      case "google.protobuf.BytesValue"  => Some("_root_.com.google.protobuf.ByteString")
+      case _                             => None
+    }
 }
 
 object Helper {
