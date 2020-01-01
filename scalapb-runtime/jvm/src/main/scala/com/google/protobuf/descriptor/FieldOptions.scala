@@ -84,16 +84,16 @@ final case class FieldOptions(
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (ctype.isDefined) {
-        val __value = ctype.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
+        val __value = ctype.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value)
       };
       if (packed.isDefined) {
         val __value = packed.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(2, __value)
       };
       if (jstype.isDefined) {
-        val __value = jstype.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(6, __value.value)
+        val __value = jstype.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(6, __value)
       };
       if (`lazy`.isDefined) {
         val __value = `lazy`.get
@@ -124,8 +124,8 @@ final case class FieldOptions(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       ctype.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(1, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(1, __m)
       };
       packed.foreach { __v =>
         val __m = __v
@@ -140,8 +140,8 @@ final case class FieldOptions(
         _output__.writeBool(5, __m)
       };
       jstype.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(6, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(6, __m)
       };
       weak.foreach { __v =>
         val __m = __v

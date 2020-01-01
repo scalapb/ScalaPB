@@ -61,12 +61,12 @@ final case class FieldDescriptorProto(
         __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(3, __value)
       };
       if (label.isDefined) {
-        val __value = label.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(4, __value.value)
+        val __value = label.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(4, __value)
       };
       if (`type`.isDefined) {
-        val __value = `type`.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, __value.value)
+        val __value = `type`.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(5, __value)
       };
       if (typeName.isDefined) {
         val __value = typeName.get
@@ -117,12 +117,12 @@ final case class FieldDescriptorProto(
         _output__.writeInt32(3, __m)
       };
       label.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(4, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(4, __m)
       };
       `type`.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(5, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(5, __m)
       };
       typeName.foreach { __v =>
         val __m = __v

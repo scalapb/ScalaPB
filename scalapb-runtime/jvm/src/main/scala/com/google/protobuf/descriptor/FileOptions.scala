@@ -137,8 +137,8 @@ final case class FileOptions(
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(27, __value)
       };
       if (optimizeFor.isDefined) {
-        val __value = optimizeFor.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(9, __value.value)
+        val __value = optimizeFor.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(9, __value)
       };
       if (goPackage.isDefined) {
         val __value = goPackage.get
@@ -221,8 +221,8 @@ final case class FileOptions(
         _output__.writeString(8, __m)
       };
       optimizeFor.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(9, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(9, __m)
       };
       javaMultipleFiles.foreach { __v =>
         val __m = __v

@@ -50,16 +50,16 @@ final case class Field(
       var __size = 0
       
       {
-        val __value = kind
-        if (__value.value != 0) {
-          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
+        val __value = kind.value
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value)
         }
       };
       
       {
-        val __value = cardinality
-        if (__value.value != 0) {
-          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(2, __value.value)
+        val __value = cardinality.value
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(2, __value)
         }
       };
       
@@ -128,15 +128,15 @@ final case class Field(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
-        val __v = kind
-        if (__v.value != 0) {
-          _output__.writeEnum(1, __v.value)
+        val __v = kind.value
+        if (__v != 0) {
+          _output__.writeEnum(1, __v)
         }
       };
       {
-        val __v = cardinality
-        if (__v.value != 0) {
-          _output__.writeEnum(2, __v.value)
+        val __v = cardinality.value
+        if (__v != 0) {
+          _output__.writeEnum(2, __v)
         }
       };
       {

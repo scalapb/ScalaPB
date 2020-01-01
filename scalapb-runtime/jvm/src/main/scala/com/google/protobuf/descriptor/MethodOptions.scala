@@ -30,8 +30,8 @@ final case class MethodOptions(
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(33, __value)
       };
       if (idempotencyLevel.isDefined) {
-        val __value = idempotencyLevel.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(34, __value.value)
+        val __value = idempotencyLevel.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(34, __value)
       };
       uninterpretedOption.foreach { __item =>
         val __value = __item
@@ -54,8 +54,8 @@ final case class MethodOptions(
         _output__.writeBool(33, __m)
       };
       idempotencyLevel.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(34, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(34, __m)
       };
       uninterpretedOption.foreach { __v =>
         val __m = __v

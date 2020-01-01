@@ -453,9 +453,7 @@ class ProtobufGenerator(
       fp.add(s"""_output__.writeTag(${field.getNumber}, 2)
                 |_output__.writeUInt32NoTag($valueExpr.serializedSize)
                 |$valueExpr.writeTo(_output__)""".stripMargin)
-    } else if (field.isEnum)
-      fp.add(s"_output__.writeEnum(${field.getNumber}, $valueExpr.value)")
-    else {
+    } else {
       val capTypeName = Types.capitalizedType(field.getType)
       fp.add(s"_output__.write$capTypeName(${field.getNumber}, $valueExpr)")
     }
@@ -467,9 +465,7 @@ class ProtobufGenerator(
       CodedOutputStream
         .computeTagSize(field.getNumber)
         .toString + s" + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag($size) + $size"
-    } else if (field.isEnum)
-      s"_root_.com.google.protobuf.CodedOutputStream.computeEnumSize(${field.getNumber}, ${expr}.value)"
-    else {
+    } else {
       val capTypeName = Types.capitalizedType(field.getType)
       s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}Size(${field.getNumber}, ${expr})"
     }
@@ -495,8 +491,10 @@ class ProtobufGenerator(
       (toBaseTypeExpr(field) andThen MethodApplication("scalaValueDescriptor"))
     else toBaseTypeExpr(field)
 
-  def toBaseType(field: FieldDescriptor)(expr: String) =
-    toBaseTypeExpr(field).apply(expr, EnclosingType.None)
+  def toBaseType(field: FieldDescriptor)(expr: String) = {
+    val suffix = if (field.isEnum) ".value" else ""
+    toBaseTypeExpr(field).apply(expr, EnclosingType.None) + suffix
+  }
 
   def toCustomTypeExpr(field: FieldDescriptor) =
     if (field.customSingleScalaTypeName.isEmpty) Identity
@@ -633,7 +631,7 @@ class ProtobufGenerator(
 
   private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
     if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
-    else if (field.getType == Type.ENUM) s"${expr}.value != 0"
+    else if (field.getType == Type.ENUM) s"${expr} != 0"
     else s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"
   }
 

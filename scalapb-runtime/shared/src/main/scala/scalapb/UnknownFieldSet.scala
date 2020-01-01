@@ -10,13 +10,13 @@ import scalapb.lenses.Lens
 
 import scala.collection.mutable
 
-case class UnknownFieldSet(
+final case class UnknownFieldSet(
     private[scalapb] val fields: Map[Int, UnknownFieldSet.Field] = Map.empty
 ) {
   def getField(fieldNumber: Int): Option[UnknownFieldSet.Field] = fields.get(fieldNumber)
 
   def withField(fieldNumber: Int, value: UnknownFieldSet.Field) =
-    copy(fields = fields + (fieldNumber -> value))
+    new UnknownFieldSet(fields = fields + (fieldNumber -> value))
 
   def writeTo(output: CodedOutputStream): Unit = {
     fields.foreach {
@@ -132,7 +132,7 @@ object UnknownFieldSet {
 
     def result() =
       if (fieldBuilders.isEmpty) UnknownFieldSet.empty
-      else UnknownFieldSet(fieldBuilders.mapValues(_.result()).toMap)
+      else new UnknownFieldSet(fieldBuilders.mapValues(_.result()).toMap)
 
     def parseField(tag: Int, input: CodedInputStream) = {
       val fieldNumber = WireType.getTagFieldNumber(tag)

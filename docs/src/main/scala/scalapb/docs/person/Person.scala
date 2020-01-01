@@ -210,9 +210,9 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
         var __size = 0
         
         {
-          val __value = addressType
-          if (__value.value != 0) {
-            __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
+          val __value = addressType.value
+          if (__value != 0) {
+            __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value)
           }
         };
         
@@ -242,9 +242,9 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         {
-          val __v = addressType
-          if (__v.value != 0) {
-            _output__.writeEnum(1, __v.value)
+          val __v = addressType.value
+          if (__v != 0) {
+            _output__.writeEnum(1, __v)
           }
         };
         {

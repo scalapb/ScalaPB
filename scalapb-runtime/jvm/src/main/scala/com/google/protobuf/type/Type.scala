@@ -60,9 +60,9 @@ final case class Type(
       };
       
       {
-        val __value = syntax
-        if (__value.value != 0) {
-          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(6, __value.value)
+        val __value = syntax.value
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(6, __value)
         }
       };
       __size += unknownFields.serializedSize
@@ -106,9 +106,9 @@ final case class Type(
         __m.writeTo(_output__)
       };
       {
-        val __v = syntax
-        if (__v.value != 0) {
-          _output__.writeEnum(6, __v.value)
+        val __v = syntax.value
+        if (__v != 0) {
+          _output__.writeEnum(6, __v)
         }
       };
       unknownFields.writeTo(_output__)

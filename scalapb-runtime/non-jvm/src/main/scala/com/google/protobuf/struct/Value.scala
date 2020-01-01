@@ -22,8 +22,8 @@ final case class Value(
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (kind.nullValue.isDefined) {
-        val __value = kind.nullValue.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
+        val __value = kind.nullValue.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value)
       };
       if (kind.numberValue.isDefined) {
         val __value = kind.numberValue.get
@@ -58,8 +58,8 @@ final case class Value(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       kind.nullValue.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(1, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(1, __m)
       };
       kind.numberValue.foreach { __v =>
         val __m = __v

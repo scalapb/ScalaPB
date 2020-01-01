@@ -125,8 +125,8 @@ final case class ScalaPbOptions(
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, __value)
       };
       if (scope.isDefined) {
-        val __value = scope.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(11, __value.value)
+        val __value = scope.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(11, __value)
       };
       if (lenses.isDefined) {
         val __value = lenses.get
@@ -145,8 +145,8 @@ final case class ScalaPbOptions(
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(15, __value)
       };
       if (enumValueNaming.isDefined) {
-        val __value = enumValueNaming.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(16, __value.value)
+        val __value = enumValueNaming.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(16, __value)
       };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
@@ -205,8 +205,8 @@ final case class ScalaPbOptions(
         _output__.writeString(10, __m)
       };
       scope.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(11, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(11, __m)
       };
       lenses.foreach { __v =>
         val __m = __v
@@ -225,8 +225,8 @@ final case class ScalaPbOptions(
         _output__.writeBool(15, __m)
       };
       enumValueNaming.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(16, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(16, __m)
       };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
