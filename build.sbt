@@ -657,6 +657,7 @@ lazy val e2e = (project in file("e2e"))
   .settings(
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
+    Compile / PB.protocVersion := "-v" + protobufVersion,
     Compile / PB.targets := Seq(
       PB.gens.java -> (Compile / sourceManaged).value,
       (

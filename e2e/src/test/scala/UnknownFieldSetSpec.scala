@@ -1,12 +1,10 @@
 import com.google.protobuf.CodedInputStream
-import com.thesamet.pb.{MyMap, MyVector}
 import com.thesamet.proto.e2e.unknown_fields._
 import org.scalatest._
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 import scalapb.UnknownFieldSet
-import scalapb.UnknownFieldSet.Field
 
 class UnknownFieldSetSpec extends AnyFlatSpec with Matchers {
   val baseX = BaseCase(x = "x", y = 12)

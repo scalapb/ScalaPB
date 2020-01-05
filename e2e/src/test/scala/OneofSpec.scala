@@ -25,16 +25,16 @@ class OneofSpec
   }
 
   "oneof.isX function" should "return correct value" in {
-    unspecified.myOneOf mustBe 'isEmpty
-    unspecified.myOneOf must not be 'isDefined
-    unspecified.myOneOf must not be 'isTempField
-    unspecified.myOneOf must not be 'isOtherField
-    unspecified.myOneOf must not be 'isSub
-    tempField.myOneOf mustBe 'isTempField
-    tempField.myOneOf mustBe 'isDefined
-    tempField.myOneOf must not be 'isEmpty
-    tempField.myOneOf must not be 'isOtherField
-    tempField.myOneOf must not be 'isSub
+    unspecified.myOneOf mustBe empty
+    unspecified.myOneOf must not be defined
+    unspecified.myOneOf.isTempField must be(false)
+    unspecified.myOneOf.isOtherField must be(false)
+    unspecified.myOneOf.isSub must be(false)
+    tempField.myOneOf.isTempField mustBe(true)
+    tempField.myOneOf mustBe defined
+    tempField.myOneOf must not be empty
+    tempField.myOneOf.isOtherField mustBe(false)
+    tempField.myOneOf.isSub must be(false)
   }
 
   "oneof.number function" should "return correct value" in {

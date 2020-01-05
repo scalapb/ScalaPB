@@ -40,12 +40,14 @@ import scala.io.Source
 import scala.util._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
+import org.scalatest.EitherValues
 
 class TextFormatSpec
     extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
     with Matchers
-    with TryValues {
+    with TryValues
+    with EitherValues {
 
   class ParseOk extends Matcher[String] {
 
@@ -53,7 +55,7 @@ class TextFormatSpec
       val r = TestAllTypes.validateAscii(left)
       MatchResult(
         r.isRight,
-        if (r.isLeft) "Text did not parse: " + r.left.get.msg else null,
+        r.fold("Text did not parse: " + _.msg, _ => "***UNEXPECTED***"),
         "Text parsed ok"
       )
     }
@@ -217,7 +219,7 @@ class TextFormatSpec
   }
 
   "testParseNumericEnum" should "pass" in {
-    TestAllTypes.fromAscii("optional_nested_enum: 2").getOptionalNestedEnum must be('bar)
+    TestAllTypes.fromAscii("optional_nested_enum: 2").getOptionalNestedEnum.isBar must be(true)
   }
 
   "testParseComment" should "pass" in {
@@ -308,26 +310,26 @@ class TextFormatSpec
       TextFormatUtils.escapeText("\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"")
     )
     bytes("\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"") must be(
-      TextFormatUtils.unescapeBytes("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").right.get
+      TextFormatUtils.unescapeBytes("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").right.value
     )
     "\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"" must be(
-      TextFormatUtils.unescapeText("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").right.get
+      TextFormatUtils.unescapeText("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").right.value
     )
     kEscapeTestStringEscaped must be(TextFormatUtils.escapeText(kEscapeTestString))
-    kEscapeTestString must be(TextFormatUtils.unescapeText(kEscapeTestStringEscaped).right.get)
+    kEscapeTestString must be(TextFormatUtils.unescapeText(kEscapeTestStringEscaped).right.value)
 
     // Unicode handling.
     "\\341\\210\\264" must be(TextFormatUtils.escapeText("\u1234"))
     "\\341\\210\\264" must be(TextFormatUtils.escapeBytes(bytes(0xe1, 0x88, 0xb4)))
-    "\u1234" must be(TextFormatUtils.unescapeText("\\341\\210\\264").right.get)
-    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\341\\210\\264").right.get)
-    "\u1234" must be(TextFormatUtils.unescapeText("\\xe1\\x88\\xb4").right.get)
-    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\xe1\\x88\\xb4").right.get)
+    "\u1234" must be(TextFormatUtils.unescapeText("\\341\\210\\264").right.value)
+    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\341\\210\\264").right.value)
+    "\u1234" must be(TextFormatUtils.unescapeText("\\xe1\\x88\\xb4").right.value)
+    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\xe1\\x88\\xb4").right.value)
 
     // Handling of strings with unescaped Unicode characters > 255.
     val zh           = "\u9999\u6e2f\u4e0a\u6d77\ud84f\udf80\u8c50\u9280\u884c"
     val zhByteString = ByteString.copyFromUtf8(zh)
-    zhByteString must be(TextFormatUtils.unescapeBytes(zh).right.get)
+    zhByteString must be(TextFormatUtils.unescapeBytes(zh).right.value)
 
     TextFormatUtils.unescapeText("\\x").left.get.msg must be("'\\x' with no digits")
 

@@ -1,5 +1,4 @@
 import com.thesamet.proto.e2e.issue102.{ProtoPacked, ProtoUnpacked}
-import org.scalatest._
 import org.scalatest.funspec.AnyFunSpec
 
 class Issue102Spec extends AnyFunSpec {
