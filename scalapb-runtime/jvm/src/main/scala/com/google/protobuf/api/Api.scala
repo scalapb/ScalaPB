@@ -220,11 +220,11 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Api): com.google.protobuf.Api = {
     val javaPbOut = com.google.protobuf.Api.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllMethods(scalaPbSource.methods.iterator.map(com.google.protobuf.api.Method.toJavaProto).toIterable.asJava)
-    javaPbOut.addAllOptions(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllMethods(_root_.scalapb.internal.compat.toIterable(scalaPbSource.methods.iterator.map(com.google.protobuf.api.Method.toJavaProto)).asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     javaPbOut.setVersion(scalaPbSource.version)
     scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto).foreach(javaPbOut.setSourceContext)
-    javaPbOut.addAllMixins(scalaPbSource.mixins.iterator.map(com.google.protobuf.api.Mixin.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllMixins(_root_.scalapb.internal.compat.toIterable(scalaPbSource.mixins.iterator.map(com.google.protobuf.api.Mixin.toJavaProto)).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }

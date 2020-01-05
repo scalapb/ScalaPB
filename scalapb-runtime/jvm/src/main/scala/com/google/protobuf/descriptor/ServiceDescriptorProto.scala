@@ -97,7 +97,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceDescriptorProto): com.google.protobuf.DescriptorProtos.ServiceDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllMethod(scalaPbSource.method.iterator.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllMethod(_root_.scalapb.internal.compat.toIterable(scalaPbSource.method.iterator.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto)).asJava)
     scalaPbSource.options.map(com.google.protobuf.descriptor.ServiceOptions.toJavaProto).foreach(javaPbOut.setOptions)
     javaPbOut.build
   }

@@ -445,7 +445,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     scalaPbSource.phpNamespace.foreach(javaPbOut.setPhpNamespace)
     scalaPbSource.phpMetadataNamespace.foreach(javaPbOut.setPhpMetadataNamespace)
     scalaPbSource.rubyPackage.foreach(javaPbOut.setRubyPackage)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): com.google.protobuf.descriptor.FileOptions = com.google.protobuf.descriptor.FileOptions(

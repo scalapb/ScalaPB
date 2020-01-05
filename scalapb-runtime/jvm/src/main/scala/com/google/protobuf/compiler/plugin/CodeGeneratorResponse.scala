@@ -91,7 +91,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.CodeGeneratorResponse): com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse = {
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.newBuilder
     scalaPbSource.error.foreach(javaPbOut.setError)
-    javaPbOut.addAllFile(scalaPbSource.file.iterator.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.file.iterator.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = com.google.protobuf.compiler.plugin.CodeGeneratorResponse(

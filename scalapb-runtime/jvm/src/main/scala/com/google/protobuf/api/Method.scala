@@ -206,7 +206,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     javaPbOut.setRequestStreaming(scalaPbSource.requestStreaming)
     javaPbOut.setResponseTypeUrl(scalaPbSource.responseTypeUrl)
     javaPbOut.setResponseStreaming(scalaPbSource.responseStreaming)
-    javaPbOut.addAllOptions(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }

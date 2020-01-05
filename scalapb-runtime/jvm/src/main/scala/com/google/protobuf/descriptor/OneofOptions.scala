@@ -67,7 +67,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.OneofOptions): com.google.protobuf.DescriptorProtos.OneofOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.OneofOptions.newBuilder
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.OneofOptions): com.google.protobuf.descriptor.OneofOptions = com.google.protobuf.descriptor.OneofOptions(

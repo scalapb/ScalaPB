@@ -218,14 +218,14 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto): com.google.protobuf.DescriptorProtos.DescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllField(scalaPbSource.field.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto).toIterable.asJava)
-    javaPbOut.addAllExtension(scalaPbSource.extension.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto).toIterable.asJava)
-    javaPbOut.addAllNestedType(scalaPbSource.nestedType.iterator.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto).toIterable.asJava)
-    javaPbOut.addAllEnumType(scalaPbSource.enumType.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto).toIterable.asJava)
-    javaPbOut.addAllExtensionRange(scalaPbSource.extensionRange.iterator.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.toJavaProto).toIterable.asJava)
-    javaPbOut.addAllOneofDecl(scalaPbSource.oneofDecl.iterator.map(com.google.protobuf.descriptor.OneofDescriptorProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllField(_root_.scalapb.internal.compat.toIterable(scalaPbSource.field.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto)).asJava)
+    javaPbOut.addAllExtension(_root_.scalapb.internal.compat.toIterable(scalaPbSource.extension.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto)).asJava)
+    javaPbOut.addAllNestedType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.nestedType.iterator.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto)).asJava)
+    javaPbOut.addAllEnumType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumType.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto)).asJava)
+    javaPbOut.addAllExtensionRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.extensionRange.iterator.map(com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.toJavaProto)).asJava)
+    javaPbOut.addAllOneofDecl(_root_.scalapb.internal.compat.toIterable(scalaPbSource.oneofDecl.iterator.map(com.google.protobuf.descriptor.OneofDescriptorProto.toJavaProto)).asJava)
     scalaPbSource.options.map(com.google.protobuf.descriptor.MessageOptions.toJavaProto).foreach(javaPbOut.setOptions)
-    javaPbOut.addAllReservedRange(scalaPbSource.reservedRange.iterator.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllReservedRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.reservedRange.iterator.map(com.google.protobuf.descriptor.DescriptorProto.ReservedRange.toJavaProto)).asJava)
     javaPbOut.addAllReservedName(scalaPbSource.reservedName.asJava)
     javaPbOut.build
   }

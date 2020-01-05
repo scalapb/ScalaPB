@@ -53,12 +53,13 @@ object ExpressionBuilder {
 
   def convertCollection(expr: String, enclosingType: EnclosingType): String = {
     val convert = List(enclosingType match {
-      case Collection(DescriptorImplicits.ScalaVector)   => MethodApplication("toVector")
-      case Collection(DescriptorImplicits.ScalaSeq)      => MethodApplication("toSeq")
-      case Collection(DescriptorImplicits.ScalaMap)      => MethodApplication("toMap")
-      case Collection(DescriptorImplicits.ScalaIterable) => MethodApplication("toIterable")
-      case Collection(cc)                                => FunctionApplication("_root_.scalapb.internal.compat.convertTo")
-      case _                                             => Identity
+      case Collection(DescriptorImplicits.ScalaVector) => MethodApplication("toVector")
+      case Collection(DescriptorImplicits.ScalaSeq)    => MethodApplication("toSeq")
+      case Collection(DescriptorImplicits.ScalaMap)    => MethodApplication("toMap")
+      case Collection(DescriptorImplicits.ScalaIterable) =>
+        FunctionApplication("_root_.scalapb.internal.compat.toIterable")
+      case Collection(cc) => FunctionApplication("_root_.scalapb.internal.compat.convertTo")
+      case _              => Identity
     })
     runSingleton(convert)(expr)
   }

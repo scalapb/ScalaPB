@@ -137,7 +137,7 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest.newBuilder
     javaPbOut.addAllFileToGenerate(scalaPbSource.fileToGenerate.asJava)
     scalaPbSource.parameter.foreach(javaPbOut.setParameter)
-    javaPbOut.addAllProtoFile(scalaPbSource.protoFile.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllProtoFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.protoFile.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto)).asJava)
     scalaPbSource.compilerVersion.map(com.google.protobuf.compiler.plugin.Version.toJavaProto).foreach(javaPbOut.setCompilerVersion)
     javaPbOut.build
   }

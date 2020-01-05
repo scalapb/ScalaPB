@@ -311,14 +311,13 @@ class ProtobufGenerator(
       (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = true))
         .apply(v, EnclosingType.None)
 
-    val getMutableMap = s"getMutable${field.upperScalaName}" + (if (field.mapType.valueField.isEnum && field.getFile.isProto3)
-                                                                  "Value"
-                                                                else "")
+    val putAll = s"putAll${field.upperScalaName}" + (if (field.mapType.valueField.isEnum && field.getFile.isProto3)
+                                                       "Value"
+                                                     else "")
 
     s"""$javaObject
-       |  .$getMutableMap()
-       |  .putAll(
-       |    $scalaObject.${fieldAccessorSymbol(field)}.iterator.map {
+       |  .$putAll(
+       |    $scalaObject.${fieldAccessorSymbol(field)}.map {
        |      __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert(
          "__kv._2",
          field.mapType.valueField

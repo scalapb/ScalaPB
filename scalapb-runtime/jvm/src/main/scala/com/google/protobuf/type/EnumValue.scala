@@ -115,7 +115,7 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
     val javaPbOut = com.google.protobuf.EnumValue.newBuilder
     javaPbOut.setName(scalaPbSource.name)
     javaPbOut.setNumber(scalaPbSource.number)
-    javaPbOut.addAllOptions(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.EnumValue): com.google.protobuf.`type`.EnumValue = com.google.protobuf.`type`.EnumValue(

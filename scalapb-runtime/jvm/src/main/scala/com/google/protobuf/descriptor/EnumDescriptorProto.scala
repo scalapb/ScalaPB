@@ -137,9 +137,9 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumDescriptorProto): com.google.protobuf.DescriptorProtos.EnumDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllValue(scalaPbSource.value.iterator.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllValue(_root_.scalapb.internal.compat.toIterable(scalaPbSource.value.iterator.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto)).asJava)
     scalaPbSource.options.map(com.google.protobuf.descriptor.EnumOptions.toJavaProto).foreach(javaPbOut.setOptions)
-    javaPbOut.addAllReservedRange(scalaPbSource.reservedRange.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllReservedRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.reservedRange.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.toJavaProto)).asJava)
     javaPbOut.addAllReservedName(scalaPbSource.reservedName.asJava)
     javaPbOut.build
   }

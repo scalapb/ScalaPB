@@ -77,9 +77,8 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.Struct): com.google.protobuf.Struct = {
     val javaPbOut = com.google.protobuf.Struct.newBuilder
     javaPbOut
-      .getMutableFields()
-      .putAll(
-        scalaPbSource.fields.iterator.map {
+      .putAllFields(
+        scalaPbSource.fields.map {
           __kv => (__kv._1, com.google.protobuf.struct.Value.toJavaProto(__kv._2))
       }.toMap.asJava)
     javaPbOut.build

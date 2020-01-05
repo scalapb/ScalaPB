@@ -159,7 +159,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption, com.google.protobuf.DescriptorProtos.UninterpretedOption] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.UninterpretedOption): com.google.protobuf.DescriptorProtos.UninterpretedOption = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.UninterpretedOption.newBuilder
-    javaPbOut.addAllName(scalaPbSource.name.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllName(_root_.scalapb.internal.compat.toIterable(scalaPbSource.name.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.toJavaProto)).asJava)
     scalaPbSource.identifierValue.foreach(javaPbOut.setIdentifierValue)
     scalaPbSource.positiveIntValue.foreach(javaPbOut.setPositiveIntValue)
     scalaPbSource.negativeIntValue.foreach(javaPbOut.setNegativeIntValue)

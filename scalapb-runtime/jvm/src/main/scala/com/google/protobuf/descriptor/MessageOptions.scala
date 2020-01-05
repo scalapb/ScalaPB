@@ -177,7 +177,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     scalaPbSource.noStandardDescriptorAccessor.foreach(javaPbOut.setNoStandardDescriptorAccessor)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.mapEntry.foreach(javaPbOut.setMapEntry)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MessageOptions): com.google.protobuf.descriptor.MessageOptions = com.google.protobuf.descriptor.MessageOptions(

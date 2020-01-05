@@ -87,7 +87,7 @@ object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceOptions): com.google.protobuf.DescriptorProtos.ServiceOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.ServiceOptions): com.google.protobuf.descriptor.ServiceOptions = com.google.protobuf.descriptor.ServiceOptions(

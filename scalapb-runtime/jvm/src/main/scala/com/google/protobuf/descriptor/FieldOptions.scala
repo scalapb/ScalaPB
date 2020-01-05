@@ -216,7 +216,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     scalaPbSource.`lazy`.foreach(javaPbOut.setLazy)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.weak.foreach(javaPbOut.setWeak)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): com.google.protobuf.descriptor.FieldOptions = com.google.protobuf.descriptor.FieldOptions(

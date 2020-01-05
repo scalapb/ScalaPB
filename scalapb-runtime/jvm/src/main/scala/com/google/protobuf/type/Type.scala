@@ -168,9 +168,9 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Type): com.google.protobuf.Type = {
     val javaPbOut = com.google.protobuf.Type.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllFields(scalaPbSource.fields.iterator.map(com.google.protobuf.`type`.Field.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllFields(_root_.scalapb.internal.compat.toIterable(scalaPbSource.fields.iterator.map(com.google.protobuf.`type`.Field.toJavaProto)).asJava)
     javaPbOut.addAllOneofs(scalaPbSource.oneofs.asJava)
-    javaPbOut.addAllOptions(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto).foreach(javaPbOut.setSourceContext)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build

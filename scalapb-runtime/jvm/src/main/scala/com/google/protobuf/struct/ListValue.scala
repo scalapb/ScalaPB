@@ -71,7 +71,7 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.ListValue): com.google.protobuf.ListValue = {
     val javaPbOut = com.google.protobuf.ListValue.newBuilder
-    javaPbOut.addAllValues(scalaPbSource.values.iterator.map(com.google.protobuf.struct.Value.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllValues(_root_.scalapb.internal.compat.toIterable(scalaPbSource.values.iterator.map(com.google.protobuf.struct.Value.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.ListValue): com.google.protobuf.struct.ListValue = com.google.protobuf.struct.ListValue(

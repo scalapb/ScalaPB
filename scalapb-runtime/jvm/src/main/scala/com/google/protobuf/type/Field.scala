@@ -276,7 +276,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
     javaPbOut.setOneofIndex(scalaPbSource.oneofIndex)
     javaPbOut.setPacked(scalaPbSource.packed)
-    javaPbOut.addAllOptions(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     javaPbOut.setJsonName(scalaPbSource.jsonName)
     javaPbOut.setDefaultValue(scalaPbSource.defaultValue)
     javaPbOut.build

@@ -67,7 +67,7 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.DescriptorProtos.FileDescriptorSet] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorSet): com.google.protobuf.DescriptorProtos.FileDescriptorSet = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorSet.newBuilder
-    javaPbOut.addAllFile(scalaPbSource.file.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.file.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorSet): com.google.protobuf.descriptor.FileDescriptorSet = com.google.protobuf.descriptor.FileDescriptorSet(
