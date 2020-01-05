@@ -316,9 +316,8 @@ class ProtobufGenerator(
                                                      else "")
 
     s"""$javaObject
-       |  .$putAll(
-       |    $scalaObject.${fieldAccessorSymbol(field)}.map {
-       |      __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert(
+       |  .$putAll($scalaObject.${fieldAccessorSymbol(field)}.iterator.map {
+       |    __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert(
          "__kv._2",
          field.mapType.valueField
        )})
