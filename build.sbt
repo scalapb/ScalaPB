@@ -675,6 +675,7 @@ lazy val e2eNoJava = (project in file("e2e-nojava"))
   .dependsOn(runtimeJVM)
   .settings(e2eCommonSettings)
   .settings(
+    Compile / PB.protocVersion := "-v" + protobufVersion,
     Compile / PB.targets := Seq(
       (
         PB.gens.plugin(
