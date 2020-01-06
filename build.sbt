@@ -659,7 +659,7 @@ lazy val e2e = (project in file("e2e"))
     Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
     Compile / PB.protocVersion := "-v" + protobufVersion,
     Compile / PB.targets := Seq(
-      PB.gens.java -> (Compile / sourceManaged).value,
+      PB.gens.java(protobufVersion) -> (Compile / sourceManaged).value,
       (
         PB.gens.plugin(
           "scalapb",
