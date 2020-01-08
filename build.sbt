@@ -2,10 +2,6 @@ import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 import com.typesafe.tools.mima.core._
 
-val Scala210 = "2.10.7"
-
-val Scala211 = "2.11.12"
-
 val Scala212 = "2.12.10"
 
 val Scala213 = "2.13.1"
@@ -29,15 +25,7 @@ val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.0.
 
 val ScalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % "3.1.0.0"
 
-val utestVersion = Def.setting(
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, v)) if v <= 11 =>
-      // drop Scala 2.11 support since 0.6.9
-      "0.6.8"
-    case _ =>
-      "0.6.9"
-  }
-)
+val utestVersion = "0.6.9"
 
 val fastparseVersion = Def.setting(
   CrossVersion.partialVersion(scalaVersion.value) match {
@@ -51,7 +39,7 @@ val fastparseVersion = Def.setting(
 
 ThisBuild / scalaVersion := Scala212
 
-ThisBuild / crossScalaVersions := Seq(Scala211, Scala212, Scala213)
+ThisBuild / crossScalaVersions := Seq(Scala212, Scala213)
 
 ThisBuild / scalacOptions ++= Seq("-deprecation", "-target:jvm-1.8")
 
@@ -85,11 +73,13 @@ releaseProcess := Seq[ReleaseStep](
   pushChanges
 )
 
+/*
 lazy val sharedNativeSettings = List(
   nativeLinkStubs := true, // for utest
   scalaVersion := Scala211,
   crossScalaVersions := List(Scala211)
 )
+*/
 
 lazy val root: Project =
   project
@@ -121,7 +111,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     libraryDependencies ++= Seq(
       "com.lihaoyi"         %%% "fastparse"        % fastparseVersion.value,
       "com.google.protobuf" % "protobuf-java"      % protobufVersion % "protobuf",
-      "com.lihaoyi"         %%% "utest"            % utestVersion.value % "test",
+      "com.lihaoyi"         %%% "utest"            % utestVersion % "test",
       "commons-codec"       % "commons-codec"      % "1.14" % "test",
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test"
     ),
@@ -298,7 +288,7 @@ val scalapbProtoPackageReplaceTask =
 lazy val compilerPlugin = project
   .in(file("compiler-plugin"))
   .settings(
-    crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
+    crossScalaVersions := Seq(Scala212, Scala213),
     Compile / sourceGenerators += Def.task {
       val file = (Compile / sourceManaged).value / "scalapb" / "compiler" / "Version.scala"
       IO.write(
@@ -393,7 +383,7 @@ lazy val compilerPluginShaded = project
   .dependsOn(compilerPlugin)
   .settings(
     name := "compilerplugin-shaded",
-    crossScalaVersions := Seq(Scala210, Scala211, Scala212, Scala213),
+    crossScalaVersions := Seq(Scala212, Scala213),
     assemblyShadeRules in assembly := Seq(
       ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject,
       ShadeRule.rename("com.google.**"             -> shadeTarget.value).inAll
@@ -534,7 +524,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "utest" % utestVersion.value % "test"
+      "com.lihaoyi" %%% "utest" % utestVersion % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {

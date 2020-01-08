@@ -8,7 +8,6 @@ stages:
   if: (branch = master AND type = push AND repo = "scalapb/ScalaPB") OR (tag IS present)
 
 scala:
-- 2.11.12
 - 2.12.10
 - 2.13.1
 
@@ -43,14 +42,14 @@ jobs:
   #  script:
   #  - sbt ++2.11.12 runtimeNative/test lensesNative/test
   - env: EXAMPLES_AND_FORMATTING
-    scala: 2.11.12
+    scala: 2.13.1
     script:
     - for d in examples/*; do cd "$d" && sbt test && cd ../..; done
-    - sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck scalafmtSbtCheck
+    - sbt -J-Xmx4500M ++2.13.1 scalafmtCheck test:scalafmtCheck scalafmtSbtCheck
     - ./test_generated_code_checked_in.sh
   - stage: release
     env: UPDATE_DOCS
-    scala: 2.11.12
+    scala: 2.13.1
     script: skip  # we use a scripted deploy to have before_deploy run first.
     deploy:
     - provider: script
@@ -63,9 +62,9 @@ jobs:
     os: linux
   - stage: release
     if: tag IS present
-    scala: 2.11.12
+    scala: 2.13.1
     env: DEPLOY_SCALAPBC
-    script: sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck universal:packageBin
+    script: sbt -J-Xmx4500M ++2.13.1 scalafmtCheck test:scalafmtCheck universal:packageBin
     deploy:
     - provider: releases
       on:

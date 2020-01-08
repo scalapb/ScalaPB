@@ -242,13 +242,10 @@ object SchemaGenerators {
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
     val s = new Settings(error => throw new RuntimeException(error))
-    val maybeBreakCycles: Seq[String] =
-      if (!scala.util.Properties.versionNumberString.startsWith("2.10."))
-        Seq("-Ybreak-cycles")
-      else Seq.empty
+    val breakCycles: Seq[String] = Seq("-Ybreak-cycles")
 
     s.processArgumentString(
-      s"""-cp "${classPath.mkString(":")}" ${maybeBreakCycles.mkString(" ")} -d "$rootDir""""
+      s"""-cp "${classPath.mkString(":")}" ${breakCycles.mkString(" ")} -d "$rootDir""""
     )
 
     val g   = new Global(s)
