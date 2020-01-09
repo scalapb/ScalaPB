@@ -241,7 +241,7 @@ object SchemaGenerators {
 
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
-    val s = new Settings(error => throw new RuntimeException(error))
+    val s                        = new Settings(error => throw new RuntimeException(error))
     val breakCycles: Seq[String] = Seq("-Ybreak-cycles")
 
     s.processArgumentString(

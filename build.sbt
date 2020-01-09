@@ -79,7 +79,7 @@ lazy val sharedNativeSettings = List(
   scalaVersion := Scala211,
   crossScalaVersions := List(Scala211)
 )
-*/
+ */
 
 lazy val root: Project =
   project
