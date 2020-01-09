@@ -18,6 +18,8 @@ trait GeneratedEnum extends Any with Product with Serializable {
 
   def name: String
 
+  def protoName: String = name
+
   override def toString = name
 
   def companion: GeneratedEnumCompanion[EnumType]
@@ -50,7 +52,7 @@ trait UnrecognizedEnum extends GeneratedEnum {
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   type ValueType = A
   def fromValue(value: Int): A
-  def fromName(name: String): Option[A] = values.find(_.name == name)
+  def fromName(name: String): Option[A] = values.find(v => v.name == name || v.protoName == name)
   def values: Seq[A]
 
   @deprecated(

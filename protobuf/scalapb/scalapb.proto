@@ -92,6 +92,16 @@ message ScalaPbOptions {
   }
   optional EnumValueNaming enum_value_naming = 16;
 
+  // If true, then scala name will be used as enum 'name' value.
+  // original proto name will be available as 'protoName' enum value field
+  // 'fromName' method will resolve both variants (scala name and proto name)
+  // into enum value
+  optional bool enum_value_name_as_scala = 17 [default=false];
+
+  // Indicate if prefix (enum name + optional underscore) should be removed in scala code
+  // Strip is applied before enum value naming changes.
+  optional bool enum_strip_prefix = 18 [default=false];
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

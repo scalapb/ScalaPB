@@ -79,7 +79,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   private lazy val fileOptionsCache = FileOptionsCache.buildCache(files)
 
   implicit class AsSymbolPimp(val s: String) {
-    def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
+    def asSymbol: String =
+      if (SCALA_RESERVED_WORDS.contains(s) ||
+          // starts with number
+          s(0) >= '0' && s(0) <= '9') s"`$s`"
+      else s
   }
 
   implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
@@ -782,10 +786,32 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def valueExtends: Seq[String] =
       enumValue.getType.nameSymbol +: scalaOptions.getExtendsList.asScala.toSeq
 
+    private def names = {
+      val l = enumValue.getType.getValues.asScala.map {d => d -> (if (d.scalaOptions.hasScalaName) Some(d.scalaOptions.getScalaName) else None)}
+      if (l.exists(_._2.nonEmpty)) {
+        // we have at least one scala name set
+      } else {
+        l.map(_._1.getName)
+      }
+    }
+
     def scalaName: String =
       if (scalaOptions.hasScalaName) scalaOptions.getScalaName
-      else if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE)
-        allCapsToCamelCase(enumValue.getName, true)
+      else {
+        val enumValueName: String =
+          if (enumValue.getFile.scalaOptions.getEnumStripPrefix) {
+            val enumName = enumValue.getType.getName
+            val prefixes = Seq(enumName + "_", enumName, NameUtils.toAllCaps(enumName) + "_", NameUtils.toAllCaps(enumName))
+            val commonPrefix = prefixes.find(enumValue.getName.startsWith(_)).getOrElse("")
+            enumValue.getName.stripPrefix(commonPrefix)
+          } else enumValue.getName
+        if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE)
+          allCapsToCamelCase(enumValueName, true)
+        else enumValueName
+      }
+
+    def name: String =
+      if (enumValue.getFile.scalaOptions.getEnumValueNameAsScala) scalaName
       else enumValue.getName
 
     def isName = {
@@ -812,6 +838,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         .map(t => t.getLeadingComments + t.getTrailingComments)
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
+    }
+
+    private def getCommonPrefix(head: String, tail: Seq[String]): String = {
+      val prefix = head.zipWithIndex.takeWhile { case (char, index) =>
+        tail.forall(s => s(index) == char)
+      }.map(_._1).mkString
+
+      if (prefix.indexOf("_") > 0) prefix.reverse.dropWhile(_ != '_').reverse
+      else prefix
     }
   }
 
