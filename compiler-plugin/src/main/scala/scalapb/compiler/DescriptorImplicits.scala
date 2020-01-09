@@ -786,15 +786,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def valueExtends: Seq[String] =
       enumValue.getType.nameSymbol +: scalaOptions.getExtendsList.asScala.toSeq
 
-    private def names = {
-      val l = enumValue.getType.getValues.asScala.map {d => d -> (if (d.scalaOptions.hasScalaName) Some(d.scalaOptions.getScalaName) else None)}
-      if (l.exists(_._2.nonEmpty)) {
-        // we have at least one scala name set
-      } else {
-        l.map(_._1.getName)
-      }
-    }
-
     def scalaName: String =
       if (scalaOptions.hasScalaName) scalaOptions.getScalaName
       else {
@@ -838,15 +829,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         .map(t => t.getLeadingComments + t.getTrailingComments)
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
-    }
-
-    private def getCommonPrefix(head: String, tail: Seq[String]): String = {
-      val prefix = head.zipWithIndex.takeWhile { case (char, index) =>
-        tail.forall(s => s(index) == char)
-      }.map(_._1).mkString
-
-      if (prefix.indexOf("_") > 0) prefix.reverse.dropWhile(_ != '_').reverse
-      else prefix
     }
   }
 
