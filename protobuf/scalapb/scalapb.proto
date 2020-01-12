@@ -92,6 +92,10 @@ message ScalaPbOptions {
   }
   optional EnumValueNaming enum_value_naming = 16;
 
+  // Indicate if prefix (enum name + optional underscore) should be removed in scala code
+  // Strip is applied before enum value naming changes.
+  optional bool enum_strip_prefix = 17 [default=false];
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

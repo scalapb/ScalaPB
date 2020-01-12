@@ -79,7 +79,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   private lazy val fileOptionsCache = FileOptionsCache.buildCache(files)
 
   implicit class AsSymbolPimp(val s: String) {
-    def asSymbol: String = if (SCALA_RESERVED_WORDS.contains(s)) s"`$s`" else s
+    def asSymbol: String =
+      if (SCALA_RESERVED_WORDS.contains(s) || s(0).isDigit) s"`$s`"
+      else s
   }
 
   implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
@@ -784,9 +786,17 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def scalaName: String =
       if (scalaOptions.hasScalaName) scalaOptions.getScalaName
-      else if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE)
-        allCapsToCamelCase(enumValue.getName, true)
-      else enumValue.getName
+      else {
+        val enumValueName: String =
+          if (enumValue.getFile.scalaOptions.getEnumStripPrefix) {
+            val enumName = enumValue.getType.getName
+            val commonPrefix = NameUtils.toAllCaps(enumName) + "_"
+            enumValue.getName.stripPrefix(commonPrefix)
+          } else enumValue.getName
+        if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE)
+          allCapsToCamelCase(enumValueName, true)
+        else enumValueName
+      }
 
     def isName = {
       Helper.makeUniqueNames(
