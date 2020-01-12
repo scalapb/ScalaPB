@@ -789,7 +789,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       else {
         val enumValueName: String =
           if (enumValue.getFile.scalaOptions.getEnumStripPrefix) {
-            val enumName = enumValue.getType.getName
+            val enumName     = enumValue.getType.getName
             val commonPrefix = NameUtils.toAllCaps(enumName) + "_"
             enumValue.getName.stripPrefix(commonPrefix)
           } else enumValue.getName
