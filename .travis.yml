@@ -83,6 +83,7 @@ cache:
   - $HOME/.ivy2/cache
   - $HOME/.sbt/1.0
   - $HOME/.sbt/boot
+  - $HOME/.cache/coursier
 
 script:
 - ./$TEST_SCRIPT
