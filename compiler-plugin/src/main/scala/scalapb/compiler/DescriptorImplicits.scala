@@ -790,8 +790,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         val enumValueName: String =
           if (enumValue.getFile.scalaOptions.getEnumStripPrefix) {
             val enumName = enumValue.getType.getName
-            val prefixes = Seq(enumName, NameUtils.toAllCaps(enumName)).flatMap(n => Seq(n + "_", n))
-            val commonPrefix = prefixes.find(enumValue.getName.startsWith(_)).getOrElse("")
+            val commonPrefix = NameUtils.toAllCaps(enumName) + "_"
             enumValue.getName.stripPrefix(commonPrefix)
           } else enumValue.getName
         if (enumValue.getFile.scalaOptions.getEnumValueNaming == EnumValueNaming.CAMEL_CASE)

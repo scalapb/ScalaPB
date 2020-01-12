@@ -80,8 +80,11 @@ enums to a single Scala file.
 - Typically, enum values appear in UPPER_CASE in proto files, and ScalaPB generates case objects
   with exactly the same name in Scala. If you would like ScalaPB to transform the names into CamelCase, set `enum_value_naming` to `CAMEL_CASE`.
   
-- To avoid setting scala name for each enum value, you can instead set `enum_strip_prefix` to `true`. In this case prefix if it contains enum name plus optional underscore or upper-case enum nape with optional underscore for enum values will be stripped.
-  E.g. for enum _MyEnum_ values _MyEnum_Star1_, _MyEnum_Star2_, stripped prefix will be **MyEnum_**. For enum values _MyEnumStar1_, _MyEnumStar2_, stripped prefix will be **MyEnum**. For enum _MyEnum_ values _MY_ENUM_Star1_, _MY_ENUM_Star2_, stripped prefix will be **MY_ENUM_**. 
+- It is a common practice in protobufs to prefix each enum value name with the name of the enum. 
+  For example, an enum name `Size` may have values named `SIZE_SMALL` and `SIZE_LARGE`. When you set `enum_strip_prefix` 
+  to `true`, ScalaPB will strip the enum's name from each value name, and they would become `SMALL` and `LARGE`. 
+  Then the name can be transformed to camel-case according to `enum_value_naming`. Note that the prefix that is removed 
+  is the all-caps version of the enum name followed by an underscore. 
 
 - By default, during deserialization only known fields are retained.
   When setting `preserve_unknown_fields` to `true`, all generated messages in this file will preserve unknown fields.
