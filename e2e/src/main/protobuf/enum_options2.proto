@@ -10,9 +10,6 @@ option (scalapb.options) = {
 };
 
 enum MyEnum2 {
-    MyEnum2_UNKNOWN = 0;
-    MyEnum2V1 = 1;
-    MY_ENUM2_V2 = 2;
-    MY_ENUM2THING = 3;
-    MY_ENUM24 = 4;
+    MY_ENUM2_V1 = 0;
+    MY_ENUM2_2 = 1;
 }
