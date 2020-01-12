@@ -337,6 +337,12 @@ lazy val compilerPlugin = project
           "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getEnumValueNaming"
         ),
         ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasEnumStripPrefix"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getEnumStripPrefix"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
           "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.hasScalaName"
         ),
         ProblemFilters.exclude[ReversedMissingMethodProblem](
