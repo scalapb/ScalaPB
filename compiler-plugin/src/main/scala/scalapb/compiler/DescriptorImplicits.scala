@@ -80,9 +80,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   implicit class AsSymbolPimp(val s: String) {
     def asSymbol: String =
-      if (SCALA_RESERVED_WORDS.contains(s) ||
-          // starts with number
-          s(0) >= '0' && s(0) <= '9') s"`$s`"
+      if (SCALA_RESERVED_WORDS.contains(s) || s(0).isDigit) s"`$s`"
       else s
   }
 
@@ -792,7 +790,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         val enumValueName: String =
           if (enumValue.getFile.scalaOptions.getEnumStripPrefix) {
             val enumName = enumValue.getType.getName
-            val prefixes = Seq(enumName + "_", enumName, NameUtils.toAllCaps(enumName) + "_", NameUtils.toAllCaps(enumName))
+            val prefixes = Seq(enumName, NameUtils.toAllCaps(enumName)).flatMap(n => Seq(n + "_", n))
             val commonPrefix = prefixes.find(enumValue.getName.startsWith(_)).getOrElse("")
             enumValue.getName.stripPrefix(commonPrefix)
           } else enumValue.getName
@@ -800,10 +798,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
           allCapsToCamelCase(enumValueName, true)
         else enumValueName
       }
-
-    def name: String =
-      if (enumValue.getFile.scalaOptions.getEnumValueNameAsScala) scalaName
-      else enumValue.getName
 
     def isName = {
       Helper.makeUniqueNames(

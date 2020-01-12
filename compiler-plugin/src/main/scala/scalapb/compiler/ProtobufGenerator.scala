@@ -62,8 +62,7 @@ class ProtobufGenerator(
             |case object ${v.scalaName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
             |  val value = ${v.getNumber}
             |  val index = ${v.getIndex}
-            |  val name = "${v.name}"
-            |  override val protoName = "${v.getName}"
+            |  val name = "${v.getName}"
             |  override def ${v.isName}: _root_.scala.Boolean = true
             |}
             |""")

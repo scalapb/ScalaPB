@@ -1,0 +1,16 @@
+syntax = "proto2";
+
+package com.thesamet.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  enum_strip_prefix: true
+};
+
+enum MyEnum3 {
+    MyEnum3UNKNOWN = 0;
+    MyEnum3V1 = 1;
+    MY_ENUM3_V2 = 2;
+    MY_ENUM3THING = 3;
+}
