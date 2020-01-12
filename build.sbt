@@ -169,6 +169,9 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
           "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.getScalaName"
         ),
         ProblemFilters.exclude[ReversedMissingMethodProblem](
+          "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.getScalaNameBytes"
+        ),
+        ProblemFilters.exclude[ReversedMissingMethodProblem](
           "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasEnumStripPrefix"
         ),
         ProblemFilters.exclude[ReversedMissingMethodProblem](
