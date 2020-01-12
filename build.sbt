@@ -25,7 +25,7 @@ val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.0.
 
 val ScalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % "3.1.0.0"
 
-val utestVersion = "0.7.2"
+val utestVersion = "0.7.3"
 
 val fastparseVersion = Def.setting(
   CrossVersion.partialVersion(scalaVersion.value) match {
