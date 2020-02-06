@@ -12,4 +12,28 @@ option (scalapb.options) = {
     single_file: true
     flat_package: true
     package_name: "scalapb.changed.scoped"
+    aux_message_options: [
+        {
+            target: "scalapb.e2e.scoped.Foo"
+            options: {
+                extends: "scalapb.e2e.scoped.SomeTrait"
+            }
+        }
+    ]
+    aux_enum_options: [
+        {
+            target: "scalapb.e2e.scoped.Foo.Vals"
+            options: {
+                extends: "scalapb.e2e.scoped.SomeTrait"
+            }
+        }
+    ]
+    aux_field_options: [
+        {
+            target: "scalapb.e2e.scoped.Foo.imp"
+            options: {
+                scala_name: "impChanged"
+            }
+        }
+    ]
 };

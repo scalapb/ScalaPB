@@ -310,7 +310,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       else if (supportsPresence) s"${ScalaOption}[$singleScalaTypeName]"
       else singleScalaTypeName
 
-    def fieldOptions: FieldOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
+    def fieldOptions: FieldOptions = {
+      val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
+
+      fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
+        .find(_.getTarget == fd.getFullName())
+        .fold(localOptions)(aux =>
+          FieldOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        )
+    }
 
     def annotationList: Seq[String] = {
       val deprecated = {
@@ -489,8 +497,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def javaTypeName = message.getFile.fullJavaName(message.getFullName)
 
-    def messageOptions: MessageOptions =
-      message.getOptions.getExtension[MessageOptions](Scalapb.message)
+    def messageOptions: MessageOptions = {
+      val localOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
+
+      message.getFile.scalaOptions.getAuxMessageOptionsList.asScala
+        .find(_.getTarget == message.getFullName())
+        .fold(localOptions)(aux =>
+          MessageOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        )
+    }
 
     def noBox = message.messageOptions.getNoBox
 
@@ -675,7 +690,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
     def parentMessage: Option[Descriptor] = Option(enum.getContainingType)
 
-    def scalaOptions: EnumOptions = enum.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
+    def scalaOptions: EnumOptions = {
+      val localOptions = enum.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
+
+      enum.getFile.scalaOptions.getAuxEnumOptionsList.asScala
+        .find(_.getTarget == enum.getFullName())
+        .fold(localOptions)(aux =>
+          EnumOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        )
+    }
 
     lazy val scalaType: ScalaName = {
       val name: String = enum.getName match {

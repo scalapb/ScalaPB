@@ -146,6 +146,50 @@ options proto explicitly from all the proto files that are meant to inherit the 
 reason is that if you don't do that, then downstream projects would not
 process the proto package file which may lead to compilation errors.
 
+# Auxiliary options
+
+In some situations, you may want to set some options in a proto file, but without
+modifying the original proto file or adding anything ScalaPB-specific to it. To accomplish
+that, you can define auxiliary options under package-scoped options.
+
+For example, if you are given this proto file:
+
+```protobuf
+syntax = "proto3";
+package a.b.c;
+message Foo {
+  string hello = 1;
+}
+```
+
+You can add a file `package.proto` with the following content:
+```protobuf
+syntax = "proto3";
+package a.b.c;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = {
+    scope: PACKAGE
+    aux_message_options: [
+        {
+            target: "a.b.c.Foo"
+            options: {
+                extends: "com.myexample.SomeTrait"
+            }
+        }
+    ]
+    aux_field_options: [
+        {
+            target: "a.b.c.Foo.hello"
+            options: {
+                scala_name: "goodbye"
+            }
+        }
+    ]
+};
+```
+
+The list `aux_message_options` contains options targeted at different messages define under the same proto package of the package-scoped options. The `target` name needs to be fully-qualified message name in the protobuf namespace. Similar to `aux_message_options`, we also have `aux_enum_options` and `aux_field_options`. See [example usage here](https://github.com/scalapb/ScalaPB/tree/master/e2e/src/main/protobuf/scoped).
+
 # Primitive wrappers
 
 In proto 3, unlike proto 2, primitives are not wrapped in an option by default.
