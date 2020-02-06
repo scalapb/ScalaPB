@@ -50,7 +50,7 @@ object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Color(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
   
   lazy val values = scala.collection.immutable.Seq(UNKNOWN, RED, GREEN, BLUE)
-  def fromValue(value: _root_.scala.Int): Color = value match {
+  def fromValue(__value: _root_.scala.Int): Color = __value match {
     case 0 => UNKNOWN
     case 1 => RED
     case 2 => GREEN

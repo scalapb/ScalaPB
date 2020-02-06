@@ -574,7 +574,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Kind(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(TYPE_UNKNOWN, TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
-    def fromValue(value: _root_.scala.Int): Kind = value match {
+    def fromValue(__value: _root_.scala.Int): Kind = __value match {
       case 0 => TYPE_UNKNOWN
       case 1 => TYPE_DOUBLE
       case 2 => TYPE_FLOAT
@@ -654,7 +654,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Cardinality(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(CARDINALITY_UNKNOWN, CARDINALITY_OPTIONAL, CARDINALITY_REQUIRED, CARDINALITY_REPEATED)
-    def fromValue(value: _root_.scala.Int): Cardinality = value match {
+    def fromValue(__value: _root_.scala.Int): Cardinality = __value match {
       case 0 => CARDINALITY_UNKNOWN
       case 1 => CARDINALITY_OPTIONAL
       case 2 => CARDINALITY_REQUIRED

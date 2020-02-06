@@ -10,6 +10,7 @@ message Foo {
     }
     repeated string rep = 1;
     Vals imp = 2;
+    bytes b = 3;
 }
 
 message Untargeted { }

@@ -14,5 +14,6 @@ class PackageOptionsSpec extends AnyFlatSpec with Matchers {
   "aux options" should "impact target messages in that package" in {
     assert(Foo.defaultInstance.isInstanceOf[SomeTrait])
     assert(Foo.defaultInstance.impChanged.isInstanceOf[SomeTrait])
+    assert(Foo.defaultInstance.b.isInstanceOf[Array[Byte]])
   }
 }

@@ -35,7 +35,8 @@ option (scalapb.options) = {
   no_default_values_in_constructor: false
   preserve_unknown_fields: false
   enum_value_naming: CAMEL_CASE
-  enum_strip_prefix: false 
+  enum_strip_prefix: false
+  bytes_type: "scodec.bits.ByteVector"
 };
 ```
 
@@ -79,18 +80,25 @@ enums to a single Scala file.
 
 - Typically, enum values appear in UPPER_CASE in proto files, and ScalaPB generates case objects
   with exactly the same name in Scala. If you would like ScalaPB to transform the names into CamelCase, set `enum_value_naming` to `CAMEL_CASE`.
-  
-- It is a common practice in protobufs to prefix each enum value name with the name of the enum. 
-  For example, an enum name `Size` may have values named `SIZE_SMALL` and `SIZE_LARGE`. When you set `enum_strip_prefix` 
-  to `true`, ScalaPB will strip the enum's name from each value name, and they would become `SMALL` and `LARGE`. 
-  Then the name can be transformed to camel-case according to `enum_value_naming`. Note that the prefix that is removed 
-  is the all-caps version of the enum name followed by an underscore. 
+
+- It is a common practice in protobufs to prefix each enum value name with the name of the enum.
+  For example, an enum name `Size` may have values named `SIZE_SMALL` and `SIZE_LARGE`. When you set `enum_strip_prefix`
+  to `true`, ScalaPB will strip the enum's name from each value name, and they would become `SMALL` and `LARGE`.
+  Then the name can be transformed to camel-case according to `enum_value_naming`. Note that the prefix that is removed
+  is the all-caps version of the enum name followed by an underscore.
 
 - By default, during deserialization only known fields are retained.
   When setting `preserve_unknown_fields` to `true`, all generated messages in this file will preserve unknown fields.
   This is default behaviour in java for Proto3 messages since 3.5.0.
   In ScalaPB 0.10.0: the default of this field became `true` for consistency
   with Java.
+
+- Use `bytes_type` to customize the Scala type used for the `bytes` field
+  type. You will need to have an implicit
+  `TypeMapper[com.google.protobuf.ByteString, YourType]` instance so ScalaPb
+  can convert back and forth to the type of your choice. That implicit will be
+  found if it is defined under `YourType` companion object, or on a package
+  object that matches the generated code (or any of its parent packages).
 
 # Package-scoped options
 

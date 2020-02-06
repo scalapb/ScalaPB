@@ -141,6 +141,9 @@ message ScalaPbOptions {
   // List of message options to apply to some enums.
   repeated AuxEnumOptions aux_enum_options = 20;
 
+  // Scala type to use for bytes fields.
+  optional string bytes_type = 21;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

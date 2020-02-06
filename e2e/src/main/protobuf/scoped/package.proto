@@ -12,6 +12,7 @@ option (scalapb.options) = {
     single_file: true
     flat_package: true
     package_name: "scalapb.changed.scoped"
+    bytes_type: "Array[Byte]"
     aux_message_options: [
         {
             target: "scalapb.e2e.scoped.Foo"

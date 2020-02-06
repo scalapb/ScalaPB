@@ -350,6 +350,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         Some(fd.getMessageType.messageOptions.getType)
       else if (isEnum && fd.getEnumType.scalaOptions.hasType)
         Some(fd.getEnumType.scalaOptions.getType)
+      else if (isBytes && fd.getFile.scalaOptions.hasBytesType)
+        Some(fd.getFile.scalaOptions.getBytesType)
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType)
         Some(fieldReferencingMap.fieldOptions.getKeyType)
       else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)
@@ -394,6 +396,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def isEnum = fd.getType == FieldDescriptor.Type.ENUM
 
     def isMessage = fd.getType == FieldDescriptor.Type.MESSAGE
+
+    def isBytes = fd.getType == FieldDescriptor.Type.BYTES
 
     def javaExtensionFieldFullName = {
       require(fd.isExtension)

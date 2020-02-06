@@ -189,7 +189,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends AddressType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(HOME, WORK)
-    def fromValue(value: _root_.scala.Int): AddressType = value match {
+    def fromValue(__value: _root_.scala.Int): AddressType = __value match {
       case 0 => HOME
       case 1 => WORK
       case __other => Unrecognized(__other)
