@@ -80,7 +80,7 @@ class ProtobufGenerator(
               |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
                 .map(_.scalaName.asSymbol)
                 .mkString(", ")})
-              |def fromValue(value: _root_.scala.Int): $name = value match {""".stripMargin)
+              |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin)
       .print(e.valuesWithNoDuplicates) {
         case (p, v) => p.add(s"  case ${v.getNumber} => ${v.scalaName.asSymbol}")
       }
