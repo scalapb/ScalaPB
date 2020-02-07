@@ -65,7 +65,7 @@ package scalapb.options
   * @param auxEnumOptions
   *   List of message options to apply to some enums.
   * @param bytesType
-  *   Type to use for bytes.
+  *   Scala type to use for bytes fields.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
