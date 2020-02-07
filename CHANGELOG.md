@@ -43,6 +43,8 @@
 - Added `bytes_type` file-level options to modify the Scala type generated for
   protobuf's `bytes` type (#746).
 
+- Updated to ScalaJS 1.0.0
+
 ## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.5)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.4...v0.9.5)
 - Fix a couple of cases of oneof naming conflicts. (#695)

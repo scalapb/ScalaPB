@@ -25,17 +25,9 @@ val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.0.
 
 val ScalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % "3.1.0.0"
 
-val utestVersion = "0.7.3"
+val utestVersion = "0.7.4"
 
-val fastparseVersion = Def.setting(
-  CrossVersion.partialVersion(scalaVersion.value) match {
-    case Some((2, v)) if v <= 11 =>
-      // drop Scala 2.11 support since 2.1.3
-      "2.1.2"
-    case _ =>
-      "2.1.3"
-  }
-)
+val fastparseVersion = "2.2.4"
 
 ThisBuild / scalaVersion := Scala212
 
@@ -109,7 +101,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.lihaoyi"         %%% "fastparse"        % fastparseVersion.value,
+      "com.lihaoyi"         %%% "fastparse"        % fastparseVersion,
       "com.google.protobuf" % "protobuf-java"      % protobufVersion % "protobuf",
       "com.lihaoyi"         %%% "utest"            % utestVersion % "test",
       "commons-codec"       % "commons-codec"      % "1.14" % "test",
@@ -210,7 +202,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.8.3"
+      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.8.4"
     ),
     (Compile / unmanagedSourceDirectories) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
