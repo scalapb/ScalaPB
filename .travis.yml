@@ -75,13 +75,16 @@ jobs:
       file: scalapbc/target/universal/scalapbc-${TRAVIS_TAG:1}.zip
       skip_cleanup: true
 
-# These directories are cached to S3 at the end of the build
 cache:
   directories:
   - $HOME/.cache/coursier
   - $HOME/.ivy2/cache
-  - $HOME/.sbt/1.0
-  - $HOME/.sbt/boot
+  - $HOME/.sbt
+
+before_cache:
+  - rm -fv $HOME/.ivy2/.sbt.ivy.lock
+  - find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
+  - find $HOME/.sbt        -name "*.lock"               -print -delete
 
 script:
 - ./$TEST_SCRIPT
@@ -89,11 +92,6 @@ script:
 after_failure:
     - test $TEST_SCRIPT = "proptest.sh" && cat /tmp/protos.tgz | openssl enc -base64
     - echo Use base64 -d to get a tgz with the failing protos.
-
-before_cache:
-# Tricks to avoid unnecessary cache updates
-- find $HOME/.ivy2/cache -name "ivydata-*.properties" -print -delete
-- find $HOME/.sbt -name "*.lock" -print -delete
 
 before_deploy:
 - git config --global user.name "$USER"
