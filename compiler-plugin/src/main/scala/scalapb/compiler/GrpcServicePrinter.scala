@@ -103,7 +103,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
         case StreamType.Bidirectional   => "BidiStreamingCall"
       })
 
-      val args = Seq("channel", m.descriptorName, "options") ++
+      val args = Seq("channel", m.grpcDescriptor.nameSymbol, "options") ++
         (if (m.isClientStreaming) Seq() else Seq("request")) ++
         (if ((m.isClientStreaming || m.isServerStreaming) && !blocking) Seq("responseObserver")
          else Seq())
@@ -156,7 +156,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
     p.add(
-      s"""${method.deprecatedAnnotation}val ${method.descriptorName}: $grpcMethodDescriptor[${method.inputType.scalaType}, ${method.outputType.scalaType}] =
+      s"""${method.deprecatedAnnotation}val ${method.grpcDescriptor.nameSymbol}: $grpcMethodDescriptor[${method.inputType.scalaType}, ${method.outputType.scalaType}] =
          |  $grpcMethodDescriptor.newBuilder()
          |    .setType($grpcMethodDescriptor.MethodType.$methodType)
          |    .setFullMethodName($grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"))
@@ -173,7 +173,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     val grpcServiceDescriptor = "_root_.io.grpc.ServiceDescriptor"
 
     PrinterEndo(
-      _.add(s"val ${service.descriptorName}: $grpcServiceDescriptor =").indent
+      _.add(s"val ${service.grpcDescriptor.nameSymbol}: $grpcServiceDescriptor =").indent
         .add(s"""$grpcServiceDescriptor.newBuilder("${service.getFullName}")""")
         .indent
         .add(
@@ -181,7 +181,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
         )
         .print(service.methods) {
           case (p, method) =>
-            p.add(s".addMethod(${method.descriptorName})")
+            p.add(s".addMethod(${method.grpcDescriptor.nameSymbol})")
         }
         .add(".build()")
         .outdent
@@ -192,7 +192,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
   private[this] def addMethodImplementation(method: MethodDescriptor): PrinterEndo = PrinterEndo {
     _.add(".addMethod(")
-      .add(s"  ${method.descriptorName},")
+      .add(s"  ${method.grpcDescriptor.nameSymbol},")
       .indent
       .call(PrinterEndo { p =>
         val call = method.streamType match {
@@ -245,7 +245,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       _.add(
         s"""def bindService(serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef ="""
       ).indent
-        .add(s"""$serverServiceDef.builder(${service.descriptorName})""")
+        .add(s"""$serverServiceDef.builder(${service.grpcDescriptor.nameSymbol})""")
         .call(methods: _*)
         .add(".build()")
         .outdent
@@ -257,7 +257,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(
         "package " + service.getFile.scalaPackage.fullName,
         "",
-        s"${service.deprecatedAnnotation}object ${service.objectName} {"
+        s"${service.deprecatedAnnotation}object ${service.companionObject.nameSymbol} {"
       )
       .indent
       .call(service.methods.map(methodDescriptor): _*)

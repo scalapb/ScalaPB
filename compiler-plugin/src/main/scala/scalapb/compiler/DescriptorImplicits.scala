@@ -103,7 +103,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def name: String = name0.asSymbol
 
-    def descriptorName = s"METHOD_${NameUtils.toAllCaps(method.getName)}"
+    def grpcDescriptor =
+      method.getService.companionObject / s"METHOD_${NameUtils.toAllCaps(method.getName)}"
+
+    @deprecated("Use grpcDescriptor instead to get the name or full name", "0.10.0")
+    def descriptorName = grpcDescriptor.name
 
     def sourcePath: Seq[Int] = {
       method.getService.sourcePath ++ Seq(
@@ -133,7 +137,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   }
 
   implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
-    def objectName = self.getName + "Grpc"
+    @deprecated("Use companionObject instead to get the name or the full name", "0.10.0")
+    def objectName = companionObject.name
+
+    def companionObject = self.getFile.scalaPackage / (self.getName + "Grpc")
 
     def name = self.getName.asSymbol
 
@@ -145,6 +152,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def methods = self.getMethods.asScala.toIndexedSeq
 
+    def grpcDescriptor = companionObject / "SERVICE"
+
+    @deprecated("Use grpcDescriptor to get the name of the full name", "0.10.0")
     def descriptorName = "SERVICE"
 
     def scalaDescriptorSource: String =
