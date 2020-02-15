@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+package scalapb.perf;
+
+option (scalapb.options) = {
+  preserve_unknown_fields: true
+  retain_source_code_info: true
+};
+
+enum Color {
+  UNKNOWN = 0;
+  RED = 1;
+  GREEN = 2;
+  BLUE = 3;
+}
+
+message SimpleMessage {
+  int32 i = 1;
+  int32 j = 2;
+  bytes k = 3;
+  Color color = 4;
+}
+
+message MessageContainer {
+  SimpleMessage opt = 1;
+  repeated SimpleMessage rep = 2; //  [(scalapb.field).collection_type="List"];
+}
+
+message Enum {
+  Color color = 1;
+}
+
+message EnumVector {
+  repeated Color colors = 1;
+}
+
+message IntVector {
+  repeated int32 ints = 1;
+}
+
+message StringMessage {
+  string str1 = 1;
+  string str2 = 2;
+}

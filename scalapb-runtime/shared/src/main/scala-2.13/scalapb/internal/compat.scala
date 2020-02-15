@@ -7,5 +7,9 @@ object compat {
     from.iterator.to(f)
   }
 
+  def toIterable[A](it: Iterator[A]): Iterable[A] = {
+    it.to(Iterable)
+  }
+
   val JavaConverters = scala.jdk.CollectionConverters
 }

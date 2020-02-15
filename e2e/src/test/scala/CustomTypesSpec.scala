@@ -4,8 +4,10 @@ import com.thesamet.proto.e2e.CustomTypes.{CustomMessage => CustomMessageJava}
 import com.thesamet.proto.e2e.CustomTypes.CustomMessage.{Weather => WeatherJava}
 import org.scalatest._
 import com.thesamet.pb._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class CustomTypesSpec extends FlatSpec with MustMatchers {
+class CustomTypesSpec extends AnyFlatSpec with Matchers {
 
   "CustomMessage" should "serialize and parse" in {
     val message = CustomMessage(
@@ -19,7 +21,8 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
       requiredName = FullName(firstName = "Owen", lastName = "Money"),
       names = Seq(
         FullName(firstName = "Foo", lastName = "Bar"),
-        FullName(firstName = "V1", lastName = "Z2")),
+        FullName(firstName = "V1", lastName = "Z2")
+      ),
       weather = Some(WrappedWeather(Weather.RAIN)),
       requiredWeather = WrappedWeather(Weather.SUNNY),
       weathers = Seq(WrappedWeather(Weather.RAIN), WrappedWeather(Weather.SUNNY)),
@@ -77,11 +80,10 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
         WrappedWeather(Weather.RAIN),
         WrappedWeather(Weather.SUNNY)
       )
+    ).update(
+      _.name := FullName("Foo", "Bar"),
+      _.age := Years(5)
     )
-      .update(
-        _.name := FullName("Foo", "Bar"),
-        _.age := Years(5)
-      )
     val concat = (m1.toByteArray ++ m2.toByteArray)
     CustomMessage.parseFrom(concat) must be(expected)
   }
@@ -90,17 +92,18 @@ class CustomTypesSpec extends FlatSpec with MustMatchers {
     val t: DomainEvent = CustomerEvent(
       personId = Some(PersonId("123")),
       optionalNumber = Some(1),
-      repeatedNumber = Seq(2,3,4),
-      requiredNumber = 5)
-    t mustBe a [DomainEvent]
+      repeatedNumber = Seq(2, 3, 4),
+      requiredNumber = 5
+    )
+    t mustBe a[DomainEvent]
     t.personId must be(Some(PersonId("123")))
     t.optionalNumber must be(Some(1))
-    t.repeatedNumber must be(Seq(2,3,4))
+    t.repeatedNumber must be(Seq(2, 3, 4))
     t.requiredNumber must be(5)
   }
 
   "Extended companion objects" should "inherit from marker type" in {
-    CustomerEvent mustBe a [DomainEventCompanion]
+    CustomerEvent mustBe a[DomainEventCompanion]
     CustomerEvent.thisIs must be("The companion object")
   }
 }

@@ -1,7 +1,8 @@
 import foo.issue320.{Foo, Issue320Proto}
-import org.scalatest.{Matchers, WordSpec}
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.wordspec.AnyWordSpec
 
-class ScalapbExtensionSpec extends WordSpec with Matchers {
+class ScalapbExtensionSpec extends AnyWordSpec with Matchers {
   "Foo.toByteArray" must {
     "not blow up" in {
       Foo().toByteArray should have length 0

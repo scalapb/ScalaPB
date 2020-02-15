@@ -14,15 +14,16 @@ package com.google.protobuf.struct
   */
 @SerialVersionUID(0L)
 final case class Value(
-    kind: com.google.protobuf.struct.Value.Kind = com.google.protobuf.struct.Value.Kind.Empty
-    ) extends scalapb.GeneratedMessage with scalapb.Message[Value] with scalapb.lenses.Updatable[Value] {
+    kind: com.google.protobuf.struct.Value.Kind = com.google.protobuf.struct.Value.Kind.Empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Value] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (kind.nullValue.isDefined) {
-        val __value = kind.nullValue.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value.value)
+        val __value = kind.nullValue.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(1, __value)
       };
       if (kind.numberValue.isDefined) {
         val __value = kind.numberValue.get
@@ -44,9 +45,10 @@ final case class Value(
         val __value = kind.listValue.get
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
+      __size += unknownFields.serializedSize
       __size
     }
-    final override def serializedSize: _root_.scala.Int = {
+    override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -56,8 +58,8 @@ final case class Value(
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       kind.nullValue.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(1, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(1, __m)
       };
       kind.numberValue.foreach { __v =>
         val __m = __v
@@ -83,32 +85,7 @@ final case class Value(
         _output__.writeUInt32NoTag(__m.serializedSize)
         __m.writeTo(_output__)
       };
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = {
-      var __kind = this.kind
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __kind = com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(_input__.readEnum()))
-          case 17 =>
-            __kind = com.google.protobuf.struct.Value.Kind.NumberValue(_input__.readDouble())
-          case 26 =>
-            __kind = com.google.protobuf.struct.Value.Kind.StringValue(_input__.readString())
-          case 32 =>
-            __kind = com.google.protobuf.struct.Value.Kind.BoolValue(_input__.readBool())
-          case 42 =>
-            __kind = com.google.protobuf.struct.Value.Kind.StructValue(_root_.scalapb.LiteParser.readMessage(_input__, kind.structValue.getOrElse(com.google.protobuf.struct.Struct.defaultInstance)))
-          case 50 =>
-            __kind = com.google.protobuf.struct.Value.Kind.ListValue(_root_.scalapb.LiteParser.readMessage(_input__, kind.listValue.getOrElse(com.google.protobuf.struct.ListValue.defaultInstance)))
-          case tag => _input__.skipField(tag)
-        }
-      }
-      com.google.protobuf.struct.Value(
-          kind = __kind
-      )
+      unknownFields.writeTo(_output__)
     }
     def getNullValue: com.google.protobuf.struct.NullValue = kind.nullValue.getOrElse(com.google.protobuf.struct.NullValue.NULL_VALUE)
     def withNullValue(__v: com.google.protobuf.struct.NullValue): Value = copy(kind = com.google.protobuf.struct.Value.Kind.NullValue(__v))
@@ -124,6 +101,8 @@ final case class Value(
     def withListValue(__v: com.google.protobuf.struct.ListValue): Value = copy(kind = com.google.protobuf.struct.Value.Kind.ListValue(__v))
     def clearKind: Value = copy(kind = com.google.protobuf.struct.Value.Kind.Empty)
     def withKind(__v: com.google.protobuf.struct.Value.Kind): Value = copy(kind = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => kind.nullValue.map(_.javaValueDescriptor).orNull
@@ -151,17 +130,36 @@ final case class Value(
 
 object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.struct.Value = {
-    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
+  def merge(`_message__`: com.google.protobuf.struct.Value, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = {
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var __kind = `_message__`.kind
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 8 =>
+          __kind = com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(_input__.readEnum()))
+        case 17 =>
+          __kind = com.google.protobuf.struct.Value.Kind.NumberValue(_input__.readDouble())
+        case 26 =>
+          __kind = com.google.protobuf.struct.Value.Kind.StringValue(_input__.readStringRequireUtf8())
+        case 32 =>
+          __kind = com.google.protobuf.struct.Value.Kind.BoolValue(_input__.readBool())
+        case 42 =>
+          __kind = com.google.protobuf.struct.Value.Kind.StructValue(_root_.scalapb.LiteParser.readMessage(_input__, _message__.kind.structValue.getOrElse(com.google.protobuf.struct.Struct.defaultInstance)))
+        case 50 =>
+          __kind = com.google.protobuf.struct.Value.Kind.ListValue(_root_.scalapb.LiteParser.readMessage(_input__, _message__.kind.listValue.getOrElse(com.google.protobuf.struct.ListValue.defaultInstance)))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
     com.google.protobuf.struct.Value(
-      kind = __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(__e.getNumber)))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Double]].map(com.google.protobuf.struct.Value.Kind.NumberValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(2)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]].map(com.google.protobuf.struct.Value.Kind.StringValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(3)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]].map(com.google.protobuf.struct.Value.Kind.BoolValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(4)).asInstanceOf[_root_.scala.Option[com.google.protobuf.struct.Struct]].map(com.google.protobuf.struct.Value.Kind.StructValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(__fields.get(5)).asInstanceOf[_root_.scala.Option[com.google.protobuf.struct.ListValue]].map(com.google.protobuf.struct.Value.Kind.ListValue))
-    .getOrElse(com.google.protobuf.struct.Value.Kind.Empty)
+        kind = __kind,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Value] = _root_.scalapb.descriptors.Reads{
@@ -169,12 +167,12 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.Value(
         kind = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(__e.number)))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Double]]).map(com.google.protobuf.struct.Value.Kind.NumberValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]).map(com.google.protobuf.struct.Value.Kind.StringValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]).map(com.google.protobuf.struct.Value.Kind.BoolValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.Struct]]).map(com.google.protobuf.struct.Value.Kind.StructValue))
-    .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.ListValue]]).map(com.google.protobuf.struct.Value.Kind.ListValue))
-    .getOrElse(com.google.protobuf.struct.Value.Kind.Empty)
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Double]]).map(com.google.protobuf.struct.Value.Kind.NumberValue))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]).map(com.google.protobuf.struct.Value.Kind.StringValue))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]).map(com.google.protobuf.struct.Value.Kind.BoolValue))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.Struct]]).map(com.google.protobuf.struct.Value.Kind.StructValue))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.ListValue]]).map(com.google.protobuf.struct.Value.Kind.ListValue))
+            .getOrElse(com.google.protobuf.struct.Value.Kind.Empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -195,6 +193,7 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     }
   }
   lazy val defaultInstance = com.google.protobuf.struct.Value(
+    kind = com.google.protobuf.struct.Value.Kind.Empty
   )
   sealed trait Kind extends _root_.scalapb.GeneratedOneof {
     def isEmpty: _root_.scala.Boolean = false
@@ -281,8 +280,10 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
   final val STRUCT_VALUE_FIELD_NUMBER = 5
   final val LIST_VALUE_FIELD_NUMBER = 6
   def of(
-    kind: com.google.protobuf.struct.Value.Kind
+    kind: com.google.protobuf.struct.Value.Kind,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.struct.Value = _root_.com.google.protobuf.struct.Value(
-    kind
+    kind,
+    unknownFields
   )
 }

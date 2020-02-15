@@ -79,8 +79,9 @@ package com.google.protobuf.duration
 @SerialVersionUID(0L)
 final case class Duration(
     seconds: _root_.scala.Long = 0L,
-    nanos: _root_.scala.Int = 0
-    ) extends scalapb.GeneratedMessage with scalapb.Message[Duration] with scalapb.lenses.Updatable[Duration] {
+    nanos: _root_.scala.Int = 0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Duration] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -99,9 +100,10 @@ final case class Duration(
           __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(2, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
-    final override def serializedSize: _root_.scala.Int = {
+    override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -122,29 +124,12 @@ final case class Duration(
           _output__.writeInt32(2, __v)
         }
       };
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = {
-      var __seconds = this.seconds
-      var __nanos = this.nanos
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __seconds = _input__.readInt64()
-          case 16 =>
-            __nanos = _input__.readInt32()
-          case tag => _input__.skipField(tag)
-        }
-      }
-      com.google.protobuf.duration.Duration(
-          seconds = __seconds,
-          nanos = __nanos
-      )
+      unknownFields.writeTo(_output__)
     }
     def withSeconds(__v: _root_.scala.Long): Duration = copy(seconds = __v)
     def withNanos(__v: _root_.scala.Int): Duration = copy(nanos = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -180,20 +165,38 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
     seconds = javaPbSource.getSeconds.longValue,
     nanos = javaPbSource.getNanos.intValue
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.duration.Duration = {
-    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
+  def merge(`_message__`: com.google.protobuf.duration.Duration, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = {
+    var __seconds = `_message__`.seconds
+    var __nanos = `_message__`.nanos
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 8 =>
+          __seconds = _input__.readInt64()
+        case 16 =>
+          __nanos = _input__.readInt32()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
     com.google.protobuf.duration.Duration(
-      __fieldsMap.getOrElse(__fields.get(0), 0L).asInstanceOf[_root_.scala.Long],
-      __fieldsMap.getOrElse(__fields.get(1), 0).asInstanceOf[_root_.scala.Int]
+        seconds = __seconds,
+        nanos = __nanos,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.duration.Duration] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.duration.Duration(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Int]).getOrElse(0)
+        seconds = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
+        nanos = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Int]).getOrElse(0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -203,6 +206,8 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.duration.Duration(
+    seconds = 0L,
+    nanos = 0
   )
   implicit class DurationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.duration.Duration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.duration.Duration](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
@@ -212,9 +217,11 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
   final val NANOS_FIELD_NUMBER = 2
   def of(
     seconds: _root_.scala.Long,
-    nanos: _root_.scala.Int
+    nanos: _root_.scala.Int,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.duration.Duration = _root_.com.google.protobuf.duration.Duration(
     seconds,
-    nanos
+    nanos,
+    unknownFields
   )
 }

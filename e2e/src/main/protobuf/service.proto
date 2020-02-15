@@ -3,7 +3,9 @@ syntax = "proto3";
 package com.thesamet.proto.e2e;
 
 import "scalapb/scalapb.proto";
+import "type_level.proto";
 import "google/protobuf/descriptor.proto";
+import "google/protobuf/wrappers.proto";
 
 message Req1 {
   string request = 1;
@@ -77,4 +79,8 @@ service Service1 {
   rpc SealedServerStreaming(SealedRequest) returns (stream SealedResponse) {}
 
   rpc SealedBidiStreaming(stream SealedRequest) returns (stream SealedResponse) {}
+
+  rpc CustomUnary(XYMessage) returns (Res5) {};
+
+  rpc PrimitiveValues(google.protobuf.Int32Value) returns (google.protobuf.StringValue) {};
 }

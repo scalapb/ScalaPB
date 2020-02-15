@@ -73,13 +73,12 @@ object Lens extends CompatLensImplicits {
   /** Implicit that adds some syntactic sugar if our lens watches an Option[_]. */
   implicit class OptLens[U, A](val lens: Lens[U, Option[A]]) extends AnyVal {
     def inplaceMap(f: Lens[A, A] => Mutation[A]) =
-      lens.modify(
-        opt =>
-          opt.map { (m: A) =>
-            val field: Lens[A, A] = Lens.unit[A]
-            val p: Mutation[A]    = f(field)
-            p(m)
-          }
+      lens.modify(opt =>
+        opt.map { (m: A) =>
+          val field: Lens[A, A] = Lens.unit[A]
+          val p: Mutation[A]    = f(field)
+          p(m)
+        }
       )
   }
 
@@ -93,23 +92,21 @@ object Lens extends CompatLensImplicits {
     def :++=(item: Iterable[(A, B)]) = lens.modify(_ ++ item)
 
     def foreach(f: Lens[(A, B), (A, B)] => Mutation[(A, B)]): Mutation[U] =
-      lens.modify(
-        s =>
-          s.map { (pair: (A, B)) =>
-            val field: Lens[(A, B), (A, B)] = Lens.unit[(A, B)]
-            val p: Mutation[(A, B)]         = f(field)
-            p(pair)
-          }
+      lens.modify(s =>
+        s.map { (pair: (A, B)) =>
+          val field: Lens[(A, B), (A, B)] = Lens.unit[(A, B)]
+          val p: Mutation[(A, B)]         = f(field)
+          p(pair)
+        }
       )
 
     def foreachValue(f: Lens[B, B] => Mutation[B]): Mutation[U] =
-      lens.modify(
-        s =>
-          s.mapValues { (m: B) =>
-            val field: Lens[B, B] = Lens.unit[B]
-            val p: Mutation[B]    = f(field)
-            p(m)
-          }.toMap
+      lens.modify(s =>
+        s.mapValues { (m: B) =>
+          val field: Lens[B, B] = Lens.unit[B]
+          val p: Mutation[B]    = f(field)
+          p(m)
+        }.toMap
       )
 
     def mapValues(f: B => B) = foreachValue(_.modify(f))

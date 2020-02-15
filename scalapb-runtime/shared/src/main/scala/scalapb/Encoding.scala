@@ -79,5 +79,4 @@ object Encoding {
     }
     out.result()
   }
-
 }

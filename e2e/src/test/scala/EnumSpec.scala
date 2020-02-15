@@ -4,15 +4,17 @@ import com.thesamet.proto.e2e.enum._
 import com.thesamet.proto.e2e.enum3._
 import scalapb.GeneratedEnumCompanion
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
-  val red = EnumTest(color = Some(Color.RED))
-  val green = EnumTest(color = Some(Color.GREEN))
-  val blue = EnumTest(color = Some(Color.BLUE))
+class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
+  val red          = EnumTest(color = Some(Color.RED))
+  val green        = EnumTest(color = Some(Color.GREEN))
+  val blue         = EnumTest(color = Some(Color.BLUE))
   val unrecognized = EnumTest(color = Some(Color.Unrecognized(37)))
-  val noColor = EnumTest()
-  val innerEnum = EnumTest(innerEnum = Some(EnumTest.InnerEnum.INNER_SUCCESS))
-  val otherCase = EnumTest(innerEnum = Some(EnumTest.InnerEnum.OtherCase))
+  val noColor      = EnumTest()
+  val innerEnum    = EnumTest(innerEnum = Some(EnumTest.InnerEnum.INNER_SUCCESS))
+  val otherCase    = EnumTest(innerEnum = Some(EnumTest.InnerEnum.OtherCase))
 
   "colors" should "serialize and parse" in {
     EnumTest.parseFrom(red.toByteArray) must be(red)
@@ -53,11 +55,11 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "pattern matching" should "work for enums" in {
     def colorWord(color: Option[Color]) = color match {
-        case Some(Color.BLUE) => "blue"
-        case Some(Color.GREEN) => "green"
-        case Some(Color.RED) => "red"
-        case Some(Color.Unrecognized(x)) => s"unrecognized:$x"
-        case None => "none"
+      case Some(Color.BLUE)            => "blue"
+      case Some(Color.GREEN)           => "green"
+      case Some(Color.RED)             => "red"
+      case Some(Color.Unrecognized(x)) => s"unrecognized:$x"
+      case None                        => "none"
     }
 
     colorWord(blue.color) must be("blue")
@@ -87,34 +89,33 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "concatenated serialized" should "result in merged object" in {
     val bytes = (red.toByteArray ++ green.toByteArray ++ otherCase.toByteArray)
-    val obj = EnumTest.parseFrom(bytes)
-    obj must be(EnumTest(color = Some(Color.GREEN),
-        innerEnum = Some(EnumTest.InnerEnum.OtherCase)))
+    val obj   = EnumTest.parseFrom(bytes)
+    obj must be(EnumTest(color = Some(Color.GREEN), innerEnum = Some(EnumTest.InnerEnum.OtherCase)))
   }
 
   "missing enum values in proto3" should "be preserved in parsing" in {
-    val like = EnumTestLike(color = 18)  // same field number as `color` in EnumTest3.
-    val e3 = EnumTest3.parseFrom(like.toByteArray)
-    e3.color must be (Color3.Unrecognized(18))
+    val like = EnumTestLike(color = 18) // same field number as `color` in EnumTest3.
+    val e3   = EnumTest3.parseFrom(like.toByteArray)
+    e3.color must be(Color3.Unrecognized(18))
     e3.color must not be (Color3.Unrecognized(19))
-    e3.toByteArray must be (like.toByteArray)
+    e3.toByteArray must be(like.toByteArray)
   }
 
   "missing enum values in proto3 seq" should "be preserved in parsing" in {
     val e3 = EnumTest3(colorVector = Seq(Color3.C3_RED, Color3.Unrecognized(15), Color3.C3_BLUE))
-    EnumTest3.parseFrom(e3.toByteArray) must be (e3)
+    EnumTest3.parseFrom(e3.toByteArray) must be(e3)
   }
 
   "missing enum values in proto2" should "be preserved in parsing" in {
-    val like = EnumTestLike(color = 18)  // same field number as `color` in EnumTest3.
-    val e3 = EnumTest.parseFrom(like.toByteArray)
-    e3.getColor must be (Color.Unrecognized(18))
+    val like = EnumTestLike(color = 18) // same field number as `color` in EnumTest3.
+    val e3   = EnumTest.parseFrom(like.toByteArray)
+    e3.getColor must be(Color.Unrecognized(18))
     e3.getColor must not be (Color.Unrecognized(19))
-    e3.toByteArray must be (like.toByteArray)
+    e3.toByteArray must be(like.toByteArray)
   }
 
   "color companion" should "be available implicitly" in {
-    implicitly[GeneratedEnumCompanion[Color]] must be (Color)
+    implicitly[GeneratedEnumCompanion[Color]] must be(Color)
   }
 
   "fromName" should "resolve values" in {
@@ -126,16 +127,16 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "toByteString" should "give the same byte array as toByteArray" in {
     val e3 = EnumTest3(colorVector = Seq(Color3.C3_RED, Color3.Unrecognized(15), Color3.C3_BLUE))
-    e3.toByteString.toByteArray must be (e3.toByteArray)
+    e3.toByteString.toByteArray must be(e3.toByteArray)
   }
 
   "Unrecognized" should "be printable" in {
     // See https://github.com/scalapb/ScalaPB/issues/225
-    unrecognized.toProtoString must be ("color: 37\n")
+    unrecognized.toProtoString must be("color: 37\n")
   }
 
   "Unrecognized" should "be fine" in {
-    var x = Color.Unrecognized(117).scalaValueDescriptor  // Do not use 117 elsewhere we need to have it gc'ed.
+    var x = Color.Unrecognized(117).scalaValueDescriptor // Do not use 117 elsewhere we need to have it gc'ed.
     var y = Color.Unrecognized(117).scalaValueDescriptor
     x must be theSameInstanceAs y
     x = null
@@ -144,13 +145,14 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
     x = Color.Unrecognized(117).scalaValueDescriptor
   }
 
-  "Required Unrecognized enum" should "support conversion to Java" in {
-    /*
+  "Required Unrecognized enum" should "not work in Java" in {
     val scalaRequiredEnum = RequiredEnum(color = Color.Unrecognized(17))
-    val javaRequiredEnum = RequiredEnum.toJavaProto(scalaRequiredEnum)
-    RequiredEnum.fromJavaProto(javaRequiredEnum) must be (scalaRequiredEnum)
-    RequiredEnum.parseFrom(javaRequiredEnum.toByteArray) must be (scalaRequiredEnum)
-    */
+    assertThrows[IllegalArgumentException] {
+      RequiredEnum.toJavaProto(scalaRequiredEnum)
+    }
+    assertThrows[InvalidProtocolBufferException] {
+      val javaRequiredEnum = Enum.RequiredEnum.parseFrom(scalaRequiredEnum.toByteArray)
+    }
   }
 
   val scalaRequiredUnrecognizedEnum = RequiredEnum(color = Color.Unrecognized(17))
@@ -163,15 +165,19 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
       .build()
 
   val scalaRepeatedUnrecognizedEnum = EnumTest(
-    repeatedColor = Seq(Color.Unrecognized(17), Color.RED, Color.Unrecognized(22)))
+    repeatedColor = Seq(Color.Unrecognized(17), Color.RED, Color.Unrecognized(22))
+  )
 
   val scalaRepeatedUnrecognizedEnumModified = EnumTest(
-    repeatedColor = Seq(Color.RED, Color.Unrecognized(17), Color.Unrecognized(22)))
+    repeatedColor = Seq(Color.RED, Color.Unrecognized(17), Color.Unrecognized(22))
+  )
 
   val javaRepeatedUnrecognizedEnum = Enum.EnumTest
     .newBuilder()
     .addRepeatedColor(Enum.Color.RED)
-    .setUnknownFields(UnknownFieldSet.newBuilder().mergeVarintField(4, 17).mergeVarintField(4, 22).build())
+    .setUnknownFields(
+      UnknownFieldSet.newBuilder().mergeVarintField(4, 17).mergeVarintField(4, 22).build()
+    )
     .build()
 
   "Required Unrecognized enum" should "not be parsable by Java or convertible to Java" in {
@@ -196,8 +202,12 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
 
   "Proto2 with optional unrecognized enum" should "have same binary representation that is usable" in {
     scalaOptionalUnrecognizedEnum.toByteArray must be(javaOptionalUnrecognizedEnum.toByteArray)
-    EnumTest.parseFrom(scalaOptionalUnrecognizedEnum.toByteArray) must be(scalaOptionalUnrecognizedEnum)
-    Enum.EnumTest.parseFrom(scalaOptionalUnrecognizedEnum.toByteArray) must be(javaOptionalUnrecognizedEnum)
+    EnumTest.parseFrom(scalaOptionalUnrecognizedEnum.toByteArray) must be(
+      scalaOptionalUnrecognizedEnum
+    )
+    Enum.EnumTest.parseFrom(scalaOptionalUnrecognizedEnum.toByteArray) must be(
+      javaOptionalUnrecognizedEnum
+    )
   }
 
   "Proto2 with repeated enum field of unrecognized values" should "not be convertable to Java" in {
@@ -205,12 +215,18 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
       EnumTest.toJavaProto(scalaRepeatedUnrecognizedEnum) must be(javaRepeatedUnrecognizedEnum)
     }
     // ScalaPB will ignore the unknown fields, and will only see the recognized enum value.
-    EnumTest.fromJavaProto(javaRepeatedUnrecognizedEnum) must be(EnumTest(repeatedColor = Seq(Color.RED)))
+    EnumTest.fromJavaProto(javaRepeatedUnrecognizedEnum) must be(
+      EnumTest(repeatedColor = Seq(Color.RED))
+    )
   }
 
   "Proto2 with repeated enum field of unrecognized values" should "cause reorder of enum fields" in {
-    Enum.EnumTest.parseFrom(scalaRepeatedUnrecognizedEnum.toByteArray) must be(javaRepeatedUnrecognizedEnum)
-    EnumTest.parseFrom(javaRepeatedUnrecognizedEnum.toByteArray) must be(scalaRepeatedUnrecognizedEnumModified)
+    Enum.EnumTest.parseFrom(scalaRepeatedUnrecognizedEnum.toByteArray) must be(
+      javaRepeatedUnrecognizedEnum
+    )
+    EnumTest.parseFrom(javaRepeatedUnrecognizedEnum.toByteArray) must be(
+      scalaRepeatedUnrecognizedEnumModified
+    )
   }
 
   "Proto3 with optional unrecognized enum" should "support convertion to/from java" in {
@@ -226,14 +242,25 @@ class EnumSpec extends FlatSpec with MustMatchers with OptionValues {
   }
 
   "Proto3 with repeated unrecognized enum" should "support convertion to/from java" in {
-    val proto3 = EnumTest3(colorVector = Seq(Color3.Unrecognized(17), Color3.C3_RED, Color3.Unrecognized(22)))
+    val proto3 =
+      EnumTest3(colorVector = Seq(Color3.Unrecognized(17), Color3.C3_RED, Color3.Unrecognized(22)))
     EnumTest3.fromJavaProto(EnumTest3.toJavaProto(proto3)) must be(proto3)
   }
 
   "Proto3 with repeated unrecognized enum" should "have same binary representation that is usable" in {
-    val proto3 = EnumTest3(colorVector = Seq(Color3.Unrecognized(17), Color3.C3_RED, Color3.Unrecognized(22)))
+    val proto3 =
+      EnumTest3(colorVector = Seq(Color3.Unrecognized(17), Color3.C3_RED, Color3.Unrecognized(22)))
     EnumTest3.fromJavaProto(EnumTest3.toJavaProto(proto3)) must be(proto3)
     proto3.toByteArray must be(EnumTest3.toJavaProto(proto3).toByteArray)
     EnumTest3.parseFrom(proto3.toByteArray) must be(proto3)
   }
+
+  "asRecognized" should "return Some(_) if defined" in {
+    red.color.get.asRecognized must be(Some(red.color.get))
+  }
+
+  "asRecognized" should "return None if Unrecognized" in {
+    unrecognized.color.get.asRecognized must be(None)
+  }
+
 }

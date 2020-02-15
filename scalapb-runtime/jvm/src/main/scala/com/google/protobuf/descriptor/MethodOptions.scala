@@ -19,8 +19,8 @@ final case class MethodOptions(
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet()
-    ) extends scalapb.GeneratedMessage with scalapb.Message[MethodOptions] with scalapb.lenses.Updatable[MethodOptions] with _root_.scalapb.ExtendableMessage[MethodOptions] {
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MethodOptions] with _root_.scalapb.ExtendableMessage[MethodOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -30,8 +30,8 @@ final case class MethodOptions(
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(33, __value)
       };
       if (idempotencyLevel.isDefined) {
-        val __value = idempotencyLevel.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(34, __value.value)
+        val __value = idempotencyLevel.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(34, __value)
       };
       uninterpretedOption.foreach { __item =>
         val __value = __item
@@ -40,7 +40,7 @@ final case class MethodOptions(
       __size += unknownFields.serializedSize
       __size
     }
-    final override def serializedSize: _root_.scala.Int = {
+    override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -54,8 +54,8 @@ final case class MethodOptions(
         _output__.writeBool(33, __m)
       };
       idempotencyLevel.foreach { __v =>
-        val __m = __v
-        _output__.writeEnum(34, __m.value)
+        val __m = __v.value
+        _output__.writeEnum(34, __m)
       };
       uninterpretedOption.foreach { __v =>
         val __m = __v
@@ -64,32 +64,6 @@ final case class MethodOptions(
         __m.writeTo(_output__)
       };
       unknownFields.writeTo(_output__)
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodOptions = {
-      var __deprecated = this.deprecated
-      var __idempotencyLevel = this.idempotencyLevel
-      val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= this.uninterpretedOption)
-      val _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(this.unknownFields)
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 264 =>
-            __deprecated = Option(_input__.readBool())
-          case 272 =>
-            __idempotencyLevel = Option(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
-          case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
-          case tag => _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.MethodOptions(
-          deprecated = __deprecated,
-          idempotencyLevel = __idempotencyLevel,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = _unknownFields__.result()
-      )
     }
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
     def clearDeprecated: MethodOptions = copy(deprecated = _root_.scala.None)
@@ -128,7 +102,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     val javaPbOut = com.google.protobuf.DescriptorProtos.MethodOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.idempotencyLevel.map(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.toJavaValue).foreach(javaPbOut.setIdempotencyLevel)
-    javaPbOut.addAllUninterpretedOption(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto).toIterable.asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.MethodOptions): com.google.protobuf.descriptor.MethodOptions = com.google.protobuf.descriptor.MethodOptions(
@@ -136,22 +110,43 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     idempotencyLevel = if (javaPbSource.hasIdempotencyLevel) Some(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromJavaValue(javaPbSource.getIdempotencyLevel)) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto).toSeq
   )
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.MethodOptions = {
-    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
+  def merge(`_message__`: com.google.protobuf.descriptor.MethodOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodOptions = {
+    var __deprecated = `_message__`.deprecated
+    var __idempotencyLevel = `_message__`.idempotencyLevel
+    val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= `_message__`.uninterpretedOption)
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 264 =>
+          __deprecated = Option(_input__.readBool())
+        case 272 =>
+          __idempotencyLevel = Option(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
+        case 7994 =>
+          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
     com.google.protobuf.descriptor.MethodOptions(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Boolean]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor]].map(__e => com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(__e.getNumber)),
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]
+        deprecated = __deprecated,
+        idempotencyLevel = __idempotencyLevel,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.MethodOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.MethodOptions(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(33).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(34).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(__e.number)),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty)
+        deprecated = __fieldsMap.get(scalaDescriptor.findFieldByNumber(33).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        idempotencyLevel = __fieldsMap.get(scalaDescriptor.findFieldByNumber(34).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(__e.number)),
+        uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -171,24 +166,28 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.MethodOptions(
+    deprecated = _root_.scala.None,
+    idempotencyLevel = _root_.scala.None,
+    uninterpretedOption = _root_.scala.Seq.empty
   )
   /** Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
     * or neither? HTTP based RPC implementation may choose GET verb for safe
     * methods, and PUT verb for idempotent methods instead of the default POST.
     */
-  sealed trait IdempotencyLevel extends _root_.scalapb.GeneratedEnum {
+  sealed abstract class IdempotencyLevel(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = IdempotencyLevel
     def isIdempotencyUnknown: _root_.scala.Boolean = false
     def isNoSideEffects: _root_.scala.Boolean = false
     def isIdempotent: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized])
   }
   
   object IdempotencyLevel extends _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] {
+    sealed trait Recognized extends IdempotencyLevel
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = this
     @SerialVersionUID(0L)
-    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel {
-      val value = 0
+    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel(0) with IdempotencyLevel.Recognized {
       val index = 0
       val name = "IDEMPOTENCY_UNKNOWN"
       override def isIdempotencyUnknown: _root_.scala.Boolean = true
@@ -197,8 +196,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** implies idempotent
       */
     @SerialVersionUID(0L)
-    case object NO_SIDE_EFFECTS extends IdempotencyLevel {
-      val value = 1
+    case object NO_SIDE_EFFECTS extends IdempotencyLevel(1) with IdempotencyLevel.Recognized {
       val index = 1
       val name = "NO_SIDE_EFFECTS"
       override def isNoSideEffects: _root_.scala.Boolean = true
@@ -207,18 +205,17 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** idempotent, but may have side effects
       */
     @SerialVersionUID(0L)
-    case object IDEMPOTENT extends IdempotencyLevel {
-      val value = 2
+    case object IDEMPOTENT extends IdempotencyLevel(2) with IdempotencyLevel.Recognized {
       val index = 2
       val name = "IDEMPOTENT"
       override def isIdempotent: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(value: _root_.scala.Int) extends IdempotencyLevel with _root_.scalapb.UnrecognizedEnum
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     
     lazy val values = scala.collection.immutable.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
-    def fromValue(value: _root_.scala.Int): IdempotencyLevel = value match {
+    def fromValue(__value: _root_.scala.Int): IdempotencyLevel = __value match {
       case 0 => IDEMPOTENCY_UNKNOWN
       case 1 => NO_SIDE_EFFECTS
       case 2 => IDEMPOTENT

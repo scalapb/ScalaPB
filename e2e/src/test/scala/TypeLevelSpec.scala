@@ -1,8 +1,9 @@
 import com.thesamet.proto.e2e.type_level.UsesMessageLevelType
-import org.scalatest.{FlatSpec, MustMatchers}
 import com.thesamet.pb.{Point2D, Dir2D}
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class TypeLevelSpec extends FlatSpec with MustMatchers {
+class TypeLevelSpec extends AnyFlatSpec with Matchers {
   "message level type" should "generate correct types" in {
     val t = UsesMessageLevelType().update(
       _.optPoint := Point2D(3, 17),

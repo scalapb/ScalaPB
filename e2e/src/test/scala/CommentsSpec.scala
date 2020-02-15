@@ -1,18 +1,20 @@
 import com.thesamet.proto.e2e.comments.CommentedServiceGrpc.CommentedService
 import com.thesamet.proto.e2e.comments._
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class CommentsSpec extends FlatSpec with MustMatchers {
+class CommentsSpec extends AnyFlatSpec with Matchers {
   "comments proto" should "have comments enabled" in {
 
-    val fooLocation = Foo.scalaDescriptor.location.get
-    val field1Location = Foo.scalaDescriptor.findFieldByName("field1").get.location.get
-    val barLocation = Foo.Bar.scalaDescriptor.location.get
-    val enumLocation = Foo.Bar.scalaDescriptor.enums(0).location.get
+    val fooLocation     = Foo.scalaDescriptor.location.get
+    val field1Location  = Foo.scalaDescriptor.findFieldByName("field1").get.location.get
+    val barLocation     = Foo.Bar.scalaDescriptor.location.get
+    val enumLocation    = Foo.Bar.scalaDescriptor.enums(0).location.get
     val enumXyzLocation = Foo.Bar.MyBarEnum.XYZ.scalaValueDescriptor.location.get
     val enumDefLocation = Foo.Bar.MyBarEnum.DEF.scalaValueDescriptor.location.get
     val serviceLocation = CommentedService.scalaDescriptor.location.get
-    val methodLocation = CommentedService.scalaDescriptor.methods(0).location.get
+    val methodLocation  = CommentedService.scalaDescriptor.methods(0).location.get
 
     fooLocation.getLeadingComments must be(" This is the foo comment\n")
 

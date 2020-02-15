@@ -4,7 +4,6 @@ import org.scalacheck.Gen
   * Created by thesamet on 9/28/14.
   */
 object GenUtils {
-
   import org.scalacheck.Gen._
 
   def listOfNWithStatefulGen[A, State](n: Int, state: State)(

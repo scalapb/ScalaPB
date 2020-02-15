@@ -1,14 +1,14 @@
 package scalapb.compiler
 import com.google.protobuf.DescriptorProtos.{FileDescriptorProto, FileOptions}
 import com.google.protobuf.Descriptors.FileDescriptor
-import org.scalatest.{FlatSpec, MustMatchers}
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.ScalaPbOptions
 import scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope
 import scala.collection.JavaConverters._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class FileOptionsCacheSpec extends FlatSpec with MustMatchers {
-
+class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
   "parentPackages" should "return correct parent packages" in {
     FileOptionsCache.parentPackages("foo.bar.baz") must be(
       Seq("foo.bar", "foo")

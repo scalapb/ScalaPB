@@ -6,21 +6,22 @@ import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.protobuf.services.ProtoReflectionService
 import io.grpc.stub.StreamObserver
 import io.grpc.{ManagedChannel, Server}
-import org.scalatest.{FunSpec, MustMatchers}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.util.Random
+import org.scalatest.funspec.AnyFunSpec
+import org.scalatest.matchers.must.Matchers
 
-abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
+abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
 
   protected[this] final def withScalaServer[A](f: ManagedChannel => A): A = {
     withServer(
       _.addService(ProtoReflectionService.newInstance())
-       .addService(
-         Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)
-       )
-       .intercept(new Service1Interceptor)
-       .build()
+        .addService(
+          Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)
+        )
+        .intercept(new Service1Interceptor)
+        .build()
     )(f)
   }
 
@@ -28,12 +29,17 @@ abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
     withServer(_.addService(new Service1JavaImpl).intercept(new Service1Interceptor).build())(f)
   }
 
-  private[this] def withServer[A](createServer: NettyServerBuilder => Server)(f: ManagedChannel => A): A = {
-    val port = UniquePortGenerator.get()
+  private[this] def withServer[A](
+      createServer: NettyServerBuilder => Server
+  )(f: ManagedChannel => A): A = {
+    val port   = UniquePortGenerator.get()
     val server = createServer(NettyServerBuilder.forPort(port))
     try {
       server.start()
-      val channel = NettyChannelBuilder.forAddress("localhost", port).negotiationType(NegotiationType.PLAINTEXT).build()
+      val channel = NettyChannelBuilder
+        .forAddress("localhost", port)
+        .negotiationType(NegotiationType.PLAINTEXT)
+        .build()
       f(channel)
     } finally {
       server.shutdown()
@@ -59,9 +65,10 @@ abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
     (observer, promise.future)
   }
 
-  protected[this] final def getObserverAndFutureVector[A]: (StreamObserver[A], Future[Vector[A]]) = {
+  protected[this] final def getObserverAndFutureVector[A]
+      : (StreamObserver[A], Future[Vector[A]]) = {
     val promise = Promise[Vector[A]]()
-    val values = Vector.newBuilder[A]
+    val values  = Vector.newBuilder[A]
     val observer = new StreamObserver[A] {
       override def onError(t: Throwable): Unit = {}
 
@@ -74,6 +81,7 @@ abstract class GrpcServiceSpecBase extends FunSpec with MustMatchers {
     (observer, promise.future)
   }
 
-  protected[this] final def randomString(): String = Random.alphanumeric.take(Random.nextInt(10)).mkString
+  protected[this] final def randomString(): String =
+    Random.alphanumeric.take(Random.nextInt(10)).mkString
 
 }

@@ -3,6 +3,7 @@ import GenTypes.{FieldOptions, ProtoType}
 import scalapb.options.Scalapb.ScalaPbOptions
 import scalapb.compiler.{NameUtils, StreamType}
 import org.scalacheck.{Arbitrary, Gen}
+import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
 
 object GraphGen {
   import Nodes._
@@ -83,8 +84,8 @@ object GraphGen {
     }
 
     def closeNamespace: State =
-      namespace.parent.fold(throw new IllegalStateException("Attempt to close root namespace"))(
-        p => copy(namespace = p)
+      namespace.parent.fold(throw new IllegalStateException("Attempt to close root namespace"))(p =>
+        copy(namespace = p)
       )
   }
 
@@ -207,12 +208,16 @@ object GraphGen {
       (scalaPackageName, state) <- GenUtils.listWithStatefulGen(state, minSize = 1, maxSize = 4)(
         _.generateName
       )
-      flatPackage <- Gen.oneOf(true, false)
-      singleFile  <- Gen.oneOf(true, false)
+      flatPackage        <- Gen.oneOf(true, false)
+      singleFile         <- Gen.oneOf(true, false)
+      enumValueCamelCase <- Gen.oneOf(false, true)
     } yield {
       val b = ScalaPbOptions.newBuilder
       if (scalaPackageName.nonEmpty) {
         b.setPackageName(scalaPackageName.mkString("."))
+      }
+      if (enumValueCamelCase) {
+        b.setEnumValueNaming(EnumValueNaming.CAMEL_CASE)
       }
       b.setFlatPackage(flatPackage)
         .setSingleFile(singleFile)

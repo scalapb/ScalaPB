@@ -6,7 +6,8 @@ import SchemaGenerators.CompiledSchema
 import com.google.protobuf
 import com.google.protobuf.{Message, TextFormat => GTextFormat}
 import scalapb.{GeneratedMessage, JavaProtoSupport, TextFormat}
-import org.scalatest._
+import org.scalatest.propspec.AnyPropSpec
+import org.scalatest.matchers.should.Matchers
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.tagobjects.Slow
 import scalapb.descriptors.ScalaType
@@ -14,7 +15,7 @@ import scalapb.descriptors.ScalaType
 import scala.language.existentials
 import scala.collection.JavaConverters._
 
-class GeneratedCodeSpec extends PropSpec with ScalaCheckDrivenPropertyChecks with Matchers {
+class GeneratedCodeSpec extends AnyPropSpec with ScalaCheckDrivenPropertyChecks with Matchers {
   property("min and max id are consecutive over files") {
     forAll(GraphGen.genRootNode) { node =>
       def validateMinMax(pairs: Seq[(Int, Int)]) =
@@ -54,9 +55,6 @@ class GeneratedCodeSpec extends PropSpec with ScalaCheckDrivenPropertyChecks wit
               // Parsing in Java the bytes serialized by Scala should give back javaProto:
               val javaProto2 = schema.javaParse(message, scalaBytes)
               javaProto2 should be(javaProto)
-
-              // getAllFields and fromFieldsMap should return the same object
-              companion.fromFieldsMap(scalaProto.getAllFields) should be(scalaProto)
 
               // toJavaProto, fromJava should bring back the same object.
               val javaConversions =
@@ -118,7 +116,6 @@ class GeneratedCodeSpec extends PropSpec with ScalaCheckDrivenPropertyChecks wit
                       case _ =>
                     }
                 }
-
             } catch {
               case e: Exception =>
                 println(e.printStackTrace)

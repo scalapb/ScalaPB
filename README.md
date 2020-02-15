@@ -64,7 +64,7 @@ containing the following line:
 
     addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.23")
 
-    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.9.0"
+    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.9.4"
 
 Add the following line to your `build.sbt`:
 
@@ -104,3 +104,9 @@ The tests take a few minutes to run. There is a smaller test suite called
 ScalaChecks on the outputs. To run it:
 
     $ ./e2e.sh
+
+Sponsors
+========
+We are very thankful to our sponsors: 
+
+* [Oliver Wickham (ollyw)](https://github.com/ollyw)

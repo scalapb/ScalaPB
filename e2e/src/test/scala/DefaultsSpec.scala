@@ -1,7 +1,9 @@
 import com.thesamet.proto.e2e.defaults._
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class DefaultsSpec extends FlatSpec with MustMatchers {
+class DefaultsSpec extends AnyFlatSpec with Matchers {
   val d = DefaultsTest()
 
   "defaults" should "be set correctly" in {

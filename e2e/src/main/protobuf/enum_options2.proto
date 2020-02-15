@@ -1,0 +1,15 @@
+syntax = "proto2";
+
+package com.thesamet.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  enum_value_naming: CAMEL_CASE
+  enum_strip_prefix: true
+};
+
+enum MyEnum2 {
+    MY_ENUM2_V1 = 0;
+    MY_ENUM2_2 = 1;
+}

@@ -3,14 +3,19 @@ import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalacheck.Gen
 import collection.JavaConverters._
-import Matchers._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class OneofSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers with OptionValues {
+class OneofSpec
+    extends AnyFlatSpec
+    with ScalaCheckDrivenPropertyChecks
+    with Matchers
+    with OptionValues {
   val unspecified = OneofTest()
-  val tempField = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
-  val otherField = OneofTest(myOneOf = OneofTest.MyOneOf.OtherField("boo"))
-  val subMessage = OneofTest.SubMessage(subField = Some(18))
-  val sub = OneofTest(myOneOf = OneofTest.MyOneOf.Sub(subMessage))
+  val tempField   = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
+  val otherField  = OneofTest(myOneOf = OneofTest.MyOneOf.OtherField("boo"))
+  val subMessage  = OneofTest.SubMessage(subField = Some(18))
+  val sub         = OneofTest(myOneOf = OneofTest.MyOneOf.Sub(subMessage))
 
   "oneofs" should "serialize and parse" in {
     OneofTest.parseFrom(unspecified.toByteArray) must be(unspecified)
@@ -20,76 +25,76 @@ class OneofSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMa
   }
 
   "oneof.isX function" should "return correct value" in {
-    unspecified.myOneOf shouldBe 'isEmpty
-    unspecified.myOneOf should not be 'isDefined
-    unspecified.myOneOf should not be 'isTempField
-    unspecified.myOneOf should not be 'isOtherField
-    unspecified.myOneOf should not be 'isSub
-    tempField.myOneOf shouldBe 'isTempField
-    tempField.myOneOf shouldBe 'isDefined
-    tempField.myOneOf should not be 'isEmpty
-    tempField.myOneOf should not be 'isOtherField
-    tempField.myOneOf should not be 'isSub
+    unspecified.myOneOf mustBe empty
+    unspecified.myOneOf must not be defined
+    unspecified.myOneOf.isTempField must be(false)
+    unspecified.myOneOf.isOtherField must be(false)
+    unspecified.myOneOf.isSub must be(false)
+    tempField.myOneOf.isTempField mustBe(true)
+    tempField.myOneOf mustBe defined
+    tempField.myOneOf must not be empty
+    tempField.myOneOf.isOtherField mustBe(false)
+    tempField.myOneOf.isSub must be(false)
   }
 
   "oneof.number function" should "return correct value" in {
-    unspecified.myOneOf.number shouldBe 0
-    tempField.myOneOf.number shouldBe 2
-    otherField.myOneOf.number shouldBe 3
-    sub.myOneOf.number shouldBe 4
+    unspecified.myOneOf.number mustBe 0
+    tempField.myOneOf.number mustBe 2
+    otherField.myOneOf.number mustBe 3
+    sub.myOneOf.number mustBe 4
   }
 
   "oneof.valueOption function" should "return correct value" in {
-    unspecified.myOneOf.valueOption shouldBe None
-    tempField.myOneOf.valueOption shouldBe Some(9)
-    otherField.myOneOf.valueOption shouldBe Some("boo")
-    sub.myOneOf.valueOption shouldBe Some(subMessage)
+    unspecified.myOneOf.valueOption mustBe None
+    tempField.myOneOf.valueOption mustBe Some(9)
+    otherField.myOneOf.valueOption mustBe Some("boo")
+    sub.myOneOf.valueOption mustBe Some(subMessage)
   }
 
   "oneof.value function" should "return correct value" in {
     assertThrows[java.util.NoSuchElementException] { unspecified.myOneOf.value }
-    tempField.myOneOf.value shouldBe (9)
-    otherField.myOneOf.value shouldBe ("boo")
-    sub.myOneOf.value shouldBe (subMessage)
+    tempField.myOneOf.value mustBe (9)
+    otherField.myOneOf.value mustBe ("boo")
+    sub.myOneOf.value mustBe (subMessage)
   }
 
   "oneOf matching" should "work" in {
     (sub.myOneOf match {
-        case OneofTest.MyOneOf.Sub(subm) => subm.getSubField
-        case _ => 4
+      case OneofTest.MyOneOf.Sub(subm) => subm.getSubField
+      case _                           => 4
     }) must be(18)
 
     (tempField.myOneOf match {
-        case OneofTest.MyOneOf.TempField(17) => "foo"
-        case OneofTest.MyOneOf.TempField(9) => "bar"
-        case OneofTest.MyOneOf.TempField(_) => "baz"
-        case _ => "bang"
+      case OneofTest.MyOneOf.TempField(17) => "foo"
+      case OneofTest.MyOneOf.TempField(9)  => "bar"
+      case OneofTest.MyOneOf.TempField(_)  => "baz"
+      case _                               => "bang"
     }) must be("bar")
 
     (unspecified.myOneOf match {
       case OneofTest.MyOneOf.Empty => "unset"
-      case _ => "boo"
+      case _                       => "boo"
     }) must be("unset")
   }
 
   "clearMyOneOf" should "unset the oneof" in {
-    tempField.clearMyOneOf should be(unspecified)
-    unspecified.clearMyOneOf should be(unspecified)
-    otherField.clearMyOneOf should be(unspecified)
-    sub.clearMyOneOf should be(unspecified)
+    tempField.clearMyOneOf must be(unspecified)
+    unspecified.clearMyOneOf must be(unspecified)
+    otherField.clearMyOneOf must be(unspecified)
+    sub.clearMyOneOf must be(unspecified)
   }
 
   "withField" should "set the one off" in {
-    otherField.withTempField(9) should be(tempField)
-    tempField.withOtherField("boo") should be(otherField)
-    otherField.withOtherField("boo") should be(otherField)
-    otherField.withOtherField("zoo") should not be(otherField)
-    otherField.withOtherField("zoo").myOneOf.otherField should be(Some("zoo"))
+    otherField.withTempField(9) must be(tempField)
+    tempField.withOtherField("boo") must be(otherField)
+    otherField.withOtherField("boo") must be(otherField)
+    otherField.withOtherField("zoo") must not be (otherField)
+    otherField.withOtherField("zoo").myOneOf.otherField must be(Some("zoo"))
   }
 
   "withOneOf" should "set the one off" in {
-    tempField.withMyOneOf(otherField.myOneOf) should be(otherField)
-    otherField.withMyOneOf(tempField.myOneOf) should be(tempField)
+    tempField.withMyOneOf(otherField.myOneOf) must be(otherField)
+    otherField.withMyOneOf(tempField.myOneOf) must be(tempField)
   }
 
   "oneOf option getters" should "work" in {
@@ -102,40 +107,32 @@ class OneofSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMa
   }
 
   "oneOf update" should "allow updating the one of" in {
-    val obj1 = tempField.update(
-        _.myOneOf := otherField.myOneOf)
+    val obj1 = tempField.update(_.myOneOf := otherField.myOneOf)
     obj1 must be(otherField)
 
-    val obj2 = tempField.update(
-        _.myOneOf := otherField.myOneOf,
-        _.otherField.modify(_ + "zoo"))
+    val obj2 = tempField.update(_.myOneOf := otherField.myOneOf, _.otherField.modify(_ + "zoo"))
     obj2.myOneOf.otherField must be(Some("boozoo"))
   }
 
   "oneOf update" should "update fields inside one of" in {
-    val obj = tempField.update(
-        _.sub.name := "Hi",
-        _.sub.subField := 4)
+    val obj = tempField.update(_.sub.name := "Hi", _.sub.subField := 4)
     obj.myOneOf.tempField must be(None)
     obj.myOneOf.isTempField must be(false)
-    obj.myOneOf.sub must be(Some(OneofTest.SubMessage(
-        name = Some("Hi"), subField = Some(4))))
+    obj.myOneOf.sub must be(Some(OneofTest.SubMessage(name = Some("Hi"), subField = Some(4))))
   }
 
   "oneOf update" should "make use of defaults" in {
-    val obj = unspecified.update(
-        _.otherField.modify(_ + " Yo!"))
+    val obj = unspecified.update(_.otherField.modify(_ + " Yo!"))
     obj.myOneOf.otherField must be(Some("Other value Yo!"))
   }
 
   "oneof parser" should "pick last oneof value" in {
-    forAll(Gen.listOf(
-      Gen.oneOf(unspecified, tempField, otherField))) { l =>
+    forAll(Gen.listOf(Gen.oneOf(unspecified, tempField, otherField))) { l =>
       val concat = l.map(_.toByteArray.toSeq).foldLeft(Seq[Byte]())(_ ++ _).toArray
       val parsed = OneofTest.parseFrom(concat)
       val expectedOneOf = l.reverse.collectFirst {
         case e if e != unspecified => e.myOneOf
-      } getOrElse(unspecified.myOneOf)
+      } getOrElse (unspecified.myOneOf)
       parsed.myOneOf must be(expectedOneOf)
     }
   }
@@ -153,4 +150,3 @@ class OneofSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMa
     }
   }
 }
-

@@ -13,7 +13,6 @@ import scala.reflect.ClassTag
 import _root_.scalapb.ScalaPbCodeGenerator
 
 object SchemaGenerators {
-
   import Nodes._
 
   val snakeRegex = "_[0-9][a-z]".r
@@ -108,6 +107,7 @@ object SchemaGenerators {
     "type",
     // Words that are not allowed by the Java protocol buffer compiler:
     "tag",
+    "value",
     // internal names
     "of",
     "java_pb_source",
@@ -119,7 +119,8 @@ object SchemaGenerators {
   )
 
   // identifier must not have be of the Java keywords.
-  val identifier = Gen.resize(4, Gen.identifier).retryUntil(e => !RESERVED.contains(e))
+  val identifier =
+    Gen.resize(4, Gen.identifier).retryUntil(e => !RESERVED.contains(e) && !e.startsWith("is"))
 
   /** Generates an alphanumerical character */
   def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const("_")), (9, Gen.alphaChar))
@@ -157,7 +158,9 @@ object SchemaGenerators {
 
   private def runProtoc(args: String*) =
     ProtocBridge.runWithGenerators(
-      args => com.github.os72.protocjar.Protoc.runProtoc("-v370" +: args.toArray),
+      args =>
+        com.github.os72.protocjar.Protoc
+          .runProtoc(s"-v${scalapb.compiler.Version.protobufVersion}" +: args.toArray),
       Seq("scala" -> ScalaPbCodeGenerator),
       args
     )
@@ -239,14 +242,11 @@ object SchemaGenerators {
 
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
-    val s = new Settings(error => throw new RuntimeException(error))
-    val maybeBreakCycles: Seq[String] =
-      if (!scala.util.Properties.versionNumberString.startsWith("2.10."))
-        Seq("-Ybreak-cycles")
-      else Seq.empty
+    val s                        = new Settings(error => throw new RuntimeException(error))
+    val breakCycles: Seq[String] = Seq("-Ybreak-cycles")
 
     s.processArgumentString(
-      s"""-cp "${classPath.mkString(":")}" ${maybeBreakCycles.mkString(" ")} -d "$rootDir""""
+      s"""-cp "${classPath.mkString(":")}" ${breakCycles.mkString(" ")} -d "$rootDir""""
     )
 
     val g   = new Global(s)
@@ -255,7 +255,7 @@ object SchemaGenerators {
     println("[DONE]")
   }
 
-  type CompanionWithJavaSupport[A <: GeneratedMessage with Message[A]] =
+  type CompanionWithJavaSupport[A <: GeneratedMessage] =
     GeneratedMessageCompanion[A] with JavaProtoSupport[A, _]
 
   case class CompiledSchema(rootNode: RootNode, rootDir: File) {

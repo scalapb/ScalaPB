@@ -3,17 +3,19 @@ import com.thesamet.proto.e2e.collection_types._
 import org.scalatest._
 
 import scala.collection.mutable
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class CollectionTypesSpec extends FlatSpec with MustMatchers {
+class CollectionTypesSpec extends AnyFlatSpec with Matchers {
   "lenses" should "compile" in {
     val cis = CollectionTypesMessage().update(_.repeatedInt32 :++= Seq(11, 9))
-    val cv = CollectionTypesVector().update(_.repeatedInt32 :++= Seq(11, 9))
-    val cl = CollectionTypesList().update(_.repeatedInt32 :++= Seq(11, 9))
-    val cs = CollectionTypesSet().update(_.repeatedInt32 :++= Seq(11, 9))
-    cis.repeatedInt32 must be (a[collection.immutable.Seq[_]])
-    cv.repeatedInt32 must be (a[Vector[_]])
-    cl.repeatedInt32 must be (a[List[_]])
-    cs.repeatedInt32 must be (a[Set[_]])
+    val cv  = CollectionTypesVector().update(_.repeatedInt32 :++= Seq(11, 9))
+    val cl  = CollectionTypesList().update(_.repeatedInt32 :++= Seq(11, 9))
+    val cs  = CollectionTypesSet().update(_.repeatedInt32 :++= Seq(11, 9))
+    cis.repeatedInt32 must be(a[collection.immutable.Seq[_]])
+    cv.repeatedInt32 must be(a[Vector[_]])
+    cl.repeatedInt32 must be(a[List[_]])
+    cs.repeatedInt32 must be(a[Set[_]])
   }
 
   "custom collection" should "work" in {
@@ -25,15 +27,15 @@ class CollectionTypesSpec extends FlatSpec with MustMatchers {
 
   // See https://github.com/scalapb/ScalaPB/issues/274
   "packed sets serialization" should "work" in {
-    val m = CollectionTypesPackedSet(repeatedUint32 = Set(1,2,3,4,5))
+    val m = CollectionTypesPackedSet(repeatedUint32 = Set(1, 2, 3, 4, 5))
     CollectionTypesPackedSet.parseFrom(m.toByteArray) must be(m)
   }
 
   "custom maps" should "have expected types" in {
     val m = CollectionTypesMap()
-    m.mapInt32Bool must be (a[mutable.Map[_, _]])
-    m.mapInt32Enum must be (a[mutable.Map[_, _]])
-    m.mymapInt32Bool must be (a[MyMap[_, _]])
+    m.mapInt32Bool must be(a[mutable.Map[_, _]])
+    m.mapInt32Enum must be(a[mutable.Map[_, _]])
+    m.mymapInt32Bool must be(a[MyMap[_, _]])
   }
 
   "custom maps" should "serialize and deserialize" in {

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+message BaseCase {
+    string x = 1;
+    int32 y = 2;
+}
+
+message Extended {
+    int32 ext_int = 100;
+    repeated string ext_rep_str = 101;
+    BaseCase ext_msg = 102;
+    repeated BaseCase ext_rep_msg = 103;
+}

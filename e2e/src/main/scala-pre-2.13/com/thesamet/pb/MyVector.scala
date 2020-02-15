@@ -20,7 +20,9 @@ case class MyVector[T](stuff: Vector[T]) {
 object MyVector {
   def empty[T] = new MyVector[T](Vector())
 
-  implicit def cbf[From, T](implicit vcbf: CanBuildFrom[From, T, Vector[T]]): CanBuildFrom[From, T, MyVector[T]] =
+  implicit def cbf[From, T](
+      implicit vcbf: CanBuildFrom[From, T, Vector[T]]
+  ): CanBuildFrom[From, T, MyVector[T]] =
     new CanBuildFrom[From, T, MyVector[T]] {
       override def apply(from: From): mutable.Builder[T, MyVector[T]] =
         vcbf(from).mapResult(MyVector(_))

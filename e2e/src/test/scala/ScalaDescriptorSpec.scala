@@ -3,8 +3,10 @@ import com.thesamet.proto.e2e.one_of.{OneOfProto, OneofTest}
 import com.thesamet.proto.e2e.service.Service1Grpc.Service1
 import scalapb.descriptors._
 import org.scalatest._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement with OptionValues {
+class ScalaDescriptorSpec extends AnyFlatSpec with Matchers with LoneElement with OptionValues {
   "scalaDescriptor" must "contain all messages" in {
     OneOfProto.scalaDescriptor.packageName must be("com.thesamet.proto.e2e")
     OneOfProto.scalaDescriptor.messages.loneElement must be(OneofTest.scalaDescriptor)
@@ -13,7 +15,7 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     SubMessage.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.OneofTest.SubMessage")
     OneofTest.scalaDescriptor.fields must have size (5)
 
-    OneofTest.scalaDescriptor.oneofs must have size(1)
+    OneofTest.scalaDescriptor.oneofs must have size (1)
     val oneofDesc: OneofDescriptor = OneofTest.scalaDescriptor.oneofs(0)
 
     val aField = OneofTest.scalaDescriptor.fields.find(_.name == "a").get
@@ -26,18 +28,20 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     aField.containingOneof must be(None)
     aField.containingMessage must be(OneofTest.scalaDescriptor)
     aField.scalaName must be("a")
-    SubMessage.scalaDescriptor.fields.find(_.name == "name").map(_.scalaType).value must be(ScalaType.String)
+    SubMessage.scalaDescriptor.fields.find(_.name == "name").map(_.scalaType).value must be(
+      ScalaType.String
+    )
 
     val tempField = OneofTest.scalaDescriptor.fields.find(_.name == "temp_field").get
     tempField.number must be(2)
     tempField.isOptional must be(true)
-    tempField.containingOneof.value must be (oneofDesc)
+    tempField.containingOneof.value must be(oneofDesc)
     tempField.containingMessage must be(OneofTest.scalaDescriptor)
     tempField.scalaName must be("tempField")
     SubMessage.scalaDescriptor.nestedMessages mustBe empty
 
-    oneofDesc.fields must have size(3)
-    oneofDesc.name must be ("my_one_of")
+    oneofDesc.fields must have size (3)
+    oneofDesc.name must be("my_one_of")
 
     val subField = OneofTest.scalaDescriptor.fields.find(_.name == "sub").get
     subField.containingMessage must be(OneofTest.scalaDescriptor)
@@ -47,10 +51,10 @@ class ScalaDescriptorSpec extends FlatSpec with MustMatchers with LoneElement wi
     xyzs.isRepeated must be(true)
     xyzs.isOptional must be(false)
     xyzs.isRequired must be(false)
-    xyzs.scalaType must be (ScalaType.Enum(OneofTest.XYZ.scalaDescriptor))
-    xyzs.scalaName must be ("xyzs")
+    xyzs.scalaType must be(ScalaType.Enum(OneofTest.XYZ.scalaDescriptor))
+    xyzs.scalaName must be("xyzs")
 
-    OneofTest.XYZ.scalaDescriptor.fullName must be ("com.thesamet.proto.e2e.OneofTest.XYZ")
+    OneofTest.XYZ.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.OneofTest.XYZ")
 
     Service1.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.Service1")
     val method = Service1.scalaDescriptor.methods.find(_.name == "SealedUnary").get

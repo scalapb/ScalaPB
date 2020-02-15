@@ -1,6 +1,6 @@
 language: scala
-dist: xenial
-jdk: oraclejdk11
+dist: bionic
+jdk: openjdk11
 
 stages:
 - name: test
@@ -8,15 +8,29 @@ stages:
   if: (branch = master AND type = push AND repo = "scalapb/ScalaPB") OR (tag IS present)
 
 scala:
-- 2.11.12
-- 2.12.9
-- 2.13.0
+- 2.12.10
+- 2.13.1
 
 env:
-- TEST_SCRIPT=e2e.sh E2E_SHADED=0
-- TEST_SCRIPT=e2e.sh E2E_SHADED=1
+- TEST_SCRIPT=e2e.sh
 - TEST_SCRIPT=mima.sh
 - TEST_SCRIPT=proptest.sh
+
+native_image: &native_image
+  stage: release
+  if: tag IS present
+  scala: 2.13.1
+  script: |
+      ./.travis/make_native_image.sh protoc-gen-scala-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
+  deploy:
+  - provider: releases
+    on:
+      tags: true
+      repo: scalapb/ScalaPB
+    api_key:
+      secure: ZHv5KXgAHNvO6ZS2cv5SdQ43UMjcc1Bm7p9Q66z4NJoLNq5SY/Ln9ZFeUgoBMv+1SPvzL0GRWLxBxa4UYuFgFwRywlU8hQ1GF0ztZ35bvZUrFvTWp4sM62sdmSogHFDmgpG58IPNeQSPcZ+sYFhlWzvAz9hUCXzPPu6jeZSanew=
+    file: protoc-gen-scala-${TRAVIS_TAG:1}-${TRAVIS_OS_NAME}-x86_64.zip
+    skip_cleanup: true
 
 jobs:
   include:
@@ -28,23 +42,29 @@ jobs:
   #  script:
   #  - sbt ++2.11.12 runtimeNative/test lensesNative/test
   - env: EXAMPLES_AND_FORMATTING
-    scala: 2.11.12
+    scala: 2.13.1
     script:
     - for d in examples/*; do cd "$d" && sbt test && cd ../..; done
-    - sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck
+    - sbt -J-Xmx4500M ++2.13.1 scalafmtCheck test:scalafmtCheck scalafmtSbtCheck
     - ./test_generated_code_checked_in.sh
   - stage: release
     env: UPDATE_DOCS
-    scala: 2.11.12
+    scala: 2.13.1
     script: skip  # we use a scripted deploy to have before_deploy run first.
     deploy:
     - provider: script
       script: .travis/push_website.sh
+  - <<: *native_image
+    name: "Native Image (OSX)"
+    os: osx
+  - <<: *native_image
+    name: "Native Image (Linux)"
+    os: linux
   - stage: release
     if: tag IS present
-    scala: 2.11.12
+    scala: 2.13.1
     env: DEPLOY_SCALAPBC
-    script: sbt -J-Xmx4500M ++2.11.12 scalafmtCheck test:scalafmtCheck universal:packageBin
+    script: sbt -J-Xmx4500M ++2.13.1 scalafmtCheck test:scalafmtCheck universal:packageBin
     deploy:
     - provider: releases
       on:
@@ -58,6 +78,7 @@ jobs:
 # These directories are cached to S3 at the end of the build
 cache:
   directories:
+  - $HOME/.cache/coursier
   - $HOME/.ivy2/cache
   - $HOME/.sbt/1.0
   - $HOME/.sbt/boot

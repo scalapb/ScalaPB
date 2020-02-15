@@ -142,8 +142,8 @@ protobuf {
   plugins {
     scalapb {
       artifact = (org.gradle.nativeplatform.platform.internal.DefaultNativePlatform.getCurrentOperatingSystem().isWindows()) ?
-          "com.thesamet.scalapb:protoc-gen-scalapb:${scalapbVersion}:windows@bat" :
-          "com.thesamet.scalapb:protoc-gen-scalapb:${scalapbVersion}:unix@sh"
+          "com.thesamet.scalapb:protoc-gen-scala:${scalapbVersion}:windows@bat" :
+          "com.thesamet.scalapb:protoc-gen-scala:${scalapbVersion}:unix@sh"
     }
   }
 

@@ -23,10 +23,12 @@ object Years {
 
 object FullName {
   implicit val mapper = TypeMapper[Name, FullName](n => FullName(n.getFirst, n.getLast))(fn =>
-    Name(first = Some(fn.firstName), last = Some(fn.lastName)))
+    Name(first = Some(fn.firstName), last = Some(fn.lastName))
+  )
 
   implicit val mapperNoBox = TypeMapper[NameNoBox, FullName](n => FullName(n.first, n.last))(fn =>
-    NameNoBox(first = fn.firstName, last = fn.lastName))
+    NameNoBox(first = fn.firstName, last = fn.lastName)
+  )
 }
 
 // We import this into the generated code using a file-level option.

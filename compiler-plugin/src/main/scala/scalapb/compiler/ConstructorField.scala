@@ -4,6 +4,7 @@ case class ConstructorField(
     name: String,
     typeName: String,
     default: Option[String],
+    index: Int,
     annotations: Seq[String] = Nil
 ) {
   def fullString: String =

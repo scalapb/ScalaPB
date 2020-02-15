@@ -9,5 +9,9 @@ object compat {
     builder.result()
   }
 
+  def toIterable[A](it: Iterator[A]): Iterable[A] = {
+    it.toIterable
+  }
+
   val JavaConverters = scala.collection.JavaConverters
 }

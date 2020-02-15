@@ -3,7 +3,6 @@ package scalapb.textformat
 import utest._
 
 object BasicsSpec extends TestSuite with ParserSuite {
-
   import Basics._
 
   val tests = Tests {
@@ -77,5 +76,4 @@ object BasicsSpec extends TestSuite with ParserSuite {
       checkFail(bytesLiteral(_), "\"hello\'")
     }
   }
-
 }

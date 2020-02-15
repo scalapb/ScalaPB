@@ -10,13 +10,13 @@ import scalapb.lenses.Lens
 
 import scala.collection.mutable
 
-case class UnknownFieldSet(
+final case class UnknownFieldSet(
     private[scalapb] val fields: Map[Int, UnknownFieldSet.Field] = Map.empty
 ) {
   def getField(fieldNumber: Int): Option[UnknownFieldSet.Field] = fields.get(fieldNumber)
 
   def withField(fieldNumber: Int, value: UnknownFieldSet.Field) =
-    copy(fields = fields + (fieldNumber -> value))
+    new UnknownFieldSet(fields = fields + (fieldNumber -> value))
 
   def writeTo(output: CodedOutputStream): Unit = {
     fields.foreach {
@@ -25,9 +25,11 @@ case class UnknownFieldSet(
   }
 
   def serializedSize: Int = {
-    fields.map {
-      case (fieldNumber, field) => field.serializedSize(fieldNumber)
-    }.sum
+    var size: Int = 0
+    fields.foreach {
+      case (fieldNumber, field) => size += field.serializedSize(fieldNumber)
+    }
+    size
   }
 }
 
@@ -123,10 +125,14 @@ object UnknownFieldSet {
 
     def this(base: UnknownFieldSet) = {
       this()
-      fieldBuilders ++= base.fields.mapValues(Field.Builder.fromField)
+      if (base.fields.nonEmpty) {
+        fieldBuilders ++= base.fields.mapValues(Field.Builder.fromField)
+      }
     }
 
-    def result() = UnknownFieldSet(fieldBuilders.mapValues(_.result()).toMap)
+    def result() =
+      if (fieldBuilders.isEmpty) UnknownFieldSet.empty
+      else new UnknownFieldSet(fieldBuilders.mapValues(_.result()).toMap)
 
     def parseField(tag: Int, input: CodedInputStream) = {
       val fieldNumber = WireType.getTagFieldNumber(tag)

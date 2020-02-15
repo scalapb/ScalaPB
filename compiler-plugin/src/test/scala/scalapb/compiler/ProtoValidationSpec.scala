@@ -7,10 +7,11 @@ import scala.collection.JavaConverters._
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
 import com.google.protobuf.Descriptors.FileDescriptor
 import com.google.protobuf.ExtensionRegistry
-import org.scalatest.{FlatSpec, MustMatchers}
 import scalapb.options.compiler.Scalapb
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class ProtoValidationSpec extends FlatSpec with MustMatchers {
+class ProtoValidationSpec extends AnyFlatSpec with Matchers {
   def generateFileSet(files: Seq[(String, String)]) = {
     val tmpDir = Files.createTempDirectory("validation").toFile
     val fileNames = files.map {
@@ -39,11 +40,12 @@ class ProtoValidationSpec extends FlatSpec with MustMatchers {
       val fin      = new FileInputStream(outFile)
       val registry = ExtensionRegistry.newInstance()
       Scalapb.registerAllExtensions(registry)
-      val fileset = try {
-        FileDescriptorSet.parseFrom(fin, registry)
-      } finally {
-        fin.close()
-      }
+      val fileset =
+        try {
+          FileDescriptorSet.parseFrom(fin, registry)
+        } finally {
+          fin.close()
+        }
       fileset.getFileList.asScala
         .foldLeft[Map[String, FileDescriptor]](Map.empty) {
           case (acc, fp) =>

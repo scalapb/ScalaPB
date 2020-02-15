@@ -45,8 +45,12 @@ message Person {
     optional string name = 1;
     optional int32 age = 2;
 
-    // Address is a message defined somewhere else.
     repeated Address addresses = 3;
+}
+
+message Address {
+  optional string street = 1;
+  optional string city = 2;
 }
 ```
 
@@ -56,7 +60,7 @@ message Person {
 final case class Person(
     name: Option[String] = None,
     age: Option[Int] = None,
-    addresses: Seq[Address] = Nil) extends GeneratedMessage {
+    addresses: Seq[Address] = Nil, ...) extends GeneratedMessage {
 
     def toByteArray: Array[Byte] = { ... }
 
@@ -68,6 +72,8 @@ object Person extends GeneratedMessageCompanion[Person] {
 
     // more stuff...
 }
+
+// similar stuff for Address...
 ```
 
 The case class contains various methods for serialization, and the companion
@@ -178,16 +184,16 @@ Using `update()` is especially fun with repeated fields:
 ```scala
 val p = Person().update(
   // Override the addresses
-  _.addressses := newListOfAddress,
+  _.addresses := newListOfAddress,
 
   // Add one address:
-  _.addressses :+= address1,
+  _.addresses :+= address1,
 
   // Add a list of addresses:
   _.addresses :++= Seq(address1, address2),
 
   // Modify an address in the list by index!
-  _.addressses(1).street := "Townsend St.",
+  _.addresses(1).street := "Townsend St.",
 
   // Modify all addresses:
   _.addresses.foreach(_.city := "San Francisco"),
@@ -220,7 +226,7 @@ message BankTransferPayment {
 
 // Represents an order placed by a customer:
 message Order {
-    optional int amount = 1;
+    optional int32 amount = 1;
     optional string customer_id = 2;
 
     // How did we get paid? At most one option must be set.
@@ -330,14 +336,14 @@ sealed trait Weather extends GeneratedEnum {
 }
 
 object Weather extends GeneratedEnumCompanion[Weather] {
-    case object Sunny extends Weather {
+    case object SUNNY extends Weather {
         val value = 1
         val name = "SUNNY"
     }
 
     // Similarly for the other enum values...
-    case object PartlyCloudy extends Weather { ... }
-    case object Rain extends Weather { ... }
+    case object PARTLY_CLOUDY extends Weather { ... }
+    case object RAIN extends Weather { ... }
 
     // In ScalaPB >= 0.5.x, this captures unknown value that are received
     // from the wire format.  Earlier versions throw a MatchError when
@@ -345,7 +351,7 @@ object Weather extends GeneratedEnumCompanion[Weather] {
     case class Unrecognized(value: Int) extends Weather { ... }
 
     // And a list of all possible values:
-    lazy val values = Seq(Sunny, PartlyCloudy, Rain)
+    lazy val values = Seq(SUNNY, PARTLY_CLOUDY, RAIN)
 }
 
 case class Forecast(weather: Option[Weather]) { ... }
@@ -354,9 +360,9 @@ case class Forecast(weather: Option[Weather]) { ... }
 And we can write:
 
 ```scala
-val f = Forecard().update(_.weather := Weather.PartlyCloud)
+val f = Forecast().update(_.weather := Weather.PARTLY_CLOUDY)
 
-assert(f.weather == Some(Weather.PartlyCloudy)
+assert(f.weather == Some(Weather.PARTLY_CLOUDY)
 
 if (f.getWeather.isRain) {
     // take an umbrella
@@ -364,8 +370,8 @@ if (f.getWeather.isRain) {
 
 // Pattern matching:
 f.getWeather match {
-    case Weather.Rain =>
-    case Weather.Sunny =>
+    case Weather.RAIN =>
+    case Weather.SUNNY =>
     case _ =>
 }
 

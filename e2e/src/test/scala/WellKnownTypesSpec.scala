@@ -1,19 +1,21 @@
 import com.thesamet.proto.well_known._
 import org.scalatest._
 import org.scalatestplus.scalacheck._
+import org.scalatest.flatspec.AnyFlatSpec
+import org.scalatest.matchers.must.Matchers
 
-class WellKnownTypesSpec extends FlatSpec with ScalaCheckDrivenPropertyChecks with MustMatchers {
+class WellKnownTypesSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers {
   "new TestWrapper" should "have Nones" in {
     val t = TestWrappers()
-    t.myDouble must be (None)
-    t.myFloat must be (None)
-    t.myInt32 must be (None)
-    t.myInt64 must be (None)
-    t.myUint32 must be (None)
-    t.myUint64 must be (None)
-    t.myBool must be (None)
-    t.myString must be (None)
-    t.myBytes must be (None)
+    t.myDouble must be(None)
+    t.myFloat must be(None)
+    t.myInt32 must be(None)
+    t.myInt64 must be(None)
+    t.myUint32 must be(None)
+    t.myUint64 must be(None)
+    t.myBool must be(None)
+    t.myString must be(None)
+    t.myBytes must be(None)
   }
 
   "TestWrapper" should "be updatable with primitives" in {

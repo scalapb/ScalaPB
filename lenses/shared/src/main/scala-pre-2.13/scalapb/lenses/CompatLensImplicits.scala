@@ -23,13 +23,12 @@ object CompatLensImplicits {
       lens.modify(_ ++ item)
 
     def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
-      lens.modify(
-        s =>
-          s.map { (m: A) =>
-            val field: Lens[A, A] = Lens.unit[A]
-            val p: Mutation[A]    = f(field)
-            p(m)
-          }
+      lens.modify(s =>
+        s.map { (m: A) =>
+          val field: Lens[A, A] = Lens.unit[A]
+          val p: Mutation[A]    = f(field)
+          p(m)
+        }
       )
   }
 
@@ -48,13 +47,12 @@ object CompatLensImplicits {
       lens.modify(_ ++ item)
 
     def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =
-      lens.modify(
-        s =>
-          s.map { (m: A) =>
-            val field: Lens[A, A] = Lens.unit[A]
-            val p: Mutation[A]    = f(field)
-            p(m)
-          }
+      lens.modify(s =>
+        s.map { (m: A) =>
+          val field: Lens[A, A] = Lens.unit[A]
+          val p: Mutation[A]    = f(field)
+          p(m)
+        }
       )
   }
 }

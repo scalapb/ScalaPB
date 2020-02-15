@@ -3,7 +3,6 @@ import org.scalacheck.Gen
 import scala.collection.JavaConverters._
 
 object GenData {
-
   import GenTypes._
   import Nodes._
   import org.scalacheck.Gen._
@@ -12,7 +11,6 @@ object GenData {
   case class PrimitiveValue(value: String) extends ProtoValue
   case class EnumValue(value: String)      extends ProtoValue
   case class MessageValue(values: Seq[(String, ProtoValue)]) extends ProtoValue {
-
     def toAscii: String =
       printAscii(new FunctionalPrinter()).result()
 
@@ -86,12 +84,11 @@ object GenData {
 
     // Chooses at most one field from each one of and generates a value for it.
     val oneofGens: Seq[Gen[Seq[(String, ProtoValue)]]] = oneofGroups.values
-      .map(
-        group =>
-          chooseFieldFromGroup(group).flatMap {
-            case None        => Gen.const(Seq())
-            case Some(field) => genFieldValueByOptions(field)
-          }
+      .map(group =>
+        chooseFieldFromGroup(group).flatMap {
+          case None        => Gen.const(Seq())
+          case Some(field) => genFieldValueByOptions(field)
+        }
       )
       .toSeq
 

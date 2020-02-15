@@ -14,17 +14,25 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
   val INDENT_SIZE = 2
 
   // Increase indent level
-  def indent = copy(indentLevel = indentLevel + 1)
+  def indent: FunctionalPrinter = indent(1)
+
+  def indent(n: Int): FunctionalPrinter = copy(indentLevel = indentLevel + n)
 
   // Decreases indent level
-  def outdent = {
-    assert(indentLevel > 0)
-    copy(indentLevel = indentLevel - 1)
+  def outdent: FunctionalPrinter = outdent(1)
+
+  def outdent(n: Int): FunctionalPrinter = {
+    assert(indentLevel >= n)
+    copy(indentLevel = indentLevel - n)
   }
 
   /** Adds strings at the current indent level. */
   def add(s: String*): FunctionalPrinter = {
-    copy(content = content ++ s.map(l => " " * (indentLevel * INDENT_SIZE) + l))
+    copy(
+      content = content ++ s
+        .flatMap(_.split("\n", -1))
+        .map(l => " " * (indentLevel * INDENT_SIZE) + l)
+    )
   }
 
   def seq(s: Seq[String]): FunctionalPrinter = add(s: _*)
@@ -41,7 +49,7 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
 
   // Strips the margin, splits lines and adds.
   def addStringMargin(s: String): FunctionalPrinter =
-    add(s.stripMargin.split("\n", -1).toSeq: _*)
+    add(s.stripMargin)
 
   // Adds the strings, while putting a delimiter between two lines.
   def addWithDelimiter(delimiter: String)(s: Seq[String]) = {

@@ -42,8 +42,9 @@ final case class FileDescriptorProto(
     extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None,
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
-    syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
-    ) extends scalapb.GeneratedMessage with scalapb.Message[FileDescriptorProto] with scalapb.lenses.Updatable[FileDescriptorProto] {
+    syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -96,9 +97,10 @@ final case class FileDescriptorProto(
         val __value = syntax.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(12, __value)
       };
+      __size += unknownFields.serializedSize
       __size
     }
-    final override def serializedSize: _root_.scala.Int = {
+    override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -167,82 +169,7 @@ final case class FileDescriptorProto(
         val __m = __v
         _output__.writeString(12, __m)
       };
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorProto = {
-      var __name = this.name
-      var __package = this.`package`
-      val __dependency = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= this.dependency)
-      val __publicDependency = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= this.publicDependency)
-      val __weakDependency = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= this.weakDependency)
-      val __messageType = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= this.messageType)
-      val __enumType = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= this.enumType)
-      val __service = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] ++= this.service)
-      val __extension = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= this.extension)
-      var __options = this.options
-      var __sourceCodeInfo = this.sourceCodeInfo
-      var __syntax = this.syntax
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __name = Option(_input__.readString())
-          case 18 =>
-            __package = Option(_input__.readString())
-          case 26 =>
-            __dependency += _input__.readString()
-          case 80 =>
-            __publicDependency += _input__.readInt32()
-          case 82 => {
-            val length = _input__.readRawVarint32()
-            val oldLimit = _input__.pushLimit(length)
-            while (_input__.getBytesUntilLimit > 0) {
-              __publicDependency += _input__.readInt32
-            }
-            _input__.popLimit(oldLimit)
-          }
-          case 88 =>
-            __weakDependency += _input__.readInt32()
-          case 90 => {
-            val length = _input__.readRawVarint32()
-            val oldLimit = _input__.pushLimit(length)
-            while (_input__.getBytesUntilLimit > 0) {
-              __weakDependency += _input__.readInt32
-            }
-            _input__.popLimit(oldLimit)
-          }
-          case 34 =>
-            __messageType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
-          case 42 =>
-            __enumType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
-          case 50 =>
-            __service += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.ServiceDescriptorProto.defaultInstance)
-          case 58 =>
-            __extension += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
-          case 66 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FileOptions.defaultInstance)))
-          case 74 =>
-            __sourceCodeInfo = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceCodeInfo.getOrElse(com.google.protobuf.descriptor.SourceCodeInfo.defaultInstance)))
-          case 98 =>
-            __syntax = Option(_input__.readString())
-          case tag => _input__.skipField(tag)
-        }
-      }
-      com.google.protobuf.descriptor.FileDescriptorProto(
-          name = __name,
-          `package` = __package,
-          dependency = __dependency.result(),
-          publicDependency = __publicDependency.result(),
-          weakDependency = __weakDependency.result(),
-          messageType = __messageType.result(),
-          enumType = __enumType.result(),
-          service = __service.result(),
-          extension = __extension.result(),
-          options = __options,
-          sourceCodeInfo = __sourceCodeInfo,
-          syntax = __syntax
-      )
+      unknownFields.writeTo(_output__)
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: FileDescriptorProto = copy(name = _root_.scala.None)
@@ -287,6 +214,8 @@ final case class FileDescriptorProto(
     def getSyntax: _root_.scala.Predef.String = syntax.getOrElse("")
     def clearSyntax: FileDescriptorProto = copy(syntax = _root_.scala.None)
     def withSyntax(__v: _root_.scala.Predef.String): FileDescriptorProto = copy(syntax = Option(__v))
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => name.orNull
@@ -326,40 +255,104 @@ final case class FileDescriptorProto(
 
 object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.descriptor.FileDescriptorProto = {
-    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
+  def merge(`_message__`: com.google.protobuf.descriptor.FileDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorProto = {
+    var __name = `_message__`.name
+    var __package = `_message__`.`package`
+    val __dependency = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= `_message__`.dependency)
+    val __publicDependency = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= `_message__`.publicDependency)
+    val __weakDependency = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= `_message__`.weakDependency)
+    val __messageType = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= `_message__`.messageType)
+    val __enumType = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= `_message__`.enumType)
+    val __service = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] ++= `_message__`.service)
+    val __extension = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= `_message__`.extension)
+    var __options = `_message__`.options
+    var __sourceCodeInfo = `_message__`.sourceCodeInfo
+    var __syntax = `_message__`.syntax
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __name = Option(_input__.readStringRequireUtf8())
+        case 18 =>
+          __package = Option(_input__.readStringRequireUtf8())
+        case 26 =>
+          __dependency += _input__.readStringRequireUtf8()
+        case 80 =>
+          __publicDependency += _input__.readInt32()
+        case 82 => {
+          val length = _input__.readRawVarint32()
+          val oldLimit = _input__.pushLimit(length)
+          while (_input__.getBytesUntilLimit > 0) {
+            __publicDependency += _input__.readInt32
+          }
+          _input__.popLimit(oldLimit)
+        }
+        case 88 =>
+          __weakDependency += _input__.readInt32()
+        case 90 => {
+          val length = _input__.readRawVarint32()
+          val oldLimit = _input__.pushLimit(length)
+          while (_input__.getBytesUntilLimit > 0) {
+            __weakDependency += _input__.readInt32
+          }
+          _input__.popLimit(oldLimit)
+        }
+        case 34 =>
+          __messageType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
+        case 42 =>
+          __enumType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
+        case 50 =>
+          __service += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.ServiceDescriptorProto.defaultInstance)
+        case 58 =>
+          __extension += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
+        case 66 =>
+          __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FileOptions.defaultInstance)))
+        case 74 =>
+          __sourceCodeInfo = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceCodeInfo.getOrElse(com.google.protobuf.descriptor.SourceCodeInfo.defaultInstance)))
+        case 98 =>
+          __syntax = Option(_input__.readStringRequireUtf8())
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
     com.google.protobuf.descriptor.FileDescriptorProto(
-      __fieldsMap.get(__fields.get(0)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.get(__fields.get(1)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]],
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.Seq[_root_.scala.Predef.String]],
-      __fieldsMap.getOrElse(__fields.get(3), Nil).asInstanceOf[_root_.scala.Seq[_root_.scala.Int]],
-      __fieldsMap.getOrElse(__fields.get(4), Nil).asInstanceOf[_root_.scala.Seq[_root_.scala.Int]],
-      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]],
-      __fieldsMap.getOrElse(__fields.get(6), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]],
-      __fieldsMap.getOrElse(__fields.get(7), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]],
-      __fieldsMap.getOrElse(__fields.get(8), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
-      __fieldsMap.get(__fields.get(9)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.FileOptions]],
-      __fieldsMap.get(__fields.get(10)).asInstanceOf[_root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]],
-      __fieldsMap.get(__fields.get(11)).asInstanceOf[_root_.scala.Option[_root_.scala.Predef.String]]
+        name = __name,
+        `package` = __package,
+        dependency = __dependency.result(),
+        publicDependency = __publicDependency.result(),
+        weakDependency = __weakDependency.result(),
+        messageType = __messageType.result(),
+        enumType = __enumType.result(),
+        service = __service.result(),
+        extension = __extension.result(),
+        options = __options,
+        sourceCodeInfo = __sourceCodeInfo,
+        syntax = __syntax,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.FileDescriptorProto(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FileOptions]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
+        name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        `package` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        dependency = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
+        publicDependency = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.Seq.empty),
+        weakDependency = __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.Seq.empty),
+        messageType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
+        enumType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
+        service = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
+        extension = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
+        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FileOptions]]),
+        sourceCodeInfo = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]]),
+        syntax = __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -380,6 +373,18 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorProto(
+    name = _root_.scala.None,
+    `package` = _root_.scala.None,
+    dependency = _root_.scala.Seq.empty,
+    publicDependency = _root_.scala.Seq.empty,
+    weakDependency = _root_.scala.Seq.empty,
+    messageType = _root_.scala.Seq.empty,
+    enumType = _root_.scala.Seq.empty,
+    service = _root_.scala.Seq.empty,
+    extension = _root_.scala.Seq.empty,
+    options = _root_.scala.None,
+    sourceCodeInfo = _root_.scala.None,
+    syntax = _root_.scala.None
   )
   implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
@@ -424,7 +429,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions],
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo],
-    syntax: _root_.scala.Option[_root_.scala.Predef.String]
+    syntax: _root_.scala.Option[_root_.scala.Predef.String],
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = _root_.com.google.protobuf.descriptor.FileDescriptorProto(
     name,
     `package`,
@@ -437,6 +443,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension,
     options,
     sourceCodeInfo,
-    syntax
+    syntax,
+    unknownFields
   )
 }

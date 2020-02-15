@@ -13,7 +13,7 @@ case class GeneratedExtension[C <: ExtendableMessage[C], T](lens: Lens[C, T]) ex
 
 object GeneratedExtension {
   /* To be used only be generated code */
-  def readMessageFromByteString[T <: GeneratedMessage with Message[T]](
+  def readMessageFromByteString[T <: GeneratedMessage](
       cmp: GeneratedMessageCompanion[T]
   )(bs: ByteString): T = {
     cmp.parseFrom(bs.newCodedInput())
@@ -31,16 +31,16 @@ object GeneratedExtension {
       toBase: T => ByteString,
       default: T
   ): Lens[Seq[ByteString], T] =
-    Lens[Seq[ByteString], T](
-      c => c.reduceOption((bs1, bs2) => bs1.concat(bs2)).lastOption.map(fromBase).getOrElse(default)
+    Lens[Seq[ByteString], T](c =>
+      c.reduceOption((bs1, bs2) => bs1.concat(bs2)).lastOption.map(fromBase).getOrElse(default)
     )((c, t) => Vector(toBase(t)))
 
   def optionalUnknownMessageFieldLens[T](
       fromBase: ByteString => T,
       toBase: T => ByteString
   ): Lens[Seq[ByteString], Option[T]] =
-    Lens[Seq[ByteString], Option[T]](
-      c => c.reduceOption((bs1, bs2) => bs1.concat(bs2)).map(fromBase)
+    Lens[Seq[ByteString], Option[T]](c =>
+      c.reduceOption((bs1, bs2) => bs1.concat(bs2)).map(fromBase)
     )((c, t) => t.map(toBase).toVector)
 
   private def unpackLengthDelimited[E, T](
@@ -174,5 +174,4 @@ object GeneratedExtension {
   object Internal {
     def bool2Long(b: Boolean) = if (b) 1L else 0L
   }
-
 }

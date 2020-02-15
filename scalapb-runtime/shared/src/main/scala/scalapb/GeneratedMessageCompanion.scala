@@ -24,9 +24,6 @@ trait GeneratedEnum extends Any with Product with Serializable {
 
   def isUnrecognized: Boolean = false
 
-  @deprecated("Use javaValueDescriptor", "ScalaPB 0.5.47")
-  def valueDescriptor: JavaDescriptors.EnumValueDescriptor = javaValueDescriptor
-
   def javaValueDescriptor: JavaDescriptors.EnumValueDescriptor =
     companion.javaDescriptor.getValues.get(index)
 
@@ -35,8 +32,6 @@ trait GeneratedEnum extends Any with Product with Serializable {
 }
 
 trait UnrecognizedEnum extends GeneratedEnum {
-  def value: Int
-
   def name = "UNRECOGNIZED"
 
   def index = -1
@@ -53,11 +48,6 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
 
-  @deprecated(
-    "Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.",
-    "ScalaPB 0.5.47"
-  )
-  def descriptor: com.google.protobuf.Descriptors.EnumDescriptor = javaDescriptor
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor
 }
@@ -76,7 +66,7 @@ trait GeneratedOneofCompanion
 trait GeneratedMessage extends Any with Serializable {
   def writeTo(output: CodedOutputStream): Unit
 
-  def writeTo(output: OutputStream): Unit = {
+  final def writeTo(output: OutputStream): Unit = {
     val bufferSize =
       LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
     val codedOutput: CodedOutputStream =
@@ -85,7 +75,7 @@ trait GeneratedMessage extends Any with Serializable {
     codedOutput.flush()
   }
 
-  def writeDelimitedTo(output: OutputStream): Unit = {
+  final def writeDelimitedTo(output: OutputStream): Unit = {
     val serialized: Int = serializedSize
     val bufferSize: Int = LiteParser.preferredCodedOutputStreamBufferSize(
       CodedOutputStream.computeUInt32SizeNoTag(serialized) + serialized
@@ -99,43 +89,17 @@ trait GeneratedMessage extends Any with Serializable {
 
   def getFieldByNumber(fieldNumber: Int): Any
 
-  // Using a Java field descriptor.
-  @deprecated("Use getField that accepts a ScalaPB descriptor and returns PValue", "0.6.0")
-  def getField(field: com.google.protobuf.Descriptors.FieldDescriptor): Any = {
-    require(field.getContainingType eq companion.javaDescriptor)
-    getFieldByNumber(field.getNumber)
-  }
-
   // Using a Scala field descriptor.
   def getField(field: _root_.scalapb.descriptors.FieldDescriptor): PValue
 
-  def toPMessage: PMessage =
+  final def toPMessage: PMessage =
     PMessage(companion.scalaDescriptor.fields.map {
       case f => (f, getField(f))
     }.toMap)
 
   def companion: GeneratedMessageCompanion[_]
 
-  @deprecated("Use toPMessage", "0.6.0")
-  def getAllFields: Map[JavaDescriptors.FieldDescriptor, Any] = {
-    val b = Map.newBuilder[JavaDescriptors.FieldDescriptor, Any]
-    b.sizeHint(companion.javaDescriptor.getFields.size)
-    val i = companion.javaDescriptor.getFields.iterator
-    while (i.hasNext) {
-      val f = i.next()
-      if (f.getType != JavaDescriptors.FieldDescriptor.Type.GROUP) {
-        getField(f) match {
-          case null                         => {}
-          case bs: ByteString if bs.isEmpty => b += (f -> bs)
-          case Nil                          => {}
-          case v                            => b += (f -> v)
-        }
-      }
-    }
-    b.result()
-  }
-
-  def toByteArray: Array[Byte] = {
+  final def toByteArray: Array[Byte] = {
     val a            = new Array[Byte](serializedSize)
     val outputStream = CodedOutputStream.newInstance(a)
     writeTo(outputStream)
@@ -143,7 +107,7 @@ trait GeneratedMessage extends Any with Serializable {
     a
   }
 
-  def toByteString: ByteString = {
+  final def toByteString: ByteString = {
     val output = ByteString.newOutput(serializedSize)
     writeTo(output)
     output.close()
@@ -160,10 +124,6 @@ trait GeneratedMessage extends Any with Serializable {
     * @return human-readable representation of this message.
     */
   def toProtoString: String
-}
-
-trait Message[A] extends Any {
-  def mergeFrom(input: CodedInputStream): A
 }
 
 trait ExtendableMessage[A <: ExtendableMessage[A]] extends Updatable[A] {
@@ -189,18 +149,19 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
   def toJavaProto(scalaProto: ScalaPB): JavaPB
 }
 
-trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
+trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   type ValueType = A
+  def merge(a: A, input: CodedInputStream): A
 
-  def parseFrom(input: CodedInputStream): A = LiteParser.parseFrom(this, input)
+  def parseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
 
   def parseDelimitedFrom(input: CodedInputStream): Option[A] =
-    LiteParser.parseDelimitedFrom(this, input)
+    LiteParser.parseDelimitedFrom(input)(this)
 
   def parseDelimitedFrom(input: InputStream): Option[A] =
-    LiteParser.parseDelimitedFrom(this, input)
+    LiteParser.parseDelimitedFrom(input)(this)
 
   // Creates a stream that parses one message at a time from the delimited input stream.
   def streamFromDelimitedInput(input: InputStream): Stream[A] = {
@@ -213,15 +174,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
-
-  @deprecated("Use messageReads", "0.6.0")
-  def fromFieldsMap(fields: Map[JavaDescriptors.FieldDescriptor, Any]): A
-
-  @deprecated(
-    "Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.",
-    "ScalaPB 0.5.47"
-  )
-  def descriptor: com.google.protobuf.Descriptors.Descriptor = javaDescriptor
 
   def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
 
@@ -267,8 +219,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage with Message[A]] {
   def defaultInstance: A
 }
 
-case class KeyValue[K, V](key: K, value: V)
-
 abstract class GeneratedFileObject {
   def scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor
   def javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor
@@ -280,7 +230,7 @@ abstract class GeneratedFileObject {
 }
 
 trait GeneratedSealedOneof extends Any with Product with Serializable {
-  type MessageType <: GeneratedMessage with Message[MessageType]
+  type MessageType <: GeneratedMessage
   def isEmpty: Boolean
   def isDefined: Boolean
   def asMessage: MessageType

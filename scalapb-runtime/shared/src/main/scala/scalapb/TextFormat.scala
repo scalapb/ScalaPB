@@ -16,7 +16,7 @@ object TextFormat {
     s"line $line, column $col"
   }
 
-  def fromAscii[T <: GeneratedMessage with Message[T]](
+  def fromAscii[T <: GeneratedMessage](
       d: GeneratedMessageCompanion[T],
       s: String
   ): Either[TextFormatError, T] = {

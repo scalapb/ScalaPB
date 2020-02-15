@@ -58,8 +58,9 @@ final case class Api(
     version: _root_.scala.Predef.String = "",
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin] = _root_.scala.Seq.empty,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
-    ) extends scalapb.GeneratedMessage with scalapb.Message[Api] with scalapb.lenses.Updatable[Api] {
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Api] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
@@ -67,7 +68,7 @@ final case class Api(
       
       {
         val __value = name
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
         }
       };
@@ -82,7 +83,7 @@ final case class Api(
       
       {
         val __value = version
-        if (__value != "") {
+        if (!__value.isEmpty) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
         }
       };
@@ -96,14 +97,15 @@ final case class Api(
       }
       
       {
-        val __value = syntax
-        if (__value != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
-          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, __value.value)
+        val __value = syntax.value
+        if (__value != 0) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, __value)
         }
       };
+      __size += unknownFields.serializedSize
       __size
     }
-    final override def serializedSize: _root_.scala.Int = {
+    override def serializedSize: _root_.scala.Int = {
       var read = __serializedSizeCachedValue
       if (read == 0) {
         read = __computeSerializedValue()
@@ -114,7 +116,7 @@ final case class Api(
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       {
         val __v = name
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(1, __v)
         }
       };
@@ -132,7 +134,7 @@ final case class Api(
       };
       {
         val __v = version
-        if (__v != "") {
+        if (!__v.isEmpty) {
           _output__.writeString(4, __v)
         }
       };
@@ -149,51 +151,12 @@ final case class Api(
         __m.writeTo(_output__)
       };
       {
-        val __v = syntax
-        if (__v != com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2) {
-          _output__.writeEnum(7, __v.value)
+        val __v = syntax.value
+        if (__v != 0) {
+          _output__.writeEnum(7, __v)
         }
       };
-    }
-    def mergeFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Api = {
-      var __name = this.name
-      val __methods = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Method] ++= this.methods)
-      val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= this.options)
-      var __version = this.version
-      var __sourceContext = this.sourceContext
-      val __mixins = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Mixin] ++= this.mixins)
-      var __syntax = this.syntax
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __name = _input__.readString()
-          case 18 =>
-            __methods += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Method.defaultInstance)
-          case 26 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
-          case 34 =>
-            __version = _input__.readString()
-          case 42 =>
-            __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
-          case 50 =>
-            __mixins += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Mixin.defaultInstance)
-          case 56 =>
-            __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
-          case tag => _input__.skipField(tag)
-        }
-      }
-      com.google.protobuf.api.Api(
-          name = __name,
-          methods = __methods.result(),
-          options = __options.result(),
-          version = __version,
-          sourceContext = __sourceContext,
-          mixins = __mixins.result(),
-          syntax = __syntax
-      )
+      unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Api = copy(name = __v)
     def clearMethods = copy(methods = _root_.scala.Seq.empty)
@@ -213,6 +176,8 @@ final case class Api(
     def addAllMixins(__vs: Iterable[com.google.protobuf.api.Mixin]): Api = copy(mixins = mixins ++ __vs)
     def withMixins(__v: _root_.scala.Seq[com.google.protobuf.api.Mixin]): Api = copy(mixins = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Api = copy(syntax = __v)
+    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => {
@@ -251,30 +216,63 @@ final case class Api(
 
 object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] = this
-  def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, _root_.scala.Any]): com.google.protobuf.api.Api = {
-    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
-    val __fields = javaDescriptor.getFields
+  def merge(`_message__`: com.google.protobuf.api.Api, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Api = {
+    var __name = `_message__`.name
+    val __methods = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Method] ++= `_message__`.methods)
+    val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= `_message__`.options)
+    var __version = `_message__`.version
+    var __sourceContext = `_message__`.sourceContext
+    val __mixins = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Mixin] ++= `_message__`.mixins)
+    var __syntax = `_message__`.syntax
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __name = _input__.readStringRequireUtf8()
+        case 18 =>
+          __methods += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Method.defaultInstance)
+        case 26 =>
+          __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+        case 34 =>
+          __version = _input__.readStringRequireUtf8()
+        case 42 =>
+          __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
+        case 50 =>
+          __mixins += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Mixin.defaultInstance)
+        case 56 =>
+          __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
     com.google.protobuf.api.Api(
-      __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.getOrElse(__fields.get(1), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.api.Method]],
-      __fieldsMap.getOrElse(__fields.get(2), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
-      __fieldsMap.getOrElse(__fields.get(3), "").asInstanceOf[_root_.scala.Predef.String],
-      __fieldsMap.get(__fields.get(4)).asInstanceOf[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]],
-      __fieldsMap.getOrElse(__fields.get(5), Nil).asInstanceOf[_root_.scala.Seq[com.google.protobuf.api.Mixin]],
-      com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.getOrElse(__fields.get(6), com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.javaValueDescriptor).asInstanceOf[_root_.com.google.protobuf.Descriptors.EnumValueDescriptor].getNumber)
+        name = __name,
+        methods = __methods.result(),
+        options = __options.result(),
+        version = __version,
+        sourceContext = __sourceContext,
+        mixins = __mixins.result(),
+        syntax = __syntax,
+        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.api.Api] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.api.Api(
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[com.google.protobuf.api.Method]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
-        __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[com.google.protobuf.api.Mixin]]).getOrElse(_root_.scala.Seq.empty),
-        com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
+        name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+        methods = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[com.google.protobuf.api.Method]]).getOrElse(_root_.scala.Seq.empty),
+        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
+        version = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
+        sourceContext = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.source_context.SourceContext]]),
+        mixins = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[com.google.protobuf.api.Mixin]]).getOrElse(_root_.scala.Seq.empty),
+        syntax = com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -297,6 +295,13 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     }
   }
   lazy val defaultInstance = com.google.protobuf.api.Api(
+    name = "",
+    methods = _root_.scala.Seq.empty,
+    options = _root_.scala.Seq.empty,
+    version = "",
+    sourceContext = _root_.scala.None,
+    mixins = _root_.scala.Seq.empty,
+    syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
   implicit class ApiLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Api]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Api](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
@@ -322,7 +327,8 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     version: _root_.scala.Predef.String,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin],
-    syntax: com.google.protobuf.`type`.Syntax
+    syntax: com.google.protobuf.`type`.Syntax,
+    unknownFields: _root_.scalapb.UnknownFieldSet
   ): _root_.com.google.protobuf.api.Api = _root_.com.google.protobuf.api.Api(
     name,
     methods,
@@ -330,6 +336,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     version,
     sourceContext,
     mixins,
-    syntax
+    syntax,
+    unknownFields
   )
 }

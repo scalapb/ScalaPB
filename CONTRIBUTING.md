@@ -48,7 +48,7 @@ You can run `e2e.sh` for a specific version of Scala by providing
 `SCALA_VERSION` as an environment variable:
 
 ```
-SCALA_VERSION=2.13.0-RC1 ./e2e.sh
+SCALA_VERSION=2.13.1 ./e2e.sh
 ```
 
 `e2e` is a normal SBT project, so if you already have a locally published

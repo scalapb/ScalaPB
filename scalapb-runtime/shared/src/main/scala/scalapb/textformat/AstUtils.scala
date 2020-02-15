@@ -18,7 +18,7 @@ private[scalapb] object AstUtils {
     }
   }
 
-  def parseMessage[T <: GeneratedMessage with Message[T]](
+  def parseMessage[T <: GeneratedMessage](
       v: GeneratedMessageCompanion[T],
       ast: TMessage
   ): Either[AstError, T] = {
@@ -204,12 +204,11 @@ private[scalapb] object AstUtils {
               else
                 flatten(
                   arr.values
-                    .map(
-                      t =>
-                        parseUnsafe(
-                          v.messageCompanionForFieldNumber(fd.number),
-                          t.asInstanceOf[TMessage]
-                        )
+                    .map(t =>
+                      parseUnsafe(
+                        v.messageCompanionForFieldNumber(fd.number),
+                        t.asInstanceOf[TMessage]
+                      )
                     )
                     .toVector
                 ).right.map(PRepeated)
@@ -263,5 +262,4 @@ private[scalapb] object AstUtils {
       }
     maybeMap.right.map(t => PMessage(t.toMap))
   }
-
 }

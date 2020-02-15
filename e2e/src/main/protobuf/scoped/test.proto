@@ -3,5 +3,14 @@ syntax = "proto3";
 package scalapb.e2e.scoped;
 
 message Foo {
+    enum Vals {
+        DEFAULT = 0;
+        A = 1;
+        B = 2;
+    }
     repeated string rep = 1;
+    Vals imp = 2;
+    bytes b = 3;
 }
+
+message Untargeted { }

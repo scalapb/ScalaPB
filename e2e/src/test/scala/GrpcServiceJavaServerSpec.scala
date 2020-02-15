@@ -1,4 +1,3 @@
-
 import com.thesamet.proto.e2e.service.{Service1Grpc => Service1GrpcScala, _}
 
 import scala.concurrent.Await
@@ -21,7 +20,9 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
       withJavaServer { channel =>
         val client = Service1GrpcScala.stub(channel)
         val string = randomString()
-        Await.result(client.unaryStringLength(Req1(string)), 2.seconds).length must be(string.length)
+        Await.result(client.unaryStringLength(Req1(string)), 2.seconds).length must be(
+          string.length
+        )
       }
     }
 
@@ -34,10 +35,10 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
     it("clientStreamingCount") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.stub(channel)
+        val client                     = Service1GrpcScala.stub(channel)
         val (responseObserver, future) = getObserverAndFuture[Res2]
-        val requestObserver = client.clientStreamingCount(responseObserver)
-        val n = Random.nextInt(10)
+        val requestObserver            = client.clientStreamingCount(responseObserver)
+        val n                          = Random.nextInt(10)
         for (_ <- 1 to n) {
           requestObserver.onNext(Req2())
         }
@@ -49,7 +50,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
     it("serverStreamingFan") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.stub(channel)
+        val client             = Service1GrpcScala.stub(channel)
         val (observer, future) = getObserverAndFutureVector[Res3]
         client.serverStreamingFan(Req3(100), observer)
         Await.result(future, 2.seconds) must be(Vector.fill(100)(Res3()))
@@ -58,9 +59,9 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
 
     it("bidiStreamingDoubler") {
       withJavaServer { channel =>
-        val client = Service1GrpcScala.stub(channel)
+        val client                     = Service1GrpcScala.stub(channel)
         val (responseObserver, future) = getObserverAndFutureVector[Res4]
-        val requestObserver = client.bidiStreamingDoubler(responseObserver)
+        val requestObserver            = client.bidiStreamingDoubler(responseObserver)
         requestObserver.onNext(Req4(11))
         requestObserver.onNext(Req4(3))
         requestObserver.onNext(Req4(6))
@@ -74,7 +75,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
         val client = Service1GrpcScala.stub(channel)
 
         intercept[io.grpc.StatusRuntimeException] {
-          Await.result( client.throwException( Req5() ), 2.seconds )
+          Await.result(client.throwException(Req5()), 2.seconds)
         }
       }
     }

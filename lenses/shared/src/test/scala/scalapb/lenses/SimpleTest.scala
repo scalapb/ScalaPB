@@ -26,7 +26,6 @@ case class CollectionTypes(
 ) extends Updatable[CollectionTypes]
 
 object SimpleTest extends TestSuite {
-
   implicit class RoleMutation[U](f: Lens[U, Role]) extends ObjectLens[U, Role](f) {
     def name = field(_.name)((p, f) => p.copy(name = f))
 
@@ -265,9 +264,10 @@ object SimpleTest extends TestSuite {
     }
 
     "it should work with zipped lenses" - {
-      CollectionTypes().update(
-        k => k.list zip k.vector := ((List("3", "4"), Vector("x", "y")))
-      ) ==> CollectionTypes(list = List("3", "4"), vector = Vector("x", "y"))
+      CollectionTypes().update(k => k.list zip k.vector := ((List("3", "4"), Vector("x", "y")))) ==> CollectionTypes(
+        list = List("3", "4"),
+        vector = Vector("x", "y")
+      )
     }
   }
 }

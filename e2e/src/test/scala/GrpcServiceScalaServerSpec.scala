@@ -1,4 +1,3 @@
-
 import io.grpc.reflection.v1alpha.reflection._
 import io.grpc.reflection.v1alpha.reflection.ServerReflectionRequest.MessageRequest
 import scala.concurrent.Await
@@ -14,7 +13,8 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       Service1GrpcScala.Service1.javaDescriptor.getName must be("Service1")
       implicitly[scalapb.grpc.ServiceCompanion[Service1GrpcScala.Service1]].javaDescriptor must be(
-        Service1GrpcScala.Service1.javaDescriptor)
+        Service1GrpcScala.Service1.javaDescriptor
+      )
     }
   }
 
@@ -25,9 +25,9 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("listServices") {
         withScalaServer { channel =>
-          val stub = ServerReflectionGrpc.stub(channel)
+          val stub                       = ServerReflectionGrpc.stub(channel)
           val (responseObserver, future) = getObserverAndFutureVector[ServerReflectionResponse]
-          val requestObserver = stub.serverReflectionInfo(responseObserver)
+          val requestObserver            = stub.serverReflectionInfo(responseObserver)
           val request = ServerReflectionRequest(
             host = "localhost",
             messageRequest = MessageRequest.ListServices("services")
@@ -60,8 +60,8 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("unaryStringLength BlockingStub") {
         withScalaServer { channel =>
-          val client = Service1GrpcJava.newBlockingStub(channel)
-          val string = randomString()
+          val client  = Service1GrpcJava.newBlockingStub(channel)
+          val string  = randomString()
           val request = Service.Req1.newBuilder.setRequest(string).build()
           client.unaryStringLength(request).getLength must be(string.length)
         }
@@ -69,8 +69,8 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("unaryStringLength FeatureStub") {
         withScalaServer { channel =>
-          val client = Service1GrpcJava.newFutureStub(channel)
-          val string = randomString()
+          val client  = Service1GrpcJava.newFutureStub(channel)
+          val string  = randomString()
           val request = Service.Req1.newBuilder.setRequest(string).build()
           client.unaryStringLength(request).get().getLength must be(string.length)
         }
@@ -92,7 +92,9 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
         withScalaServer { channel =>
           val client = Service1GrpcScala.stub(channel)
           val string = randomString()
-          Await.result(client.unaryStringLength(Req1(string)), 2.seconds).length must be(string.length)
+          Await.result(client.unaryStringLength(Req1(string)), 2.seconds).length must be(
+            string.length
+          )
         }
       }
 
@@ -105,10 +107,10 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("clientStreamingCount") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.stub(channel)
+          val client                     = Service1GrpcScala.stub(channel)
           val (responseObserver, future) = getObserverAndFuture[Res2]
-          val requestObserver = client.clientStreamingCount(responseObserver)
-          val n = Random.nextInt(10)
+          val requestObserver            = client.clientStreamingCount(responseObserver)
+          val n                          = Random.nextInt(10)
           for (_ <- 1 to n) {
             requestObserver.onNext(Req2())
           }
@@ -119,7 +121,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("serverStreamingFan") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.stub(channel)
+          val client             = Service1GrpcScala.stub(channel)
           val (observer, future) = getObserverAndFutureVector[Res3]
 
           client.serverStreamingFan(Req3(100), observer)
@@ -130,9 +132,9 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("bidiStreamingDoubler") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.stub(channel)
+          val client                     = Service1GrpcScala.stub(channel)
           val (responseObserver, future) = getObserverAndFutureVector[Res4]
-          val requestObserver = client.bidiStreamingDoubler(responseObserver)
+          val requestObserver            = client.bidiStreamingDoubler(responseObserver)
           requestObserver.onNext(Req4(11))
           requestObserver.onNext(Req4(3))
           requestObserver.onNext(Req4(6))
@@ -146,7 +148,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
           val client = Service1GrpcScala.stub(channel)
 
           intercept[io.grpc.StatusRuntimeException] {
-            Await.result( client.throwException( Req5() ), 2.seconds )
+            Await.result(client.throwException(Req5()), 2.seconds)
           }
         }
       }
@@ -156,25 +158,23 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
       it("sealed unary call should work") {
 
         withScalaServer { channel =>
-
           val client = Service1GrpcScala.stub(channel)
 
-          Await.result( client.sealedUnary(service.Req1("5")), 2.seconds ) must be(service.Res1(5))
-          Await.result( client.sealedUnary(service.Req2()), 2.seconds ) must be(service.Res2(17))
+          Await.result(client.sealedUnary(service.Req1("5")), 2.seconds) must be(service.Res1(5))
+          Await.result(client.sealedUnary(service.Req2()), 2.seconds) must be(service.Res2(17))
 
         }
 
       }
 
-      it ("clientStreaming with sealed trait should work") {
+      it("clientStreaming with sealed trait should work") {
 
         withScalaServer { channel =>
-
           val client = Service1GrpcScala.stub(channel)
 
           val (responseObserver, future) = getObserverAndFuture[service.SealedResponse]
-          val requestObserver = client.sealedClientStreaming(responseObserver)
-          val n = Random.nextInt(10)
+          val requestObserver            = client.sealedClientStreaming(responseObserver)
+          val n                          = Random.nextInt(10)
           for (_ <- 1 to n) {
             requestObserver.onNext(Req2())
           }
@@ -187,7 +187,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("serverStreamingFan with sealed trait should work") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.stub(channel)
+          val client             = Service1GrpcScala.stub(channel)
           val (observer, future) = getObserverAndFutureVector[service.SealedResponse]
 
           client.sealedServerStreaming(service.Req2(), observer)
@@ -198,9 +198,9 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("bidiStreaming with sealed trait should work") {
         withScalaServer { channel =>
-          val client = Service1GrpcScala.stub(channel)
+          val client                     = Service1GrpcScala.stub(channel)
           val (responseObserver, future) = getObserverAndFutureVector[SealedResponse]
-          val requestObserver = client.sealedBidiStreaming(responseObserver)
+          val requestObserver            = client.sealedBidiStreaming(responseObserver)
           requestObserver.onNext(Req1())
           requestObserver.onNext(Req2())
           requestObserver.onCompleted()

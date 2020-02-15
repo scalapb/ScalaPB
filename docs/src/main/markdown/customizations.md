@@ -32,6 +32,11 @@ option (scalapb.options) = {
   preamble: "sealed trait CommonMessage"
   lenses: true
   retain_source_code_info: false
+  no_default_values_in_constructor: false
+  preserve_unknown_fields: false
+  enum_value_naming: CAMEL_CASE
+  enum_strip_prefix: false
+  bytes_type: "scodec.bits.ByteVector"
 };
 ```
 
@@ -62,12 +67,38 @@ enums to a single Scala file.
 
 - Setting `lenses` to `false` inhibits generation of lenses (default is `true`).
 
-- Setting `retain_source_code_info` to true retains information in the descriptor that
+- Setting `retain_source_code_info` to `true` retains information in the descriptor that
   can be used to retrieve source code information from the descriptor at
   runtime (such as comments and source code locations). This option is turned
   off by default to conserve source size and memory at runtime. When this
   option is enabled, use the `location` method on various descriptors to
   access source code information.
+
+- By default, all non-required fields have default values in the constructor of the generated
+  case classes. When setting `no_default_values_in_constructor` to `true` no
+  default values will be generated for all fields.
+
+- Typically, enum values appear in UPPER_CASE in proto files, and ScalaPB generates case objects
+  with exactly the same name in Scala. If you would like ScalaPB to transform the names into CamelCase, set `enum_value_naming` to `CAMEL_CASE`.
+
+- It is a common practice in protobufs to prefix each enum value name with the name of the enum.
+  For example, an enum name `Size` may have values named `SIZE_SMALL` and `SIZE_LARGE`. When you set `enum_strip_prefix`
+  to `true`, ScalaPB will strip the enum's name from each value name, and they would become `SMALL` and `LARGE`.
+  Then the name can be transformed to camel-case according to `enum_value_naming`. Note that the prefix that is removed
+  is the all-caps version of the enum name followed by an underscore.
+
+- By default, during deserialization only known fields are retained.
+  When setting `preserve_unknown_fields` to `true`, all generated messages in this file will preserve unknown fields.
+  This is default behaviour in java for Proto3 messages since 3.5.0.
+  In ScalaPB 0.10.0: the default of this field became `true` for consistency
+  with Java.
+
+- Use `bytes_type` to customize the Scala type used for the `bytes` field
+  type. You will need to have an implicit
+  `TypeMapper[com.google.protobuf.ByteString, YourType]` instance so ScalaPb
+  can convert back and forth to the type of your choice. That implicit will be
+  found if it is defined under `YourType` companion object, or on a package
+  object that matches the generated code (or any of its parent packages).
 
 # Package-scoped options
 
@@ -122,6 +153,50 @@ downstream users are expected to import the protos you ship, then you need to im
 options proto explicitly from all the proto files that are meant to inherit the options.  The
 reason is that if you don't do that, then downstream projects would not
 process the proto package file which may lead to compilation errors.
+
+# Auxiliary options
+
+In some situations, you may want to set some options in a proto file, but without
+modifying the original proto file or adding anything ScalaPB-specific to it. To accomplish
+that, you can define auxiliary options under package-scoped options.
+
+For example, if you are given this proto file:
+
+```protobuf
+syntax = "proto3";
+package a.b.c;
+message Foo {
+  string hello = 1;
+}
+```
+
+You can add a file `package.proto` with the following content:
+```protobuf
+syntax = "proto3";
+package a.b.c;
+import "scalapb/scalapb.proto";
+option (scalapb.options) = {
+    scope: PACKAGE
+    aux_message_options: [
+        {
+            target: "a.b.c.Foo"
+            options: {
+                extends: "com.myexample.SomeTrait"
+            }
+        }
+    ]
+    aux_field_options: [
+        {
+            target: "a.b.c.Foo.hello"
+            options: {
+                scala_name: "goodbye"
+            }
+        }
+    ]
+};
+```
+
+The list `aux_message_options` contains options targeted at different messages define under the same proto package of the package-scoped options. The `target` name needs to be fully-qualified message name in the protobuf namespace. Similar to `aux_message_options`, we also have `aux_enum_options` and `aux_field_options`. See [example usage here](https://github.com/scalapb/ScalaPB/tree/master/e2e/src/main/protobuf/scoped).
 
 # Primitive wrappers
 
@@ -382,7 +457,7 @@ case class MyDurationClass(seconds: Int)
 object MyDurationClass {
     implicit val tm = TypeMapper[Duration, MyDurationClass] {
         d: Duration => MyDurationClass(d.seconds) } {
-        m: MyDurationClass => Duration(m.seconds) 
+        m: MyDurationClass => Duration(m.seconds)
     }
 }
 ```
@@ -427,7 +502,7 @@ message Duration {
 ```
 
 Then when this message is used, it will not be wrapped in an `Option`. If
-`no_box` is specified at the field level, it overrides the value specified at 
+`no_box` is specified at the field level, it overrides the value specified at
 the message level.
 
 ## Custom types on maps
@@ -529,6 +604,16 @@ alternative name by using the `scala_name` option:
 ```protobuf
 optional string hash_code = 1 [(scalapb.field).scala_name = "myHashCode"];
 ```
+
+It is also possible to customize the Scala name of an enum value:
+
+```protobuf
+enum MyEnum {
+  DEFAULT = 0;
+  FOO = 1 [(scalapb.enum_value).scala_name = "Bar"];
+}
+```
+
 
 # Adding annotations
 
