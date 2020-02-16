@@ -62,11 +62,7 @@ object GeneratedExtension {
       fromBase: E => T,
       toBase: T => E
   ): Lens[Seq[E], Seq[T]] =
-    Lens[Seq[E], Seq[T]]({ es =>
-      es.map(fromBase)
-    })({ (es, t) =>
-      t.map(toBase)
-    })
+    Lens[Seq[E], Seq[T]]({ es => es.map(fromBase) })({ (es, t) => t.map(toBase) })
 
   def repeatedUnknownFieldLensPackable[E, T](
       fromBase: E => T,

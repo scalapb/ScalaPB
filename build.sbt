@@ -108,7 +108,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test"
     ),
     Compile / unmanagedSourceDirectories ++= {
-      val base = (baseDirectory in LocalRootProject).value / "scalapb-runtime" / "shared" / "src" / "main"
+      val base =
+        (baseDirectory in LocalRootProject).value / "scalapb-runtime" / "shared" / "src" / "main"
       CrossVersion.partialVersion(scalaVersion.value) match {
         case Some((2, v)) if v < 13 =>
           Seq(base / "scala-pre-2.13")
@@ -316,9 +317,11 @@ lazy val compilerPlugin = project
       (Compile / PB.generate).value
     },
     Compile / sourceGenerators += Def.task {
-      val src  = baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
-      val dest = (Compile / sourceManaged).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
-      val s    = IO.read(src).replace("package scalapb", "package scalapb.internal")
+      val src =
+        baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
+      val dest =
+        (Compile / sourceManaged).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
+      val s = IO.read(src).replace("package scalapb", "package scalapb.internal")
       IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
       Seq(dest)
     }.taskValue,

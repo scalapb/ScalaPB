@@ -115,9 +115,7 @@ object FieldMaskUtil {
       .split(",")
       .toIterator
       .withFilter(_.nonEmpty)
-      .map { path =>
-        camelCaseToSnakeCase(path)
-      }
+      .map { path => camelCaseToSnakeCase(path) }
       .toList
     FieldMask(result)
   }

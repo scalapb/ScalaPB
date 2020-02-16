@@ -311,9 +311,10 @@ class ProtobufGenerator(
       (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = true))
         .apply(v, EnclosingType.None)
 
-    val putAll = s"putAll${field.upperScalaName}" + (if (field.mapType.valueField.isEnum && field.getFile.isProto3)
-                                                       "Value"
-                                                     else "")
+    val putAll =
+      s"putAll${field.upperScalaName}" + (if (field.mapType.valueField.isEnum && field.getFile.isProto3)
+                                            "Value"
+                                          else "")
 
     s"""$javaObject
        |  .$putAll($scalaObject.${fieldAccessorSymbol(field)}.iterator.map {
@@ -1411,9 +1412,7 @@ class ProtobufGenerator(
 
     val fieldsDoc: Seq[String] = message.fields
       .filterNot(_.isInOneof)
-      .map { fd =>
-        (fd, fd.comment.map(_.split("\n").toSeq).getOrElse(Seq.empty))
-      }
+      .map { fd => (fd, fd.comment.map(_.split("\n").toSeq).getOrElse(Seq.empty)) }
       .filter(_._2.nonEmpty)
       .flatMap {
         case (fd, lines) =>

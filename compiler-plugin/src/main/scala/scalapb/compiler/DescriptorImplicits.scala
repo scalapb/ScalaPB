@@ -802,9 +802,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       Helper.makeUniqueNames(
         enumValue.getType.getValues.asScala
           .sortBy(v => (v.getNumber, v.scalaName))
-          .map { e =>
-            e -> ("is" + allCapsToCamelCase(e.scalaName, true))
-          }
+          .map { e => e -> ("is" + allCapsToCamelCase(e.scalaName, true)) }
           .toSeq
       )(enumValue)
     }

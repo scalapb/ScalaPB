@@ -42,9 +42,7 @@ object UnknownFieldSet {
     def apply(fieldNumber: Int): Lens[UpperPB, UnknownFieldSet.Field] =
       lens.compose(Lens[UnknownFieldSet, UnknownFieldSet.Field]({ t =>
         t.fields.getOrElse(fieldNumber, UnknownFieldSet.Field())
-      })({ (c, t) =>
-        c.withField(fieldNumber, t)
-      }))
+      })({ (c, t) => c.withField(fieldNumber, t) }))
   }
 
   case class Field(

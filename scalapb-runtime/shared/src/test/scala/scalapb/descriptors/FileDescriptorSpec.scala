@@ -216,16 +216,16 @@ object FileDescriptorSpec extends TestSuite {
 
     "buildFrom recognizes enums when type field is missing" - {
       val fdp  = FileDescriptorProto.fromAscii("""package: "mypkg"
-                                                |message_type {
-                                                |  name: "Msg1"
-                                                |  enum_type {
-                                                |    name: "TheEnum"
-                                                |  }
-                                                |  field {
-                                                |    name: "field_full"
-                                                |    type_name: "TheEnum"
-                                                |  }
-                                                |}""".stripMargin)
+                                                 |message_type {
+                                                 |  name: "Msg1"
+                                                 |  enum_type {
+                                                 |    name: "TheEnum"
+                                                 |  }
+                                                 |  field {
+                                                 |    name: "field_full"
+                                                 |    type_name: "TheEnum"
+                                                 |  }
+                                                 |}""".stripMargin)
       val fd   = FileDescriptor.buildFrom(fdp, Nil)
       val msg  = fd.messages(0)
       val enum = msg.enums(0)
