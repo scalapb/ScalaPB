@@ -7,9 +7,7 @@ layout: docs
 
 ## Basic Installation
 
-To automatically generate Scala case classes for your messages add ScalaPB's
-sbt plugin to your project. Create a file named `project/scalapb.sbt`
-containing the following line:
+To automatically generate Scala case classes for your messages add ScalaPB's sbt plugin to your project. Create a file named `project/plugins.sbt` containing the following line (or add the following lines if a file with this name already exists):
 
 ```scala
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "{{site.data.version.sbt_protoc}}")
@@ -25,9 +23,8 @@ PB.targets in Compile := Seq(
 )
 ```
 
-Running the `compile` command in sbt will both generate Scala sources from
-your protos and compile them. If you just want to generate Scala sources for
-your protocol buffers without compiling them, run `protoc-generate`
+Running the `compile` command in sbt will generate Scala sources from
+your protos and compile them. If you just want to generate Scala sources for your protocol buffers without compiling them, run `protoc-generate`.
 
 Additionally, if you need [customizations]({{site.baseurl}}/customizations.html) from
 scalapb/scalapb.proto or anything from `google/protobuf/*.proto`, add the
@@ -50,23 +47,6 @@ PB.protocVersion := "-v3.10.0"
 ```
 
 See all available options in [sbt-protoc documentation](https://github.com/thesamet/sbt-protoc)
-
-## Running on Windows
-
-Before sbt-protoc 0.99.15, generating Scala code on Windows required Python 2.x
-to be installed on your system. If you are using sbt-protoc 0.99.15 or later,
-then things should just work.
-
-If you are using an older version of sbt-protoc and unable to upgrade, then
-you must have Python 2.x installed on your system.  If Python is not installed
-on your system, you can [download it from here](https://www.python.org/downloads/windows/).
-
-If Python.exe can be found in your PATH, then ScalaPB should just work.  If
-not, you can set the location of the Python executable explicitly:
-
-```scala
-PB.pythonExe := "C:\\Python27\\Python.exe"
-```
 
 ## Java Conversions
 
@@ -103,26 +83,12 @@ scalapb.gen(
 )
 ```
 
-Note that in ScalaPB 0.7, `singleLineToString` has been renamed to 
-`singleLineToProtoString`.
-
-**`flatPackage`**: When true, ScalaPB will not append the protofile base name
-to the package name.
-
-**`singleLineToProtoString`**: By default, ScalaPB generates a `toProtoString()` method
-that renders the message as a multi-line format (using `TextFormat.printToUnicodeString`).
-Set to true If you would like ScalaPB to generate `toString()` methods that use the single line
-format.
-
-**`asciiFormatToString`**: Setting this to true, overrides `toString` to
-return a standard ASCII representation of the message by calling
-`toProtoString`.
-
-**`lenses`**: By default, ScalaPB generates lenses for each message for easy
-updating. If you are not using this feature and would like to reduce code size
-or compilation time, you can set this to `false` and lenses will not be
-generated.
-
-**`retainSourceCodeInfo`**: Retain source code information (locations,
-comments) provided by protoc in the descriptors. Use the `location` accessor
-to get that information from a descriptor.
+| Option | scalapbc | Description |
+| ------ | -------- | ----------- |
+| `flatPackage` | `flat_package` | When set, ScalaPB will not append the protofile base name to the package name. |
+| `javaConversions` | `java_conversions` | Generates in the companion object two functions, `toJavaProto` and `fromJavaProto` that convert between the Scala case class and the Java protobufs. For the generated code to compile, the Java protobuf code need to be also generated or available as a library dependency. |
+| `grpc` | `grpc` | Generates gRPC code for services. Default is `true` in `scalapb.gen`, and need to be explicitly specified in `scalapbc`. |
+|`singleLineToProtoString` | `single_line_to_proto_string` | By default, ScalaPB generates a `toProtoString()` method that renders the message as a multi-line format (using `TextFormat.printToUnicodeString`). If set, ScalaPB generates `toString()` methods that use the single line format. |
+|`asciiFormatToString` | `ascii_format_to_string` | Setting this to true, overrides `toString` to return a standard ASCII representation of the message by calling `toProtoString`. |
+|`lenses` | `no_lenses` | By default, ScalaPB generates lenses for each message for easy updating. If you are not using this feature and would like to reduce code size or compilation time, you can set this to `false` and lenses will not be generated. |
+| `retainSourceCodeInfo` | `retain_source_code_info` | Retain source code information (locations, comments) provided by protoc in the descriptors. Use the `location` accessor to get that information from a descriptor.

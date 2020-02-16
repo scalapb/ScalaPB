@@ -20,16 +20,11 @@ respectively).
 ## Usage
 
 ScalaPBC is used exactly like protoc. In fact, scalapbc calls protoc.
-It ships with [multiple versions](https://github.com/os72/protoc-jar) of protoc embedded in the
-jar and you can pick the one you want to use by passing the desired version as the
+It ships with [multiple versions](https://github.com/os72/protoc-jar) of protoc embedded in the jar and you can pick the one you want to use by passing the desired version as the
 first command line argument:
 
 ```bash
-./bin/scalapbc -v351 [options]
-```
-
-```bash
-./bin/scalapbc -v261 [options]
+./bin/scalapbc -v3.11.1 [options]
 ```
 
 To generate Scala code, invoke ScalaPBC like this:
@@ -65,10 +60,9 @@ where OPT1,OPT2 is a comma-separated list of options, followed by a colon
 bin/scalapbc my.proto --scala_out=flat_package,java_conversions:protos/src/scala/main/
 ```
 
-The supported parameters are: `flat_package`, `java_conversions`, `grpc` and
-`single_line_to_proto_string`, `no_lenses`, `retain_source_code_info`.
+The supported parameters are: `flat_package`, `java_conversions`, `grpc` and `single_line_to_proto_string`, `no_lenses`, `retain_source_code_info`.
 
-Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.html)
+Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.html#additional-options-to-the-generator)
 
 ## Using ScalaPB as a proper protoc plugin
 
