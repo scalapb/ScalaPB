@@ -27,7 +27,7 @@ object GenUtils {
     } yield (l, idState)
   }
 
-  def genListOfDistinctPositiveNumbers(size: Int) = Gen.parameterized { params =>
+  def genListOfDistinctPositiveNumbers(size: Int) = Gen.parameterized { _ =>
     Gen
       .listOfN(size, Gen.chooseNum(1, 10))
       .map(_.scan(0)(_ + _).tail)

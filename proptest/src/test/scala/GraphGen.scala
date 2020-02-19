@@ -4,6 +4,7 @@ import scalapb.options.Scalapb.ScalaPbOptions
 import scalapb.compiler.{NameUtils, StreamType}
 import org.scalacheck.{Arbitrary, Gen}
 import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
+import com.github.ghik.silencer.silent
 
 object GraphGen {
   import Nodes._
@@ -149,7 +150,7 @@ object GraphGen {
         prev: OneOfGrouping,
         state: State
     ): Gen[(List[OneOfGrouping], State)] =
-      if (n == 0)(Gen.const(Nil, state))
+      if (n == 0)(Gen.const((Nil, state)))
       else
         Gen.frequency(
           (4, genBits(n - 1, 0, NotInOneof, state).map {
@@ -167,6 +168,8 @@ object GraphGen {
     genBits(fieldCount, 0, NotInOneof, state)
   }
 
+  // zipped3 deprecated: https://github.com/scala/scala-collection-compat/issues/118
+  @silent
   def genMessageNode(depth: Int = 0, parentMessageId: Option[Int] = None, protoSyntax: ProtoSyntax)(
       state: State
   ): Gen[(MessageNode, State)] =
@@ -247,7 +250,7 @@ object GraphGen {
       (name, state) <- state.generateName
     } yield MethodNode(name, req, res, stream) -> state
 
-  def genFileNode(state: State): Gen[(FileNode, State)] = sized { s =>
+  def genFileNode(state: State): Gen[(FileNode, State)] =
     for {
       (baseName, fileId, state) <- state.newFile
       protoSyntax               <- Gen.oneOf[ProtoSyntax](Proto2, Proto3)
@@ -281,7 +284,6 @@ object GraphGen {
       ),
       if (protoPackage.isEmpty) state else state.closeNamespace
     )
-  }
 
   def genRootNode: Gen[RootNode] =
     listWithStatefulGen(State(), maxSize = 10)(genFileNode)

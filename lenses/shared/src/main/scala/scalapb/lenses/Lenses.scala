@@ -1,7 +1,5 @@
 package scalapb.lenses
 
-import scala.language.higherKinds
-
 trait Lens[Container, A] extends Any {
   self =>
 
@@ -68,7 +66,7 @@ object Lens extends CompatLensImplicits {
     * just a field of it: get() gives the original object, and set() returns the assigned value,
     * no matter what the original value was.
     */
-  def unit[U]: Lens[U, U] = Lens(identity[U])((c, v) => v)
+  def unit[U]: Lens[U, U] = Lens(identity[U])((_, v) => v)
 
   /** Implicit that adds some syntactic sugar if our lens watches an Option[_]. */
   implicit class OptLens[U, A](val lens: Lens[U, Option[A]]) extends AnyVal {
@@ -102,11 +100,12 @@ object Lens extends CompatLensImplicits {
 
     def foreachValue(f: Lens[B, B] => Mutation[B]): Mutation[U] =
       lens.modify(s =>
-        s.mapValues { (m: B) =>
-          val field: Lens[B, B] = Lens.unit[B]
-          val p: Mutation[B]    = f(field)
-          p(m)
-        }.toMap
+        s.map {
+          case (k, m) =>
+            val field: Lens[B, B] = Lens.unit[B]
+            val p: Mutation[B]    = f(field)
+            (k, p(m))
+        }
       )
 
     def mapValues(f: B => B) = foreachValue(_.modify(f))

@@ -20,7 +20,7 @@ object UniquePortGenerator {
         if (loopCount == 0) {
           None
         } else {
-          Thread.sleep(Random.nextInt(50))
+          Thread.sleep(Random.nextInt(50).toLong)
           loop(loopCount - 1)
         }
       } else {

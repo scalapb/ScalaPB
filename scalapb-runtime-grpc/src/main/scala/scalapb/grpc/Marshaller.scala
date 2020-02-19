@@ -2,7 +2,7 @@ package scalapb.grpc
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-import scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message, TypeMapper}
+import scalapb.{GeneratedMessage, GeneratedMessageCompanion, TypeMapper}
 
 class Marshaller[T <: GeneratedMessage](companion: GeneratedMessageCompanion[T])
     extends io.grpc.MethodDescriptor.Marshaller[T] {

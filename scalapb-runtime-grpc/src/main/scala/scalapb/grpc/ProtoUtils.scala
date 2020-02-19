@@ -1,7 +1,7 @@
 package scalapb.grpc
 
 import com.google.protobuf.InvalidProtocolBufferException
-import scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message}
+import scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 import io.grpc.Metadata
 
 object ProtoUtils {

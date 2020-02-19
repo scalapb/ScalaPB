@@ -1,7 +1,7 @@
 package scalapb.compiler
 
 import com.google.protobuf.Descriptors._
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class ProtoValidation(implicits: DescriptorImplicits) {
   import implicits._

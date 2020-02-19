@@ -12,8 +12,8 @@ import com.google.protobuf.WireFormat.FieldType
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.ScalaPbOptions.EnumValueNaming
 import scalapb.options.compiler.Scalapb._
+import scala.jdk.CollectionConverters._
 
-import scala.collection.JavaConverters._
 import scala.collection.immutable.IndexedSeq
 
 class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
@@ -736,8 +736,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def valuesWithNoDuplicates =
       enum.getValues.asScala
         .groupBy(_.getNumber)
-        .mapValues(_.head)
-        .values
+        .map { case (_, v) => v.head }
         .toVector
         .sortBy(_.getNumber)
 
@@ -949,7 +948,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {
+  private def allCapsToCamelCase(name: String, upperInitial: Boolean): String = {
     val b = new StringBuilder()
     @annotation.tailrec
     def inner(name: String, capNext: Boolean): Unit = if (name.nonEmpty) {

@@ -151,7 +151,7 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
       RequiredEnum.toJavaProto(scalaRequiredEnum)
     }
     assertThrows[InvalidProtocolBufferException] {
-      val javaRequiredEnum = Enum.RequiredEnum.parseFrom(scalaRequiredEnum.toByteArray)
+      Enum.RequiredEnum.parseFrom(scalaRequiredEnum.toByteArray)
     }
   }
 
@@ -185,10 +185,10 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
     // unrecognized enum.
     // See https://github.com/scalapb/ScalaPB/issues/391
     intercept[InvalidProtocolBufferException] {
-      val javaRequiredEnum = Enum.RequiredEnum.parseFrom(scalaRequiredUnrecognizedEnum.toByteArray)
+      Enum.RequiredEnum.parseFrom(scalaRequiredUnrecognizedEnum.toByteArray)
     }
     intercept[IllegalArgumentException] {
-      val javaRequiredEnum = RequiredEnum.toJavaProto(scalaRequiredUnrecognizedEnum)
+      RequiredEnum.toJavaProto(scalaRequiredUnrecognizedEnum)
     }
   }
 

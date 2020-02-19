@@ -1,10 +1,11 @@
-import com.thesamet.proto.e2e.one_of._
+import scala.jdk.CollectionConverters._
 import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalacheck.Gen
-import collection.JavaConverters._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
+
+import com.thesamet.proto.e2e.one_of._
 
 class OneofSpec
     extends AnyFlatSpec

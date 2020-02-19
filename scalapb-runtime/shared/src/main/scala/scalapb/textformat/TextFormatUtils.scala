@@ -2,6 +2,7 @@ package scalapb.textformat
 
 import java.math.BigInteger
 
+import com.github.ghik.silencer.silent
 import com.google.protobuf.ByteString
 import scalapb.TextFormatError
 
@@ -40,7 +41,7 @@ private[scalapb] object TextFormatUtils {
   }
 
   def escapeBytes(bytes: ByteString): String = {
-    val sb = mutable.StringBuilder.newBuilder
+    val sb = new mutable.StringBuilder()
     bytes.foreach {
       case CH_SLASH_A => sb.append("\\a")
       case CH_SLASH_B => sb.append("\\b")
@@ -66,7 +67,7 @@ private[scalapb] object TextFormatUtils {
   // JavaConversions is removed in 2.13. Using JavaConverters doesn't work for us; asScala is not available
   // on the pure Scala implementation of ByteString.
   implicit class JavaConversions(val iter: java.lang.Iterable[java.lang.Byte]) extends AnyVal {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     def foldLeft[B](z: B)(op: (B, java.lang.Byte) => B) = iter.asScala.foldLeft(z)(op)
 
     def foreach[U](f: java.lang.Byte => U): Unit = iter.asScala.foreach(f)
@@ -116,7 +117,7 @@ private[scalapb] object TextFormatUtils {
           result += i.toByte
           defaultHandle(b)
         case (Hex0, b) if (isHexDigit(b.toChar)) => Hex1(digitValue(b))
-        case (Hex0, b)                           => Error("'\\x' with no digits")
+        case (Hex0, _)                           => Error("'\\x' with no digits")
         case (Hex1(i), b) if (isHexDigit(b.toChar)) =>
           result += (16 * i + digitValue(b)).toByte
           Default
@@ -147,6 +148,7 @@ private[scalapb] object TextFormatUtils {
   def escapeText(input: String): String =
     escapeBytes(ByteString.copyFromUtf8(input))
 
+  @silent("method right in class Either is deprecated")
   def unescapeText(input: String): Either[TextFormatError, String] =
     unescapeBytes(input).right.map(_.toStringUtf8)
 

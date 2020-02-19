@@ -1,5 +1,6 @@
 package scalapb.lenses
 import scala.collection.SeqOps
+import scala.language.implicitConversions
 
 object CompatLensImplicits {
 
@@ -36,8 +37,6 @@ object CompatLensImplicits {
   class SetLens[U, A, CC[A] <: collection.immutable.SetOps[A, CC, CC[A]]](val lens: Lens[U, CC[A]])
       extends AnyVal {
     type C = CC[A]
-    private def field(getter: C => A)(setter: (C, A) => C): Lens[U, A] =
-      lens.compose[A](Lens[C, A](getter)(setter))
 
     def :+=(item: A) = lens.modify(_ + item)
 

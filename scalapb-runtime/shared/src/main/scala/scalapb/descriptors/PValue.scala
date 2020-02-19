@@ -2,8 +2,6 @@ package scalapb.descriptors
 
 import com.google.protobuf.ByteString
 
-import scala.language.higherKinds
-
 sealed trait PValue extends Any {
   def as[A](implicit reads: Reads[A]): A = reads.read(this)
 }
@@ -32,7 +30,7 @@ case class PRepeated(value: Vector[PValue]) extends AnyVal with PValue
 
 case class Reads[A](read: PValue => A)
 
-class ReadsException(msg: String) extends Exception
+class ReadsException(msg: String) extends Exception(msg)
 
 object Reads extends ReadsCompat {
   implicit val intReads: Reads[Int] = Reads[Int] {

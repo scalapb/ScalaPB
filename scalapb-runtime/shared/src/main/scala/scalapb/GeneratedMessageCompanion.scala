@@ -2,6 +2,7 @@ package scalapb
 
 import java.io.{InputStream, OutputStream}
 
+import com.github.ghik.silencer.silent
 import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream}
 import com.google.protobuf.{Descriptors => JavaDescriptors}
 import scalapb.lenses.{Lens, Updatable}
@@ -149,6 +150,7 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
   def toJavaProto(scalaProto: ScalaPB): JavaPB
 }
 
+@silent("Stream in package scala is deprecated")
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   type ValueType = A
   def merge(a: A, input: CodedInputStream): A

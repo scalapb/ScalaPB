@@ -4,11 +4,6 @@ package com.thesamet.proto.e2e;
 
 import "scalapb/scalapb.proto";
 
-
-option (scalapb.options) = {
-  import: "com.thesamet.pb.MisplacedMapper.weatherMapper"
-};
-
 message MapsTest {
   enum Color {
     NOCOLOR = 0;

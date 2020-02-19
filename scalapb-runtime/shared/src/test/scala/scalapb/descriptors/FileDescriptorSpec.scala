@@ -2,8 +2,11 @@ package scalapb.descriptors
 
 import utest._
 import com.google.protobuf.descriptor.FileDescriptorProto
+import com.github.ghik.silencer.silent
 
 object FileDescriptorSpec extends TestSuite {
+  // intercept tests discard value
+  @silent("discarded non-Unit value")
   val tests = Tests {
     "nameChains gives chain of names" - {
       FileDescriptor.nameChain("foo") ==> ("" :: "foo" :: Nil)

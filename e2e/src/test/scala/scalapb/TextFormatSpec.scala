@@ -38,10 +38,14 @@ import org.scalatestplus.scalacheck._
 import protobuf_unittest.unittest.{TestAllTypes, TestOneof2}
 import scala.io.Source
 import scala.util._
+import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.EitherValues
+import com.github.ghik.silencer.silent
+import org.scalatest.exceptions.TestFailedException
 
+@silent("method right in class Either is deprecated")
 class TextFormatSpec
     extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
@@ -236,11 +240,11 @@ class TextFormatSpec
   def assertParseSuccessWithOverwriteForbidden(text: String): TestAllTypes =
     TestAllTypes.fromAscii(text)
 
-  def assertParseErrorWithOverwriteForbidden(error: String, text: String): Unit = {
+  def assertParseErrorWithOverwriteForbidden(error: String, text: String): Assertion = {
     parseFailure(error, text)
   }
 
-  def parseFailure(error: String, text: String): Unit = {
+  def parseFailure(error: String, text: String): Assertion = {
     intercept[TextFormatError] {
       TestAllTypes.fromAscii(text)
     }.msg must include(error)
@@ -331,11 +335,11 @@ class TextFormatSpec
     val zhByteString = ByteString.copyFromUtf8(zh)
     zhByteString must be(TextFormatUtils.unescapeBytes(zh).right.value)
 
-    TextFormatUtils.unescapeText("\\x").left.get.msg must be("'\\x' with no digits")
+    TextFormatUtils.unescapeText("\\x").left.value.msg must be("'\\x' with no digits")
 
-    TextFormatUtils.unescapeText("\\z").left.get.msg must be("Invalid escape sequence: z")
+    TextFormatUtils.unescapeText("\\z").left.value.msg must be("Invalid escape sequence: z")
 
-    TextFormatUtils.unescapeText("\\").left.get.msg must be(
+    TextFormatUtils.unescapeText("\\").left.value.msg must be(
       "Invalid escape sequence '\\' at end of string."
     )
   }
@@ -344,28 +348,28 @@ class TextFormatSpec
     AstUtils
       .parseInt32(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
       .right
-      .get
+      .value
       .value
 
   def parseInt64[T](input: String): Long =
     AstUtils
       .parseInt64(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
       .right
-      .get
+      .value
       .value
 
   def parseUInt32[T](input: String): Int =
     AstUtils
       .parseUint32(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
       .right
-      .get
+      .value
       .value
 
   def parseUInt64[T](input: String): Long =
     AstUtils
       .parseUint64(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
       .right
-      .get
+      .value
       .value
 
   "testParseInteger" should "pass" in {
@@ -416,39 +420,39 @@ class TextFormatSpec
     342391 must be(parseInt32("01234567"))
 
     // Out-of-range
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseInt32("2147483648")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseInt32("-2147483649")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseUInt32("4294967296")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseUInt32("-1")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseInt64("9223372036854775808")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseInt64("-9223372036854775809")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseUInt64("18446744073709551616")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseUInt64("-1")
     }
 
-    intercept[NoSuchElementException] {
+    assertThrows[TestFailedException] {
       parseInt32("abcd")
     }
   }

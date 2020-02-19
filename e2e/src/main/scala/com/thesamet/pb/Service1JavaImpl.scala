@@ -38,6 +38,7 @@ class Service1JavaImpl extends Service1ImplBase {
 
       override def onNext(v: Req2): Unit = {
         counter.incrementAndGet()
+        ()
       }
     }
 

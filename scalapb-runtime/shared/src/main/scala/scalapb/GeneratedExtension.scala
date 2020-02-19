@@ -20,10 +20,10 @@ object GeneratedExtension {
   }
 
   def singleUnknownFieldLens[E, T](fromBase: E => T, toBase: T => E, default: T): Lens[Seq[E], T] =
-    Lens[Seq[E], T](c => c.lastOption.map(fromBase).getOrElse(default))((c, t) => Vector(toBase(t)))
+    Lens[Seq[E], T](c => c.lastOption.map(fromBase).getOrElse(default))((_, t) => Vector(toBase(t)))
 
   def optionalUnknownFieldLens[E, T](fromBase: E => T, toBase: T => E): Lens[Seq[E], Option[T]] =
-    Lens[Seq[E], Option[T]](c => c.lastOption.map(fromBase))((c, t) => t.map(toBase).toVector)
+    Lens[Seq[E], Option[T]](c => c.lastOption.map(fromBase))((_, t) => t.map(toBase).toVector)
 
   // For messages we concatenate all ByteStrings (https://github.com/scalapb/ScalaPB/issues/574)
   def singleUnknownMessageFieldLens[T](
@@ -33,7 +33,7 @@ object GeneratedExtension {
   ): Lens[Seq[ByteString], T] =
     Lens[Seq[ByteString], T](c =>
       c.reduceOption((bs1, bs2) => bs1.concat(bs2)).lastOption.map(fromBase).getOrElse(default)
-    )((c, t) => Vector(toBase(t)))
+    )((_, t) => Vector(toBase(t)))
 
   def optionalUnknownMessageFieldLens[T](
       fromBase: ByteString => T,
@@ -41,7 +41,7 @@ object GeneratedExtension {
   ): Lens[Seq[ByteString], Option[T]] =
     Lens[Seq[ByteString], Option[T]](c =>
       c.reduceOption((bs1, bs2) => bs1.concat(bs2)).map(fromBase)
-    )((c, t) => t.map(toBase).toVector)
+    )((_, t) => t.map(toBase).toVector)
 
   private def unpackLengthDelimited[E, T](
       bss: Seq[ByteString],
@@ -62,7 +62,7 @@ object GeneratedExtension {
       fromBase: E => T,
       toBase: T => E
   ): Lens[Seq[E], Seq[T]] =
-    Lens[Seq[E], Seq[T]]({ es => es.map(fromBase) })({ (es, t) => t.map(toBase) })
+    Lens[Seq[E], Seq[T]]({ es => es.map(fromBase) })({ (_, t) => t.map(toBase) })
 
   def repeatedUnknownFieldLensPackable[E, T](
       fromBase: E => T,
@@ -81,7 +81,7 @@ object GeneratedExtension {
         }
     })(
       {
-        case ((es, bss), t) =>
+        case ((_, bss), t) =>
           val v = Vector.newBuilder[E]
           if (bss.nonEmpty) {
             bss.foreach { ld =>

@@ -1,5 +1,8 @@
 package scalapb.lenses
 
+import scala.language.higherKinds
+import scala.language.implicitConversions
+
 object CompatLensImplicits {
 
   /** Implicit that adds some syntactic sugar if our lens watches a Seq-like collection. */
@@ -38,12 +41,9 @@ object CompatLensImplicits {
   ) extends AnyVal {
     type CBF = collection.generic.CanBuildFrom[Coll[A], A, Coll[A]]
 
-    private def field(getter: Coll[A] => A)(setter: (Coll[A], A) => Coll[A]): Lens[U, A] =
-      lens.compose[A](Lens[Coll[A], A](getter)(setter))
+    def :+=(item: A) = lens.modify(_ + item)
 
-    def :+=(item: A)(implicit cbf: CBF) = lens.modify(_ + item)
-
-    def :++=(item: scala.collection.GenTraversableOnce[A])(implicit cbf: CBF) =
+    def :++=(item: scala.collection.GenTraversableOnce[A]) =
       lens.modify(_ ++ item)
 
     def foreach(f: Lens[A, A] => Mutation[A])(implicit cbf: CBF): Mutation[U] =

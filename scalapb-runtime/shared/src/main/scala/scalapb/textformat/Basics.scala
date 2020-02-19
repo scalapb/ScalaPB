@@ -2,8 +2,6 @@ package scalapb.textformat
 
 import fastparse.NoWhitespace._
 
-import scala.language.implicitConversions
-
 object Basics extends ParserCompat {
   import fastparse._
 

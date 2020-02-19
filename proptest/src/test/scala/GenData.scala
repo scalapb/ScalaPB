@@ -1,6 +1,6 @@
 import scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Gen
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object GenData {
   import GenTypes._

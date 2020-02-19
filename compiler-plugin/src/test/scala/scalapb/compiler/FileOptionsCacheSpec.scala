@@ -4,7 +4,7 @@ import com.google.protobuf.Descriptors.FileDescriptor
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.ScalaPbOptions
 import scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
@@ -101,8 +101,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
           p1_x_p2_x_p3
         )
       )
-      .mapValues(_.toString)
-      .toMap must be(
+      .map { case (k, v) => (k, v.toString) } must be(
       Map(
         p1 ->
           """package_name: "scc.p1"

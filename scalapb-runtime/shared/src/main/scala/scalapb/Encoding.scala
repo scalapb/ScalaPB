@@ -24,7 +24,7 @@ object Encoding {
     }
     array
   }
-  private[this] val alphabetIndex: Char => Byte = c => alphabetReverseTable(c)
+  private[this] val alphabetIndex: Char => Byte = c => alphabetReverseTable(c.toInt)
 
   def fromBase64(textInput: String): Array[Byte] = {
     fromBase64Inner(textInput.filter(isAlphabet))
@@ -53,7 +53,7 @@ object Encoding {
   }
 
   def toBase64(in: Array[Byte]): String = {
-    val out    = mutable.StringBuilder.newBuilder
+    val out    = new mutable.StringBuilder()
     var b: Int = 0
     for { i <- 0 until (in.length, 3) } {
       b = (in(i) & 0xFC) >> 2

@@ -20,7 +20,7 @@ class WellKnownTypesSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks
 
   "TestWrapper" should "be updatable with primitives" in {
     // We just test that it compiles and we don't go through the wrapper.
-    val o = TestWrappers().update(
+    TestWrappers().update(
       _.myDouble := 34.1,
       _.myFloat := 14.5f,
       _.myInt32 := 35,

@@ -58,8 +58,8 @@ object ExpressionBuilder {
       case Collection(DescriptorImplicits.ScalaMap)    => MethodApplication("toMap")
       case Collection(DescriptorImplicits.ScalaIterable) =>
         FunctionApplication("_root_.scalapb.internal.compat.toIterable")
-      case Collection(cc) => FunctionApplication("_root_.scalapb.internal.compat.convertTo")
-      case _              => Identity
+      case Collection(_) => FunctionApplication("_root_.scalapb.internal.compat.convertTo")
+      case _             => Identity
     })
     runSingleton(convert)(expr)
   }

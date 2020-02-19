@@ -1,7 +1,6 @@
 package scalapb.descriptors
 
 import collection.Factory
-import scala.language.higherKinds
 
 trait ReadsCompat {
   implicit def repeated[A, CC[_]](

@@ -14,7 +14,7 @@ import org.scalatest.matchers.must.Matchers
 
 abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
 
-  protected[this] final def withScalaServer[A](f: ManagedChannel => A): A = {
+  protected[this] final def withScalaServer[T](f: ManagedChannel => T): T = {
     withServer(
       _.addService(ProtoReflectionService.newInstance())
         .addService(
@@ -25,13 +25,13 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
     )(f)
   }
 
-  protected[this] final def withJavaServer[A](f: ManagedChannel => A): A = {
+  protected[this] final def withJavaServer[T](f: ManagedChannel => T): T = {
     withServer(_.addService(new Service1JavaImpl).intercept(new Service1Interceptor).build())(f)
   }
 
-  private[this] def withServer[A](
+  private[this] def withServer[T](
       createServer: NettyServerBuilder => Server
-  )(f: ManagedChannel => A): A = {
+  )(f: ManagedChannel => T): T = {
     val port   = UniquePortGenerator.get()
     val server = createServer(NettyServerBuilder.forPort(port))
     try {
@@ -44,6 +44,7 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
     } finally {
       server.shutdown()
       server.awaitTermination(3000, TimeUnit.MILLISECONDS)
+      ()
     }
   }
 
@@ -53,28 +54,28 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
     override def execute(runnable: Runnable): Unit = runnable.run()
   }
 
-  protected[this] final def getObserverAndFuture[A]: (StreamObserver[A], Future[A]) = {
-    val promise = Promise[A]()
-    val observer = new StreamObserver[A] {
+  protected[this] final def getObserverAndFuture[T]: (StreamObserver[T], Future[T]) = {
+    val promise = Promise[T]()
+    val observer = new StreamObserver[T] {
       override def onError(t: Throwable): Unit = {}
 
       override def onCompleted(): Unit = {}
 
-      override def onNext(value: A): Unit = promise.success(value)
+      override def onNext(value: T): Unit = promise.success(value)
     }
     (observer, promise.future)
   }
 
-  protected[this] final def getObserverAndFutureVector[A]
-      : (StreamObserver[A], Future[Vector[A]]) = {
-    val promise = Promise[Vector[A]]()
-    val values  = Vector.newBuilder[A]
-    val observer = new StreamObserver[A] {
+  protected[this] final def getObserverAndFutureVector[T]
+      : (StreamObserver[T], Future[Vector[T]]) = {
+    val promise = Promise[Vector[T]]()
+    val values  = Vector.newBuilder[T]
+    val observer = new StreamObserver[T] {
       override def onError(t: Throwable): Unit = {}
 
       override def onCompleted(): Unit = promise.success(values.result)
 
-      override def onNext(value: A): Unit = {
+      override def onNext(value: T): Unit = {
         values += value
       }
     }

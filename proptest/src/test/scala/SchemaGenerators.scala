@@ -2,6 +2,7 @@ import java.io.{File, PrintWriter}
 import java.net.{URL, URLClassLoader}
 import java.nio.file.Files
 import javax.tools.ToolProvider
+import com.github.ghik.silencer.silent
 
 import com.google.protobuf.Message.Builder
 import scalapb.compiler._
@@ -10,8 +11,10 @@ import scalapb._
 import protocbridge.ProtocBridge
 
 import scala.reflect.ClassTag
-import _root_.scalapb.ScalaPbCodeGenerator
+import scalapb.ScalaPbCodeGenerator
 
+@silent("Stream in package .* is deprecated")
+@silent("method toStream in trait IterableOnceOps is deprecated")
 object SchemaGenerators {
   import Nodes._
 
@@ -123,7 +126,7 @@ object SchemaGenerators {
     Gen.resize(4, Gen.identifier).retryUntil(e => !RESERVED.contains(e) && !e.startsWith("is"))
 
   /** Generates an alphanumerical character */
-  def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const("_")), (9, Gen.alphaChar))
+  def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const('_')), (9, Gen.alphaChar))
 
   //// String Generators ////
 
@@ -236,8 +239,6 @@ object SchemaGenerators {
       jarForClass[fastparse.Parsed[_]].getPath,
       rootDir
     )
-    val annotationJar =
-      classOf[annotation.Annotation].getProtectionDomain.getCodeSource.getLocation.getPath
     import scala.tools.nsc._
 
     val scalaFiles = getFileTree(rootDir)
@@ -303,6 +304,7 @@ object SchemaGenerators {
         sys.process
           .Process(Seq("tar", "czf", "/tmp/protos.tgz", "--exclude", "*.class", "."), tmpDir)
           .!!
+        ()
       }
 
       CompiledSchema(rootNode, tmpDir)

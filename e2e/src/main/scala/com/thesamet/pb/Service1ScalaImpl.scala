@@ -36,6 +36,7 @@ class Service1ScalaImpl extends Service1 {
 
       override def onNext(v: Req2): Unit = {
         counter.incrementAndGet()
+        ()
       }
     }
 
@@ -84,6 +85,7 @@ class Service1ScalaImpl extends Service1 {
 
     override def onNext(v: SealedRequest): Unit = {
       counter.incrementAndGet()
+      ()
     }
   }
 

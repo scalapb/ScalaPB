@@ -1,20 +1,23 @@
 package scalapb.textformat
 
 import com.google.protobuf.descriptor.FieldDescriptorProto
+import com.github.ghik.silencer.silent
 
 import scalapb.descriptors._
 import scalapb.descriptors.{FieldDescriptor, PValue}
-import scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message}
+import scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 
 import scala.util.Try
 
+@silent("method right in class Either is deprecated")
 private[scalapb] object AstUtils {
   case class AstError(index: Int, error: String)
 
   private def flatten[T](s: Seq[Either[AstError, T]]): Either[AstError, Vector[T]] = {
-    s.find(_.isLeft) match {
-      case Some(Left(e)) => Left(e)
-      case _             => Right(s.view.map(_.right.get).toVector)
+    s.foldLeft[Either[AstError, Vector[T]]](Right(Vector.empty)) {
+      case (Left(l), _)          => Left(l)
+      case (_, Left(l))          => Left(l)
+      case (Right(xs), Right(x)) => Right(xs :+ x)
     }
   }
 
@@ -112,7 +115,7 @@ private[scalapb] object AstUtils {
             case "f" | "false" => Right(PBoolean(false))
             case _             => Left(AstError(index, invalidInput(v.toString)))
           }
-        case TBytes(index, v) => Left(AstError(p.index, invalidInput(v)))
+        case TBytes(_, v) => Left(AstError(p.index, invalidInput(v)))
       }
     }
 

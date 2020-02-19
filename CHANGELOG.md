@@ -45,6 +45,9 @@
 
 - Updated to ScalaJS 1.0.0
 
+- ScalaPB runtime now depends on scala-collection-compat and is warning-free
+  for both 2.12 and 2.13.
+
 ## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.5)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.4...v0.9.5)
 - Fix a couple of cases of oneof naming conflicts. (#695)

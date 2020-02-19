@@ -10,7 +10,7 @@ class TextFormatException(msg: String) extends RuntimeException(msg)
 object TextFormat {
   private def indexToLineCol(input: String, index: Int) = {
     // https://github.com/scala/bug/issues/11125
-    val lines = Predef.augmentString(input.take(1 + index)).lines.toVector
+    val lines = Predef.augmentString(input.take(1 + index)).linesIterator.toVector
     val line  = lines.length
     val col   = lines.lastOption.map(_.length).getOrElse(0)
     s"line $line, column $col"

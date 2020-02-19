@@ -4,7 +4,10 @@ import scalapb.compiler.{StreamType, FunctionalPrinter}
 
 import scala.collection.mutable
 import scala.util.Try
+import com.github.ghik.silencer.silent
 
+@silent("Stream in package .* is deprecated")
+@silent("method toStream in trait IterableOnceOps is deprecated")
 object Nodes {
   import GenTypes._
   import GraphGen._
@@ -27,7 +30,7 @@ object Nodes {
     def isProto3: Boolean  = true
   }
 
-  private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
+  private def snakeCaseToCamelCase(name: String, upperInitial: Boolean): String = {
     val b = new mutable.StringBuilder()
     @annotation.tailrec
     def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
@@ -176,10 +179,10 @@ object Nodes {
         field   <- message.fields
       } yield field.fieldType)
         .collect({
-          case MessageReference(id)                   => rootNode.messagesById(id).fileId
-          case EnumReference(id)                      => rootNode.enumsById(id).fileId
-          case MapType(keyType, EnumReference(id))    => rootNode.enumsById(id).fileId
-          case MapType(keyType, MessageReference(id)) => rootNode.messagesById(id).fileId
+          case MessageReference(id)                       => rootNode.messagesById(id).fileId
+          case EnumReference(id)                          => rootNode.enumsById(id).fileId
+          case MapType(keyType @ _, EnumReference(id))    => rootNode.enumsById(id).fileId
+          case MapType(keyType @ _, MessageReference(id)) => rootNode.messagesById(id).fileId
         })
         .toSet
         .map(rootNode.filesById)
@@ -326,7 +329,7 @@ object Nodes {
       if (!oneOfGroup.isOneof) {
         val packed = if (fieldOptions.isPacked) " [packed = true]" else ""
         val modifier = if (fileNode.protoSyntax.isProto2) {
-          if (fieldType.isMap) "" else fieldOptions.modifier + " "
+          if (fieldType.isMap) "" else fieldOptions.modifier.toString + " "
         } else {
           assert(
             fieldOptions.modifier == FieldModifier.OPTIONAL || fieldOptions.modifier == FieldModifier.REPEATED

@@ -29,11 +29,50 @@ val utestVersion = "0.7.4"
 
 val fastparseVersion = "2.2.4"
 
+val silencerVersion = "1.5.0"
+
+val collectionCompatVersion = "2.1.4"
+
 ThisBuild / scalaVersion := Scala212
 
 ThisBuild / crossScalaVersions := Seq(Scala212, Scala213)
 
-ThisBuild / scalacOptions ++= Seq("-deprecation", "-target:jvm-1.8")
+ThisBuild / scalacOptions ++= Seq(
+  "-deprecation",
+  "-target:jvm-1.8",
+  "-feature",
+  "-Xfatal-warnings",
+  "-explaintypes",
+  "-Xlint:adapted-args",           // Warn if an argument list is modified to match the receiver.
+  "-Xlint:constant",               // Evaluation of a constant arithmetic expression results in an error.
+  "-Xlint:delayedinit-select",     // Selecting member of DelayedInit.
+  "-Xlint:doc-detached",           // A Scaladoc comment appears to be detached from its element.
+  "-Xlint:inaccessible",           // Warn about inaccessible types in method signatures.
+  "-Xlint:infer-any",              // Warn when a type argument is inferred to be `Any`.
+  "-Xlint:missing-interpolator",   // A string literal appears to be missing an interpolator id.
+  "-Xlint:nullary-override",       // Warn when non-nullary `def f()' overrides nullary `def f'.
+  "-Xlint:nullary-unit",           // Warn when nullary methods return Unit.
+  "-Xlint:option-implicit",        // Option.apply used implicit view.
+  "-Xlint:package-object-classes", // Class or object defined in package object.
+  "-Xlint:poly-implicit-overload", // Parameterized overloaded implicit methods are not visible as view bounds.
+  "-Xlint:private-shadow",         // A private field (or class parameter) shadows a superclass field.
+  "-Xlint:stars-align",            // Pattern sequence wildcard must align with sequence component.
+  "-Xlint:type-parameter-shadow",  // A local type parameter shadows a type already in scope.
+  "-Ywarn-dead-code",              // Warn when dead code is identified.
+  "-Ywarn-extra-implicit",         // Warn when more than one implicit parameter section is defined.
+  "-Ywarn-numeric-widen",          // Warn when numerics are widened.
+  "-Ywarn-unused:implicits",       // Warn if an implicit parameter is unused.
+  "-Ywarn-unused:imports",         // Warn if an import selector is not referenced.
+  "-Ywarn-unused:locals",          // Warn if a local definition is unused.
+  "-Ywarn-unused:params",          // Warn if a value parameter is unused.
+  "-Ywarn-unused:patvars",         // Warn if a variable bound in a pattern is unused.
+  "-Ywarn-unused:privates",        // Warn if a private member is unused.
+  "-Ywarn-value-discard",          // Warn when non-Unit expression results are unused.
+  "-Ybackend-parallelism",
+  "8",                                         // Enable paralellisation — change to desired number!
+  "-Ycache-plugin-class-loader:last-modified", // Enables caching of classloaders for compiler plugins
+  "-Ycache-macro-class-loader:last-modified"   // and macro definitions. This can lead to performance improvements.
+)
 
 ThisBuild / javacOptions ++= List("-target", "8", "-source", "8")
 
@@ -43,6 +82,13 @@ ThisBuild / resolvers +=
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 ThisBuild / publishTo := sonatypePublishToBundle.value
+
+ThisBuild / libraryDependencies ++= Seq(
+  sbt.compilerPlugin(
+    "com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full
+  ),
+  "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
+)
 
 releaseCrossBuild := true
 
@@ -101,11 +147,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "com.lihaoyi"         %%% "fastparse"        % fastparseVersion,
-      "com.google.protobuf" % "protobuf-java"      % protobufVersion % "protobuf",
-      "com.lihaoyi"         %%% "utest"            % utestVersion % "test",
-      "commons-codec"       % "commons-codec"      % "1.14" % "test",
-      "com.google.protobuf" % "protobuf-java-util" % protobufVersion % "test"
+      "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
+      "com.lihaoyi"            %%% "fastparse"               % fastparseVersion,
+      "com.google.protobuf"    % "protobuf-java"             % protobufVersion % "protobuf",
+      "com.lihaoyi"            %%% "utest"                   % utestVersion % "test",
+      "commons-codec"          % "commons-codec"             % "1.14" % "test",
+      "com.google.protobuf"    % "protobuf-java-util"        % protobufVersion % "test"
     ),
     Compile / unmanagedSourceDirectories ++= {
       val base =
@@ -119,6 +166,10 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../../protobuf",
+    scalacOptions ++= Seq(
+      "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
+      "-P:silencer:lineContentFilters=import scala.collection.compat._"
+    ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
       import com.typesafe.tools.mima.core._
@@ -326,10 +377,11 @@ lazy val compilerPlugin = project
       Seq(dest)
     }.taskValue,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "protoc-bridge" % "0.7.13",
-      "com.google.protobuf"  % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      ScalaTest              % "test",
-      ProtocJar              % "test"
+      "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
+      "com.thesamet.scalapb"   %% "protoc-bridge" % "0.7.13",
+      "com.google.protobuf"    % "protobuf-java" % protobufCompilerVersion % "protobuf",
+      ScalaTest                % "test",
+      ProtocJar                % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
@@ -519,7 +571,8 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     libraryDependencies ++= Seq(
-      "com.lihaoyi" %%% "utest" % utestVersion % "test"
+      "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
+      "com.lihaoyi"            %%% "utest"                   % utestVersion % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= {
@@ -603,15 +656,6 @@ val e2eCommonSettings = Seq(
   // https://github.com/thesamet/sbt-protoc/issues/104
   useCoursier := false,
   skip in publish := true,
-  Test / scalacOptions ++= PartialFunction
-    .condOpt(CrossVersion.partialVersion(scalaVersion.value)) {
-      case Some((2, v)) if v >= 11 && v < 12 =>
-        Seq("-Ywarn-unused-import")
-      case Some((2, v)) if v == 13 =>
-        Seq("-Ywarn-unused:imports")
-    }
-    .toList
-    .flatten,
   javacOptions ++= Seq("-Xlint:deprecation"),
   Compile / unmanagedSourceDirectories ++= {
     val base = (Compile / baseDirectory).value / "src" / "main"
@@ -641,6 +685,11 @@ lazy val e2e = (project in file("e2e"))
   .dependsOn(grpcRuntime)
   .settings(e2eCommonSettings)
   .settings(
+    scalacOptions ++= Seq(
+      "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
+      "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala",
+      "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
+    ),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
     Compile / PB.protocVersion := "-v" + protobufVersion,

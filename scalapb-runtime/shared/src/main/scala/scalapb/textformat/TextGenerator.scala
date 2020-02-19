@@ -3,7 +3,7 @@ package scalapb.textformat
 import scala.collection.mutable
 
 class TextGenerator(singleLine: Boolean = true, escapeNonAscii: Boolean = true) {
-  private val sb          = mutable.StringBuilder.newBuilder
+  private val sb          = new mutable.StringBuilder()
   private var indentLevel = 0
   private var lineStart   = true
 
@@ -13,6 +13,7 @@ class TextGenerator(singleLine: Boolean = true, escapeNonAscii: Boolean = true) 
         sb.append(" " * (indentLevel * 2))
       else if (sb.nonEmpty) sb.append(' ')
     }
+    ()
   }
 
   def add(s: String): TextGenerator = {

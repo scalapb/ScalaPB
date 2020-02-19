@@ -4,7 +4,7 @@ import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scalapb.compiler.ProtobufGenerator.asScalaDocBlock
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 final class GrpcServicePrinter(service: ServiceDescriptor, implicits: DescriptorImplicits) {
   import implicits._

@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package com.thesamet.proto.e2e;
 
-import "scalapb/scalapb.proto";
 import "type_level.proto";
 import "google/protobuf/descriptor.proto";
 import "google/protobuf/wrappers.proto";

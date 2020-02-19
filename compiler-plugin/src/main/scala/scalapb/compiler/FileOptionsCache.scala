@@ -43,7 +43,7 @@ object FileOptionsCache {
         .sortBy(_._1.length) // so parent packages come before subpackages
 
     filesAndOptions.filter(_._1.isEmpty).foreach {
-      case (pn, pso) =>
+      case (_, pso) =>
         throw new GeneratorException(
           s"${pso.fileName}: a package statement is required when package-scoped options are used"
         )
@@ -57,7 +57,7 @@ object FileOptionsCache {
     }
 
     filesAndOptions.find(_._2.options.hasObjectName).foreach {
-      case (pn, pso) =>
+      case (_, pso) =>
         throw new GeneratorException(
           s"${pso.fileName}: object_name is not allowed in package-scoped options."
         )

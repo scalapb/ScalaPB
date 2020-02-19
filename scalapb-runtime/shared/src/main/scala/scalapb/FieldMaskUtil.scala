@@ -113,7 +113,7 @@ object FieldMaskUtil {
   def fromJsonString(value: String): FieldMask = {
     val result = value
       .split(",")
-      .toIterator
+      .iterator
       .withFilter(_.nonEmpty)
       .map { path => camelCaseToSnakeCase(path) }
       .toList

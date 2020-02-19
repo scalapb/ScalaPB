@@ -3,7 +3,7 @@ package scalapb.compiler
 import java.io.{File, FileInputStream, PrintWriter}
 import java.nio.file.Files
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
 import com.google.protobuf.Descriptors.FileDescriptor
 import com.google.protobuf.ExtensionRegistry
@@ -62,6 +62,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
     val fileset    = generateFileSet(files)
     val validation = new ProtoValidation(new DescriptorImplicits(generatorParams, fileset))
     validation.validateFiles(fileset)
+    ()
   }
 
   def runValidation(files: (String, String)*): Unit = {
@@ -69,7 +70,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
   }
 
   "simple message" should "validate" in {
-    val r = runValidation(
+    runValidation(
       "file.proto" ->
         """
           |syntax = "proto2";

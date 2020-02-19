@@ -32,7 +32,7 @@ class LimitedInputStream(val is: InputStream, private var limit: Int)
     }
 
   override def skip(n: Long): Long = {
-    val result = super.skip(n min limit)
+    val result = super.skip(n min limit.toLong)
     if (result >= 0) {
       limit = (limit - result).toInt
     }

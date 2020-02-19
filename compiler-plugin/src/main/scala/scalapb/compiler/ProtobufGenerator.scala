@@ -7,8 +7,7 @@ import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGene
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.FieldOptions
-
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 case class GeneratorParams(
     javaConversions: Boolean = false,
@@ -104,10 +103,6 @@ class ProtobufGenerator(
   }
 
   def printOneof(printer: FunctionalPrinter, e: OneofDescriptor): FunctionalPrinter = {
-    val possiblyConflictingName =
-      e.getContainingType.getEnumTypes.asScala.exists(_.scalaType.name == e.scalaType.name) ||
-        e.getContainingType.nestedTypes.exists(_.scalaType.name == e.scalaType.name)
-
     printer
       .add(s"sealed trait ${e.scalaType.nameSymbol} extends ${e.baseClasses.mkString(" with ")} {")
       .indent
@@ -589,8 +584,8 @@ class ProtobufGenerator(
   }
 
   def generateSerializedSizeForPackedFields(message: Descriptor)(fp: FunctionalPrinter) =
-    fp.print(message.fields.filter(_.isPacked).zipWithIndex) {
-      case (printer, (field, index)) =>
+    fp.print(message.fields.filter(_.isPacked)) {
+      case (printer, field) =>
         val methodName = s"${field.scalaName}SerializedSize"
         printer
           .add(s"private[this] def $methodName = {") //closing brace is in each case
@@ -639,8 +634,8 @@ class ProtobufGenerator(
         s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {"
       )
       .indent
-      .print(message.fields.sortBy(_.getNumber).zipWithIndex) {
-        case (printer, (field, index)) =>
+      .print(message.fields.sortBy(_.getNumber)) {
+        case (printer, field) =>
           val fieldNameSymbol = fieldAccessorSymbol(field)
           val capTypeName     = Types.capitalizedType(field.getType)
           if (field.isPacked) {
@@ -1272,7 +1267,7 @@ class ProtobufGenerator(
             )
           case Type.INT64   => ("varintLens", Identity, Identity)
           case Type.UINT64  => ("varintLens", Identity, Identity)
-          case Type.INT32   => ("varintLens", MethodApplication("toInt"), Identity)
+          case Type.INT32   => ("varintLens", MethodApplication("toInt"), MethodApplication("toLong"))
           case Type.FIXED64 => ("fixed64Lens", Identity, Identity)
           case Type.FIXED32 => ("fixed32Lens", Identity, Identity)
           case Type.BOOL =>
@@ -1296,15 +1291,16 @@ class ProtobufGenerator(
               ),
               MethodApplication(s"toByteString")
             )
-          case Type.BYTES  => ("lengthDelimitedLens", Identity, Identity)
-          case Type.UINT32 => ("varintLens", MethodApplication("toInt"), Identity)
+          case Type.BYTES => ("lengthDelimitedLens", Identity, Identity)
+          case Type.UINT32 =>
+            ("varintLens", MethodApplication("toInt"), MethodApplication("toLong"))
           case Type.ENUM =>
             (
               "varintLens",
               MethodApplication("toInt") andThen FunctionApplication(
                 fd.baseSingleScalaTypeName + ".fromValue"
               ),
-              MethodApplication("value")
+              MethodApplication("value") andThen MethodApplication("toLong")
             )
           case Type.SFIXED32 => ("fixed32Lens", Identity, Identity)
           case Type.SFIXED64 => ("fixed64Lens", Identity, Identity)
@@ -1314,7 +1310,9 @@ class ProtobufGenerator(
               MethodApplication("toInt") andThen FunctionApplication(
                 "_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"
               ),
-              FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag32")
+              FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag32") andThen (
+                MethodApplication("toLong")
+              )
             )
           case Type.SINT64 =>
             (
@@ -1629,7 +1627,7 @@ class ProtobufGenerator(
         val p    = new GrpcServicePrinter(service, implicits)
         val code = p.printService(FunctionalPrinter()).result()
         val b    = CodeGeneratorResponse.File.newBuilder()
-        b.setName(file.scalaDirectory + "/" + service.objectName + ".scala")
+        b.setName(file.scalaDirectory + "/" + service.companionObject.name + ".scala")
         b.setContent(code)
         b.build
       }
@@ -1758,8 +1756,8 @@ object ProtobufGenerator {
           Right(params.copy(lenses = false))
         case (Right(params), "retain_source_code_info") =>
           Right(params.copy(retainSourceCodeInfo = true))
-        case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
-        case (x, _)             => x
+        case (Right(_), p) => Left(s"Unrecognized parameter: '$p'")
+        case (x, _)        => x
       }
   }
 

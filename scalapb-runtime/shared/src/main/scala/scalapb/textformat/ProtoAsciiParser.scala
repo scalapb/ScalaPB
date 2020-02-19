@@ -3,8 +3,6 @@ package scalapb.textformat
 import fastparse._
 import fastparse.ScriptWhitespace._
 
-import scala.language.implicitConversions
-
 private[scalapb] object ProtoAsciiParser {
   def PrimitiveValue[_: P]: P[TPrimitive] = P(
     (Index ~ Basics.fractional).map(TLiteral.tupled) |

@@ -324,10 +324,10 @@ class FileDescriptor private[descriptors] (
   private val descriptorsByName: Map[String, BaseDescriptor] = {
     def getAllDescriptors(m: Descriptor): Vector[(String, BaseDescriptor)] =
       m.nestedMessages.flatMap(getAllDescriptors) ++
-        m.enums.flatMap(getAllEnumDescriptors) :+ (m.fullName, m)
+        m.enums.flatMap(getAllEnumDescriptors) :+ ((m.fullName, m))
 
     def getAllEnumDescriptors(m: EnumDescriptor): Vector[(String, BaseDescriptor)] =
-      m.values.map(v => (v.fullName, v)) :+ (m.fullName, m)
+      m.values.map(v => (v.fullName, v)) :+ ((m.fullName, m))
 
     val allDescs = FileDescriptor.nameChain(asProto.getPackage).map { f =>
       (f, new PackageDescriptor(f))

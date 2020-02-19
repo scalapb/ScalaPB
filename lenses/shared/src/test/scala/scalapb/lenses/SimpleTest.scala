@@ -1,7 +1,7 @@
 package scalapb.lenses
 
 import utest._
-import scalapb.lenses._
+import com.github.ghik.silencer.silent
 
 case class Person(firstName: String, lastName: String, age: Int, address: Address)
     extends Updatable[Person]
@@ -25,6 +25,7 @@ case class CollectionTypes(
     sett: Set[String] = Set.empty
 ) extends Updatable[CollectionTypes]
 
+@silent("discarded non-Unit value")
 object SimpleTest extends TestSuite {
   implicit class RoleMutation[U](f: Lens[U, Role]) extends ObjectLens[U, Role](f) {
     def name = field(_.name)((p, f) => p.copy(name = f))
