@@ -28,7 +28,7 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.1")
 
-addSbtPlugin("com.47deg" % "sbt-microsites" % "1.1.0")
+addSbtPlugin("com.47deg" % "sbt-microsites" % "1.1.2")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.27")
 
