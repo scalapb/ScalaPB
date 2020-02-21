@@ -21,7 +21,7 @@ val ProtocJar = "com.github.os72" % "protoc-jar" % "3.11.1"
 
 val ScalaTest = "org.scalatest" %% "scalatest" % "3.1.1"
 
-val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.0.1"
+val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.1.1"
 
 val ScalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % "3.1.0.0"
 
