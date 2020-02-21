@@ -34,7 +34,7 @@ object Charts {
 
   val ts = points
     .groupBy(p => LineKey(p.method, p.scalaVersion))
-    .mapValues(dps => dps.map(dp => (dp.scalapbVersion -> (dp.score, dp.low, dp.high))).toMap)
+    .mapValues(dps => dps.map(dp => (dp.scalapbVersion -> ((dp.score, dp.low, dp.high)))).toMap)
     .toMap
 
   def versionKey(s: String): (Int, Int, String) = {
@@ -106,7 +106,6 @@ object Charts {
   }
 
   def makeChartPair(fn: String) = {
-    val divName = s"div-$fn"
     val (d1, s1) = makeParseChart(fn)
     val (d2, s2) = makeSerializeChart(fn)
 

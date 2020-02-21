@@ -1406,7 +1406,18 @@ class ProtobufGenerator(
   }
 
   def generateScalaDoc(message: Descriptor): PrinterEndo = { fp =>
-    val mainDoc: Seq[String] = message.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty)
+    val mainDoc: Seq[String] = {
+      val base = message.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty)
+      // Hack: there's an heading in `any.proto` that causes a Scaladoc
+      // warning.
+      if (message.getFullName() != "google.protobuf.Any")
+        base
+      else
+        base.collect {
+          case l if l.trim == "====" => ""
+          case l                     => l
+        }
+    }
 
     val fieldsDoc: Seq[String] = message.fields
       .filterNot(_.isInOneof)

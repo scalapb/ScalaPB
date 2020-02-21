@@ -1,7 +1,6 @@
 package scalapb.docs.benchmarks
 import scalapb.{GeneratedMessageCompanion, GeneratedMessage, GeneratedEnum, GeneratedEnumCompanion}
 import com.google.protobuf.descriptor.SourceCodeInfo.Location
-import os.Path._
 
 object ProtoSnippet {
     def showLocation(location: Location): Unit = {
