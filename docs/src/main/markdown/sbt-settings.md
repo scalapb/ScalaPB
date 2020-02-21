@@ -43,7 +43,7 @@ By default, `sbt-protoc` invokes `protoc` 3.x that is shipped with `protoc-jar`.
 If you would like to run a different version of `protoc`:
 
 ```scala
-PB.protocVersion := "-v3.10.0"
+PB.protocVersion := "-v3.11.4"
 ```
 
 See all available options in [sbt-protoc documentation](https://github.com/thesamet/sbt-protoc)
