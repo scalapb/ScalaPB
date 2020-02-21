@@ -154,16 +154,6 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       "commons-codec"          % "commons-codec"             % "1.14" % "test",
       "com.google.protobuf"    % "protobuf-java-util"        % protobufVersion % "test"
     ),
-    Compile / unmanagedSourceDirectories ++= {
-      val base =
-        (baseDirectory in LocalRootProject).value / "scalapb-runtime" / "shared" / "src" / "main"
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, v)) if v < 13 =>
-          Seq(base / "scala-pre-2.13")
-        case _ =>
-          Nil
-      }
-    },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../../protobuf",
     scalacOptions ++= Seq(
@@ -560,15 +550,6 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .in(file("lenses"))
   .settings(
     name := "lenses",
-    Compile / unmanagedSourceDirectories ++= {
-      val base = (baseDirectory in LocalRootProject).value / "lenses" / "shared" / "src" / "main"
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, v)) if v < 13 =>
-          Seq(base / "scala-pre-2.13")
-        case _ =>
-          Nil
-      }
-    },
     testFrameworks += new TestFramework("utest.runner.Framework"),
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
@@ -657,15 +638,6 @@ val e2eCommonSettings = Seq(
   useCoursier := false,
   skip in publish := true,
   javacOptions ++= Seq("-Xlint:deprecation"),
-  Compile / unmanagedSourceDirectories ++= {
-    val base = (Compile / baseDirectory).value / "src" / "main"
-    CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((2, v)) if v < 13 =>
-        Seq(base / "scala-pre-2.13")
-      case _ =>
-        Nil
-    }
-  },
   libraryDependencies ++= Seq(
     ScalaTest               % "test",
     ScalaTestPlusScalaCheck % "test",
