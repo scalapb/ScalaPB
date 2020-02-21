@@ -19,7 +19,7 @@ val MimaPreviousVersion = "0.9.0"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.11.1"
 
-val ScalaTest = "org.scalatest" %% "scalatest" % "3.1.0"
+val ScalaTest = "org.scalatest" %% "scalatest" % "3.1.1"
 
 val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.0.1"
 
