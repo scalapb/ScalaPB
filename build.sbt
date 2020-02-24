@@ -29,7 +29,7 @@ val utestVersion = "0.7.4"
 
 val fastparseVersion = "2.2.4"
 
-val silencerVersion = "1.5.0"
+val silencerVersion = "1.6.0"
 
 val collectionCompatVersion = "2.1.4"
 
