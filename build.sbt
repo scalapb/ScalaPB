@@ -13,7 +13,7 @@ val protobufVersion = "3.11.4"
 // version), the binary incompatibility surfaces.
 val protobufCompilerVersion = "3.7.1"
 
-val grpcVersion = "1.27.1"
+val grpcVersion = "1.27.2"
 
 val MimaPreviousVersion = "0.9.0"
 
