@@ -118,7 +118,7 @@ class ProtobufGenerator(
       }
       .outdent
       .add(s"""}
-              |object ${e.scalaType.nameSymbol} extends {
+              |object ${e.scalaType.nameSymbol} {
               |  @SerialVersionUID(0L)
               |  case object Empty extends ${e.scalaType.fullName} {
               |    type ValueType = _root_.scala.Nothing

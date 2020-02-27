@@ -232,7 +232,7 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     def structValue: _root_.scala.Option[com.google.protobuf.struct.Struct] = _root_.scala.None
     def listValue: _root_.scala.Option[com.google.protobuf.struct.ListValue] = _root_.scala.None
   }
-  object Kind extends {
+  object Kind {
     @SerialVersionUID(0L)
     case object Empty extends com.google.protobuf.struct.Value.Kind {
       type ValueType = _root_.scala.Nothing
