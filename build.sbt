@@ -368,7 +368,7 @@ lazy val compilerPlugin = project
     }.taskValue,
     libraryDependencies ++= Seq(
       "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
-      "com.thesamet.scalapb"   %% "protoc-bridge" % "0.7.14",
+      "com.thesamet.scalapb"   %% "protoc-bridge" % "0.8.0",
       "com.google.protobuf"    % "protobuf-java" % protobufCompilerVersion % "protobuf",
       ScalaTest                % "test",
       ProtocJar                % "test"
@@ -474,7 +474,7 @@ lazy val scalapbc = project
 
 lazy val protocGenScalaUnix = project
   .enablePlugins(AssemblyPlugin, GraalVMNativeImagePlugin)
-  .dependsOn(scalapbc)
+  .dependsOn(compilerPlugin)
   .settings(
     graalVMNativeImageOptions ++= Seq(
       "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
@@ -489,19 +489,19 @@ lazy val protocGenScalaUnix = project
       prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))
     ),
     skip in publish := true,
-    Compile / mainClass := Some("scalapb.scripts.ProtocGenScala")
+    Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
   )
 
 lazy val protocGenScalaWindows = project
   .enablePlugins(AssemblyPlugin)
-  .dependsOn(scalapbc)
+  .dependsOn(compilerPlugin)
   .settings(
     assemblyOption in assembly := (assemblyOption in
       assembly).value.copy(
       prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = false))
     ),
     skip in publish := true,
-    Compile / mainClass := Some("scalapb.scripts.ProtocGenScala")
+    Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
   )
 
 lazy val protocGenScala = project

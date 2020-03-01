@@ -3,11 +3,13 @@ package scalapb.compiler
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, DescriptorProtos, ByteString => GoogleByteString}
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
-import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.FieldOptions
 import scala.jdk.CollectionConverters._
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
+import protocbridge.codegen.CodeGenRequest
+import protocbridge.codegen.CodeGenResponse
 
 case class GeneratorParams(
     javaConversions: Boolean = false,
@@ -1772,45 +1774,28 @@ object ProtobufGenerator {
       }
   }
 
-  def getFileDescByName(request: CodeGeneratorRequest): Map[String, FileDescriptor] =
-    request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
-      case (acc, fp) =>
-        val deps = fp.getDependencyList.asScala.map(acc)
-        acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
-    }
-
-  def handleCodeGeneratorRequest(request: CodeGeneratorRequest): CodeGeneratorResponse = {
-    val b = CodeGeneratorResponse.newBuilder
-    parseParameters(request.getParameter) match {
+  def handleCodeGeneratorRequest(request: CodeGenRequest): CodeGenResponse = {
+    parseParameters(request.parameter) match {
       case Right(params) =>
         try {
-          val filesByName: Map[String, FileDescriptor] =
-            request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
-              case (acc, fp) =>
-                val deps = fp.getDependencyList.asScala.map(acc)
-                acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
-            }
-          val implicits = new DescriptorImplicits(params, filesByName.values.toVector)
+          val implicits = new DescriptorImplicits(params, request.allProtos)
           val generator = new ProtobufGenerator(params, implicits)
           val validator = new ProtoValidation(implicits)
-          validator.validateFiles(filesByName.values.toSeq)
+          validator.validateFiles(request.allProtos)
           import implicits.FileDescriptorPimp
-          request.getFileToGenerateList.asScala.foreach { name =>
-            val file = filesByName(name)
-            val responseFiles =
+          val files = request.filesToGenerate.flatMap { file =>
               if (file.scalaOptions.getSingleFile)
                 generator.generateSingleScalaFileForFileDescriptor(file)
               else generator.generateMultipleScalaFilesForFileDescriptor(file)
-            b.addAllFile(responseFiles.asJava)
           }
+          CodeGenResponse.succeed(files)
         } catch {
           case e: GeneratorException =>
-            b.setError(e.message)
+            CodeGenResponse.fail(e.message)
         }
       case Left(error) =>
-        b.setError(error)
+        CodeGenResponse.fail(error)
     }
-    b.build
   }
 
   def asScalaDocBlock(contentLines: Seq[String]): Seq[String] = {
