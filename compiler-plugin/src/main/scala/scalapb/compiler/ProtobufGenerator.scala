@@ -1784,9 +1784,9 @@ object ProtobufGenerator {
           validator.validateFiles(request.allProtos)
           import implicits.FileDescriptorPimp
           val files = request.filesToGenerate.flatMap { file =>
-              if (file.scalaOptions.getSingleFile)
-                generator.generateSingleScalaFileForFileDescriptor(file)
-              else generator.generateMultipleScalaFilesForFileDescriptor(file)
+            if (file.scalaOptions.getSingleFile)
+              generator.generateSingleScalaFileForFileDescriptor(file)
+            else generator.generateMultipleScalaFilesForFileDescriptor(file)
           }
           CodeGenResponse.succeed(files)
         } catch {
