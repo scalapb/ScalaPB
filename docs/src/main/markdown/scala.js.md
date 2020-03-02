@@ -31,7 +31,7 @@ recommended to work with the `compilerplugin-shaded` artifact. This artifact con
 this in your `project/scalapb.sbt` file instead of what described in the
 standard installation instructions:
 
-    addSbtPlugin("com.thesamet" % "sbt-protoc" % "{{site.data.version.sbt_protoc}}" exclude ("com.thesamet.scalapb", "protoc-bridge_2.10"))
+    addSbtPlugin("com.thesamet" % "sbt-protoc" % "{{site.data.version.sbt_protoc}}" exclude ("com.thesamet.scalapb", "protoc-bridge_2.12"))
 
     libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin-shaded" % "{{site.data.version.scalapb}}"
 
