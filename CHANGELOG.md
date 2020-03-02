@@ -1,6 +1,8 @@
 # Change Log
 
 ## [0.10.0](https://github.com/scalapb/ScalaPB/tree/v0.9.4..HEAD)
+- For SBT uses, sbt-protoc >= 0.99.28 is required.
+
 - BREAKING CHANGE: all messages are now preserving unknown fields by default.
   This results in an additional parameter to the case class. This may break
   your code if you are using pattern matching and expecting a specific number
