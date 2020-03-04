@@ -62,6 +62,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(
         s"def scalaDescriptor: _root_.scalapb.descriptors.ServiceDescriptor = ${service.scalaDescriptorSource}"
       )
+      .call(bindService)
       .outdent
       .add("}")
   }
@@ -87,6 +88,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
   private[this] val serverCalls = "_root_.io.grpc.stub.ServerCalls"
   private[this] val clientCalls = "_root_.scalapb.grpc.ClientCalls"
+
+  private[this] val serverServiceDef = "_root_.io.grpc.ServerServiceDefinition"
+  private[this] val executionContext = "executionContext"
 
   private[this] def clientMethodImpl(m: MethodDescriptor, blocking: Boolean) =
     PrinterEndo { p =>
@@ -202,8 +206,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
           case StreamType.Bidirectional   => s"$serverCalls.asyncBidiStreamingCall"
         }
 
-        val executionContext = "executionContext"
-        val serviceImpl      = "serviceImpl"
+        val serviceImpl = "serviceImpl"
 
         method.streamType match {
           case StreamType.Unary =>
@@ -237,9 +240,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   }
 
   private[this] val bindService = {
-    val executionContext = "executionContext"
-    val methods          = service.methods.map(addMethodImplementation)
-    val serverServiceDef = "_root_.io.grpc.ServerServiceDefinition"
+    val methods = service.methods.map(addMethodImplementation)
 
     PrinterEndo(
       _.add(
@@ -272,7 +273,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .newline
       .call(stub)
       .newline
-      .call(bindService)
+      .add(
+        s"""def bindService(serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef = ${service.name}.bindService(serviceImpl, executionContext)"""
+      )
       .newline
       .add(
         s"def blockingStub(channel: $channel): ${service.blockingStub} = new ${service.blockingStub}(channel)"

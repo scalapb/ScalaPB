@@ -83,3 +83,7 @@ service Service1 {
 
   rpc PrimitiveValues(google.protobuf.Int32Value) returns (google.protobuf.StringValue) {};
 }
+
+service Issue774 {
+  rpc ServerStreamingFan(Req3) returns (stream Res3) {}
+}

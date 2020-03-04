@@ -1,6 +1,8 @@
 package scalapb.grpc
 
 import com.google.protobuf.Descriptors.ServiceDescriptor
+import io.grpc.ServerServiceDefinition
+import scala.concurrent.ExecutionContext
 
 abstract class ServiceCompanion[A <: AbstractService] {
   @deprecated(
@@ -10,4 +12,8 @@ abstract class ServiceCompanion[A <: AbstractService] {
   def descriptor: ServiceDescriptor = javaDescriptor
 
   def javaDescriptor: ServiceDescriptor
+
+  def scalaDescriptor: scalapb.descriptors.ServiceDescriptor
+
+  def bindService(serviceImpl: A, executionContext: ExecutionContext): ServerServiceDefinition
 }
