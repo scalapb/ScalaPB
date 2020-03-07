@@ -50,6 +50,8 @@
 - ScalaPB runtime now depends on scala-collection-compat and is warning-free
   for both 2.12 and 2.13.
 
+- SparkSQL-scalapb: removed support for directly reading and writing Parquet file (outside Spark). It is still possible to load and save protobuf to parquet through converting them to dataframes in Spark. Reason of removal is what I perceive as low adoption due to getting no feedback. If you were relying on the ability to directly load and save protobufs to/from parquet, please let us know by filing a ticket.
+
 ## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.5)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.4...v0.9.5)
 - Fix a couple of cases of oneof naming conflicts. (#695)

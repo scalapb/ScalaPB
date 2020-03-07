@@ -16,7 +16,7 @@ In `build.sbt` add a dependency on `scalapb-json4s`:
 
 ```scala
 // For ScalaPB 0.10.x:
-libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.10.1-M1"
+libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.10.1"
 
 // For ScalaPB 0.9.x:
 libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.9.3"
