@@ -15,7 +15,7 @@ val protobufCompilerVersion = "3.7.1"
 
 val grpcVersion = "1.27.2"
 
-val MimaPreviousVersion = "0.9.0"
+val MimaPreviousVersion = "0.10.0"
 
 val ProtocJar = "com.github.os72" % "protoc-jar" % "3.11.1"
 
@@ -160,86 +160,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
       "-P:silencer:lineContentFilters=import scala.collection.compat._"
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
-    mimaBinaryIssueFilters ++= {
-      import com.typesafe.tools.mima.core._
-      Seq(
-        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils"),
-        ProblemFilters.exclude[MissingClassProblem]("scalapb.Utils$"),
-        // introduced in 2.12.9
-        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
-        // Added noBox
-        ProblemFilters.exclude[Problem]("scalapb.options.MessageOptions.*"),
-        ProblemFilters.exclude[Problem]("scalapb.options.Scalapb#MessageOptionsOrBuilder.*"),
-        // for no_default_values_in_constructor:
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasNoDefaultValuesInConstructor"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.ScalaPbOptions.*"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.hasEnumValueNaming"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.Scalapb#ScalaPbOptionsOrBuilder.getEnumValueNaming"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.hasScalaName"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.getScalaName"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.Scalapb#EnumValueOptionsOrBuilder.getScalaNameBytes"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "scalapb.options.EnumValueOptions.apply"
-        ),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.of"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.copy"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.this"),
-        ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.EnumValueOptions.of"),
-        ProblemFilters.exclude[DirectMissingMethodProblem](
-          "scalapb.options.EnumValueOptions.apply"
-        ),
-        // Added Recognized
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.descriptor.FieldDescriptorProto#Label.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.descriptor.FieldOptions#CType.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.descriptor.FieldOptions#JSType.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.descriptor.FieldDescriptorProto#Type.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.descriptor.FileOptions#OptimizeMode.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.descriptor.MethodOptions#IdempotencyLevel.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.struct.NullValue.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.type.Syntax.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.type.Field#Kind.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "com.google.protobuf.type.Field#Cardinality.asRecognized"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.ScalaPbOptions#OptionsScope.asRecognized"
-        )
-      )
-    }
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion)
   )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
@@ -305,10 +226,6 @@ lazy val grpcRuntime = project
     ),
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
-    ),
-    mimaBinaryIssueFilters ++= Seq(
-      // introduced in 2.12.9
-      ProblemFilters.exclude[IncompatibleSignatureProblem]("*")
     )
   )
 
@@ -374,36 +291,6 @@ lazy val compilerPlugin = project
       ProtocJar                % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
-    mimaBinaryIssueFilters ++= {
-      import com.typesafe.tools.mima.core._
-      Seq(
-        // introduced in 2.12.9
-        ProblemFilters.exclude[IncompatibleSignatureProblem]("*"),
-        ProblemFilters
-          .exclude[Problem]("scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.*"),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasNoDefaultValuesInConstructor"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getNoDefaultValuesInConstructor"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.hasEnumValueNaming"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.compiler.Scalapb#ScalaPbOptionsOrBuilder.getEnumValueNaming"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.hasScalaName"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.getScalaName"
-        ),
-        ProblemFilters.exclude[ReversedMissingMethodProblem](
-          "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.getScalaNameBytes"
-        )
-      )
-    },
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
@@ -555,15 +442,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
       "com.lihaoyi"            %%% "utest"                   % utestVersion % "test"
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
-    mimaBinaryIssueFilters ++= {
-      import com.typesafe.tools.mima.core._
-      Seq(
-        ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.lenses.Lens.setIfDefined"),
-        // introduced in 2.12.9
-        ProblemFilters.exclude[IncompatibleSignatureProblem]("*")
-      )
-    }
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
   .jsSettings(
     scalacOptions += {
