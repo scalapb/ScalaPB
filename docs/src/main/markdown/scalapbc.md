@@ -71,6 +71,10 @@ Coursier:
 
     bin/scalapbc --plugin-artifact=io.grpc:protoc-gen-grpc-java:1.27.2:default,classifier=linux-x86_64,ext=exe,type=jar -- e2e/src/main/protobuf/service.proto --grpc-java_out=/tmp/zvv -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
 
+or:
+
+    bin/scalapbc --plugin-artifact=com.thesamet.scalapb.zio-grpc:protoc-gen-zio:0.1.0:default,classifier=unix,ext=sh,type=jar -- e2e/src/main/protobuf/service.proto --zio_out=/tmp/zvv -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+
 bin/scalapbc --plugin-artifact=io.grpc:grpc-java:
 ## Using ScalaPB as a proper protoc plugin
 

@@ -5,6 +5,7 @@ import java.io.File
 import protocbridge.{ProtocBridge, ProtocCodeGenerator}
 import coursier.parse.DependencyParser
 import coursier.core.Configuration
+import com.github.ghik.silencer.silent
 
 case class Config(
     version: String = "-v" + scalapb.compiler.Version.protobufVersion,
@@ -59,6 +60,7 @@ object ScalaPBC {
       .cfg
   }
 
+  @silent("method right in class Either is deprecated")
   def main(args: Array[String]): Unit = {
     import coursier._
     val config = processArgs(args)
