@@ -344,7 +344,8 @@ lazy val scalapbc = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     libraryDependencies ++= Seq(
-      ProtocJar
+      ProtocJar,
+      "io.get-coursier" %% "coursier" % "2.0.0-RC6-10"
     ),
     /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
       * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the

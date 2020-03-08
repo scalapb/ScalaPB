@@ -1,6 +1,9 @@
 # Change Log
 
-## [0.10.0](https://github.com/scalapb/ScalaPB/tree/v0.9.4..HEAD)
+## [0.10.1](https://github.com/scalapb/ScalaPB/tree/v0.10.0..HEAD)
+- Add ScalaPBC support for fetching artifacts from maven.
+
+## [0.10.0](https://github.com/scalapb/ScalaPB/tree/v0.9.4..0.10.0)
 - For SBT uses, sbt-protoc >= 0.99.28 is required.
 
 - BREAKING CHANGE: all messages are now preserving unknown fields by default.

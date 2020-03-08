@@ -30,13 +30,13 @@ first command line argument:
 To generate Scala code, invoke ScalaPBC like this:
 
 ```bash
-./bin/scalapbc -v351 --scala_out=some/output/directory myproto.proto
+./bin/scalapbc -v3.5.1 --scala_out=some/output/directory myproto.proto
 ```
 
 To generate both Scala code and Java code along with Java conversions:
 
 ```bash
-./bin/scalapbc -v351 \
+./bin/scalapbc -v3.5.1 \
     --scala_out=java_conversions:some/output/directory \
     --java_out=some/output/directory \
     myproto.proto
@@ -64,6 +64,14 @@ The supported parameters are: `flat_package`, `java_conversions`, `grpc` and `si
 
 Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.html#additional-options-to-the-generator)
 
+## Loading additional generators from Maven
+
+ScalaPBC (starting version 0.10.1) can fetch generators from Maven using
+Coursier:
+
+    bin/scalapbc --plugin-artifact=io.grpc:protoc-gen-grpc-java:1.27.2:default,classifier=linux-x86_64,ext=exe,type=jar -- e2e/src/main/protobuf/service.proto --grpc-java_out=/tmp/zvv -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+
+bin/scalapbc --plugin-artifact=io.grpc:grpc-java:
 ## Using ScalaPB as a proper protoc plugin
 
 You may want to use ScalaPB code generator as a standard protoc plugin (rather
