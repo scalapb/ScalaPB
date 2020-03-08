@@ -69,11 +69,13 @@ Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.h
 ScalaPBC (starting version 0.10.1) can fetch generators from Maven using
 Coursier:
 
-    bin/scalapbc --plugin-artifact=io.grpc:protoc-gen-grpc-java:1.27.2:default,classifier=linux-x86_64,ext=exe,type=jar -- e2e/src/main/protobuf/service.proto --grpc-java_out=/tmp/zvv -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+    bin/scalapbc --plugin-artifact=io.grpc:protoc-gen-grpc-java:1.27.2:default,classifier=linux-x86_64,ext=exe,type=jar -- e2e/src/main/protobuf/service.proto --grpc-java_out=/tmp/out -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
 
-or:
+If you use zio-grpc, you can use the following command to generate services
+that use ZIO. This also generates ScalaPB case classes for messages and the
+GRPC descriptors that the generated ZIO code depends on.
 
-    bin/scalapbc --plugin-artifact=com.thesamet.scalapb.zio-grpc:protoc-gen-zio:0.1.0:default,classifier=unix,ext=sh,type=jar -- e2e/src/main/protobuf/service.proto --zio_out=/tmp/zvv -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+    bin/scalapbc --plugin-artifact=com.thesamet.scalapb.zio-grpc:protoc-gen-zio:0.1.0:default,classifier=unix,ext=sh,type=jar -- e2e/src/main/protobuf/service.proto --zio_out=/tmp/out --scala_out=grpc:/tmp/out -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
 
 bin/scalapbc --plugin-artifact=io.grpc:grpc-java:
 ## Using ScalaPB as a proper protoc plugin
