@@ -153,6 +153,18 @@ val protoDF: DataFrame = ProtoSQL.protoToDataFrame(spark, protoRDD)
 val protoDS: Dataset[Person] = spark.createDataset(protoRDD)
 ```
 
+## UDFs
+
+If you need to write a UDF that returns a message, it would not pick up our encoder and you may get a runtime failure.  To work around this, sparksql-scalapb provides `ProtoSQL.udf` to create UDFs. For example, if you need to parse a binary column into a proto:
+
+```scala mdoc
+val binaryDF = protosBinary.toDF("value")
+
+val parsePersons = ProtoSQL.udf { bytes: Array[Byte] => Person.parseFrom(bytes) }
+
+binaryDF.withColumn("person", parsePersons($"value"))
+```
+
 ## Datasets and `<none> is not a term`
 
 You will see this error if for some reason Spark's `Encoder`s are being picked up

@@ -474,7 +474,7 @@ lazy val docs = project
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.10.1",
-      "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.0",
+      "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.1",
       "org.apache.spark"     %% "spark-sql"        % "2.4.4",
       "com.lihaoyi"          %% "ujson"            % "0.9.0",
       "com.lihaoyi"          %% "os-lib"           % "0.5.0",
