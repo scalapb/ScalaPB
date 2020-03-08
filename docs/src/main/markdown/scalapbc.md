@@ -85,8 +85,8 @@ than using scalapbc as a wrapper or through SBT).
 
 For Linux and Mac OS X, you can download a native executable version of the plugin for Scala from our [release page](https://github.com/scalapb/ScalaPB/releases):
 
-* For Linux: [protoc-gen-scala-{site.data.version.scalapb}-linux-x86_64.zip](https://github.com/scalapb/ScalaPB/releases/download/v{site.data.version.scalapb}/protoc-gen-scala-{site.data.version.scalapb}-linux-x86_64.zip)
-* For OS X: [protoc-gen-scala-{site.data.version.scalapb}-osx-x86_64.zip](https://github.com/scalapb/ScalaPB/releases/download/v{site.data.version.scalapb}/protoc-gen-scala-{site.data.version.scalapb}-osx-x86_64.zip)
+* For Linux: [protoc-gen-scala-{{site.data.version.scalapb}}-linux-x86_64.zip](https://github.com/scalapb/ScalaPB/releases/download/v{{site.data.version.scalapb}}/protoc-gen-scala-{site.data.version.scalapb}-linux-x86_64.zip)
+* For OS X: [protoc-gen-scala-{{site.data.version.scalapb}}-osx-x86_64.zip](https://github.com/scalapb/ScalaPB/releases/download/v{{site.data.version.scalapb}}/protoc-gen-scala-{{site.data.version.scalapb}}-osx-x86_64.zip)
 
 Those zip files contain native executables of the plugin for the respective operating system built using GraalVM. If you are using another operating system (such as Windows), or prefer to use a JVM based plugin implementation, you will find in [scalapbc-{{site.data.version.scalapb}}.zip](https://github.com/scalapb/ScalaPB/releases/download/v{{site.data.version.scalapb}}/scalapbc-{{site.data.version.scalapb}}.zip) an executable named `bin/protoc-gen-scala` which requires a JVM to run (a JVM needs to be available on the path, or through the `JAVA_HOME` environment variable)
 
