@@ -4,10 +4,6 @@ import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
 
-val Scala212 = "2.12.10"
-
-val Scala213 = "2.13.1"
-
 // Different version for compiler-plugin since >=3.8.0 is not binary
 // compatible with 3.7.x. When loaded inside SBT (which has its own old
 // version), the binary incompatibility surfaces.
@@ -78,11 +74,10 @@ lazy val root: Project =
       scalapbc
     )
 
-// fastparse 2 is not available for Scala Native yet
-// https://github.com/lihaoyi/fastparse/issues/215
 lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .crossType(CrossType.Full)
   .in(file("scalapb-runtime"))
+  .dependsOn(lenses)
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
@@ -104,7 +99,6 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       ProblemFilters.exclude[DirectMissingMethodProblem]("*.of")
     )
   )
-  .dependsOn(lenses)
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
     libraryDependencies += protobufRuntimeScala.value,
     (Compile / unmanagedSourceDirectories) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
@@ -131,15 +125,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     )
   )
   .jsSettings(
-    // Add JS-specific settings here
-    scalacOptions += {
-      val a = (baseDirectory in LocalRootProject).value.toURI.toString
-      val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process
-        .Process("git rev-parse HEAD")
-        .lineStream_!
-        .head
-      s"-P:scalajs:mapSourceURI:$a->$g/"
-    },
+    scalajsSourceMaps,
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../../third_party"
   )
 /*
@@ -319,14 +305,7 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
   .jsSettings(
-    scalacOptions += {
-      val a = (baseDirectory in LocalRootProject).value.toURI.toString
-      val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process
-        .Process("git rev-parse HEAD")
-        .lineStream_!
-        .head
-      s"-P:scalajs:mapSourceURI:$a->$g/"
-    }
+    scalajsSourceMaps
   )
 /*
   .nativeSettings(
@@ -337,6 +316,65 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
 lazy val lensesJVM = lenses.jvm
 lazy val lensesJS  = lenses.js
 //lazy val lensesNative = lenses.native
+
+val e2eCommonSettings = Seq(
+  useCoursier := true,
+  skip in publish := true,
+  javacOptions ++= Seq("-Xlint:deprecation"),
+  libraryDependencies ++= Seq(
+    grpcNetty,
+    grpcProtobuf,
+    grpcServices,
+    grpcServices % "protobuf",
+    annotationApi,
+    grpcProtocGen asProtocPlugin,
+    scalaTest               % "test",
+    scalaTestPlusScalaCheck % "test"
+  ),
+  Compile / PB.recompile := true // always regenerate protos, not cache
+)
+
+lazy val e2e = (project in file("e2e"))
+  .dependsOn(runtimeJVM)
+  .dependsOn(grpcRuntime)
+  .settings(e2eCommonSettings)
+  .settings(
+    scalacOptions ++= Seq(
+      "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
+      "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala",
+      "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
+    ),
+    Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
+    Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
+    Compile / PB.protocVersion := "-v" + versions.protobuf,
+    Compile / PB.targets := Seq(
+      PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
+      (
+        PB.gens.plugin(
+          "scalapb",
+          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
+        ),
+        Seq("grpc", "java_conversions")
+      )                           -> (Compile / sourceManaged).value,
+      PB.gens.plugin("grpc-java") -> (Compile / sourceManaged).value
+    )
+  )
+
+lazy val e2eNoJava = (project in file("e2e-nojava"))
+  .dependsOn(runtimeJVM)
+  .settings(e2eCommonSettings)
+  .settings(
+    Compile / PB.protocVersion := "-v" + versions.protobuf,
+    Compile / PB.targets := Seq(
+      (
+        PB.gens.plugin(
+          "scalapb",
+          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
+        ),
+        Seq()
+      ) -> (Compile / sourceManaged).value
+    )
+  )
 
 lazy val docs = project
   .in(file("docs"))
@@ -383,66 +421,5 @@ lazy val docs = project
     ghpagesBranch := "master",
     includeFilter in ghpagesCleanSite := GlobFilter(
       (ghpagesRepository.value / "README.md").getCanonicalPath
-    )
-  )
-
-val e2eCommonSettings = Seq(
-  // https://github.com/thesamet/sbt-protoc/issues/104
-  useCoursier := false,
-  skip in publish := true,
-  javacOptions ++= Seq("-Xlint:deprecation"),
-  libraryDependencies ++= Seq(
-    grpcNetty,
-    grpcProtobuf,
-    grpcServices,
-    grpcServices % "protobuf",
-    annotationApi,
-    grpcProtocGen asProtocPlugin,
-    scalaTest               % "test",
-    scalaTestPlusScalaCheck % "test"
-  ),
-  Test / fork := true,           // For https://github.com/scala/bug/issues/9237
-  Compile / PB.recompile := true // always regenerate protos, not cache
-)
-
-lazy val e2e = (project in file("e2e"))
-  .dependsOn(runtimeJVM)
-  .dependsOn(grpcRuntime)
-  .settings(e2eCommonSettings)
-  .settings(
-    scalacOptions ++= Seq(
-      "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
-      "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala",
-      "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-    ),
-    Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
-    Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
-    Compile / PB.targets := Seq(
-      PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
-      (
-        PB.gens.plugin(
-          "scalapb",
-          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
-        ),
-        Seq("grpc", "java_conversions")
-      )                           -> (Compile / sourceManaged).value,
-      PB.gens.plugin("grpc-java") -> (Compile / sourceManaged).value
-    )
-  )
-
-lazy val e2eNoJava = (project in file("e2e-nojava"))
-  .dependsOn(runtimeJVM)
-  .settings(e2eCommonSettings)
-  .settings(
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
-    Compile / PB.targets := Seq(
-      (
-        PB.gens.plugin(
-          "scalapb",
-          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
-        ),
-        Seq()
-      ) -> (Compile / sourceManaged).value
     )
   )

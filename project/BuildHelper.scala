@@ -119,4 +119,12 @@ object BuildHelper {
     ) ++ addArtifact(artifact in (Compile, packageBin), assembly),
   }
 
+  val scalajsSourceMaps = scalacOptions += {
+    val a = (baseDirectory in LocalRootProject).value.toURI.toString
+    val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process
+      .Process("git rev-parse HEAD")
+      .lineStream_!
+      .head
+    s"-P:scalajs:mapSourceURI:$a->$g/"
+  }
 }

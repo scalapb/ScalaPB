@@ -23,6 +23,10 @@ object Dependencies {
     val annotationApi           = "1.3.2"
   }
 
+  val Scala212 = "2.12.10"
+
+  val Scala213 = "2.13.1"
+
   val silencer = Seq(
     sbt.compilerPlugin(
       "com.github.ghik" % "silencer-plugin" % versions.silencer cross CrossVersion.full
