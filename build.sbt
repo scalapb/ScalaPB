@@ -1,94 +1,33 @@
 import ReleaseTransformations._
 import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 import com.typesafe.tools.mima.core._
+import BuildHelper._
+import Dependencies._
 
 val Scala212 = "2.12.10"
 
 val Scala213 = "2.13.1"
-
-val protobufVersion = "3.11.4"
 
 // Different version for compiler-plugin since >=3.8.0 is not binary
 // compatible with 3.7.x. When loaded inside SBT (which has its own old
 // version), the binary incompatibility surfaces.
 val protobufCompilerVersion = "3.7.1"
 
-val grpcVersion = "1.28.0"
-
 val MimaPreviousVersion = "0.10.0"
 
-val ProtocJar = "com.github.os72" % "protoc-jar" % "3.11.1"
-
-val ScalaTest = "org.scalatest" %% "scalatest" % "3.1.1"
-
-val ScalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % "3.1.1.1"
-
-val ScalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % "3.1.0.0"
-
-val utestVersion = "0.7.4"
-
-val fastparseVersion = "2.2.4"
-
-val silencerVersion = "1.6.0"
-
-val collectionCompatVersion = "2.1.4"
-
-ThisBuild / scalaVersion := Scala212
-
-ThisBuild / crossScalaVersions := Seq(Scala212, Scala213)
-
-ThisBuild / scalacOptions ++= Seq(
-  "-deprecation",
-  "-target:jvm-1.8",
-  "-feature",
-  "-Xfatal-warnings",
-  "-explaintypes",
-  "-Xlint:adapted-args",           // Warn if an argument list is modified to match the receiver.
-  "-Xlint:constant",               // Evaluation of a constant arithmetic expression results in an error.
-  "-Xlint:delayedinit-select",     // Selecting member of DelayedInit.
-  "-Xlint:doc-detached",           // A Scaladoc comment appears to be detached from its element.
-  "-Xlint:inaccessible",           // Warn about inaccessible types in method signatures.
-  "-Xlint:infer-any",              // Warn when a type argument is inferred to be `Any`.
-  "-Xlint:missing-interpolator",   // A string literal appears to be missing an interpolator id.
-  "-Xlint:nullary-override",       // Warn when non-nullary `def f()' overrides nullary `def f'.
-  "-Xlint:nullary-unit",           // Warn when nullary methods return Unit.
-  "-Xlint:option-implicit",        // Option.apply used implicit view.
-  "-Xlint:package-object-classes", // Class or object defined in package object.
-  "-Xlint:poly-implicit-overload", // Parameterized overloaded implicit methods are not visible as view bounds.
-  "-Xlint:private-shadow",         // A private field (or class parameter) shadows a superclass field.
-  "-Xlint:stars-align",            // Pattern sequence wildcard must align with sequence component.
-  "-Xlint:type-parameter-shadow",  // A local type parameter shadows a type already in scope.
-  "-Ywarn-dead-code",              // Warn when dead code is identified.
-  "-Ywarn-extra-implicit",         // Warn when more than one implicit parameter section is defined.
-  "-Ywarn-numeric-widen",          // Warn when numerics are widened.
-  "-Ywarn-unused:implicits",       // Warn if an implicit parameter is unused.
-  "-Ywarn-unused:imports",         // Warn if an import selector is not referenced.
-  "-Ywarn-unused:locals",          // Warn if a local definition is unused.
-  "-Ywarn-unused:params",          // Warn if a value parameter is unused.
-  "-Ywarn-unused:patvars",         // Warn if a variable bound in a pattern is unused.
-  "-Ywarn-unused:privates",        // Warn if a private member is unused.
-  "-Ywarn-value-discard",          // Warn when non-Unit expression results are unused.
-  "-Ybackend-parallelism",
-  "8",                                         // Enable paralellisation — change to desired number!
-  "-Ycache-plugin-class-loader:last-modified", // Enables caching of classloaders for compiler plugins
-  "-Ycache-macro-class-loader:last-modified"   // and macro definitions. This can lead to performance improvements.
+inThisBuild(
+  List(
+    scalaVersion := Scala212,
+    crossScalaVersions := Seq(Scala212, Scala213),
+    scalacOptions ++= BuildHelper.compilerOptions,
+    javacOptions ++= List("-target", "8", "-source", "8"),
+    organization := "com.thesamet.scalapb",
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    libraryDependencies ++= silencer
+  )
 )
-
-ThisBuild / javacOptions ++= List("-target", "8", "-source", "8")
-
-ThisBuild / organization := "com.thesamet.scalapb"
-
-ThisBuild / resolvers +=
-  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
 ThisBuild / publishTo := sonatypePublishToBundle.value
-
-ThisBuild / libraryDependencies ++= Seq(
-  sbt.compilerPlugin(
-    "com.github.ghik" % "silencer-plugin" % silencerVersion cross CrossVersion.full
-  ),
-  "com.github.ghik" % "silencer-lib" % silencerVersion % Provided cross CrossVersion.full
-)
 
 releaseCrossBuild := true
 
@@ -147,12 +86,12 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
-      "com.lihaoyi"            %%% "fastparse"               % fastparseVersion,
-      "com.google.protobuf"    % "protobuf-java"             % protobufVersion % "protobuf",
-      "com.lihaoyi"            %%% "utest"                   % utestVersion % "test",
-      "commons-codec"          % "commons-codec"             % "1.14" % "test",
-      "com.google.protobuf"    % "protobuf-java-util"        % protobufVersion % "test"
+      scalaCollectionCompat.value,
+      fastparse.value,
+      protobufJava     % "protobuf",
+      utest.value      % "test",
+      commonsCodec     % "test",
+      protobufJavaUtil % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../../protobuf",
@@ -167,17 +106,15 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
-    libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % "0.8.4"
-    ),
+    libraryDependencies += protobufRuntimeScala.value,
     (Compile / unmanagedSourceDirectories) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
   )
   .jvmSettings(
     // Add JVM-specific settings here
     libraryDependencies ++= Seq(
-      "com.google.protobuf"   % "protobuf-java" % protobufVersion,
-      ScalaTest               % "test",
-      ScalaTestPlusScalaCheck % "test"
+      protobufJava,
+      scalaTest               % "test",
+      scalaTestPlusScalaCheck % "test"
     ),
     // Can be removed after JDK 11.0.3 is available on Travis
     Test / javaOptions ++= (
@@ -186,9 +123,9 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       else Nil
     ),
     Compile / PB.targets ++= Seq(
-      PB.gens.java(protobufVersion) -> (Compile / sourceManaged).value
+      PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
     ),
-    Compile / PB.protocVersion := "-v" + protobufVersion,
+    Compile / PB.protocVersion := "-v" + versions.protobuf,
     Compile / PB.protoSources := Seq(
       baseDirectory.value / ".." / ".." / "protobuf"
     )
@@ -221,77 +158,27 @@ lazy val grpcRuntime = project
   .settings(
     name := "scalapb-runtime-grpc",
     libraryDependencies ++= Seq(
-      "io.grpc"            % "grpc-stub" % grpcVersion,
-      "io.grpc"            % "grpc-protobuf" % grpcVersion,
-      ScalaTest            % "test",
-      ScalaTestPlusMockito % "test",
-      "org.mockito"        % "mockito-core" % "3.2.0" % "test"
+      grpcStub,
+      grpcProtobuf,
+      scalaTest            % "test",
+      scalaTestPlusMockito % "test",
+      mockitoCore          % "test"
     ),
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
     )
   )
 
-val shadeTarget = settingKey[String]("Target to use when shading")
-
-shadeTarget in ThisBuild := s"scalapbshade.v${version.value.replaceAll("[.-]", "_")}.@0"
-
-val scalapbProtoPackageReplaceTask =
-  TaskKey[Unit]("scalapb-proto-package-replace", "Replaces package name in scalapb.proto")
-
 lazy val compilerPlugin = project
   .in(file("compiler-plugin"))
   .settings(
     crossScalaVersions := Seq(Scala212, Scala213),
-    Compile / sourceGenerators += Def.task {
-      val file = (Compile / sourceManaged).value / "scalapb" / "compiler" / "Version.scala"
-      IO.write(
-        file,
-        s"""package scalapb.compiler
-           |object Version {
-           |  val scalapbVersion = "${version.value}"
-           |  val protobufVersion = "${protobufVersion}"
-           |  val grpcJavaVersion = "${grpcVersion}"
-           |}""".stripMargin
-      )
-      Seq(file)
-    }.taskValue,
-    scalapbProtoPackageReplaceTask := {
-      /*
-       SBT 1.x depends on scalapb-runtime which contains a compiled copy of
-       scalapb.proto.  When the compiler plugin is loaded into SBT it may cause a
-       conflict. To prevent that, we use a different package name for the generated
-       code for the compiler-plugin.  In the past, we used shading for this
-       purpose, but this makes it harder to create more protoc plugins that depend
-       on compiler-plugin.
-       */
-      streams.value.log
-        .info(s"Generating scalapb.proto with package replaced to scalapb.options.compiler.")
-      val src  = baseDirectory.value / ".." / "protobuf" / "scalapb" / "scalapb.proto"
-      val dest = (Compile / resourceManaged).value / "protobuf" / "scalapb" / "scalapb.proto"
-      val s    = IO.read(src).replace("scalapb.options", "scalapb.options.compiler")
-      IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
-      Seq(dest)
-    },
-    Compile / PB.generate := {
-      scalapbProtoPackageReplaceTask.value
-      (Compile / PB.generate).value
-    },
-    Compile / sourceGenerators += Def.task {
-      val src =
-        baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
-      val dest =
-        (Compile / sourceManaged).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
-      val s = IO.read(src).replace("package scalapb", "package scalapb.internal")
-      IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
-      Seq(dest)
-    }.taskValue,
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
-      "com.thesamet.scalapb"   %% "protoc-bridge" % "0.8.0",
-      "com.google.protobuf"    % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      ScalaTest                % "test",
-      ProtocJar                % "test"
+      scalaCollectionCompat.value,
+      protocBridge,
+      "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
+      scalaTest             % "test",
+      protocJar             % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
@@ -305,7 +192,10 @@ lazy val compilerPlugin = project
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
-    Compile / PB.protoSources := Seq((Compile / resourceManaged).value / "protobuf")
+    Compile / PB.protoSources := Seq((Compile / resourceManaged).value / "protobuf"),
+    Compiler.generateVersionFile,
+    Compiler.generateEncodingFile,
+    Compiler.shadeProtoBeforeGenerate
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
@@ -318,34 +208,7 @@ lazy val compilerPluginShaded = project
   .settings(
     name := "compilerplugin-shaded",
     crossScalaVersions := Seq(Scala212, Scala213),
-    assemblyShadeRules in assembly := Seq(
-      ShadeRule.rename("scalapb.options.Scalapb**" -> shadeTarget.value).inProject,
-      ShadeRule.rename("com.google.**"             -> shadeTarget.value).inAll
-    ),
-    assemblyExcludedJars in assembly := {
-      val toInclude = Seq(
-        "protobuf-java",
-        "protoc-bridge"
-      )
-
-      (fullClasspath in assembly).value.filterNot { c =>
-        toInclude.exists(prefix => c.data.getName.startsWith(prefix))
-      }
-    },
-    artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value,
-    addArtifact(artifact in (Compile, packageBin), assembly),
-    pomPostProcess := { (node: scala.xml.Node) =>
-      new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
-        override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
-          case e: scala.xml.Elem
-              if e.label == "dependency" && e.child.exists(child =>
-                child.label == "artifactId" && child.text.startsWith("compilerplugin")
-              ) =>
-            scala.xml.Comment(s"compilerplugin has been removed.")
-          case _ => node
-        }
-      }).transform(node).head
-    }
+    Compiler.shadedLibSettings
   )
 
 lazy val scalapbc = project
@@ -354,8 +217,8 @@ lazy val scalapbc = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     libraryDependencies ++= Seq(
-      ProtocJar,
-      "io.get-coursier" %% "coursier" % "2.0.0-RC6-10"
+      coursier,
+      protocJar
     ),
     /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
       * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the
@@ -427,12 +290,12 @@ lazy val proptest = project
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
-      ProtocJar,
-      "com.google.protobuf"   % "protobuf-java" % protobufVersion,
-      "io.grpc"               % "grpc-netty" % grpcVersion % "test",
-      "io.grpc"               % "grpc-protobuf" % grpcVersion % "test",
-      ScalaTest               % "test",
-      ScalaTestPlusScalaCheck % "test"
+      protocJar,
+      protobufJava,
+      grpcNetty               % "test",
+      grpcProtobuf            % "test",
+      scalaTest               % "test",
+      scalaTestPlusScalaCheck % "test"
     ),
     libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
     Test / fork := true,
@@ -450,8 +313,8 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     name := "lenses",
     testFrameworks += new TestFramework("utest.runner.Framework"),
     libraryDependencies ++= Seq(
-      "org.scala-lang.modules" %%% "scala-collection-compat" % collectionCompatVersion,
-      "com.lihaoyi"            %%% "utest"                   % utestVersion % "test"
+      scalaCollectionCompat.value,
+      utest.value % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
@@ -529,15 +392,15 @@ val e2eCommonSettings = Seq(
   skip in publish := true,
   javacOptions ++= Seq("-Xlint:deprecation"),
   libraryDependencies ++= Seq(
-    ScalaTest               % "test",
-    ScalaTestPlusScalaCheck % "test",
-    "io.grpc"               % "grpc-netty" % grpcVersion, //netty transport of grpc
-    "io.grpc"               % "grpc-protobuf" % grpcVersion, //protobuf message encoding for java implementation
-    "io.grpc"               % "grpc-services" % grpcVersion,
-    "io.grpc"               % "grpc-services" % grpcVersion % "protobuf",
-    "javax.annotation"      % "javax.annotation-api" % "1.3.2" // needed for grpc-java on JDK9
+    grpcNetty,
+    grpcProtobuf,
+    grpcServices,
+    grpcServices % "protobuf",
+    annotationApi,
+    grpcProtocGen asProtocPlugin,
+    scalaTest               % "test",
+    scalaTestPlusScalaCheck % "test"
   ),
-  libraryDependencies += ("io.grpc" % "protoc-gen-grpc-java" % grpcVersion) asProtocPlugin (),
   Test / fork := true,           // For https://github.com/scala/bug/issues/9237
   Compile / PB.recompile := true // always regenerate protos, not cache
 )
@@ -554,9 +417,9 @@ lazy val e2e = (project in file("e2e"))
     ),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
-    Compile / PB.protocVersion := "-v" + protobufVersion,
+    Compile / PB.protocVersion := "-v" + versions.protobuf,
     Compile / PB.targets := Seq(
-      PB.gens.java(protobufVersion) -> (Compile / sourceManaged).value,
+      PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
       (
         PB.gens.plugin(
           "scalapb",
@@ -572,7 +435,7 @@ lazy val e2eNoJava = (project in file("e2e-nojava"))
   .dependsOn(runtimeJVM)
   .settings(e2eCommonSettings)
   .settings(
-    Compile / PB.protocVersion := "-v" + protobufVersion,
+    Compile / PB.protocVersion := "-v" + versions.protobuf,
     Compile / PB.targets := Seq(
       (
         PB.gens.plugin(
