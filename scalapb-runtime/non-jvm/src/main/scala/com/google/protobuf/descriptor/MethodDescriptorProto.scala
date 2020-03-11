@@ -240,15 +240,13 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     outputType: _root_.scala.Option[_root_.scala.Predef.String],
     options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions],
     clientStreaming: _root_.scala.Option[_root_.scala.Boolean],
-    serverStreaming: _root_.scala.Option[_root_.scala.Boolean],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    serverStreaming: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = _root_.com.google.protobuf.descriptor.MethodDescriptorProto(
     name,
     inputType,
     outputType,
     options,
     clientStreaming,
-    serverStreaming,
-    unknownFields
+    serverStreaming
   )
 }

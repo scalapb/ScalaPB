@@ -835,12 +835,10 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     final val OPTIONS_FIELD_NUMBER = 2
     def of(
       target: _root_.scala.Option[_root_.scala.Predef.String],
-      options: _root_.scala.Option[scalapb.options.MessageOptions],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      options: _root_.scala.Option[scalapb.options.MessageOptions]
     ): _root_.scalapb.options.ScalaPbOptions.AuxMessageOptions = _root_.scalapb.options.ScalaPbOptions.AuxMessageOptions(
       target,
-      options,
-      unknownFields
+      options
     )
   }
   
@@ -983,12 +981,10 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     final val OPTIONS_FIELD_NUMBER = 2
     def of(
       target: _root_.scala.Option[_root_.scala.Predef.String],
-      options: _root_.scala.Option[scalapb.options.FieldOptions],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      options: _root_.scala.Option[scalapb.options.FieldOptions]
     ): _root_.scalapb.options.ScalaPbOptions.AuxFieldOptions = _root_.scalapb.options.ScalaPbOptions.AuxFieldOptions(
       target,
-      options,
-      unknownFields
+      options
     )
   }
   
@@ -1131,12 +1127,10 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     final val OPTIONS_FIELD_NUMBER = 2
     def of(
       target: _root_.scala.Option[_root_.scala.Predef.String],
-      options: _root_.scala.Option[scalapb.options.EnumOptions],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      options: _root_.scala.Option[scalapb.options.EnumOptions]
     ): _root_.scalapb.options.ScalaPbOptions.AuxEnumOptions = _root_.scalapb.options.ScalaPbOptions.AuxEnumOptions(
       target,
-      options,
-      unknownFields
+      options
     )
   }
   
@@ -1225,8 +1219,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     auxFieldOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions],
     auxEnumOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions],
     bytesType: _root_.scala.Option[_root_.scala.Predef.String],
-    testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
     flatPackage,
@@ -1249,7 +1242,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     auxFieldOptions,
     auxEnumOptions,
     bytesType,
-    testOnlyNoJavaConversions,
-    unknownFields
+    testOnlyNoJavaConversions
   )
 }

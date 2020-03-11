@@ -122,10 +122,8 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
   }
   final val FILE_NAME_FIELD_NUMBER = 1
   def of(
-    fileName: _root_.scala.Predef.String,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    fileName: _root_.scala.Predef.String
   ): _root_.com.google.protobuf.source_context.SourceContext = _root_.com.google.protobuf.source_context.SourceContext(
-    fileName,
-    unknownFields
+    fileName
   )
 }

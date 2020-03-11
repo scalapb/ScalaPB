@@ -158,12 +158,10 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
   def of(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
     companionExtends: _root_.scala.Seq[_root_.scala.Predef.String],
-    `type`: _root_.scala.Option[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    `type`: _root_.scala.Option[_root_.scala.Predef.String]
   ): _root_.scalapb.options.EnumOptions = _root_.scalapb.options.EnumOptions(
     `extends`,
     companionExtends,
-    `type`,
-    unknownFields
+    `type`
   )
 }

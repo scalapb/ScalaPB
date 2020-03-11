@@ -126,10 +126,8 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   }
   final val VALUES_FIELD_NUMBER = 1
   def of(
-    values: _root_.scala.Seq[com.google.protobuf.struct.Value],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    values: _root_.scala.Seq[com.google.protobuf.struct.Value]
   ): _root_.com.google.protobuf.struct.ListValue = _root_.com.google.protobuf.struct.ListValue(
-    values,
-    unknownFields
+    values
   )
 }

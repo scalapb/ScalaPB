@@ -110,10 +110,8 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
   }
   final val MY_ANY_FIELD_NUMBER = 1
   def of(
-    myAny: _root_.scala.Option[com.google.protobuf.any.Any],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    myAny: _root_.scala.Option[com.google.protobuf.any.Any]
   ): _root_.com.thesamet.docs.json.MyContainer = _root_.com.thesamet.docs.json.MyContainer(
-    myAny,
-    unknownFields
+    myAny
   )
 }

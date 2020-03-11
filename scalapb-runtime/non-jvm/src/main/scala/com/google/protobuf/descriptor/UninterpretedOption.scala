@@ -368,12 +368,10 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     final val IS_EXTENSION_FIELD_NUMBER = 2
     def of(
       namePart: _root_.scala.Predef.String,
-      isExtension: _root_.scala.Boolean,
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      isExtension: _root_.scala.Boolean
     ): _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart = _root_.com.google.protobuf.descriptor.UninterpretedOption.NamePart(
       namePart,
-      isExtension,
-      unknownFields
+      isExtension
     )
   }
   
@@ -406,8 +404,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     negativeIntValue: _root_.scala.Option[_root_.scala.Long],
     doubleValue: _root_.scala.Option[_root_.scala.Double],
     stringValue: _root_.scala.Option[_root_.com.google.protobuf.ByteString],
-    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    aggregateValue: _root_.scala.Option[_root_.scala.Predef.String]
   ): _root_.com.google.protobuf.descriptor.UninterpretedOption = _root_.com.google.protobuf.descriptor.UninterpretedOption(
     name,
     identifierValue,
@@ -415,7 +412,6 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     negativeIntValue,
     doubleValue,
     stringValue,
-    aggregateValue,
-    unknownFields
+    aggregateValue
   )
 }

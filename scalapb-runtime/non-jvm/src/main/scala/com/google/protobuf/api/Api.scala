@@ -327,8 +327,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     version: _root_.scala.Predef.String,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin],
-    syntax: com.google.protobuf.`type`.Syntax,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    syntax: com.google.protobuf.`type`.Syntax
   ): _root_.com.google.protobuf.api.Api = _root_.com.google.protobuf.api.Api(
     name,
     methods,
@@ -336,7 +335,6 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     version,
     sourceContext,
     mixins,
-    syntax,
-    unknownFields
+    syntax
   )
 }

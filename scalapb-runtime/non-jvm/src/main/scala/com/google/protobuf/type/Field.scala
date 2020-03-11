@@ -696,8 +696,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     packed: _root_.scala.Boolean,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     jsonName: _root_.scala.Predef.String,
-    defaultValue: _root_.scala.Predef.String,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    defaultValue: _root_.scala.Predef.String
   ): _root_.com.google.protobuf.`type`.Field = _root_.com.google.protobuf.`type`.Field(
     kind,
     cardinality,
@@ -708,7 +707,6 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     packed,
     options,
     jsonName,
-    defaultValue,
-    unknownFields
+    defaultValue
   )
 }

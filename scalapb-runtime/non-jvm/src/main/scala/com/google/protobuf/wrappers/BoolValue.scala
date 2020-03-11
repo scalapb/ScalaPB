@@ -114,10 +114,8 @@ object BoolValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.w
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.scala.Boolean,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    value: _root_.scala.Boolean
   ): _root_.com.google.protobuf.wrappers.BoolValue = _root_.com.google.protobuf.wrappers.BoolValue(
-    value,
-    unknownFields
+    value
   )
 }

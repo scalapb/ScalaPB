@@ -122,10 +122,8 @@ object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.com.google.protobuf.ByteString,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    value: _root_.com.google.protobuf.ByteString
   ): _root_.com.google.protobuf.wrappers.BytesValue = _root_.com.google.protobuf.wrappers.BytesValue(
-    value,
-    unknownFields
+    value
   )
 }

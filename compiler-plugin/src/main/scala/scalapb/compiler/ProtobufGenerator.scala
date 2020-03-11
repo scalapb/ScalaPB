@@ -728,16 +728,8 @@ class ProtobufGenerator(
     }
     val maybeUnknownFields =
       if (message.preservesUnknownFields)
-        Seq(
-          ConstructorField(
-            name = "unknownFields",
-            typeName = "_root_.scalapb.UnknownFieldSet",
-            default = Some("_root_.scalapb.UnknownFieldSet.empty"),
-            index = Int.MaxValue
-          )
-        )
-      else
-        Seq()
+        Seq(ConstructorField.UnknownFields)
+      else Seq()
 
     (regularFields ++ oneOfFields ++ maybeUnknownFields).sortBy(_.index)
   }
@@ -946,7 +938,7 @@ class ProtobufGenerator(
   def generateNoDefaultArgsFactory(
       message: Descriptor
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-    val fields = constructorFields(message)
+    val fields = constructorFields(message).filterNot(_ == ConstructorField.UnknownFields)
 
     printer
       .add(
@@ -1495,8 +1487,8 @@ class ProtobufGenerator(
       }
       .when(message.preservesUnknownFields)(
         _.add(
-          """def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
-            |def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)""".stripMargin
+          s"""def withUnknownFields(__v: ${C.UnknownFieldSet}) = copy(unknownFields = __v)
+             |def discardUnknownFields = copy(unknownFields = ${C.UnknownFieldSetEmpty})""".stripMargin
         )
       )
       .call(generateGetField(message))
@@ -1748,7 +1740,9 @@ class ProtobufGenerator(
 }
 
 private[this] object C {
-  val None = "_root_.scala.None"
+  val None                 = "_root_.scala.None"
+  val UnknownFieldSet      = "_root_.scalapb.UnknownFieldSet"
+  val UnknownFieldSetEmpty = "_root_.scalapb.UnknownFieldSet.empty"
 }
 
 object ProtobufGenerator {

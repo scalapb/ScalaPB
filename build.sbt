@@ -160,7 +160,10 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
       "-P:silencer:lineContentFilters=import scala.collection.compat._"
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion)
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
+    mimaBinaryIssueFilters ++= Seq(
+      ProblemFilters.exclude[DirectMissingMethodProblem]("*.of")
+    )
   )
   .dependsOn(lenses)
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
@@ -291,6 +294,13 @@ lazy val compilerPlugin = project
       ProtocJar                % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
+    mimaBinaryIssueFilters := Seq(
+      ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.ConstructorField$"),
+      ProblemFilters
+        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.tupled"),
+      ProblemFilters
+        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.curried")
+    ),
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"

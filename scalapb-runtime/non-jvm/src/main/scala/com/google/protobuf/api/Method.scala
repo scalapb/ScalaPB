@@ -305,8 +305,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseTypeUrl: _root_.scala.Predef.String,
     responseStreaming: _root_.scala.Boolean,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
-    syntax: com.google.protobuf.`type`.Syntax,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    syntax: com.google.protobuf.`type`.Syntax
   ): _root_.com.google.protobuf.api.Method = _root_.com.google.protobuf.api.Method(
     name,
     requestTypeUrl,
@@ -314,7 +313,6 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseTypeUrl,
     responseStreaming,
     options,
-    syntax,
-    unknownFields
+    syntax
   )
 }

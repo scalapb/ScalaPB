@@ -464,15 +464,13 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       span: _root_.scala.Seq[_root_.scala.Int],
       leadingComments: _root_.scala.Option[_root_.scala.Predef.String],
       trailingComments: _root_.scala.Option[_root_.scala.Predef.String],
-      leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String]
     ): _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location = _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location(
       path,
       span,
       leadingComments,
       trailingComments,
-      leadingDetachedComments,
-      unknownFields
+      leadingDetachedComments
     )
   }
   
@@ -481,10 +479,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   }
   final val LOCATION_FIELD_NUMBER = 1
   def of(
-    location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]
   ): _root_.com.google.protobuf.descriptor.SourceCodeInfo = _root_.com.google.protobuf.descriptor.SourceCodeInfo(
-    location,
-    unknownFields
+    location
   )
 }

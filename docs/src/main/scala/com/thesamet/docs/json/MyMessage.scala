@@ -107,10 +107,8 @@ object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.jso
   }
   final val X_FIELD_NUMBER = 1
   def of(
-    x: _root_.scala.Int,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    x: _root_.scala.Int
   ): _root_.com.thesamet.docs.json.MyMessage = _root_.com.thesamet.docs.json.MyMessage(
-    x,
-    unknownFields
+    x
   )
 }

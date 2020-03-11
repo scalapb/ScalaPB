@@ -265,15 +265,13 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     oneofs: _root_.scala.Seq[_root_.scala.Predef.String],
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
-    syntax: com.google.protobuf.`type`.Syntax,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    syntax: com.google.protobuf.`type`.Syntax
   ): _root_.com.google.protobuf.`type`.Type = _root_.com.google.protobuf.`type`.Type(
     name,
     fields,
     oneofs,
     options,
     sourceContext,
-    syntax,
-    unknownFields
+    syntax
   )
 }

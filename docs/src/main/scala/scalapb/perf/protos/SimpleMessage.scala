@@ -198,13 +198,11 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     i: _root_.scala.Int,
     j: _root_.scala.Int,
     k: _root_.com.google.protobuf.ByteString,
-    color: scalapb.perf.protos.Color,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    color: scalapb.perf.protos.Color
   ): _root_.scalapb.perf.protos.SimpleMessage = _root_.scalapb.perf.protos.SimpleMessage(
     i,
     j,
     k,
-    color,
-    unknownFields
+    color
   )
 }

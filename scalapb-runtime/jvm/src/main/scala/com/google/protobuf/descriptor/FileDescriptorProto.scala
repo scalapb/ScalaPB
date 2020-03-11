@@ -460,8 +460,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions],
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo],
-    syntax: _root_.scala.Option[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    syntax: _root_.scala.Option[_root_.scala.Predef.String]
   ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = _root_.com.google.protobuf.descriptor.FileDescriptorProto(
     name,
     `package`,
@@ -474,7 +473,6 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension,
     options,
     sourceCodeInfo,
-    syntax,
-    unknownFields
+    syntax
   )
 }

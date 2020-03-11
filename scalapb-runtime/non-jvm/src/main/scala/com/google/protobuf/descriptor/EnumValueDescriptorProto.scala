@@ -160,12 +160,10 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
     number: _root_.scala.Option[_root_.scala.Int],
-    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions]
   ): _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto = _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto(
     name,
     number,
-    options,
-    unknownFields
+    options
   )
 }

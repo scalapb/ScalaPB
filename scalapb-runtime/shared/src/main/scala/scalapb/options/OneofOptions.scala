@@ -105,10 +105,8 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   }
   final val EXTENDS_FIELD_NUMBER = 1
   def of(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String]
   ): _root_.scalapb.options.OneofOptions = _root_.scalapb.options.OneofOptions(
-    `extends`,
-    unknownFields
+    `extends`
   )
 }

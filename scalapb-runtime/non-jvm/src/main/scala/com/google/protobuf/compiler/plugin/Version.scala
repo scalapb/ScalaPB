@@ -180,13 +180,11 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     major: _root_.scala.Option[_root_.scala.Int],
     minor: _root_.scala.Option[_root_.scala.Int],
     patch: _root_.scala.Option[_root_.scala.Int],
-    suffix: _root_.scala.Option[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    suffix: _root_.scala.Option[_root_.scala.Predef.String]
   ): _root_.com.google.protobuf.compiler.plugin.Version = _root_.com.google.protobuf.compiler.plugin.Version(
     major,
     minor,
     patch,
-    suffix,
-    unknownFields
+    suffix
   )
 }

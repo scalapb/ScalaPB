@@ -339,12 +339,10 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     final val END_FIELD_NUMBER = 2
     def of(
       start: _root_.scala.Option[_root_.scala.Int],
-      end: _root_.scala.Option[_root_.scala.Int],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      end: _root_.scala.Option[_root_.scala.Int]
     ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
       start,
-      end,
-      unknownFields
+      end
     )
   }
   
@@ -367,14 +365,12 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     value: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions],
     reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange],
-    reservedName: _root_.scala.Seq[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    reservedName: _root_.scala.Seq[_root_.scala.Predef.String]
   ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = _root_.com.google.protobuf.descriptor.EnumDescriptorProto(
     name,
     value,
     options,
     reservedRange,
-    reservedName,
-    unknownFields
+    reservedName
   )
 }

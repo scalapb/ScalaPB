@@ -611,8 +611,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     defaultValue: _root_.scala.Option[_root_.scala.Predef.String],
     oneofIndex: _root_.scala.Option[_root_.scala.Int],
     jsonName: _root_.scala.Option[_root_.scala.Predef.String],
-    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]
   ): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = _root_.com.google.protobuf.descriptor.FieldDescriptorProto(
     name,
     number,
@@ -623,7 +622,6 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     defaultValue,
     oneofIndex,
     jsonName,
-    options,
-    unknownFields
+    options
   )
 }

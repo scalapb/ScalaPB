@@ -16,3 +16,12 @@ case class ConstructorField(
 
   def nameAndType: String = s"${name}: ${typeName}"
 }
+
+object ConstructorField {
+  val UnknownFields = ConstructorField(
+    name = "unknownFields",
+    typeName = C.UnknownFieldSet,
+    default = Some(C.UnknownFieldSetEmpty),
+    index = Int.MaxValue
+  )
+}

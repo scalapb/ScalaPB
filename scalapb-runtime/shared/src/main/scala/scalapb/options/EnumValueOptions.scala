@@ -131,11 +131,9 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
   final val SCALA_NAME_FIELD_NUMBER = 2
   def of(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
-    scalaName: _root_.scala.Option[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String]
   ): _root_.scalapb.options.EnumValueOptions = _root_.scalapb.options.EnumValueOptions(
     `extends`,
-    scalaName,
-    unknownFields
+    scalaName
   )
 }

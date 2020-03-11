@@ -237,11 +237,9 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
   final val NANOS_FIELD_NUMBER = 2
   def of(
     seconds: _root_.scala.Long,
-    nanos: _root_.scala.Int,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    nanos: _root_.scala.Int
   ): _root_.com.google.protobuf.timestamp.Timestamp = _root_.com.google.protobuf.timestamp.Timestamp(
     seconds,
-    nanos,
-    unknownFields
+    nanos
   )
 }

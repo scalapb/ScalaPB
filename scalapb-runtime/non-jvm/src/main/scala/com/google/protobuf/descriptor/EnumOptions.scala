@@ -169,12 +169,10 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def of(
     allowAlias: _root_.scala.Option[_root_.scala.Boolean],
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.EnumOptions = _root_.com.google.protobuf.descriptor.EnumOptions(
     allowAlias,
     deprecated,
-    uninterpretedOption,
-    unknownFields
+    uninterpretedOption
   )
 }

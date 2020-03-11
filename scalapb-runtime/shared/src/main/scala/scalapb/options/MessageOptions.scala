@@ -263,8 +263,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     `type`: _root_.scala.Option[_root_.scala.Predef.String],
     companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
     sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String],
-    noBox: _root_.scala.Option[_root_.scala.Boolean],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    noBox: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.MessageOptions = _root_.scalapb.options.MessageOptions(
     `extends`,
     companionExtends,
@@ -272,7 +271,6 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     `type`,
     companionAnnotations,
     sealedOneofExtends,
-    noBox,
-    unknownFields
+    noBox
   )
 }

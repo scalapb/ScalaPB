@@ -452,8 +452,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     `lazy`: _root_.scala.Option[_root_.scala.Boolean],
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     weak: _root_.scala.Option[_root_.scala.Boolean],
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.FieldOptions = _root_.com.google.protobuf.descriptor.FieldOptions(
     ctype,
     packed,
@@ -461,7 +460,6 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     `lazy`,
     deprecated,
     weak,
-    uninterpretedOption,
-    unknownFields
+    uninterpretedOption
   )
 }

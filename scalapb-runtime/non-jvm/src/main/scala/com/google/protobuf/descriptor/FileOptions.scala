@@ -730,8 +730,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     phpNamespace: _root_.scala.Option[_root_.scala.Predef.String],
     phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String],
     rubyPackage: _root_.scala.Option[_root_.scala.Predef.String],
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.FileOptions = _root_.com.google.protobuf.descriptor.FileOptions(
     javaPackage,
     javaOuterClassname,
@@ -753,7 +752,6 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     phpNamespace,
     phpMetadataNamespace,
     rubyPackage,
-    uninterpretedOption,
-    unknownFields
+    uninterpretedOption
   )
 }

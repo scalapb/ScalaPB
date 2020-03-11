@@ -211,13 +211,11 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     fileToGenerate: _root_.scala.Seq[_root_.scala.Predef.String],
     parameter: _root_.scala.Option[_root_.scala.Predef.String],
     protoFile: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto],
-    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version]
   ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorRequest = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
     fileToGenerate,
     parameter,
     protoFile,
-    compilerVersion,
-    unknownFields
+    compilerVersion
   )
 }

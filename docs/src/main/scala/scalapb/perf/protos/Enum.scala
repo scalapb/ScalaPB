@@ -111,10 +111,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] 
   }
   final val COLOR_FIELD_NUMBER = 1
   def of(
-    color: scalapb.perf.protos.Color,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    color: scalapb.perf.protos.Color
   ): _root_.scalapb.perf.protos.Enum = _root_.scalapb.perf.protos.Enum(
-    color,
-    unknownFields
+    color
   )
 }

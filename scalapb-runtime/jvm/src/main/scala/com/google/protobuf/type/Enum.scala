@@ -256,14 +256,12 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue],
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
-    syntax: com.google.protobuf.`type`.Syntax,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    syntax: com.google.protobuf.`type`.Syntax
   ): _root_.com.google.protobuf.`type`.Enum = _root_.com.google.protobuf.`type`.Enum(
     name,
     enumvalue,
     options,
     sourceContext,
-    syntax,
-    unknownFields
+    syntax
   )
 }

@@ -301,10 +301,8 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
   final val STRUCT_VALUE_FIELD_NUMBER = 5
   final val LIST_VALUE_FIELD_NUMBER = 6
   def of(
-    kind: com.google.protobuf.struct.Value.Kind,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    kind: com.google.protobuf.struct.Value.Kind
   ): _root_.com.google.protobuf.struct.Value = _root_.com.google.protobuf.struct.Value(
-    kind,
-    unknownFields
+    kind
   )
 }

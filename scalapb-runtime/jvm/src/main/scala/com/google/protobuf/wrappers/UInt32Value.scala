@@ -122,10 +122,8 @@ object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.scala.Int,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    value: _root_.scala.Int
   ): _root_.com.google.protobuf.wrappers.UInt32Value = _root_.com.google.protobuf.wrappers.UInt32Value(
-    value,
-    unknownFields
+    value
   )
 }

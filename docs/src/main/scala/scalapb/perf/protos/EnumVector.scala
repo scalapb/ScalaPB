@@ -124,10 +124,8 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
   }
   final val COLORS_FIELD_NUMBER = 1
   def of(
-    colors: _root_.scala.Seq[scalapb.perf.protos.Color],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    colors: _root_.scala.Seq[scalapb.perf.protos.Color]
   ): _root_.scalapb.perf.protos.EnumVector = _root_.scalapb.perf.protos.EnumVector(
-    colors,
-    unknownFields
+    colors
   )
 }

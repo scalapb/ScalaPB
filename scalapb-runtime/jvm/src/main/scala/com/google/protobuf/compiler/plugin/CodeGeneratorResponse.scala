@@ -363,13 +363,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     def of(
       name: _root_.scala.Option[_root_.scala.Predef.String],
       insertionPoint: _root_.scala.Option[_root_.scala.Predef.String],
-      content: _root_.scala.Option[_root_.scala.Predef.String],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      content: _root_.scala.Option[_root_.scala.Predef.String]
     ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
       name,
       insertionPoint,
-      content,
-      unknownFields
+      content
     )
   }
   
@@ -382,11 +380,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   final val FILE_FIELD_NUMBER = 15
   def of(
     error: _root_.scala.Option[_root_.scala.Predef.String],
-    file: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    file: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]
   ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
     error,
-    file,
-    unknownFields
+    file
   )
 }

@@ -114,10 +114,8 @@ object Int64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.scala.Long,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    value: _root_.scala.Long
   ): _root_.com.google.protobuf.wrappers.Int64Value = _root_.com.google.protobuf.wrappers.Int64Value(
-    value,
-    unknownFields
+    value
   )
 }

@@ -113,10 +113,8 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
   }
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   def of(
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions(
-    uninterpretedOption,
-    unknownFields
+    uninterpretedOption
   )
 }

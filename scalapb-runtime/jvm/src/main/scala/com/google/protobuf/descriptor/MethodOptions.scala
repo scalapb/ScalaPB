@@ -242,12 +242,10 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   def of(
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel],
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.MethodOptions = _root_.com.google.protobuf.descriptor.MethodOptions(
     deprecated,
     idempotencyLevel,
-    uninterpretedOption,
-    unknownFields
+    uninterpretedOption
   )
 }

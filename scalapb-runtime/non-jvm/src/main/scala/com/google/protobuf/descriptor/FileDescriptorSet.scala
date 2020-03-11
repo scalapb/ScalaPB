@@ -113,10 +113,8 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   }
   final val FILE_FIELD_NUMBER = 1
   def of(
-    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]
   ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = _root_.com.google.protobuf.descriptor.FileDescriptorSet(
-    file,
-    unknownFields
+    file
   )
 }

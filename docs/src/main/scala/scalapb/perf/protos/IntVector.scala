@@ -120,10 +120,8 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
   }
   final val INTS_FIELD_NUMBER = 1
   def of(
-    ints: _root_.scala.Seq[_root_.scala.Int],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    ints: _root_.scala.Seq[_root_.scala.Int]
   ): _root_.scalapb.perf.protos.IntVector = _root_.scalapb.perf.protos.IntVector(
-    ints,
-    unknownFields
+    ints
   )
 }

@@ -136,11 +136,9 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
   final val STR2_FIELD_NUMBER = 2
   def of(
     str1: _root_.scala.Predef.String,
-    str2: _root_.scala.Predef.String,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    str2: _root_.scala.Predef.String
   ): _root_.scalapb.perf.protos.StringMessage = _root_.scalapb.perf.protos.StringMessage(
     str1,
-    str2,
-    unknownFields
+    str2
   )
 }

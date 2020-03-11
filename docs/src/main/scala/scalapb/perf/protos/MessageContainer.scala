@@ -140,11 +140,9 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
   final val REP_FIELD_NUMBER = 2
   def of(
     opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage],
-    rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]
   ): _root_.scalapb.perf.protos.MessageContainer = _root_.scalapb.perf.protos.MessageContainer(
     opt,
-    rep,
-    unknownFields
+    rep
   )
 }

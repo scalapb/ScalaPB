@@ -177,12 +177,10 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
   def of(
     name: _root_.scala.Predef.String,
     number: _root_.scala.Int,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]
   ): _root_.com.google.protobuf.`type`.EnumValue = _root_.com.google.protobuf.`type`.EnumValue(
     name,
     number,
-    options,
-    unknownFields
+    options
   )
 }

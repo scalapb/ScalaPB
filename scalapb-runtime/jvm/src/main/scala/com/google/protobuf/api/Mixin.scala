@@ -231,11 +231,9 @@ object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.M
   final val ROOT_FIELD_NUMBER = 2
   def of(
     name: _root_.scala.Predef.String,
-    root: _root_.scala.Predef.String,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    root: _root_.scala.Predef.String
   ): _root_.com.google.protobuf.api.Mixin = _root_.com.google.protobuf.api.Mixin(
     name,
-    root,
-    unknownFields
+    root
   )
 }

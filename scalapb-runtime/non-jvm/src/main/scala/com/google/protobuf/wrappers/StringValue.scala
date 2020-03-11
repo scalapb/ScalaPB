@@ -114,10 +114,8 @@ object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.scala.Predef.String,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    value: _root_.scala.Predef.String
   ): _root_.com.google.protobuf.wrappers.StringValue = _root_.com.google.protobuf.wrappers.StringValue(
-    value,
-    unknownFields
+    value
   )
 }

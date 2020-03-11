@@ -1,6 +1,9 @@
 # Change Log
 
-## [0.10.1](https://github.com/scalapb/ScalaPB/tree/v0.10.0..HEAD)
+## [0.10.2](https://github.com/scalapb/ScalaPB/tree/v0.10.1..HEAD)
+- BREAKING CHANGE: remove unknownFields parameter from of (see #778)
+
+## [0.10.1](https://github.com/scalapb/ScalaPB/tree/v0.10.0..v10.0.1)
 - Add ScalaPBC support for fetching artifacts from maven.
 
 ## [0.10.0](https://github.com/scalapb/ScalaPB/tree/v0.9.4..0.10.0)

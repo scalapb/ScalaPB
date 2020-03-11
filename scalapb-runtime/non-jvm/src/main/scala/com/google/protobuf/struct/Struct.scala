@@ -257,12 +257,10 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)](__m => (__m.key, __m.getValue))(__p => com.google.protobuf.struct.Struct.FieldsEntry(__p._1, Some(__p._2)))
     def of(
       key: _root_.scala.Predef.String,
-      value: _root_.scala.Option[com.google.protobuf.struct.Value],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      value: _root_.scala.Option[com.google.protobuf.struct.Value]
     ): _root_.com.google.protobuf.struct.Struct.FieldsEntry = _root_.com.google.protobuf.struct.Struct.FieldsEntry(
       key,
-      value,
-      unknownFields
+      value
     )
   }
   
@@ -273,10 +271,8 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   @transient
   private val _typemapper_fields: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)] = implicitly[_root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)]]
   def of(
-    fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]
   ): _root_.com.google.protobuf.struct.Struct = _root_.com.google.protobuf.struct.Struct(
-    fields,
-    unknownFields
+    fields
   )
 }

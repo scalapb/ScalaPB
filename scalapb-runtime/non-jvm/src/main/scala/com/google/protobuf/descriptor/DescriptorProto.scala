@@ -476,13 +476,11 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     def of(
       start: _root_.scala.Option[_root_.scala.Int],
       end: _root_.scala.Option[_root_.scala.Int],
-      options: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      options: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions]
     ): _root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = _root_.com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
       start,
       end,
-      options,
-      unknownFields
+      options
     )
   }
   
@@ -616,12 +614,10 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     final val END_FIELD_NUMBER = 2
     def of(
       start: _root_.scala.Option[_root_.scala.Int],
-      end: _root_.scala.Option[_root_.scala.Int],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      end: _root_.scala.Option[_root_.scala.Int]
     ): _root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange = _root_.com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
       start,
-      end,
-      unknownFields
+      end
     )
   }
   
@@ -659,8 +655,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     oneofDecl: _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions],
     reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange],
-    reservedName: _root_.scala.Seq[_root_.scala.Predef.String],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    reservedName: _root_.scala.Seq[_root_.scala.Predef.String]
   ): _root_.com.google.protobuf.descriptor.DescriptorProto = _root_.com.google.protobuf.descriptor.DescriptorProto(
     name,
     field,
@@ -671,7 +666,6 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     oneofDecl,
     options,
     reservedRange,
-    reservedName,
-    unknownFields
+    reservedName
   )
 }

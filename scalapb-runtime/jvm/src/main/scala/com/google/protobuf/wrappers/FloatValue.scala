@@ -122,10 +122,8 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   }
   final val VALUE_FIELD_NUMBER = 1
   def of(
-    value: _root_.scala.Float,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    value: _root_.scala.Float
   ): _root_.com.google.protobuf.wrappers.FloatValue = _root_.com.google.protobuf.wrappers.FloatValue(
-    value,
-    unknownFields
+    value
   )
 }

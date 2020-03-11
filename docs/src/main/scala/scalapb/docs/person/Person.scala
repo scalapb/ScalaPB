@@ -361,13 +361,11 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     def of(
       addressType: scalapb.docs.person.Person.AddressType,
       street: _root_.scala.Predef.String,
-      city: _root_.scala.Predef.String,
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      city: _root_.scala.Predef.String
     ): _root_.scalapb.docs.person.Person.Address = _root_.scalapb.docs.person.Person.Address(
       addressType,
       street,
-      city,
-      unknownFields
+      city
     )
   }
   
@@ -382,12 +380,10 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   def of(
     name: _root_.scala.Predef.String,
     age: _root_.scala.Int,
-    addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address]
   ): _root_.scalapb.docs.person.Person = _root_.scalapb.docs.person.Person(
     name,
     age,
-    addresses,
-    unknownFields
+    addresses
   )
 }

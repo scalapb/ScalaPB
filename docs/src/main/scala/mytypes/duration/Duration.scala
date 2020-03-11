@@ -107,10 +107,8 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
   }
   final val SECONDS_FIELD_NUMBER = 1
   def of(
-    seconds: _root_.scala.Int,
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    seconds: _root_.scala.Int
   ): _root_.mytypes.duration.Duration = _root_.mytypes.duration.Duration(
-    seconds,
-    unknownFields
+    seconds
   )
 }

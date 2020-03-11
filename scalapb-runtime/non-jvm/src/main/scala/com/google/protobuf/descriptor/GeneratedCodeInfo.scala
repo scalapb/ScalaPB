@@ -316,14 +316,12 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       path: _root_.scala.Seq[_root_.scala.Int],
       sourceFile: _root_.scala.Option[_root_.scala.Predef.String],
       begin: _root_.scala.Option[_root_.scala.Int],
-      end: _root_.scala.Option[_root_.scala.Int],
-      unknownFields: _root_.scalapb.UnknownFieldSet
+      end: _root_.scala.Option[_root_.scala.Int]
     ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
       path,
       sourceFile,
       begin,
-      end,
-      unknownFields
+      end
     )
   }
   
@@ -332,10 +330,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   }
   final val ANNOTATION_FIELD_NUMBER = 1
   def of(
-    annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]
   ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo(
-    annotation,
-    unknownFields
+    annotation
   )
 }

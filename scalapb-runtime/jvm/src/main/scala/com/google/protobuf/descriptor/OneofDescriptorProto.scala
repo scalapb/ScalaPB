@@ -146,11 +146,9 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   final val OPTIONS_FIELD_NUMBER = 2
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
-    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions],
-    unknownFields: _root_.scalapb.UnknownFieldSet
+    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions]
   ): _root_.com.google.protobuf.descriptor.OneofDescriptorProto = _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
     name,
-    options,
-    unknownFields
+    options
   )
 }
