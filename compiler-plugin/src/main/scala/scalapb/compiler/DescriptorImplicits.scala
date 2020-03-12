@@ -463,7 +463,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def scalaTypeName = oneof.getContainingType.scalaTypeName + "." + upperScalaName
 
-    def scalaTypeNameWithMaybeRoot(context: Descriptor) = oneof.getContainingType.scalaTypeNameWithMaybeRoot(context) + "." + upperScalaName
+    def scalaTypeNameWithMaybeRoot(context: Descriptor) =
+      oneof.getContainingType.scalaTypeNameWithMaybeRoot(context) + "." + upperScalaName
 
     def empty(context: Descriptor) = scalaTypeNameWithMaybeRoot(context) + ".Empty"
 

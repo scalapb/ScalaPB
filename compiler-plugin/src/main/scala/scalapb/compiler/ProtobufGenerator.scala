@@ -1599,8 +1599,10 @@ class ProtobufGenerator(
       .print(message.getOneofs.asScala) {
         case (printer, oneof) =>
           printer.addStringMargin(
-            s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof.empty(message)})
-            |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeNameWithMaybeRoot(message)}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)"""
+            s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof
+              .empty(message)})
+            |def with${oneof.upperScalaName}(__v: ${oneof
+              .scalaTypeNameWithMaybeRoot(message)}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)"""
           )
       }
       .when(message.preservesUnknownFields)(
