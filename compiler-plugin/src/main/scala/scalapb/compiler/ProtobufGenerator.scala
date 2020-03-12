@@ -717,11 +717,12 @@ class ProtobufGenerator(
     }
     val oneOfFields = message.getOneofs.asScala.map { oneOf =>
       val ctorDefaultValue: Option[String] =
-        if (message.getFile.noDefaultValuesInConstructor) None else Some(oneOf.empty.fullName)
+        if (message.getFile.noDefaultValuesInConstructor) None
+        else Some(oneOf.empty.fullNameWithMaybeRoot(message))
 
       ConstructorField(
         name = oneOf.scalaName.nameSymbol,
-        typeName = oneOf.scalaType.fullName,
+        typeName = oneOf.scalaType.fullNameWithMaybeRoot(message),
         default = ctorDefaultValue,
         index = oneOf.getField(0).getIndex
       )
@@ -1081,7 +1082,8 @@ class ProtobufGenerator(
             val oneofName = field.getContainingOneof.scalaName.nameSymbol
             printer
               .add(
-                s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName.fullName}(f_)))"
+                s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
+                  .fullNameWithMaybeRoot(message)}(f_)))"
               )
           }
       }
@@ -1090,7 +1092,7 @@ class ProtobufGenerator(
           val oneofName = oneof.scalaName.nameSymbol
           printer
             .add(
-              s"def $oneofName: ${lensType(oneof.scalaType.fullName)} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
+              s"def $oneofName: ${lensType(oneof.scalaType.fullNameWithMaybeRoot(message))} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
             )
       }
       .outdent
@@ -1461,7 +1463,8 @@ class ProtobufGenerator(
             }
             .when(field.isInOneof) { p =>
               p.add(
-                s"""def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.getContainingOneof.scalaName.nameSymbol} = ${field.oneOfTypeName.fullName}(__v))"""
+                s"""def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.getContainingOneof.scalaName.nameSymbol} = ${field.oneOfTypeName
+                  .fullNameWithMaybeRoot(message)}(__v))"""
               )
             }
             .when(field.isRepeated) { p =>
@@ -1481,8 +1484,11 @@ class ProtobufGenerator(
       .print(message.getOneofs.asScala) {
         case (printer, oneof) =>
           printer.add(
-            s"""def clear${oneof.scalaType.name}: ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = ${oneof.empty.fullName})
-               |def with${oneof.scalaType.name}(__v: ${oneof.scalaType.fullName}): ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = __v)""".stripMargin
+            s"""def clear${oneof.scalaType.name}: ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = ${oneof.empty
+                 .fullNameWithMaybeRoot(message)})
+               |def with${oneof.scalaType.name}(__v: ${oneof.scalaType.fullNameWithMaybeRoot(
+                 message
+               )}): ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = __v)""".stripMargin
           )
       }
       .when(message.preservesUnknownFields)(
