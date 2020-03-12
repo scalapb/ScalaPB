@@ -331,6 +331,7 @@ val e2eCommonSettings = Seq(
     scalaTest               % "test",
     scalaTestPlusScalaCheck % "test"
   ),
+  Test / fork := true,           // For https://github.com/scala/bug/issues/9237
   Compile / PB.recompile := true // always regenerate protos, not cache
 )
 
