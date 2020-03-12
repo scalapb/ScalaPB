@@ -1,4 +1,9 @@
 # Change Log
+## [0.9.7](https://github.com/scalapb/ScalaPB/tree/v0.9.7)
+[Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.4...v0.9.7)
+- Support custom types in generated RPCs (#697)
+- Support enum_strip_prefix (#730)
+- Improve name conflicts collision between oneofs, fields and packages (#782)
 
 ## [0.9.4](https://github.com/scalapb/ScalaPB/tree/v0.9.3)
 [Full Changelog](https://github.com/scalapb/ScalaPB/compare/v0.9.1...v0.9.4)
