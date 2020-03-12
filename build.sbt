@@ -350,6 +350,9 @@ lazy val compilerPlugin = project
         ),
         ProblemFilters.exclude[ReversedMissingMethodProblem](
           "scalapb.options.compiler.Scalapb#EnumValueOptionsOrBuilder.getScalaNameBytes"
+        ),
+        ProblemFilters.exclude[DirectMissingMethodProblem](
+          "scalapb.compiler.DescriptorImplicits#OneofDescriptorPimp.empty"
         )
       )
     },
