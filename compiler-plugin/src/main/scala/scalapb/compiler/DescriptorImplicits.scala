@@ -238,7 +238,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def oneOfTypeName = {
       assert(isInOneof)
-      fd.getContainingOneof.scalaTypeName + "." + upperScalaName
+      fd.getContainingOneof.scalaTypeNameWithMaybeRoot(fd.getContainingType) + "." + upperScalaName
     }
 
     def noBox =
@@ -463,7 +463,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def scalaTypeName = oneof.getContainingType.scalaTypeName + "." + upperScalaName
 
-    def empty = scalaTypeName + ".Empty"
+    def scalaTypeNameWithMaybeRoot(context: Descriptor) = oneof.getContainingType.scalaTypeNameWithMaybeRoot(context) + "." + upperScalaName
+
+    def empty(context: Descriptor) = scalaTypeNameWithMaybeRoot(context) + ".Empty"
 
     def oneofOptions: OneofOptions = oneof.getOptions.getExtension[OneofOptions](Scalapb.oneof)
 

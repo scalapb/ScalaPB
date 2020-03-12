@@ -713,11 +713,11 @@ class ProtobufGenerator(
     }
     val oneOfFields = message.getOneofs.asScala.map { oneOf =>
       val ctorDefaultValue: Option[String] =
-        if (message.getFile.noDefaultValuesInConstructor) None else Some(oneOf.empty)
+        if (message.getFile.noDefaultValuesInConstructor) None else Some(oneOf.empty(message))
 
       ConstructorField(
         name = oneOf.scalaName.asSymbol,
-        typeName = oneOf.scalaTypeName,
+        typeName = oneOf.scalaTypeNameWithMaybeRoot(message),
         default = ctorDefaultValue
       )
     }
@@ -922,7 +922,7 @@ class ProtobufGenerator(
             val body = oneOf.fields.map { field =>
               s"  case ${field.getNumber} => ${field.oneOfTypeName}(${javaFieldToScala("javaPbSource", field)})"
             }
-            val tail = Seq(s"  case _ => ${oneOf.empty}", "}")
+            val tail = Seq(s"  case _ => ${oneOf.empty(message)}", "}")
             Seq(head) ++ body ++ tail
         }
         printer.addGroupsWithDelimiter(",")(normal ++ oneOfs)
@@ -1011,7 +1011,7 @@ class ProtobufGenerator(
           }
           val expr =
             elems.reduceLeft((acc, field) => s"$acc\n    .orElse[${oneOf.scalaTypeName}]($field)")
-          s"${oneOf.scalaName.asSymbol} = $expr\n    .getOrElse(${oneOf.empty})"
+          s"${oneOf.scalaName.asSymbol} = $expr\n    .getOrElse(${oneOf.empty(message)})"
         }
         printer.addWithDelimiter(",")(fields ++ oneOfs)
       }
@@ -1083,7 +1083,7 @@ class ProtobufGenerator(
           }
           val expr =
             elems.reduceLeft((acc, field) => s"$acc\n    .orElse[${oneOf.scalaTypeName}]($field)")
-          s"${oneOf.scalaName.asSymbol} = $expr\n    .getOrElse(${oneOf.empty})"
+          s"${oneOf.scalaName.asSymbol} = $expr\n    .getOrElse(${oneOf.empty(message)})"
         }
         printer.addWithDelimiter(",")(fields ++ oneOfs)
       }
@@ -1117,7 +1117,7 @@ class ProtobufGenerator(
           val default = defaultValueForDefaultInstance(field)
           s"${field.scalaName.asSymbol} = $default"
       } ++ message.getOneofs.asScala.map { oneof =>
-        s"${oneof.scalaName.asSymbol} = ${oneof.empty}"
+        s"${oneof.scalaName.asSymbol} = ${oneof.empty(message)}"
       })
       .outdent
       .add(")")
@@ -1160,7 +1160,7 @@ class ProtobufGenerator(
           val oneofName = oneof.scalaName.asSymbol
           printer
             .add(
-              s"def $oneofName: ${lensType(oneof.scalaTypeName)} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
+              s"def $oneofName: ${lensType(oneof.scalaTypeNameWithMaybeRoot(message))} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
             )
       }
       .outdent
@@ -1599,8 +1599,8 @@ class ProtobufGenerator(
       .print(message.getOneofs.asScala) {
         case (printer, oneof) =>
           printer.addStringMargin(
-            s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof.empty})
-            |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeName}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)"""
+            s"""def clear${oneof.upperScalaName}: ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = ${oneof.empty(message)})
+            |def with${oneof.upperScalaName}(__v: ${oneof.scalaTypeNameWithMaybeRoot(message)}): ${message.nameSymbol} = copy(${oneof.scalaName.asSymbol} = __v)"""
           )
       }
       .when(message.preservesUnknownFields)(
