@@ -6,7 +6,7 @@ addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.13")
 
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.6.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.7.0")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
 
