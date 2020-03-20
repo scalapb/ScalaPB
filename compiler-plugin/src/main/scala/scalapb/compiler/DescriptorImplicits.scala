@@ -376,13 +376,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def baseSingleScalaTypeName: String = fd.getJavaType match {
-      case FieldDescriptor.JavaType.INT         => "_root_.scala.Int"
-      case FieldDescriptor.JavaType.LONG        => "_root_.scala.Long"
-      case FieldDescriptor.JavaType.FLOAT       => "_root_.scala.Float"
-      case FieldDescriptor.JavaType.DOUBLE      => "_root_.scala.Double"
-      case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
-      case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING      => "_root_.scala.Predef.String"
+      case FieldDescriptor.JavaType.INT         => DescriptorImplicits.ScalaInt
+      case FieldDescriptor.JavaType.LONG        => DescriptorImplicits.ScalaLong
+      case FieldDescriptor.JavaType.FLOAT       => DescriptorImplicits.ScalaFloat
+      case FieldDescriptor.JavaType.DOUBLE      => DescriptorImplicits.ScalaDouble
+      case FieldDescriptor.JavaType.BOOLEAN     => DescriptorImplicits.ScalaBoolean
+      case FieldDescriptor.JavaType.BYTE_STRING => DescriptorImplicits.ScalaByteString
+      case FieldDescriptor.JavaType.STRING      => DescriptorImplicits.ScalaString
       case FieldDescriptor.JavaType.MESSAGE =>
         fd.getMessageType.scalaType
           .fullNameWithMaybeRoot(fd.getContainingType.fields.map(_.scalaName))
@@ -526,6 +526,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
           MessageOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
         )
     }
+
+    def isCaseClass: Boolean = message.getFile().scalaOptions.getCaseClass()
 
     def noBox = message.messageOptions.getNoBox
 
@@ -989,6 +991,14 @@ object DescriptorImplicits {
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
   val ScalaOption   = "_root_.scala.Option"
 
+  val ScalaInt        = "_root_.scala.Int"
+  val ScalaLong       = "_root_.scala.Long"
+  val ScalaFloat      = "_root_.scala.Float"
+  val ScalaDouble     = "_root_.scala.Double"
+  val ScalaBoolean    = "_root_.scala.Boolean"
+  val ScalaByteString = "_root_.com.google.protobuf.ByteString"
+  val ScalaString     = "_root_.scala.Predef.String"
+
   implicit class AsSymbolPimp(val s: String) {
     def asSymbol: String =
       if (SCALA_RESERVED_WORDS.contains(s) || s(0).isDigit) s"`$s`"
@@ -1042,14 +1052,14 @@ object DescriptorImplicits {
 
   def primitiveWrapperType(messageType: Descriptor): Option[String] =
     messageType.getFullName match {
-      case "google.protobuf.Int32Value"  => Some("_root_.scala.Int")
-      case "google.protobuf.Int64Value"  => Some("_root_.scala.Long")
-      case "google.protobuf.UInt32Value" => Some("_root_.scala.Int")
-      case "google.protobuf.UInt64Value" => Some("_root_.scala.Long")
-      case "google.protobuf.DoubleValue" => Some("_root_.scala.Double")
-      case "google.protobuf.FloatValue"  => Some("_root_.scala.Float")
-      case "google.protobuf.StringValue" => Some("_root_.scala.Predef.String")
-      case "google.protobuf.BoolValue"   => Some("_root_.scala.Boolean")
+      case "google.protobuf.Int32Value"  => Some(DescriptorImplicits.ScalaInt)
+      case "google.protobuf.Int64Value"  => Some(DescriptorImplicits.ScalaLong)
+      case "google.protobuf.UInt32Value" => Some(DescriptorImplicits.ScalaInt)
+      case "google.protobuf.UInt64Value" => Some(DescriptorImplicits.ScalaLong)
+      case "google.protobuf.DoubleValue" => Some(DescriptorImplicits.ScalaDouble)
+      case "google.protobuf.FloatValue"  => Some(DescriptorImplicits.ScalaFloat)
+      case "google.protobuf.StringValue" => Some(DescriptorImplicits.ScalaString)
+      case "google.protobuf.BoolValue"   => Some(DescriptorImplicits.ScalaBoolean)
       case "google.protobuf.BytesValue"  => Some("_root_.com.google.protobuf.ByteString")
       case _                             => None
     }

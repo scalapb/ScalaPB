@@ -13,9 +13,9 @@ package com.google.protobuf.struct
   *   Repeated field of dynamically typed values.
   */
 @SerialVersionUID(0L)
-final case class ListValue(
-    values: _root_.scala.Seq[com.google.protobuf.struct.Value] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class ListValue(
+    val values: _root_.scala.Seq[com.google.protobuf.struct.Value] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ListValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -63,6 +63,26 @@ final case class ListValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"ListValue(${values}, ${unknownFields})"
+    def copy(
+      values: _root_.scala.Seq[com.google.protobuf.struct.Value] = values,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): ListValue = new ListValue(
+      values,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: ListValue =>
+        this.values == __that.values &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.struct.ListValue.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + values.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.struct.ListValue
 }
 
@@ -118,7 +138,19 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   final val VALUES_FIELD_NUMBER = 1
   def of(
     values: _root_.scala.Seq[com.google.protobuf.struct.Value]
-  ): _root_.com.google.protobuf.struct.ListValue = _root_.com.google.protobuf.struct.ListValue(
+  ): _root_.com.google.protobuf.struct.ListValue = new _root_.com.google.protobuf.struct.ListValue(
     values
   )
+  def apply(
+    values: _root_.scala.Seq[com.google.protobuf.struct.Value] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.struct.ListValue = new _root_.com.google.protobuf.struct.ListValue(
+    values,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.struct.ListValue): Option[(
+    _root_.scala.Seq[com.google.protobuf.struct.Value]
+  )] = Some((
+    __value.values
+  ))
 }

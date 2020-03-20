@@ -91,10 +91,10 @@ package com.google.protobuf.api
   *   are rooted.
   */
 @SerialVersionUID(0L)
-final case class Mixin(
-    name: _root_.scala.Predef.String = "",
-    root: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Mixin(
+    val name: _root_.scala.Predef.String = "",
+    val root: _root_.scala.Predef.String = "",
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Mixin] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -164,6 +164,30 @@ final case class Mixin(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Mixin(${name}, ${root}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      root: _root_.scala.Predef.String = root,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Mixin = new Mixin(
+      name,
+      root,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Mixin =>
+        this.name == __that.name &&
+        this.root == __that.root &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.api.Mixin.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + root.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.api.Mixin
 }
 
@@ -222,8 +246,24 @@ object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.M
   def of(
     name: _root_.scala.Predef.String,
     root: _root_.scala.Predef.String
-  ): _root_.com.google.protobuf.api.Mixin = _root_.com.google.protobuf.api.Mixin(
+  ): _root_.com.google.protobuf.api.Mixin = new _root_.com.google.protobuf.api.Mixin(
     name,
     root
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    root: _root_.scala.Predef.String = "",
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.api.Mixin = new _root_.com.google.protobuf.api.Mixin(
+    name,
+    root,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.api.Mixin): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Predef.String
+  )] = Some((
+    __value.name,
+    __value.root
+  ))
 }

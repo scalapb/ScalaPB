@@ -16,13 +16,13 @@ package com.google.protobuf.descriptor
   *   be reserved once.
   */
 @SerialVersionUID(0L)
-final case class EnumDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    value: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scala.Seq.empty,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions] = _root_.scala.None,
-    reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scala.Seq.empty,
-    reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class EnumDescriptorProto(
+    val name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val value: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scala.Seq.empty,
+    val options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions] = _root_.scala.None,
+    val reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scala.Seq.empty,
+    val reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -128,6 +128,42 @@ final case class EnumDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"EnumDescriptorProto(${name}, ${value}, ${options}, ${reservedRange}, ${reservedName}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Option[_root_.scala.Predef.String] = name,
+      value: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto] = value,
+      options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions] = options,
+      reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = reservedRange,
+      reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = reservedName,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): EnumDescriptorProto = new EnumDescriptorProto(
+      name,
+      value,
+      options,
+      reservedRange,
+      reservedName,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: EnumDescriptorProto =>
+        this.name == __that.name &&
+        this.value == __that.value &&
+        this.options == __that.options &&
+        this.reservedRange == __that.reservedRange &&
+        this.reservedName == __that.reservedName &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.EnumDescriptorProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + value.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + reservedRange.hashCode()
+      __hash = (37 * __hash) + reservedName.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.EnumDescriptorProto
 }
 
@@ -219,10 +255,10 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     *   Inclusive.
     */
   @SerialVersionUID(0L)
-  final case class EnumReservedRange(
-      start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-      end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  final class EnumReservedRange(
+      val start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      val end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumReservedRange] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -280,6 +316,30 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString(): _root_.scala.Predef.String = s"EnumReservedRange(${start}, ${end}, ${unknownFields})"
+      def copy(
+        start: _root_.scala.Option[_root_.scala.Int] = start,
+        end: _root_.scala.Option[_root_.scala.Int] = end,
+        unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+      ): EnumReservedRange = new EnumReservedRange(
+        start,
+        end,
+        unknownFields
+      )
+      override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+        case __that: EnumReservedRange =>
+          this.start == __that.start &&
+          this.end == __that.end &&
+          this.unknownFields == __that.unknownFields
+        case _ => false
+      }
+      override def hashCode(): _root_.scala.Int = {
+        var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.scalaDescriptor.hashCode()
+        __hash = (37 * __hash) + start.hashCode()
+        __hash = (37 * __hash) + end.hashCode()
+        __hash = (37 * __hash) + unknownFields.hashCode()
+        __hash
+      }
       def companion = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange
   }
   
@@ -340,10 +400,26 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     def of(
       start: _root_.scala.Option[_root_.scala.Int],
       end: _root_.scala.Option[_root_.scala.Int]
-    ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
+    ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = new _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
       start,
       end
     )
+    def apply(
+      start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = new _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
+      start,
+      end,
+      unknownFields
+    )
+    def unapply(__value: _root_.com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange): Option[(
+      _root_.scala.Option[_root_.scala.Int],
+      _root_.scala.Option[_root_.scala.Int]
+    )] = Some((
+      __value.start,
+      __value.end
+    ))
   }
   
   implicit class EnumDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto](_l) {
@@ -366,11 +442,39 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions],
     reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange],
     reservedName: _root_.scala.Seq[_root_.scala.Predef.String]
-  ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = _root_.com.google.protobuf.descriptor.EnumDescriptorProto(
+  ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = new _root_.com.google.protobuf.descriptor.EnumDescriptorProto(
     name,
     value,
     options,
     reservedRange,
     reservedName
   )
+  def apply(
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    value: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scala.Seq.empty,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions] = _root_.scala.None,
+    reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scala.Seq.empty,
+    reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.EnumDescriptorProto = new _root_.com.google.protobuf.descriptor.EnumDescriptorProto(
+    name,
+    value,
+    options,
+    reservedRange,
+    reservedName,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.EnumDescriptorProto): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto],
+    _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions],
+    _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange],
+    _root_.scala.Seq[_root_.scala.Predef.String]
+  )] = Some((
+    __value.name,
+    __value.value,
+    __value.options,
+    __value.reservedRange,
+    __value.reservedName
+  ))
 }

@@ -8,10 +8,10 @@ package com.google.protobuf.descriptor
 /** Describes a oneof.
   */
 @SerialVersionUID(0L)
-final case class OneofDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class OneofDescriptorProto(
+    val name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -71,6 +71,30 @@ final case class OneofDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"OneofDescriptorProto(${name}, ${options}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Option[_root_.scala.Predef.String] = name,
+      options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = options,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): OneofDescriptorProto = new OneofDescriptorProto(
+      name,
+      options,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: OneofDescriptorProto =>
+        this.name == __that.name &&
+        this.options == __that.options &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.OneofDescriptorProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.OneofDescriptorProto
 }
 
@@ -147,8 +171,24 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
     options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions]
-  ): _root_.com.google.protobuf.descriptor.OneofDescriptorProto = _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
+  ): _root_.com.google.protobuf.descriptor.OneofDescriptorProto = new _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
     name,
     options
   )
+  def apply(
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.OneofDescriptorProto = new _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
+    name,
+    options,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.OneofDescriptorProto): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions]
+  )] = Some((
+    __value.name,
+    __value.options
+  ))
 }

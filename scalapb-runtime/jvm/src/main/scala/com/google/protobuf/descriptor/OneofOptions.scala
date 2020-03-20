@@ -10,9 +10,9 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   The parser stores options it doesn't recognize here. See above.
   */
 @SerialVersionUID(0L)
-final case class OneofOptions(
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class OneofOptions(
+    val uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofOptions] with _root_.scalapb.ExtendableMessage[OneofOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -60,6 +60,26 @@ final case class OneofOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"OneofOptions(${uninterpretedOption}, ${unknownFields})"
+    def copy(
+      uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = uninterpretedOption,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): OneofOptions = new OneofOptions(
+      uninterpretedOption,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: OneofOptions =>
+        this.uninterpretedOption == __that.uninterpretedOption &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.OneofOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + uninterpretedOption.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.OneofOptions
 }
 
@@ -123,7 +143,19 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   def of(
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
-  ): _root_.com.google.protobuf.descriptor.OneofOptions = _root_.com.google.protobuf.descriptor.OneofOptions(
+  ): _root_.com.google.protobuf.descriptor.OneofOptions = new _root_.com.google.protobuf.descriptor.OneofOptions(
     uninterpretedOption
   )
+  def apply(
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.OneofOptions = new _root_.com.google.protobuf.descriptor.OneofOptions(
+    uninterpretedOption,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.OneofOptions): Option[(
+    _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
+  )] = Some((
+    __value.uninterpretedOption
+  ))
 }

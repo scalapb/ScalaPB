@@ -52,14 +52,14 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
                      |  case Animal.Value.Mammal(v) =>
                      |    v match {
                      |      case Mammal.Empty =>
-                     |      case Dog(_) =>
-                     |      case Cat(_) =>
+                     |      case Dog() =>
+                     |      case Cat() =>
                      |    }
                      |  case Animal.Value.Bird(v) =>
                      |    v match {
                      |      case Bird.Empty =>
-                     |      case Eagle(_) =>
-                     |      case Sparrow(_) =>
+                     |      case Eagle() =>
+                     |      case Sparrow() =>
                      |    }
                      |}
       """.stripMargin)
@@ -77,8 +77,8 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
     expr.lhs.asNonEmpty must be(Some(expr.lhs))
     Expr.Empty.asNonEmpty must be(None)
     expr.asNonEmpty match {
-      case Some(Add(_, _, _)) => "add"
-      case Some(Lit(_, _))    => "add"
+      case Some(Add(_, _)) => "add"
+      case Some(Lit(_))    => "add"
       case None               => ""
     }
   }

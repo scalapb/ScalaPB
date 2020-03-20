@@ -6,12 +6,12 @@
 package scalapb.perf.protos
 
 @SerialVersionUID(0L)
-final case class SimpleMessage(
-    i: _root_.scala.Int = 0,
-    j: _root_.scala.Int = 0,
-    k: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
-    color: scalapb.perf.protos.Color = scalapb.perf.protos.Color.UNKNOWN,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class SimpleMessage(
+    val i: _root_.scala.Int = 0,
+    val j: _root_.scala.Int = 0,
+    val k: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
+    val color: scalapb.perf.protos.Color = scalapb.perf.protos.Color.UNKNOWN,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SimpleMessage] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -119,6 +119,38 @@ final case class SimpleMessage(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"SimpleMessage(${i}, ${j}, ${k}, ${color}, ${unknownFields})"
+    def copy(
+      i: _root_.scala.Int = i,
+      j: _root_.scala.Int = j,
+      k: _root_.com.google.protobuf.ByteString = k,
+      color: scalapb.perf.protos.Color = color,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): SimpleMessage = new SimpleMessage(
+      i,
+      j,
+      k,
+      color,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: SimpleMessage =>
+        this.i == __that.i &&
+        this.j == __that.j &&
+        this.k == __that.k &&
+        this.color == __that.color &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.perf.protos.SimpleMessage.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + i
+      __hash = (37 * __hash) + j
+      __hash = (37 * __hash) + k.hashCode()
+      __hash = (37 * __hash) + color.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.perf.protos.SimpleMessage
 }
 
@@ -199,10 +231,34 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     j: _root_.scala.Int,
     k: _root_.com.google.protobuf.ByteString,
     color: scalapb.perf.protos.Color
-  ): _root_.scalapb.perf.protos.SimpleMessage = _root_.scalapb.perf.protos.SimpleMessage(
+  ): _root_.scalapb.perf.protos.SimpleMessage = new _root_.scalapb.perf.protos.SimpleMessage(
     i,
     j,
     k,
     color
   )
+  def apply(
+    i: _root_.scala.Int = 0,
+    j: _root_.scala.Int = 0,
+    k: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
+    color: scalapb.perf.protos.Color = scalapb.perf.protos.Color.UNKNOWN,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.perf.protos.SimpleMessage = new _root_.scalapb.perf.protos.SimpleMessage(
+    i,
+    j,
+    k,
+    color,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.perf.protos.SimpleMessage): Option[(
+    _root_.scala.Int,
+    _root_.scala.Int,
+    _root_.com.google.protobuf.ByteString,
+    scalapb.perf.protos.Color
+  )] = Some((
+    __value.i,
+    __value.j,
+    __value.k,
+    __value.color
+  ))
 }

@@ -99,10 +99,10 @@ package com.google.protobuf.timestamp
   *   inclusive.
   */
 @SerialVersionUID(0L)
-final case class Timestamp(
-    seconds: _root_.scala.Long = 0L,
-    nanos: _root_.scala.Int = 0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Timestamp(
+    val seconds: _root_.scala.Long = 0L,
+    val nanos: _root_.scala.Int = 0,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Timestamp] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -172,6 +172,30 @@ final case class Timestamp(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Timestamp(${seconds}, ${nanos}, ${unknownFields})"
+    def copy(
+      seconds: _root_.scala.Long = seconds,
+      nanos: _root_.scala.Int = nanos,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Timestamp = new Timestamp(
+      seconds,
+      nanos,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Timestamp =>
+        this.seconds == __that.seconds &&
+        this.nanos == __that.nanos &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.timestamp.Timestamp.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + _root_.scalapb.internal.Hashing.hashLong(seconds)
+      __hash = (37 * __hash) + nanos
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.timestamp.Timestamp
 }
 
@@ -240,8 +264,24 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
   def of(
     seconds: _root_.scala.Long,
     nanos: _root_.scala.Int
-  ): _root_.com.google.protobuf.timestamp.Timestamp = _root_.com.google.protobuf.timestamp.Timestamp(
+  ): _root_.com.google.protobuf.timestamp.Timestamp = new _root_.com.google.protobuf.timestamp.Timestamp(
     seconds,
     nanos
   )
+  def apply(
+    seconds: _root_.scala.Long = 0L,
+    nanos: _root_.scala.Int = 0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.timestamp.Timestamp = new _root_.com.google.protobuf.timestamp.Timestamp(
+    seconds,
+    nanos,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.timestamp.Timestamp): Option[(
+    _root_.scala.Long,
+    _root_.scala.Int
+  )] = Some((
+    __value.seconds,
+    __value.nanos
+  ))
 }

@@ -18,9 +18,9 @@ package com.google.protobuf.struct
   *   Unordered map of dynamically typed values.
   */
 @SerialVersionUID(0L)
-final case class Struct(
-    fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value] = _root_.scala.collection.immutable.Map.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Struct(
+    val fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value] = _root_.scala.collection.immutable.Map.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Struct] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -68,6 +68,26 @@ final case class Struct(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Struct(${fields}, ${unknownFields})"
+    def copy(
+      fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value] = fields,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Struct = new Struct(
+      fields,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Struct =>
+        this.fields == __that.fields &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.struct.Struct.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + fields.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.struct.Struct
 }
 
@@ -121,10 +141,10 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     fields = _root_.scala.collection.immutable.Map.empty
   )
   @SerialVersionUID(0L)
-  final case class FieldsEntry(
-      key: _root_.scala.Predef.String = "",
-      value: _root_.scala.Option[com.google.protobuf.struct.Value] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  final class FieldsEntry(
+      val key: _root_.scala.Predef.String = "",
+      val value: _root_.scala.Option[com.google.protobuf.struct.Value] = _root_.scala.None,
+      val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldsEntry] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -190,6 +210,30 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString(): _root_.scala.Predef.String = s"FieldsEntry(${key}, ${value}, ${unknownFields})"
+      def copy(
+        key: _root_.scala.Predef.String = key,
+        value: _root_.scala.Option[com.google.protobuf.struct.Value] = value,
+        unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+      ): FieldsEntry = new FieldsEntry(
+        key,
+        value,
+        unknownFields
+      )
+      override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+        case __that: FieldsEntry =>
+          this.key == __that.key &&
+          this.value == __that.value &&
+          this.unknownFields == __that.unknownFields
+        case _ => false
+      }
+      override def hashCode(): _root_.scala.Int = {
+        var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.struct.Struct.FieldsEntry.scalaDescriptor.hashCode()
+        __hash = (37 * __hash) + key.hashCode()
+        __hash = (37 * __hash) + value.hashCode()
+        __hash = (37 * __hash) + unknownFields.hashCode()
+        __hash
+      }
       def companion = com.google.protobuf.struct.Struct.FieldsEntry
   }
   
@@ -258,10 +302,26 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     def of(
       key: _root_.scala.Predef.String,
       value: _root_.scala.Option[com.google.protobuf.struct.Value]
-    ): _root_.com.google.protobuf.struct.Struct.FieldsEntry = _root_.com.google.protobuf.struct.Struct.FieldsEntry(
+    ): _root_.com.google.protobuf.struct.Struct.FieldsEntry = new _root_.com.google.protobuf.struct.Struct.FieldsEntry(
       key,
       value
     )
+    def apply(
+      key: _root_.scala.Predef.String = "",
+      value: _root_.scala.Option[com.google.protobuf.struct.Value] = _root_.scala.None,
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ): _root_.com.google.protobuf.struct.Struct.FieldsEntry = new _root_.com.google.protobuf.struct.Struct.FieldsEntry(
+      key,
+      value,
+      unknownFields
+    )
+    def unapply(__value: _root_.com.google.protobuf.struct.Struct.FieldsEntry): Option[(
+      _root_.scala.Predef.String,
+      _root_.scala.Option[com.google.protobuf.struct.Value]
+    )] = Some((
+      __value.key,
+      __value.value
+    ))
   }
   
   implicit class StructLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct](_l) {
@@ -272,7 +332,19 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   private val _typemapper_fields: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)] = implicitly[_root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)]]
   def of(
     fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]
-  ): _root_.com.google.protobuf.struct.Struct = _root_.com.google.protobuf.struct.Struct(
+  ): _root_.com.google.protobuf.struct.Struct = new _root_.com.google.protobuf.struct.Struct(
     fields
   )
+  def apply(
+    fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value] = _root_.scala.collection.immutable.Map.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.struct.Struct = new _root_.com.google.protobuf.struct.Struct(
+    fields,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.struct.Struct): Option[(
+    _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]
+  )] = Some((
+    __value.fields
+  ))
 }

@@ -31,18 +31,18 @@ package com.google.protobuf.`type`
   *   The string value of the default value of this field. Proto2 syntax only.
   */
 @SerialVersionUID(0L)
-final case class Field(
-    kind: com.google.protobuf.`type`.Field.Kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
-    cardinality: com.google.protobuf.`type`.Field.Cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
-    number: _root_.scala.Int = 0,
-    name: _root_.scala.Predef.String = "",
-    typeUrl: _root_.scala.Predef.String = "",
-    oneofIndex: _root_.scala.Int = 0,
-    packed: _root_.scala.Boolean = false,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
-    jsonName: _root_.scala.Predef.String = "",
-    defaultValue: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Field(
+    val kind: com.google.protobuf.`type`.Field.Kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
+    val cardinality: com.google.protobuf.`type`.Field.Cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
+    val number: _root_.scala.Int = 0,
+    val name: _root_.scala.Predef.String = "",
+    val typeUrl: _root_.scala.Predef.String = "",
+    val oneofIndex: _root_.scala.Int = 0,
+    val packed: _root_.scala.Boolean = false,
+    val options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    val jsonName: _root_.scala.Predef.String = "",
+    val defaultValue: _root_.scala.Predef.String = "",
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Field] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -261,6 +261,62 @@ final case class Field(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Field(${kind}, ${cardinality}, ${number}, ${name}, ${typeUrl}, ${oneofIndex}, ${packed}, ${options}, ${jsonName}, ${defaultValue}, ${unknownFields})"
+    def copy(
+      kind: com.google.protobuf.`type`.Field.Kind = kind,
+      cardinality: com.google.protobuf.`type`.Field.Cardinality = cardinality,
+      number: _root_.scala.Int = number,
+      name: _root_.scala.Predef.String = name,
+      typeUrl: _root_.scala.Predef.String = typeUrl,
+      oneofIndex: _root_.scala.Int = oneofIndex,
+      packed: _root_.scala.Boolean = packed,
+      options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = options,
+      jsonName: _root_.scala.Predef.String = jsonName,
+      defaultValue: _root_.scala.Predef.String = defaultValue,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Field = new Field(
+      kind,
+      cardinality,
+      number,
+      name,
+      typeUrl,
+      oneofIndex,
+      packed,
+      options,
+      jsonName,
+      defaultValue,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Field =>
+        this.kind == __that.kind &&
+        this.cardinality == __that.cardinality &&
+        this.number == __that.number &&
+        this.name == __that.name &&
+        this.typeUrl == __that.typeUrl &&
+        this.oneofIndex == __that.oneofIndex &&
+        this.packed == __that.packed &&
+        this.options == __that.options &&
+        this.jsonName == __that.jsonName &&
+        this.defaultValue == __that.defaultValue &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.`type`.Field.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + kind.hashCode()
+      __hash = (37 * __hash) + cardinality.hashCode()
+      __hash = (37 * __hash) + number
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + typeUrl.hashCode()
+      __hash = (37 * __hash) + oneofIndex
+      __hash = (37 * __hash) + _root_.scalapb.internal.Hashing.hashBoolean(packed)
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + jsonName.hashCode()
+      __hash = (37 * __hash) + defaultValue.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.`type`.Field
 }
 
@@ -697,7 +753,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     jsonName: _root_.scala.Predef.String,
     defaultValue: _root_.scala.Predef.String
-  ): _root_.com.google.protobuf.`type`.Field = _root_.com.google.protobuf.`type`.Field(
+  ): _root_.com.google.protobuf.`type`.Field = new _root_.com.google.protobuf.`type`.Field(
     kind,
     cardinality,
     number,
@@ -709,4 +765,52 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     jsonName,
     defaultValue
   )
+  def apply(
+    kind: com.google.protobuf.`type`.Field.Kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
+    cardinality: com.google.protobuf.`type`.Field.Cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
+    number: _root_.scala.Int = 0,
+    name: _root_.scala.Predef.String = "",
+    typeUrl: _root_.scala.Predef.String = "",
+    oneofIndex: _root_.scala.Int = 0,
+    packed: _root_.scala.Boolean = false,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    jsonName: _root_.scala.Predef.String = "",
+    defaultValue: _root_.scala.Predef.String = "",
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.`type`.Field = new _root_.com.google.protobuf.`type`.Field(
+    kind,
+    cardinality,
+    number,
+    name,
+    typeUrl,
+    oneofIndex,
+    packed,
+    options,
+    jsonName,
+    defaultValue,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.`type`.Field): Option[(
+    com.google.protobuf.`type`.Field.Kind,
+    com.google.protobuf.`type`.Field.Cardinality,
+    _root_.scala.Int,
+    _root_.scala.Predef.String,
+    _root_.scala.Predef.String,
+    _root_.scala.Int,
+    _root_.scala.Boolean,
+    _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
+    _root_.scala.Predef.String,
+    _root_.scala.Predef.String
+  )] = Some((
+    __value.kind,
+    __value.cardinality,
+    __value.number,
+    __value.name,
+    __value.typeUrl,
+    __value.oneofIndex,
+    __value.packed,
+    __value.options,
+    __value.jsonName,
+    __value.defaultValue
+  ))
 }

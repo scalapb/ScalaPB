@@ -13,9 +13,9 @@ package com.google.protobuf.wrappers
   *   The double value.
   */
 @SerialVersionUID(0L)
-final case class DoubleValue(
-    value: _root_.scala.Double = 0.0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class DoubleValue(
+    val value: _root_.scala.Double = 0.0,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[DoubleValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -66,6 +66,26 @@ final case class DoubleValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"DoubleValue(${value}, ${unknownFields})"
+    def copy(
+      value: _root_.scala.Double = value,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): DoubleValue = new DoubleValue(
+      value,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: DoubleValue =>
+        this.value == __that.value &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.wrappers.DoubleValue.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + _root_.scalapb.internal.Hashing.hashDouble(value)
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.wrappers.DoubleValue
 }
 
@@ -115,7 +135,19 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   final val VALUE_FIELD_NUMBER = 1
   def of(
     value: _root_.scala.Double
-  ): _root_.com.google.protobuf.wrappers.DoubleValue = _root_.com.google.protobuf.wrappers.DoubleValue(
+  ): _root_.com.google.protobuf.wrappers.DoubleValue = new _root_.com.google.protobuf.wrappers.DoubleValue(
     value
   )
+  def apply(
+    value: _root_.scala.Double = 0.0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.wrappers.DoubleValue = new _root_.com.google.protobuf.wrappers.DoubleValue(
+    value,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.wrappers.DoubleValue): Option[(
+    _root_.scala.Double
+  )] = Some((
+    __value.value
+  ))
 }

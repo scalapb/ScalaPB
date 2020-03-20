@@ -15,11 +15,11 @@ package com.google.protobuf.`type`
   *   Protocol buffer options.
   */
 @SerialVersionUID(0L)
-final case class EnumValue(
-    name: _root_.scala.Predef.String = "",
-    number: _root_.scala.Int = 0,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class EnumValue(
+    val name: _root_.scala.Predef.String = "",
+    val number: _root_.scala.Int = 0,
+    val options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -105,6 +105,34 @@ final case class EnumValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"EnumValue(${name}, ${number}, ${options}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      number: _root_.scala.Int = number,
+      options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = options,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): EnumValue = new EnumValue(
+      name,
+      number,
+      options,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: EnumValue =>
+        this.name == __that.name &&
+        this.number == __that.number &&
+        this.options == __that.options &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.`type`.EnumValue.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + number
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.`type`.EnumValue
 }
 
@@ -178,9 +206,29 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
     name: _root_.scala.Predef.String,
     number: _root_.scala.Int,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]
-  ): _root_.com.google.protobuf.`type`.EnumValue = _root_.com.google.protobuf.`type`.EnumValue(
+  ): _root_.com.google.protobuf.`type`.EnumValue = new _root_.com.google.protobuf.`type`.EnumValue(
     name,
     number,
     options
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    number: _root_.scala.Int = 0,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.`type`.EnumValue = new _root_.com.google.protobuf.`type`.EnumValue(
+    name,
+    number,
+    options,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.`type`.EnumValue): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Int,
+    _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]
+  )] = Some((
+    __value.name,
+    __value.number,
+    __value.options
+  ))
 }

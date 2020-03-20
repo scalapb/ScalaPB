@@ -21,14 +21,14 @@ package com.google.protobuf.`type`
   *   The source syntax.
   */
 @SerialVersionUID(0L)
-final case class Type(
-    name: _root_.scala.Predef.String = "",
-    fields: _root_.scala.Seq[com.google.protobuf.`type`.Field] = _root_.scala.Seq.empty,
-    oneofs: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
-    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Type(
+    val name: _root_.scala.Predef.String = "",
+    val fields: _root_.scala.Seq[com.google.protobuf.`type`.Field] = _root_.scala.Seq.empty,
+    val oneofs: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    val sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
+    val syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Type] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -159,6 +159,46 @@ final case class Type(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Type(${name}, ${fields}, ${oneofs}, ${options}, ${sourceContext}, ${syntax}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      fields: _root_.scala.Seq[com.google.protobuf.`type`.Field] = fields,
+      oneofs: _root_.scala.Seq[_root_.scala.Predef.String] = oneofs,
+      options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = options,
+      sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = sourceContext,
+      syntax: com.google.protobuf.`type`.Syntax = syntax,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Type = new Type(
+      name,
+      fields,
+      oneofs,
+      options,
+      sourceContext,
+      syntax,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Type =>
+        this.name == __that.name &&
+        this.fields == __that.fields &&
+        this.oneofs == __that.oneofs &&
+        this.options == __that.options &&
+        this.sourceContext == __that.sourceContext &&
+        this.syntax == __that.syntax &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.`type`.Type.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + fields.hashCode()
+      __hash = (37 * __hash) + oneofs.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + sourceContext.hashCode()
+      __hash = (37 * __hash) + syntax.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.`type`.Type
 }
 
@@ -266,7 +306,7 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     syntax: com.google.protobuf.`type`.Syntax
-  ): _root_.com.google.protobuf.`type`.Type = _root_.com.google.protobuf.`type`.Type(
+  ): _root_.com.google.protobuf.`type`.Type = new _root_.com.google.protobuf.`type`.Type(
     name,
     fields,
     oneofs,
@@ -274,4 +314,36 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     sourceContext,
     syntax
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    fields: _root_.scala.Seq[com.google.protobuf.`type`.Field] = _root_.scala.Seq.empty,
+    oneofs: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.`type`.Type = new _root_.com.google.protobuf.`type`.Type(
+    name,
+    fields,
+    oneofs,
+    options,
+    sourceContext,
+    syntax,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.`type`.Type): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Seq[com.google.protobuf.`type`.Field],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
+    _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
+    com.google.protobuf.`type`.Syntax
+  )] = Some((
+    __value.name,
+    __value.fields,
+    __value.oneofs,
+    __value.options,
+    __value.sourceContext,
+    __value.syntax
+  ))
 }

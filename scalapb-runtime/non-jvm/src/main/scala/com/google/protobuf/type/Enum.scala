@@ -19,13 +19,13 @@ package com.google.protobuf.`type`
   *   The source syntax.
   */
 @SerialVersionUID(0L)
-final case class Enum(
-    name: _root_.scala.Predef.String = "",
-    enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.Seq.empty,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
-    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Enum(
+    val name: _root_.scala.Predef.String = "",
+    val enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.Seq.empty,
+    val options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    val sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
+    val syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Enum] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -142,6 +142,42 @@ final case class Enum(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Enum(${name}, ${enumvalue}, ${options}, ${sourceContext}, ${syntax}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = enumvalue,
+      options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = options,
+      sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = sourceContext,
+      syntax: com.google.protobuf.`type`.Syntax = syntax,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Enum = new Enum(
+      name,
+      enumvalue,
+      options,
+      sourceContext,
+      syntax,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Enum =>
+        this.name == __that.name &&
+        this.enumvalue == __that.enumvalue &&
+        this.options == __that.options &&
+        this.sourceContext == __that.sourceContext &&
+        this.syntax == __that.syntax &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.`type`.Enum.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + enumvalue.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + sourceContext.hashCode()
+      __hash = (37 * __hash) + syntax.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.`type`.Enum
 }
 
@@ -240,11 +276,39 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     syntax: com.google.protobuf.`type`.Syntax
-  ): _root_.com.google.protobuf.`type`.Enum = _root_.com.google.protobuf.`type`.Enum(
+  ): _root_.com.google.protobuf.`type`.Enum = new _root_.com.google.protobuf.`type`.Enum(
     name,
     enumvalue,
     options,
     sourceContext,
     syntax
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.Seq.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.`type`.Enum = new _root_.com.google.protobuf.`type`.Enum(
+    name,
+    enumvalue,
+    options,
+    sourceContext,
+    syntax,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.`type`.Enum): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Seq[com.google.protobuf.`type`.EnumValue],
+    _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
+    _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
+    com.google.protobuf.`type`.Syntax
+  )] = Some((
+    __value.name,
+    __value.enumvalue,
+    __value.options,
+    __value.sourceContext,
+    __value.syntax
+  ))
 }

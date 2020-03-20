@@ -57,19 +57,19 @@ package com.google.protobuf.descriptor
   *   optional with `LABEL_OPTIONAL`.
   */
 @SerialVersionUID(0L)
-final case class FieldDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-    label: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label] = _root_.scala.None,
-    `type`: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type] = _root_.scala.None,
-    typeName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    extendee: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    defaultValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    oneofIndex: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-    jsonName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
-    proto3Optional: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class FieldDescriptorProto(
+    val name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    val label: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label] = _root_.scala.None,
+    val `type`: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type] = _root_.scala.None,
+    val typeName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val extendee: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val defaultValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val oneofIndex: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    val jsonName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
+    val proto3Optional: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -246,6 +246,66 @@ final case class FieldDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"FieldDescriptorProto(${name}, ${number}, ${label}, ${`type`}, ${typeName}, ${extendee}, ${defaultValue}, ${oneofIndex}, ${jsonName}, ${options}, ${proto3Optional}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Option[_root_.scala.Predef.String] = name,
+      number: _root_.scala.Option[_root_.scala.Int] = number,
+      label: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label] = label,
+      `type`: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type] = `type`,
+      typeName: _root_.scala.Option[_root_.scala.Predef.String] = typeName,
+      extendee: _root_.scala.Option[_root_.scala.Predef.String] = extendee,
+      defaultValue: _root_.scala.Option[_root_.scala.Predef.String] = defaultValue,
+      oneofIndex: _root_.scala.Option[_root_.scala.Int] = oneofIndex,
+      jsonName: _root_.scala.Option[_root_.scala.Predef.String] = jsonName,
+      options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = options,
+      proto3Optional: _root_.scala.Option[_root_.scala.Boolean] = proto3Optional,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): FieldDescriptorProto = new FieldDescriptorProto(
+      name,
+      number,
+      label,
+      `type`,
+      typeName,
+      extendee,
+      defaultValue,
+      oneofIndex,
+      jsonName,
+      options,
+      proto3Optional,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: FieldDescriptorProto =>
+        this.name == __that.name &&
+        this.number == __that.number &&
+        this.label == __that.label &&
+        this.`type` == __that.`type` &&
+        this.typeName == __that.typeName &&
+        this.extendee == __that.extendee &&
+        this.defaultValue == __that.defaultValue &&
+        this.oneofIndex == __that.oneofIndex &&
+        this.jsonName == __that.jsonName &&
+        this.options == __that.options &&
+        this.proto3Optional == __that.proto3Optional &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + number.hashCode()
+      __hash = (37 * __hash) + label.hashCode()
+      __hash = (37 * __hash) + `type`.hashCode()
+      __hash = (37 * __hash) + typeName.hashCode()
+      __hash = (37 * __hash) + extendee.hashCode()
+      __hash = (37 * __hash) + defaultValue.hashCode()
+      __hash = (37 * __hash) + oneofIndex.hashCode()
+      __hash = (37 * __hash) + jsonName.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + proto3Optional.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.FieldDescriptorProto
 }
 
@@ -696,7 +756,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     jsonName: _root_.scala.Option[_root_.scala.Predef.String],
     options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
     proto3Optional: _root_.scala.Option[_root_.scala.Boolean]
-  ): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = _root_.com.google.protobuf.descriptor.FieldDescriptorProto(
+  ): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = new _root_.com.google.protobuf.descriptor.FieldDescriptorProto(
     name,
     number,
     label,
@@ -709,4 +769,56 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     options,
     proto3Optional
   )
+  def apply(
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    label: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label] = _root_.scala.None,
+    `type`: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type] = _root_.scala.None,
+    typeName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    extendee: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    defaultValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    oneofIndex: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    jsonName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
+    proto3Optional: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = new _root_.com.google.protobuf.descriptor.FieldDescriptorProto(
+    name,
+    number,
+    label,
+    `type`,
+    typeName,
+    extendee,
+    defaultValue,
+    oneofIndex,
+    jsonName,
+    options,
+    proto3Optional,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.FieldDescriptorProto): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Int],
+    _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label],
+    _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Int],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
+    _root_.scala.Option[_root_.scala.Boolean]
+  )] = Some((
+    __value.name,
+    __value.number,
+    __value.label,
+    __value.`type`,
+    __value.typeName,
+    __value.extendee,
+    __value.defaultValue,
+    __value.oneofIndex,
+    __value.jsonName,
+    __value.options,
+    __value.proto3Optional
+  ))
 }

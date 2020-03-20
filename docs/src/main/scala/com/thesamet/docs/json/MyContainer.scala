@@ -6,9 +6,9 @@
 package com.thesamet.docs.json
 
 @SerialVersionUID(0L)
-final case class MyContainer(
-    myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class MyContainer(
+    val myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MyContainer] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -55,6 +55,26 @@ final case class MyContainer(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"MyContainer(${myAny}, ${unknownFields})"
+    def copy(
+      myAny: _root_.scala.Option[com.google.protobuf.any.Any] = myAny,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): MyContainer = new MyContainer(
+      myAny,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: MyContainer =>
+        this.myAny == __that.myAny &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.thesamet.docs.json.MyContainer.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + myAny.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.thesamet.docs.json.MyContainer
 }
 
@@ -111,7 +131,19 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
   final val MY_ANY_FIELD_NUMBER = 1
   def of(
     myAny: _root_.scala.Option[com.google.protobuf.any.Any]
-  ): _root_.com.thesamet.docs.json.MyContainer = _root_.com.thesamet.docs.json.MyContainer(
+  ): _root_.com.thesamet.docs.json.MyContainer = new _root_.com.thesamet.docs.json.MyContainer(
     myAny
   )
+  def apply(
+    myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.thesamet.docs.json.MyContainer = new _root_.com.thesamet.docs.json.MyContainer(
+    myAny,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.thesamet.docs.json.MyContainer): Option[(
+    _root_.scala.Option[com.google.protobuf.any.Any]
+  )] = Some((
+    __value.myAny
+  ))
 }

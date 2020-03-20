@@ -68,15 +68,15 @@ package com.google.protobuf.descriptor
   *   The parser stores options it doesn't recognize here. See above.
   */
 @SerialVersionUID(0L)
-final case class FieldOptions(
-    ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType] = _root_.scala.None,
-    packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = _root_.scala.None,
-    `lazy`: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class FieldOptions(
+    val ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType] = _root_.scala.None,
+    val packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = _root_.scala.None,
+    val `lazy`: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] with _root_.scalapb.ExtendableMessage[FieldOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -202,6 +202,50 @@ final case class FieldOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"FieldOptions(${ctype}, ${packed}, ${jstype}, ${`lazy`}, ${deprecated}, ${weak}, ${uninterpretedOption}, ${unknownFields})"
+    def copy(
+      ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType] = ctype,
+      packed: _root_.scala.Option[_root_.scala.Boolean] = packed,
+      jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = jstype,
+      `lazy`: _root_.scala.Option[_root_.scala.Boolean] = `lazy`,
+      deprecated: _root_.scala.Option[_root_.scala.Boolean] = deprecated,
+      weak: _root_.scala.Option[_root_.scala.Boolean] = weak,
+      uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = uninterpretedOption,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): FieldOptions = new FieldOptions(
+      ctype,
+      packed,
+      jstype,
+      `lazy`,
+      deprecated,
+      weak,
+      uninterpretedOption,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: FieldOptions =>
+        this.ctype == __that.ctype &&
+        this.packed == __that.packed &&
+        this.jstype == __that.jstype &&
+        this.`lazy` == __that.`lazy` &&
+        this.deprecated == __that.deprecated &&
+        this.weak == __that.weak &&
+        this.uninterpretedOption == __that.uninterpretedOption &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + ctype.hashCode()
+      __hash = (37 * __hash) + packed.hashCode()
+      __hash = (37 * __hash) + jstype.hashCode()
+      __hash = (37 * __hash) + `lazy`.hashCode()
+      __hash = (37 * __hash) + deprecated.hashCode()
+      __hash = (37 * __hash) + weak.hashCode()
+      __hash = (37 * __hash) + uninterpretedOption.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.FieldOptions
 }
 
@@ -422,7 +466,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     weak: _root_.scala.Option[_root_.scala.Boolean],
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
-  ): _root_.com.google.protobuf.descriptor.FieldOptions = _root_.com.google.protobuf.descriptor.FieldOptions(
+  ): _root_.com.google.protobuf.descriptor.FieldOptions = new _root_.com.google.protobuf.descriptor.FieldOptions(
     ctype,
     packed,
     jstype,
@@ -431,4 +475,40 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     weak,
     uninterpretedOption
   )
+  def apply(
+    ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType] = _root_.scala.None,
+    packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = _root_.scala.None,
+    `lazy`: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.FieldOptions = new _root_.com.google.protobuf.descriptor.FieldOptions(
+    ctype,
+    packed,
+    jstype,
+    `lazy`,
+    deprecated,
+    weak,
+    uninterpretedOption,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.FieldOptions): Option[(
+    _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType],
+    _root_.scala.Option[_root_.scala.Boolean],
+    _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType],
+    _root_.scala.Option[_root_.scala.Boolean],
+    _root_.scala.Option[_root_.scala.Boolean],
+    _root_.scala.Option[_root_.scala.Boolean],
+    _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
+  )] = Some((
+    __value.ctype,
+    __value.packed,
+    __value.jstype,
+    __value.`lazy`,
+    __value.deprecated,
+    __value.weak,
+    __value.uninterpretedOption
+  ))
 }

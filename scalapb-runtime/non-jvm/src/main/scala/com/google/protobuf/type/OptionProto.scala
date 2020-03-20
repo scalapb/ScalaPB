@@ -20,10 +20,10 @@ package com.google.protobuf.`type`
   *   value using the google.protobuf.Int32Value type.
   */
 @SerialVersionUID(0L)
-final case class OptionProto(
-    name: _root_.scala.Predef.String = "",
-    value: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class OptionProto(
+    val name: _root_.scala.Predef.String = "",
+    val value: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OptionProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -89,6 +89,30 @@ final case class OptionProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"OptionProto(${name}, ${value}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      value: _root_.scala.Option[com.google.protobuf.any.Any] = value,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): OptionProto = new OptionProto(
+      name,
+      value,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: OptionProto =>
+        this.name == __that.name &&
+        this.value == __that.value &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.`type`.OptionProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + value.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.`type`.OptionProto
 }
 
@@ -154,8 +178,24 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def of(
     name: _root_.scala.Predef.String,
     value: _root_.scala.Option[com.google.protobuf.any.Any]
-  ): _root_.com.google.protobuf.`type`.OptionProto = _root_.com.google.protobuf.`type`.OptionProto(
+  ): _root_.com.google.protobuf.`type`.OptionProto = new _root_.com.google.protobuf.`type`.OptionProto(
     name,
     value
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    value: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.`type`.OptionProto = new _root_.com.google.protobuf.`type`.OptionProto(
+    name,
+    value,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.`type`.OptionProto): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Option[com.google.protobuf.any.Any]
+  )] = Some((
+    __value.name,
+    __value.value
+  ))
 }

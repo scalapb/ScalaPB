@@ -13,9 +13,9 @@ package com.google.protobuf.wrappers
   *   The bool value.
   */
 @SerialVersionUID(0L)
-final case class BoolValue(
-    value: _root_.scala.Boolean = false,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class BoolValue(
+    val value: _root_.scala.Boolean = false,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[BoolValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -66,6 +66,26 @@ final case class BoolValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"BoolValue(${value}, ${unknownFields})"
+    def copy(
+      value: _root_.scala.Boolean = value,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): BoolValue = new BoolValue(
+      value,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: BoolValue =>
+        this.value == __that.value &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.wrappers.BoolValue.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + _root_.scalapb.internal.Hashing.hashBoolean(value)
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.wrappers.BoolValue
 }
 
@@ -115,7 +135,19 @@ object BoolValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.w
   final val VALUE_FIELD_NUMBER = 1
   def of(
     value: _root_.scala.Boolean
-  ): _root_.com.google.protobuf.wrappers.BoolValue = _root_.com.google.protobuf.wrappers.BoolValue(
+  ): _root_.com.google.protobuf.wrappers.BoolValue = new _root_.com.google.protobuf.wrappers.BoolValue(
     value
   )
+  def apply(
+    value: _root_.scala.Boolean = false,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.wrappers.BoolValue = new _root_.com.google.protobuf.wrappers.BoolValue(
+    value,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.wrappers.BoolValue): Option[(
+    _root_.scala.Boolean
+  )] = Some((
+    __value.value
+  ))
 }

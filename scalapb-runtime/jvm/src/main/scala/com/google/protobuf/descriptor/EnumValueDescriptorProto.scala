@@ -8,11 +8,11 @@ package com.google.protobuf.descriptor
 /** Describes a value within an enum.
   */
 @SerialVersionUID(0L)
-final case class EnumValueDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class EnumValueDescriptorProto(
+    val name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    val options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumValueDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -85,6 +85,34 @@ final case class EnumValueDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"EnumValueDescriptorProto(${name}, ${number}, ${options}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Option[_root_.scala.Predef.String] = name,
+      number: _root_.scala.Option[_root_.scala.Int] = number,
+      options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = options,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): EnumValueDescriptorProto = new EnumValueDescriptorProto(
+      name,
+      number,
+      options,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: EnumValueDescriptorProto =>
+        this.name == __that.name &&
+        this.number == __that.number &&
+        this.options == __that.options &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.EnumValueDescriptorProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + number.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.EnumValueDescriptorProto
 }
 
@@ -173,9 +201,29 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
     name: _root_.scala.Option[_root_.scala.Predef.String],
     number: _root_.scala.Option[_root_.scala.Int],
     options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions]
-  ): _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto = _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto(
+  ): _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto = new _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto(
     name,
     number,
     options
   )
+  def apply(
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto = new _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto(
+    name,
+    number,
+    options,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.EnumValueDescriptorProto): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Int],
+    _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions]
+  )] = Some((
+    __value.name,
+    __value.number,
+    __value.options
+  ))
 }

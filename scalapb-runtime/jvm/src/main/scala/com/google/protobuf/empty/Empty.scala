@@ -16,8 +16,8 @@ package com.google.protobuf.empty
   * The JSON representation for `Empty` is empty JSON object `{}`.
   */
 @SerialVersionUID(0L)
-final case class Empty(
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Empty(
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Empty] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -42,6 +42,22 @@ final case class Empty(
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = throw new MatchError(__fieldNumber)
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = throw new MatchError(__field)
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Empty(${unknownFields})"
+    def copy(
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Empty = new Empty(
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Empty =>
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.empty.Empty.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.empty.Empty
 }
 
@@ -88,6 +104,12 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
   implicit class EmptyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.empty.Empty]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.empty.Empty](_l) {
   }
   def of(
-  ): _root_.com.google.protobuf.empty.Empty = _root_.com.google.protobuf.empty.Empty(
+  ): _root_.com.google.protobuf.empty.Empty = new _root_.com.google.protobuf.empty.Empty(
   )
+  def apply(
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.empty.Empty = new _root_.com.google.protobuf.empty.Empty(
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.empty.Empty): _root_.scala.Boolean = true
 }

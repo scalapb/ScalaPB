@@ -231,7 +231,7 @@ abstract class GeneratedFileObject {
   def messagesCompanions: Seq[GeneratedMessageCompanion[_ <: GeneratedMessage]]
 }
 
-trait GeneratedSealedOneof extends Any with Product with Serializable {
+trait GeneratedSealedOneof extends Any with Serializable {
   type MessageType <: GeneratedMessage
   def isEmpty: Boolean
   def isDefined: Boolean

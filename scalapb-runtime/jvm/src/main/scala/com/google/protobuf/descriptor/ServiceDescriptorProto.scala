@@ -9,11 +9,11 @@ import _root_.scalapb.internal.compat.JavaConverters._
 /** Describes a service.
   */
 @SerialVersionUID(0L)
-final case class ServiceDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.Seq.empty,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class ServiceDescriptorProto(
+    val name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.Seq.empty,
+    val options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ServiceDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -89,6 +89,34 @@ final case class ServiceDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"ServiceDescriptorProto(${name}, ${method}, ${options}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Option[_root_.scala.Predef.String] = name,
+      method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = method,
+      options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = options,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): ServiceDescriptorProto = new ServiceDescriptorProto(
+      name,
+      method,
+      options,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: ServiceDescriptorProto =>
+        this.name == __that.name &&
+        this.method == __that.method &&
+        this.options == __that.options &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.ServiceDescriptorProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + method.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.ServiceDescriptorProto
 }
 
@@ -177,9 +205,29 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
     name: _root_.scala.Option[_root_.scala.Predef.String],
     method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]
-  ): _root_.com.google.protobuf.descriptor.ServiceDescriptorProto = _root_.com.google.protobuf.descriptor.ServiceDescriptorProto(
+  ): _root_.com.google.protobuf.descriptor.ServiceDescriptorProto = new _root_.com.google.protobuf.descriptor.ServiceDescriptorProto(
     name,
     method,
     options
   )
+  def apply(
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.Seq.empty,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.ServiceDescriptorProto = new _root_.com.google.protobuf.descriptor.ServiceDescriptorProto(
+    name,
+    method,
+    options,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.ServiceDescriptorProto): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto],
+    _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions]
+  )] = Some((
+    __value.name,
+    __value.method,
+    __value.options
+  ))
 }

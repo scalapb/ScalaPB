@@ -31,20 +31,20 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   The supported values are "proto2" and "proto3".
   */
 @SerialVersionUID(0L)
-final case class FileDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    `package`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    dependency: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    publicDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-    weakDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-    messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Seq.empty,
-    enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Seq.empty,
-    service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scala.Seq.empty,
-    extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None,
-    sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
-    syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class FileDescriptorProto(
+    val name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val `package`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val dependency: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val publicDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+    val weakDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+    val messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Seq.empty,
+    val enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Seq.empty,
+    val service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scala.Seq.empty,
+    val extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
+    val options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None,
+    val sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
+    val syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -251,6 +251,70 @@ final case class FileDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"FileDescriptorProto(${name}, ${`package`}, ${dependency}, ${publicDependency}, ${weakDependency}, ${messageType}, ${enumType}, ${service}, ${extension}, ${options}, ${sourceCodeInfo}, ${syntax}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Option[_root_.scala.Predef.String] = name,
+      `package`: _root_.scala.Option[_root_.scala.Predef.String] = `package`,
+      dependency: _root_.scala.Seq[_root_.scala.Predef.String] = dependency,
+      publicDependency: _root_.scala.Seq[_root_.scala.Int] = publicDependency,
+      weakDependency: _root_.scala.Seq[_root_.scala.Int] = weakDependency,
+      messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = messageType,
+      enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = enumType,
+      service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = service,
+      extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = extension,
+      options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = options,
+      sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = sourceCodeInfo,
+      syntax: _root_.scala.Option[_root_.scala.Predef.String] = syntax,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): FileDescriptorProto = new FileDescriptorProto(
+      name,
+      `package`,
+      dependency,
+      publicDependency,
+      weakDependency,
+      messageType,
+      enumType,
+      service,
+      extension,
+      options,
+      sourceCodeInfo,
+      syntax,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: FileDescriptorProto =>
+        this.name == __that.name &&
+        this.`package` == __that.`package` &&
+        this.dependency == __that.dependency &&
+        this.publicDependency == __that.publicDependency &&
+        this.weakDependency == __that.weakDependency &&
+        this.messageType == __that.messageType &&
+        this.enumType == __that.enumType &&
+        this.service == __that.service &&
+        this.extension == __that.extension &&
+        this.options == __that.options &&
+        this.sourceCodeInfo == __that.sourceCodeInfo &&
+        this.syntax == __that.syntax &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.FileDescriptorProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + `package`.hashCode()
+      __hash = (37 * __hash) + dependency.hashCode()
+      __hash = (37 * __hash) + publicDependency.hashCode()
+      __hash = (37 * __hash) + weakDependency.hashCode()
+      __hash = (37 * __hash) + messageType.hashCode()
+      __hash = (37 * __hash) + enumType.hashCode()
+      __hash = (37 * __hash) + service.hashCode()
+      __hash = (37 * __hash) + extension.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + sourceCodeInfo.hashCode()
+      __hash = (37 * __hash) + syntax.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.FileDescriptorProto
 }
 
@@ -461,7 +525,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions],
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo],
     syntax: _root_.scala.Option[_root_.scala.Predef.String]
-  ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = _root_.com.google.protobuf.descriptor.FileDescriptorProto(
+  ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = new _root_.com.google.protobuf.descriptor.FileDescriptorProto(
     name,
     `package`,
     dependency,
@@ -475,4 +539,60 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     sourceCodeInfo,
     syntax
   )
+  def apply(
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    `package`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    dependency: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    publicDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+    weakDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+    messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Seq.empty,
+    enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Seq.empty,
+    service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scala.Seq.empty,
+    extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None,
+    sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
+    syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = new _root_.com.google.protobuf.descriptor.FileDescriptorProto(
+    name,
+    `package`,
+    dependency,
+    publicDependency,
+    weakDependency,
+    messageType,
+    enumType,
+    service,
+    extension,
+    options,
+    sourceCodeInfo,
+    syntax,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.FileDescriptorProto): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Int],
+    _root_.scala.Seq[_root_.scala.Int],
+    _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto],
+    _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto],
+    _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto],
+    _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
+    _root_.scala.Option[com.google.protobuf.descriptor.FileOptions],
+    _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo],
+    _root_.scala.Option[_root_.scala.Predef.String]
+  )] = Some((
+    __value.name,
+    __value.`package`,
+    __value.dependency,
+    __value.publicDependency,
+    __value.weakDependency,
+    __value.messageType,
+    __value.enumType,
+    __value.service,
+    __value.extension,
+    __value.options,
+    __value.sourceCodeInfo,
+    __value.syntax
+  ))
 }

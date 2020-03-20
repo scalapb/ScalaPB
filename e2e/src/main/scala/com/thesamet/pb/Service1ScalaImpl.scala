@@ -65,8 +65,8 @@ class Service1ScalaImpl extends Service1 {
 
   override def sealedUnary(request: SealedRequest): Future[SealedResponse] = {
     Future.successful(request match {
-      case Req1(l, _)          => Res1(l.toInt)
-      case Req2(_)             => Res2(17)
+      case Req1(l)          => Res1(l.toInt)
+      case Req2()             => Res2(17)
       case SealedRequest.Empty => SealedResponse.Empty
     })
   }
@@ -94,8 +94,8 @@ class Service1ScalaImpl extends Service1 {
       observer: StreamObserver[SealedResponse]
   ): Unit = {
     val count = request match {
-      case Req1(r, _)          => r.length
-      case Req2(_)             => 14
+      case Req1(r)          => r.length
+      case Req2()             => 14
       case SealedRequest.Empty => 17
     }
     (1 to count).foreach { _ =>

@@ -117,10 +117,10 @@ package com.google.protobuf.any
   *   Must be a valid serialized protocol buffer of the above specified type.
   */
 @SerialVersionUID(0L)
-final case class Any(
-    typeUrl: _root_.scala.Predef.String = "",
-    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Any(
+    val typeUrl: _root_.scala.Predef.String = "",
+    val value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Any] with _root_.scalapb.AnyMethods {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -190,6 +190,30 @@ final case class Any(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Any(${typeUrl}, ${value}, ${unknownFields})"
+    def copy(
+      typeUrl: _root_.scala.Predef.String = typeUrl,
+      value: _root_.com.google.protobuf.ByteString = value,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Any = new Any(
+      typeUrl,
+      value,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Any =>
+        this.typeUrl == __that.typeUrl &&
+        this.value == __that.value &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.any.Any.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + typeUrl.hashCode()
+      __hash = (37 * __hash) + value.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.any.Any
 }
 
@@ -248,8 +272,24 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
   def of(
     typeUrl: _root_.scala.Predef.String,
     value: _root_.com.google.protobuf.ByteString
-  ): _root_.com.google.protobuf.any.Any = _root_.com.google.protobuf.any.Any(
+  ): _root_.com.google.protobuf.any.Any = new _root_.com.google.protobuf.any.Any(
     typeUrl,
     value
   )
+  def apply(
+    typeUrl: _root_.scala.Predef.String = "",
+    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.any.Any = new _root_.com.google.protobuf.any.Any(
+    typeUrl,
+    value,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.any.Any): Option[(
+    _root_.scala.Predef.String,
+    _root_.com.google.protobuf.ByteString
+  )] = Some((
+    __value.typeUrl,
+    __value.value
+  ))
 }

@@ -22,16 +22,16 @@ package scalapb.options
   *   Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
   */
 @SerialVersionUID(0L)
-final case class FieldOptions(
-    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    collectionType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    keyType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    valueType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class FieldOptions(
+    val `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val collectionType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val keyType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val valueType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -168,6 +168,54 @@ final case class FieldOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"FieldOptions(${`type`}, ${scalaName}, ${collectionType}, ${keyType}, ${valueType}, ${annotations}, ${mapType}, ${noBox}, ${unknownFields})"
+    def copy(
+      `type`: _root_.scala.Option[_root_.scala.Predef.String] = `type`,
+      scalaName: _root_.scala.Option[_root_.scala.Predef.String] = scalaName,
+      collectionType: _root_.scala.Option[_root_.scala.Predef.String] = collectionType,
+      keyType: _root_.scala.Option[_root_.scala.Predef.String] = keyType,
+      valueType: _root_.scala.Option[_root_.scala.Predef.String] = valueType,
+      annotations: _root_.scala.Seq[_root_.scala.Predef.String] = annotations,
+      mapType: _root_.scala.Option[_root_.scala.Predef.String] = mapType,
+      noBox: _root_.scala.Option[_root_.scala.Boolean] = noBox,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): FieldOptions = new FieldOptions(
+      `type`,
+      scalaName,
+      collectionType,
+      keyType,
+      valueType,
+      annotations,
+      mapType,
+      noBox,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: FieldOptions =>
+        this.`type` == __that.`type` &&
+        this.scalaName == __that.scalaName &&
+        this.collectionType == __that.collectionType &&
+        this.keyType == __that.keyType &&
+        this.valueType == __that.valueType &&
+        this.annotations == __that.annotations &&
+        this.mapType == __that.mapType &&
+        this.noBox == __that.noBox &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.options.FieldOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + `type`.hashCode()
+      __hash = (37 * __hash) + scalaName.hashCode()
+      __hash = (37 * __hash) + collectionType.hashCode()
+      __hash = (37 * __hash) + keyType.hashCode()
+      __hash = (37 * __hash) + valueType.hashCode()
+      __hash = (37 * __hash) + annotations.hashCode()
+      __hash = (37 * __hash) + mapType.hashCode()
+      __hash = (37 * __hash) + noBox.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.options.FieldOptions
 }
 
@@ -287,7 +335,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     annotations: _root_.scala.Seq[_root_.scala.Predef.String],
     mapType: _root_.scala.Option[_root_.scala.Predef.String],
     noBox: _root_.scala.Option[_root_.scala.Boolean]
-  ): _root_.scalapb.options.FieldOptions = _root_.scalapb.options.FieldOptions(
+  ): _root_.scalapb.options.FieldOptions = new _root_.scalapb.options.FieldOptions(
     `type`,
     scalaName,
     collectionType,
@@ -297,4 +345,44 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     mapType,
     noBox
   )
+  def apply(
+    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    collectionType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    keyType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    valueType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.options.FieldOptions = new _root_.scalapb.options.FieldOptions(
+    `type`,
+    scalaName,
+    collectionType,
+    keyType,
+    valueType,
+    annotations,
+    mapType,
+    noBox,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.options.FieldOptions): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Boolean]
+  )] = Some((
+    __value.`type`,
+    __value.scalaName,
+    __value.collectionType,
+    __value.keyType,
+    __value.valueType,
+    __value.annotations,
+    __value.mapType,
+    __value.noBox
+  ))
 }

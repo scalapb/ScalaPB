@@ -6,9 +6,9 @@
 package scalapb.perf.protos
 
 @SerialVersionUID(0L)
-final case class Enum(
-    color: scalapb.perf.protos.Color = scalapb.perf.protos.Color.UNKNOWN,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Enum(
+    val color: scalapb.perf.protos.Color = scalapb.perf.protos.Color.UNKNOWN,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Enum] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -59,6 +59,26 @@ final case class Enum(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Enum(${color}, ${unknownFields})"
+    def copy(
+      color: scalapb.perf.protos.Color = color,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Enum = new Enum(
+      color,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Enum =>
+        this.color == __that.color &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.perf.protos.Enum.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + color.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.perf.protos.Enum
 }
 
@@ -112,7 +132,19 @@ object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] 
   final val COLOR_FIELD_NUMBER = 1
   def of(
     color: scalapb.perf.protos.Color
-  ): _root_.scalapb.perf.protos.Enum = _root_.scalapb.perf.protos.Enum(
+  ): _root_.scalapb.perf.protos.Enum = new _root_.scalapb.perf.protos.Enum(
     color
   )
+  def apply(
+    color: scalapb.perf.protos.Color = scalapb.perf.protos.Color.UNKNOWN,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.perf.protos.Enum = new _root_.scalapb.perf.protos.Enum(
+    color,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.perf.protos.Enum): Option[(
+    scalapb.perf.protos.Color
+  )] = Some((
+    __value.color
+  ))
 }

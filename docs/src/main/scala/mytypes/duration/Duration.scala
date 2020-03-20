@@ -6,9 +6,9 @@
 package mytypes.duration
 
 @SerialVersionUID(0L)
-final case class Duration(
-    seconds: _root_.scala.Int = 0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Duration(
+    val seconds: _root_.scala.Int = 0,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Duration] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -59,6 +59,26 @@ final case class Duration(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Duration(${seconds}, ${unknownFields})"
+    def copy(
+      seconds: _root_.scala.Int = seconds,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Duration = new Duration(
+      seconds,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Duration =>
+        this.seconds == __that.seconds &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + mytypes.duration.Duration.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + seconds
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = mytypes.duration.Duration
 }
 
@@ -108,7 +128,19 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
   final val SECONDS_FIELD_NUMBER = 1
   def of(
     seconds: _root_.scala.Int
-  ): _root_.mytypes.duration.Duration = _root_.mytypes.duration.Duration(
+  ): _root_.mytypes.duration.Duration = new _root_.mytypes.duration.Duration(
     seconds
   )
+  def apply(
+    seconds: _root_.scala.Int = 0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.mytypes.duration.Duration = new _root_.mytypes.duration.Duration(
+    seconds,
+    unknownFields
+  )
+  def unapply(__value: _root_.mytypes.duration.Duration): Option[(
+    _root_.scala.Int
+  )] = Some((
+    __value.seconds
+  ))
 }

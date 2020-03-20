@@ -210,9 +210,9 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   The set of field mask paths.
   */
 @SerialVersionUID(0L)
-final case class FieldMask(
-    paths: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class FieldMask(
+    val paths: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldMask] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -258,6 +258,26 @@ final case class FieldMask(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"FieldMask(${paths}, ${unknownFields})"
+    def copy(
+      paths: _root_.scala.Seq[_root_.scala.Predef.String] = paths,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): FieldMask = new FieldMask(
+      paths,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: FieldMask =>
+        this.paths == __that.paths &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.field_mask.FieldMask.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + paths.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.field_mask.FieldMask
 }
 
@@ -315,7 +335,19 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
   final val PATHS_FIELD_NUMBER = 1
   def of(
     paths: _root_.scala.Seq[_root_.scala.Predef.String]
-  ): _root_.com.google.protobuf.field_mask.FieldMask = _root_.com.google.protobuf.field_mask.FieldMask(
+  ): _root_.com.google.protobuf.field_mask.FieldMask = new _root_.com.google.protobuf.field_mask.FieldMask(
     paths
   )
+  def apply(
+    paths: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.field_mask.FieldMask = new _root_.com.google.protobuf.field_mask.FieldMask(
+    paths,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.field_mask.FieldMask): Option[(
+    _root_.scala.Seq[_root_.scala.Predef.String]
+  )] = Some((
+    __value.paths
+  ))
 }

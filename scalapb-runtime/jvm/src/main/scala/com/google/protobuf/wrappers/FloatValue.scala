@@ -13,9 +13,9 @@ package com.google.protobuf.wrappers
   *   The float value.
   */
 @SerialVersionUID(0L)
-final case class FloatValue(
-    value: _root_.scala.Float = 0.0f,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class FloatValue(
+    val value: _root_.scala.Float = 0.0f,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FloatValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -66,6 +66,26 @@ final case class FloatValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"FloatValue(${value}, ${unknownFields})"
+    def copy(
+      value: _root_.scala.Float = value,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): FloatValue = new FloatValue(
+      value,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: FloatValue =>
+        this.value == __that.value &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.wrappers.FloatValue.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + _root_.scalapb.internal.Hashing.hashFloat(value)
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.wrappers.FloatValue
 }
 
@@ -123,7 +143,19 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   final val VALUE_FIELD_NUMBER = 1
   def of(
     value: _root_.scala.Float
-  ): _root_.com.google.protobuf.wrappers.FloatValue = _root_.com.google.protobuf.wrappers.FloatValue(
+  ): _root_.com.google.protobuf.wrappers.FloatValue = new _root_.com.google.protobuf.wrappers.FloatValue(
     value
   )
+  def apply(
+    value: _root_.scala.Float = 0.0f,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.wrappers.FloatValue = new _root_.com.google.protobuf.wrappers.FloatValue(
+    value,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.wrappers.FloatValue): Option[(
+    _root_.scala.Float
+  )] = Some((
+    __value.value
+  ))
 }

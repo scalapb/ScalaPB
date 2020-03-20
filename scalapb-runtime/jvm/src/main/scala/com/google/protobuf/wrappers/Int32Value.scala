@@ -13,9 +13,9 @@ package com.google.protobuf.wrappers
   *   The int32 value.
   */
 @SerialVersionUID(0L)
-final case class Int32Value(
-    value: _root_.scala.Int = 0,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Int32Value(
+    val value: _root_.scala.Int = 0,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Int32Value] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -66,6 +66,26 @@ final case class Int32Value(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Int32Value(${value}, ${unknownFields})"
+    def copy(
+      value: _root_.scala.Int = value,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Int32Value = new Int32Value(
+      value,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Int32Value =>
+        this.value == __that.value &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.wrappers.Int32Value.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + value
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.wrappers.Int32Value
 }
 
@@ -123,7 +143,19 @@ object Int32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   final val VALUE_FIELD_NUMBER = 1
   def of(
     value: _root_.scala.Int
-  ): _root_.com.google.protobuf.wrappers.Int32Value = _root_.com.google.protobuf.wrappers.Int32Value(
+  ): _root_.com.google.protobuf.wrappers.Int32Value = new _root_.com.google.protobuf.wrappers.Int32Value(
     value
   )
+  def apply(
+    value: _root_.scala.Int = 0,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.wrappers.Int32Value = new _root_.com.google.protobuf.wrappers.Int32Value(
+    value,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.wrappers.Int32Value): Option[(
+    _root_.scala.Int
+  )] = Some((
+    __value.value
+  ))
 }

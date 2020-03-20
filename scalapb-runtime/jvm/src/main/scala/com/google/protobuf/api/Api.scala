@@ -52,15 +52,15 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   The source syntax of the service.
   */
 @SerialVersionUID(0L)
-final case class Api(
-    name: _root_.scala.Predef.String = "",
-    methods: _root_.scala.Seq[com.google.protobuf.api.Method] = _root_.scala.Seq.empty,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
-    version: _root_.scala.Predef.String = "",
-    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
-    mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin] = _root_.scala.Seq.empty,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Api(
+    val name: _root_.scala.Predef.String = "",
+    val methods: _root_.scala.Seq[com.google.protobuf.api.Method] = _root_.scala.Seq.empty,
+    val options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    val version: _root_.scala.Predef.String = "",
+    val sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
+    val mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin] = _root_.scala.Seq.empty,
+    val syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Api] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -212,6 +212,50 @@ final case class Api(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Api(${name}, ${methods}, ${options}, ${version}, ${sourceContext}, ${mixins}, ${syntax}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      methods: _root_.scala.Seq[com.google.protobuf.api.Method] = methods,
+      options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = options,
+      version: _root_.scala.Predef.String = version,
+      sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = sourceContext,
+      mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin] = mixins,
+      syntax: com.google.protobuf.`type`.Syntax = syntax,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Api = new Api(
+      name,
+      methods,
+      options,
+      version,
+      sourceContext,
+      mixins,
+      syntax,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Api =>
+        this.name == __that.name &&
+        this.methods == __that.methods &&
+        this.options == __that.options &&
+        this.version == __that.version &&
+        this.sourceContext == __that.sourceContext &&
+        this.mixins == __that.mixins &&
+        this.syntax == __that.syntax &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.api.Api.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + methods.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + version.hashCode()
+      __hash = (37 * __hash) + sourceContext.hashCode()
+      __hash = (37 * __hash) + mixins.hashCode()
+      __hash = (37 * __hash) + syntax.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.api.Api
 }
 
@@ -349,7 +393,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin],
     syntax: com.google.protobuf.`type`.Syntax
-  ): _root_.com.google.protobuf.api.Api = _root_.com.google.protobuf.api.Api(
+  ): _root_.com.google.protobuf.api.Api = new _root_.com.google.protobuf.api.Api(
     name,
     methods,
     options,
@@ -358,4 +402,40 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     mixins,
     syntax
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    methods: _root_.scala.Seq[com.google.protobuf.api.Method] = _root_.scala.Seq.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    version: _root_.scala.Predef.String = "",
+    sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
+    mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin] = _root_.scala.Seq.empty,
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.api.Api = new _root_.com.google.protobuf.api.Api(
+    name,
+    methods,
+    options,
+    version,
+    sourceContext,
+    mixins,
+    syntax,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.api.Api): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Seq[com.google.protobuf.api.Method],
+    _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
+    _root_.scala.Predef.String,
+    _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
+    _root_.scala.Seq[com.google.protobuf.api.Mixin],
+    com.google.protobuf.`type`.Syntax
+  )] = Some((
+    __value.name,
+    __value.methods,
+    __value.options,
+    __value.version,
+    __value.sourceContext,
+    __value.mixins,
+    __value.syntax
+  ))
 }

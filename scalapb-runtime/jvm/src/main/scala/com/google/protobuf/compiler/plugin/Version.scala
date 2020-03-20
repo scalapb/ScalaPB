@@ -12,12 +12,12 @@ package com.google.protobuf.compiler.plugin
   *   be empty for mainline stable releases.
   */
 @SerialVersionUID(0L)
-final case class Version(
-    major: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-    minor: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-    patch: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-    suffix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Version(
+    val major: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    val minor: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    val patch: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    val suffix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Version] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -101,6 +101,38 @@ final case class Version(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Version(${major}, ${minor}, ${patch}, ${suffix}, ${unknownFields})"
+    def copy(
+      major: _root_.scala.Option[_root_.scala.Int] = major,
+      minor: _root_.scala.Option[_root_.scala.Int] = minor,
+      patch: _root_.scala.Option[_root_.scala.Int] = patch,
+      suffix: _root_.scala.Option[_root_.scala.Predef.String] = suffix,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Version = new Version(
+      major,
+      minor,
+      patch,
+      suffix,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Version =>
+        this.major == __that.major &&
+        this.minor == __that.minor &&
+        this.patch == __that.patch &&
+        this.suffix == __that.suffix &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.compiler.plugin.Version.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + major.hashCode()
+      __hash = (37 * __hash) + minor.hashCode()
+      __hash = (37 * __hash) + patch.hashCode()
+      __hash = (37 * __hash) + suffix.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.compiler.plugin.Version
 }
 
@@ -195,10 +227,34 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     minor: _root_.scala.Option[_root_.scala.Int],
     patch: _root_.scala.Option[_root_.scala.Int],
     suffix: _root_.scala.Option[_root_.scala.Predef.String]
-  ): _root_.com.google.protobuf.compiler.plugin.Version = _root_.com.google.protobuf.compiler.plugin.Version(
+  ): _root_.com.google.protobuf.compiler.plugin.Version = new _root_.com.google.protobuf.compiler.plugin.Version(
     major,
     minor,
     patch,
     suffix
   )
+  def apply(
+    major: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    minor: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    patch: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+    suffix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.compiler.plugin.Version = new _root_.com.google.protobuf.compiler.plugin.Version(
+    major,
+    minor,
+    patch,
+    suffix,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.compiler.plugin.Version): Option[(
+    _root_.scala.Option[_root_.scala.Int],
+    _root_.scala.Option[_root_.scala.Int],
+    _root_.scala.Option[_root_.scala.Int],
+    _root_.scala.Option[_root_.scala.Predef.String]
+  )] = Some((
+    __value.major,
+    __value.minor,
+    __value.patch,
+    __value.suffix
+  ))
 }

@@ -13,9 +13,9 @@ package com.google.protobuf.wrappers
   *   The bytes value.
   */
 @SerialVersionUID(0L)
-final case class BytesValue(
-    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class BytesValue(
+    val value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[BytesValue] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -66,6 +66,26 @@ final case class BytesValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"BytesValue(${value}, ${unknownFields})"
+    def copy(
+      value: _root_.com.google.protobuf.ByteString = value,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): BytesValue = new BytesValue(
+      value,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: BytesValue =>
+        this.value == __that.value &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.wrappers.BytesValue.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + value.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.wrappers.BytesValue
 }
 
@@ -115,7 +135,19 @@ object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   final val VALUE_FIELD_NUMBER = 1
   def of(
     value: _root_.com.google.protobuf.ByteString
-  ): _root_.com.google.protobuf.wrappers.BytesValue = _root_.com.google.protobuf.wrappers.BytesValue(
+  ): _root_.com.google.protobuf.wrappers.BytesValue = new _root_.com.google.protobuf.wrappers.BytesValue(
     value
   )
+  def apply(
+    value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.wrappers.BytesValue = new _root_.com.google.protobuf.wrappers.BytesValue(
+    value,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.wrappers.BytesValue): Option[(
+    _root_.com.google.protobuf.ByteString
+  )] = Some((
+    __value.value
+  ))
 }

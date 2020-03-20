@@ -23,15 +23,15 @@ package scalapb.options
   *   This is equivalent of setting `(field).no_box` to true on each field with the message type.
   */
 @SerialVersionUID(0L)
-final case class MessageOptions(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class MessageOptions(
+    val `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -159,6 +159,50 @@ final case class MessageOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"MessageOptions(${`extends`}, ${companionExtends}, ${annotations}, ${`type`}, ${companionAnnotations}, ${sealedOneofExtends}, ${noBox}, ${unknownFields})"
+    def copy(
+      `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = `extends`,
+      companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = companionExtends,
+      annotations: _root_.scala.Seq[_root_.scala.Predef.String] = annotations,
+      `type`: _root_.scala.Option[_root_.scala.Predef.String] = `type`,
+      companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = companionAnnotations,
+      sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String] = sealedOneofExtends,
+      noBox: _root_.scala.Option[_root_.scala.Boolean] = noBox,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): MessageOptions = new MessageOptions(
+      `extends`,
+      companionExtends,
+      annotations,
+      `type`,
+      companionAnnotations,
+      sealedOneofExtends,
+      noBox,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: MessageOptions =>
+        this.`extends` == __that.`extends` &&
+        this.companionExtends == __that.companionExtends &&
+        this.annotations == __that.annotations &&
+        this.`type` == __that.`type` &&
+        this.companionAnnotations == __that.companionAnnotations &&
+        this.sealedOneofExtends == __that.sealedOneofExtends &&
+        this.noBox == __that.noBox &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.options.MessageOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + `extends`.hashCode()
+      __hash = (37 * __hash) + companionExtends.hashCode()
+      __hash = (37 * __hash) + annotations.hashCode()
+      __hash = (37 * __hash) + `type`.hashCode()
+      __hash = (37 * __hash) + companionAnnotations.hashCode()
+      __hash = (37 * __hash) + sealedOneofExtends.hashCode()
+      __hash = (37 * __hash) + noBox.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.options.MessageOptions
 }
 
@@ -264,7 +308,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
     sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String],
     noBox: _root_.scala.Option[_root_.scala.Boolean]
-  ): _root_.scalapb.options.MessageOptions = _root_.scalapb.options.MessageOptions(
+  ): _root_.scalapb.options.MessageOptions = new _root_.scalapb.options.MessageOptions(
     `extends`,
     companionExtends,
     annotations,
@@ -273,4 +317,40 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     sealedOneofExtends,
     noBox
   )
+  def apply(
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.options.MessageOptions = new _root_.scalapb.options.MessageOptions(
+    `extends`,
+    companionExtends,
+    annotations,
+    `type`,
+    companionAnnotations,
+    sealedOneofExtends,
+    noBox,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.options.MessageOptions): Option[(
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Boolean]
+  )] = Some((
+    __value.`extends`,
+    __value.companionExtends,
+    __value.annotations,
+    __value.`type`,
+    __value.companionAnnotations,
+    __value.sealedOneofExtends,
+    __value.noBox
+  ))
 }

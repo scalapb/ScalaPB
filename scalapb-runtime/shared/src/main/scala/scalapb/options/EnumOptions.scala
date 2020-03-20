@@ -14,11 +14,11 @@ package scalapb.options
   *   must be present.
   */
 @SerialVersionUID(0L)
-final case class EnumOptions(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class EnumOptions(
+    val `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -91,6 +91,34 @@ final case class EnumOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"EnumOptions(${`extends`}, ${companionExtends}, ${`type`}, ${unknownFields})"
+    def copy(
+      `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = `extends`,
+      companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = companionExtends,
+      `type`: _root_.scala.Option[_root_.scala.Predef.String] = `type`,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): EnumOptions = new EnumOptions(
+      `extends`,
+      companionExtends,
+      `type`,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: EnumOptions =>
+        this.`extends` == __that.`extends` &&
+        this.companionExtends == __that.companionExtends &&
+        this.`type` == __that.`type` &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.options.EnumOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + `extends`.hashCode()
+      __hash = (37 * __hash) + companionExtends.hashCode()
+      __hash = (37 * __hash) + `type`.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.options.EnumOptions
 }
 
@@ -159,9 +187,29 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
     companionExtends: _root_.scala.Seq[_root_.scala.Predef.String],
     `type`: _root_.scala.Option[_root_.scala.Predef.String]
-  ): _root_.scalapb.options.EnumOptions = _root_.scalapb.options.EnumOptions(
+  ): _root_.scalapb.options.EnumOptions = new _root_.scalapb.options.EnumOptions(
     `extends`,
     companionExtends,
     `type`
   )
+  def apply(
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.options.EnumOptions = new _root_.scalapb.options.EnumOptions(
+    `extends`,
+    companionExtends,
+    `type`,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.options.EnumOptions): Option[(
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Seq[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String]
+  )] = Some((
+    __value.`extends`,
+    __value.companionExtends,
+    __value.`type`
+  ))
 }

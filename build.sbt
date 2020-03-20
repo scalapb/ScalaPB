@@ -65,7 +65,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     testFrameworks += new TestFramework("utest.runner.Framework"),
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../../protobuf",
     scalacOptions ++= Seq(
-      "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
+      "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated;parameter value __value in method unapply",
       "-P:silencer:lineContentFilters=import scala.collection.compat._"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
@@ -317,7 +317,7 @@ lazy val e2e = (project in file("e2e"))
   .settings(e2eCommonSettings)
   .settings(
     scalacOptions ++= Seq(
-      "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
+      "-P:silencer:globalFilters=eprecatedInt32 in class (TestDeprecatedFields|Builder) is deprecated;parameter value __value in method unapply",
       "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala",
       "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
     ),

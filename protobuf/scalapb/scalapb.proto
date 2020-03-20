@@ -144,6 +144,8 @@ message ScalaPbOptions {
   // Scala type to use for bytes fields.
   optional string bytes_type = 21;
 
+  optional bool case_class = 22;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 100001;

@@ -16,14 +16,14 @@ package com.google.protobuf.descriptor
   *   Identifies if server streams multiple server messages
   */
 @SerialVersionUID(0L)
-final case class MethodDescriptorProto(
-    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    inputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    outputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions] = _root_.scala.None,
-    clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class MethodDescriptorProto(
+    val name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val inputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val outputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    val options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions] = _root_.scala.None,
+    val clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MethodDescriptorProto] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -135,6 +135,46 @@ final case class MethodDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"MethodDescriptorProto(${name}, ${inputType}, ${outputType}, ${options}, ${clientStreaming}, ${serverStreaming}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Option[_root_.scala.Predef.String] = name,
+      inputType: _root_.scala.Option[_root_.scala.Predef.String] = inputType,
+      outputType: _root_.scala.Option[_root_.scala.Predef.String] = outputType,
+      options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions] = options,
+      clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = clientStreaming,
+      serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = serverStreaming,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): MethodDescriptorProto = new MethodDescriptorProto(
+      name,
+      inputType,
+      outputType,
+      options,
+      clientStreaming,
+      serverStreaming,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: MethodDescriptorProto =>
+        this.name == __that.name &&
+        this.inputType == __that.inputType &&
+        this.outputType == __that.outputType &&
+        this.options == __that.options &&
+        this.clientStreaming == __that.clientStreaming &&
+        this.serverStreaming == __that.serverStreaming &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.MethodDescriptorProto.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + inputType.hashCode()
+      __hash = (37 * __hash) + outputType.hashCode()
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + clientStreaming.hashCode()
+      __hash = (37 * __hash) + serverStreaming.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.MethodDescriptorProto
 }
 
@@ -241,7 +281,7 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions],
     clientStreaming: _root_.scala.Option[_root_.scala.Boolean],
     serverStreaming: _root_.scala.Option[_root_.scala.Boolean]
-  ): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = _root_.com.google.protobuf.descriptor.MethodDescriptorProto(
+  ): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = new _root_.com.google.protobuf.descriptor.MethodDescriptorProto(
     name,
     inputType,
     outputType,
@@ -249,4 +289,36 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     clientStreaming,
     serverStreaming
   )
+  def apply(
+    name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    inputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    outputType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    options: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions] = _root_.scala.None,
+    clientStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    serverStreaming: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.MethodDescriptorProto = new _root_.com.google.protobuf.descriptor.MethodDescriptorProto(
+    name,
+    inputType,
+    outputType,
+    options,
+    clientStreaming,
+    serverStreaming,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.MethodDescriptorProto): Option[(
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[_root_.scala.Predef.String],
+    _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions],
+    _root_.scala.Option[_root_.scala.Boolean],
+    _root_.scala.Option[_root_.scala.Boolean]
+  )] = Some((
+    __value.name,
+    __value.inputType,
+    __value.outputType,
+    __value.options,
+    __value.clientStreaming,
+    __value.serverStreaming
+  ))
 }

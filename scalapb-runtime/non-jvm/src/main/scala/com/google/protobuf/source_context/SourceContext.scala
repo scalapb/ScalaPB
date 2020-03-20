@@ -13,9 +13,9 @@ package com.google.protobuf.source_context
   *   protobuf element.  For example: `"google/protobuf/source_context.proto"`.
   */
 @SerialVersionUID(0L)
-final case class SourceContext(
-    fileName: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class SourceContext(
+    val fileName: _root_.scala.Predef.String = "",
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SourceContext] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -66,6 +66,26 @@ final case class SourceContext(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"SourceContext(${fileName}, ${unknownFields})"
+    def copy(
+      fileName: _root_.scala.Predef.String = fileName,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): SourceContext = new SourceContext(
+      fileName,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: SourceContext =>
+        this.fileName == __that.fileName &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.source_context.SourceContext.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + fileName.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.source_context.SourceContext
 }
 
@@ -115,7 +135,19 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
   final val FILE_NAME_FIELD_NUMBER = 1
   def of(
     fileName: _root_.scala.Predef.String
-  ): _root_.com.google.protobuf.source_context.SourceContext = _root_.com.google.protobuf.source_context.SourceContext(
+  ): _root_.com.google.protobuf.source_context.SourceContext = new _root_.com.google.protobuf.source_context.SourceContext(
     fileName
   )
+  def apply(
+    fileName: _root_.scala.Predef.String = "",
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.source_context.SourceContext = new _root_.com.google.protobuf.source_context.SourceContext(
+    fileName,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.source_context.SourceContext): Option[(
+    _root_.scala.Predef.String
+  )] = Some((
+    __value.fileName
+  ))
 }

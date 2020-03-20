@@ -712,7 +712,8 @@ class ProtobufGenerator(
   def printConstructorFieldList(
       message: Descriptor
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-    printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
+    val maybeVal = if (message.isCaseClass) "" else "val "
+    printer.addWithDelimiter(",")(constructorFields(message).map(c => c.fullString(maybeVal)))
   }
 
   def generateMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -911,26 +912,49 @@ class ProtobufGenerator(
       .add(")")
   }
 
-  def generateNoDefaultArgsFactory(
-      message: Descriptor
+  def generateConstructor(
+      message: Descriptor,
+      name: String,
+      fields: Seq[ConstructorField],
+      withDefault: Boolean
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-    val fields = constructorFields(message).filterNot(_ == ConstructorField.UnknownFields)
-
+    val maybeNew = if (message.isCaseClass) "" else "new "
     printer
       .add(
-        s"def of("
+        s"def $name("
       )
       .indented(
-        _.addWithDelimiter(",")(fields.map(_.nameAndType))
+        _.addWithDelimiter(",")(
+          fields.map(f =>
+            f.nameAndType + (if (withDefault) f.default.fold("")(t => " = " + t)
+                             else "")
+          )
+        )
       )
       .add(
-        s"): ${message.scalaType.fullNameWithMaybeRoot} = ${message.scalaType.fullNameWithMaybeRoot}("
+        s"): ${message.scalaType.fullNameWithMaybeRoot} = ${maybeNew}${message.scalaType.fullNameWithMaybeRoot}("
       )
       .indented(
         _.addWithDelimiter(",")(fields.map(_.name))
       )
       .add(")")
+
   }
+
+  def generateNoDefaultArgsFactory(
+      message: Descriptor
+  )(printer: FunctionalPrinter): FunctionalPrinter =
+    generateConstructor(
+      message,
+      "of",
+      constructorFields(message).filterNot(_ == ConstructorField.UnknownFields),
+      withDefault = false
+    )(printer)
+
+  def generateApply(
+      message: Descriptor
+  )(printer: FunctionalPrinter): FunctionalPrinter =
+    generateConstructor(message, "apply", constructorFields(message), withDefault = true)(printer)
 
   def generateMessageReads(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     def transform(field: FieldDescriptor) =
@@ -1361,9 +1385,34 @@ class ProtobufGenerator(
       .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
       .call(generateNoDefaultArgsFactory(message))
+      .when(!message.isCaseClass)(_.call(generateApply(message)))
+      .when(!message.isCaseClass)(_.call(generateUnapply(message)))
       .outdent
       .add("}")
       .add("")
+  }
+
+  def generateUnapply(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val fields = constructorFields(message).filterNot(_ == ConstructorField.UnknownFields)
+
+    printer
+      .when(message.fields.isEmpty)(
+        _.add(
+          s"def unapply(__value: ${message.scalaType.fullNameWithMaybeRoot}): _root_.scala.Boolean = true"
+        )
+      )
+      .when(message.fields.nonEmpty && message.fields.size <= 22)(
+        _.add(s"def unapply(__value: ${message.scalaType.fullNameWithMaybeRoot}): Option[(")
+          .indented(
+            _.addWithDelimiter(",")(fields.map(_.typeName))
+          )
+          .add(")] = Some((")
+          .indented(
+            _.addWithDelimiter(",")(fields.map(f => s"__value.${f.name}"))
+          )
+          .add("))")
+      )
+
   }
 
   def generateScalaDoc(enum: EnumDescriptor): PrinterEndo = { fp =>
@@ -1406,12 +1455,14 @@ class ProtobufGenerator(
 
   def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
     val fullName = message.scalaType.fullNameWithMaybeRoot(message)
+    val maybeCase = if (message.isCaseClass) "case class" else "class"
+    // val maybePrivate = if (message.isCaseClass) "" else " private"
     printer
       .call(new SealedOneofsGenerator(message, implicits).generateSealedOneofTrait)
       .call(generateScalaDoc(message))
       .add(s"@SerialVersionUID(0L)")
       .seq(message.annotationList)
-      .add(s"final case class ${message.scalaType.nameSymbol}(")
+      .add(s"final ${maybeCase} ${message.scalaType.nameSymbol}(")
       .indent
       .indent
       .call(printConstructorFieldList(message))
@@ -1488,7 +1539,31 @@ class ProtobufGenerator(
         )
       )
       .when(params.asciiFormatToString)(
-        _.add("override def toString: _root_.scala.Predef.String = toProtoString")
+        _.add("override def toString(): _root_.scala.Predef.String = toProtoString")
+      )
+      .when(!params.asciiFormatToString && !message.isCaseClass)(
+        _.add(
+          s"""override def toString(): _root_.scala.Predef.String = s"${message.scalaType.name}(${constructorFields(
+            message
+          ).map(n => s"$${${n.name}}").mkString(", ")})""""
+        )
+      )
+      .when(!message.isCaseClass)(
+        _.add("def copy(")
+          .indented(
+            _.addWithDelimiter(",")(
+              constructorFields(message).map(cf => cf.nameAndType + " = " + cf.name)
+            )
+          )
+          .add(s"): ${message.scalaType.nameSymbol} = new ${message.scalaType.nameSymbol}(")
+          .indented(
+            _.addWithDelimiter(",")(
+              constructorFields(message).map(cf => cf.name)
+            )
+          )
+          .add(")")
+          .call(generateEquals(message))
+          .call(generateHashCode(message))
       )
       .add(s"def companion = ${fullName}")
       .when(message.isSealedOneofType) { fp =>
@@ -1503,6 +1578,59 @@ class ProtobufGenerator(
       .add(s"""}
               |""".stripMargin)
       .call(generateMessageCompanion(message))
+  }
+
+  def generateEquals(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val fields = constructorFields(message)
+    printer
+      .when(!message.isValueClass)(
+        _.add(
+          "override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {"
+        ).indented(
+            _.when(fields.nonEmpty)(
+              _.add(s"case __that: ${message.scalaType.nameSymbol} =>")
+                .indented(
+                  _.addWithDelimiter(" &&")(
+                    fields.map(c => s"this.${c.name} == __that.${c.name}")
+                  )
+                )
+            ).when(fields.isEmpty)(
+                _.add(s"case _: ${message.scalaType.nameSymbol} => true")
+              )
+              .add("case _ => false")
+          )
+          .add("}")
+      )
+  }
+
+  def generateHashCode(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val fields = constructorFields(message)
+    printer
+      .when(!message.isValueClass)(
+        _.add(
+          s"override def hashCode(): ${DescriptorImplicits.ScalaInt} = {"
+        ).indented(
+            _.add(
+              s"var __hash: ${DescriptorImplicits.ScalaInt} = (19 * 41) + ${message.scalaType.fullNameWithMaybeRoot(message)}.scalaDescriptor.hashCode()"
+            ).print(fields) { (fp, f) =>
+                val code = f.typeName match {
+                  case DescriptorImplicits.ScalaLong =>
+                    s"_root_.scalapb.internal.Hashing.hashLong(${f.name})"
+                  case DescriptorImplicits.ScalaDouble =>
+                    s"_root_.scalapb.internal.Hashing.hashDouble(${f.name})"
+                  case DescriptorImplicits.ScalaFloat =>
+                    s"_root_.scalapb.internal.Hashing.hashFloat(${f.name})"
+                  case DescriptorImplicits.ScalaBoolean =>
+                    s"_root_.scalapb.internal.Hashing.hashBoolean(${f.name})"
+                  case DescriptorImplicits.ScalaInt => f.name
+                  case _                            => s"${f.name}.hashCode()"
+                }
+                fp.add(s"__hash = (37 * __hash) + ${code}")
+              }
+              .add("__hash")
+          )
+          .add("}")
+      )
   }
 
   def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter = {

@@ -7,10 +7,10 @@ case class ConstructorField(
     index: Int,
     annotations: Seq[String] = Nil
 ) {
-  def fullString: String =
+  def fullString(maybeVal: String): String =
     Seq(
       s"${if (annotations.isEmpty) "" else annotations.mkString("", " ", " ")}",
-      s"${name}: ${typeName}",
+      s"${maybeVal}${name}: ${typeName}",
       default.fold("")(" = " + _)
     ).mkString
 

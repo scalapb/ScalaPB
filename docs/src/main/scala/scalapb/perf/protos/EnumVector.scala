@@ -6,9 +6,9 @@
 package scalapb.perf.protos
 
 @SerialVersionUID(0L)
-final case class EnumVector(
-    colors: _root_.scala.Seq[scalapb.perf.protos.Color] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class EnumVector(
+    val colors: _root_.scala.Seq[scalapb.perf.protos.Color] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumVector] {
     private[this] def colorsSerializedSize = {
       if (__colorsSerializedSizeField == 0) __colorsSerializedSizeField = {
@@ -64,6 +64,26 @@ final case class EnumVector(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"EnumVector(${colors}, ${unknownFields})"
+    def copy(
+      colors: _root_.scala.Seq[scalapb.perf.protos.Color] = colors,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): EnumVector = new EnumVector(
+      colors,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: EnumVector =>
+        this.colors == __that.colors &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.perf.protos.EnumVector.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + colors.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.perf.protos.EnumVector
 }
 
@@ -125,7 +145,19 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
   final val COLORS_FIELD_NUMBER = 1
   def of(
     colors: _root_.scala.Seq[scalapb.perf.protos.Color]
-  ): _root_.scalapb.perf.protos.EnumVector = _root_.scalapb.perf.protos.EnumVector(
+  ): _root_.scalapb.perf.protos.EnumVector = new _root_.scalapb.perf.protos.EnumVector(
     colors
   )
+  def apply(
+    colors: _root_.scala.Seq[scalapb.perf.protos.Color] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.perf.protos.EnumVector = new _root_.scalapb.perf.protos.EnumVector(
+    colors,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.perf.protos.EnumVector): Option[(
+    _root_.scala.Seq[scalapb.perf.protos.Color]
+  )] = Some((
+    __value.colors
+  ))
 }

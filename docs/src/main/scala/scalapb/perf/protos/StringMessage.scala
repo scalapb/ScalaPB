@@ -6,10 +6,10 @@
 package scalapb.perf.protos
 
 @SerialVersionUID(0L)
-final case class StringMessage(
-    str1: _root_.scala.Predef.String = "",
-    str2: _root_.scala.Predef.String = "",
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class StringMessage(
+    val str1: _root_.scala.Predef.String = "",
+    val str2: _root_.scala.Predef.String = "",
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[StringMessage] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -79,6 +79,30 @@ final case class StringMessage(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"StringMessage(${str1}, ${str2}, ${unknownFields})"
+    def copy(
+      str1: _root_.scala.Predef.String = str1,
+      str2: _root_.scala.Predef.String = str2,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): StringMessage = new StringMessage(
+      str1,
+      str2,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: StringMessage =>
+        this.str1 == __that.str1 &&
+        this.str2 == __that.str2 &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.perf.protos.StringMessage.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + str1.hashCode()
+      __hash = (37 * __hash) + str2.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.perf.protos.StringMessage
 }
 
@@ -137,8 +161,24 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
   def of(
     str1: _root_.scala.Predef.String,
     str2: _root_.scala.Predef.String
-  ): _root_.scalapb.perf.protos.StringMessage = _root_.scalapb.perf.protos.StringMessage(
+  ): _root_.scalapb.perf.protos.StringMessage = new _root_.scalapb.perf.protos.StringMessage(
     str1,
     str2
   )
+  def apply(
+    str1: _root_.scala.Predef.String = "",
+    str2: _root_.scala.Predef.String = "",
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.perf.protos.StringMessage = new _root_.scalapb.perf.protos.StringMessage(
+    str1,
+    str2,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.perf.protos.StringMessage): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Predef.String
+  )] = Some((
+    __value.str1,
+    __value.str2
+  ))
 }

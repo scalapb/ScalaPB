@@ -6,9 +6,9 @@
 package scalapb.perf.protos
 
 @SerialVersionUID(0L)
-final case class IntVector(
-    ints: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class IntVector(
+    val ints: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[IntVector] {
     private[this] def intsSerializedSize = {
       if (__intsSerializedSizeField == 0) __intsSerializedSizeField = {
@@ -64,6 +64,26 @@ final case class IntVector(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"IntVector(${ints}, ${unknownFields})"
+    def copy(
+      ints: _root_.scala.Seq[_root_.scala.Int] = ints,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): IntVector = new IntVector(
+      ints,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: IntVector =>
+        this.ints == __that.ints &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.perf.protos.IntVector.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + ints.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.perf.protos.IntVector
 }
 
@@ -121,7 +141,19 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
   final val INTS_FIELD_NUMBER = 1
   def of(
     ints: _root_.scala.Seq[_root_.scala.Int]
-  ): _root_.scalapb.perf.protos.IntVector = _root_.scalapb.perf.protos.IntVector(
+  ): _root_.scalapb.perf.protos.IntVector = new _root_.scalapb.perf.protos.IntVector(
     ints
   )
+  def apply(
+    ints: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.perf.protos.IntVector = new _root_.scalapb.perf.protos.IntVector(
+    ints,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.perf.protos.IntVector): Option[(
+    _root_.scala.Seq[_root_.scala.Int]
+  )] = Some((
+    __value.ints
+  ))
 }

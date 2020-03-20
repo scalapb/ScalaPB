@@ -23,15 +23,15 @@ package com.google.protobuf.api
   *   The source syntax of this method.
   */
 @SerialVersionUID(0L)
-final case class Method(
-    name: _root_.scala.Predef.String = "",
-    requestTypeUrl: _root_.scala.Predef.String = "",
-    requestStreaming: _root_.scala.Boolean = false,
-    responseTypeUrl: _root_.scala.Predef.String = "",
-    responseStreaming: _root_.scala.Boolean = false,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Method(
+    val name: _root_.scala.Predef.String = "",
+    val requestTypeUrl: _root_.scala.Predef.String = "",
+    val requestStreaming: _root_.scala.Boolean = false,
+    val responseTypeUrl: _root_.scala.Predef.String = "",
+    val responseStreaming: _root_.scala.Boolean = false,
+    val options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    val syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Method] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -193,6 +193,50 @@ final case class Method(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Method(${name}, ${requestTypeUrl}, ${requestStreaming}, ${responseTypeUrl}, ${responseStreaming}, ${options}, ${syntax}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      requestTypeUrl: _root_.scala.Predef.String = requestTypeUrl,
+      requestStreaming: _root_.scala.Boolean = requestStreaming,
+      responseTypeUrl: _root_.scala.Predef.String = responseTypeUrl,
+      responseStreaming: _root_.scala.Boolean = responseStreaming,
+      options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = options,
+      syntax: com.google.protobuf.`type`.Syntax = syntax,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Method = new Method(
+      name,
+      requestTypeUrl,
+      requestStreaming,
+      responseTypeUrl,
+      responseStreaming,
+      options,
+      syntax,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Method =>
+        this.name == __that.name &&
+        this.requestTypeUrl == __that.requestTypeUrl &&
+        this.requestStreaming == __that.requestStreaming &&
+        this.responseTypeUrl == __that.responseTypeUrl &&
+        this.responseStreaming == __that.responseStreaming &&
+        this.options == __that.options &&
+        this.syntax == __that.syntax &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.api.Method.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + requestTypeUrl.hashCode()
+      __hash = (37 * __hash) + _root_.scalapb.internal.Hashing.hashBoolean(requestStreaming)
+      __hash = (37 * __hash) + responseTypeUrl.hashCode()
+      __hash = (37 * __hash) + _root_.scalapb.internal.Hashing.hashBoolean(responseStreaming)
+      __hash = (37 * __hash) + options.hashCode()
+      __hash = (37 * __hash) + syntax.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.api.Method
 }
 
@@ -306,7 +350,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseStreaming: _root_.scala.Boolean,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
     syntax: com.google.protobuf.`type`.Syntax
-  ): _root_.com.google.protobuf.api.Method = _root_.com.google.protobuf.api.Method(
+  ): _root_.com.google.protobuf.api.Method = new _root_.com.google.protobuf.api.Method(
     name,
     requestTypeUrl,
     requestStreaming,
@@ -315,4 +359,40 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     options,
     syntax
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    requestTypeUrl: _root_.scala.Predef.String = "",
+    requestStreaming: _root_.scala.Boolean = false,
+    responseTypeUrl: _root_.scala.Predef.String = "",
+    responseStreaming: _root_.scala.Boolean = false,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.api.Method = new _root_.com.google.protobuf.api.Method(
+    name,
+    requestTypeUrl,
+    requestStreaming,
+    responseTypeUrl,
+    responseStreaming,
+    options,
+    syntax,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.api.Method): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Predef.String,
+    _root_.scala.Boolean,
+    _root_.scala.Predef.String,
+    _root_.scala.Boolean,
+    _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
+    com.google.protobuf.`type`.Syntax
+  )] = Some((
+    __value.name,
+    __value.requestTypeUrl,
+    __value.requestStreaming,
+    __value.responseTypeUrl,
+    __value.responseStreaming,
+    __value.options,
+    __value.syntax
+  ))
 }

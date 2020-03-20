@@ -15,10 +15,10 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   The parser stores options it doesn't recognize here. See above.
   */
 @SerialVersionUID(0L)
-final case class EnumValueOptions(
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class EnumValueOptions(
+    val deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumValueOptions] with _root_.scalapb.ExtendableMessage[EnumValueOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -79,6 +79,30 @@ final case class EnumValueOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"EnumValueOptions(${deprecated}, ${uninterpretedOption}, ${unknownFields})"
+    def copy(
+      deprecated: _root_.scala.Option[_root_.scala.Boolean] = deprecated,
+      uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = uninterpretedOption,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): EnumValueOptions = new EnumValueOptions(
+      deprecated,
+      uninterpretedOption,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: EnumValueOptions =>
+        this.deprecated == __that.deprecated &&
+        this.uninterpretedOption == __that.uninterpretedOption &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.EnumValueOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + deprecated.hashCode()
+      __hash = (37 * __hash) + uninterpretedOption.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.EnumValueOptions
 }
 
@@ -154,8 +178,24 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
   def of(
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
-  ): _root_.com.google.protobuf.descriptor.EnumValueOptions = _root_.com.google.protobuf.descriptor.EnumValueOptions(
+  ): _root_.com.google.protobuf.descriptor.EnumValueOptions = new _root_.com.google.protobuf.descriptor.EnumValueOptions(
     deprecated,
     uninterpretedOption
   )
+  def apply(
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.EnumValueOptions = new _root_.com.google.protobuf.descriptor.EnumValueOptions(
+    deprecated,
+    uninterpretedOption,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.EnumValueOptions): Option[(
+    _root_.scala.Option[_root_.scala.Boolean],
+    _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
+  )] = Some((
+    __value.deprecated,
+    __value.uninterpretedOption
+  ))
 }

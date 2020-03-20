@@ -54,9 +54,9 @@ package com.google.protobuf.descriptor
   *     be recorded in the future.
   */
 @SerialVersionUID(0L)
-final case class SourceCodeInfo(
-    location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class SourceCodeInfo(
+    val location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SourceCodeInfo] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -104,6 +104,26 @@ final case class SourceCodeInfo(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"SourceCodeInfo(${location}, ${unknownFields})"
+    def copy(
+      location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location] = location,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): SourceCodeInfo = new SourceCodeInfo(
+      location,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: SourceCodeInfo =>
+        this.location == __that.location &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.SourceCodeInfo.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + location.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.SourceCodeInfo
 }
 
@@ -236,13 +256,13 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     *     // ignored detached comments.
     */
   @SerialVersionUID(0L)
-  final case class Location(
-      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-      span: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-      leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-      trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-      leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  final class Location(
+      val path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      val span: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      val leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      val trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      val leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+      val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Location] {
       private[this] def pathSerializedSize = {
         if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {
@@ -362,6 +382,42 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString(): _root_.scala.Predef.String = s"Location(${path}, ${span}, ${leadingComments}, ${trailingComments}, ${leadingDetachedComments}, ${unknownFields})"
+      def copy(
+        path: _root_.scala.Seq[_root_.scala.Int] = path,
+        span: _root_.scala.Seq[_root_.scala.Int] = span,
+        leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = leadingComments,
+        trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = trailingComments,
+        leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String] = leadingDetachedComments,
+        unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+      ): Location = new Location(
+        path,
+        span,
+        leadingComments,
+        trailingComments,
+        leadingDetachedComments,
+        unknownFields
+      )
+      override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+        case __that: Location =>
+          this.path == __that.path &&
+          this.span == __that.span &&
+          this.leadingComments == __that.leadingComments &&
+          this.trailingComments == __that.trailingComments &&
+          this.leadingDetachedComments == __that.leadingDetachedComments &&
+          this.unknownFields == __that.unknownFields
+        case _ => false
+      }
+      override def hashCode(): _root_.scala.Int = {
+        var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.SourceCodeInfo.Location.scalaDescriptor.hashCode()
+        __hash = (37 * __hash) + path.hashCode()
+        __hash = (37 * __hash) + span.hashCode()
+        __hash = (37 * __hash) + leadingComments.hashCode()
+        __hash = (37 * __hash) + trailingComments.hashCode()
+        __hash = (37 * __hash) + leadingDetachedComments.hashCode()
+        __hash = (37 * __hash) + unknownFields.hashCode()
+        __hash
+      }
       def companion = com.google.protobuf.descriptor.SourceCodeInfo.Location
   }
   
@@ -465,13 +521,41 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       leadingComments: _root_.scala.Option[_root_.scala.Predef.String],
       trailingComments: _root_.scala.Option[_root_.scala.Predef.String],
       leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String]
-    ): _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location = _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location(
+    ): _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location = new _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location(
       path,
       span,
       leadingComments,
       trailingComments,
       leadingDetachedComments
     )
+    def apply(
+      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      span: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ): _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location = new _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location(
+      path,
+      span,
+      leadingComments,
+      trailingComments,
+      leadingDetachedComments,
+      unknownFields
+    )
+    def unapply(__value: _root_.com.google.protobuf.descriptor.SourceCodeInfo.Location): Option[(
+      _root_.scala.Seq[_root_.scala.Int],
+      _root_.scala.Seq[_root_.scala.Int],
+      _root_.scala.Option[_root_.scala.Predef.String],
+      _root_.scala.Option[_root_.scala.Predef.String],
+      _root_.scala.Seq[_root_.scala.Predef.String]
+    )] = Some((
+      __value.path,
+      __value.span,
+      __value.leadingComments,
+      __value.trailingComments,
+      __value.leadingDetachedComments
+    ))
   }
   
   implicit class SourceCodeInfoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo](_l) {
@@ -480,7 +564,19 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   final val LOCATION_FIELD_NUMBER = 1
   def of(
     location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]
-  ): _root_.com.google.protobuf.descriptor.SourceCodeInfo = _root_.com.google.protobuf.descriptor.SourceCodeInfo(
+  ): _root_.com.google.protobuf.descriptor.SourceCodeInfo = new _root_.com.google.protobuf.descriptor.SourceCodeInfo(
     location
   )
+  def apply(
+    location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.SourceCodeInfo = new _root_.com.google.protobuf.descriptor.SourceCodeInfo(
+    location,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.SourceCodeInfo): Option[(
+    _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]
+  )] = Some((
+    __value.location
+  ))
 }

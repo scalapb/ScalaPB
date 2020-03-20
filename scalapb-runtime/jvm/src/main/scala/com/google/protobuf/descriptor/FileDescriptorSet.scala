@@ -10,9 +10,9 @@ import _root_.scalapb.internal.compat.JavaConverters._
   * files it parses.
   */
 @SerialVersionUID(0L)
-final case class FileDescriptorSet(
-    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class FileDescriptorSet(
+    val file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorSet] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -60,6 +60,26 @@ final case class FileDescriptorSet(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"FileDescriptorSet(${file}, ${unknownFields})"
+    def copy(
+      file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = file,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): FileDescriptorSet = new FileDescriptorSet(
+      file,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: FileDescriptorSet =>
+        this.file == __that.file &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.FileDescriptorSet.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + file.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.FileDescriptorSet
 }
 
@@ -123,7 +143,19 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   final val FILE_FIELD_NUMBER = 1
   def of(
     file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]
-  ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = _root_.com.google.protobuf.descriptor.FileDescriptorSet(
+  ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = new _root_.com.google.protobuf.descriptor.FileDescriptorSet(
     file
   )
+  def apply(
+    file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = new _root_.com.google.protobuf.descriptor.FileDescriptorSet(
+    file,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.FileDescriptorSet): Option[(
+    _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]
+  )] = Some((
+    __value.file
+  ))
 }

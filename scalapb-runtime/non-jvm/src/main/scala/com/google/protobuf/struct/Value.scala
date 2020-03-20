@@ -13,9 +13,9 @@ package com.google.protobuf.struct
   * The JSON representation for `Value` is JSON value.
   */
 @SerialVersionUID(0L)
-final case class Value(
-    kind: com.google.protobuf.struct.Value.Kind = com.google.protobuf.struct.Value.Kind.Empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Value(
+    val kind: com.google.protobuf.struct.Value.Kind = com.google.protobuf.struct.Value.Kind.Empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Value] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -125,6 +125,26 @@ final case class Value(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Value(${kind}, ${unknownFields})"
+    def copy(
+      kind: com.google.protobuf.struct.Value.Kind = kind,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Value = new Value(
+      kind,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Value =>
+        this.kind == __that.kind &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.struct.Value.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + kind.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.struct.Value
 }
 
@@ -281,7 +301,19 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
   final val LIST_VALUE_FIELD_NUMBER = 6
   def of(
     kind: com.google.protobuf.struct.Value.Kind
-  ): _root_.com.google.protobuf.struct.Value = _root_.com.google.protobuf.struct.Value(
+  ): _root_.com.google.protobuf.struct.Value = new _root_.com.google.protobuf.struct.Value(
     kind
   )
+  def apply(
+    kind: com.google.protobuf.struct.Value.Kind = com.google.protobuf.struct.Value.Kind.Empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.struct.Value = new _root_.com.google.protobuf.struct.Value(
+    kind,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.struct.Value): Option[(
+    com.google.protobuf.struct.Value.Kind
+  )] = Some((
+    __value.kind
+  ))
 }

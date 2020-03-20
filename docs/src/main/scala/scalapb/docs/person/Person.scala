@@ -6,11 +6,11 @@
 package scalapb.docs.person
 
 @SerialVersionUID(0L)
-final case class Person(
-    name: _root_.scala.Predef.String = "",
-    age: _root_.scala.Int = 0,
-    addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class Person(
+    val name: _root_.scala.Predef.String = "",
+    val age: _root_.scala.Int = 0,
+    val addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Person] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -96,6 +96,34 @@ final case class Person(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"Person(${name}, ${age}, ${addresses}, ${unknownFields})"
+    def copy(
+      name: _root_.scala.Predef.String = name,
+      age: _root_.scala.Int = age,
+      addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address] = addresses,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): Person = new Person(
+      name,
+      age,
+      addresses,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: Person =>
+        this.name == __that.name &&
+        this.age == __that.age &&
+        this.addresses == __that.addresses &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.docs.person.Person.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + name.hashCode()
+      __hash = (37 * __hash) + age
+      __hash = (37 * __hash) + addresses.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.docs.person.Person
 }
 
@@ -198,11 +226,11 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.docs.person.Person.scalaDescriptor.enums(0)
   }
   @SerialVersionUID(0L)
-  final case class Address(
-      addressType: scalapb.docs.person.Person.AddressType = scalapb.docs.person.Person.AddressType.HOME,
-      street: _root_.scala.Predef.String = "",
-      city: _root_.scala.Predef.String = "",
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  final class Address(
+      val addressType: scalapb.docs.person.Person.AddressType = scalapb.docs.person.Person.AddressType.HOME,
+      val street: _root_.scala.Predef.String = "",
+      val city: _root_.scala.Predef.String = "",
+      val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Address] {
       @transient
       private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -291,6 +319,34 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString(): _root_.scala.Predef.String = s"Address(${addressType}, ${street}, ${city}, ${unknownFields})"
+      def copy(
+        addressType: scalapb.docs.person.Person.AddressType = addressType,
+        street: _root_.scala.Predef.String = street,
+        city: _root_.scala.Predef.String = city,
+        unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+      ): Address = new Address(
+        addressType,
+        street,
+        city,
+        unknownFields
+      )
+      override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+        case __that: Address =>
+          this.addressType == __that.addressType &&
+          this.street == __that.street &&
+          this.city == __that.city &&
+          this.unknownFields == __that.unknownFields
+        case _ => false
+      }
+      override def hashCode(): _root_.scala.Int = {
+        var __hash: _root_.scala.Int = (19 * 41) + scalapb.docs.person.Person.Address.scalaDescriptor.hashCode()
+        __hash = (37 * __hash) + addressType.hashCode()
+        __hash = (37 * __hash) + street.hashCode()
+        __hash = (37 * __hash) + city.hashCode()
+        __hash = (37 * __hash) + unknownFields.hashCode()
+        __hash
+      }
       def companion = scalapb.docs.person.Person.Address
   }
   
@@ -362,11 +418,31 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       addressType: scalapb.docs.person.Person.AddressType,
       street: _root_.scala.Predef.String,
       city: _root_.scala.Predef.String
-    ): _root_.scalapb.docs.person.Person.Address = _root_.scalapb.docs.person.Person.Address(
+    ): _root_.scalapb.docs.person.Person.Address = new _root_.scalapb.docs.person.Person.Address(
       addressType,
       street,
       city
     )
+    def apply(
+      addressType: scalapb.docs.person.Person.AddressType = scalapb.docs.person.Person.AddressType.HOME,
+      street: _root_.scala.Predef.String = "",
+      city: _root_.scala.Predef.String = "",
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ): _root_.scalapb.docs.person.Person.Address = new _root_.scalapb.docs.person.Person.Address(
+      addressType,
+      street,
+      city,
+      unknownFields
+    )
+    def unapply(__value: _root_.scalapb.docs.person.Person.Address): Option[(
+      scalapb.docs.person.Person.AddressType,
+      _root_.scala.Predef.String,
+      _root_.scala.Predef.String
+    )] = Some((
+      __value.addressType,
+      __value.street,
+      __value.city
+    ))
   }
   
   implicit class PersonLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.docs.person.Person]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.docs.person.Person](_l) {
@@ -381,9 +457,29 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     name: _root_.scala.Predef.String,
     age: _root_.scala.Int,
     addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address]
-  ): _root_.scalapb.docs.person.Person = _root_.scalapb.docs.person.Person(
+  ): _root_.scalapb.docs.person.Person = new _root_.scalapb.docs.person.Person(
     name,
     age,
     addresses
   )
+  def apply(
+    name: _root_.scala.Predef.String = "",
+    age: _root_.scala.Int = 0,
+    addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.docs.person.Person = new _root_.scalapb.docs.person.Person(
+    name,
+    age,
+    addresses,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.docs.person.Person): Option[(
+    _root_.scala.Predef.String,
+    _root_.scala.Int,
+    _root_.scala.Seq[scalapb.docs.person.Person.Address]
+  )] = Some((
+    __value.name,
+    __value.age,
+    __value.addresses
+  ))
 }

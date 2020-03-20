@@ -9,9 +9,9 @@ package scalapb.options
   *   Additional traits to mix in to a oneof.
   */
 @SerialVersionUID(0L)
-final case class OneofOptions(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class OneofOptions(
+    val `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -57,6 +57,26 @@ final case class OneofOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"OneofOptions(${`extends`}, ${unknownFields})"
+    def copy(
+      `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = `extends`,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): OneofOptions = new OneofOptions(
+      `extends`,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: OneofOptions =>
+        this.`extends` == __that.`extends` &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.options.OneofOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + `extends`.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.options.OneofOptions
 }
 
@@ -106,7 +126,19 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   final val EXTENDS_FIELD_NUMBER = 1
   def of(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String]
-  ): _root_.scalapb.options.OneofOptions = _root_.scalapb.options.OneofOptions(
+  ): _root_.scalapb.options.OneofOptions = new _root_.scalapb.options.OneofOptions(
     `extends`
   )
+  def apply(
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.options.OneofOptions = new _root_.scalapb.options.OneofOptions(
+    `extends`,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.options.OneofOptions): Option[(
+    _root_.scala.Seq[_root_.scala.Predef.String]
+  )] = Some((
+    __value.`extends`
+  ))
 }

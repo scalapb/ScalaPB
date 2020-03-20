@@ -15,9 +15,9 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   of its generating .proto file.
   */
 @SerialVersionUID(0L)
-final case class GeneratedCodeInfo(
-    annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class GeneratedCodeInfo(
+    val annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[GeneratedCodeInfo] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -65,6 +65,26 @@ final case class GeneratedCodeInfo(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"GeneratedCodeInfo(${annotation}, ${unknownFields})"
+    def copy(
+      annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = annotation,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): GeneratedCodeInfo = new GeneratedCodeInfo(
+      annotation,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: GeneratedCodeInfo =>
+        this.annotation == __that.annotation &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.GeneratedCodeInfo.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + annotation.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.GeneratedCodeInfo
 }
 
@@ -139,12 +159,12 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     *   the last relevant byte (so the length of the text = end - begin).
     */
   @SerialVersionUID(0L)
-  final case class Annotation(
-      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-      sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-      begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-      end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  final class Annotation(
+      val path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      val sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      val begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      val end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Annotation] {
       private[this] def pathSerializedSize = {
         if (__pathSerializedSizeField == 0) __pathSerializedSizeField = {
@@ -239,6 +259,38 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      override def toString(): _root_.scala.Predef.String = s"Annotation(${path}, ${sourceFile}, ${begin}, ${end}, ${unknownFields})"
+      def copy(
+        path: _root_.scala.Seq[_root_.scala.Int] = path,
+        sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = sourceFile,
+        begin: _root_.scala.Option[_root_.scala.Int] = begin,
+        end: _root_.scala.Option[_root_.scala.Int] = end,
+        unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+      ): Annotation = new Annotation(
+        path,
+        sourceFile,
+        begin,
+        end,
+        unknownFields
+      )
+      override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+        case __that: Annotation =>
+          this.path == __that.path &&
+          this.sourceFile == __that.sourceFile &&
+          this.begin == __that.begin &&
+          this.end == __that.end &&
+          this.unknownFields == __that.unknownFields
+        case _ => false
+      }
+      override def hashCode(): _root_.scala.Int = {
+        var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.scalaDescriptor.hashCode()
+        __hash = (37 * __hash) + path.hashCode()
+        __hash = (37 * __hash) + sourceFile.hashCode()
+        __hash = (37 * __hash) + begin.hashCode()
+        __hash = (37 * __hash) + end.hashCode()
+        __hash = (37 * __hash) + unknownFields.hashCode()
+        __hash
+      }
       def companion = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation
   }
   
@@ -340,12 +392,36 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       sourceFile: _root_.scala.Option[_root_.scala.Predef.String],
       begin: _root_.scala.Option[_root_.scala.Int],
       end: _root_.scala.Option[_root_.scala.Int]
-    ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
+    ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = new _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
       path,
       sourceFile,
       begin,
       end
     )
+    def apply(
+      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+    ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = new _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
+      path,
+      sourceFile,
+      begin,
+      end,
+      unknownFields
+    )
+    def unapply(__value: _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): Option[(
+      _root_.scala.Seq[_root_.scala.Int],
+      _root_.scala.Option[_root_.scala.Predef.String],
+      _root_.scala.Option[_root_.scala.Int],
+      _root_.scala.Option[_root_.scala.Int]
+    )] = Some((
+      __value.path,
+      __value.sourceFile,
+      __value.begin,
+      __value.end
+    ))
   }
   
   implicit class GeneratedCodeInfoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo](_l) {
@@ -354,7 +430,19 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   final val ANNOTATION_FIELD_NUMBER = 1
   def of(
     annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]
-  ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo(
+  ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = new _root_.com.google.protobuf.descriptor.GeneratedCodeInfo(
     annotation
   )
+  def apply(
+    annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = new _root_.com.google.protobuf.descriptor.GeneratedCodeInfo(
+    annotation,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.GeneratedCodeInfo): Option[(
+    _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]
+  )] = Some((
+    __value.annotation
+  ))
 }

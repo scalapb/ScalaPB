@@ -9,10 +9,10 @@ package scalapb.perf.protos
   *    [(scalapb.field).collection_type="List"];
   */
 @SerialVersionUID(0L)
-final case class MessageContainer(
-    opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage] = _root_.scala.None,
-    rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class MessageContainer(
+    val opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage] = _root_.scala.None,
+    val rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageContainer] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -75,6 +75,30 @@ final case class MessageContainer(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"MessageContainer(${opt}, ${rep}, ${unknownFields})"
+    def copy(
+      opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage] = opt,
+      rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage] = rep,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): MessageContainer = new MessageContainer(
+      opt,
+      rep,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: MessageContainer =>
+        this.opt == __that.opt &&
+        this.rep == __that.rep &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + scalapb.perf.protos.MessageContainer.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + opt.hashCode()
+      __hash = (37 * __hash) + rep.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = scalapb.perf.protos.MessageContainer
 }
 
@@ -141,8 +165,24 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
   def of(
     opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage],
     rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]
-  ): _root_.scalapb.perf.protos.MessageContainer = _root_.scalapb.perf.protos.MessageContainer(
+  ): _root_.scalapb.perf.protos.MessageContainer = new _root_.scalapb.perf.protos.MessageContainer(
     opt,
     rep
   )
+  def apply(
+    opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage] = _root_.scala.None,
+    rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.scalapb.perf.protos.MessageContainer = new _root_.scalapb.perf.protos.MessageContainer(
+    opt,
+    rep,
+    unknownFields
+  )
+  def unapply(__value: _root_.scalapb.perf.protos.MessageContainer): Option[(
+    _root_.scala.Option[scalapb.perf.protos.SimpleMessage],
+    _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]
+  )] = Some((
+    __value.opt,
+    __value.rep
+  ))
 }

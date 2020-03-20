@@ -15,11 +15,11 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   The parser stores options it doesn't recognize here. See above.
   */
 @SerialVersionUID(0L)
-final case class MethodOptions(
-    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+final class MethodOptions(
+    val deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    val idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None,
+    val uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    val unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MethodOptions] with _root_.scalapb.ExtendableMessage[MethodOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
@@ -93,6 +93,34 @@ final case class MethodOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+    override def toString(): _root_.scala.Predef.String = s"MethodOptions(${deprecated}, ${idempotencyLevel}, ${uninterpretedOption}, ${unknownFields})"
+    def copy(
+      deprecated: _root_.scala.Option[_root_.scala.Boolean] = deprecated,
+      idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = idempotencyLevel,
+      uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = uninterpretedOption,
+      unknownFields: _root_.scalapb.UnknownFieldSet = unknownFields
+    ): MethodOptions = new MethodOptions(
+      deprecated,
+      idempotencyLevel,
+      uninterpretedOption,
+      unknownFields
+    )
+    override def equals(__that: _root_.scala.Any): _root_.scala.Boolean = __that match {
+      case __that: MethodOptions =>
+        this.deprecated == __that.deprecated &&
+        this.idempotencyLevel == __that.idempotencyLevel &&
+        this.uninterpretedOption == __that.uninterpretedOption &&
+        this.unknownFields == __that.unknownFields
+      case _ => false
+    }
+    override def hashCode(): _root_.scala.Int = {
+      var __hash: _root_.scala.Int = (19 * 41) + com.google.protobuf.descriptor.MethodOptions.scalaDescriptor.hashCode()
+      __hash = (37 * __hash) + deprecated.hashCode()
+      __hash = (37 * __hash) + idempotencyLevel.hashCode()
+      __hash = (37 * __hash) + uninterpretedOption.hashCode()
+      __hash = (37 * __hash) + unknownFields.hashCode()
+      __hash
+    }
     def companion = com.google.protobuf.descriptor.MethodOptions
 }
 
@@ -243,9 +271,29 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel],
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
-  ): _root_.com.google.protobuf.descriptor.MethodOptions = _root_.com.google.protobuf.descriptor.MethodOptions(
+  ): _root_.com.google.protobuf.descriptor.MethodOptions = new _root_.com.google.protobuf.descriptor.MethodOptions(
     deprecated,
     idempotencyLevel,
     uninterpretedOption
   )
+  def apply(
+    deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+  ): _root_.com.google.protobuf.descriptor.MethodOptions = new _root_.com.google.protobuf.descriptor.MethodOptions(
+    deprecated,
+    idempotencyLevel,
+    uninterpretedOption,
+    unknownFields
+  )
+  def unapply(__value: _root_.com.google.protobuf.descriptor.MethodOptions): Option[(
+    _root_.scala.Option[_root_.scala.Boolean],
+    _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel],
+    _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
+  )] = Some((
+    __value.deprecated,
+    __value.idempotencyLevel,
+    __value.uninterpretedOption
+  ))
 }
