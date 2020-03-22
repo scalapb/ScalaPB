@@ -63,23 +63,30 @@ files available on the file system.
 
 ## How do I generate Scala code for protos from another jar?
 
-Include the jar as a `protobuf` dependency in your libraryDependencies:
+For some proto packages, we may already provide pre-compiled generated code in
+ [ScalaPB's Common Protos project](https://github.com/scalapb/common-protos).
+ If what you are looking for is not there, consider adding it by following the
+ instructions on the project's page.
+
+To build it yourself using SBT: include the jar as a `protobuf` dependency in your libraryDependencies:
 
 ```scala
-libraryDependencies += "com.somepackage" %% "that-has-jar" % "1.0" % "protobuf"
+libraryDependencies += "com.somepackage" %% "that-has-jar" % "1.0" % "protobuf-src" transitive()
 ```
 
 This will tell sbt-protoc to extract the protos from that jar into
-`target/scala-2.vv/protobuf-external`. This makes it possible to `import`
-those protos from your local protos. sbt-protoc looks for protocol buffers to
-compile in the directories listed in `PB.protoSources`. There you need to
-add a line like this to your `build.sbt`:
+`target/scala-2.vv/protobuf_external_src` and add them both to the import
+search path and the set of sources to generate code for (`PB.protoSources`).
 
-```scala
-PB.protoSources in Compile += target.value / "protobuf_external"
-```
+The `intransitive` modifier makes it not unpack the dependencies of this
+library to the same directory since you may not want to generate classes for them
+as well. Many common libraries depend on `protobuf-java`, and generated
+classes for them are already shipped with ScalaPB's `scalapb-runtime`. When
+using `intransitive()`, you should ensure all the dependencies are provided,
+either as `protobuf-src` or `protobuf` (depending if you want to compile them
+or just import them).
 
-You may find other protos under `protobuf_external` that you do not wish to
+You may find other protos under `protobuf_external_src` that you do not wish to
 compile. You can exclude them by adding an `includeFilter`:
 
     includeFilter in PB.generate := new SimpleFileFilter(
