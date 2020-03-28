@@ -6,7 +6,7 @@ layout: docs
 # Contacting us
 
 If you have a question ("How do I", "Does ScalaPB support", "It doesn't work")
-you are welcome to contact us over [ScalaPB Gitter channel](https://gitter.im/trueaccord/ScalaPB).
+you are welcome to contact us over [ScalaPB Gitter channel](https://gitter.im/ScalaPB/community).
 
 If you prefer email or less-interactive contact, you can post to [ScalaPB's
 Google Group](https://groups.google.com/forum/?nomobile=true#!forum/scalapb).
