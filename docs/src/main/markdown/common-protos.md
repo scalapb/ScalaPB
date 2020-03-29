@@ -18,6 +18,8 @@ Each of these packages require you to add two library dependencies in your `buil
   the classpath. This is accomplished by adding the library as a normal
   dependency.
 
+If you don't have any proto files that import the common protos, then you can omit the `"protobuf"` dependency.
+
 # Adding new packages
 
 If you don't see your favorite third-party proto package here, and there is already a maven package for it that provides the proto files (with possibly Java generated classes), you can send a pull request to common-protos to have it added. See instruction on the [ScalaPB Common Protos project page on Github](https://github.com/scalapb/common-protos).
