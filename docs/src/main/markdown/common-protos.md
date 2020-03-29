@@ -7,7 +7,16 @@ layout: docs
 
 This page lists packages that contain compiled ScalaPB classes for common third-party protobuf libraries.
 
-Each of these packages require you to add two library dependencies in your `build.sbt`, regular one that would add the generated classes to the class path, and one suffixed with `protobuf` so the third-party protos are unpacked and your own protos can import them.
+Each of these packages require you to add two library dependencies in your `build.sbt`:
+
+* The depenendcy with the `"protobuf"` unpacks the protos from the jar. This
+  allows the protos in your own project to "import" the third-party protos
+  (without this, protoc would fail with an error like: `"Import was not found or had errors"`)
+
+* The generated code for your protos, may reference types that are defined in
+  the protos in that jar. That requires a Scala class for them available in
+  the classpath. This is accomplished by adding the library as a normal
+  dependency.
 
 # Adding new packages
 
