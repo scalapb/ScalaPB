@@ -165,6 +165,18 @@ val parsePersons = ProtoSQL.udf { bytes: Array[Byte] => Person.parseFrom(bytes) 
 binaryDF.withColumn("person", parsePersons($"value"))
 ```
 
+## Primitive wrappers
+
+In ProtoSQL 0.9.x and 0.10.x, primitive wrappers are represented in Spark as structs
+witha single field named `value`. A better representation in Spark would be a
+nullable field of the primitive type. The better representation will be the
+default in 0.11.x. To enable this representation today, replace the usages of
+`scalapb.spark.ProtoSQL` with `scalapb.spark.ProtoSQL.withPrimitiveWrappers`.
+Instead of importing `scalapb.spark.Implicits._`, import
+`scalapb.spark.ProtoSQL.implicits._`
+
+See example in [WrappersSpec](https://github.com/scalapb/sparksql-scalapb/blob/80f3162b69313d57f95d3dcbfee865809873567a/sparksql-scalapb/src/test/scala/WrappersSpec.scala#L42-L59).
+
 ## Datasets and `<none> is not a term`
 
 You will see this error if for some reason Spark's `Encoder`s are being picked up
