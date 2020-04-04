@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package ziogrpc.example;
+
+message Request {
+    string name = 1;
+}
+
+message Response {
+    string resp = 1;
+}
+
+message Point {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+service PointService {
+    rpc Greet(Request) returns (Response);
+
+    rpc Points(Request) returns (stream Point);
+
+    rpc Bidi(stream Point) returns (stream Response);
+}

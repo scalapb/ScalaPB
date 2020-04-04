@@ -13,6 +13,8 @@ options:
   url: user_defined_options.html
 - title: gRPC
   url: grpc.html
+- title: ZIO gRPC
+  url: grpc-with-zio.html
 - title: Scala.js
   url: scala.js.html
 - title: SparkSQL

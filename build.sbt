@@ -351,13 +351,15 @@ lazy val e2eNoJava = (project in file("e2e-nojava"))
 lazy val docs = project
   .in(file("docs"))
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
-  .dependsOn(runtimeJVM)
+  .dependsOn(runtimeJVM, grpcRuntime)
   .settings(
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.10.1",
       "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.1",
+      "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.1",
+      "com.thesamet.scalapb.zio-grpc" %% "zio-grpc-core" % "0.2.0",
       "org.apache.spark"     %% "spark-sql"        % "2.4.4",
       "com.lihaoyi"          %% "ujson"            % "0.9.0",
       "com.lihaoyi"          %% "os-lib"           % "0.5.0",
