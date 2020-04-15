@@ -13,7 +13,7 @@ sealed abstract class Color(val value: _root_.scala.Int) extends _root_.scalapb.
   def isGreen: _root_.scala.Boolean = false
   def isBlue: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[Color] = scalapb.perf.protos.Color
-  final def asRecognized: _root_.scala.Option[scalapb.perf.protos.Color.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.perf.protos.Color.Recognized])
+  final override def asRecognized: _root_.scala.Option[scalapb.perf.protos.Color.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.perf.protos.Color.Recognized])
 }
 
 object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {

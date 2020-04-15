@@ -320,7 +320,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def isCord: _root_.scala.Boolean = false
     def isStringPiece: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[CType] = com.google.protobuf.descriptor.FieldOptions.CType
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.CType.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.CType.Recognized])
   }
   
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
@@ -375,7 +375,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def isJsString: _root_.scala.Boolean = false
     def isJsNumber: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[JSType] = com.google.protobuf.descriptor.FieldOptions.JSType
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized])
   }
   
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {

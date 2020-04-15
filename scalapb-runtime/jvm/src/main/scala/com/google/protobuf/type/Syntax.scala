@@ -13,7 +13,7 @@ sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb
   def isSyntaxProto2: _root_.scala.Boolean = false
   def isSyntaxProto3: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
-  final def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Syntax.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Syntax.Recognized])
+  final override def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Syntax.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Syntax.Recognized])
 }
 
 object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {

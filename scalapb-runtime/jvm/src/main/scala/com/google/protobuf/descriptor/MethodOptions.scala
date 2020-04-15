@@ -181,7 +181,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     def isNoSideEffects: _root_.scala.Boolean = false
     def isIdempotent: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized])
   }
   
   object IdempotencyLevel extends _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] {

@@ -340,7 +340,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def isTypeSint32: _root_.scala.Boolean = false
     def isTypeSint64: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[Type] = com.google.protobuf.descriptor.FieldDescriptorProto.Type
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldDescriptorProto.Type.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Type.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldDescriptorProto.Type.Recognized])
   }
   
   object Type extends _root_.scalapb.GeneratedEnumCompanion[Type] {
@@ -530,7 +530,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def isLabelRequired: _root_.scala.Boolean = false
     def isLabelRepeated: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[Label] = com.google.protobuf.descriptor.FieldDescriptorProto.Label
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized])
   }
   
   object Label extends _root_.scalapb.GeneratedEnumCompanion[Label] {

@@ -599,7 +599,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def isCodeSize: _root_.scala.Boolean = false
     def isLiteRuntime: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = com.google.protobuf.descriptor.FileOptions.OptimizeMode
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized])
   }
   
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {

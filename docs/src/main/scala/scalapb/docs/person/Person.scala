@@ -166,7 +166,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     def isHome: _root_.scala.Boolean = false
     def isWork: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = scalapb.docs.person.Person.AddressType
-    final def asRecognized: _root_.scala.Option[scalapb.docs.person.Person.AddressType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.docs.person.Person.AddressType.Recognized])
+    final override def asRecognized: _root_.scala.Option[scalapb.docs.person.Person.AddressType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.docs.person.Person.AddressType.Recognized])
   }
   
   object AddressType extends _root_.scalapb.GeneratedEnumCompanion[AddressType] {

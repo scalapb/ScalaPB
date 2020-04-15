@@ -618,7 +618,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def isFile: _root_.scala.Boolean = false
     def isPackage: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = scalapb.options.ScalaPbOptions.OptionsScope
-    final def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.OptionsScope.Recognized])
+    final override def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.OptionsScope.Recognized])
   }
   
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
@@ -663,7 +663,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def isAsInProto: _root_.scala.Boolean = false
     def isCamelCase: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = scalapb.options.ScalaPbOptions.EnumValueNaming
-    final def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized])
+    final override def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized])
   }
   
   object EnumValueNaming extends _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] {
