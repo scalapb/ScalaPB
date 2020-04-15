@@ -47,7 +47,7 @@ trait UnrecognizedEnum extends GeneratedEnum {
 }
 
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
-  type ValueType = A#EnumType
+  type ValueType           = A#EnumType
   type ValueRecognizedType = A#EnumRecognizedType
   def fromValue(value: Int): ValueType
   def fromName(name: String): Option[ValueType] = values.find(_.name == name)

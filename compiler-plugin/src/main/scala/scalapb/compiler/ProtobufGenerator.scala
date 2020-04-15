@@ -60,7 +60,9 @@ class ProtobufGenerator(
       }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
-      .add(s"sealed abstract class ${e.recognizedEnum.nameSymbol}(override val value: _root_.scala.Int) extends $name(value)")
+      .add(
+        s"sealed abstract class ${e.recognizedEnum.nameSymbol}(override val value: _root_.scala.Int) extends $name(value)"
+      )
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) {
         case (p, v) =>
@@ -68,7 +70,8 @@ class ProtobufGenerator(
             .add(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
                       " " + ProtobufGenerator.deprecatedAnnotation
                     } else ""}
-                    |case object ${v.scalaName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {
+                    |case object ${v.scalaName.asSymbol} extends ${v.valueExtends
+                      .mkString(" with ")} {
                     |  val index = ${v.getIndex}
                     |  val name = "${v.getName}"
                     |  override def ${v.isName}: _root_.scala.Boolean = true
