@@ -63,6 +63,7 @@ class ProtobufGenerator(
       .add(
         s"sealed abstract class ${e.recognizedEnum.nameSymbol}(override val value: _root_.scala.Int) extends $name(value)"
       )
+      .add(s"override type ValueRecognizedType = ${e.recognizedEnum.nameSymbol}")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) {
         case (p, v) =>
