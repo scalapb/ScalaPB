@@ -333,17 +333,20 @@ sealed trait Weather extends GeneratedEnum {
     def isSunny: Boolean
     def isPartlyCloudy: Boolean
     def isRain: Boolean
+    def asRecognized: Option[Weather.Recognized]
 }
 
 object Weather extends GeneratedEnumCompanion[Weather] {
-    case object SUNNY extends Weather {
+    sealed trait Recognized extends Weather
+
+    case object SUNNY extends Recognized {
         val value = 1
         val name = "SUNNY"
     }
 
     // Similarly for the other enum values...
-    case object PARTLY_CLOUDY extends Weather { ... }
-    case object RAIN extends Weather { ... }
+    case object PARTLY_CLOUDY extends Recognized { ... }
+    case object RAIN extends Recognized { ... }
 
     // In ScalaPB >= 0.5.x, this captures unknown value that are received
     // from the wire format.  Earlier versions throw a MatchError when
@@ -375,6 +378,13 @@ f.getWeather match {
     case _ =>
 }
 
+```
+
+The method `Weather#asRecognized` can be used to turn a `Weather` into `Weather.Recognized` which doesn't have `Unrecognized` as one of the cases:
+
+```scala
+( Weather.PARTLY_CLOUDY ).asRecognized // returns Some(Weather.PARTLY_CLOUDY)
+( Weather.Unrecognized(99) ).asRecognized // returns None
 ```
 
 ## ASCII Representation

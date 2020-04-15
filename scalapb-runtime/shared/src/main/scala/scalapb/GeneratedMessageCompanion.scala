@@ -12,12 +12,15 @@ import scala.util.Try
 
 trait GeneratedEnum extends Any with Product with Serializable {
   type EnumType <: GeneratedEnum
+  type EnumRecognizedType <: EnumType
 
   def value: Int
 
   def index: Int
 
   def name: String
+
+  def asRecognized: Option[EnumRecognizedType]
 
   override def toString = name
 
@@ -44,10 +47,11 @@ trait UnrecognizedEnum extends GeneratedEnum {
 }
 
 trait GeneratedEnumCompanion[A <: GeneratedEnum] {
-  type ValueType = A
-  def fromValue(value: Int): A
-  def fromName(name: String): Option[A] = values.find(_.name == name)
-  def values: Seq[A]
+  type ValueType = A#EnumType
+  type ValueRecognizedType = A#EnumRecognizedType
+  def fromValue(value: Int): ValueType
+  def fromName(name: String): Option[ValueType] = values.find(_.name == name)
+  def values: Seq[ValueType]
 
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor

@@ -9,6 +9,7 @@ package com.google.protobuf.`type`
   */
 sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
+  override type EnumRecognizedType = Syntax.Recognized
   def isSyntaxProto2: _root_.scala.Boolean = false
   def isSyntaxProto3: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
@@ -16,12 +17,13 @@ sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb
 }
 
 object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
-  sealed trait Recognized extends Syntax
+  sealed abstract class Recognized(override val value: _root_.scala.Int) extends Syntax(value)
+  override type ValueRecognizedType = Recognized
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = this
   /** Syntax `proto2`.
     */
   @SerialVersionUID(0L)
-  case object SYNTAX_PROTO2 extends Syntax(0) with Syntax.Recognized {
+  case object SYNTAX_PROTO2 extends Syntax.Recognized(0) {
     val index = 0
     val name = "SYNTAX_PROTO2"
     override def isSyntaxProto2: _root_.scala.Boolean = true
@@ -30,7 +32,7 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   /** Syntax `proto3`.
     */
   @SerialVersionUID(0L)
-  case object SYNTAX_PROTO3 extends Syntax(1) with Syntax.Recognized {
+  case object SYNTAX_PROTO3 extends Syntax.Recognized(1) {
     val index = 1
     val name = "SYNTAX_PROTO3"
     override def isSyntaxProto3: _root_.scala.Boolean = true

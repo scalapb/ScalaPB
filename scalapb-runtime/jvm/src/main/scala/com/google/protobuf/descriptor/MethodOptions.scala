@@ -176,6 +176,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     */
   sealed abstract class IdempotencyLevel(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = IdempotencyLevel
+    override type EnumRecognizedType = IdempotencyLevel.Recognized
     def isIdempotencyUnknown: _root_.scala.Boolean = false
     def isNoSideEffects: _root_.scala.Boolean = false
     def isIdempotent: _root_.scala.Boolean = false
@@ -184,10 +185,11 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   }
   
   object IdempotencyLevel extends _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] {
-    sealed trait Recognized extends IdempotencyLevel
+    sealed abstract class Recognized(override val value: _root_.scala.Int) extends IdempotencyLevel(value)
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = this
     @SerialVersionUID(0L)
-    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel(0) with IdempotencyLevel.Recognized {
+    case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel.Recognized(0) {
       val index = 0
       val name = "IDEMPOTENCY_UNKNOWN"
       override def isIdempotencyUnknown: _root_.scala.Boolean = true
@@ -196,7 +198,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** implies idempotent
       */
     @SerialVersionUID(0L)
-    case object NO_SIDE_EFFECTS extends IdempotencyLevel(1) with IdempotencyLevel.Recognized {
+    case object NO_SIDE_EFFECTS extends IdempotencyLevel.Recognized(1) {
       val index = 1
       val name = "NO_SIDE_EFFECTS"
       override def isNoSideEffects: _root_.scala.Boolean = true
@@ -205,7 +207,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     /** idempotent, but may have side effects
       */
     @SerialVersionUID(0L)
-    case object IDEMPOTENT extends IdempotencyLevel(2) with IdempotencyLevel.Recognized {
+    case object IDEMPOTENT extends IdempotencyLevel.Recognized(2) {
       val index = 2
       val name = "IDEMPOTENT"
       override def isIdempotent: _root_.scala.Boolean = true
