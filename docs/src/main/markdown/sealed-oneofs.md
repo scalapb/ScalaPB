@@ -91,3 +91,36 @@ Experimental Status
 Some of the rules above are inherently required (for example, that the message types need to be distinct). Other rules, such as the one requesting that all involved messages need to be top-level, were added to make the implementation simpler. That particular rule helps ensuring that all the cases can be generated into a single Scala source file without changing too much the existing way the code generator works. It is possible that some of the rules will change over time, though most likely they are only going to become less restrictive so existing code does not break.
 
 Currently, sealed oneofs are implemented as a custom type defined over the old-style container message. This implementation detail is exposed through `asMessage` which returns the underlying message representing the sealed oneof.  It is possible that in a future version, sealed oneofs would have a direct implementation, and therefore `asMessage` and its return type should be considered an experimental API.
+
+Sealed oneof optional
+=====================
+
+This is a variant of _Sealed oneof_, where the optionality is expressed differently.
+The `Empty` case is not generated, but instead the sealed trait is put in other classes as `Option[_]`, not directly.
+
+
+```protobuf
+message Expr {
+    oneof sealed_value_optional {
+        Literal lit = 1;
+        Add add = 1;
+        Mul mul = 2;
+    }
+}
+```
+
+```scala
+sealed trait Expr {
+    def isEmpty: Boolean
+    def isDefined: Boolean
+    def asMessage: ExprMessage  // converts to the standard representation
+}
+
+case class Literal(value: Int) extends Expr with GeneratedMessage
+
+case class Add(left: Option[Expr], right: Option[Expr]) extends Expr with GeneratedMessage
+
+case class Mul(left: Option[Expr], right: Option[Expr]) extends Expr with GeneratedMessage
+
+case class Programs(exprs: Seq[Option[Expr]]) extends GeneratedMessage
+```
