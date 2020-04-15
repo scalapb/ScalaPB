@@ -44,7 +44,7 @@ class ProtobufGenerator(
       )
       .indent
       .add(s"type EnumType = $name")
-      .add(s"override type EnumRecognizedType = ${e.recognizedEnum.fullName}")
+      .add(s"override type EnumRecognizedType = ${e.recognizedEnum.nameRelative(1)}")
       .print(e.getValues.asScala) {
         case (p, v) => p.add(s"def ${v.isName}: _root_.scala.Boolean = false")
       }
