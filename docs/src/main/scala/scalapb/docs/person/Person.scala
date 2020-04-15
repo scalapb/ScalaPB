@@ -162,7 +162,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   )
   sealed abstract class AddressType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = AddressType
-    override type EnumRecognizedType = AddressType.Recognized
+    override type EnumRecognizedType = scalapb.docs.person.Person.AddressType.Recognized
     def isHome: _root_.scala.Boolean = false
     def isWork: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = scalapb.docs.person.Person.AddressType

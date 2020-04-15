@@ -163,7 +163,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     */
   sealed abstract class IdempotencyLevel(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = IdempotencyLevel
-    override type EnumRecognizedType = IdempotencyLevel.Recognized
+    override type EnumRecognizedType = com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized
     def isIdempotencyUnknown: _root_.scala.Boolean = false
     def isNoSideEffects: _root_.scala.Boolean = false
     def isIdempotent: _root_.scala.Boolean = false

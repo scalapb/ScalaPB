@@ -294,7 +294,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   )
   sealed abstract class CType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = CType
-    override type EnumRecognizedType = CType.Recognized
+    override type EnumRecognizedType = com.google.protobuf.descriptor.FieldOptions.CType.Recognized
     def isString: _root_.scala.Boolean = false
     def isCord: _root_.scala.Boolean = false
     def isStringPiece: _root_.scala.Boolean = false
@@ -344,7 +344,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   sealed abstract class JSType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = JSType
-    override type EnumRecognizedType = JSType.Recognized
+    override type EnumRecognizedType = com.google.protobuf.descriptor.FieldOptions.JSType.Recognized
     def isJsNormal: _root_.scala.Boolean = false
     def isJsString: _root_.scala.Boolean = false
     def isJsNumber: _root_.scala.Boolean = false

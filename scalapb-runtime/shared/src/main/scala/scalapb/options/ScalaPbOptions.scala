@@ -614,7 +614,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     */
   sealed abstract class OptionsScope(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptionsScope
-    override type EnumRecognizedType = OptionsScope.Recognized
+    override type EnumRecognizedType = scalapb.options.ScalaPbOptions.OptionsScope.Recognized
     def isFile: _root_.scala.Boolean = false
     def isPackage: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = scalapb.options.ScalaPbOptions.OptionsScope
@@ -659,7 +659,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     */
   sealed abstract class EnumValueNaming(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = EnumValueNaming
-    override type EnumRecognizedType = EnumValueNaming.Recognized
+    override type EnumRecognizedType = scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized
     def isAsInProto: _root_.scala.Boolean = false
     def isCamelCase: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = scalapb.options.ScalaPbOptions.EnumValueNaming

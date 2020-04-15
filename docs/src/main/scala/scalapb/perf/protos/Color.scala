@@ -7,7 +7,7 @@ package scalapb.perf.protos
 
 sealed abstract class Color(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = Color
-  override type EnumRecognizedType = Color.Recognized
+  override type EnumRecognizedType = scalapb.perf.protos.Color.Recognized
   def isUnknown: _root_.scala.Boolean = false
   def isRed: _root_.scala.Boolean = false
   def isGreen: _root_.scala.Boolean = false
