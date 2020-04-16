@@ -7,7 +7,22 @@ layout: docs
 
 ScalaPBC is a tool that lets you generate Scala sources from the command line (or from a maven build).
 
-## Installation
+## Install with Coursier (Recommended)
+
+The recommended way to install ScalaPBC is with Coursier.
+
+> To install Coursier see [here](https://get-coursier.io/docs/cli-overview)
+
+Install the latest version with:
+```bash
+coursier install --channel https://git.io/JvblJ scalapbc
+```
+
+To install a specific version (with sudo if necessary)
+```bash
+coursier bootstrap com.thesamet.scalapb::scalapbc:{{site.data.version.scalapb}} -o /usr/local/bin/scalapbc
+```
+## Download a zip
 
 You can download the current release here: [scalapbc-{{site.data.version.scalapb}}.zip](https://github.com/scalapb/ScalaPB/releases/download/v{{site.data.version.scalapb}}/scalapbc-{{site.data.version.scalapb}}.zip).
 
@@ -15,7 +30,7 @@ Older versions can be found in the [releases page](https://github.com/scalapb/Sc
 
 Unzip the file, and inside you will find two scripts: `bin/scalapbc` (and
 `bin/scalapbc.bat`) that can be used on Unix/Linux/Mac OS X (and Windows,
-respectively).
+respectively). The following text assumes the `scalapbc` executable is now in your `PATH`.
 
 ## Usage
 
@@ -24,19 +39,19 @@ It ships with [multiple versions](https://github.com/os72/protoc-jar) of protoc 
 first command line argument:
 
 ```bash
-./bin/scalapbc -v3.11.1 [options]
+scalapbc -v3.11.1 [options]
 ```
 
 To generate Scala code, invoke ScalaPBC like this:
 
 ```bash
-./bin/scalapbc -v3.5.1 --scala_out=some/output/directory myproto.proto
+scalapbc -v3.5.1 --scala_out=some/output/directory myproto.proto
 ```
 
 To generate both Scala code and Java code along with Java conversions:
 
 ```bash
-./bin/scalapbc -v3.5.1 \
+scalapbc -v3.5.1 \
     --scala_out=java_conversions:some/output/directory \
     --java_out=some/output/directory \
     myproto.proto
@@ -50,14 +65,14 @@ If you would like to pass additional options, like `java_conversions`,
 `flat_package`, or `single_line_to_proto_string`, it can be done like this:
 
 ```bash
-bin/scalapbc my.proto --scala_out=OPT1,OPT2:path/to/output/dir/
+scalapbc my.proto --scala_out=OPT1,OPT2:path/to/output/dir/
 ```
 
 where OPT1,OPT2 is a comma-separated list of options, followed by a colon
 (`:`) and then the output directory. For example:
 
 ```bash
-bin/scalapbc my.proto --scala_out=flat_package,java_conversions:protos/src/scala/main/
+scalapbc my.proto --scala_out=flat_package,java_conversions:protos/src/scala/main/
 ```
 
 The supported parameters are: `flat_package`, `java_conversions`, `grpc` and `single_line_to_proto_string`, `no_lenses`, `retain_source_code_info`.
@@ -66,18 +81,22 @@ Those parameters are described in [SBT settings]({{site.baseurl}}/sbt-settings.h
 
 ## Loading additional generators from Maven
 
-ScalaPBC (starting version 0.10.1) can fetch generators from Maven using
-Coursier:
+ScalaPBC (starting version 0.10.1) can fetch generators from Maven using Coursier:
 
-    bin/scalapbc --plugin-artifact=io.grpc:protoc-gen-grpc-java:1.27.2:default,classifier=linux-x86_64,ext=exe,type=jar -- e2e/src/main/protobuf/service.proto --grpc-java_out=/tmp/out -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+```bash
+scalapbc \
+  --plugin-artifact=io.grpc:protoc-gen-grpc-java:1.27.2:default,classifier=linux-x86_64,ext=exe,type=jar -- \
+  e2e/src/main/protobuf/service.proto \
+  --grpc-java_out=/tmp/out \
+  -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+```
 
-If you use zio-grpc, you can use the following command to generate services
-that use ZIO. This also generates ScalaPB case classes for messages and the
-GRPC descriptors that the generated ZIO code depends on.
+If you use zio-grpc, you can use the following command to generate services that use ZIO. This also generates ScalaPB case classes for messages and the GRPC descriptors that the generated ZIO code depends on.
 
-    bin/scalapbc --plugin-artifact=com.thesamet.scalapb.zio-grpc:protoc-gen-zio:0.1.0:default,classifier=unix,ext=sh,type=jar -- e2e/src/main/protobuf/service.proto --zio_out=/tmp/out --scala_out=grpc:/tmp/out -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+```bash
+scalapbc --plugin-artifact=com.thesamet.scalapb.zio-grpc:protoc-gen-zio:{{site.data.versions.ziogrpc}}:default,classifier=unix,ext=sh,type=jar -- e2e/src/main/protobuf/service.proto --zio_out=/tmp/out --scala_out=grpc:/tmp/out -Ie2e/src/main/protobuf -Ithird_party -Iprotobuf
+```
 
-bin/scalapbc --plugin-artifact=io.grpc:grpc-java:
 ## Using ScalaPB as a proper protoc plugin
 
 You may want to use ScalaPB code generator as a standard protoc plugin (rather

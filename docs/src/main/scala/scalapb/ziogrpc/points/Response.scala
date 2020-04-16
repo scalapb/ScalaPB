@@ -3,7 +3,7 @@
 //
 // Protofile syntax: PROTO3
 
-package ziogrpc.example.ziogrpc
+package scalapb.ziogrpc.points
 
 @SerialVersionUID(0L)
 final case class Response(
@@ -59,12 +59,12 @@ final case class Response(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = ziogrpc.example.ziogrpc.Response
+    def companion = scalapb.ziogrpc.points.Response
 }
 
-object Response extends scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.Response] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.Response] = this
-  def merge(`_message__`: ziogrpc.example.ziogrpc.Response, `_input__`: _root_.com.google.protobuf.CodedInputStream): ziogrpc.example.ziogrpc.Response = {
+object Response extends scalapb.GeneratedMessageCompanion[scalapb.ziogrpc.points.Response] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.ziogrpc.points.Response] = this
+  def merge(`_message__`: scalapb.ziogrpc.points.Response, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.ziogrpc.points.Response = {
     var __resp = `_message__`.resp
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -81,34 +81,34 @@ object Response extends scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrp
           _unknownFields__.parseField(tag, _input__)
       }
     }
-    ziogrpc.example.ziogrpc.Response(
+    scalapb.ziogrpc.points.Response(
         resp = __resp,
         unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[ziogrpc.example.ziogrpc.Response] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.ziogrpc.points.Response] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
-      ziogrpc.example.ziogrpc.Response(
+      scalapb.ziogrpc.points.Response(
         resp = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ZiogrpcProto.javaDescriptor.getMessageTypes.get(1)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ZiogrpcProto.scalaDescriptor.messages(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = PointsProto.javaDescriptor.getMessageTypes.get(1)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = PointsProto.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = ziogrpc.example.ziogrpc.Response(
+  lazy val defaultInstance = scalapb.ziogrpc.points.Response(
     resp = ""
   )
-  implicit class ResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, ziogrpc.example.ziogrpc.Response]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, ziogrpc.example.ziogrpc.Response](_l) {
+  implicit class ResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.ziogrpc.points.Response]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.ziogrpc.points.Response](_l) {
     def resp: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.resp)((c_, f_) => c_.copy(resp = f_))
   }
   final val RESP_FIELD_NUMBER = 1
   def of(
     resp: _root_.scala.Predef.String
-  ): _root_.ziogrpc.example.ziogrpc.Response = _root_.ziogrpc.example.ziogrpc.Response(
+  ): _root_.scalapb.ziogrpc.points.Response = _root_.scalapb.ziogrpc.points.Response(
     resp
   )
 }

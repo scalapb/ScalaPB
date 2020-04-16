@@ -14,7 +14,7 @@ There are multiple ways to solve those problems.
 
 ## Common protos: maybe a Scala package for the protos already exists?
 
-Check whether a [ScalaPB Common Protos](common-protos.html) package is already avaiable for the protos. If the proto library you are looking for, consider making a PR or file a feature request.
+Check whether a [ScalaPB Common Protos](/common-protos.html) package is already avaiable for the protos. If the proto library you are looking for, consider making a PR or file a feature request.
 
 You will add such libraries to your project twice: once with a `protobuf` suffix and once without:
 

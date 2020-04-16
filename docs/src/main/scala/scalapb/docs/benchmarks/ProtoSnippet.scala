@@ -12,6 +12,13 @@ object ProtoSnippet {
         )
     }
 
+    def showFile(name: String): Unit = {
+        println(
+            os.read.lines(os.pwd / "docs" / "src" / "main" / "protobuf" / name)
+            .mkString("```protobuf\n", "\n", "\n```\n")
+        )
+    }
+
     def source[T <: GeneratedMessage](implicit cmp: GeneratedMessageCompanion[T]): Unit = {
         showLocation(cmp.scalaDescriptor.location.get)
     }

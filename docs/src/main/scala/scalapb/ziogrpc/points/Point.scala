@@ -3,7 +3,7 @@
 //
 // Protofile syntax: PROTO3
 
-package ziogrpc.example.ziogrpc
+package scalapb.ziogrpc.points
 
 @SerialVersionUID(0L)
 final case class Point(
@@ -79,12 +79,12 @@ final case class Point(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = ziogrpc.example.ziogrpc.Point
+    def companion = scalapb.ziogrpc.points.Point
 }
 
-object Point extends scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.Point] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.Point] = this
-  def merge(`_message__`: ziogrpc.example.ziogrpc.Point, `_input__`: _root_.com.google.protobuf.CodedInputStream): ziogrpc.example.ziogrpc.Point = {
+object Point extends scalapb.GeneratedMessageCompanion[scalapb.ziogrpc.points.Point] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.ziogrpc.points.Point] = this
+  def merge(`_message__`: scalapb.ziogrpc.points.Point, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.ziogrpc.points.Point = {
     var __x = `_message__`.x
     var __y = `_message__`.y
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -104,31 +104,31 @@ object Point extends scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.P
           _unknownFields__.parseField(tag, _input__)
       }
     }
-    ziogrpc.example.ziogrpc.Point(
+    scalapb.ziogrpc.points.Point(
         x = __x,
         y = __y,
         unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[ziogrpc.example.ziogrpc.Point] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.ziogrpc.points.Point] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
-      ziogrpc.example.ziogrpc.Point(
+      scalapb.ziogrpc.points.Point(
         x = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Int]).getOrElse(0),
         y = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Int]).getOrElse(0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ZiogrpcProto.javaDescriptor.getMessageTypes.get(2)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ZiogrpcProto.scalaDescriptor.messages(2)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = PointsProto.javaDescriptor.getMessageTypes.get(2)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = PointsProto.scalaDescriptor.messages(2)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = ziogrpc.example.ziogrpc.Point(
+  lazy val defaultInstance = scalapb.ziogrpc.points.Point(
     x = 0,
     y = 0
   )
-  implicit class PointLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, ziogrpc.example.ziogrpc.Point]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, ziogrpc.example.ziogrpc.Point](_l) {
+  implicit class PointLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.ziogrpc.points.Point]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.ziogrpc.points.Point](_l) {
     def x: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.x)((c_, f_) => c_.copy(x = f_))
     def y: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.y)((c_, f_) => c_.copy(y = f_))
   }
@@ -137,7 +137,7 @@ object Point extends scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.P
   def of(
     x: _root_.scala.Int,
     y: _root_.scala.Int
-  ): _root_.ziogrpc.example.ziogrpc.Point = _root_.ziogrpc.example.ziogrpc.Point(
+  ): _root_.scalapb.ziogrpc.points.Point = _root_.scalapb.ziogrpc.points.Point(
     x,
     y
   )

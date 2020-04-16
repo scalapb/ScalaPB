@@ -3,24 +3,24 @@
 //
 // Protofile syntax: PROTO3
 
-package ziogrpc.example.ziogrpc
+package scalapb.ziogrpc.points
 
-object ZiogrpcProto extends _root_.scalapb.GeneratedFileObject {
+object PointsProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq.empty
   lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
-      ziogrpc.example.ziogrpc.Request,
-      ziogrpc.example.ziogrpc.Response,
-      ziogrpc.example.ziogrpc.Point
+      scalapb.ziogrpc.points.Request,
+      scalapb.ziogrpc.points.Response,
+      scalapb.ziogrpc.points.Point
     )
   private lazy val ProtoBytes: Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
-  """Cg16aW9ncnBjLnByb3RvEg96aW9ncnBjLmV4YW1wbGUiKAoHUmVxdWVzdBIdCgRuYW1lGAEgASgJQgniPwYSBG5hbWVSBG5hb
-  WUiKQoIUmVzcG9uc2USHQoEcmVzcBgBIAEoCUIJ4j8GEgRyZXNwUgRyZXNwIjMKBVBvaW50EhQKAXgYASABKAVCBuI/AxIBeFIBe
-  BIUCgF5GAIgASgFQgbiPwMSAXlSAXkyyQEKDFBvaW50U2VydmljZRI8CgVHcmVldBIYLnppb2dycGMuZXhhbXBsZS5SZXF1ZXN0G
-  hkuemlvZ3JwYy5leGFtcGxlLlJlc3BvbnNlEjwKBlBvaW50cxIYLnppb2dycGMuZXhhbXBsZS5SZXF1ZXN0GhYuemlvZ3JwYy5le
-  GFtcGxlLlBvaW50MAESPQoEQmlkaRIWLnppb2dycGMuZXhhbXBsZS5Qb2ludBoZLnppb2dycGMuZXhhbXBsZS5SZXNwb25zZSgBM
-  AFiBnByb3RvMw=="""
+  """Cgxwb2ludHMucHJvdG8SD3NjYWxhcGIuemlvZ3JwYyIoCgdSZXF1ZXN0Eh0KBG5hbWUYASABKAlCCeI/BhIEbmFtZVIEbmFtZ
+  SIpCghSZXNwb25zZRIdCgRyZXNwGAEgASgJQgniPwYSBHJlc3BSBHJlc3AiMwoFUG9pbnQSFAoBeBgBIAEoBUIG4j8DEgF4UgF4E
+  hQKAXkYAiABKAVCBuI/AxIBeVIBeTLJAQoMUG9pbnRTZXJ2aWNlEjwKBUdyZWV0Ehguc2NhbGFwYi56aW9ncnBjLlJlcXVlc3QaG
+  S5zY2FsYXBiLnppb2dycGMuUmVzcG9uc2USPAoGUG9pbnRzEhguc2NhbGFwYi56aW9ncnBjLlJlcXVlc3QaFi5zY2FsYXBiLnppb
+  2dycGMuUG9pbnQwARI9CgRCaWRpEhYuc2NhbGFwYi56aW9ncnBjLlBvaW50Ghkuc2NhbGFwYi56aW9ncnBjLlJlc3BvbnNlKAEwA
+  WIGcHJvdG8z"""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)

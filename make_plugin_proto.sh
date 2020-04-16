@@ -23,7 +23,7 @@ sbt "++2.12.10" "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/s
     ./docs/src/main/protobuf/duration.proto \
     ./docs/src/main/protobuf/json.proto \
     ./docs/src/main/protobuf/person.proto \
-    ./docs/src/main/protobuf/ziogrpc.proto \
+    ./docs/src/main/protobuf/points.proto \
     ./benchmarks/src/main/protobuf/protos.proto \
     "
 

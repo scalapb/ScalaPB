@@ -3,7 +3,7 @@
 //
 // Protofile syntax: PROTO3
 
-package ziogrpc.example.ziogrpc
+package scalapb.ziogrpc.points
 
 @SerialVersionUID(0L)
 final case class Request(
@@ -59,12 +59,12 @@ final case class Request(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = ziogrpc.example.ziogrpc.Request
+    def companion = scalapb.ziogrpc.points.Request
 }
 
-object Request extends scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.Request] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc.Request] = this
-  def merge(`_message__`: ziogrpc.example.ziogrpc.Request, `_input__`: _root_.com.google.protobuf.CodedInputStream): ziogrpc.example.ziogrpc.Request = {
+object Request extends scalapb.GeneratedMessageCompanion[scalapb.ziogrpc.points.Request] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.ziogrpc.points.Request] = this
+  def merge(`_message__`: scalapb.ziogrpc.points.Request, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.ziogrpc.points.Request = {
     var __name = `_message__`.name
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -81,34 +81,34 @@ object Request extends scalapb.GeneratedMessageCompanion[ziogrpc.example.ziogrpc
           _unknownFields__.parseField(tag, _input__)
       }
     }
-    ziogrpc.example.ziogrpc.Request(
+    scalapb.ziogrpc.points.Request(
         name = __name,
         unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[ziogrpc.example.ziogrpc.Request] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.ziogrpc.points.Request] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
-      ziogrpc.example.ziogrpc.Request(
+      scalapb.ziogrpc.points.Request(
         name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ZiogrpcProto.javaDescriptor.getMessageTypes.get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ZiogrpcProto.scalaDescriptor.messages(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = PointsProto.javaDescriptor.getMessageTypes.get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = PointsProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = ziogrpc.example.ziogrpc.Request(
+  lazy val defaultInstance = scalapb.ziogrpc.points.Request(
     name = ""
   )
-  implicit class RequestLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, ziogrpc.example.ziogrpc.Request]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, ziogrpc.example.ziogrpc.Request](_l) {
+  implicit class RequestLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.ziogrpc.points.Request]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.ziogrpc.points.Request](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   def of(
     name: _root_.scala.Predef.String
-  ): _root_.ziogrpc.example.ziogrpc.Request = _root_.ziogrpc.example.ziogrpc.Request(
+  ): _root_.scalapb.ziogrpc.points.Request = _root_.scalapb.ziogrpc.points.Request(
     name
   )
 }

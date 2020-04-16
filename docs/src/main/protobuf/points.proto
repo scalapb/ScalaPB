@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package ziogrpc.example;
+package scalapb.ziogrpc;
 
 message Request {
     string name = 1;
