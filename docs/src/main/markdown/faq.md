@@ -127,6 +127,20 @@ In version 0.8.2, we introduced [package-scoped options]({{site.baseurl}}/custom
 
 Easy! Check out [giter8 template for writing new code generators](https://github.com/scalapb/scalapb-plugin-template.g8).
 
+# How do I mark a generated case class private?
+
+Easy! See this example:
+
+```proto
+syntax = "proto3";
+import "scalapb/scalapb.proto";
+
+message MyPrivateMessage {
+    option (scalapb.message).annotations = "private[com.mypkg]";
+    option (scalapb.message).companion_annotations = "private[com.mypkg]";
+}
+```
+
 ## How do I use ScalaPB with Gradle?
 
 You can use ScalaPB with the official [Protobuf Plugin for Gradle](https://github.com/google/protobuf-gradle-plugin).
