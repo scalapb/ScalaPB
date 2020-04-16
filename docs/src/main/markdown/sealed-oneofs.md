@@ -92,12 +92,12 @@ Some of the rules above are inherently required (for example, that the message t
 
 Currently, sealed oneofs are implemented as a custom type defined over the old-style container message. This implementation detail is exposed through `asMessage` which returns the underlying message representing the sealed oneof.  It is possible that in a future version, sealed oneofs would have a direct implementation, and therefore `asMessage` and its return type should be considered an experimental API.
 
-Sealed oneof optional
+Optional sealed oneof
 =====================
 
 This is a variant of _Sealed oneof_, where the optionality is expressed differently.
 The `Empty` case is not generated, but instead the sealed trait is put in other classes as `Option[_]`, not directly.
-
+To create an optional sealed oneof, name the oneof sealed_value_optional as in the example below:
 
 ```protobuf
 message Expr {
