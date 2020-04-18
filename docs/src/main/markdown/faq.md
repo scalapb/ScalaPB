@@ -131,7 +131,7 @@ Easy! Check out [giter8 template for writing new code generators](https://github
 
 Easy! See this example:
 
-```proto
+```protobuf
 syntax = "proto3";
 import "scalapb/scalapb.proto";
 
