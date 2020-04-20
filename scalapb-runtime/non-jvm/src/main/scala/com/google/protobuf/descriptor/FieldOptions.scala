@@ -303,27 +303,27 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
-    sealed abstract class Recognized(override val value: _root_.scala.Int) extends CType(value)
+    sealed trait Recognized extends CType
     override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[CType] = this
     /** Default mode.
       */
     @SerialVersionUID(0L)
-    case object STRING extends CType.Recognized(0) {
+    case object STRING extends CType(0) with CType.Recognized {
       val index = 0
       val name = "STRING"
       override def isString: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object CORD extends CType.Recognized(1) {
+    case object CORD extends CType(1) with CType.Recognized {
       val index = 1
       val name = "CORD"
       override def isCord: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object STRING_PIECE extends CType.Recognized(2) {
+    case object STRING_PIECE extends CType(2) with CType.Recognized {
       val index = 2
       val name = "STRING_PIECE"
       override def isStringPiece: _root_.scala.Boolean = true
@@ -353,13 +353,13 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {
-    sealed abstract class Recognized(override val value: _root_.scala.Int) extends JSType(value)
+    sealed trait Recognized extends JSType
     override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[JSType] = this
     /** Use the default type.
       */
     @SerialVersionUID(0L)
-    case object JS_NORMAL extends JSType.Recognized(0) {
+    case object JS_NORMAL extends JSType(0) with JSType.Recognized {
       val index = 0
       val name = "JS_NORMAL"
       override def isJsNormal: _root_.scala.Boolean = true
@@ -368,7 +368,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Use JavaScript strings.
       */
     @SerialVersionUID(0L)
-    case object JS_STRING extends JSType.Recognized(1) {
+    case object JS_STRING extends JSType(1) with JSType.Recognized {
       val index = 1
       val name = "JS_STRING"
       override def isJsString: _root_.scala.Boolean = true
@@ -377,7 +377,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     /** Use JavaScript numbers.
       */
     @SerialVersionUID(0L)
-    case object JS_NUMBER extends JSType.Recognized(2) {
+    case object JS_NUMBER extends JSType(2) with JSType.Recognized {
       val index = 2
       val name = "JS_NUMBER"
       override def isJsNumber: _root_.scala.Boolean = true

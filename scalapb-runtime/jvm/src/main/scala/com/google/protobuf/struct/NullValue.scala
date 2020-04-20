@@ -19,13 +19,13 @@ sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scal
 }
 
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
-  sealed abstract class Recognized(override val value: _root_.scala.Int) extends NullValue(value)
+  sealed trait Recognized extends NullValue
   override type ValueRecognizedType = Recognized
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
   /** Null value.
     */
   @SerialVersionUID(0L)
-  case object NULL_VALUE extends NullValue.Recognized(0) {
+  case object NULL_VALUE extends NullValue(0) with NullValue.Recognized {
     val index = 0
     val name = "NULL_VALUE"
     override def isNullValue: _root_.scala.Boolean = true

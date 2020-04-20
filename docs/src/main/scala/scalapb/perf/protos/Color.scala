@@ -17,32 +17,32 @@ sealed abstract class Color(val value: _root_.scala.Int) extends _root_.scalapb.
 }
 
 object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
-  sealed abstract class Recognized(override val value: _root_.scala.Int) extends Color(value)
+  sealed trait Recognized extends Color
   override type ValueRecognizedType = Recognized
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Color] = this
   @SerialVersionUID(0L)
-  case object UNKNOWN extends Color.Recognized(0) {
+  case object UNKNOWN extends Color(0) with Color.Recognized {
     val index = 0
     val name = "UNKNOWN"
     override def isUnknown: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
-  case object RED extends Color.Recognized(1) {
+  case object RED extends Color(1) with Color.Recognized {
     val index = 1
     val name = "RED"
     override def isRed: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
-  case object GREEN extends Color.Recognized(2) {
+  case object GREEN extends Color(2) with Color.Recognized {
     val index = 2
     val name = "GREEN"
     override def isGreen: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
-  case object BLUE extends Color.Recognized(3) {
+  case object BLUE extends Color(3) with Color.Recognized {
     val index = 3
     val name = "BLUE"
     override def isBlue: _root_.scala.Boolean = true

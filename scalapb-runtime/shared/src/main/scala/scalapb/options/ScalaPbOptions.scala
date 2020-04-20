@@ -622,13 +622,13 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
-    sealed abstract class Recognized(override val value: _root_.scala.Int) extends OptionsScope(value)
+    sealed trait Recognized extends OptionsScope
     override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = this
     /** Apply the options for this file only (default)
       */
     @SerialVersionUID(0L)
-    case object FILE extends OptionsScope.Recognized(0) {
+    case object FILE extends OptionsScope(0) with OptionsScope.Recognized {
       val index = 0
       val name = "FILE"
       override def isFile: _root_.scala.Boolean = true
@@ -637,7 +637,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Apply the options for the entire package and its subpackages.
       */
     @SerialVersionUID(0L)
-    case object PACKAGE extends OptionsScope.Recognized(1) {
+    case object PACKAGE extends OptionsScope(1) with OptionsScope.Recognized {
       val index = 1
       val name = "PACKAGE"
       override def isPackage: _root_.scala.Boolean = true
@@ -667,13 +667,13 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   
   object EnumValueNaming extends _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] {
-    sealed abstract class Recognized(override val value: _root_.scala.Int) extends EnumValueNaming(value)
+    sealed trait Recognized extends EnumValueNaming
     override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = this
     /** Enum value names in Scala use the same name as in the proto
       */
     @SerialVersionUID(0L)
-    case object AS_IN_PROTO extends EnumValueNaming.Recognized(0) {
+    case object AS_IN_PROTO extends EnumValueNaming(0) with EnumValueNaming.Recognized {
       val index = 0
       val name = "AS_IN_PROTO"
       override def isAsInProto: _root_.scala.Boolean = true
@@ -682,7 +682,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     /** Convert enum values to CamelCase in Scala.
       */
     @SerialVersionUID(0L)
-    case object CAMEL_CASE extends EnumValueNaming.Recognized(1) {
+    case object CAMEL_CASE extends EnumValueNaming(1) with EnumValueNaming.Recognized {
       val index = 1
       val name = "CAMEL_CASE"
       override def isCamelCase: _root_.scala.Boolean = true

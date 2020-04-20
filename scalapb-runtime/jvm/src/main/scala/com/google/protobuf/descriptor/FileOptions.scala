@@ -652,13 +652,13 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   }
   
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
-    sealed abstract class Recognized(override val value: _root_.scala.Int) extends OptimizeMode(value)
+    sealed trait Recognized extends OptimizeMode
     override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
     /** Generate complete code for parsing, serialization,
       */
     @SerialVersionUID(0L)
-    case object SPEED extends OptimizeMode.Recognized(1) {
+    case object SPEED extends OptimizeMode(1) with OptimizeMode.Recognized {
       val index = 0
       val name = "SPEED"
       override def isSpeed: _root_.scala.Boolean = true
@@ -668,7 +668,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       * Use ReflectionOps to implement these methods.
       */
     @SerialVersionUID(0L)
-    case object CODE_SIZE extends OptimizeMode.Recognized(2) {
+    case object CODE_SIZE extends OptimizeMode(2) with OptimizeMode.Recognized {
       val index = 1
       val name = "CODE_SIZE"
       override def isCodeSize: _root_.scala.Boolean = true
@@ -677,7 +677,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     /** Generate code using MessageLite and the lite runtime.
       */
     @SerialVersionUID(0L)
-    case object LITE_RUNTIME extends OptimizeMode.Recognized(3) {
+    case object LITE_RUNTIME extends OptimizeMode(3) with OptimizeMode.Recognized {
       val index = 2
       val name = "LITE_RUNTIME"
       override def isLiteRuntime: _root_.scala.Boolean = true
