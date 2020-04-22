@@ -18,14 +18,14 @@ object StructUtils {
                                        (implicit companion: GeneratedMessageCompanion[T]): Either[StructDeserError, T] = {
     //TODO(@thesamet)- do we want to fail (return Either#Left) if a structField arrives that we don't know about? I assume we don't want to fail on that for forward compatibility but want to double check
     val fieldDescriptorToPValue = structMapToFDMap(struct.fields)
-    fieldDescriptorToPValue.right.map(PMessage).map(companion.messageReads.read)
+    fieldDescriptorToPValue.right.map(companion.messageReads.read)
   }
 
-  private def structMapToFDMap(structFields: Map[String, Value])(implicit companion: GeneratedMessageCompanion[_]): Either[StructDeserError, Map[FieldDescriptor, PValue]] = {
+  private def structMapToFDMap(structFields: Map[String, Value])(implicit companion: GeneratedMessageCompanion[_]): Either[StructDeserError, PMessage] = {
     val fieldDescriptorToPValue = companion.scalaDescriptor.fields.map { fd =>
       structFields.get(fd.name).map(fromValue(fd)).getOrElse(Right(defaultFor(fd))).right.map(value => fd -> value)
     }
-    flatten(fieldDescriptorToPValue).right.map(_.toMap)
+    flatten(fieldDescriptorToPValue).right.map(_.toMap).map(PMessage)
   }
 
   private def fromValue(fd: FieldDescriptor)(value: Value)(implicit companion: GeneratedMessageCompanion[_]): Either[StructDeserError, PValue] = value.kind match {
@@ -52,7 +52,7 @@ object StructUtils {
       flatten(v.values.map(fromValue(fd)))
         .right.map(PRepeated)
     case Kind.StructValue(v) if (fd.scalaType.isInstanceOf[ScalaType.Message]) =>
-      structMapToFDMap(v.fields)(companion.messageCompanionForFieldNumber(fd.number)).right.map(PMessage)
+      structMapToFDMap(v.fields)(companion.messageCompanionForFieldNumber(fd.number))
     case Kind.Empty => Right(PEmpty)
     case kind: Kind => Left(StructDeserError(fd.number, s"Field `${fd.fullName}` is of type '${fd.scalaType}' but received '$kind'"))
   }
