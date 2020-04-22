@@ -1,26 +1,11 @@
 package scalapb
 
-import java.nio.charset.Charset
+import java.util.Base64
 
 import com.google.protobuf.ByteString
-import com.google.protobuf.struct.{ListValue, Struct, Value}
 import com.google.protobuf.struct.Value.Kind
-import scalapb.descriptors.{
-  FieldDescriptor,
-  PBoolean,
-  PByteString,
-  PDouble,
-  PEmpty,
-  PEnum,
-  PFloat,
-  PInt,
-  PLong,
-  PMessage,
-  PRepeated,
-  PString,
-  PValue,
-  ScalaType
-}
+import com.google.protobuf.struct.{ListValue, Struct, Value}
+import scalapb.descriptors._
 
 import scala.util.{Failure, Success, Try}
 
@@ -65,7 +50,7 @@ object StructUtils {
     case Kind.NumberValue(v) if fd.scalaType == ScalaType.Double => Right(PDouble(v))
     case Kind.NumberValue(v) if fd.scalaType == ScalaType.Float  => Right(PFloat(v.toFloat))
     case Kind.StringValue(v) if fd.scalaType == ScalaType.ByteString =>
-      Right(PByteString(ByteString.copyFrom(v, Charset.forName("UTF-8"))))
+      Right(PByteString(ByteString.copyFrom(Base64.getDecoder.decode(v.getBytes))))
     case Kind.StringValue(v) if fd.scalaType.isInstanceOf[ScalaType.Enum] =>
       val enumDesc = fd.scalaType.asInstanceOf[ScalaType.Enum].descriptor
       enumDesc.values
@@ -94,7 +79,7 @@ object StructUtils {
   }
 
   private def defaultFor(fd: FieldDescriptor): PValue =
-    if (fd.isRepeated.asInstanceOf[Boolean]) //TODO @thesmaet- do we have a better alternative?
+    if (fd.isRepeated)
       PRepeated(Vector.empty)
     else
       PEmpty
@@ -116,8 +101,8 @@ object StructUtils {
       case PString(value) => Value.Kind.StringValue(value)
       case PByteString(value) =>
         Value.Kind.StringValue(
-          value.toStringUtf8
-        ) //TODO(@thesamet)- not sure if we have a better option here. WDYT?
+          new String(Base64.getEncoder.encode(value.toByteArray))
+        )
       case PBoolean(value)  => Value.Kind.BoolValue(value)
       case PEnum(value)     => Value.Kind.StringValue(value.name)
       case PMessage(value)  => Value.Kind.StructValue(toStruct(value))

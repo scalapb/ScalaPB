@@ -1,6 +1,8 @@
 package scalapb
 
 
+import java.util.Base64
+
 import com.google.protobuf.ByteString
 import com.google.protobuf.struct.{ListValue, Struct, Value}
 import com.google.protobuf.test.unittest_import.{ImportEnum, ImportMessage}
@@ -69,7 +71,7 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
   "toStruct with byte string field" should "pass" in {
     val someBytesValue = bytes(0xe3, 0x81, 0x82)
     StructUtils.toStruct(TestAllTypes().withOptionalBytes(someBytesValue)) must be(
-      Struct(Map("optional_bytes" -> Value(Value.Kind.StringValue(someBytesValue.toStringUtf8))))
+      Struct(Map("optional_bytes" -> Value(Value.Kind.StringValue(new String(Base64.getEncoder.encode(someBytesValue.toByteArray))))))
     )
   }
 
@@ -151,7 +153,7 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
 
   "fromStruct with byte string field" should "pass" in {
     val someBytesValue = bytes(0xe3, 0x81, 0x82)
-    StructUtils.fromStruct(Struct(Map("optional_bytes" -> Value(Value.Kind.StringValue(someBytesValue.toStringUtf8))))).right.value must be(
+    StructUtils.fromStruct(Struct(Map("optional_bytes" -> Value(Value.Kind.StringValue(new String(Base64.getEncoder.encode(someBytesValue.toByteArray))))))).right.value must be(
       TestAllTypes().withOptionalBytes(someBytesValue)
     )
   }
