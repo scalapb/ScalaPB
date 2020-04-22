@@ -18,7 +18,7 @@ object StructUtils {
       struct: Struct
   )(implicit companion: GeneratedMessageCompanion[T]): Either[StructDeserError, T] = {
     val fieldDescriptorToPValue = structMapToFDMap(struct.fields)
-    fieldDescriptorToPValue.right.map(companion.messageReads.read)
+    fieldDescriptorToPValue.map(companion.messageReads.read)
   }
 
   private def structMapToFDMap(
@@ -32,7 +32,7 @@ object StructUtils {
         .right
         .map(value => fd -> value)
     }
-    flatten(fieldDescriptorToPValue).right.map(_.toMap).map(PMessage)
+    flatten(fieldDescriptorToPValue).map(_.toMap).map(PMessage)
   }
 
   private def fromValue(fd: FieldDescriptor)(value: Value)(
@@ -65,7 +65,7 @@ object StructUtils {
     case Kind.StringValue(v) if (fd.scalaType == ScalaType.String) => Right(PString(v))
     case Kind.BoolValue(v) if (fd.scalaType == ScalaType.Boolean)  => Right(PBoolean(v))
     case Kind.ListValue(v) if (fd.isRepeated.asInstanceOf[Boolean]) =>
-      flatten(v.values.map(fromValue(fd))).right.map(PRepeated)
+      flatten(v.values.map(fromValue(fd))).map(PRepeated)
     case Kind.StructValue(v) if (fd.scalaType.isInstanceOf[ScalaType.Message]) =>
       structMapToFDMap(v.fields)(companion.messageCompanionForFieldNumber(fd.number))
     case Kind.Empty => Right(PEmpty)
