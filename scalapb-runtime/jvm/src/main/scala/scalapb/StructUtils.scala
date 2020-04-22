@@ -12,7 +12,6 @@ import scala.util.{Failure, Success, Try}
 object StructUtils {
   case class StructDeserError(index: Int, error: String)
   def toStruct(generatedMessage: GeneratedMessage): Struct =
-  //TODO(@thesamet)- Can we ignore the case where generatedMessage is null?
     toStruct(generatedMessage.toPMessage.value)
 
   def fromStruct[T <: GeneratedMessage](struct: Struct)
