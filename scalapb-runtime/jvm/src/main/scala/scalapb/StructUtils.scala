@@ -15,23 +15,21 @@ object StructUtils {
   //TODO(@thesamet)- Can we ignore the case where generatedMessage is null?
     toStruct(generatedMessage.toPMessage.value)
 
-  def fromStruct[T <: GeneratedMessage](
-                                         companion: GeneratedMessageCompanion[T],
-                                         struct: Struct
-                                       ): Either[StructDeserError, T] = {
+  def fromStruct[T <: GeneratedMessage](struct: Struct)
+                                       (implicit companion: GeneratedMessageCompanion[T]): Either[StructDeserError, T] = {
     //TODO(@thesamet)- do we want to fail (return Either#Left) if a structField arrives that we don't know about? I assume we don't want to fail on that for forward compatibility but want to double check
-    val fieldDescriptorToPValue = structMapToFDMap(companion, struct.fields)
+    val fieldDescriptorToPValue = structMapToFDMap(struct.fields)
     fieldDescriptorToPValue.right.map(PMessage).map(companion.messageReads.read)
   }
 
-  private def structMapToFDMap(companion: GeneratedMessageCompanion[_], structFields: Map[String, Value]): Either[StructDeserError, Map[FieldDescriptor, PValue]] = {
+  private def structMapToFDMap(structFields: Map[String, Value])(implicit companion: GeneratedMessageCompanion[_]): Either[StructDeserError, Map[FieldDescriptor, PValue]] = {
     val fieldDescriptorToPValue = companion.scalaDescriptor.fields.map { fd =>
-      structFields.get(fd.name).map(fromValue(fd, companion)).getOrElse(Right(defaultFor(fd))).right.map(value => fd -> value)
+      structFields.get(fd.name).map(fromValue(fd)).getOrElse(Right(defaultFor(fd))).right.map(value => fd -> value)
     }
     flatten(fieldDescriptorToPValue).right.map(_.toMap)
   }
 
-  private def fromValue(fd: FieldDescriptor, companion: GeneratedMessageCompanion[_])(value: Value): Either[StructDeserError, PValue] = value.kind match {
+  private def fromValue(fd: FieldDescriptor)(value: Value)(implicit companion: GeneratedMessageCompanion[_]): Either[StructDeserError, PValue] = value.kind match {
     case Kind.NumberValue(v) if fd.scalaType == ScalaType.Int && v.isValidInt => Right(PInt(v.toInt))
     case Kind.StringValue(v) if fd.scalaType == ScalaType.Long =>
       Try {
@@ -52,10 +50,10 @@ object StructUtils {
     case Kind.StringValue(v) if (fd.scalaType == ScalaType.String) => Right(PString(v))
     case Kind.BoolValue(v) if (fd.scalaType == ScalaType.Boolean) => Right(PBoolean(v))
     case Kind.ListValue(v) if (fd.isRepeated.asInstanceOf[Boolean]) =>
-      flatten(v.values.map(fromValue(fd, companion)))
+      flatten(v.values.map(fromValue(fd)))
         .right.map(PRepeated)
     case Kind.StructValue(v) if (fd.scalaType.isInstanceOf[ScalaType.Message]) =>
-      structMapToFDMap(companion.messageCompanionForFieldNumber(fd.number), v.fields).right.map(PMessage)
+      structMapToFDMap(v.fields)(companion.messageCompanionForFieldNumber(fd.number)).right.map(PMessage)
     case Kind.Empty => Right(PEmpty)
     case kind: Kind => Left(StructDeserError(fd.number, s"Field `${fd.fullName}` is of type '${fd.scalaType}' but received '$kind'"))
   }
