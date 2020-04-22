@@ -29,7 +29,6 @@ object StructUtils {
         .get(fd.name)
         .map(fromValue(fd))
         .getOrElse(Right(defaultFor(fd)))
-        .right
         .map(value => fd -> value)
     }
     flatten(fieldDescriptorToPValue).map(_.toMap).map(PMessage)
