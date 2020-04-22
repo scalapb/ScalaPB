@@ -16,7 +16,6 @@ object StructUtils {
 
   def fromStruct[T <: GeneratedMessage](struct: Struct)
                                        (implicit companion: GeneratedMessageCompanion[T]): Either[StructDeserError, T] = {
-    //TODO(@thesamet)- do we want to fail (return Either#Left) if a structField arrives that we don't know about? I assume we don't want to fail on that for forward compatibility but want to double check
     val fieldDescriptorToPValue = structMapToFDMap(struct.fields)
     fieldDescriptorToPValue.right.map(companion.messageReads.read)
   }
