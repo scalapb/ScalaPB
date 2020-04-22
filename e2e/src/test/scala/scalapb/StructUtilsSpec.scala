@@ -3,6 +3,7 @@ package scalapb
 
 import java.util.Base64
 
+import com.github.ghik.silencer.silent
 import com.google.protobuf.ByteString
 import com.google.protobuf.struct.{ListValue, Struct, Value}
 import com.google.protobuf.test.unittest_import.{ImportEnum, ImportMessage}
@@ -16,6 +17,7 @@ import scalapb.StructUtils.StructDeserError
 
 import scala.util.Random
 
+@silent("method right in class Either is deprecated")
 class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
   
   /**
