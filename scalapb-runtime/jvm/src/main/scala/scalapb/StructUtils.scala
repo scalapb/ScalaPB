@@ -77,7 +77,7 @@ object StructUtils {
     case PString(value) => Value.Kind.StringValue(value)
     case PByteString(value) => Value.Kind.StringValue(value.toStringUtf8) //TODO(@thesamet)- not sure if we have a better option here. WDYT?
     case PBoolean(value) => Value.Kind.BoolValue(value)
-    case PEnum(value) => Value.Kind.StringValue(value.name.toString) //TODO(@thesamet)- value.name returns Any. Is toString ok?
+    case PEnum(value) => Value.Kind.StringValue(value.name)
     case PMessage(value) => Value.Kind.StructValue(toStruct(value))
     case PRepeated(value) => Value.Kind.ListValue(ListValue(value.map(toValue)))
     //added for completeness of match case but we should never get here because we filter empty fields before
