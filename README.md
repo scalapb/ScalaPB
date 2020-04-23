@@ -110,3 +110,4 @@ Sponsors
 We are very thankful to our sponsors: 
 
 * [Oliver Wickham (ollyw)](https://github.com/ollyw)
+* [Evgeny Rubtsov](https://github.com/bikaras)
