@@ -63,7 +63,7 @@ object StructUtils {
         )
     case Kind.StringValue(v) if (fd.scalaType == ScalaType.String) => Right(PString(v))
     case Kind.BoolValue(v) if (fd.scalaType == ScalaType.Boolean)  => Right(PBoolean(v))
-    case Kind.ListValue(v) if (fd.isRepeated.asInstanceOf[Boolean]) =>
+    case Kind.ListValue(v) if (fd.isRepeated) =>
       flatten(v.values.map(fromValue(fd))).map(PRepeated)
     case Kind.StructValue(v) if (fd.scalaType.isInstanceOf[ScalaType.Message]) =>
       structMapToFDMap(v.fields)(companion.messageCompanionForFieldNumber(fd.number))
