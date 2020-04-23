@@ -88,6 +88,6 @@ Wrapping up your PR
   meantime we have some tolerance for certain type of incompatabilities.
 * In SBT, run `scalafmt` and `test:scalafmt` to ensure the code compiles
   cleanly.
-* Run `./make_plugin_protos.sh` to re-generate all the generated code that
+* Run `./make_plugin_proto.sh` to re-generate all the generated code that
   ships with ScalaPB.
 
