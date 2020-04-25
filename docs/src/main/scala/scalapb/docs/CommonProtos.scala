@@ -3,11 +3,11 @@ package scalapb.docs
 object CommonProtos {
   def row(libName: String, version: String): String = {
     s"""## $libName
-       |ScalaPB 1.0.x:
+       |ScalaPB 0.10.x:
        |```scala
        |libraryDependencies ++= Seq(
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_1.0" % "${version}" % "protobuf"
-       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_1.0" % "${version}"
+       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.10" % "${version}" % "protobuf"
+       |  "com.thesamet.scalapb.common-protos" %% "${libName}-scalapb_0.10" % "${version}"
        |)
        |```
        |ScalaPB 0.9.x:
