@@ -44,7 +44,12 @@ object StructUtils {
         PLong(v.toLong)
       } match {
         case Success(pLong) => Right(pLong)
-        case Failure(_)     => Left(StructParsingError(s"""Field "${fd.fullName}" is of type long but received invalid long value "$v""""))
+        case Failure(_) =>
+          Left(
+            StructParsingError(
+              s"""Field "${fd.fullName}" is of type long but received invalid long value "$v""""
+            )
+          )
       }
     case (Kind.NumberValue(v), ScalaType.Double) => Right(PDouble(v))
     case (Kind.NumberValue(v), ScalaType.Float)  => Right(PFloat(v.toFloat))
@@ -55,7 +60,9 @@ object StructUtils {
         .find(_.name == v)
         .map(PEnum)
         .toRight(
-          StructParsingError(s"""Field "${fd.fullName}" is of type enum "${enum.descriptor.fullName}" but received invalid enum value "$v"""")
+          StructParsingError(
+            s"""Field "${fd.fullName}" is of type enum "${enum.descriptor.fullName}" but received invalid enum value "$v""""
+          )
         )
     case (Kind.StringValue(v), ScalaType.String) => Right(PString(v))
     case (Kind.BoolValue(v), ScalaType.Boolean)  => Right(PBoolean(v))
@@ -66,7 +73,9 @@ object StructUtils {
     case (Kind.Empty, _) => Right(PEmpty)
     case (kind: Kind, scalaType: ScalaType) =>
       Left(
-        StructParsingError(s"""Field "${fd.fullName}" is of type "${scalaType}" but received "$kind"""")
+        StructParsingError(
+          s"""Field "${fd.fullName}" is of type "${scalaType}" but received "$kind""""
+        )
       )
   }
 
