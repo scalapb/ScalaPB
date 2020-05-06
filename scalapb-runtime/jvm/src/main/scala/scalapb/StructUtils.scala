@@ -10,20 +10,20 @@ import scalapb.descriptors._
 import scala.util.{Failure, Success, Try}
 
 object StructUtils {
-  case class StructDeserError(index: Int, error: String)
+  case class StructParsingError(error: String)
   def toStruct(generatedMessage: GeneratedMessage): Struct =
     toStruct(generatedMessage.toPMessage.value)
 
   def fromStruct[T <: GeneratedMessage](
       struct: Struct
-  )(implicit companion: GeneratedMessageCompanion[T]): Either[StructDeserError, T] = {
+  )(implicit companion: GeneratedMessageCompanion[T]): Either[StructParsingError, T] = {
     val fieldDescriptorToPValue = structMapToFDMap(struct.fields)
     fieldDescriptorToPValue.map(companion.messageReads.read)
   }
 
   private def structMapToFDMap(
       structFields: Map[String, Value]
-  )(implicit companion: GeneratedMessageCompanion[_]): Either[StructDeserError, PMessage] = {
+  )(implicit companion: GeneratedMessageCompanion[_]): Either[StructParsingError, PMessage] = {
     val fieldDescriptorToPValue = companion.scalaDescriptor.fields.map { fd =>
       structFields
         .get(fd.name)
@@ -36,7 +36,7 @@ object StructUtils {
 
   private def fromValue(fd: FieldDescriptor)(value: Value)(
       implicit companion: GeneratedMessageCompanion[_]
-  ): Either[StructDeserError, PValue] = (value.kind, fd.scalaType) match {
+  ): Either[StructParsingError, PValue] = (value.kind, fd.scalaType) match {
     case (Kind.NumberValue(v), ScalaType.Int) if v.isValidInt =>
       Right(PInt(v.toInt))
     case (Kind.StringValue(v), ScalaType.Long) =>
@@ -44,7 +44,7 @@ object StructUtils {
         PLong(v.toLong)
       } match {
         case Success(pLong) => Right(pLong)
-        case Failure(_)     => Left(StructDeserError(fd.number, s"Invalid value for long: '$v'"))
+        case Failure(_)     => Left(StructParsingError(s"""Field "${fd.fullName}" is of type long but received invalid long value "$v""""))
       }
     case (Kind.NumberValue(v), ScalaType.Double) => Right(PDouble(v))
     case (Kind.NumberValue(v), ScalaType.Float)  => Right(PFloat(v.toFloat))
@@ -55,10 +55,7 @@ object StructUtils {
         .find(_.name == v)
         .map(PEnum)
         .toRight(
-          StructDeserError(
-            fd.number,
-            s"""Expected Enum type "${enum.descriptor.fullName}" has no value named "$v""""
-          )
+          StructParsingError(s"""Field "${fd.fullName}" is of type enum "${enum.descriptor.fullName}" but received invalid enum value "$v"""")
         )
     case (Kind.StringValue(v), ScalaType.String) => Right(PString(v))
     case (Kind.BoolValue(v), ScalaType.Boolean)  => Right(PBoolean(v))
@@ -69,10 +66,7 @@ object StructUtils {
     case (Kind.Empty, _) => Right(PEmpty)
     case (kind: Kind, scalaType: ScalaType) =>
       Left(
-        StructDeserError(
-          fd.number,
-          s"Field `${fd.fullName}` is of type '${scalaType}' but received '$kind'"
-        )
+        StructParsingError(s"""Field "${fd.fullName}" is of type "${scalaType}" but received "$kind"""")
       )
   }
 
@@ -110,9 +104,9 @@ object StructUtils {
     })
 
   private def flatten[T](
-      s: Seq[Either[StructDeserError, T]]
-  ): Either[StructDeserError, Vector[T]] = {
-    s.foldLeft[Either[StructDeserError, Vector[T]]](Right(Vector.empty)) {
+      s: Seq[Either[StructParsingError, T]]
+  ): Either[StructParsingError, Vector[T]] = {
+    s.foldLeft[Either[StructParsingError, Vector[T]]](Right(Vector.empty)) {
       case (Left(l), _)          => Left(l)
       case (_, Left(l))          => Left(l)
       case (Right(xs), Right(x)) => Right(xs :+ x)

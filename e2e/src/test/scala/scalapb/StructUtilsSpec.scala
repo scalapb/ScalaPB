@@ -13,7 +13,7 @@ import org.scalatest.matchers.must.Matchers
 import protobuf_unittest.fromstruct_two_level_nesting.{ContainerMessage, DeepEnum, DeepMessage, ImportMessage => ContainerMessageImportMessage}
 import protobuf_unittest.unittest.TestAllTypes.NestedMessage
 import protobuf_unittest.unittest.{ForeignEnum, ForeignMessage, TestAllTypes}
-import scalapb.StructUtils.StructDeserError
+import scalapb.StructUtils.StructParsingError
 
 import scala.util.Random
 
@@ -295,53 +295,53 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
   //failures
   "fromStruct with missing enum field" should "pass" in {
     StructUtils.fromStruct(Struct(Map("optional_foreign_enum" -> Value(Value.Kind.StringValue("non_existent"))))).left.value must be(
-      StructDeserError(22,"Expected Enum type \"protobuf_unittest.ForeignEnum\" has no value named \"non_existent\"")
+      StructParsingError("""Field "protobuf_unittest.TestAllTypes.optional_foreign_enum" is of type enum "protobuf_unittest.ForeignEnum" but received invalid enum value "non_existent"""")
     )
   }
 
   "fromStruct with faulty int field" should "pass" in {
     val someFaultyInt = Random.nextFloat().toDouble
     StructUtils.fromStruct(Struct(Map("optional_int32" -> Value(Value.Kind.NumberValue(someFaultyInt))))).left.value must be(
-      StructDeserError(1,s"Field `protobuf_unittest.TestAllTypes.optional_int32` is of type 'Int' but received 'NumberValue($someFaultyInt)'")
+      StructParsingError(s"""Field "protobuf_unittest.TestAllTypes.optional_int32" is of type "Int" but received "NumberValue($someFaultyInt)"""")
     )
   }
 
   "fromStruct with faulty long field" should "pass" in {
     val someFaultyLong = "Hi"
     StructUtils.fromStruct(Struct(Map("optional_int64" -> Value(Value.Kind.StringValue(someFaultyLong))))).left.value must be(
-      StructDeserError(2,s"Invalid value for long: '$someFaultyLong'")
+      StructParsingError("""Field "protobuf_unittest.TestAllTypes.optional_int64" is of type long but received invalid long value "Hi"""")
     )
   }
 
   "fromStruct with int field value for string field key" should "pass" in {
     val someFaultyString = Random.nextInt().toDouble
     StructUtils.fromStruct(Struct(Map("optional_string" -> Value(Value.Kind.NumberValue(someFaultyString))))).left.value must be(
-      StructDeserError(14,s"Field `protobuf_unittest.TestAllTypes.optional_string` is of type 'String' but received 'NumberValue($someFaultyString)'")
+      StructParsingError(s"""Field "protobuf_unittest.TestAllTypes.optional_string" is of type "String" but received "NumberValue($someFaultyString)"""")
     )
   }
 
   "fromStruct with boolean field value for string field key" should "pass" in {
     val someBooleanValue = Random.nextBoolean()
     StructUtils.fromStruct(Struct(Map("optional_string" -> Value(Value.Kind.BoolValue(someBooleanValue))))).left.value must be(
-      StructDeserError(14,s"Field `protobuf_unittest.TestAllTypes.optional_string` is of type 'String' but received 'BoolValue($someBooleanValue)'")
+      StructParsingError(s"""Field "protobuf_unittest.TestAllTypes.optional_string" is of type "String" but received "BoolValue($someBooleanValue)"""")
     )
   }
 
   "fromStruct with message field value for string field key" should "pass" in {
     StructUtils.fromStruct(Struct(Map("optional_string" -> Value(Value.Kind.StructValue(Struct(Map.empty)))))).left.value must be(
-      StructDeserError(14,s"Field `protobuf_unittest.TestAllTypes.optional_string` is of type 'String' but received 'StructValue(Struct(Map(),UnknownFieldSet(Map())))'")
+      StructParsingError(s"""Field "protobuf_unittest.TestAllTypes.optional_string" is of type "String" but received "StructValue(Struct(Map(),UnknownFieldSet(Map())))"""")
     )
   }
 
   "fromStruct with repeated field value for single field key" should "pass" in {
     StructUtils.fromStruct(Struct(Map("optional_string" -> Value(Value.Kind.ListValue(ListValue(Seq(Value(Value.Kind.StringValue("Hi"))))))))).left.value must be(
-      StructDeserError(14,"Field `protobuf_unittest.TestAllTypes.optional_string` is of type 'String' but received 'ListValue(ListValue(List(Value(StringValue(Hi),UnknownFieldSet(Map()))),UnknownFieldSet(Map())))'")
+      StructParsingError("""Field "protobuf_unittest.TestAllTypes.optional_string" is of type "String" but received "ListValue(ListValue(List(Value(StringValue(Hi),UnknownFieldSet(Map()))),UnknownFieldSet(Map())))"""")
     )
   }
 
   "fromStruct with string field value for int field key" should "pass" in {
     StructUtils.fromStruct(Struct(Map("optional_int32" -> Value(Value.Kind.StringValue("Hi"))))).left.value must be(
-      StructDeserError(1,s"Field `protobuf_unittest.TestAllTypes.optional_int32` is of type 'Int' but received 'StringValue(Hi)'")
+      StructParsingError(s"""Field "protobuf_unittest.TestAllTypes.optional_int32" is of type "Int" but received "StringValue(Hi)"""")
     )
   }
 
