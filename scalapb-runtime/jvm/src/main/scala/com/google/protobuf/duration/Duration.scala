@@ -26,7 +26,7 @@ package com.google.protobuf.duration
   *     if (duration.seconds &lt; 0 &amp;&amp; duration.nanos &gt; 0) {
   *       duration.seconds += 1;
   *       duration.nanos -= 1000000000;
-  *     } else if (durations.seconds &gt; 0 &amp;&amp; duration.nanos &lt; 0) {
+  *     } else if (duration.seconds &gt; 0 &amp;&amp; duration.nanos &lt; 0) {
   *       duration.seconds -= 1;
   *       duration.nanos += 1000000000;
   *     }

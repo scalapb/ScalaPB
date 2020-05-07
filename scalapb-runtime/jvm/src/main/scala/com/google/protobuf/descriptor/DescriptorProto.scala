@@ -350,6 +350,11 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     reservedRange = _root_.scala.Seq.empty,
     reservedName = _root_.scala.Seq.empty
   )
+  /** @param start
+    *   Inclusive.
+    * @param end
+    *   Exclusive.
+    */
   @SerialVersionUID(0L)
   final case class ExtensionRange(
       start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,

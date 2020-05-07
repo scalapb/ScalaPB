@@ -50,7 +50,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *  
   *   Implementations may choose not to generate the map_entry=true message, but
   *   use a native map in the target language to hold the keys and values.
-  *   The reflection APIs in such implementions still need to work as
+  *   The reflection APIs in such implementations still need to work as
   *   if the field is a repeated message field.
   *  
   *   NOTE: Do not set the option in .proto files. Always use the maps syntax

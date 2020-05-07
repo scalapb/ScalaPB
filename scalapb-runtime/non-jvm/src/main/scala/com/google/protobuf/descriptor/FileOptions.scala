@@ -76,8 +76,8 @@ package com.google.protobuf.descriptor
   *   determining the namespace.
   * @param phpMetadataNamespace
   *   Use this option to change the namespace of php generated metadata classes.
-  *   Default is empty. When this option is empty, the proto file name will be used
-  *   for determining the namespace.
+  *   Default is empty. When this option is empty, the proto file name will be
+  *   used for determining the namespace.
   * @param rubyPackage
   *   Use this option to change the package of ruby generated classes. Default
   *   is empty. When this option is not set, the package name will be used for
@@ -335,7 +335,7 @@ final case class FileOptions(
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
     def clearDeprecated: FileOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): FileOptions = copy(deprecated = Option(__v))
-    def getCcEnableArenas: _root_.scala.Boolean = ccEnableArenas.getOrElse(false)
+    def getCcEnableArenas: _root_.scala.Boolean = ccEnableArenas.getOrElse(true)
     def clearCcEnableArenas: FileOptions = copy(ccEnableArenas = _root_.scala.None)
     def withCcEnableArenas(__v: _root_.scala.Boolean): FileOptions = copy(ccEnableArenas = Option(__v))
     def getObjcClassPrefix: _root_.scala.Predef.String = objcClassPrefix.getOrElse("")

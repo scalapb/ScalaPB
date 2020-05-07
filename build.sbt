@@ -6,7 +6,7 @@ import Dependencies._
 // Different version for compiler-plugin since >=3.8.0 is not binary
 // compatible with 3.7.x. When loaded inside SBT (which has its own old
 // version), the binary incompatibility surfaces.
-val protobufCompilerVersion = "3.7.1"
+val protobufCompilerVersion = "3.12.2"
 
 val MimaPreviousVersion = "0.10.0"
 

@@ -16,10 +16,14 @@ package com.google.protobuf.compiler.plugin
   *   problem in protoc itself -- such as the input CodeGeneratorRequest being
   *   unparseable -- should be reported by writing a message to stderr and
   *   exiting with a non-zero status code.
+  * @param supportedFeatures
+  *   A bitmask of supported features that the code generator supports.
+  *   This is a bitwise "or" of values from the Feature enum.
   */
 @SerialVersionUID(0L)
 final case class CodeGeneratorResponse(
     error: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    supportedFeatures: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None,
     file: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[CodeGeneratorResponse] {
@@ -30,6 +34,10 @@ final case class CodeGeneratorResponse(
       if (error.isDefined) {
         val __value = error.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
+      };
+      if (supportedFeatures.isDefined) {
+        val __value = supportedFeatures.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeUInt64Size(2, __value)
       };
       file.foreach { __item =>
         val __value = __item
@@ -51,6 +59,10 @@ final case class CodeGeneratorResponse(
         val __m = __v
         _output__.writeString(1, __m)
       };
+      supportedFeatures.foreach { __v =>
+        val __m = __v
+        _output__.writeUInt64(2, __m)
+      };
       file.foreach { __v =>
         val __m = __v
         _output__.writeTag(15, 2)
@@ -62,6 +74,9 @@ final case class CodeGeneratorResponse(
     def getError: _root_.scala.Predef.String = error.getOrElse("")
     def clearError: CodeGeneratorResponse = copy(error = _root_.scala.None)
     def withError(__v: _root_.scala.Predef.String): CodeGeneratorResponse = copy(error = Option(__v))
+    def getSupportedFeatures: _root_.scala.Long = supportedFeatures.getOrElse(0L)
+    def clearSupportedFeatures: CodeGeneratorResponse = copy(supportedFeatures = _root_.scala.None)
+    def withSupportedFeatures(__v: _root_.scala.Long): CodeGeneratorResponse = copy(supportedFeatures = Option(__v))
     def clearFile = copy(file = _root_.scala.Seq.empty)
     def addFile(__vs: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File*): CodeGeneratorResponse = addAllFile(__vs)
     def addAllFile(__vs: Iterable[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = file ++ __vs)
@@ -71,6 +86,7 @@ final case class CodeGeneratorResponse(
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => error.orNull
+        case 2 => supportedFeatures.orNull
         case 15 => file
       }
     }
@@ -78,6 +94,7 @@ final case class CodeGeneratorResponse(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => error.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => supportedFeatures.map(_root_.scalapb.descriptors.PLong).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 15 => _root_.scalapb.descriptors.PRepeated(file.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -89,6 +106,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] = this
   def merge(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorResponse, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
     var __error = `_message__`.error
+    var __supportedFeatures = `_message__`.supportedFeatures
     val __file = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= `_message__`.file)
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -98,6 +116,8 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
         case 0 => _done__ = true
         case 10 =>
           __error = Option(_input__.readStringRequireUtf8())
+        case 16 =>
+          __supportedFeatures = Option(_input__.readUInt64())
         case 122 =>
           __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.defaultInstance)
         case tag =>
@@ -109,6 +129,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     }
     com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
         error = __error,
+        supportedFeatures = __supportedFeatures,
         file = __file.result(),
         unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
@@ -118,6 +139,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
         error = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        supportedFeatures = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Long]]),
         file = __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).map(_.as[_root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -138,8 +160,48 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
     error = _root_.scala.None,
+    supportedFeatures = _root_.scala.None,
     file = _root_.scala.Seq.empty
   )
+  /** Sync with code_generator.h.
+    */
+  sealed abstract class Feature(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
+    type EnumType = Feature
+    def isFeatureNone: _root_.scala.Boolean = false
+    def isFeatureProto3Optional: _root_.scala.Boolean = false
+    def companion: _root_.scalapb.GeneratedEnumCompanion[Feature] = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.Feature
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.Feature.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.Feature.Recognized])
+  }
+  
+  object Feature extends _root_.scalapb.GeneratedEnumCompanion[Feature] {
+    sealed trait Recognized extends Feature
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Feature] = this
+    @SerialVersionUID(0L)
+    case object FEATURE_NONE extends Feature(0) with Feature.Recognized {
+      val index = 0
+      val name = "FEATURE_NONE"
+      override def isFeatureNone: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object FEATURE_PROTO3_OPTIONAL extends Feature(1) with Feature.Recognized {
+      val index = 1
+      val name = "FEATURE_PROTO3_OPTIONAL"
+      override def isFeatureProto3Optional: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Feature(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    
+    lazy val values = scala.collection.immutable.Seq(FEATURE_NONE, FEATURE_PROTO3_OPTIONAL)
+    def fromValue(__value: _root_.scala.Int): Feature = __value match {
+      case 0 => FEATURE_NONE
+      case 1 => FEATURE_PROTO3_OPTIONAL
+      case __other => Unrecognized(__other)
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.javaDescriptor.getEnumTypes.get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.scalaDescriptor.enums(0)
+  }
   /** Represents a single generated file.
     *
     * @param name
@@ -351,15 +413,20 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   implicit class CodeGeneratorResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse](_l) {
     def error: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getError)((c_, f_) => c_.copy(error = Option(f_)))
     def optionalError: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.error)((c_, f_) => c_.copy(error = f_))
+    def supportedFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getSupportedFeatures)((c_, f_) => c_.copy(supportedFeatures = Option(f_)))
+    def optionalSupportedFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Long]] = field(_.supportedFeatures)((c_, f_) => c_.copy(supportedFeatures = f_))
     def file: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]] = field(_.file)((c_, f_) => c_.copy(file = f_))
   }
   final val ERROR_FIELD_NUMBER = 1
+  final val SUPPORTED_FEATURES_FIELD_NUMBER = 2
   final val FILE_FIELD_NUMBER = 15
   def of(
     error: _root_.scala.Option[_root_.scala.Predef.String],
+    supportedFeatures: _root_.scala.Option[_root_.scala.Long],
     file: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]
   ): _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse = _root_.com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
     error,
+    supportedFeatures,
     file
   )
 }

@@ -203,7 +203,7 @@ package com.google.protobuf.field_mask
   *
   * The implementation of any API method which has a FieldMask type field in the
   * request should verify the included field paths, and return an
-  * `INVALID_ARGUMENT` error if any path is duplicated or unmappable.
+  * `INVALID_ARGUMENT` error if any path is unmappable.
   *
   * @param paths
   *   The set of field mask paths.

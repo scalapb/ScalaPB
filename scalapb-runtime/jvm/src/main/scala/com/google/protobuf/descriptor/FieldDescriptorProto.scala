@@ -33,6 +33,28 @@ package com.google.protobuf.descriptor
   *   user has set a "json_name" option on this field, that option's value
   *   will be used. Otherwise, it's deduced from the field's name by converting
   *   it to camelCase.
+  * @param proto3Optional
+  *   If true, this is a proto3 "optional". When a proto3 field is optional, it
+  *   tracks presence regardless of field type.
+  *  
+  *   When proto3_optional is true, this field must be belong to a oneof to
+  *   signal to old proto3 clients that presence is tracked for this field. This
+  *   oneof is known as a "synthetic" oneof, and this field must be its sole
+  *   member (each proto3 optional field gets its own synthetic oneof). Synthetic
+  *   oneofs exist in the descriptor only, and do not generate any API. Synthetic
+  *   oneofs must be ordered after all "real" oneofs.
+  *  
+  *   For message fields, proto3_optional doesn't create any semantic change,
+  *   since non-repeated message fields always track presence. However it still
+  *   indicates the semantic detail of whether the user wrote "optional" or not.
+  *   This can be useful for round-tripping the .proto file. For consistency we
+  *   give message fields a synthetic oneof also, even though it is not required
+  *   to track presence. This is especially important because the parser can't
+  *   tell if a field is a message or an enum, so it must always create a
+  *   synthetic oneof.
+  *  
+  *   Proto2 optional fields do not set this flag, because they already indicate
+  *   optional with `LABEL_OPTIONAL`.
   */
 @SerialVersionUID(0L)
 final case class FieldDescriptorProto(
@@ -46,6 +68,7 @@ final case class FieldDescriptorProto(
     oneofIndex: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
     jsonName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
+    proto3Optional: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldDescriptorProto] {
     @transient
@@ -91,6 +114,10 @@ final case class FieldDescriptorProto(
       if (options.isDefined) {
         val __value = options.get
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
+      if (proto3Optional.isDefined) {
+        val __value = proto3Optional.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(17, __value)
       };
       __size += unknownFields.serializedSize
       __size
@@ -146,6 +173,10 @@ final case class FieldDescriptorProto(
         val __m = __v
         _output__.writeString(10, __m)
       };
+      proto3Optional.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(17, __m)
+      };
       unknownFields.writeTo(_output__)
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
@@ -178,6 +209,9 @@ final case class FieldDescriptorProto(
     def getOptions: com.google.protobuf.descriptor.FieldOptions = options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)
     def clearOptions: FieldDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.FieldOptions): FieldDescriptorProto = copy(options = Option(__v))
+    def getProto3Optional: _root_.scala.Boolean = proto3Optional.getOrElse(false)
+    def clearProto3Optional: FieldDescriptorProto = copy(proto3Optional = _root_.scala.None)
+    def withProto3Optional(__v: _root_.scala.Boolean): FieldDescriptorProto = copy(proto3Optional = Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -192,6 +226,7 @@ final case class FieldDescriptorProto(
         case 9 => oneofIndex.orNull
         case 10 => jsonName.orNull
         case 8 => options.orNull
+        case 17 => proto3Optional.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -207,6 +242,7 @@ final case class FieldDescriptorProto(
         case 9 => oneofIndex.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 10 => jsonName.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 17 => proto3Optional.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -227,6 +263,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     scalaPbSource.oneofIndex.foreach(javaPbOut.setOneofIndex)
     scalaPbSource.jsonName.foreach(javaPbOut.setJsonName)
     scalaPbSource.options.map(com.google.protobuf.descriptor.FieldOptions.toJavaProto).foreach(javaPbOut.setOptions)
+    scalaPbSource.proto3Optional.foreach(javaPbOut.setProto3Optional)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldDescriptorProto): com.google.protobuf.descriptor.FieldDescriptorProto = com.google.protobuf.descriptor.FieldDescriptorProto(
@@ -239,7 +276,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     defaultValue = if (javaPbSource.hasDefaultValue) Some(javaPbSource.getDefaultValue) else _root_.scala.None,
     oneofIndex = if (javaPbSource.hasOneofIndex) Some(javaPbSource.getOneofIndex.intValue) else _root_.scala.None,
     jsonName = if (javaPbSource.hasJsonName) Some(javaPbSource.getJsonName) else _root_.scala.None,
-    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.FieldOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None
+    options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.FieldOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
+    proto3Optional = if (javaPbSource.hasProto3Optional) Some(javaPbSource.getProto3Optional.booleanValue) else _root_.scala.None
   )
   def merge(`_message__`: com.google.protobuf.descriptor.FieldDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldDescriptorProto = {
     var __name = `_message__`.name
@@ -252,6 +290,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     var __oneofIndex = `_message__`.oneofIndex
     var __jsonName = `_message__`.jsonName
     var __options = `_message__`.options
+    var __proto3Optional = `_message__`.proto3Optional
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -278,6 +317,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
           __jsonName = Option(_input__.readStringRequireUtf8())
         case 66 =>
           __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
+        case 136 =>
+          __proto3Optional = Option(_input__.readBool())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
@@ -296,6 +337,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
         oneofIndex = __oneofIndex,
         jsonName = __jsonName,
         options = __options,
+        proto3Optional = __proto3Optional,
         unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
@@ -312,7 +354,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
         defaultValue = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         oneofIndex = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
         jsonName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]])
+        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]]),
+        proto3Optional = __fieldsMap.get(scalaDescriptor.findFieldByNumber(17).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -342,7 +385,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     defaultValue = _root_.scala.None,
     oneofIndex = _root_.scala.None,
     jsonName = _root_.scala.None,
-    options = _root_.scala.None
+    options = _root_.scala.None,
+    proto3Optional = _root_.scala.None
   )
   sealed abstract class Type(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Type
@@ -626,6 +670,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def optionalJsonName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def proto3Optional: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getProto3Optional)((c_, f_) => c_.copy(proto3Optional = Option(f_)))
+    def optionalProto3Optional: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.proto3Optional)((c_, f_) => c_.copy(proto3Optional = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val NUMBER_FIELD_NUMBER = 3
@@ -637,6 +683,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
   final val ONEOF_INDEX_FIELD_NUMBER = 9
   final val JSON_NAME_FIELD_NUMBER = 10
   final val OPTIONS_FIELD_NUMBER = 8
+  final val PROTO3_OPTIONAL_FIELD_NUMBER = 17
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
     number: _root_.scala.Option[_root_.scala.Int],
@@ -647,7 +694,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     defaultValue: _root_.scala.Option[_root_.scala.Predef.String],
     oneofIndex: _root_.scala.Option[_root_.scala.Int],
     jsonName: _root_.scala.Option[_root_.scala.Predef.String],
-    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]
+    options: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
+    proto3Optional: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.com.google.protobuf.descriptor.FieldDescriptorProto = _root_.com.google.protobuf.descriptor.FieldDescriptorProto(
     name,
     number,
@@ -658,6 +706,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     defaultValue,
     oneofIndex,
     jsonName,
-    options
+    options,
+    proto3Optional
   )
 }
