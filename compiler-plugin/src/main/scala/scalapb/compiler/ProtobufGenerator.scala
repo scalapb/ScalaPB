@@ -689,7 +689,7 @@ class ProtobufGenerator(
           annotations = annotations(field)
         )
     }
-    val oneOfFields = message.getOneofs.asScala.map { oneOf =>
+    val oneOfFields = message.getRealOneofs.asScala.map { oneOf =>
       val ctorDefaultValue: Option[String] =
         if (message.getFile.noDefaultValuesInConstructor) None
         else Some(oneOf.empty.fullNameWithMaybeRoot(message))
@@ -751,7 +751,7 @@ class ProtobufGenerator(
             fp.add(s"var __requiredFields$index: _root_.scala.Long = $bn")
         }
       }
-      .print(message.getOneofs.asScala)((printer, oneof) =>
+      .print(message.getRealOneofs.asScala)((printer, oneof) =>
         printer.add(s"var __${oneof.scalaName.name} = `_message__`.${oneof.scalaName.nameSymbol}")
       )
       .add(s"""var _done__ = false
@@ -846,7 +846,7 @@ class ProtobufGenerator(
       .add(s"$myFullScalaName(")
       .indent
       .addWithDelimiter(",")(
-        (message.fieldsWithoutOneofs ++ message.getOneofs.asScala).map {
+        (message.fieldsWithoutOneofs ++ message.getRealOneofs.asScala).map {
           case e: FieldDescriptor if e.isRepeated =>
             s"  ${e.scalaName.asSymbol} = __${e.scalaName}.result()"
           case e: FieldDescriptor =>
@@ -895,7 +895,7 @@ class ProtobufGenerator(
               else javaFieldToScala("javaPbSource", field)
             Seq(s"${field.scalaName.asSymbol} = $conversion")
         }
-        val oneOfs = message.getOneofs.asScala.map {
+        val oneOfs = message.getRealOneofs.asScala.map {
           case oneOf =>
             val head =
               s"${oneOf.scalaName.nameSymbol} = javaPbSource.${oneOf.javaEnumName}.getNumber match {"
@@ -976,7 +976,7 @@ class ProtobufGenerator(
               enclosingType = field.enclosingType
             )
         }
-        val oneOfs = message.getOneofs.asScala.map { oneOf =>
+        val oneOfs = message.getRealOneofs.asScala.map { oneOf =>
           val elems = oneOf.fields.map { field =>
             val value =
               s"__fieldsMap.get(scalaDescriptor.findFieldByNumber(${field.getNumber}).get)"
@@ -1022,7 +1022,7 @@ class ProtobufGenerator(
         case field if !field.isInOneof =>
           val default = defaultValueForDefaultInstance(field)
           s"${field.scalaName.asSymbol} = $default"
-      } ++ message.getOneofs.asScala.map { oneof =>
+      } ++ message.getRealOneofs.asScala.map { oneof =>
         s"${oneof.scalaName.nameSymbol} = ${oneof.empty.fullName}"
       })
       .outdent
@@ -1062,7 +1062,7 @@ class ProtobufGenerator(
               )
           }
       }
-      .print(message.getOneofs.asScala) {
+      .print(message.getRealOneofs.asScala) {
         case (printer, oneof) =>
           val oneofName = oneof.scalaName.nameSymbol
           printer
@@ -1353,7 +1353,7 @@ class ProtobufGenerator(
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
       .print(message.getEnumTypes.asScala)(printEnum)
-      .print(message.getOneofs.asScala)(printOneof)
+      .print(message.getRealOneofs.asScala)(printOneof)
       .print(message.nestedTypes)(printMessage)
       .print(message.getExtensions.asScala)(printExtension)
       .when(message.generateLenses)(generateMessageLens(message))
@@ -1457,7 +1457,7 @@ class ProtobufGenerator(
               )
             }
       }
-      .print(message.getOneofs.asScala) {
+      .print(message.getRealOneofs.asScala) {
         case (printer, oneof) =>
           printer.add(
             s"""def clear${oneof.scalaType.name}: ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = ${oneof.empty
@@ -1736,22 +1736,17 @@ object ProtobufGenerator {
   def handleCodeGeneratorRequest(request: CodeGenRequest): CodeGenResponse = {
     parseParameters(request.parameter) match {
       case Right(params) =>
-        try {
-          val implicits = new DescriptorImplicits(params, request.allProtos)
-          val generator = new ProtobufGenerator(params, implicits)
-          val validator = new ProtoValidation(implicits)
-          validator.validateFiles(request.allProtos)
-          import implicits.FileDescriptorPimp
-          val files = request.filesToGenerate.flatMap { file =>
-            if (file.scalaOptions.getSingleFile)
-              generator.generateSingleScalaFileForFileDescriptor(file)
-            else generator.generateMultipleScalaFilesForFileDescriptor(file)
-          }
-          CodeGenResponse.succeed(files)
-        } catch {
-          case e: GeneratorException =>
-            CodeGenResponse.fail(e.message)
+        val implicits = new DescriptorImplicits(params, request.allProtos)
+        val generator = new ProtobufGenerator(params, implicits)
+        val validator = new ProtoValidation(implicits)
+        validator.validateFiles(request.allProtos)
+        import implicits.FileDescriptorPimp
+        val files = request.filesToGenerate.flatMap { file =>
+          if (file.scalaOptions.getSingleFile)
+            generator.generateSingleScalaFileForFileDescriptor(file)
+          else generator.generateMultipleScalaFilesForFileDescriptor(file)
         }
+        CodeGenResponse.succeed(files, Set(CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL))
       case Left(error) =>
         CodeGenResponse.fail(error)
     }

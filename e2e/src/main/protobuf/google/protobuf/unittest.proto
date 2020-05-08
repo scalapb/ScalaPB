@@ -834,3 +834,6 @@ service TestService {
 message BarRequest  {}
 message BarResponse {}
 
+message TestMap {
+  map<int32, string> int32_to_string = 1;
+}

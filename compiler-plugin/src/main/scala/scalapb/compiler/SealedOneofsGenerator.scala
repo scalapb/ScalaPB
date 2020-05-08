@@ -21,7 +21,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
       val sealedOneofType = message.sealedOneofScalaType
       val sealedOneofName = message.sealedOneofTraitScalaType.nameSymbol
       val typeMapper      = s"_root_.scalapb.TypeMapper[${baseType}, ${sealedOneofType}]"
-      val oneof           = message.getOneofs.get(0)
+      val oneof           = message.getRealOneofs.get(0)
       val typeMapperName  = message.sealedOneofTypeMapper.name
 
       if (message.sealedOneofStyle != SealedOneofStyle.Optional) {

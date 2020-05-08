@@ -285,7 +285,7 @@ object GraphGen {
       if (protoPackage.isEmpty) state else state.closeNamespace
     )
 
-  def genRootNode: Gen[RootNode] =
+  def genRootNode: Gen[RootNode] = {
     listWithStatefulGen(State(), maxSize = 10)(genFileNode)
       .map {
         case (files, state) =>
@@ -293,4 +293,6 @@ object GraphGen {
           RootNode(files)
       }
       .suchThat(_.maxMessageId.isDefined)
+
+  }
 }

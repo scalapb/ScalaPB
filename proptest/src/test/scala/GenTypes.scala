@@ -124,7 +124,7 @@ object GenTypes {
     val REPEATED = Value("repeated")
   }
 
-  case class FieldOptions(modifier: FieldModifier.Value, isPacked: Boolean)
+  case class FieldOptions(modifier: FieldModifier.Value, isPacked: Boolean, proto3Presence: Boolean)
 
   def genFieldModifier(allowRequired: Boolean): Gen[FieldModifier.Value] =
     if (allowRequired)
@@ -188,19 +188,28 @@ object GenTypes {
       protoSyntax: ProtoSyntax,
       inOneof: Boolean
   ): Gen[FieldOptions] =
-    if (inOneof) Gen.const(FieldOptions(FieldModifier.OPTIONAL, isPacked = false))
+    if (inOneof)
+      Gen.const(FieldOptions(FieldModifier.OPTIONAL, isPacked = false, proto3Presence = false))
     else
       fieldType match {
         case MessageReference(id) =>
-          genFieldModifier(allowRequired = protoSyntax.isProto2 && id < messageId)
-            .map(mod => FieldOptions(mod, isPacked = false))
-        case MapType(_, _) => Gen.const(FieldOptions(FieldModifier.REPEATED, isPacked = false))
+          for {
+            mod <- genFieldModifier(allowRequired = protoSyntax.isProto2 && id < messageId)
+            proto3Presence <- if (mod == FieldModifier.OPTIONAL && protoSyntax.isProto3)
+              Gen.oneOf(true, false)
+            else Gen.const(false)
+          } yield FieldOptions(mod, isPacked = false, proto3Presence = proto3Presence)
+        case MapType(_, _) =>
+          Gen.const(FieldOptions(FieldModifier.REPEATED, isPacked = false, proto3Presence = false))
         case _ =>
           for {
             mod <- genFieldModifier(allowRequired = protoSyntax.isProto2)
             packed <- if (fieldType.packable && mod == FieldModifier.REPEATED)
               Gen.oneOf(true, false)
             else Gen.const(false)
-          } yield FieldOptions(mod, isPacked = packed)
+            proto3Presence <- if (mod == FieldModifier.OPTIONAL && protoSyntax.isProto3)
+              Gen.oneOf(true, false)
+            else Gen.const(false)
+          } yield FieldOptions(mod, isPacked = packed, proto3Presence = proto3Presence)
       }
 }

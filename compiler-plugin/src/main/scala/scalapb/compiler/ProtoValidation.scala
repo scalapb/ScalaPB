@@ -49,7 +49,7 @@ class ProtoValidation(implicits: DescriptorImplicits) {
     m.getNestedTypes.asScala.foreach(validateMessage)
     m.getFields.asScala.foreach(validateField)
     if (m.isSealedOneofType) {
-      val oneof = m.getOneofs.get(0)
+      val oneof = m.getRealOneofs.get(0)
       if (m.getContainingType != null) {
         throw new GeneratorException(s"${m.getFullName}: sealed oneofs must be top-level messages")
       }

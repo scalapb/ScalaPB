@@ -6,14 +6,14 @@ import Keys._
 object Dependencies {
   object versions {
     val grpc                    = "1.30.2"
-    val protobuf                = "3.11.4"
+    val protobuf                = "3.12.2"
     val utest                   = "0.7.4"
     val fastparse               = "2.3.0"
     val silencer                = "1.6.0"
     val collectionCompat        = "2.1.6"
     val coursier                = "2.0.0-RC6-21"
     val mockito                 = "3.2.0"
-    val protocGen               = "0.9.0-RC2"
+    val protocGen               = "0.9.0-RC3"
     val protocJar               = "3.11.4"
     val protobufRuntimeScala    = "0.8.6"
     val commonsCodec            = "1.14"

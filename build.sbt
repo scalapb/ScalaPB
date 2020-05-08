@@ -3,9 +3,6 @@ import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
 
-// Different version for compiler-plugin since >=3.8.0 is not binary
-// compatible with 3.7.x. When loaded inside SBT (which has its own old
-// version), the binary incompatibility surfaces.
 val protobufCompilerVersion = "3.12.2"
 
 val MimaPreviousVersion = "0.10.0"
@@ -345,6 +342,8 @@ lazy val e2eNoJava = (project in file("e2e-nojava"))
   .settings(e2eCommonSettings)
   .settings(
     Compile / PB.protocVersion := "-v" + versions.protobuf,
+    Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
+    Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
     Compile / PB.targets := Seq(
       (
         PB.gens.plugin(

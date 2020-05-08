@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+enum PEnum {
+  PENUM_UNKNOWN = 0;
+  PENUM_A = 1;
+}
+
+message Presence {
+  optional int32 i32 = 1;
+  optional PEnum penum = 2;
+  optional Presence presence = 3;
+}

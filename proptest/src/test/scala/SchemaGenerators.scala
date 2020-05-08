@@ -175,6 +175,7 @@ object SchemaGenerators {
       file.getAbsolutePath
     }
     val args = Seq(
+      "--experimental_allow_proto3_optional",
       "--proto_path",
       (tmpDir.toString + ":protobuf:third_party"),
       "--java_out",

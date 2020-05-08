@@ -334,7 +334,8 @@ object Nodes {
           assert(
             fieldOptions.modifier == FieldModifier.OPTIONAL || fieldOptions.modifier == FieldModifier.REPEATED
           )
-          if (fieldOptions.modifier == FieldModifier.OPTIONAL || fieldType.isMap) ""
+          if (fieldOptions.proto3Presence) "optional "
+          else if (fieldOptions.modifier == FieldModifier.OPTIONAL || fieldType.isMap) ""
           else if (fieldOptions.modifier == FieldModifier.REPEATED) "repeated "
           else throw new RuntimeException("Unexpected modifier")
         }

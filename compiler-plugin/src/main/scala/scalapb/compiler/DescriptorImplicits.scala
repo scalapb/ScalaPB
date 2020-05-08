@@ -58,7 +58,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       message <- file.allMessages if message.isSealedOneofType
     } yield SealedOneof(
       message,
-      message.getOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
+      message.getRealOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
     )
     new SealedOneofsCache(sealedOneof)
   }
@@ -185,7 +185,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
     import NameUtils._
 
-    def containingOneOf: Option[OneofDescriptor] = Option(fd.getContainingOneof)
+    def containingOneOf: Option[OneofDescriptor] = Option(fd.getRealContainingOneof())
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
@@ -230,7 +230,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def oneOfTypeName: ScalaName = {
       assert(isInOneof)
-      fd.getContainingOneof.scalaType / upperScalaName
+      fd.getRealContainingOneof.scalaType / upperScalaName
     }
 
     def noBox =
@@ -241,12 +241,16 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) &&
+      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage || fd
+        .toProto()
+        .getProto3Optional()) &&
         !noBox && !fd.isSealedOneofType
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
-      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (
+      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage && !fd
+        .toProto()
+        .getProto3Optional()) || (
         fd.isOptional && (noBox || (fd.isSealedOneofType && !fd.isInOneof))
       )
 
@@ -431,6 +435,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
   }
 
   implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
+
     def javaEnumName = {
       val name = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
       s"get${name}Case"
@@ -476,8 +481,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def sealedOneofStyle: SealedOneofStyle = {
       assert(isSealedOneofType)
-      if (message.getOneofs.asScala.exists(_.getName == "sealed_value")) SealedOneofStyle.Default
-      else if (message.getOneofs.asScala.exists(_.getName == "sealed_value_optional"))
+      if (message.getRealOneofs.asScala.exists(_.getName == "sealed_value"))
+        SealedOneofStyle.Default
+      else if (message.getRealOneofs.asScala.exists(_.getName == "sealed_value_optional"))
         SealedOneofStyle.Optional
       else throw new RuntimeException("Unexpected oneof style")
     }
@@ -485,7 +491,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     // every message that passes this filter must be a sealed oneof. The check that it actually
     // obeys the rules is done in ProtoValidation.
     def isSealedOneofType: Boolean = {
-      message.getOneofs.asScala
+      message.getRealOneofs.asScala
         .exists(o => o.getName == "sealed_value" || o.getName == "sealed_value_optional")
     }
 
