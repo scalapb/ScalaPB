@@ -1,9 +1,8 @@
 # Change Log
 ## [0.10.4 - Unreleased](https://github.com/scalapb/ScalaPB/tree/v0.10.3..HEAD)
-- Added StructUtils to convert between messages to Struct, see #812 (Thanks, @ittaiz)
 
 ## [0.10.3](https://github.com/scalapb/ScalaPB/tree/v0.10.1..v10.0.3)
-- BREAKING CHANGE: remove unknownFields parameter from `of` (see #778)
+- Added StructUtils to convert between messages to Struct, see #812 (Thanks, @ittaiz)
 
 ## [0.10.2](https://github.com/scalapb/ScalaPB/tree/v0.10.1..v10.0.2)
 - BREAKING CHANGE: remove unknownFields parameter from `of` (see #778)
