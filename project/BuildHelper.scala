@@ -71,7 +71,7 @@ object BuildHelper {
       TaskKey[Unit]("scalapb-proto-package-replace", "Replaces package name in scalapb.proto")
 
     val shadeProtoBeforeGenerate = Seq(
-      scalapbProtoPackageReplaceTask := {
+      Compile / scalapbProtoPackageReplaceTask := {
         streams.value.log
           .info(s"Generating scalapb.proto with package replaced to scalapb.options.compiler.")
         val src  = baseDirectory.value / ".." / "protobuf" / "scalapb" / "scalapb.proto"
@@ -80,10 +80,7 @@ object BuildHelper {
         IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
         Seq(dest)
       },
-      Compile / PB.generate := {
-        scalapbProtoPackageReplaceTask.value
-        (Compile / PB.generate).value
-      }
+      Compile / PB.generate := ((Compile / PB.generate) dependsOn (Compile / scalapbProtoPackageReplaceTask)).value
     )
 
     val shadeTarget = settingKey[String]("Target to use when shading")
@@ -106,14 +103,15 @@ object BuildHelper {
       artifact in (Compile, packageBin) := (artifact in (Compile, assembly)).value,
       pomPostProcess := { (node: scala.xml.Node) =>
         new scala.xml.transform.RuleTransformer(new scala.xml.transform.RewriteRule {
-          override def transform(node: scala.xml.Node): scala.xml.NodeSeq = node match {
-            case e: scala.xml.Elem
-                if e.label == "dependency" && e.child.exists(child =>
-                  child.label == "artifactId" && child.text.startsWith("compilerplugin")
-                ) =>
-              scala.xml.Comment(s"compilerplugin has been removed.")
-            case _ => node
-          }
+          override def transform(node: scala.xml.Node): scala.xml.NodeSeq =
+            node match {
+              case e: scala.xml.Elem
+                  if e.label == "dependency" && e.child.exists(child =>
+                    child.label == "artifactId" && child.text.startsWith("compilerplugin")
+                  ) =>
+                scala.xml.Comment(s"compilerplugin has been removed.")
+              case _ => node
+            }
         }).transform(node).head
       }
     ) ++ addArtifact(artifact in (Compile, packageBin), assembly),
