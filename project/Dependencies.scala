@@ -13,7 +13,7 @@ object Dependencies {
     val collectionCompat        = "2.1.6"
     val coursier                = "2.0.0-RC6-15"
     val mockito                 = "3.2.0"
-    val protocBridge            = "0.8.1"
+    val protocBridge            = "0.8.2"
     val protocJar               = "3.11.4"
     val protobufRuntimeScala    = "0.8.5"
     val commonsCodec            = "1.14"
