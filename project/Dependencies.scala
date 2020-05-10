@@ -17,7 +17,7 @@ object Dependencies {
     val protocJar               = "3.11.4"
     val protobufRuntimeScala    = "0.8.5"
     val commonsCodec            = "1.14"
-    val scalaTest               = "3.1.1"
+    val scalaTest               = "3.1.2"
     val scalaTestPlusScalaCheck = "3.1.1.1"
     val scalaTestPlusMockito    = "3.1.0.0"
     val annotationApi           = "1.3.2"
