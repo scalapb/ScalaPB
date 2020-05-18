@@ -58,7 +58,7 @@ containing the following line:
 Add the following line to your `build.sbt`:
 
     PB.targets in Compile := Seq(
-      scalapb.gen() -> (sourceManaged in Compile).value
+      scalapb.gen() -> (sourceManaged in Compile).value / "scalapb"
     )
 
     // (optional) If you need scalapb/scalapb.proto or anything from

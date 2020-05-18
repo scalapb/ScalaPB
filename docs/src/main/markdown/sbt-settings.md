@@ -19,7 +19,7 @@ Add the following line to your `build.sbt`:
 
 ```scala
 PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value
+  scalapb.gen() -> (sourceManaged in Compile).value / "scalapb"
 )
 ```
 
