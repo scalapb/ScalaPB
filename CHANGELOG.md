@@ -55,7 +55,7 @@
 - Added `bytes_type` file-level options to modify the Scala type generated for
   protobuf's `bytes` type (#746).
 
-- Updated to ScalaJS 1.0.0
+- Updated to Scala.js 1.0.0
 
 - ScalaPB runtime now depends on scala-collection-compat and is warning-free
   for both 2.12 and 2.13.
