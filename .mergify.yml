@@ -1,0 +1,17 @@
+pull_request_rules:
+  - name: assign and label scala-steward's PRs
+    conditions:
+      - author=scala-steward
+    actions:
+      assign:
+        users: [thesamet]
+      label:
+        add: [dependency-update]
+  - name: merge scala-steward's PRs
+    conditions:
+      - author=scala-steward
+      - status-success=continuous-integration/travis-ci/pr
+    actions:
+      merge:
+        method: squash
+        strict: true
