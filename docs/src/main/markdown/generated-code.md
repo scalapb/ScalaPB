@@ -339,14 +339,14 @@ sealed trait Weather extends GeneratedEnum {
 object Weather extends GeneratedEnumCompanion[Weather] {
     sealed trait Recognized extends Weather
 
-    case object SUNNY extends Recognized {
+    case object SUNNY extends Weather with Recognized {
         val value = 1
         val name = "SUNNY"
     }
 
     // Similarly for the other enum values...
-    case object PARTLY_CLOUDY extends Recognized { ... }
-    case object RAIN extends Recognized { ... }
+    case object PARTLY_CLOUDY extends Weather with Recognized { ... }
+    case object RAIN extends Weather with Recognized { ... }
 
     // In ScalaPB >= 0.5.x, this captures unknown value that are received
     // from the wire format.  Earlier versions throw a MatchError when
