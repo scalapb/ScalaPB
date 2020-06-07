@@ -132,7 +132,7 @@ lazy val compilerPlugin = project
     crossScalaVersions := Seq(Scala212, Scala213),
     libraryDependencies ++= Seq(
       scalaCollectionCompat.value,
-      protocBridge,
+      protocGen,
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
       scalaTest             % "test",
       protocJar             % "test"
@@ -151,7 +151,11 @@ lazy val compilerPlugin = project
       ProblemFilters.exclude[MissingClassProblem]("scalapb.GeneratorOption$Lenses$"),
       ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.GeneratorParams$"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.tupled"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.curried")
+      ProblemFilters
+        .exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.curried"),
+      ProblemFilters
+        .exclude[Problem]("scalapb.compiler.ProtobufGenerator.handleCodeGeneratorRequest"),
+      ProblemFilters.exclude[Problem]("scalapb.ScalaPbCodeGenerator*")
     ),
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(

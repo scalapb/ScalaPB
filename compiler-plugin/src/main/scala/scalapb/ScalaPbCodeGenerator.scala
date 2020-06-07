@@ -4,9 +4,9 @@ import scalapb.compiler.ProtobufGenerator
 import scalapb.options.compiler.Scalapb
 import com.google.protobuf.ExtensionRegistry
 import protocbridge.Artifact
-import protocbridge.codegen.CodeGenApp
-import protocbridge.codegen.CodeGenRequest
-import protocbridge.codegen.CodeGenResponse
+import protocgen.CodeGenApp
+import protocgen.CodeGenRequest
+import protocgen.CodeGenResponse
 
 object ScalaPbCodeGenerator extends CodeGenApp {
   override def registerExtensions(registry: ExtensionRegistry): Unit =

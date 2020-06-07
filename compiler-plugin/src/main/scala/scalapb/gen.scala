@@ -1,16 +1,25 @@
 package scalapb
 
-import protocbridge.JvmGenerator
+import protocbridge.{Artifact, SandboxedJvmGenerator}
 import scalapb.GeneratorOption._
 
 object gen {
-  def apply(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
+  def apply(options: Set[GeneratorOption]): (SandboxedJvmGenerator, Seq[String]) =
     (
-      JvmGenerator("scala", ScalaPbCodeGenerator),
+      SandboxedJvmGenerator(
+        "scala",
+        Artifact(
+          "com.thesamet.scalapb",
+          "compilerplugin_2.12",
+          scalapb.compiler.Version.scalapbVersion
+        ),
+        "scalapb.ScalaPbCodeGenerator$",
+        scalapb.ScalaPbCodeGenerator.suggestedDependencies
+      ),
       options.map(_.toString).toSeq
     )
 
-  def apply(options: GeneratorOption*): (JvmGenerator, Seq[String]) = apply(options.toSet)
+  def apply(options: GeneratorOption*): (SandboxedJvmGenerator, Seq[String]) = apply(options.toSet)
 
   def apply(
       flatPackage: Boolean = false,
@@ -19,7 +28,7 @@ object gen {
       singleLineToProtoString: Boolean = false,
       asciiFormatToString: Boolean = false,
       lenses: Boolean = true
-  ): (JvmGenerator, Seq[String]) = {
+  ): (SandboxedJvmGenerator, Seq[String]) = {
     val optionsBuilder = Set.newBuilder[GeneratorOption]
     if (flatPackage) {
       optionsBuilder += FlatPackage

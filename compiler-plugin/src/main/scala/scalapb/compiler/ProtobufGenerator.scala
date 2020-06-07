@@ -8,8 +8,8 @@ import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.FieldOptions
 import scala.jdk.CollectionConverters._
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
-import protocbridge.codegen.CodeGenRequest
-import protocbridge.codegen.CodeGenResponse
+import protocgen.CodeGenRequest
+import protocgen.CodeGenResponse
 
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)

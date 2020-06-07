@@ -1,6 +1,5 @@
 package scalapb
 
-import org.scalatest._
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.apache.commons.codec.binary.Base64
 import org.scalatest.matchers.should.Matchers
