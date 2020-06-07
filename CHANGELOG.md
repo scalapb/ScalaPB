@@ -1,5 +1,8 @@
 # Change Log
-## [0.10.4 - Unreleased](https://github.com/scalapb/ScalaPB/tree/v0.10.3..HEAD)
+## [0.10.4 - Unreleased](https://github.com/scalapb/ScalaPB/tree/v0.10.4..HEAD)
+## [0.10.3](https://github.com/scalapb/ScalaPB/tree/v0.10.3..v10.0.4)
+- Updated protoc-bridge to 0.8.3
+- Changed scalapb.Message to extend Any, instead of a type alias to Any (see #777)
 
 ## [0.10.3](https://github.com/scalapb/ScalaPB/tree/v0.10.1..v10.0.3)
 - Added StructUtils to convert between messages to Struct, see #812 (Thanks, @ittaiz)
