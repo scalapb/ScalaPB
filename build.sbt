@@ -96,7 +96,9 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
-      ProblemFilters.exclude[DirectMissingMethodProblem]("*.of")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("*.of"),
+      ProblemFilters.exclude[MissingClassProblem]("scalapb.package"),
+      ProblemFilters.exclude[MissingClassProblem]("scalapb.package$")
     )
   )
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
