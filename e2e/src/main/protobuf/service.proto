@@ -51,7 +51,13 @@ extend google.protobuf.MethodOptions {
     string custom_option = 50001;
 }
 
+extend google.protobuf.ServiceOptions {
+    string custom_service_option = 50002;
+}
+
 service Service1 {
+  option (custom_service_option) = "custom_service_value";
+  
   // Computes string length
   rpc UnaryStringLength(Req1) returns (Res1) {}
 
