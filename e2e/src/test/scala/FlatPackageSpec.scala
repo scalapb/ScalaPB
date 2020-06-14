@@ -1,6 +1,5 @@
 import com.thesamet.pb.flat.{FlatTest, Priority}
 import com.thesamet.proto.e2e.one_of._
-import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 

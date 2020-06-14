@@ -1,6 +1,5 @@
 import com.google.protobuf.InvalidProtocolBufferException
 import com.thesamet.proto.e2e.reqs.RequiredFields
-import org.scalatest._
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers

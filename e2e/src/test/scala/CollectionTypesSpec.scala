@@ -1,6 +1,5 @@
 import com.thesamet.pb.{MyMap, MyVector}
 import com.thesamet.proto.e2e.collection_types._
-import org.scalatest._
 
 import scala.collection.mutable
 import org.scalatest.flatspec.AnyFlatSpec
