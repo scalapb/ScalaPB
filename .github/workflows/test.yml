@@ -1,0 +1,40 @@
+name: CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TRAVIS_SCALA_VERSION: ${{matrix.scala}}
+    strategy:
+      matrix:
+        scala: [2.12.10, 2.13.2]
+    
+    steps:
+    - uses: actions/checkout@v1
+
+    - uses: actions/setup-java@v1
+      with: 
+        java-version: 12
+
+    - name: Mount caches
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.sbt
+          ~/.ivy2/cache
+          ~/.cache/coursier
+        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{ hashFiles('**/*.sbt') }}
+
+    - name: mima
+      run: |
+        ./mima.sh
+
+    - name: e2e
+      run: |
+        ./e2e.sh
+
+    - name: proptest
+      run: |
+        ./proptest.sh
