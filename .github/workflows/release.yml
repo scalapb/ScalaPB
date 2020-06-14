@@ -10,6 +10,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
+    - name: Ruby caches
+      uses: actions/cache@v2
+      with:
+        path: vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('.travis/push_website.sh') }}
+        restore-keys: |
+            ${{ runner.os }}-gems-
+    - name: Scala caches
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/.sbt
+          ~/.ivy2/cache
+          ~/.cache/coursier
+        key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
     - uses: actions/setup-java@v1
       with:
         java-version: 12
@@ -18,4 +33,10 @@ jobs:
         ruby-version: '2.6'
     - name: update-docs
       run: |
+        git config --global user.name "ScalaPB Docs"
+        git config --global user.email "scalapb-updater@users.noreply.github.com"
+        eval "$(ssh-agent -s)"
+        echo "$TOKEN" | ssh-add -
         .travis/push_website.sh
+      env:
+          TOKEN: ${{secrets.DEPLOY_KEY}}
