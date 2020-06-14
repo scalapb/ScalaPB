@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      TRAVIS_SCALA_VERSION: ${{matrix.scala}}
+      SCALA_VERSION: ${{matrix.scala}}
     strategy:
       matrix:
         scala: [2.12.10, 2.13.1]

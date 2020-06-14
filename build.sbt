@@ -46,6 +46,7 @@ lazy val root: Project =
       grpcRuntime,
       compilerPlugin,
       compilerPluginShaded,
+      protocGenScala,
       proptest,
       scalapbc
     )
@@ -87,12 +88,6 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       protobufJava,
       scalaTest               % "test",
       scalaTestPlusScalaCheck % "test"
-    ),
-    // Can be removed after JDK 11.0.3 is available on Travis
-    Test / javaOptions ++= (
-      if (scalaVersion.value.startsWith("2.13."))
-        Seq("-XX:LoopStripMiningIter=0")
-      else Nil
     ),
     Compile / PB.targets ++= Seq(
       PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
@@ -266,11 +261,7 @@ lazy val proptest = project
     libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
     Test / fork := true,
     Test / baseDirectory := baseDirectory.value / "..",
-    Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M"),
-    // Can be removed after JDK 11.0.3 is available on Travis
-    Test / javaOptions ++= (if (scalaVersion.value.startsWith("2.13."))
-                              Seq("-XX:LoopStripMiningIter=0")
-                            else Nil)
+    Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
   )
 
 lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )

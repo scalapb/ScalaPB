@@ -1,9 +1,9 @@
 ScalaPB
 =======
 
-[![Join the chat at https://gitter.im/trueaccord/ScalaPB](https://badges.gitter.im/trueaccord/ScalaPB.svg)](https://gitter.im/trueaccord/ScalaPB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/ScalaPB/community](https://badges.gitter.im/ScalaPB/community)](https://gitter.im/ScalaPB/community)
 
-[![Build Status](https://travis-ci.org/scalapb/ScalaPB.svg?branch=master)](https://travis-ci.org/scalapb/ScalaPB)
+![Build Status](https://github.com/scalapb/ScalaPB/workflows/CI/badge.svg)
 
 ScalaPB is a protocol buffer compiler (`protoc`) plugin for Scala. It will
 generate Scala case classes, parsers and serializers for your protocol

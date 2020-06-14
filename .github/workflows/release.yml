@@ -3,18 +3,18 @@ name: Release
 on:
   push:
     branches: [master]
-    tags: ["*"]
+    tags: ["v*"]
 
 jobs:
   publish:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v1
     - name: Ruby caches
       uses: actions/cache@v2
       with:
-        path: vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('.travis/push_website.sh') }}
+        path: .cicd/jekyll/vendor/bundle
+        key: ${{ runner.os }}-gems-${{ hashFiles('.cicd/**/Gemfile.lock') }}
         restore-keys: |
             ${{ runner.os }}-gems-
     - name: Scala caches
@@ -31,16 +31,19 @@ jobs:
     - uses: actions/setup-ruby@v1
       with:
         ruby-version: '2.6'
-    - name: update-docs
+    - name: Install jekyll
+      run: ./.cicd/install_jekyll.sh
+    - name: Update docs
       run: |
         git config --global user.name "ScalaPB Docs"
         git config --global user.email "scalapb-updater@users.noreply.github.com"
         eval "$(ssh-agent -s)"
         echo "$TOKEN" | ssh-add -
-        .travis/push_website.sh
+        .cicd/push_website.sh
       env:
           TOKEN: ${{secrets.DEPLOY_KEY}}
     - uses: olafurpg/setup-gpg@v2
+      if: startsWith(github.ref, 'refs/tags/v')
     - name: Publish ${{ github.ref }}
       run: sbt ci-release
       env:
@@ -49,20 +52,75 @@ jobs:
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
+  scalapbc:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 12
+    - run: |
+        sbt scalapbc/universal:packageBin
+    - uses: actions/upload-artifact@v2
+      with:
+        name: scalapbc
+        path: scalapbc/target/universal/scalapbc-*.zip
+
   native:
-    name: Create native image for ${{matrix.os}}
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-10.15]
+        include:
+        - os: ubuntu-latest
+          arch: linux-x86_64
+        - os: macos-10.15
+          arch: osx-x86_64
     runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v1
     - uses: olafurpg/setup-scala@v5
       with:
         java-version: graalvm@20.1
-    - run: |
+    - name: Asset name
+      id: vars
+      run: |
+        if [[ $GITHUB_REF = refs/tags/v* ]]; then
+          RELEASE_VERSION=${GITHUB_REF#refs/tags/v}
+        else
+          RELEASE_VERSION=SNAPSHOT
+        fi
+        echo ::set-env name=ASSET::protoc-gen-scala-${RELEASE_VERSION}-${{matrix.arch}}
+
+    - name: build native image
+      run: |
+        set -x
         gu install native-image
         ./make_reflect_config.sh
         sbt protocGenScalaUnix/graalvm-native-image:packageBin
-        zip -j image.zip protocGenScalaUnix/target/graalvm-native-image/protoc-gen-scala
+        zip -j $ASSET.zip protocGenScalaUnix/target/graalvm-native-image/protoc-gen-scala
 
+    - uses: actions/upload-artifact@v2
+      with:
+        name: ${{env.ASSET}}
+        path: ${{env.ASSET}}.zip
+
+  gh_release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-20.04
+    needs: [native, scalapbc]
+    steps:
+    - uses: actions/checkout@v1
+    - name: Download artifacts
+      uses: actions/download-artifact@v2
+      with:
+        path: artifacts
+    - name: Display structure of downloaded files
+      run: ls -R
+      working-directory: ./artifacts
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        set -x
+        assets=$(find ./artifacts -name "*.zip" -printf "-a %p ")
+        RELEASE_NAME=${GITHUB_REF#refs/tags/}
+        hub release create ${assets} -m "$RELEASE_NAME" "$RELEASE_NAME"
