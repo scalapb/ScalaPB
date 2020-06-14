@@ -153,8 +153,8 @@ final case class Duration(
     def companion = com.google.protobuf.duration.Duration
 }
 
-object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] = this
+object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.DurationCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.DurationCompanionMethods = this
   def merge(`_message__`: com.google.protobuf.duration.Duration, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = {
     var __seconds = `_message__`.seconds
     var __nanos = `_message__`.nanos

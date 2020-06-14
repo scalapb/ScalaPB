@@ -173,8 +173,8 @@ final case class Timestamp(
     def companion = com.google.protobuf.timestamp.Timestamp
 }
 
-object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] = this
+object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods = this
   def merge(`_message__`: com.google.protobuf.timestamp.Timestamp, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = {
     var __seconds = `_message__`.seconds
     var __nanos = `_message__`.nanos

@@ -173,8 +173,8 @@ final case class Timestamp(
     def companion = com.google.protobuf.timestamp.Timestamp
 }
 
-object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] = this
+object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods = this
   def toJavaProto(scalaPbSource: com.google.protobuf.timestamp.Timestamp): com.google.protobuf.Timestamp = {
     val javaPbOut = com.google.protobuf.Timestamp.newBuilder
     javaPbOut.setSeconds(scalaPbSource.seconds)

@@ -630,8 +630,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         else Nil
 
       val specialMixins = message.getFullName match {
-        case "google.protobuf.Any" => Seq("scalapb.AnyCompanionMethods")
-        case _                     => Seq()
+        case "google.protobuf.Any"       => Seq("scalapb.AnyCompanionMethods")
+        case "google.protobuf.Timestamp" => Seq("scalapb.TimestampCompanionMethods")
+        case "google.protobuf.Duration"  => Seq("scalapb.DurationCompanionMethods")
+        case _                           => Seq()
       }
 
       Seq(s"scalapb.GeneratedMessageCompanion[${scalaType.fullName}]") ++
