@@ -48,3 +48,20 @@ jobs:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+
+  native:
+    name: Create native image for ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-10.15]
+    runs-on: ${{matrix.os}}
+    steps:
+    - uses: olafurpg/setup-scala@v5
+      with:
+        java-version: graalvm@20.1
+    - run: |
+        gu install native-image
+        ./make_reflect_config.sh
+        sbt protocGenScalaUnix/graalvm-native-image:packageBin
+        zip -j $1 protocGenScalaUnix/target/graalvm-native-image/protoc-gen-scala
+

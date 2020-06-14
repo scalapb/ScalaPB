@@ -2,7 +2,7 @@
 set -e
 TMPDIR=$(mktemp -d)
 PROTOFILES=$(find e2e/src/main/protobuf -name "*.proto" -print)
-VERSION=${TRAVIS_TAG:1}
+VERSION=${GITHUB_TAG:1}
 
 sbt protocGenScalaUnix/assembly
 printf "#!/usr/bin/env bash\nset -e\n" > $TMPDIR/plugin.sh
