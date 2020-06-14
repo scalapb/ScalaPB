@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         scala: [2.12.10, 2.13.2]
+        script: [mima, e2e, proptest]
     
     steps:
     - uses: actions/checkout@v1
@@ -27,14 +28,6 @@ jobs:
           ~/.cache/coursier
         key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{ hashFiles('**/*.sbt') }}
 
-    - name: mima
+    - name: ${{matrix.script}}
       run: |
-        ./mima.sh
-
-    - name: e2e
-      run: |
-        ./e2e.sh
-
-    - name: proptest
-      run: |
-        ./proptest.sh
+        ./${{matrix.script}}.sh
