@@ -2,8 +2,6 @@ val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.1.0")
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
 
-addSbtPlugin("com.github.gseitz" % "sbt-release" % "1.0.13")
-
 addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")
 
 addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.7.2")
@@ -15,8 +13,6 @@ addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.3.9")
-
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.2")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "0.7.0")
 
@@ -31,6 +27,8 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0")
 addSbtPlugin("com.47deg" % "sbt-microsites" % "1.2.1")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.31")
+
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
 
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
