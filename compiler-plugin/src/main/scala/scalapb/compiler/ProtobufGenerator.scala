@@ -147,22 +147,6 @@ class ProtobufGenerator(
       .add("}")
   }
 
-  def escapeString(raw: String): String =
-    raw
-      .map {
-        case '\b'                      => "\\b"
-        case '\f'                      => "\\f"
-        case '\n'                      => "\\n"
-        case '\r'                      => "\\r"
-        case '\t'                      => "\\t"
-        case '\\'                      => "\\\\"
-        case '\"'                      => "\\\""
-        case '\''                      => "\\\'"
-        case u if u >= ' ' && u <= '~' => u.toString
-        case c: Char                   => "\\u%4s".format(c.toInt.toHexString).replace(' ', '0')
-      }
-      .mkString("\"", "", "\"")
-
   def defaultValueForGet(field: FieldDescriptor, uncustomized: Boolean = false) = {
     // Needs to be 'def' and not val since for some of the cases it's invalid to call it.
     def defaultValue = field.getDefaultValue
@@ -191,7 +175,7 @@ class ProtobufGenerator(
           d.asScala
             .map(_.toString)
             .mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
-      case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
+      case FieldDescriptor.JavaType.STRING => escapeScalaString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         field.getMessageType.scalaType
           .fullNameWithMaybeRoot(field.getContainingType) + ".defaultInstance"
@@ -1813,4 +1797,20 @@ object ProtobufGenerator {
 
   private val CompSeqType =
     "Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]]"
+
+  private[scalapb] def escapeScalaString(raw: String): String =
+    raw
+      .map {
+        case '\b'                      => "\\b"
+        case '\f'                      => "\\f"
+        case '\n'                      => "\\n"
+        case '\r'                      => "\\r"
+        case '\t'                      => "\\t"
+        case '\\'                      => "\\\\"
+        case '\"'                      => "\\\""
+        case '\''                      => "\\\'"
+        case u if u >= ' ' && u <= '~' => u.toString
+        case c: Char                   => "\\u%4s".format(c.toInt.toHexString).replace(' ', '0')
+      }
+      .mkString("\"", "", "\"")
 }
