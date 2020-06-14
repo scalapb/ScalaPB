@@ -29,7 +29,7 @@ jobs:
           ~/.sbt
           ~/.ivy2/cache
           ~/.cache/coursier
-        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{ hashFiles('**/*.sbt') }}
+        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt') }}
 
     - name: ${{matrix.script}}
       run: |

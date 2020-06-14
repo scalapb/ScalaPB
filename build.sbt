@@ -175,7 +175,8 @@ lazy val compilerPlugin = project
         .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.tupled"),
       ProblemFilters
         .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.curried"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtobufGenerator.escapeString")
+      ProblemFilters
+        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtobufGenerator.escapeString")
     ),
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(
