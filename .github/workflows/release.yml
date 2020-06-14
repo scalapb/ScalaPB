@@ -64,5 +64,5 @@ jobs:
         gu install native-image
         ./make_reflect_config.sh
         sbt protocGenScalaUnix/graalvm-native-image:packageBin
-        zip -j $1 protocGenScalaUnix/target/graalvm-native-image/protoc-gen-scala
+        zip -j image.zip protocGenScalaUnix/target/graalvm-native-image/protoc-gen-scala
 

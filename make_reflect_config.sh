@@ -2,12 +2,11 @@
 set -e
 TMPDIR=$(mktemp -d)
 PROTOFILES=$(find e2e/src/main/protobuf -name "*.proto" -print)
-VERSION=${GITHUB_TAG:1}
 
-sbt protocGenScalaUnix/assembly
+sbt "set version in ThisBuild := \"SNAPSHOT\"" protocGenScalaUnix/assembly
 printf "#!/usr/bin/env bash\nset -e\n" > $TMPDIR/plugin.sh
 echo export JAVA_OPTS=-agentlib:native-image-agent=config-output-dir=protocGenScalaUnix/native-image-config >> $TMPDIR/plugin.sh
-echo $PWD/protocGenScalaUnix/target/scala-2.12/protocGenScalaUnix-assembly-$VERSION.jar >> $TMPDIR/plugin.sh
+echo $PWD/protocGenScalaUnix/target/scala-2.12/protocGenScalaUnix-assembly-SNAPSHOT.jar >> $TMPDIR/plugin.sh
 
 chmod +x $TMPDIR/plugin.sh
 

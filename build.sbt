@@ -22,7 +22,6 @@ inThisBuild(
   )
 )
 
-
 /*
 lazy val sharedNativeSettings = List(
   nativeLinkStubs := true, // for utest
