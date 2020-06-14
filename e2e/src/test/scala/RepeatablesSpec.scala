@@ -3,6 +3,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 import com.google.protobuf.CodedInputStream
 import com.thesamet.proto.e2e.repeatables.RepeatablesTest
 import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
+import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec

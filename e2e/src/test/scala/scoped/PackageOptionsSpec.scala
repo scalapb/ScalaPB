@@ -1,5 +1,6 @@
 package scalapb.e2e.scoped
 
+import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 

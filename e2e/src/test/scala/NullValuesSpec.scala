@@ -1,4 +1,5 @@
 import foo.barbaz.issue356._
+import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 

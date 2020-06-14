@@ -4,6 +4,7 @@ import com.thesamet.proto.e2e.repeatables.RepeatablesTest
 import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
 import scalapb.GeneratedMessage
 import org.scalacheck.{Arbitrary, Gen}
+import org.scalatest._
 import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers

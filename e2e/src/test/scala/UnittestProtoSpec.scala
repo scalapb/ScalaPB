@@ -1,3 +1,4 @@
+import org.scalatest._
 import protobuf_unittest.unittest.TestExtremeDefaultValues
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
