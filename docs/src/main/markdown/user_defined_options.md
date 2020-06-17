@@ -8,7 +8,7 @@ layout: docs
 ScalaPB allows you to define custom options you can use to annotate any
 element in a proto file, and access these annotations at run time.
 
-Learn more about [custom options](https://developers.google.com/protocol-buffers/docs/proto#customoptions).
+Learn more about [custom options](https://developers.google.com/protocol-buffers/docs/proto#custom_options).
 
 
 ## Define your options
