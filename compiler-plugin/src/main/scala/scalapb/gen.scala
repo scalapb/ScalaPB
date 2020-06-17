@@ -1,8 +1,10 @@
+package scalapb
+
 import protocbridge.JvmGenerator
 import scalapb.GeneratorOption._
 
-package object scalapb {
-  def gen(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
+object gen {
+  def apply(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
     (
       JvmGenerator("scala", ScalaPbCodeGenerator),
       Seq(
@@ -16,7 +18,7 @@ package object scalapb {
       ).collect { case (name, v) if v => name }
     )
 
-  def gen(
+  def apply(
       flatPackage: Boolean = false,
       javaConversions: Boolean = false,
       grpc: Boolean = true,
