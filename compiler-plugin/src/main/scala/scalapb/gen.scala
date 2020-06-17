@@ -1,27 +1,10 @@
+package scalapb
+
 import protocbridge.JvmGenerator
 import scalapb.GeneratorOption._
 
-package object scalapb {
-
-  sealed trait GeneratorOption extends Product with Serializable
-
-  object GeneratorOption {
-    case object FlatPackage extends GeneratorOption
-
-    case object JavaConversions extends GeneratorOption
-
-    case object Grpc extends GeneratorOption
-
-    case object SingleLineToProtoString extends GeneratorOption
-
-    case object AsciiFormatToString extends GeneratorOption
-
-    case object Lenses extends GeneratorOption
-
-    case object RetainSourceCodeInfo extends GeneratorOption
-  }
-
-  def gen(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
+object gen {
+  def apply(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
     (
       JvmGenerator("scala", ScalaPbCodeGenerator),
       Seq(
@@ -35,7 +18,7 @@ package object scalapb {
       ).collect { case (name, v) if v => name }
     )
 
-  def gen(
+  def apply(
       flatPackage: Boolean = false,
       javaConversions: Boolean = false,
       grpc: Boolean = true,
