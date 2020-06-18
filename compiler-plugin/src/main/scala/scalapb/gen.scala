@@ -7,16 +7,10 @@ object gen {
   def apply(options: Set[GeneratorOption]): (JvmGenerator, Seq[String]) =
     (
       JvmGenerator("scala", ScalaPbCodeGenerator),
-      Seq(
-        "flat_package"                -> options(FlatPackage),
-        "java_conversions"            -> options(JavaConversions),
-        "grpc"                        -> options(Grpc),
-        "single_line_to_proto_string" -> options(SingleLineToProtoString),
-        "ascii_format_to_string"      -> options(AsciiFormatToString),
-        "no_lenses"                   -> !options(Lenses),
-        "retain_source_code_info"     -> options(RetainSourceCodeInfo)
-      ).collect { case (name, v) if v => name }
+      options.map(_.toString).toSeq
     )
+
+  def apply(options: GeneratorOption*): (JvmGenerator, Seq[String]) = apply(options.toSet)
 
   def apply(
       flatPackage: Boolean = false,
@@ -42,9 +36,9 @@ object gen {
     if (asciiFormatToString) {
       optionsBuilder += AsciiFormatToString
     }
-    if (lenses) {
-      optionsBuilder += Lenses
+    if (!lenses) {
+      optionsBuilder += NoLenses
     }
-    gen(optionsBuilder.result())
+    apply(optionsBuilder.result())
   }
 }
