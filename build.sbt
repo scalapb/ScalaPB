@@ -73,9 +73,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
-      ProblemFilters.exclude[DirectMissingMethodProblem]("*.of"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.package"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.package$")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("*.of")
     )
   )
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
@@ -148,10 +146,12 @@ lazy val compilerPlugin = project
         .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.curried"),
       ProblemFilters
         .exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtobufGenerator.escapeString"),
-      ProblemFilters
-        .exclude[MissingClassProblem]("scalapb.package"),
-      ProblemFilters
-        .exclude[MissingClassProblem]("scalapb.package$")
+      ProblemFilters.exclude[MissingClassProblem]("scalapb.package"),
+      ProblemFilters.exclude[MissingClassProblem]("scalapb.package$"),
+      ProblemFilters.exclude[MissingClassProblem]("scalapb.GeneratorOption$Lenses$"),
+      ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.GeneratorParams$"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.tupled"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.curried")
     ),
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(

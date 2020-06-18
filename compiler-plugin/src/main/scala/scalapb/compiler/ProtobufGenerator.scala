@@ -11,16 +11,6 @@ import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import protocbridge.codegen.CodeGenRequest
 import protocbridge.codegen.CodeGenResponse
 
-case class GeneratorParams(
-    javaConversions: Boolean = false,
-    flatPackage: Boolean = false,
-    grpc: Boolean = false,
-    singleLineToProtoString: Boolean = false,
-    asciiFormatToString: Boolean = false,
-    lenses: Boolean = true,
-    retainSourceCodeInfo: Boolean = false
-)
-
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
 
@@ -739,7 +729,8 @@ class ProtobufGenerator(
           printer.add(s"var __${field.scalaName} = `_message__`.${field.scalaName.asSymbol}")
         else
           printer.add(
-            s"val __${field.scalaName} = (${field.collectionBuilder} ++= `_message__`.${field.scalaName.asSymbol})"
+            s"val __${field.scalaName} = (${field.collectionBuilder} ++= " +
+              s"`_message__`.${field.scalaName.asSymbol})"
           )
       )
       .when(message.preservesUnknownFields)(
@@ -1414,6 +1405,7 @@ class ProtobufGenerator(
   }
 
   def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
+    val fullName = message.scalaType.fullNameWithMaybeRoot(message)
     printer
       .call(new SealedOneofsGenerator(message, implicits).generateSealedOneofTrait)
       .call(generateScalaDoc(message))
@@ -1485,18 +1477,20 @@ class ProtobufGenerator(
       .call(generateGetFieldPValue(message))
       .when(!params.singleLineToProtoString)(
         _.add(
-          s"def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)"
+          s"def toProtoString: _root_.scala.Predef.String = " +
+            "_root_.scalapb.TextFormat.printToUnicodeString(this)"
         )
       )
       .when(params.singleLineToProtoString)(
         _.add(
-          s"def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToSingleLineUnicodeString(this)"
+          s"def toProtoString: _root_.scala.Predef.String = " +
+            "_root_.scalapb.TextFormat.printToSingleLineUnicodeString(this)"
         )
       )
       .when(params.asciiFormatToString)(
         _.add("override def toString: _root_.scala.Predef.String = toProtoString")
       )
-      .add(s"def companion = ${message.scalaType.fullNameWithMaybeRoot(message)}")
+      .add(s"def companion = ${fullName}")
       .when(message.isSealedOneofType) { fp =>
         val scalaType = message.sealedOneofScalaType
         val name      = message.sealedOneofTraitScalaType.name
@@ -1736,27 +1730,8 @@ private[this] object C {
 }
 
 object ProtobufGenerator {
-  def parseParameters(params: String): Either[String, GeneratorParams] = {
-    params
-      .split(",")
-      .map(_.trim)
-      .filter(_.nonEmpty)
-      .foldLeft[Either[String, GeneratorParams]](Right(GeneratorParams())) {
-        case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
-        case (Right(params), "flat_package")     => Right(params.copy(flatPackage = true))
-        case (Right(params), "grpc")             => Right(params.copy(grpc = true))
-        case (Right(params), "single_line_to_proto_string") =>
-          Right(params.copy(singleLineToProtoString = true))
-        case (Right(params), "ascii_format_to_string") =>
-          Right(params.copy(asciiFormatToString = true))
-        case (Right(params), "no_lenses") =>
-          Right(params.copy(lenses = false))
-        case (Right(params), "retain_source_code_info") =>
-          Right(params.copy(retainSourceCodeInfo = true))
-        case (Right(_), p) => Left(s"Unrecognized parameter: '$p'")
-        case (x, _)        => x
-      }
-  }
+  def parseParameters(params: String): Either[String, GeneratorParams] =
+    GeneratorParams.fromString(params)
 
   def handleCodeGeneratorRequest(request: CodeGenRequest): CodeGenResponse = {
     parseParameters(request.parameter) match {
