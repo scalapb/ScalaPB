@@ -1,5 +1,4 @@
 import com.thesamet.proto.e2e.defaults._
-import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 

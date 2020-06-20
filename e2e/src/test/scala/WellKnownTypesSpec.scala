@@ -1,5 +1,4 @@
 import com.thesamet.proto.well_known._
-import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers

@@ -1,6 +1,5 @@
 import com.google.protobuf.CodedInputStream
 import com.thesamet.proto.e2e.unknown_fields._
-import org.scalatest._
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers

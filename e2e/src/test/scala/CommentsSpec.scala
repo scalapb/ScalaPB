@@ -1,6 +1,5 @@
 import com.thesamet.proto.e2e.comments.CommentedServiceGrpc.CommentedService
 import com.thesamet.proto.e2e.comments._
-import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 

@@ -2,7 +2,6 @@ import com.thesamet.proto.e2e.NoBox
 import com.thesamet.proto.e2e.no_box.Car
 import com.thesamet.proto.e2e.no_box.DontBoxMe
 import com.thesamet.proto.e2e.no_box.Tyre
-import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 

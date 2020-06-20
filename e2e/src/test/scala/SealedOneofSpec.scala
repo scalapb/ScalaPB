@@ -2,7 +2,6 @@ import com.thesamet.proto.e2e.sealed_oneof._
 import com.thesamet.proto.e2e.sealed_oneof_in_oneof._
 import com.thesamet.proto.e2e.{sealed_oneof_single_file => f}
 import com.thesamet.proto.e2e.sealed_oneof_extends._
-import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
