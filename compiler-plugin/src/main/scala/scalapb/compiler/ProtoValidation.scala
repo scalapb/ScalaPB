@@ -134,6 +134,11 @@ class ProtoValidation(implicits: DescriptorImplicits) {
         s"${fd.getFullName}: Sealed oneofs can not be type mapped. Use regular oneofs instead."
       )
     }
+    if (fd.isMessage && fd.isInOneof && fd.getMessageType().messageOptions.getNoBox()) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: message fields in oneofs are not allowed to have no_box set."
+      )
+    }
   }
 }
 

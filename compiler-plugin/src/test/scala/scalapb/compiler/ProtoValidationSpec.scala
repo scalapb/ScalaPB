@@ -364,4 +364,31 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
       "file1.proto: object_name is not allowed in package-scoped options."
     )
   }
+
+  it should "fail when oneof contains a no_box message" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message NoBox {
+            |  option (scalapb.message).no_box = true;
+            |}
+            |
+            |message Msg {
+            |  oneof foo {
+            |    NoBox field = 1;
+            |  }
+            |}
+            """.stripMargin
+      )
+    }.message must be(
+      "a.b.Msg.field: message fields in oneofs are not allowed to have no_box set."
+    )
+  }
 }

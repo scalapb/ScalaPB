@@ -5,15 +5,15 @@ import scalapb.GeneratorOption._
 
 object gen {
   val SandboxedGenerator = SandboxedJvmGenerator.forModule(
-        "scala",
-        Artifact(
-          "com.thesamet.scalapb",
-          "compilerplugin_2.12",
-          scalapb.compiler.Version.scalapbVersion
-        ),
-        "scalapb.ScalaPbCodeGenerator$",
-        scalapb.ScalaPbCodeGenerator.suggestedDependencies
-      )
+    "scala",
+    Artifact(
+      "com.thesamet.scalapb",
+      "compilerplugin_2.12",
+      scalapb.compiler.Version.scalapbVersion
+    ),
+    "scalapb.ScalaPbCodeGenerator$",
+    scalapb.ScalaPbCodeGenerator.suggestedDependencies
+  )
 
   def apply(options: Set[GeneratorOption]): (SandboxedJvmGenerator, Seq[String]) =
     (
