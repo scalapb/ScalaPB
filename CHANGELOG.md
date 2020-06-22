@@ -1,9 +1,13 @@
 # Change Log
+## [0.10.6](https://github.com/scalapb/ScalaPB/tree/v0.10.5..v10.0.6)
+- Updated protoc-bridge to 0.9.0-RC2.
+
+
 ## [0.10.5](https://github.com/scalapb/ScalaPB/tree/v0.10.4..v10.0.5)
 - Updated protoc-bridge to 0.9.0-RC1.
 - Minimum version of sbt-protoc required is 0.99.33
 - ScalaPB compiler plugin is now compatible with SBT 1.4.0-M1
-- Plugin is now e
+- Plugin runs in a sandboxed classloader.
 
 ## [0.10.3](https://github.com/scalapb/ScalaPB/tree/v0.10.3..v10.0.4)
 - Updated protoc-bridge to 0.8.3

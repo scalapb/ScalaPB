@@ -4,9 +4,7 @@ import protocbridge.{Artifact, SandboxedJvmGenerator}
 import scalapb.GeneratorOption._
 
 object gen {
-  def apply(options: Set[GeneratorOption]): (SandboxedJvmGenerator, Seq[String]) =
-    (
-      SandboxedJvmGenerator(
+  val SandboxedGenerator = SandboxedJvmGenerator.forModule(
         "scala",
         Artifact(
           "com.thesamet.scalapb",
@@ -15,7 +13,11 @@ object gen {
         ),
         "scalapb.ScalaPbCodeGenerator$",
         scalapb.ScalaPbCodeGenerator.suggestedDependencies
-      ),
+      )
+
+  def apply(options: Set[GeneratorOption]): (SandboxedJvmGenerator, Seq[String]) =
+    (
+      SandboxedGenerator,
       options.map(_.toString).toSeq
     )
 
