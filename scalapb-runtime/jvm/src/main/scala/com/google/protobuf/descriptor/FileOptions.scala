@@ -643,15 +643,17 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     */
   sealed abstract class OptimizeMode(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptimizeMode
+    override type EnumRecognizedType = com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized
     def isSpeed: _root_.scala.Boolean = false
     def isCodeSize: _root_.scala.Boolean = false
     def isLiteRuntime: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = com.google.protobuf.descriptor.FileOptions.OptimizeMode
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized])
   }
   
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
     sealed trait Recognized extends OptimizeMode
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
     /** Generate complete code for parsing, serialization,
       */

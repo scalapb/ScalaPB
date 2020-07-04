@@ -34,12 +34,13 @@ class ProtobufGenerator(
       )
       .indent
       .add(s"type EnumType = $name")
+      .add(s"override type EnumRecognizedType = ${e.recognizedEnum.fullName}")
       .print(e.getValues.asScala) {
         case (p, v) => p.add(s"def ${v.isName}: _root_.scala.Boolean = false")
       }
       .add(s"def companion: _root_.scalapb.GeneratedEnumCompanion[$name] = ${e.scalaType.fullName}")
       .add(
-        s"final def asRecognized: _root_.scala.Option[${e.recognizedEnum.fullName}] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[${e.recognizedEnum.fullName}])"
+        s"final override def asRecognized: _root_.scala.Option[${e.recognizedEnum.fullName}] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[${e.recognizedEnum.fullName}])"
       )
       .outdent
       .add("}")
@@ -50,6 +51,7 @@ class ProtobufGenerator(
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
       .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
+      .add(s"override type ValueRecognizedType = ${e.recognizedEnum.nameSymbol}")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) {
         case (p, v) =>

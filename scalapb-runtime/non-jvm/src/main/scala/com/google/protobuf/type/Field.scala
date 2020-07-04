@@ -373,6 +373,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     */
   sealed abstract class Kind(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Kind
+    override type EnumRecognizedType = com.google.protobuf.`type`.Field.Kind.Recognized
     def isTypeUnknown: _root_.scala.Boolean = false
     def isTypeDouble: _root_.scala.Boolean = false
     def isTypeFloat: _root_.scala.Boolean = false
@@ -393,11 +394,12 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     def isTypeSint32: _root_.scala.Boolean = false
     def isTypeSint64: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[Kind] = com.google.protobuf.`type`.Field.Kind
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Field.Kind.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Field.Kind.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Field.Kind.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Field.Kind.Recognized])
   }
   
   object Kind extends _root_.scalapb.GeneratedEnumCompanion[Kind] {
     sealed trait Recognized extends Kind
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Kind] = this
     /** Field type unknown.
       */
@@ -603,16 +605,18 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     */
   sealed abstract class Cardinality(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Cardinality
+    override type EnumRecognizedType = com.google.protobuf.`type`.Field.Cardinality.Recognized
     def isCardinalityUnknown: _root_.scala.Boolean = false
     def isCardinalityOptional: _root_.scala.Boolean = false
     def isCardinalityRequired: _root_.scala.Boolean = false
     def isCardinalityRepeated: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[Cardinality] = com.google.protobuf.`type`.Field.Cardinality
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Field.Cardinality.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Field.Cardinality.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Field.Cardinality.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Field.Cardinality.Recognized])
   }
   
   object Cardinality extends _root_.scalapb.GeneratedEnumCompanion[Cardinality] {
     sealed trait Recognized extends Cardinality
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Cardinality] = this
     /** For fields with unknown cardinality.
       */

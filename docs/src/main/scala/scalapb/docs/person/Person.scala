@@ -162,14 +162,16 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   )
   sealed abstract class AddressType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = AddressType
+    override type EnumRecognizedType = scalapb.docs.person.Person.AddressType.Recognized
     def isHome: _root_.scala.Boolean = false
     def isWork: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = scalapb.docs.person.Person.AddressType
-    final def asRecognized: _root_.scala.Option[scalapb.docs.person.Person.AddressType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.docs.person.Person.AddressType.Recognized])
+    final override def asRecognized: _root_.scala.Option[scalapb.docs.person.Person.AddressType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.docs.person.Person.AddressType.Recognized])
   }
   
   object AddressType extends _root_.scalapb.GeneratedEnumCompanion[AddressType] {
     sealed trait Recognized extends AddressType
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = this
     @SerialVersionUID(0L)
     case object HOME extends AddressType(0) with AddressType.Recognized {

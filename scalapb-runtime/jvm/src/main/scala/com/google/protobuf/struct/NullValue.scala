@@ -12,13 +12,15 @@ package com.google.protobuf.struct
   */
 sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = NullValue
+  override type EnumRecognizedType = com.google.protobuf.struct.NullValue.Recognized
   def isNullValue: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
-  final def asRecognized: _root_.scala.Option[com.google.protobuf.struct.NullValue.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.struct.NullValue.Recognized])
+  final override def asRecognized: _root_.scala.Option[com.google.protobuf.struct.NullValue.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.struct.NullValue.Recognized])
 }
 
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   sealed trait Recognized extends NullValue
+  override type ValueRecognizedType = Recognized
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
   /** Null value.
     */

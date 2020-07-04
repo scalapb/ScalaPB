@@ -7,16 +7,18 @@ package scalapb.perf.protos
 
 sealed abstract class Color(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = Color
+  override type EnumRecognizedType = scalapb.perf.protos.Color.Recognized
   def isUnknown: _root_.scala.Boolean = false
   def isRed: _root_.scala.Boolean = false
   def isGreen: _root_.scala.Boolean = false
   def isBlue: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[Color] = scalapb.perf.protos.Color
-  final def asRecognized: _root_.scala.Option[scalapb.perf.protos.Color.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.perf.protos.Color.Recognized])
+  final override def asRecognized: _root_.scala.Option[scalapb.perf.protos.Color.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.perf.protos.Color.Recognized])
 }
 
 object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
   sealed trait Recognized extends Color
+  override type ValueRecognizedType = Recognized
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Color] = this
   @SerialVersionUID(0L)
   case object UNKNOWN extends Color(0) with Color.Recognized {

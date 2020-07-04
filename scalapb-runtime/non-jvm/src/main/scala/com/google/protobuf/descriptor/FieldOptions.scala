@@ -294,15 +294,17 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   )
   sealed abstract class CType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = CType
+    override type EnumRecognizedType = com.google.protobuf.descriptor.FieldOptions.CType.Recognized
     def isString: _root_.scala.Boolean = false
     def isCord: _root_.scala.Boolean = false
     def isStringPiece: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[CType] = com.google.protobuf.descriptor.FieldOptions.CType
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.CType.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.CType.Recognized])
   }
   
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
     sealed trait Recognized extends CType
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[CType] = this
     /** Default mode.
       */
@@ -342,15 +344,17 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   sealed abstract class JSType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = JSType
+    override type EnumRecognizedType = com.google.protobuf.descriptor.FieldOptions.JSType.Recognized
     def isJsNormal: _root_.scala.Boolean = false
     def isJsString: _root_.scala.Boolean = false
     def isJsNumber: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[JSType] = com.google.protobuf.descriptor.FieldOptions.JSType
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized])
+    final override def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.JSType.Recognized])
   }
   
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {
     sealed trait Recognized extends JSType
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[JSType] = this
     /** Use the default type.
       */

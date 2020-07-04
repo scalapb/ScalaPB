@@ -614,14 +614,16 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     */
   sealed abstract class OptionsScope(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptionsScope
+    override type EnumRecognizedType = scalapb.options.ScalaPbOptions.OptionsScope.Recognized
     def isFile: _root_.scala.Boolean = false
     def isPackage: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = scalapb.options.ScalaPbOptions.OptionsScope
-    final def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.OptionsScope.Recognized])
+    final override def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.OptionsScope.Recognized])
   }
   
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
     sealed trait Recognized extends OptionsScope
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = this
     /** Apply the options for this file only (default)
       */
@@ -657,14 +659,16 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     */
   sealed abstract class EnumValueNaming(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = EnumValueNaming
+    override type EnumRecognizedType = scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized
     def isAsInProto: _root_.scala.Boolean = false
     def isCamelCase: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = scalapb.options.ScalaPbOptions.EnumValueNaming
-    final def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized])
+    final override def asRecognized: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized])
   }
   
   object EnumValueNaming extends _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] {
     sealed trait Recognized extends EnumValueNaming
+    override type ValueRecognizedType = Recognized
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = this
     /** Enum value names in Scala use the same name as in the proto
       */
