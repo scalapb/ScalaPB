@@ -1,3 +1,11 @@
 #!/usr/bin/env sh
 set -e
-sbt -J-XX:LoopStripMiningIter=0 ++$SCALA_VERSION test
+SCALA_VERSION=${SCALA_VERSION:-2_12}
+sbt \
+    lensesJVM${SCALA_VERSION}/test \
+    lensesJS${SCALA_VERSION}/test \
+    compilerPluginJVM${SCALA_VERSION}/test \
+    runtimeJVM${SCALA_VERSION}/test \
+    runtimeJS${SCALA_VERSION}/test \
+    grpcRuntimeJVM${SCALA_VERSION}/test \
+    proptestJVM${SCALA_VERSION}/test \

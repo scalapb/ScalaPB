@@ -60,11 +60,11 @@ jobs:
       with:
         java-version: 12
     - run: |
-        sbt scalapbc/universal:packageBin
+        sbt scalapbcJVM2_12/universal:packageBin
     - uses: actions/upload-artifact@v2
       with:
         name: scalapbc
-        path: scalapbc/target/universal/scalapbc-*.zip
+        path: scalapbc/target/jvm-2.12/universal/scalapbc-*.zip
 
   native:
     strategy:
@@ -95,8 +95,8 @@ jobs:
         set -x
         gu install native-image
         ./make_reflect_config.sh
-        sbt protocGenScalaUnix/graalvm-native-image:packageBin
-        zip -j $ASSET.zip protocGenScalaUnix/target/graalvm-native-image/protoc-gen-scala
+        sbt protocGenScalaNativeImage/graalvm-native-image:packageBin
+        zip -j $ASSET.zip protoc-gen-scala-native-image/target/graalvm-native-image/protoc-gen-scala
 
     - uses: actions/upload-artifact@v2
       with:

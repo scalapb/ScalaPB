@@ -59,7 +59,7 @@ object BuildHelper {
 
     val generateEncodingFile = Compile / sourceGenerators += Def.task {
       val src =
-        baseDirectory.value / ".." / "scalapb-runtime" / "shared" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
+        (LocalRootProject / baseDirectory).value / "scalapb-runtime" / "src" / "main" / "scala" / "scalapb" / "Encoding.scala"
       val dest =
         (Compile / sourceManaged).value / "scalapb" / "compiler" / "internal" / "Encoding.scala"
       val s = IO.read(src).replace("package scalapb", "package scalapb.internal")
@@ -74,7 +74,8 @@ object BuildHelper {
       Compile / scalapbProtoPackageReplaceTask := {
         streams.value.log
           .info(s"Generating scalapb.proto with package replaced to scalapb.options.compiler.")
-        val src  = baseDirectory.value / ".." / "protobuf" / "scalapb" / "scalapb.proto"
+        val src =
+          (LocalRootProject / baseDirectory).value / "protobuf" / "scalapb" / "scalapb.proto"
         val dest = (Compile / resourceManaged).value / "protobuf" / "scalapb" / "scalapb.proto"
         val s    = IO.read(src).replace("scalapb.options", "scalapb.options.compiler")
         IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)

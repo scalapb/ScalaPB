@@ -10,7 +10,6 @@ val MimaPreviousVersion = "0.11.0-M1"
 inThisBuild(
   List(
     scalaVersion := Scala212,
-    crossScalaVersions := Seq(Scala212, Scala213),
     scalacOptions ++= BuildHelper.compilerOptions,
     javacOptions ++= List("-target", "8", "-source", "8"),
     organization := "com.thesamet.scalapb",
@@ -35,6 +34,16 @@ lazy val root: Project =
       publish := {},
       publishLocal := {}
     )
+    .aggregate(protocGenScala.agg)
+    .aggregate(
+      lenses.projectRefs ++
+        runtime.projectRefs ++
+        grpcRuntime.projectRefs ++
+        compilerPlugin.projectRefs ++
+        proptest.projectRefs ++
+        scalapbc.projectRefs: _*
+    )
+/*
     .aggregate(
       lensesJS,
       lensesJVM,
@@ -42,15 +51,13 @@ lazy val root: Project =
       runtimeJVM,
       grpcRuntime,
       compilerPlugin,
-      compilerPluginShaded,
       protocGenScala,
       proptest,
       scalapbc
     )
+ */
 
-lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
-  .crossType(CrossType.Full)
-  .in(file("scalapb-runtime"))
+lazy val runtime = (projectMatrix in file("scalapb-runtime"))
   .dependsOn(lenses)
   .settings(
     name := "scalapb-runtime",
@@ -63,38 +70,39 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       protobufJavaUtil % "test"
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
-    Compile / unmanagedResourceDirectories += baseDirectory.value / "../../protobuf",
+    Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
     scalacOptions ++= Seq(
       "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
       "-P:silencer:lineContentFilters=import scala.collection.compat._"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
-      ProblemFilters.exclude[DirectMissingMethodProblem]("*.of")
+      )
+  )
+  .jvmPlatform(
+    scalaVersions = Seq(Scala212, Scala213),
+    settings = Seq(
+      libraryDependencies ++= Seq(
+        protobufJava,
+        scalaTest               % "test",
+        scalaTestPlusScalaCheck % "test"
+      ),
+      Compile / PB.targets ++= Seq(
+        PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
+      ),
+      Compile / PB.protocVersion := "-v" + versions.protobuf,
+      Compile / PB.protoSources := Seq(
+        (LocalRootProject / baseDirectory).value / "protobuf"
+      )
     )
   )
-  .platformsSettings(JSPlatform /*, NativePlatform*/ )(
-    libraryDependencies += protobufRuntimeScala.value,
-    (Compile / unmanagedSourceDirectories) += baseDirectory.value / ".." / "non-jvm" / "src" / "main" / "scala"
-  )
-  .jvmSettings(
-    // Add JVM-specific settings here
-    libraryDependencies ++= Seq(
-      protobufJava,
-      scalaTest               % "test",
-      scalaTestPlusScalaCheck % "test"
-    ),
-    Compile / PB.targets ++= Seq(
-      PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
-    ),
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
-    Compile / PB.protoSources := Seq(
-      baseDirectory.value / ".." / ".." / "protobuf"
+  .jsPlatform(
+    scalaVersions = Seq(Scala212, Scala213),
+    settings = Seq(
+      libraryDependencies += protobufRuntimeScala.value,
+      scalajsSourceMaps,
+      Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "third_party"
     )
-  )
-  .jsSettings(
-    scalajsSourceMaps,
-    Compile / unmanagedResourceDirectories += baseDirectory.value / "../../third_party"
   )
 /*
   .nativeSettings(
@@ -102,13 +110,13 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
   )
  */
 
-lazy val runtimeJVM = runtime.jvm
-lazy val runtimeJS  = runtime.js
+lazy val runtimeJVM2_12 = runtime.jvm(Scala212)
+
 //lazy val runtimeNative = runtime.native
 
-lazy val grpcRuntime = project
-  .in(file("scalapb-runtime-grpc"))
-  .dependsOn(runtimeJVM)
+lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
+  .dependsOn(runtime)
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(
     name := "scalapb-runtime-grpc",
     libraryDependencies ++= Seq(
@@ -123,10 +131,10 @@ lazy val grpcRuntime = project
     )
   )
 
-lazy val compilerPlugin = project
-  .in(file("compiler-plugin"))
+lazy val grpcRuntimeJVM2_12 = grpcRuntime.jvm(Scala212)
+
+lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
   .settings(
-    crossScalaVersions := Seq(Scala212, Scala213),
     libraryDependencies ++= Seq(
       scalaCollectionCompat.value,
       protocGen,
@@ -136,24 +144,7 @@ lazy val compilerPlugin = project
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
-      ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.ConstructorField$"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.tupled"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.curried"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtobufGenerator.escapeString"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.package"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.package$"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.GeneratorOption$Lenses$"),
-      ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.GeneratorParams$"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.tupled"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.curried"),
-      ProblemFilters
-        .exclude[Problem]("scalapb.compiler.ProtobufGenerator.handleCodeGeneratorRequest"),
-      ProblemFilters.exclude[Problem]("scalapb.ScalaPbCodeGenerator*")
-    ),
+      ),
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
@@ -163,24 +154,14 @@ lazy val compilerPlugin = project
     Compiler.generateEncodingFile,
     Compiler.shadeProtoBeforeGenerate
   )
+  .jvmPlatform(Seq(Scala212, Scala213))
 
-// Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are
-// publishing compiler-plugin bundled with protoc-bridge, and linked against
-// shaded protobuf. This is a workaround - this artifact will be removed in
-// the future.
-lazy val compilerPluginShaded = project
-  .in(file("compiler-plugin-shaded"))
-  .dependsOn(compilerPlugin)
-  .settings(
-    name := "compilerplugin-shaded",
-    crossScalaVersions := Seq(Scala212, Scala213),
-    Compiler.shadedLibSettings
-  )
+lazy val compilerPluginJVM2_12 = compilerPlugin.jvm(Scala212)
 
-lazy val scalapbc = project
-  .in(file("scalapbc"))
+lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .dependsOn(compilerPlugin)
   .enablePlugins(JavaAppPackaging)
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(
     libraryDependencies ++= Seq(
       coursier,
@@ -199,59 +180,33 @@ lazy val scalapbc = project
     maintainer := "thesamet@gmail.com"
   )
 
-lazy val protocGenScalaUnix = project
-  .enablePlugins(AssemblyPlugin, GraalVMNativeImagePlugin)
-  .dependsOn(compilerPlugin)
-  .settings(
-    graalVMNativeImageOptions ++= Seq(
-      "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
-      "-H:Name=protoc-gen-scala"
-    ) ++ (
-      if (System.getProperty("os.name").toLowerCase.contains("linux"))
-        Seq("--static")
-      else Seq.empty,
-    ),
-    assemblyOption in assembly := (assemblyOption in
-      assembly).value.copy(
-      prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))
-    ),
-    skip in publish := true,
-    Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
-  )
+lazy val protocGenScala =
+  protocGenProject("protoc-gen-scala", compilerPluginJVM2_12)
+    .settings(
+      Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
+    )
 
-lazy val protocGenScalaWindows = project
-  .enablePlugins(AssemblyPlugin)
-  .dependsOn(compilerPlugin)
-  .settings(
-    assemblyOption in assembly := (assemblyOption in
-      assembly).value.copy(
-      prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = false))
-    ),
-    skip in publish := true,
-    Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
-  )
+lazy val protocGenScalaNativeImage =
+  (project in file("protoc-gen-scala-native-image"))
+    .enablePlugins(GraalVMNativeImagePlugin)
+    .dependsOn(compilerPluginJVM2_12)
+    .settings(
+      name := "protoc-gen-scala-native-image",
+      graalVMNativeImageOptions ++= Seq(
+        "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
+        "-H:Name=protoc-gen-scala"
+      ) ++ (
+        if (System.getProperty("os.name").toLowerCase.contains("linux"))
+          Seq("--static")
+        else Seq.empty,
+      ),
+      publish / skip := true,
+      Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
+    )
 
-lazy val protocGenScala = project
-  .settings(
-    crossScalaVersions := List(Scala212),
-    name := "protoc-gen-scala",
-    publishArtifact in (Compile, packageDoc) := false,
-    publishArtifact in (Compile, packageSrc) := false,
-    crossPaths := false,
-    addArtifact(
-      Artifact("protoc-gen-scala", "jar", "sh", "unix"),
-      assembly in (protocGenScalaUnix, Compile)
-    ),
-    addArtifact(
-      Artifact("protoc-gen-scala", "jar", "bat", "windows"),
-      assembly in (protocGenScalaWindows, Compile)
-    ),
-    autoScalaLibrary := false
-  )
-
-lazy val proptest = project
-  .in(file("proptest"))
-  .dependsOn(compilerPlugin, runtimeJVM, grpcRuntime)
+lazy val proptest = (projectMatrix in file("proptest"))
+  .dependsOn(compilerPlugin, runtime, grpcRuntime)
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
@@ -264,13 +219,13 @@ lazy val proptest = project
       scalaTestPlusScalaCheck % "test"
     ),
     libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
+    publish / skip := true,
     Test / fork := true,
-    Test / baseDirectory := baseDirectory.value / "..",
+    Test / baseDirectory := (LocalRootProject / baseDirectory).value,
     Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
   )
 
-lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
-  .in(file("lenses"))
+lazy val lenses = (projectMatrix in file("lenses"))
   .settings(
     name := "lenses",
     testFrameworks += new TestFramework("utest.runner.Framework"),
@@ -280,18 +235,13 @@ lazy val lenses = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
-  .jsSettings(
-    scalajsSourceMaps
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
+  .jsPlatform(
+    scalaVersions = Seq(Scala212, Scala213),
+    settings = scalajsSourceMaps
   )
-/*
-  .nativeSettings(
-    sharedNativeSettings
-  )
- */
 
-lazy val lensesJVM = lenses.jvm
-lazy val lensesJS  = lenses.js
-//lazy val lensesNative = lenses.native
+lazy val lensesJVM2_12 = lenses.jvm(Scala212)
 
 val e2eCommonSettings = Seq(
   useCoursier := true,
@@ -311,9 +261,10 @@ val e2eCommonSettings = Seq(
   Compile / PB.recompile := true // always regenerate protos, not cache
 )
 
-lazy val e2e = (project in file("e2e"))
-  .dependsOn(runtimeJVM)
-  .dependsOn(grpcRuntime)
+lazy val e2e = (projectMatrix in file("e2e"))
+  .dependsOn(runtime, grpcRuntime)
+  .enablePlugins(LocalCodeGenPlugin)
+  .jvmPlatform(Seq(Scala212, Scala213))
   .settings(e2eCommonSettings)
   .settings(
     scalacOptions ++= Seq(
@@ -322,43 +273,33 @@ lazy val e2e = (project in file("e2e"))
       "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
     ),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
-    Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
     Compile / PB.protocVersion := "-v" + versions.protobuf,
     Compile / PB.targets := Seq(
-      PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
-      (
-        PB.gens.plugin(
-          "scalapb",
-          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
-        ),
-        Seq("grpc", "java_conversions")
-      )                           -> (Compile / sourceManaged).value,
-      PB.gens.plugin("grpc-java") -> (Compile / sourceManaged).value
-    )
+      PB.gens.java(versions.protobuf)                                               -> (Compile / sourceManaged).value,
+      PB.gens.plugin("grpc-java")                                                   -> (Compile / sourceManaged).value,
+      (genModule("scalapb.ScalaPbCodeGenerator$"), Seq("grpc", "java_conversions")) -> (Compile / sourceManaged).value
+    ),
+    codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
   )
 
-lazy val e2eNoJava = (project in file("e2e-nojava"))
-  .dependsOn(runtimeJVM)
+lazy val e2eNoJava = (projectMatrix in file("e2e-nojava"))
+  .dependsOn(runtime)
+  .enablePlugins(LocalCodeGenPlugin)
+  .jvmPlatform(Seq(Scala212, Scala213))
   .settings(e2eCommonSettings)
   .settings(
     Compile / PB.protocVersion := "-v" + versions.protobuf,
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
-    Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
     Compile / PB.targets := Seq(
-      (
-        PB.gens.plugin(
-          "scalapb",
-          (protocGenScalaUnix / assembly / target).value / "protocGenScalaUnix-assembly-" + version.value + ".jar"
-        ),
-        Seq()
-      ) -> (Compile / sourceManaged).value
-    )
+      genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
+    ),
+    codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
   )
 
 lazy val docs = project
   .in(file("docs"))
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
-  .dependsOn(runtimeJVM)
+  .dependsOn(runtimeJVM2_12)
   .settings(
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),
@@ -395,7 +336,11 @@ lazy val docs = project
     ),
     siteSubdirName in ScalaUnidoc := "api/scalapb/latest",
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(lensesJVM, runtimeJVM, grpcRuntime),
+    unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(
+      lensesJVM2_12,
+      runtimeJVM2_12,
+      grpcRuntimeJVM2_12
+    ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
     ghpagesBranch := "master",
     includeFilter in ghpagesCleanSite := GlobFilter(

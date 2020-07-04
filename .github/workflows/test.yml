@@ -9,10 +9,10 @@ jobs:
       SCALA_VERSION: ${{matrix.scala}}
     strategy:
       matrix:
-        scala: [2.12.10, 2.13.1]
+        scala: [2_12, 2_13]
         script: [mima, e2e, proptest]
         include:
-        - scala: 2.12.10
+        - scala: 2_12
           script: examples_and_formatting
 
     steps:
