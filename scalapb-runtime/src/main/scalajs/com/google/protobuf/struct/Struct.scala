@@ -262,6 +262,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       key,
       value
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Struct.FieldsEntry])
   }
   
   implicit class StructLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct](_l) {
@@ -275,4 +276,5 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   ): _root_.com.google.protobuf.struct.Struct = _root_.com.google.protobuf.struct.Struct(
     fields
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Struct])
 }

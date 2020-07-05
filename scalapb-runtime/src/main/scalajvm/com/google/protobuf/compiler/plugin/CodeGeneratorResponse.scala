@@ -438,6 +438,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       insertionPoint,
       content
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.compiler.CodeGeneratorResponse.File])
   }
   
   implicit class CodeGeneratorResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse](_l) {
@@ -459,4 +460,5 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     supportedFeatures,
     file
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.compiler.CodeGeneratorResponse])
 }

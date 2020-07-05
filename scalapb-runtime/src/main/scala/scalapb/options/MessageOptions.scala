@@ -273,4 +273,5 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     sealedOneofExtends,
     noBox
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.MessageOptions])
 }

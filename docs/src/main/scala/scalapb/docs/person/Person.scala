@@ -367,6 +367,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       street,
       city
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.docs.Person.Address])
   }
   
   implicit class PersonLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.docs.person.Person]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.docs.person.Person](_l) {
@@ -386,4 +387,5 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     age,
     addresses
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.docs.Person])
 }

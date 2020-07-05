@@ -358,4 +358,5 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     mixins,
     syntax
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Api])
 }

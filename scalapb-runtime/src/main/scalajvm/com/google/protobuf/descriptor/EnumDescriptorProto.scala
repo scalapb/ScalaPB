@@ -371,6 +371,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       start,
       end
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.EnumDescriptorProto.EnumReservedRange])
   }
   
   implicit class EnumDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto](_l) {
@@ -400,4 +401,5 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     reservedRange,
     reservedName
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.EnumDescriptorProto])
 }

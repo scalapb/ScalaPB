@@ -840,6 +840,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       target,
       options
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions.AuxMessageOptions])
   }
   
   /** AuxFieldOptions enables you to set field-level options through package-scoped options.
@@ -986,6 +987,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       target,
       options
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions.AuxFieldOptions])
   }
   
   /** AuxEnumOptions enables you to set enum-level options through package-scoped options.
@@ -1132,6 +1134,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       target,
       options
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions.AuxEnumOptions])
   }
   
   implicit class ScalaPbOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions](_l) {
@@ -1244,4 +1247,5 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     bytesType,
     testOnlyNoJavaConversions
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions])
 }

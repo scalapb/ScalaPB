@@ -118,4 +118,5 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   ): _root_.com.google.protobuf.wrappers.DoubleValue = _root_.com.google.protobuf.wrappers.DoubleValue(
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.DoubleValue])
 }

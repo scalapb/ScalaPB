@@ -117,4 +117,5 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   ): _root_.com.google.protobuf.descriptor.OneofOptions = _root_.com.google.protobuf.descriptor.OneofOptions(
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.OneofOptions])
 }

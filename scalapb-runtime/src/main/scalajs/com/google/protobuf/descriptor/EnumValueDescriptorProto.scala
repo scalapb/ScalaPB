@@ -166,4 +166,5 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
     number,
     options
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.EnumValueDescriptorProto])
 }

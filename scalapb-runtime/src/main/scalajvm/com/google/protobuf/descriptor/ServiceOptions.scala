@@ -158,4 +158,5 @@ object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     deprecated,
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.ServiceOptions])
 }

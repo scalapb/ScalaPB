@@ -118,4 +118,5 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
   ): _root_.com.google.protobuf.source_context.SourceContext = _root_.com.google.protobuf.source_context.SourceContext(
     fileName
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.SourceContext])
 }

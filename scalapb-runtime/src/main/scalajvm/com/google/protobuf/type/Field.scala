@@ -746,4 +746,5 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     jsonName,
     defaultValue
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Field])
 }

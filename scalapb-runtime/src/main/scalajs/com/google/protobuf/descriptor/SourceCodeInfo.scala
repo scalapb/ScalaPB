@@ -472,6 +472,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       trailingComments,
       leadingDetachedComments
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.SourceCodeInfo.Location])
   }
   
   implicit class SourceCodeInfoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo](_l) {
@@ -483,4 +484,5 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   ): _root_.com.google.protobuf.descriptor.SourceCodeInfo = _root_.com.google.protobuf.descriptor.SourceCodeInfo(
     location
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.SourceCodeInfo])
 }

@@ -526,6 +526,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       end,
       options
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.DescriptorProto.ExtensionRange])
   }
   
   /** Range of reserved tag numbers. Reserved tag numbers may not be used by
@@ -673,6 +674,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       start,
       end
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.DescriptorProto.ReservedRange])
   }
   
   implicit class DescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto](_l) {
@@ -722,4 +724,5 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     reservedRange,
     reservedName
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.DescriptorProto])
 }

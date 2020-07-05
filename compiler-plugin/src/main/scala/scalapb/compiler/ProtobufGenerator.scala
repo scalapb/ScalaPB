@@ -1361,6 +1361,7 @@ class ProtobufGenerator(
       .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
       .call(generateNoDefaultArgsFactory(message))
+      .add(s"// @@protoc_insertion_point(${message.messageCompanionInsertionPoint.insertionPoint})")
       .outdent
       .add("}")
       .add("")
@@ -1664,7 +1665,7 @@ class ProtobufGenerator(
         .call(generateFileObject(file))
         .result()
     val b = CodeGeneratorResponse.File.newBuilder()
-    b.setName(file.scalaDirectory + "/" + file.fileDescriptorObject.name + ".scala")
+    b.setName(file.scalaFileName)
     b.setContent(code)
     generateServiceFiles(file) :+ b.build
   }
@@ -1691,12 +1692,7 @@ class ProtobufGenerator(
       message <- file.getMessageTypes.asScala if !message.isSealedOneofCase
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      val filename = if (message.isSealedOneofType) {
-        file.scalaDirectory + "/" + message.sealedOneofTraitScalaType.name + ".scala"
-      } else {
-        file.scalaDirectory + "/" + message.scalaType.name + ".scala"
-      }
-      b.setName(filename)
+      b.setName(message.scalaFileName)
       b.setContent(
         scalaFileHeader(
           file,
@@ -1710,7 +1706,7 @@ class ProtobufGenerator(
 
     val fileDescriptorObjectFile = {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaDirectory + s"/${file.fileDescriptorObject.name}.scala")
+      b.setName(file.scalaFileName)
       b.setContent(
         scalaFileHeader(file, false)
           .call(generateFileObject(file))

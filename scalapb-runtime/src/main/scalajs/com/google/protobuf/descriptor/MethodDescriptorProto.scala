@@ -249,4 +249,5 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     clientStreaming,
     serverStreaming
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.MethodDescriptorProto])
 }

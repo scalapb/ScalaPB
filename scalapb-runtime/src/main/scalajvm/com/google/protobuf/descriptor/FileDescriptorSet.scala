@@ -126,4 +126,5 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   ): _root_.com.google.protobuf.descriptor.FileDescriptorSet = _root_.com.google.protobuf.descriptor.FileDescriptorSet(
     file
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FileDescriptorSet])
 }

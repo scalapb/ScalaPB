@@ -118,4 +118,5 @@ object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   ): _root_.com.google.protobuf.wrappers.UInt32Value = _root_.com.google.protobuf.wrappers.UInt32Value(
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.UInt32Value])
 }

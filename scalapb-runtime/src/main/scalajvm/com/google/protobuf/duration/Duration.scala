@@ -222,4 +222,5 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
     seconds,
     nanos
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Duration])
 }

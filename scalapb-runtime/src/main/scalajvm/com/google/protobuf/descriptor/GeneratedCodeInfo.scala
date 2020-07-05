@@ -346,6 +346,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       begin,
       end
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.GeneratedCodeInfo.Annotation])
   }
   
   implicit class GeneratedCodeInfoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo](_l) {
@@ -357,4 +358,5 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   ): _root_.com.google.protobuf.descriptor.GeneratedCodeInfo = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo(
     annotation
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.GeneratedCodeInfo])
 }

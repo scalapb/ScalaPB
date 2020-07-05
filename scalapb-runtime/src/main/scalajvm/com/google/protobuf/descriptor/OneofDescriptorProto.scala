@@ -151,4 +151,5 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     name,
     options
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.OneofDescriptorProto])
 }

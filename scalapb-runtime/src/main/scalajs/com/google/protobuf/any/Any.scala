@@ -252,4 +252,5 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
     typeUrl,
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Any])
 }

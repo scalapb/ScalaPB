@@ -318,4 +318,5 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
   ): _root_.com.google.protobuf.field_mask.FieldMask = _root_.com.google.protobuf.field_mask.FieldMask(
     paths
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FieldMask])
 }

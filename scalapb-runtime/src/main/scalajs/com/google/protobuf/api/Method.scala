@@ -315,4 +315,5 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     options,
     syntax
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Method])
 }

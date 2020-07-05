@@ -141,4 +141,5 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     str1,
     str2
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.perf.StringMessage])
 }

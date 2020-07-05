@@ -709,4 +709,5 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     options,
     proto3Optional
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FieldDescriptorProto])
 }

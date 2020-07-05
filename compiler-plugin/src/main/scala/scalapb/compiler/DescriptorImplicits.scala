@@ -662,6 +662,16 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def isTopLevel = message.getContainingType == null
 
+    def scalaFileName: String =
+      if (message.getFile().scalaOptions.getSingleFile())
+        message.getFile().scalaFileName
+      else if (message.isSealedOneofType)
+        message.getFile.scalaDirectory + "/" + message.sealedOneofTraitScalaType.name + ".scala"
+      else message.getFile.scalaDirectory + "/" + message.scalaType.name + ".scala"
+
+    def messageCompanionInsertionPoint: InsertionPoint =
+      InsertionPoint(scalaFileName, s"GeneratedMessageCompanion[${message.getFullName}]")
+
     class MapType {
       def keyField = message.findFieldByName("key")
 
@@ -883,6 +893,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     @deprecated("Use scalaPackage.fullName", "0.10.0")
     def scalaPackageName = scalaPackage.fullName
+
+    def scalaFileName = scalaDirectory + s"/${fileDescriptorObject.name}.scala"
 
     def scalaDirectory = {
       scalaPackageParts.mkString("/")

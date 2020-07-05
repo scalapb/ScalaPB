@@ -244,4 +244,5 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
     seconds,
     nanos
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Timestamp])
 }
