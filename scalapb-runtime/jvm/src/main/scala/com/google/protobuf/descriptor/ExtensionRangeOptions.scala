@@ -126,4 +126,5 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
   ): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions(
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.ExtensionRangeOptions])
 }

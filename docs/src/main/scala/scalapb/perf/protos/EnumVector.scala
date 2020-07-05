@@ -128,4 +128,5 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
   ): _root_.scalapb.perf.protos.EnumVector = _root_.scalapb.perf.protos.EnumVector(
     colors
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.perf.EnumVector])
 }

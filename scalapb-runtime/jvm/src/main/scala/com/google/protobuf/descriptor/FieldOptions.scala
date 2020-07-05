@@ -462,4 +462,5 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     weak,
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FieldOptions])
 }

@@ -145,4 +145,5 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
     opt,
     rep
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.perf.MessageContainer])
 }

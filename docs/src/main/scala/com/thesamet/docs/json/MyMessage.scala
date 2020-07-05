@@ -111,4 +111,5 @@ object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.jso
   ): _root_.com.thesamet.docs.json.MyMessage = _root_.com.thesamet.docs.json.MyMessage(
     x
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[com.thesamet.docs.MyMessage])
 }

@@ -109,4 +109,5 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   ): _root_.scalapb.options.OneofOptions = _root_.scalapb.options.OneofOptions(
     `extends`
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.OneofOptions])
 }

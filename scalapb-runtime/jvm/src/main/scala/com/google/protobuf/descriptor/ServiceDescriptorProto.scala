@@ -182,4 +182,5 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
     method,
     options
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.ServiceDescriptorProto])
 }

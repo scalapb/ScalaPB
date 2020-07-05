@@ -230,4 +230,5 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     idempotencyLevel,
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.MethodOptions])
 }

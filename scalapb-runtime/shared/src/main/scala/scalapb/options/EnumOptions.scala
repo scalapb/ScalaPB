@@ -164,4 +164,5 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
     companionExtends,
     `type`
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.EnumOptions])
 }

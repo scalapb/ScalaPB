@@ -118,4 +118,5 @@ object BoolValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.w
   ): _root_.com.google.protobuf.wrappers.BoolValue = _root_.com.google.protobuf.wrappers.BoolValue(
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.BoolValue])
 }

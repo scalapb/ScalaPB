@@ -205,4 +205,5 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     k,
     color
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.perf.SimpleMessage])
 }

@@ -293,4 +293,5 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     sourceContext,
     syntax
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Type])
 }

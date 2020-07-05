@@ -158,4 +158,5 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
     deprecated,
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.EnumValueOptions])
 }

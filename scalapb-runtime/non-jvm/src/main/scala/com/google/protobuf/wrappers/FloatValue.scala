@@ -118,4 +118,5 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   ): _root_.com.google.protobuf.wrappers.FloatValue = _root_.com.google.protobuf.wrappers.FloatValue(
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FloatValue])
 }

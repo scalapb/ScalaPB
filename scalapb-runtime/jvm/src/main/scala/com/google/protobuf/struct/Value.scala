@@ -305,4 +305,5 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
   ): _root_.com.google.protobuf.struct.Value = _root_.com.google.protobuf.struct.Value(
     kind
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Value])
 }

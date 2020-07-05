@@ -267,4 +267,5 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     mapEntry,
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.MessageOptions])
 }

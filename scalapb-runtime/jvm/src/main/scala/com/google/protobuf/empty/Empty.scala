@@ -90,4 +90,5 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
   def of(
   ): _root_.com.google.protobuf.empty.Empty = _root_.com.google.protobuf.empty.Empty(
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Empty])
 }

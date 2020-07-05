@@ -168,4 +168,5 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     name,
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Option])
 }

@@ -808,4 +808,5 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     rubyPackage,
     uninterpretedOption
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FileOptions])
 }

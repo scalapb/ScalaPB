@@ -201,4 +201,5 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     patch,
     suffix
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.compiler.Version])
 }

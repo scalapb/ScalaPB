@@ -111,4 +111,5 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
   ): _root_.mytypes.duration.Duration = _root_.mytypes.duration.Duration(
     seconds
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[mytypes.Duration])
 }

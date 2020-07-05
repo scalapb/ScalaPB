@@ -115,4 +115,5 @@ object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] 
   ): _root_.scalapb.perf.protos.Enum = _root_.scalapb.perf.protos.Enum(
     color
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.perf.Enum])
 }

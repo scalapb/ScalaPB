@@ -475,4 +475,5 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     sourceCodeInfo,
     syntax
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FileDescriptorProto])
 }

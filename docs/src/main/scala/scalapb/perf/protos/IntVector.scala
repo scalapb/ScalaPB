@@ -124,4 +124,5 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
   ): _root_.scalapb.perf.protos.IntVector = _root_.scalapb.perf.protos.IntVector(
     ints
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.perf.IntVector])
 }

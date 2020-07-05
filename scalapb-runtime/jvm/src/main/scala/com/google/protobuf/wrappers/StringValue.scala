@@ -126,4 +126,5 @@ object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   ): _root_.com.google.protobuf.wrappers.StringValue = _root_.com.google.protobuf.wrappers.StringValue(
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.StringValue])
 }

@@ -118,4 +118,5 @@ object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   ): _root_.com.google.protobuf.wrappers.BytesValue = _root_.com.google.protobuf.wrappers.BytesValue(
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.BytesValue])
 }

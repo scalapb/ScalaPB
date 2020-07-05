@@ -233,4 +233,5 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     protoFile,
     compilerVersion
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.compiler.CodeGeneratorRequest])
 }

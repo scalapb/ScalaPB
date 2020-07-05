@@ -404,6 +404,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       namePart,
       isExtension
     )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.UninterpretedOption.NamePart])
   }
   
   implicit class UninterpretedOptionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
@@ -445,4 +446,5 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     stringValue,
     aggregateValue
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.UninterpretedOption])
 }

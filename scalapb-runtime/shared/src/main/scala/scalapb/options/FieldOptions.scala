@@ -297,4 +297,5 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     mapType,
     noBox
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.FieldOptions])
 }

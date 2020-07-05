@@ -183,4 +183,5 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
     number,
     options
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.EnumValue])
 }

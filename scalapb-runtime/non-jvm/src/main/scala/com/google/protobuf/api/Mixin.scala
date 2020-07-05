@@ -226,4 +226,5 @@ object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.M
     name,
     root
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Mixin])
 }

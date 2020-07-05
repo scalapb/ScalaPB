@@ -130,4 +130,5 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   ): _root_.com.google.protobuf.struct.ListValue = _root_.com.google.protobuf.struct.ListValue(
     values
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.ListValue])
 }

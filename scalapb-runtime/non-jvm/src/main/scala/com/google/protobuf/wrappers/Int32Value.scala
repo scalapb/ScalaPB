@@ -118,4 +118,5 @@ object Int32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   ): _root_.com.google.protobuf.wrappers.Int32Value = _root_.com.google.protobuf.wrappers.Int32Value(
     value
   )
+  // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Int32Value])
 }
