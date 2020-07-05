@@ -57,7 +57,9 @@ object CompatLensImplicits {
 trait CompatLensImplicits {
   import CompatLensImplicits._
 
-  implicit def seqLikeLens[U, A, CC[A] <: SeqOps[A, CC, CC[A]]](lens: Lens[U, CC[A]]): SeqLikeLens[U, A, CC] =
+  implicit def seqLikeLens[U, A, CC[A] <: SeqOps[A, CC, CC[A]]](
+      lens: Lens[U, CC[A]]
+  ): SeqLikeLens[U, A, CC] =
     new SeqLikeLens(lens)
 
   implicit def setLens[U, A, CC[A] <: collection.immutable.SetOps[A, CC, CC[A]]](

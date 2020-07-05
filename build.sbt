@@ -12,7 +12,7 @@ inThisBuild(
     scalaVersion := Scala212,
     javacOptions ++= List("-target", "8", "-source", "8"),
     organization := "com.thesamet.scalapb",
-    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   )
 )
 
@@ -49,18 +49,20 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
       fastparse.value.withDottyCompat(scalaVersion.value),
-      protobufJava     % "protobuf",
-      munit.value      % "test",
+      protobufJava          % "protobuf",
+      munit.value           % "test",
       munitScalaCheck.value % "test",
-      commonsCodec     % "test",
-      protobufJavaUtil % "test"
+      commonsCodec          % "test",
+      protobufJavaUtil      % "test"
     ),
     testFrameworks += new TestFramework("munit.Framework"),
     Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
-    scalacOptions ++= (if (!isDotty.value) Seq(
-      "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
-      "-P:silencer:lineContentFilters=import scala.collection.compat._"
-    ) else Nil),
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
+                           "-P:silencer:lineContentFilters=import scala.collection.compat._"
+                         )
+                       else Nil),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
       )
@@ -69,7 +71,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     scalaVersions = Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       libraryDependencies ++= Seq(
-        protobufJava,
+        protobufJava
       ),
       Compile / PB.targets ++= Seq(
         PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
@@ -102,15 +104,15 @@ lazy val runtimeJVM2_12 = runtime.jvm(Scala212)
 lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
   .dependsOn(runtime)
   .settings(commonSettings)
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
   .settings(
     name := "scalapb-runtime-grpc",
+    testFrameworks += new TestFramework("munit.Framework"),
     libraryDependencies ++= Seq(
       grpcStub,
       grpcProtobuf,
-      scalaTest            % "test",
-      scalaTestPlusMockito % "test",
-      mockitoCore          % "test"
+      munit.value % "test",
+      (mockitoCore % "test").withDottyCompat(scalaVersion.value)
     ),
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
@@ -244,8 +246,8 @@ val e2eCommonSettings = commonSettings ++ Seq(
     grpcServices % "protobuf",
     annotationApi,
     grpcProtocGen asProtocPlugin,
-    scalaTest               % "test",
-    scalaTestPlusScalaCheck % "test"
+    (scalaTest               % "test"),
+    (scalaTestPlusScalaCheck % "test")
   ),
   Test / fork := true,           // For https://github.com/scala/bug/issues/9237
   Compile / PB.recompile := true // always regenerate protos, not cache
@@ -254,14 +256,16 @@ val e2eCommonSettings = commonSettings ++ Seq(
 lazy val e2e = (projectMatrix in file("e2e"))
   .dependsOn(runtime, grpcRuntime)
   .enablePlugins(LocalCodeGenPlugin)
-  .jvmPlatform(Seq(Scala212, Scala213))
+  .jvmPlatform(Seq(Scala212, Scala213, Dotty))
   .settings(e2eCommonSettings)
   .settings(
-    scalacOptions ++= Seq(
-      "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
-      "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala",
-      "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-    ),
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
+                           "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala;ReflectionProto.scala;TestDeprecatedFields.scala",
+                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
+                         )
+                       else Nil),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     Compile / PB.protocVersion := "-v" + versions.protobuf,
     Compile / PB.targets := Seq(

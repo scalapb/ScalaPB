@@ -95,7 +95,6 @@ message BarMessage {
 }
 
 message FieldAnnotations {
-  option (scalapb.message).annotations = "@com.github.ghik.silencer.silent(\"deprecated\")";
   optional string x = 1 [(scalapb.field).annotations = '@deprecated("Will be gone", "1.0")'];
 
   optional string y = 2 [

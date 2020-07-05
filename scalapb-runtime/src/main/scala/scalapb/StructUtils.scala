@@ -55,7 +55,7 @@ object StructUtils {
     case (Kind.NumberValue(v), ScalaType.Float)  => Right(PFloat(v.toFloat))
     case (Kind.StringValue(v), ScalaType.ByteString) =>
       Right(PByteString(ByteString.copyFrom(Base64.getDecoder.decode(v.getBytes))))
-    case (Kind.StringValue(v), en@ ScalaType.Enum(_)) =>
+    case (Kind.StringValue(v), en @ ScalaType.Enum(_)) =>
       en.descriptor.values
         .find(_.name == v)
         .map(PEnum)

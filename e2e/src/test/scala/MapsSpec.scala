@@ -150,6 +150,7 @@ class MapsSpec
   }
 
   "custom map types" should "provide custom key and value types" in {
+    assume(!ScalaVersion.isDotty)
     val c1 = CustomMaps(
       stringToYear = Map("314"           -> Years(314)),
       personToInt = Map(PersonId("315")  -> 314),

@@ -1,3 +1,6 @@
+// Temporarily moved here.
+// Move to scala-2 once https://github.com/scala/bug/issues/12038 is resolved.
+
 import scala.reflect.runtime.universe._
 import scalapb.{GeneratedExtension, JavaProtoSupport}
 import com.thesamet.proto.e2e.custom_options.GoodOrBad._

@@ -28,7 +28,7 @@ object Dependencies {
 
   val Scala213 = "2.13.2"
 
-  val Dotty = "0.25.0-RC2"
+  val Dotty = "0.24.0"
 
   val silencer = Seq(
     sbt.compilerPlugin(

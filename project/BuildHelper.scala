@@ -5,12 +5,11 @@ import sbtprotoc.ProtocPlugin.autoImport.PB
 import sbtassembly.AssemblyPlugin.autoImport._
 import dotty.tools.sbtplugin.DottyPlugin.autoImport.{isDotty, DottyCompatModuleID}
 
-
 object BuildHelper {
   val commonScalacOptions = Seq(
     "-deprecation",
     "-target:jvm-1.8",
-    "-feature",
+    "-feature"
   )
 
   val scalac2Options = Seq(
@@ -58,11 +57,19 @@ object BuildHelper {
   val scala3Settings = Seq()
 
   def commonSettings = Seq(
-    scalacOptions ++= commonScalacOptions ++ (if (isDotty.value) scalac3Options else scalac2Options),
+    scalacOptions ++= commonScalacOptions ++ (if (isDotty.value) scalac3Options
+                                              else scalac2Options),
     libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil),
-    libraryDependencies += Dependencies.scalaCollectionCompat.value.withDottyCompat(scalaVersion.value),
-    Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (isDotty.value) "scala-3" else "scala-2"),
-    Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value) "scala-3" else "scala-2"),
+    libraryDependencies += Dependencies.scalaCollectionCompat.value
+      .withDottyCompat(scalaVersion.value),
+    Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (isDotty.value)
+                                                                                             "scala-3"
+                                                                                           else
+                                                                                             "scala-2"),
+    Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value)
+                                                                                       "scala-3"
+                                                                                     else
+                                                                                       "scala-2"),
     compileOrder := CompileOrder.JavaThenScala
   )
 

@@ -231,19 +231,19 @@ class FileDescriptorSpec extends FunSuite {
   }
 
   test("buildFrom recognizes enums when type field is missing") {
-    val fdp  = FileDescriptorProto.fromAscii("""package: "mypkg"
-                                               |message_type {
-                                               |  name: "Msg1"
-                                               |  enum_type {
-                                               |    name: "TheEnum"
-                                               |  }
-                                               |  field {
-                                               |    name: "field_full"
-                                               |    type_name: "TheEnum"
-                                               |  }
-                                               |}""".stripMargin)
-    val fd   = FileDescriptor.buildFrom(fdp, Nil)
-    val msg  = fd.messages(0)
+    val fdp     = FileDescriptorProto.fromAscii("""package: "mypkg"
+                                                  |message_type {
+                                                  |  name: "Msg1"
+                                                  |  enum_type {
+                                                  |    name: "TheEnum"
+                                                  |  }
+                                                  |  field {
+                                                  |    name: "field_full"
+                                                  |    type_name: "TheEnum"
+                                                  |  }
+                                                  |}""".stripMargin)
+    val fd      = FileDescriptor.buildFrom(fdp, Nil)
+    val msg     = fd.messages(0)
     val enumVal = msg.enums(0)
     assertEquals(msg.fullName, ("mypkg.Msg1"))
     assertEquals(msg.findFieldByName("field_full").get.scalaType, (ScalaType.Enum(enumVal)))

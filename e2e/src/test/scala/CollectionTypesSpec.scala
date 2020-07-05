@@ -18,6 +18,7 @@ class CollectionTypesSpec extends AnyFlatSpec with Matchers {
   }
 
   "custom collection" should "work" in {
+    assume(!ScalaVersion.isDotty)
     val c = CustomCollection(repeatedInt32 = MyVector(Vector(11, 24, 19)))
     CustomCollection.parseFrom(c.toByteArray) must be(c)
     CustomCollection.fromAscii(c.toProtoString) must be(c)

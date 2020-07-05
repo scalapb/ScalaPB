@@ -7,9 +7,10 @@ import org.scalatestplus.scalacheck._
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
-import com.github.ghik.silencer.silent
 
-@silent("Stream in package scala is deprecated")
+import scala.annotation.nowarn
+
+@nowarn("cat=deprecation")
 class RepeatablesSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers {
 
   val nestedGen =
