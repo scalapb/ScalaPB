@@ -150,7 +150,7 @@ private[scalapb] object TextFormatUtils {
 
   @silent("method right in class Either is deprecated")
   def unescapeText(input: String): Either[TextFormatError, String] =
-    unescapeBytes(input).right.map(_.toStringUtf8)
+    unescapeBytes(input).right.map(_.toStringUtf8())
 
   /** Convert an unsigned 32-bit integer to a string. */
   def unsignedToString(value: Int): String = {

@@ -286,7 +286,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
           val length = _input__.readRawVarint32()
           val oldLimit = _input__.pushLimit(length)
           while (_input__.getBytesUntilLimit > 0) {
-            __publicDependency += _input__.readInt32
+            __publicDependency += _input__.readInt32()
           }
           _input__.popLimit(oldLimit)
         }
@@ -296,7 +296,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
           val length = _input__.readRawVarint32()
           val oldLimit = _input__.pushLimit(length)
           while (_input__.getBytesUntilLimit > 0) {
-            __weakDependency += _input__.readInt32
+            __weakDependency += _input__.readInt32()
           }
           _input__.popLimit(oldLimit)
         }
@@ -356,7 +356,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(1)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null

@@ -807,7 +807,7 @@ class ProtobufGenerator(
 
         if (field.isPackable) {
           val read = {
-            val tmp = s"""_input__.read${Types.capitalizedType(field.getType)}"""
+            val tmp = s"""_input__.read${Types.capitalizedType(field.getType)}()"""
             if (field.isEnum)
               s"${field.getEnumType.scalaType.fullName}.fromValue($tmp)"
             else tmp
@@ -1250,7 +1250,7 @@ class ProtobufGenerator(
           case Type.STRING =>
             (
               "lengthDelimitedLens",
-              MethodApplication("toStringUtf8"),
+              MethodApplication("toStringUtf8()"),
               FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8")
             )
           case Type.GROUP => throw new RuntimeException("Not supported")

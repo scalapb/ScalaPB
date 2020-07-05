@@ -83,7 +83,7 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
           val length = _input__.readRawVarint32()
           val oldLimit = _input__.pushLimit(length)
           while (_input__.getBytesUntilLimit > 0) {
-            __colors += scalapb.perf.protos.Color.fromValue(_input__.readEnum)
+            __colors += scalapb.perf.protos.Color.fromValue(_input__.readEnum())
           }
           _input__.popLimit(oldLimit)
         }
@@ -107,7 +107,7 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ProtosProto.javaDescriptor.getMessageTypes.get(3)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ProtosProto.javaDescriptor.getMessageTypes().get(3)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ProtosProto.scalaDescriptor.messages(3)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
