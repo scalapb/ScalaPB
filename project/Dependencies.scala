@@ -65,6 +65,7 @@ object Dependencies {
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % versions.scalaTestPlusMockito
   val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }
   val munit                = Def.setting { "org.scalameta" %%% "munit" % versions.munit }
+  val munitScalaCheck      = Def.setting { "org.scalameta" %%% "munit-scalacheck" % versions.munit }
   val mockitoCore          = "org.mockito" % "mockito-core" % versions.mockito
   val commonsCodec         = "commons-codec" % "commons-codec" % versions.commonsCodec
 

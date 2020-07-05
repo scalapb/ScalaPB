@@ -3,7 +3,7 @@ import Keys._
 import Dependencies.versions
 import sbtprotoc.ProtocPlugin.autoImport.PB
 import sbtassembly.AssemblyPlugin.autoImport._
-import dotty.tools.sbtplugin.DottyPlugin.autoImport.isDotty
+import dotty.tools.sbtplugin.DottyPlugin.autoImport.{isDotty, DottyCompatModuleID}
 
 
 object BuildHelper {
@@ -11,11 +11,11 @@ object BuildHelper {
     "-deprecation",
     "-target:jvm-1.8",
     "-feature",
-    "-Xfatal-warnings"
   )
 
   val scalac2Options = Seq(
     "-explaintypes",
+    "-Xfatal-warnings",
     "-Xlint:adapted-args",           // Warn if an argument list is modified to match the receiver.
     "-Xlint:constant",               // Evaluation of a constant arithmetic expression results in an error.
     "-Xlint:delayedinit-select",     // Selecting member of DelayedInit.
@@ -48,12 +48,22 @@ object BuildHelper {
   )
 
   val scalac3Options = Seq(
-    "-language:implicitConversions"
+    "-language:implicitConversions",
+    "-source",
+    "3.0-migration"
   )
 
-  val commonOptions = Seq(
+  val scala2Settings = Seq()
+
+  val scala3Settings = Seq()
+
+  def commonSettings = Seq(
     scalacOptions ++= commonScalacOptions ++ (if (isDotty.value) scalac3Options else scalac2Options),
-    libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil)
+    libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil),
+    libraryDependencies += Dependencies.scalaCollectionCompat.value.withDottyCompat(scalaVersion.value),
+    Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (isDotty.value) "scala-3" else "scala-2"),
+    Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value) "scala-3" else "scala-2"),
+    compileOrder := CompileOrder.JavaThenScala
   )
 
   object Compiler {

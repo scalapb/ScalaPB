@@ -2,10 +2,10 @@ package scalapb
 
 import com.google.common.base.CaseFormat
 import org.scalacheck.Gen
-import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
-import org.scalatest.propspec.AnyPropSpec
+import munit.ScalaCheckSuite
+import org.scalacheck.Prop._
 
-class FieldMaskUtilPropSpec extends AnyPropSpec with ScalaCheckDrivenPropertyChecks {
+class FieldMaskUtilPropSpec extends ScalaCheckSuite {
   // protobuf-java use guava
   // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L175
   // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L159
@@ -33,7 +33,7 @@ class FieldMaskUtilPropSpec extends AnyPropSpec with ScalaCheckDrivenPropertyChe
     forAll(strGen) { str =>
       val useScala = FieldMaskUtil.lowerSnakeCaseToCamelCase(str)
       val useJava  = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, str)
-      assert(useScala == useJava)
+      assertEquals(useScala, useJava)
     }
   }
 
@@ -41,7 +41,7 @@ class FieldMaskUtilPropSpec extends AnyPropSpec with ScalaCheckDrivenPropertyChe
     forAll(strGen) { str =>
       val useScala = FieldMaskUtil.camelCaseToSnakeCase(str)
       val useJava  = CaseFormat.LOWER_CAMEL.to(CaseFormat.LOWER_UNDERSCORE, str)
-      assert(useScala == useJava)
+      assertEquals(useScala, useJava)
     }
   }
 }

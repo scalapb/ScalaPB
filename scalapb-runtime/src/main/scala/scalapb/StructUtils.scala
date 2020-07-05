@@ -55,13 +55,13 @@ object StructUtils {
     case (Kind.NumberValue(v), ScalaType.Float)  => Right(PFloat(v.toFloat))
     case (Kind.StringValue(v), ScalaType.ByteString) =>
       Right(PByteString(ByteString.copyFrom(Base64.getDecoder.decode(v.getBytes))))
-    case (Kind.StringValue(v), enum: ScalaType.Enum) =>
-      enum.descriptor.values
+    case (Kind.StringValue(v), en@ ScalaType.Enum(_)) =>
+      en.descriptor.values
         .find(_.name == v)
         .map(PEnum)
         .toRight(
           StructParsingError(
-            s"""Field "${fd.fullName}" is of type enum "${enum.descriptor.fullName}" but received invalid enum value "$v""""
+            s"""Field "${fd.fullName}" is of type enum "${en.descriptor.fullName}" but received invalid enum value "$v""""
           )
         )
     case (Kind.StringValue(v), ScalaType.String) => Right(PString(v))
