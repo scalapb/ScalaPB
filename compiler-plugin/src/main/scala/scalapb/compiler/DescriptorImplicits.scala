@@ -691,9 +691,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def javaDescriptorSource: String =
       if (message.isTopLevel)
-        s"${message.getFile.fileDescriptorObject.name}.javaDescriptor.getMessageTypes.get(${message.getIndex})"
+        s"${message.getFile.fileDescriptorObject.name}.javaDescriptor.getMessageTypes().get(${message.getIndex})"
       else
-        s"${message.getContainingType.scalaType.fullName}.javaDescriptor.getNestedTypes.get(${message.getIndex})"
+        s"${message.getContainingType.scalaType.fullName}.javaDescriptor.getNestedTypes().get(${message.getIndex})"
 
     def scalaDescriptorSource: String =
       if (message.isTopLevel)
@@ -760,9 +760,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def javaDescriptorSource: String =
       if (enum.isTopLevel)
-        s"${enum.getFile.fileDescriptorObject.name}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+        s"${enum.getFile.fileDescriptorObject.name}.javaDescriptor.getEnumTypes().get(${enum.getIndex})"
       else
-        s"${enum.getContainingType.scalaType.fullName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+        s"${enum.getContainingType.scalaType.fullName}.javaDescriptor.getEnumTypes().get(${enum.getIndex})"
 
     def scalaDescriptorSource: String =
       if (enum.isTopLevel)

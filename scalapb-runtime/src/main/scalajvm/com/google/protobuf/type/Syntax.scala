@@ -45,7 +45,7 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
     case 1 => SYNTAX_PROTO3
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes.get(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes().get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = TypeProto.scalaDescriptor.enums(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.Syntax): Syntax = fromValue(pbJavaSource.getNumber)
   def toJavaValue(pbScalaSource: Syntax): com.google.protobuf.Syntax = {

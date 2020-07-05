@@ -92,13 +92,13 @@ object UnknownFieldSet {
 
         wireType match {
           case WireType.WIRETYPE_VARINT =>
-            varint += input.readInt64
+            varint += input.readInt64()
           case WireType.WIRETYPE_FIXED64 =>
-            fixed64 += input.readFixed64
+            fixed64 += input.readFixed64()
           case WireType.WIRETYPE_LENGTH_DELIMITED =>
-            lengthDelimited += input.readBytes
+            lengthDelimited += input.readBytes()
           case WireType.WIRETYPE_FIXED32 =>
-            fixed32 += input.readFixed32
+            fixed32 += input.readFixed32()
           case _ =>
             throw new InvalidProtocolBufferException(
               s"Protocol message tag had invalid wire type: ${wireType}"

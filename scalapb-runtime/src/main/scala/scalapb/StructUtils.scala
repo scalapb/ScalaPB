@@ -102,7 +102,7 @@ object StructUtils {
       case PString(value) => Value.Kind.StringValue(value)
       case PByteString(value) =>
         Value.Kind.StringValue(
-          new String(Base64.getEncoder.encode(value.toByteArray))
+          new String(Base64.getEncoder.encode(value.toByteArray()))
         )
       case PBoolean(value)  => Value.Kind.BoolValue(value)
       case PEnum(value)     => Value.Kind.StringValue(value.name)

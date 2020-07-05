@@ -39,7 +39,7 @@ object Encoding {
     val builder = mutable.ArrayBuilder.make[Byte]
     builder.sizeHint(outputLength)
 
-    for { i <- 0 until (input.length, 4) } {
+    for { i <- 0.until(input.length, 4) } {
       val b = input.substring(i, i + 4).map(alphabetIndex)
       builder += ((b(0) << 2) | (b(1) >> 4)).toByte
       if (b(2) < 64) {
@@ -55,7 +55,7 @@ object Encoding {
   def toBase64(in: Array[Byte]): String = {
     val out    = new mutable.StringBuilder()
     var b: Int = 0
-    for { i <- 0 until (in.length, 3) } {
+    for { i <- 0.until(in.length, 3) } {
       b = (in(i) & 0xFC) >> 2
       out.append(alphabet(b))
       b = (in(i) & 0x03) << 4

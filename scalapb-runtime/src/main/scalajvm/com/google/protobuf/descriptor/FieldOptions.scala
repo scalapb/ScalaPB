@@ -288,7 +288,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(12)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(12)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(12)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
@@ -358,7 +358,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       case 2 => STRING_PIECE
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.CType): CType = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: CType): com.google.protobuf.DescriptorProtos.FieldOptions.CType = {
@@ -415,7 +415,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       case 2 => JS_NUMBER
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes.get(1)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.JSType): JSType = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: JSType): com.google.protobuf.DescriptorProtos.FieldOptions.JSType = {

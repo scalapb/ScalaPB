@@ -150,7 +150,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes.get(17)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(17)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(17)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
@@ -221,7 +221,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
       case 2 => IDEMPOTENT
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.javaDescriptor.getEnumTypes.get(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.MethodOptions.IdempotencyLevel): IdempotencyLevel = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: IdempotencyLevel): com.google.protobuf.DescriptorProtos.MethodOptions.IdempotencyLevel = {

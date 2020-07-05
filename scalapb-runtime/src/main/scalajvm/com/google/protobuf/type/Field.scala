@@ -368,7 +368,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = TypeProto.javaDescriptor.getMessageTypes.get(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = TypeProto.javaDescriptor.getMessageTypes().get(1)
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = TypeProto.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
@@ -623,7 +623,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       case 18 => TYPE_SINT64
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Kind): Kind = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: Kind): com.google.protobuf.Field.Kind = {
@@ -693,7 +693,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       case 3 => CARDINALITY_REPEATED
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes.get(1)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes().get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.Field.Cardinality): Cardinality = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: Cardinality): com.google.protobuf.Field.Cardinality = {

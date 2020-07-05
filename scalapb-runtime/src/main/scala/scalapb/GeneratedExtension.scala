@@ -50,7 +50,7 @@ object GeneratedExtension {
   ): Seq[T] = {
     val v = Vector.newBuilder[T]
     bss.foreach { ld =>
-      val ci = ld.newCodedInput
+      val ci = ld.newCodedInput()
       while (ci.getBytesUntilLimit > 0) {
         v += fromBase(unpack(ci))
       }
@@ -85,7 +85,7 @@ object GeneratedExtension {
           val v = Vector.newBuilder[E]
           if (bss.nonEmpty) {
             bss.foreach { ld =>
-              val ci = ld.newCodedInput
+              val ci = ld.newCodedInput()
               while (ci.getBytesUntilLimit > 0) {
                 v += unpack(ci)
               }
