@@ -27,9 +27,13 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
       if (message.sealedOneofStyle != SealedOneofStyle.Optional) {
         val sealedOneofNonEmptyName = message.sealedOneofNonEmptyScalaType.nameSymbol
         val sealedOneofNonEmptyType = message.sealedOneofNonEmptyScalaType.fullName
+        val bases =
+          if (message.sealedOneofBaseClasses.nonEmpty)
+            s"extends ${message.sealedOneofBaseClasses.mkString(" with ")} "
+          else ""
 
         fp.add(
-            s"sealed trait $sealedOneofName extends ${message.sealedOneofBaseClasses.mkString(" with ")} {"
+            s"sealed trait $sealedOneofName $bases{"
           )
           .addIndented(
             s"type MessageType = $baseType",
@@ -76,8 +80,12 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           )
           .add("}")
       } else {
+        val bases =
+          if (message.sealedOneofBaseClasses.nonEmpty)
+            s"extends ${message.sealedOneofBaseClasses.mkString(" with ")} "
+          else ""
         fp.add(
-            s"sealed trait $sealedOneofName extends ${message.sealedOneofBaseClasses.mkString(" with ")} {"
+            s"sealed trait $sealedOneofName $bases{"
           )
           .addIndented(
             s"type MessageType = $baseType",

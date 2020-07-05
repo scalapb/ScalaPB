@@ -77,7 +77,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
       def baseScalaType = descriptor.scalaType.fullNameWithMaybeRoot(Seq("build"))
 
-      def scalaType = customScalaType.getOrElse(baseScalaType)
+      def scalaType: String = customScalaType.getOrElse(baseScalaType)
     }
 
     def inputType = new MethodTypeWrapper(method.getInputType)
@@ -719,55 +719,56 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
-    def parentMessage: Option[Descriptor] = Option(enum.getContainingType)
+  implicit class EnumDescriptorPimp(val enumDescriptor: EnumDescriptor) {
+    def parentMessage: Option[Descriptor] = Option(enumDescriptor.getContainingType)
 
     def scalaOptions: EnumOptions = {
-      val localOptions = enum.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
+      val localOptions = enumDescriptor.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
 
-      enum.getFile.scalaOptions.getAuxEnumOptionsList.asScala
-        .find(_.getTarget == enum.getFullName())
+      enumDescriptor.getFile.scalaOptions.getAuxEnumOptionsList.asScala
+        .find(_.getTarget == enumDescriptor.getFullName())
         .fold(localOptions)(aux =>
           EnumOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
         )
     }
 
     lazy val scalaType: ScalaName = {
-      val name: String = enum.getName match {
+      val name: String = enumDescriptor.getName match {
         case "Option" => "OptionEnum"
         case "ValueType" =>
           "ValueTypeEnum" // Issue 348, conflicts with "type ValueType" in GeneratedEnumCompanion.
         case n => n
       }
 
-      parentMessage.fold(enum.getFile().scalaPackage)(_.scalaType) / name
+      parentMessage.fold(enumDescriptor.getFile().scalaPackage)(_.scalaType) / name
     }
 
     def recognizedEnum: ScalaName = scalaType / "Recognized"
 
-    def isTopLevel = enum.getContainingType == null
+    def isTopLevel = enumDescriptor.getContainingType == null
 
-    def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
+    def javaTypeName = enumDescriptor.getFile.fullJavaName(enumDescriptor.getFullName)
 
-    def javaConversions = enum.getFile.javaConversions
+    def javaConversions = enumDescriptor.getFile.javaConversions
 
     def valuesWithNoDuplicates =
-      enum.getValues.asScala
+      enumDescriptor.getValues.asScala
         .groupBy(_.getNumber)
         .map { case (_, v) => v.head }
         .toVector
         .sortBy(_.getNumber)
 
     def javaDescriptorSource: String =
-      if (enum.isTopLevel)
-        s"${enum.getFile.fileDescriptorObject.name}.javaDescriptor.getEnumTypes().get(${enum.getIndex})"
+      if (enumDescriptor.isTopLevel)
+        s"${enumDescriptor.getFile.fileDescriptorObject.name}.javaDescriptor.getEnumTypes().get(${enumDescriptor.getIndex})"
       else
-        s"${enum.getContainingType.scalaType.fullName}.javaDescriptor.getEnumTypes().get(${enum.getIndex})"
+        s"${enumDescriptor.getContainingType.scalaType.fullName}.javaDescriptor.getEnumTypes().get(${enumDescriptor.getIndex})"
 
     def scalaDescriptorSource: String =
-      if (enum.isTopLevel)
-        s"${enum.getFile.fileDescriptorObject.name}.scalaDescriptor.enums(${enum.getIndex})"
-      else s"${enum.getContainingType.scalaType.fullName}.scalaDescriptor.enums(${enum.getIndex})"
+      if (enumDescriptor.isTopLevel)
+        s"${enumDescriptor.getFile.fileDescriptorObject.name}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
+      else
+        s"${enumDescriptor.getContainingType.scalaType.fullName}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
 
     def baseTraitExtends: Seq[String] =
       "_root_.scalapb.GeneratedEnum" +: scalaOptions.getExtendsList.asScala.toSeq
@@ -776,16 +777,17 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       s"_root_.scalapb.GeneratedEnumCompanion[${scalaType.nameSymbol}]" +: scalaOptions.getCompanionExtendsList.asScala.toSeq
 
     def sourcePath: Seq[Int] = {
-      if (enum.isTopLevel) Seq(FileDescriptorProto.ENUM_TYPE_FIELD_NUMBER, enum.getIndex)
+      if (enumDescriptor.isTopLevel)
+        Seq(FileDescriptorProto.ENUM_TYPE_FIELD_NUMBER, enumDescriptor.getIndex)
       else
-        enum.getContainingType.sourcePath ++ Seq(
+        enumDescriptor.getContainingType.sourcePath ++ Seq(
           DescriptorProto.ENUM_TYPE_FIELD_NUMBER,
-          enum.getIndex
+          enumDescriptor.getIndex
         )
     }
 
     def comment: Option[String] = {
-      enum.getFile
+      enumDescriptor.getFile
         .findLocationByPath(sourcePath)
         .map(t => t.getLeadingComments + t.getTrailingComments)
         .map(Helper.escapeComment)
@@ -1015,6 +1017,7 @@ object DescriptorImplicits {
     "def",
     "do",
     "else",
+    "enum",
     "extends",
     "false",
     "final",

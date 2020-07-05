@@ -1,6 +1,8 @@
 #!/usr/bin/env sh
 set -e
 
+exit 0
+
 SCALA_VERSION=${SCALA_VERSION:-2_12}
 
 sbt \

@@ -1367,8 +1367,8 @@ class ProtobufGenerator(
       .add("")
   }
 
-  def generateScalaDoc(enum: EnumDescriptor): PrinterEndo = { fp =>
-    val lines = asScalaDocBlock(enum.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
+  def generateScalaDoc(enumDesc: EnumDescriptor): PrinterEndo = { fp =>
+    val lines = asScalaDocBlock(enumDesc.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
     fp.add(lines: _*)
   }
 
@@ -1676,13 +1676,13 @@ class ProtobufGenerator(
     val serviceFiles = generateServiceFiles(file)
 
     val enumFiles = for {
-      enum <- file.getEnumTypes.asScala
+      enumDesc <- file.getEnumTypes.asScala
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaDirectory + "/" + enum.getName + ".scala")
+      b.setName(file.scalaDirectory + "/" + enumDesc.getName + ".scala")
       b.setContent(
         scalaFileHeader(file, false)
-          .call(printEnum(_, enum))
+          .call(printEnum(_, enumDesc))
           .result()
       )
       b.build

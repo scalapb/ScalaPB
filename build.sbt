@@ -125,7 +125,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
-      protocGen,
+      protocGen.withDottyCompat(scalaVersion.value),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
       scalaTest             % "test",
       protocJar             % "test"
@@ -142,7 +142,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     Compiler.generateEncodingFile,
     Compiler.shadeProtoBeforeGenerate
   )
-  .jvmPlatform(Seq(Scala212, Scala213))
+  .jvmPlatform(Seq(Scala212, Scala213, Dotty))
 
 lazy val compilerPluginJVM2_12 = compilerPlugin.jvm(Scala212)
 
@@ -279,7 +279,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
 lazy val e2eNoJava = (projectMatrix in file("e2e-nojava"))
   .dependsOn(runtime)
   .enablePlugins(LocalCodeGenPlugin)
-  .jvmPlatform(Seq(Scala212, Scala213))
+  .jvmPlatform(Seq(Scala212, Scala213, Dotty))
   .settings(e2eCommonSettings)
   .settings(
     Compile / PB.protocVersion := "-v" + versions.protobuf,
