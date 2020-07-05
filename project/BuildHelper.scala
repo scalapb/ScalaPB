@@ -3,13 +3,18 @@ import Keys._
 import Dependencies.versions
 import sbtprotoc.ProtocPlugin.autoImport.PB
 import sbtassembly.AssemblyPlugin.autoImport._
+import dotty.tools.sbtplugin.DottyPlugin.autoImport.isDotty
+
 
 object BuildHelper {
-  val compilerOptions = Seq(
+  val commonScalacOptions = Seq(
     "-deprecation",
     "-target:jvm-1.8",
     "-feature",
-    "-Xfatal-warnings",
+    "-Xfatal-warnings"
+  )
+
+  val scalac2Options = Seq(
     "-explaintypes",
     "-Xlint:adapted-args",           // Warn if an argument list is modified to match the receiver.
     "-Xlint:constant",               // Evaluation of a constant arithmetic expression results in an error.
@@ -40,6 +45,15 @@ object BuildHelper {
     "8",                                         // Enable paralellisation — change to desired number!
     "-Ycache-plugin-class-loader:last-modified", // Enables caching of classloaders for compiler plugins
     "-Ycache-macro-class-loader:last-modified"   // and macro definitions. This can lead to performance improvements.
+  )
+
+  val scalac3Options = Seq(
+    "-language:implicitConversions"
+  )
+
+  val commonOptions = Seq(
+    scalacOptions ++= commonScalacOptions ++ (if (isDotty.value) scalac3Options else scalac2Options),
+    libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil)
   )
 
   object Compiler {

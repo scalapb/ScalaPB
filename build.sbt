@@ -10,11 +10,9 @@ val MimaPreviousVersion = "0.11.0-M1"
 inThisBuild(
   List(
     scalaVersion := Scala212,
-    scalacOptions ++= BuildHelper.compilerOptions,
     javacOptions ++= List("-target", "8", "-source", "8"),
     organization := "com.thesamet.scalapb",
     resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-    libraryDependencies ++= silencer
   )
 )
 
@@ -59,6 +57,7 @@ lazy val root: Project =
 
 lazy val runtime = (projectMatrix in file("scalapb-runtime"))
   .dependsOn(lenses)
+  .settings(commonOptions)
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
@@ -116,6 +115,7 @@ lazy val runtimeJVM2_12 = runtime.jvm(Scala212)
 
 lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
   .dependsOn(runtime)
+  .settings(commonOptions)
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(
     name := "scalapb-runtime-grpc",
@@ -134,6 +134,7 @@ lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
 lazy val grpcRuntimeJVM2_12 = grpcRuntime.jvm(Scala212)
 
 lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
+  .settings(commonOptions)
   .settings(
     libraryDependencies ++= Seq(
       scalaCollectionCompat.value,
@@ -162,6 +163,7 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .dependsOn(compilerPlugin)
   .enablePlugins(JavaAppPackaging)
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
+  .settings(commonOptions)
   .settings(
     libraryDependencies ++= Seq(
       coursier,
@@ -207,6 +209,7 @@ lazy val protocGenScalaNativeImage =
 lazy val proptest = (projectMatrix in file("proptest"))
   .dependsOn(compilerPlugin, runtime, grpcRuntime)
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
+  .settings(commonOptions)
   .settings(
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
@@ -226,16 +229,17 @@ lazy val proptest = (projectMatrix in file("proptest"))
   )
 
 lazy val lenses = (projectMatrix in file("lenses"))
+  .settings(commonOptions)
   .settings(
     name := "lenses",
-    testFrameworks += new TestFramework("utest.runner.Framework"),
+    testFrameworks += new TestFramework("munit.Framework"),
     libraryDependencies ++= Seq(
-      scalaCollectionCompat.value,
-      utest.value % "test"
+      (scalaCollectionCompat.value).withDottyCompat(scalaVersion.value),
+      munit.value % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
   .jsPlatform(
     scalaVersions = Seq(Scala212, Scala213),
     settings = scalajsSourceMaps
@@ -243,7 +247,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
 
 lazy val lensesJVM2_12 = lenses.jvm(Scala212)
 
-val e2eCommonSettings = Seq(
+val e2eCommonSettings = commonOptions ++ Seq(
   useCoursier := true,
   skip in publish := true,
   javacOptions ++= Seq("-Xlint:deprecation"),
@@ -300,6 +304,7 @@ lazy val docs = project
   .in(file("docs"))
   .enablePlugins(MicrositesPlugin, ScalaUnidocPlugin)
   .dependsOn(runtimeJVM2_12)
+  .settings(commonOptions)
   .settings(
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),

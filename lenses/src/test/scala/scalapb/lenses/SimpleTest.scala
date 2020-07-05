@@ -1,7 +1,6 @@
 package scalapb.lenses
 
-import utest._
-import com.github.ghik.silencer.silent
+import munit.FunSuite
 
 case class Person(firstName: String, lastName: String, age: Int, address: Address)
     extends Updatable[Person]
@@ -25,8 +24,7 @@ case class CollectionTypes(
     sett: Set[String] = Set.empty
 ) extends Updatable[CollectionTypes]
 
-@silent("discarded non-Unit value")
-object SimpleTest extends TestSuite {
+class SimpleTest extends FunSuite {
   implicit class RoleMutation[U](f: Lens[U, Role]) extends ObjectLens[U, Role](f) {
     def name = field(_.name)((p, f) => p.copy(name = f))
 
@@ -91,113 +89,155 @@ object SimpleTest extends TestSuite {
     addressMap = Map(mosh -> Address("someStreet", "someCity", "someState"))
   )
 
-  val tests = Tests {
-    "update should return an updated object" - {
-      mosh.update(_.firstName := "foo") ==> (mosh.copy(firstName = "foo"))
-    }
+  test("update should return an updated object") {
+    assertEquals(
+      mosh.update(_.firstName := "foo"),
+      (mosh.copy(firstName = "foo"))
+    )
+  }
 
-    "it should allow mutating nested fields" - {
-      mosh.update(_.address.city := "Valejo") ==> (mosh.copy(
+  test("it should allow mutating nested fields") {
+    assertEquals(
+      mosh.update(_.address.city := "Valejo"),
+      (mosh.copy(
         address = mosh.address.copy(city = "Valejo")
       ))
-    }
+    )
+  }
 
-    "it should allow nested updates" - {
+  test("it should allow nested updates") {
+    assertEquals(
       mosh.update(
         _.address.update(
           _.city := "Valejo",
           _.street := "Fourth"
         )
-      ) ==> (mosh.copy(address = mosh.address.copy(city = "Valejo", street = "Fourth")))
-    }
+      ),
+      (mosh.copy(address = mosh.address.copy(city = "Valejo", street = "Fourth")))
+    )
+  }
 
-    "it should allow replacing an entire field" - {
-      val portland = Address("2nd", "Portland", "Oregon")
-      mosh.update(_.address := portland) ==> (mosh.copy(address = portland))
-    }
+  test("it should allow replacing an entire field") {
+    val portland = Address("2nd", "Portland", "Oregon")
+    assertEquals(mosh.update(_.address := portland), (mosh.copy(address = portland)))
+  }
 
-    "it should support an existing value for an optional set" - {
-      mosh.update(_.firstName setIfDefined Some("foo")) ==> mosh.copy(firstName = "foo")
-    }
+  test("it should support an existing value for an optional set") {
+    assertEquals(mosh.update(_.firstName setIfDefined Some("foo")), mosh.copy(firstName = "foo"))
+  }
 
-    "it should support a non-existing value for an optional set" - {
-      mosh.update(_.firstName setIfDefined None) ==> mosh
-    }
+  test("it should support a non-existing value for an optional set") {
+    assertEquals(mosh.update(_.firstName setIfDefined None), mosh)
+  }
 
-    "it should allow adding to a sequence" - {
-      mosh.update(_.address.residents :+= josh) ==> (mosh.copy(
+  test("it should allow adding to a sequence") {
+    assertEquals(
+      mosh.update(_.address.residents :+= josh),
+      (mosh.copy(
         address = mosh.address.copy(residents = mosh.address.residents :+ josh)
       ))
-    }
+    )
+  }
 
-    "it should allow replacing a sequence" - {
-      mosh.update(_.address.residents := Seq(josh, mosh)) ==> (mosh.copy(
+  test("it should allow replacing a sequence") {
+    assertEquals(
+      mosh.update(_.address.residents := Seq(josh, mosh)),
+      (mosh.copy(
         address = mosh.address.copy(residents = Seq(josh, mosh))
       ))
-    }
+    )
+  }
 
-    "it should allow mutating an element of a sequence by index" - {
+  test("it should allow mutating an element of a sequence by index") {
+    assertEquals(
       mosh.update(
         _.address.residents := Seq(josh, mosh),
         _.address.residents(1).firstName := "ModName"
-      ) ==> (mosh.copy(
+      ),
+      (mosh.copy(
         address = mosh.address.copy(residents = Seq(josh, mosh.copy(firstName = "ModName")))
       ))
-    }
+    )
+  }
 
-    "it should allow mutating all element of a sequence with forEach" - {
+  test("it should allow mutating all element of a sequence with forEach") {
+    assertEquals(
       mosh.update(
         _.address.residents := Seq(josh, mosh),
         _.address.residents.foreach(_.lastName.modify(_ + "Suffix"))
-      ) ==> (mosh.copy(
+      ),
+      (mosh.copy(
         address = mosh.address
           .copy(residents = Seq(josh.copy(lastName = "ZSuffix"), mosh.copy(lastName = "BenSuffix")))
       ))
-    }
+    )
+  }
 
-    "it should allow mapping over an option" - {
+  test("it should allow mapping over an option") {
+    assertEquals(
       chef.update(
         _.replacement.inplaceMap(_.firstName := "Zoo")
-      ) ==> (chef)
+      ),
+      chef
+    )
 
+    assertEquals(
       chef
         .update(
           _.replacement := Some(josh),
           _.replacement.inplaceMap(_.firstName := "Yosh")
         )
         .replacement
-        .get ==> (josh.copy(firstName = "Yosh"))
-    }
+        .get,
+      (josh.copy(firstName = "Yosh"))
+    )
+  }
 
-    "it should allow updating a map" - {
-      mapTest.update(_.intMap(5) := "hello") ==> (mapTest.copy(
+  test("it should allow updating a map") {
+    assertEquals(
+      mapTest.update(_.intMap(5) := "hello"),
+      (mapTest.copy(
         intMap = mapTest.intMap.updated(5, "hello")
       ))
-      mapTest.update(_.intMap(2) := "ttt") ==> (mapTest.copy(
+    )
+    assertEquals(
+      mapTest.update(_.intMap(2) := "ttt"),
+      (mapTest.copy(
         intMap = mapTest.intMap.updated(2, "ttt")
       ))
-      mapTest.update(_.nameMap("mmm") := mosh) ==> (mapTest.copy(
+    )
+    assertEquals(
+      mapTest.update(_.nameMap("mmm") := mosh),
+      (mapTest.copy(
         nameMap = mapTest.nameMap.updated("mmm", mosh)
       ))
-      mapTest.update(_.addressMap(josh) := mosh.address) ==> (mapTest.copy(
+    )
+    assertEquals(
+      mapTest.update(_.addressMap(josh) := mosh.address),
+      (mapTest.copy(
         addressMap = mapTest.addressMap.updated(josh, mosh.address)
       ))
-    }
+    )
+  }
 
-    "it should allow nested updated in a map" - {
-      mapTest.update(_.nameMap("mosh") := mosh, _.nameMap("mosh").firstName := "boo") ==> (mapTest
+  test("it should allow nested updated in a map") {
+    assertEquals(
+      mapTest.update(_.nameMap("mosh") := mosh, _.nameMap("mosh").firstName := "boo"),
+      (mapTest
         .copy(nameMap = mapTest.nameMap.updated("mosh", mosh.copy(firstName = "boo"))))
-    }
+    )
+  }
 
-    "it should raise an exception on nested key update for a missing key" - {
-      intercept[NoSuchElementException] {
-        mapTest.update(
-          _.nameMap("mosh").firstName := "Boo"
-        )
-      }
+  test("it should raise an exception on nested key update for a missing key") {
+    intercept[NoSuchElementException] {
+      mapTest.update(
+        _.nameMap("mosh").firstName := "Boo"
+      )
     }
+  }
 
-    "it should allow transforming the map values with forEachValue" - {
+  test("it should allow transforming the map values with forEachValue") {
+    assertEquals(
       mapTest
         .update(
           _.nameMap("mosh") := mosh,
@@ -207,16 +247,22 @@ object SimpleTest extends TestSuite {
         .nameMap
         .values
         .map(_.firstName)
-        .toSeq ==> (Seq("ttt", "ttt"))
-    }
+        .toSeq,
+      (Seq("ttt", "ttt"))
+    )
+  }
 
-    "it should allow transforming the map values with mapValues" - {
+  test("it should allow transforming the map values with mapValues") {
+    assertEquals(
       mapTest
         .update(
           _.intMap.mapValues("hello " + _)
         )
-        .intMap ==> (Map(3 -> "hello three", 4 -> "hello four"))
+        .intMap,
+      (Map(3 -> "hello three", 4 -> "hello four"))
+    )
 
+    assertEquals(
       mapTest
         .update(
           _.nameMap("mosh") := mosh,
@@ -226,49 +272,56 @@ object SimpleTest extends TestSuite {
         .nameMap
         .values
         .map(_.firstName)
-        .toSeq ==> (Seq("*Mosh", "*Josh"))
-    }
+        .toSeq,
+      (Seq("*Mosh", "*Josh"))
+    )
+  }
 
-    "it should allow transforming the map values with forEach" - {
-      mapTest.update(_.intMap.foreach(_.modify(k => (k._1 - 1, "*" + k._2)))).intMap ==> Map(
+  test("it should allow transforming the map values with forEach") {
+    assertEquals(
+      mapTest.update(_.intMap.foreach(_.modify(k => (k._1 - 1, "*" + k._2)))).intMap,
+      Map(
         2 -> "*three",
         3 -> "*four"
       )
-    }
+    )
+  }
 
-    "it should support other collection types" - {
-      val ct = CollectionTypes().update(
-        _.iSeq := collection.immutable.Seq("3", "4", "5"),
-        _.iSeq :+= "foo",
-        _.iSeq :++= collection.immutable.Seq("6", "7", "8"),
-        _.iSeq :++= Seq("6", "7", "8"),
-        _.iSeq(5) := "11",
-        _.vector := Vector("3", "4", "5"),
-        _.vector :+= "foo",
-        _.vector :++= collection.immutable.Seq("6", "7", "8"),
-        _.vector :++= Seq("6", "7", "8"),
-        _.vector(5) := "11",
-        _.list := List("3", "4", "5"),
-        _.list :+= "foo",
-        _.list :++= collection.immutable.Seq("6", "7", "8"),
-        _.list :++= Seq("6", "7", "8"),
-        _.list(5) := "11",
-        _.sett := Set("3", "4", "5"),
-        _.sett :+= "foo",
-        _.sett :++= collection.immutable.Seq("6", "7", "8"),
-        _.sett :++= Seq("6", "7", "8")
-      )
-      val expected = Seq("3", "4", "5", "foo", "6", "11", "8", "6", "7", "8")
-      ct.iSeq ==> expected
-      ct.vector ==> expected
-      ct.list ==> expected
-    }
+  test("it should support other collection types") {
+    val ct = CollectionTypes().update(
+      _.iSeq := collection.immutable.Seq("3", "4", "5"),
+      _.iSeq :+= "foo",
+      _.iSeq :++= collection.immutable.Seq("6", "7", "8"),
+      _.iSeq :++= Seq("6", "7", "8"),
+      _.iSeq(5) := "11",
+      _.vector := Vector("3", "4", "5"),
+      _.vector :+= "foo",
+      _.vector :++= collection.immutable.Seq("6", "7", "8"),
+      _.vector :++= Seq("6", "7", "8"),
+      _.vector(5) := "11",
+      _.list := List("3", "4", "5"),
+      _.list :+= "foo",
+      _.list :++= collection.immutable.Seq("6", "7", "8"),
+      _.list :++= Seq("6", "7", "8"),
+      _.list(5) := "11",
+      _.sett := Set("3", "4", "5"),
+      _.sett :+= "foo",
+      _.sett :++= collection.immutable.Seq("6", "7", "8"),
+      _.sett :++= Seq("6", "7", "8")
+    )
+    val expected = Seq("3", "4", "5", "foo", "6", "11", "8", "6", "7", "8")
+    assertEquals(ct.iSeq.toVector, expected.toVector)
+    assertEquals(ct.vector, expected.toVector)
+    assertEquals(ct.list, expected.toList)
+  }
 
-    "it should work with zipped lenses" - {
-      CollectionTypes().update(k => k.list zip k.vector := ((List("3", "4"), Vector("x", "y")))) ==> CollectionTypes(
+  test("it should work with zipped lenses") {
+    assertEquals(
+      CollectionTypes().update(k => k.list zip k.vector := ((List("3", "4"), Vector("x", "y")))),
+      CollectionTypes(
         list = List("3", "4"),
         vector = Vector("x", "y")
       )
-    }
+    )
   }
 }
