@@ -21,6 +21,8 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 12
+    - uses: olafurpg/setup-gpg@v2
+      if: startsWith(github.ref, 'refs/tags/v')
     - name: Publish ${{ github.ref }}
       run: sbt ci-release
       env:
@@ -49,8 +51,6 @@ jobs:
         .cicd/push_website.sh
       env:
           TOKEN: ${{secrets.DEPLOY_KEY}}
-    - uses: olafurpg/setup-gpg@v2
-      if: startsWith(github.ref, 'refs/tags/v')
 
   scalapbc:
     runs-on: ubuntu-latest
