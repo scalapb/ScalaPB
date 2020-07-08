@@ -124,6 +124,11 @@ lazy val grpcRuntimeJVM2_12 = grpcRuntime.jvm(Scala212)
 lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
   .settings(commonSettings)
   .settings(
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-P:silencer:globalFilters=object FlatPackage in object GeneratorOption is deprecated"
+                         )
+                       else Nil),
     libraryDependencies ++= Seq(
       protocGen.withDottyCompat(scalaVersion.value),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
