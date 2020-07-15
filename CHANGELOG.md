@@ -8,6 +8,10 @@
 - Supports Dotty (0.24.0). Generated code compiles in Dotty (with `-source
   3.0-migration`)
 
+## [0.10.8](Unreleased)
+- Fix a regression where calling scalapb.gen() without parameters would not
+  generate grpc stubs. Workaround: pass grpc=true explictly. #879
+
 ## [0.10.7](https://github.com/scalapb/ScalaPB/compare/v0.10.6..v10.0.7)
 - Add support for insertion points so other plugins can inject code into
   ScalaPB generated code. Currently, the only insertion point available is at
