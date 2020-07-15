@@ -21,7 +21,11 @@ object gen {
       options.map(_.toString).toSeq
     )
 
-  def apply(options: GeneratorOption*): (SandboxedJvmGenerator, Seq[String]) = apply(options.toSet)
+  def apply(options: GeneratorOption*): (SandboxedJvmGenerator, Seq[String]) =
+    apply(options.toSet)
+
+  def apply(): (SandboxedJvmGenerator, Seq[String]) =
+    apply(grpc = true)
 
   def apply(
       flatPackage: Boolean = false,
