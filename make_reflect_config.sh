@@ -6,7 +6,7 @@ PROTOFILES=$(find e2e/src/main/protobuf -name "*.proto" -print)
 sbt "set version in ThisBuild := \"SNAPSHOT\"" protoc-gen-scala-unix/assembly
 printf "#!/usr/bin/env bash\nset -e\n" > $TMPDIR/plugin.sh
 echo export JAVA_OPTS=-agentlib:native-image-agent=config-output-dir=protoc-gen-scala-native-image/native-image-config >> $TMPDIR/plugin.sh
-echo $PWD/protoc-gen-scala-unix/target/scala-2.12/protoc-gen-scala-unix-assembly-SNAPSHOT.jar >> $TMPDIR/plugin.sh
+echo $PWD/.protoc-gen-scala-unix/target/scala-2.12/protoc-gen-scala-unix-assembly-SNAPSHOT.jar >> $TMPDIR/plugin.sh
 
 chmod +x $TMPDIR/plugin.sh
 
