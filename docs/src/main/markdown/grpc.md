@@ -5,6 +5,20 @@ layout: docs
 
 # gRPC
 
+## gRPC Libraries for ScalaPB
+
+This page covers ScalaPB's gRPC support. This support is a thin wrapper around
+grpc-java, and provides you with an interface that is based on Scala's
+standard library `Feature`, while streaming is based on the Observer pattern.
+
+There are additional Scala gRPC libraries that are built on top of ScalaPB
+that provide integration with other concurrent frameworks and effect systems:
+
+* [ZIO gRPC](https://scalapb.github.io/zio-grpc/) enables you to build gRPC
+  servers and clients using ZIO.
+* [fs2-grpc](https://github.com/fiadliel/fs2-grpc) provides gGRPC support for FS2 and Cats Effect.
+* [Akka gRPC](https://doc.akka.io/docs/akka-grpc/current/index.html) provides support for building streaming gRPC servers and clients on top of Akka Streams and Akka HTTP.
+
 ## Project Setup
 
 Install ScalaPB as usual. Add the following to your `build.sbt`:
