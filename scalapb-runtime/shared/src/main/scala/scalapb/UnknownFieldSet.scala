@@ -32,6 +32,8 @@ final case class UnknownFieldSet(
     }
     size
   }
+
+  def asMap: Map[Int, UnknownFieldSet.Field] = fields
 }
 
 object UnknownFieldSet {
@@ -46,7 +48,7 @@ object UnknownFieldSet {
       })({ (c, t) => c.withField(fieldNumber, t) }))
   }
 
-  case class Field(
+  final case class Field(
       varint: Seq[Long] = Vector.empty,
       fixed64: Seq[Long] = Vector.empty,
       fixed32: Seq[Int] = Vector.empty,
