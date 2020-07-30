@@ -9,7 +9,7 @@ This page lists packages that contain compiled ScalaPB classes for common third-
 
 Each of these packages require you to add two library dependencies in your `build.sbt`:
 
-* The depenendcy with the `"protobuf"` unpacks the protos from the jar. This
+* The dependency with the `"protobuf"` unpacks the protos from the jar. This
   allows the protos in your own project to "import" the third-party protos
   (without this, protoc would fail with an error like: `"Import was not found or had errors"`)
 
