@@ -14,7 +14,7 @@ if [[ $SCALA_VERSION = 2* ]]; then
         runtimeJS${SCALA_VERSION}/test
 fi
 
-if [[ $SCALA_VERSION = 2.12* ]]; then
+if [[ $SCALA_VERSION = 2_12 ]]; then
     sbt \
         proptestJVM${SCALA_VERSION}/test
 fi
