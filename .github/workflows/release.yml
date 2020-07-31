@@ -30,25 +30,20 @@ jobs:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-    - name: Ruby caches
-      uses: actions/cache@v2
+
+    - uses: actions/setup-node@v1
       with:
-        path: .cicd/jekyll/vendor/bundle
-        key: ${{ runner.os }}-gems-${{ hashFiles('.cicd/**/Gemfile.lock') }}
-        restore-keys: |
-            ${{ runner.os }}-gems-
-    - uses: actions/setup-ruby@v1
-      with:
-        ruby-version: '2.6'
-    - name: Install jekyll
-      run: ./.cicd/install_jekyll.sh
+        node-version: '12.x'
     - name: Update docs
       run: |
         git config --global user.name "ScalaPB Docs"
         git config --global user.email "scalapb-updater@users.noreply.github.com"
         eval "$(ssh-agent -s)"
         echo "$TOKEN" | ssh-add -
-        .cicd/push_website.sh
+        sbt docs/mdoc docs/unidoc
+        cd website
+        yarn install
+        yarn deploy
       env:
           TOKEN: ${{secrets.DEPLOY_KEY}}
 

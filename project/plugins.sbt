@@ -24,8 +24,6 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
-addSbtPlugin("com.47deg" % "sbt-microsites" % "1.2.1")
-
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.34")
 
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
@@ -35,6 +33,8 @@ addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.4")
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.5.2")
 
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.1")
+
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.3" )
 
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
