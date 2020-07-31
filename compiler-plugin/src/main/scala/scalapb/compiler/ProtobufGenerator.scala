@@ -19,7 +19,7 @@ class ProtobufGenerator(
     implicits: DescriptorImplicits
 ) {
   import implicits._
-  import DescriptorImplicits.AsSymbolPimp
+  import DescriptorImplicits.AsSymbolExtension
   import ProtobufGenerator._
 
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
@@ -1736,7 +1736,7 @@ object ProtobufGenerator {
         val generator = new ProtobufGenerator(params, implicits)
         val validator = new ProtoValidation(implicits)
         validator.validateFiles(request.allProtos)
-        import implicits.FileDescriptorPimp
+        import implicits.ExtendedFileDescriptor
         val files = request.filesToGenerate.flatMap { file =>
           if (file.scalaOptions.getSingleFile)
             generator.generateSingleScalaFileForFileDescriptor(file)

@@ -16,7 +16,8 @@ import scala.jdk.CollectionConverters._
 
 import scala.collection.immutable.IndexedSeq
 
-class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
+class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
+    extends DeprecatedImplicits {
   import DescriptorImplicits._
 
   case class ScalaName(emptyPackage: Boolean, xs: Seq[String]) {
@@ -65,7 +66,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   private lazy val fileOptionsCache = FileOptionsCache.buildCache(files)
 
-  implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
+  implicit final class ExtendedMethodDescriptor(method: MethodDescriptor) {
     class MethodTypeWrapper(descriptor: Descriptor) {
       def customScalaType: Option[String] =
         if (descriptor.isSealedOneofType)
@@ -136,7 +137,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       s"${method.getService.javaDescriptorSource}.getMethods.get(${method.getIndex})"
   }
 
-  implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
+  implicit final class ExtendedServiceDescriptor(self: ServiceDescriptor) {
     @deprecated("Use companionObject instead to get the name or the full name", "0.10.0")
     def objectName = companionObject.name
 
@@ -182,7 +183,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
+  implicit class ExtendedFieldDescriptor(val fd: FieldDescriptor) {
     import NameUtils._
 
     def containingOneOf: Option[OneofDescriptor] = Option(fd.getRealContainingOneof())
@@ -269,7 +270,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
-    def mapType: MessageDescriptorPimp#MapType = {
+    def mapType: ExtendedMessageDescriptor#MapType = {
       assert(isMapField)
       fd.getMessageType.mapType
     }
@@ -434,7 +435,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
+  implicit class ExtendedOneofDescriptor(val oneof: OneofDescriptor) {
 
     def javaEnumName = {
       val name = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
@@ -472,7 +473,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   private val OneofMessageSuffix = "Message"
 
-  implicit class MessageDescriptorPimp(val message: Descriptor) {
+  implicit class ExtendedMessageDescriptor(val message: Descriptor) {
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP).toSeq
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
@@ -719,7 +720,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class EnumDescriptorPimp(val enumDescriptor: EnumDescriptor) {
+  implicit class ExtendedEnumDescriptor(val enumDescriptor: EnumDescriptor) {
     def parentMessage: Option[Descriptor] = Option(enumDescriptor.getContainingType)
 
     def scalaOptions: EnumOptions = {
@@ -795,7 +796,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
+  implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {
     def scalaOptions: EnumValueOptions =
       enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
 
@@ -842,7 +843,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class FileDescriptorPimp(val file: FileDescriptor) {
+  implicit class ExtendedFileDescriptor(val file: FileDescriptor) {
     def scalaOptions: ScalaPbOptions =
       fileOptionsCache(file)
 
@@ -1003,7 +1004,7 @@ object DescriptorImplicits {
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
   val ScalaOption   = "_root_.scala.Option"
 
-  implicit class AsSymbolPimp(val s: String) {
+  implicit class AsSymbolExtension(val s: String) {
     def asSymbol: String =
       if (SCALA_RESERVED_WORDS.contains(s) || s(0).isDigit) s"`$s`"
       else s
