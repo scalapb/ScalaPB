@@ -291,11 +291,11 @@ lazy val e2eNoJava = (projectMatrix in file("e2e-nojava"))
   )
 
 lazy val docs = project
-  .in(file("scalapb-docs"))
   .enablePlugins(MdocPlugin, DocusaurusPlugin, ScalaUnidocPlugin)
   .dependsOn(runtimeJVM2_12)
   .settings(commonSettings)
   .settings(
+    publish / skip := true,
     scalaVersion := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
@@ -306,7 +306,7 @@ lazy val docs = project
       "com.lihaoyi"          %% "os-lib"           % "0.5.0",
       "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
     ),
-    // mdocIn := baseDirectory.value / "src" / "main" / "markdown",
+    mdocIn := baseDirectory.value / "src" / "main" / "markdown",
     siteSubdirName in ScalaUnidoc := "api/scalapb/latest",
     addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
     unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(
@@ -318,11 +318,10 @@ lazy val docs = project
     cleanFiles += (target in (ScalaUnidoc, unidoc)).value,
     docusaurusCreateSite := docusaurusCreateSite.dependsOn(unidoc in Compile).value,
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(unidoc in Compile).value,
-
     mdocVariables := Map(
-      "scalapb" -> "0.10.8",
-      "sbt_protoc" -> "0.99.34",
-      "protoc" -> "3.11.4",
+      "scalapb"          -> "0.10.8",
+      "sbt_protoc"       -> "0.99.34",
+      "protoc"           -> "3.11.4",
       "sparksql_scalapb" -> "0.10.4"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
@@ -331,5 +330,5 @@ lazy val docs = project
     includeFilter in ghpagesCleanSite := GlobFilter(
       (ghpagesRepository.value / "README.md").getCanonicalPath
     )
-    */
+   */
   )

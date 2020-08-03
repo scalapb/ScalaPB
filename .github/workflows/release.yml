@@ -21,6 +21,9 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 12
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
     - uses: olafurpg/setup-gpg@v2
       if: startsWith(github.ref, 'refs/tags/v')
     - name: Publish ${{ github.ref }}
@@ -30,10 +33,6 @@ jobs:
         PGP_SECRET: ${{ secrets.PGP_SECRET }}
         SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
         SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
     - name: Update docs
       run: |
         git config --global user.name "ScalaPB Docs"
@@ -46,6 +45,8 @@ jobs:
         yarn deploy
       env:
           TOKEN: ${{secrets.DEPLOY_KEY}}
+          USE_SSH: true
+          GIT_USER: git
 
   scalapbc:
     runs-on: ubuntu-latest

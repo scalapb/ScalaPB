@@ -6,7 +6,7 @@ module.exports = {
   onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: 'scalapb', // Usually your GitHub org/user name.
-  projectName: 'ScalaPB', // Usually your repo name.
+  projectName: 'scalapb.github.io',
   themeConfig: {
     sidebarCollapsible: false,
     navbar: {
@@ -41,6 +41,10 @@ module.exports = {
             {
               label: 'Installation',
               to: 'docs/installation',
+            },
+            {
+              label: 'ScalaDoc',
+              href: 'https://scalapb.github.io/api/scalapb'
             },
           ],
         },
@@ -92,7 +96,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // mdoc generates to website/docs. The edit url makes it point at
           // the
-          path: '../scalapb-docs/target/mdoc',
+          path: '../docs/target/mdoc',
           // editUrl:
           //   'https://github.com/scalapb/ScalaPB/edit/master/docs/',
         },
