@@ -126,7 +126,7 @@ In version 0.8.2, we introduced [package-scoped options](customizations.md#packa
 
 Easy! Check out [giter8 template for writing new code generators](https://github.com/scalapb/scalapb-plugin-template.g8).
 
-# How do I mark a generated case class private?
+## How do I mark a generated case class private?
 
 Easy! See this example:
 
