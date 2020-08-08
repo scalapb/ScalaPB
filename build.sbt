@@ -12,9 +12,12 @@ inThisBuild(
     scalaVersion := Scala212,
     javacOptions ++= List("-target", "8", "-source", "8"),
     organization := "com.thesamet.scalapb",
-    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+    ConsoleHelper.welcomeMessage
   )
 )
+
+addCommandAlias("fmt", "all scalafmtSbt scalafmt test:scalafmt")
 
 /*
 lazy val sharedNativeSettings = List(
