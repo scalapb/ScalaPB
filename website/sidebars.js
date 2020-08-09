@@ -21,6 +21,7 @@ module.exports = {
         'scalapbc',
         'third-party-protos',
         'common-protos',
+        'writing-plugins',
         'upgrading',
     ],
     'Getting Help': [
