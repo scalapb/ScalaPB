@@ -325,7 +325,8 @@ lazy val docs = project
       "scalapb"          -> "0.10.8",
       "sbt_protoc"       -> "0.99.34",
       "protoc"           -> "3.11.4",
-      "sparksql_scalapb" -> "0.10.4"
+      "sparksql_scalapb" -> "0.10.4",
+      "scalapb_validate"  -> "0.1.2"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
     ghpagesBranch := "master"
