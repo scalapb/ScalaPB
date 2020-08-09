@@ -87,7 +87,6 @@ and
 e2eJVM2_13/test
 ```
 
-
 This will compile the code generator (for Scala 2.12 in both cases), generate the code for the protos in `e2e/src/main/protobuf`, compile and run the tests in e2e for the corresponding Scala version.
 
 Now, find the generated code under `e2e/target/jvm-2.12/src_managed/main/scalapb/com/myplugin/test/TestMessageFieldNums.scala`. The path might differ based on the package name you chose when creating the project.
@@ -121,7 +120,6 @@ object CodeGenerator extends CodeGenApp {
   def process(request: CodeGenRequest): CodeGenResponse =
     ProtobufGenerator.parseParameters(request.parameter) match {
       case Right(params) =>
-
         // Implicits gives you extension methods that provide ScalaPB
         // names and types for protobuf entities.
         val implicits =
@@ -135,10 +133,10 @@ object CodeGenerator extends CodeGenApp {
             file <- request.filesToGenerate
             message <- file.getMessageTypes().asScala
           } yield new MessagePrinter(message, implicits).result
-				)
+        )
       case Left(error)   =>
         CodeGenResponse.fail(error)
-		}
+    }
 }
 ```
 
@@ -203,8 +201,8 @@ Let's make a simple change for the generated code. For example, try changing the
 
 Before:
 ```scala
-  private val MessageObject =
-    message.scalaType.sibling(message.scalaType.name + "FieldNums")
+private val MessageObject =
+  message.scalaType.sibling(message.scalaType.name + "FieldNums")
 ```
 
 After:
@@ -224,7 +222,7 @@ SBT users of your code generators will add your plugin to the build by adding it
 
 ```scala
 PB.targets in Compile := Seq(
-  scalapb.gen()   -> (sourceManaged in Compile).value / "scalapb",
+  scalapb.gen()      -> (sourceManaged in Compile).value / "scalapb",
   com.myplugin.gen() -> (sourceManaged in Compile).value / "scalapb"
 )
 ```
