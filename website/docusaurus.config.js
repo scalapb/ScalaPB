@@ -9,7 +9,7 @@ module.exports = {
   projectName: 'scalapb.github.io',
   themeConfig: {
     sidebarCollapsible: false,
-    image: 'https://scalapb.github.io/img/ScalaPB.png',
+    image: 'https://scalapb.github.io/img/scalapb-social-light.png',
     navbar: {
       logo: {
         alt: 'ScalaPB',
