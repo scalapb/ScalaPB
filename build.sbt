@@ -130,8 +130,8 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     libraryDependencies ++= Seq(
       protocGen.withDottyCompat(scalaVersion.value),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      scalaTest             % "test",
-      protocJar             % "test"
+      coursier              % "test",
+      scalaTest             % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
@@ -156,8 +156,7 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
-      coursier,
-      protocJar
+      coursier
     ),
     /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
       * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the
@@ -197,14 +196,13 @@ lazy val protocGenScalaNativeImage =
     )
 
 lazy val proptest = (projectMatrix in file("proptest"))
-  .dependsOn(compilerPlugin, runtime, grpcRuntime)
+  .dependsOn(compilerPlugin % "compile->compile;test->test", runtime, grpcRuntime)
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(commonSettings)
   .settings(
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
-      protocJar,
       protobufJava,
       grpcNetty               % "test",
       grpcProtobuf            % "test",

@@ -25,7 +25,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
     val outFile = new File(tmpDir, "descriptor.out")
 
     require(
-      com.github.os72.protocjar.Protoc.runProtoc(
+      ProtocRunner.runProtoc(Version.protobufVersion,
         Array(
           "-I",
           tmpDir.toString + ":protobuf:third_party",

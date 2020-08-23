@@ -161,9 +161,7 @@ object SchemaGenerators {
 
   private def runProtoc(args: String*) =
     ProtocBridge.runWithGenerators(
-      args =>
-        com.github.os72.protocjar.Protoc
-          .runProtoc(s"-v${scalapb.compiler.Version.protobufVersion}" +: args.toArray),
+      args => scalapb.compiler.ProtocRunner.runProtoc(scalapb.compiler.Version.protobufVersion, args),
       Seq("scala" -> ScalaPbCodeGenerator),
       args
     )
