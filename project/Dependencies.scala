@@ -8,7 +8,7 @@ object Dependencies {
     val grpc                    = "1.31.0"
     val protobuf                = "3.12.2"
     val utest                   = "0.7.4"
-    val munit                   = "0.7.9"
+    val munit                   = "0.7.11"
     val fastparse               = "2.3.0"
     val silencer                = "1.6.0"
     val collectionCompat        = "2.1.6"
@@ -18,8 +18,8 @@ object Dependencies {
     val protocJar               = "3.11.4"
     val protobufRuntimeScala    = "0.8.6"
     val commonsCodec            = "1.14"
-    val scalaTest               = "3.2.0"
-    val scalaTestPlusScalaCheck = "3.2.0.0"
+    val scalaTest               = "3.2.2"
+    val scalaTestPlusScalaCheck = "3.2.1.0"
     val scalaTestPlusMockito    = "3.1.0.0"
     val annotationApi           = "1.3.2"
   }
@@ -28,7 +28,7 @@ object Dependencies {
 
   val Scala213 = "2.13.2"
 
-  val Dotty = "0.24.0"
+  val Dotty = "0.26.0-RC1"
 
   val silencer = Seq(
     sbt.compilerPlugin(
