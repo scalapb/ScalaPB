@@ -5,7 +5,7 @@
   protobuf 3.12.0 (see https://github.com/protocolbuffers/protobuf/blob/v3.12.0/docs/field_presence.md). To enable, add the following to your `build.sbt`:
 
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional"
-- Supports Dotty (0.24.0). Generated code compiles in Dotty (with `-source
+- Supports Dotty (0.26.0-RC1). Generated code compiles in Dotty (with `-source
   3.0-migration`)
 
 ## [0.10.8](https://github.com/scalapb/ScalaPB/compare/v0.10.7..v10.0.8)
