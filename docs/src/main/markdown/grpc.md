@@ -7,7 +7,7 @@ layout: docs
 
 This page covers ScalaPB's gRPC support. This support is a thin wrapper around
 grpc-java, and provides you with an interface that is based on Scala's
-standard library `Feature`, while streaming is based on the Observer pattern.
+standard library `Future`, while streaming is based on the Observer pattern.
 
 There are additional gRPC libraries built on top of ScalaPB that provide integration with other concurrency frameworks and effect systems:
 
