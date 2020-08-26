@@ -12,8 +12,8 @@ Sealed oneofs are a subset of oneofs for which ScalaPB generates idiomatic data 
 message Expr {
     oneof sealed_value {
         Literal lit = 1;
-        Add add = 1;
-        Mul mul = 2;
+        Add add = 2;
+        Mul mul = 3;
     }
 }
 
@@ -96,8 +96,8 @@ To create an optional sealed oneof, name the oneof sealed_value_optional as in t
 message Expr {
     oneof sealed_value_optional {
         Literal lit = 1;
-        Add add = 1;
-        Mul mul = 2;
+        Add add = 2;
+        Mul mul = 3;
     }
 }
 ```
