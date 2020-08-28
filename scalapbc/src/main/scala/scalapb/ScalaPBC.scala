@@ -188,8 +188,7 @@ object ScalaPBC {
 
     val protoc =
       config.customProtocLocation
-        .getOrElse(
-        getProtoc(config.version).fold(fatalError(_), identity(_)))
+        .getOrElse(getProtoc(config.version).fold(fatalError(_), identity(_)))
 
     val maybeNixDynamicLinker: Option[String] =
       sys.env.get("NIX_CC").map { nixCC =>
@@ -208,7 +207,7 @@ object ScalaPBC {
 
   def main(args: Array[String]): Unit = {
     val config = processArgs(args)
-    val code = runProtoc(config)
+    val code   = runProtoc(config)
 
     if (!config.throwException) {
       sys.exit(code)

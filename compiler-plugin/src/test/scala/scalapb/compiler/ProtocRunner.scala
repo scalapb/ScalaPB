@@ -9,9 +9,11 @@ import protocbridge.SystemDetector
 object ProtocRunner {
   // simple replacement for protoc-jar
   def runProtoc(version: String, args: Seq[String]): Int = {
-    val protocDep = dep"com.google.protobuf:protoc"
-      .withVersion(version)
-      .withPublication(
+    val protocDep =
+      Dependency(
+        Module(Organization("com.google.protobuf"), ModuleName("protoc")),
+        version = version
+      ).withPublication(
         "protoc",
         Type("jar"),
         Extension("exe"),

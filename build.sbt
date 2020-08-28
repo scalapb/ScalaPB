@@ -130,7 +130,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     libraryDependencies ++= Seq(
       protocGen.withDottyCompat(scalaVersion.value),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      coursier              % "test",
+      (coursier              % "test").withDottyCompat(scalaVersion.value),
       scalaTest             % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
