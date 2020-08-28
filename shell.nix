@@ -9,6 +9,7 @@ pkgs.mkShell {
   buildInputs = [
     pkgs.sbt
     pkgs.openjdk11
+    pkgs.nodejs
 
     # keep this line if you use bash
     pkgs.bashInteractive
