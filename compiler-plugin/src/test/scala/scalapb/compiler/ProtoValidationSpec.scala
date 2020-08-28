@@ -27,7 +27,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
     require(
       ProtocRunner.runProtoc(
         Version.protobufVersion,
-        Array(
+        Seq(
           "-I",
           tmpDir.toString + ":protobuf:third_party",
           s"--descriptor_set_out=${outFile.toString}",
