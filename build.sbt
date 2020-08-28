@@ -79,7 +79,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / PB.targets ++= Seq(
         PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
       ),
-      Compile / PB.protocVersion := versions.protobuf,
+      PB.protocVersion := versions.protobuf,
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
       )
@@ -136,7 +136,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
       ),
-    Compile / PB.protocVersion := protobufCompilerVersion,
+    PB.protocVersion := protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
@@ -268,7 +268,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
                          )
                        else Nil),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
-    Compile / PB.protocVersion := versions.protobuf,
+    PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
       PB.gens.java(versions.protobuf)                                               -> (Compile / sourceManaged).value,
       PB.gens.plugin("grpc-java")                                                   -> (Compile / sourceManaged).value,
