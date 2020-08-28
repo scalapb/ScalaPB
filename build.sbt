@@ -79,7 +79,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / PB.targets ++= Seq(
         PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
       ),
-      Compile / PB.protocVersion := "-v" + versions.protobuf,
+      Compile / PB.protocVersion := versions.protobuf,
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
       )
@@ -136,7 +136,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
       ),
-    Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
+    Compile / PB.protocVersion := protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
@@ -268,7 +268,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
                          )
                        else Nil),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
+    Compile / PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
       PB.gens.java(versions.protobuf)                                               -> (Compile / sourceManaged).value,
       PB.gens.plugin("grpc-java")                                                   -> (Compile / sourceManaged).value,
@@ -283,7 +283,7 @@ lazy val e2eNoJava = (projectMatrix in file("e2e-nojava"))
   .jvmPlatform(Seq(Scala212, Scala213, Dotty))
   .settings(e2eCommonSettings)
   .settings(
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
+    PB.protocVersion := versions.protobuf,
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
     Compile / PB.targets := Seq(
       genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
