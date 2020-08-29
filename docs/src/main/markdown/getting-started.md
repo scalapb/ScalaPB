@@ -15,7 +15,7 @@ This tutorial provides a basic Scala programmer's introduction to working with p
 This isn't a comprehensive guide to using protocol buffers in Scala. For more detailed reference information, see the [Generated Code page](generated-code.md).
 
 
-## Why Use Protocol Buffers?￼
+## Why Use Protocol Buffers?
 
 The example we're going to use is a very simple "address book" application that can read and write people's contact details to and from a file. Each person in the address book has a name, an ID, an email address, and a contact phone number.
 
@@ -27,7 +27,7 @@ How do you serialize and retrieve structured data like this? There are a few way
 
 Protocol buffers are the flexible, efficient, automated solution to solve exactly this problem. With protocol buffers, you write a `.proto` description of the data structure you wish to store. From that, the protocol buffer compiler creates a case class that implements automatic encoding and parsing of the protocol buffer data with an efficient binary format. Importantly, the protocol buffer format supports the idea of extending the format over time in such a way that the code can still read data encoded with the old format.
 
-## Where to Find the Example Code￼
+## Where to Find the Example Code
 
 The example code for this tutorial is under the `examples/basic` directory
 in ScalaPB's repo. To get your copy:
