@@ -46,6 +46,7 @@ lazy val root: Project =
     )
 
 lazy val runtime = (projectMatrix in file("scalapb-runtime"))
+  .defaultAxes()
   .dependsOn(lenses)
   .settings(commonSettings)
   .settings(
@@ -105,6 +106,7 @@ lazy val runtimeJVM2_12 = runtime.jvm(Scala212)
 //lazy val runtimeNative = runtime.native
 
 lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
+  .defaultAxes()
   .dependsOn(runtime)
   .settings(commonSettings)
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
@@ -125,6 +127,7 @@ lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
 lazy val grpcRuntimeJVM2_12 = grpcRuntime.jvm(Scala212)
 
 lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
+  .defaultAxes()
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
@@ -150,6 +153,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
 lazy val compilerPluginJVM2_12 = compilerPlugin.jvm(Scala212)
 
 lazy val scalapbc = (projectMatrix in file("scalapbc"))
+  .defaultAxes()
   .dependsOn(compilerPlugin)
   .enablePlugins(JavaAppPackaging)
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
@@ -196,6 +200,7 @@ lazy val protocGenScalaNativeImage =
     )
 
 lazy val proptest = (projectMatrix in file("proptest"))
+  .defaultAxes()
   .dependsOn(compilerPlugin % "compile->compile;test->test", runtime, grpcRuntime)
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(commonSettings)
@@ -217,6 +222,7 @@ lazy val proptest = (projectMatrix in file("proptest"))
   )
 
 lazy val lenses = (projectMatrix in file("lenses"))
+  .defaultAxes()
   .settings(commonSettings)
   .settings(
     name := "lenses",
@@ -255,6 +261,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
 )
 
 lazy val e2e = (projectMatrix in file("e2e"))
+  .defaultAxes()
   .dependsOn(runtime, grpcRuntime)
   .enablePlugins(LocalCodeGenPlugin)
   .jvmPlatform(Seq(Scala212, Scala213, Dotty))
@@ -278,6 +285,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
   )
 
 lazy val e2eNoJava = (projectMatrix in file("e2e-nojava"))
+  .defaultAxes()
   .dependsOn(runtime)
   .enablePlugins(LocalCodeGenPlugin)
   .jvmPlatform(Seq(Scala212, Scala213, Dotty))
