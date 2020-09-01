@@ -148,5 +148,26 @@ following exception:
 
     Exception in thread "main" io.grpc.ManagedChannelProvider$ProviderNotFoundException: No functional server found. Try adding a dependency on the grpc-netty artifact
 
-To work around this issue, create a `NettyServer` explicitly using
+To work around this issue, try the following solutions.
+
+1) Create a `NettyServer` explicitly using
 `io.grpc.netty.NettyServerBuilder`.
+
+Example:
+
+```scala
+NettyServerBuilder
+  .forPort(9000)
+  .keepAliveTime(500, TimeUnit.SECONDS)
+```
+
+2) If using SBT, try following merge conflict strategy
+
+```scala
+assemblyMergeStrategy in assembly := {
+    case x if x.contains("io.netty.versions.properties") => MergeStrategy.discard
+    case x =>
+        val oldStrategy = (assemblyMergeStrategy in assembly).value
+        oldStrategy(x)
+}
+```
