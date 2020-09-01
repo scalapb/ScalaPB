@@ -16,7 +16,7 @@ object Dependencies {
     val mockito                 = "3.2.0"
     val protocGen               = "0.9.0-RC4"
     val protobufRuntimeScala    = "0.8.6"
-    val commonsCodec            = "1.14"
+    val commonsCodec            = "1.15"
     val scalaTest               = "3.2.2"
     val scalaTestPlusScalaCheck = "3.2.1.0"
     val scalaTestPlusMockito    = "3.1.0.0"
