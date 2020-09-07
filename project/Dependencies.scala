@@ -12,7 +12,7 @@ object Dependencies {
     val fastparse               = "2.3.0"
     val silencer                = "1.6.0"
     val collectionCompat        = "2.1.6"
-    val coursier                = "2.0.0-RC6-24"
+    val coursier                = "2.0.0-RC6-25"
     val mockito                 = "3.2.0"
     val protocGen               = "0.9.0-RC4"
     val protobufRuntimeScala    = "0.8.6"
