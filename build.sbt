@@ -76,9 +76,13 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       ProblemFilters.exclude[DirectMissingMethodProblem]("*.of"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.MessageOptions.*"),
       ProblemFilters.exclude[FinalClassProblem]("scalapb.UnknownFieldSet$Field"),
-      ProblemFilters.exclude[IncompatibleResultTypeProblem]("scalapb.options.MessageOptions.*$default$8"),
+      ProblemFilters.exclude[IncompatibleResultTypeProblem](
+        "scalapb.options.MessageOptions.*$default$8"
+      ),
       ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.options.MessageOptions.of"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "scalapb.options.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"
+      )
     )
   )
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
@@ -161,7 +165,9 @@ lazy val compilerPlugin = project
       ProblemFilters
         .exclude[Problem]("scalapb.compiler.ProtobufGenerator.handleCodeGeneratorRequest"),
       ProblemFilters.exclude[Problem]("scalapb.ScalaPbCodeGenerator*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*")
+      ProblemFilters.exclude[ReversedMissingMethodProblem](
+        "scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"
+      )
     ),
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(
