@@ -21,6 +21,8 @@ package scalapb.options
   * @param noBox
   *   If true, when this message is used as an optional field, do not wrap it in an `Option`.
   *   This is equivalent of setting `(field).no_box` to true on each field with the message type.
+  * @param unknownFieldsAnnotations
+  *   Custom annotations to add to the generated `unknownFields` case class field.
   */
 @SerialVersionUID(0L)
 final case class MessageOptions(
