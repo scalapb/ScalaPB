@@ -6,7 +6,7 @@ import "scalapb/scalapb.proto";
 package com.thesamet.proto.e2e;
 
 option (scalapb.options) = {
-  import: "com.thesamet.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2, Base1, Base2}"
+  import: "com.thesamet.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2, CustomFieldAnnotation1, CustomFieldAnnotation2, Base1, Base2}"
 };
 
 option (message_a).a = "AAA";
@@ -96,6 +96,9 @@ message BarMessage {
 
 message FieldAnnotations {
   option (scalapb.message).annotations = "@com.github.ghik.silencer.silent(\"deprecated\")";
+  option (scalapb.message).unknown_fields_annotations = "@CustomFieldAnnotation1";
+  option (scalapb.message).unknown_fields_annotations = "@CustomFieldAnnotation2";
+
   optional string x = 1 [(scalapb.field).annotations = '@deprecated("Will be gone", "1.0")'];
 
   optional string y = 2 [

@@ -6,6 +6,7 @@ import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.FieldOptions
+
 import scala.jdk.CollectionConverters._
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import protocgen.CodeGenRequest
@@ -702,9 +703,11 @@ class ProtobufGenerator(
       )
     }
     val maybeUnknownFields =
-      if (message.preservesUnknownFields)
+      if (message.preservesUnknownFields && message.unknownFieldsAnnotations.nonEmpty) {
+        Seq(ConstructorField.unknownFields(message.unknownFieldsAnnotations))
+      } else if (message.preservesUnknownFields) {
         Seq(ConstructorField.UnknownFields)
-      else Seq()
+      } else Seq()
 
     (regularFields ++ oneOfFields ++ maybeUnknownFields).sortBy(_.index)
   }
@@ -914,7 +917,7 @@ class ProtobufGenerator(
   def generateNoDefaultArgsFactory(
       message: Descriptor
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-    val fields = constructorFields(message).filterNot(_ == ConstructorField.UnknownFields)
+    val fields = constructorFields(message).filterNot(_.name == ConstructorField.UnknownFields.name)
 
     printer
       .add(
