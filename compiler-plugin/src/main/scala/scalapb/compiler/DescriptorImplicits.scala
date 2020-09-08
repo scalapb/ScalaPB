@@ -12,8 +12,8 @@ import com.google.protobuf.WireFormat.FieldType
 import scalapb.options.compiler.Scalapb
 import scalapb.options.compiler.Scalapb.ScalaPbOptions.EnumValueNaming
 import scalapb.options.compiler.Scalapb._
-import scala.jdk.CollectionConverters._
 
+import scala.jdk.CollectionConverters._
 import scala.collection.immutable.IndexedSeq
 
 class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
@@ -585,6 +585,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       (
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
       ) && !isValueClass
+
+    def unknownFieldsAnnotations: Seq[String] = {
+      message.messageOptions.getUnknownFieldsAnnotationsList.asScala.toList
+    }
 
     def sealedOneofContainer: Option[Descriptor] =
       sealedOneofsCache.getContainer(message)
