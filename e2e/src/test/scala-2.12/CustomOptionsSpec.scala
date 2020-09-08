@@ -287,6 +287,13 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
     )
   }
 
+  "unknownFields annotations" should "be set correctly" in {
+    typeOf[FieldAnnotations].member(TermName("unknownFields")).annotations.map(_.toString) must contain allOf (
+      "com.thesamet.pb.CustomFieldAnnotation1",
+      "com.thesamet.pb.CustomFieldAnnotation2"
+    )
+  }
+
   "no default values" should "not generate default values" in {
     assertDoesNotCompile("NoDefaultValuesTest()")
     assertCompiles("NoDefaultValuesTest(a=1, b=3, oo=NoDefaultValuesTest.Oo.Empty)")

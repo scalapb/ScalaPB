@@ -178,6 +178,9 @@ message MessageOptions {
   // If true, when this message is used as an optional field, do not wrap it in an `Option`.
   // This is equivalent of setting `(field).no_box` to true on each field with the message type.
   optional bool no_box = 7;
+
+  // Custom annotations to add to the generated `unknownFields` case class field.
+  repeated string unknown_fields_annotations = 8;
 }
 
 extend google.protobuf.MessageOptions {
