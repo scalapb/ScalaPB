@@ -1,6 +1,12 @@
 package scalapb.compiler
 
-import com.google.protobuf.DescriptorProtos.{DescriptorProto, EnumDescriptorProto, FileDescriptorProto, ServiceDescriptorProto, SourceCodeInfo}
+import com.google.protobuf.DescriptorProtos.{
+  DescriptorProto,
+  EnumDescriptorProto,
+  FileDescriptorProto,
+  ServiceDescriptorProto,
+  SourceCodeInfo
+}
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
 import scalapb.options.compiler.Scalapb
