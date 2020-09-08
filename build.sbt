@@ -74,7 +74,11 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[DirectMissingMethodProblem]("*.of"),
-      ProblemFilters.exclude[FinalClassProblem]("scalapb.UnknownFieldSet$Field")
+      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.options.MessageOptions.*"),
+      ProblemFilters.exclude[FinalClassProblem]("scalapb.UnknownFieldSet$Field"),
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("scalapb.options.MessageOptions.*$default$8"),
+      ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.options.MessageOptions.of"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"),
     )
   )
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
@@ -156,7 +160,8 @@ lazy val compilerPlugin = project
         .exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.curried"),
       ProblemFilters
         .exclude[Problem]("scalapb.compiler.ProtobufGenerator.handleCodeGeneratorRequest"),
-      ProblemFilters.exclude[Problem]("scalapb.ScalaPbCodeGenerator*")
+      ProblemFilters.exclude[Problem]("scalapb.ScalaPbCodeGenerator*"),
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*")
     ),
     Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
     Compile / PB.targets := Seq(
