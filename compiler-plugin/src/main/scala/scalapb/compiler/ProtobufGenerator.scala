@@ -703,10 +703,8 @@ class ProtobufGenerator(
       )
     }
     val maybeUnknownFields =
-      if (message.preservesUnknownFields && message.unknownFieldsAnnotations.nonEmpty) {
+      if (message.preservesUnknownFields) {
         Seq(ConstructorField.unknownFields(message.unknownFieldsAnnotations))
-      } else if (message.preservesUnknownFields) {
-        Seq(ConstructorField.UnknownFields)
       } else Seq()
 
     (regularFields ++ oneOfFields ++ maybeUnknownFields).sortBy(_.index)
@@ -917,7 +915,7 @@ class ProtobufGenerator(
   def generateNoDefaultArgsFactory(
       message: Descriptor
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-    val fields = constructorFields(message).filterNot(_.name == ConstructorField.UnknownFields.name)
+    val fields = constructorFields(message).filterNot(_.isUnknownFields)
 
     printer
       .add(

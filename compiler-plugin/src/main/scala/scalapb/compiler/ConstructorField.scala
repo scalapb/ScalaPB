@@ -7,6 +7,7 @@ case class ConstructorField(
     index: Int,
     annotations: Seq[String] = Nil
 ) {
+
   def fullString: String =
     Seq(
       s"${if (annotations.isEmpty) "" else annotations.mkString("", " ", " ")}",
@@ -15,16 +16,19 @@ case class ConstructorField(
     ).mkString
 
   def nameAndType: String = s"${name}: ${typeName}"
+
+  def isUnknownFields: Boolean = index == ConstructorField.UnknownFieldsIndex
 }
 
 object ConstructorField {
-  val UnknownFields = ConstructorField(
-    name = "unknownFields",
-    typeName = C.UnknownFieldSet,
-    default = Some(C.UnknownFieldSetEmpty),
-    index = Int.MaxValue
-  )
+  private val UnknownFieldsIndex: Int = Int.MaxValue
 
   def unknownFields(annotations: Seq[String]): ConstructorField =
-    UnknownFields.copy(annotations = annotations)
+    ConstructorField(
+      name = "unknownFields",
+      typeName = C.UnknownFieldSet,
+      default = Some(C.UnknownFieldSetEmpty),
+      index = UnknownFieldsIndex,
+      annotations = annotations
+    )
 }
