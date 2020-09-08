@@ -24,6 +24,7 @@ object ConstructorField {
     default = Some(C.UnknownFieldSetEmpty),
     index = Int.MaxValue
   )
-  
-  def unknownFields(annotations: Seq[String]): ConstructorField = UnknownFields.copy(annotations = annotations)
+
+  def unknownFields(annotations: Seq[String]): ConstructorField =
+    UnknownFields.copy(annotations = annotations)
 }

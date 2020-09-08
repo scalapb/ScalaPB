@@ -579,7 +579,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       (
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
       ) && !isValueClass
-      
+
     def unknownFieldsAnnotations: Seq[String] = {
       message.messageOptions.getUnknownFieldsAnnotationsList.asScala.toList
     }
