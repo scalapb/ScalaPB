@@ -13,6 +13,8 @@ object Dependencies {
     val silencer                = "1.6.0"
     val collectionCompat        = "2.2.0"
     val coursier                = "2.0.0-RC6-25"
+    val collectionCompat        = "2.1.6"
+    val coursier                = "2.0.0-RC6-26"
     val mockito                 = "3.2.0"
     val protocGen               = "0.9.0-RC4"
     val protobufRuntimeScala    = "0.8.6"
@@ -27,7 +29,7 @@ object Dependencies {
 
   val Scala213 = "2.13.2"
 
-  val Dotty = "0.26.0-RC1"
+  val Dotty = "0.27.0-RC1"
 
   val silencer = Seq(
     sbt.compilerPlugin(
