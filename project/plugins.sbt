@@ -32,7 +32,7 @@ addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.4")
 
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.6.0")
 
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.1")
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.2")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.8")
 
