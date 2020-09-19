@@ -1,5 +1,6 @@
 ---
 sidebar_label: "Introduction"
+slug: "/"
 title: "ScalaPB: Scala Protocol Buffer Compiler"
 ---
 

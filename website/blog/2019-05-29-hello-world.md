@@ -1,5 +1,4 @@
 ---
-id: hello-world
 title: Hello
 author: Endilie Yacop Sucipto
 author_title: Maintainer of Docusaurus
