@@ -15,4 +15,9 @@ class PackageOptionsSpec extends AnyFlatSpec with Matchers {
     assert(Foo.defaultInstance.impChanged.isInstanceOf[SomeTrait])
     assert(Foo.defaultInstance.b.isInstanceOf[Array[Byte]])
   }
+
+  "aux enum value options" should "impact target enum values in that package" in {
+    assert(Foo.Vals.BB.name == "B")
+    assertCompiles("val t: SomeTrait = Foo.Vals.BB")
+  }
 }

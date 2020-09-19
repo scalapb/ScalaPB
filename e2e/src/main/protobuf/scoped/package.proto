@@ -29,6 +29,14 @@ option (scalapb.options) = {
             }
         }
     ]
+    aux_enum_value_options: [
+        {
+            target: "scalapb.e2e.scoped.Foo.Vals.B"
+            options: {
+                scala_name: "BB"
+            }
+        }
+    ]
     aux_field_options: [
         {
             target: "scalapb.e2e.scoped.Foo.imp"

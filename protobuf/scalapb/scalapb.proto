@@ -127,9 +127,21 @@ message ScalaPbOptions {
     // The fully-qualified name of the enum in the proto name space.
     optional string target = 1;
 
-    // Options to apply to the enum. If there are any options defined on the target message
+    // Options to apply to the enum. If there are any options defined on the target enum
     // they take precedence over the options.
     optional EnumOptions options = 2;
+  }
+
+  // AuxEnumValueOptions enables you to set enum value level options through package-scoped
+  // options.  This is useful when you can't add a dependency on scalapb.proto from the proto
+  // file that defines the enum.
+  message AuxEnumValueOptions {
+    // The fully-qualified name of the enum value in the proto name space.
+    optional string target = 1;
+
+    // Options to apply to the enum value. If there are any options defined on
+    // the target enum value they take precedence over the options.
+    optional EnumValueOptions options = 2;
   }
 
   // List of message options to apply to some messages.
@@ -140,6 +152,9 @@ message ScalaPbOptions {
 
   // List of message options to apply to some enums.
   repeated AuxEnumOptions aux_enum_options = 20;
+
+  // List of enum value options to apply to some enum values.
+  repeated AuxEnumValueOptions aux_enum_value_options = 22;
 
   // Scala type to use for bytes fields.
   optional string bytes_type = 21;

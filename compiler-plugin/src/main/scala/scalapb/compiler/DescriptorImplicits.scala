@@ -801,8 +801,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
   }
 
   implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {
-    def scalaOptions: EnumValueOptions =
-      enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
+    def scalaOptions: EnumValueOptions = {
+      val localOptions = enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
+
+      enumValue.getFile.scalaOptions.getAuxEnumValueOptionsList.asScala
+        .find(_.getTarget == enumValue.getFullName())
+        .fold(localOptions)(aux =>
+          EnumValueOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        )
+    }
 
     def valueExtends: Seq[String] =
       s"${enumValue.getType.scalaType.nameSymbol}(${enumValue.getNumber})" +: enumValue.getType.recognizedEnum
