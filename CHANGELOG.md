@@ -8,6 +8,9 @@
 - Supports Dotty (0.26.0-RC1). Generated code compiles in Dotty (with `-source
   3.0-migration`)
 
+## [0.10.9](https://github.com/scalapb/ScalaPB/compare/v0.10.8..v10.0.9)
+- Add option for annotating the unknown field (#898)
+
 ## [0.10.8](https://github.com/scalapb/ScalaPB/compare/v0.10.7..v10.0.8)
 - Fix a regression where calling scalapb.gen() without parameters would not
   generate grpc stubs. Workaround: pass grpc=true explictly. #879

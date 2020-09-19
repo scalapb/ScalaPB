@@ -626,6 +626,29 @@ message BarMessage {
 }
 ```
 
+In ScalaPB 0.7.0, you can add annotations to the companion object of a
+message and to individual fields:
+
+```protobuf
+message BarMessage {
+  option (scalapb.message).companion_annotations = "@mypackage.AnotherAnnotation2";
+
+  optional string x = 1 [
+      (scalapb.field).annotations = '@deprecated("Will be gone", "1.0")'
+  ];
+}
+```
+
+
+In ScalaPB 0.10.9, you can also add annotations to the auto generated unknownFields field:
+
+```protobuf
+message BarMessage {
+  option (scalapb.message).unknown_field_annotations = "@annotation1";
+}
+```
+
+
 ## Adding scalapb.proto to your project
 
 The easiest way to get `protoc` to find `scalapb/scalapb.proto` when compiling
