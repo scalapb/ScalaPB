@@ -24,15 +24,6 @@ Add to your library dependencies:
       "com.thesamet.scalapb" %%% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
     )
 
-Since the Scala.js compiler depends on an old version of protobuf it is
-recommended to work with the `compilerplugin-shaded` artifact. This artifact contains a shaded version of protobuf-java and other dependencies. Have
-this in your `project/scalapb.sbt` file instead of what described in the
-standard installation instructions:
-
-    addSbtPlugin("com.thesamet" % "sbt-protoc" % "@sbt_protoc@" exclude ("com.thesamet.scalapb", "protoc-bridge_2.12"))
-
-    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin-shaded" % "@scalapb@"
-
 ## Demo
 
 Example project: [https://github.com/thesamet/scalapbjs-test](https://github.com/thesamet/scalapbjs-test)
