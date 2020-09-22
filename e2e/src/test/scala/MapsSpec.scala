@@ -34,7 +34,7 @@ class MapsSpec
     boolToColor <- Gen.listOf(boolColorPair).map(_.toMap)
   } yield MapsTest(
     strToStr = strToStr,
-    strToInt32 = strToInt,
+    stringToInt32 = strToInt,
     int32ToString = intToStr,
     boolToColor = boolToColor
   )
@@ -46,7 +46,7 @@ class MapsSpec
     boolToColor <- Gen.listOf(boolColorPair2).map(_.toMap)
   } yield MapsTest2(
     strToStr = strToStr,
-    strToInt32 = strToInt,
+    stringToInt32 = strToInt,
     int32ToString = intToStr,
     boolToColor = boolToColor
   )
@@ -54,7 +54,7 @@ class MapsSpec
   def mergeMaps(x: MapsTest, y: MapsTest) =
     MapsTest(
       strToStr = x.strToStr ++ y.strToStr,
-      strToInt32 = x.strToInt32 ++ y.strToInt32,
+      stringToInt32 = x.stringToInt32 ++ y.stringToInt32,
       int32ToString = x.int32ToString ++ y.int32ToString,
       boolToColor = x.boolToColor ++ y.boolToColor
     )
@@ -62,7 +62,7 @@ class MapsSpec
   def mergeMaps2(x: MapsTest2, y: MapsTest2) =
     MapsTest2(
       strToStr = x.strToStr ++ y.strToStr,
-      strToInt32 = x.strToInt32 ++ y.strToInt32,
+      stringToInt32 = x.stringToInt32 ++ y.stringToInt32,
       int32ToString = x.int32ToString ++ y.int32ToString,
       boolToColor = x.boolToColor ++ y.boolToColor
     )
@@ -83,7 +83,7 @@ class MapsSpec
   "clear" should "empty the map" in {
     forAll(mapsGen) { map =>
       map.clearStrToStr must be(map.copy(strToStr = Map.empty))
-      map.clearStrToInt32 must be(map.copy(strToInt32 = Map.empty))
+      map.clearStringToInt32 must be(map.copy(stringToInt32 = Map.empty))
       map.clearInt32ToString must be(map.copy(int32ToString = Map.empty))
       map.clearBoolToColor must be(map.copy(boolToColor = Map.empty))
     }
@@ -93,7 +93,7 @@ class MapsSpec
     forAll(mapsGen, mapsGen) { (map, other) =>
       map
         .addAllStrToStr(other.strToStr)
-        .addAllStrToInt32(other.strToInt32)
+        .addAllStringToInt32(other.stringToInt32)
         .addAllInt32ToString(other.int32ToString)
         .addAllBoolToColor(other.boolToColor) must be(mergeMaps(map, other))
     }
@@ -103,7 +103,7 @@ class MapsSpec
     forAll(mapsGen, mapsGen) { (map, other) =>
       map
         .withStrToStr(other.strToStr)
-        .withStrToInt32(other.strToInt32)
+        .withStringToInt32(other.stringToInt32)
         .withInt32ToString(other.int32ToString)
         .withBoolToColor(other.boolToColor) must be(other)
     }
@@ -150,7 +150,6 @@ class MapsSpec
   }
 
   "custom map types" should "provide custom key and value types" in {
-    assume(!ScalaVersion.isDotty)
     val c1 = CustomMaps(
       stringToYear = Map("314"           -> Years(314)),
       personToInt = Map(PersonId("315")  -> 314),

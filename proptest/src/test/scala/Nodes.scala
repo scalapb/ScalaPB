@@ -4,10 +4,7 @@ import scalapb.compiler.{StreamType, FunctionalPrinter}
 
 import scala.collection.mutable
 import scala.util.Try
-import com.github.ghik.silencer.silent
 
-@silent("Stream in package .* is deprecated")
-@silent("method toStream in trait IterableOnceOps is deprecated")
 object Nodes {
   import GenTypes._
   import GraphGen._
@@ -50,7 +47,7 @@ object Nodes {
   }
 
   sealed trait Node {
-    def allMessages: Stream[MessageNode]
+    def allMessages: Seq[MessageNode]
   }
 
   case class RootNode(files: Seq[FileNode]) {
@@ -164,9 +161,9 @@ object Nodes {
       enums: Seq[EnumNode],
       fileId: Int
   ) extends Node {
-    def allMessages = messages.foldLeft(Stream.empty[MessageNode])(_ ++ _.allMessages)
+    def allMessages = messages.foldLeft(Seq.empty[MessageNode])(_ ++ _.allMessages)
 
-    def allEnums = messages.foldLeft(enums.toStream)(_ ++ _.allEnums)
+    def allEnums = messages.foldLeft(enums.toSeq)(_ ++ _.allEnums)
 
     lazy val minMessageId = Try(allMessages.map(_.id).min).toOption
     lazy val maxMessageId = Try(allMessages.map(_.id).max).toOption
@@ -216,7 +213,7 @@ object Nodes {
             })
             .toSeq: _*
         )
-        .print(enums)((enum, p) => p.print(enum))
+        .print(enums)((enumNode, p) => p.print(enumNode))
         .print(messages)((message, p) => p.print(rootNode, this, message))
         .print(services)((service, p) => p.print(service))
 
@@ -254,9 +251,9 @@ object Nodes {
       parentMessageId: Option[Int],
       fileId: Int
   ) extends Node {
-    def allMessages: Stream[MessageNode] = messages.foldLeft(Stream(this))(_ ++ _.allMessages)
+    def allMessages: Seq[MessageNode] = messages.foldLeft(Seq(this))(_ ++ _.allMessages)
 
-    def allEnums: Stream[EnumNode] = messages.foldLeft(enums.toStream)(_ ++ _.allEnums)
+    def allEnums: Seq[EnumNode] = messages.foldLeft(enums)(_ ++ _.allEnums)
 
     def print(
         rootNode: RootNode,
@@ -296,7 +293,7 @@ object Nodes {
       printer
         .add(s"message $name {  // message $id")
         .indent
-        .print(enums)((enum, p) => p.print(enum))
+        .print(enums)((enumNode, p) => p.print(enumNode))
         .print(messages)((message, p) => p.print(rootNode, fileNode, message))
         .print(makeList(fields)) {
           case (printer, OneofOpener(name)) =>

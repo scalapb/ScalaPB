@@ -1,7 +1,6 @@
 package scalapb.textformat
 
 import com.google.protobuf.descriptor.FieldDescriptorProto
-import com.github.ghik.silencer.silent
 
 import scalapb.descriptors._
 import scalapb.descriptors.{FieldDescriptor, PValue}
@@ -9,9 +8,8 @@ import scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 
 import scala.util.Try
 
-@silent("method right in class Either is deprecated")
 private[scalapb] object AstUtils {
-  case class AstError(index: Int, error: String)
+  case class AstError(position: Position, error: String)
 
   private def flatten[T](s: Seq[Either[AstError, T]]): Either[AstError, Vector[T]] = {
     s.foldLeft[Either[AstError, Vector[T]]](Right(Vector.empty)) {
@@ -25,7 +23,7 @@ private[scalapb] object AstUtils {
       v: GeneratedMessageCompanion[T],
       ast: TMessage
   ): Either[AstError, T] = {
-    parseUnsafe(v, ast).right.map(v.messageReads.read)
+    parseUnsafe(v, ast).map(v.messageReads.read)
   }
 
   def checkBigInt(
@@ -51,20 +49,20 @@ private[scalapb] object AstUtils {
           )
         )
       else Right(v)
-    case p => Left(AstError(p.index, s"Invalid input '${p.asString}'"))
+    case p => Left(AstError(p.position, s"Invalid input '${p.asString}'"))
   }
 
   def parseInt32(p: TPrimitive) =
-    checkBigInt(p, isSigned = true, isLong = false).right.map(t => PInt(t.intValue))
+    checkBigInt(p, isSigned = true, isLong = false).map(t => PInt(t.intValue))
 
   def parseUint32(p: TPrimitive) =
-    checkBigInt(p, isSigned = false, isLong = false).right.map(t => PInt(t.intValue))
+    checkBigInt(p, isSigned = false, isLong = false).map(t => PInt(t.intValue))
 
   def parseInt64(p: TPrimitive) =
-    checkBigInt(p, isSigned = true, isLong = true).right.map(t => PLong(t.longValue))
+    checkBigInt(p, isSigned = true, isLong = true).map(t => PLong(t.longValue))
 
   def parseUint64(p: TPrimitive) =
-    checkBigInt(p, isSigned = false, isLong = true).right.map(t => PLong(t.longValue))
+    checkBigInt(p, isSigned = false, isLong = true).map(t => PLong(t.longValue))
 
   private def parseUnsafe(
       v: GeneratedMessageCompanion[_],
@@ -79,10 +77,10 @@ private[scalapb] object AstUtils {
           case "nan"                => Right(PDouble(Double.NaN))
           case _ =>
             Try(PDouble(value.toDouble)).toOption
-              .toRight(AstError(p.index, s"Invalid value for double: '$value'"))
+              .toRight(AstError(p.position, s"Invalid value for double: '$value'"))
         }
       case TIntLiteral(_, value) => Right(PDouble(value.toDouble))
-      case p                     => Left(AstError(p.index, s"Invalid input '${p.asString}', expected float"))
+      case p                     => Left(AstError(p.position, s"Invalid input '${p.asString}', expected float"))
     }
 
     def parseFloat(p: TPrimitive): Either[AstError, PFloat] = p match {
@@ -95,10 +93,10 @@ private[scalapb] object AstUtils {
           case "nan" | "nanf" => Right(PFloat(Float.NaN))
           case _ =>
             Try(PFloat(value.toFloat)).toOption
-              .toRight(AstError(p.index, s"Invalid value for float: '$value'"))
+              .toRight(AstError(p.position, s"Invalid value for float: '$value'"))
         }
       case TIntLiteral(_, value) => Right(PFloat(value.toFloat))
-      case p                     => Left(AstError(p.index, s"Invalid input '${p.asString}', expected float"))
+      case p                     => Left(AstError(p.position, s"Invalid input '${p.asString}', expected float"))
     }
 
     def parseBoolean(p: TPrimitive): Either[AstError, PBoolean] = {
@@ -115,24 +113,24 @@ private[scalapb] object AstUtils {
             case "f" | "false" => Right(PBoolean(false))
             case _             => Left(AstError(index, invalidInput(v.toString)))
           }
-        case TBytes(_, v) => Left(AstError(p.index, invalidInput(v)))
+        case TBytes(_, v) => Left(AstError(p.position, invalidInput(v)))
       }
     }
 
     def parseString(p: TPrimitive): Either[AstError, PString] = p match {
       case TBytes(_, value) =>
-        TextFormatUtils.unescapeText(value).right.map(PString).left.map { error =>
-          AstError(p.index, error.msg)
+        TextFormatUtils.unescapeText(value).map(PString).left.map { error =>
+          AstError(p.position, error.msg)
         }
-      case p => Left(AstError(p.index, s"Invalid input '${p.asString}', expected string"))
+      case p => Left(AstError(p.position, s"Invalid input '${p.asString}', expected string"))
     }
 
     def parseBytes(p: TPrimitive): Either[AstError, PByteString] = p match {
       case TBytes(_, value) =>
-        TextFormatUtils.unescapeBytes(value).right.map(PByteString).left.map { error =>
-          AstError(p.index, error.msg)
+        TextFormatUtils.unescapeBytes(value).map(PByteString).left.map { error =>
+          AstError(p.position, error.msg)
         }
-      case _ => Left(AstError(p.index, "Unexpected input"))
+      case _ => Left(AstError(p.position, "Unexpected input"))
     }
 
     def parsePrimitive(field: FieldDescriptor, p: TPrimitive): Either[AstError, PValue] =
@@ -153,7 +151,7 @@ private[scalapb] object AstUtils {
         case FieldDescriptorProto.Type.TYPE_SINT32   => parseInt32(p)
         case FieldDescriptorProto.Type.TYPE_SINT64   => parseInt64(p)
         case FieldDescriptorProto.Type.TYPE_GROUP =>
-          Left(AstError(p.index, "groups are not supported"))
+          Left(AstError(p.position, "groups are not supported"))
         case FieldDescriptorProto.Type.TYPE_ENUM => {
           val enumDesc = v.enumCompanionForFieldNumber(field.number).scalaDescriptor
           p match {
@@ -180,13 +178,13 @@ private[scalapb] object AstUtils {
             case p =>
               Left(
                 AstError(
-                  p.index,
+                  p.position,
                   s"""Invalid value '${p.asString}, expected Enum type "${enumDesc.asProto.getName}""""
                 )
               )
           }
         }
-        case _ => Left(AstError(p.index, "This should not happen."))
+        case _ => Left(AstError(p.position, "This should not happen."))
       }
 
     def pfieldToValue(fd: FieldDescriptor, pfield: TField): Either[AstError, PValue] =
@@ -195,7 +193,7 @@ private[scalapb] object AstUtils {
           if (!fd.isRepeated)
             Left(
               AstError(
-                arr.index,
+                arr.position,
                 s"Invalid input '[', expected ${fd.protoType.toString.toLowerCase}"
               )
             )
@@ -203,7 +201,7 @@ private[scalapb] object AstUtils {
             if (fd.protoType.isTypeMessage) {
               val idx = arr.values.indexWhere(!_.isInstanceOf[TMessage])
               if (idx != -1)
-                Left(AstError(arr.index, s"Array contain a non-message value at index ${idx}"))
+                Left(AstError(arr.position, s"Array contain a non-message value at index ${idx}"))
               else
                 flatten(
                   arr.values
@@ -214,23 +212,23 @@ private[scalapb] object AstUtils {
                       )
                     )
                     .toVector
-                ).right.map(PRepeated)
+                ).map(PRepeated)
             } else {
               val idx = arr.values.indexWhere(!_.isInstanceOf[TPrimitive])
-              if (idx != -1) Left(AstError(arr.index, s"Unexpected value at index $idx"))
+              if (idx != -1) Left(AstError(arr.position, s"Unexpected value at index $idx"))
               else
                 flatten(
                   arr.values.map(t => parsePrimitive(fd, t.asInstanceOf[TPrimitive])).toVector
-                ).right.map(PRepeated)
+                ).map(PRepeated)
             }
           }
         case p: TPrimitive =>
-          if (fd.protoType.isTypeMessage) Left(AstError(p.index, "invalid value for message"))
+          if (fd.protoType.isTypeMessage) Left(AstError(p.position, "invalid value for message"))
           else {
             parsePrimitive(fd, p)
           }
         case p: TMessage =>
-          if (!fd.protoType.isTypeMessage) Left(AstError(p.index, "invalid value for message"))
+          if (!fd.protoType.isTypeMessage) Left(AstError(p.position, "invalid value for message"))
           else {
             parseUnsafe(v.messageCompanionForFieldNumber(fd.number), p)
           }
@@ -248,7 +246,7 @@ private[scalapb] object AstUtils {
       val fd: FieldDescriptor                      = fieldMap(name)
       val values: Either[AstError, Vector[PValue]] = flatten(group.map(pfieldToValue(fd, _)))
 
-      values.right.map { t: Seq[PValue] =>
+      values.map { (t: Seq[PValue]) =>
         if (!fd.isRepeated) fd -> t.last
         else
           fd -> PRepeated(t.foldLeft(Vector[PValue]()) {
@@ -260,9 +258,9 @@ private[scalapb] object AstUtils {
 
     val maybeMap: Either[AstError, Vector[(FieldDescriptor, PValue)]] =
       ast.fields.find(f => !fieldMap.contains(f.name)) match {
-        case Some(f) => Left(AstError(f.index, s"Unknown field name '${f.name}'"))
+        case Some(f) => Left(AstError(f.position, s"Unknown field name '${f.name}'"))
         case None    => flatten(fields.map((fieldGroupToValue _).tupled).toVector)
       }
-    maybeMap.right.map(t => PMessage(t.toMap))
+    maybeMap.map(t => PMessage(t.toMap))
   }
 }

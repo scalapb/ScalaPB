@@ -2,7 +2,6 @@ import java.io.{File, PrintWriter}
 import java.net.{URL, URLClassLoader}
 import java.nio.file.Files
 import javax.tools.ToolProvider
-import com.github.ghik.silencer.silent
 
 import com.google.protobuf.Message.Builder
 import scalapb.compiler._
@@ -13,8 +12,6 @@ import protocbridge.ProtocBridge
 import scala.reflect.ClassTag
 import scalapb.ScalaPbCodeGenerator
 
-@silent("Stream in package .* is deprecated")
-@silent("method toStream in trait IterableOnceOps is deprecated")
 object SchemaGenerators {
   import Nodes._
 
@@ -187,9 +184,9 @@ object SchemaGenerators {
     }
   }
 
-  def getFileTree(f: File): Stream[File] =
-    f #:: (if (f.isDirectory) f.listFiles().toStream.flatMap(getFileTree)
-           else Stream.empty)
+  def getFileTree(f: File): Seq[File] =
+    f +: (if (f.isDirectory) f.listFiles().toSeq.flatMap(getFileTree)
+          else Seq.empty)
 
   def jarForClass[T](implicit c: ClassTag[T]): URL =
     c.runtimeClass.getProtectionDomain.getCodeSource.getLocation
@@ -223,8 +220,8 @@ object SchemaGenerators {
   }
 
   def compileScalaInDir(rootDir: File): Unit = {
-    print("Compiling Scala sources. ")
-    val classPath = Seq(
+    println("Compiling Scala sources. ")
+    val classPath: Seq[String] = Seq(
       jarForClass[annotation.Annotation].getPath,
       jarForClass[scalapb.GeneratedMessage].getPath,
       jarForClass[scalapb.options.Scalapb].getPath,
@@ -233,26 +230,16 @@ object SchemaGenerators {
       jarForClass[io.grpc.Channel].getPath,
       jarForClass[io.grpc.stub.AbstractStub[_]].getPath,
       jarForClass[io.grpc.protobuf.ProtoFileDescriptorSupplier].getPath,
-      jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
-      jarForClass[javax.annotation.Nullable],
-      jarForClass[scalapb.lenses.Lens[_, _]].getPath,
-      jarForClass[fastparse.Parsed[_]].getPath,
-      rootDir
+      jarForClass[com.google.common.util.concurrent.ListenableFuture[_]].getPath(),
+      jarForClass[javax.annotation.Nullable].getPath(),
+      jarForClass[scalapb.lenses.Lens[_, _]].getPath(),
+      rootDir.toString()
     )
-    import scala.tools.nsc._
-
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
-    val s                        = new Settings(error => throw new RuntimeException(error))
-    val breakCycles: Seq[String] = Seq("-Ybreak-cycles")
 
-    s.processArgumentString(
-      s"""-cp "${classPath.mkString(":")}" ${breakCycles.mkString(" ")} -d "$rootDir""""
-    )
+    scalapb.proptest.CompilerInterface.compile(scalaFiles.toVector, classPath, rootDir)
 
-    val g   = new Global(s)
-    val run = new g.Run
-    run.compile(scalaFiles.map(_.toString).toList)
     println("[DONE]")
   }
 
@@ -280,12 +267,10 @@ object SchemaGenerators {
     }
 
     def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessage] = {
-      val className = rootNode.scalaObjectName(m)
-      val u         = scala.reflect.runtime.universe
-      val mirror    = u.runtimeMirror(classLoader)
-      mirror
-        .reflectModule(mirror.staticModule(className))
-        .instance
+      val klass = Class.forName(rootNode.scalaObjectName(m) + "$", true, classLoader)
+      klass
+        .getField("MODULE$")
+        .get(null)
         .asInstanceOf[CompanionWithJavaSupport[_ <: GeneratedMessage]]
     }
   }

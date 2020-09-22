@@ -9,7 +9,6 @@ object Dependencies {
     val protobuf                = "3.12.2"
     val utest                   = "0.7.4"
     val munit                   = "0.7.12"
-    val fastparse               = "2.3.0"
     val silencer                = "1.6.0"
     val collectionCompat        = "2.2.0"
     val coursier                = "2.0.0-RC6-26"
@@ -37,7 +36,6 @@ object Dependencies {
   )
 
   val protobufJava = "com.google.protobuf" % "protobuf-java" % versions.protobuf
-  val fastparse    = Def.setting { "com.lihaoyi" %%% "fastparse" % versions.fastparse }
   val scalaCollectionCompat = Def.setting {
     "org.scala-lang.modules" %%% "scala-collection-compat" % versions.collectionCompat
   }

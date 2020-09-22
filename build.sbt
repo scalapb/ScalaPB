@@ -52,7 +52,6 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
   .settings(
     name := "scalapb-runtime",
     libraryDependencies ++= Seq(
-      fastparse.value.withDottyCompat(scalaVersion.value),
       protobufJava          % "protobuf",
       munit.value           % "test",
       munitScalaCheck.value % "test",
@@ -202,7 +201,7 @@ lazy val protocGenScalaNativeImage =
 lazy val proptest = (projectMatrix in file("proptest"))
   .defaultAxes()
   .dependsOn(compilerPlugin % "compile->compile;test->test", runtime, grpcRuntime)
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
   .settings(commonSettings)
   .settings(
     publishArtifact := false,
@@ -214,7 +213,18 @@ lazy val proptest = (projectMatrix in file("proptest"))
       scalaTest               % "test",
       scalaTestPlusScalaCheck % "test"
     ),
-    libraryDependencies += { "org.scala-lang" % "scala-compiler" % scalaVersion.value },
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-P:silencer:lineContentFilters=import scala.collection.compat._"
+                         )
+                       else Nil),
+    libraryDependencies ++= (if (!isDotty.value)
+                               Seq("org.scala-lang" % "scala-compiler" % scalaVersion.value)
+                             else
+                               Seq(
+                                 "ch.epfl.lamp" %% "dotty-compiler" % scalaVersion.value,
+                                 "ch.epfl.lamp" %% "dotty-library"  % scalaVersion.value
+                               )),
     publish / skip := true,
     Test / fork := true,
     Test / baseDirectory := (LocalRootProject / baseDirectory).value,

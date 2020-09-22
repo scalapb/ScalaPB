@@ -18,7 +18,7 @@ message MapsTest2 {
   }
 
   map<string, string> str_to_str = 1;
-  map<string, int32> str_to_int32 = 2;
+  map<string, int32> string_to_int32 = 2;
   map<int32, string> int32_to_string = 3;
   map<bool, Color> bool_to_color = 4;
   map<string, MapsTest2> string_to_mapstest = 5;

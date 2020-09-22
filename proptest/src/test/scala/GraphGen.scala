@@ -4,14 +4,14 @@ import scalapb.options.Scalapb.ScalaPbOptions
 import scalapb.compiler.{NameUtils, StreamType}
 import org.scalacheck.{Arbitrary, Gen}
 import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
-import com.github.ghik.silencer.silent
+import scala.collection.compat._
 
 object GraphGen {
   import Nodes._
   import org.scalacheck.Gen._
 
-  trait StatefulGenerator[S] {
-    def nextMessageId: (S, StatefulGenerator[S])
+  trait StatefulGenerator[S, G] {
+    def nextMessageId: (S, G)
   }
 
   case class Namespace(names: Set[String], parent: Option[Namespace]) {
@@ -43,8 +43,8 @@ object GraphGen {
       currentFileInitialMessageId: Int = 0,
       currentFileInitialEnumId: Int = 0,
       namespace: Namespace = ROOT_NAMESPACE
-  ) extends StatefulGenerator[Int] {
-    def nextMessageId = (_nextMessageId, copy(_nextMessageId = _nextMessageId + 1))
+  ) extends StatefulGenerator[Int, State] {
+    override def nextMessageId = (_nextMessageId, copy(_nextMessageId = _nextMessageId + 1))
 
     def nextEnumId(syntax: ProtoSyntax, zeroDefined: Boolean) =
       (
@@ -168,8 +168,6 @@ object GraphGen {
     genBits(fieldCount, 0, NotInOneof, state)
   }
 
-  // zipped3 deprecated: https://github.com/scala/scala-collection-compat/issues/118
-  @silent
   def genMessageNode(depth: Int = 0, parentMessageId: Option[Int] = None, protoSyntax: ProtoSyntax)(
       state: State
   ): Gen[(MessageNode, State)] =
@@ -197,7 +195,10 @@ object GraphGen {
               GenTypes.genOptionsForField(myId, fieldType, protoSyntax, inOneof = inOneof)
           }
         )
-        fields = (fieldNames zip oneOfGroupings) zip ((fieldTypes, fieldOptions, fieldTags).zipped).toList map {
+        fields = (fieldNames zip oneOfGroupings) zip (fieldTypes
+          .lazyZip(fieldOptions)
+          .lazyZip(fieldTags))
+          .toList map {
           case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts, oog, tag)
         }
       } yield (

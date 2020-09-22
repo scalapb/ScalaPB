@@ -36,7 +36,7 @@ class GeneratedCodeSpec extends AnyPropSpec with ScalaCheckDrivenPropertyChecks 
 
   property("Java and Scala protos are equivalent", Slow) {
     forAll(SchemaGenerators.genCompiledSchema, workers(1), minSuccessful(20)) {
-      schema: CompiledSchema =>
+      (schema: CompiledSchema) =>
         forAll(GenData.genMessageValueInstance(schema.rootNode)) {
           case (message, messageValue) =>
             // Ascii to binary is the same.

@@ -41,17 +41,15 @@ import scala.util._
 import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
-import org.scalatest.EitherValues
-import com.github.ghik.silencer.silent
-import org.scalatest.exceptions.TestFailedException
+import org.scalatest.OptionValues
+import com.thesamet.proto.e2e.maps.{MapsTest, MessageValue}
 
-@silent("method right in class Either is deprecated")
 class TextFormatSpec
     extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
     with Matchers
     with TryValues
-    with EitherValues {
+    with OptionValues {
 
   class ParseOk extends Matcher[String] {
 
@@ -252,6 +250,8 @@ class TextFormatSpec
 
   "testParseErrors" should "pass" in {
     val EXPECTED_FIELD = "':', '{', '<', or '['"
+    val EXPECTED_IDENTIFIER = "Expected identifier, got"
+    val UNCLOSED_STRING = "String missing ending quote"
     "optional_int32 123" must failParsingWith(EXPECTED_FIELD)
     "optional_nested_enum: ?" must failParsingWith(EXPECTED_FIELD)
     "optional_uint32: -1" must failParsingWith("Number must be positive: -1 (line 1, column 18)")
@@ -267,14 +267,14 @@ class TextFormatSpec
     "optional_string: 123" must failParsingWith(
       "Invalid input '123', expected string (line 1, column 18)"
     )
-    "optional_string: \"ueoauaoe" must failParsingWith(EXPECTED_FIELD)
-    "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(EXPECTED_FIELD)
+    "optional_string: \"ueoauaoe" must failParsingWith(UNCLOSED_STRING)
+    "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(UNCLOSED_STRING)
     "optional_string: \"\\z\"" must failParsingWith(
       "Invalid escape sequence: z (line 1, column 18)"
     )
-    "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(EXPECTED_FIELD)
-    "[nosuchext]: 123" must failParsingWith("Expected Message")
-    "[protobuf_unittest.optional_int32_extension]: 123" must failParsingWith("Expected Message")
+    "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(UNCLOSED_STRING)
+    "[nosuchext]: 123" must failParsingWith("Expected identifier, got [")
+    "[protobuf_unittest.optional_int32_extension]: 123" must failParsingWith("Expected identifier, got [")
     "nosuchfield: 123" must failParsingWith("Unknown field name 'nosuchfield' (line 1, column 1)")
     "optional_nested_enum: NO_SUCH_VALUE" must failParsingWith(
       "Expected Enum type \"NestedEnum\" has no value named \"NO_SUCH_VALUE\" (line 1, column 23)"
@@ -284,14 +284,14 @@ class TextFormatSpec
     )
 
     // Additional by ScalaPB:
-    "optional_string: \"hello\\\"" must failParsingWith(EXPECTED_FIELD)
+    "optional_string: \"hello\\\"" must failParsingWith("Invalid escape sequence '\\' at end of string.")
     "optional_string: \"hello\\xhello\"" must failParsingWith(
       "'\\x' with no digits (line 1, column 18)"
     )
     "optional_string: \"hello\\x\"" must failParsingWith("'\\x' with no digits (line 1, column 18)")
-    "repeated_nested_message: { >" must failParsingWith(EXPECTED_FIELD)
-    "repeated_nested_message { >" must failParsingWith(EXPECTED_FIELD)
-    "repeated_nested_message < }" must failParsingWith(EXPECTED_FIELD)
+    "repeated_nested_message: { >" must failParsingWith(EXPECTED_IDENTIFIER)
+    "repeated_nested_message { >" must failParsingWith(EXPECTED_IDENTIFIER)
+    "repeated_nested_message < }" must failParsingWith(EXPECTED_IDENTIFIER)
   }
 
   // =================================================================
@@ -314,62 +314,64 @@ class TextFormatSpec
       TextFormatUtils.escapeText("\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"")
     )
     bytes("\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"") must be(
-      TextFormatUtils.unescapeBytes("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").right.value
+      TextFormatUtils.unescapeBytes("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").getOrElse(throw new RuntimeException())
     )
     "\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"" must be(
-      TextFormatUtils.unescapeText("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").right.value
+      TextFormatUtils.unescapeText("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").getOrElse(throw new RuntimeException())
     )
     kEscapeTestStringEscaped must be(TextFormatUtils.escapeText(kEscapeTestString))
-    kEscapeTestString must be(TextFormatUtils.unescapeText(kEscapeTestStringEscaped).right.value)
+    kEscapeTestString must be(TextFormatUtils.unescapeText(kEscapeTestStringEscaped).getOrElse(throw new RuntimeException()))
 
     // Unicode handling.
     "\\341\\210\\264" must be(TextFormatUtils.escapeText("\u1234"))
     "\\341\\210\\264" must be(TextFormatUtils.escapeBytes(bytes(0xe1, 0x88, 0xb4)))
-    "\u1234" must be(TextFormatUtils.unescapeText("\\341\\210\\264").right.value)
-    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\341\\210\\264").right.value)
-    "\u1234" must be(TextFormatUtils.unescapeText("\\xe1\\x88\\xb4").right.value)
-    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\xe1\\x88\\xb4").right.value)
+    "\u1234" must be(TextFormatUtils.unescapeText("\\341\\210\\264").getOrElse(throw new RuntimeException()))
+    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\341\\210\\264").getOrElse(throw new RuntimeException()))
+    "\u1234" must be(TextFormatUtils.unescapeText("\\xe1\\x88\\xb4").getOrElse(throw new RuntimeException()))
+    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\xe1\\x88\\xb4").getOrElse(throw new RuntimeException()))
 
     // Handling of strings with unescaped Unicode characters > 255.
     val zh           = "\u9999\u6e2f\u4e0a\u6d77\ud84f\udf80\u8c50\u9280\u884c"
     val zhByteString = ByteString.copyFromUtf8(zh)
-    zhByteString must be(TextFormatUtils.unescapeBytes(zh).right.value)
+    zhByteString must be(TextFormatUtils.unescapeBytes(zh).getOrElse(throw new RuntimeException()))
 
-    TextFormatUtils.unescapeText("\\x").left.value.msg must be("'\\x' with no digits")
+    TextFormatUtils.unescapeText("\\x").swap.getOrElse(???).msg must be("'\\x' with no digits")
 
-    TextFormatUtils.unescapeText("\\z").left.value.msg must be("Invalid escape sequence: z")
+    TextFormatUtils.unescapeText("\\z").swap.getOrElse(???).msg must be("Invalid escape sequence: z")
 
-    TextFormatUtils.unescapeText("\\").left.value.msg must be(
+    TextFormatUtils.unescapeText("\\").swap.getOrElse(???).msg must be(
       "Invalid escape sequence '\\' at end of string."
     )
   }
 
+  def check[T](input: String, f: Parser => String => Option[T]): Option[T] = {
+    val p = new Parser(input)
+    val token = p.it.next()
+    f(p)(token)
+  }
+
   def parseInt32[T](input: String): Int =
     AstUtils
-      .parseInt32(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
-      .right
-      .value
+      .parseInt32(check(input, _.tryPrimitiveValue).value)
+      .getOrElse(throw new RuntimeException())
       .value
 
   def parseInt64[T](input: String): Long =
     AstUtils
-      .parseInt64(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
-      .right
-      .value
+      .parseInt64(check(input, _.tryPrimitiveValue).value)
+      .getOrElse(throw new RuntimeException())
       .value
 
   def parseUInt32[T](input: String): Int =
     AstUtils
-      .parseUint32(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
-      .right
-      .value
+      .parseUint32(check(input, _.tryPrimitiveValue).value)
+      .getOrElse(throw new RuntimeException())
       .value
 
   def parseUInt64[T](input: String): Long =
     AstUtils
-      .parseUint64(fastparse.parse(input, ProtoAsciiParser.PrimitiveValue(_)).get.value)
-      .right
-      .value
+      .parseUint64(check(input, _.tryPrimitiveValue).value)
+      .getOrElse(throw new RuntimeException())
       .value
 
   "testParseInteger" should "pass" in {
@@ -420,39 +422,39 @@ class TextFormatSpec
     342391 must be(parseInt32("01234567"))
 
     // Out-of-range
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseInt32("2147483648")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseInt32("-2147483649")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseUInt32("4294967296")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseUInt32("-1")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseInt64("9223372036854775808")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseInt64("-9223372036854775809")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseUInt64("18446744073709551616")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseUInt64("-1")
     }
 
-    assertThrows[TestFailedException] {
+    assertThrows[RuntimeException] {
       parseInt32("abcd")
     }
   }
@@ -493,16 +495,21 @@ class TextFormatSpec
   "testParseBoolean" should "pass" in {
     val goodText =
       "repeated_bool: t  repeated_bool : 0\n" +
-        "repeated_bool :f repeated_bool:1"
+        "repeated_bool :f repeated_bool:1\n" +
+        "repeated_bool: False repeated_bool: True"
     val goodTextCanonical =
       "repeated_bool: true\n" +
         "repeated_bool: false\n" +
+        "repeated_bool: false\n" +
+        "repeated_bool: true\n" +
         "repeated_bool: false\n" +
         "repeated_bool: true\n"
     val good = TestAllTypes.fromAscii(goodText)
     goodTextCanonical must be(good.toProtoString)
 
     "optional_bool:2" must failParsingWith("")
+    "optional_bool: 2" must failParsingWith("")
+    "optional_bool: foo" must failParsingWith("")
     "optional_bool:foo" must failParsingWith("")
   }
 
@@ -601,6 +608,12 @@ class TextFormatSpec
           .withOptionalString("\n\n")
       )
     )
+
+    // Test escaping roundtrip
+    val m = TestAllTypes(optionalString = Some(
+      "\ntest\nnewlines\n\nin\nstring\n"
+    ))
+    TestAllTypes.fromAscii(m.toProtoString) must be(m)
   }
 
   "testParseNonRepeatedFields" should "pass" in {
@@ -620,7 +633,25 @@ class TextFormatSpec
     "optional_int32: [1]" must failParsingWith(
       "Invalid input '[', expected type_int32 (line 1, column 17)"
     )
+    "optional_int32: []" must failParsingWith(
+      "Invalid input '[', expected type_int32 (line 1, column 17)"
+    )
   }
+
+  "testParseShortRepeatedFormOfEmptyRepeatedFields" should "pass" in {
+    "repeated_foreign_enum: []" must parseOk
+    "repeated_int32: []\n" must parseOk
+    "repeated_nested_message []\n" must parseOk
+  }
+
+  val TrailingComma = "Expected value, found ']' (trailing commas not allowed)"
+  "testParseShortRepeatedFormWithTrailingComma" should "fail" in {
+    "repeated_foreign_enum: [FOREIGN_FOO, ]\n" must failParsingWith(TrailingComma + " (line 1, column 38)")
+    "repeated_int32: [ 1, ]\n" must failParsingWith(TrailingComma + " (line 1, column 22)")
+    "repeated_nested_message [{ bb: 1 }, ]\n" must failParsingWith(TrailingComma + " (line 1, column 37)")
+    // See also testMapShortFormTrailingComma.
+  }
+
 
   // =======================================================================
   // test oneof
@@ -638,5 +669,50 @@ class TextFormatSpec
     val input = "foo_string: \"stringvalue\" foo_int: 123";
     val p     = TestOneof2.fromAscii(input)
     p.foo.isFooInt must be(true)
+  }
+
+  // =======================================================================
+  // test map
+  "testMapTextFormat" should "pass" in {
+    val message = MapsTest(
+      int32ToString = Map(
+        10 -> "apple",
+        20 -> "banana",
+        30 -> "cherry"
+      )
+    )
+    val text = message.toProtoString
+    MapsTest.fromAscii(text) must be(message)
+  }
+
+  "testMapShortForm" should "pass" in {
+    val text =
+        "string_to_int32 [{ key: 'x' value: 10 }, { key: 'y' value: 20 }]\n" +
+            "int32_to_message_field " +
+            "[{ key: 1 value { value: 100 } }, { key: 2 value: { value: 200 } }]\n"
+
+    MapsTest.fromAscii(text) must be(MapsTest(
+      stringToInt32 = Map(
+        "x" -> 10, "y" -> 20
+      ),
+      int32ToMessageField = Map(
+        1 -> MessageValue(100),
+        2 -> MessageValue(200),
+      )
+    ))
+  }
+
+  "testMapShortFormEmpty" should "pass" in {
+    val text =
+        "string_to_int32 []\n" +
+            "int32_to_message_field: []\n "
+
+    MapsTest.fromAscii(text) must be(MapsTest())
+  }
+
+  "testMapShortFormTrailingComma" should "pass" in {
+    val text = "string_to_int32 [{ key: 'x' value: 10 }, ]\n"
+
+    text must failParsingWith(TrailingComma + " (line 1, column 42)")
   }
 }
