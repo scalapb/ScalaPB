@@ -69,12 +69,12 @@ class MapsSpec
 
   "descriptor.isMapEntry" should "be true" in {
     MapsTest.scalaDescriptor.findFieldByName("str_to_str").value.isMapField must be(true)
-    MapsTest.scalaDescriptor.findFieldByName("str_to_int32").value.isMapField must be(true)
+    MapsTest.scalaDescriptor.findFieldByName("string_to_int32").value.isMapField must be(true)
     MapsTest.scalaDescriptor.findFieldByName("int32_to_string").value.isMapField must be(true)
     MapsTest.scalaDescriptor.findFieldByName("not_a_map").value.isMapField must be(false)
     MapsTest.scalaDescriptor.findFieldByName("repeated_not_a_map").value.isMapField must be(false)
     MapsTest2.scalaDescriptor.findFieldByName("str_to_str").value.isMapField must be(true)
-    MapsTest2.scalaDescriptor.findFieldByName("str_to_int32").value.isMapField must be(true)
+    MapsTest2.scalaDescriptor.findFieldByName("string_to_int32").value.isMapField must be(true)
     MapsTest2.scalaDescriptor.findFieldByName("int32_to_string").value.isMapField must be(true)
     MapsTest2.scalaDescriptor.findFieldByName("not_a_map").value.isMapField must be(false)
     MapsTest2.scalaDescriptor.findFieldByName("repeated_not_a_map").value.isMapField must be(false)
