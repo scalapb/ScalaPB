@@ -12,7 +12,6 @@ import org.scalatestplus.scalacheck.ScalaCheckDrivenPropertyChecks
 import org.scalatest.tagobjects.Slow
 import scalapb.descriptors.ScalaType
 
-import scala.language.existentials
 import scala.jdk.CollectionConverters._
 
 class GeneratedCodeSpec extends AnyPropSpec with ScalaCheckDrivenPropertyChecks with Matchers {

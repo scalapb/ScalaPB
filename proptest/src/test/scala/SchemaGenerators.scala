@@ -266,12 +266,12 @@ object SchemaGenerators {
         .asInstanceOf[com.google.protobuf.Message]
     }
 
-    def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessage] = {
+    def scalaObject(m: MessageNode): CompanionWithJavaSupport[GeneratedMessage] = {
       val klass = Class.forName(rootNode.scalaObjectName(m) + "$", true, classLoader)
       klass
         .getField("MODULE$")
         .get(null)
-        .asInstanceOf[CompanionWithJavaSupport[_ <: GeneratedMessage]]
+        .asInstanceOf[CompanionWithJavaSupport[GeneratedMessage]]
     }
   }
 
