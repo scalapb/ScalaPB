@@ -6,7 +6,7 @@ import Keys._
 object Dependencies {
   object versions {
     val grpc                    = "1.32.1"
-    val protobuf                = "3.12.2"
+    val protobuf                = "3.13.0"
     val utest                   = "0.7.4"
     val munit                   = "0.7.12"
     val silencer                = "1.6.0"

@@ -1,9 +1,11 @@
 # Change Log
-## [0.11.0 (Unreleased)]
+## [0.11.0 Unreleased]
+- Upgraded to Protobuf 3.13.0
+
+## [0.11.0-M3]
 - Supports protobuf 3.12.2
 - Supports the new experimental optional fields introduced in proto3 at
   protobuf 3.12.0 (see https://github.com/protocolbuffers/protobuf/blob/v3.12.0/docs/field_presence.md). To enable, add the following to your `build.sbt`:
-
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional"
 - Supports Dotty (0.27.0-RC1). Generated code compiles in Dotty (with `-source
   3.0-migration`)

@@ -3,7 +3,7 @@ import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
 
-val protobufCompilerVersion = "3.12.2"
+val protobufCompilerVersion = "3.13.0"
 
 val MimaPreviousVersion = "0.11.0-M1"
 
@@ -339,10 +339,10 @@ lazy val docs = project
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(unidoc in Compile).value,
     mdocVariables := Map(
       "scalapb"          -> "0.10.8",
-      "sbt_protoc"       -> "1.0.0-RC1",
+      "sbt_protoc"       -> "1.0.0-RC2",
       "protoc"           -> "3.11.4",
       "sparksql_scalapb" -> "0.10.4",
-      "scalapb_validate" -> "0.1.2"
+      "scalapb_validate" -> "0.1.3"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
     ghpagesBranch := "master"
