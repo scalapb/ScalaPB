@@ -49,7 +49,7 @@ object BuildHelper {
   val scalac3Options = Seq(
     "-language:implicitConversions",
     "-source",
-    "3.0-migration"
+    "3.0"
   )
 
   val scala2Settings = Seq()

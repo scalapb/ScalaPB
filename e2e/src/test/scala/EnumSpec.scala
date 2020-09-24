@@ -1,6 +1,6 @@
 import com.google.protobuf.{InvalidProtocolBufferException, UnknownFieldSet}
 import com.thesamet.proto.e2e.Enum
-import com.thesamet.proto.e2e.enum._
+import com.thesamet.proto.e2e.`enum`._
 import com.thesamet.proto.e2e.enum3._
 import scalapb.GeneratedEnumCompanion
 import org.scalatest._

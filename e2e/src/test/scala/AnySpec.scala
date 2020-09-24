@@ -1,7 +1,7 @@
 import com.thesamet.proto.any._
 import com.google.protobuf.any.Any
-import com.thesamet.proto.e2e.enum.EnumTest
-import com.thesamet.proto.e2e.enum.Color
+import com.thesamet.proto.e2e.`enum`.EnumTest
+import com.thesamet.proto.e2e.`enum`.Color
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
