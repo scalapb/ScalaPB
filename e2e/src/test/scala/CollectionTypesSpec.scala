@@ -21,7 +21,6 @@ class CollectionTypesSpec extends AnyFlatSpec with Matchers {
     val c = CustomCollection(repeatedInt32 = MyVector(Vector(11, 24, 19)))
     CustomCollection.parseFrom(c.toByteArray) must be(c)
     CustomCollection.fromAscii(c.toProtoString) must be(c)
-    CustomCollection.fromJavaProto(CustomCollection.toJavaProto(c)) must be(c)
   }
 
   // See https://github.com/scalapb/ScalaPB/issues/274
@@ -41,10 +40,5 @@ class CollectionTypesSpec extends AnyFlatSpec with Matchers {
     val m = CollectionTypesMap(mymapInt32Bool = MyMap(Map(3 -> true, 4 -> false)))
     CollectionTypesMap.parseFrom(m.toByteArray) must be(m)
     m.mapInt32Bool += (3 -> true)
-  }
-
-  "custom maps" should "convertible to and from Java" in {
-    val m = CollectionTypesMap(mymapInt32Bool = MyMap(Map(3 -> true, 4 -> false)))
-    CollectionTypesMap.fromJavaProto(CollectionTypesMap.toJavaProto(m)) must be(m)
   }
 }

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package com.thesamet.proto.e2e;
 
-import "issue581a.proto";
+import "nocode/issue581a.proto";
 
 message HelloRequest {
     string name = 1 [(myext.type).option_b = true];

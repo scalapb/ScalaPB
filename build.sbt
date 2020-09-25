@@ -133,7 +133,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
       protocGen.withDottyCompat(scalaVersion.value),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
       (coursier % "test").withDottyCompat(scalaVersion.value),
-      scalaTest % "test"
+      scalaTest.value % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
@@ -210,8 +210,8 @@ lazy val proptest = (projectMatrix in file("proptest"))
       protobufJava,
       grpcNetty               % "test",
       grpcProtobuf            % "test",
-      scalaTest               % "test",
-      scalaTestPlusScalaCheck % "test"
+      scalaTest.value         % "test",
+      scalaTestPlusScalaCheck.value % "test"
     ),
     scalacOptions ++= (if (!isDotty.value)
                          Seq(
@@ -262,25 +262,24 @@ val e2eCommonSettings = commonSettings ++ Seq(
     grpcServices,
     grpcServices % "protobuf",
     annotationApi,
-    grpcProtocGen asProtocPlugin,
-    (scalaTest               % "test"),
-    (scalaTestPlusScalaCheck % "test")
+    (scalaTest.value % "test"),
+    (scalaTestPlusScalaCheck.value % "test")
   ),
-  Test / fork := true,           // For https://github.com/scala/bug/issues/9237
-  Compile / PB.recompile := true // always regenerate protos, not cache
+  Compile / PB.recompile := true, // always regenerate protos, not cache
+  codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
 )
 
-lazy val e2e = (projectMatrix in file("e2e"))
+lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
   .defaultAxes()
   .dependsOn(runtime, grpcRuntime)
   .enablePlugins(LocalCodeGenPlugin)
   .jvmPlatform(Seq(Scala212, Scala213, Dotty))
   .settings(e2eCommonSettings)
   .settings(
+    libraryDependencies += (grpcProtocGen asProtocPlugin),
     scalacOptions ++= (if (!isDotty.value)
                          Seq(
-                           "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
-                           "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala;ReflectionProto.scala;TestDeprecatedFields.scala",
+                           "-P:silencer:pathFilters=ServerReflectionGrpc.scala;ReflectionProto.scala",
                            "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
                          )
                        else Nil),
@@ -294,19 +293,59 @@ lazy val e2e = (projectMatrix in file("e2e"))
     codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
   )
 
-lazy val e2eNoJava = (projectMatrix in file("e2e-nojava"))
+lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
   .defaultAxes()
   .dependsOn(runtime)
   .enablePlugins(LocalCodeGenPlugin)
-  .jvmPlatform(Seq(Scala212, Scala213, Dotty))
   .settings(e2eCommonSettings)
   .settings(
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
+                         )
+                       else Nil),
+  )
+  .jvmPlatform(Seq(Scala212, Scala213, Dotty), settings=Seq(
+    Compile / PB.targets := Seq(
+      PB.gens.java(versions.protobuf)                                               -> (Compile / sourceManaged).value,
+      (genModule("scalapb.ScalaPbCodeGenerator$"), Seq("java_conversions")) -> (Compile / sourceManaged).value
+    )
+  ))
+  .jsPlatform(Seq(Scala212, Scala213), settings=Seq(
+    Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf",
+    Compile / PB.targets := Seq(
+      (genModule("scalapb.ScalaPbCodeGenerator$")) -> (Compile / sourceManaged).value
+    )
+  ))
+
+lazy val e2e = (projectMatrix in file("e2e"))
+  .defaultAxes()
+  .dependsOn(runtime, e2eWithJava)
+  .enablePlugins(LocalCodeGenPlugin)
+  .jvmPlatform(Seq(Scala212, Scala213, Dotty), settings=Seq(
+        Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value)
+                                                                                           "scalajvm-3"
+                                                                                         else
+                                                                                           "scalajvm-2"),
+                                                                                           )
+  )
+  .jsPlatform(Seq(Scala212, Scala213), settings=Seq(
+    Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf"
+  ))
+  .settings(e2eCommonSettings)
+  .settings(
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
+                           "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;TestDeprecatedFields.scala",
+                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
+                         )
+                       else Nil),
     PB.protocVersion := versions.protobuf,
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
     Compile / PB.targets := Seq(
       genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
     ),
-    codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
   )
 
 lazy val docs = project

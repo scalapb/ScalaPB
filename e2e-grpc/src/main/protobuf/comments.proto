@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options).retain_source_code_info = true;
+
+message Foo {}
+
+// a commented service
+service CommentedService {
+    // a commented RPC
+    rpc CommentedRPC (Foo) returns (Foo) {}
+}

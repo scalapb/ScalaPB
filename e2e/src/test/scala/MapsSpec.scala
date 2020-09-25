@@ -150,24 +150,25 @@ class MapsSpec
   }
 
   "custom map types" should "provide custom key and value types" in {
-    val c1 = CustomMaps(
-      stringToYear = Map("314"           -> Years(314)),
-      personToInt = Map(PersonId("315")  -> 314),
-      personToYear = Map(PersonId("275") -> Years(188))
-    )
-
-    val c2 = CustomMaps2(
-      stringToYear = Map("314"           -> Years(314)),
-      personToInt = Map(PersonId("315")  -> 314),
-      personToYear = Map(PersonId("275") -> Years(188))
-    )
-
+    import MapSpec.{c1,c2}
     CustomMaps.parseFrom(c1.toByteArray) must be(c1)
     CustomMaps.fromAscii(c1.toProtoString) must be(c1)
-    CustomMaps.fromJavaProto(CustomMaps.toJavaProto(c1)) must be(c1)
 
     CustomMaps2.parseFrom(c2.toByteArray) must be(c2)
     CustomMaps2.fromAscii(c2.toProtoString) must be(c2)
-    CustomMaps2.fromJavaProto(CustomMaps2.toJavaProto(c2)) must be(c2)
   }
+}
+
+object MapSpec {
+  val c1 = CustomMaps(
+    stringToYear = Map("314"           -> Years(314)),
+    personToInt = Map(PersonId("315")  -> 314),
+    personToYear = Map(PersonId("275") -> Years(188))
+  )
+
+  val c2 = CustomMaps2(
+    stringToYear = Map("314"           -> Years(314)),
+    personToInt = Map(PersonId("315")  -> 314),
+    personToYear = Map(PersonId("275") -> Years(188))
+  )
 }

@@ -66,9 +66,9 @@ object Printer {
       case scalapb.descriptors.PBoolean(v) =>
         out.add(v.toString)
       case scalapb.descriptors.PFloat(v) =>
-        out.add(v.toString)
+        out.add(NumberUtils.floatToString(v))
       case scalapb.descriptors.PDouble(v) =>
-        out.add(v.toString)
+        out.add(NumberUtils.doubleToString(v))
       case scalapb.descriptors.PEnum(v) =>
         if (!v.isUnrecognized)
           out.add(v.name)

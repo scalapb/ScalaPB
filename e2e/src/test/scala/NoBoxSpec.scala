@@ -1,4 +1,3 @@
-import com.thesamet.proto.e2e.NoBox
 import com.thesamet.proto.e2e.no_box.Car
 import com.thesamet.proto.e2e.no_box.DontBoxMe
 import com.thesamet.proto.e2e.no_box.Tyre
@@ -18,25 +17,14 @@ class NoBoxSpec extends AnyFlatSpec with Matchers {
     Car.parseFrom(serialized) must be(car)
   }
 
-  "Scala representation of Java message with no_box field with default value" should "have that field with default value" in {
-    val javaCar = NoBox.Car.getDefaultInstance()
-    javaCar.hasTyre1 must be(false)
-
-    val scalaCar = Car.parseFrom(javaCar.toByteArray)
-    scalaCar.tyre1 must be(Tyre.defaultInstance)
-  }
-
   "Java representation of Scala message with a no_box field with default value" should "not have that field" in {
     val scalaCar = Car(tyre1 = Tyre.defaultInstance)
     scalaCar.tyre1 must be(Tyre.defaultInstance)
-
-    val javaCar = NoBox.Car.parseFrom(scalaCar.toByteArray)
-    javaCar.hasTyre1 must be(false)
   }
 
   "Scala message with a no_box field with null value" should "throw exception when being serialized" in {
     val car = Car(tyre1 = null)
-    a[NullPointerException] shouldBe thrownBy(car.toByteArray)
+    a[Exception] shouldBe thrownBy(car.toByteArray)
   }
 
   "Scala message with a no_box reference" should "generate correct types" in {

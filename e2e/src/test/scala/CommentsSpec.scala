@@ -1,4 +1,3 @@
-import com.thesamet.proto.e2e.comments.CommentedServiceGrpc.CommentedService
 import com.thesamet.proto.e2e.comments._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
@@ -12,8 +11,6 @@ class CommentsSpec extends AnyFlatSpec with Matchers {
     val enumLocation    = Foo.Bar.scalaDescriptor.enums(0).location.get
     val enumXyzLocation = Foo.Bar.MyBarEnum.XYZ.scalaValueDescriptor.location.get
     val enumDefLocation = Foo.Bar.MyBarEnum.DEF.scalaValueDescriptor.location.get
-    val serviceLocation = CommentedService.scalaDescriptor.location.get
-    val methodLocation  = CommentedService.scalaDescriptor.methods(0).location.get
 
     fooLocation.getLeadingComments must be(" This is the foo comment\n")
 
@@ -31,9 +28,7 @@ class CommentsSpec extends AnyFlatSpec with Matchers {
 
     enumDefLocation.getLeadingComments must be(" Def comment\n")
 
-    serviceLocation.getLeadingComments must be(" a commented service\n")
-
-    methodLocation.getLeadingComments must be(" a commented RPC\n")
-
+    // See also ScalaDescriptorSpec in e2e-grpc for service and method
+    // comments.
   }
 }

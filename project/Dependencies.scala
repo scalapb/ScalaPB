@@ -55,9 +55,10 @@ object Dependencies {
   val grpcProtocGen = "io.grpc" % "protoc-gen-grpc-java" % versions.grpc
 
   // testing
-  val scalaTest = "org.scalatest" %% "scalatest" % versions.scalaTest
-  val scalaTestPlusScalaCheck =
-    "org.scalatestplus" %% "scalacheck-1-14" % versions.scalaTestPlusScalaCheck
+  val scalaTest = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
+  val scalaTestPlusScalaCheck = Def.setting {
+    "org.scalatestplus" %%% "scalacheck-1-14" % versions.scalaTestPlusScalaCheck
+  }
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % versions.scalaTestPlusMockito
   val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }
   val munit                = Def.setting { "org.scalameta" %%% "munit" % versions.munit }

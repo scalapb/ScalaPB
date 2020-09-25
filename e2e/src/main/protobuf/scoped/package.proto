@@ -6,7 +6,6 @@ import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
     scope: PACKAGE
-    import: "scala.concurrent.ExecutionContext"
     collection_type: "Set"
     preamble: "/* preamble 1*/"
     single_file: true

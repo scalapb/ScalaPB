@@ -1,4 +1,3 @@
-import scala.jdk.CollectionConverters._
 import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalacheck.Gen
@@ -139,11 +138,6 @@ class OneofSpec
   }
 
   "oneof field descriptors" should "give the right containing name" in {
-    for (fieldDescriptor <- OneofTest.javaDescriptor.getFields.asScala) {
-      if (fieldDescriptor.getNumber >= 2 && fieldDescriptor.getNumber <= 4) {
-        fieldDescriptor.getContainingOneof.getName must be("my_one_of")
-      }
-    }
     for (fieldDescriptor <- OneofTest.scalaDescriptor.fields) {
       if (fieldDescriptor.number >= 2 && fieldDescriptor.number <= 4) {
         fieldDescriptor.containingOneof.value.name must be("my_one_of")

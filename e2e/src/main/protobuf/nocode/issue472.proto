@@ -5,7 +5,7 @@ import "scalapb/scalapb.proto";
 option (scalapb.options).test_only_no_java_conversions = true;
 option (scalapb.options).flat_package = true;
 
-message A {
+message MA {
     int64 id = 1;
     string a = 2;
 

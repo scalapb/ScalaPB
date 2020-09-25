@@ -1,8 +1,7 @@
 // Temporarily moved here.
 // Move to scala-2 once https://github.com/scala/bug/issues/12038 is resolved.
 
-import scala.reflect.runtime.universe._
-import scalapb.{GeneratedExtension, JavaProtoSupport}
+import scalapb.GeneratedExtension
 import com.thesamet.proto.e2e.custom_options.GoodOrBad._
 import com.thesamet.proto.e2e.custom_options_p3.GoodOrBadP3._
 import com.thesamet.proto.e2e.custom_options._
@@ -21,25 +20,10 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
   val barP3Options = BarP3.scalaDescriptor.getOptions
   val fooOptions   = FooMessage.scalaDescriptor.getOptions
 
-  println(s"Have java conversions: ${MessageB.isInstanceOf[JavaProtoSupport[_, _]]}")
-
   def validateSetter[T](extension: GeneratedExtension[MessageOptions, T])(value: T) = {
     barOptions.withExtension(extension)(value).extension(extension) must be(value)
   }
 
-  "CustomAnnotation" should "exist" in {
-    val annotations = typeOf[FooMessage].typeSymbol.asClass.annotations
-    annotations.count(_.toString == "com.thesamet.pb.CustomAnnotation") must be(1)
-  }
-
-  "CustomAnnotation, CustomAnnotation1, CustomAnnotation2" should "exist" in {
-    val annotations = typeOf[BarMessage].typeSymbol.asClass.annotations.map(_.toString)
-    annotations must contain allOf (
-      "com.thesamet.pb.CustomAnnotation",
-      "com.thesamet.pb.CustomAnnotation1",
-      "com.thesamet.pb.CustomAnnotation2"
-    )
-  }
   "Options existing" should "return Some(option)" in {
     fooOptions.extension(CustomOptionsProto.messageB).value must be(
       MessageB(b = Some("BBB"), c = Some("CCC"), d = Seq("D1", "D2"))
@@ -268,30 +252,6 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
     FooMessage.MyOneOf.Empty.isInstanceOf[Base2] must be(true)
     FooMessage.MyOneOf.X(3).isInstanceOf[Base1] must be(true)
     FooMessage.MyOneOf.X(3).isInstanceOf[Base2] must be(true)
-  }
-
-  "field annotations" should "be set correctly" in {
-    typeOf[FieldAnnotations]
-      .member(TermName("z"))
-      .annotations
-      .map(_.toString)
-      .filter(_.contains("deprecated"))
-      .head must
-      include("deprecated(\"Will be removed\", \"0.1\")")
-  }
-
-  "companion annotations" should "be set correctly" in {
-    typeOf[FooMessage.type].typeSymbol.asClass.annotations.map(_.toString) must contain only (
-      "com.thesamet.pb.CustomAnnotation1",
-      "com.thesamet.pb.CustomAnnotation2"
-    )
-  }
-
-  "unknownFields annotations" should "be set correctly" in {
-    typeOf[FieldAnnotations].member(TermName("unknownFields")).annotations.map(_.toString) must contain allOf (
-      "com.thesamet.pb.CustomFieldAnnotation1",
-      "com.thesamet.pb.CustomFieldAnnotation2"
-    )
   }
 
   "no default values" should "not generate default values" in {
