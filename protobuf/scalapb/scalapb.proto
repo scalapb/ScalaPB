@@ -96,6 +96,12 @@ message ScalaPbOptions {
   // Strip is applied before enum value naming changes.
   optional bool enum_strip_prefix = 17 [default=false];
 
+  // Scala type to use for bytes fields.
+  optional string bytes_type = 21;
+
+  // Enable java conversions for this file.
+  optional bool java_conversions = 23;
+
   // AuxMessageOptions enables you to set message-level options through package-scoped options.
   // This is useful when you can't add a dependency on scalapb.proto from the proto file that
   // defines the message.
@@ -141,11 +147,8 @@ message ScalaPbOptions {
   // List of message options to apply to some enums.
   repeated AuxEnumOptions aux_enum_options = 20;
 
-  // Scala type to use for bytes fields.
-  optional string bytes_type = 21;
-
   // Taken by ScalaPB 0.11.x branch
-  reserved 22, 23;
+  reserved 22;
 
   repeated string preprocessors = 24;
 

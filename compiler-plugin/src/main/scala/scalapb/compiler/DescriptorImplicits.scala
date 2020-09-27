@@ -847,7 +847,8 @@ class DescriptorImplicits private[compiler] (
     def scalaOptions: ScalaPbOptions =
       fileOptionsCache(file)
 
-    def javaConversions = params.javaConversions && !scalaOptions.getTestOnlyNoJavaConversions
+    def javaConversions =
+      (scalaOptions.getJavaConversions || params.javaConversions) && !scalaOptions.getTestOnlyNoJavaConversions
 
     def javaPackage: String = {
       if (file.getOptions.hasJavaPackage)

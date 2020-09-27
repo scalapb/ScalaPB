@@ -1,5 +1,5 @@
 # Change Log
-## [0.11.0 (Unreleased)]
+[0.11.0 (Unreleased)]
 - Supports protobuf 3.12.2
 - Supports the new experimental optional fields introduced in proto3 at
   protobuf 3.12.0 (see https://github.com/protocolbuffers/protobuf/blob/v3.12.0/docs/field_presence.md). To enable, add the following to your `build.sbt`:

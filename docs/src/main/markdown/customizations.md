@@ -26,6 +26,7 @@ option (scalapb.options) = {
   package_name: "com.example.myprotos"
   flat_package: true
   single_file: true
+  java_conversions: false
   import: "com.thesamet.pb.MyType"
   import: "com.thesamet.other._"
   preamble: "sealed trait BaseMessage"
@@ -53,6 +54,11 @@ globally to all files by adding it to your [ScalaPB SBT Settings]({{site.baseurl
 
 - The `single_file` option makes the generator output all messages and
 enums to a single Scala file.
+
+- The `java_conversions` options tells ScalaPB to generate converters to the
+  corresponding Java messages in this file. It does not automatically trigger
+  Java source code generation for the messages. If you need to generate source code
+  in Java, include `PB.gens.java` in the list of targets in sbt-protoc.
 
 - The `preamble` is a list of strings that is output at the top of the
   generated Scala file. This option requires `single_file` to be set. It is
