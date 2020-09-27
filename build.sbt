@@ -208,9 +208,9 @@ lazy val proptest = (projectMatrix in file("proptest"))
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
       protobufJava,
-      grpcNetty               % "test",
-      grpcProtobuf            % "test",
-      scalaTest.value         % "test",
+      grpcNetty                     % "test",
+      grpcProtobuf                  % "test",
+      scalaTest.value               % "test",
       scalaTestPlusScalaCheck.value % "test"
     ),
     scalacOptions ++= (if (!isDotty.value)
@@ -262,7 +262,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
     grpcServices,
     grpcServices % "protobuf",
     annotationApi,
-    (scalaTest.value % "test"),
+    (scalaTest.value               % "test"),
     (scalaTestPlusScalaCheck.value % "test")
   ),
   Compile / PB.recompile := true, // always regenerate protos, not cache
@@ -303,35 +303,46 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
                          Seq(
                            "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
                          )
-                       else Nil),
+                       else Nil)
   )
-  .jvmPlatform(Seq(Scala212, Scala213, Dotty), settings=Seq(
-    Compile / PB.targets := Seq(
-      PB.gens.java(versions.protobuf)                                               -> (Compile / sourceManaged).value,
-      (genModule("scalapb.ScalaPbCodeGenerator$"), Seq("java_conversions")) -> (Compile / sourceManaged).value
+  .jvmPlatform(
+    Seq(Scala212, Scala213, Dotty),
+    settings = Seq(
+      Compile / PB.targets := Seq(
+        PB.gens.java(versions.protobuf)                                       -> (Compile / sourceManaged).value,
+        (genModule("scalapb.ScalaPbCodeGenerator$"), Seq("java_conversions")) -> (Compile / sourceManaged).value
+      )
     )
-  ))
-  .jsPlatform(Seq(Scala212, Scala213), settings=Seq(
-    Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf",
-    Compile / PB.targets := Seq(
-      (genModule("scalapb.ScalaPbCodeGenerator$")) -> (Compile / sourceManaged).value
+  )
+  .jsPlatform(
+    Seq(Scala212, Scala213),
+    settings = Seq(
+      Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf",
+      Compile / PB.targets := Seq(
+        (genModule("scalapb.ScalaPbCodeGenerator$")) -> (Compile / sourceManaged).value
+      )
     )
-  ))
+  )
 
 lazy val e2e = (projectMatrix in file("e2e"))
   .defaultAxes()
   .dependsOn(runtime, e2eWithJava)
   .enablePlugins(LocalCodeGenPlugin)
-  .jvmPlatform(Seq(Scala212, Scala213, Dotty), settings=Seq(
-        Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value)
-                                                                                           "scalajvm-3"
-                                                                                         else
-                                                                                           "scalajvm-2"),
-                                                                                           )
+  .jvmPlatform(
+    Seq(Scala212, Scala213, Dotty),
+    settings = Seq(
+      Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value)
+                                                                                         "scalajvm-3"
+                                                                                       else
+                                                                                         "scalajvm-2")
+    )
   )
-  .jsPlatform(Seq(Scala212, Scala213), settings=Seq(
-    Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf"
-  ))
+  .jsPlatform(
+    Seq(Scala212, Scala213),
+    settings = Seq(
+      Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf"
+    )
+  )
   .settings(e2eCommonSettings)
   .settings(
     scalacOptions ++= (if (!isDotty.value)
@@ -345,7 +356,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
     Compile / PB.targets := Seq(
       genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
-    ),
+    )
   )
 
 lazy val docs = project
