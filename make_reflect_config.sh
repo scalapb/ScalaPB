@@ -15,6 +15,7 @@ mkdir -p protoc-gen-scala-native-image/native-image-config
 sbt "scalapbcJVM2_12/run \
     --plugin=protoc-gen-scalaref=$TMPDIR/plugin.sh \
     --scalaref_out=$TMPDIR $PROTOFILES \
+    --experimental_allow_proto3_optional \
     -I third_party \
     -I $PWD/protobuf \
     -I e2e/src/main/protobuf \
