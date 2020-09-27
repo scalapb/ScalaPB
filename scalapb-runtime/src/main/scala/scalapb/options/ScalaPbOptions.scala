@@ -58,6 +58,10 @@ package scalapb.options
   * @param enumStripPrefix
   *   Indicate if prefix (enum name + optional underscore) should be removed in scala code
   *   Strip is applied before enum value naming changes.
+  * @param bytesType
+  *   Scala type to use for bytes fields.
+  * @param javaConversions
+  *   Enable java conversions for this file.
   * @param auxMessageOptions
   *   List of message options to apply to some messages.
   * @param auxFieldOptions
@@ -66,8 +70,6 @@ package scalapb.options
   *   List of message options to apply to some enums.
   * @param auxEnumValueOptions
   *   List of enum value options to apply to some enum values.
-  * @param bytesType
-  *   Scala type to use for bytes fields.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
@@ -91,11 +93,12 @@ final case class ScalaPbOptions(
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     enumValueNaming: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming] = _root_.scala.None,
     enumStripPrefix: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    bytesType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    javaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     auxMessageOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions] = _root_.scala.Seq.empty,
     auxFieldOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions] = _root_.scala.Seq.empty,
     auxEnumOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions] = _root_.scala.Seq.empty,
     auxEnumValueOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions] = _root_.scala.Seq.empty,
-    bytesType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ScalaPbOptions] {
@@ -171,6 +174,14 @@ final case class ScalaPbOptions(
         val __value = enumStripPrefix.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(17, __value)
       };
+      if (bytesType.isDefined) {
+        val __value = bytesType.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(21, __value)
+      };
+      if (javaConversions.isDefined) {
+        val __value = javaConversions.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(23, __value)
+      };
       auxMessageOptions.foreach { __item =>
         val __value = __item
         __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
@@ -187,10 +198,6 @@ final case class ScalaPbOptions(
         val __value = __item
         __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       }
-      if (bytesType.isDefined) {
-        val __value = bytesType.get
-        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(21, __value)
-      };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(100001, __value)
@@ -303,6 +310,10 @@ final case class ScalaPbOptions(
         _output__.writeUInt32NoTag(__m.serializedSize)
         __m.writeTo(_output__)
       };
+      javaConversions.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(23, __m)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(100001, __m)
@@ -362,6 +373,12 @@ final case class ScalaPbOptions(
     def getEnumStripPrefix: _root_.scala.Boolean = enumStripPrefix.getOrElse(false)
     def clearEnumStripPrefix: ScalaPbOptions = copy(enumStripPrefix = _root_.scala.None)
     def withEnumStripPrefix(__v: _root_.scala.Boolean): ScalaPbOptions = copy(enumStripPrefix = Option(__v))
+    def getBytesType: _root_.scala.Predef.String = bytesType.getOrElse("")
+    def clearBytesType: ScalaPbOptions = copy(bytesType = _root_.scala.None)
+    def withBytesType(__v: _root_.scala.Predef.String): ScalaPbOptions = copy(bytesType = Option(__v))
+    def getJavaConversions: _root_.scala.Boolean = javaConversions.getOrElse(false)
+    def clearJavaConversions: ScalaPbOptions = copy(javaConversions = _root_.scala.None)
+    def withJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(javaConversions = Option(__v))
     def clearAuxMessageOptions = copy(auxMessageOptions = _root_.scala.Seq.empty)
     def addAuxMessageOptions(__vs: scalapb.options.ScalaPbOptions.AuxMessageOptions*): ScalaPbOptions = addAllAuxMessageOptions(__vs)
     def addAllAuxMessageOptions(__vs: Iterable[scalapb.options.ScalaPbOptions.AuxMessageOptions]): ScalaPbOptions = copy(auxMessageOptions = auxMessageOptions ++ __vs)
@@ -378,9 +395,6 @@ final case class ScalaPbOptions(
     def addAuxEnumValueOptions(__vs: scalapb.options.ScalaPbOptions.AuxEnumValueOptions*): ScalaPbOptions = addAllAuxEnumValueOptions(__vs)
     def addAllAuxEnumValueOptions(__vs: Iterable[scalapb.options.ScalaPbOptions.AuxEnumValueOptions]): ScalaPbOptions = copy(auxEnumValueOptions = auxEnumValueOptions ++ __vs)
     def withAuxEnumValueOptions(__v: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions]): ScalaPbOptions = copy(auxEnumValueOptions = __v)
-    def getBytesType: _root_.scala.Predef.String = bytesType.getOrElse("")
-    def clearBytesType: ScalaPbOptions = copy(bytesType = _root_.scala.None)
-    def withBytesType(__v: _root_.scala.Predef.String): ScalaPbOptions = copy(bytesType = Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
@@ -405,11 +419,12 @@ final case class ScalaPbOptions(
         case 15 => noDefaultValuesInConstructor.orNull
         case 16 => enumValueNaming.map(_.javaValueDescriptor).orNull
         case 17 => enumStripPrefix.orNull
+        case 21 => bytesType.orNull
+        case 23 => javaConversions.orNull
         case 18 => auxMessageOptions
         case 19 => auxFieldOptions
         case 20 => auxEnumOptions
         case 22 => auxEnumValueOptions
-        case 21 => bytesType.orNull
         case 100001 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -433,11 +448,12 @@ final case class ScalaPbOptions(
         case 15 => noDefaultValuesInConstructor.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 16 => enumValueNaming.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 17 => enumStripPrefix.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 21 => bytesType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 23 => javaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 18 => _root_.scalapb.descriptors.PRepeated(auxMessageOptions.iterator.map(_.toPMessage).toVector)
         case 19 => _root_.scalapb.descriptors.PRepeated(auxFieldOptions.iterator.map(_.toPMessage).toVector)
         case 20 => _root_.scalapb.descriptors.PRepeated(auxEnumOptions.iterator.map(_.toPMessage).toVector)
         case 22 => _root_.scalapb.descriptors.PRepeated(auxEnumValueOptions.iterator.map(_.toPMessage).toVector)
-        case 21 => bytesType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 100001 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -465,11 +481,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     var __noDefaultValuesInConstructor = `_message__`.noDefaultValuesInConstructor
     var __enumValueNaming = `_message__`.enumValueNaming
     var __enumStripPrefix = `_message__`.enumStripPrefix
+    var __bytesType = `_message__`.bytesType
+    var __javaConversions = `_message__`.javaConversions
     val __auxMessageOptions = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxMessageOptions] ++= `_message__`.auxMessageOptions)
     val __auxFieldOptions = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxFieldOptions] ++= `_message__`.auxFieldOptions)
     val __auxEnumOptions = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxEnumOptions] ++= `_message__`.auxEnumOptions)
     val __auxEnumValueOptions = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxEnumValueOptions] ++= `_message__`.auxEnumValueOptions)
-    var __bytesType = `_message__`.bytesType
     var __testOnlyNoJavaConversions = `_message__`.testOnlyNoJavaConversions
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -511,6 +528,10 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
           __enumValueNaming = Option(scalapb.options.ScalaPbOptions.EnumValueNaming.fromValue(_input__.readEnum()))
         case 136 =>
           __enumStripPrefix = Option(_input__.readBool())
+        case 170 =>
+          __bytesType = Option(_input__.readStringRequireUtf8())
+        case 184 =>
+          __javaConversions = Option(_input__.readBool())
         case 146 =>
           __auxMessageOptions += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.options.ScalaPbOptions.AuxMessageOptions.defaultInstance)
         case 154 =>
@@ -519,8 +540,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
           __auxEnumOptions += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.options.ScalaPbOptions.AuxEnumOptions.defaultInstance)
         case 178 =>
           __auxEnumValueOptions += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.options.ScalaPbOptions.AuxEnumValueOptions.defaultInstance)
-        case 170 =>
-          __bytesType = Option(_input__.readStringRequireUtf8())
         case 800008 =>
           __testOnlyNoJavaConversions = Option(_input__.readBool())
         case tag =>
@@ -548,11 +567,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         noDefaultValuesInConstructor = __noDefaultValuesInConstructor,
         enumValueNaming = __enumValueNaming,
         enumStripPrefix = __enumStripPrefix,
+        bytesType = __bytesType,
+        javaConversions = __javaConversions,
         auxMessageOptions = __auxMessageOptions.result(),
         auxFieldOptions = __auxFieldOptions.result(),
         auxEnumOptions = __auxEnumOptions.result(),
         auxEnumValueOptions = __auxEnumValueOptions.result(),
-        bytesType = __bytesType,
         testOnlyNoJavaConversions = __testOnlyNoJavaConversions,
         unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
@@ -578,11 +598,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         noDefaultValuesInConstructor = __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         enumValueNaming = __fieldsMap.get(scalaDescriptor.findFieldByNumber(16).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => scalapb.options.ScalaPbOptions.EnumValueNaming.fromValue(__e.number)),
         enumStripPrefix = __fieldsMap.get(scalaDescriptor.findFieldByNumber(17).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        bytesType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(21).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        javaConversions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(23).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         auxMessageOptions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(18).get).map(_.as[_root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions]]).getOrElse(_root_.scala.Seq.empty),
         auxFieldOptions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(19).get).map(_.as[_root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions]]).getOrElse(_root_.scala.Seq.empty),
         auxEnumOptions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(20).get).map(_.as[_root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions]]).getOrElse(_root_.scala.Seq.empty),
         auxEnumValueOptions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(22).get).map(_.as[_root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions]]).getOrElse(_root_.scala.Seq.empty),
-        bytesType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(21).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         testOnlyNoJavaConversions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(100001).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -630,11 +651,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     noDefaultValuesInConstructor = _root_.scala.None,
     enumValueNaming = _root_.scala.None,
     enumStripPrefix = _root_.scala.None,
+    bytesType = _root_.scala.None,
+    javaConversions = _root_.scala.None,
     auxMessageOptions = _root_.scala.Seq.empty,
     auxFieldOptions = _root_.scala.Seq.empty,
     auxEnumOptions = _root_.scala.Seq.empty,
     auxEnumValueOptions = _root_.scala.Seq.empty,
-    bytesType = _root_.scala.None,
     testOnlyNoJavaConversions = _root_.scala.None
   )
   /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
@@ -1344,12 +1366,14 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def optionalEnumValueNaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming]] = field(_.enumValueNaming)((c_, f_) => c_.copy(enumValueNaming = f_))
     def enumStripPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getEnumStripPrefix)((c_, f_) => c_.copy(enumStripPrefix = Option(f_)))
     def optionalEnumStripPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.enumStripPrefix)((c_, f_) => c_.copy(enumStripPrefix = f_))
+    def bytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getBytesType)((c_, f_) => c_.copy(bytesType = Option(f_)))
+    def optionalBytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.bytesType)((c_, f_) => c_.copy(bytesType = f_))
+    def javaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaConversions)((c_, f_) => c_.copy(javaConversions = Option(f_)))
+    def optionalJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaConversions)((c_, f_) => c_.copy(javaConversions = f_))
     def auxMessageOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions]] = field(_.auxMessageOptions)((c_, f_) => c_.copy(auxMessageOptions = f_))
     def auxFieldOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions]] = field(_.auxFieldOptions)((c_, f_) => c_.copy(auxFieldOptions = f_))
     def auxEnumOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions]] = field(_.auxEnumOptions)((c_, f_) => c_.copy(auxEnumOptions = f_))
     def auxEnumValueOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions]] = field(_.auxEnumValueOptions)((c_, f_) => c_.copy(auxEnumValueOptions = f_))
-    def bytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getBytesType)((c_, f_) => c_.copy(bytesType = Option(f_)))
-    def optionalBytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.bytesType)((c_, f_) => c_.copy(bytesType = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -1370,11 +1394,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val NO_DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER = 15
   final val ENUM_VALUE_NAMING_FIELD_NUMBER = 16
   final val ENUM_STRIP_PREFIX_FIELD_NUMBER = 17
+  final val BYTES_TYPE_FIELD_NUMBER = 21
+  final val JAVA_CONVERSIONS_FIELD_NUMBER = 23
   final val AUX_MESSAGE_OPTIONS_FIELD_NUMBER = 18
   final val AUX_FIELD_OPTIONS_FIELD_NUMBER = 19
   final val AUX_ENUM_OPTIONS_FIELD_NUMBER = 20
   final val AUX_ENUM_VALUE_OPTIONS_FIELD_NUMBER = 22
-  final val BYTES_TYPE_FIELD_NUMBER = 21
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 100001
   def of(
     packageName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -1394,11 +1419,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean],
     enumValueNaming: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming],
     enumStripPrefix: _root_.scala.Option[_root_.scala.Boolean],
+    bytesType: _root_.scala.Option[_root_.scala.Predef.String],
+    javaConversions: _root_.scala.Option[_root_.scala.Boolean],
     auxMessageOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions],
     auxFieldOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions],
     auxEnumOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions],
     auxEnumValueOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions],
-    bytesType: _root_.scala.Option[_root_.scala.Predef.String],
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
@@ -1418,11 +1444,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     noDefaultValuesInConstructor,
     enumValueNaming,
     enumStripPrefix,
+    bytesType,
+    javaConversions,
     auxMessageOptions,
     auxFieldOptions,
     auxEnumOptions,
     auxEnumValueOptions,
-    bytesType,
     testOnlyNoJavaConversions
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions])

@@ -1,6 +1,7 @@
 # Change Log
 ## [0.11.0 Unreleased]
 - Upgraded to Protobuf 3.13.0
+- Add java_conversions as a file-level options in scalapb.proto
 
 ## [0.11.0-M3]
 - Supports protobuf 3.12.2
