@@ -1,9 +1,13 @@
 package scalapb
 
+import java.time.{Duration => jtDuration}
+
 import com.google.protobuf.duration.Duration
 import com.google.protobuf.timestamp.Timestamp.NANOS_PER_SECOND
 
 trait DurationCompanionMethods {
+  def apply(jtDuration: jtDuration): Duration = DurationConverters.fromJavaDuration(jtDuration)
+
   implicit final val ordering: Ordering[Duration] = new Ordering[Duration] {
     def compare(x: Duration, y: Duration): Int = {
       checkValid(x)
