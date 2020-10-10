@@ -13,7 +13,15 @@ However, it turns out there is another obstacle. Spark does not provide any mech
 
 ## Setting up your project
 
-Make sure that you are using ScalaPB 0.9.0 or later.
+The version of sparksql-scalapb needs to match the Spark and
+ScalaPB version:
+
+|Spark | ScalaPB   | SparkSQL-ScalaPB|
+| ---- | --------- |-----------------|
+|3.0   | 0.10.x    | 0.11.0-RC1      |
+|2.x   | 0.10.x    | 0.10.4          |
+|2.x   | 0.9.x     | 0.9.3           |
+
 
 We are going to use sbt-assembly to deploy a fat JAR containing ScalaPB, and
 your compiled protos.  Make sure in project/plugins.sbt you have a line

@@ -10,6 +10,7 @@ pkgs.mkShell {
     pkgs.sbt
     pkgs.openjdk11
     pkgs.nodejs
+    pkgs.yarn
 
     # keep this line if you use bash
     pkgs.bashInteractive
