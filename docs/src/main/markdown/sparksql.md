@@ -38,12 +38,14 @@ libraryDepenencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "@sparksql_
 ```
 
 Spark ships with an old version of Google's Protocol Buffers runtime that is not compatible with
-the current version. Therefore, we need to shade our copy of the Protocol Buffer runtime.
-Add this to your build.sbt:
+the current version. Therefore, we need to shade our copy of the Protocol Buffer runtime. Spark 3
+also ships with an incompatible version of scala-collection-compat.  Add the following to your
+build.sbt:
 
 ```scala
 assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("com.google.protobuf.**" -> "shadeproto.@1").inAll
+  ShadeRule.rename("com.google.protobuf.**" -> "shadeproto.@1").inAll,
+  ShadeRule.rename("scala.collection.compat.**" -> "shadecompat.@1").inAll
 )
 ```
 
