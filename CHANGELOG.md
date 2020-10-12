@@ -2,6 +2,11 @@
 ## [0.11.0 Unreleased]
 - Upgraded to Protobuf 3.13.0
 - Add java_conversions as a file-level options in scalapb.proto
+- google.protobuf.Timestamp and google.protobuf.Duration now come with a new
+  constructor that takes a java.time.Instant or Duration. There are are
+  implicit converters between the case classes and the java types that can be
+  imported from scalapb.DurationConverters and scalapb.TimestampConverters
+  (#939).
 
 ## [0.11.0-M3]
 - Supports protobuf 3.12.2
