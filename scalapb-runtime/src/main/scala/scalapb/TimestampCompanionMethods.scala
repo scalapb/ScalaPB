@@ -1,8 +1,12 @@
 package scalapb
 
+import java.time.Instant
+
 import com.google.protobuf.timestamp.Timestamp
 
 trait TimestampCompanionMethods {
+  def apply(instant: Instant): Timestamp = TimestampConverters.fromJavaInstant(instant)
+
   implicit final val ordering: Ordering[Timestamp] = new Ordering[Timestamp] {
     def compare(x: Timestamp, y: Timestamp): Int = {
       checkValid(x)

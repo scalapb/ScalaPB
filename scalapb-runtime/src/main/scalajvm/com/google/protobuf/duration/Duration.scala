@@ -81,7 +81,7 @@ final case class Duration(
     seconds: _root_.scala.Long = 0L,
     nanos: _root_.scala.Int = 0,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Duration] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Duration] with _root_.scalapb.DurationMethods {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {

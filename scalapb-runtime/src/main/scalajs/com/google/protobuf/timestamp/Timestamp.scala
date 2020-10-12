@@ -103,7 +103,7 @@ final case class Timestamp(
     seconds: _root_.scala.Long = 0L,
     nanos: _root_.scala.Int = 0,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Timestamp] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Timestamp] with _root_.scalapb.TimestampMethods {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {

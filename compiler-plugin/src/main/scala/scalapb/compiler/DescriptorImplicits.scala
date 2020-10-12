@@ -614,8 +614,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
 
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
-        case "google.protobuf.Any" => Seq("_root_.scalapb.AnyMethods")
-        case _                     => Seq()
+        case "google.protobuf.Any"       => Seq("_root_.scalapb.AnyMethods")
+        case "google.protobuf.Timestamp" => Seq("_root_.scalapb.TimestampMethods")
+        case "google.protobuf.Duration"  => Seq("_root_.scalapb.DurationMethods")
+        case _                           => Seq()
       }
 
       val updatable =
