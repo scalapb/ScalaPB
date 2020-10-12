@@ -64,27 +64,24 @@ class Descriptor private[descriptors] (
     val containingMessage: Option[Descriptor],
     val file: FileDescriptor
 ) extends BaseDescriptor {
-  val nestedMessages: Vector[Descriptor] = asProto.nestedType.zipWithIndex.map {
-    case (d, index) =>
-      new Descriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
+  val nestedMessages: Vector[Descriptor] = asProto.nestedType.zipWithIndex.map { case (d, index) =>
+    new Descriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
   }.toVector
 
-  val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
-    case (d, index) =>
-      new EnumDescriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
+  val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map { case (d, index) =>
+    new EnumDescriptor(FileDescriptor.join(fullName, d.getName), index, d, Some(this), file)
   }.toVector
 
   lazy val fields: Vector[FieldDescriptor] =
-    asProto.field.zipWithIndex.map {
-      case (fd, index) => FieldDescriptor.buildFieldDescriptor(fd, index, this)
+    asProto.field.zipWithIndex.map { case (fd, index) =>
+      FieldDescriptor.buildFieldDescriptor(fd, index, this)
     }.toVector
 
-  lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map {
-    case (oneof, index) =>
-      val oneofFields = fields.filter { t =>
-        t.asProto.oneofIndex.isDefined && t.asProto.oneofIndex.get == index
-      }
-      new OneofDescriptor(FileDescriptor.join(fullName, oneof.getName), this, oneofFields, oneof)
+  lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map { case (oneof, index) =>
+    val oneofFields = fields.filter { t =>
+      t.asProto.oneofIndex.isDefined && t.asProto.oneofIndex.get == index
+    }
+    new OneofDescriptor(FileDescriptor.join(fullName, oneof.getName), this, oneofFields, oneof)
   }
 
   def name: String = asProto.getName
@@ -107,9 +104,8 @@ class ServiceDescriptor private[descriptors] (
     val file: FileDescriptor
 ) extends BaseDescriptor {
   val methods: Vector[MethodDescriptor] =
-    (asProto.method.zipWithIndex).map {
-      case (m, index) =>
-        new MethodDescriptor(FileDescriptor.join(fullName, m.getName), index, m, this)
+    (asProto.method.zipWithIndex).map { case (m, index) =>
+      new MethodDescriptor(FileDescriptor.join(fullName, m.getName), index, m, this)
     }.toVector
 
   def name = asProto.getName
@@ -140,9 +136,8 @@ class EnumDescriptor private[descriptors] (
     val file: FileDescriptor
 ) extends BaseDescriptor {
   val values: Vector[EnumValueDescriptor] =
-    (asProto.value.zipWithIndex).map {
-      case (v, index) =>
-        new EnumValueDescriptor(FileDescriptor.join(fullName, v.getName), this, v, index)
+    (asProto.value.zipWithIndex).map { case (v, index) =>
+      new EnumValueDescriptor(FileDescriptor.join(fullName, v.getName), this, v, index)
     }.toVector
 
   def name = asProto.getName
@@ -306,19 +301,16 @@ class FileDescriptor private[descriptors] (
     val asProto: FileDescriptorProto,
     dependencies: Seq[FileDescriptor]
 ) extends BaseDescriptor {
-  val services: Vector[ServiceDescriptor] = asProto.service.zipWithIndex.map {
-    case (d, index) =>
-      new ServiceDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, this)
+  val services: Vector[ServiceDescriptor] = asProto.service.zipWithIndex.map { case (d, index) =>
+    new ServiceDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, this)
   }.toVector
 
-  val messages: Vector[Descriptor] = asProto.messageType.zipWithIndex.map {
-    case (d, index) =>
-      new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
+  val messages: Vector[Descriptor] = asProto.messageType.zipWithIndex.map { case (d, index) =>
+    new Descriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
   }.toVector
 
-  val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map {
-    case (d, index) =>
-      new EnumDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
+  val enums: Vector[EnumDescriptor] = asProto.enumType.zipWithIndex.map { case (d, index) =>
+    new EnumDescriptor(FileDescriptor.join(asProto.getPackage, d.getName), index, d, None, this)
   }.toVector
 
   private val descriptorsByName: Map[String, BaseDescriptor] = {

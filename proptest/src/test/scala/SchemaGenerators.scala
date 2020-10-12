@@ -128,7 +128,8 @@ object SchemaGenerators {
   //// String Generators ////
 
   /** Generates a string that starts with a lower-case alpha character,
-    * and only contains alphanumerical characters */
+    * and only contains alphanumerical characters
+    */
   def snakeIdentifier: Gen[String] =
     (for {
       c  <- Gen.alphaChar
@@ -202,18 +203,20 @@ object SchemaGenerators {
     getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".java"))
       .foreach { file =>
-        if (compiler.run(
-              null,
-              null,
-              null,
-              "-sourcepath",
-              rootDir.toString,
-              "-cp",
-              protobufJar.mkString(":"),
-              "-d",
-              rootDir.toString,
-              file.getAbsolutePath
-            ) != 0) {
+        if (
+          compiler.run(
+            null,
+            null,
+            null,
+            "-sourcepath",
+            rootDir.toString,
+            "-cp",
+            protobufJar.mkString(":"),
+            "-d",
+            rootDir.toString,
+            file.getAbsolutePath
+          ) != 0
+        ) {
           throw new RuntimeException(s"Compilation of $file failed.")
         }
       }

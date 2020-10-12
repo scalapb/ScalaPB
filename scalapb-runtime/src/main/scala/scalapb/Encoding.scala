@@ -18,9 +18,8 @@ object Encoding {
   }
   private[this] val alphabetReverseTable: Array[Byte] = {
     val array = new Array[Byte](alphabet.max + 1)
-    alphabet.zipWithIndex.foreach {
-      case (char, i) =>
-        array(char.toInt) = i.toByte
+    alphabet.zipWithIndex.foreach { case (char, i) =>
+      array(char.toInt) = i.toByte
     }
     array
   }
@@ -56,17 +55,17 @@ object Encoding {
     val out    = new mutable.StringBuilder()
     var b: Int = 0
     for { i <- 0.until(in.length, 3) } {
-      b = (in(i) & 0xFC) >> 2
+      b = (in(i) & 0xfc) >> 2
       out.append(alphabet(b))
       b = (in(i) & 0x03) << 4
       if (i + 1 < in.length) {
-        b |= (in(i + 1) & 0xF0) >> 4
+        b |= (in(i + 1) & 0xf0) >> 4
         out.append(alphabet(b))
-        b = (in(i + 1) & 0x0F) << 2
+        b = (in(i + 1) & 0x0f) << 2
         if (i + 2 < in.length) {
-          b |= (in(i + 2) & 0xC0) >> 6
+          b |= (in(i + 2) & 0xc0) >> 6
           out.append(alphabet(b))
-          b = in(i + 2) & 0x3F
+          b = in(i + 2) & 0x3f
           out.append(alphabet(b))
         } else {
           out.append(alphabet(b))

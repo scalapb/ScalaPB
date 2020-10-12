@@ -76,9 +76,11 @@ class Parser(text: String) {
     if (!hexPrefix) None
     else {
       val s = token.substring(index + 2)
-      if (!s.forall(ch =>
-            (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F')
-          ))
+      if (
+        !s.forall(ch =>
+          (ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'f') || (ch >= 'A' && ch <= 'F')
+        )
+      )
         throw parseException(s"Invalid hex literal: $token")
       else
         Some(BigInt(s, 16) * sign)
@@ -126,9 +128,11 @@ class Parser(text: String) {
   }
 
   def tryLiteral(token: String): Option[TLiteral] =
-    if (token.forall(c =>
-          (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '_') || (c == '-')
-        ))
+    if (
+      token.forall(c =>
+        (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || (c == '_') || (c == '-')
+      )
+    )
       Some(TLiteral(it.lastPosition, token))
     else None
 

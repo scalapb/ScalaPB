@@ -153,17 +153,16 @@ private[scalapb] object TextFormatUtils {
   /** Convert an unsigned 32-bit integer to a string. */
   def unsignedToString(value: Int): String = {
     if (value >= 0) java.lang.Integer.toString(value)
-    else java.lang.Long.toString(value & 0X00000000FFFFFFFFL)
+    else java.lang.Long.toString(value & 0x00000000ffffffffL)
   }
 
   /** Convert an unsigned 64-bit integer to a string. */
   def unsignedToString(value: Long): String = {
     if (value >= 0) java.lang.Long.toString(value)
-    else BigInteger.valueOf(value & 0X7FFFFFFFFFFFFFFFL).setBit(63).toString
+    else BigInteger.valueOf(value & 0x7fffffffffffffffL).setBit(63).toString
   }
 
-  /**
-    * Escape double quotes and backslashes in a String for unicode output of a message.
+  /** Escape double quotes and backslashes in a String for unicode output of a message.
     */
   def escapeDoubleQuotesAndBackslashes(input: String): String = {
     input.replace("\\", "\\\\").replace("\"", "\\\"")

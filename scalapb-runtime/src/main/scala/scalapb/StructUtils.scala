@@ -34,8 +34,8 @@ object StructUtils {
     flatten(fieldDescriptorToPValue).map(_.toMap).map(PMessage)
   }
 
-  private def fromValue(fd: FieldDescriptor)(value: Value)(
-      implicit companion: GeneratedMessageCompanion[_]
+  private def fromValue(fd: FieldDescriptor)(value: Value)(implicit
+      companion: GeneratedMessageCompanion[_]
   ): Either[StructParsingError, PValue] = (value.kind, fd.scalaType) match {
     case (Kind.NumberValue(v), ScalaType.Int) if v.isValidInt =>
       Right(PInt(v.toInt))
@@ -86,9 +86,8 @@ object StructUtils {
       PEmpty
 
   private def toStruct(pMessageMap: Map[FieldDescriptor, PValue]): Struct = {
-    val pMessageWithNonEmptyFields = pMessageMap.filter {
-      case (_, value) =>
-        value != PEmpty && value != PRepeated(Vector.empty)
+    val pMessageWithNonEmptyFields = pMessageMap.filter { case (_, value) =>
+      value != PEmpty && value != PRepeated(Vector.empty)
     }
     Struct(pMessageWithNonEmptyFields.map(pair => pair._1.name -> toValue(pair._2)))
   }

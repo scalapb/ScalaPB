@@ -94,8 +94,8 @@ trait GeneratedMessage extends Any with Serializable {
   def getField(field: _root_.scalapb.descriptors.FieldDescriptor): PValue
 
   final def toPMessage: PMessage =
-    PMessage(companion.scalaDescriptor.fields.map {
-      case f => (f, getField(f))
+    PMessage(companion.scalaDescriptor.fields.map { case f =>
+      (f, getField(f))
     }.toMap)
 
   def companion: GeneratedMessageCompanion[_]

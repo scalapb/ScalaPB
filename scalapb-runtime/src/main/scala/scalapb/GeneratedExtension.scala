@@ -69,30 +69,28 @@ object GeneratedExtension {
       toBase: T => E,
       unpack: CodedInputStream => E
   ): Lens[(Seq[E], Seq[ByteString]), Seq[T]] =
-    Lens[(Seq[E], Seq[ByteString]), Seq[T]]({
-      case (es, bss) =>
-        if (bss.nonEmpty) {
-          if (es.nonEmpty) {
-            throw new InvalidProtocolBufferException("Mixed packed and unpacked data.")
-          }
-          unpackLengthDelimited(bss, fromBase, unpack)
-        } else {
-          es.map(fromBase)
+    Lens[(Seq[E], Seq[ByteString]), Seq[T]]({ case (es, bss) =>
+      if (bss.nonEmpty) {
+        if (es.nonEmpty) {
+          throw new InvalidProtocolBufferException("Mixed packed and unpacked data.")
         }
+        unpackLengthDelimited(bss, fromBase, unpack)
+      } else {
+        es.map(fromBase)
+      }
     })(
-      {
-        case ((_, bss), t) =>
-          val v = Vector.newBuilder[E]
-          if (bss.nonEmpty) {
-            bss.foreach { ld =>
-              val ci = ld.newCodedInput()
-              while (ci.getBytesUntilLimit > 0) {
-                v += unpack(ci)
-              }
+      { case ((_, bss), t) =>
+        val v = Vector.newBuilder[E]
+        if (bss.nonEmpty) {
+          bss.foreach { ld =>
+            val ci = ld.newCodedInput()
+            while (ci.getBytesUntilLimit > 0) {
+              v += unpack(ci)
             }
           }
-          v ++= t.map(toBase)
-          (v.result(), Vector.empty[ByteString])
+        }
+        v ++= t.map(toBase)
+        (v.result(), Vector.empty[ByteString])
       }
     )
 

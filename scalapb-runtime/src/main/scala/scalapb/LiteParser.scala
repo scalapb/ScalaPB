@@ -5,8 +5,8 @@ import java.io.InputStream
 import com.google.protobuf.{CodedOutputStream, CodedInputStream}
 
 object LiteParser {
-  def readMessage[A <: GeneratedMessage](input: CodedInputStream, message: A)(
-      implicit cmp: GeneratedMessageCompanion[A]
+  def readMessage[A <: GeneratedMessage](input: CodedInputStream, message: A)(implicit
+      cmp: GeneratedMessageCompanion[A]
   ): A = {
     val length    = input.readRawVarint32()
     val oldLimit  = input.pushLimit(length)

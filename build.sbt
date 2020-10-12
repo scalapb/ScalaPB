@@ -68,7 +68,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
                        else Nil),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
-      )
+    )
   )
   .jvmPlatform(
     scalaVersions = Seq(Scala212, Scala213, Dotty),
@@ -115,7 +115,7 @@ lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       grpcStub,
       grpcProtobuf,
-      munit.value % "test",
+      munit.value  % "test",
       (mockitoCore % "test").withDottyCompat(scalaVersion.value)
     ),
     mimaPreviousArtifacts := Set(
@@ -132,12 +132,12 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     libraryDependencies ++= Seq(
       protocGen.withDottyCompat(scalaVersion.value),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      (coursier % "test").withDottyCompat(scalaVersion.value),
-      scalaTest.value % "test"
+      (coursier             % "test").withDottyCompat(scalaVersion.value),
+      scalaTest.value       % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
-      ),
+    ),
     PB.protocVersion := protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
@@ -286,9 +286,12 @@ lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
-      PB.gens.java(versions.protobuf)                                               -> (Compile / sourceManaged).value,
-      PB.gens.plugin("grpc-java")                                                   -> (Compile / sourceManaged).value,
-      (genModule("scalapb.ScalaPbCodeGenerator$"), Seq("grpc", "java_conversions")) -> (Compile / sourceManaged).value
+      PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
+      PB.gens.plugin("grpc-java")     -> (Compile / sourceManaged).value,
+      (
+        genModule("scalapb.ScalaPbCodeGenerator$"),
+        Seq("grpc", "java_conversions")
+      ) -> (Compile / sourceManaged).value
     ),
     codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
   )
@@ -309,8 +312,11 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
     Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       Compile / PB.targets := Seq(
-        PB.gens.java(versions.protobuf)                                       -> (Compile / sourceManaged).value,
-        (genModule("scalapb.ScalaPbCodeGenerator$"), Seq("java_conversions")) -> (Compile / sourceManaged).value
+        PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
+        (
+          genModule("scalapb.ScalaPbCodeGenerator$"),
+          Seq("java_conversions")
+        ) -> (Compile / sourceManaged).value
       )
     )
   )
@@ -331,7 +337,9 @@ lazy val e2e = (projectMatrix in file("e2e"))
   .jvmPlatform(
     Seq(Scala212, Scala213, Dotty),
     settings = Seq(
-      Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value)
+      Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (
+                                                                                         isDotty.value
+                                                                                       )
                                                                                          "scalajvm-3"
                                                                                        else
                                                                                          "scalajvm-2")
@@ -400,5 +408,5 @@ lazy val docs = project
     includeFilter in ghpagesCleanSite := GlobFilter(
       (ghpagesRepository.value / "README.md").getCanonicalPath
     )
-   */
+     */
   )

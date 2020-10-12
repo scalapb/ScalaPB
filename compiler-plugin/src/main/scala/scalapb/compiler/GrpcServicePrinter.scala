@@ -40,9 +40,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(s"trait ${service.name} extends _root_.scalapb.grpc.AbstractService {")
       .indent
       .add(s"override def serviceCompanion = ${service.name}")
-      .print(service.methods) {
-        case (p, method) =>
-          p.call(generateScalaDoc(method)).add(serviceMethodSignature(method, overrideSig = false))
+      .print(service.methods) { case (p, method) =>
+        p.call(generateScalaDoc(method)).add(serviceMethodSignature(method, overrideSig = false))
       }
       .outdent
       .add("}")
@@ -50,9 +49,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
   private[this] def serviceTraitCompanion: PrinterEndo = { p =>
     p.add(
-        s"object ${service.name} extends _root_.scalapb.grpc.ServiceCompanion[${service.name}] {"
-      )
-      .indent
+      s"object ${service.name} extends _root_.scalapb.grpc.ServiceCompanion[${service.name}] {"
+    ).indent
       .add(
         s"implicit def serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = this"
       )
@@ -72,9 +70,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add(s"trait ${service.blockingClient} {")
       .indent
       .add(s"def serviceCompanion = ${service.name}")
-      .print(service.methods.filter(_.canBeBlocking)) {
-        case (p, method) =>
-          p.call(generateScalaDoc(method)).add(blockingMethodSignature(method, overrideSig = false))
+      .print(service.methods.filter(_.canBeBlocking)) { case (p, method) =>
+        p.call(generateScalaDoc(method)).add(blockingMethodSignature(method, overrideSig = false))
       }
       .outdent
       .add("}")
@@ -124,9 +121,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     val build =
       s"override def build(channel: $channel, options: $callOptions): ${className} = new $className(channel, options)"
     p.add(
-        s"class $className(channel: $channel, options: $callOptions = $callOptions.DEFAULT) extends $abstractStub[$className](channel, options) with $baseClass {"
-      )
-      .indent
+      s"class $className(channel: $channel, options: $callOptions = $callOptions.DEFAULT) extends $abstractStub[$className](channel, options) with $baseClass {"
+    ).indent
       .call(methods: _*)
       .add(build)
       .outdent
@@ -183,9 +179,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
         .add(
           s""".setSchemaDescriptor(new _root_.scalapb.grpc.ConcreteProtoFileDescriptorSupplier(${service.getFile.fileDescriptorObject.fullName}.javaDescriptor))"""
         )
-        .print(service.methods) {
-          case (p, method) =>
-            p.add(s".addMethod(${method.grpcDescriptor.nameSymbol})")
+        .print(service.methods) { case (p, method) =>
+          p.add(s".addMethod(${method.grpcDescriptor.nameSymbol})")
         }
         .add(".build()")
         .outdent

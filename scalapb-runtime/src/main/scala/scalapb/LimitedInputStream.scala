@@ -2,8 +2,7 @@ package scalapb
 
 import java.io.{FilterInputStream, InputStream}
 
-/**
-  * Based on com.google.protobuf.AbstractMessageLite.Builder#LimitedInputStream.
+/** Based on com.google.protobuf.AbstractMessageLite.Builder#LimitedInputStream.
   */
 class LimitedInputStream(val is: InputStream, private var limit: Int)
     extends FilterInputStream(is) {

@@ -100,11 +100,10 @@ object Lens extends CompatLensImplicits {
 
     def foreachValue(f: Lens[B, B] => Mutation[B]): Mutation[U] =
       lens.modify(s =>
-        s.map {
-          case (k, m) =>
-            val field: Lens[B, B] = Lens.unit[B]
-            val p: Mutation[B]    = f(field)
-            (k, p(m))
+        s.map { case (k, m) =>
+          val field: Lens[B, B] = Lens.unit[B]
+          val p: Mutation[B]    = f(field)
+          (k, p(m))
         }
       )
 

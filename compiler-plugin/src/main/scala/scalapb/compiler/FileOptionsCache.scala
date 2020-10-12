@@ -42,37 +42,33 @@ object FileOptionsCache {
         }
         .sortBy(_._1.length) // so parent packages come before subpackages
 
-    filesAndOptions.filter(_._1.isEmpty).foreach {
-      case (_, pso) =>
-        throw new GeneratorException(
-          s"${pso.fileName}: a package statement is required when package-scoped options are used"
-        )
+    filesAndOptions.filter(_._1.isEmpty).foreach { case (_, pso) =>
+      throw new GeneratorException(
+        s"${pso.fileName}: a package statement is required when package-scoped options are used"
+      )
     }
 
-    filesAndOptions.groupBy(_._1).find(_._2.length > 1).foreach {
-      case (pn, s) =>
-        throw new GeneratorException(
-          s"Multiple files contain package-scoped options for package '${pn}': ${s.map(_._2.fileName).sorted.mkString(", ")}"
-        )
+    filesAndOptions.groupBy(_._1).find(_._2.length > 1).foreach { case (pn, s) =>
+      throw new GeneratorException(
+        s"Multiple files contain package-scoped options for package '${pn}': ${s.map(_._2.fileName).sorted.mkString(", ")}"
+      )
     }
 
-    filesAndOptions.find(_._2.options.hasObjectName).foreach {
-      case (_, pso) =>
-        throw new GeneratorException(
-          s"${pso.fileName}: object_name is not allowed in package-scoped options."
-        )
+    filesAndOptions.find(_._2.options.hasObjectName).foreach { case (_, pso) =>
+      throw new GeneratorException(
+        s"${pso.fileName}: object_name is not allowed in package-scoped options."
+      )
     }
 
     val optionsByPackage = new mutable.HashMap[String, ScalaPbOptions]
 
-    filesAndOptions.foreach {
-      case (packageName, packageScopedOptions) =>
-        val parents = parentPackages(packageName)
-        val actualOptions = parents.find(optionsByPackage.contains) match {
-          case Some(p) => mergeOptions(optionsByPackage(p), packageScopedOptions.options)
-          case None    => packageScopedOptions.options
-        }
-        optionsByPackage += packageName -> actualOptions
+    filesAndOptions.foreach { case (packageName, packageScopedOptions) =>
+      val parents = parentPackages(packageName)
+      val actualOptions = parents.find(optionsByPackage.contains) match {
+        case Some(p) => mergeOptions(optionsByPackage(p), packageScopedOptions.options)
+        case None    => packageScopedOptions.options
+      }
+      optionsByPackage += packageName -> actualOptions
     }
 
     files.map { f =>

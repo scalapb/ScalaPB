@@ -85,7 +85,7 @@ class SimpleTest extends FunSuite {
   val chef = Role(name = "Chef", person = mosh)
 
   val mapTest = MapTest(
-    intMap = Map(3        -> "three", 4 -> "four"),
+    intMap = Map(3 -> "three", 4 -> "four"),
     addressMap = Map(mosh -> Address("someStreet", "someCity", "someState"))
   )
 

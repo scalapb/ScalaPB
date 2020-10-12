@@ -20,15 +20,15 @@ final case class UnknownFieldSet(
     new UnknownFieldSet(fields = fields + (fieldNumber -> value))
 
   def writeTo(output: CodedOutputStream): Unit = {
-    fields.foreach {
-      case (fieldNumber, field) => field.writeTo(fieldNumber, output)
+    fields.foreach { case (fieldNumber, field) =>
+      field.writeTo(fieldNumber, output)
     }
   }
 
   def serializedSize: Int = {
     var size: Int = 0
-    fields.foreach {
-      case (fieldNumber, field) => size += field.serializedSize(fieldNumber)
+    fields.foreach { case (fieldNumber, field) =>
+      size += field.serializedSize(fieldNumber)
     }
     size
   }

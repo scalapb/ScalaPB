@@ -6,24 +6,24 @@ import scalapb.TextFormatException
 trait ParserSuite {
   self: FunSuite =>
 
-  def check[T](parser: Parser => String => Option[T], input: String, expected: T)(
-      implicit loc: Location
+  def check[T](parser: Parser => String => Option[T], input: String, expected: T)(implicit
+      loc: Location
   ): Unit = {
     val s     = new Parser(input)
     val value = parser(s)(s.it.next()).get
     assertEquals(value, expected)
   }
 
-  def check2[T](parser: Parser => Option[T], input: String, expected: T)(
-      implicit loc: Location
+  def check2[T](parser: Parser => Option[T], input: String, expected: T)(implicit
+      loc: Location
   ): Unit = {
     val s     = new Parser(input)
     val value = parser(s).get
     assertEquals(value, expected)
   }
 
-  def checkFail[T](parser: Parser => String => Option[T], input: String)(
-      implicit loc: Location
+  def checkFail[T](parser: Parser => String => Option[T], input: String)(implicit
+      loc: Location
   ): Unit = {
     val s = new Parser(input)
     try {
@@ -44,8 +44,8 @@ trait ParserSuite {
     }
   }
 
-  def checkFail[T](parser: Parser => String => Option[T], input: String, message: String)(
-      implicit loc: Location
+  def checkFail[T](parser: Parser => String => Option[T], input: String, message: String)(implicit
+      loc: Location
   ): Unit = {
     val s = new Parser(input)
     interceptMessage[TextFormatException](message)(parser(s)(s.it.next()))

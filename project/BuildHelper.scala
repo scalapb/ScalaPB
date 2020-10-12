@@ -62,11 +62,15 @@ object BuildHelper {
     libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil),
     libraryDependencies += Dependencies.scalaCollectionCompat.value
       .withDottyCompat(scalaVersion.value),
-    Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (isDotty.value)
+    Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (
+                                                                                             isDotty.value
+                                                                                           )
                                                                                              "scala-3"
                                                                                            else
                                                                                              "scala-2"),
-    Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (isDotty.value)
+    Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (
+                                                                                       isDotty.value
+                                                                                     )
                                                                                        "scala-3"
                                                                                      else
                                                                                        "scala-2"),

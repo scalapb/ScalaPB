@@ -9,8 +9,8 @@ object Printer {
   }
 
   def print(p: scalapb.descriptors.PMessage, out: TextGenerator): Unit = {
-    p.value.toSeq.sortBy(_._1.number).foreach {
-      case (fd, value) => printField(fd, value, out)
+    p.value.toSeq.sortBy(_._1.number).foreach { case (fd, value) =>
+      printField(fd, value, out)
     }
   }
 

@@ -37,41 +37,39 @@ object ScalaPBC {
     case class State(cfg: Config, passThrough: Boolean)
 
     args
-      .foldLeft(State(Config(), false)) {
-        case (state, item) =>
-          (state.passThrough, item) match {
-            case (false, "--")      => state.copy(passThrough = true)
-            case (false, "--throw") => state.copy(cfg = state.cfg.copy(throwException = true))
-            case (false, p) if p.startsWith(CustomGenArgument) =>
-              val Array(genName, klassName) = p.substring(CustomGenArgument.length).split('=')
-              val klass                     = Class.forName(klassName + "$")
-              val gen                       = klass.getField("MODULE$").get(klass).asInstanceOf[ProtocCodeGenerator]
-              state.copy(
-                cfg =
-                  state.cfg.copy(namedGenerators = state.cfg.namedGenerators :+ (genName -> gen))
-              )
-            case (false, p) if p.startsWith(JvmPluginArgument) =>
-              val Array(genName, artifactName) = p.substring(JvmPluginArgument.length).split('=')
-              state.copy(
-                cfg = state.cfg.copy(jvmPlugins = state.cfg.jvmPlugins :+ (genName -> artifactName))
-              )
-            case (false, p) if p.startsWith(CustomPathArgument) =>
-              state.copy(
-                cfg = state.cfg
-                  .copy(customProtocLocation = Some(p.substring(CustomPathArgument.length)))
-              )
-            case (false, p) if p.startsWith(PluginArtifactArgument) =>
-              state.copy(cfg =
-                state.cfg
-                  .copy(executableArtifacts =
-                    state.cfg.executableArtifacts :+ p.substring(PluginArtifactArgument.length())
-                  )
-              )
-            case (false, v) if v.startsWith("-v") =>
-              state.copy(cfg = state.cfg.copy(version = v.substring(2).trim))
-            case (_, other) =>
-              state.copy(passThrough = true, cfg = state.cfg.copy(args = state.cfg.args :+ other))
-          }
+      .foldLeft(State(Config(), false)) { case (state, item) =>
+        (state.passThrough, item) match {
+          case (false, "--")      => state.copy(passThrough = true)
+          case (false, "--throw") => state.copy(cfg = state.cfg.copy(throwException = true))
+          case (false, p) if p.startsWith(CustomGenArgument) =>
+            val Array(genName, klassName) = p.substring(CustomGenArgument.length).split('=')
+            val klass                     = Class.forName(klassName + "$")
+            val gen                       = klass.getField("MODULE$").get(klass).asInstanceOf[ProtocCodeGenerator]
+            state.copy(
+              cfg = state.cfg.copy(namedGenerators = state.cfg.namedGenerators :+ (genName -> gen))
+            )
+          case (false, p) if p.startsWith(JvmPluginArgument) =>
+            val Array(genName, artifactName) = p.substring(JvmPluginArgument.length).split('=')
+            state.copy(
+              cfg = state.cfg.copy(jvmPlugins = state.cfg.jvmPlugins :+ (genName -> artifactName))
+            )
+          case (false, p) if p.startsWith(CustomPathArgument) =>
+            state.copy(
+              cfg = state.cfg
+                .copy(customProtocLocation = Some(p.substring(CustomPathArgument.length)))
+            )
+          case (false, p) if p.startsWith(PluginArtifactArgument) =>
+            state.copy(cfg =
+              state.cfg
+                .copy(executableArtifacts =
+                  state.cfg.executableArtifacts :+ p.substring(PluginArtifactArgument.length())
+                )
+            )
+          case (false, v) if v.startsWith("-v") =>
+            state.copy(cfg = state.cfg.copy(version = v.substring(2).trim))
+          case (_, other) =>
+            state.copy(passThrough = true, cfg = state.cfg.copy(args = state.cfg.args :+ other))
+        }
       }
       .cfg
   }
@@ -88,8 +86,9 @@ object ScalaPBC {
         )
         .right
       runResult = Fetch().addDependencies(dep).run()
-      outcome <- if (runResult.isEmpty) Left(s"Could not find artifact for $artifact")
-      else Right(runResult)
+      outcome <-
+        if (runResult.isEmpty) Left(s"Could not find artifact for $artifact")
+        else Right(runResult)
     } yield (dep, outcome)
   }
 
@@ -136,11 +135,13 @@ object ScalaPBC {
 
   @silent("method right in class Either is deprecated")
   private[scalapb] def runProtoc(config: Config): Int = {
-    if (config.namedGenerators
-          .map(_._1)
-          .toSet
-          .intersect(config.jvmPlugins.map(_._1).toSet)
-          .nonEmpty) {
+    if (
+      config.namedGenerators
+        .map(_._1)
+        .toSet
+        .intersect(config.jvmPlugins.map(_._1).toSet)
+        .nonEmpty
+    ) {
       throw new RuntimeException(
         s"Same plugin name provided by $PluginArtifactArgument and $JvmPluginArgument"
       )
@@ -160,15 +161,14 @@ object ScalaPBC {
     ) match {
       case Left(error) => fatalError(error)
       case Right(arts) =>
-        arts.map {
-          case (name, (_, files)) =>
-            val urls   = files.map(_.toURI().toURL()).toArray
-            val loader = new URLClassLoader(urls, null)
-            val mainClass = findMainClass(files.head) match {
-              case Right(v)  => v
-              case Left(err) => fatalError(err)
-            }
-            name -> SandboxedJvmGenerator.load(mainClass, loader)
+        arts.map { case (name, (_, files)) =>
+          val urls   = files.map(_.toURI().toURL()).toArray
+          val loader = new URLClassLoader(urls, null)
+          val mainClass = findMainClass(files.head) match {
+            case Right(v)  => v
+            case Left(err) => fatalError(err)
+          }
+          name -> SandboxedJvmGenerator.load(mainClass, loader)
         }
     }
 

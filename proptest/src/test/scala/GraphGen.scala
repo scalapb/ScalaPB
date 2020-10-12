@@ -57,17 +57,16 @@ object GraphGen {
         )
       )
 
-    def newFile: Gen[(String, Int, State)] = generateName.map {
-      case (name, state) =>
-        (
-          name,
-          _nextFileId,
-          state.copy(
-            currentFileInitialMessageId = _nextMessageId,
-            currentFileInitialEnumId = _nextEnumId,
-            _nextFileId = _nextFileId + 1
-          )
+    def newFile: Gen[(String, Int, State)] = generateName.map { case (name, state) =>
+      (
+        name,
+        _nextFileId,
+        state.copy(
+          currentFileInitialMessageId = _nextMessageId,
+          currentFileInitialEnumId = _nextEnumId,
+          _nextFileId = _nextFileId + 1
         )
+      )
     }
 
     def currentFileId: Int = _nextFileId - 1
@@ -104,17 +103,16 @@ object GraphGen {
       (myId, state)     <- Gen.const(state.nextEnumId(syntax, zeroDefined))
       (names, state) <- GenUtils
         .listWithStatefulGen(state, minSize = 1, maxSize = 5)(_.generateName)
-        .retryUntil {
-          case (names, _) =>
-            // In protoc there is a check that says:
-            //     When enum name is stripped and label is PascalCased (X), this value label conflicts
-            //     with abc_bar_x. This will make the proto fail to compile for some languages, such as C#.
-            //
-            // To eliminate any posssibility of triggering it, we don't allow labels (lower case, underscores removed)
-            // to start with the enum names (lower case, underscores removed)
-            val enumNameCanon = enumName.toLowerCase.replaceAll("_", "")
-            names.forall(n => !n.toLowerCase.replaceAll("_", "").startsWith(enumNameCanon)) &&
-            namesAreUniqueAfterCamelCase(names)
+        .retryUntil { case (names, _) =>
+          // In protoc there is a check that says:
+          //     When enum name is stripped and label is PascalCased (X), this value label conflicts
+          //     with abc_bar_x. This will make the proto fail to compile for some languages, such as C#.
+          //
+          // To eliminate any posssibility of triggering it, we don't allow labels (lower case, underscores removed)
+          // to start with the enum names (lower case, underscores removed)
+          val enumNameCanon = enumName.toLowerCase.replaceAll("_", "")
+          names.forall(n => !n.toLowerCase.replaceAll("_", "").startsWith(enumNameCanon)) &&
+          namesAreUniqueAfterCamelCase(names)
         }
       values <- GenUtils.genListOfDistinctPositiveNumbers(names.size).map { v =>
         // in proto3 the first enum value must be zero.
@@ -153,16 +151,25 @@ object GraphGen {
       if (n == 0)(Gen.const((Nil, state)))
       else
         Gen.frequency(
-          (4, genBits(n - 1, 0, NotInOneof, state).map {
-            case (l, s) => (NotInOneof :: l, s)
-          }),
-          (1, for {
-            (name, state) <- state.generateName
-            (tail, state) <- genBits(n - 1, 1, OneofContainer(name), state)
-          } yield (OneofContainer(name) :: tail, state)),
-          (if (seqSize > 0) 4 else 0, genBits(n - 1, 1, prev, state).map {
-            case (l, s) => (prev :: l, s)
-          })
+          (
+            4,
+            genBits(n - 1, 0, NotInOneof, state).map { case (l, s) =>
+              (NotInOneof :: l, s)
+            }
+          ),
+          (
+            1,
+            for {
+              (name, state) <- state.generateName
+              (tail, state) <- genBits(n - 1, 1, OneofContainer(name), state)
+            } yield (OneofContainer(name) :: tail, state)
+          ),
+          (
+            if (seqSize > 0) 4 else 0,
+            genBits(n - 1, 1, prev, state).map { case (l, s) =>
+              (prev :: l, s)
+            }
+          )
         )
 
     genBits(fieldCount, 0, NotInOneof, state)
@@ -190,16 +197,15 @@ object GraphGen {
           isInOneof.map(isOneof => GenTypes.genFieldType(state, protoSyntax, allowMaps = !isOneof))
         )
         fieldOptions <- Gen.sequence[Seq[FieldOptions], FieldOptions](
-          (fieldTypes zip isInOneof).map {
-            case (fieldType, inOneof) =>
-              GenTypes.genOptionsForField(myId, fieldType, protoSyntax, inOneof = inOneof)
+          (fieldTypes zip isInOneof).map { case (fieldType, inOneof) =>
+            GenTypes.genOptionsForField(myId, fieldType, protoSyntax, inOneof = inOneof)
           }
         )
         fields = (fieldNames zip oneOfGroupings) zip (fieldTypes
           .lazyZip(fieldOptions)
           .lazyZip(fieldTags))
-          .toList map {
-          case ((n, oog), (t, opts, tag)) => FieldNode(n, t, opts, oog, tag)
+          .toList map { case ((n, oog), (t, opts, tag)) =>
+          FieldNode(n, t, opts, oog, tag)
         }
       } yield (
         MessageNode(myId, name, messages, enums, fields, parentMessageId, state.currentFileId),
@@ -237,9 +243,10 @@ object GraphGen {
 
   def genService(messages: Seq[MessageNode])(state: State): Gen[(ServiceNode, State)] =
     for {
-      (methods, state) <- if (messages.nonEmpty)
-        listWithStatefulGen(state, maxSize = 3)(genMethod(messages))
-      else Gen.const((Seq.empty[MethodNode], state))
+      (methods, state) <-
+        if (messages.nonEmpty)
+          listWithStatefulGen(state, maxSize = 3)(genMethod(messages))
+        else Gen.const((Seq.empty[MethodNode], state))
       (name, state) <- state.generateName
     } yield ServiceNode(name, methods) -> state
 
@@ -288,10 +295,9 @@ object GraphGen {
 
   def genRootNode: Gen[RootNode] = {
     listWithStatefulGen(State(), maxSize = 10)(genFileNode)
-      .map {
-        case (files, state) =>
-          assert(state.namespace.parent.isEmpty)
-          RootNode(files)
+      .map { case (files, state) =>
+        assert(state.namespace.parent.isEmpty)
+        RootNode(files)
       }
       .suchThat(_.maxMessageId.isDefined)
 

@@ -24,13 +24,13 @@ class TypeMappedMarshaller[T <: GeneratedMessage, Custom](
 }
 
 object Marshaller {
-  def forMessage[T <: GeneratedMessage](
-      implicit companion: GeneratedMessageCompanion[T]
+  def forMessage[T <: GeneratedMessage](implicit
+      companion: GeneratedMessageCompanion[T]
   ) =
     new Marshaller[T](companion)
 
-  def forTypeMappedType[T <: GeneratedMessage, Custom](
-      implicit typeMapper: TypeMapper[T, Custom],
+  def forTypeMappedType[T <: GeneratedMessage, Custom](implicit
+      typeMapper: TypeMapper[T, Custom],
       companion: GeneratedMessageCompanion[T]
   ) =
     new TypeMappedMarshaller[T, Custom](typeMapper, companion)

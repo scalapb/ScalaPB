@@ -14,13 +14,12 @@ import org.scalatest.matchers.must.Matchers
 class ProtoValidationSpec extends AnyFlatSpec with Matchers {
   def generateFileSet(files: Seq[(String, String)]) = {
     val tmpDir = Files.createTempDirectory("validation").toFile
-    val fileNames = files.map {
-      case (name, content) =>
-        val file = new File(tmpDir, name)
-        val pw   = new PrintWriter(file)
-        pw.write(content)
-        pw.close()
-        file.getAbsoluteFile
+    val fileNames = files.map { case (name, content) =>
+      val file = new File(tmpDir, name)
+      val pw   = new PrintWriter(file)
+      pw.write(content)
+      pw.close()
+      file.getAbsoluteFile
     }
     val outFile = new File(tmpDir, "descriptor.out")
 
@@ -48,10 +47,9 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
           fin.close()
         }
       fileset.getFileList.asScala
-        .foldLeft[Map[String, FileDescriptor]](Map.empty) {
-          case (acc, fp) =>
-            val deps = fp.getDependencyList.asScala.map(acc)
-            acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
+        .foldLeft[Map[String, FileDescriptor]](Map.empty) { case (acc, fp) =>
+          val deps = fp.getDependencyList.asScala.map(acc)
+          acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
         }
         .values
         .toVector

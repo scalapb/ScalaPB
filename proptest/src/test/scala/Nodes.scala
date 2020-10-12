@@ -104,10 +104,9 @@ object Nodes {
 
     override def toString: String = {
       files
-        .foldLeft(new FunctionalPrinter) {
-          case (fp, f) =>
-            fp.add(s"${f.baseFileName}.proto:\n")
-              .call(f.print(this, _))
+        .foldLeft(new FunctionalPrinter) { case (fp, f) =>
+          fp.add(s"${f.baseFileName}.proto:\n")
+            .call(f.print(this, _))
         }
         .result()
     }
@@ -217,8 +216,7 @@ object Nodes {
         .print(messages)((message, p) => p.print(rootNode, this, message))
         .print(services)((service, p) => p.print(service))
 
-    /**
-      * @return
+    /** @return
       * Right(package name) if `java_multiple_files` option is true
       * Left(outer class name) if `java_multiple_files` option is false
       */

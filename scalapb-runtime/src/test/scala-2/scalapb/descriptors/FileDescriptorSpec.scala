@@ -195,7 +195,9 @@ class FileDescriptorSpec extends FunSuite {
                                               |    type_name: "TheEnum"
                                               |  }
                                               |}""".stripMargin)
-    interceptMessage[DescriptorValidationException]("mypkg.Msg1: Invalid type TheEnum for field ff") {
+    interceptMessage[DescriptorValidationException](
+      "mypkg.Msg1: Invalid type TheEnum for field ff"
+    ) {
       FileDescriptor.buildFrom(fdp, Nil)
     }
   }
@@ -232,16 +234,16 @@ class FileDescriptorSpec extends FunSuite {
 
   test("buildFrom recognizes enums when type field is missing") {
     val fdp     = FileDescriptorProto.fromAscii("""package: "mypkg"
-                                                  |message_type {
-                                                  |  name: "Msg1"
-                                                  |  enum_type {
-                                                  |    name: "TheEnum"
-                                                  |  }
-                                                  |  field {
-                                                  |    name: "field_full"
-                                                  |    type_name: "TheEnum"
-                                                  |  }
-                                                  |}""".stripMargin)
+                                              |message_type {
+                                              |  name: "Msg1"
+                                              |  enum_type {
+                                              |    name: "TheEnum"
+                                              |  }
+                                              |  field {
+                                              |    name: "field_full"
+                                              |    type_name: "TheEnum"
+                                              |  }
+                                              |}""".stripMargin)
     val fd      = FileDescriptor.buildFrom(fdp, Nil)
     val msg     = fd.messages(0)
     val enumVal = msg.enums(0)

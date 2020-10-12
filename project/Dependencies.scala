@@ -43,9 +43,9 @@ object Dependencies {
     "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % versions.protobufRuntimeScala
   }
 
-  val coursier         = "io.get-coursier"      %% "coursier"          % versions.coursier
-  val protocGen        = "com.thesamet.scalapb" %% "protoc-gen"        % versions.protocGen
-  val protobufJavaUtil = "com.google.protobuf"  % "protobuf-java-util" % versions.protobuf
+  val coursier         = "io.get-coursier"      %% "coursier"           % versions.coursier
+  val protocGen        = "com.thesamet.scalapb" %% "protoc-gen"         % versions.protocGen
+  val protobufJavaUtil = "com.google.protobuf"   % "protobuf-java-util" % versions.protobuf
 
   // grpc
   val grpcStub      = "io.grpc" % "grpc-stub"            % versions.grpc
@@ -59,12 +59,12 @@ object Dependencies {
   val scalaTestPlusScalaCheck = Def.setting {
     "org.scalatestplus" %%% "scalacheck-1-14" % versions.scalaTestPlusScalaCheck
   }
-  val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % versions.scalaTestPlusMockito
+  val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10"  % versions.scalaTestPlusMockito
   val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }
   val munit                = Def.setting { "org.scalameta" %%% "munit" % versions.munit }
   val munitScalaCheck      = Def.setting { "org.scalameta" %%% "munit-scalacheck" % versions.munit }
-  val mockitoCore          = "org.mockito" % "mockito-core" % versions.mockito
-  val commonsCodec         = "commons-codec" % "commons-codec" % versions.commonsCodec
+  val mockitoCore          = "org.mockito"        % "mockito-core"  % versions.mockito
+  val commonsCodec         = "commons-codec"      % "commons-codec" % versions.commonsCodec
 
   val annotationApi =
     "javax.annotation" % "javax.annotation-api" % versions.annotationApi // needed for grpc-java on JDK9

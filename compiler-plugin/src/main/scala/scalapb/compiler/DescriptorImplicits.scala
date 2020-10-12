@@ -367,9 +367,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
         Some(fd.getEnumType.scalaOptions.getType)
       else if (isBytes && fd.getFile.scalaOptions.hasBytesType)
         Some(fd.getFile.scalaOptions.getBytesType)
-      else if (fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType)
+      else if (
+        fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType
+      )
         Some(fieldReferencingMap.fieldOptions.getKeyType)
-      else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)
+      else if (
+        fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType
+      )
         Some(fieldReferencingMap.fieldOptions.getValueType)
       else if (isMessage && fd.getFile.usePrimitiveWrappers)
         DescriptorImplicits.primitiveWrapperType(fd.getMessageType)
@@ -1086,15 +1090,14 @@ object DescriptorImplicits {
 object Helper {
   def makeUniqueNames[T](values: Seq[(T, String)]): Map[T, String] = {
     val newNameMap: Map[String, T] =
-      values.foldLeft(Map.empty[String, T]) {
-        case (nameMap, (t, name)) =>
-          var newName: String = name
-          var attempt: Int    = 0
-          while (nameMap.contains(newName)) {
-            attempt += 1
-            newName = s"${name}_$attempt"
-          }
-          nameMap + (newName -> t)
+      values.foldLeft(Map.empty[String, T]) { case (nameMap, (t, name)) =>
+        var newName: String = name
+        var attempt: Int    = 0
+        while (nameMap.contains(newName)) {
+          attempt += 1
+          newName = s"${name}_$attempt"
+        }
+        nameMap + (newName -> t)
       }
     newNameMap.map(_.swap)
   }
