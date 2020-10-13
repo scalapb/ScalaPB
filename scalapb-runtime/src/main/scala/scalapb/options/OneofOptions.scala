@@ -7,10 +7,13 @@ package scalapb.options
 
 /** @param extends
   *   Additional traits to mix in to a oneof.
+  * @param scalaName
+  *   Name in Scala to use for this oneof field.
   */
 @SerialVersionUID(0L)
 final case class OneofOptions(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofOptions] {
     @transient
@@ -21,6 +24,10 @@ final case class OneofOptions(
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(1, __value)
       }
+      if (scalaName.isDefined) {
+        val __value = scalaName.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+      };
       __size += unknownFields.serializedSize
       __size
     }
@@ -37,23 +44,32 @@ final case class OneofOptions(
         val __m = __v
         _output__.writeString(1, __m)
       };
+      scalaName.foreach { __v =>
+        val __m = __v
+        _output__.writeString(2, __m)
+      };
       unknownFields.writeTo(_output__)
     }
     def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
     def addExtends(__vs: _root_.scala.Predef.String*): OneofOptions = addAllExtends(__vs)
     def addAllExtends(__vs: Iterable[_root_.scala.Predef.String]): OneofOptions = copy(`extends` = `extends` ++ __vs)
     def withExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): OneofOptions = copy(`extends` = __v)
+    def getScalaName: _root_.scala.Predef.String = scalaName.getOrElse("")
+    def clearScalaName: OneofOptions = copy(scalaName = _root_.scala.None)
+    def withScalaName(__v: _root_.scala.Predef.String): OneofOptions = copy(scalaName = Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => `extends`
+        case 2 => scalaName.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 2 => scalaName.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -64,6 +80,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.OneofOptions] = this
   def merge(`_message__`: scalapb.options.OneofOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.OneofOptions = {
     val __extends = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= `_message__`.`extends`)
+    var __scalaName = `_message__`.scalaName
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -72,6 +89,8 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
         case 0 => _done__ = true
         case 10 =>
           __extends += _input__.readStringRequireUtf8()
+        case 18 =>
+          __scalaName = Option(_input__.readStringRequireUtf8())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
@@ -81,6 +100,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
     }
     scalapb.options.OneofOptions(
         `extends` = __extends.result(),
+        scalaName = __scalaName,
         unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
     )
   }
@@ -88,7 +108,8 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.options.OneofOptions(
-        `extends` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty)
+        `extends` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
+        scalaName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -98,16 +119,22 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.OneofOptions(
-    `extends` = _root_.scala.Seq.empty
+    `extends` = _root_.scala.Seq.empty,
+    scalaName = _root_.scala.None
   )
   implicit class OneofOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.OneofOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.OneofOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
+    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))
+    def optionalScalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
+  final val SCALA_NAME_FIELD_NUMBER = 2
   def of(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String]
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
+    scalaName: _root_.scala.Option[_root_.scala.Predef.String]
   ): _root_.scalapb.options.OneofOptions = _root_.scalapb.options.OneofOptions(
-    `extends`
+    `extends`,
+    scalaName
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.OneofOptions])
 }
