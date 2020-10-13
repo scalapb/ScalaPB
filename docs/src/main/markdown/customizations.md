@@ -620,6 +620,17 @@ enum MyEnum {
 }
 ```
 
+The same customization can be applied to `oneof` fields:
+
+```protobuf
+oneof notify {
+  option (scalapb.oneof).scala_name = "myNotify";
+
+  string foo = 1;
+  int32 bar = 2;
+}
+```
+
 ## Adding annotations
 
 Since ScalaPB 0.6.3, you can add annotations to the generated case classes like this:

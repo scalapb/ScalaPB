@@ -7,6 +7,7 @@
   implicit converters between the case classes and the java types that can be
   imported from scalapb.DurationConverters and scalapb.TimestampConverters
   (#939).
+- Add support for renaming `oneof` fields (#946)
 
 ## [0.11.0-M3]
 - Supports protobuf 3.12.2
