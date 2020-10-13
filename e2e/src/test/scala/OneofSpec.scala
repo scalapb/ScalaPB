@@ -5,6 +5,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
 import com.thesamet.proto.e2e.one_of._
+import com.thesamet.proto.e2e.oneof_named_field._
 
 class OneofSpec
     extends AnyFlatSpec
@@ -22,6 +23,10 @@ class OneofSpec
     OneofTest.parseFrom(tempField.toByteArray) must be(tempField)
     OneofTest.parseFrom(otherField.toByteArray) must be(otherField)
     OneofTest.parseFrom(sub.toByteArray) must be(sub)
+  }
+
+  "oneofs.scala_name" should "set the scala field name" in {
+    NamedOneOf().myField must be(NamedOneOf.MyOneof.Empty)
   }
 
   "oneof.isX function" should "return correct value" in {

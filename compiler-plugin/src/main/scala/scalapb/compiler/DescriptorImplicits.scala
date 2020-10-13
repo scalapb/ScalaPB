@@ -446,8 +446,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
       s"get${name}Case"
     }
 
-    def scalaName =
-      oneof.getContainingType.scalaType / NameUtils.snakeCaseToCamelCase(oneof.getName)
+    def scalaName = {
+      val fieldName =
+        if (oneofOptions.getScalaName.nonEmpty) oneofOptions.getScalaName
+        else NameUtils.snakeCaseToCamelCase(oneof.getName)
+
+      oneof.getContainingType.scalaType / fieldName
+    }
 
     def scalaType = {
       val name = oneof.getName match {
