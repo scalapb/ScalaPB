@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -e
 SCALA_VERSION=${SCALA_VERSION:-2_12}
 sbt clean \
