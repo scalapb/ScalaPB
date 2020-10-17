@@ -45,7 +45,7 @@ class Tokenizer(s: String) {
 
   def hasNext: Boolean = currentToken.nonEmpty
 
-  def findEndOfquotedString(pos: Int, quote: Char): Int = {
+  def findEndOfQuotedString(pos: Int, quote: Char): Int = {
     var current = pos
     var break   = false
     while (current < s.length() && s(current) != '\n' && !break) {
@@ -79,7 +79,7 @@ class Tokenizer(s: String) {
         pos += currentToken.length()
         column += currentToken.length()
       } else if (s(pos) == '"' || s(pos) == '\'') {
-        val end = findEndOfquotedString(pos + 1, s(pos))
+        val end = findEndOfQuotedString(pos + 1, s(pos))
         currentToken = s.substring(pos, end)
         column += (end - pos)
         pos = end
