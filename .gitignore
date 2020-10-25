@@ -8,6 +8,7 @@ project/metals.sbt
 *.swp
 
 # sbt specific
+.bsp
 .cache/
 .history/
 .lib/
