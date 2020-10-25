@@ -45,6 +45,7 @@ object Dependencies {
 
   val coursier         = "io.get-coursier"      %% "coursier"           % versions.coursier
   val protocGen        = "com.thesamet.scalapb" %% "protoc-gen"         % versions.protocGen
+  val protocCacheCoursier = "com.thesamet.scalapb" %% "protoc-cache-coursier" % versions.protocGen
   val protobufJavaUtil = "com.google.protobuf"   % "protobuf-java-util" % versions.protobuf
 
   // grpc

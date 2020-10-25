@@ -11,9 +11,9 @@ import java.net.URLClassLoader
 import java.util.jar.JarInputStream
 import java.io.FileInputStream
 import protocbridge.SandboxedJvmGenerator
-import protocbridge.SystemDetector
 import sys.process._
 import scala.io.Source
+import scala.util.{Try, Success, Failure}
 
 case class Config(
     version: String = scalapb.compiler.Version.protobufVersion,
@@ -117,20 +117,10 @@ object ScalaPBC {
   }
 
   private def getProtoc(version: String): Either[String, String] = {
-    import coursier._
-    import coursier.core.{Type, Extension, Classifier}
-    val protocDep = dep"com.google.protobuf:protoc"
-      .withVersion(version)
-      .withPublication(
-        "protoc",
-        Type("jar"),
-        Extension("exe"),
-        Classifier(SystemDetector.detectedClassifier())
-      )
-    val out = Fetch().addDependencies(protocDep).run()
-    if (out.isEmpty) Left(s"Could not download protoc dependency: $protocDep")
-    out.head.setExecutable(true)
-    Right(out.head.toPath().toAbsolutePath().toString())
+    Try(protocbridge.CoursierProtocCache.getProtoc(version)) match {
+      case Success(f) => Right(f.getAbsolutePath())
+      case Failure(e) => Left(e.getMessage)
+    }
   }
 
   @silent("method right in class Either is deprecated")
