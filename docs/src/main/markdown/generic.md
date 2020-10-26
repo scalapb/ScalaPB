@@ -98,5 +98,5 @@ to return, and the filename. The Scala compiler will automatically find the
 appropriate message companion to pass as `cmp` via implicit search:
 
 ```scala
-loadFromFile[Person]("/tmp/person.pb")
+readFromFile[Person]("/tmp/person.pb")
 ```
