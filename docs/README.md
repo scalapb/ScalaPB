@@ -1,11 +1,15 @@
-# Developing documentation
+## Development environment for writing docs
 
-In sbt,
+In one terminal, start sbt and type:
 
     docs/mdoc --watch
 
-In another terminal, in the website directory, type:
+Assuming you have `nodejs` and `yarn` install, in another terminal, navigate
+to the `website` directory:
 
     yarn install
 
     yarn start
+
+Then, edit the documents under `src/main/markdown`. The docs are served
+locally at http://localhost:3000/

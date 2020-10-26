@@ -49,7 +49,12 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] {
   def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
 
+  /** Returns the Java descriptors for this enum. It is recommended to use
+    *  scalaDescriptors. The Java descriptors are available even when Java conversions is
+    *  disabled, however they are not avaialable in Scala.js or scala-native.
+    */
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
+
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor
 }
 
@@ -65,8 +70,11 @@ trait GeneratedOneof extends Any with Product with Serializable {
 trait GeneratedOneofCompanion
 
 trait GeneratedMessage extends Any with Serializable {
+
+  /** Serializes the message into the given coded output stream */
   def writeTo(output: CodedOutputStream): Unit
 
+  /** Serializes the message into the given output stream */
   final def writeTo(output: OutputStream): Unit = {
     val bufferSize =
       LiteParser.preferredCodedOutputStreamBufferSize(serializedSize)
@@ -100,6 +108,7 @@ trait GeneratedMessage extends Any with Serializable {
 
   def companion: GeneratedMessageCompanion[_]
 
+  /** Serializes the messgae and returns a byte array containing its raw bytes */
   final def toByteArray: Array[Byte] = {
     val a            = new Array[Byte](serializedSize)
     val outputStream = CodedOutputStream.newInstance(a)
@@ -108,6 +117,7 @@ trait GeneratedMessage extends Any with Serializable {
     a
   }
 
+  /** Serializes the messgae and returns a ByteString containing its raw bytes */
   final def toByteString: ByteString = {
     val output = ByteString.newOutput(serializedSize)
     writeTo(output)
@@ -177,6 +187,10 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
 
+  /** Returns the Java descriptors for this message. It is recommended to use
+    *  scalaDescriptors. The Java descriptors are available even when Java conversions is
+    *  disabled, however they are not avaialable in Scala.js or scala-native.
+    */
   def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
 
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor
@@ -223,6 +237,11 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
 
 abstract class GeneratedFileObject {
   def scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor
+
+  /** Returns the Java descriptors for this file. It is recommended to use
+    *  scalaDescriptors. The Java descriptors are available even when Java conversions is
+    *  disabled, however they are not avaialable in Scala.js or scala-native.
+    */
   def javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor
   // Other file objects that this file depends on.
   def dependencies: Seq[GeneratedFileObject]

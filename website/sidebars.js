@@ -22,6 +22,7 @@ module.exports = {
         'third-party-protos',
         'common-protos',
         'validation',
+        'generic',
         'writing-plugins',
         'upgrading',
     ],
