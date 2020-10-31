@@ -10,7 +10,7 @@ pull_request_rules:
   - name: merge scala-steward's PRs
     conditions:
       - author=scala-steward
-      - status-success=continuous-integration/travis-ci/pr
+      - status-success=ci-passed
     actions:
       merge:
         method: squash
