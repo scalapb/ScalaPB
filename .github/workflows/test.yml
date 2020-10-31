@@ -34,3 +34,9 @@ jobs:
     - name: ${{matrix.script}}
       run: |
         ./${{matrix.script}}.sh
+  # Single final job for mergify.
+  ci-passed:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - run: ':'
