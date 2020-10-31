@@ -132,7 +132,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     libraryDependencies ++= Seq(
       protocGen.withDottyCompat(scalaVersion.value),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      (protocCacheCoursier   % "test").withDottyCompat(scalaVersion.value),
+      (protocCacheCoursier  % "test").withDottyCompat(scalaVersion.value),
       scalaTest.value       % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
@@ -160,7 +160,7 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .settings(
     libraryDependencies ++= Seq(
       coursier,
-      protocCacheCoursier
+      protocCacheCoursier.withDottyCompat(scalaVersion.value)
     ),
     /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
       * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the
@@ -209,11 +209,11 @@ lazy val proptest = (projectMatrix in file("proptest"))
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
       protobufJava,
-      grpcNetty                     % "test",
-      grpcProtobuf                  % "test",
-      protocCacheCoursier           % "test",
-      scalaTest.value               % "test",
-      scalaTestPlusScalaCheck.value % "test"
+      grpcNetty                                               % "test",
+      grpcProtobuf                                            % "test",
+      protocCacheCoursier.withDottyCompat(scalaVersion.value) % "test",
+      scalaTest.value                                         % "test",
+      scalaTestPlusScalaCheck.value                           % "test"
     ),
     scalacOptions ++= (if (!isDotty.value)
                          Seq(

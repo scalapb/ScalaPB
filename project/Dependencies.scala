@@ -43,10 +43,10 @@ object Dependencies {
     "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % versions.protobufRuntimeScala
   }
 
-  val coursier         = "io.get-coursier"      %% "coursier"           % versions.coursier
-  val protocGen        = "com.thesamet.scalapb" %% "protoc-gen"         % versions.protocGen
+  val coursier            = "io.get-coursier"      %% "coursier"              % versions.coursier
+  val protocGen           = "com.thesamet.scalapb" %% "protoc-gen"            % versions.protocGen
   val protocCacheCoursier = "com.thesamet.scalapb" %% "protoc-cache-coursier" % versions.protocGen
-  val protobufJavaUtil = "com.google.protobuf"   % "protobuf-java-util" % versions.protobuf
+  val protobufJavaUtil    = "com.google.protobuf"   % "protobuf-java-util"    % versions.protobuf
 
   // grpc
   val grpcStub      = "io.grpc" % "grpc-stub"            % versions.grpc
