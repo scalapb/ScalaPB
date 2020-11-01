@@ -12,7 +12,7 @@ package scalapb.options
 final case class OneofOptions(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofOptions] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofOptions] with _root_.scalapb.ExtendableMessage[OneofOptions] {
     @transient
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
