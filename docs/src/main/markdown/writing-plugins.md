@@ -143,8 +143,7 @@ object CodeGenerator extends CodeGenApp {
 
 The object extends the `CodeGenApp` trait. This trait provides our application a `main` method so it can be used as a standalone protoc plugin. That trait extends another trait named `ProtocCodeGenerator` which facilitates the integration with `sbt-protoc`. `ProtocCodeGenerator` provides for us the method `suggestedDependencies` that let us specify which libraries we want to append to the `libraryDependencies` of our users. Normally, we want to add our `core` library. If you don't need to change the user's library dependencies you can remove this method as the default implementations return an empty list of artifacts.
 
-The `registerExtensions` method is called when parsing the request and used to install protobuf extensions inside an `ExtensionRegistry`. This is useful if you are planning to add [custom protobuf options](user_defined_options.md).
-
+The `registerExtensions` method is called when parsing the request and used to install protobuf extensions inside an `ExtensionRegistry`. This is useful if you are planning to add [custom protobuf options](user_defined_options.md). See the section "Adding custom options" below to learn how to add custom options to your generator.
 
 The main action happens at the `process` method that takes a `CodeGenRequest` and returns a `CodeGenResponse`. These classes are simple wrappers around  the Java based protobufs `CodeGeneratorRequest` and `CodeGeneratorResponse` and are provided by a helper project called [protocgen](https://github.com/scalapb/protoc-bridge/tree/master/protoc-gen/src/main/scala/protocgen). This is the place you would normally start to customize from.  The template starts by parsing the parameters given in the request, then it creates a `DescriptorImplicits` object that provides us with ScalaPB-specific information about the protobuf entities such as the names of generated Scala types.
 
@@ -213,6 +212,92 @@ private val MessageObject =
 
  Then run `e2eJVM2_12/test`. The code in `e2e` will be regenerated, and you’ll see a compilation error, since the tests still use the old names. You can open the generated code under `target/scala_2.12` directory to see the modified generated code. To finish this exercise on a positive note, make the tests in `e2e/src/test/scala` pass by updating the reference to the new class name.
 Publishing the code generator
+
+## Adding custom options
+
+This section describes how you can let your users customize the generated code
+via options. To add custom options, follow this process:
+
+1. Create a proto file with the custom options you want to add under
+   `core/src/main/protobuf`. Name it something like `myplugin.proto`:
+
+   ```protobuf
+   syntax = "proto2";
+
+   package myplugin;
+
+   import "google/protobuf/descriptor.proto";
+
+   extend google.protobuf.MessageOptions {
+         optional MyMessageOptions myopts = 60001;
+   }
+
+   message MyMessageOptions {
+         optional bool my_option = 1;
+   }
+   ```
+
+   :::note The number 60001 above is just an example!
+   It's important that different extensions do not use the same numbers so they do not overwrite
+   each other's data. If you publish your plugin externally, [requset for an
+   extension number here](https://github.com/protocolbuffers/protobuf/blob/master/docs/options.md).
+   :::
+
+2. Make your `core` project generate both Java and Scala sources for the
+   custom options proto by adding the following settings to the `core`
+   project in `build.sbt`:
+   ```scala
+   PB.targets in Compile := Seq(
+     PB.gens.java -> (sourceManaged in Compile).value / "scalapb",
+     scalapb.gen(javaConversions = true) ->
+       (sourceManaged in Compile).value / "scalapb",
+   )
+   ```
+
+3. The core project will only need the Java version of the new protobuf.
+   Update its settings as follows:
+
+   ```scala
+   libraryDependencies ++= Seq(
+      "com.thesamet.scalapb" %% "compilerplugin" % scalapb.compiler.Version.scalapbVersion,
+      "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion,
+      "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
+    ),
+    PB.protoSources in Compile += core.base / "src" / "main" / "protobuf",
+    PB.targets in Compile := Seq(
+      PB.gens.java -> (sourceManaged in Compile).value / "scalapb"
+    )
+   ```
+
+   This would tell ScalaPB to compile the protobuf that's in the core project protobuf directory. We
+   are adding `scalapb` as a `"protobuf"` dependency so it extracts `scalapb.proto`, and its own
+   transitive dependencies which includes `google/protobuf/descriptor.proto`.
+
+4. Register the extension in the code generator. In your code generator , under `code-gen/src/main/scala/`
+   look for the `registerExtensions` method, and add a call to register your own extension:
+
+   ```scala
+   myplugin.Myplugin.registerExtensin(registry)
+   ```
+
+5. Now you are able to extract the extension value in your generator using the standard protobuf-java
+   APIs:
+
+   ```scsala
+   messageDescriptor.getOptions.getExtension(myplugin.Myplugin.myopts).getMyOption
+   ```
+   
+6. You can now use the new option in your e2e tests. Also the newly added proto will be automatically
+   packaged with the core jar. External projects will be able to unpack it by depending on the core
+   library with a `% "protobuf"` scope. To use:
+
+   ```protobuf
+   import "myplugin.proto";
+
+   message MyMessage {
+     option (myplugin.myopts).my_option = false;
+   }
+   ```
 
 ## Publishing the plugin
 
