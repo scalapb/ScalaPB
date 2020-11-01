@@ -82,7 +82,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       ProblemFilters.exclude[IncompatibleMethTypeProblem]("scalapb.options.MessageOptions.of"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "scalapb.options.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"
-      )
+      ),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*")
     )
   )
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(
@@ -99,7 +100,7 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     Compile / PB.targets ++= Seq(
       PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
     ),
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
+    PB.protocVersion := versions.protobuf,
     Compile / PB.protoSources := Seq(
       baseDirectory.value / ".." / ".." / "protobuf"
     )
@@ -167,9 +168,10 @@ lazy val compilerPlugin = project
       ProblemFilters.exclude[Problem]("scalapb.ScalaPbCodeGenerator*"),
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"
-      )
+      ),
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*")
     ),
-    Compile / PB.protocVersion := "-v" + protobufCompilerVersion,
+    PB.protocVersion := protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
@@ -338,7 +340,7 @@ lazy val e2e = (project in file("e2e"))
     ),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
+    PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
       PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
       (
@@ -356,7 +358,7 @@ lazy val e2eNoJava = (project in file("e2e-nojava"))
   .dependsOn(runtimeJVM)
   .settings(e2eCommonSettings)
   .settings(
-    Compile / PB.protocVersion := "-v" + versions.protobuf,
+    PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
       (
         PB.gens.plugin(
