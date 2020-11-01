@@ -164,7 +164,9 @@ message ScalaPbOptions {
 
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
-  optional bool test_only_no_java_conversions = 100001;
+  optional bool test_only_no_java_conversions = 1001;
+
+  extensions 10000 to max;
 }
 
 extend google.protobuf.FileOptions {
@@ -199,6 +201,8 @@ message MessageOptions {
 
   // Custom annotations to add to the generated `unknownFields` case class field.
   repeated string unknown_fields_annotations = 8;
+
+  extensions 10000 to max;
 }
 
 extend google.protobuf.MessageOptions {
@@ -232,6 +236,8 @@ message FieldOptions {
 
   // Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
   optional bool no_box = 30;
+
+  extensions 10000 to max;
 }
 
 extend google.protobuf.FieldOptions {
@@ -250,6 +256,8 @@ message EnumOptions {
   // All instances of this enum will be converted to this type. An implicit TypeMapper
   // must be present.
   optional string type = 3;
+
+  extensions 10000 to max;
 }
 
 extend google.protobuf.EnumOptions {
@@ -266,6 +274,8 @@ message EnumValueOptions {
 
   // Name in Scala to use for this enum value.
   optional string scala_name = 2;
+
+  extensions 10000 to max;
 }
 
 extend google.protobuf.EnumValueOptions {
@@ -280,6 +290,8 @@ message OneofOptions {
 
   // Name in Scala to use for this oneof field.
   optional string scala_name = 2;
+
+  extensions 10000 to max;
 }
 
 extend google.protobuf.OneofOptions {
