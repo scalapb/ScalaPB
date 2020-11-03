@@ -11,7 +11,7 @@ object Dependencies {
     val munit                   = "0.7.14"
     val silencer                = "1.6.0"
     val collectionCompat        = "2.2.0"
-    val coursier                = "2.0.5"
+    val coursier                = "2.0.6"
     val mockito                 = "3.2.0"
     val protocGen               = "0.9.0-RC6"
     val protobufRuntimeScala    = "0.8.6"
