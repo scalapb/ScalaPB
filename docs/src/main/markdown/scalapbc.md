@@ -18,8 +18,11 @@ respectively).
 ## Usage
 
 ScalaPBC is used exactly like protoc. In fact, scalapbc calls protoc.
-It ships with [multiple versions](https://github.com/os72/protoc-jar) of protoc embedded in the jar and you can pick the one you want to use by passing the desired version as the
-first command line argument:
+On the first invocation, the protoc binary will be automatically
+fetched via Coursier and stored for further invocations in a
+[local cache](https://github.com/dirs-dev/directories-jvm#basedirectories),
+which can be customized by setting the `PROTOC_CACHE` environment variable.
+You can pass a custom protoc version as the first command line argument:
 
 ```bash
 ./bin/scalapbc -v3.11.1 [options]
