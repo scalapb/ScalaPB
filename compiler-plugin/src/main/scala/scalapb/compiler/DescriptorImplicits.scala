@@ -9,9 +9,9 @@ import com.google.protobuf.DescriptorProtos.{
 }
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
-import scalapb.options.compiler.Scalapb
-import scalapb.options.compiler.Scalapb.ScalaPbOptions.EnumValueNaming
-import scalapb.options.compiler.Scalapb._
+import scalapb.options.Scalapb
+import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
+import scalapb.options.Scalapb._
 
 import scala.jdk.CollectionConverters._
 import scala.collection.immutable.IndexedSeq

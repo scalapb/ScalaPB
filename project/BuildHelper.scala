@@ -67,22 +67,6 @@ object BuildHelper {
       Seq(dest)
     }
 
-    val scalapbProtoPackageReplaceTask =
-      TaskKey[Unit]("scalapb-proto-package-replace", "Replaces package name in scalapb.proto")
-
-    val shadeProtoBeforeGenerate = Seq(
-      Compile / scalapbProtoPackageReplaceTask := {
-        streams.value.log
-          .info(s"Generating scalapb.proto with package replaced to scalapb.options.compiler.")
-        val src  = baseDirectory.value / ".." / "protobuf" / "scalapb" / "scalapb.proto"
-        val dest = (Compile / resourceManaged).value / "protobuf" / "scalapb" / "scalapb.proto"
-        val s    = IO.read(src).replace("scalapb.options", "scalapb.options.compiler")
-        IO.write(dest, s"// DO NOT EDIT. Copy of $src\n\n" + s)
-        Seq(dest)
-      },
-      Compile / PB.generate := ((Compile / PB.generate) dependsOn (Compile / scalapbProtoPackageReplaceTask)).value
-    )
-
     val shadeTarget = settingKey[String]("Target to use when shading")
 
     val shadedLibSettings = Seq(

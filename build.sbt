@@ -175,10 +175,9 @@ lazy val compilerPlugin = project
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
-    Compile / PB.protoSources := Seq((Compile / resourceManaged).value / "protobuf"),
+    Compile / PB.protoSources := Seq((LocalRootProject / baseDirectory).value / "protobuf"),
     Compiler.generateVersionFile,
-    Compiler.generateEncodingFile,
-    Compiler.shadeProtoBeforeGenerate
+    Compiler.generateEncodingFile
   )
 
 // Until https://github.com/scalapb/ScalaPB/issues/150 is fixed, we are

@@ -1,9 +1,9 @@
 package scalapb.compiler
 import com.google.protobuf.DescriptorProtos.{FileDescriptorProto, FileOptions}
 import com.google.protobuf.Descriptors.FileDescriptor
-import scalapb.options.compiler.Scalapb
-import scalapb.options.compiler.Scalapb.ScalaPbOptions
-import scalapb.options.compiler.Scalapb.ScalaPbOptions.OptionsScope
+import scalapb.options.Scalapb
+import scalapb.options.Scalapb.ScalaPbOptions
+import scalapb.options.Scalapb.ScalaPbOptions.OptionsScope
 import scala.jdk.CollectionConverters._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
