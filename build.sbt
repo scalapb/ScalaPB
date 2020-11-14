@@ -148,29 +148,6 @@ lazy val compilerPlugin = project
       protocJar             % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
-    mimaBinaryIssueFilters := Seq(
-      ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.ConstructorField$"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.tupled"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ConstructorField.curried"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.ProtobufGenerator.escapeString"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.package"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.package$"),
-      ProblemFilters.exclude[MissingClassProblem]("scalapb.GeneratorOption$Lenses$"),
-      ProblemFilters.exclude[MissingTypesProblem]("scalapb.compiler.GeneratorParams$"),
-      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.tupled"),
-      ProblemFilters
-        .exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.curried"),
-      ProblemFilters
-        .exclude[Problem]("scalapb.compiler.ProtobufGenerator.handleCodeGeneratorRequest"),
-      ProblemFilters.exclude[Problem]("scalapb.ScalaPbCodeGenerator*"),
-      ProblemFilters.exclude[ReversedMissingMethodProblem](
-        "scalapb.options.compiler.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"
-      ),
-      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*")
-    ),
     PB.protocVersion := protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
