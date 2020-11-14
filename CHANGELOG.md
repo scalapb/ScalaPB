@@ -22,6 +22,9 @@
 
 ## [0.10.9](https://github.com/scalapb/ScalaPB/compare/v0.10.8..v10.0.9)
 - Add option for annotating the unknown field (#898)
+- Add extension ranges for scalapb.proto messages so plugins can further
+  extend ScalaPB.
+- scalapb.proto is no longer shaded into compilerplugin.
 
 ## [0.10.8](https://github.com/scalapb/ScalaPB/compare/v0.10.7..v10.0.8)
 - Fix a regression where calling scalapb.gen() without parameters would not
