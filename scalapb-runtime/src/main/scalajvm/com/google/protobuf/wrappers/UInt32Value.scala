@@ -79,28 +79,7 @@ object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def fromJavaProto(javaPbSource: com.google.protobuf.UInt32Value): com.google.protobuf.wrappers.UInt32Value = com.google.protobuf.wrappers.UInt32Value(
     value = javaPbSource.getValue.intValue
   )
-  def merge(`_message__`: com.google.protobuf.wrappers.UInt32Value, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.UInt32Value = {
-    var __value = `_message__`.value
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __value = _input__.readUInt32()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.wrappers.UInt32Value(
-        value = __value,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.wrappers.UInt32Value, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.UInt32Value = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.UInt32Value] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -117,6 +96,46 @@ object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   lazy val defaultInstance = com.google.protobuf.wrappers.UInt32Value(
     value = 0
   )
+  final class Builder private (
+    private var __value: _root_.scala.Int,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.wrappers.UInt32Value] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __value = _input__.readUInt32()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.wrappers.UInt32Value = {
+      com.google.protobuf.wrappers.UInt32Value(
+          value = __value,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.wrappers.UInt32Value, com.google.protobuf.wrappers.UInt32Value.Builder] {
+    def apply(): Builder = new Builder(
+      __value = 0,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.wrappers.UInt32Value): Builder = new Builder(
+      __value = _message__.value,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.wrappers.UInt32Value.Builder()
+  def newBuilder(a: com.google.protobuf.wrappers.UInt32Value): Builder = com.google.protobuf.wrappers.UInt32Value.Builder(a)
   implicit class UInt32ValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.UInt32Value]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.UInt32Value](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

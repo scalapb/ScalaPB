@@ -64,28 +64,7 @@ final case class Duration(
 
 object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] = this
-  def merge(`_message__`: mytypes.duration.Duration, `_input__`: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = {
-    var __seconds = `_message__`.seconds
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __seconds = _input__.readInt32()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    mytypes.duration.Duration(
-        seconds = __seconds,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: mytypes.duration.Duration, `_input__`: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[mytypes.duration.Duration] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -102,6 +81,46 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
   lazy val defaultInstance = mytypes.duration.Duration(
     seconds = 0
   )
+  final class Builder private (
+    private var __seconds: _root_.scala.Int,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[mytypes.duration.Duration] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __seconds = _input__.readInt32()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): mytypes.duration.Duration = {
+      mytypes.duration.Duration(
+          seconds = __seconds,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[mytypes.duration.Duration, mytypes.duration.Duration.Builder] {
+    def apply(): Builder = new Builder(
+      __seconds = 0,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: mytypes.duration.Duration): Builder = new Builder(
+      __seconds = _message__.seconds,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = mytypes.duration.Duration.Builder()
+  def newBuilder(a: mytypes.duration.Duration): Builder = mytypes.duration.Duration.Builder(a)
   implicit class DurationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, mytypes.duration.Duration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, mytypes.duration.Duration](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
   }

@@ -195,32 +195,7 @@ final case class Any(
 
 object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.AnyCompanionMethods {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.AnyCompanionMethods = this
-  def merge(`_message__`: com.google.protobuf.any.Any, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.any.Any = {
-    var __typeUrl = `_message__`.typeUrl
-    var __value = `_message__`.value
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __typeUrl = _input__.readStringRequireUtf8()
-        case 18 =>
-          __value = _input__.readBytes()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.any.Any(
-        typeUrl = __typeUrl,
-        value = __value,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.any.Any, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.any.Any = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.any.Any] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -239,6 +214,52 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
     typeUrl = "",
     value = _root_.com.google.protobuf.ByteString.EMPTY
   )
+  final class Builder private (
+    private var __typeUrl: _root_.scala.Predef.String,
+    private var __value: _root_.com.google.protobuf.ByteString,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.any.Any] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __typeUrl = _input__.readStringRequireUtf8()
+          case 18 =>
+            __value = _input__.readBytes()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.any.Any = {
+      com.google.protobuf.any.Any(
+          typeUrl = __typeUrl,
+          value = __value,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.any.Any, com.google.protobuf.any.Any.Builder] {
+    def apply(): Builder = new Builder(
+      __typeUrl = "",
+      __value = _root_.com.google.protobuf.ByteString.EMPTY,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.any.Any): Builder = new Builder(
+      __typeUrl = _message__.typeUrl,
+      __value = _message__.value,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.any.Any.Builder()
+  def newBuilder(a: com.google.protobuf.any.Any): Builder = com.google.protobuf.any.Any.Builder(a)
   implicit class AnyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.any.Any](_l) {
     def typeUrl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))

@@ -69,28 +69,7 @@ final case class GeneratedCodeInfo(
 
 object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] = this
-  def merge(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = {
-    val __annotation = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= `_message__`.annotation)
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __annotation += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.defaultInstance)
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.descriptor.GeneratedCodeInfo(
-        annotation = __annotation.result(),
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.GeneratedCodeInfo] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -116,6 +95,46 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   lazy val defaultInstance = com.google.protobuf.descriptor.GeneratedCodeInfo(
     annotation = _root_.scala.Seq.empty
   )
+  final class Builder private (
+    private var __annotation: collection.mutable.Builder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __annotation += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.defaultInstance)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.descriptor.GeneratedCodeInfo = {
+      com.google.protobuf.descriptor.GeneratedCodeInfo(
+          annotation = __annotation.result(),
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo, com.google.protobuf.descriptor.GeneratedCodeInfo.Builder] {
+    def apply(): Builder = new Builder(
+      __annotation = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation],
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo): Builder = new Builder(
+      __annotation = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= _message__.annotation,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Builder()
+  def newBuilder(a: com.google.protobuf.descriptor.GeneratedCodeInfo): Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Builder(a)
   /** @param path
     *   Identifies the element in the original source .proto file. This field
     *   is formatted the same as SourceCodeInfo.Location.path.
@@ -235,48 +254,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   
   object Annotation extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = this
-    def merge(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
-      val __path = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= `_message__`.path)
-      var __sourceFile = `_message__`.sourceFile
-      var __begin = `_message__`.begin
-      var __end = `_message__`.end
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __path += _input__.readInt32()
-          case 10 => {
-            val length = _input__.readRawVarint32()
-            val oldLimit = _input__.pushLimit(length)
-            while (_input__.getBytesUntilLimit > 0) {
-              __path += _input__.readInt32()
-            }
-            _input__.popLimit(oldLimit)
-          }
-          case 18 =>
-            __sourceFile = Option(_input__.readStringRequireUtf8())
-          case 24 =>
-            __begin = Option(_input__.readInt32())
-          case 32 =>
-            __end = Option(_input__.readInt32())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
-          path = __path.result(),
-          sourceFile = __sourceFile,
-          begin = __begin,
-          end = __end,
-          unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-      )
-    }
+    def merge(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -299,6 +277,72 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       begin = _root_.scala.None,
       end = _root_.scala.None
     )
+    final class Builder private (
+      private var __path: collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+      private var __sourceFile: _root_.scala.Option[_root_.scala.Predef.String],
+      private var __begin: _root_.scala.Option[_root_.scala.Int],
+      private var __end: _root_.scala.Option[_root_.scala.Int],
+      private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+    ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] {
+      def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+        var _done__ = false
+        while (!_done__) {
+          val _tag__ = _input__.readTag()
+          _tag__ match {
+            case 0 => _done__ = true
+            case 8 =>
+              __path += _input__.readInt32()
+            case 10 => {
+              val length = _input__.readRawVarint32()
+              val oldLimit = _input__.pushLimit(length)
+              while (_input__.getBytesUntilLimit > 0) {
+                __path += _input__.readInt32()
+              }
+              _input__.popLimit(oldLimit)
+            }
+            case 18 =>
+              __sourceFile = Option(_input__.readStringRequireUtf8())
+            case 24 =>
+              __begin = Option(_input__.readInt32())
+            case 32 =>
+              __end = Option(_input__.readInt32())
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.parseField(tag, _input__)
+          }
+        }
+        this
+      }
+      def result(): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
+        com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
+            path = __path.result(),
+            sourceFile = __sourceFile,
+            begin = __begin,
+            end = __end,
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        )
+      }
+    }
+    object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder] {
+      def apply(): Builder = new Builder(
+        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int],
+        __sourceFile = _root_.scala.None,
+        __begin = _root_.scala.None,
+        __end = _root_.scala.None,
+        `_unknownFields__` = null
+      )
+      def apply(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): Builder = new Builder(
+        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.path,
+        __sourceFile = _message__.sourceFile,
+        __begin = _message__.begin,
+        __end = _message__.end,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+      )
+    }
+    def newBuilder: Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder()
+    def newBuilder(a: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder(a)
     implicit class AnnotationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
       def sourceFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Option(f_)))

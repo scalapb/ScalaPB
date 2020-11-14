@@ -30,15 +30,17 @@ object MyVector {
       override def apply(): mutable.Builder[T, MyVector[T]] = vcbf().mapResult(MyVector(_))
     }
 
-  class Builder[T] {
+  class Builder[T] extends collection.mutable.Builder[T, MyVector[T]]  {
     private val underlying = Vector.newBuilder[T]
 
-    def ++=(other: MyVector[T]): Builder[T] = {
+    def clear(): Unit = underlying.clear()
+
+    def ++=(other: MyVector[T]): this.type = {
       underlying ++= other.stuff;
       this
     }
 
-    def +=(other: T): Unit = underlying += other
+    def +=(other: T): this.type = { underlying += other; this }
 
     def result(): MyVector[T] = MyVector(underlying.result())
   }

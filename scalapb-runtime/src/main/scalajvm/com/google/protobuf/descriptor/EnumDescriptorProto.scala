@@ -150,44 +150,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     reservedRange = javaPbSource.getReservedRangeList.asScala.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.fromJavaProto).toSeq,
     reservedName = javaPbSource.getReservedNameList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq
   )
-  def merge(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto = {
-    var __name = `_message__`.name
-    val __value = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto] ++= `_message__`.value)
-    var __options = `_message__`.options
-    val __reservedRange = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] ++= `_message__`.reservedRange)
-    val __reservedName = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= `_message__`.reservedName)
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __name = Option(_input__.readStringRequireUtf8())
-        case 18 =>
-          __value += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumValueDescriptorProto.defaultInstance)
-        case 26 =>
-          __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumOptions.defaultInstance)))
-        case 34 =>
-          __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.defaultInstance)
-        case 42 =>
-          __reservedName += _input__.readStringRequireUtf8()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.descriptor.EnumDescriptorProto(
-        name = __name,
-        value = __value.result(),
-        options = __options,
-        reservedRange = __reservedRange.result(),
-        reservedName = __reservedName.result(),
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -223,6 +186,70 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     reservedRange = _root_.scala.Seq.empty,
     reservedName = _root_.scala.Seq.empty
   )
+  final class Builder private (
+    private var __name: _root_.scala.Option[_root_.scala.Predef.String],
+    private var __value: collection.mutable.Builder[com.google.protobuf.descriptor.EnumValueDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto]],
+    private var __options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions],
+    private var __reservedRange: collection.mutable.Builder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]],
+    private var __reservedName: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __name = Option(_input__.readStringRequireUtf8())
+          case 18 =>
+            __value += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumValueDescriptorProto.defaultInstance)
+          case 26 =>
+            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumOptions.defaultInstance)))
+          case 34 =>
+            __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.defaultInstance)
+          case 42 =>
+            __reservedName += _input__.readStringRequireUtf8()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.descriptor.EnumDescriptorProto = {
+      com.google.protobuf.descriptor.EnumDescriptorProto(
+          name = __name,
+          value = __value.result(),
+          options = __options,
+          reservedRange = __reservedRange.result(),
+          reservedName = __reservedName.result(),
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.EnumDescriptorProto, com.google.protobuf.descriptor.EnumDescriptorProto.Builder] {
+    def apply(): Builder = new Builder(
+      __name = _root_.scala.None,
+      __value = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto],
+      __options = _root_.scala.None,
+      __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange],
+      __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto): Builder = new Builder(
+      __name = _message__.name,
+      __value = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto] ++= _message__.value,
+      __options = _message__.options,
+      __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] ++= _message__.reservedRange,
+      __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.descriptor.EnumDescriptorProto.Builder()
+  def newBuilder(a: com.google.protobuf.descriptor.EnumDescriptorProto): Builder = com.google.protobuf.descriptor.EnumDescriptorProto.Builder(a)
   /** Range of reserved numeric values. Reserved values may not be used by
     * entries in the same enum. Reserved ranges may not overlap.
     *
@@ -312,32 +339,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       start = if (javaPbSource.hasStart) Some(javaPbSource.getStart.intValue) else _root_.scala.None,
       end = if (javaPbSource.hasEnd) Some(javaPbSource.getEnd.intValue) else _root_.scala.None
     )
-    def merge(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = {
-      var __start = `_message__`.start
-      var __end = `_message__`.end
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __start = Option(_input__.readInt32())
-          case 16 =>
-            __end = Option(_input__.readInt32())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
-          start = __start,
-          end = __end,
-          unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-      )
-    }
+    def merge(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -356,6 +358,52 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       start = _root_.scala.None,
       end = _root_.scala.None
     )
+    final class Builder private (
+      private var __start: _root_.scala.Option[_root_.scala.Int],
+      private var __end: _root_.scala.Option[_root_.scala.Int],
+      private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+    ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] {
+      def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+        var _done__ = false
+        while (!_done__) {
+          val _tag__ = _input__.readTag()
+          _tag__ match {
+            case 0 => _done__ = true
+            case 8 =>
+              __start = Option(_input__.readInt32())
+            case 16 =>
+              __end = Option(_input__.readInt32())
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.parseField(tag, _input__)
+          }
+        }
+        this
+      }
+      def result(): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = {
+        com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
+            start = __start,
+            end = __end,
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        )
+      }
+    }
+    object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.Builder] {
+      def apply(): Builder = new Builder(
+        __start = _root_.scala.None,
+        __end = _root_.scala.None,
+        `_unknownFields__` = null
+      )
+      def apply(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange): Builder = new Builder(
+        __start = _message__.start,
+        __end = _message__.end,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+      )
+    }
+    def newBuilder: Builder = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.Builder()
+    def newBuilder(a: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange): Builder = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.Builder(a)
     implicit class EnumReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
