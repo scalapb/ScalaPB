@@ -64,28 +64,7 @@ final case class MyMessage(
 
 object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyMessage] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyMessage] = this
-  def merge(`_message__`: com.thesamet.docs.json.MyMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyMessage = {
-    var __x = `_message__`.x
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __x = _input__.readInt32()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.thesamet.docs.json.MyMessage(
-        x = __x,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.thesamet.docs.json.MyMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyMessage = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.thesamet.docs.json.MyMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -102,6 +81,46 @@ object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.jso
   lazy val defaultInstance = com.thesamet.docs.json.MyMessage(
     x = 0
   )
+  final class Builder private (
+    private var __x: _root_.scala.Int,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.thesamet.docs.json.MyMessage] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __x = _input__.readInt32()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.thesamet.docs.json.MyMessage = {
+      com.thesamet.docs.json.MyMessage(
+          x = __x,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.thesamet.docs.json.MyMessage, com.thesamet.docs.json.MyMessage.Builder] {
+    def apply(): Builder = new Builder(
+      __x = 0,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.thesamet.docs.json.MyMessage): Builder = new Builder(
+      __x = _message__.x,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.thesamet.docs.json.MyMessage.Builder()
+  def newBuilder(a: com.thesamet.docs.json.MyMessage): Builder = com.thesamet.docs.json.MyMessage.Builder(a)
   implicit class MyMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.thesamet.docs.json.MyMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.thesamet.docs.json.MyMessage](_l) {
     def x: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.x)((c_, f_) => c_.copy(x = f_))
   }

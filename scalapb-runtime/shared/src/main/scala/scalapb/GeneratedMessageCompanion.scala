@@ -2,7 +2,6 @@ package scalapb
 
 import java.io.{InputStream, OutputStream}
 
-import com.github.ghik.silencer.silent
 import com.google.protobuf.{ByteString, CodedInputStream, CodedOutputStream}
 import com.google.protobuf.{Descriptors => JavaDescriptors}
 import scalapb.lenses.{Lens, Updatable}
@@ -154,8 +153,13 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
 @nowarn
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   type ValueType = A
+
   def merge(a: A, input: CodedInputStream): A
 
+  /** Parses a message from a CodedInputStream. */
+  // TODO(nadav): The implementation here should not rely on `newBuilder` for binary compatibility:
+  // Older 0.10.x generated code may not have it defined. In 0.10.x, the generated messages override
+  // this method. This can be eliminated in ScalaPB 0.11.0.
   def parseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))

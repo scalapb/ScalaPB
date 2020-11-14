@@ -716,45 +716,124 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
-  def generateMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+  def generateBuilder(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
+    val requiredFieldMap: Map[FieldDescriptor, Int] =
+      message.fields.filter(_.isRequired).zipWithIndex.toMap
+    case class Field(name: String, typeName: String, default: String, accessor: String)
+
+    val fields = message.fieldsWithoutOneofs.map { field =>
+      if (!field.isRepeated)
+        Field(
+          s"__${field.scalaName}",
+          field.scalaTypeName,
+          defaultValueForDefaultInstance(field),
+          s"_message__.${field.scalaName.asSymbol}"
+        )
+      else
+        Field(
+          s"__${field.scalaName}",
+          s"collection.mutable.Builder[${field.singleScalaTypeName}, ${field.scalaTypeName}]",
+          field.collectionBuilder,
+          s"${field.collectionBuilder} ++= _message__.${field.scalaName.asSymbol}"
+        )
+    } ++ message.getOneofs.asScala.map { oneof =>
+      Field(
+        s"__${oneof.scalaName.name}",
+        oneof.scalaType.fullName,
+        oneof.empty.fullName,
+        s"_message__.${oneof.scalaName.nameSymbol}"
+      )
+    } ++ (if (message.preservesUnknownFields)
+            Seq(
+              Field(
+                "`_unknownFields__`",
+                "_root_.scalapb.UnknownFieldSet.Builder",
+                "null",
+                "new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)"
+              )
+            )
+          else Seq.empty)
+
+    printer
+      .add(s"final class Builder private (")
+      .indented(
+        _.addWithDelimiter(",")(fields.map(f => s"private var ${f.name}: ${f.typeName}"))
+      )
+      .add(s") extends _root_.scalapb.MessageBuilder[$myFullScalaName] {")
+      .indented(
+        _.when(requiredFieldMap.nonEmpty) { fp =>
+          // Sets the bit 0...(n-1) inclusive to 1.
+          def hexBits(n: Int): String = "0x%xL".format((0 to (n - 1)).map(i => (1L << i)).sum)
+          val requiredFieldCount      = requiredFieldMap.size
+          val fullWords               = (requiredFieldCount - 1) / 64
+          val bits: Seq[String] = (1 to fullWords).map(_ => hexBits(64)) :+ hexBits(
+            requiredFieldCount - 64 * fullWords
+          )
+          fp.print(bits.zipWithIndex) {
+            case (fp, (bn, index)) =>
+              fp.add(s"private var __requiredFields$index: _root_.scala.Long = $bn")
+          }
+        }.call(generateBuilderMerge(message))
+          .add(s"def result(): ${myFullScalaName} = {")
+          .indented(
+            _.when(requiredFieldMap.nonEmpty) { p =>
+              val r = (0 until (requiredFieldMap.size + 63) / 64)
+                .map(i => s"__requiredFields$i != 0L")
+                .mkString(" || ")
+              p.add(
+                s"""if (${r}) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
+              )
+            }.add(s"$myFullScalaName(")
+              .indented(
+                _.addWithDelimiter(",")(
+                  (message.fieldsWithoutOneofs ++ message.getOneofs.asScala).map {
+                    case e: FieldDescriptor if e.isRepeated =>
+                      s"  ${e.scalaName.asSymbol} = __${e.scalaName}.result()"
+                    case e: FieldDescriptor =>
+                      s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
+                    case e: OneofDescriptor =>
+                      s"  ${e.scalaName.nameSymbol} = __${e.scalaName.name}"
+                  } ++ (if (message.preservesUnknownFields)
+                          Seq(
+                            "  unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()"
+                          )
+                        else Seq())
+                )
+              )
+              .add(")")
+          )
+          .add("}")
+      )
+      .add("}")
+      .add(
+        s"object Builder extends _root_.scalapb.MessageBuilderCompanion[$myFullScalaName, $myFullScalaName.Builder] {"
+      )
+      .indented(
+        _.add("def apply(): Builder = new Builder(")
+          .indented(
+            _.addWithDelimiter(",")(fields.map(f => s"${f.name} = ${f.default}"))
+          )
+          .add(")")
+          .add(s"def apply(`_message__`: $myFullScalaName): Builder = new Builder(")
+          .indented(
+            _.addWithDelimiter(",")(fields.map(f => s"${f.name} = ${f.accessor}"))
+          )
+          .add(")")
+      )
+      .add("}")
+      .add(s"def newBuilder: Builder = $myFullScalaName.Builder()")
+      .add(s"def newBuilder(a: $myFullScalaName): Builder = $myFullScalaName.Builder(a)")
+  }
+
+  def generateBuilderMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val requiredFieldMap: Map[FieldDescriptor, Int] =
       message.fields.filter(_.isRequired).zipWithIndex.toMap
     printer
       .add(
-        s"def merge(`_message__`: $myFullScalaName, `_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = {"
+        s"def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {"
       )
       .indent
-      .print(message.fieldsWithoutOneofs)((printer, field) =>
-        if (!field.isRepeated)
-          printer.add(s"var __${field.scalaName} = `_message__`.${field.scalaName.asSymbol}")
-        else
-          printer.add(
-            s"val __${field.scalaName} = (${field.collectionBuilder} ++= " +
-              s"`_message__`.${field.scalaName.asSymbol})"
-          )
-      )
-      .when(message.preservesUnknownFields)(
-        _.add(
-          "var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null"
-        )
-      )
-      .when(requiredFieldMap.nonEmpty) { fp =>
-        // Sets the bit 0...(n-1) inclusive to 1.
-        def hexBits(n: Int): String = "0x%xL".format((0 to (n - 1)).map(i => (1L << i)).sum)
-        val requiredFieldCount      = requiredFieldMap.size
-        val fullWords               = (requiredFieldCount - 1) / 64
-        val bits: Seq[String] = (1 to fullWords).map(_ => hexBits(64)) :+ hexBits(
-          requiredFieldCount - 64 * fullWords
-        )
-        fp.print(bits.zipWithIndex) {
-          case (fp, (bn, index)) =>
-            fp.add(s"var __requiredFields$index: _root_.scala.Long = $bn")
-        }
-      }
-      .print(message.getOneofs.asScala)((printer, oneof) =>
-        printer.add(s"var __${oneof.scalaName.name} = `_message__`.${oneof.scalaName.nameSymbol}")
-      )
       .add(s"""var _done__ = false
               |while (!_done__) {
               |  val _tag__ = _input__.readTag()
@@ -770,7 +849,7 @@ class ProtobufGenerator(
               else {
                 val expr =
                   if (field.isInOneof)
-                    s"_message__.${fieldAccessorSymbol(field)}"
+                    s"__${fieldAccessorSymbol(field)}"
                   else s"__${field.scalaName}"
                 val mappedType =
                   toBaseFieldType(field).apply(expr, field.enclosingType)
@@ -829,41 +908,24 @@ class ProtobufGenerator(
         _.add(
           """    case tag =>
             |      if (_unknownFields__ == null) {
-            |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+            |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             |      }
             |      _unknownFields__.parseField(tag, _input__)""".stripMargin
         )
       )
       .add("  }")
       .add("}")
-      .when(requiredFieldMap.nonEmpty) { p =>
-        val r = (0 until (requiredFieldMap.size + 63) / 64)
-          .map(i => s"__requiredFields$i != 0L")
-          .mkString(" || ")
-        p.add(
-          s"""if (${r}) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
-        )
-      }
-      .add(s"$myFullScalaName(")
-      .indent
-      .addWithDelimiter(",")(
-        (message.fieldsWithoutOneofs ++ message.getOneofs.asScala).map {
-          case e: FieldDescriptor if e.isRepeated =>
-            s"  ${e.scalaName.asSymbol} = __${e.scalaName}.result()"
-          case e: FieldDescriptor =>
-            s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
-          case e: OneofDescriptor =>
-            s"  ${e.scalaName.nameSymbol} = __${e.scalaName.name}"
-        } ++ (if (message.preservesUnknownFields)
-                Seq(
-                  "  unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()"
-                )
-              else Seq())
-      )
-      .outdent
-      .add(")")
+      .add("this")
       .outdent
       .add("}")
+  }
+
+  def generateMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
+    val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
+    printer
+      .add(
+        s"def merge(`_message__`: $myFullScalaName, `_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = newBuilder(_message__).merge(_input__).result()"
+      )
   }
 
   def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
@@ -1353,6 +1415,7 @@ class ProtobufGenerator(
       .call(generateNestedMessagesCompanions(message))
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
+      .call(generateBuilder(message))
       .print(message.getEnumTypes.asScala)(printEnum)
       .print(message.getOneofs.asScala)(printOneof)
       .print(message.nestedTypes)(printMessage)

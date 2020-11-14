@@ -90,36 +90,7 @@ final case class EnumValueDescriptorProto(
 
 object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] = this
-  def merge(`_message__`: com.google.protobuf.descriptor.EnumValueDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumValueDescriptorProto = {
-    var __name = `_message__`.name
-    var __number = `_message__`.number
-    var __options = `_message__`.options
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __name = Option(_input__.readStringRequireUtf8())
-        case 16 =>
-          __number = Option(_input__.readInt32())
-        case 26 =>
-          __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)))
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.descriptor.EnumValueDescriptorProto(
-        name = __name,
-        number = __number,
-        options = __options,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.descriptor.EnumValueDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumValueDescriptorProto = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -146,6 +117,58 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
     number = _root_.scala.None,
     options = _root_.scala.None
   )
+  final class Builder private (
+    private var __name: _root_.scala.Option[_root_.scala.Predef.String],
+    private var __number: _root_.scala.Option[_root_.scala.Int],
+    private var __options: _root_.scala.Option[com.google.protobuf.descriptor.EnumValueOptions],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __name = Option(_input__.readStringRequireUtf8())
+          case 16 =>
+            __number = Option(_input__.readInt32())
+          case 26 =>
+            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)))
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.descriptor.EnumValueDescriptorProto = {
+      com.google.protobuf.descriptor.EnumValueDescriptorProto(
+          name = __name,
+          number = __number,
+          options = __options,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.descriptor.EnumValueDescriptorProto.Builder] {
+    def apply(): Builder = new Builder(
+      __name = _root_.scala.None,
+      __number = _root_.scala.None,
+      __options = _root_.scala.None,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.descriptor.EnumValueDescriptorProto): Builder = new Builder(
+      __name = _message__.name,
+      __number = _message__.number,
+      __options = _message__.options,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.descriptor.EnumValueDescriptorProto.Builder()
+  def newBuilder(a: com.google.protobuf.descriptor.EnumValueDescriptorProto): Builder = com.google.protobuf.descriptor.EnumValueDescriptorProto.Builder(a)
   implicit class EnumValueDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))

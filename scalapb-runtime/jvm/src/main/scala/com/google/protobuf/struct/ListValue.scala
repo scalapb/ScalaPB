@@ -77,28 +77,7 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   def fromJavaProto(javaPbSource: com.google.protobuf.ListValue): com.google.protobuf.struct.ListValue = com.google.protobuf.struct.ListValue(
     values = javaPbSource.getValuesList.asScala.iterator.map(com.google.protobuf.struct.Value.fromJavaProto).toSeq
   )
-  def merge(`_message__`: com.google.protobuf.struct.ListValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = {
-    val __values = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value] ++= `_message__`.values)
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __values += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.struct.Value.defaultInstance)
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.struct.ListValue(
-        values = __values.result(),
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.struct.ListValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.ListValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -121,6 +100,46 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   lazy val defaultInstance = com.google.protobuf.struct.ListValue(
     values = _root_.scala.Seq.empty
   )
+  final class Builder private (
+    private var __values: collection.mutable.Builder[com.google.protobuf.struct.Value, _root_.scala.Seq[com.google.protobuf.struct.Value]],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.struct.ListValue] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __values += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.struct.Value.defaultInstance)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.struct.ListValue = {
+      com.google.protobuf.struct.ListValue(
+          values = __values.result(),
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.struct.ListValue, com.google.protobuf.struct.ListValue.Builder] {
+    def apply(): Builder = new Builder(
+      __values = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value],
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.struct.ListValue): Builder = new Builder(
+      __values = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value] ++= _message__.values,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.struct.ListValue.Builder()
+  def newBuilder(a: com.google.protobuf.struct.ListValue): Builder = com.google.protobuf.struct.ListValue.Builder(a)
   implicit class ListValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.ListValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.ListValue](_l) {
     def values: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))
   }

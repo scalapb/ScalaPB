@@ -80,32 +80,7 @@ final case class MessageContainer(
 
 object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.MessageContainer] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.MessageContainer] = this
-  def merge(`_message__`: scalapb.perf.protos.MessageContainer, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.MessageContainer = {
-    var __opt = `_message__`.opt
-    val __rep = (_root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.SimpleMessage] ++= `_message__`.rep)
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __opt = Option(_root_.scalapb.LiteParser.readMessage(_input__, __opt.getOrElse(scalapb.perf.protos.SimpleMessage.defaultInstance)))
-        case 18 =>
-          __rep += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.perf.protos.SimpleMessage.defaultInstance)
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    scalapb.perf.protos.MessageContainer(
-        opt = __opt,
-        rep = __rep.result(),
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: scalapb.perf.protos.MessageContainer, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.MessageContainer = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.MessageContainer] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -131,6 +106,52 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
     opt = _root_.scala.None,
     rep = _root_.scala.Seq.empty
   )
+  final class Builder private (
+    private var __opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage],
+    private var __rep: collection.mutable.Builder[scalapb.perf.protos.SimpleMessage, _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.MessageContainer] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __opt = Option(_root_.scalapb.LiteParser.readMessage(_input__, __opt.getOrElse(scalapb.perf.protos.SimpleMessage.defaultInstance)))
+          case 18 =>
+            __rep += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.perf.protos.SimpleMessage.defaultInstance)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): scalapb.perf.protos.MessageContainer = {
+      scalapb.perf.protos.MessageContainer(
+          opt = __opt,
+          rep = __rep.result(),
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.MessageContainer, scalapb.perf.protos.MessageContainer.Builder] {
+    def apply(): Builder = new Builder(
+      __opt = _root_.scala.None,
+      __rep = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.SimpleMessage],
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: scalapb.perf.protos.MessageContainer): Builder = new Builder(
+      __opt = _message__.opt,
+      __rep = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.SimpleMessage] ++= _message__.rep,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = scalapb.perf.protos.MessageContainer.Builder()
+  def newBuilder(a: scalapb.perf.protos.MessageContainer): Builder = scalapb.perf.protos.MessageContainer.Builder(a)
   implicit class MessageContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.MessageContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.MessageContainer](_l) {
     def opt: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.SimpleMessage] = field(_.getOpt)((c_, f_) => c_.copy(opt = Option(f_)))
     def optionalOpt: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.perf.protos.SimpleMessage]] = field(_.opt)((c_, f_) => c_.copy(opt = f_))

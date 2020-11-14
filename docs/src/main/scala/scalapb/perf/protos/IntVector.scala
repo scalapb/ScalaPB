@@ -69,36 +69,7 @@ final case class IntVector(
 
 object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] = this
-  def merge(`_message__`: scalapb.perf.protos.IntVector, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.IntVector = {
-    val __ints = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= `_message__`.ints)
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __ints += _input__.readInt32()
-        case 10 => {
-          val length = _input__.readRawVarint32()
-          val oldLimit = _input__.pushLimit(length)
-          while (_input__.getBytesUntilLimit > 0) {
-            __ints += _input__.readInt32
-          }
-          _input__.popLimit(oldLimit)
-        }
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    scalapb.perf.protos.IntVector(
-        ints = __ints.result(),
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: scalapb.perf.protos.IntVector, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.IntVector = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.IntVector] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -115,6 +86,54 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
   lazy val defaultInstance = scalapb.perf.protos.IntVector(
     ints = _root_.scala.Seq.empty
   )
+  final class Builder private (
+    private var __ints: collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.IntVector] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __ints += _input__.readInt32()
+          case 10 => {
+            val length = _input__.readRawVarint32()
+            val oldLimit = _input__.pushLimit(length)
+            while (_input__.getBytesUntilLimit > 0) {
+              __ints += _input__.readInt32
+            }
+            _input__.popLimit(oldLimit)
+          }
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): scalapb.perf.protos.IntVector = {
+      scalapb.perf.protos.IntVector(
+          ints = __ints.result(),
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.IntVector, scalapb.perf.protos.IntVector.Builder] {
+    def apply(): Builder = new Builder(
+      __ints = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int],
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: scalapb.perf.protos.IntVector): Builder = new Builder(
+      __ints = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.ints,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = scalapb.perf.protos.IntVector.Builder()
+  def newBuilder(a: scalapb.perf.protos.IntVector): Builder = scalapb.perf.protos.IntVector.Builder(a)
   implicit class IntVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.IntVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.IntVector](_l) {
     def ints: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.ints)((c_, f_) => c_.copy(ints = f_))
   }

@@ -266,64 +266,7 @@ final case class Field(
 
 object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] = this
-  def merge(`_message__`: com.google.protobuf.`type`.Field, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = {
-    var __kind = `_message__`.kind
-    var __cardinality = `_message__`.cardinality
-    var __number = `_message__`.number
-    var __name = `_message__`.name
-    var __typeUrl = `_message__`.typeUrl
-    var __oneofIndex = `_message__`.oneofIndex
-    var __packed = `_message__`.packed
-    val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= `_message__`.options)
-    var __jsonName = `_message__`.jsonName
-    var __defaultValue = `_message__`.defaultValue
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __kind = com.google.protobuf.`type`.Field.Kind.fromValue(_input__.readEnum())
-        case 16 =>
-          __cardinality = com.google.protobuf.`type`.Field.Cardinality.fromValue(_input__.readEnum())
-        case 24 =>
-          __number = _input__.readInt32()
-        case 34 =>
-          __name = _input__.readStringRequireUtf8()
-        case 50 =>
-          __typeUrl = _input__.readStringRequireUtf8()
-        case 56 =>
-          __oneofIndex = _input__.readInt32()
-        case 64 =>
-          __packed = _input__.readBool()
-        case 74 =>
-          __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
-        case 82 =>
-          __jsonName = _input__.readStringRequireUtf8()
-        case 90 =>
-          __defaultValue = _input__.readStringRequireUtf8()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.`type`.Field(
-        kind = __kind,
-        cardinality = __cardinality,
-        number = __number,
-        name = __name,
-        typeUrl = __typeUrl,
-        oneofIndex = __oneofIndex,
-        packed = __packed,
-        options = __options.result(),
-        jsonName = __jsonName,
-        defaultValue = __defaultValue,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.`type`.Field, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Field] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -369,6 +312,100 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     jsonName = "",
     defaultValue = ""
   )
+  final class Builder private (
+    private var __kind: com.google.protobuf.`type`.Field.Kind,
+    private var __cardinality: com.google.protobuf.`type`.Field.Cardinality,
+    private var __number: _root_.scala.Int,
+    private var __name: _root_.scala.Predef.String,
+    private var __typeUrl: _root_.scala.Predef.String,
+    private var __oneofIndex: _root_.scala.Int,
+    private var __packed: _root_.scala.Boolean,
+    private var __options: collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private var __jsonName: _root_.scala.Predef.String,
+    private var __defaultValue: _root_.scala.Predef.String,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.`type`.Field] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __kind = com.google.protobuf.`type`.Field.Kind.fromValue(_input__.readEnum())
+          case 16 =>
+            __cardinality = com.google.protobuf.`type`.Field.Cardinality.fromValue(_input__.readEnum())
+          case 24 =>
+            __number = _input__.readInt32()
+          case 34 =>
+            __name = _input__.readStringRequireUtf8()
+          case 50 =>
+            __typeUrl = _input__.readStringRequireUtf8()
+          case 56 =>
+            __oneofIndex = _input__.readInt32()
+          case 64 =>
+            __packed = _input__.readBool()
+          case 74 =>
+            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+          case 82 =>
+            __jsonName = _input__.readStringRequireUtf8()
+          case 90 =>
+            __defaultValue = _input__.readStringRequireUtf8()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.`type`.Field = {
+      com.google.protobuf.`type`.Field(
+          kind = __kind,
+          cardinality = __cardinality,
+          number = __number,
+          name = __name,
+          typeUrl = __typeUrl,
+          oneofIndex = __oneofIndex,
+          packed = __packed,
+          options = __options.result(),
+          jsonName = __jsonName,
+          defaultValue = __defaultValue,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.`type`.Field, com.google.protobuf.`type`.Field.Builder] {
+    def apply(): Builder = new Builder(
+      __kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
+      __cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
+      __number = 0,
+      __name = "",
+      __typeUrl = "",
+      __oneofIndex = 0,
+      __packed = false,
+      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto],
+      __jsonName = "",
+      __defaultValue = "",
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.`type`.Field): Builder = new Builder(
+      __kind = _message__.kind,
+      __cardinality = _message__.cardinality,
+      __number = _message__.number,
+      __name = _message__.name,
+      __typeUrl = _message__.typeUrl,
+      __oneofIndex = _message__.oneofIndex,
+      __packed = _message__.packed,
+      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+      __jsonName = _message__.jsonName,
+      __defaultValue = _message__.defaultValue,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.`type`.Field.Builder()
+  def newBuilder(a: com.google.protobuf.`type`.Field): Builder = com.google.protobuf.`type`.Field.Builder(a)
   /** Basic field types.
     */
   sealed abstract class Kind(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {

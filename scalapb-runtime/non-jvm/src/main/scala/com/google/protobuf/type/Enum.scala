@@ -147,44 +147,7 @@ final case class Enum(
 
 object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] = this
-  def merge(`_message__`: com.google.protobuf.`type`.Enum, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Enum = {
-    var __name = `_message__`.name
-    val __enumvalue = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.EnumValue] ++= `_message__`.enumvalue)
-    val __options = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= `_message__`.options)
-    var __sourceContext = `_message__`.sourceContext
-    var __syntax = `_message__`.syntax
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __name = _input__.readStringRequireUtf8()
-        case 18 =>
-          __enumvalue += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.EnumValue.defaultInstance)
-        case 26 =>
-          __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
-        case 34 =>
-          __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
-        case 40 =>
-          __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.`type`.Enum(
-        name = __name,
-        enumvalue = __enumvalue.result(),
-        options = __options.result(),
-        sourceContext = __sourceContext,
-        syntax = __syntax,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.`type`.Enum, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Enum = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Enum] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -221,6 +184,70 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     sourceContext = _root_.scala.None,
     syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
+  final class Builder private (
+    private var __name: _root_.scala.Predef.String,
+    private var __enumvalue: collection.mutable.Builder[com.google.protobuf.`type`.EnumValue, _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]],
+    private var __options: collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private var __sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
+    private var __syntax: com.google.protobuf.`type`.Syntax,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.`type`.Enum] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __name = _input__.readStringRequireUtf8()
+          case 18 =>
+            __enumvalue += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.EnumValue.defaultInstance)
+          case 26 =>
+            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+          case 34 =>
+            __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
+          case 40 =>
+            __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.`type`.Enum = {
+      com.google.protobuf.`type`.Enum(
+          name = __name,
+          enumvalue = __enumvalue.result(),
+          options = __options.result(),
+          sourceContext = __sourceContext,
+          syntax = __syntax,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.`type`.Enum, com.google.protobuf.`type`.Enum.Builder] {
+    def apply(): Builder = new Builder(
+      __name = "",
+      __enumvalue = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.EnumValue],
+      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto],
+      __sourceContext = _root_.scala.None,
+      __syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.`type`.Enum): Builder = new Builder(
+      __name = _message__.name,
+      __enumvalue = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.EnumValue] ++= _message__.enumvalue,
+      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+      __sourceContext = _message__.sourceContext,
+      __syntax = _message__.syntax,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.`type`.Enum.Builder()
+  def newBuilder(a: com.google.protobuf.`type`.Enum): Builder = com.google.protobuf.`type`.Enum.Builder(a)
   implicit class EnumLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Enum]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Enum](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def enumvalue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]] = field(_.enumvalue)((c_, f_) => c_.copy(enumvalue = f_))
