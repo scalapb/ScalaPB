@@ -7,7 +7,7 @@ import scala.jdk.CollectionConverters._
 import com.google.protobuf.DescriptorProtos.FileDescriptorSet
 import com.google.protobuf.Descriptors.FileDescriptor
 import com.google.protobuf.ExtensionRegistry
-import scalapb.options.compiler.Scalapb
+import scalapb.options.Scalapb
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
