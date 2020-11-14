@@ -1,7 +1,7 @@
 package scalapb
 
 import scalapb.compiler.ProtobufGenerator
-import scalapb.options.compiler.Scalapb
+import scalapb.options.Scalapb
 import com.google.protobuf.ExtensionRegistry
 import protocbridge.Artifact
 import protocgen.CodeGenApp

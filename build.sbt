@@ -142,10 +142,9 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
-    Compile / PB.protoSources := Seq((Compile / resourceManaged).value / "protobuf"),
+    Compile / PB.protoSources := Seq((LocalRootProject / baseDirectory).value / "protobuf"),
     Compiler.generateVersionFile,
-    Compiler.generateEncodingFile,
-    Compiler.shadeProtoBeforeGenerate
+    Compiler.generateEncodingFile
   )
   .jvmPlatform(Seq(Scala212, Scala213, Dotty))
 
