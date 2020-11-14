@@ -8,8 +8,8 @@ object Dependencies {
     val grpc                    = "1.33.1"
     val protobuf                = "3.13.0"
     val utest                   = "0.7.4"
-    val munit                   = "0.7.17"
-    val silencer                = "1.6.0"
+    val munit                   = "0.7.14"
+    val silencer                = "1.7.0"
     val collectionCompat        = "2.2.0"
     val coursier                = "2.0.6"
     val mockito                 = "3.2.0"
@@ -22,7 +22,7 @@ object Dependencies {
     val annotationApi           = "1.3.2"
   }
 
-  val Scala212 = "2.12.10"
+  val Scala212 = "2.12.12"
 
   val Scala213 = "2.13.2"
 
