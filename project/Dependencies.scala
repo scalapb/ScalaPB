@@ -22,7 +22,7 @@ object Dependencies {
     val annotationApi           = "1.3.2"
   }
 
-  val Scala212 = "2.12.10"
+  val Scala212 = "2.12.12"
 
   val Scala213 = "2.13.2"
 
