@@ -9,7 +9,7 @@ object Dependencies {
     val protobuf                = "3.13.0"
     val utest                   = "0.7.4"
     val munit                   = "0.7.14"
-    val silencer                = "1.6.0"
+    val silencer                = "1.7.0"
     val collectionCompat        = "2.2.0"
     val coursier                = "2.0.6"
     val mockito                 = "3.2.0"
