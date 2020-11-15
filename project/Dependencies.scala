@@ -8,7 +8,7 @@ object Dependencies {
     val grpc                    = "1.33.1"
     val protobuf                = "3.13.0"
     val utest                   = "0.7.4"
-    val munit                   = "0.7.14"
+    val munit                   = "0.7.17"
     val silencer                = "1.7.1"
     val collectionCompat        = "2.2.0"
     val coursier                = "2.0.6"
@@ -16,8 +16,8 @@ object Dependencies {
     val protocGen               = "0.9.0-RC6"
     val protobufRuntimeScala    = "0.8.6"
     val commonsCodec            = "1.15"
-    val scalaTest               = "3.2.2"
-    val scalaTestPlusScalaCheck = "3.2.2.0"
+    val scalaTest               = "3.2.3"
+    val scalaTestPlusScalaCheck = "3.2.3.0"
     val scalaTestPlusMockito    = "3.1.0.0"
     val annotationApi           = "1.3.2"
   }
@@ -26,7 +26,7 @@ object Dependencies {
 
   val Scala213 = "2.13.2"
 
-  val Dotty = "0.27.0-RC1"
+  val Dotty = "3.0.0-M1"
 
   val silencer = Seq(
     sbt.compilerPlugin(
@@ -58,7 +58,7 @@ object Dependencies {
   // testing
   val scalaTest = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
   val scalaTestPlusScalaCheck = Def.setting {
-    "org.scalatestplus" %%% "scalacheck-1-14" % versions.scalaTestPlusScalaCheck
+    "org.scalatestplus" %%% "scalacheck-1-15" % versions.scalaTestPlusScalaCheck
   }
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10"  % versions.scalaTestPlusMockito
   val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }

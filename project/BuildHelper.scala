@@ -74,8 +74,7 @@ object BuildHelper {
                                                                                        "scala-3"
                                                                                      else
                                                                                        "scala-2"),
-    compileOrder := CompileOrder.JavaThenScala,
-    publishArtifact in (Compile, packageDoc) := !isDotty.value
+    compileOrder := CompileOrder.JavaThenScala
   )
 
   object Compiler {
