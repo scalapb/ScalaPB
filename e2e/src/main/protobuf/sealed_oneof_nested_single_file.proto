@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.sealed_oneof_nested_single_file;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  flat_package: true
+  single_file: true
+};
+
+message Nested {
+  message Lit {
+    int32 value = 1;
+  }
+
+  message Add {
+    Expr lhs = 1;
+    Expr rhs = 2;
+  }
+
+  message Expr {
+    oneof sealed_value {
+      Lit lit = 1;
+      Add add = 2;
+    }
+  }
+}
