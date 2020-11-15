@@ -92,16 +92,74 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
     )
   }
 
-  "oneof checker" should "fail when not top-level" in {
+  "oneof checker" should "validate if oneof and case messages are top-level" in {
+    runValidation(
+      "file.proto" ->
+        """
+          |syntax = "proto2";
+          |message Case1 {}
+          |message MyOneof {
+          |  oneof sealed_value {
+          |    Case1 case1 = 1;
+          |  }
+          |}
+        """.stripMargin
+    )
+  }
+
+  it should "validate if oneof and case messages are nested in same parent message" in {
+    runValidation(
+      "file.proto" ->
+        """
+          |syntax = "proto2";
+          |message Parent {
+          |  message Case1 {}
+          |  message MyOneof {
+          |    oneof sealed_value {
+          |      Case1 case1 = 1;
+          |    }
+          |  }
+          |}
+        """.stripMargin
+    )
+  } 
+  
+  it should "fail when case message is nested, but oneof is top-level" in {
     intercept[GeneratorException] {
       runValidation(
         "file.proto" ->
           """
             |syntax = "proto2";
-            |message Foo { message Bar { oneof sealed_value { Foo foo = 1; } } }
+            |message Parent {
+            |  message Case1 {}
+            |}
+            |message MyOneof {
+            |  oneof sealed_value {
+            |    Parent.Case1 case1 = 1;
+            |  }
+            |}
           """.stripMargin
       )
-    }.message must include("sealed oneofs must be top-level messages")
+    }.message must include("sealed oneofs must be in the same containing message")
+  }
+
+  it should "fail when case message is top-level, but oneof is nested" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file.proto" ->
+          """
+            |syntax = "proto2";
+            |message Case1 {}
+            |message Parent {
+            |  message MyOneof {
+            |    oneof sealed_value {
+            |      Case1 case1 = 1;
+            |    }
+            |  }
+            |}
+          """.stripMargin
+      )
+    }.message must include("sealed oneofs must be in the same containing message")
   }
 
   it should "fail when fields outside oneof" in {
@@ -160,23 +218,6 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
           """.stripMargin
       )
     }.message must include("sealed oneofs may not be a case within")
-  }
-
-  it should "fail when oneof case is not top-level" in {
-    intercept[GeneratorException] {
-      runValidation(
-        "file.proto" ->
-          """
-            |syntax = "proto2";
-            |message Foo { message Case1 {} }
-            |message MyOneof {
-            |  oneof sealed_value {
-            |    Foo.Case1 case1 = 1;
-            |  }
-            |}
-          """.stripMargin
-      )
-    }.message must include("sealed oneof cases must be top-level")
   }
 
   it should "fail when non distinct case types" in {
