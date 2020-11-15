@@ -223,8 +223,8 @@ lazy val proptest = (projectMatrix in file("proptest"))
                                Seq("org.scala-lang" % "scala-compiler" % scalaVersion.value)
                              else
                                Seq(
-                                 "ch.epfl.lamp" %% "dotty-compiler" % scalaVersion.value,
-                                 "ch.epfl.lamp" %% "dotty-library"  % scalaVersion.value
+                                 "org.scala-lang" %% "scala3-compiler" % scalaVersion.value,
+                                 "org.scala-lang" %% "scala3-library"  % scalaVersion.value
                                )),
     publish / skip := true,
     Test / fork := true,
