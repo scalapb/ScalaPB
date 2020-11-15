@@ -122,8 +122,8 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
           |}
         """.stripMargin
     )
-  } 
-  
+  }
+
   it should "fail when case message is nested, but oneof is top-level" in {
     intercept[GeneratorException] {
       runValidation(
