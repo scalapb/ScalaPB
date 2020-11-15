@@ -74,15 +74,15 @@ A sealed oneof is detected when a message (denoted below as the *containing mess
 
 3. No nested messages or enums are allowed to be defined in the containing message.
 
-4. The containing message must be a top-level message.
+4. All of the oneof cases must be inside the same namespace as the containing message. That is, all messages must either be top-level or direct children of the same parent message.
 
-5. All the oneof cases must be distinct top-level message types that are defined in the same file as the sealed oneof.
+5. All the oneof cases must defined in the same file as the sealed oneof.
 
 6. A message type can appear in at most one sealed oneof.
 
 ## Experimental Status
 
-Some of the rules above are inherently required (for example, that the message types need to be distinct). Other rules, such as the one requesting that all involved messages need to be top-level, were added to make the implementation simpler. That particular rule helps ensuring that all the cases can be generated into a single Scala source file without changing too much the existing way the code generator works. It is possible that some of the rules will change over time, though most likely they are only going to become less restrictive so existing code does not break.
+Some of the rules above are inherently required (for example, that the message types need to be distinct). Other rules, such as the one requesting that all involved messages need to be inside the same namespace, were added to make the implementation simpler. That particular rule helps ensuring that all the cases can be generated into a single Scala source file without changing too much the existing way the code generator works. It is possible that some of the rules will change over time, though most likely they are only going to become less restrictive so existing code does not break.
 
 Currently, sealed oneofs are implemented as a custom type defined over the old-style container message. This implementation detail is exposed through `asMessage` which returns the underlying message representing the sealed oneof.  It is possible that in a future version, sealed oneofs would have a direct implementation, and therefore `asMessage` and its return type should be considered an experimental API.
 

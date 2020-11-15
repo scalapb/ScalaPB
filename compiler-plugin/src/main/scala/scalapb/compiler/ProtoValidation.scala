@@ -50,9 +50,6 @@ class ProtoValidation(implicits: DescriptorImplicits) {
     m.getFields.asScala.foreach(validateField)
     if (m.isSealedOneofType) {
       val oneof = m.getRealOneofs.get(0)
-      if (m.getContainingType != null) {
-        throw new GeneratorException(s"${m.getFullName}: sealed oneofs must be top-level messages")
-      }
       if (m.getFields.size() != oneof.getFields.size()) {
         throw new GeneratorException(
           s"${m.getFullName}: sealed oneofs must have all their fields inside a single oneof"
@@ -69,9 +66,9 @@ class ProtoValidation(implicits: DescriptorImplicits) {
           s"${m.getFullName}.${field.getName}: sealed oneofs may not be a case within another sealed oneof"
         )
       }
-      fields.find(_.getMessageType.getContainingType != null).foreach { field =>
+      fields.find(_.getMessageType.getContainingType != m.getContainingType).foreach { field =>
         throw new GeneratorException(
-          s"${m.getFullName}.${field.getName}: all sealed oneof cases must be top-level"
+          s"${m.getFullName}.${field.getName}: sealed oneofs must be in the same containing message (if any) as all case messages"
         )
       }
       val distinctTypes = fields.map(_.getMessageType).toSet
