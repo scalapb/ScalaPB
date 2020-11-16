@@ -1,5 +1,7 @@
 # Change Log
 ## [0.11.0 Unreleased]
+
+## [0.11.0-M4]
 - Upgraded to Protobuf 3.13.0
 - Add java_conversions as a file-level options in scalapb.proto
 - google.protobuf.Timestamp and google.protobuf.Duration now come with a new
@@ -8,6 +10,8 @@
   imported from scalapb.DurationConverters and scalapb.TimestampConverters
   (#939).
 - Add support for renaming `oneof` fields (#946)
+- Allow sealed oneofs to be defined inside a parent message (#977)
+- Support Scala 3.0.0-M1
 
 ## [0.11.0-M3]
 - Supports protobuf 3.12.2
