@@ -84,7 +84,7 @@ jobs:
         else
           RELEASE_VERSION=SNAPSHOT
         fi
-        echo ::set-env name=ASSET::protoc-gen-scala-${RELEASE_VERSION}-${{matrix.arch}}
+        echo "ASSET=protoc-gen-scala-${RELEASE_VERSION}-${{matrix.arch}}" >> $GITHUB_ENV
 
     - name: build native image
       run: |
