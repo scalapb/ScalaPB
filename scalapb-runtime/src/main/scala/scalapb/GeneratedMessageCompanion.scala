@@ -69,7 +69,7 @@ trait GeneratedOneof extends Any with Product with Serializable {
 
 trait GeneratedOneofCompanion
 
-trait GeneratedMessage extends Any with Serializable {
+trait GeneratedMessage extends Any with Product with Serializable {
 
   /** Serializes the message into the given coded output stream */
   def writeTo(output: CodedOutputStream): Unit
