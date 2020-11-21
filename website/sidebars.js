@@ -19,6 +19,7 @@ module.exports = {
         'sparksql',
         'json',
         'scalapbc',
+        'dotty',
         'third-party-protos',
         'common-protos',
         'validation',

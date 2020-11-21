@@ -398,7 +398,7 @@ lazy val docs = project
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(unidoc in Compile).value,
     mdocVariables := Map(
       "scalapb"          -> "0.10.8",
-      "sbt_protoc"       -> "1.0.0-RC2",
+      "sbt_protoc"       -> "1.0.0-RC4",
       "protoc"           -> "3.11.4",
       "sparksql_scalapb" -> "0.10.4",
       "scalapb_validate" -> "0.1.3"
