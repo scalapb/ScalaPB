@@ -6,24 +6,24 @@ title: "Using with Dotty"
 ## Installing in SBT
 
 ScalaPB 0.11.x fully supports Dotty. There is no need to use `withDottyCompat`
-to get the dependencies correctly added. 
+to get the runtime dependencies correctly added.
 
-To use ScalaPB with dotty, ensure you use a recent sbt-protoc. 
+To use ScalaPB with dotty, ensure you use a recent sbt-protoc.
 
 In `project/plugins.sbt`:
 
 ```scala
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "@sbt_protoc@")
 
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.6")
+addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "@sbt_dotty@")
 
-libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.11.0-M4"
+libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "@scalapb_latest@"
 ```
 
 In build.sbt:
 
 ```scala
-scalaVersion := "3.0.0-RC1"
+scalaVersion := "@scala3@"
 
 PB.targets in Compile := Seq(
   scalapb.gen() -> (sourceManaged in Compile).value / "scalapb"
