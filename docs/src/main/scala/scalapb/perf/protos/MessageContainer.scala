@@ -108,7 +108,7 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.MessageContainer] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
-      _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
+      _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.perf.protos.MessageContainer(
         opt = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[scalapb.perf.protos.SimpleMessage]]),
         rep = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[scalapb.perf.protos.SimpleMessage]]).getOrElse(_root_.scala.Seq.empty)
