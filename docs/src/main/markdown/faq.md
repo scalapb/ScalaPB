@@ -107,11 +107,13 @@ message B {
 ```
 
 The generated case class for `B` will have a field `a: Option[A]`. The reason
-is that in the proto3 format, it is valid for an encoded message of `B` to not
-contain a value for the field `A`. Using `Option[A]` lets us distinguish
-between the case where a value for `A` is not available and the case where `A`
-is explictly given (even if it's the default instance). The two cases above
-have two distinct binary representations when the message is serialized.
+is that in the proto3 format, it is valid for an encoded message of type `B` to not
+contain a value for the field `a`. Using the `Option[A]` type lets us distinguish
+between the case where a value for `A` was not provided and the case where `A`
+was explictly set to a certain value (even if that value is the default value
+for `A`). The case where `a` is not set, and the case that `A` is set to its
+default value have two distinct binary representations (in both proto2 and
+proto3).
 
 You can set a certain message type or a field to not be wrapped in an `Option`
 using the [`no_box` option](customizations.md#message-level-custom-type-and-boxing).
