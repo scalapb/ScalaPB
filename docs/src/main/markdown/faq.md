@@ -93,6 +93,29 @@ compile. You can exclude them by adding an `includeFilter`:
 
 See [full example here](https://github.com/thesamet/sbt-protoc/tree/master/examples/multi-with-external-jar).
 
+## Why message fields are wrapped in an `Option` in proto3?
+
+For a proto like this:
+```protobuf
+synax = "proto3";
+
+message A {}
+
+message B {
+    A a = 1;
+}
+```
+
+The generated case class for `B` will have a field `a: Option[A]`. The reason
+is that in the proto3 format, it is valid for an encoded message of `B` to not
+contain a value for the field `A`. Using `Option[A]` lets us distinguish
+between the case where a value for `A` is not available and the case where `A`
+is explictly given (even if it's the default instance). The two cases above
+have two distinct binary representations when the message is serialized.
+
+You can set a certain message type or a field to not be wrapped in an `Option`
+using the [`no_box` option](customizations.md#message-level-custom-type-and-boxing).
+
 ## How do I represent `Option[T]` in proto3 for scalar fields?
 
 Scalar fields are the various numeric types, `bool`, `string`, `byte` and `enum` -
