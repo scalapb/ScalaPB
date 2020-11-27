@@ -683,6 +683,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
         message.getFile().scalaFileName
       else if (message.isSealedOneofType)
         message.getFile.scalaDirectory + "/" + message.sealedOneofTraitScalaType.name + ".scala"
+      else if (message.isSealedOneofCase)
+        message.sealedOneofContainer.get.scalaFileName
       else message.getFile.scalaDirectory + "/" + message.scalaType.name + ".scala"
 
     def messageCompanionInsertionPoint: InsertionPoint =
