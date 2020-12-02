@@ -30,7 +30,7 @@ addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.4")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.5")
 
-addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.6.0")
+addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.7.0")
 
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.4.6")
 
