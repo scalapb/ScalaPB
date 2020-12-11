@@ -11,7 +11,7 @@ object FieldMaskProto extends _root_.scalapb.GeneratedFileObject {
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
       com.google.protobuf.field_mask.FieldMask
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """CiBnb29nbGUvcHJvdG9idWYvZmllbGRfbWFzay5wcm90bxIPZ29vZ2xlLnByb3RvYnVmIi0KCUZpZWxkTWFzaxIgCgVwYXRoc
   xgBIAMoCUIK4j8HEgVwYXRoc1IFcGF0aHNCjAEKE2NvbS5nb29nbGUucHJvdG9idWZCDkZpZWxkTWFza1Byb3RvUAFaOWdvb2dsZ

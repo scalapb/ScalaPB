@@ -11,7 +11,7 @@ object AnyProto extends _root_.scalapb.GeneratedFileObject {
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
       com.google.protobuf.any.Any
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """Chlnb29nbGUvcHJvdG9idWYvYW55LnByb3RvEg9nb29nbGUucHJvdG9idWYiUAoDQW55EicKCHR5cGVfdXJsGAEgASgJQgziP
   wkSB3R5cGVVcmxSB3R5cGVVcmwSIAoFdmFsdWUYAiABKAxCCuI/BxIFdmFsdWVSBXZhbHVlQm8KE2NvbS5nb29nbGUucHJvdG9id

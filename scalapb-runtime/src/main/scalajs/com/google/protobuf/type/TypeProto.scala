@@ -18,7 +18,7 @@ object TypeProto extends _root_.scalapb.GeneratedFileObject {
       com.google.protobuf.`type`.EnumValue,
       com.google.protobuf.`type`.OptionProto
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """Chpnb29nbGUvcHJvdG9idWYvdHlwZS5wcm90bxIPZ29vZ2xlLnByb3RvYnVmGhlnb29nbGUvcHJvdG9idWYvYW55LnByb3RvG
   iRnb29nbGUvcHJvdG9idWYvc291cmNlX2NvbnRleHQucHJvdG8i4QIKBFR5cGUSHQoEbmFtZRgBIAEoCUIJ4j8GEgRuYW1lUgRuY
@@ -57,7 +57,7 @@ object TypeProto extends _root_.scalapb.GeneratedFileObject {
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
-    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(
+    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array(
       com.google.protobuf.any.AnyProto.javaDescriptor,
       com.google.protobuf.source_context.SourceContextProto.javaDescriptor
     ))

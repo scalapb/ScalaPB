@@ -19,7 +19,7 @@ object WrappersProto extends _root_.scalapb.GeneratedFileObject {
       com.google.protobuf.wrappers.StringValue,
       com.google.protobuf.wrappers.BytesValue
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """Ch5nb29nbGUvcHJvdG9idWYvd3JhcHBlcnMucHJvdG8SD2dvb2dsZS5wcm90b2J1ZiIvCgtEb3VibGVWYWx1ZRIgCgV2YWx1Z
   RgBIAEoAUIK4j8HEgV2YWx1ZVIFdmFsdWUiLgoKRmxvYXRWYWx1ZRIgCgV2YWx1ZRgBIAEoAkIK4j8HEgV2YWx1ZVIFdmFsdWUiL
