@@ -1561,7 +1561,7 @@ class ProtobufGenerator(
         lines.dropRight(1) :+ (lines.last + "\"\"\"")
       }
       .toSeq
-    fp.add("private lazy val ProtoBytes: Array[Byte] =")
+    fp.add("private lazy val ProtoBytes: _root_.scala.Array[Byte] =")
       .add("    scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(")
       .addGroupsWithDelimiter(",")(base64)
       .add("    ).mkString)")
@@ -1582,7 +1582,9 @@ class ProtobufGenerator(
           .add(
             "  val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)"
           )
-          .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(")
+          .add(
+            "  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array("
+          )
           .addWithDelimiter(",")(file.getDependencies.asScala.map { d =>
             s"    ${d.fileDescriptorObject.fullName}.javaDescriptor"
           }.toSeq)
