@@ -185,6 +185,8 @@ class EnumValueDescriptor private[descriptors] (
 
   def location = containingEnum.file.findLocationByPath(SourceCodePath.get(this))
 
+  def getOptions = asProto.getOptions
+
   override def toString: String = fullName
 }
 
@@ -295,6 +297,8 @@ class OneofDescriptor private[descriptors] (
     val asProto: OneofDescriptorProto
 ) extends BaseDescriptor {
   def name: String = asProto.getName
+
+  def getOptions = asProto.getOptions
 }
 
 class FileDescriptor private[descriptors] (
