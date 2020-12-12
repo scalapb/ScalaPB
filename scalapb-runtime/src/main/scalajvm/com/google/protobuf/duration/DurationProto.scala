@@ -11,7 +11,7 @@ object DurationProto extends _root_.scalapb.GeneratedFileObject {
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
       com.google.protobuf.duration.Duration
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """Ch5nb29nbGUvcHJvdG9idWYvZHVyYXRpb24ucHJvdG8SD2dvb2dsZS5wcm90b2J1ZiJUCghEdXJhdGlvbhImCgdzZWNvbmRzG
   AEgASgDQgziPwkSB3NlY29uZHNSB3NlY29uZHMSIAoFbmFub3MYAiABKAVCCuI/BxIFbmFub3NSBW5hbm9zQnwKE2NvbS5nb29nb

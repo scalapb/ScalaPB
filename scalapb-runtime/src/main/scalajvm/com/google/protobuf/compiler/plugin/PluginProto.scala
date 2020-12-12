@@ -15,7 +15,7 @@ object PluginProto extends _root_.scalapb.GeneratedFileObject {
       com.google.protobuf.compiler.plugin.CodeGeneratorRequest,
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """CiVnb29nbGUvcHJvdG9idWYvY29tcGlsZXIvcGx1Z2luLnByb3RvEhhnb29nbGUucHJvdG9idWYuY29tcGlsZXIaIGdvb2dsZ
   S9wcm90b2J1Zi9kZXNjcmlwdG9yLnByb3RvIpQBCgdWZXJzaW9uEiAKBW1ham9yGAEgASgFQgriPwcSBW1ham9yUgVtYWpvchIgC

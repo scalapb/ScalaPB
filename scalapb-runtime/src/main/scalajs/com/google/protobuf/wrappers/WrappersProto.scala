@@ -19,7 +19,7 @@ object WrappersProto extends _root_.scalapb.GeneratedFileObject {
       com.google.protobuf.wrappers.StringValue,
       com.google.protobuf.wrappers.BytesValue
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """Ch5nb29nbGUvcHJvdG9idWYvd3JhcHBlcnMucHJvdG8SD2dvb2dsZS5wcm90b2J1ZiIvCgtEb3VibGVWYWx1ZRIgCgV2YWx1Z
   RgBIAEoAUIK4j8HEgV2YWx1ZVIFdmFsdWUiLgoKRmxvYXRWYWx1ZRIgCgV2YWx1ZRgBIAEoAkIK4j8HEgV2YWx1ZVIFdmFsdWUiL
@@ -37,7 +37,7 @@ object WrappersProto extends _root_.scalapb.GeneratedFileObject {
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
-    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(
+    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array(
     ))
   }
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")

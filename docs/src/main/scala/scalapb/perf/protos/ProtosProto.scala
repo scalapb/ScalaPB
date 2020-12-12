@@ -18,7 +18,7 @@ object ProtosProto extends _root_.scalapb.GeneratedFileObject {
       scalapb.perf.protos.IntVector,
       scalapb.perf.protos.StringMessage
     )
-  private lazy val ProtoBytes: Array[Byte] =
+  private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """Cgxwcm90b3MucHJvdG8SDHNjYWxhcGIucGVyZhoVc2NhbGFwYi9zY2FsYXBiLnByb3RvIogBCg1TaW1wbGVNZXNzYWdlEhQKA
   WkYASABKAVCBuI/AxIBaVIBaRIUCgFqGAIgASgFQgbiPwMSAWpSAWoSFAoBaxgDIAEoDEIG4j8DEgFrUgFrEjUKBWNvbG9yGAQgA
@@ -51,7 +51,7 @@ object ProtosProto extends _root_.scalapb.GeneratedFileObject {
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
-    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(
+    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array(
       scalapb.options.ScalapbProto.javaDescriptor
     ))
   }
