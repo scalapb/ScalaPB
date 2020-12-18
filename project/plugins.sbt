@@ -26,7 +26,7 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.0")
 
 addSbtPlugin("com.47deg" % "sbt-microsites" % "1.2.1")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC2")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC4")
 
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
 

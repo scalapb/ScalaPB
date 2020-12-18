@@ -3,10 +3,7 @@ import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
 
-// Different version for compiler-plugin since >=3.8.0 is not binary
-// compatible with 3.7.x. When loaded inside SBT (which has its own old
-// version), the binary incompatibility surfaces.
-val protobufCompilerVersion = "3.7.1"
+val protobufCompilerVersion = "3.12.2"
 
 val MimaPreviousVersion = "0.10.0"
 
@@ -145,7 +142,7 @@ lazy val compilerPlugin = project
       protocGen,
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
       scalaTest             % "test",
-      protocJar             % "test"
+      coursier              % "test",
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     PB.protocVersion := protobufCompilerVersion,
@@ -244,12 +241,11 @@ lazy val protocGenScala = project
 
 lazy val proptest = project
   .in(file("proptest"))
-  .dependsOn(compilerPlugin, runtimeJVM, grpcRuntime)
+  .dependsOn(compilerPlugin % "compile->compile;test->test", runtimeJVM, grpcRuntime)
   .settings(
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
-      protocJar,
       protobufJava,
       grpcNetty               % "test",
       grpcProtobuf            % "test",
