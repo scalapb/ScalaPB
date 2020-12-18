@@ -58,7 +58,7 @@ abstract class DeprecatedImplicits {
     new ExtendedEnumValueDescriptor(self)
 
   @deprecated(
-    "FileDescriptorPimp class has been deprecated, use ExtendedEnumValueDescriptor instead.",
+    "FileDescriptorPimp class has been deprecated, use ExtendedFileDescriptor instead.",
     "0.11.0"
   )
   implicit final def FileDescriptorPimp(self: FileDescriptor): ExtendedFileDescriptor =
