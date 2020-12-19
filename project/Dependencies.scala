@@ -14,7 +14,6 @@ object Dependencies {
     val coursier                = "2.0.0-RC6-21"
     val mockito                 = "3.2.0"
     val protocGen               = "0.9.0-RC6"
-    val protocJar               = "3.11.4"
     val protobufRuntimeScala    = "0.8.6"
     val commonsCodec            = "1.14"
     val scalaTest               = "3.2.0"
@@ -43,10 +42,10 @@ object Dependencies {
     "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % versions.protobufRuntimeScala
   }
 
-  val protocJar        = "com.github.os72"      % "protoc-jar"         % versions.protocJar
-  val coursier         = "io.get-coursier"      %% "coursier"          % versions.coursier
-  val protocGen        = "com.thesamet.scalapb" %% "protoc-gen"        % versions.protocGen
-  val protobufJavaUtil = "com.google.protobuf"  % "protobuf-java-util" % versions.protobuf
+  val coursier            = "io.get-coursier"      %% "coursier"              % versions.coursier
+  val protocGen           = "com.thesamet.scalapb" %% "protoc-gen"            % versions.protocGen
+  val protocCacheCoursier = "com.thesamet.scalapb" %% "protoc-cache-coursier" % versions.protocGen
+  val protobufJavaUtil    = "com.google.protobuf"  % "protobuf-java-util"     % versions.protobuf
 
   // grpc
   val grpcStub      = "io.grpc" % "grpc-stub"            % versions.grpc

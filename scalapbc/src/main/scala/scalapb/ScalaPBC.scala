@@ -11,9 +11,12 @@ import java.net.URLClassLoader
 import java.util.jar.JarInputStream
 import java.io.FileInputStream
 import protocbridge.SandboxedJvmGenerator
+import sys.process._
+import scala.io.Source
+import scala.util.{Try, Success, Failure}
 
 case class Config(
-    version: String = "-v" + scalapb.compiler.Version.protobufVersion,
+    version: String = scalapb.compiler.Version.protobufVersion,
     throwException: Boolean = false,
     args: Seq[String] = Seq.empty,
     customProtocLocation: Option[String] = None,
@@ -64,7 +67,8 @@ object ScalaPBC {
                     state.cfg.executableArtifacts :+ p.substring(PluginArtifactArgument.length())
                   )
               )
-            case (false, v) if v.startsWith("-v") => state.copy(cfg = state.cfg.copy(version = v))
+            case (false, v) if v.startsWith("-v") =>
+              state.copy(cfg = state.cfg.copy(version = v.substring(2).trim))
             case (_, other) =>
               state.copy(passThrough = true, cfg = state.cfg.copy(args = state.cfg.args :+ other))
           }
@@ -113,9 +117,15 @@ object ScalaPBC {
     }
   }
 
+  private def getProtoc(version: String): Either[String, String] = {
+    Try(protocbridge.CoursierProtocCache.getProtoc(version)) match {
+      case Success(f) => Right(f.getAbsolutePath())
+      case Failure(e) => Left(e.getMessage)
+    }
+  }
+
   @silent("method right in class Either is deprecated")
-  def main(args: Array[String]): Unit = {
-    val config = processArgs(args)
+  private[scalapb] def runProtoc(config: Config): Int = {
     if (config.namedGenerators
           .map(_._1)
           .toSet
@@ -166,19 +176,28 @@ object ScalaPBC {
         }
     }
 
-    val code = ProtocBridge.runWithGenerators(
-      protoc = config.customProtocLocation match {
-        case Some(path) =>
-          val executable = new File(path)
-          a =>
-            com.github.os72.protocjar.Protoc
-              .runProtoc(executable.getAbsolutePath, config.version +: a.toArray)
-        case None =>
-          a => com.github.os72.protocjar.Protoc.runProtoc(config.version +: a.toArray)
-      },
+    val protoc =
+      config.customProtocLocation
+        .getOrElse(getProtoc(config.version).fold(fatalError(_), identity(_)))
+
+    val maybeNixDynamicLinker: Option[String] =
+      sys.env.get("NIX_CC").map { nixCC =>
+        Source.fromFile(nixCC + "/nix-support/dynamic-linker").mkString.trim()
+      }
+
+    def runner(args: Seq[String]): Int =
+      ((maybeNixDynamicLinker.toSeq :+ protoc) ++ args).!
+
+    ProtocBridge.runWithGenerators(
+      runner,
       namedGenerators = config.namedGenerators ++ jvmGenerators,
       params = config.args ++ pluginArgs
     )
+  }
+
+  def main(args: Array[String]): Unit = {
+    val config = processArgs(args)
+    val code   = runProtoc(config)
 
     if (!config.throwException) {
       sys.exit(code)

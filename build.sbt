@@ -142,7 +142,7 @@ lazy val compilerPlugin = project
       protocGen,
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
       scalaTest             % "test",
-      coursier              % "test",
+      coursier              % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     PB.protocVersion := protobufCompilerVersion,
@@ -173,8 +173,7 @@ lazy val scalapbc = project
   .enablePlugins(JavaAppPackaging)
   .settings(
     libraryDependencies ++= Seq(
-      coursier,
-      protocJar
+      protocCacheCoursier
     ),
     /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
       * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the
