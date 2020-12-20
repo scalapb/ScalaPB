@@ -10,7 +10,7 @@ object Dependencies {
     val utest                   = "0.7.4"
     val munit                   = "0.7.19"
     val silencer                = "1.7.1"
-    val collectionCompat        = "2.3.1"
+    val collectionCompat        = "2.3.2"
     val coursier                = "2.0.7"
     val mockito                 = "3.2.0"
     val protocGen               = "0.9.0-RC6"
