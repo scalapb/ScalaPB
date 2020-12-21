@@ -57,6 +57,6 @@ object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
     case 3 => BLUE
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ProtosProto.javaDescriptor.getEnumTypes.get(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ProtosProto.javaDescriptor.getEnumTypes().get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = ProtosProto.scalaDescriptor.enums(0)
 }

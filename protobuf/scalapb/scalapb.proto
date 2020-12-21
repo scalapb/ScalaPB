@@ -144,6 +144,8 @@ message ScalaPbOptions {
   // Scala type to use for bytes fields.
   optional string bytes_type = 21;
 
+  repeated string preprocessors = 22;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
@@ -295,4 +297,8 @@ extend google.protobuf.OneofOptions {
   // Enum-level optionals for ScalaPB.
   // Extension number officially assigned by protobuf-global-extension-registry@google.com
   optional OneofOptions oneof = 1020;
+}
+
+message PreprocesserOutput {
+  map<string, ScalaPbOptions> options_by_file = 1;
 }

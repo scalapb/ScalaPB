@@ -514,7 +514,10 @@ class ProtobufGenerator(
       val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
       if (!field.isPacked) {
         Types.fixedSize(field.getType) match {
-          case Some(size) => fp.add(s"__size += ${size + tagSize} * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}")
+          case Some(size) =>
+            fp.add(
+              s"__size += ${size + tagSize} * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}"
+            )
           case None =>
             fp.add(s"""${field.collection.foreach} { __item =>
                       |  val __value = ${toBaseType(field)("__item")}
@@ -576,7 +579,10 @@ class ProtobufGenerator(
           .call({ fp =>
             Types.fixedSize(field.getType) match {
               case Some(size) =>
-                fp.add(s"  $size * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}").add("}")
+                fp.add(
+                    s"  $size * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}"
+                  )
+                  .add("}")
               case None =>
                 val capTypeName = Types.capitalizedType(field.getType)
                 val sizeFunc = FunctionApplication(
@@ -725,7 +731,7 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
-  private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isRequired || field.noBox
+  private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
 
   def generateBuilder(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
@@ -1854,7 +1860,7 @@ object ProtobufGenerator {
     parseParameters(request.parameter) match {
       case Right(params) =>
         try {
-          val implicits = new DescriptorImplicits(params, request.allProtos)
+          val implicits = DescriptorImplicits.fromCodeGenRequest(params, request)
           val generator = new ProtobufGenerator(params, implicits)
           val validator = new ProtoValidation(implicits)
           validator.validateFiles(request.allProtos)

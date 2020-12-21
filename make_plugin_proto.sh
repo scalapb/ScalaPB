@@ -6,7 +6,7 @@ set -e
 
 GOOGLE_PROTOS=$(find third_party/google/protobuf/ -name '*.proto' -print)
 
-sbt "++2.12.10" "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/src/main/scala \
+sbt "++2.12.12" "scalapbc/run --scala_out=java_conversions:scalapb-runtime/jvm/src/main/scala \
     --proto_path=./third_party \
     $GOOGLE_PROTOS" \
     "scalapbc/run --scala_out=scalapb-runtime/non-jvm/src/main/scala \

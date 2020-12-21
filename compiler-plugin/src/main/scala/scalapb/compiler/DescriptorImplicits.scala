@@ -15,9 +15,19 @@ import scalapb.options.Scalapb._
 
 import scala.jdk.CollectionConverters._
 import scala.collection.immutable.IndexedSeq
+import protocgen.CodeGenRequest
 
-class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
+class DescriptorImplicits private[compiler] (
+    params: GeneratorParams,
+    files: Seq[FileDescriptor],
+    secondaryOutputsProvider: SecondaryOutputProvider
+) {
   import DescriptorImplicits._
+
+  @deprecated("Use DescriptorImplicits.fromCodeGenRequest. Preprocessors will not work.", "0.10.10")
+  def this(params: GeneratorParams, files: Seq[FileDescriptor]) = {
+    this(params, files, SecondaryOutputProvider.empty)
+  }
 
   case class ScalaName(emptyPackage: Boolean, xs: Seq[String]) {
     def name = xs.last
@@ -63,7 +73,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     new SealedOneofsCache(sealedOneof)
   }
 
-  private lazy val fileOptionsCache = FileOptionsCache.buildCache(files)
+  private[scalapb] lazy val fileOptionsCache =
+    FileOptionsCache.buildCache(files, secondaryOutputsProvider)
 
   implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
     class MethodTypeWrapper(descriptor: Descriptor) {
@@ -312,7 +323,6 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         else None
       }
 
-
       def size: Expression = adapter match {
         case None     => MethodApplication("size")
         case Some(tc) => FunctionApplication(s"$tc.size")
@@ -367,9 +377,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
       fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
-        .find(_.getTarget == fd.getFullName())
-        .fold(localOptions)(aux =>
-          FieldOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        .filter(_.getTarget == fd.getFullName())
+        .foldLeft(localOptions)((local, aux) =>
+          FieldOptions.newBuilder(aux.getOptions).mergeFrom(local).build
         )
     }
 
@@ -1043,6 +1053,15 @@ object DescriptorImplicits {
   val ScalaVector   = "_root_.scala.collection.immutable.Vector"
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
   val ScalaOption   = "_root_.scala.Option"
+
+  def fromCodeGenRequest(
+      params: GeneratorParams,
+      request: CodeGenRequest
+  ): DescriptorImplicits = new DescriptorImplicits(
+    params,
+    request.allProtos,
+    SecondaryOutputProvider.fromCodeGenRequestOrEnv(request)
+  )
 
   implicit class AsSymbolPimp(val s: String) {
     def asSymbol: String =

@@ -6,9 +6,10 @@ import scala.jdk.CollectionConverters._
 class ProtoValidation(implicits: DescriptorImplicits) {
   import implicits._
 
-  def validateFiles(files: Seq[FileDescriptor]) = {
+  def validateFiles(files: Seq[FileDescriptor]): Unit = {
     files.foreach(validateFile)
-    FileOptionsCache.buildCache(files)
+    implicits.fileOptionsCache
+    ()
   }
 
   def validateFile(fd: FileDescriptor): Unit = {

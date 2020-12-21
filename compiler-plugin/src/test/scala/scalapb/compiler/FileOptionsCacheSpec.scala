@@ -7,6 +7,7 @@ import scalapb.options.Scalapb.ScalaPbOptions.OptionsScope
 import scala.jdk.CollectionConverters._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
+import scalapb.options.Scalapb.PreprocesserOutput
 
 class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
   "parentPackages" should "return correct parent packages" in {
@@ -24,11 +25,13 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
   }
 
   def file(
+      name: String,
       protoPackage: String,
       scope: OptionsScope,
       scalaPackage: Option[String] = None,
       imports: Seq[String] = Nil,
-      singleFile: Option[Boolean] = None
+      singleFile: Option[Boolean] = None,
+      preprocessors: Seq[String] = Nil
   ): FileDescriptor = {
     val optionsBuilder = ScalaPbOptions.newBuilder()
 
@@ -39,9 +42,11 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
     scalaPackage.foreach(optionsBuilder.setPackageName)
     singleFile.foreach(optionsBuilder.setSingleFile)
     optionsBuilder.addAllImport(imports.asJava)
+    optionsBuilder.addAllPreprocessors(preprocessors.asJava)
 
     val proto = FileDescriptorProto
       .newBuilder()
+      .setName(name)
       .setPackage(protoPackage)
       .setOptions(FileOptions.newBuilder.setExtension(Scalapb.options, optionsBuilder.build))
       .build()
@@ -51,6 +56,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
 
   "buildCache" should "merge options correctly" in {
     val p1 = file(
+      name = "p1.proto",
       protoPackage = "p1",
       OptionsScope.PACKAGE,
       scalaPackage = Some("scc.p1"),
@@ -59,6 +65,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
     )
 
     val p1_x_p2 = file(
+      name = "p1.x.p2.proto",
       protoPackage = "p1.x.p2",
       scope = OptionsScope.PACKAGE,
       scalaPackage = Some("scc.p1.p2"),
@@ -66,6 +73,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
     )
 
     val p1_x_p2_x_p3 = file(
+      name = "p1.x.p2.x.p3.proto",
       protoPackage = "p1.x.p2.x.p3",
       scope = OptionsScope.PACKAGE,
       scalaPackage = Some("scc.p1.p2.p3"),
@@ -73,18 +81,21 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
     )
 
     val p1_file = file(
+      name = "p1.f.proto",
       protoPackage = "p1",
       scope = OptionsScope.FILE,
       scalaPackage = Some("scc.p1_custom")
     )
 
     val p1_x_file = file(
+      name = "p1.x.proto",
       protoPackage = "p1.x",
       scope = OptionsScope.FILE,
       singleFile = Some(false)
     )
 
     val p1_x_p2_t_file = file(
+      name = "p1.x.p2.x.t.proto",
       protoPackage = "p1.x.p2.x.t",
       scope = OptionsScope.FILE,
       imports = Seq("tt")
@@ -99,7 +110,8 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
           p1_x_p2_t_file,
           p1_x_p2,
           p1_x_p2_x_p3
-        )
+        ),
+        SecondaryOutputProvider.empty
       )
       .map { case (k, v) => (k, v.toString) } must be(
       Map(
@@ -143,6 +155,241 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
             |single_file: false
             |scope: PACKAGE
             |""".stripMargin
+      )
+    )
+  }
+
+  it should "throw exception when no secondary outputs available" in {
+    val p1 = file(
+      name = "p1.proto",
+      protoPackage = "p1",
+      OptionsScope.PACKAGE,
+      scalaPackage = Some("scc.p1"),
+      imports = Seq("i1"),
+      singleFile = Some(true),
+      preprocessors = Seq("preproc")
+    )
+    intercept[GeneratorException](
+      FileOptionsCache
+        .buildCache(
+          Seq(
+            p1
+          ),
+          SecondaryOutputProvider.empty
+        )
+    ).message must startWith("p1.proto: No secondary outputs available.")
+  }
+
+  it should "throw exception when preprocessor name is missing" in {
+    val p1 = file(
+      name = "p1.proto",
+      protoPackage = "p1",
+      OptionsScope.PACKAGE,
+      scalaPackage = Some("scc.p1"),
+      imports = Seq("i1"),
+      singleFile = Some(true),
+      preprocessors = Seq("foo")
+    )
+    intercept[GeneratorException](
+      FileOptionsCache
+        .buildCache(
+          Seq(
+            p1
+          ),
+          SecondaryOutputProvider.fromMap(Map.empty)
+        )
+    ).message must startWith("p1.proto: Preprocessor 'foo' was not found.")
+  }
+
+  it should "throw exception when preprocessor returns package scoped options" in {
+    val p1 = file(
+      name = "p1.proto",
+      protoPackage = "p1",
+      OptionsScope.PACKAGE,
+      scalaPackage = Some("scc.p1"),
+      imports = Seq("i1"),
+      singleFile = Some(true),
+      preprocessors = Seq("preproc")
+    )
+
+    val provider = SecondaryOutputProvider.fromMap(
+      Map(
+        "preproc" -> PreprocesserOutput
+          .newBuilder()
+          .putOptionsByFile(
+            "p1.proto",
+            ScalaPbOptions
+              .newBuilder()
+              .setScope(OptionsScope.PACKAGE)
+              .build()
+          )
+          .build()
+      )
+    )
+
+    intercept[GeneratorException](
+      FileOptionsCache
+        .buildCache(
+          Seq(
+            p1
+          ),
+          provider
+        )
+    ).message must startWith(
+      "Preprocessor options must be file-scoped. Preprocessor 'preproc' provided scope 'PACKAGE' for file p1.proto"
+    )
+  }
+
+  it should "merge preprocessor output for files" in {
+    val p1 = file(
+      name = "p1.proto",
+      protoPackage = "p1",
+      scope = OptionsScope.FILE,
+      imports = Seq("i1"),
+      singleFile = Some(true),
+      preprocessors = Seq("preproc")
+    )
+
+    val p2 = file(
+      name = "p2.proto",
+      protoPackage = "p1",
+      scope = OptionsScope.FILE,
+      imports = Seq("i1"),
+      singleFile = Some(true),
+      preprocessors = Seq("preproc")
+    )
+
+    val provider = SecondaryOutputProvider.fromMap(
+      Map(
+        "preproc" -> PreprocesserOutput
+          .newBuilder()
+          .putOptionsByFile(
+            "p1.proto",
+            ScalaPbOptions
+              .newBuilder()
+              .addImport("i2")
+              .setSingleFile(false)
+              .build()
+          )
+          .build()
+      )
+    )
+
+    FileOptionsCache
+      .buildCache(
+        Seq(
+          p1,
+          p2
+        ),
+        provider
+      )
+      .map { case (k, v) => (k, v.toString) } must be(
+      Map(
+        p1 ->
+          """|import: "i2"
+             |import: "i1"
+             |single_file: true
+             |scope: FILE
+             |preprocessors: "preproc"
+             |""".stripMargin,
+        p2 ->
+          """|import: "i1"
+             |single_file: true
+             |preprocessors: "preproc"
+             |""".stripMargin
+      )
+    )
+  }
+
+  it should "merge preprocessor output when preprocessor is referenced through package-scoped option" in {
+    val p1 = file(
+      name = "p1.proto",
+      protoPackage = "p1",
+      OptionsScope.PACKAGE,
+      scalaPackage = Some("scc.p1"),
+      imports = Seq("i1"),
+      singleFile = Some(true),
+      preprocessors = Seq("preproc")
+    )
+
+    val p1_x = file(
+      name = "p1.x.proto",
+      protoPackage = "p1",
+      scope = OptionsScope.FILE,
+      imports = Seq("i2"),
+      singleFile = Some(true)
+    )
+
+    val p1_y = file(
+      name = "p1.y.proto",
+      protoPackage = "p1",
+      scope = OptionsScope.FILE,
+      imports = Seq("i3"),
+      singleFile = Some(true)
+    )
+
+    val provider = SecondaryOutputProvider.fromMap(
+      Map(
+        "preproc" ->
+          PreprocesserOutput
+            .newBuilder()
+            .putOptionsByFile(
+              "p1.x.proto",
+              ScalaPbOptions
+                .newBuilder()
+                .addImport("i4")
+                .setSingleFile(false)
+                .build()
+            )
+            .putOptionsByFile(
+              "p1.proto",
+              ScalaPbOptions
+                .newBuilder()
+                .addImport("iz")
+                .setScope(OptionsScope.FILE)
+                .setSingleFile(false)
+                .build()
+            )
+            .build()
+      )
+    )
+
+    FileOptionsCache
+      .buildCache(
+        Seq(
+          p1,
+          p1_x,
+          p1_y
+        ),
+        provider
+      )
+      .map { case (k, v) => (k.getName(), v.toString) } must be(
+      Map(
+        "p1.proto" ->
+          """|package_name: "scc.p1"
+             |import: "iz"
+             |import: "i1"
+             |single_file: true
+             |scope: PACKAGE
+             |preprocessors: "preproc"
+             |""".stripMargin,
+        "p1.x.proto" ->
+          """|package_name: "scc.p1"
+             |import: "i4"
+             |import: "i1"
+             |import: "i2"
+             |single_file: true
+             |scope: FILE
+             |preprocessors: "preproc"
+             |""".stripMargin,
+        "p1.y.proto" ->
+          """|package_name: "scc.p1"
+             |import: "i1"
+             |import: "i3"
+             |single_file: true
+             |scope: FILE
+             |preprocessors: "preproc"
+             |""".stripMargin
       )
     )
   }

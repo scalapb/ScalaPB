@@ -26,7 +26,7 @@ trait GeneratedEnum extends Any with Product with Serializable {
   def isUnrecognized: Boolean = false
 
   def javaValueDescriptor: JavaDescriptors.EnumValueDescriptor =
-    companion.javaDescriptor.getValues.get(index)
+    companion.javaDescriptor.getValues().get(index)
 
   def scalaValueDescriptor: _root_.scalapb.descriptors.EnumValueDescriptor =
     companion.scalaDescriptor.values(index)
@@ -112,7 +112,7 @@ trait GeneratedMessage extends Any with Serializable {
     val output = ByteString.newOutput(serializedSize)
     writeTo(output)
     output.close()
-    output.toByteString
+    output.toByteString()
   }
 
   def serializedSize: Int

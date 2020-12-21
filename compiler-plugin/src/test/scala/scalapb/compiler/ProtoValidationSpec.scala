@@ -25,15 +25,17 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
     val outFile = new File(tmpDir, "descriptor.out")
 
     require(
-      ProtocRunner.runProtoc(
-        Version.protobufVersion,
-        Seq(
-          "-I",
-          tmpDir.toString + ":protobuf:third_party",
-          s"--descriptor_set_out=${outFile.toString}",
-          "--include_imports"
-        ) ++ fileNames.map(_.toString)
-      ) == 0,
+      ProtocRunner
+        .forVersion(Version.protobufVersion)
+        .run(
+          Seq(
+            "-I",
+            tmpDir.toString + ":protobuf:third_party",
+            s"--descriptor_set_out=${outFile.toString}",
+            "--include_imports"
+          ) ++ fileNames.map(_.toString),
+          Seq.empty
+        ) == 0,
       "protoc exited with an error"
     )
 
@@ -59,15 +61,21 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
     fileset
   }
 
-  def runValidation(generatorParams: GeneratorParams, files: (String, String)*): Unit = {
-    val fileset    = generateFileSet(files)
-    val validation = new ProtoValidation(new DescriptorImplicits(generatorParams, fileset))
+  def runValidation(
+      generatorParams: GeneratorParams,
+      secondaryOutput: SecondaryOutputProvider,
+      files: (String, String)*
+  ): Unit = {
+    val fileset = generateFileSet(files)
+    val validation = new ProtoValidation(
+      new DescriptorImplicits(generatorParams, fileset, secondaryOutput)
+    )
     validation.validateFiles(fileset)
     ()
   }
 
   def runValidation(files: (String, String)*): Unit = {
-    runValidation(new GeneratorParams(), files: _*)
+    runValidation(new GeneratorParams(), SecondaryOutputProvider.fromMap(Map.empty), files: _*)
   }
 
   "simple message" should "validate" in {
@@ -296,7 +304,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
   }
 
   // package scoped options
-  it should "fail when multiple scoped option objects found for same package" in {
+  "package scoped options" should "fail when multiple scoped option objects found for same package" in {
     intercept[GeneratorException] {
       runValidation(
         "file1.proto" ->
@@ -390,6 +398,46 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
       )
     }.message must be(
       "a.b.Msg.field: message fields in oneofs are not allowed to have no_box set."
+    )
+  }
+
+  "preprocessors" should "fail when preprocessor name is invalid" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |import "scalapb/scalapb.proto";
+            |package a.b;
+            |
+            |option (scalapb.options) = {
+            |  preprocessors: ["."]
+            };
+            """.stripMargin
+      )
+    }.message must be(
+      "file1.proto: Invalid preprocessor name: '.'"
+    )
+  }
+
+  it should "fail when preprocessor name is missing" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |import "scalapb/scalapb.proto";
+            |package a.b;
+            |
+            |option (scalapb.options) = {
+            |  preprocessors: ["foo"]
+            };
+            """.stripMargin
+      )
+    }.message must be(
+      "file1.proto: Preprocessor 'foo' was not found."
     )
   }
 }
