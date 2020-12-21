@@ -162,6 +162,9 @@ message ScalaPbOptions {
   // List of enum value options to apply to some enum values.
   repeated AuxEnumValueOptions aux_enum_value_options = 22;
 
+  // List of preprocessors to apply.
+  repeated string preprocessors = 24;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
@@ -316,4 +319,8 @@ extend google.protobuf.OneofOptions {
   // Enum-level optionals for ScalaPB.
   // Extension number officially assigned by protobuf-global-extension-registry@google.com
   optional OneofOptions oneof = 1020;
+}
+
+message PreprocesserOutput {
+  map<string, ScalaPbOptions> options_by_file = 1;
 }

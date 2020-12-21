@@ -512,7 +512,10 @@ class ProtobufGenerator(
       val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
       if (!field.isPacked) {
         Types.fixedSize(field.getType) match {
-          case Some(size) => fp.add(s"__size += ${size + tagSize} * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}")
+          case Some(size) =>
+            fp.add(
+              s"__size += ${size + tagSize} * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}"
+            )
           case None =>
             fp.add(s"""${field.collection.foreach} { __item =>
                       |  val __value = ${toBaseType(field)("__item")}
@@ -573,7 +576,10 @@ class ProtobufGenerator(
           .call({ fp =>
             Types.fixedSize(field.getType) match {
               case Some(size) =>
-                fp.add(s"  $size * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}").add("}")
+                fp.add(
+                    s"  $size * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}"
+                  )
+                  .add("}")
               case None =>
                 val capTypeName = Types.capitalizedType(field.getType)
                 val sizeFunc = FunctionApplication(
@@ -720,7 +726,7 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
-  private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isRequired || field.noBox
+  private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
 
   def generateBuilder(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
@@ -1843,17 +1849,22 @@ object ProtobufGenerator {
   def handleCodeGeneratorRequest(request: CodeGenRequest): CodeGenResponse = {
     parseParameters(request.parameter) match {
       case Right(params) =>
-        val implicits = new DescriptorImplicits(params, request.allProtos)
-        val generator = new ProtobufGenerator(params, implicits)
-        val validator = new ProtoValidation(implicits)
-        validator.validateFiles(request.allProtos)
-        import implicits.ExtendedFileDescriptor
-        val files = request.filesToGenerate.flatMap { file =>
-          if (file.scalaOptions.getSingleFile)
-            generator.generateSingleScalaFileForFileDescriptor(file)
-          else generator.generateMultipleScalaFilesForFileDescriptor(file)
+        try {
+          val implicits = DescriptorImplicits.fromCodeGenRequest(params, request)
+          val generator = new ProtobufGenerator(params, implicits)
+          val validator = new ProtoValidation(implicits)
+          validator.validateFiles(request.allProtos)
+          import implicits.ExtendedFileDescriptor
+          val files = request.filesToGenerate.flatMap { file =>
+            if (file.scalaOptions.getSingleFile)
+              generator.generateSingleScalaFileForFileDescriptor(file)
+            else generator.generateMultipleScalaFilesForFileDescriptor(file)
+          }
+          CodeGenResponse.succeed(files, Set(CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL))
+        } catch {
+          case e: GeneratorException =>
+            CodeGenResponse.fail(e.message)
         }
-        CodeGenResponse.succeed(files, Set(CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL))
       case Left(error) =>
         CodeGenResponse.fail(error)
     }

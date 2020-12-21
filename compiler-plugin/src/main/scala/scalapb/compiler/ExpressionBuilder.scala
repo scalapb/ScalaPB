@@ -119,7 +119,12 @@ object ExpressionBuilder {
   }
 
   private[scalapb] def run(
-      es: List[LiteralExpression], e: String, sourceType: EnclosingType, targetType: EnclosingType, mustCopy: Boolean): String =
+      es: List[LiteralExpression],
+      e: String,
+      sourceType: EnclosingType,
+      targetType: EnclosingType,
+      mustCopy: Boolean
+  ): String =
     sourceType match {
       case EnclosingType.None =>
         runSingleton(es)(e)
@@ -128,13 +133,18 @@ object ExpressionBuilder {
     }
 
   private[scalapb] def run(
-      es: Expression, e: String, sourceType: EnclosingType, targetType: EnclosingType, mustCopy: Boolean): String =
+      es: Expression,
+      e: String,
+      sourceType: EnclosingType,
+      targetType: EnclosingType,
+      mustCopy: Boolean
+  ): String =
     es match {
       case ExpressionList(l)       => run(l, e, sourceType, targetType, mustCopy)
       case expr: LiteralExpression => run(expr :: Nil, e, sourceType, targetType, mustCopy)
     }
 
-  @deprecated("0.10.10", "Use Expression.run")
+  @deprecated("0.10.10", "Use Expression()")
   def run(
       es: Expression
   )(e: String, sourceType: EnclosingType, mustCopy: Boolean): String =
