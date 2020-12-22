@@ -23,7 +23,7 @@ final case class EnumVector(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if(colors.nonEmpty) {
+      if (colors.nonEmpty) {
         val __localsize = colorsSerializedSize
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
       }
@@ -69,6 +69,7 @@ final case class EnumVector(
 
 object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.EnumVector = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.perf.protos.EnumVector, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.EnumVector = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.EnumVector] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

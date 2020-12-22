@@ -263,6 +263,7 @@ final case class FieldMask(
 
 object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.field_mask.FieldMask = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.field_mask.FieldMask): com.google.protobuf.FieldMask = {
     val javaPbOut = com.google.protobuf.FieldMask.newBuilder
     javaPbOut.addAllPaths(scalaPbSource.paths.asJava)

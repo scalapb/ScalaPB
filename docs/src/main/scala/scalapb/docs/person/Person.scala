@@ -101,6 +101,7 @@ final case class Person(
 
 object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.docs.person.Person, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.docs.person.Person] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -319,6 +320,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   
   object Address extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] = this
+    override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person.Address = newBuilder.merge(input).result()
     def merge(`_message__`: scalapb.docs.person.Person.Address, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person.Address = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.docs.person.Person.Address] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

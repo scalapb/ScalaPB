@@ -211,6 +211,22 @@ extend google.protobuf.MessageOptions {
   optional MessageOptions message = 1020;
 }
 
+// Represents a custom Collection type in Scala. This allows ScalaPB to integrate with
+// collection types that are different enough from the ones in the standard library.
+message Collection {
+  // Type of the collection
+  optional string type = 1;
+
+  // Set to true if this collection type is not allowed to be empty, for example
+  // cats.data.NonEmptyList.  When true, ScalaPB will not generate `clearX` for the repeated
+  // field and not provide a default argument in the constructor.
+  optional bool non_empty = 2;
+
+  // An Adapter is a Scala object available at runtime that provides certain static methods
+  // that can operate on this collection type.
+  optional string adapter = 3;
+}
+
 message FieldOptions {
   optional string type = 1;
 
@@ -220,6 +236,8 @@ message FieldOptions {
   // it falls back to the file option named `collection_type`, which defaults
   // to `scala.collection.Seq`.
   optional string collection_type = 3;
+
+  optional Collection collection = 8;
 
   // If the field is a map, you can specify custom Scala types for the key
   // or value.

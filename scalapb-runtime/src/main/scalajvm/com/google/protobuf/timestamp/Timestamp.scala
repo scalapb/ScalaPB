@@ -177,6 +177,7 @@ final case class Timestamp(
 
 object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.timestamp.Timestamp): com.google.protobuf.Timestamp = {
     val javaPbOut = com.google.protobuf.Timestamp.newBuilder
     javaPbOut.setSeconds(scalaPbSource.seconds)

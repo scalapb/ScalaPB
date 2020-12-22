@@ -26,6 +26,7 @@ final case class FieldOptions(
     `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     collectionType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    collection: _root_.scala.Option[scalapb.options.Collection] = _root_.scala.None,
     keyType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     valueType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
@@ -48,6 +49,10 @@ final case class FieldOptions(
       if (collectionType.isDefined) {
         val __value = collectionType.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+      };
+      if (collection.isDefined) {
+        val __value = collection.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
       if (keyType.isDefined) {
         val __value = keyType.get
@@ -109,6 +114,12 @@ final case class FieldOptions(
         val __m = __v
         _output__.writeString(7, __m)
       };
+      collection.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(8, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
       noBox.foreach { __v =>
         val __m = __v
         _output__.writeBool(30, __m)
@@ -124,6 +135,9 @@ final case class FieldOptions(
     def getCollectionType: _root_.scala.Predef.String = collectionType.getOrElse("")
     def clearCollectionType: FieldOptions = copy(collectionType = _root_.scala.None)
     def withCollectionType(__v: _root_.scala.Predef.String): FieldOptions = copy(collectionType = Option(__v))
+    def getCollection: scalapb.options.Collection = collection.getOrElse(scalapb.options.Collection.defaultInstance)
+    def clearCollection: FieldOptions = copy(collection = _root_.scala.None)
+    def withCollection(__v: scalapb.options.Collection): FieldOptions = copy(collection = Option(__v))
     def getKeyType: _root_.scala.Predef.String = keyType.getOrElse("")
     def clearKeyType: FieldOptions = copy(keyType = _root_.scala.None)
     def withKeyType(__v: _root_.scala.Predef.String): FieldOptions = copy(keyType = Option(__v))
@@ -147,6 +161,7 @@ final case class FieldOptions(
         case 1 => `type`.orNull
         case 2 => scalaName.orNull
         case 3 => collectionType.orNull
+        case 8 => collection.orNull
         case 4 => keyType.orNull
         case 5 => valueType.orNull
         case 6 => annotations
@@ -160,6 +175,7 @@ final case class FieldOptions(
         case 1 => `type`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => scalaName.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => collectionType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => collection.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 4 => keyType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 5 => valueType.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => _root_.scalapb.descriptors.PRepeated(annotations.iterator.map(_root_.scalapb.descriptors.PString).toVector)
@@ -173,6 +189,7 @@ final case class FieldOptions(
 
 object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.FieldOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.FieldOptions] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.options.FieldOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.FieldOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -181,6 +198,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
         `type` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         scalaName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         collectionType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        collection = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[scalapb.options.Collection]]),
         keyType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         valueType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         annotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
@@ -189,15 +207,22 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes().get(2)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(2)
-  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes().get(3)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(3)
+  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
+    var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
+    (__number: @_root_.scala.unchecked) match {
+      case 8 => __out = scalapb.options.Collection
+    }
+    __out
+  }
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.FieldOptions(
     `type` = _root_.scala.None,
     scalaName = _root_.scala.None,
     collectionType = _root_.scala.None,
+    collection = _root_.scala.None,
     keyType = _root_.scala.None,
     valueType = _root_.scala.None,
     annotations = _root_.scala.Seq.empty,
@@ -208,6 +233,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     private var __type: _root_.scala.Option[_root_.scala.Predef.String],
     private var __scalaName: _root_.scala.Option[_root_.scala.Predef.String],
     private var __collectionType: _root_.scala.Option[_root_.scala.Predef.String],
+    private var __collection: _root_.scala.Option[scalapb.options.Collection],
     private var __keyType: _root_.scala.Option[_root_.scala.Predef.String],
     private var __valueType: _root_.scala.Option[_root_.scala.Predef.String],
     private var __annotations: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
@@ -227,6 +253,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
             __scalaName = Option(_input__.readStringRequireUtf8())
           case 26 =>
             __collectionType = Option(_input__.readStringRequireUtf8())
+          case 66 =>
+            __collection = Option(_root_.scalapb.LiteParser.readMessage(_input__, __collection.getOrElse(scalapb.options.Collection.defaultInstance)))
           case 34 =>
             __keyType = Option(_input__.readStringRequireUtf8())
           case 42 =>
@@ -251,6 +279,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
           `type` = __type,
           scalaName = __scalaName,
           collectionType = __collectionType,
+          collection = __collection,
           keyType = __keyType,
           valueType = __valueType,
           annotations = __annotations.result(),
@@ -265,6 +294,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       __type = _root_.scala.None,
       __scalaName = _root_.scala.None,
       __collectionType = _root_.scala.None,
+      __collection = _root_.scala.None,
       __keyType = _root_.scala.None,
       __valueType = _root_.scala.None,
       __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
@@ -276,6 +306,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       __type = _message__.`type`,
       __scalaName = _message__.scalaName,
       __collectionType = _message__.collectionType,
+      __collection = _message__.collection,
       __keyType = _message__.keyType,
       __valueType = _message__.valueType,
       __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
@@ -293,6 +324,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     def optionalScalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
     def collectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
     def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
+    def collection: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.Collection] = field(_.getCollection)((c_, f_) => c_.copy(collection = Option(f_)))
+    def optionalCollection: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.Collection]] = field(_.collection)((c_, f_) => c_.copy(collection = f_))
     def keyType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKeyType)((c_, f_) => c_.copy(keyType = Option(f_)))
     def optionalKeyType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.keyType)((c_, f_) => c_.copy(keyType = f_))
     def valueType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = Option(f_)))
@@ -306,6 +339,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
   final val TYPE_FIELD_NUMBER = 1
   final val SCALA_NAME_FIELD_NUMBER = 2
   final val COLLECTION_TYPE_FIELD_NUMBER = 3
+  final val COLLECTION_FIELD_NUMBER = 8
   final val KEY_TYPE_FIELD_NUMBER = 4
   final val VALUE_TYPE_FIELD_NUMBER = 5
   final val ANNOTATIONS_FIELD_NUMBER = 6
@@ -315,6 +349,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     `type`: _root_.scala.Option[_root_.scala.Predef.String],
     scalaName: _root_.scala.Option[_root_.scala.Predef.String],
     collectionType: _root_.scala.Option[_root_.scala.Predef.String],
+    collection: _root_.scala.Option[scalapb.options.Collection],
     keyType: _root_.scala.Option[_root_.scala.Predef.String],
     valueType: _root_.scala.Option[_root_.scala.Predef.String],
     annotations: _root_.scala.Seq[_root_.scala.Predef.String],
@@ -324,6 +359,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     `type`,
     scalaName,
     collectionType,
+    collection,
     keyType,
     valueType,
     annotations,

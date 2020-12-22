@@ -23,7 +23,7 @@ final case class IntVector(
     private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
-      if(ints.nonEmpty) {
+      if (ints.nonEmpty) {
         val __localsize = intsSerializedSize
         __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
       }
@@ -69,6 +69,7 @@ final case class IntVector(
 
 object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.IntVector = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.perf.protos.IntVector, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.IntVector = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.IntVector] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

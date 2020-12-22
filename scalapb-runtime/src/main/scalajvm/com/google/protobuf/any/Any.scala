@@ -195,6 +195,7 @@ final case class Any(
 
 object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.any.Any = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.any.Any): com.google.protobuf.Any = {
     val javaPbOut = com.google.protobuf.Any.newBuilder
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)

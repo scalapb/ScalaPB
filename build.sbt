@@ -263,6 +263,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
     grpcServices,
     grpcServices % "protobuf",
     annotationApi,
+    cats,
     (scalaTest.value               % "test"),
     (scalaTestPlusScalaCheck.value % "test")
   ),

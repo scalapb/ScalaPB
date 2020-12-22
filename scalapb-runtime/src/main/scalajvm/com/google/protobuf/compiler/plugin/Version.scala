@@ -106,6 +106,7 @@ final case class Version(
 
 object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.Version, com.google.protobuf.compiler.PluginProtos.Version] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.Version, com.google.protobuf.compiler.PluginProtos.Version] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.Version = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.Version): com.google.protobuf.compiler.PluginProtos.Version = {
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.Version.newBuilder
     scalaPbSource.major.foreach(javaPbOut.setMajor)

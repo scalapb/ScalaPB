@@ -423,6 +423,7 @@ final case class FileOptions(
 
 object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileOptions, com.google.protobuf.DescriptorProtos.FileOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileOptions, com.google.protobuf.DescriptorProtos.FileOptions] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileOptions): com.google.protobuf.DescriptorProtos.FileOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileOptions.newBuilder
     scalaPbSource.javaPackage.foreach(javaPbOut.setJavaPackage)
