@@ -157,6 +157,7 @@ final case class UninterpretedOption(
 
 object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption, com.google.protobuf.DescriptorProtos.UninterpretedOption] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption, com.google.protobuf.DescriptorProtos.UninterpretedOption] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.UninterpretedOption): com.google.protobuf.DescriptorProtos.UninterpretedOption = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.UninterpretedOption.newBuilder
     javaPbOut.addAllName(_root_.scalapb.internal.compat.toIterable(scalaPbSource.name.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.NamePart.toJavaProto)).asJava)
@@ -364,6 +365,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   
   object NamePart extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption.NamePart, com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.UninterpretedOption.NamePart, com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart] = this
+    override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = newBuilder.merge(input).result()
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.UninterpretedOption.NamePart): com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.UninterpretedOption.NamePart.newBuilder
       javaPbOut.setNamePart(scalaPbSource.namePart)

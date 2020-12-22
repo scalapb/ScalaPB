@@ -73,6 +73,7 @@ final case class Struct(
 
 object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Struct = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.struct.Struct, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Struct = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -214,6 +215,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   
   object FieldsEntry extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] = this
+    override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Struct.FieldsEntry = newBuilder.merge(input).result()
     def merge(`_message__`: com.google.protobuf.struct.Struct.FieldsEntry, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Struct.FieldsEntry = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct.FieldsEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -310,7 +312,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
   }
   final val FIELDS_FIELD_NUMBER = 1
   @transient
-  private val _typemapper_fields: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)] = implicitly[_root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)]]
+  private[struct] val _typemapper_fields: _root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)] = implicitly[_root_.scalapb.TypeMapper[com.google.protobuf.struct.Struct.FieldsEntry, (_root_.scala.Predef.String, com.google.protobuf.struct.Value)]]
   def of(
     fields: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]
   ): _root_.com.google.protobuf.struct.Struct = _root_.com.google.protobuf.struct.Struct(

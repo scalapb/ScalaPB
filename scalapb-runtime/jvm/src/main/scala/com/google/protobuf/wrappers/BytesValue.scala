@@ -71,6 +71,7 @@ final case class BytesValue(
 
 object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.BytesValue = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.BytesValue): com.google.protobuf.BytesValue = {
     val javaPbOut = com.google.protobuf.BytesValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

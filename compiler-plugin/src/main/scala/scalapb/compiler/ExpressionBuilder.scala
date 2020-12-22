@@ -11,8 +11,22 @@ sealed trait Expression extends Product with Serializable {
     case (e1: LiteralExpression, e2: LiteralExpression) => ExpressionList(e2 :: e1 :: Nil)
   }
 
-  def apply(e: String, enclosingType: EnclosingType, mustCopy: Boolean = false): String =
-    ExpressionBuilder.run(this)(e, enclosingType, mustCopy)
+  def apply(
+      e: String,
+      sourceType: EnclosingType,
+      targetType: EnclosingType,
+      mustCopy: Boolean
+  ): String =
+    ExpressionBuilder.run(this, e, sourceType, targetType, mustCopy)
+
+  def apply(e: String, sourceType: EnclosingType, targetType: EnclosingType): String =
+    ExpressionBuilder.run(this, e, sourceType, targetType, false)
+
+  def apply(e: String, sourceType: EnclosingType, mustCopy: Boolean): String =
+    ExpressionBuilder.run(this, e, sourceType, sourceType, mustCopy)
+
+  def apply(e: String, sourceType: EnclosingType): String =
+    ExpressionBuilder.run(this, e, sourceType, sourceType, false)
 }
 
 case class ExpressionList(l: List[LiteralExpression]) extends Expression
@@ -51,23 +65,24 @@ object ExpressionBuilder {
     case OperatorApplication(name) :: tail => s"${runSingleton(tail)(e)} $name"
   }
 
-  def convertCollection(expr: String, enclosingType: EnclosingType): String = {
-    val convert = List(enclosingType match {
-      case Collection(DescriptorImplicits.ScalaVector) => MethodApplication("toVector")
-      case Collection(DescriptorImplicits.ScalaSeq)    => MethodApplication("toSeq")
-      case Collection(DescriptorImplicits.ScalaMap)    => MethodApplication("toMap")
-      case Collection(DescriptorImplicits.ScalaIterable) =>
+  def convertCollection(expr: String, targetType: EnclosingType): String = {
+    val convert = List(targetType match {
+      case Collection(_, Some(tc))                        => FunctionApplication(s"${tc}.fromIterator")
+      case Collection(DescriptorImplicits.ScalaVector, _) => MethodApplication("toVector")
+      case Collection(DescriptorImplicits.ScalaSeq, _)    => MethodApplication("toSeq")
+      case Collection(DescriptorImplicits.ScalaMap, _)    => MethodApplication("toMap")
+      case Collection(DescriptorImplicits.ScalaIterable, _) =>
         FunctionApplication("_root_.scalapb.internal.compat.toIterable")
-      case Collection(_) => FunctionApplication("_root_.scalapb.internal.compat.convertTo")
-      case _             => Identity
+      case Collection(_, _) => FunctionApplication("_root_.scalapb.internal.compat.convertTo")
+      case _                => Identity
     })
     runSingleton(convert)(expr)
   }
 
   def runCollection(
       es: List[LiteralExpression]
-  )(e0: String, enclosingType: EnclosingType, mustCopy: Boolean): String = {
-    require(enclosingType != EnclosingType.None)
+  )(e0: String, sourceType: EnclosingType, targetType: EnclosingType, mustCopy: Boolean): String = {
+    require(sourceType != EnclosingType.None)
     val nontrivial: List[LiteralExpression] = es.filterNot(_.isIdentity)
     val needVariable =
       nontrivial
@@ -75,12 +90,19 @@ object ExpressionBuilder {
         .dropRight(1)
         .exists(_.isFunctionApplication)
 
-    val e = if (enclosingType.isInstanceOf[Collection]) {
-      e0 + ".iterator"
-    } else e0
+    val e = sourceType match {
+      case Collection(_, Some(tc)) => s"$tc.toIterator($e0)"
+      case Collection(_, None)     => s"$e0.iterator"
+      case _                       => e0
+    }
+
+    val forceTypeConversion = sourceType match {
+      case Collection(_, Some(_)) if sourceType != targetType => true
+      case _                                                  => false
+    }
 
     if (needVariable)
-      convertCollection(s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})""", enclosingType)
+      convertCollection(s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})""", targetType)
     else if (nontrivial.nonEmpty) {
       val f = nontrivial match {
         case List(FunctionApplication(name)) =>
@@ -88,27 +110,35 @@ object ExpressionBuilder {
         case _ =>
           runSingleton(nontrivial)("_")
       }
-      convertCollection(s"""$e.map($f)""", enclosingType)
+      convertCollection(s"""$e.map($f)""", targetType)
     } else if (mustCopy) {
-      convertCollection(s"""$e.map(_root_.scala.Predef.identity)""", enclosingType)
+      convertCollection(s"""$e.map(_root_.scala.Predef.identity)""", targetType)
+    } else if (forceTypeConversion) {
+      convertCollection(e, targetType)
     } else e0
   }
 
-  def run(
-      es: List[LiteralExpression]
-  )(e: String, enclosingType: EnclosingType, mustCopy: Boolean): String =
-    enclosingType match {
+  private[scalapb] def run(
+      es: List[LiteralExpression], e: String, sourceType: EnclosingType, targetType: EnclosingType, mustCopy: Boolean): String =
+    sourceType match {
       case EnclosingType.None =>
         runSingleton(es)(e)
       case _ =>
-        runCollection(es)(e, enclosingType, mustCopy)
+        runCollection(es)(e, sourceType, targetType, mustCopy)
     }
 
-  def run(es: Expression)(e: String, enclosingType: EnclosingType, mustCopy: Boolean): String =
+  private[scalapb] def run(
+      es: Expression, e: String, sourceType: EnclosingType, targetType: EnclosingType, mustCopy: Boolean): String =
     es match {
-      case ExpressionList(l)       => run(l)(e, enclosingType, mustCopy)
-      case expr: LiteralExpression => run(expr :: Nil)(e, enclosingType, mustCopy)
+      case ExpressionList(l)       => run(l, e, sourceType, targetType, mustCopy)
+      case expr: LiteralExpression => run(expr :: Nil, e, sourceType, targetType, mustCopy)
     }
+
+  @deprecated("0.10.10", "Use Expression.run")
+  def run(
+      es: Expression
+  )(e: String, sourceType: EnclosingType, mustCopy: Boolean): String =
+    run(es, e, sourceType, sourceType, mustCopy)
 }
 
 sealed trait EnclosingType
@@ -119,5 +149,7 @@ object EnclosingType {
 
   /** Indicates that the result should be a collection with type constructor cc, such as List, Map.
     */
-  case class Collection(cc: String) extends EnclosingType
+  case class Collection(cc: String, typeClass: Option[String]) extends EnclosingType {
+    def this(cc: String) = { this(cc, scala.None) }
+  }
 }

@@ -124,6 +124,7 @@ final case class SimpleMessage(
 
 object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] = this
+  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.SimpleMessage = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.perf.protos.SimpleMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.SimpleMessage = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.SimpleMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
