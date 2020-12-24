@@ -119,9 +119,9 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __opt = Option(_root_.scalapb.LiteParser.readMessage(_input__, __opt.getOrElse(scalapb.perf.protos.SimpleMessage.defaultInstance)))
+            __opt = Option(__opt.fold(_root_.scalapb.LiteParser.readMessage[scalapb.perf.protos.SimpleMessage](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 18 =>
-            __rep += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.perf.protos.SimpleMessage.defaultInstance)
+            __rep += _root_.scalapb.LiteParser.readMessage[scalapb.perf.protos.SimpleMessage](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

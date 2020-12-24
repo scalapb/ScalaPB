@@ -126,7 +126,7 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
           case 10 =>
             __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.OneofOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.OneofOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

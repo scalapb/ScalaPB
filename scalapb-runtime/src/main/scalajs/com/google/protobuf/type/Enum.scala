@@ -202,11 +202,11 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
           case 10 =>
             __name = _input__.readStringRequireUtf8()
           case 18 =>
-            __enumvalue += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.EnumValue.defaultInstance)
+            __enumvalue += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.EnumValue](_input__)
           case 26 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case 34 =>
-            __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
+            __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 40 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
           case tag =>

@@ -155,7 +155,7 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
           case 16 =>
             __number = _input__.readInt32()
           case 26 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

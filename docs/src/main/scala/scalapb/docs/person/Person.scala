@@ -149,7 +149,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
           case 16 =>
             __age = _input__.readInt32()
           case 26 =>
-            __addresses += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.docs.person.Person.Address.defaultInstance)
+            __addresses += _root_.scalapb.LiteParser.readMessage[scalapb.docs.person.Person.Address](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

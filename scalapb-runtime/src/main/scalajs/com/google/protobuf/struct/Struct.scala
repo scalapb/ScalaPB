@@ -111,7 +111,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __fields += com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.struct.Struct.FieldsEntry.defaultInstance))
+            __fields += com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.Struct.FieldsEntry](_input__))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -255,7 +255,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
             case 10 =>
               __key = _input__.readStringRequireUtf8()
             case 18 =>
-              __value = Option(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)))
+              __value = Option(__value.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.Value](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

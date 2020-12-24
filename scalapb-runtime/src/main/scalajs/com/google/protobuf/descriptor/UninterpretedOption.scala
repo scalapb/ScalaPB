@@ -212,7 +212,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 18 =>
-            __name += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
+            __name += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption.NamePart](_input__)
           case 26 =>
             __identifierValue = Option(_input__.readStringRequireUtf8())
           case 32 =>

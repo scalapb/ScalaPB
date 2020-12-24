@@ -222,13 +222,13 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
           case 10 =>
             __name = _input__.readStringRequireUtf8()
           case 18 =>
-            __fields += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.Field.defaultInstance)
+            __fields += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.Field](_input__)
           case 26 =>
             __oneofs += _input__.readStringRequireUtf8()
           case 34 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case 42 =>
-            __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
+            __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 48 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
           case tag =>

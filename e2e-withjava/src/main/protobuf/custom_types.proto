@@ -36,6 +36,22 @@ message CustomMessage {
   repeated Name names = 15               [(scalapb.field).type = "com.thesamet.pb.FullName"];
 }
 
+message HasEmail {
+  optional string optional_email = 1              [(scalapb.field).type = "com.thesamet.pb.Email"];
+  required string required_email = 2              [(scalapb.field).type = "com.thesamet.pb.Email"];
+  repeated string repeated_email = 3              [(scalapb.field).type = "com.thesamet.pb.Email"];
+}
+
+message NoBoxEmail {
+  optional string no_box_email   = 1              [(scalapb.field).type = "com.thesamet.pb.Email", (scalapb.field).no_box=true];
+}
+
+message ContainsHasEmail {
+  optional HasEmail optional_has_email = 1;
+  repeated HasEmail repeated_has_email = 2;
+  required HasEmail required_has_email = 3;
+}
+
 message OneofMessage {
   oneof one_of {
     string person_id = 1                 [(scalapb.field).type = "com.thesamet.pb.PersonId"];

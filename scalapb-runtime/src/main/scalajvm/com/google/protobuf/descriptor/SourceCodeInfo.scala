@@ -156,7 +156,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __location += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.SourceCodeInfo.Location.defaultInstance)
+            __location += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.SourceCodeInfo.Location](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

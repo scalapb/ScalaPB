@@ -720,19 +720,54 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
+  private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isRequired || field.noBox
+
   def generateBuilder(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
     val requiredFieldMap: Map[FieldDescriptor, Int] =
       message.fields.filter(_.isRequired).zipWithIndex.toMap
-    case class Field(name: String, typeName: String, default: String, accessor: String)
+    case class Field(
+        name: String,
+        targetName: String,
+        typeName: String,
+        default: String,
+        accessor: String,
+        builder: String
+    )
 
     val fields = message.fieldsWithoutOneofs.map { field =>
-      if (!field.isRepeated)
+      if (usesBaseTypeInBuilder(field)) {
+        // To handle custom types that have no default values, we wrap required/no-boxed messages in
+        // Option during parsing. We also apply the type mapper after parsing is complete.
+        if (field.isMessage)
+          Field(
+            s"__${field.scalaName}",
+            field.scalaName.asSymbol,
+            s"_root_.scala.Option[${field.baseSingleScalaTypeName}]",
+            C.None,
+            s"_root_.scala.Some(${toBaseTypeExpr(field)(s"_message__.${field.scalaName.asSymbol}", EnclosingType.None)})",
+            toCustomTypeExpr(field)(
+              s"__${field.scalaName}.getOrElse(${field.getMessageType.scalaType.fullName}.defaultInstance)",
+              EnclosingType.None
+            )
+          )
+        else
+          Field(
+            s"__${field.scalaName}",
+            field.scalaName.asSymbol,
+            field.baseSingleScalaTypeName,
+            defaultValueForGet(field, uncustomized = true),
+            toBaseTypeExpr(field)(s"_message__.${field.scalaName.asSymbol}", EnclosingType.None),
+            toCustomTypeExpr(field)(s"__${field.scalaName}", EnclosingType.None)
+          )
+      } else if (!field.isRepeated)
         Field(
           s"__${field.scalaName}",
+          field.scalaName.asSymbol,
           field.scalaTypeName,
           defaultValueForDefaultInstance(field),
-          s"_message__.${field.scalaName.asSymbol}"
+          s"_message__.${field.scalaName.asSymbol}",
+          s"__${field.scalaName}"
         )
       else {
         val it =
@@ -741,25 +776,31 @@ class ProtobufGenerator(
           else s"_message__.${field.scalaName.asSymbol}"
         Field(
           s"__${field.scalaName}",
+          field.scalaName.asSymbol,
           s"collection.mutable.Builder[${field.singleScalaTypeName}, ${field.scalaTypeName}]",
           field.collection.newBuilder,
-          s"${field.collection.newBuilder} ++= $it"
+          s"${field.collection.newBuilder} ++= $it",
+          s"__${field.scalaName}.result()"
         )
       }
     } ++ message.getRealOneofs.asScala.map { oneof =>
       Field(
         s"__${oneof.scalaName.name}",
+        oneof.scalaName.name.asSymbol,
         oneof.scalaType.fullName,
         oneof.empty.fullName,
-        s"_message__.${oneof.scalaName.nameSymbol}"
+        s"_message__.${oneof.scalaName.nameSymbol}",
+        s"__${oneof.scalaName.name}"
       )
     } ++ (if (message.preservesUnknownFields)
             Seq(
               Field(
                 "`_unknownFields__`",
+                "unknownFields",
                 "_root_.scalapb.UnknownFieldSet.Builder",
                 "null",
-                "new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)"
+                "new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)",
+                "if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()"
               )
             )
           else Seq.empty)
@@ -795,20 +836,7 @@ class ProtobufGenerator(
               )
             }.add(s"$myFullScalaName(")
               .indented(
-                _.addWithDelimiter(",")(
-                  (message.fieldsWithoutOneofs ++ message.getOneofs.asScala).map {
-                    case e: FieldDescriptor if e.isRepeated =>
-                      s"  ${e.scalaName.asSymbol} = __${e.scalaName}.result()"
-                    case e: FieldDescriptor =>
-                      s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
-                    case e: OneofDescriptor =>
-                      s"  ${e.scalaName.nameSymbol} = __${e.scalaName.name}"
-                  } ++ (if (message.preservesUnknownFields)
-                          Seq(
-                            "  unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()"
-                          )
-                        else Seq())
-                )
+                _.addWithDelimiter(",")(fields.map(e => s"  ${e.targetName} = ${e.builder}"))
               )
               .add(")")
           )
@@ -851,28 +879,32 @@ class ProtobufGenerator(
       .print(message.fields) { (printer, field) =>
         val p = {
           val newValBase = if (field.isMessage) {
-            val defInstance =
-              s"${field.getMessageType.scalaType.fullNameWithMaybeRoot(message)}.defaultInstance"
-            val baseInstance =
-              if (field.isRepeated) defInstance
-              else {
+            // In 0.10.x we can't simply call any of the new methods that relies on Builder,
+            // since the references message may have been generated using an older version of
+            // ScalaPB.
+            val baseName = field.baseSingleScalaTypeName
+            val read =
+              if (field.isRepeated) s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__)"
+              else if (usesBaseTypeInBuilder(field)) {
+                s"_root_.scala.Some(__${field.scalaName}.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))"
+              } else {
                 val expr =
                   if (field.isInOneof)
                     s"__${fieldAccessorSymbol(field)}"
                   else s"__${field.scalaName}"
-                val mappedType =
-                  toBaseFieldType(field).apply(expr, field.enclosingType)
+                val mappedType = toBaseFieldType(field).apply(expr, field.enclosingType)
                 if (field.isInOneof || field.supportsPresence)
-                  (mappedType + s".getOrElse($defInstance)")
-                else mappedType
+                  s"$mappedType.fold(_root_.scalapb.LiteParser.readMessage[$baseName](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _))"
+                else s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__, $mappedType)"
               }
-            s"_root_.scalapb.LiteParser.readMessage(_input__, $baseInstance)"
+            read
           } else if (field.isEnum)
             s"${field.getEnumType.scalaType.fullNameWithMaybeRoot(message)}.fromValue(_input__.readEnum())"
           else if (field.getType == Type.STRING) s"_input__.readStringRequireUtf8()"
           else s"_input__.read${Types.capitalizedType(field.getType)}()"
 
-          val newVal = toCustomType(field)(newValBase)
+          val newVal =
+            if (!usesBaseTypeInBuilder(field)) toCustomType(field)(newValBase) else newValBase
 
           val updateOp =
             if (field.supportsPresence) s"__${field.scalaName} = Option($newVal)"

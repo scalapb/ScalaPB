@@ -339,7 +339,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
           case 82 =>
             __jsonName = Option(_input__.readStringRequireUtf8())
           case 66 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 136 =>
             __proto3Optional = Option(_input__.readBool())
           case tag =>

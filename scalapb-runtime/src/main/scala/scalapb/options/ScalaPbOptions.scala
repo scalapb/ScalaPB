@@ -619,13 +619,13 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
           case 184 =>
             __javaConversions = Option(_input__.readBool())
           case 146 =>
-            __auxMessageOptions += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.options.ScalaPbOptions.AuxMessageOptions.defaultInstance)
+            __auxMessageOptions += _root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions.AuxMessageOptions](_input__)
           case 154 =>
-            __auxFieldOptions += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.options.ScalaPbOptions.AuxFieldOptions.defaultInstance)
+            __auxFieldOptions += _root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions.AuxFieldOptions](_input__)
           case 162 =>
-            __auxEnumOptions += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.options.ScalaPbOptions.AuxEnumOptions.defaultInstance)
+            __auxEnumOptions += _root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions.AuxEnumOptions](_input__)
           case 178 =>
-            __auxEnumValueOptions += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.options.ScalaPbOptions.AuxEnumValueOptions.defaultInstance)
+            __auxEnumValueOptions += _root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions.AuxEnumValueOptions](_input__)
           case 7992 =>
             __testOnlyNoJavaConversions = Option(_input__.readBool())
           case tag =>
@@ -930,7 +930,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             case 10 =>
               __target = Option(_input__.readStringRequireUtf8())
             case 18 =>
-              __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(scalapb.options.MessageOptions.defaultInstance)))
+              __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -1099,7 +1099,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             case 10 =>
               __target = Option(_input__.readStringRequireUtf8())
             case 18 =>
-              __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(scalapb.options.FieldOptions.defaultInstance)))
+              __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -1268,7 +1268,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             case 10 =>
               __target = Option(_input__.readStringRequireUtf8())
             case 18 =>
-              __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(scalapb.options.EnumOptions.defaultInstance)))
+              __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.EnumOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -1437,7 +1437,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             case 10 =>
               __target = Option(_input__.readStringRequireUtf8())
             case 18 =>
-              __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(scalapb.options.EnumValueOptions.defaultInstance)))
+              __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.EnumValueOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

@@ -135,7 +135,7 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
           case 16 =>
             __number = Option(_input__.readInt32())
           case 26 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumValueOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()

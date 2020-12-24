@@ -374,7 +374,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
           case 64 =>
             __packed = _input__.readBool()
           case 74 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case 82 =>
             __jsonName = _input__.readStringRequireUtf8()
           case 90 =>

@@ -165,7 +165,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
           case 16 =>
             __supportedFeatures = Option(_input__.readUInt64())
           case 122 =>
-            __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.defaultInstance)
+            __file += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
