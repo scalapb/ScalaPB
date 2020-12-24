@@ -354,17 +354,17 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
             _input__.popLimit(oldLimit)
           }
           case 34 =>
-            __messageType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
+            __messageType += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto](_input__)
           case 42 =>
-            __enumType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
+            __enumType += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumDescriptorProto](_input__)
           case 50 =>
-            __service += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.ServiceDescriptorProto.defaultInstance)
+            __service += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.ServiceDescriptorProto](_input__)
           case 58 =>
-            __extension += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
+            __extension += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__)
           case 66 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FileOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FileOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 74 =>
-            __sourceCodeInfo = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceCodeInfo.getOrElse(com.google.protobuf.descriptor.SourceCodeInfo.defaultInstance)))
+            __sourceCodeInfo = Option(__sourceCodeInfo.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.SourceCodeInfo](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 98 =>
             __syntax = Option(_input__.readStringRequireUtf8())
           case tag =>
@@ -378,19 +378,19 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     }
     def result(): com.google.protobuf.descriptor.FileDescriptorProto = {
       com.google.protobuf.descriptor.FileDescriptorProto(
-          name = __name,
-          `package` = __package,
-          dependency = __dependency.result(),
-          publicDependency = __publicDependency.result(),
-          weakDependency = __weakDependency.result(),
-          messageType = __messageType.result(),
-          enumType = __enumType.result(),
-          service = __service.result(),
-          extension = __extension.result(),
-          options = __options,
-          sourceCodeInfo = __sourceCodeInfo,
-          syntax = __syntax,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        `package` = __package,
+        dependency = __dependency.result(),
+        publicDependency = __publicDependency.result(),
+        weakDependency = __weakDependency.result(),
+        messageType = __messageType.result(),
+        enumType = __enumType.result(),
+        service = __service.result(),
+        extension = __extension.result(),
+        options = __options,
+        sourceCodeInfo = __sourceCodeInfo,
+        syntax = __syntax,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

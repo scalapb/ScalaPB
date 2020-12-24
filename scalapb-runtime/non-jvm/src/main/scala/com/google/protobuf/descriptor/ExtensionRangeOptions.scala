@@ -99,7 +99,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
         _tag__ match {
           case 0 => _done__ = true
           case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -111,8 +111,8 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     }
     def result(): com.google.protobuf.descriptor.ExtensionRangeOptions = {
       com.google.protobuf.descriptor.ExtensionRangeOptions(
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

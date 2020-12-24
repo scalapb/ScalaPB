@@ -89,7 +89,7 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
     }
     def result(): com.google.protobuf.empty.Empty = {
       com.google.protobuf.empty.Empty(
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

@@ -303,8 +303,8 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
     }
     def result(): com.google.protobuf.field_mask.FieldMask = {
       com.google.protobuf.field_mask.FieldMask(
-          paths = __paths.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        paths = __paths.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

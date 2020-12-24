@@ -196,9 +196,9 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
           case 18 =>
             __parameter = Option(_input__.readStringRequireUtf8())
           case 122 =>
-            __protoFile += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
+            __protoFile += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FileDescriptorProto](_input__)
           case 26 =>
-            __compilerVersion = Option(_root_.scalapb.LiteParser.readMessage(_input__, __compilerVersion.getOrElse(com.google.protobuf.compiler.plugin.Version.defaultInstance)))
+            __compilerVersion = Option(__compilerVersion.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.compiler.plugin.Version](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -210,11 +210,11 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     }
     def result(): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {
       com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
-          fileToGenerate = __fileToGenerate.result(),
-          parameter = __parameter,
-          protoFile = __protoFile.result(),
-          compilerVersion = __compilerVersion,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        fileToGenerate = __fileToGenerate.result(),
+        parameter = __parameter,
+        protoFile = __protoFile.result(),
+        compilerVersion = __compilerVersion,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

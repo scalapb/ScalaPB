@@ -103,8 +103,8 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
     }
     def result(): scalapb.options.OneofOptions = {
       scalapb.options.OneofOptions(
-          `extends` = __extends.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        `extends` = __extends.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

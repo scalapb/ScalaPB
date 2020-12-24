@@ -201,9 +201,9 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
     }
     def result(): com.google.protobuf.duration.Duration = {
       com.google.protobuf.duration.Duration(
-          seconds = __seconds,
-          nanos = __nanos,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        seconds = __seconds,
+        nanos = __nanos,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

@@ -146,7 +146,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
           case 272 =>
             __idempotencyLevel = Option(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
           case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -158,10 +158,10 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     }
     def result(): com.google.protobuf.descriptor.MethodOptions = {
       com.google.protobuf.descriptor.MethodOptions(
-          deprecated = __deprecated,
-          idempotencyLevel = __idempotencyLevel,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        deprecated = __deprecated,
+        idempotencyLevel = __idempotencyLevel,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

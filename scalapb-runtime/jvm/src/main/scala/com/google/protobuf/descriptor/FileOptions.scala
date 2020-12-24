@@ -610,7 +610,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
           case 362 =>
             __rubyPackage = Option(_input__.readStringRequireUtf8())
           case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -622,28 +622,28 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     }
     def result(): com.google.protobuf.descriptor.FileOptions = {
       com.google.protobuf.descriptor.FileOptions(
-          javaPackage = __javaPackage,
-          javaOuterClassname = __javaOuterClassname,
-          javaMultipleFiles = __javaMultipleFiles,
-          javaGenerateEqualsAndHash = __javaGenerateEqualsAndHash,
-          javaStringCheckUtf8 = __javaStringCheckUtf8,
-          optimizeFor = __optimizeFor,
-          goPackage = __goPackage,
-          ccGenericServices = __ccGenericServices,
-          javaGenericServices = __javaGenericServices,
-          pyGenericServices = __pyGenericServices,
-          phpGenericServices = __phpGenericServices,
-          deprecated = __deprecated,
-          ccEnableArenas = __ccEnableArenas,
-          objcClassPrefix = __objcClassPrefix,
-          csharpNamespace = __csharpNamespace,
-          swiftPrefix = __swiftPrefix,
-          phpClassPrefix = __phpClassPrefix,
-          phpNamespace = __phpNamespace,
-          phpMetadataNamespace = __phpMetadataNamespace,
-          rubyPackage = __rubyPackage,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        javaPackage = __javaPackage,
+        javaOuterClassname = __javaOuterClassname,
+        javaMultipleFiles = __javaMultipleFiles,
+        javaGenerateEqualsAndHash = __javaGenerateEqualsAndHash,
+        javaStringCheckUtf8 = __javaStringCheckUtf8,
+        optimizeFor = __optimizeFor,
+        goPackage = __goPackage,
+        ccGenericServices = __ccGenericServices,
+        javaGenericServices = __javaGenericServices,
+        pyGenericServices = __pyGenericServices,
+        phpGenericServices = __phpGenericServices,
+        deprecated = __deprecated,
+        ccEnableArenas = __ccEnableArenas,
+        objcClassPrefix = __objcClassPrefix,
+        csharpNamespace = __csharpNamespace,
+        swiftPrefix = __swiftPrefix,
+        phpClassPrefix = __phpClassPrefix,
+        phpNamespace = __phpNamespace,
+        phpMetadataNamespace = __phpMetadataNamespace,
+        rubyPackage = __rubyPackage,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

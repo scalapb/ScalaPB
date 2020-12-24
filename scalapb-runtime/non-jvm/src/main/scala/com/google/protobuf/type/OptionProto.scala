@@ -134,7 +134,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
           case 10 =>
             __name = _input__.readStringRequireUtf8()
           case 18 =>
-            __value = Option(_root_.scalapb.LiteParser.readMessage(_input__, __value.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
+            __value = Option(__value.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -146,9 +146,9 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     }
     def result(): com.google.protobuf.`type`.OptionProto = {
       com.google.protobuf.`type`.OptionProto(
-          name = __name,
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

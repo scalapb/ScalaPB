@@ -105,8 +105,8 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
     }
     def result(): mytypes.duration.Duration = {
       mytypes.duration.Duration(
-          seconds = __seconds,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        seconds = __seconds,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

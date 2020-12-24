@@ -231,9 +231,9 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
     }
     def result(): com.google.protobuf.timestamp.Timestamp = {
       com.google.protobuf.timestamp.Timestamp(
-          seconds = __seconds,
-          nanos = __nanos,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        seconds = __seconds,
+        nanos = __nanos,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

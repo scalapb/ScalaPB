@@ -204,11 +204,11 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
           case 10 =>
             __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __value += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumValueDescriptorProto.defaultInstance)
+            __value += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumValueDescriptorProto](_input__)
           case 26 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.EnumOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 34 =>
-            __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.defaultInstance)
+            __reservedRange += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange](_input__)
           case 42 =>
             __reservedName += _input__.readStringRequireUtf8()
           case tag =>
@@ -222,12 +222,12 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     }
     def result(): com.google.protobuf.descriptor.EnumDescriptorProto = {
       com.google.protobuf.descriptor.EnumDescriptorProto(
-          name = __name,
-          value = __value.result(),
-          options = __options,
-          reservedRange = __reservedRange.result(),
-          reservedName = __reservedName.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        value = __value.result(),
+        options = __options,
+        reservedRange = __reservedRange.result(),
+        reservedName = __reservedName.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }
@@ -386,9 +386,9 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       }
       def result(): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = {
         com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange(
-            start = __start,
-            end = __end,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+          start = __start,
+          end = __end,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
     }

@@ -99,7 +99,7 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FileDescriptorProto.defaultInstance)
+            __file += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FileDescriptorProto](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -111,8 +111,8 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
     }
     def result(): com.google.protobuf.descriptor.FileDescriptorSet = {
       com.google.protobuf.descriptor.FileDescriptorSet(
-          file = __file.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        file = __file.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

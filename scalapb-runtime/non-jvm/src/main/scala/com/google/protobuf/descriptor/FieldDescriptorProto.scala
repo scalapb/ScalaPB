@@ -300,7 +300,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
           case 82 =>
             __jsonName = Option(_input__.readStringRequireUtf8())
           case 66 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -312,17 +312,17 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     def result(): com.google.protobuf.descriptor.FieldDescriptorProto = {
       com.google.protobuf.descriptor.FieldDescriptorProto(
-          name = __name,
-          number = __number,
-          label = __label,
-          `type` = __type,
-          typeName = __typeName,
-          extendee = __extendee,
-          defaultValue = __defaultValue,
-          oneofIndex = __oneofIndex,
-          jsonName = __jsonName,
-          options = __options,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        number = __number,
+        label = __label,
+        `type` = __type,
+        typeName = __typeName,
+        extendee = __extendee,
+        defaultValue = __defaultValue,
+        oneofIndex = __oneofIndex,
+        jsonName = __jsonName,
+        options = __options,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

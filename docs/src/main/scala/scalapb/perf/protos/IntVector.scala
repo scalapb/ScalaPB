@@ -118,8 +118,8 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
     }
     def result(): scalapb.perf.protos.IntVector = {
       scalapb.perf.protos.IntVector(
-          ints = __ints.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        ints = __ints.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

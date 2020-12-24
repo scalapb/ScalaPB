@@ -123,7 +123,7 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
           case 8 =>
             __deprecated = Option(_input__.readBool())
           case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -135,9 +135,9 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
     }
     def result(): com.google.protobuf.descriptor.EnumValueOptions = {
       com.google.protobuf.descriptor.EnumValueOptions(
-          deprecated = __deprecated,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        deprecated = __deprecated,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

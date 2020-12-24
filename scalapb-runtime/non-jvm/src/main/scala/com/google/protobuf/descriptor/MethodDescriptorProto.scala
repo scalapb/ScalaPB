@@ -196,7 +196,7 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
           case 26 =>
             __outputType = Option(_input__.readStringRequireUtf8())
           case 34 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MethodOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.MethodOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 40 =>
             __clientStreaming = Option(_input__.readBool())
           case 48 =>
@@ -212,13 +212,13 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     }
     def result(): com.google.protobuf.descriptor.MethodDescriptorProto = {
       com.google.protobuf.descriptor.MethodDescriptorProto(
-          name = __name,
-          inputType = __inputType,
-          outputType = __outputType,
-          options = __options,
-          clientStreaming = __clientStreaming,
-          serverStreaming = __serverStreaming,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        inputType = __inputType,
+        outputType = __outputType,
+        options = __options,
+        clientStreaming = __clientStreaming,
+        serverStreaming = __serverStreaming,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

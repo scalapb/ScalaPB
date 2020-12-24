@@ -254,7 +254,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
           case 26 =>
             __collectionType = Option(_input__.readStringRequireUtf8())
           case 66 =>
-            __collection = Option(_root_.scalapb.LiteParser.readMessage(_input__, __collection.getOrElse(scalapb.options.Collection.defaultInstance)))
+            __collection = Option(__collection.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.Collection](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 34 =>
             __keyType = Option(_input__.readStringRequireUtf8())
           case 42 =>
@@ -276,16 +276,16 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     }
     def result(): scalapb.options.FieldOptions = {
       scalapb.options.FieldOptions(
-          `type` = __type,
-          scalaName = __scalaName,
-          collectionType = __collectionType,
-          collection = __collection,
-          keyType = __keyType,
-          valueType = __valueType,
-          annotations = __annotations.result(),
-          mapType = __mapType,
-          noBox = __noBox,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        `type` = __type,
+        scalaName = __scalaName,
+        collectionType = __collectionType,
+        collection = __collection,
+        keyType = __keyType,
+        valueType = __valueType,
+        annotations = __annotations.result(),
+        mapType = __mapType,
+        noBox = __noBox,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

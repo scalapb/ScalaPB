@@ -120,8 +120,8 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
     }
     def result(): com.google.protobuf.source_context.SourceContext = {
       com.google.protobuf.source_context.SourceContext(
-          fileName = __fileName,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        fileName = __fileName,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

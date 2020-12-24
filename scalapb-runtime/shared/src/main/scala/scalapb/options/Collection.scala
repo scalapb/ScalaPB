@@ -150,10 +150,10 @@ object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Coll
     }
     def result(): scalapb.options.Collection = {
       scalapb.options.Collection(
-          `type` = __type,
-          nonEmpty = __nonEmpty,
-          adapter = __adapter,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        `type` = __type,
+        nonEmpty = __nonEmpty,
+        adapter = __adapter,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

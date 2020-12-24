@@ -289,21 +289,21 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
           case 10 =>
             __name = Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __field += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
+            __field += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__)
           case 50 =>
-            __extension += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
+            __extension += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__)
           case 26 =>
-            __nestedType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
+            __nestedType += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto](_input__)
           case 34 =>
-            __enumType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
+            __enumType += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumDescriptorProto](_input__)
           case 42 =>
-            __extensionRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.defaultInstance)
+            __extensionRange += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_input__)
           case 66 =>
-            __oneofDecl += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.OneofDescriptorProto.defaultInstance)
+            __oneofDecl += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.OneofDescriptorProto](_input__)
           case 58 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)))
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 74 =>
-            __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.defaultInstance)
+            __reservedRange += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_input__)
           case 82 =>
             __reservedName += _input__.readStringRequireUtf8()
           case tag =>
@@ -317,17 +317,17 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     }
     def result(): com.google.protobuf.descriptor.DescriptorProto = {
       com.google.protobuf.descriptor.DescriptorProto(
-          name = __name,
-          field = __field.result(),
-          extension = __extension.result(),
-          nestedType = __nestedType.result(),
-          enumType = __enumType.result(),
-          extensionRange = __extensionRange.result(),
-          oneofDecl = __oneofDecl.result(),
-          options = __options,
-          reservedRange = __reservedRange.result(),
-          reservedName = __reservedName.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        field = __field.result(),
+        extension = __extension.result(),
+        nestedType = __nestedType.result(),
+        enumType = __enumType.result(),
+        extensionRange = __extensionRange.result(),
+        oneofDecl = __oneofDecl.result(),
+        options = __options,
+        reservedRange = __reservedRange.result(),
+        reservedName = __reservedName.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }
@@ -489,7 +489,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
             case 16 =>
               __end = Option(_input__.readInt32())
             case 26 =>
-              __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.ExtensionRangeOptions.defaultInstance)))
+              __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.ExtensionRangeOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
             case tag =>
               if (_unknownFields__ == null) {
                 _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -501,10 +501,10 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def result(): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
         com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
-            start = __start,
-            end = __end,
-            options = __options,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+          start = __start,
+          end = __end,
+          options = __options,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
     }
@@ -669,9 +669,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def result(): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
         com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
-            start = __start,
-            end = __end,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+          start = __start,
+          end = __end,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
     }

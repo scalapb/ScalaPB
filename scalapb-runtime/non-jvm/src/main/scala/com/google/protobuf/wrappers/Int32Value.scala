@@ -112,8 +112,8 @@ object Int32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     }
     def result(): com.google.protobuf.wrappers.Int32Value = {
       com.google.protobuf.wrappers.Int32Value(
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

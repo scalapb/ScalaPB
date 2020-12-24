@@ -147,10 +147,10 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
     }
     def result(): scalapb.options.EnumOptions = {
       scalapb.options.EnumOptions(
-          `extends` = __extends.result(),
-          companionExtends = __companionExtends.result(),
-          `type` = __type,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        `extends` = __extends.result(),
+        companionExtends = __companionExtends.result(),
+        `type` = __type,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

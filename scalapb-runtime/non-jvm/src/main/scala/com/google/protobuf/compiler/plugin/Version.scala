@@ -162,11 +162,11 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     }
     def result(): com.google.protobuf.compiler.plugin.Version = {
       com.google.protobuf.compiler.plugin.Version(
-          major = __major,
-          minor = __minor,
-          patch = __patch,
-          suffix = __suffix,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        major = __major,
+        minor = __minor,
+        patch = __patch,
+        suffix = __suffix,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

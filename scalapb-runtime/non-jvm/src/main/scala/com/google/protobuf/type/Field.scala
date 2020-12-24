@@ -347,7 +347,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
           case 64 =>
             __packed = _input__.readBool()
           case 74 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case 82 =>
             __jsonName = _input__.readStringRequireUtf8()
           case 90 =>
@@ -363,17 +363,17 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     }
     def result(): com.google.protobuf.`type`.Field = {
       com.google.protobuf.`type`.Field(
-          kind = __kind,
-          cardinality = __cardinality,
-          number = __number,
-          name = __name,
-          typeUrl = __typeUrl,
-          oneofIndex = __oneofIndex,
-          packed = __packed,
-          options = __options.result(),
-          jsonName = __jsonName,
-          defaultValue = __defaultValue,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        kind = __kind,
+        cardinality = __cardinality,
+        number = __number,
+        name = __name,
+        typeUrl = __typeUrl,
+        oneofIndex = __oneofIndex,
+        packed = __packed,
+        options = __options.result(),
+        jsonName = __jsonName,
+        defaultValue = __defaultValue,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

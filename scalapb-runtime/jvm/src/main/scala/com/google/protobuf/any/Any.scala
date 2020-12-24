@@ -251,9 +251,9 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
     }
     def result(): com.google.protobuf.any.Any = {
       com.google.protobuf.any.Any(
-          typeUrl = __typeUrl,
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        typeUrl = __typeUrl,
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

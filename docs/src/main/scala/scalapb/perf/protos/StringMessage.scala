@@ -130,9 +130,9 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     }
     def result(): scalapb.perf.protos.StringMessage = {
       scalapb.perf.protos.StringMessage(
-          str1 = __str1,
-          str2 = __str2,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        str1 = __str1,
+        str2 = __str2,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

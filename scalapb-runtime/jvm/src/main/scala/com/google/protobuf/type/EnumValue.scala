@@ -168,7 +168,7 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
           case 16 =>
             __number = _input__.readInt32()
           case 26 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -180,10 +180,10 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
     }
     def result(): com.google.protobuf.`type`.EnumValue = {
       com.google.protobuf.`type`.EnumValue(
-          name = __name,
-          number = __number,
-          options = __options.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        number = __number,
+        options = __options.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

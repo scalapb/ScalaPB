@@ -277,7 +277,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
           case 80 =>
             __weak = Option(_input__.readBool())
           case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
+            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -289,14 +289,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     def result(): com.google.protobuf.descriptor.FieldOptions = {
       com.google.protobuf.descriptor.FieldOptions(
-          ctype = __ctype,
-          packed = __packed,
-          jstype = __jstype,
-          `lazy` = __lazy,
-          deprecated = __deprecated,
-          weak = __weak,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        ctype = __ctype,
+        packed = __packed,
+        jstype = __jstype,
+        `lazy` = __lazy,
+        deprecated = __deprecated,
+        weak = __weak,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

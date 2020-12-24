@@ -120,8 +120,8 @@ object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     }
     def result(): com.google.protobuf.wrappers.StringValue = {
       com.google.protobuf.wrappers.StringValue(
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

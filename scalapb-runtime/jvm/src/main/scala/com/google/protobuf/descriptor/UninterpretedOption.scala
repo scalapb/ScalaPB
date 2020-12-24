@@ -233,7 +233,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 18 =>
-            __name += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.NamePart.defaultInstance)
+            __name += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption.NamePart](_input__)
           case 26 =>
             __identifierValue = Option(_input__.readStringRequireUtf8())
           case 32 =>
@@ -257,14 +257,14 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     }
     def result(): com.google.protobuf.descriptor.UninterpretedOption = {
       com.google.protobuf.descriptor.UninterpretedOption(
-          name = __name.result(),
-          identifierValue = __identifierValue,
-          positiveIntValue = __positiveIntValue,
-          negativeIntValue = __negativeIntValue,
-          doubleValue = __doubleValue,
-          stringValue = __stringValue,
-          aggregateValue = __aggregateValue,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name.result(),
+        identifierValue = __identifierValue,
+        positiveIntValue = __positiveIntValue,
+        negativeIntValue = __negativeIntValue,
+        doubleValue = __doubleValue,
+        stringValue = __stringValue,
+        aggregateValue = __aggregateValue,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }
@@ -425,9 +425,9 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       def result(): com.google.protobuf.descriptor.UninterpretedOption.NamePart = {
         if (__requiredFields0 != 0L) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } 
         com.google.protobuf.descriptor.UninterpretedOption.NamePart(
-            namePart = __namePart,
-            isExtension = __isExtension,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+          namePart = __namePart,
+          isExtension = __isExtension,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
     }

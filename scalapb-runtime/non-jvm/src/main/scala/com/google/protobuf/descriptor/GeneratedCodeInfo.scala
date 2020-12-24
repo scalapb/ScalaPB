@@ -107,7 +107,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __annotation += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.defaultInstance)
+            __annotation += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -119,8 +119,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     }
     def result(): com.google.protobuf.descriptor.GeneratedCodeInfo = {
       com.google.protobuf.descriptor.GeneratedCodeInfo(
-          annotation = __annotation.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        annotation = __annotation.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }
@@ -319,11 +319,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       }
       def result(): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = {
         com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
-            path = __path.result(),
-            sourceFile = __sourceFile,
-            begin = __begin,
-            end = __end,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+          path = __path.result(),
+          sourceFile = __sourceFile,
+          begin = __begin,
+          end = __end,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
     }

@@ -105,8 +105,8 @@ object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.jso
     }
     def result(): com.thesamet.docs.json.MyMessage = {
       com.thesamet.docs.json.MyMessage(
-          x = __x,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        x = __x,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

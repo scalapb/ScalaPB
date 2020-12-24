@@ -149,7 +149,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
           case 16 =>
             __age = _input__.readInt32()
           case 26 =>
-            __addresses += _root_.scalapb.LiteParser.readMessage(_input__, scalapb.docs.person.Person.Address.defaultInstance)
+            __addresses += _root_.scalapb.LiteParser.readMessage[scalapb.docs.person.Person.Address](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -161,10 +161,10 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     }
     def result(): scalapb.docs.person.Person = {
       scalapb.docs.person.Person(
-          name = __name,
-          age = __age,
-          addresses = __addresses.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        age = __age,
+        addresses = __addresses.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }
@@ -375,10 +375,10 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       }
       def result(): scalapb.docs.person.Person.Address = {
         scalapb.docs.person.Person.Address(
-            addressType = __addressType,
-            street = __street,
-            city = __city,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+          addressType = __addressType,
+          street = __street,
+          city = __city,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
     }

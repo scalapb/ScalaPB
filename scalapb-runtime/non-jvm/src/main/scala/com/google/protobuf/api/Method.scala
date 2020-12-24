@@ -265,7 +265,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
           case 40 =>
             __responseStreaming = _input__.readBool()
           case 50 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case 56 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
           case tag =>
@@ -279,14 +279,14 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     }
     def result(): com.google.protobuf.api.Method = {
       com.google.protobuf.api.Method(
-          name = __name,
-          requestTypeUrl = __requestTypeUrl,
-          requestStreaming = __requestStreaming,
-          responseTypeUrl = __responseTypeUrl,
-          responseStreaming = __responseStreaming,
-          options = __options.result(),
-          syntax = __syntax,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        requestTypeUrl = __requestTypeUrl,
+        requestStreaming = __requestStreaming,
+        responseTypeUrl = __responseTypeUrl,
+        responseStreaming = __responseStreaming,
+        options = __options.result(),
+        syntax = __syntax,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

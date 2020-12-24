@@ -257,15 +257,15 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     }
     def result(): scalapb.options.MessageOptions = {
       scalapb.options.MessageOptions(
-          `extends` = __extends.result(),
-          companionExtends = __companionExtends.result(),
-          annotations = __annotations.result(),
-          `type` = __type,
-          companionAnnotations = __companionAnnotations.result(),
-          sealedOneofExtends = __sealedOneofExtends.result(),
-          noBox = __noBox,
-          unknownFieldsAnnotations = __unknownFieldsAnnotations.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        `extends` = __extends.result(),
+        companionExtends = __companionExtends.result(),
+        annotations = __annotations.result(),
+        `type` = __type,
+        companionAnnotations = __companionAnnotations.result(),
+        sealedOneofExtends = __sealedOneofExtends.result(),
+        noBox = __noBox,
+        unknownFieldsAnnotations = __unknownFieldsAnnotations.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

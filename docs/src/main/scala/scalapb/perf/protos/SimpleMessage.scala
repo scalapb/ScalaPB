@@ -184,11 +184,11 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     }
     def result(): scalapb.perf.protos.SimpleMessage = {
       scalapb.perf.protos.SimpleMessage(
-          i = __i,
-          j = __j,
-          k = __k,
-          color = __color,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        i = __i,
+        j = __j,
+        k = __k,
+        color = __color,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

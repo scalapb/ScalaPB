@@ -122,8 +122,8 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
     }
     def result(): scalapb.perf.protos.EnumVector = {
       scalapb.perf.protos.EnumVector(
-          colors = __colors.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        colors = __colors.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

@@ -205,9 +205,9 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
           case 32 =>
             __kind = com.google.protobuf.struct.Value.Kind.BoolValue(_input__.readBool())
           case 42 =>
-            __kind = com.google.protobuf.struct.Value.Kind.StructValue(_root_.scalapb.LiteParser.readMessage(_input__, __kind.structValue.getOrElse(com.google.protobuf.struct.Struct.defaultInstance)))
+            __kind = com.google.protobuf.struct.Value.Kind.StructValue(__kind.structValue.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.Struct](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 50 =>
-            __kind = com.google.protobuf.struct.Value.Kind.ListValue(_root_.scalapb.LiteParser.readMessage(_input__, __kind.listValue.getOrElse(com.google.protobuf.struct.ListValue.defaultInstance)))
+            __kind = com.google.protobuf.struct.Value.Kind.ListValue(__kind.listValue.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.ListValue](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -219,8 +219,8 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     }
     def result(): com.google.protobuf.struct.Value = {
       com.google.protobuf.struct.Value(
-          kind = __kind,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        kind = __kind,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

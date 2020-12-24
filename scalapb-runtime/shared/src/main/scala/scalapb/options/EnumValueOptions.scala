@@ -124,9 +124,9 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
     }
     def result(): scalapb.options.EnumValueOptions = {
       scalapb.options.EnumValueOptions(
-          `extends` = __extends.result(),
-          scalaName = __scalaName,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        `extends` = __extends.result(),
+        scalaName = __scalaName,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

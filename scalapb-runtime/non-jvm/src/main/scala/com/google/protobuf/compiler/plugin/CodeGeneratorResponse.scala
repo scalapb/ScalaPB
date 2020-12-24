@@ -130,7 +130,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
           case 10 =>
             __error = Option(_input__.readStringRequireUtf8())
           case 122 =>
-            __file += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.defaultInstance)
+            __file += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File](_input__)
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -142,9 +142,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     }
     def result(): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = {
       com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
-          error = __error,
-          file = __file.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        error = __error,
+        file = __file.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }
@@ -349,10 +349,10 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       }
       def result(): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = {
         com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File(
-            name = __name,
-            insertionPoint = __insertionPoint,
-            content = __content,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+          name = __name,
+          insertionPoint = __insertionPoint,
+          content = __content,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
         )
       }
     }

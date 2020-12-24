@@ -299,15 +299,15 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
           case 10 =>
             __name = _input__.readStringRequireUtf8()
           case 18 =>
-            __methods += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Method.defaultInstance)
+            __methods += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.api.Method](_input__)
           case 26 =>
-            __options += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.`type`.OptionProto.defaultInstance)
+            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
           case 34 =>
             __version = _input__.readStringRequireUtf8()
           case 42 =>
-            __sourceContext = Option(_root_.scalapb.LiteParser.readMessage(_input__, __sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)))
+            __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 50 =>
-            __mixins += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.api.Mixin.defaultInstance)
+            __mixins += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.api.Mixin](_input__)
           case 56 =>
             __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
           case tag =>
@@ -321,14 +321,14 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     }
     def result(): com.google.protobuf.api.Api = {
       com.google.protobuf.api.Api(
-          name = __name,
-          methods = __methods.result(),
-          options = __options.result(),
-          version = __version,
-          sourceContext = __sourceContext,
-          mixins = __mixins.result(),
-          syntax = __syntax,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        name = __name,
+        methods = __methods.result(),
+        options = __options.result(),
+        version = __version,
+        sourceContext = __sourceContext,
+        mixins = __mixins.result(),
+        syntax = __syntax,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

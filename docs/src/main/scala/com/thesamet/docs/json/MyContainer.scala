@@ -95,7 +95,7 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __myAny = Option(_root_.scalapb.LiteParser.readMessage(_input__, __myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)))
+            __myAny = Option(__myAny.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -107,8 +107,8 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
     }
     def result(): com.thesamet.docs.json.MyContainer = {
       com.thesamet.docs.json.MyContainer(
-          myAny = __myAny,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        myAny = __myAny,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }

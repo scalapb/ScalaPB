@@ -105,4 +105,25 @@ class CustomTypesSpec extends AnyFlatSpec with Matchers {
     CustomerEvent mustBe a[DomainEventCompanion]
     CustomerEvent.thisIs must be("The companion object")
   }
+
+  "HasEmail" should "serialize and parse valid instances" in {
+    val dm = HasEmail(
+      requiredEmail = Email("foo", "bar")
+    )
+    HasEmail.parseFrom(dm.toByteArray) must be(dm)
+  }
+
+  "NoBoxEmail" should "serialize and parse valid instances" in {
+    val dm = NoBoxEmail(
+      noBoxEmail = Email("foo", "bar")
+    )
+    NoBoxEmail.parseFrom(dm.toByteArray) must be(dm)
+  }
+
+  "ContainsHasEmail" should "serialize and parse valid instances" in {
+    val cem = ContainsHasEmail(
+      requiredHasEmail = HasEmail(requiredEmail = Email("foo", "bar"))
+    )
+    ContainsHasEmail.parseFrom(cem.toByteArray) must be(cem)
+  }
 }

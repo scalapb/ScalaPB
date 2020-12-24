@@ -112,8 +112,8 @@ object BoolValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.w
     }
     def result(): com.google.protobuf.wrappers.BoolValue = {
       com.google.protobuf.wrappers.BoolValue(
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
   }
