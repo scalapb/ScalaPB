@@ -4,7 +4,7 @@ import scalapb.options.Scalapb.ScalaPbOptions
 import scalapb.compiler.{NameUtils, StreamType}
 import org.scalacheck.{Arbitrary, Gen}
 import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
-import com.github.ghik.silencer.silent
+import scala.annotation.nowarn
 
 object GraphGen {
   import Nodes._
@@ -169,7 +169,7 @@ object GraphGen {
   }
 
   // zipped3 deprecated: https://github.com/scala/scala-collection-compat/issues/118
-  @silent
+  @nowarn()
   def genMessageNode(depth: Int = 0, parentMessageId: Option[Int] = None, protoSyntax: ProtoSyntax)(
       state: State
   ): Gen[(MessageNode, State)] =

@@ -73,7 +73,7 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
     val observer = new StreamObserver[T] {
       override def onError(t: Throwable): Unit = {}
 
-      override def onCompleted(): Unit = promise.success(values.result)
+      override def onCompleted(): Unit = promise.success(values.result())
 
       override def onNext(value: T): Unit = {
         values += value

@@ -2,7 +2,6 @@ import java.io.{File, PrintWriter}
 import java.net.{URL, URLClassLoader}
 import java.nio.file.Files
 import javax.tools.ToolProvider
-import com.github.ghik.silencer.silent
 
 import com.google.protobuf.Message.Builder
 import scalapb.compiler._
@@ -12,9 +11,9 @@ import protocbridge.ProtocBridge
 
 import scala.reflect.ClassTag
 import scalapb.ScalaPbCodeGenerator
+import scala.annotation.nowarn
 
-@silent("Stream in package .* is deprecated")
-@silent("method toStream in trait IterableOnceOps is deprecated")
+@nowarn("cat=deprecation")
 object SchemaGenerators {
   import Nodes._
 

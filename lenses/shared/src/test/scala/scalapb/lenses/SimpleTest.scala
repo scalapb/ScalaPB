@@ -1,7 +1,7 @@
 package scalapb.lenses
 
 import utest._
-import com.github.ghik.silencer.silent
+import scala.annotation.nowarn
 
 case class Person(firstName: String, lastName: String, age: Int, address: Address)
     extends Updatable[Person]
@@ -25,7 +25,7 @@ case class CollectionTypes(
     sett: Set[String] = Set.empty
 ) extends Updatable[CollectionTypes]
 
-@silent("discarded non-Unit value")
+@nowarn()
 object SimpleTest extends TestSuite {
   implicit class RoleMutation[U](f: Lens[U, Role]) extends ObjectLens[U, Role](f) {
     def name = field(_.name)((p, f) => p.copy(name = f))
@@ -194,6 +194,7 @@ object SimpleTest extends TestSuite {
         mapTest.update(
           _.nameMap("mosh").firstName := "Boo"
         )
+        ()
       }
     }
 

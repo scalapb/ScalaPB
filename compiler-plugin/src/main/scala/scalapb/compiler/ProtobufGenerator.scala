@@ -808,7 +808,7 @@ class ProtobufGenerator(
 
         if (field.isPackable) {
           val read = {
-            val tmp = s"""_input__.read${Types.capitalizedType(field.getType)}"""
+            val tmp = s"""_input__.read${Types.capitalizedType(field.getType)}()"""
             if (field.isEnum)
               s"${field.getEnumType.scalaType.fullName}.fromValue($tmp)"
             else tmp
@@ -1305,11 +1305,11 @@ class ProtobufGenerator(
             (
               "_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldPackable",
               Seq(fd.getType match {
-                case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64"
-                case Type.FLOAT | Type.FIXED32 | Type.SFIXED32  => "_.readFixed32"
+                case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64()"
+                case Type.FLOAT | Type.FIXED32 | Type.SFIXED32  => "_.readFixed32()"
                 case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM | Type.BOOL |
                     Type.SINT32 | Type.SINT64 =>
-                  "_.readInt64"
+                  "_.readInt64()"
                 case _ =>
                   throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
               })

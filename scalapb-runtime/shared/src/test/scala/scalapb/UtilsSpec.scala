@@ -3,10 +3,10 @@ import scalapb.internal.compat
 import utest._
 
 import scala.collection.mutable
-import com.github.ghik.silencer.silent
+import scala.annotation.nowarn
 
 object UtilsSpec extends TestSuite {
-  @silent
+  @nowarn
   val tests = Tests {
     "convertTo" - {
       val x: Vector[Int] = compat.convertTo(Seq(1, 2, 3))

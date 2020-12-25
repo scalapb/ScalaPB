@@ -5,7 +5,6 @@ import java.io.File
 import protocbridge.{ProtocBridge, ProtocCodeGenerator}
 import coursier.parse.DependencyParser
 import coursier.core.Configuration
-import com.github.ghik.silencer.silent
 import coursier.core.Dependency
 import java.net.URLClassLoader
 import java.util.jar.JarInputStream
@@ -14,6 +13,7 @@ import protocbridge.SandboxedJvmGenerator
 import sys.process._
 import scala.io.Source
 import scala.util.{Try, Success, Failure}
+import scala.annotation.nowarn
 
 case class Config(
     version: String = scalapb.compiler.Version.protobufVersion,
@@ -76,7 +76,7 @@ object ScalaPBC {
       .cfg
   }
 
-  @silent("method right in class Either is deprecated")
+  @nowarn("cat=deprecation")
   def fetchArtifact(artifact: String): Either[String, (Dependency, Seq[File])] = {
     import coursier._
     for {
@@ -124,7 +124,7 @@ object ScalaPBC {
     }
   }
 
-  @silent("method right in class Either is deprecated")
+  @nowarn("cat=deprecation")
   private[scalapb] def runProtoc(config: Config): Int = {
     if (config.namedGenerators
           .map(_._1)

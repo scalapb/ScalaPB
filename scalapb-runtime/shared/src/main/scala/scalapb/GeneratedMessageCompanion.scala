@@ -9,6 +9,7 @@ import scalapb.lenses.{Lens, Updatable}
 
 import _root_.scalapb.descriptors.{PMessage, PValue}
 import scala.util.Try
+import scala.annotation.nowarn
 
 trait GeneratedEnum extends Any with Product with Serializable {
   type EnumType <: GeneratedEnum
@@ -150,7 +151,7 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
   def toJavaProto(scalaProto: ScalaPB): JavaPB
 }
 
-@silent("Stream in package scala is deprecated")
+@nowarn
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   type ValueType = A
   def merge(a: A, input: CodedInputStream): A

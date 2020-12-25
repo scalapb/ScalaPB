@@ -4,10 +4,9 @@ import scalapb.compiler.{StreamType, FunctionalPrinter}
 
 import scala.collection.mutable
 import scala.util.Try
-import com.github.ghik.silencer.silent
+import scala.annotation.nowarn
 
-@silent("Stream in package .* is deprecated")
-@silent("method toStream in trait IterableOnceOps is deprecated")
+@nowarn("cat=deprecation")
 object Nodes {
   import GenTypes._
   import GraphGen._

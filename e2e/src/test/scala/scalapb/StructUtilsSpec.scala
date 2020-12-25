@@ -3,7 +3,6 @@ package scalapb
 
 import java.util.Base64
 
-import com.github.ghik.silencer.silent
 import com.google.protobuf.ByteString
 import com.google.protobuf.struct.{ListValue, Struct, Value}
 import com.google.protobuf.test.unittest_import.{ImportEnum, ImportMessage}
@@ -16,10 +15,11 @@ import protobuf_unittest.unittest.{ForeignEnum, ForeignMessage, TestAllTypes}
 import scalapb.StructUtils.StructParsingError
 
 import scala.util.Random
+import scala.annotation.nowarn
 
-@silent("method right in class Either is deprecated")
+@nowarn("cat=deprecation")
 class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
-  
+
   /**
     * Helper to construct a ByteString from a String containing only 8-bit
     * characters.  The characters are converted directly to bytes, *not*

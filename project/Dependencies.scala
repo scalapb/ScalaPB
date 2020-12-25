@@ -9,8 +9,7 @@ object Dependencies {
     val protobuf                = "3.11.4"
     val utest                   = "0.7.4"
     val fastparse               = "2.3.0"
-    val silencer                = "1.6.0"
-    val collectionCompat        = "2.1.6"
+    val collectionCompat        = "2.3.2"
     val coursier                = "2.0.0-RC6-21"
     val mockito                 = "3.2.0"
     val protocGen               = "0.9.0-RC6"
@@ -22,16 +21,9 @@ object Dependencies {
     val annotationApi           = "1.3.2"
   }
 
-  val Scala212 = "2.12.10"
+  val Scala212 = "2.12.12"
 
-  val Scala213 = "2.13.1"
-
-  val silencer = Seq(
-    sbt.compilerPlugin(
-      "com.github.ghik" % "silencer-plugin" % versions.silencer cross CrossVersion.full
-    ),
-    "com.github.ghik" % "silencer-lib" % versions.silencer % Provided cross CrossVersion.full
-  )
+  val Scala213 = "2.13.4"
 
   val protobufJava = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val fastparse    = Def.setting { "com.lihaoyi" %%% "fastparse" % versions.fastparse }

@@ -1,15 +1,15 @@
 package scalapb.textformat
 
 import com.google.protobuf.descriptor.FieldDescriptorProto
-import com.github.ghik.silencer.silent
 
 import scalapb.descriptors._
 import scalapb.descriptors.{FieldDescriptor, PValue}
 import scalapb.{GeneratedMessage, GeneratedMessageCompanion}
 
 import scala.util.Try
+import scala.annotation.nowarn
 
-@silent("method right in class Either is deprecated")
+@nowarn("cat=deprecation")
 private[scalapb] object AstUtils {
   case class AstError(index: Int, error: String)
 

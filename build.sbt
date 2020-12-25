@@ -14,8 +14,7 @@ inThisBuild(
     scalacOptions ++= BuildHelper.compilerOptions,
     javacOptions ++= List("-target", "8", "-source", "8"),
     organization := "com.thesamet.scalapb",
-    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-    libraryDependencies ++= silencer
+    resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
   )
 )
 
@@ -64,10 +63,13 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
     ),
     testFrameworks += new TestFramework("utest.runner.Framework"),
     Compile / unmanagedResourceDirectories += baseDirectory.value / "../../protobuf",
-    scalacOptions ++= Seq(
-      "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
-      "-P:silencer:lineContentFilters=import scala.collection.compat._"
-    ),
+    scalacOptions ++= (if (scalaVersion.value == Scala213)
+                         Seq(
+                           "-Xfatal-warnings",
+                           "-Wconf:origin=.*EqualsAndHash:s",
+                           "-Wconf:src=UnknownFieldSet.scala:s"
+                         )
+                       else Nil),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[DirectMissingMethodProblem]("*.of"),
@@ -304,11 +306,17 @@ lazy val e2e = (project in file("e2e"))
   .dependsOn(grpcRuntime)
   .settings(e2eCommonSettings)
   .settings(
-    scalacOptions ++= Seq(
-      "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
-      "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;changed/scoped;ServerReflectionGrpc.scala",
-      "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-    ),
+    libraryDependencies += "org.typelevel" %% "cats-core" % "2.3.0",
+    scalacOptions ++= (if (scalaVersion.value == Scala213)
+                         Seq(
+                           "-Xfatal-warnings",
+                           "-Wconf:origin=.*EqualsAndHash:s",
+                           "-Wconf:origin=.*eprecatedInt32:s",
+                           "-Wconf:origin=.*v1alpha.*:s",
+                           "-Wconf:src=FieldAnnotations\\.scala:s"
+                         )
+                       else Nil),
+    scalacOptions -= "-Ywarn-unused:imports", // Not sure how to silence individual ones with -Wconf
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     Compile / PB.generate := ((Compile / PB.generate) dependsOn (protocGenScalaUnix / Compile / assembly)).value,
     PB.protocVersion := versions.protobuf,

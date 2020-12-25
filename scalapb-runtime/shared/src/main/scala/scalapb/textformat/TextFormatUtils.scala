@@ -2,11 +2,11 @@ package scalapb.textformat
 
 import java.math.BigInteger
 
-import com.github.ghik.silencer.silent
 import com.google.protobuf.ByteString
 import scalapb.TextFormatError
 
 import scala.collection.mutable
+import scala.annotation.nowarn
 
 private[scalapb] object TextFormatUtils {
   import Constants._
@@ -148,7 +148,7 @@ private[scalapb] object TextFormatUtils {
   def escapeText(input: String): String =
     escapeBytes(ByteString.copyFromUtf8(input))
 
-  @silent("method right in class Either is deprecated")
+  @nowarn("cat=deprecation")
   def unescapeText(input: String): Either[TextFormatError, String] =
     unescapeBytes(input).right.map(_.toStringUtf8)
 

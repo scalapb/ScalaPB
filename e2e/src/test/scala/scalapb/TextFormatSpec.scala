@@ -42,10 +42,10 @@ import org.scalatest.Assertion
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 import org.scalatest.EitherValues
-import com.github.ghik.silencer.silent
 import org.scalatest.exceptions.TestFailedException
+import scala.annotation.nowarn
 
-@silent("method right in class Either is deprecated")
+@nowarn("cat=deprecation")
 class TextFormatSpec
     extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
