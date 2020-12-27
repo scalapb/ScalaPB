@@ -156,7 +156,7 @@ final case class Duration(
 
 object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.duration.Duration): com.google.protobuf.Duration = {
     val javaPbOut = com.google.protobuf.Duration.newBuilder
     javaPbOut.setSeconds(scalaPbSource.seconds)

@@ -170,7 +170,7 @@ final case class Mixin(
 
 object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Mixin = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Mixin = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Mixin): com.google.protobuf.Mixin = {
     val javaPbOut = com.google.protobuf.Mixin.newBuilder
     javaPbOut.setName(scalaPbSource.name)

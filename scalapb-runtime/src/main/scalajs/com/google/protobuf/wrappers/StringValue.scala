@@ -72,7 +72,7 @@ final case class StringValue(
 
 object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.StringValue = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.StringValue = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.wrappers.StringValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.StringValue = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.StringValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

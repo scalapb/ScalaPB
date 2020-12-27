@@ -131,7 +131,7 @@ final case class Value(
 
 object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Value, com.google.protobuf.Value] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Value, com.google.protobuf.Value] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.Value): com.google.protobuf.Value = {
     val javaPbOut = com.google.protobuf.Value.newBuilder
     scalaPbSource.kind.nullValue.map(_.value).foreach(javaPbOut.setNullValueValue)

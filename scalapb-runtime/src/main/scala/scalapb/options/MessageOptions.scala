@@ -182,7 +182,7 @@ final case class MessageOptions(
 
 object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.options.MessageOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.MessageOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

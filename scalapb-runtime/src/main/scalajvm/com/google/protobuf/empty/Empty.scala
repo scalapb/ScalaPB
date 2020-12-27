@@ -48,7 +48,7 @@ final case class Empty(
 
 object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.empty.Empty = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.empty.Empty = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.empty.Empty): com.google.protobuf.Empty = {
     val javaPbOut = com.google.protobuf.Empty.newBuilder
     javaPbOut.build

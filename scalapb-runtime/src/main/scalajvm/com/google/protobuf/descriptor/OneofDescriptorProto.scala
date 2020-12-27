@@ -77,7 +77,7 @@ final case class OneofDescriptorProto(
 
 object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofDescriptorProto = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofDescriptorProto = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.OneofDescriptorProto): com.google.protobuf.DescriptorProtos.OneofDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.OneofDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

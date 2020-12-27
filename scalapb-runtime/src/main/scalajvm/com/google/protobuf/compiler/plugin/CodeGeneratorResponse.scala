@@ -106,7 +106,7 @@ final case class CodeGeneratorResponse(
 
 object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.CodeGeneratorResponse, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.CodeGeneratorResponse, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.CodeGeneratorResponse): com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse = {
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.newBuilder
     scalaPbSource.error.foreach(javaPbOut.setError)
@@ -382,7 +382,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   
   object File extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File, com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File] = this
-    override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = newBuilder.merge(input).result()
+    override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File = newBuilder.merge(input).result()
     def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File): com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File = {
       val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.File.newBuilder
       scalaPbSource.name.foreach(javaPbOut.setName)

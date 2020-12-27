@@ -66,7 +66,7 @@ final case class OneofOptions(
 
 object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofOptions = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofOptions = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.OneofOptions): com.google.protobuf.DescriptorProtos.OneofOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.OneofOptions.newBuilder
     javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)

@@ -1454,7 +1454,7 @@ class ProtobufGenerator(
               |  implicit def messageCompanion: $companionType = this""".stripMargin)
       .indent
       .add(
-        s"override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): ${message.scalaType.fullName} = newBuilder.merge(input).result()"
+        s"override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): ${message.scalaType.fullName} = newBuilder.merge(input).result()"
       )
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))

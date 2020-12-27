@@ -165,7 +165,7 @@ final case class Type(
 
 object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.`type`.Type, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Type] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

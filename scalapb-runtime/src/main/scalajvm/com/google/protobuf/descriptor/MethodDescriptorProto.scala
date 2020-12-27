@@ -141,7 +141,7 @@ final case class MethodDescriptorProto(
 
 object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodDescriptorProto, com.google.protobuf.DescriptorProtos.MethodDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodDescriptorProto, com.google.protobuf.DescriptorProtos.MethodDescriptorProto] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodDescriptorProto = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodDescriptorProto = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.MethodDescriptorProto): com.google.protobuf.DescriptorProtos.MethodDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.MethodDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
