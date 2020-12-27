@@ -107,7 +107,7 @@ final case class Version(
 
 object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.Version = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.Version = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.compiler.plugin.Version, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.Version = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.compiler.plugin.Version] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

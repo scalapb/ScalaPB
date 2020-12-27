@@ -218,7 +218,7 @@ final case class Api(
 
 object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with scalapb.JavaProtoSupport[com.google.protobuf.api.Api, com.google.protobuf.Api] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with scalapb.JavaProtoSupport[com.google.protobuf.api.Api, com.google.protobuf.Api] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Api = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Api = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Api): com.google.protobuf.Api = {
     val javaPbOut = com.google.protobuf.Api.newBuilder
     javaPbOut.setName(scalaPbSource.name)

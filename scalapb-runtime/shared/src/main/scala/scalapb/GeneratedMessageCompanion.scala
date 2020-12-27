@@ -157,10 +157,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   def merge(a: A, input: CodedInputStream): A
 
   /** Parses a message from a CodedInputStream. */
-  // TODO(nadav): The implementation here should not rely on `newBuilder` for binary compatibility:
-  // Older 0.10.x generated code may not have it defined. In 0.10.x, the generated messages override
-  // this method. This can be eliminated in ScalaPB 0.11.0.
-  def parseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
+  def parseFrom(input: CodedInputStream): A = actualParseFrom(input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
 
@@ -224,6 +221,12 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
     validateAscii(s).fold(t => throw new TextFormatException(t.msg), identity[A])
 
   def defaultInstance: A
+
+  // TODO(nadav): In 0.10.x, the implementation here is not able to rely on `newBuilder` for binary compatibility
+  // since older 0.10.x generated code will not have newBuilder defined. To avoid that, we have
+  // a default verson of parseFrom which is overridden in the case class with a one that uses newBuilder.
+  // Overriding parseFrom directly results in a different binary incompatibility...
+  protected def actualParseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
 }
 
 abstract class GeneratedFileObject {

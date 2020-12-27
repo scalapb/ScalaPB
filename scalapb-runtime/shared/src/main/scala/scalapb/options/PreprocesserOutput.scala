@@ -62,7 +62,7 @@ final case class PreprocesserOutput(
 
 object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.options.PreprocesserOutput, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.PreprocesserOutput] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -199,7 +199,7 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
   
   object OptionsByFileEntry extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput.OptionsByFileEntry] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput.OptionsByFileEntry] = this
-    override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput.OptionsByFileEntry = newBuilder.merge(input).result()
+    override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput.OptionsByFileEntry = newBuilder.merge(input).result()
     def merge(`_message__`: scalapb.options.PreprocesserOutput.OptionsByFileEntry, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput.OptionsByFileEntry = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.PreprocesserOutput.OptionsByFileEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

@@ -65,7 +65,7 @@ final case class Enum(
 
 object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.Enum = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.Enum = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.perf.protos.Enum, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.Enum = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.Enum] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

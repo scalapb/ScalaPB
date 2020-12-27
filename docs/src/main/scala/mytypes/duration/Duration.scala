@@ -65,7 +65,7 @@ final case class Duration(
 
 object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = newBuilder.merge(input).result()
   def merge(`_message__`: mytypes.duration.Duration, `_input__`: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[mytypes.duration.Duration] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

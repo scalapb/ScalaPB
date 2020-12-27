@@ -190,7 +190,7 @@ final case class FieldOptions(
 
 object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.FieldOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.FieldOptions] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.options.FieldOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.FieldOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

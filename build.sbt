@@ -82,7 +82,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
       ProblemFilters.exclude[ReversedMissingMethodProblem](
         "scalapb.options.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"
       ),
-      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*")
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
+      ProblemFilters.exclude[Problem]("scalapb.options.*")
     )
   )
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(

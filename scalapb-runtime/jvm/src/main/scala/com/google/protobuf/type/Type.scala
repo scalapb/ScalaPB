@@ -166,7 +166,7 @@ final case class Type(
 
 object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] = this
-  override def parseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = newBuilder.merge(input).result()
+  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Type): com.google.protobuf.Type = {
     val javaPbOut = com.google.protobuf.Type.newBuilder
     javaPbOut.setName(scalaPbSource.name)
