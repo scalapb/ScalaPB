@@ -136,6 +136,7 @@ final case class MethodDescriptorProto(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.MethodDescriptorProto
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.MethodDescriptorProto])
 }
 
 object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodDescriptorProto, com.google.protobuf.DescriptorProtos.MethodDescriptorProto] {

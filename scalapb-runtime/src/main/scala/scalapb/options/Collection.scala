@@ -95,6 +95,7 @@ final case class Collection(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.Collection
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.Collection])
 }
 
 object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Collection] {

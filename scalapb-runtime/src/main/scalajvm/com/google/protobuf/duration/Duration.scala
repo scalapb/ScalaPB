@@ -151,6 +151,7 @@ final case class Duration(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.duration.Duration
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Duration])
 }
 
 object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods {

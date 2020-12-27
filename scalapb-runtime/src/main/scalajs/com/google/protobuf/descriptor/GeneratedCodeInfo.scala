@@ -65,6 +65,7 @@ final case class GeneratedCodeInfo(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.GeneratedCodeInfo
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.GeneratedCodeInfo])
 }
 
 object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] {
@@ -251,6 +252,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.GeneratedCodeInfo.Annotation])
   }
   
   object Annotation extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] {

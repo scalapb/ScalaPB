@@ -43,6 +43,7 @@ final case class Empty(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = throw new MatchError(__field)
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.empty.Empty
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Empty])
 }
 
 object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] {

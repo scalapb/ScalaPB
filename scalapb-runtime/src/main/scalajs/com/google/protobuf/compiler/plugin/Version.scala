@@ -102,6 +102,7 @@ final case class Version(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.compiler.plugin.Version
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.compiler.Version])
 }
 
 object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] {

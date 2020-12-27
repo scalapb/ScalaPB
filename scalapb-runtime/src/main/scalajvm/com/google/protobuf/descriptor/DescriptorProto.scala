@@ -211,6 +211,7 @@ final case class DescriptorProto(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.DescriptorProto
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto])
 }
 
 object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.DescriptorProtos.DescriptorProto] {
@@ -472,6 +473,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto.ExtensionRange])
   }
   
   object ExtensionRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] {
@@ -663,6 +665,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ReservedRange
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto.ReservedRange])
   }
   
   object ReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] {

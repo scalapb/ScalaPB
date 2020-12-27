@@ -185,6 +185,7 @@ final case class FieldOptions(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.FieldOptions
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.FieldOptions])
 }
 
 object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.FieldOptions] {

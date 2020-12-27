@@ -74,6 +74,7 @@ final case class OneofOptions(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.OneofOptions
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.OneofOptions])
 }
 
 object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.OneofOptions] {

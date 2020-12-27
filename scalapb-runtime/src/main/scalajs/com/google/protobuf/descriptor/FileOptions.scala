@@ -418,6 +418,7 @@ final case class FileOptions(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FileOptions
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FileOptions])
 }
 
 object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] {

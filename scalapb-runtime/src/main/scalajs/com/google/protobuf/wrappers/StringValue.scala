@@ -67,6 +67,7 @@ final case class StringValue(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.StringValue
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.StringValue])
 }
 
 object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] {

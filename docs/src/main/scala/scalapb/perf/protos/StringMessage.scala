@@ -80,6 +80,7 @@ final case class StringMessage(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.perf.protos.StringMessage
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.StringMessage])
 }
 
 object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] {

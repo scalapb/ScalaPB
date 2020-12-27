@@ -247,6 +247,7 @@ final case class FieldDescriptorProto(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FieldDescriptorProto
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldDescriptorProto])
 }
 
 object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldDescriptorProto, com.google.protobuf.DescriptorProtos.FieldDescriptorProto] {

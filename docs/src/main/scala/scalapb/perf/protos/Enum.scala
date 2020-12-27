@@ -60,6 +60,7 @@ final case class Enum(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.perf.protos.Enum
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.Enum])
 }
 
 object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] {

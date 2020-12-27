@@ -258,6 +258,7 @@ final case class FieldMask(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.field_mask.FieldMask
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldMask])
 }
 
 object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] {

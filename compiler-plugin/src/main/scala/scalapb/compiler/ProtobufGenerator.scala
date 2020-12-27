@@ -1615,6 +1615,7 @@ class ProtobufGenerator(
           s"def to$name: $scalaType = ${message.sealedOneofTypeMapper.fullName}.toCustom(this)"
         )
       }
+      .add(s"// @@protoc_insertion_point(${message.messageClassInsertionPoint.insertionPoint})")
       .outdent
       .outdent
       .add(s"""}
