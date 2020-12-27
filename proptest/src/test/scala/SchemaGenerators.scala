@@ -279,12 +279,10 @@ object SchemaGenerators {
     }
 
     def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessage] = {
-      val className = rootNode.scalaObjectName(m)
-      val u         = scala.reflect.runtime.universe
-      val mirror    = u.runtimeMirror(classLoader)
-      mirror
-        .reflectModule(mirror.staticModule(className))
-        .instance
+      val klass = Class.forName(rootNode.scalaObjectName(m) + "$", true, classLoader)
+      klass
+        .getField("MODULE$")
+        .get(null)
         .asInstanceOf[CompanionWithJavaSupport[_ <: GeneratedMessage]]
     }
   }

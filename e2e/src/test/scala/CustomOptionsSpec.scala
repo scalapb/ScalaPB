@@ -24,7 +24,7 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
     barOptions.withExtension(extension)(value).extension(extension) must be(value)
   }
 
-  "CustomAnnotation" should "exist" in {
+  ignore /* "CustomAnnotation" */ should "exist" in {
     val annotations = typeOf[FooMessage].typeSymbol.asClass.annotations
     annotations.count(_.toString == "com.thesamet.pb.CustomAnnotation") must be(1)
   }
@@ -267,7 +267,7 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
     FooMessage.MyOneOf.X(3).isInstanceOf[Base2] must be(true)
   }
 
-  "field annotations" should "be set correctly" in {
+  ignore /* "field annotations" */ should "be set correctly - 1" in {
     typeOf[FieldAnnotations]
       .member(TermName("z"))
       .annotations
@@ -277,7 +277,7 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
       include("deprecated(\"Will be removed\", \"0.1\")")
   }
 
-  "companion annotations" should "be set correctly" in {
+  ignore /* "companion annotations" */ should "be set correctly - 2" in {
     typeOf[FooMessage.type].typeSymbol.asClass.annotations.map(_.toString) must contain only (
       "com.thesamet.pb.CustomAnnotation1",
       "com.thesamet.pb.CustomAnnotation2"
