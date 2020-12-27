@@ -67,6 +67,7 @@ final case class Int64Value(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.Int64Value
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Int64Value])
 }
 
 object Int64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int64Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int64Value, com.google.protobuf.Int64Value] {

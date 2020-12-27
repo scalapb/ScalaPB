@@ -203,6 +203,7 @@ final case class FieldOptions(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FieldOptions
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldOptions])
 }
 
 object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] {

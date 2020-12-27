@@ -67,6 +67,7 @@ final case class DoubleValue(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.DoubleValue
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DoubleValue])
 }
 
 object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.DoubleValue, com.google.protobuf.DoubleValue] {

@@ -129,6 +129,7 @@ final case class CodeGeneratorRequest(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.compiler.plugin.CodeGeneratorRequest
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.compiler.CodeGeneratorRequest])
 }
 
 object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorRequest] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.CodeGeneratorRequest, com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest] {

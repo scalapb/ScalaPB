@@ -725,6 +725,9 @@ class DescriptorImplicits private[compiler] (
     def messageCompanionInsertionPoint: InsertionPoint =
       InsertionPoint(scalaFileName, s"GeneratedMessageCompanion[${message.getFullName}]")
 
+    def messageClassInsertionPoint: InsertionPoint =
+      InsertionPoint(scalaFileName, s"GeneratedMessage[${message.getFullName}]")
+
     class MapType {
       def keyField = message.findFieldByName("key")
 

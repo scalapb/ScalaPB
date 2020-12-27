@@ -69,6 +69,7 @@ final case class Struct(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.struct.Struct
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Struct])
 }
 
 object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct] {
@@ -211,6 +212,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.struct.Struct.FieldsEntry
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Struct.FieldsEntry])
   }
   
   object FieldsEntry extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] {

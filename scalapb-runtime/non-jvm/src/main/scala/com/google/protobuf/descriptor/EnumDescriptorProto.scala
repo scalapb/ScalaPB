@@ -129,6 +129,7 @@ final case class EnumDescriptorProto(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.EnumDescriptorProto
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumDescriptorProto])
 }
 
 object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] {
@@ -309,6 +310,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumDescriptorProto.EnumReservedRange])
   }
   
   object EnumReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] {

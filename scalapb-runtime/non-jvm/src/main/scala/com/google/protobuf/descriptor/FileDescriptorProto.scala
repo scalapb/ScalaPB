@@ -251,6 +251,7 @@ final case class FileDescriptorProto(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FileDescriptorProto
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FileDescriptorProto])
 }
 
 object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] {

@@ -160,6 +160,7 @@ final case class Type(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.Type
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Type])
 }
 
 object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] {

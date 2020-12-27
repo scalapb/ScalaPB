@@ -90,6 +90,7 @@ final case class OptionProto(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.OptionProto
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Option])
 }
 
 object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] {

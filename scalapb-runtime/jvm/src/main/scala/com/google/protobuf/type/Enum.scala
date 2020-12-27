@@ -144,6 +144,7 @@ final case class Enum(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.`type`.Enum
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Enum])
 }
 
 object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] {

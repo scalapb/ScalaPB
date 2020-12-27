@@ -67,6 +67,7 @@ final case class SourceContext(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.source_context.SourceContext
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.SourceContext])
 }
 
 object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] {

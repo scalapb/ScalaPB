@@ -97,6 +97,7 @@ final case class Person(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.docs.person.Person
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.docs.Person])
 }
 
 object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] {
@@ -316,6 +317,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = scalapb.docs.person.Person.Address
+      // @@protoc_insertion_point(GeneratedMessage[scalapb.docs.Person.Address])
   }
   
   object Address extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] {

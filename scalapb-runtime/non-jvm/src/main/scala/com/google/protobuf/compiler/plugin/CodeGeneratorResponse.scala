@@ -83,6 +83,7 @@ final case class CodeGeneratorResponse(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.compiler.plugin.CodeGeneratorResponse
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.compiler.CodeGeneratorResponse])
 }
 
 object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] {
@@ -294,6 +295,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.compiler.CodeGeneratorResponse.File])
   }
   
   object File extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] {

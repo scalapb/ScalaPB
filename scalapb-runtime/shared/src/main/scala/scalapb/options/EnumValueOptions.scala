@@ -74,6 +74,7 @@ final case class EnumValueOptions(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.EnumValueOptions
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.EnumValueOptions])
 }
 
 object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.EnumValueOptions] {

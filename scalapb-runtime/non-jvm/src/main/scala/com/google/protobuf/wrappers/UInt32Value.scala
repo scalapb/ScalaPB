@@ -67,6 +67,7 @@ final case class UInt32Value(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.wrappers.UInt32Value
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.UInt32Value])
 }
 
 object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt32Value] {

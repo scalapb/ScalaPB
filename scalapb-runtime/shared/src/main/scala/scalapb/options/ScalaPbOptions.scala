@@ -439,6 +439,7 @@ final case class ScalaPbOptions(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.options.ScalaPbOptions
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions])
 }
 
 object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.ScalaPbOptions] {
@@ -856,6 +857,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = scalapb.options.ScalaPbOptions.AuxMessageOptions
+      // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions.AuxMessageOptions])
   }
   
   object AuxMessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.ScalaPbOptions.AuxMessageOptions] {
@@ -1025,6 +1027,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = scalapb.options.ScalaPbOptions.AuxFieldOptions
+      // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions.AuxFieldOptions])
   }
   
   object AuxFieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.ScalaPbOptions.AuxFieldOptions] {
@@ -1194,6 +1197,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = scalapb.options.ScalaPbOptions.AuxEnumOptions
+      // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions.AuxEnumOptions])
   }
   
   object AuxEnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.ScalaPbOptions.AuxEnumOptions] {

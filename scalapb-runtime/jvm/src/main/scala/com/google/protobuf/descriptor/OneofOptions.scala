@@ -61,6 +61,7 @@ final case class OneofOptions(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.OneofOptions
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.OneofOptions])
 }
 
 object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] {
