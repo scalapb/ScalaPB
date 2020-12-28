@@ -9,7 +9,7 @@ jobs:
       SCALA_VERSION: ${{matrix.scala}}
     strategy:
       matrix:
-        scala: [2_12, 2_13, 3_0_0_M1]
+        scala: [2_12, 2_13, 3_0_0_M3]
         script: [mima, e2e, proptest]
         include:
         - scala: 2_12
