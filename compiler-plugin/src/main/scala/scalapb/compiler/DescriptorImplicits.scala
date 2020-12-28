@@ -328,9 +328,9 @@ class DescriptorImplicits private[compiler] (
         case Some(tc) => FunctionApplication(s"$tc.size")
       }
 
-      def iterator(e: String): String = adapter match {
-        case None     => s"$e.iterator"
-        case Some(tc) => s"$tc.toIterator($e)"
+      def iterator: Expression = adapter match {
+        case None     => MethodApplication("iterator")
+        case Some(tc) => FunctionApplication(s"$tc.toIterator")
       }
     }
 
