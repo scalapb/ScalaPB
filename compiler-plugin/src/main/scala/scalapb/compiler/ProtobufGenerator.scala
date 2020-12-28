@@ -288,7 +288,10 @@ class ProtobufGenerator(
                                           else "")
 
     s"""$javaObject
-       |  .$putAll(${field.collection.iterator(scalaObject + "." + field.scalaName.asSymbol)}.map {
+       |  .$putAll(${field.collection.iterator(
+         scalaObject + "." + field.scalaName.asSymbol,
+         EnclosingType.None
+       )}.map {
        |    __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert(
       "__kv._2",
       field.mapType.valueField
@@ -778,7 +781,7 @@ class ProtobufGenerator(
       else {
         val it =
           if (field.collection.adapter.isDefined)
-            field.collection.iterator(s"_message__.${field.scalaName.asSymbol}")
+            field.collection.iterator(s"_message__.${field.scalaName.asSymbol}", EnclosingType.None)
           else s"_message__.${field.scalaName.asSymbol}"
         Field(
           s"__${field.scalaName}",
