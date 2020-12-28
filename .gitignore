@@ -29,6 +29,7 @@ e2e/project/project/Version.scala
 e2e/project/Version.scala
 e2e/.bin
 protoc-gen-scala-native-image
+docs/_site
 
 # API
 website/static/api
