@@ -106,11 +106,11 @@ Validator[Person].validate(personInstance) match {
 }
 ```
 
-:::note
-The functionality described in this remainder of this page is available in a preview release of ScalaPB. It is still being refined and is subject to change without notice.
-:::note
+## Rule-based type customization
 
-## Rule-based type customizaton
+:::note
+The functionality described in the remainder of this page is available in a preview release of ScalaPB. It is still being refined and is subject to change without notice.
+:::note
 
 Starting from version 0.10.10, ScalaPB-validate provides a way to customize the generated ScalaPB types by writing rules. When these rules are matched, additional ScalaPB options are added to the matched entity. For example, you can create a transformation that whenever a field has a PGV-rule like `int32: { gt: 0 }}`, then it will be typemapped to a custom class `PositiveInt`.
 
