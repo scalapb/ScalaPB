@@ -28,7 +28,7 @@ addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC6")
 
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.5")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.5")
+addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.6")
 
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.7.0")
 
