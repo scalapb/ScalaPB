@@ -91,9 +91,10 @@ object ExpressionBuilder {
         .exists(_.isFunctionApplication)
 
     val e = sourceType match {
-      case Collection(_, Some(tc)) => s"$tc.toIterator($e0)"
-      case Collection(_, None)     => s"$e0.iterator"
-      case _                       => e0
+      case Collection(_, Some(tc))                             => s"$tc.toIterator($e0)"
+      case Collection(DescriptorImplicits.ScalaIterator, None) => e0
+      case Collection(_, None)                                 => s"$e0.iterator"
+      case _                                                   => e0
     }
 
     val forceTypeConversion = sourceType match {
@@ -151,7 +152,13 @@ object ExpressionBuilder {
     run(es, e, sourceType, sourceType, mustCopy)
 }
 
-sealed trait EnclosingType
+sealed trait EnclosingType {
+  def asType(enclosed: String): String = this match {
+    case EnclosingType.None              => enclosed
+    case EnclosingType.ScalaOption       => s"${DescriptorImplicits.ScalaOption}[$enclosed]"
+    case EnclosingType.Collection(cc, _) => s"${cc}[$enclosed]"
+  }
+}
 
 object EnclosingType {
   case object None        extends EnclosingType
