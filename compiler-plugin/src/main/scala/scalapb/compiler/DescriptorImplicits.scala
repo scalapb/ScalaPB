@@ -22,6 +22,7 @@ class DescriptorImplicits private[compiler] (
     files: Seq[FileDescriptor],
     secondaryOutputsProvider: SecondaryOutputProvider
 ) {
+  implicits =>
   import DescriptorImplicits._
 
   @deprecated("Use DescriptorImplicits.fromCodeGenRequest. Preprocessors will not work.", "0.10.10")
@@ -271,7 +272,6 @@ class DescriptorImplicits private[compiler] (
     def fieldMapEnclosingType: EnclosingType =
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
-      else if (!fd.isMapField) EnclosingType.Collection(collectionType, collection.adapter)
       else EnclosingType.Collection(ScalaSeq, None)
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
@@ -281,60 +281,7 @@ class DescriptorImplicits private[compiler] (
       fd.getMessageType.mapType
     }
 
-    class CollectionHelpers {
-      def newBuilder: String = {
-        val t = if (collectionType == ScalaSeq) ScalaVector else collectionType
-
-        if (!fd.isMapField) {
-          adapter match {
-            case None     => s"$t.newBuilder[$singleScalaTypeName]"
-            case Some(tc) => s"$tc.newBuilder[$singleScalaTypeName]"
-          }
-        } else {
-          adapter match {
-            case None     => s"$t.newBuilder[${fd.mapType.keyType}, ${fd.mapType.valueType}]"
-            case Some(tc) => s"$tc.newBuilder[${fd.mapType.keyType}, ${fd.mapType.valueType}]"
-          }
-        }
-      }
-
-      def empty: String = adapter match {
-        case None     => s"${collectionType}.empty"
-        case Some(tc) => s"$tc.empty"
-      }
-
-      def foreach = adapter match {
-        case None     => fd.scalaName.asSymbol + ".foreach"
-        case Some(tc) => s"$tc.foreach(${fd.scalaName.asSymbol})"
-      }
-
-      def concat(left: String, right: String) = adapter match {
-        case None     => s"$left ++ $right"
-        case Some(tc) => s"$tc.concat($left, $right)"
-      }
-
-      def nonEmptyType = fd.fieldOptions.getCollection.getNonEmpty
-
-      def nonEmptyCheck(expr: String) = if (nonEmptyType) "true" else s"$expr.nonEmpty"
-
-      def adapter: Option[String] = {
-        if (fd.fieldOptions.getCollection.hasAdapter())
-          Some(fd.fieldOptions.getCollection.getAdapter())
-        else None
-      }
-
-      def size: Expression = adapter match {
-        case None     => MethodApplication("size")
-        case Some(tc) => FunctionApplication(s"$tc.size")
-      }
-
-      def iterator: Expression = adapter match {
-        case None     => MethodApplication("iterator")
-        case Some(tc) => FunctionApplication(s"$tc.toIterator")
-      }
-    }
-
-    def collection: CollectionHelpers = new CollectionHelpers
+    def collection: CollectionMethods = new CollectionMethods(fd, implicits)
 
     // In scalapb.proto, we separate between collection_type and map_type, but internally this is unified.
     def collectionType: String = {
@@ -351,13 +298,6 @@ class DescriptorImplicits private[compiler] (
           fd.getFile.scalaOptions.getCollectionType
         else ScalaSeq
       }
-    }
-
-    def fieldMapCollection(innerType: String) = {
-      if (supportsPresence) s"_root_.scala.Option[$innerType]"
-      else if (fd.isRepeated && fd.isMapField) s"${ScalaSeq}[$innerType]"
-      else if (fd.isRepeated && !fd.isMapField) s"${collectionType}[$innerType]"
-      else innerType
     }
 
     def fieldsMapEmptyCollection: String = {
@@ -1055,6 +995,7 @@ object DescriptorImplicits {
   val ScalaMap      = "_root_.scala.collection.immutable.Map"
   val ScalaVector   = "_root_.scala.collection.immutable.Vector"
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
+  val ScalaIterator = "_root_.scala.collection.Iterator"
   val ScalaOption   = "_root_.scala.Option"
 
   def fromCodeGenRequest(

@@ -1068,7 +1068,16 @@ class ProtobufGenerator(
       .call { printer =>
         val fields = message.fields.collect {
           case field if !field.isInOneof =>
-            val baseTypeName = field.fieldMapCollection(
+            val readsEnclosing =
+              if (field.supportsPresence) EnclosingType.ScalaOption
+              else if (field.isRepeated && field.isMapField)
+                EnclosingType.Collection(DescriptorImplicits.ScalaSeq, None)
+              else if (field.isRepeated && !field.isMapField) field.collection.adapter match {
+                case Some(_) => EnclosingType.Collection(DescriptorImplicits.ScalaIterator, None)
+                case None    => EnclosingType.Collection(field.collectionType, None)
+              }
+              else EnclosingType.None
+            val baseTypeName = readsEnclosing.asType(
               if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor"
               else field.baseSingleScalaTypeName
             )
@@ -1078,11 +1087,14 @@ class ProtobufGenerator(
               if (field.supportsPresence)
                 s"$value.flatMap(_.as[$baseTypeName])"
               else if (field.isRepeated) {
-                val reads = field.collection.adapter match {
-                  case Some(tc) if !field.isMapField => s"(${tc}.reads)"
-                  case _                             => ""
+                val empty = readsEnclosing match {
+                  case EnclosingType.Collection(s, _) => s"$s.empty"
+                  case _ =>
+                    throw new GeneratorException(
+                      "Expected a collection enclosing. Pleae report this as a bug."
+                    )
                 }
-                s"$value.map(_.as[${baseTypeName}]$reads).getOrElse(${field.fieldsMapEmptyCollection})"
+                s"$value.map(_.as[${baseTypeName}]).getOrElse($empty)"
               } else if (field.isRequired)
                 s"$value.get.as[$baseTypeName]"
               else {
@@ -1093,11 +1105,18 @@ class ProtobufGenerator(
                 s"$value.map(_.as[$baseTypeName]).getOrElse($t)"
               }
 
-            s"${field.scalaName.asSymbol} = " + transform(field).apply(
+            val itemTypeTranform = transform(field)(
               e,
-              sourceType = field.fieldMapEnclosingType,
-              targetType = field.enclosingType
+              sourceType = readsEnclosing,
+              targetType = if (field.isMapField) field.enclosingType else readsEnclosing
             )
+
+            val expr = field.collection.adapter match {
+              case Some(tc) if (!field.isMapField()) => s"$tc.fromIterator($itemTypeTranform)"
+              case _                                 => itemTypeTranform
+            }
+
+            s"${field.scalaName.asSymbol} = $expr"
         }
         val oneOfs = message.getOneofs.asScala.map { oneOf =>
           val elems = oneOf.fields.map { field =>

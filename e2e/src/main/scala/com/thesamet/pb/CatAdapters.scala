@@ -11,11 +11,6 @@ object NonEmptyListCollection {
 
   def empty[T]: NonEmptyList[T] = throw new RuntimeException("No empty instance available for cats.Data.NonEmptyList")
 
-  def reads[T](implicit reads: Reads[T]): Reads[NonEmptyList[T]] = Reads[NonEmptyList[T]] {
-    case PRepeated(value) => fromIterator(value.map(reads.read).iterator)
-    case _                => throw new ReadsException("Expected PRepeated")
-  }
-
   def newBuilder[T]: Builder[T, NonEmptyList[T]] = List.newBuilder[T].mapResult(
     list => NonEmptyList.fromList(list).getOrElse(throw new RuntimeException("Could not build an empty NonEmptyList"))
   )
@@ -33,11 +28,6 @@ object NonEmptySetCollection {
   def foreach[T](coll: NonEmptySet[T])(f: T => Unit) = coll.map(f)
 
   def empty[T]: NonEmptySet[T] = throw new RuntimeException("No empty instance available for cats.Data.NonEmptySet")
-
-  def reads[T: Ordering](implicit reads: Reads[T]): Reads[NonEmptySet[T]] = Reads[NonEmptySet[T]] {
-    case PRepeated(value) => fromIterator(value.map(reads.read).iterator)
-    case _                => throw new ReadsException("Expected PRepeated")
-  }
 
   def newBuilder[T : Ordering]: Builder[T, NonEmptySet[T]] = SortedSet.newBuilder[T].mapResult(
     set => NonEmptySet.fromSet(set).getOrElse(throw new RuntimeException("Could not build an empty NonEmptySet")
