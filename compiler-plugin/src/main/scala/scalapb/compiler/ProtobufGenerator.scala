@@ -904,7 +904,7 @@ class ProtobufGenerator(
               } else {
                 val expr =
                   if (field.isInOneof)
-                    s"__${fieldAccessorSymbol(field)}"
+                    s"__${field.getContainingOneof.scalaName.name}.${field.scalaName.asSymbol}"
                   else s"__${field.scalaName}"
                 val mappedType = toBaseFieldType(field).apply(expr, field.enclosingType)
                 if (field.isInOneof || field.supportsPresence)

@@ -22,4 +22,3 @@ message FlatTest {
   optional Priority priority = 2;
   optional OneofTest one_of_msg = 3;
 }
-
