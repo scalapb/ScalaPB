@@ -129,7 +129,7 @@ object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.StringValue.Builder()
-  def newBuilder(a: com.google.protobuf.wrappers.StringValue): Builder = com.google.protobuf.wrappers.StringValue.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.wrappers.StringValue): Builder = com.google.protobuf.wrappers.StringValue.Builder(_message__)
   implicit class StringValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.StringValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.StringValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

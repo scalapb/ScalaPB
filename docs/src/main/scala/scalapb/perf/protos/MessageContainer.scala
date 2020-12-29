@@ -153,7 +153,7 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.MessageContainer.Builder()
-  def newBuilder(a: scalapb.perf.protos.MessageContainer): Builder = scalapb.perf.protos.MessageContainer.Builder(a)
+  def newBuilder(`_message__`: scalapb.perf.protos.MessageContainer): Builder = scalapb.perf.protos.MessageContainer.Builder(_message__)
   implicit class MessageContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.MessageContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.MessageContainer](_l) {
     def opt: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.SimpleMessage] = field(_.getOpt)((c_, f_) => c_.copy(opt = Option(f_)))
     def optionalOpt: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.perf.protos.SimpleMessage]] = field(_.opt)((c_, f_) => c_.copy(opt = f_))

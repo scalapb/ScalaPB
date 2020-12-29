@@ -129,7 +129,7 @@ object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.BytesValue.Builder()
-  def newBuilder(a: com.google.protobuf.wrappers.BytesValue): Builder = com.google.protobuf.wrappers.BytesValue.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.wrappers.BytesValue): Builder = com.google.protobuf.wrappers.BytesValue.Builder(_message__)
   implicit class BytesValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.BytesValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.BytesValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

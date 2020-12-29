@@ -874,7 +874,9 @@ class ProtobufGenerator(
       )
       .add("}")
       .add(s"def newBuilder: Builder = $myFullScalaName.Builder()")
-      .add(s"def newBuilder(a: $myFullScalaName): Builder = $myFullScalaName.Builder(a)")
+      .add(
+        s"def newBuilder(`_message__`: $myFullScalaName): Builder = $myFullScalaName.Builder(_message__)"
+      )
   }
 
   def generateBuilderMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {

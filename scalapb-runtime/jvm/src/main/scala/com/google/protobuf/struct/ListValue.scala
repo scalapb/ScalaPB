@@ -141,7 +141,7 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
     )
   }
   def newBuilder: Builder = com.google.protobuf.struct.ListValue.Builder()
-  def newBuilder(a: com.google.protobuf.struct.ListValue): Builder = com.google.protobuf.struct.ListValue.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.struct.ListValue): Builder = com.google.protobuf.struct.ListValue.Builder(_message__)
   implicit class ListValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.ListValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.ListValue](_l) {
     def values: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))
   }

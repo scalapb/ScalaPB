@@ -244,7 +244,7 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.MethodDescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.MethodDescriptorProto): Builder = com.google.protobuf.descriptor.MethodDescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.MethodDescriptorProto): Builder = com.google.protobuf.descriptor.MethodDescriptorProto.Builder(_message__)
   implicit class MethodDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))

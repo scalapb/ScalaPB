@@ -335,7 +335,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     )
   }
   def newBuilder: Builder = com.google.protobuf.api.Api.Builder()
-  def newBuilder(a: com.google.protobuf.api.Api): Builder = com.google.protobuf.api.Api.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.api.Api): Builder = com.google.protobuf.api.Api.Builder(_message__)
   implicit class ApiLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Api]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Api](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def methods: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.api.Method]] = field(_.methods)((c_, f_) => c_.copy(methods = f_))

@@ -185,7 +185,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.SourceCodeInfo.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.SourceCodeInfo): Builder = com.google.protobuf.descriptor.SourceCodeInfo.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo): Builder = com.google.protobuf.descriptor.SourceCodeInfo.Builder(_message__)
   /** @param path
     *   Identifies which part of the FileDescriptorProto was defined at this
     *   location.
@@ -519,7 +519,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.SourceCodeInfo.Location.Builder()
-    def newBuilder(a: com.google.protobuf.descriptor.SourceCodeInfo.Location): Builder = com.google.protobuf.descriptor.SourceCodeInfo.Location.Builder(a)
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo.Location): Builder = com.google.protobuf.descriptor.SourceCodeInfo.Location.Builder(_message__)
     implicit class LocationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
       def span: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.span)((c_, f_) => c_.copy(span = f_))

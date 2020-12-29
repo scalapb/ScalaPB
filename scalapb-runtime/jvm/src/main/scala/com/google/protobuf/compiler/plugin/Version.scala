@@ -202,7 +202,7 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     )
   }
   def newBuilder: Builder = com.google.protobuf.compiler.plugin.Version.Builder()
-  def newBuilder(a: com.google.protobuf.compiler.plugin.Version): Builder = com.google.protobuf.compiler.plugin.Version.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.compiler.plugin.Version): Builder = com.google.protobuf.compiler.plugin.Version.Builder(_message__)
   implicit class VersionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.Version]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.Version](_l) {
     def major: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getMajor)((c_, f_) => c_.copy(major = Option(f_)))
     def optionalMajor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.major)((c_, f_) => c_.copy(major = f_))

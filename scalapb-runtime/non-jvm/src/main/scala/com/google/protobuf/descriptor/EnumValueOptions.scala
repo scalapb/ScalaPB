@@ -155,7 +155,7 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.EnumValueOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.EnumValueOptions): Builder = com.google.protobuf.descriptor.EnumValueOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.EnumValueOptions): Builder = com.google.protobuf.descriptor.EnumValueOptions.Builder(_message__)
   implicit class EnumValueOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumValueOptions](_l) {
     def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))

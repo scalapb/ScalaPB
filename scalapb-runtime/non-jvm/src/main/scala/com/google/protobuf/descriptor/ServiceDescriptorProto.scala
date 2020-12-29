@@ -174,7 +174,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.ServiceDescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.ServiceDescriptorProto): Builder = com.google.protobuf.descriptor.ServiceDescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.ServiceDescriptorProto): Builder = com.google.protobuf.descriptor.ServiceDescriptorProto.Builder(_message__)
   implicit class ServiceDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))

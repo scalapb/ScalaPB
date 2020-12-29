@@ -407,7 +407,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     )
   }
   def newBuilder: Builder = com.google.protobuf.`type`.Field.Builder()
-  def newBuilder(a: com.google.protobuf.`type`.Field): Builder = com.google.protobuf.`type`.Field.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.`type`.Field): Builder = com.google.protobuf.`type`.Field.Builder(_message__)
   /** Basic field types.
     */
   sealed abstract class Kind(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {

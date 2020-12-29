@@ -231,7 +231,7 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
     )
   }
   def newBuilder: Builder = com.google.protobuf.duration.Duration.Builder()
-  def newBuilder(a: com.google.protobuf.duration.Duration): Builder = com.google.protobuf.duration.Duration.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.duration.Duration): Builder = com.google.protobuf.duration.Duration.Builder(_message__)
   implicit class DurationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.duration.Duration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.duration.Duration](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
     def nanos: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.nanos)((c_, f_) => c_.copy(nanos = f_))

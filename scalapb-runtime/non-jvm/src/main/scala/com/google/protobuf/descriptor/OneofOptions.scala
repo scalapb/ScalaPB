@@ -128,7 +128,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.OneofOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.OneofOptions): Builder = com.google.protobuf.descriptor.OneofOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.OneofOptions): Builder = com.google.protobuf.descriptor.OneofOptions.Builder(_message__)
   implicit class OneofOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.OneofOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.OneofOptions](_l) {
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

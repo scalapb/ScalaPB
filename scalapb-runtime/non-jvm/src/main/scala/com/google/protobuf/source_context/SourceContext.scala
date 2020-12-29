@@ -129,7 +129,7 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
     )
   }
   def newBuilder: Builder = com.google.protobuf.source_context.SourceContext.Builder()
-  def newBuilder(a: com.google.protobuf.source_context.SourceContext): Builder = com.google.protobuf.source_context.SourceContext.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.source_context.SourceContext): Builder = com.google.protobuf.source_context.SourceContext.Builder(_message__)
   implicit class SourceContextLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.source_context.SourceContext](_l) {
     def fileName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))
   }

@@ -251,7 +251,7 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
     )
   }
   def newBuilder: Builder = com.google.protobuf.timestamp.Timestamp.Builder()
-  def newBuilder(a: com.google.protobuf.timestamp.Timestamp): Builder = com.google.protobuf.timestamp.Timestamp.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.timestamp.Timestamp): Builder = com.google.protobuf.timestamp.Timestamp.Builder(_message__)
   implicit class TimestampLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.timestamp.Timestamp]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.timestamp.Timestamp](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
     def nanos: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.nanos)((c_, f_) => c_.copy(nanos = f_))

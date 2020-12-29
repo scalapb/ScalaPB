@@ -295,7 +295,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     )
   }
   def newBuilder: Builder = scalapb.options.MessageOptions.Builder()
-  def newBuilder(a: scalapb.options.MessageOptions): Builder = scalapb.options.MessageOptions.Builder(a)
+  def newBuilder(`_message__`: scalapb.options.MessageOptions): Builder = scalapb.options.MessageOptions.Builder(_message__)
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.MessageOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))

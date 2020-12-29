@@ -314,7 +314,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     )
   }
   def newBuilder: Builder = com.google.protobuf.api.Method.Builder()
-  def newBuilder(a: com.google.protobuf.api.Method): Builder = com.google.protobuf.api.Method.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.api.Method): Builder = com.google.protobuf.api.Method.Builder(_message__)
   implicit class MethodLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def requestTypeUrl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.requestTypeUrl)((c_, f_) => c_.copy(requestTypeUrl = f_))

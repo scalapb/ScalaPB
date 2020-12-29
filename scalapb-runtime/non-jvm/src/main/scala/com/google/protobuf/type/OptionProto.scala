@@ -166,7 +166,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     )
   }
   def newBuilder: Builder = com.google.protobuf.`type`.OptionProto.Builder()
-  def newBuilder(a: com.google.protobuf.`type`.OptionProto): Builder = com.google.protobuf.`type`.OptionProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.`type`.OptionProto): Builder = com.google.protobuf.`type`.OptionProto.Builder(_message__)
   implicit class OptionProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.OptionProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.OptionProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))

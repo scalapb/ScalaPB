@@ -129,7 +129,7 @@ object BoolValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.w
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.BoolValue.Builder()
-  def newBuilder(a: com.google.protobuf.wrappers.BoolValue): Builder = com.google.protobuf.wrappers.BoolValue.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.wrappers.BoolValue): Builder = com.google.protobuf.wrappers.BoolValue.Builder(_message__)
   implicit class BoolValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.BoolValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.BoolValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

@@ -139,7 +139,7 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.EnumVector.Builder()
-  def newBuilder(a: scalapb.perf.protos.EnumVector): Builder = scalapb.perf.protos.EnumVector.Builder(a)
+  def newBuilder(`_message__`: scalapb.perf.protos.EnumVector): Builder = scalapb.perf.protos.EnumVector.Builder(_message__)
   implicit class EnumVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.EnumVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.EnumVector](_l) {
     def colors: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.perf.protos.Color]] = field(_.colors)((c_, f_) => c_.copy(colors = f_))
   }

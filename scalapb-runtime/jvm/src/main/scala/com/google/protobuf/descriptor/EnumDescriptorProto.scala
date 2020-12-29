@@ -251,7 +251,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.EnumDescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.EnumDescriptorProto): Builder = com.google.protobuf.descriptor.EnumDescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto): Builder = com.google.protobuf.descriptor.EnumDescriptorProto.Builder(_message__)
   /** Range of reserved numeric values. Reserved values may not be used by
     * entries in the same enum. Reserved ranges may not overlap.
     *
@@ -407,7 +407,7 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.Builder()
-    def newBuilder(a: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange): Builder = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.Builder(a)
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange): Builder = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.Builder(_message__)
     implicit class EnumReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))

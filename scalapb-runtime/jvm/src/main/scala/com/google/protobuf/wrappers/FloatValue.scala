@@ -137,7 +137,7 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.FloatValue.Builder()
-  def newBuilder(a: com.google.protobuf.wrappers.FloatValue): Builder = com.google.protobuf.wrappers.FloatValue.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.wrappers.FloatValue): Builder = com.google.protobuf.wrappers.FloatValue.Builder(_message__)
   implicit class FloatValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.FloatValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.FloatValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Float] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

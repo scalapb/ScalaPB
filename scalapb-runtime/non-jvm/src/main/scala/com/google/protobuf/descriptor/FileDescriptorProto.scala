@@ -428,7 +428,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FileDescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.FileDescriptorProto): Builder = com.google.protobuf.descriptor.FileDescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.FileDescriptorProto): Builder = com.google.protobuf.descriptor.FileDescriptorProto.Builder(_message__)
   implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))

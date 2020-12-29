@@ -124,7 +124,7 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
     )
   }
   def newBuilder: Builder = com.thesamet.docs.json.MyContainer.Builder()
-  def newBuilder(a: com.thesamet.docs.json.MyContainer): Builder = com.thesamet.docs.json.MyContainer.Builder(a)
+  def newBuilder(`_message__`: com.thesamet.docs.json.MyContainer): Builder = com.thesamet.docs.json.MyContainer.Builder(_message__)
   implicit class MyContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.thesamet.docs.json.MyContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.thesamet.docs.json.MyContainer](_l) {
     def myAny: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getMyAny)((c_, f_) => c_.copy(myAny = Option(f_)))
     def optionalMyAny: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.any.Any]] = field(_.myAny)((c_, f_) => c_.copy(myAny = f_))

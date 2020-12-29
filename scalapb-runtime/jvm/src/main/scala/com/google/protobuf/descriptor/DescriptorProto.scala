@@ -388,7 +388,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.DescriptorProto): Builder = com.google.protobuf.descriptor.DescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.DescriptorProto): Builder = com.google.protobuf.descriptor.DescriptorProto.Builder(_message__)
   @SerialVersionUID(0L)
   final case class ExtensionRange(
       start: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
@@ -564,7 +564,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.Builder()
-    def newBuilder(a: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange): Builder = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.Builder(a)
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange): Builder = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.Builder(_message__)
     implicit class ExtensionRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
@@ -740,7 +740,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.ReservedRange.Builder()
-    def newBuilder(a: com.google.protobuf.descriptor.DescriptorProto.ReservedRange): Builder = com.google.protobuf.descriptor.DescriptorProto.ReservedRange.Builder(a)
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ReservedRange): Builder = com.google.protobuf.descriptor.DescriptorProto.ReservedRange.Builder(_message__)
     implicit class ReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))

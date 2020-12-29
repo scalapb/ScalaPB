@@ -245,7 +245,7 @@ object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.M
     )
   }
   def newBuilder: Builder = com.google.protobuf.api.Mixin.Builder()
-  def newBuilder(a: com.google.protobuf.api.Mixin): Builder = com.google.protobuf.api.Mixin.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.api.Mixin): Builder = com.google.protobuf.api.Mixin.Builder(_message__)
   implicit class MixinLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Mixin]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Mixin](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def root: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.root)((c_, f_) => c_.copy(root = f_))

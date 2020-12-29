@@ -152,7 +152,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     )
   }
   def newBuilder: Builder = com.google.protobuf.struct.Struct.Builder()
-  def newBuilder(a: com.google.protobuf.struct.Struct): Builder = com.google.protobuf.struct.Struct.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.struct.Struct): Builder = com.google.protobuf.struct.Struct.Builder(_message__)
   @SerialVersionUID(0L)
   final case class FieldsEntry(
       key: _root_.scala.Predef.String = "",
@@ -300,7 +300,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       )
     }
     def newBuilder: Builder = com.google.protobuf.struct.Struct.FieldsEntry.Builder()
-    def newBuilder(a: com.google.protobuf.struct.Struct.FieldsEntry): Builder = com.google.protobuf.struct.Struct.FieldsEntry.Builder(a)
+    def newBuilder(`_message__`: com.google.protobuf.struct.Struct.FieldsEntry): Builder = com.google.protobuf.struct.Struct.FieldsEntry.Builder(_message__)
     implicit class FieldsEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.Struct.FieldsEntry](_l) {
       def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.key)((c_, f_) => c_.copy(key = f_))
       def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.Value] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))

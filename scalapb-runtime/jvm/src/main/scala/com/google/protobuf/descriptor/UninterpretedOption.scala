@@ -292,7 +292,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.UninterpretedOption.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.UninterpretedOption): Builder = com.google.protobuf.descriptor.UninterpretedOption.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.UninterpretedOption): Builder = com.google.protobuf.descriptor.UninterpretedOption.Builder(_message__)
   /** The name of the uninterpreted option.  Each string represents a segment in
     * a dot-separated name.  is_extension is true iff a segment represents an
     * extension (denoted with parentheses in options specs in .proto files).
@@ -446,7 +446,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.UninterpretedOption.NamePart.Builder()
-    def newBuilder(a: com.google.protobuf.descriptor.UninterpretedOption.NamePart): Builder = com.google.protobuf.descriptor.UninterpretedOption.NamePart.Builder(a)
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.UninterpretedOption.NamePart): Builder = com.google.protobuf.descriptor.UninterpretedOption.NamePart.Builder(_message__)
     implicit class NamePartLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption.NamePart](_l) {
       def namePart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.namePart)((c_, f_) => c_.copy(namePart = f_))
       def isExtension: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.isExtension)((c_, f_) => c_.copy(isExtension = f_))

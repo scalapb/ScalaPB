@@ -129,7 +129,7 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.DoubleValue.Builder()
-  def newBuilder(a: com.google.protobuf.wrappers.DoubleValue): Builder = com.google.protobuf.wrappers.DoubleValue.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.wrappers.DoubleValue): Builder = com.google.protobuf.wrappers.DoubleValue.Builder(_message__)
   implicit class DoubleValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.DoubleValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.DoubleValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Double] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

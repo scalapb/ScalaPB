@@ -274,7 +274,7 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     )
   }
   def newBuilder: Builder = com.google.protobuf.`type`.Type.Builder()
-  def newBuilder(a: com.google.protobuf.`type`.Type): Builder = com.google.protobuf.`type`.Type.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.`type`.Type): Builder = com.google.protobuf.`type`.Type.Builder(_message__)
   implicit class TypeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Type]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Type](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def fields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.Field]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))

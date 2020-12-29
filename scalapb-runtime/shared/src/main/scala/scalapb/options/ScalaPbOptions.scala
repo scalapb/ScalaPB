@@ -695,7 +695,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     )
   }
   def newBuilder: Builder = scalapb.options.ScalaPbOptions.Builder()
-  def newBuilder(a: scalapb.options.ScalaPbOptions): Builder = scalapb.options.ScalaPbOptions.Builder(a)
+  def newBuilder(`_message__`: scalapb.options.ScalaPbOptions): Builder = scalapb.options.ScalaPbOptions.Builder(_message__)
   /** Whether to apply the options only to this file, or for the entire package (and its subpackages)
     */
   sealed abstract class OptionsScope(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
@@ -933,7 +933,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       )
     }
     def newBuilder: Builder = scalapb.options.ScalaPbOptions.AuxMessageOptions.Builder()
-    def newBuilder(a: scalapb.options.ScalaPbOptions.AuxMessageOptions): Builder = scalapb.options.ScalaPbOptions.AuxMessageOptions.Builder(a)
+    def newBuilder(`_message__`: scalapb.options.ScalaPbOptions.AuxMessageOptions): Builder = scalapb.options.ScalaPbOptions.AuxMessageOptions.Builder(_message__)
     implicit class AuxMessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxMessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxMessageOptions](_l) {
       def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))
@@ -1103,7 +1103,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       )
     }
     def newBuilder: Builder = scalapb.options.ScalaPbOptions.AuxFieldOptions.Builder()
-    def newBuilder(a: scalapb.options.ScalaPbOptions.AuxFieldOptions): Builder = scalapb.options.ScalaPbOptions.AuxFieldOptions.Builder(a)
+    def newBuilder(`_message__`: scalapb.options.ScalaPbOptions.AuxFieldOptions): Builder = scalapb.options.ScalaPbOptions.AuxFieldOptions.Builder(_message__)
     implicit class AuxFieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxFieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxFieldOptions](_l) {
       def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))
@@ -1273,7 +1273,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       )
     }
     def newBuilder: Builder = scalapb.options.ScalaPbOptions.AuxEnumOptions.Builder()
-    def newBuilder(a: scalapb.options.ScalaPbOptions.AuxEnumOptions): Builder = scalapb.options.ScalaPbOptions.AuxEnumOptions.Builder(a)
+    def newBuilder(`_message__`: scalapb.options.ScalaPbOptions.AuxEnumOptions): Builder = scalapb.options.ScalaPbOptions.AuxEnumOptions.Builder(_message__)
     implicit class AuxEnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxEnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxEnumOptions](_l) {
       def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))

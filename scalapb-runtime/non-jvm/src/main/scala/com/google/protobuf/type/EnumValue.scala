@@ -190,7 +190,7 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
     )
   }
   def newBuilder: Builder = com.google.protobuf.`type`.EnumValue.Builder()
-  def newBuilder(a: com.google.protobuf.`type`.EnumValue): Builder = com.google.protobuf.`type`.EnumValue.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.`type`.EnumValue): Builder = com.google.protobuf.`type`.EnumValue.Builder(_message__)
   implicit class EnumValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.EnumValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.EnumValue](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def number: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.number)((c_, f_) => c_.copy(number = f_))

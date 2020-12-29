@@ -184,7 +184,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     )
   }
   def newBuilder: Builder = scalapb.docs.person.Person.Builder()
-  def newBuilder(a: scalapb.docs.person.Person): Builder = scalapb.docs.person.Person.Builder(a)
+  def newBuilder(`_message__`: scalapb.docs.person.Person): Builder = scalapb.docs.person.Person.Builder(_message__)
   sealed abstract class AddressType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = AddressType
     def isHome: _root_.scala.Boolean = false
@@ -399,7 +399,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       )
     }
     def newBuilder: Builder = scalapb.docs.person.Person.Address.Builder()
-    def newBuilder(a: scalapb.docs.person.Person.Address): Builder = scalapb.docs.person.Person.Address.Builder(a)
+    def newBuilder(`_message__`: scalapb.docs.person.Person.Address): Builder = scalapb.docs.person.Person.Address.Builder(_message__)
     implicit class AddressLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.docs.person.Person.Address]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.docs.person.Person.Address](_l) {
       def addressType: _root_.scalapb.lenses.Lens[UpperPB, scalapb.docs.person.Person.AddressType] = field(_.addressType)((c_, f_) => c_.copy(addressType = f_))
       def street: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.street)((c_, f_) => c_.copy(street = f_))
