@@ -128,7 +128,7 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
     )
   }
   def newBuilder: Builder = scalapb.options.PreprocesserOutput.Builder()
-  def newBuilder(a: scalapb.options.PreprocesserOutput): Builder = scalapb.options.PreprocesserOutput.Builder(a)
+  def newBuilder(`_message__`: scalapb.options.PreprocesserOutput): Builder = scalapb.options.PreprocesserOutput.Builder(_message__)
   @SerialVersionUID(0L)
   final case class OptionsByFileEntry(
       key: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
@@ -270,7 +270,7 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       )
     }
     def newBuilder: Builder = scalapb.options.PreprocesserOutput.OptionsByFileEntry.Builder()
-    def newBuilder(a: scalapb.options.PreprocesserOutput.OptionsByFileEntry): Builder = scalapb.options.PreprocesserOutput.OptionsByFileEntry.Builder(a)
+    def newBuilder(`_message__`: scalapb.options.PreprocesserOutput.OptionsByFileEntry): Builder = scalapb.options.PreprocesserOutput.OptionsByFileEntry.Builder(_message__)
     implicit class OptionsByFileEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.PreprocesserOutput.OptionsByFileEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.PreprocesserOutput.OptionsByFileEntry](_l) {
       def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKey)((c_, f_) => c_.copy(key = Option(f_)))
       def optionalKey: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.key)((c_, f_) => c_.copy(key = f_))

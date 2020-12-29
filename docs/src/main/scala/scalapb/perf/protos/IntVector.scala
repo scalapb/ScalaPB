@@ -135,7 +135,7 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.IntVector.Builder()
-  def newBuilder(a: scalapb.perf.protos.IntVector): Builder = scalapb.perf.protos.IntVector.Builder(a)
+  def newBuilder(`_message__`: scalapb.perf.protos.IntVector): Builder = scalapb.perf.protos.IntVector.Builder(_message__)
   implicit class IntVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.IntVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.IntVector](_l) {
     def ints: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.ints)((c_, f_) => c_.copy(ints = f_))
   }

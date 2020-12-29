@@ -173,7 +173,7 @@ object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Coll
     )
   }
   def newBuilder: Builder = scalapb.options.Collection.Builder()
-  def newBuilder(a: scalapb.options.Collection): Builder = scalapb.options.Collection.Builder(a)
+  def newBuilder(`_message__`: scalapb.options.Collection): Builder = scalapb.options.Collection.Builder(_message__)
   implicit class CollectionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.Collection]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.Collection](_l) {
     def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))

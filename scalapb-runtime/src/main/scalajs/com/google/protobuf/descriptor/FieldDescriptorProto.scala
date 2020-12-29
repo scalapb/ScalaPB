@@ -400,7 +400,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FieldDescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.FieldDescriptorProto): Builder = com.google.protobuf.descriptor.FieldDescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.FieldDescriptorProto): Builder = com.google.protobuf.descriptor.FieldDescriptorProto.Builder(_message__)
   sealed abstract class Type(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = Type
     def isTypeDouble: _root_.scala.Boolean = false

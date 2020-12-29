@@ -137,7 +137,7 @@ object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.UInt32Value.Builder()
-  def newBuilder(a: com.google.protobuf.wrappers.UInt32Value): Builder = com.google.protobuf.wrappers.UInt32Value.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.wrappers.UInt32Value): Builder = com.google.protobuf.wrappers.UInt32Value.Builder(_message__)
   implicit class UInt32ValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.UInt32Value]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.UInt32Value](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

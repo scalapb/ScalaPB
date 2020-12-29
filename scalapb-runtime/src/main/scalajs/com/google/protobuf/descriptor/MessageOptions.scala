@@ -266,7 +266,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.MessageOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.MessageOptions): Builder = com.google.protobuf.descriptor.MessageOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.MessageOptions): Builder = com.google.protobuf.descriptor.MessageOptions.Builder(_message__)
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MessageOptions](_l) {
     def messageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMessageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = Option(f_)))
     def optionalMessageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.messageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = f_))

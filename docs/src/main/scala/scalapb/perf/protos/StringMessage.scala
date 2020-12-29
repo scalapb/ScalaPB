@@ -150,7 +150,7 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.StringMessage.Builder()
-  def newBuilder(a: scalapb.perf.protos.StringMessage): Builder = scalapb.perf.protos.StringMessage.Builder(a)
+  def newBuilder(`_message__`: scalapb.perf.protos.StringMessage): Builder = scalapb.perf.protos.StringMessage.Builder(_message__)
   implicit class StringMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.StringMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.StringMessage](_l) {
     def str1: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.str1)((c_, f_) => c_.copy(str1 = f_))
     def str2: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.str2)((c_, f_) => c_.copy(str2 = f_))

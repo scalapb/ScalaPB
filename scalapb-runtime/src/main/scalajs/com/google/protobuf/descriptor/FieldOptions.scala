@@ -324,7 +324,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FieldOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.FieldOptions): Builder = com.google.protobuf.descriptor.FieldOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.FieldOptions): Builder = com.google.protobuf.descriptor.FieldOptions.Builder(_message__)
   sealed abstract class CType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = CType
     def isString: _root_.scala.Boolean = false

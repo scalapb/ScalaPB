@@ -180,7 +180,7 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.EnumOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.EnumOptions): Builder = com.google.protobuf.descriptor.EnumOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.EnumOptions): Builder = com.google.protobuf.descriptor.EnumOptions.Builder(_message__)
   implicit class EnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumOptions](_l) {
     def allowAlias: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getAllowAlias)((c_, f_) => c_.copy(allowAlias = Option(f_)))
     def optionalAllowAlias: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.allowAlias)((c_, f_) => c_.copy(allowAlias = f_))

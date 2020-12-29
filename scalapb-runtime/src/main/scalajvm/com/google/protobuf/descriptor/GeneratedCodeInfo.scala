@@ -145,7 +145,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.GeneratedCodeInfo): Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo): Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Builder(_message__)
   /** @param path
     *   Identifies the element in the original source .proto file. This field
     *   is formatted the same as SourceCodeInfo.Location.path.
@@ -369,7 +369,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder()
-    def newBuilder(a: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder(a)
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder(_message__)
     implicit class AnnotationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
       def sourceFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Option(f_)))

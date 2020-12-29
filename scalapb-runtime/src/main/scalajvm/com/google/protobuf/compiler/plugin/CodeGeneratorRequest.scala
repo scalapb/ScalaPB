@@ -236,7 +236,7 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     )
   }
   def newBuilder: Builder = com.google.protobuf.compiler.plugin.CodeGeneratorRequest.Builder()
-  def newBuilder(a: com.google.protobuf.compiler.plugin.CodeGeneratorRequest): Builder = com.google.protobuf.compiler.plugin.CodeGeneratorRequest.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorRequest): Builder = com.google.protobuf.compiler.plugin.CodeGeneratorRequest.Builder(_message__)
   implicit class CodeGeneratorRequestLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorRequest](_l) {
     def fileToGenerate: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.fileToGenerate)((c_, f_) => c_.copy(fileToGenerate = f_))
     def parameter: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getParameter)((c_, f_) => c_.copy(parameter = Option(f_)))

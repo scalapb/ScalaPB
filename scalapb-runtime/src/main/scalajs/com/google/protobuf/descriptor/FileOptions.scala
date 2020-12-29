@@ -650,7 +650,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FileOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.FileOptions): Builder = com.google.protobuf.descriptor.FileOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.FileOptions): Builder = com.google.protobuf.descriptor.FileOptions.Builder(_message__)
   /** Generated classes can be optimized for speed or code size.
     */
   sealed abstract class OptimizeMode(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {

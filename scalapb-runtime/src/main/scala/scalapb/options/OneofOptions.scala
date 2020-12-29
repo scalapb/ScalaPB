@@ -144,7 +144,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
     )
   }
   def newBuilder: Builder = scalapb.options.OneofOptions.Builder()
-  def newBuilder(a: scalapb.options.OneofOptions): Builder = scalapb.options.OneofOptions.Builder(a)
+  def newBuilder(`_message__`: scalapb.options.OneofOptions): Builder = scalapb.options.OneofOptions.Builder(_message__)
   implicit class OneofOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.OneofOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.OneofOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))

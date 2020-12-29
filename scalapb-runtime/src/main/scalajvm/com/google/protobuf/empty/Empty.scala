@@ -103,7 +103,7 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
     )
   }
   def newBuilder: Builder = com.google.protobuf.empty.Empty.Builder()
-  def newBuilder(a: com.google.protobuf.empty.Empty): Builder = com.google.protobuf.empty.Empty.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.empty.Empty): Builder = com.google.protobuf.empty.Empty.Builder(_message__)
   implicit class EmptyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.empty.Empty]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.empty.Empty](_l) {
   }
   def of(

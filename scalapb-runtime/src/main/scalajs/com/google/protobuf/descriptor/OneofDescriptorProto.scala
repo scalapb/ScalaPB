@@ -148,7 +148,7 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.OneofDescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.OneofDescriptorProto): Builder = com.google.protobuf.descriptor.OneofDescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.OneofDescriptorProto): Builder = com.google.protobuf.descriptor.OneofDescriptorProto.Builder(_message__)
   implicit class OneofDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.OneofDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.OneofDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))

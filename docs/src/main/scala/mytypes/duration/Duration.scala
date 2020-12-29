@@ -122,7 +122,7 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
     )
   }
   def newBuilder: Builder = mytypes.duration.Duration.Builder()
-  def newBuilder(a: mytypes.duration.Duration): Builder = mytypes.duration.Duration.Builder(a)
+  def newBuilder(`_message__`: mytypes.duration.Duration): Builder = mytypes.duration.Duration.Builder(_message__)
   implicit class DurationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, mytypes.duration.Duration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, mytypes.duration.Duration](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
   }

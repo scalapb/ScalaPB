@@ -128,7 +128,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.ExtensionRangeOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.ExtensionRangeOptions): Builder = com.google.protobuf.descriptor.ExtensionRangeOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.ExtensionRangeOptions): Builder = com.google.protobuf.descriptor.ExtensionRangeOptions.Builder(_message__)
   implicit class ExtensionRangeOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions](_l) {
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

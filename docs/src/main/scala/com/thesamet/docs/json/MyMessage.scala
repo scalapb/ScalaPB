@@ -122,7 +122,7 @@ object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.jso
     )
   }
   def newBuilder: Builder = com.thesamet.docs.json.MyMessage.Builder()
-  def newBuilder(a: com.thesamet.docs.json.MyMessage): Builder = com.thesamet.docs.json.MyMessage.Builder(a)
+  def newBuilder(`_message__`: com.thesamet.docs.json.MyMessage): Builder = com.thesamet.docs.json.MyMessage.Builder(_message__)
   implicit class MyMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.thesamet.docs.json.MyMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.thesamet.docs.json.MyMessage](_l) {
     def x: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.x)((c_, f_) => c_.copy(x = f_))
   }

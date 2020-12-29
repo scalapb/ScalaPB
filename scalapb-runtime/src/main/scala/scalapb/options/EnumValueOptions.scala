@@ -144,7 +144,7 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
     )
   }
   def newBuilder: Builder = scalapb.options.EnumValueOptions.Builder()
-  def newBuilder(a: scalapb.options.EnumValueOptions): Builder = scalapb.options.EnumValueOptions.Builder(a)
+  def newBuilder(`_message__`: scalapb.options.EnumValueOptions): Builder = scalapb.options.EnumValueOptions.Builder(_message__)
   implicit class EnumValueOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumValueOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.EnumValueOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))

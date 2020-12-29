@@ -329,7 +329,7 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
     )
   }
   def newBuilder: Builder = com.google.protobuf.field_mask.FieldMask.Builder()
-  def newBuilder(a: com.google.protobuf.field_mask.FieldMask): Builder = com.google.protobuf.field_mask.FieldMask.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.field_mask.FieldMask): Builder = com.google.protobuf.field_mask.FieldMask.Builder(_message__)
   implicit class FieldMaskLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.field_mask.FieldMask]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.field_mask.FieldMask](_l) {
     def paths: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.paths)((c_, f_) => c_.copy(paths = f_))
   }

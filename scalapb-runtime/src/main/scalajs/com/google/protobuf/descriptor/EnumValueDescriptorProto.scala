@@ -170,7 +170,7 @@ object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.go
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.EnumValueDescriptorProto.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.EnumValueDescriptorProto): Builder = com.google.protobuf.descriptor.EnumValueDescriptorProto.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.EnumValueDescriptorProto): Builder = com.google.protobuf.descriptor.EnumValueDescriptorProto.Builder(_message__)
   implicit class EnumValueDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumValueDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))

@@ -194,7 +194,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.MethodOptions.Builder()
-  def newBuilder(a: com.google.protobuf.descriptor.MethodOptions): Builder = com.google.protobuf.descriptor.MethodOptions.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.MethodOptions): Builder = com.google.protobuf.descriptor.MethodOptions.Builder(_message__)
   /** Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
     * or neither? HTTP based RPC implementation may choose GET verb for safe
     * methods, and PUT verb for idempotent methods instead of the default POST.

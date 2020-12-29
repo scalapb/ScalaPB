@@ -210,7 +210,7 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.SimpleMessage.Builder()
-  def newBuilder(a: scalapb.perf.protos.SimpleMessage): Builder = scalapb.perf.protos.SimpleMessage.Builder(a)
+  def newBuilder(`_message__`: scalapb.perf.protos.SimpleMessage): Builder = scalapb.perf.protos.SimpleMessage.Builder(_message__)
   implicit class SimpleMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.SimpleMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.SimpleMessage](_l) {
     def i: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.i)((c_, f_) => c_.copy(i = f_))
     def j: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.j)((c_, f_) => c_.copy(j = f_))

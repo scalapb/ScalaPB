@@ -126,7 +126,7 @@ object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] 
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.Enum.Builder()
-  def newBuilder(a: scalapb.perf.protos.Enum): Builder = scalapb.perf.protos.Enum.Builder(a)
+  def newBuilder(`_message__`: scalapb.perf.protos.Enum): Builder = scalapb.perf.protos.Enum.Builder(_message__)
   implicit class EnumLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.Enum]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.Enum](_l) {
     def color: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.Color] = field(_.color)((c_, f_) => c_.copy(color = f_))
   }

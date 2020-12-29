@@ -215,7 +215,7 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     )
   }
   def newBuilder: Builder = com.google.protobuf.struct.Value.Builder()
-  def newBuilder(a: com.google.protobuf.struct.Value): Builder = com.google.protobuf.struct.Value.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.struct.Value): Builder = com.google.protobuf.struct.Value.Builder(_message__)
   sealed trait Kind extends _root_.scalapb.GeneratedOneof {
     def isEmpty: _root_.scala.Boolean = false
     def isDefined: _root_.scala.Boolean = true

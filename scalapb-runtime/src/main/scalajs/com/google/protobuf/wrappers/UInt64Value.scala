@@ -129,7 +129,7 @@ object UInt64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.UInt64Value.Builder()
-  def newBuilder(a: com.google.protobuf.wrappers.UInt64Value): Builder = com.google.protobuf.wrappers.UInt64Value.Builder(a)
+  def newBuilder(`_message__`: com.google.protobuf.wrappers.UInt64Value): Builder = com.google.protobuf.wrappers.UInt64Value.Builder(_message__)
   implicit class UInt64ValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.UInt64Value]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.UInt64Value](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
