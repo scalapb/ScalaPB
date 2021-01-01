@@ -3,7 +3,7 @@ package scalapb.textformat
 private[scalapb] object NumberUtils {
   def doubleToString(v: Double): String = {
     import scalajs.js.JSNumberOps._
-    val t = if (v.abs >= 1e7) { v.toExponential }
+    val t = if (v.abs >= 1e7) { v.toExponential() }
     else if (v.isWhole) (v.toString + ".0")
     else v.toString
     t.replace("e-", "E-")

@@ -125,7 +125,7 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
 
   "toByteString" should "give the same byte array as toByteArray" in {
     val e3 = EnumTest3(colorVector = Seq(Color3.C3_RED, Color3.Unrecognized(15), Color3.C3_BLUE))
-    e3.toByteString.toByteArray must be(e3.toByteArray)
+    e3.toByteString.toByteArray() must be(e3.toByteArray)
   }
 
   "Unrecognized" should "be printable" in {
