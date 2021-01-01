@@ -54,6 +54,7 @@ object Dependencies {
   val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }
   val mockitoCore          = "org.mockito" % "mockito-core" % versions.mockito
   val commonsCodec         = "commons-codec" % "commons-codec" % versions.commonsCodec
+  val cats                 = "org.typelevel" %% "cats-core" % "2.3.1"
 
   val annotationApi =
     "javax.annotation" % "javax.annotation-api" % versions.annotationApi // needed for grpc-java on JDK9

@@ -294,6 +294,7 @@ val e2eCommonSettings = Seq(
     grpcServices,
     grpcServices % "protobuf",
     annotationApi,
+    cats,
     grpcProtocGen asProtocPlugin,
     scalaTest               % "test",
     scalaTestPlusScalaCheck % "test"
@@ -307,7 +308,6 @@ lazy val e2e = (project in file("e2e"))
   .dependsOn(grpcRuntime)
   .settings(e2eCommonSettings)
   .settings(
-    libraryDependencies += "org.typelevel" %% "cats-core" % "2.3.0",
     scalacOptions ++= (if (scalaVersion.value == Scala213)
                          Seq(
                            "-Xfatal-warnings",
