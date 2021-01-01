@@ -16,8 +16,8 @@ object LiteParser {
     result
   }
 
-  def readMessage[A <: GeneratedMessage](input: CodedInputStream)(
-      implicit cmp: GeneratedMessageCompanion[A]
+  def readMessage[A <: GeneratedMessage](input: CodedInputStream)(implicit
+      cmp: GeneratedMessageCompanion[A]
   ): A = {
     val length    = input.readRawVarint32()
     val oldLimit  = input.pushLimit(length)

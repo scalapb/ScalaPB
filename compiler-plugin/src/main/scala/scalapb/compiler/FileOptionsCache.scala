@@ -67,11 +67,10 @@ object FileOptionsCache {
       )
     }
 
-    givenPackageOptions.groupBy(_.`package`).find(_._2.length > 1).foreach {
-      case (pn, s) =>
-        throw new GeneratorException(
-          s"Multiple files contain package-scoped options for package '${pn}': ${s.map(_.fileName).sorted.mkString(", ")}"
-        )
+    givenPackageOptions.groupBy(_.`package`).find(_._2.length > 1).foreach { case (pn, s) =>
+      throw new GeneratorException(
+        s"Multiple files contain package-scoped options for package '${pn}': ${s.map(_.fileName).sorted.mkString(", ")}"
+      )
     }
 
     givenPackageOptions.find(_.options.hasObjectName).foreach { pso =>
@@ -84,14 +83,13 @@ object FileOptionsCache {
     // is sufficient to look up the nearest parent package that has package-scoped options.
     val optionsByPackage = new mutable.HashMap[String, ScalaPbOptions]
 
-    givenPackageOptions.foreach {
-      case pso =>
-        val parents: List[String] = parentPackages(pso.`package`)
-        val actualOptions = parents.find(optionsByPackage.contains) match {
-          case Some(p) => mergeOptions(optionsByPackage(p), pso.options)
-          case None    => pso.options
-        }
-        optionsByPackage += pso.`package` -> actualOptions
+    givenPackageOptions.foreach { case pso =>
+      val parents: List[String] = parentPackages(pso.`package`)
+      val actualOptions = parents.find(optionsByPackage.contains) match {
+        case Some(p) => mergeOptions(optionsByPackage(p), pso.options)
+        case None    => pso.options
+      }
+      optionsByPackage += pso.`package` -> actualOptions
     }
 
     files.map { f =>

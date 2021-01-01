@@ -69,7 +69,7 @@ object Dependencies {
   val munitScalaCheck      = Def.setting { "org.scalameta" %%% "munit-scalacheck" % versions.munit }
   val mockitoCore          = "org.mockito"        % "mockito-core"  % versions.mockito
   val commonsCodec         = "commons-codec"      % "commons-codec" % versions.commonsCodec
-  val cats = "org.typelevel" %% "cats-core" % versions.cats
+  val cats                 = "org.typelevel"     %% "cats-core"     % versions.cats
 
   val annotationApi =
     "javax.annotation" % "javax.annotation-api" % versions.annotationApi // needed for grpc-java on JDK9

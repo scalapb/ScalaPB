@@ -25,7 +25,6 @@ class DescriptorImplicits private[compiler] (
   implicits =>
   import DescriptorImplicits._
 
-
   @deprecated("Use DescriptorImplicits.fromCodeGenRequest. Preprocessors will not work.", "0.10.10")
   def this(params: GeneratorParams, files: Seq[FileDescriptor]) = {
     this(params, files, SecondaryOutputProvider.empty)
