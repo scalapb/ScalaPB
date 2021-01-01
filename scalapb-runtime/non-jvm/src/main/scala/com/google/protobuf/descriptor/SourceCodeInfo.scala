@@ -171,8 +171,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo): Builder = new Builder(
-      __location = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] ++= _message__.location,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __location = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] ++= _message__.location,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.SourceCodeInfo.Builder()
@@ -485,12 +485,12 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo.Location): Builder = new Builder(
-        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.path,
-        __span = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.span,
-        __leadingComments = _message__.leadingComments,
-        __trailingComments = _message__.trailingComments,
-        __leadingDetachedComments = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.leadingDetachedComments,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.path,
+          __span = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.span,
+          __leadingComments = _message__.leadingComments,
+          __trailingComments = _message__.trailingComments,
+          __leadingDetachedComments = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.leadingDetachedComments,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.SourceCodeInfo.Location.Builder()

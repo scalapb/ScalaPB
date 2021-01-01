@@ -180,11 +180,11 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.compiler.plugin.Version): Builder = new Builder(
-      __major = _message__.major,
-      __minor = _message__.minor,
-      __patch = _message__.patch,
-      __suffix = _message__.suffix,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __major = _message__.major,
+        __minor = _message__.minor,
+        __patch = _message__.patch,
+        __suffix = _message__.suffix,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.compiler.plugin.Version.Builder()

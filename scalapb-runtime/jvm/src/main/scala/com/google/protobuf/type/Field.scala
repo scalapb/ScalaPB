@@ -420,17 +420,17 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.`type`.Field): Builder = new Builder(
-      __kind = _message__.kind,
-      __cardinality = _message__.cardinality,
-      __number = _message__.number,
-      __name = _message__.name,
-      __typeUrl = _message__.typeUrl,
-      __oneofIndex = _message__.oneofIndex,
-      __packed = _message__.packed,
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
-      __jsonName = _message__.jsonName,
-      __defaultValue = _message__.defaultValue,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __kind = _message__.kind,
+        __cardinality = _message__.cardinality,
+        __number = _message__.number,
+        __name = _message__.name,
+        __typeUrl = _message__.typeUrl,
+        __oneofIndex = _message__.oneofIndex,
+        __packed = _message__.packed,
+        __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+        __jsonName = _message__.jsonName,
+        __defaultValue = _message__.defaultValue,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.`type`.Field.Builder()

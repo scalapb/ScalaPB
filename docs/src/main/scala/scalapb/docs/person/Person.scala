@@ -177,10 +177,10 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.docs.person.Person): Builder = new Builder(
-      __name = _message__.name,
-      __age = _message__.age,
-      __addresses = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.docs.person.Person.Address] ++= _message__.addresses,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __age = _message__.age,
+        __addresses = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.docs.person.Person.Address] ++= _message__.addresses,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.docs.person.Person.Builder()
@@ -392,10 +392,10 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
         `_unknownFields__` = null
       )
       def apply(`_message__`: scalapb.docs.person.Person.Address): Builder = new Builder(
-        __addressType = _message__.addressType,
-        __street = _message__.street,
-        __city = _message__.city,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __addressType = _message__.addressType,
+          __street = _message__.street,
+          __city = _message__.city,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = scalapb.docs.person.Person.Address.Builder()

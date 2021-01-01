@@ -147,9 +147,9 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.MessageContainer): Builder = new Builder(
-      __opt = _message__.opt,
-      __rep = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.SimpleMessage] ++= _message__.rep,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __opt = _message__.opt,
+        __rep = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.SimpleMessage] ++= _message__.rep,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.MessageContainer.Builder()

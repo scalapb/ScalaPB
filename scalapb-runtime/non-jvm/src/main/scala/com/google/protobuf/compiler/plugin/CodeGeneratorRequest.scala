@@ -213,11 +213,11 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorRequest): Builder = new Builder(
-      __fileToGenerate = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.fileToGenerate,
-      __parameter = _message__.parameter,
-      __protoFile = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.protoFile,
-      __compilerVersion = _message__.compilerVersion,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __fileToGenerate = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.fileToGenerate,
+        __parameter = _message__.parameter,
+        __protoFile = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.protoFile,
+        __compilerVersion = _message__.compilerVersion,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.compiler.plugin.CodeGeneratorRequest.Builder()

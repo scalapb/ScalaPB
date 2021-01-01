@@ -202,11 +202,11 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.SimpleMessage): Builder = new Builder(
-      __i = _message__.i,
-      __j = _message__.j,
-      __k = _message__.k,
-      __color = _message__.color,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __i = _message__.i,
+        __j = _message__.j,
+        __k = _message__.k,
+        __color = _message__.color,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.SimpleMessage.Builder()

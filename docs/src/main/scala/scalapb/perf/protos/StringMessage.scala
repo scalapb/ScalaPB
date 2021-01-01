@@ -144,9 +144,9 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.StringMessage): Builder = new Builder(
-      __str1 = _message__.str1,
-      __str2 = _message__.str2,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __str1 = _message__.str1,
+        __str2 = _message__.str2,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.StringMessage.Builder()

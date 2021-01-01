@@ -260,14 +260,14 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.UninterpretedOption): Builder = new Builder(
-      __name = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= _message__.name,
-      __identifierValue = _message__.identifierValue,
-      __positiveIntValue = _message__.positiveIntValue,
-      __negativeIntValue = _message__.negativeIntValue,
-      __doubleValue = _message__.doubleValue,
-      __stringValue = _message__.stringValue,
-      __aggregateValue = _message__.aggregateValue,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= _message__.name,
+        __identifierValue = _message__.identifierValue,
+        __positiveIntValue = _message__.positiveIntValue,
+        __negativeIntValue = _message__.negativeIntValue,
+        __doubleValue = _message__.doubleValue,
+        __stringValue = _message__.stringValue,
+        __aggregateValue = _message__.aggregateValue,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.UninterpretedOption.Builder()
@@ -409,9 +409,9 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.UninterpretedOption.NamePart): Builder = new Builder(
-        __namePart = _message__.namePart,
-        __isExtension = _message__.isExtension,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __namePart = _message__.namePart,
+          __isExtension = _message__.isExtension,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.UninterpretedOption.NamePart.Builder()

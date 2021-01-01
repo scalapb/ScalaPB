@@ -123,8 +123,8 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.PreprocesserOutput): Builder = new Builder(
-      __optionsByFile = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions] ++= _message__.optionsByFile,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __optionsByFile = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions] ++= _message__.optionsByFile,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.PreprocesserOutput.Builder()
@@ -264,9 +264,9 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
         `_unknownFields__` = null
       )
       def apply(`_message__`: scalapb.options.PreprocesserOutput.OptionsByFileEntry): Builder = new Builder(
-        __key = _message__.key,
-        __value = _message__.value,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __key = _message__.key,
+          __value = _message__.value,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = scalapb.options.PreprocesserOutput.OptionsByFileEntry.Builder()

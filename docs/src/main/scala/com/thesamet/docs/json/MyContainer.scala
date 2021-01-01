@@ -119,8 +119,8 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.thesamet.docs.json.MyContainer): Builder = new Builder(
-      __myAny = _message__.myAny,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __myAny = _message__.myAny,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.thesamet.docs.json.MyContainer.Builder()

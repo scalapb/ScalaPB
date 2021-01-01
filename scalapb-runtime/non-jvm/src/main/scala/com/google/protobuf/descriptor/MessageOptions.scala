@@ -257,12 +257,12 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.MessageOptions): Builder = new Builder(
-      __messageSetWireFormat = _message__.messageSetWireFormat,
-      __noStandardDescriptorAccessor = _message__.noStandardDescriptorAccessor,
-      __deprecated = _message__.deprecated,
-      __mapEntry = _message__.mapEntry,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __messageSetWireFormat = _message__.messageSetWireFormat,
+        __noStandardDescriptorAccessor = _message__.noStandardDescriptorAccessor,
+        __deprecated = _message__.deprecated,
+        __mapEntry = _message__.mapEntry,
+        __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.MessageOptions.Builder()

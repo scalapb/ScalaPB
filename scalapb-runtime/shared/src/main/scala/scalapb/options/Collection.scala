@@ -166,10 +166,10 @@ object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Coll
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.Collection): Builder = new Builder(
-      __type = _message__.`type`,
-      __nonEmpty = _message__.nonEmpty,
-      __adapter = _message__.adapter,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __type = _message__.`type`,
+        __nonEmpty = _message__.nonEmpty,
+        __adapter = _message__.adapter,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.Collection.Builder()

@@ -412,19 +412,19 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.FileDescriptorProto): Builder = new Builder(
-      __name = _message__.name,
-      __package = _message__.`package`,
-      __dependency = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.dependency,
-      __publicDependency = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.publicDependency,
-      __weakDependency = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.weakDependency,
-      __messageType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= _message__.messageType,
-      __enumType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= _message__.enumType,
-      __service = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] ++= _message__.service,
-      __extension = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.extension,
-      __options = _message__.options,
-      __sourceCodeInfo = _message__.sourceCodeInfo,
-      __syntax = _message__.syntax,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __package = _message__.`package`,
+        __dependency = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.dependency,
+        __publicDependency = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.publicDependency,
+        __weakDependency = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.weakDependency,
+        __messageType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= _message__.messageType,
+        __enumType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= _message__.enumType,
+        __service = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] ++= _message__.service,
+        __extension = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.extension,
+        __options = _message__.options,
+        __sourceCodeInfo = _message__.sourceCodeInfo,
+        __syntax = _message__.syntax,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FileDescriptorProto.Builder()

@@ -123,8 +123,8 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.FileDescriptorSet): Builder = new Builder(
-      __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.file,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.file,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FileDescriptorSet.Builder()

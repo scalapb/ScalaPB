@@ -147,8 +147,8 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.struct.Struct): Builder = new Builder(
-      __fields = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, com.google.protobuf.struct.Value] ++= _message__.fields,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __fields = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, com.google.protobuf.struct.Value] ++= _message__.fields,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.struct.Struct.Builder()
@@ -294,9 +294,9 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.struct.Struct.FieldsEntry): Builder = new Builder(
-        __key = _message__.key,
-        __value = _message__.value,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __key = _message__.key,
+          __value = _message__.value,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.struct.Struct.FieldsEntry.Builder()

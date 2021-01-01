@@ -242,12 +242,12 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto): Builder = new Builder(
-      __name = _message__.name,
-      __value = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto] ++= _message__.value,
-      __options = _message__.options,
-      __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] ++= _message__.reservedRange,
-      __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __value = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto] ++= _message__.value,
+        __options = _message__.options,
+        __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] ++= _message__.reservedRange,
+        __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.EnumDescriptorProto.Builder()
@@ -401,9 +401,9 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange): Builder = new Builder(
-        __start = _message__.start,
-        __end = _message__.end,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __start = _message__.start,
+          __end = _message__.end,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.Builder()

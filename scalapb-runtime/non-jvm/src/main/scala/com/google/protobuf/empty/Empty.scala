@@ -93,7 +93,7 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.empty.Empty): Builder = new Builder(
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.empty.Empty.Builder()

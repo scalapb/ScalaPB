@@ -115,8 +115,8 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.OneofOptions): Builder = new Builder(
-      __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.OneofOptions.Builder()

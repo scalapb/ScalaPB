@@ -324,14 +324,14 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.api.Method): Builder = new Builder(
-      __name = _message__.name,
-      __requestTypeUrl = _message__.requestTypeUrl,
-      __requestStreaming = _message__.requestStreaming,
-      __responseTypeUrl = _message__.responseTypeUrl,
-      __responseStreaming = _message__.responseStreaming,
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
-      __syntax = _message__.syntax,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __requestTypeUrl = _message__.requestTypeUrl,
+        __requestStreaming = _message__.requestStreaming,
+        __responseTypeUrl = _message__.responseTypeUrl,
+        __responseStreaming = _message__.responseStreaming,
+        __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+        __syntax = _message__.syntax,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.api.Method.Builder()

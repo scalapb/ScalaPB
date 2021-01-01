@@ -868,7 +868,7 @@ class ProtobufGenerator(
           .add(")")
           .add(s"def apply(`_message__`: $myFullScalaName): Builder = new Builder(")
           .indented(
-            _.addWithDelimiter(",")(fields.map(f => s"${f.name} = ${f.accessor}"))
+            _.addWithDelimiter(",")(fields.map(f => s"  ${f.name} = ${f.accessor}"))
           )
           .add(")")
       )

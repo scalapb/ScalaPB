@@ -225,9 +225,9 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.duration.Duration): Builder = new Builder(
-      __seconds = _message__.seconds,
-      __nanos = _message__.nanos,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __seconds = _message__.seconds,
+        __nanos = _message__.nanos,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.duration.Duration.Builder()

@@ -283,15 +283,15 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.MessageOptions): Builder = new Builder(
-      __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
-      __companionExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionExtends,
-      __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
-      __type = _message__.`type`,
-      __companionAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionAnnotations,
-      __sealedOneofExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.sealedOneofExtends,
-      __noBox = _message__.noBox,
-      __unknownFieldsAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.unknownFieldsAnnotations,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
+        __companionExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionExtends,
+        __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
+        __type = _message__.`type`,
+        __companionAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionAnnotations,
+        __sealedOneofExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.sealedOneofExtends,
+        __noBox = _message__.noBox,
+        __unknownFieldsAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.unknownFieldsAnnotations,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.MessageOptions.Builder()

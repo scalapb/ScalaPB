@@ -132,8 +132,8 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.source_context.SourceContext): Builder = new Builder(
-      __fileName = _message__.fileName,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __fileName = _message__.fileName,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.source_context.SourceContext.Builder()

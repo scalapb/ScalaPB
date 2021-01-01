@@ -315,8 +315,8 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.field_mask.FieldMask): Builder = new Builder(
-      __paths = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.paths,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __paths = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.paths,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.field_mask.FieldMask.Builder()

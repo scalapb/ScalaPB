@@ -156,9 +156,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorResponse): Builder = new Builder(
-      __error = _message__.error,
-      __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= _message__.file,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __error = _message__.error,
+        __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= _message__.file,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.Builder()
@@ -366,10 +366,10 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File): Builder = new Builder(
-        __name = _message__.name,
-        __insertionPoint = _message__.insertionPoint,
-        __content = _message__.content,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __name = _message__.name,
+          __insertionPoint = _message__.insertionPoint,
+          __content = _message__.content,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.Builder()

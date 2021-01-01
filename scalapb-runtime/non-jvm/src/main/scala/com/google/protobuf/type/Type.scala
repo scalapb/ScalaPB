@@ -264,13 +264,13 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.`type`.Type): Builder = new Builder(
-      __name = _message__.name,
-      __fields = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.Field] ++= _message__.fields,
-      __oneofs = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.oneofs,
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
-      __sourceContext = _message__.sourceContext,
-      __syntax = _message__.syntax,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __fields = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.Field] ++= _message__.fields,
+        __oneofs = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.oneofs,
+        __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+        __sourceContext = _message__.sourceContext,
+        __syntax = _message__.syntax,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.`type`.Type.Builder()

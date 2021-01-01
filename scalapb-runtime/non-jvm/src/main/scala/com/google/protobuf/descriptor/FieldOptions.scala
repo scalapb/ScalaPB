@@ -313,14 +313,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.FieldOptions): Builder = new Builder(
-      __ctype = _message__.ctype,
-      __packed = _message__.packed,
-      __jstype = _message__.jstype,
-      __lazy = _message__.`lazy`,
-      __deprecated = _message__.deprecated,
-      __weak = _message__.weak,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __ctype = _message__.ctype,
+        __packed = _message__.packed,
+        __jstype = _message__.jstype,
+        __lazy = _message__.`lazy`,
+        __deprecated = _message__.deprecated,
+        __weak = _message__.weak,
+        __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FieldOptions.Builder()

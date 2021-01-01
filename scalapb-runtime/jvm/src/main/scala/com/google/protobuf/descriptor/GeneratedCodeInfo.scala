@@ -140,8 +140,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo): Builder = new Builder(
-      __annotation = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= _message__.annotation,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __annotation = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= _message__.annotation,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Builder()
@@ -361,11 +361,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): Builder = new Builder(
-        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.path,
-        __sourceFile = _message__.sourceFile,
-        __begin = _message__.begin,
-        __end = _message__.end,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.path,
+          __sourceFile = _message__.sourceFile,
+          __begin = _message__.begin,
+          __end = _message__.end,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder()

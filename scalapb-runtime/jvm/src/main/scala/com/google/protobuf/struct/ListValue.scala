@@ -136,8 +136,8 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.struct.ListValue): Builder = new Builder(
-      __values = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value] ++= _message__.values,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __values = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value] ++= _message__.values,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.struct.ListValue.Builder()

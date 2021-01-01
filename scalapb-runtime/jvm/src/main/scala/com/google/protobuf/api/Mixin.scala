@@ -239,9 +239,9 @@ object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.M
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.api.Mixin): Builder = new Builder(
-      __name = _message__.name,
-      __root = _message__.root,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __root = _message__.root,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.api.Mixin.Builder()

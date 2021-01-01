@@ -142,9 +142,9 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.OneofDescriptorProto): Builder = new Builder(
-      __name = _message__.name,
-      __options = _message__.options,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __options = _message__.options,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.OneofDescriptorProto.Builder()

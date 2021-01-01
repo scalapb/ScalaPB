@@ -265,9 +265,9 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.any.Any): Builder = new Builder(
-      __typeUrl = _message__.typeUrl,
-      __value = _message__.value,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __typeUrl = _message__.typeUrl,
+        __value = _message__.value,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.any.Any.Builder()

@@ -173,10 +173,10 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.EnumOptions): Builder = new Builder(
-      __allowAlias = _message__.allowAlias,
-      __deprecated = _message__.deprecated,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __allowAlias = _message__.allowAlias,
+        __deprecated = _message__.deprecated,
+        __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.EnumOptions.Builder()

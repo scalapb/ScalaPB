@@ -121,8 +121,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] 
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.Enum): Builder = new Builder(
-      __color = _message__.color,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __color = _message__.color,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.Enum.Builder()

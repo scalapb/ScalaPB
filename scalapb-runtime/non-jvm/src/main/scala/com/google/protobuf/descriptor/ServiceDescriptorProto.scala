@@ -167,10 +167,10 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.ServiceDescriptorProto): Builder = new Builder(
-      __name = _message__.name,
-      __method = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.MethodDescriptorProto] ++= _message__.method,
-      __options = _message__.options,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __method = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.MethodDescriptorProto] ++= _message__.method,
+        __options = _message__.options,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.ServiceDescriptorProto.Builder()

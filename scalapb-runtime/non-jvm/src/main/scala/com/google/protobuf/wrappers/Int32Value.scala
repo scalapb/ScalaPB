@@ -124,8 +124,8 @@ object Int32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.wrappers.Int32Value): Builder = new Builder(
-      __value = _message__.value,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __value = _message__.value,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.wrappers.Int32Value.Builder()

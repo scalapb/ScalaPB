@@ -668,30 +668,30 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.ScalaPbOptions): Builder = new Builder(
-      __packageName = _message__.packageName,
-      __flatPackage = _message__.flatPackage,
-      __import = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`import`,
-      __preamble = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.preamble,
-      __singleFile = _message__.singleFile,
-      __noPrimitiveWrappers = _message__.noPrimitiveWrappers,
-      __primitiveWrappers = _message__.primitiveWrappers,
-      __collectionType = _message__.collectionType,
-      __preserveUnknownFields = _message__.preserveUnknownFields,
-      __objectName = _message__.objectName,
-      __scope = _message__.scope,
-      __lenses = _message__.lenses,
-      __retainSourceCodeInfo = _message__.retainSourceCodeInfo,
-      __mapType = _message__.mapType,
-      __noDefaultValuesInConstructor = _message__.noDefaultValuesInConstructor,
-      __enumValueNaming = _message__.enumValueNaming,
-      __enumStripPrefix = _message__.enumStripPrefix,
-      __auxMessageOptions = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxMessageOptions] ++= _message__.auxMessageOptions,
-      __auxFieldOptions = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxFieldOptions] ++= _message__.auxFieldOptions,
-      __auxEnumOptions = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxEnumOptions] ++= _message__.auxEnumOptions,
-      __bytesType = _message__.bytesType,
-      __preprocessors = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.preprocessors,
-      __testOnlyNoJavaConversions = _message__.testOnlyNoJavaConversions,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __packageName = _message__.packageName,
+        __flatPackage = _message__.flatPackage,
+        __import = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`import`,
+        __preamble = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.preamble,
+        __singleFile = _message__.singleFile,
+        __noPrimitiveWrappers = _message__.noPrimitiveWrappers,
+        __primitiveWrappers = _message__.primitiveWrappers,
+        __collectionType = _message__.collectionType,
+        __preserveUnknownFields = _message__.preserveUnknownFields,
+        __objectName = _message__.objectName,
+        __scope = _message__.scope,
+        __lenses = _message__.lenses,
+        __retainSourceCodeInfo = _message__.retainSourceCodeInfo,
+        __mapType = _message__.mapType,
+        __noDefaultValuesInConstructor = _message__.noDefaultValuesInConstructor,
+        __enumValueNaming = _message__.enumValueNaming,
+        __enumStripPrefix = _message__.enumStripPrefix,
+        __auxMessageOptions = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxMessageOptions] ++= _message__.auxMessageOptions,
+        __auxFieldOptions = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxFieldOptions] ++= _message__.auxFieldOptions,
+        __auxEnumOptions = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.options.ScalaPbOptions.AuxEnumOptions] ++= _message__.auxEnumOptions,
+        __bytesType = _message__.bytesType,
+        __preprocessors = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.preprocessors,
+        __testOnlyNoJavaConversions = _message__.testOnlyNoJavaConversions,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.ScalaPbOptions.Builder()
@@ -927,9 +927,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         `_unknownFields__` = null
       )
       def apply(`_message__`: scalapb.options.ScalaPbOptions.AuxMessageOptions): Builder = new Builder(
-        __target = _message__.target,
-        __options = _message__.options,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __target = _message__.target,
+          __options = _message__.options,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = scalapb.options.ScalaPbOptions.AuxMessageOptions.Builder()
@@ -1097,9 +1097,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         `_unknownFields__` = null
       )
       def apply(`_message__`: scalapb.options.ScalaPbOptions.AuxFieldOptions): Builder = new Builder(
-        __target = _message__.target,
-        __options = _message__.options,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __target = _message__.target,
+          __options = _message__.options,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = scalapb.options.ScalaPbOptions.AuxFieldOptions.Builder()
@@ -1267,9 +1267,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         `_unknownFields__` = null
       )
       def apply(`_message__`: scalapb.options.ScalaPbOptions.AuxEnumOptions): Builder = new Builder(
-        __target = _message__.target,
-        __options = _message__.options,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __target = _message__.target,
+          __options = _message__.options,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = scalapb.options.ScalaPbOptions.AuxEnumOptions.Builder()

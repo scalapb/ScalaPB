@@ -304,16 +304,16 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.FieldOptions): Builder = new Builder(
-      __type = _message__.`type`,
-      __scalaName = _message__.scalaName,
-      __collectionType = _message__.collectionType,
-      __collection = _message__.collection,
-      __keyType = _message__.keyType,
-      __valueType = _message__.valueType,
-      __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
-      __mapType = _message__.mapType,
-      __noBox = _message__.noBox,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __type = _message__.`type`,
+        __scalaName = _message__.scalaName,
+        __collectionType = _message__.collectionType,
+        __collection = _message__.collection,
+        __keyType = _message__.keyType,
+        __valueType = _message__.valueType,
+        __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
+        __mapType = _message__.mapType,
+        __noBox = _message__.noBox,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.FieldOptions.Builder()

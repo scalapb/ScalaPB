@@ -117,8 +117,8 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
       `_unknownFields__` = null
     )
     def apply(`_message__`: mytypes.duration.Duration): Builder = new Builder(
-      __seconds = _message__.seconds,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __seconds = _message__.seconds,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = mytypes.duration.Duration.Builder()

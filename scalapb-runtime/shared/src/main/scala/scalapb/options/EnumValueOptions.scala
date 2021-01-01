@@ -138,9 +138,9 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.EnumValueOptions): Builder = new Builder(
-      __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
-      __scalaName = _message__.scalaName,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
+        __scalaName = _message__.scalaName,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.EnumValueOptions.Builder()

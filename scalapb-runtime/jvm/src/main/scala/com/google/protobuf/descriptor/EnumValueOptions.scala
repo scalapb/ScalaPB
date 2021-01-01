@@ -160,9 +160,9 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.EnumValueOptions): Builder = new Builder(
-      __deprecated = _message__.deprecated,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __deprecated = _message__.deprecated,
+        __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.EnumValueOptions.Builder()

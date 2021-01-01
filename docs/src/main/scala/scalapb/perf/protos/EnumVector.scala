@@ -134,8 +134,8 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.EnumVector): Builder = new Builder(
-      __colors = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.Color] ++= _message__.colors,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __colors = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.Color] ++= _message__.colors,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.perf.protos.EnumVector.Builder()

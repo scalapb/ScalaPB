@@ -374,17 +374,17 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.DescriptorProto): Builder = new Builder(
-      __name = _message__.name,
-      __field = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.field,
-      __extension = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.extension,
-      __nestedType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= _message__.nestedType,
-      __enumType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= _message__.enumType,
-      __extensionRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] ++= _message__.extensionRange,
-      __oneofDecl = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] ++= _message__.oneofDecl,
-      __options = _message__.options,
-      __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] ++= _message__.reservedRange,
-      __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __field = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.field,
+        __extension = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.extension,
+        __nestedType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= _message__.nestedType,
+        __enumType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= _message__.enumType,
+        __extensionRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] ++= _message__.extensionRange,
+        __oneofDecl = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] ++= _message__.oneofDecl,
+        __options = _message__.options,
+        __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] ++= _message__.reservedRange,
+        __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.Builder()
@@ -557,10 +557,10 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange): Builder = new Builder(
-        __start = _message__.start,
-        __end = _message__.end,
-        __options = _message__.options,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __start = _message__.start,
+          __end = _message__.end,
+          __options = _message__.options,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.Builder()
@@ -734,9 +734,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ReservedRange): Builder = new Builder(
-        __start = _message__.start,
-        __end = _message__.end,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+          __start = _message__.start,
+          __end = _message__.end,
+          `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
     def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.ReservedRange.Builder()

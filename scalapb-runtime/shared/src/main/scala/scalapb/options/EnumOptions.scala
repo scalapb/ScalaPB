@@ -163,10 +163,10 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.EnumOptions): Builder = new Builder(
-      __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
-      __companionExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionExtends,
-      __type = _message__.`type`,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
+        __companionExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionExtends,
+        __type = _message__.`type`,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = scalapb.options.EnumOptions.Builder()

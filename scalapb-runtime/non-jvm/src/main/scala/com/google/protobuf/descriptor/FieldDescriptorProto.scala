@@ -342,17 +342,17 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.FieldDescriptorProto): Builder = new Builder(
-      __name = _message__.name,
-      __number = _message__.number,
-      __label = _message__.label,
-      __type = _message__.`type`,
-      __typeName = _message__.typeName,
-      __extendee = _message__.extendee,
-      __defaultValue = _message__.defaultValue,
-      __oneofIndex = _message__.oneofIndex,
-      __jsonName = _message__.jsonName,
-      __options = _message__.options,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+        __name = _message__.name,
+        __number = _message__.number,
+        __label = _message__.label,
+        __type = _message__.`type`,
+        __typeName = _message__.typeName,
+        __extendee = _message__.extendee,
+        __defaultValue = _message__.defaultValue,
+        __oneofIndex = _message__.oneofIndex,
+        __jsonName = _message__.jsonName,
+        __options = _message__.options,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
   def newBuilder: Builder = com.google.protobuf.descriptor.FieldDescriptorProto.Builder()
