@@ -94,8 +94,8 @@ final case class CodeGeneratorResponse(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => error.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => supportedFeatures.map(_root_.scalapb.descriptors.PLong).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => error.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => supportedFeatures.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 15 => _root_.scalapb.descriptors.PRepeated(file.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -111,13 +111,13 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse.newBuilder
     scalaPbSource.error.foreach(javaPbOut.setError)
     scalaPbSource.supportedFeatures.foreach(javaPbOut.setSupportedFeatures)
-    javaPbOut.addAllFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.file.iterator.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto)).asJava)
+    javaPbOut.addAllFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.file.iterator.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = com.google.protobuf.compiler.plugin.CodeGeneratorResponse(
     error = if (javaPbSource.hasError) Some(javaPbSource.getError) else _root_.scala.None,
     supportedFeatures = if (javaPbSource.hasSupportedFeatures) Some(javaPbSource.getSupportedFeatures.longValue) else _root_.scala.None,
-    file = javaPbSource.getFileList.asScala.iterator.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto).toSeq
+    file = javaPbSource.getFileList.asScala.iterator.map(com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File.fromJavaProto(_)).toSeq
   )
   def merge(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorResponse, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorResponse = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] = _root_.scalapb.descriptors.Reads{
@@ -370,9 +370,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 2 => insertionPoint.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 15 => content.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => insertionPoint.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 15 => content.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)

@@ -90,8 +90,8 @@ final case class EnumOptions(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 2 => allowAlias.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => allowAlias.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -107,13 +107,13 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumOptions.newBuilder
     scalaPbSource.allowAlias.foreach(javaPbOut.setAllowAlias)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
-    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumOptions): com.google.protobuf.descriptor.EnumOptions = com.google.protobuf.descriptor.EnumOptions(
     allowAlias = if (javaPbSource.hasAllowAlias) Some(javaPbSource.getAllowAlias.booleanValue) else _root_.scala.None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto).toSeq
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
   def merge(`_message__`: com.google.protobuf.descriptor.EnumOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.EnumOptions] = _root_.scalapb.descriptors.Reads{

@@ -46,7 +46,7 @@ final case class PreprocesserOutput(
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
-        case 1 => optionsByFile.iterator.map(scalapb.options.PreprocesserOutput._typemapper_optionsByFile.toBase).toSeq
+        case 1 => optionsByFile.iterator.map(scalapb.options.PreprocesserOutput._typemapper_optionsByFile.toBase(_)).toSeq
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -68,7 +68,7 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.options.PreprocesserOutput(
-        optionsByFile = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[scalapb.options.PreprocesserOutput.OptionsByFileEntry]]).getOrElse(_root_.scala.Seq.empty).iterator.map(scalapb.options.PreprocesserOutput._typemapper_optionsByFile.toCustom).toMap
+        optionsByFile = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[scalapb.options.PreprocesserOutput.OptionsByFileEntry]]).getOrElse(_root_.scala.Seq.empty).iterator.map(scalapb.options.PreprocesserOutput._typemapper_optionsByFile.toCustom(_)).toMap
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -188,7 +188,7 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => key.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => key.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
           case 2 => value.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }

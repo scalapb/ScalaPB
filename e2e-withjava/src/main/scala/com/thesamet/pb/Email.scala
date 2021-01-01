@@ -12,5 +12,5 @@ object Email {
     case _                   => throw new IllegalArgumentException(s"Expected @ in email. Got: $s")
   }
 
-  implicit val emailTypeMapper = TypeMapper[String, Email](fromString)(_.toString)
+  implicit val emailTypeMapper: TypeMapper[String, Email] = TypeMapper[String, Email](fromString)(_.toString)
 }

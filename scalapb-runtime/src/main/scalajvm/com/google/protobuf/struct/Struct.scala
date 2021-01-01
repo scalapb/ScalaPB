@@ -59,7 +59,7 @@ final case class Struct(
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
-        case 1 => fields.iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase).toSeq
+        case 1 => fields.iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toBase(_)).toSeq
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -92,7 +92,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.Struct(
-        fields = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[com.google.protobuf.struct.Struct.FieldsEntry]]).getOrElse(_root_.scala.Seq.empty).iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom).toMap
+        fields = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[com.google.protobuf.struct.Struct.FieldsEntry]]).getOrElse(_root_.scala.Seq.empty).iterator.map(com.google.protobuf.struct.Struct._typemapper_fields.toCustom(_)).toMap
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }

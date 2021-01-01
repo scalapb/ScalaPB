@@ -236,18 +236,18 @@ final case class FileDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => `package`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.iterator.map(_root_.scalapb.descriptors.PString).toVector)
-        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.iterator.map(_root_.scalapb.descriptors.PInt).toVector)
-        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.iterator.map(_root_.scalapb.descriptors.PInt).toVector)
+        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => `package`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
         case 4 => _root_.scalapb.descriptors.PRepeated(messageType.iterator.map(_.toPMessage).toVector)
         case 5 => _root_.scalapb.descriptors.PRepeated(enumType.iterator.map(_.toPMessage).toVector)
         case 6 => _root_.scalapb.descriptors.PRepeated(service.iterator.map(_.toPMessage).toVector)
         case 7 => _root_.scalapb.descriptors.PRepeated(extension.iterator.map(_.toPMessage).toVector)
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => sourceCodeInfo.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 12 => syntax.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 12 => syntax.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -263,14 +263,14 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     scalaPbSource.name.foreach(javaPbOut.setName)
     scalaPbSource.`package`.foreach(javaPbOut.setPackage)
     javaPbOut.addAllDependency(scalaPbSource.dependency.asJava)
-    javaPbOut.addAllPublicDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.publicDependency.iterator.map(_root_.scala.Int.box)).asJava)
-    javaPbOut.addAllWeakDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.weakDependency.iterator.map(_root_.scala.Int.box)).asJava)
-    javaPbOut.addAllMessageType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.messageType.iterator.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto)).asJava)
-    javaPbOut.addAllEnumType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumType.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto)).asJava)
-    javaPbOut.addAllService(_root_.scalapb.internal.compat.toIterable(scalaPbSource.service.iterator.map(com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto)).asJava)
-    javaPbOut.addAllExtension(_root_.scalapb.internal.compat.toIterable(scalaPbSource.extension.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto)).asJava)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.FileOptions.toJavaProto).foreach(javaPbOut.setOptions)
-    scalaPbSource.sourceCodeInfo.map(com.google.protobuf.descriptor.SourceCodeInfo.toJavaProto).foreach(javaPbOut.setSourceCodeInfo)
+    javaPbOut.addAllPublicDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.publicDependency.iterator.map(_root_.scala.Int.box(_))).asJava)
+    javaPbOut.addAllWeakDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.weakDependency.iterator.map(_root_.scala.Int.box(_))).asJava)
+    javaPbOut.addAllMessageType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.messageType.iterator.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllEnumType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumType.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllService(_root_.scalapb.internal.compat.toIterable(scalaPbSource.service.iterator.map(com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllExtension(_root_.scalapb.internal.compat.toIterable(scalaPbSource.extension.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.toJavaProto(_))).asJava)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.FileOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    scalaPbSource.sourceCodeInfo.map(com.google.protobuf.descriptor.SourceCodeInfo.toJavaProto(_)).foreach(javaPbOut.setSourceCodeInfo)
     scalaPbSource.syntax.foreach(javaPbOut.setSyntax)
     javaPbOut.build
   }
@@ -280,10 +280,10 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     dependency = javaPbSource.getDependencyList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
     publicDependency = javaPbSource.getPublicDependencyList.asScala.iterator.map(_.intValue).toSeq,
     weakDependency = javaPbSource.getWeakDependencyList.asScala.iterator.map(_.intValue).toSeq,
-    messageType = javaPbSource.getMessageTypeList.asScala.iterator.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto).toSeq,
-    enumType = javaPbSource.getEnumTypeList.asScala.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto).toSeq,
-    service = javaPbSource.getServiceList.asScala.iterator.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto).toSeq,
-    extension = javaPbSource.getExtensionList.asScala.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto).toSeq,
+    messageType = javaPbSource.getMessageTypeList.asScala.iterator.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)).toSeq,
+    enumType = javaPbSource.getEnumTypeList.asScala.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)).toSeq,
+    service = javaPbSource.getServiceList.asScala.iterator.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto(_)).toSeq,
+    extension = javaPbSource.getExtensionList.asScala.iterator.map(com.google.protobuf.descriptor.FieldDescriptorProto.fromJavaProto(_)).toSeq,
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.FileOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
     sourceCodeInfo = if (javaPbSource.hasSourceCodeInfo) Some(com.google.protobuf.descriptor.SourceCodeInfo.fromJavaProto(javaPbSource.getSourceCodeInfo)) else _root_.scala.None,
     syntax = if (javaPbSource.hasSyntax) Some(javaPbSource.getSyntax) else _root_.scala.None
