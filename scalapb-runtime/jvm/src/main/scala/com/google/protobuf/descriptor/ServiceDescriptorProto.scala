@@ -83,7 +83,7 @@ final case class ServiceDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => _root_.scalapb.descriptors.PRepeated(method.iterator.map(_.toPMessage).toVector)
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
@@ -99,13 +99,13 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceDescriptorProto): com.google.protobuf.DescriptorProtos.ServiceDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllMethod(_root_.scalapb.internal.compat.toIterable(scalaPbSource.method.iterator.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto)).asJava)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.ServiceOptions.toJavaProto).foreach(javaPbOut.setOptions)
+    javaPbOut.addAllMethod(_root_.scalapb.internal.compat.toIterable(scalaPbSource.method.iterator.map(com.google.protobuf.descriptor.MethodDescriptorProto.toJavaProto(_))).asJava)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.ServiceOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.ServiceDescriptorProto): com.google.protobuf.descriptor.ServiceDescriptorProto = com.google.protobuf.descriptor.ServiceDescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
-    method = javaPbSource.getMethodList.asScala.iterator.map(com.google.protobuf.descriptor.MethodDescriptorProto.fromJavaProto).toSeq,
+    method = javaPbSource.getMethodList.asScala.iterator.map(com.google.protobuf.descriptor.MethodDescriptorProto.fromJavaProto(_)).toSeq,
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.ServiceOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None
   )
   def merge(`_message__`: com.google.protobuf.descriptor.ServiceDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ServiceDescriptorProto = newBuilder(_message__).merge(_input__).result()

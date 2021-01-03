@@ -114,11 +114,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.SourceCodeInfo): com.google.protobuf.DescriptorProtos.SourceCodeInfo = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.SourceCodeInfo.newBuilder
-    javaPbOut.addAllLocation(_root_.scalapb.internal.compat.toIterable(scalaPbSource.location.iterator.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.toJavaProto)).asJava)
+    javaPbOut.addAllLocation(_root_.scalapb.internal.compat.toIterable(scalaPbSource.location.iterator.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.SourceCodeInfo): com.google.protobuf.descriptor.SourceCodeInfo = com.google.protobuf.descriptor.SourceCodeInfo(
-    location = javaPbSource.getLocationList.asScala.iterator.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.fromJavaProto).toSeq
+    location = javaPbSource.getLocationList.asScala.iterator.map(com.google.protobuf.descriptor.SourceCodeInfo.Location.fromJavaProto(_)).toSeq
   )
   def merge(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scalapb.descriptors.Reads{
@@ -384,11 +384,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => _root_.scalapb.descriptors.PRepeated(path.iterator.map(_root_.scalapb.descriptors.PInt).toVector)
-          case 2 => _root_.scalapb.descriptors.PRepeated(span.iterator.map(_root_.scalapb.descriptors.PInt).toVector)
-          case 3 => leadingComments.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 4 => trailingComments.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 6 => _root_.scalapb.descriptors.PRepeated(leadingDetachedComments.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+          case 1 => _root_.scalapb.descriptors.PRepeated(path.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+          case 2 => _root_.scalapb.descriptors.PRepeated(span.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+          case 3 => leadingComments.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 4 => trailingComments.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 6 => _root_.scalapb.descriptors.PRepeated(leadingDetachedComments.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -401,8 +401,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo.Location = newBuilder.merge(input).result()
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.SourceCodeInfo.Location): com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.SourceCodeInfo.Location.newBuilder
-      javaPbOut.addAllPath(_root_.scalapb.internal.compat.toIterable(scalaPbSource.path.iterator.map(_root_.scala.Int.box)).asJava)
-      javaPbOut.addAllSpan(_root_.scalapb.internal.compat.toIterable(scalaPbSource.span.iterator.map(_root_.scala.Int.box)).asJava)
+      javaPbOut.addAllPath(_root_.scalapb.internal.compat.toIterable(scalaPbSource.path.iterator.map(_root_.scala.Int.box(_))).asJava)
+      javaPbOut.addAllSpan(_root_.scalapb.internal.compat.toIterable(scalaPbSource.span.iterator.map(_root_.scala.Int.box(_))).asJava)
       scalaPbSource.leadingComments.foreach(javaPbOut.setLeadingComments)
       scalaPbSource.trailingComments.foreach(javaPbOut.setTrailingComments)
       javaPbOut.addAllLeadingDetachedComments(scalaPbSource.leadingDetachedComments.asJava)

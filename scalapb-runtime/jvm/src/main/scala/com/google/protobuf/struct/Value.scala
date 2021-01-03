@@ -117,9 +117,9 @@ final case class Value(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => kind.nullValue.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => kind.numberValue.map(_root_.scalapb.descriptors.PDouble).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => kind.stringValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 4 => kind.boolValue.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => kind.numberValue.map(_root_.scalapb.descriptors.PDouble(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => kind.stringValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 4 => kind.boolValue.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 5 => kind.structValue.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => kind.listValue.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
@@ -138,8 +138,8 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
     scalaPbSource.kind.numberValue.foreach(javaPbOut.setNumberValue)
     scalaPbSource.kind.stringValue.foreach(javaPbOut.setStringValue)
     scalaPbSource.kind.boolValue.foreach(javaPbOut.setBoolValue)
-    scalaPbSource.kind.structValue.map(com.google.protobuf.struct.Struct.toJavaProto).foreach(javaPbOut.setStructValue)
-    scalaPbSource.kind.listValue.map(com.google.protobuf.struct.ListValue.toJavaProto).foreach(javaPbOut.setListValue)
+    scalaPbSource.kind.structValue.map(com.google.protobuf.struct.Struct.toJavaProto(_)).foreach(javaPbOut.setStructValue)
+    scalaPbSource.kind.listValue.map(com.google.protobuf.struct.ListValue.toJavaProto(_)).foreach(javaPbOut.setListValue)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Value): com.google.protobuf.struct.Value = com.google.protobuf.struct.Value(
@@ -159,11 +159,11 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.struct.Value(
         kind = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(__e.number)))
-            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Double]]).map(com.google.protobuf.struct.Value.Kind.NumberValue))
-            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]).map(com.google.protobuf.struct.Value.Kind.StringValue))
-            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]).map(com.google.protobuf.struct.Value.Kind.BoolValue))
-            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.Struct]]).map(com.google.protobuf.struct.Value.Kind.StructValue))
-            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.ListValue]]).map(com.google.protobuf.struct.Value.Kind.ListValue))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Double]]).map(com.google.protobuf.struct.Value.Kind.NumberValue(_)))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]).map(com.google.protobuf.struct.Value.Kind.StringValue(_)))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]).map(com.google.protobuf.struct.Value.Kind.BoolValue(_)))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.Struct]]).map(com.google.protobuf.struct.Value.Kind.StructValue(_)))
+            .orElse[com.google.protobuf.struct.Value.Kind](__fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.struct.ListValue]]).map(com.google.protobuf.struct.Value.Kind.ListValue(_)))
             .getOrElse(com.google.protobuf.struct.Value.Kind.Empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")

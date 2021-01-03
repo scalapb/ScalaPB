@@ -142,12 +142,12 @@ final case class UninterpretedOption(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 2 => _root_.scalapb.descriptors.PRepeated(name.iterator.map(_.toPMessage).toVector)
-        case 3 => identifierValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 4 => positiveIntValue.map(_root_.scalapb.descriptors.PLong).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 5 => negativeIntValue.map(_root_.scalapb.descriptors.PLong).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 6 => doubleValue.map(_root_.scalapb.descriptors.PDouble).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 7 => stringValue.map(_root_.scalapb.descriptors.PByteString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 8 => aggregateValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => identifierValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 4 => positiveIntValue.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 5 => negativeIntValue.map(_root_.scalapb.descriptors.PLong(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 6 => doubleValue.map(_root_.scalapb.descriptors.PDouble(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 7 => stringValue.map(_root_.scalapb.descriptors.PByteString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => aggregateValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)

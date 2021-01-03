@@ -69,11 +69,11 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorSet = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorSet): com.google.protobuf.DescriptorProtos.FileDescriptorSet = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorSet.newBuilder
-    javaPbOut.addAllFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.file.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto)).asJava)
+    javaPbOut.addAllFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.file.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileDescriptorSet): com.google.protobuf.descriptor.FileDescriptorSet = com.google.protobuf.descriptor.FileDescriptorSet(
-    file = javaPbSource.getFileList.asScala.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto).toSeq
+    file = javaPbSource.getFileList.asScala.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_)).toSeq
   )
   def merge(`_message__`: com.google.protobuf.descriptor.FileDescriptorSet, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorSet = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileDescriptorSet] = _root_.scalapb.descriptors.Reads{

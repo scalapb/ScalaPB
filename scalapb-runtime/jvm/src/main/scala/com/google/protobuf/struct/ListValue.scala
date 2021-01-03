@@ -73,11 +73,11 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.ListValue): com.google.protobuf.ListValue = {
     val javaPbOut = com.google.protobuf.ListValue.newBuilder
-    javaPbOut.addAllValues(_root_.scalapb.internal.compat.toIterable(scalaPbSource.values.iterator.map(com.google.protobuf.struct.Value.toJavaProto)).asJava)
+    javaPbOut.addAllValues(_root_.scalapb.internal.compat.toIterable(scalaPbSource.values.iterator.map(com.google.protobuf.struct.Value.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.ListValue): com.google.protobuf.struct.ListValue = com.google.protobuf.struct.ListValue(
-    values = javaPbSource.getValuesList.asScala.iterator.map(com.google.protobuf.struct.Value.fromJavaProto).toSeq
+    values = javaPbSource.getValuesList.asScala.iterator.map(com.google.protobuf.struct.Value.fromJavaProto(_)).toSeq
   )
   def merge(`_message__`: com.google.protobuf.struct.ListValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.ListValue] = _root_.scalapb.descriptors.Reads{

@@ -152,7 +152,7 @@ final case class Type(
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => _root_.scalapb.descriptors.PString(name)
         case 2 => _root_.scalapb.descriptors.PRepeated(fields.iterator.map(_.toPMessage).toVector)
-        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 3 => _root_.scalapb.descriptors.PRepeated(oneofs.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 4 => _root_.scalapb.descriptors.PRepeated(options.iterator.map(_.toPMessage).toVector)
         case 5 => sourceContext.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)

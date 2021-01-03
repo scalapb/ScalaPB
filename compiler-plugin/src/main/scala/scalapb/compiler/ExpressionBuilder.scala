@@ -107,7 +107,7 @@ object ExpressionBuilder {
     else if (nontrivial.nonEmpty) {
       val f = nontrivial match {
         case List(FunctionApplication(name)) =>
-          name
+          name + "(_)"
         case _ =>
           runSingleton(nontrivial)("_")
       }

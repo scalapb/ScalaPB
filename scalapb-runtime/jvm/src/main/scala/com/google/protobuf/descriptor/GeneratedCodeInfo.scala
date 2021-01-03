@@ -74,11 +74,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.GeneratedCodeInfo): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.newBuilder
-    javaPbOut.addAllAnnotation(_root_.scalapb.internal.compat.toIterable(scalaPbSource.annotation.iterator.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.toJavaProto)).asJava)
+    javaPbOut.addAllAnnotation(_root_.scalapb.internal.compat.toIterable(scalaPbSource.annotation.iterator.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.GeneratedCodeInfo): com.google.protobuf.descriptor.GeneratedCodeInfo = com.google.protobuf.descriptor.GeneratedCodeInfo(
-    annotation = javaPbSource.getAnnotationList.asScala.iterator.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.fromJavaProto).toSeq
+    annotation = javaPbSource.getAnnotationList.asScala.iterator.map(com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.fromJavaProto(_)).toSeq
   )
   def merge(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.GeneratedCodeInfo] = _root_.scalapb.descriptors.Reads{
@@ -253,10 +253,10 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => _root_.scalapb.descriptors.PRepeated(path.iterator.map(_root_.scalapb.descriptors.PInt).toVector)
-          case 2 => sourceFile.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 3 => begin.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 4 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => _root_.scalapb.descriptors.PRepeated(path.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+          case 2 => sourceFile.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 3 => begin.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 4 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -269,7 +269,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = newBuilder.merge(input).result()
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.GeneratedCodeInfo.Annotation.newBuilder
-      javaPbOut.addAllPath(_root_.scalapb.internal.compat.toIterable(scalaPbSource.path.iterator.map(_root_.scala.Int.box)).asJava)
+      javaPbOut.addAllPath(_root_.scalapb.internal.compat.toIterable(scalaPbSource.path.iterator.map(_root_.scala.Int.box(_))).asJava)
       scalaPbSource.sourceFile.foreach(javaPbOut.setSourceFile)
       scalaPbSource.begin.foreach(javaPbOut.setBegin)
       scalaPbSource.end.foreach(javaPbOut.setEnd)
