@@ -1,6 +1,11 @@
 # Change Log
 ## [0.11.0 Unreleased]
 
+## [0.11.0-M5] (Unreleased)
+- GeneratedMessage now extends Product for better type inference (#984)
+- Update to Scala 3.0.0-M3
+- Update to Scala 2.13.4
+
 ## [0.11.0-M4]
 - Upgraded to Protobuf 3.13.0
 - Add java_conversions as a file-level options in scalapb.proto
