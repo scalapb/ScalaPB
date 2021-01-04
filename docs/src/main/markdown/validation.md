@@ -68,6 +68,8 @@ libraryDependencies ++= Seq(
 
 Note that we are adding `scalapb-validate-core` as a `protobuf` dependency. This makes it possible to import `validate/validate.proto` from your own protos.
 
+If [ScalaPB generator parameters](sbt-settings.md#additional-options-to-the-generator) are passed via `scalapb.gen(options: GeneratorOption*)`, the same parameters must be passed to `scalapb.validate.gen(options: GeneratorOption*)`.
+
 ## Using the generated code
 
 Generated code for both ScalaPB and scalapb-validate is generated at compilation time. In `sbt`, just type `compile`.
