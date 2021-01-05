@@ -72,7 +72,6 @@ final case class UInt64Value(
 
 object UInt64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt64Value, com.google.protobuf.UInt64Value] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.UInt64Value = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.UInt64Value): com.google.protobuf.UInt64Value = {
     val javaPbOut = com.google.protobuf.UInt64Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

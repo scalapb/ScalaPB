@@ -112,7 +112,6 @@ final case class EnumValue(
 
 object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.EnumValue, com.google.protobuf.EnumValue] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.EnumValue, com.google.protobuf.EnumValue] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.EnumValue = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.EnumValue): com.google.protobuf.EnumValue = {
     val javaPbOut = com.google.protobuf.EnumValue.newBuilder
     javaPbOut.setName(scalaPbSource.name)

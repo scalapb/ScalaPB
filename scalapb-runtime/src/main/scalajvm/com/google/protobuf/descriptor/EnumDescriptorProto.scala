@@ -135,7 +135,6 @@ final case class EnumDescriptorProto(
 
 object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumDescriptorProto, com.google.protobuf.DescriptorProtos.EnumDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumDescriptorProto, com.google.protobuf.DescriptorProtos.EnumDescriptorProto] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumDescriptorProto): com.google.protobuf.DescriptorProtos.EnumDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
@@ -332,7 +331,6 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   
   object EnumReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, com.google.protobuf.DescriptorProtos.EnumDescriptorProto.EnumReservedRange] {
     implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, com.google.protobuf.DescriptorProtos.EnumDescriptorProto.EnumReservedRange] = this
-    override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = newBuilder.merge(input).result()
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange): com.google.protobuf.DescriptorProtos.EnumDescriptorProto.EnumReservedRange = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.EnumReservedRange.newBuilder
       scalaPbSource.start.foreach(javaPbOut.setStart)

@@ -65,7 +65,6 @@ final case class FileDescriptorSet(
 
 object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorSet] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorSet = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.descriptor.FileDescriptorSet, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorSet = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileDescriptorSet] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

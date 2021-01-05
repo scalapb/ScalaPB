@@ -200,7 +200,6 @@ final case class Method(
 
 object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Method): com.google.protobuf.Method = {
     val javaPbOut = com.google.protobuf.Method.newBuilder
     javaPbOut.setName(scalaPbSource.name)

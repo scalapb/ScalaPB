@@ -85,7 +85,6 @@ final case class EnumValueOptions(
 
 object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueOptions, com.google.protobuf.DescriptorProtos.EnumValueOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueOptions, com.google.protobuf.DescriptorProtos.EnumValueOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumValueOptions = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumValueOptions): com.google.protobuf.DescriptorProtos.EnumValueOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumValueOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)

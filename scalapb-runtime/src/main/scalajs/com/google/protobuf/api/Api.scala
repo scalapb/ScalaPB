@@ -217,7 +217,6 @@ final case class Api(
 
 object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Api = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.api.Api, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Api = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.api.Api] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

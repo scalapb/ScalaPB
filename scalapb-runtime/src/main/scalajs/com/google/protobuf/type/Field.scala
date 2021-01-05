@@ -267,7 +267,6 @@ final case class Field(
 
 object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.`type`.Field, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Field] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

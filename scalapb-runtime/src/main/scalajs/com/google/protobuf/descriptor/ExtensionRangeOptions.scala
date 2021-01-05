@@ -65,7 +65,6 @@ final case class ExtensionRangeOptions(
 
 object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions = newBuilder.merge(input).result()
   def merge(`_message__`: com.google.protobuf.descriptor.ExtensionRangeOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.ExtensionRangeOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

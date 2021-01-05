@@ -257,7 +257,6 @@ final case class FileDescriptorProto(
 
 object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileDescriptorProto = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorProto): com.google.protobuf.DescriptorProtos.FileDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

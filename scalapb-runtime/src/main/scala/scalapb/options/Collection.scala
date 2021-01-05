@@ -100,7 +100,6 @@ final case class Collection(
 
 object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Collection] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.Collection] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.Collection = newBuilder.merge(input).result()
   def merge(`_message__`: scalapb.options.Collection, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.Collection = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.Collection] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

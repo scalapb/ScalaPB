@@ -72,7 +72,6 @@ final case class DoubleValue(
 
 object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.DoubleValue, com.google.protobuf.DoubleValue] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.DoubleValue, com.google.protobuf.DoubleValue] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.DoubleValue = newBuilder.merge(input).result()
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.DoubleValue): com.google.protobuf.DoubleValue = {
     val javaPbOut = com.google.protobuf.DoubleValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
