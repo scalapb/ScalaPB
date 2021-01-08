@@ -125,7 +125,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   )
   final class Builder private (
     private var __name: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __method: collection.mutable.Builder[com.google.protobuf.descriptor.MethodDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]],
+    private var __method: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.MethodDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]],
     private var __options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] {

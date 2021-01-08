@@ -266,7 +266,7 @@ class DescriptorImplicits private[compiler] (
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
       else {
-        EnclosingType.Collection(collectionType, collection.adapter)
+        EnclosingType.Collection(collectionType, collection.adapter.map(_.fullName))
       }
 
     def fieldMapEnclosingType: EnclosingType =

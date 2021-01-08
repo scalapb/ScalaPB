@@ -197,7 +197,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     aggregateValue = _root_.scala.None
   )
   final class Builder private (
-    private var __name: collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption.NamePart, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]],
+    private var __name: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption.NamePart, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]],
     private var __identifierValue: _root_.scala.Option[_root_.scala.Predef.String],
     private var __positiveIntValue: _root_.scala.Option[_root_.scala.Long],
     private var __negativeIntValue: _root_.scala.Option[_root_.scala.Long],

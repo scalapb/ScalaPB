@@ -99,7 +99,7 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
     file = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __file: collection.mutable.Builder[com.google.protobuf.descriptor.FileDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]],
+    private var __file: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FileDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.FileDescriptorSet] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

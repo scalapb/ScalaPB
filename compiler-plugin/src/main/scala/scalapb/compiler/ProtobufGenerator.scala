@@ -871,8 +871,9 @@ class ProtobufGenerator(
             )
 
             val expr = field.collection.adapter match {
-              case Some(tc) if (!field.isMapField()) => s"$tc.fromIterator($itemTypeTranform)"
-              case _                                 => itemTypeTranform
+              case Some(tc) if (!field.isMapField()) =>
+                s"${tc.fullName}.fromIteratorUnsafe($itemTypeTranform)"
+              case _ => itemTypeTranform
             }
 
             s"${field.scalaName.asSymbol} = $expr"
@@ -1001,6 +1002,28 @@ class ProtobufGenerator(
             .add("@transient")
             .add(
               s"$modifier val ${field.typeMapperValName}: _root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]"
+            )
+      }
+  }
+
+  def generateCollectionAdapters(
+      fields: Seq[FieldDescriptor]
+  )(printer: FunctionalPrinter): FunctionalPrinter = {
+    val fieldsWithAdapter: Seq[(FieldDescriptor, String)] = for {
+      field   <- fields
+      adapter <- field.collection.adapterClass
+    } yield (field, adapter)
+
+    printer
+      .print(fieldsWithAdapter) {
+        case (printer, (field, adapter)) =>
+          val modifier =
+            if (field.getFile().scalaPackage.fullName.isEmpty) "private"
+            else s"private[${field.getFile().scalaPackage.fullName.split('.').last}]"
+          printer
+            .add("@transient")
+            .add(
+              s"$modifier val ${field.collection.adapter.get.nameSymbol}: _root_.scalapb.CollectionAdapter[${field.singleScalaTypeName}, ${field.scalaTypeName}] = $adapter()"
             )
       }
   }
@@ -1263,6 +1286,7 @@ class ProtobufGenerator(
       .when(message.generateLenses)(generateMessageLens(message))
       .call(generateFieldNumbers(message))
       .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
+      .call(generateCollectionAdapters(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
       .call(generateNoDefaultArgsFactory(message))
       .add(s"// @@protoc_insertion_point(${message.messageCompanionInsertionPoint.insertionPoint})")

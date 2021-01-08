@@ -527,8 +527,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final class Builder private (
     private var __packageName: _root_.scala.Option[_root_.scala.Predef.String],
     private var __flatPackage: _root_.scala.Option[_root_.scala.Boolean],
-    private var __import: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
-    private var __preamble: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __import: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __preamble: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var __singleFile: _root_.scala.Option[_root_.scala.Boolean],
     private var __noPrimitiveWrappers: _root_.scala.Option[_root_.scala.Boolean],
     private var __primitiveWrappers: _root_.scala.Option[_root_.scala.Boolean],
@@ -542,11 +542,11 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     private var __noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean],
     private var __enumValueNaming: _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming],
     private var __enumStripPrefix: _root_.scala.Option[_root_.scala.Boolean],
-    private var __auxMessageOptions: collection.mutable.Builder[scalapb.options.ScalaPbOptions.AuxMessageOptions, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions]],
-    private var __auxFieldOptions: collection.mutable.Builder[scalapb.options.ScalaPbOptions.AuxFieldOptions, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions]],
-    private var __auxEnumOptions: collection.mutable.Builder[scalapb.options.ScalaPbOptions.AuxEnumOptions, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions]],
+    private var __auxMessageOptions: _root_.scala.collection.mutable.Builder[scalapb.options.ScalaPbOptions.AuxMessageOptions, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions]],
+    private var __auxFieldOptions: _root_.scala.collection.mutable.Builder[scalapb.options.ScalaPbOptions.AuxFieldOptions, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions]],
+    private var __auxEnumOptions: _root_.scala.collection.mutable.Builder[scalapb.options.ScalaPbOptions.AuxEnumOptions, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions]],
     private var __bytesType: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __preprocessors: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __preprocessors: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var __testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.ScalaPbOptions] {

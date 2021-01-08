@@ -225,7 +225,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     private var __noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean],
     private var __deprecated: _root_.scala.Option[_root_.scala.Boolean],
     private var __mapEntry: _root_.scala.Option[_root_.scala.Boolean],
-    private var __uninterpretedOption: collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]],
+    private var __uninterpretedOption: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.MessageOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

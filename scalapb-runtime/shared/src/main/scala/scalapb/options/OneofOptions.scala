@@ -82,7 +82,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
     `extends` = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __extends: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __extends: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.OneofOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

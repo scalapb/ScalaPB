@@ -349,7 +349,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     private var __typeUrl: _root_.scala.Predef.String,
     private var __oneofIndex: _root_.scala.Int,
     private var __packed: _root_.scala.Boolean,
-    private var __options: collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
     private var __jsonName: _root_.scala.Predef.String,
     private var __defaultValue: _root_.scala.Predef.String,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder

@@ -180,9 +180,9 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     compilerVersion = _root_.scala.None
   )
   final class Builder private (
-    private var __fileToGenerate: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __fileToGenerate: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var __parameter: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __protoFile: collection.mutable.Builder[com.google.protobuf.descriptor.FileDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]],
+    private var __protoFile: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FileDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]],
     private var __compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorRequest] {

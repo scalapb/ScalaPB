@@ -136,7 +136,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   final class Builder private (
     private var __name: _root_.scala.Predef.String,
     private var __age: _root_.scala.Int,
-    private var __addresses: collection.mutable.Builder[scalapb.docs.person.Person.Address, _root_.scala.Seq[scalapb.docs.person.Person.Address]],
+    private var __addresses: _root_.scala.collection.mutable.Builder[scalapb.docs.person.Person.Address, _root_.scala.Seq[scalapb.docs.person.Person.Address]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.docs.person.Person] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
