@@ -125,8 +125,8 @@ ScalaPB and ScalaPB-validate. Your `project/plugins.sbt` should have something l
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC6")
 
 libraryDependencies ++= Seq(
-    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview3",
-    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview3"
+    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview4",
+    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview4"
 )
 ```
 
@@ -225,14 +225,6 @@ option (scalapb.validate.package) = {
 As stated above, you will need to have `scalapb-validate-cats` listed in
 `libraryDependencies`. The setting `unique_to_set` can be used independently
 of cats to transform a repeated with `unique: true` rule to a set.
-
-:::note
-Validation is performed only after a message is instantiated. Therefore, when you use
-a `Set` or a `NonEmptySet` instead of list, duplicate elements are deduped during parsing time,
-when ScalaPB adds them to the collections' builder. As a result, uniqueness
-validation will always succeed, even when the original message had duplicate
-elements.
-:::note
 
 ## Package-scoped extension options
 
