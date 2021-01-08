@@ -109,7 +109,7 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
   )
   final class Builder private (
     private var __opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage],
-    private var __rep: collection.mutable.Builder[scalapb.perf.protos.SimpleMessage, _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]],
+    private var __rep: _root_.scala.collection.mutable.Builder[scalapb.perf.protos.SimpleMessage, _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.MessageContainer] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

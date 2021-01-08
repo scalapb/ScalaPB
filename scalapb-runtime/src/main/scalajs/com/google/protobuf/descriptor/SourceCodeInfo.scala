@@ -137,7 +137,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     location = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __location: collection.mutable.Builder[com.google.protobuf.descriptor.SourceCodeInfo.Location, _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]],
+    private var __location: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.SourceCodeInfo.Location, _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.SourceCodeInfo] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -414,11 +414,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       leadingDetachedComments = _root_.scala.Seq.empty
     )
     final class Builder private (
-      private var __path: collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
-      private var __span: collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+      private var __path: _root_.scala.collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+      private var __span: _root_.scala.collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
       private var __leadingComments: _root_.scala.Option[_root_.scala.Predef.String],
       private var __trailingComments: _root_.scala.Option[_root_.scala.Predef.String],
-      private var __leadingDetachedComments: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+      private var __leadingDetachedComments: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
       private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
     ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] {
       def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

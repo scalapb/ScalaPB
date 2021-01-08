@@ -225,9 +225,9 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   )
   final class Builder private (
     private var __name: _root_.scala.Predef.String,
-    private var __fields: collection.mutable.Builder[com.google.protobuf.`type`.Field, _root_.scala.Seq[com.google.protobuf.`type`.Field]],
-    private var __oneofs: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
-    private var __options: collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private var __fields: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.Field, _root_.scala.Seq[com.google.protobuf.`type`.Field]],
+    private var __oneofs: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
     private var __sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     private var __syntax: com.google.protobuf.`type`.Syntax,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder

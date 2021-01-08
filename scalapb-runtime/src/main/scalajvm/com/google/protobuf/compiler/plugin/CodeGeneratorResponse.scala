@@ -151,7 +151,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   final class Builder private (
     private var __error: _root_.scala.Option[_root_.scala.Predef.String],
     private var __supportedFeatures: _root_.scala.Option[_root_.scala.Long],
-    private var __file: collection.mutable.Builder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File, _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]],
+    private var __file: _root_.scala.collection.mutable.Builder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File, _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

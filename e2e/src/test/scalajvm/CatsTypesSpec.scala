@@ -5,15 +5,16 @@ import org.scalatest.matchers.must.Matchers
 import cats.data.NonEmptyList
 import com.thesamet.pb.FullName
 import com.thesamet.proto.e2e.collection_types.{Enum, SubMsg}
+import com.google.protobuf.InvalidProtocolBufferException
 
 class CatsTypesSpec extends AnyFlatSpec with Matchers {
   "Non-empty types" should "throw exception in defaultInstance" in {
-    intercept[RuntimeException](CollectionTypesNEL.defaultInstance)
-    intercept[RuntimeException](CollectionTypesNELPacked.defaultInstance)
+    intercept[InvalidProtocolBufferException](CollectionTypesNEL.defaultInstance)
+    intercept[InvalidProtocolBufferException](CollectionTypesNELPacked.defaultInstance)
   }
 
   "Non-empty types" should "fail parsing when fields are missing" in {
-    intercept[RuntimeException](CollectionTypesNEL.parseFrom(Array[Byte]()))
+    intercept[InvalidProtocolBufferException](CollectionTypesNEL.parseFrom(Array[Byte]()))
   }
 
   "Non-empty types" should "succeed when all types are set " in {

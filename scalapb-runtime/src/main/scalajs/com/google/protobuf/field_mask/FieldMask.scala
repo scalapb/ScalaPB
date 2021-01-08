@@ -281,7 +281,7 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
     paths = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __paths: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __paths: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.field_mask.FieldMask] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

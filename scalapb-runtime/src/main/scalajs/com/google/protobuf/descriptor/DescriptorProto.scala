@@ -269,15 +269,15 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   )
   final class Builder private (
     private var __name: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __field: collection.mutable.Builder[com.google.protobuf.descriptor.FieldDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
-    private var __extension: collection.mutable.Builder[com.google.protobuf.descriptor.FieldDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
-    private var __nestedType: collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]],
-    private var __enumType: collection.mutable.Builder[com.google.protobuf.descriptor.EnumDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]],
-    private var __extensionRange: collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]],
-    private var __oneofDecl: collection.mutable.Builder[com.google.protobuf.descriptor.OneofDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]],
+    private var __field: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FieldDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
+    private var __extension: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FieldDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
+    private var __nestedType: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]],
+    private var __enumType: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.EnumDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]],
+    private var __extensionRange: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]],
+    private var __oneofDecl: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.OneofDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]],
     private var __options: _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions],
-    private var __reservedRange: collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]],
-    private var __reservedName: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __reservedRange: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]],
+    private var __reservedName: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.DescriptorProto] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

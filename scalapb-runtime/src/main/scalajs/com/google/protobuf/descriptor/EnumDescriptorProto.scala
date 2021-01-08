@@ -172,10 +172,10 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   )
   final class Builder private (
     private var __name: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __value: collection.mutable.Builder[com.google.protobuf.descriptor.EnumValueDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto]],
+    private var __value: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.EnumValueDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto]],
     private var __options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions],
-    private var __reservedRange: collection.mutable.Builder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]],
-    private var __reservedName: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __reservedRange: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]],
+    private var __reservedName: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

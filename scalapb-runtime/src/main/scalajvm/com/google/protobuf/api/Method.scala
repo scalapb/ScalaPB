@@ -265,7 +265,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     private var __requestStreaming: _root_.scala.Boolean,
     private var __responseTypeUrl: _root_.scala.Predef.String,
     private var __responseStreaming: _root_.scala.Boolean,
-    private var __options: collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
     private var __syntax: com.google.protobuf.`type`.Syntax,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.api.Method] {

@@ -236,7 +236,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     private var __collection: _root_.scala.Option[scalapb.options.Collection],
     private var __keyType: _root_.scala.Option[_root_.scala.Predef.String],
     private var __valueType: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __annotations: collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private var __annotations: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
     private var __mapType: _root_.scala.Option[_root_.scala.Predef.String],
     private var __noBox: _root_.scala.Option[_root_.scala.Boolean],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder

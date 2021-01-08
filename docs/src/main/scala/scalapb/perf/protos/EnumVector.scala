@@ -92,7 +92,7 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
     colors = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __colors: collection.mutable.Builder[scalapb.perf.protos.Color, _root_.scala.Seq[scalapb.perf.protos.Color]],
+    private var __colors: _root_.scala.collection.mutable.Builder[scalapb.perf.protos.Color, _root_.scala.Seq[scalapb.perf.protos.Color]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.EnumVector] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

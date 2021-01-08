@@ -88,7 +88,7 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
     ints = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __ints: collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+    private var __ints: _root_.scala.collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.IntVector] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

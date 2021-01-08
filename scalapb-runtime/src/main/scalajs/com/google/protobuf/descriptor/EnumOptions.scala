@@ -131,7 +131,7 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   final class Builder private (
     private var __allowAlias: _root_.scala.Option[_root_.scala.Boolean],
     private var __deprecated: _root_.scala.Option[_root_.scala.Boolean],
-    private var __uninterpretedOption: collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]],
+    private var __uninterpretedOption: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.EnumOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

@@ -93,7 +93,7 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
     values = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __values: collection.mutable.Builder[com.google.protobuf.struct.Value, _root_.scala.Seq[com.google.protobuf.struct.Value]],
+    private var __values: _root_.scala.collection.mutable.Builder[com.google.protobuf.struct.Value, _root_.scala.Seq[com.google.protobuf.struct.Value]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.struct.ListValue] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

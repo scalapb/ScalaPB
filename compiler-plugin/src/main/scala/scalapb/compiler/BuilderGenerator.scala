@@ -78,10 +78,16 @@ private[compiler] class BuilderGenerator(
         Field(
           s"__${field.scalaName}",
           field.scalaName.asSymbol,
-          s"collection.mutable.Builder[${field.singleScalaTypeName}, ${field.scalaTypeName}]",
+          if (field.collection.adapter.isDefined)
+            s"${field.collection.adapter.get.fullName}.Builder"
+          else
+            s"_root_.scala.collection.mutable.Builder[${field.singleScalaTypeName}, ${field.scalaTypeName}]",
           field.collection.newBuilder,
           s"${field.collection.newBuilder} ++= $it",
-          s"__${field.scalaName}.result()"
+          if (field.collection.adapter.isDefined)
+            s"__${field.scalaName}.result().fold(throw _, identity(_))"
+          else
+            s"__${field.scalaName}.result()"
         )
       }
     } ++ message.getRealOneofs.asScala.map { oneof =>

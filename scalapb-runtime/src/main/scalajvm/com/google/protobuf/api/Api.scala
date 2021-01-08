@@ -282,11 +282,11 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
   )
   final class Builder private (
     private var __name: _root_.scala.Predef.String,
-    private var __methods: collection.mutable.Builder[com.google.protobuf.api.Method, _root_.scala.Seq[com.google.protobuf.api.Method]],
-    private var __options: collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private var __methods: _root_.scala.collection.mutable.Builder[com.google.protobuf.api.Method, _root_.scala.Seq[com.google.protobuf.api.Method]],
+    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
     private var __version: _root_.scala.Predef.String,
     private var __sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
-    private var __mixins: collection.mutable.Builder[com.google.protobuf.api.Mixin, _root_.scala.Seq[com.google.protobuf.api.Mixin]],
+    private var __mixins: _root_.scala.collection.mutable.Builder[com.google.protobuf.api.Mixin, _root_.scala.Seq[com.google.protobuf.api.Mixin]],
     private var __syntax: com.google.protobuf.`type`.Syntax,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.api.Api] {
