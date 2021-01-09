@@ -174,9 +174,8 @@ final case class Timestamp(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Timestamp])
 }
 
-object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = newBuilder.merge(input).result()
+object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.HasBuilder[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.HasBuilder[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods = this
   def merge(`_message__`: com.google.protobuf.timestamp.Timestamp, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.timestamp.Timestamp] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

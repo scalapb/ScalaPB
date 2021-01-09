@@ -70,9 +70,8 @@ final case class Int32Value(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Int32Value])
 }
 
-object Int32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.Int32Value = newBuilder.merge(input).result()
+object Int32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with scalapb.HasBuilder[com.google.protobuf.wrappers.Int32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int32Value] with scalapb.HasBuilder[com.google.protobuf.wrappers.Int32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.Int32Value, com.google.protobuf.Int32Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.Int32Value): com.google.protobuf.Int32Value = {
     val javaPbOut = com.google.protobuf.Int32Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

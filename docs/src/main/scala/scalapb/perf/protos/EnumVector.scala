@@ -68,9 +68,8 @@ final case class EnumVector(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.EnumVector])
 }
 
-object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.EnumVector = newBuilder.merge(input).result()
+object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] with scalapb.HasBuilder[scalapb.perf.protos.EnumVector] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] with scalapb.HasBuilder[scalapb.perf.protos.EnumVector] = this
   def merge(`_message__`: scalapb.perf.protos.EnumVector, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.EnumVector = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.EnumVector] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

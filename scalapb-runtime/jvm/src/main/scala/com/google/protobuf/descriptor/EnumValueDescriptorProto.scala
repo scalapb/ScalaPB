@@ -89,9 +89,8 @@ final case class EnumValueDescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumValueDescriptorProto])
 }
 
-object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumValueDescriptorProto = newBuilder.merge(input).result()
+object EnumValueDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumValueDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueDescriptorProto, com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumValueDescriptorProto): com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumValueDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

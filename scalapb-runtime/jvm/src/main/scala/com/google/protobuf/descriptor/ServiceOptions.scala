@@ -83,9 +83,8 @@ final case class ServiceOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ServiceOptions])
 }
 
-object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ServiceOptions = newBuilder.merge(input).result()
+object ServiceOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.ServiceOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.ServiceOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ServiceOptions, com.google.protobuf.DescriptorProtos.ServiceOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ServiceOptions): com.google.protobuf.DescriptorProtos.ServiceOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ServiceOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)

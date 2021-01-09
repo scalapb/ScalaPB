@@ -59,9 +59,8 @@ final case class MyContainer(
     // @@protoc_insertion_point(GeneratedMessage[com.thesamet.docs.MyContainer])
 }
 
-object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyContainer = newBuilder.merge(input).result()
+object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] with scalapb.HasBuilder[com.thesamet.docs.json.MyContainer] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] with scalapb.HasBuilder[com.thesamet.docs.json.MyContainer] = this
   def merge(`_message__`: com.thesamet.docs.json.MyContainer, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyContainer = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.thesamet.docs.json.MyContainer] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

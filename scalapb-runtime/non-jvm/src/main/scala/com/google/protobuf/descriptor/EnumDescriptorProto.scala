@@ -132,9 +132,8 @@ final case class EnumDescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumDescriptorProto])
 }
 
-object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto = newBuilder.merge(input).result()
+object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] = this
   def merge(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -313,9 +312,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumDescriptorProto.EnumReservedRange])
   }
   
-  object EnumReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = this
-    override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = newBuilder.merge(input).result()
+  object EnumReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = this
     def merge(`_message__`: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

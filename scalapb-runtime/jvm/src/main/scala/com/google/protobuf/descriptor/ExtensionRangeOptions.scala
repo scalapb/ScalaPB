@@ -64,9 +64,8 @@ final case class ExtensionRangeOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ExtensionRangeOptions])
 }
 
-object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ExtensionRangeOptions, com.google.protobuf.DescriptorProtos.ExtensionRangeOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ExtensionRangeOptions, com.google.protobuf.DescriptorProtos.ExtensionRangeOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions = newBuilder.merge(input).result()
+object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.ExtensionRangeOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ExtensionRangeOptions, com.google.protobuf.DescriptorProtos.ExtensionRangeOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.ExtensionRangeOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ExtensionRangeOptions, com.google.protobuf.DescriptorProtos.ExtensionRangeOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ExtensionRangeOptions): com.google.protobuf.DescriptorProtos.ExtensionRangeOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ExtensionRangeOptions.newBuilder
     javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)

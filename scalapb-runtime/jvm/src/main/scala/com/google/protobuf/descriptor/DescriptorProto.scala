@@ -214,9 +214,8 @@ final case class DescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto])
 }
 
-object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.DescriptorProtos.DescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.DescriptorProtos.DescriptorProto] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto = newBuilder.merge(input).result()
+object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.DescriptorProtos.DescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.DescriptorProtos.DescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto): com.google.protobuf.DescriptorProtos.DescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
@@ -471,9 +470,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto.ExtensionRange])
   }
   
-  object ExtensionRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] = this
-    override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = newBuilder.merge(input).result()
+  object ExtensionRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange): com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.ExtensionRange.newBuilder
       scalaPbSource.start.foreach(javaPbOut.setStart)
@@ -663,9 +661,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto.ReservedRange])
   }
   
-  object ReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] = this
-    override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = newBuilder.merge(input).result()
+  object ReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange] = this
     def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.DescriptorProto.ReservedRange): com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.DescriptorProto.ReservedRange.newBuilder
       scalaPbSource.start.foreach(javaPbOut.setStart)

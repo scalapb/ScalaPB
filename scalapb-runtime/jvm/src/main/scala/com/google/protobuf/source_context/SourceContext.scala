@@ -70,9 +70,8 @@ final case class SourceContext(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.SourceContext])
 }
 
-object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.source_context.SourceContext = newBuilder.merge(input).result()
+object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.HasBuilder[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.HasBuilder[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.source_context.SourceContext): com.google.protobuf.SourceContext = {
     val javaPbOut = com.google.protobuf.SourceContext.newBuilder
     javaPbOut.setFileName(scalaPbSource.fileName)

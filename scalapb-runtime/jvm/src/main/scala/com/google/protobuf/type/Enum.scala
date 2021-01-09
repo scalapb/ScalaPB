@@ -147,9 +147,8 @@ final case class Enum(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Enum])
 }
 
-object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Enum = newBuilder.merge(input).result()
+object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with scalapb.HasBuilder[com.google.protobuf.`type`.Enum] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with scalapb.HasBuilder[com.google.protobuf.`type`.Enum] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Enum, com.google.protobuf.Enum] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Enum): com.google.protobuf.Enum = {
     val javaPbOut = com.google.protobuf.Enum.newBuilder
     javaPbOut.setName(scalaPbSource.name)

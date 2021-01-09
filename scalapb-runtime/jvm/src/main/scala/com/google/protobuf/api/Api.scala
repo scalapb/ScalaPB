@@ -216,9 +216,8 @@ final case class Api(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Api])
 }
 
-object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with scalapb.JavaProtoSupport[com.google.protobuf.api.Api, com.google.protobuf.Api] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with scalapb.JavaProtoSupport[com.google.protobuf.api.Api, com.google.protobuf.Api] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Api = newBuilder.merge(input).result()
+object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with scalapb.HasBuilder[com.google.protobuf.api.Api] with scalapb.JavaProtoSupport[com.google.protobuf.api.Api, com.google.protobuf.Api] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api] with scalapb.HasBuilder[com.google.protobuf.api.Api] with scalapb.JavaProtoSupport[com.google.protobuf.api.Api, com.google.protobuf.Api] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Api): com.google.protobuf.Api = {
     val javaPbOut = com.google.protobuf.Api.newBuilder
     javaPbOut.setName(scalaPbSource.name)

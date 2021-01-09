@@ -95,9 +95,8 @@ final case class EnumOptions(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.EnumOptions])
 }
 
-object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.EnumOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.EnumOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.EnumOptions = newBuilder.merge(input).result()
+object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.EnumOptions] with scalapb.HasBuilder[scalapb.options.EnumOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.EnumOptions] with scalapb.HasBuilder[scalapb.options.EnumOptions] = this
   def merge(`_message__`: scalapb.options.EnumOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.EnumOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.EnumOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

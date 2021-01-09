@@ -155,9 +155,8 @@ final case class UninterpretedOption(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.UninterpretedOption])
 }
 
-object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = newBuilder.merge(input).result()
+object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] with scalapb.HasBuilder[com.google.protobuf.descriptor.UninterpretedOption] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption] with scalapb.HasBuilder[com.google.protobuf.descriptor.UninterpretedOption] = this
   def merge(`_message__`: com.google.protobuf.descriptor.UninterpretedOption, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -344,9 +343,8 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.UninterpretedOption.NamePart])
   }
   
-  object NamePart extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = this
-    override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = newBuilder.merge(input).result()
+  object NamePart extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with scalapb.HasBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.UninterpretedOption.NamePart] with scalapb.HasBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = this
     def merge(`_message__`: com.google.protobuf.descriptor.UninterpretedOption.NamePart, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.UninterpretedOption.NamePart = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

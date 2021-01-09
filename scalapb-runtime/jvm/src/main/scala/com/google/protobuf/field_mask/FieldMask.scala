@@ -262,9 +262,8 @@ final case class FieldMask(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldMask])
 }
 
-object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.field_mask.FieldMask = newBuilder.merge(input).result()
+object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with scalapb.HasBuilder[com.google.protobuf.field_mask.FieldMask] with scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.field_mask.FieldMask] with scalapb.HasBuilder[com.google.protobuf.field_mask.FieldMask] with scalapb.JavaProtoSupport[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.FieldMask] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.field_mask.FieldMask): com.google.protobuf.FieldMask = {
     val javaPbOut = com.google.protobuf.FieldMask.newBuilder
     javaPbOut.addAllPaths(scalaPbSource.paths.asJava)

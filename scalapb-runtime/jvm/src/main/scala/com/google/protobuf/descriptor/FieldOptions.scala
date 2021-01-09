@@ -207,9 +207,8 @@ final case class FieldOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldOptions])
 }
 
-object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldOptions = newBuilder.merge(input).result()
+object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FieldOptions): com.google.protobuf.DescriptorProtos.FieldOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FieldOptions.newBuilder
     scalaPbSource.ctype.map(com.google.protobuf.descriptor.FieldOptions.CType.toJavaValue(_)).foreach(javaPbOut.setCtype)

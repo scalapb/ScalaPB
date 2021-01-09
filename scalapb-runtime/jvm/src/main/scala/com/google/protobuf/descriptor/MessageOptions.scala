@@ -170,9 +170,8 @@ final case class MessageOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.MessageOptions])
 }
 
-object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MessageOptions = newBuilder.merge(input).result()
+object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MessageOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MessageOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.DescriptorProtos.MessageOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.MessageOptions): com.google.protobuf.DescriptorProtos.MessageOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.MessageOptions.newBuilder
     scalaPbSource.messageSetWireFormat.foreach(javaPbOut.setMessageSetWireFormat)

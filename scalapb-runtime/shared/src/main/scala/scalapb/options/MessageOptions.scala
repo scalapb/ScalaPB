@@ -180,9 +180,8 @@ final case class MessageOptions(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.MessageOptions])
 }
 
-object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = newBuilder.merge(input).result()
+object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] with scalapb.HasBuilder[scalapb.options.MessageOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] with scalapb.HasBuilder[scalapb.options.MessageOptions] = this
   def merge(`_message__`: scalapb.options.MessageOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.MessageOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

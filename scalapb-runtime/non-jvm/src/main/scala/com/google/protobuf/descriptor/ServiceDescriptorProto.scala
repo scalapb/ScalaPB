@@ -92,9 +92,8 @@ final case class ServiceDescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ServiceDescriptorProto])
 }
 
-object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ServiceDescriptorProto = newBuilder.merge(input).result()
+object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] = this
   def merge(`_message__`: com.google.protobuf.descriptor.ServiceDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ServiceDescriptorProto = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

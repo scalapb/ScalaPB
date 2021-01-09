@@ -83,7 +83,8 @@ lazy val runtime = crossProject(JSPlatform, JVMPlatform /*, NativePlatform*/ )
         "scalapb.options.Scalapb#MessageOptionsOrBuilder.getUnknownFieldsAnnotations*"
       ),
       ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
-      ProblemFilters.exclude[Problem]("scalapb.options.*")
+      ProblemFilters.exclude[Problem]("scalapb.options.*"),
+      ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom")
     )
   )
   .platformsSettings(JSPlatform /*, NativePlatform*/ )(

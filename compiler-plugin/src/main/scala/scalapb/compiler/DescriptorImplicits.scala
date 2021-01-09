@@ -633,7 +633,7 @@ class DescriptorImplicits private[compiler] (
         case _                           => Seq()
       }
 
-      Seq(s"scalapb.GeneratedMessageCompanion[${scalaType.fullName}]") ++
+      Seq(s"scalapb.GeneratedMessageCompanion[${scalaType.fullName}]", s"scalapb.HasBuilder[${scalaType.fullName}]") ++
         mixins ++
         companionExtendsOption ++
         specialMixins

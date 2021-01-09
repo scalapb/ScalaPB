@@ -129,9 +129,8 @@ final case class Value(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Value])
 }
 
-object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Value, com.google.protobuf.Value] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Value, com.google.protobuf.Value] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = newBuilder.merge(input).result()
+object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.HasBuilder[com.google.protobuf.struct.Value] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Value, com.google.protobuf.Value] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.HasBuilder[com.google.protobuf.struct.Value] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Value, com.google.protobuf.Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.Value): com.google.protobuf.Value = {
     val javaPbOut = com.google.protobuf.Value.newBuilder
     scalaPbSource.kind.nullValue.map(_.value).foreach(javaPbOut.setNullValueValue)

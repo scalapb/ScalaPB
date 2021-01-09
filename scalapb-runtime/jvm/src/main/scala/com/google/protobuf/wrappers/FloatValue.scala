@@ -70,9 +70,8 @@ final case class FloatValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FloatValue])
 }
 
-object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] = this
-  override protected def actualParseFrom(input: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.FloatValue = newBuilder.merge(input).result()
+object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.FloatValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.FloatValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.FloatValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.FloatValue): com.google.protobuf.FloatValue = {
     val javaPbOut = com.google.protobuf.FloatValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
