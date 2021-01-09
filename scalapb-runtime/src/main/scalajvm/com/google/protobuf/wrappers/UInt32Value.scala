@@ -70,8 +70,8 @@ final case class UInt32Value(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.UInt32Value])
 }
 
-object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt32Value, com.google.protobuf.UInt32Value] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt32Value, com.google.protobuf.UInt32Value] = this
+object UInt32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt32Value] with scalapb.HasBuilder[com.google.protobuf.wrappers.UInt32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt32Value, com.google.protobuf.UInt32Value] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt32Value] with scalapb.HasBuilder[com.google.protobuf.wrappers.UInt32Value] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.UInt32Value, com.google.protobuf.UInt32Value] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.UInt32Value): com.google.protobuf.UInt32Value = {
     val javaPbOut = com.google.protobuf.UInt32Value.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

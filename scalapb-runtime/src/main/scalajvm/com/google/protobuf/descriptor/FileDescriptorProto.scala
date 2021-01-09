@@ -255,8 +255,8 @@ final case class FileDescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FileDescriptorProto])
 }
 
-object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] = this
+object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.FileDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileDescriptorProto, com.google.protobuf.DescriptorProtos.FileDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileDescriptorProto): com.google.protobuf.DescriptorProtos.FileDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

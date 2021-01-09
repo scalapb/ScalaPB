@@ -70,8 +70,8 @@ final case class UInt64Value(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.UInt64Value])
 }
 
-object UInt64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] = this
+object UInt64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with scalapb.HasBuilder[com.google.protobuf.wrappers.UInt64Value] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.UInt64Value] with scalapb.HasBuilder[com.google.protobuf.wrappers.UInt64Value] = this
   def merge(`_message__`: com.google.protobuf.wrappers.UInt64Value, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.UInt64Value = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.UInt64Value] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

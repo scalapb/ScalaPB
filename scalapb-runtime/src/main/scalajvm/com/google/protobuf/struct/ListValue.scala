@@ -68,8 +68,8 @@ final case class ListValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ListValue])
 }
 
-object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] = this
+object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.HasBuilder[com.google.protobuf.struct.ListValue] with scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.HasBuilder[com.google.protobuf.struct.ListValue] with scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.ListValue): com.google.protobuf.ListValue = {
     val javaPbOut = com.google.protobuf.ListValue.newBuilder
     javaPbOut.addAllValues(_root_.scalapb.internal.compat.toIterable(scalaPbSource.values.iterator.map(com.google.protobuf.struct.Value.toJavaProto(_))).asJava)

@@ -70,8 +70,8 @@ final case class DoubleValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DoubleValue])
 }
 
-object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] = this
+object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.DoubleValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.DoubleValue] = this
   def merge(`_message__`: com.google.protobuf.wrappers.DoubleValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.DoubleValue = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.DoubleValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

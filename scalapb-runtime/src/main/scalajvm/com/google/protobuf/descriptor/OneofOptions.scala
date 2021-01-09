@@ -64,8 +64,8 @@ final case class OneofOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.OneofOptions])
 }
 
-object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] = this
+object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.DescriptorProtos.OneofOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.OneofOptions): com.google.protobuf.DescriptorProtos.OneofOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.OneofOptions.newBuilder
     javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)

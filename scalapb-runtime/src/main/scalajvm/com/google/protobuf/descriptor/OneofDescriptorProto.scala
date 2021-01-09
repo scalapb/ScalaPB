@@ -75,8 +75,8 @@ final case class OneofDescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.OneofDescriptorProto])
 }
 
-object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] = this
+object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.OneofDescriptorProto, com.google.protobuf.DescriptorProtos.OneofDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.OneofDescriptorProto): com.google.protobuf.DescriptorProtos.OneofDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.OneofDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

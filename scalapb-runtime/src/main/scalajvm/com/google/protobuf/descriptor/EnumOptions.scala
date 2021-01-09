@@ -100,8 +100,8 @@ final case class EnumOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumOptions])
 }
 
-object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] = this
+object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumOptions, com.google.protobuf.DescriptorProtos.EnumOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumOptions): com.google.protobuf.DescriptorProtos.EnumOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumOptions.newBuilder
     scalaPbSource.allowAlias.foreach(javaPbOut.setAllowAlias)

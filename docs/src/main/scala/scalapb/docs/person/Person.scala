@@ -100,8 +100,8 @@ final case class Person(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.docs.Person])
 }
 
-object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] = this
+object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] with scalapb.HasBuilder[scalapb.docs.person.Person] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person] with scalapb.HasBuilder[scalapb.docs.person.Person] = this
   def merge(`_message__`: scalapb.docs.person.Person, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.docs.person.Person] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -319,8 +319,8 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
       // @@protoc_insertion_point(GeneratedMessage[scalapb.docs.Person.Address])
   }
   
-  object Address extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] = this
+  object Address extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] with scalapb.HasBuilder[scalapb.docs.person.Person.Address] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.docs.person.Person.Address] with scalapb.HasBuilder[scalapb.docs.person.Person.Address] = this
     def merge(`_message__`: scalapb.docs.person.Person.Address, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.docs.person.Person.Address = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.docs.person.Person.Address] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

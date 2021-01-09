@@ -266,8 +266,8 @@ final case class Field(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Field])
 }
 
-object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Field, com.google.protobuf.Field] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Field, com.google.protobuf.Field] = this
+object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] with scalapb.HasBuilder[com.google.protobuf.`type`.Field] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Field, com.google.protobuf.Field] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] with scalapb.HasBuilder[com.google.protobuf.`type`.Field] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Field, com.google.protobuf.Field] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Field): com.google.protobuf.Field = {
     val javaPbOut = com.google.protobuf.Field.newBuilder
     javaPbOut.setKindValue(scalaPbSource.kind.value)

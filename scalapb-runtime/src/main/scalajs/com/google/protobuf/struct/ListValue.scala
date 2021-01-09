@@ -67,8 +67,8 @@ final case class ListValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ListValue])
 }
 
-object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] = this
+object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.HasBuilder[com.google.protobuf.struct.ListValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.HasBuilder[com.google.protobuf.struct.ListValue] = this
   def merge(`_message__`: com.google.protobuf.struct.ListValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.ListValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

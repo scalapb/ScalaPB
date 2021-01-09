@@ -161,12 +161,17 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
 }
 
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
+  self =>
   type ValueType = A
 
   def merge(a: A, input: CodedInputStream): A
 
   /** Parses a message from a CodedInputStream. */
+<<<<<<< HEAD:scalapb-runtime/src/main/scala/scalapb/GeneratedMessageCompanion.scala
   def parseFrom(input: CodedInputStream): A = newBuilder.merge(input).result()
+=======
+  def parseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
+>>>>>>> 9a056190 (Improve performance by separating Builder into a new trait and marking it final):scalapb-runtime/shared/src/main/scala/scalapb/GeneratedMessageCompanion.scala
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
 
@@ -234,9 +239,20 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   def fromAscii(s: String): A =
     validateAscii(s).fold(t => throw new TextFormatException(t.msg), identity[A])
 
+<<<<<<< HEAD:scalapb-runtime/src/main/scala/scalapb/GeneratedMessageCompanion.scala
   def newBuilder: MessageBuilder[A]
 
   def defaultInstance: A
+=======
+  def defaultInstance: A
+}
+
+trait HasBuilder[A <: GeneratedMessage] {
+  self: GeneratedMessageCompanion[A] =>
+    def newBuilder: MessageBuilder[A]
+
+    override final def parseFrom(input: CodedInputStream): A = newBuilder.merge(input).result()
+>>>>>>> 9a056190 (Improve performance by separating Builder into a new trait and marking it final):scalapb-runtime/shared/src/main/scala/scalapb/GeneratedMessageCompanion.scala
 }
 
 abstract class GeneratedFileObject {

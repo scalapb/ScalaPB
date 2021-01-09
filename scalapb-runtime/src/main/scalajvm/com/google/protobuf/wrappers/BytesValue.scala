@@ -70,8 +70,8 @@ final case class BytesValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.BytesValue])
 }
 
-object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] = this
+object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.BytesValue): com.google.protobuf.BytesValue = {
     val javaPbOut = com.google.protobuf.BytesValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)

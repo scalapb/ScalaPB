@@ -97,8 +97,8 @@ final case class MethodOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.MethodOptions])
 }
 
-object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] = this
+object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.MethodOptions): com.google.protobuf.DescriptorProtos.MethodOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.MethodOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)

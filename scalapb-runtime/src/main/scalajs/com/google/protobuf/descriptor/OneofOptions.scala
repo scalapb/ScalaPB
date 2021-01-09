@@ -63,8 +63,8 @@ final case class OneofOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.OneofOptions])
 }
 
-object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] = this
+object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofOptions] = this
   def merge(`_message__`: com.google.protobuf.descriptor.OneofOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.OneofOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

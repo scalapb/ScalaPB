@@ -108,8 +108,8 @@ final case class SourceCodeInfo(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.SourceCodeInfo])
 }
 
-object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo] = this
+object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo] with scalapb.HasBuilder[com.google.protobuf.descriptor.SourceCodeInfo] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo] with scalapb.HasBuilder[com.google.protobuf.descriptor.SourceCodeInfo] = this
   def merge(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -386,8 +386,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.SourceCodeInfo.Location])
   }
   
-  object Location extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] = this
+  object Location extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with scalapb.HasBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location] with scalapb.HasBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] = this
     def merge(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo.Location, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.SourceCodeInfo.Location = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

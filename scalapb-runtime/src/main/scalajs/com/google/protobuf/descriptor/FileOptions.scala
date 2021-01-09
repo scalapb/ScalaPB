@@ -421,8 +421,8 @@ final case class FileOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FileOptions])
 }
 
-object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] = this
+object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FileOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FileOptions] = this
   def merge(`_message__`: com.google.protobuf.descriptor.FileOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

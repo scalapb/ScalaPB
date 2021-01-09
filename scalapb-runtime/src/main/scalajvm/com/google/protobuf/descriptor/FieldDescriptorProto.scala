@@ -250,8 +250,8 @@ final case class FieldDescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldDescriptorProto])
 }
 
-object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldDescriptorProto, com.google.protobuf.DescriptorProtos.FieldDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldDescriptorProto, com.google.protobuf.DescriptorProtos.FieldDescriptorProto] = this
+object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldDescriptorProto, com.google.protobuf.DescriptorProtos.FieldDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldDescriptorProto, com.google.protobuf.DescriptorProtos.FieldDescriptorProto] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FieldDescriptorProto): com.google.protobuf.DescriptorProtos.FieldDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)

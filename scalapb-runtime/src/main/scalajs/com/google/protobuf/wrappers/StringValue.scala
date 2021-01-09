@@ -70,8 +70,8 @@ final case class StringValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.StringValue])
 }
 
-object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] = this
+object StringValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.StringValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.StringValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.StringValue] = this
   def merge(`_message__`: com.google.protobuf.wrappers.StringValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.StringValue = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.StringValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

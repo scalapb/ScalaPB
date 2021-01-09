@@ -75,8 +75,8 @@ final case class OneofDescriptorProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.OneofDescriptorProto])
 }
 
-object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] = this
+object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] = this
   def merge(`_message__`: com.google.protobuf.descriptor.OneofDescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofDescriptorProto = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.OneofDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

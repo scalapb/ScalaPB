@@ -69,7 +69,8 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
-      ProblemFilters.exclude[Problem]("scalapb.options.*")
+      ProblemFilters.exclude[Problem]("scalapb.options.*"),
+      ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom")
     )
   )
   .jvmPlatform(

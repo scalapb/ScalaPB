@@ -83,8 +83,8 @@ final case class EnumValueOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumValueOptions])
 }
 
-object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueOptions, com.google.protobuf.DescriptorProtos.EnumValueOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueOptions, com.google.protobuf.DescriptorProtos.EnumValueOptions] = this
+object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueOptions, com.google.protobuf.DescriptorProtos.EnumValueOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.EnumValueOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.EnumValueOptions, com.google.protobuf.DescriptorProtos.EnumValueOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumValueOptions): com.google.protobuf.DescriptorProtos.EnumValueOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumValueOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)

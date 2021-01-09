@@ -83,8 +83,8 @@ final case class StringMessage(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.StringMessage])
 }
 
-object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] = this
+object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] with scalapb.HasBuilder[scalapb.perf.protos.StringMessage] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] with scalapb.HasBuilder[scalapb.perf.protos.StringMessage] = this
   def merge(`_message__`: scalapb.perf.protos.StringMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.StringMessage = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.StringMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

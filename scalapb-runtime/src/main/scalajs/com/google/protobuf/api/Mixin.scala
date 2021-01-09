@@ -168,8 +168,8 @@ final case class Mixin(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Mixin])
 }
 
-object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] = this
+object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with scalapb.HasBuilder[com.google.protobuf.api.Mixin] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with scalapb.HasBuilder[com.google.protobuf.api.Mixin] = this
   def merge(`_message__`: com.google.protobuf.api.Mixin, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Mixin = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.api.Mixin] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

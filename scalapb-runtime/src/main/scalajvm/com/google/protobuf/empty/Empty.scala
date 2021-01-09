@@ -46,8 +46,8 @@ final case class Empty(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Empty])
 }
 
-object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] = this
+object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.HasBuilder[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.HasBuilder[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.empty.Empty): com.google.protobuf.Empty = {
     val javaPbOut = com.google.protobuf.Empty.newBuilder
     javaPbOut.build

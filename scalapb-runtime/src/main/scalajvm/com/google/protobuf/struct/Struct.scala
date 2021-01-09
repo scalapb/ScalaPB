@@ -73,8 +73,8 @@ final case class Struct(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Struct])
 }
 
-object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Struct, com.google.protobuf.Struct] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Struct, com.google.protobuf.Struct] = this
+object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct] with scalapb.HasBuilder[com.google.protobuf.struct.Struct] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Struct, com.google.protobuf.Struct] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct] with scalapb.HasBuilder[com.google.protobuf.struct.Struct] with scalapb.JavaProtoSupport[com.google.protobuf.struct.Struct, com.google.protobuf.Struct] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.Struct): com.google.protobuf.Struct = {
     val javaPbOut = com.google.protobuf.Struct.newBuilder
     javaPbOut
@@ -226,8 +226,8 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Struct.FieldsEntry])
   }
   
-  object FieldsEntry extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] = this
+  object FieldsEntry extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] with scalapb.HasBuilder[com.google.protobuf.struct.Struct.FieldsEntry] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Struct.FieldsEntry] with scalapb.HasBuilder[com.google.protobuf.struct.Struct.FieldsEntry] = this
     def merge(`_message__`: com.google.protobuf.struct.Struct.FieldsEntry, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Struct.FieldsEntry = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Struct.FieldsEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

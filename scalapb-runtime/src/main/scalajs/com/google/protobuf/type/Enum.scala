@@ -146,8 +146,8 @@ final case class Enum(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Enum])
 }
 
-object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] = this
+object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with scalapb.HasBuilder[com.google.protobuf.`type`.Enum] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Enum] with scalapb.HasBuilder[com.google.protobuf.`type`.Enum] = this
   def merge(`_message__`: com.google.protobuf.`type`.Enum, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Enum = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Enum] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

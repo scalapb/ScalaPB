@@ -79,8 +79,8 @@ final case class MessageContainer(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.MessageContainer])
 }
 
-object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.MessageContainer] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.MessageContainer] = this
+object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.MessageContainer] with scalapb.HasBuilder[scalapb.perf.protos.MessageContainer] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.MessageContainer] with scalapb.HasBuilder[scalapb.perf.protos.MessageContainer] = this
   def merge(`_message__`: scalapb.perf.protos.MessageContainer, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.MessageContainer = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.MessageContainer] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

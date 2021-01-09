@@ -60,8 +60,8 @@ final case class PreprocesserOutput(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.PreprocesserOutput])
 }
 
-object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput] = this
+object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput] with scalapb.HasBuilder[scalapb.options.PreprocesserOutput] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput] with scalapb.HasBuilder[scalapb.options.PreprocesserOutput] = this
   def merge(`_message__`: scalapb.options.PreprocesserOutput, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.PreprocesserOutput] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -196,8 +196,8 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       // @@protoc_insertion_point(GeneratedMessage[scalapb.PreprocesserOutput.OptionsByFileEntry])
   }
   
-  object OptionsByFileEntry extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput.OptionsByFileEntry] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput.OptionsByFileEntry] = this
+  object OptionsByFileEntry extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput.OptionsByFileEntry] with scalapb.HasBuilder[scalapb.options.PreprocesserOutput.OptionsByFileEntry] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocesserOutput.OptionsByFileEntry] with scalapb.HasBuilder[scalapb.options.PreprocesserOutput.OptionsByFileEntry] = this
     def merge(`_message__`: scalapb.options.PreprocesserOutput.OptionsByFileEntry, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocesserOutput.OptionsByFileEntry = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.PreprocesserOutput.OptionsByFileEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

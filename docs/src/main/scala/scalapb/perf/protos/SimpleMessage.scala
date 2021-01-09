@@ -123,8 +123,8 @@ final case class SimpleMessage(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.SimpleMessage])
 }
 
-object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] = this
+object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] with scalapb.HasBuilder[scalapb.perf.protos.SimpleMessage] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] with scalapb.HasBuilder[scalapb.perf.protos.SimpleMessage] = this
   def merge(`_message__`: scalapb.perf.protos.SimpleMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.SimpleMessage = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.SimpleMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

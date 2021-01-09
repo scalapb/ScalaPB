@@ -194,8 +194,8 @@ final case class Any(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Any])
 }
 
-object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods = this
+object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.HasBuilder[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.HasBuilder[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods = this
   def toJavaProto(scalaPbSource: com.google.protobuf.any.Any): com.google.protobuf.Any = {
     val javaPbOut = com.google.protobuf.Any.newBuilder
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)

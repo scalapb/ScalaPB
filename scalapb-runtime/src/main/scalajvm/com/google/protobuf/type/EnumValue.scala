@@ -110,8 +110,8 @@ final case class EnumValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumValue])
 }
 
-object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.EnumValue, com.google.protobuf.EnumValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.EnumValue, com.google.protobuf.EnumValue] = this
+object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with scalapb.HasBuilder[com.google.protobuf.`type`.EnumValue] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.EnumValue, com.google.protobuf.EnumValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.EnumValue] with scalapb.HasBuilder[com.google.protobuf.`type`.EnumValue] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.EnumValue, com.google.protobuf.EnumValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.EnumValue): com.google.protobuf.EnumValue = {
     val javaPbOut = com.google.protobuf.EnumValue.newBuilder
     javaPbOut.setName(scalaPbSource.name)

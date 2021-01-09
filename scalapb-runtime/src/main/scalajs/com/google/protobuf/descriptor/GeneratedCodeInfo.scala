@@ -68,8 +68,8 @@ final case class GeneratedCodeInfo(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.GeneratedCodeInfo])
 }
 
-object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] = this
+object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] with scalapb.HasBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo] with scalapb.HasBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo] = this
   def merge(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.GeneratedCodeInfo] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
@@ -254,8 +254,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.GeneratedCodeInfo.Annotation])
   }
   
-  object Annotation extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = this
+  object Annotation extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with scalapb.HasBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] with scalapb.HasBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = this
     def merge(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

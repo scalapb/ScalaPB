@@ -198,8 +198,8 @@ final case class Method(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Method])
 }
 
-object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] = this
+object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.HasBuilder[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.HasBuilder[com.google.protobuf.api.Method] with scalapb.JavaProtoSupport[com.google.protobuf.api.Method, com.google.protobuf.Method] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.api.Method): com.google.protobuf.Method = {
     val javaPbOut = com.google.protobuf.Method.newBuilder
     javaPbOut.setName(scalaPbSource.name)

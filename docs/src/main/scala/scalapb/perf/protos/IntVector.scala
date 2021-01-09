@@ -68,8 +68,8 @@ final case class IntVector(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.IntVector])
 }
 
-object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] = this
+object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] with scalapb.HasBuilder[scalapb.perf.protos.IntVector] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] with scalapb.HasBuilder[scalapb.perf.protos.IntVector] = this
   def merge(`_message__`: scalapb.perf.protos.IntVector, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.IntVector = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.IntVector] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

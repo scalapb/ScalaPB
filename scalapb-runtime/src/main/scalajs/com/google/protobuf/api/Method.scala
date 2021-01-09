@@ -197,8 +197,8 @@ final case class Method(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Method])
 }
 
-object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] = this
+object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.HasBuilder[com.google.protobuf.api.Method] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Method] with scalapb.HasBuilder[com.google.protobuf.api.Method] = this
   def merge(`_message__`: com.google.protobuf.api.Method, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.api.Method] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>

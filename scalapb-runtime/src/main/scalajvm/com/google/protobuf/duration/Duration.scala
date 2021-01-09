@@ -154,8 +154,8 @@ final case class Duration(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Duration])
 }
 
-object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods = this
+object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.HasBuilder[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.HasBuilder[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods = this
   def toJavaProto(scalaPbSource: com.google.protobuf.duration.Duration): com.google.protobuf.Duration = {
     val javaPbOut = com.google.protobuf.Duration.newBuilder
     javaPbOut.setSeconds(scalaPbSource.seconds)
