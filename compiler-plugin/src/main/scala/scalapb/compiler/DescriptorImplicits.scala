@@ -246,9 +246,12 @@ class DescriptorImplicits private[compiler] (
     }
 
     def noBox =
-      if (fieldOptions.hasNoBox) fieldOptions.getNoBox
+      if (fieldOptions.hasNoBox || fieldOptions.hasRequired)
+        fieldOptions.getNoBox || fieldOptions.getRequired
       else if (fd.isMessage) fd.getMessageType.noBox
       else false
+
+    def noBoxRequired = fieldOptions.getRequired
 
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.

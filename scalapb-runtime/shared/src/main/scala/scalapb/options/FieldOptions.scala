@@ -20,6 +20,9 @@ package scalapb.options
   *   `scala.collection.immutable.Map`
   * @param noBox
   *   Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
+  * @param required
+  *   Like no_box it does not box a value in Option[T], but also fails parsing when a value
+  *   is not provided. This enables to emulate required fields in proto3.
   */
 @SerialVersionUID(0L)
 final case class FieldOptions(
@@ -32,6 +35,7 @@ final case class FieldOptions(
     annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    required: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] with _root_.scalapb.ExtendableMessage[FieldOptions] {
     @transient
@@ -73,6 +77,10 @@ final case class FieldOptions(
       if (noBox.isDefined) {
         val __value = noBox.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(30, __value)
+      };
+      if (required.isDefined) {
+        val __value = required.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(31, __value)
       };
       __size += unknownFields.serializedSize
       __size
@@ -124,6 +132,10 @@ final case class FieldOptions(
         val __m = __v
         _output__.writeBool(30, __m)
       };
+      required.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(31, __m)
+      };
       unknownFields.writeTo(_output__)
     }
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
@@ -154,6 +166,9 @@ final case class FieldOptions(
     def getNoBox: _root_.scala.Boolean = noBox.getOrElse(false)
     def clearNoBox: FieldOptions = copy(noBox = _root_.scala.None)
     def withNoBox(__v: _root_.scala.Boolean): FieldOptions = copy(noBox = Option(__v))
+    def getRequired: _root_.scala.Boolean = required.getOrElse(false)
+    def clearRequired: FieldOptions = copy(required = _root_.scala.None)
+    def withRequired(__v: _root_.scala.Boolean): FieldOptions = copy(required = Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -167,6 +182,7 @@ final case class FieldOptions(
         case 6 => annotations
         case 7 => mapType.orNull
         case 30 => noBox.orNull
+        case 31 => required.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -181,6 +197,7 @@ final case class FieldOptions(
         case 6 => _root_.scalapb.descriptors.PRepeated(annotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 7 => mapType.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 30 => noBox.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 31 => required.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -203,7 +220,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
         valueType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         annotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         mapType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-        noBox = __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
+        noBox = __fieldsMap.get(scalaDescriptor.findFieldByNumber(30).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        required = __fieldsMap.get(scalaDescriptor.findFieldByNumber(31).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -227,7 +245,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     valueType = _root_.scala.None,
     annotations = _root_.scala.Seq.empty,
     mapType = _root_.scala.None,
-    noBox = _root_.scala.None
+    noBox = _root_.scala.None,
+    required = _root_.scala.None
   )
   final class Builder private (
     private var __type: _root_.scala.Option[_root_.scala.Predef.String],
@@ -239,6 +258,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     private val __annotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var __mapType: _root_.scala.Option[_root_.scala.Predef.String],
     private var __noBox: _root_.scala.Option[_root_.scala.Boolean],
+    private var __required: _root_.scala.Option[_root_.scala.Boolean],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.FieldOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -265,6 +285,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
             __mapType = Option(_input__.readStringRequireUtf8())
           case 240 =>
             __noBox = Option(_input__.readBool())
+          case 248 =>
+            __required = Option(_input__.readBool())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -285,6 +307,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
         annotations = __annotations.result(),
         mapType = __mapType,
         noBox = __noBox,
+        required = __required,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
@@ -300,6 +323,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       __mapType = _root_.scala.None,
       __noBox = _root_.scala.None,
+      __required = _root_.scala.None,
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.FieldOptions): Builder = new Builder(
@@ -312,6 +336,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
         __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
         __mapType = _message__.mapType,
         __noBox = _message__.noBox,
+        __required = _message__.required,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
@@ -335,6 +360,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     def optionalMapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.mapType)((c_, f_) => c_.copy(mapType = f_))
     def noBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Option(f_)))
     def optionalNoBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noBox)((c_, f_) => c_.copy(noBox = f_))
+    def required: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getRequired)((c_, f_) => c_.copy(required = Option(f_)))
+    def optionalRequired: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.required)((c_, f_) => c_.copy(required = f_))
   }
   final val TYPE_FIELD_NUMBER = 1
   final val SCALA_NAME_FIELD_NUMBER = 2
@@ -345,6 +372,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
   final val ANNOTATIONS_FIELD_NUMBER = 6
   final val MAP_TYPE_FIELD_NUMBER = 7
   final val NO_BOX_FIELD_NUMBER = 30
+  final val REQUIRED_FIELD_NUMBER = 31
   def of(
     `type`: _root_.scala.Option[_root_.scala.Predef.String],
     scalaName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -354,7 +382,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     valueType: _root_.scala.Option[_root_.scala.Predef.String],
     annotations: _root_.scala.Seq[_root_.scala.Predef.String],
     mapType: _root_.scala.Option[_root_.scala.Predef.String],
-    noBox: _root_.scala.Option[_root_.scala.Boolean]
+    noBox: _root_.scala.Option[_root_.scala.Boolean],
+    required: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.FieldOptions = _root_.scalapb.options.FieldOptions(
     `type`,
     scalaName,
@@ -364,7 +393,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     valueType,
     annotations,
     mapType,
-    noBox
+    noBox,
+    required
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.FieldOptions])
 }

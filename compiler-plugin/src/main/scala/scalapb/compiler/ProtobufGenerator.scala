@@ -351,7 +351,7 @@ class ProtobufGenerator(
               )
             if (f.supportsPresence || f.isInOneof)
               fp.add(s"case ${f.getNumber} => $e.orNull")
-            else if (f.isOptional) {
+            else if (f.isOptional && !f.noBoxRequired) {
               // In proto3, drop default value
               fp.add(s"case ${f.getNumber} => {")
                 .indent
@@ -490,7 +490,7 @@ class ProtobufGenerator(
   ): FunctionalPrinter = {
     val fieldNameSymbol = fieldAccessorSymbol(field)
 
-    if (field.isRequired) {
+    if (field.isRequired || field.noBoxRequired) {
       fp.add(s"""
                 |{
                 |  val __value = ${toBaseType(field)(fieldNameSymbol)}
@@ -647,7 +647,7 @@ class ProtobufGenerator(
                            |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
                            |  ${field.collection.foreach}($writeFunc)
                            |};""".stripMargin)
-          } else if (field.isRequired) {
+          } else if (field.isRequired || field.noBoxRequired) {
             printer
               .add("")
               .add("{")
@@ -695,7 +695,8 @@ class ProtobufGenerator(
         val ctorDefaultValue: Option[String] =
           if (message.getFile.noDefaultValuesInConstructor) None
           else if (field.isOptional && field.supportsPresence) Some(C.None)
-          else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
+          else if (field.isSingular && !field.isRequired && !field.noBoxRequired)
+            Some(defaultValueForGet(field).toString)
           else if (field.isRepeated && !field.collection.nonEmptyType)
             Some(s"${field.collection.empty}")
           else None
@@ -854,7 +855,7 @@ class ProtobufGenerator(
                     )
                 }
                 s"$value.map(_.as[${baseTypeName}]).getOrElse($empty)"
-              } else if (field.isRequired)
+              } else if (field.isRequired || field.noBoxRequired)
                 s"$value.get.as[$baseTypeName]"
               else {
                 // This is for proto3, no default value.

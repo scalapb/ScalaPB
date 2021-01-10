@@ -401,6 +401,104 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
     )
   }
 
+  "required fields proto" should "fail when oneof contains a required message" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message NoBox {
+            |}
+            |
+            |message Msg {
+            |  oneof foo {
+            |    NoBox field = 1 [(scalapb.field).required = true];
+            |  }
+            |}
+            """.stripMargin
+      )
+    }.message must be(
+      "a.b.Msg.field: setting required is not allowed on oneof fields."
+    )
+  }
+
+  it should "fail when no_box and required are in contradiction" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message Test {
+            |  Msg req = 1 [(scalapb.field).required = true, (scalapb.field).no_box=false];
+            |}
+            |
+            |message Msg {
+            |}
+            """.stripMargin
+      )
+    }.getMessage must be(
+      "a.b.Test.req: setting no_box to false is not allowed while setting required to true."
+    )
+  }
+
+  it should "fail when required is set on repeated field" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message Test {
+            |  repeated Msg req = 1 [(scalapb.field).required = true];
+            |}
+            |
+            |message Msg {
+            |}
+            """.stripMargin
+      )
+    }.getMessage must be(
+      "a.b.Test.req: required is not allowed on repeated fields."
+    )
+  }
+
+  it should "fail when required is set on non-message field" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message Test {
+            |  int32 req = 1 [(scalapb.field).required = true];
+            |}
+            |
+            |message Msg {
+            |}
+            """.stripMargin
+      )
+    }.getMessage must be(
+      "a.b.Test.req: required can only be applied to message fields."
+    )
+  }
+
   "preprocessors" should "fail when preprocessor name is invalid" in {
     intercept[GeneratorException] {
       runValidation(

@@ -30,3 +30,7 @@ message Car {
 
     NameNoBox name_no_box = 6;
 }
+
+message RequiredCar {
+    Tyre tyre1 = 1 [(scalapb.field).required = true];
+}
