@@ -281,7 +281,7 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
     paths = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __paths: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __paths: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.field_mask.FieldMask] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -310,11 +310,11 @@ object FieldMask extends scalapb.GeneratedMessageCompanion[com.google.protobuf.f
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.field_mask.FieldMask, com.google.protobuf.field_mask.FieldMask.Builder] {
     def apply(): Builder = new Builder(
-      __paths = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __paths = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.field_mask.FieldMask): Builder = new Builder(
-        __paths = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.paths,
+        __paths = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.paths,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

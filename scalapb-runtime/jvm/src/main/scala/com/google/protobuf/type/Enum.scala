@@ -204,8 +204,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   )
   final class Builder private (
     private var __name: _root_.scala.Predef.String,
-    private var __enumvalue: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.EnumValue, _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]],
-    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private val __enumvalue: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.EnumValue],
+    private val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
     private var __sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
     private var __syntax: com.google.protobuf.`type`.Syntax,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
@@ -249,16 +249,16 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.`type`.Enum, com.google.protobuf.`type`.Enum.Builder] {
     def apply(): Builder = new Builder(
       __name = "",
-      __enumvalue = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.EnumValue],
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto],
+      __enumvalue = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.EnumValue],
+      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
       __sourceContext = _root_.scala.None,
       __syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.`type`.Enum): Builder = new Builder(
         __name = _message__.name,
-        __enumvalue = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.EnumValue] ++= _message__.enumvalue,
-        __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+        __enumvalue = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.EnumValue] ++= _message__.enumvalue,
+        __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
         __sourceContext = _message__.sourceContext,
         __syntax = _message__.syntax,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)

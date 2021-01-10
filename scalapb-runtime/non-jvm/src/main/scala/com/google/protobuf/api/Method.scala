@@ -244,7 +244,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     private var __requestStreaming: _root_.scala.Boolean,
     private var __responseTypeUrl: _root_.scala.Predef.String,
     private var __responseStreaming: _root_.scala.Boolean,
-    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
     private var __syntax: com.google.protobuf.`type`.Syntax,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.api.Method] {
@@ -297,7 +297,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
       __requestStreaming = false,
       __responseTypeUrl = "",
       __responseStreaming = false,
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto],
+      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
       __syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
       `_unknownFields__` = null
     )
@@ -307,7 +307,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
         __requestStreaming = _message__.requestStreaming,
         __responseTypeUrl = _message__.responseTypeUrl,
         __responseStreaming = _message__.responseStreaming,
-        __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+        __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
         __syntax = _message__.syntax,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )

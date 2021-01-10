@@ -321,7 +321,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     private var __typeUrl: _root_.scala.Predef.String,
     private var __oneofIndex: _root_.scala.Int,
     private var __packed: _root_.scala.Boolean,
-    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
     private var __jsonName: _root_.scala.Predef.String,
     private var __defaultValue: _root_.scala.Predef.String,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
@@ -386,7 +386,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       __typeUrl = "",
       __oneofIndex = 0,
       __packed = false,
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto],
+      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
       __jsonName = "",
       __defaultValue = "",
       `_unknownFields__` = null
@@ -399,7 +399,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
         __typeUrl = _message__.typeUrl,
         __oneofIndex = _message__.oneofIndex,
         __packed = _message__.packed,
-        __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+        __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
         __jsonName = _message__.jsonName,
         __defaultValue = _message__.defaultValue,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)

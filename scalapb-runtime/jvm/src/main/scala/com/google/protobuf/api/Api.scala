@@ -282,11 +282,11 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
   )
   final class Builder private (
     private var __name: _root_.scala.Predef.String,
-    private var __methods: _root_.scala.collection.mutable.Builder[com.google.protobuf.api.Method, _root_.scala.Seq[com.google.protobuf.api.Method]],
-    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private val __methods: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.api.Method],
+    private val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
     private var __version: _root_.scala.Predef.String,
     private var __sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
-    private var __mixins: _root_.scala.collection.mutable.Builder[com.google.protobuf.api.Mixin, _root_.scala.Seq[com.google.protobuf.api.Mixin]],
+    private val __mixins: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.api.Mixin],
     private var __syntax: com.google.protobuf.`type`.Syntax,
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.api.Api] {
@@ -335,21 +335,21 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.api.Api, com.google.protobuf.api.Api.Builder] {
     def apply(): Builder = new Builder(
       __name = "",
-      __methods = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Method],
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto],
+      __methods = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.api.Method],
+      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
       __version = "",
       __sourceContext = _root_.scala.None,
-      __mixins = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Mixin],
+      __mixins = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.api.Mixin],
       __syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.api.Api): Builder = new Builder(
         __name = _message__.name,
-        __methods = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Method] ++= _message__.methods,
-        __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+        __methods = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.api.Method] ++= _message__.methods,
+        __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
         __version = _message__.version,
         __sourceContext = _message__.sourceContext,
-        __mixins = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.api.Mixin] ++= _message__.mixins,
+        __mixins = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.api.Mixin] ++= _message__.mixins,
         __syntax = _message__.syntax,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )

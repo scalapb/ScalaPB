@@ -98,7 +98,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     uninterpretedOption = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __uninterpretedOption: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]],
+    private val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.OneofOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -127,11 +127,11 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.OneofOptions, com.google.protobuf.descriptor.OneofOptions.Builder] {
     def apply(): Builder = new Builder(
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption],
+      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.OneofOptions): Builder = new Builder(
-        __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+        __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

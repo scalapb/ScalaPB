@@ -81,7 +81,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
     `extends` = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __extends: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __extends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.OneofOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -110,11 +110,11 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.options.OneofOptions, scalapb.options.OneofOptions.Builder] {
     def apply(): Builder = new Builder(
-      __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __extends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.OneofOptions): Builder = new Builder(
-        __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
+        __extends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

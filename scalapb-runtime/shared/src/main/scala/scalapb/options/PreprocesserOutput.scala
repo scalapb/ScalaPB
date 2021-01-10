@@ -89,7 +89,7 @@ object PreprocesserOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
     optionsByFile = _root_.scala.collection.immutable.Map.empty
   )
   final class Builder private (
-    private var __optionsByFile: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, scalapb.options.ScalaPbOptions), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions]],
+    private val __optionsByFile: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, scalapb.options.ScalaPbOptions), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.PreprocesserOutput] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

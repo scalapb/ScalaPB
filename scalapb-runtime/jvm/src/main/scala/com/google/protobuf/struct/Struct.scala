@@ -113,7 +113,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
     fields = _root_.scala.collection.immutable.Map.empty
   )
   final class Builder private (
-    private var __fields: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, com.google.protobuf.struct.Value), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]],
+    private val __fields: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, com.google.protobuf.struct.Value), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.struct.Struct] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {

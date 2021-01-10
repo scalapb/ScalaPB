@@ -226,9 +226,9 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
 
 trait HasBuilder[A <: GeneratedMessage] {
   self: GeneratedMessageCompanion[A] =>
-    def newBuilder: MessageBuilder[A]
+  def newBuilder: MessageBuilder[A]
 
-    override final def parseFrom(input: CodedInputStream): A = newBuilder.merge(input).result()
+  override final def parseFrom(input: CodedInputStream): A = newBuilder.merge(input).result()
 }
 
 abstract class GeneratedFileObject {

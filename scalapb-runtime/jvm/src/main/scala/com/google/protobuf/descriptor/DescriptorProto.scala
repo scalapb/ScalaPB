@@ -296,15 +296,15 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   )
   final class Builder private (
     private var __name: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __field: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FieldDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
-    private var __extension: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FieldDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]],
-    private var __nestedType: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]],
-    private var __enumType: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.EnumDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]],
-    private var __extensionRange: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]],
-    private var __oneofDecl: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.OneofDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]],
+    private val __field: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+    private val __extension: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+    private val __nestedType: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto],
+    private val __enumType: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto],
+    private val __extensionRange: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange],
+    private val __oneofDecl: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.OneofDescriptorProto],
     private var __options: _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions],
-    private var __reservedRange: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]],
-    private var __reservedName: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __reservedRange: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange],
+    private val __reservedName: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.DescriptorProto] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -361,28 +361,28 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.descriptor.DescriptorProto.Builder] {
     def apply(): Builder = new Builder(
       __name = _root_.scala.None,
-      __field = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
-      __extension = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
-      __nestedType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto],
-      __enumType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto],
-      __extensionRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange],
-      __oneofDecl = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.OneofDescriptorProto],
+      __field = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+      __extension = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+      __nestedType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto],
+      __enumType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto],
+      __extensionRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange],
+      __oneofDecl = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.OneofDescriptorProto],
       __options = _root_.scala.None,
-      __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange],
-      __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __reservedRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange],
+      __reservedName = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.DescriptorProto): Builder = new Builder(
         __name = _message__.name,
-        __field = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.field,
-        __extension = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.extension,
-        __nestedType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= _message__.nestedType,
-        __enumType = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= _message__.enumType,
-        __extensionRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] ++= _message__.extensionRange,
-        __oneofDecl = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] ++= _message__.oneofDecl,
+        __field = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.field,
+        __extension = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.extension,
+        __nestedType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= _message__.nestedType,
+        __enumType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= _message__.enumType,
+        __extensionRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] ++= _message__.extensionRange,
+        __oneofDecl = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] ++= _message__.oneofDecl,
         __options = _message__.options,
-        __reservedRange = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] ++= _message__.reservedRange,
-        __reservedName = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
+        __reservedRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] ++= _message__.reservedRange,
+        __reservedName = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

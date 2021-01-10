@@ -196,7 +196,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     aggregateValue = _root_.scala.None
   )
   final class Builder private (
-    private var __name: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption.NamePart, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]],
+    private val __name: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart],
     private var __identifierValue: _root_.scala.Option[_root_.scala.Predef.String],
     private var __positiveIntValue: _root_.scala.Option[_root_.scala.Long],
     private var __negativeIntValue: _root_.scala.Option[_root_.scala.Long],
@@ -249,7 +249,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.UninterpretedOption, com.google.protobuf.descriptor.UninterpretedOption.Builder] {
     def apply(): Builder = new Builder(
-      __name = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart],
+      __name = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart],
       __identifierValue = _root_.scala.None,
       __positiveIntValue = _root_.scala.None,
       __negativeIntValue = _root_.scala.None,
@@ -259,7 +259,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.UninterpretedOption): Builder = new Builder(
-        __name = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= _message__.name,
+        __name = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption.NamePart] ++= _message__.name,
         __identifierValue = _message__.identifierValue,
         __positiveIntValue = _message__.positiveIntValue,
         __negativeIntValue = _message__.negativeIntValue,
