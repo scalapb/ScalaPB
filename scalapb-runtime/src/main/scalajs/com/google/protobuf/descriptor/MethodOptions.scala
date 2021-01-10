@@ -132,7 +132,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   final class Builder private (
     private var __deprecated: _root_.scala.Option[_root_.scala.Boolean],
     private var __idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel],
-    private var __uninterpretedOption: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]],
+    private val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.MethodOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -169,13 +169,13 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     def apply(): Builder = new Builder(
       __deprecated = _root_.scala.None,
       __idempotencyLevel = _root_.scala.None,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption],
+      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.MethodOptions): Builder = new Builder(
       __deprecated = _message__.deprecated,
       __idempotencyLevel = _message__.idempotencyLevel,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

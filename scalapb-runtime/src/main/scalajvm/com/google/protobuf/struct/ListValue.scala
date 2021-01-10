@@ -102,7 +102,7 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
     values = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __values: _root_.scala.collection.mutable.Builder[com.google.protobuf.struct.Value, _root_.scala.Seq[com.google.protobuf.struct.Value]],
+    private val __values: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.struct.Value],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.struct.ListValue] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -131,11 +131,11 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.struct.ListValue, com.google.protobuf.struct.ListValue.Builder] {
     def apply(): Builder = new Builder(
-      __values = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value],
+      __values = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.struct.Value],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.struct.ListValue): Builder = new Builder(
-      __values = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.struct.Value] ++= _message__.values,
+      __values = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.struct.Value] ++= _message__.values,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

@@ -511,7 +511,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     private var __phpNamespace: _root_.scala.Option[_root_.scala.Predef.String],
     private var __phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String],
     private var __rubyPackage: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __uninterpretedOption: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.UninterpretedOption, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]],
+    private val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.FileOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -620,7 +620,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       __phpNamespace = _root_.scala.None,
       __phpMetadataNamespace = _root_.scala.None,
       __rubyPackage = _root_.scala.None,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption],
+      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.FileOptions): Builder = new Builder(
@@ -644,7 +644,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       __phpNamespace = _message__.phpNamespace,
       __phpMetadataNamespace = _message__.phpMetadataNamespace,
       __rubyPackage = _message__.rubyPackage,
-      __uninterpretedOption = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

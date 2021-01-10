@@ -97,7 +97,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     annotation = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __annotation: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]],
+    private val __annotation: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -126,11 +126,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo, com.google.protobuf.descriptor.GeneratedCodeInfo.Builder] {
     def apply(): Builder = new Builder(
-      __annotation = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation],
+      __annotation = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo): Builder = new Builder(
-      __annotation = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= _message__.annotation,
+      __annotation = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] ++= _message__.annotation,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
@@ -280,7 +280,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       end = _root_.scala.None
     )
     final class Builder private (
-      private var __path: _root_.scala.collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+      private val __path: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
       private var __sourceFile: _root_.scala.Option[_root_.scala.Predef.String],
       private var __begin: _root_.scala.Option[_root_.scala.Int],
       private var __end: _root_.scala.Option[_root_.scala.Int],
@@ -329,14 +329,14 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     }
     object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Builder] {
       def apply(): Builder = new Builder(
-        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int],
+        __path = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
         __sourceFile = _root_.scala.None,
         __begin = _root_.scala.None,
         __end = _root_.scala.None,
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation): Builder = new Builder(
-        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.path,
+        __path = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] ++= _message__.path,
         __sourceFile = _message__.sourceFile,
         __begin = _message__.begin,
         __end = _message__.end,

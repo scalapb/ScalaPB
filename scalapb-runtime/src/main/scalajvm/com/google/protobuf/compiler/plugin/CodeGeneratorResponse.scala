@@ -151,7 +151,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   final class Builder private (
     private var __error: _root_.scala.Option[_root_.scala.Predef.String],
     private var __supportedFeatures: _root_.scala.Option[_root_.scala.Long],
-    private var __file: _root_.scala.collection.mutable.Builder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File, _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]],
+    private val __file: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -188,13 +188,13 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     def apply(): Builder = new Builder(
       __error = _root_.scala.None,
       __supportedFeatures = _root_.scala.None,
-      __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File],
+      __file = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorResponse): Builder = new Builder(
       __error = _message__.error,
       __supportedFeatures = _message__.supportedFeatures,
-      __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= _message__.file,
+      __file = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] ++= _message__.file,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

@@ -179,9 +179,9 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     compilerVersion = _root_.scala.None
   )
   final class Builder private (
-    private var __fileToGenerate: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __fileToGenerate: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var __parameter: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __protoFile: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FileDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]],
+    private val __protoFile: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FileDescriptorProto],
     private var __compilerVersion: _root_.scala.Option[com.google.protobuf.compiler.plugin.Version],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.compiler.plugin.CodeGeneratorRequest] {
@@ -220,16 +220,16 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.compiler.plugin.CodeGeneratorRequest, com.google.protobuf.compiler.plugin.CodeGeneratorRequest.Builder] {
     def apply(): Builder = new Builder(
-      __fileToGenerate = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __fileToGenerate = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       __parameter = _root_.scala.None,
-      __protoFile = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto],
+      __protoFile = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FileDescriptorProto],
       __compilerVersion = _root_.scala.None,
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.compiler.plugin.CodeGeneratorRequest): Builder = new Builder(
-      __fileToGenerate = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.fileToGenerate,
+      __fileToGenerate = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.fileToGenerate,
       __parameter = _message__.parameter,
-      __protoFile = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.protoFile,
+      __protoFile = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.protoFile,
       __compilerVersion = _message__.compilerVersion,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )

@@ -33,7 +33,8 @@ private[compiler] class BuilderGenerator(
         typeName: String,
         default: String,
         accessor: String,
-        builder: String
+        builder: String,
+        isRepeated: Boolean
     )
 
     val fields = message.fieldsWithoutOneofs.map { field =>
@@ -50,7 +51,8 @@ private[compiler] class BuilderGenerator(
             toCustomTypeExpr(field)(
               s"__${field.scalaName}.getOrElse(${field.getMessageType.scalaType.fullName}.defaultInstance)",
               EnclosingType.None
-            )
+            ),
+            field.isRepeated
           )
         else
           Field(
@@ -59,7 +61,8 @@ private[compiler] class BuilderGenerator(
             field.baseSingleScalaTypeName,
             defaultValueForGet(field, uncustomized = true),
             toBaseTypeExpr(field)(s"_message__.${field.scalaName.asSymbol}", EnclosingType.None),
-            toCustomTypeExpr(field)(s"__${field.scalaName}", EnclosingType.None)
+            toCustomTypeExpr(field)(s"__${field.scalaName}", EnclosingType.None),
+            field.isRepeated
           )
       } else if (!field.isRepeated)
         Field(
@@ -68,7 +71,8 @@ private[compiler] class BuilderGenerator(
           field.scalaTypeName,
           defaultValueForDefaultInstance(field),
           s"_message__.${field.scalaName.asSymbol}",
-          s"__${field.scalaName}"
+          s"__${field.scalaName}",
+          field.isRepeated
         )
       else {
         val it =
@@ -78,16 +82,14 @@ private[compiler] class BuilderGenerator(
         Field(
           s"__${field.scalaName}",
           field.scalaName.asSymbol,
-          if (field.collection.adapter.isDefined)
-            s"${field.collection.adapter.get.fullName}.Builder"
-          else
-            s"_root_.scala.collection.mutable.Builder[${field.singleScalaTypeName}, ${field.scalaTypeName}]",
+          field.collection.builderType,
           field.collection.newBuilder,
           s"${field.collection.newBuilder} ++= $it",
           if (field.collection.adapter.isDefined)
             s"__${field.scalaName}.result().fold(throw _, identity(_))"
           else
-            s"__${field.scalaName}.result()"
+            s"__${field.scalaName}.result()",
+          field.isRepeated
         )
       }
     } ++ message.getRealOneofs.asScala.map { oneof =>
@@ -97,7 +99,8 @@ private[compiler] class BuilderGenerator(
         oneof.scalaType.fullName,
         oneof.empty.fullName,
         s"_message__.${oneof.scalaName.nameSymbol}",
-        s"__${oneof.scalaName.name}"
+        s"__${oneof.scalaName.name}",
+        isRepeated = false
       )
     } ++ (if (message.preservesUnknownFields)
             Seq(
@@ -107,7 +110,8 @@ private[compiler] class BuilderGenerator(
                 "_root_.scalapb.UnknownFieldSet.Builder",
                 "null",
                 "new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)",
-                "if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()"
+                "if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()",
+                false
               )
             )
           else Seq.empty)
@@ -115,7 +119,9 @@ private[compiler] class BuilderGenerator(
     printer
       .add(s"final class Builder private (")
       .indented(
-        _.addWithDelimiter(",")(fields.map(f => s"private var ${f.name}: ${f.typeName}"))
+        _.addWithDelimiter(",")(
+          fields.map(f => s"private ${if (f.isRepeated) "val" else "var"} ${f.name}: ${f.typeName}")
+        )
       )
       .add(s") extends _root_.scalapb.MessageBuilder[$myFullScalaName] {")
       .indented(

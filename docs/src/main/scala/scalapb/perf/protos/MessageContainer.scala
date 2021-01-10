@@ -109,7 +109,7 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
   )
   final class Builder private (
     private var __opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage],
-    private var __rep: _root_.scala.collection.mutable.Builder[scalapb.perf.protos.SimpleMessage, _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]],
+    private val __rep: _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.SimpleMessage],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.MessageContainer] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -142,12 +142,12 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
   object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.MessageContainer, scalapb.perf.protos.MessageContainer.Builder] {
     def apply(): Builder = new Builder(
       __opt = _root_.scala.None,
-      __rep = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.SimpleMessage],
+      __rep = new _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.SimpleMessage],
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.MessageContainer): Builder = new Builder(
       __opt = _message__.opt,
-      __rep = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.SimpleMessage] ++= _message__.rep,
+      __rep = new _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.SimpleMessage] ++= _message__.rep,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

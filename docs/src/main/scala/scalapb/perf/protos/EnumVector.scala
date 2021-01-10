@@ -92,7 +92,7 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
     colors = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __colors: _root_.scala.collection.mutable.Builder[scalapb.perf.protos.Color, _root_.scala.Seq[scalapb.perf.protos.Color]],
+    private val __colors: _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.Color],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.EnumVector] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -129,11 +129,11 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.EnumVector, scalapb.perf.protos.EnumVector.Builder] {
     def apply(): Builder = new Builder(
-      __colors = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.Color],
+      __colors = new _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.Color],
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.EnumVector): Builder = new Builder(
-      __colors = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.perf.protos.Color] ++= _message__.colors,
+      __colors = new _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.Color] ++= _message__.colors,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

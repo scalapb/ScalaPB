@@ -137,7 +137,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   )
   final class Builder private (
     private var __name: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __method: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.MethodDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]],
+    private val __method: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.MethodDescriptorProto],
     private var __options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] {
@@ -174,13 +174,13 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.ServiceDescriptorProto, com.google.protobuf.descriptor.ServiceDescriptorProto.Builder] {
     def apply(): Builder = new Builder(
       __name = _root_.scala.None,
-      __method = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.MethodDescriptorProto],
+      __method = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.MethodDescriptorProto],
       __options = _root_.scala.None,
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.ServiceDescriptorProto): Builder = new Builder(
       __name = _message__.name,
-      __method = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.MethodDescriptorProto] ++= _message__.method,
+      __method = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.MethodDescriptorProto] ++= _message__.method,
       __options = _message__.options,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )

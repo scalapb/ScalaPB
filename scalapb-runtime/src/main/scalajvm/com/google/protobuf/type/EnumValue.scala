@@ -154,7 +154,7 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
   final class Builder private (
     private var __name: _root_.scala.Predef.String,
     private var __number: _root_.scala.Int,
-    private var __options: _root_.scala.collection.mutable.Builder[com.google.protobuf.`type`.OptionProto, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]],
+    private val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.`type`.EnumValue] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -191,13 +191,13 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
     def apply(): Builder = new Builder(
       __name = "",
       __number = 0,
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto],
+      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.`type`.EnumValue): Builder = new Builder(
       __name = _message__.name,
       __number = _message__.number,
-      __options = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
+      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

@@ -11,7 +11,13 @@ class CollectionMethods(fd: FieldDescriptor, val implicits: DescriptorImplicits)
 
     if (!fd.isMapField) {
       adapter match {
-        case None     => s"$t.newBuilder[${fd.singleScalaTypeName}]"
+        case None =>
+          // Use VectorBuilder directly rather than mutable.Builder since
+          // working directly with the concrete class has been shown to be
+          // about 5% faster.
+          if (t == ScalaVector)
+            s"new _root_.scala.collection.immutable.VectorBuilder[${fd.singleScalaTypeName}]"
+          else s"$t.newBuilder[${fd.singleScalaTypeName}]"
         case Some(tc) => s"${tc.fullName}.newBuilder"
       }
     } else {
@@ -20,6 +26,15 @@ class CollectionMethods(fd: FieldDescriptor, val implicits: DescriptorImplicits)
         case Some(tc) => s"${tc.fullName}.newBuilder"
       }
     }
+  }
+
+  def builderType: String = {
+    if (adapter.isDefined)
+      s"${adapter.get.fullName}.Builder"
+    else if (fd.collectionType == ScalaSeq || fd.collectionType == ScalaVector)
+      s"_root_.scala.collection.immutable.VectorBuilder[${fd.singleScalaTypeName}]"
+    else
+      s"_root_.scala.collection.mutable.Builder[${fd.singleScalaTypeName}, ${fd.scalaTypeName}]"
   }
 
   def empty: String = adapter match {

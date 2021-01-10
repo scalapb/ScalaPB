@@ -98,7 +98,7 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
     file = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __file: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.FileDescriptorProto, _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]],
+    private val __file: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FileDescriptorProto],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.FileDescriptorSet] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -127,11 +127,11 @@ object FileDescriptorSet extends scalapb.GeneratedMessageCompanion[com.google.pr
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.FileDescriptorSet, com.google.protobuf.descriptor.FileDescriptorSet.Builder] {
     def apply(): Builder = new Builder(
-      __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto],
+      __file = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FileDescriptorProto],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.FileDescriptorSet): Builder = new Builder(
-      __file = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.file,
+      __file = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FileDescriptorProto] ++= _message__.file,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

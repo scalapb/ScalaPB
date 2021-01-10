@@ -88,7 +88,7 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
     ints = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __ints: _root_.scala.collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+    private val __ints: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.IntVector] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -125,11 +125,11 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.IntVector, scalapb.perf.protos.IntVector.Builder] {
     def apply(): Builder = new Builder(
-      __ints = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int],
+      __ints = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.perf.protos.IntVector): Builder = new Builder(
-      __ints = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.ints,
+      __ints = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] ++= _message__.ints,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

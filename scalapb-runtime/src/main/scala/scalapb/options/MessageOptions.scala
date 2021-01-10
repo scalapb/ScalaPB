@@ -214,14 +214,14 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     unknownFieldsAnnotations = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __extends: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
-    private var __companionExtends: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
-    private var __annotations: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __extends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+    private val __companionExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+    private val __annotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var __type: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __companionAnnotations: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
-    private var __sealedOneofExtends: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __companionAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+    private val __sealedOneofExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var __noBox: _root_.scala.Option[_root_.scala.Boolean],
-    private var __unknownFieldsAnnotations: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __unknownFieldsAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.MessageOptions] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -271,25 +271,25 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.options.MessageOptions, scalapb.options.MessageOptions.Builder] {
     def apply(): Builder = new Builder(
-      __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
-      __companionExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
-      __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __extends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+      __companionExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+      __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       __type = _root_.scala.None,
-      __companionAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
-      __sealedOneofExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __companionAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+      __sealedOneofExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       __noBox = _root_.scala.None,
-      __unknownFieldsAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __unknownFieldsAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.options.MessageOptions): Builder = new Builder(
-      __extends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
-      __companionExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionExtends,
-      __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
+      __extends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
+      __companionExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.companionExtends,
+      __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
       __type = _message__.`type`,
-      __companionAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.companionAnnotations,
-      __sealedOneofExtends = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.sealedOneofExtends,
+      __companionAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.companionAnnotations,
+      __sealedOneofExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.sealedOneofExtends,
       __noBox = _message__.noBox,
-      __unknownFieldsAnnotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.unknownFieldsAnnotations,
+      __unknownFieldsAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.unknownFieldsAnnotations,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

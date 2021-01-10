@@ -236,7 +236,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     private var __collection: _root_.scala.Option[scalapb.options.Collection],
     private var __keyType: _root_.scala.Option[_root_.scala.Predef.String],
     private var __valueType: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __annotations: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+    private val __annotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
     private var __mapType: _root_.scala.Option[_root_.scala.Predef.String],
     private var __noBox: _root_.scala.Option[_root_.scala.Boolean],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
@@ -297,7 +297,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       __collection = _root_.scala.None,
       __keyType = _root_.scala.None,
       __valueType = _root_.scala.None,
-      __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+      __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       __mapType = _root_.scala.None,
       __noBox = _root_.scala.None,
       `_unknownFields__` = null
@@ -309,7 +309,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       __collection = _message__.collection,
       __keyType = _message__.keyType,
       __valueType = _message__.valueType,
-      __annotations = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
+      __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
       __mapType = _message__.mapType,
       __noBox = _message__.noBox,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)

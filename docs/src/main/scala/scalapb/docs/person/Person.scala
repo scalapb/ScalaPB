@@ -135,7 +135,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   final class Builder private (
     private var __name: _root_.scala.Predef.String,
     private var __age: _root_.scala.Int,
-    private var __addresses: _root_.scala.collection.mutable.Builder[scalapb.docs.person.Person.Address, _root_.scala.Seq[scalapb.docs.person.Person.Address]],
+    private val __addresses: _root_.scala.collection.immutable.VectorBuilder[scalapb.docs.person.Person.Address],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.docs.person.Person] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -172,13 +172,13 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     def apply(): Builder = new Builder(
       __name = "",
       __age = 0,
-      __addresses = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.docs.person.Person.Address],
+      __addresses = new _root_.scala.collection.immutable.VectorBuilder[scalapb.docs.person.Person.Address],
       `_unknownFields__` = null
     )
     def apply(`_message__`: scalapb.docs.person.Person): Builder = new Builder(
       __name = _message__.name,
       __age = _message__.age,
-      __addresses = _root_.scala.collection.immutable.Vector.newBuilder[scalapb.docs.person.Person.Address] ++= _message__.addresses,
+      __addresses = new _root_.scala.collection.immutable.VectorBuilder[scalapb.docs.person.Person.Address] ++= _message__.addresses,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }

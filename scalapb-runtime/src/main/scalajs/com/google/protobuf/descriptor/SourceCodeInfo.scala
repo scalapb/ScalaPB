@@ -137,7 +137,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     location = _root_.scala.Seq.empty
   )
   final class Builder private (
-    private var __location: _root_.scala.collection.mutable.Builder[com.google.protobuf.descriptor.SourceCodeInfo.Location, _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]],
+    private val __location: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.SourceCodeInfo] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -166,11 +166,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
   }
   object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.SourceCodeInfo, com.google.protobuf.descriptor.SourceCodeInfo.Builder] {
     def apply(): Builder = new Builder(
-      __location = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location],
+      __location = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location],
       `_unknownFields__` = null
     )
     def apply(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo): Builder = new Builder(
-      __location = _root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] ++= _message__.location,
+      __location = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] ++= _message__.location,
       `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
   }
@@ -414,11 +414,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       leadingDetachedComments = _root_.scala.Seq.empty
     )
     final class Builder private (
-      private var __path: _root_.scala.collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
-      private var __span: _root_.scala.collection.mutable.Builder[_root_.scala.Int, _root_.scala.Seq[_root_.scala.Int]],
+      private val __path: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
+      private val __span: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
       private var __leadingComments: _root_.scala.Option[_root_.scala.Predef.String],
       private var __trailingComments: _root_.scala.Option[_root_.scala.Predef.String],
-      private var __leadingDetachedComments: _root_.scala.collection.mutable.Builder[_root_.scala.Predef.String, _root_.scala.Seq[_root_.scala.Predef.String]],
+      private val __leadingDetachedComments: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
       private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
     ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.SourceCodeInfo.Location] {
       def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -475,19 +475,19 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     }
     object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.SourceCodeInfo.Location, com.google.protobuf.descriptor.SourceCodeInfo.Location.Builder] {
       def apply(): Builder = new Builder(
-        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int],
-        __span = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int],
+        __path = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
+        __span = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int],
         __leadingComments = _root_.scala.None,
         __trailingComments = _root_.scala.None,
-        __leadingDetachedComments = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String],
+        __leadingDetachedComments = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
         `_unknownFields__` = null
       )
       def apply(`_message__`: com.google.protobuf.descriptor.SourceCodeInfo.Location): Builder = new Builder(
-        __path = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.path,
-        __span = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Int] ++= _message__.span,
+        __path = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] ++= _message__.path,
+        __span = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] ++= _message__.span,
         __leadingComments = _message__.leadingComments,
         __trailingComments = _message__.trailingComments,
-        __leadingDetachedComments = _root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= _message__.leadingDetachedComments,
+        __leadingDetachedComments = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.leadingDetachedComments,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
       )
     }
