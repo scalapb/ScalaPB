@@ -23,7 +23,7 @@ private[compiler] class BuilderGenerator(
   private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
 
   val requiredFieldMap: Map[FieldDescriptor, Int] =
-    message.fields.filter(_.isRequired).zipWithIndex.toMap
+    message.fields.filter(fd => fd.isRequired || fd.noBoxRequired).zipWithIndex.toMap
 
   def generateBuilder(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
@@ -178,8 +178,6 @@ private[compiler] class BuilderGenerator(
   }
 
   def generateBuilderMerge(printer: FunctionalPrinter): FunctionalPrinter = {
-    val requiredFieldMap: Map[FieldDescriptor, Int] =
-      message.fields.filter(_.isRequired).zipWithIndex.toMap
     printer
       .add(
         s"def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {"
@@ -232,7 +230,7 @@ private[compiler] class BuilderGenerator(
               s"""    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>
                  |      $updateOp""".stripMargin
             )
-            .when(field.isRequired) { p =>
+            .when(field.isRequired || field.noBoxRequired) { p =>
               val fieldNumber = requiredFieldMap(field)
               p.add(
                 s"      __requiredFields${fieldNumber / 64} &= 0x${"%x".format(~(1L << fieldNumber))}L"

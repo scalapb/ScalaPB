@@ -1,8 +1,10 @@
 import com.thesamet.proto.e2e.no_box.Car
 import com.thesamet.proto.e2e.no_box.DontBoxMe
+import com.thesamet.proto.e2e.no_box.RequiredCar
 import com.thesamet.proto.e2e.no_box.Tyre
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
+import com.google.protobuf.InvalidProtocolBufferException
 
 class NoBoxSpec extends AnyFlatSpec with Matchers {
   val car = Car(tyre1 = Tyre(size = 10), tyre2 = Some(Tyre(size = 20)))
@@ -33,5 +35,22 @@ class NoBoxSpec extends AnyFlatSpec with Matchers {
     car.dontBoxMeOverrideTrue mustBe (DontBoxMe.defaultInstance)
     car.dontBoxMeOverrideFalse mustBe (None)
     car.nameNoBox mustBe (com.thesamet.pb.FullName("", ""))
+  }
+
+  "RequiredCar" should "have unboxed message field" in {
+    RequiredCar(tyre1=Tyre(size=12))
+  }
+
+  "RequiredCar" should "fail validation if required field is missing" in {
+    intercept[InvalidProtocolBufferException] {
+      RequiredCar.parseFrom(Array.empty[Byte])
+    }.getMessage must be("Message missing required fields.")
+  }
+
+  "RequiredCar" should "fail parsing from text if field is empty" in {
+    RequiredCar.fromAscii("tyre1 { size: 12 }")
+    intercept[NoSuchElementException] {
+      RequiredCar.fromAscii("")
+    }
   }
 }

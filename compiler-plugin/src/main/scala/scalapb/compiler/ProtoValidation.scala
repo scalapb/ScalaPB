@@ -137,6 +137,25 @@ class ProtoValidation(implicits: DescriptorImplicits) {
         s"${fd.getFullName}: message fields in oneofs are not allowed to have no_box set."
       )
     }
+    if (fd.noBoxRequired) {
+      if (fd.fieldOptions.hasNoBox && !fd.fieldOptions.getNoBox)
+        throw new GeneratorException(
+          s"${fd.getFullName}: setting no_box to false is not allowed while setting required to true."
+        )
+      if (fd.isInOneof)
+        throw new GeneratorException(
+          s"${fd.getFullName}: setting required is not allowed on oneof fields."
+        )
+      if (fd.isRepeated() || fd.isMapField())
+        throw new GeneratorException(
+          s"${fd.getFullName}: required is not allowed on repeated fields."
+        )
+      if (!fd.isMessage) {
+        throw new GeneratorException(
+          s"${fd.getFullName}: required can only be applied to message fields."
+        )
+      }
+    }
   }
 }
 

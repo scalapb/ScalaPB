@@ -258,6 +258,10 @@ message FieldOptions {
   // Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
   optional bool no_box = 30;
 
+  // Like no_box it does not box a value in Option[T], but also fails parsing when a value
+  // is not provided. This enables to emulate required fields in proto3.
+  optional bool required = 31;
+
   extensions 1000 to max;
 }
 
