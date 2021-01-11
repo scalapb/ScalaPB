@@ -125,8 +125,8 @@ ScalaPB and ScalaPB-validate. Your `project/plugins.sbt` should have something l
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC6")
 
 libraryDependencies ++= Seq(
-    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview4",
-    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview4"
+    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview5",
+    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview5"
 )
 ```
 
@@ -249,3 +249,23 @@ option (scalapb.options) = {
 
 - `validate_at_construction` when true, a check for validity is added to the message class body, so construction of invalid messages results in a validation exception. Default: `false`.
 - `insert_validator_instance` when true, implicit instance of a `Validator` is added to the companion object of the message. This enables writing `Validator[MyMsg].validate(instance)`. Default: `true`.
+
+## Unboxing required fields
+
+If you use `validate.message.required` you can apply a transformation that
+would set the `scalapb.field.required` option. As a result, the field will
+not be boxed in an `Option` and parsing will throw an exception if the field
+is missing. To set this transformation add the following to ScalaPB-validate's options:
+
+```protobuf
+option (scalapb.validate.package) = {
+    field_transformations: [
+        {
+            when: {message: {required: true}}
+            set: {
+                required: true
+            }
+        }
+    ]
+};
+```
