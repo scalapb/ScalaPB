@@ -34,7 +34,7 @@ object FileOptionsCache {
       .mergeFrom(child)
       .setScope(child.getScope) // retain child's scope
 
-    val preprocessorsIn = r.getPreprocessorsList.asScala
+    val preprocessorsIn = r.getPreprocessorsList.asScala.toSeq
     r.clearPreprocessors
       .addAllPreprocessors(clearNegatedPreprocessors(preprocessorsIn).asJava)
       .build()
