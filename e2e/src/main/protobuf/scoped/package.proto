@@ -44,4 +44,15 @@ option (scalapb.options) = {
             }
         }
     ]
+
+
+    // Testing order
+    aux_field_options: [
+        {
+            target: "scalapb.e2e.scoped.Foo.x1"
+            options: {
+                scala_name: "package_x1"
+            }
+        }
+    ]
 };
