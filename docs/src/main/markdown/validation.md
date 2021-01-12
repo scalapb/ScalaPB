@@ -182,7 +182,12 @@ option (scalapb.validate.package) = {
 
 The scope of this definition is the entire protobuf package it is found in. Here, `field_transformations` is a list of `FieldTransformation` messages. Each of them describes a single rule. The `when` condition is a PGV `FieldRule` (defined in `validate/validate.proto`). When it is matched for any field in this package, the `scalapb.FieldOption` options in `set` are applied to the field.  Multiple transformations may match a single field. The transformations from parent packages are applied first in descending order, that is from the outermost package to the package where the field resides. Within each package, the transformations are applied in the order they appear in the file. Options defined locally at the field-level are applied last.
 
-The default matching mode is called `CONTAINS`. In this mode, the actual PGV rules for the field may contain additional additional options besides the one being matched on. Another matching mode is available and is called `EXACT`.  In this mode, the `when` pattern must match exactly the field's rules. Example syntax:
+There are three matching modes available:
+* `CONTAINS` is the default matching mode. In this mode, the preprocessor checks that all the options in the `when` pattern are defined on the field and having the same value. Additional options may be defined on the field besides the ones on the `when` pattern.
+* `EXACT` is a strict equality comparison between the `when` pattern and the field's rules.
+* `PRESENCE` checks whether every field that is present on the `when` pattern is also present on the field's rules. The specific value the option has is not compared. This allows matching on any value. For example, `{int32: {gt: 1}}` would match for any number assigned to `int32.gt`.
+
+Example syntax:
 
 ```protobuf
 option (scalapb.validate.package) = {
@@ -269,3 +274,50 @@ option (scalapb.validate.package) = {
     ]
 };
 ```
+
+## Referecing rules values
+
+It is possible to reference values in the rules and use them
+on the `set` part. Whenever there is a singular string field  in Scala options, the preprocessor would replace tokens in the format `$(p)` with the value of the field's PGV rule at the path `p`. For example, `$(int32.gt)` would be substituted with the value of that option on the field. If the option is not set on the field, a default value will be replaced (0 for numeric types, empty string, and so on).
+
+The paths references don't have to appear on the `when` pattern. Although, referencing rule values is useful when the matching mode is `PRESENCE, it is supported to reference rule values in all matching modes.
+
+A possible application for this is in conjunction with [refined types](https://github.com/fthomas/refined). For example, you can define the following field transformations:
+
+```protobuf
+syntax = "proto3";
+
+package refined_test;
+
+import "validate/validate.proto";
+import "scalapb/validate.proto";
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  preprocessors : [ "scalapb-validate-preprocessor" ]
+  import : "eu.timepit.refined.api.Refined"
+  import : "eu.timepit.refined.numeric._"
+  import : "eu.timepit.refined.generic._"
+  import : "shapeless.{Witness => W}"
+};
+
+option (scalapb.validate.package) = {
+  field_transformations : [ {
+    when : {int32 : {gt : 1}}  // <-- 1 can be replaced with any number
+    set : {type : "Int Refined Greater[$(int32.gt)]"}
+    match_type : PRESENCE
+  } ]
+
+message Test {
+  int32 gt_test = 1 [ (validate.rules).int32 = {gt : 5} ];  // transformed to: Int Refined Greater[5]
+}
+```
+
+For this to work, a typemapper for refined types need to be either put in a package object in the same package where the code is generated, or be manually imported through `import` options.
+
+The typemapper used in scalapb-validate tests is [here](https://github.com/scalapb/scalapb-validate/blob/0.2.x-preview/e2e/src/main/scala/scalapb/transforms/refined/package.scala).
+
+Additional resources:
+* [test proto files (refined.proto)](https://github.com/scalapb/scalapb-validate/blob/0.2.x-preview/e2e/src/main/protobuf/transforms/refined/refined.proto): note it uses `shapeless.Witness` since ScalaPB-validate is cross-tested for Scala 2.12 and Scala 2.13.
+* [end-to-end tests](https://github.com/scalapb/scalapb-validate/blob/0.2.x-preview/e2e/src/test/scala/scalapb/validate/transforms/refined/RefinedSpec.scala) demonstrating compile-time validation.
+
