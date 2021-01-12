@@ -180,7 +180,7 @@ option (scalapb.validate.package) = {
 };
 ```
 
-The scope of this definition is the entire protobuf package it is found in. Here, `field_transformations` is a list of `FieldTransformation` messages. Each of them describes a single rule. The `when` condition is a PGV `FieldRule` (defined in `validate/validate.proto`). When it is matched for any field in this package, the `scalapb.FieldOption` options in `set` are applied to the field.  Multiple transformations may match a single field. The order this happens is subject to change and should not be assumed.
+The scope of this definition is the entire protobuf package it is found in. Here, `field_transformations` is a list of `FieldTransformation` messages. Each of them describes a single rule. The `when` condition is a PGV `FieldRule` (defined in `validate/validate.proto`). When it is matched for any field in this package, the `scalapb.FieldOption` options in `set` are applied to the field.  Multiple transformations may match a single field. The transformations from parent packages are applied first in descending order, that is from the outermost package to the package where the field resides. Within each package, the transformations are applied in the order they appear in the file. Options defined locally at the field-level are applied last.
 
 The default matching mode is called `CONTAINS`. In this mode, the actual PGV rules for the field may contain additional additional options besides the one being matched on. Another matching mode is available and is called `EXACT`.  In this mode, the `when` pattern must match exactly the field's rules. Example syntax:
 
