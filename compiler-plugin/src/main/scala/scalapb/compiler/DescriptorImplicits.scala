@@ -319,10 +319,11 @@ class DescriptorImplicits private[compiler] (
     def fieldOptions: FieldOptions = {
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
-      fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
-        .filter(_.getTarget == fd.getFullName())
-        .foldLeft(localOptions)((local, aux) =>
-          FieldOptions.newBuilder(aux.getOptions).mergeFrom(local).build
+      (fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
+      .collect {
+        case opt if opt.getTarget == fd.getFullName() => opt.getOptions
+      } :+ localOptions).reduce[FieldOptions](
+          (left, right) => left.toBuilder.mergeFrom(right).build()
         )
     }
 

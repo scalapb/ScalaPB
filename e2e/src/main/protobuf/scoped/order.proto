@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package scalapb.e2e.scoped;
+
+import "scalapb/scalapb.proto";
+
+message OrderTest {
+  int32 x1 = 11; // renamed at package level and also locally here.
+                 // File should take over.
+  int32 x2 = 12; // renamed in file twice. Second override should take over.
+  int32 x3 = 13 [
+    (scalapb.field).scala_name = "local_x3"
+  ]; // renamed in file, and also locally. Local should override.
+}
+
+option (scalapb.options) = {
+  scope : FILE
+  // For x1
+  aux_field_options : [
+    {
+      target : "scalapb.e2e.scoped.OrderTest.x1"
+      options : {scala_name : "file_x1"}
+    },
+
+    // For x2
+    {
+      target : "scalapb.e2e.scoped.OrderTest.x2"
+      options : {scala_name : "file_x2_take1"}
+    },
+    {
+      target : "scalapb.e2e.scoped.OrderTest.x2"
+      options : {scala_name : "file_x2_take2"}
+    },
+
+    // For x3
+    {
+      target : "scalapb.e2e.scoped.OrderTest.x3"
+      options : {scala_name : "file_x3"}
+    }
+  ]
+};
