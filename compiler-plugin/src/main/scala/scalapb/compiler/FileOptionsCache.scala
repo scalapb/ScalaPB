@@ -29,10 +29,14 @@ object FileOptionsCache {
   }
 
   def mergeOptions(parent: ScalaPbOptions, child: ScalaPbOptions) = {
-    ScalaPbOptions
+    val r = ScalaPbOptions
       .newBuilder(parent)
       .mergeFrom(child)
       .setScope(child.getScope) // retain child's scope
+
+    val preprocessorsIn = r.getPreprocessorsList.asScala
+    r.clearPreprocessors
+      .addAllPreprocessors(clearNegatedPreprocessors(preprocessorsIn).asJava)
       .build()
   }
 
@@ -43,6 +47,13 @@ object FileOptionsCache {
   def buildCache(
       files: Seq[FileDescriptor]
   ): Map[FileDescriptor, ScalaPbOptions] = buildCache(files, SecondaryOutputProvider.empty)
+
+  // Given a list of preprocessors, if it contains an opted-out preprocessor (in the form of -$name),
+  // then it removes it from the list.
+  private def clearNegatedPreprocessors(input: Seq[String]): Seq[String] = {
+    val excludedPreprocessors = input.filter(_.startsWith("-")).map(_.tail)
+    input.filter(p => !excludedPreprocessors.contains(p) && !p.startsWith("-"))
+  }
 
   def buildCache(
       files: Seq[FileDescriptor],

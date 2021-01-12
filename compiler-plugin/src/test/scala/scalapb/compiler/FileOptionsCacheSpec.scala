@@ -328,6 +328,15 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
       singleFile = Some(true)
     )
 
+    val p1_z = file(
+      name = "p1.z.proto",
+      protoPackage = "p1",
+      scope = OptionsScope.FILE,
+      imports = Seq("i4"),
+      singleFile = Some(true),
+      preprocessors = Seq("-preproc")
+    )
+
     val provider = SecondaryOutputProvider.fromMap(
       Map(
         "preproc" ->
@@ -350,6 +359,15 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
                 .setSingleFile(false)
                 .build()
             )
+            .putOptionsByFile(
+              "p1.z.proto", // should not apply since preprocessor is excluded.
+              ScalaPbOptions
+                .newBuilder()
+                .addImport("ip1z")
+                .setScope(OptionsScope.FILE)
+                .setSingleFile(false)
+                .build()
+            )
             .build()
       )
     )
@@ -359,7 +377,8 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
         Seq(
           p1,
           p1_x,
-          p1_y
+          p1_y,
+          p1_z
         ),
         provider
       )
@@ -389,6 +408,13 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
              |single_file: true
              |scope: FILE
              |preprocessors: "preproc"
+             |""".stripMargin,
+        "p1.z.proto" ->
+          """|package_name: "scc.p1"
+             |import: "i1"
+             |import: "i4"
+             |single_file: true
+             |scope: FILE
              |""".stripMargin
       )
     )
