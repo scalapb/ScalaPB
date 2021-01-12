@@ -320,11 +320,11 @@ class DescriptorImplicits private[compiler] (
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
       (fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
-      .collect {
-        case opt if opt.getTarget == fd.getFullName() => opt.getOptions
-      } :+ localOptions).reduce[FieldOptions](
-          (left, right) => left.toBuilder.mergeFrom(right).build()
-        )
+        .collect {
+          case opt if opt.getTarget == fd.getFullName() => opt.getOptions
+        } :+ localOptions).reduce[FieldOptions]((left, right) =>
+        left.toBuilder.mergeFrom(right).build()
+      )
     }
 
     def annotationList: Seq[String] = {
