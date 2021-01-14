@@ -239,7 +239,7 @@ via options. To add custom options, follow this process:
 
    :::note The number 60001 above is just an example!
    It's important that different extensions do not use the same numbers so they do not overwrite
-   each other's data. If you publish your plugin externally, [requset for an
+   each other's data. If you publish your plugin externally, [request for an
    extension number here](https://github.com/protocolbuffers/protobuf/blob/master/docs/options.md).
    :::
 
