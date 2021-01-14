@@ -1,64 +1,9 @@
 package scalapb.compiler
 
-import java.io.{File, FileInputStream, PrintWriter}
-import java.nio.file.Files
-
-import scala.jdk.CollectionConverters._
-import com.google.protobuf.DescriptorProtos.FileDescriptorSet
-import com.google.protobuf.Descriptors.FileDescriptor
-import com.google.protobuf.ExtensionRegistry
-import scalapb.options.Scalapb
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
-class ProtoValidationSpec extends AnyFlatSpec with Matchers {
-  def generateFileSet(files: Seq[(String, String)]) = {
-    val tmpDir = Files.createTempDirectory("validation").toFile
-    val fileNames = files.map { case (name, content) =>
-      val file = new File(tmpDir, name)
-      val pw   = new PrintWriter(file)
-      pw.write(content)
-      pw.close()
-      file.getAbsoluteFile
-    }
-    val outFile = new File(tmpDir, "descriptor.out")
-
-    require(
-      ProtocRunner
-        .forVersion(Version.protobufVersion)
-        .run(
-          Seq(
-            "-I",
-            tmpDir.toString + ":protobuf:third_party",
-            s"--descriptor_set_out=${outFile.toString}",
-            "--include_imports"
-          ) ++ fileNames.map(_.toString),
-          Seq.empty
-        ) == 0,
-      "protoc exited with an error"
-    )
-
-    val fileset: Seq[FileDescriptor] = {
-      val fin      = new FileInputStream(outFile)
-      val registry = ExtensionRegistry.newInstance()
-      Scalapb.registerAllExtensions(registry)
-      val fileset =
-        try {
-          FileDescriptorSet.parseFrom(fin, registry)
-        } finally {
-          fin.close()
-        }
-      fileset.getFileList.asScala
-        .foldLeft[Map[String, FileDescriptor]](Map.empty) { case (acc, fp) =>
-          val deps = fp.getDependencyList.asScala.map(acc)
-          acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
-        }
-        .values
-        .toVector
-    }
-    fileset
-  }
-
+class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocationHelper {
   def runValidation(
       generatorParams: GeneratorParams,
       secondaryOutput: SecondaryOutputProvider,
