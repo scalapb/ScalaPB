@@ -1,0 +1,47 @@
+syntax = "proto2";
+
+package com.thesamet.proto.e2e.transformations;
+
+import "transformations/option.proto";
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  field_transformations : [
+    {
+      when : {
+        [com.thesamet.proto.e2e.transformations.custom]{sensitive : true}
+      }
+      set : {type : 'com.thesamet.proto.e2e.SensitiveString'}
+    },
+    {
+      when : {
+        [com.thesamet.proto.e2e.transformations.custom]{
+          sensitive : true,
+          vnum : 1
+        }
+      }
+      match_type : PRESENCE,
+      set : {
+        type : 'com.thesamet.proto.e2e.SensitiveString$([com.thesamet.proto.e2e.transformations.custom].vnum)'
+      },
+    },
+    {
+      when : {
+        [com.thesamet.proto.e2e.transformations.custom]{
+          nested : {nn: {n: 4}}
+        }
+      }
+      match_type : CONTAINS,
+      set : {
+        scala_name: 'nested_four'
+      },
+    }
+  ]
+};
+
+message Usage {
+  optional string foo = 1 [ (custom).sensitive = true ];
+  optional string foover = 2 [ (custom).sensitive = true, (custom).vnum = 7 ];
+  optional string sensitive_other = 3 [ (custom).sensitive = true, (custom).other = 8 ];
+  optional string nested = 4 [ (custom).nested.nn.n = 4 ];
+}

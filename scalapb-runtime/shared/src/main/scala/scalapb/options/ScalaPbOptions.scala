@@ -66,6 +66,9 @@ package scalapb.options
   *   List of message options to apply to some enums.
   * @param bytesType
   *   Scala type to use for bytes fields.
+  * @param ignoreFieldTransformations
+  *   Ignores field transformations for this file. This is meant to allow specific files to
+  *   opt out from field transformations inherited through package-scoped options.
   * @param testOnlyNoJavaConversions
   *   For use in tests only. Inhibit Java conversions even when when generator parameters
   *   request for it.
@@ -94,6 +97,8 @@ final case class ScalaPbOptions(
     auxEnumOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions] = _root_.scala.Seq.empty,
     bytesType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     preprocessors: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    fieldTransformations: _root_.scala.Seq[scalapb.options.FieldTransformation] = _root_.scala.Seq.empty,
+    ignoreFieldTransformations: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ScalaPbOptions] with _root_.scalapb.ExtendableMessage[ScalaPbOptions] {
@@ -189,6 +194,14 @@ final case class ScalaPbOptions(
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(24, __value)
       }
+      fieldTransformations.foreach { __item =>
+        val __value = __item
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      if (ignoreFieldTransformations.isDefined) {
+        val __value = ignoreFieldTransformations.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(26, __value)
+      };
       if (testOnlyNoJavaConversions.isDefined) {
         val __value = testOnlyNoJavaConversions.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(999, __value)
@@ -299,6 +312,16 @@ final case class ScalaPbOptions(
         val __m = __v
         _output__.writeString(24, __m)
       };
+      fieldTransformations.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(25, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
+      ignoreFieldTransformations.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(26, __m)
+      };
       testOnlyNoJavaConversions.foreach { __v =>
         val __m = __v
         _output__.writeBool(999, __m)
@@ -377,6 +400,13 @@ final case class ScalaPbOptions(
     def addPreprocessors(__vs: _root_.scala.Predef.String*): ScalaPbOptions = addAllPreprocessors(__vs)
     def addAllPreprocessors(__vs: Iterable[_root_.scala.Predef.String]): ScalaPbOptions = copy(preprocessors = preprocessors ++ __vs)
     def withPreprocessors(__v: _root_.scala.Seq[_root_.scala.Predef.String]): ScalaPbOptions = copy(preprocessors = __v)
+    def clearFieldTransformations = copy(fieldTransformations = _root_.scala.Seq.empty)
+    def addFieldTransformations(__vs: scalapb.options.FieldTransformation*): ScalaPbOptions = addAllFieldTransformations(__vs)
+    def addAllFieldTransformations(__vs: Iterable[scalapb.options.FieldTransformation]): ScalaPbOptions = copy(fieldTransformations = fieldTransformations ++ __vs)
+    def withFieldTransformations(__v: _root_.scala.Seq[scalapb.options.FieldTransformation]): ScalaPbOptions = copy(fieldTransformations = __v)
+    def getIgnoreFieldTransformations: _root_.scala.Boolean = ignoreFieldTransformations.getOrElse(false)
+    def clearIgnoreFieldTransformations: ScalaPbOptions = copy(ignoreFieldTransformations = _root_.scala.None)
+    def withIgnoreFieldTransformations(__v: _root_.scala.Boolean): ScalaPbOptions = copy(ignoreFieldTransformations = Option(__v))
     def getTestOnlyNoJavaConversions: _root_.scala.Boolean = testOnlyNoJavaConversions.getOrElse(false)
     def clearTestOnlyNoJavaConversions: ScalaPbOptions = copy(testOnlyNoJavaConversions = _root_.scala.None)
     def withTestOnlyNoJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(testOnlyNoJavaConversions = Option(__v))
@@ -406,6 +436,8 @@ final case class ScalaPbOptions(
         case 20 => auxEnumOptions
         case 21 => bytesType.orNull
         case 24 => preprocessors
+        case 25 => fieldTransformations
+        case 26 => ignoreFieldTransformations.orNull
         case 999 => testOnlyNoJavaConversions.orNull
       }
     }
@@ -434,6 +466,8 @@ final case class ScalaPbOptions(
         case 20 => _root_.scalapb.descriptors.PRepeated(auxEnumOptions.iterator.map(_.toPMessage).toVector)
         case 21 => bytesType.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 24 => _root_.scalapb.descriptors.PRepeated(preprocessors.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 25 => _root_.scalapb.descriptors.PRepeated(fieldTransformations.iterator.map(_.toPMessage).toVector)
+        case 26 => ignoreFieldTransformations.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => testOnlyNoJavaConversions.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
@@ -471,6 +505,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         auxEnumOptions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(20).get).map(_.as[_root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions]]).getOrElse(_root_.scala.Seq.empty),
         bytesType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(21).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         preprocessors = __fieldsMap.get(scalaDescriptor.findFieldByNumber(24).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
+        fieldTransformations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(25).get).map(_.as[_root_.scala.Seq[scalapb.options.FieldTransformation]]).getOrElse(_root_.scala.Seq.empty),
+        ignoreFieldTransformations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(26).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         testOnlyNoJavaConversions = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -483,6 +519,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       case 18 => __out = scalapb.options.ScalaPbOptions.AuxMessageOptions
       case 19 => __out = scalapb.options.ScalaPbOptions.AuxFieldOptions
       case 20 => __out = scalapb.options.ScalaPbOptions.AuxEnumOptions
+      case 25 => __out = scalapb.options.FieldTransformation
     }
     __out
   }
@@ -521,6 +558,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     auxEnumOptions = _root_.scala.Seq.empty,
     bytesType = _root_.scala.None,
     preprocessors = _root_.scala.Seq.empty,
+    fieldTransformations = _root_.scala.Seq.empty,
+    ignoreFieldTransformations = _root_.scala.None,
     testOnlyNoJavaConversions = _root_.scala.None
   )
   final class Builder private (
@@ -546,6 +585,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     private val __auxEnumOptions: _root_.scala.collection.immutable.VectorBuilder[scalapb.options.ScalaPbOptions.AuxEnumOptions],
     private var __bytesType: _root_.scala.Option[_root_.scala.Predef.String],
     private val __preprocessors: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+    private val __fieldTransformations: _root_.scala.collection.immutable.VectorBuilder[scalapb.options.FieldTransformation],
+    private var __ignoreFieldTransformations: _root_.scala.Option[_root_.scala.Boolean],
     private var __testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.ScalaPbOptions] {
@@ -599,6 +640,10 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             __bytesType = Option(_input__.readStringRequireUtf8())
           case 194 =>
             __preprocessors += _input__.readStringRequireUtf8()
+          case 202 =>
+            __fieldTransformations += _root_.scalapb.LiteParser.readMessage[scalapb.options.FieldTransformation](_input__)
+          case 208 =>
+            __ignoreFieldTransformations = Option(_input__.readBool())
           case 7992 =>
             __testOnlyNoJavaConversions = Option(_input__.readBool())
           case tag =>
@@ -634,6 +679,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         auxEnumOptions = __auxEnumOptions.result(),
         bytesType = __bytesType,
         preprocessors = __preprocessors.result(),
+        fieldTransformations = __fieldTransformations.result(),
+        ignoreFieldTransformations = __ignoreFieldTransformations,
         testOnlyNoJavaConversions = __testOnlyNoJavaConversions,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
@@ -663,6 +710,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       __auxEnumOptions = new _root_.scala.collection.immutable.VectorBuilder[scalapb.options.ScalaPbOptions.AuxEnumOptions],
       __bytesType = _root_.scala.None,
       __preprocessors = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+      __fieldTransformations = new _root_.scala.collection.immutable.VectorBuilder[scalapb.options.FieldTransformation],
+      __ignoreFieldTransformations = _root_.scala.None,
       __testOnlyNoJavaConversions = _root_.scala.None,
       `_unknownFields__` = null
     )
@@ -689,6 +738,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __auxEnumOptions = new _root_.scala.collection.immutable.VectorBuilder[scalapb.options.ScalaPbOptions.AuxEnumOptions] ++= _message__.auxEnumOptions,
         __bytesType = _message__.bytesType,
         __preprocessors = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.preprocessors,
+        __fieldTransformations = new _root_.scala.collection.immutable.VectorBuilder[scalapb.options.FieldTransformation] ++= _message__.fieldTransformations,
+        __ignoreFieldTransformations = _message__.ignoreFieldTransformations,
         __testOnlyNoJavaConversions = _message__.testOnlyNoJavaConversions,
         `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
     )
@@ -1327,6 +1378,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def bytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getBytesType)((c_, f_) => c_.copy(bytesType = Option(f_)))
     def optionalBytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.bytesType)((c_, f_) => c_.copy(bytesType = f_))
     def preprocessors: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.preprocessors)((c_, f_) => c_.copy(preprocessors = f_))
+    def fieldTransformations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.FieldTransformation]] = field(_.fieldTransformations)((c_, f_) => c_.copy(fieldTransformations = f_))
+    def ignoreFieldTransformations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getIgnoreFieldTransformations)((c_, f_) => c_.copy(ignoreFieldTransformations = Option(f_)))
+    def optionalIgnoreFieldTransformations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.ignoreFieldTransformations)((c_, f_) => c_.copy(ignoreFieldTransformations = f_))
     def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
@@ -1352,6 +1406,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val AUX_ENUM_OPTIONS_FIELD_NUMBER = 20
   final val BYTES_TYPE_FIELD_NUMBER = 21
   final val PREPROCESSORS_FIELD_NUMBER = 24
+  final val FIELD_TRANSFORMATIONS_FIELD_NUMBER = 25
+  final val IGNORE_FIELD_TRANSFORMATIONS_FIELD_NUMBER = 26
   final val TEST_ONLY_NO_JAVA_CONVERSIONS_FIELD_NUMBER = 999
   def of(
     packageName: _root_.scala.Option[_root_.scala.Predef.String],
@@ -1376,6 +1432,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     auxEnumOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions],
     bytesType: _root_.scala.Option[_root_.scala.Predef.String],
     preprocessors: _root_.scala.Seq[_root_.scala.Predef.String],
+    fieldTransformations: _root_.scala.Seq[scalapb.options.FieldTransformation],
+    ignoreFieldTransformations: _root_.scala.Option[_root_.scala.Boolean],
     testOnlyNoJavaConversions: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.ScalaPbOptions = _root_.scalapb.options.ScalaPbOptions(
     packageName,
@@ -1400,6 +1458,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     auxEnumOptions,
     bytesType,
     preprocessors,
+    fieldTransformations,
+    ignoreFieldTransformations,
     testOnlyNoJavaConversions
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions])

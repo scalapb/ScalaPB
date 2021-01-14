@@ -1,6 +1,6 @@
 package scalapb.compiler
 
-import scalapb.options.Scalapb.PreprocesserOutput
+import scalapb.options.Scalapb.PreprocessorOutput
 import java.io.File
 import java.nio.file.Files
 import com.google.protobuf.InvalidProtocolBufferException
@@ -13,18 +13,18 @@ import scala.util.Success
 import scala.util.Failure
 
 trait SecondaryOutputProvider {
-  def get(name: String): Try[PreprocesserOutput]
+  def get(name: String): Try[PreprocessorOutput]
 }
 
 private final class FileBasedSecondaryOutputProvider(inputDir: File)
     extends SecondaryOutputProvider {
-  val cache = new HashMap[String, Try[PreprocesserOutput]]
+  val cache = new HashMap[String, Try[PreprocessorOutput]]
 
-  def get(name: String): Try[PreprocesserOutput] = {
+  def get(name: String): Try[PreprocessorOutput] = {
     cache.getOrElseUpdate(name, doGet(name))
   }
 
-  private def doGet(name: String): Try[PreprocesserOutput] = {
+  private def doGet(name: String): Try[PreprocessorOutput] = {
     // names are checked in ProtoValidation. We check here again in case we somehow got here
     // through a different path.
     if (!SecondaryOutputProvider.isNameValid(name))
@@ -37,7 +37,7 @@ private final class FileBasedSecondaryOutputProvider(inputDir: File)
     }
     val bytes = Files.readAllBytes(in)
     Try {
-      com.google.protobuf.Any.parseFrom(bytes).unpack(classOf[PreprocesserOutput])
+      com.google.protobuf.Any.parseFrom(bytes).unpack(classOf[PreprocessorOutput])
     }.recoverWith {
       case e: InvalidProtocolBufferException =>
         throw new GeneratorException(
@@ -47,16 +47,16 @@ private final class FileBasedSecondaryOutputProvider(inputDir: File)
   }
 }
 
-private final class InMemorySecondaryOutputProvider(map: Map[String, PreprocesserOutput])
+private final class InMemorySecondaryOutputProvider(map: Map[String, PreprocessorOutput])
     extends SecondaryOutputProvider {
-  def get(name: String): Try[PreprocesserOutput] = map.get(name) match {
+  def get(name: String): Try[PreprocessorOutput] = map.get(name) match {
     case Some(v) => Success(v)
     case None    => Failure(new GeneratorException(s"Preprocessor '$name' was not found."))
   }
 }
 
 private object EmptySecondaryOutputProvider extends SecondaryOutputProvider {
-  def get(name: String): Try[PreprocesserOutput] =
+  def get(name: String): Try[PreprocessorOutput] =
     Try(
       throw new GeneratorException(
         "No secondary outputs available. The most likely causes are that " +
@@ -89,6 +89,6 @@ object SecondaryOutputProvider {
   def isNameValid(name: String) = VALID_NAME_REGEX.pattern.matcher(name).matches()
 
   // For testing only
-  def fromMap(map: Map[String, PreprocesserOutput]): SecondaryOutputProvider =
+  def fromMap(map: Map[String, PreprocessorOutput]): SecondaryOutputProvider =
     new InMemorySecondaryOutputProvider(map)
 }

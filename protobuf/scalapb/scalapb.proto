@@ -149,6 +149,12 @@ message ScalaPbOptions {
 
   repeated string preprocessors = 24;
 
+  repeated FieldTransformation field_transformations = 25;
+
+  // Ignores field transformations for this file. This is meant to allow specific files to
+  // opt out from field transformations inherited through package-scoped options.
+  optional bool ignore_field_transformations = 26;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
@@ -306,6 +312,17 @@ extend google.protobuf.OneofOptions {
   optional OneofOptions oneof = 1020;
 }
 
-message PreprocesserOutput {
+message FieldTransformation {
+  optional google.protobuf.FieldOptions when = 1;
+  enum MatchType {
+    CONTAINS = 0;
+    EXACT = 1;
+    PRESENCE = 2;
+  }
+  optional MatchType match_type = 2 [default=CONTAINS];
+  optional FieldOptions set = 3;
+}
+
+message PreprocessorOutput {
   map<string, ScalaPbOptions> options_by_file = 1;
 }

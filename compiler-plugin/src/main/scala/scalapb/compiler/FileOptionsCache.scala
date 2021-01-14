@@ -8,13 +8,7 @@ import scala.collection.mutable
 import scala.jdk.CollectionConverters._
 import scala.util.Success
 import scala.util.Failure
-import scalapb.options.Scalapb.PreprocesserOutput
-
-private[this] case class PackageScopedOptions(
-    fileName: String,
-    `package`: String,
-    options: ScalaPbOptions
-)
+import scalapb.options.Scalapb.PreprocessorOutput
 
 object FileOptionsCache {
   def parentPackages(packageName: String): List[String] = {
@@ -33,12 +27,68 @@ object FileOptionsCache {
       .newBuilder(parent)
       .mergeFrom(child)
       .setScope(child.getScope) // retain child's scope
-
-    val preprocessorsIn = r.getPreprocessorsList.asScala.toSeq
-    r.clearPreprocessors
-      .addAllPreprocessors(clearNegatedPreprocessors(preprocessorsIn).asJava)
-      .build()
+    r.build()
   }
+
+  def reducePackageOptions[T](
+      files: Seq[(FileDescriptor, ScalaPbOptions)],
+      data: (FileDescriptor, ScalaPbOptions) => T
+  )(op: (T, T) => T): Map[FileDescriptor, T] = {
+    val byPackage = new mutable.HashMap[String, T]
+    val output    = new mutable.HashMap[FileDescriptor, T]
+
+    // Process files by package name, and process package scoped options for each package first.
+    files
+      .sortBy(f => (f._1.getPackage(), f._2.getScope != OptionsScope.PACKAGE))
+      .foreach {
+        case (f, opts) =>
+          val isPackageScoped = (opts.getScope == OptionsScope.PACKAGE)
+          if (isPackageScoped && f.getPackage().isEmpty())
+            throw new GeneratorException(
+              s"${f.getFullName()}: a package statement is required when package-scoped options are used"
+            )
+          if (isPackageScoped && byPackage.contains(f.getPackage())) {
+            val dups = files
+              .filter(other =>
+                other._1.getPackage() == f.getPackage() && other._2
+                  .getScope() == OptionsScope.PACKAGE
+              )
+              .map(_._1.getFullName())
+              .mkString(", ")
+            throw new GeneratorException(
+              s"Multiple files contain package-scoped options for package '${f.getPackage}': ${dups}"
+            )
+          }
+
+          if (isPackageScoped && opts.hasObjectName())
+            throw new GeneratorException(
+              s"${f.getFullName()}: object_name is not allowed in package-scoped options."
+            )
+
+          val packagesToInheritFrom =
+            if (isPackageScoped) parentPackages(f.getPackage())
+            else f.getPackage() :: parentPackages(f.getPackage())
+
+          val inherited = packagesToInheritFrom.find(byPackage.contains(_)).map(byPackage(_))
+
+          val res = inherited match {
+            case Some(base) => op(base, data(f, opts))
+            case None       => data(f, opts)
+          }
+          output += f -> res
+          if (isPackageScoped) {
+            byPackage += f.getPackage -> res
+          }
+      }
+    output.toMap
+  }
+
+  // For each file, which preprocessors are enabled
+  def preprocessorsForFile(files: Seq[FileDescriptor]): Map[FileDescriptor, Seq[String]] =
+    reducePackageOptions[Seq[String]](
+      files.map(f => (f, f.getOptions.getExtension(Scalapb.options))),
+      (_, opts) => opts.getPreprocessorsList.asScala.toSeq
+    )((parent, child) => clearNegatedPreprocessors(parent ++ child))
 
   @deprecated(
     "Use buildCache that takes SecondaryOutputProvider. Preprocessors will not work",
@@ -56,93 +106,88 @@ object FileOptionsCache {
   }
 
   def buildCache(
-      files: Seq[FileDescriptor],
+      filesIn: Seq[FileDescriptor],
       secondaryOutputProvider: SecondaryOutputProvider
   ): Map[FileDescriptor, ScalaPbOptions] = {
+    val preprocessorsByFile: Map[FileDescriptor, Seq[String]] = preprocessorsForFile(filesIn)
 
-    val givenPackageOptions: Seq[PackageScopedOptions] =
-      files
-        .filter(_.getOptions.getExtension(Scalapb.options).getScope == OptionsScope.PACKAGE)
-        .map { file =>
-          PackageScopedOptions(
-            file.getName,
-            file.getPackage,
-            file.getOptions.getExtension(Scalapb.options)
-          )
-        }
-        .sortBy(_.`package`.length) // so parent packages come before subpackages
-
-    givenPackageOptions.filter(_.`package`.isEmpty).foreach { pso =>
-      throw new GeneratorException(
-        s"${pso.fileName}: a package statement is required when package-scoped options are used"
-      )
-    }
-
-    givenPackageOptions.groupBy(_.`package`).find(_._2.length > 1).foreach {
-      case (pn, s) =>
+    for {
+      (file, names) <- preprocessorsByFile
+      name          <- names
+    } {
+      if (!SecondaryOutputProvider.isNameValid(name))
         throw new GeneratorException(
-          s"Multiple files contain package-scoped options for package '${pn}': ${s.map(_.fileName).sorted.mkString(", ")}"
+          s"${file.getFullName()}: Invalid preprocessor name: '$name'"
         )
     }
 
-    givenPackageOptions.find(_.options.hasObjectName).foreach { pso =>
-      throw new GeneratorException(
-        s"${pso.fileName}: object_name is not allowed in package-scoped options."
-      )
-    }
-
-    // Merge package-scoped options of parent packages with sub-packages, so for each package it
-    // is sufficient to look up the nearest parent package that has package-scoped options.
-    val optionsByPackage = new mutable.HashMap[String, ScalaPbOptions]
-
-    givenPackageOptions.foreach {
-      case pso =>
-        val parents: List[String] = parentPackages(pso.`package`)
-        val actualOptions = parents.find(optionsByPackage.contains) match {
-          case Some(p) => mergeOptions(optionsByPackage(p), pso.options)
-          case None    => pso.options
-        }
-        optionsByPackage += pso.`package` -> actualOptions
-    }
-
-    files.map { f =>
-      val opts = if (f.getOptions.getExtension(Scalapb.options).getScope == OptionsScope.PACKAGE) {
-        optionsByPackage(f.getPackage)
-      } else {
-        (f.getPackage :: parentPackages(f.getPackage)).find(optionsByPackage.contains) match {
-          case Some(p) =>
-            mergeOptions(optionsByPackage(p), f.getOptions.getExtension(Scalapb.options))
-          case None => f.getOptions.getExtension(Scalapb.options)
-        }
+    val allPreprocessorNames: Set[String] = preprocessorsByFile.values.flatten.toSet
+    val preprocessorValues: Map[String, PreprocessorOutput] = allPreprocessorNames.map { name =>
+      secondaryOutputProvider.get(name) match {
+        case Success(output) =>
+          FileOptionsCache.validatePreprocessorOutput(name, output)
+          name -> output
+        case Failure(exception) =>
+          val files = preprocessorsByFile
+            .collect {
+              case (fd, preprocessors) if preprocessors.contains(name) => fd.getFullName()
+            }
+            .mkString(", ")
+          throw GeneratorException(s"$files: ${exception.getMessage()}")
       }
+    }.toMap
 
-      val preprocessors = opts.getPreprocessorsList().asScala.flatMap { name =>
-        if (!SecondaryOutputProvider.isNameValid(name))
-          throw new GeneratorException(s"${f.getFullName()}: Invalid preprocessor name: '$name'")
-        secondaryOutputProvider.get(name) match {
-          case Success(output) =>
-            FileOptionsCache.validatePreprocessorOutput(name, output)
-            Some(output)
-          case Failure(exception) =>
-            throw GeneratorException(s"${f.getFullName}: ${exception.getMessage()}")
-        }
-      }
+    val processedOptions: Map[FileDescriptor, ScalaPbOptions] = preprocessorsByFile.map {
+      case (file, preprocessorsForFile) =>
+        file -> preprocessorsForFile
+          .flatMap(name =>
+            Option(preprocessorValues(name).getOptionsByFileMap.get(file.getFullName()))
+          )
+          .foldRight(file.getOptions().getExtension(Scalapb.options))(mergeOptions(_, _))
+    }.toMap
 
-      val preprocessorsProvidedOptions = for {
-        proc <- preprocessors
-        fn   <- Option(proc.getOptionsByFileMap.get(f.getFullName()))
-      } yield fn
+    val fileOptions = reducePackageOptions[ScalaPbOptions](
+      filesIn.map(f => (f, processedOptions(f))),
+      (_, opts) => opts
+    )(
+      mergeOptions(_, _)
+    )
 
-      val effectiveOpts = preprocessorsProvidedOptions.foldRight(opts)(mergeOptions(_, _))
+    val fieldTransformations = reducePackageOptions[Seq[ResolvedFieldTransformation]](
+      filesIn.map(f => (f, processedOptions(f))),
+      (file, opts) =>
+        opts
+          .getFieldTransformationsList()
+          .asScala
+          .map(t =>
+            ResolvedFieldTransformation(
+              file.getFullName(),
+              t,
+              FieldTransformations.fieldExtensionsForFile(file)
+            )
+          )
+          .toSeq
+    )(_ ++ _)
 
-      f -> effectiveOpts
+    fileOptions.map {
+      case (f, opts) =>
+        f ->
+          (if (opts.getIgnoreFieldTransformations) opts
+           else
+             opts.toBuilder
+               .addAllAuxFieldOptions(
+                 FieldTransformations
+                   .processFieldTransformations(f, fieldTransformations(f))
+                   .asJava
+               )
+               .build())
     }.toMap
   }
 
   private[scalapb] def validatePreprocessorOutput(
       name: String,
-      output: PreprocesserOutput
-  ): PreprocesserOutput = {
+      output: PreprocessorOutput
+  ): PreprocessorOutput = {
     output.getOptionsByFileMap().asScala.find(_._2.getScope() != OptionsScope.FILE).foreach { ev =>
       throw new GeneratorException(
         s"Preprocessor options must be file-scoped. Preprocessor '${name}' provided scope '${ev._2

@@ -7,7 +7,7 @@ import scalapb.options.Scalapb.ScalaPbOptions.OptionsScope
 import scala.jdk.CollectionConverters._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
-import scalapb.options.Scalapb.PreprocesserOutput
+import scalapb.options.Scalapb.PreprocessorOutput
 
 class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
   "parentPackages" should "return correct parent packages" in {
@@ -214,7 +214,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
 
     val provider = SecondaryOutputProvider.fromMap(
       Map(
-        "preproc" -> PreprocesserOutput
+        "preproc" -> PreprocessorOutput
           .newBuilder()
           .putOptionsByFile(
             "p1.proto",
@@ -261,7 +261,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
 
     val provider = SecondaryOutputProvider.fromMap(
       Map(
-        "preproc" -> PreprocesserOutput
+        "preproc" -> PreprocessorOutput
           .newBuilder()
           .putOptionsByFile(
             "p1.proto",
@@ -340,7 +340,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
     val provider = SecondaryOutputProvider.fromMap(
       Map(
         "preproc" ->
-          PreprocesserOutput
+          PreprocessorOutput
             .newBuilder()
             .putOptionsByFile(
               "p1.x.proto",
@@ -394,8 +394,9 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
              |""".stripMargin,
         "p1.x.proto" ->
           """|package_name: "scc.p1"
-             |import: "i4"
+             |import: "iz"
              |import: "i1"
+             |import: "i4"
              |import: "i2"
              |single_file: true
              |scope: FILE
@@ -403,6 +404,7 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
              |""".stripMargin,
         "p1.y.proto" ->
           """|package_name: "scc.p1"
+             |import: "iz"
              |import: "i1"
              |import: "i3"
              |single_file: true
@@ -411,10 +413,13 @@ class FileOptionsCacheSpec extends AnyFlatSpec with Matchers {
              |""".stripMargin,
         "p1.z.proto" ->
           """|package_name: "scc.p1"
+             |import: "iz"
              |import: "i1"
              |import: "i4"
              |single_file: true
              |scope: FILE
+             |preprocessors: "preproc"
+             |preprocessors: "-preproc"
              |""".stripMargin
       )
     )
