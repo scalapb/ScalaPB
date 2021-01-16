@@ -99,7 +99,7 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |import "myvalidate.proto";
          |import "scalapb/scalapb.proto";
          |option (scalapb.options) = {
-         |  ignore_field_transformations: true
+         |  ignore_all_transformations: true
          |};
          |message I {
          |  int32 x = 1 [(opts.rules).int32 = {gt: 12}];

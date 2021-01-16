@@ -172,7 +172,7 @@ object FileOptionsCache {
     fileOptions.map {
       case (f, opts) =>
         f ->
-          (if (opts.getIgnoreFieldTransformations) opts
+          (if (opts.getIgnoreAllTransformations) opts
            else
              opts.toBuilder
                .addAllAuxFieldOptions(

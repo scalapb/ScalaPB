@@ -167,9 +167,9 @@ message ScalaPbOptions {
 
   repeated FieldTransformation field_transformations = 25;
 
-  // Ignores field transformations for this file. This is meant to allow specific files to
-  // opt out from field transformations inherited through package-scoped options.
-  optional bool ignore_field_transformations = 26;
+  // Ignores all transformations for this file. This is meant to allow specific files to
+  // opt out from transformations inherited through package-scoped options.
+  optional bool ignore_all_transformations = 26;
 
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
