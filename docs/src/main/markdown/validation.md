@@ -114,24 +114,27 @@ Validator[Person].validate(personInstance) match {
 The functionality described in the remainder of this page is available in a preview release of ScalaPB. It is still being refined and is subject to change without notice.
 :::note
 
-Starting from version 0.10.10, ScalaPB-validate provides a way to customize the generated ScalaPB types by writing rules. When these rules are matched, additional ScalaPB options are added to the matched entity. For example, you can create a transformation that whenever a field has a PGV-rule like `int32: { gt: 0 }}`, then it will be typemapped to a custom class `PositiveInt`.
+Starting from version 0.10.10, ScalaPB provides a way to customize its own options by writing rules that are matched against
+arbitrary protobuf options. When these rules are matched, additional ScalaPB options are added to the matched entity. For example, you can create a transformation that whenever a field has a PGV-rule like `int32: { gt: 0 }}`, then it will be typemapped to a custom class `PositiveInt`.
 
 ### Installation
 
-The minimum required versions of sbt-protoc is `1.0.0-RC6`. You will also need a preview version of
+The minimum required versions of sbt-protoc is `1.0.0-RC7`. You will also need a preview version of
 ScalaPB and ScalaPB-validate. Your `project/plugins.sbt` should have something like this:
 
 ```scala
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC6")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC7")
 
 libraryDependencies ++= Seq(
-    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview5",
-    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview5"
+    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview8",
+    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview8"
 )
 ```
 
-The key ingredient for type transformations is to have a *preprocessor* plugin running before ScalaPB,
-letting it know which types to use. Your build.sbt should set `PB.targets in Compile` like this:
+While field transformation is a generic ScalaPB mechanism, it is also recommended that you add
+scalapb-validate's preprocessor to PB.targets. The preprocessor does two things:
+1. Provides field transformations for Set and cats data types.
+2. Expand your PGV-based rules such that they match repeated items, map keys and map values.
 
 ```scala
 PB.targets in Compile := Seq(
@@ -153,7 +156,7 @@ There is an example project [available on github](https://github.com/scalapb/sca
 
 ### Field transformations
 
-if you want all your positive integers to be typemapped to a Scala class called `PositiveInt` you can create a proto file with the following content:
+if you want all positive integers to be typemapped to a Scala class called `PositiveInt` you can create a proto file with the following content:
 
 ```protobuf
 syntax = "proto2";
@@ -166,12 +169,9 @@ import "validate/validate.proto";
 
 option (scalapb.options) = {
   preprocessors: ["scalapb-validate-preprocessor"]
-};
-
-option (scalapb.validate.package) = {
   field_transformations: [
     {
-      when: {int32: {gt: 0}}
+      when: {[validate.rules] {int32: {gt: 0}}}
       set: {
         type: "mypkg.PositiveInt"
       }
@@ -180,7 +180,10 @@ option (scalapb.validate.package) = {
 };
 ```
 
-The scope of this definition is the entire protobuf package it is found in. Here, `field_transformations` is a list of `FieldTransformation` messages. Each of them describes a single rule. The `when` condition is a PGV `FieldRule` (defined in `validate/validate.proto`). When it is matched for any field in this package, the `scalapb.FieldOption` options in `set` are applied to the field.  Multiple transformations may match a single field. The transformations from parent packages are applied first in descending order, that is from the outermost package to the package where the field resides. Within each package, the transformations are applied in the order they appear in the file. Options defined locally at the field-level are applied last.
+The scope of this definition is the entire protobuf file it is found in. Field tranformations can also
+be used in package-scoped options so they are passed to all files within the package.
+
+Here, `field_transformations` is a list of `FieldTransformation` messages. Each of them describes a single rule. The `when` condition is `google.protobuf.FieldOptions` message embedding a PGV `FieldRule` (defined in `validate/validate.proto`). When the rule is matched for any field in this file, the `scalapb.FieldOptions` options in `set` are applied to the field.  Multiple transformations may match a single field. The transformations from parent packages are applied first in descending order, that is from the outermost package to the package where the field resides. Within each package, the transformations are applied in the order they appear in the file. Options defined locally at the field-level are applied last.
 
 There are three matching modes available:
 * `CONTAINS` is the default matching mode. In this mode, the preprocessor checks that all the options in the `when` pattern are defined on the field and having the same value. Additional options may be defined on the field besides the ones on the `when` pattern.
@@ -190,10 +193,11 @@ There are three matching modes available:
 Example syntax:
 
 ```protobuf
-option (scalapb.validate.package) = {
+option (scalapb.options) = {
+  preprocessors: ["scalapb-validate-preprocessor"]
   field_transformations: [
     {
-      when: {int32: {gt: 0}}
+      when: {[validate.rules] {int32: {gt: 0}}}
       match_type: EXACT
       set: {
         type: "mypkg.PositiveInt"
@@ -202,6 +206,43 @@ option (scalapb.validate.package) = {
   ]
 };
 ```
+
+#### What does the preprocessor do?
+
+The preprocessor scans for `field_transformations` with `when` fields that contain `[validate.rules]` extensions. Whenever a `[validate.rules]` does contain a `repeated` or `map` validation rules it is assumed to be applied to a singleton type, so we add a copy of the rule for repeated, map-key and map-value context. For example, for this `PositiveInt` rule:
+
+```protobuf
+{
+  when: {[validate.rules] {int32: {gt: 0}}}
+  set: {
+    type: "mypkg.PositiveInt"
+  }
+}
+```
+
+the following field transformations will be automatically added by the preprocessor:
+```
+    {
+      when: {[validate.rules] {repeated: {int32: {gt: 0}}}}
+      set: {
+        type: "mypkg.PositiveInt"
+      }
+    },
+    {
+      when: {[validate.rules] {map: {keys: {int32: {gt: 0}}}}}
+      set: {
+        key_type: "mypkg.PositiveInt"
+      }
+    },
+    {
+      when: {[validate.rules] {map: {values: {int32: {gt: 0}}}}}
+      set: {
+        value_type: "mypkg.PositiveInt"
+      }
+    }
+```
+
+This saves you from writing those rules manually so the type transformation is applied in repeated fields or maps. Note that the rewrite mechanism rewrites the `type` in the original `set` field, into `key_type` or `value_type`.
 
 ## Cats non-empty collections
 
@@ -263,10 +304,10 @@ not be boxed in an `Option` and parsing will throw an exception if the field
 is missing. To set this transformation add the following to ScalaPB-validate's options:
 
 ```protobuf
-option (scalapb.validate.package) = {
+option (scalapb.options) = {
     field_transformations: [
         {
-            when: {message: {required: true}}
+            when: {[validate.rules] {message: {required: true}}}
             set: {
                 required: true
             }
@@ -278,9 +319,9 @@ option (scalapb.validate.package) = {
 ## Referecing rules values
 
 It is possible to reference values in the rules and use them
-on the `set` part. Whenever there is a singular string field  in Scala options, the preprocessor would replace tokens in the format `$(p)` with the value of the field's PGV rule at the path `p`. For example, `$(int32.gt)` would be substituted with the value of that option on the field. If the option is not set on the field, a default value will be replaced (0 for numeric types, empty string, and so on).
+on the `set` part. Whenever there is a singular string field  in Scala options, the preprocessor would replace tokens in the format `$(p)` with the value of the field's option at the path `p`. To reference extension fields, wrap the extension full name in brackets (`[]`). For example, `$([valiate.rules].int32.gt)` would be substituted with the value of that option on the field. If the option is not set on the field, a default value will be replaced (0 for numeric types, empty string, and so on).
 
-The paths references don't have to appear on the `when` pattern. Although, referencing rule values is useful when the matching mode is `PRESENCE, it is supported to reference rule values in all matching modes.
+The paths that are referenced don't have to appear on the `when` pattern. While referencing rule values is useful when the matching mode is `PRESENCE, it is supported to reference rule values in all matching modes.
 
 A possible application for this is in conjunction with [refined types](https://github.com/fthomas/refined). For example, you can define the following field transformations:
 
@@ -299,14 +340,13 @@ option (scalapb.options) = {
   import : "eu.timepit.refined.numeric._"
   import : "eu.timepit.refined.generic._"
   import : "shapeless.{Witness => W}"
-};
 
-option (scalapb.validate.package) = {
   field_transformations : [ {
-    when : {int32 : {gt : 1}}  // <-- 1 can be replaced with any number
-    set : {type : "Int Refined Greater[$(int32.gt)]"}
+    when : {[validate.rules] {int32 : {gt : 1}}}  // <-- 1 can be replaced with any number
+    set : {type : "Int Refined Greater[$([validate.rules].int32.gt)]"}
     match_type : PRESENCE
   } ]
+};
 
 message Test {
   int32 gt_test = 1 [ (validate.rules).int32 = {gt : 5} ];  // transformed to: Int Refined Greater[5]
