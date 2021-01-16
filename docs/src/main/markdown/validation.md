@@ -108,6 +108,30 @@ Validator[Person].validate(personInstance) match {
 }
 ```
 
+## Package-scoped extension options
+
+ScalaPB-validate further extends ScalaPB's package-scoped options to achieve additional customization:
+
+```protobuf
+syntax = "proto2";
+
+package mypkg;
+
+import "scalapb/scalapb.proto";
+import "scalapb/validate.proto";
+
+option (scalapb.options) = {
+  scope: PACKAGE
+  [scalapb.validate.file] {
+      validate_at_construction: true
+      insert_validator_instance: true
+  }
+};
+```
+
+- `validate_at_construction` when true, a check for validity is added to the message class body, so construction of invalid messages results in a validation exception. Default: `false`.
+- `insert_validator_instance` when true, implicit instance of a `Validator` is added to the companion object of the message. This enables writing `Validator[MyMsg].validate(instance)`. Default: `true`.
+
 ## Rule-based type customization
 
 :::note
@@ -244,7 +268,7 @@ the following field transformations will be automatically added by the preproces
 
 This saves you from writing those rules manually so the type transformation is applied in repeated fields or maps. Note that the rewrite mechanism rewrites the `type` in the original `set` field, into `key_type` or `value_type`.
 
-## Cats non-empty collections
+### Cats non-empty collections
 
 Using rules like the ones defined above, it is possible to detect when a list or a map are non-empty (via. `{repeated: { min_items: 1}}` or `{map: {min_pairs: 1}}`, and map them to corresponding non-empty collections.  Cats collections require some additional adaptation to ScalaPB since their API is different enough from standard Scala collections. ScalaPB comes with support to automatically map non-empty collections to `NonEmptyMap`, `NonEmptySet` and `NonEmptyList`. To enable, add the following to a proto file. The scope of the settings will be for the entire proto package:
 
@@ -272,31 +296,7 @@ As stated above, you will need to have `scalapb-validate-cats` listed in
 `libraryDependencies`. The setting `unique_to_set` can be used independently
 of cats to transform a repeated with `unique: true` rule to a set.
 
-## Package-scoped extension options
-
-ScalaPB-validate further extends ScalaPB's package-scoped options to achieve additional customization:
-
-```protobuf
-syntax = "proto2";
-
-package mypkg;
-
-import "scalapb/scalapb.proto";
-import "scalapb/validate.proto";
-
-option (scalapb.options) = {
-  scope: PACKAGE
-  [scalapb.validate.file] {
-      validate_at_construction: true
-      insert_validator_instance: true
-  }
-};
-```
-
-- `validate_at_construction` when true, a check for validity is added to the message class body, so construction of invalid messages results in a validation exception. Default: `false`.
-- `insert_validator_instance` when true, implicit instance of a `Validator` is added to the companion object of the message. This enables writing `Validator[MyMsg].validate(instance)`. Default: `true`.
-
-## Unboxing required fields
+### Unboxing required fields
 
 If you use `validate.message.required` you can apply a transformation that
 would set the `scalapb.field.required` option. As a result, the field will
@@ -316,12 +316,12 @@ option (scalapb.options) = {
 };
 ```
 
-## Referecing rules values
+### Referencing rules values
 
 It is possible to reference values in the rules and use them
 on the `set` part. Whenever there is a singular string field  in Scala options, the preprocessor would replace tokens in the format `$(p)` with the value of the field's option at the path `p`. To reference extension fields, wrap the extension full name in brackets (`[]`). For example, `$([valiate.rules].int32.gt)` would be substituted with the value of that option on the field. If the option is not set on the field, a default value will be replaced (0 for numeric types, empty string, and so on).
 
-The paths that are referenced don't have to appear on the `when` pattern. While referencing rule values is useful when the matching mode is `PRESENCE, it is supported to reference rule values in all matching modes.
+The paths that are referenced don't have to appear on the `when` pattern. While referencing rule values is useful when the matching mode is `PRESENCE`, it is supported to reference rule values in all matching modes.
 
 A possible application for this is in conjunction with [refined types](https://github.com/fthomas/refined). For example, you can define the following field transformations:
 
