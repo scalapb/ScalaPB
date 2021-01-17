@@ -25,7 +25,7 @@ private[compiler] object ResolvedFieldTransformation {
   def apply(
       currentFile: String,
       ft: FieldTransformation,
-      extensions: Seq[FieldDescriptor]
+      extensions: Set[FieldDescriptor]
   ): ResolvedFieldTransformation = {
     ResolvedFieldTransformation(
       FieldTransformations.fieldMap(
@@ -68,8 +68,8 @@ private[compiler] object FieldTransformations {
             else
               matchContains(
                 currentFile,
-                fieldMap(currentFile, u.asInstanceOf[Message], Seq.empty),
-                fieldMap(currentFile, v.asInstanceOf[Message], Seq.empty)
+                fieldMap(currentFile, u.asInstanceOf[Message], Set.empty),
+                fieldMap(currentFile, v.asInstanceOf[Message], Set.empty)
               )
         }
     }
@@ -81,7 +81,7 @@ private[compiler] object FieldTransformations {
   ): Seq[AuxFieldOptions] =
     if (transforms.isEmpty) Seq.empty
     else {
-      val extensions: Seq[FieldDescriptor] = fieldExtensionsForFile(f)
+      val extensions: Set[FieldDescriptor] = fieldExtensionsForFile(f)
       def processFile: Seq[AuxFieldOptions] =
         f.getMessageTypes().asScala.flatMap(processMessage(_)).toSeq
 
@@ -128,15 +128,15 @@ private[compiler] object FieldTransformations {
     }
   }
 
-  def fieldExtensionsForFile(f: FileDescriptor): Seq[FieldDescriptor] = {
-    (f +: f.getDependencies().asScala.toSeq).flatMap {
-      _.getExtensions().asScala.filter(
+  def fieldExtensionsForFile(f: FileDescriptor): Set[FieldDescriptor] = {
+    (f.getExtensions()
+      .asScala
+      .filter(
         // Comparing the descriptors references directly will not work. The google.protobuf.FieldOptions
         // we will get from `getContainingType` is the one we get from parsing the code generation request
         // inputs, which are disjoint from the compilerplugin's FieldOptions.
         _.getContainingType.getFullName == FieldOptions.getDescriptor().getFullName()
-      )
-    }
+      ) ++ f.getDependencies().asScala.flatMap(fieldExtensionsForFile(_))).toSet
   }
 
   // Like m.getAllFields(), but also resolves unknown fields from extensions available in the scope
@@ -144,7 +144,7 @@ private[compiler] object FieldTransformations {
   def fieldMap(
       currentFile: String,
       m: Message,
-      extensions: Seq[FieldDescriptor]
+      extensions: Set[FieldDescriptor]
   ): Map[FieldDescriptor, Any] = {
     val unknownFields = for {
       number <- m.getUnknownFields().asMap().keySet().asScala
@@ -199,7 +199,7 @@ private[compiler] object FieldTransformations {
   def fieldByPath(
       message: Message,
       path: String,
-      extensions: Seq[FieldDescriptor]
+      extensions: Set[FieldDescriptor]
   ): String =
     if (path.isEmpty()) throw new GeneratorException("Got an empty path")
     else
@@ -212,7 +212,7 @@ private[compiler] object FieldTransformations {
       message: Message,
       path: List[String],
       allPath: String,
-      extensions: Seq[FieldDescriptor]
+      extensions: Set[FieldDescriptor]
   ): Either[String, String] = {
     for {
       fieldName <- path.headOption.toRight("Got an empty path")
@@ -249,7 +249,7 @@ private[compiler] object FieldTransformations {
   private[compiler] def interpolateStrings[T <: Message](
       msg: T,
       data: Message,
-      extensions: Seq[FieldDescriptor]
+      extensions: Set[FieldDescriptor]
   ): T = {
     val b = msg.toBuilder()
     for {
@@ -284,7 +284,7 @@ private[compiler] object FieldTransformations {
   private[compiler] def interpolate(
       value: String,
       data: Message,
-      extensions: Seq[FieldDescriptor]
+      extensions: Set[FieldDescriptor]
   ): String =
     replaceAll(value, FieldPath, m => fieldByPath(data, m.group(1), extensions))
 
