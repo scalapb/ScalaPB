@@ -153,7 +153,8 @@ private[compiler] object FieldTransformations {
         .find(_.getNumber == number)
         .getOrElse(
           throw new GeneratorException(
-            s"$currentFile: Could not find extension number $number for message ${m.toString()}"
+            s"$currentFile: Could not find extension number $number when processing a field " +
+              "transformation. A proto file defining this extension needs to be imported directly or transitively in this file."
           )
         )
       ext -> getExtensionField(m, ext)

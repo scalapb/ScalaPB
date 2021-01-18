@@ -10,6 +10,10 @@ import com.google.protobuf.DescriptorProtos.FieldOptions
 import com.google.protobuf.UnknownFieldSet
 import com.google.protobuf.UnknownFieldSet.Field
 import scalapb.options.Scalapb.ScalaPbOptions
+import scalapb.options.Scalapb.FieldTransformation
+import scalapb.options.Scalapb.PreprocessorOutput
+import com.google.protobuf.ByteString
+import com.google.protobuf.Descriptors.FileDescriptor
 
 class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvocationHelper {
   val base = Seq(
@@ -106,19 +110,62 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |}
          |""".stripMargin
   )
-  val files      = generateFileSet(base)
+  val files = generateFileSet(base)
+
+  def preproc = {
+    val when = FieldOptions
+      .newBuilder()
+      .setUnknownFields(
+        UnknownFieldSet
+          .newBuilder()
+          .addField(
+            50001,
+            Field
+              .newBuilder()
+              .addLengthDelimited(
+                ByteString.copyFrom(Array[Byte](10, 2, 8, 0)) // {int32: gt{0}}
+              )
+              .build()
+          )
+          .build()
+      )
+      .build()
+    SecondaryOutputProvider.fromMap(
+      Map(
+        "myproc" ->
+          PreprocessorOutput.newBuilder
+            .putOptionsByFile(
+              "injected_options.proto",
+              ScalaPbOptions.newBuilder
+                .addFieldTransformations(
+                  FieldTransformation.newBuilder
+                    .setWhen(when)
+                    .setSet(
+                      scalapb.options.Scalapb.FieldOptions.newBuilder().setType("PositiveInt")
+                    )
+                    .build()
+                )
+                .build()
+            )
+            .build()
+      )
+    )
+  }
+
+  def options(cache: Map[FileDescriptor, ScalaPbOptions], name: String): ScalaPbOptions =
+    cache.find(_._1.getFullName == name).get._2
+
   val cache      = FileOptionsCache.buildCache(files, SecondaryOutputProvider.empty)
   val locals     = files.find(_.getFullName() == "locals.proto").get
   val inherits   = files.find(_.getFullName() == "inherits.proto").get
   val ignores    = files.find(_.getFullName() == "ignores.proto").get
   val extensions = FieldTransformations.fieldExtensionsForFile(inherits)
 
-  val fieldRulesDesc = files
-    .flatMap { f => f.getMessageTypes().asScala }
-    .find(_.getFullName == "opts.FieldRules")
-    .get
-
   def fieldRules(s: String): FieldOptions = {
+    val fieldRulesDesc = files
+      .flatMap { f => f.getMessageTypes().asScala }
+      .find(_.getFullName == "opts.FieldRules")
+      .get
     val dm = DynamicMessage.newBuilder(fieldRulesDesc)
     TextFormat.merge(s, dm)
     dm.build()
@@ -193,6 +240,63 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       .getAuxFieldOptionsList()
       .asScala
       .find(_.getTarget() == "pkg.I.x") must be(None)
+  }
+
+  it should "throw exception when import is missing on injected transformations" in {
+    val extraNoImport = Map(
+      "injected_options.proto" ->
+        """|syntax = "proto3";
+           |package injected;
+           |
+           |import "scalapb/scalapb.proto";
+           |option (scalapb.options) = {preprocessors: ["myproc"]; scope: PACKAGE};
+         """.stripMargin
+    )
+    intercept[GeneratorException] {
+      FileOptionsCache.buildCache(generateFileSet(base ++ extraNoImport), preproc)
+    }.getMessage() must startWith("injected_options.proto: Could not find extension number 50001")
+  }
+
+  it should "should be inherited to package when injected" in {
+    val extraWithImport = Map(
+      "injected_options.proto" ->
+        """|syntax = "proto3";
+           |package injected;
+           |
+           |import "scalapb/scalapb.proto";
+           |import "myvalidate.proto";
+           |option (scalapb.options) = {preprocessors: ["myproc"]; scope: PACKAGE};
+           |message F { opts.FieldRules r = 1; } // avoid unused import protoc warning
+         """.stripMargin,
+      "injected_inherits_no_include.proto" ->
+        """|syntax = "proto3";
+           |package injected;
+           |
+           |message Foo { int32 x = 1; }
+         """.stripMargin,
+      "injected_inherits_uses.proto" ->
+        """|syntax = "proto3";
+           |package injected;
+           |import "myvalidate.proto";
+           |
+           |message Foo2 {  int32 x = 1 [(opts.rules) = {int32: {gt: 0}}]; }
+         """.stripMargin
+    )
+    val cache = FileOptionsCache.buildCache(generateFileSet(base ++ extraWithImport), preproc)
+    options(cache, "injected_inherits_no_include.proto")
+      .getFieldTransformationsCount() must be(1)
+    options(cache, "injected_inherits_uses.proto")
+      .getAuxFieldOptionsList()
+      .asScala
+      .map(_.toString()) must be(
+      Seq(
+        """|target: "injected.Foo2.x"
+           |options {
+           |  type: "PositiveInt"
+           |}
+           |""".stripMargin
+      )
+    )
   }
 
   "matchPresence" must "match correctly" in {
