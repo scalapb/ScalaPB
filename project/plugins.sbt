@@ -28,7 +28,7 @@ addSbtPlugin("com.47deg" % "sbt-microsites" % "1.2.1")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC6")
 
-addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.3")
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.5")
 
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
