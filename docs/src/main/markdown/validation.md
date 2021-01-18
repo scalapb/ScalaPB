@@ -150,8 +150,8 @@ ScalaPB and ScalaPB-validate. Your `project/plugins.sbt` should have something l
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC7")
 
 libraryDependencies ++= Seq(
-    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview8",
-    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview8"
+    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview11",
+    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview11"
 )
 ```
 
@@ -270,7 +270,8 @@ This saves you from writing those rules manually so the type transformation is a
 
 ### Cats non-empty collections
 
-Using rules like the ones defined above, it is possible to detect when a list or a map are non-empty (via. `{repeated: { min_items: 1}}` or `{map: {min_pairs: 1}}`, and map them to corresponding non-empty collections.  Cats collections require some additional adaptation to ScalaPB since their API is different enough from standard Scala collections. ScalaPB comes with support to automatically map non-empty collections to `NonEmptyMap`, `NonEmptySet` and `NonEmptyList`. To enable, add the following to a proto file. The scope of the settings will be for the entire proto package:
+Using rules like the ones defined above, it is possible to detect when a list or a map are non-empty (via. `{repeated: { min_items: 1}}` or `{map: {min_pairs: 1}}`, and map them to corresponding non-empty collections.  Cats collections require some additional adaptation to ScalaPB since their API is different enough from standard Scala collections. ScalaPB-validate comes with support to automatically map non-empty collections to `NonEmptyMap`, `NonEmptySet` and `NonEmptyList`. To enable, add the following to a proto file. The scope of the settings will be for the entire file. You can turn the setting on for the
+entire package by adding `scope: PACKAGE`.
 
 ```protobuf
 
@@ -280,15 +281,14 @@ package mypackage;
 
 import "scalapb/scalapb.proto";
 import "scalapb/validate.proto";
-import "validate/validate.proto";
 
 option (scalapb.options) = {
   preprocessors: ["scalapb-validate-preprocessor"]
-};
-
-option (scalapb.validate.package) = {
-  cats_transforms: true
-  unique_to_set: true
+  [scalapb.validate.file] {
+    validate_at_construction : true
+    cats_transforms : true
+    unique_to_set : true
+  }
 };
 ```
 
