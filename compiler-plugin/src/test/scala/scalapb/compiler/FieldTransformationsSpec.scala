@@ -23,11 +23,15 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |import "google/protobuf/descriptor.proto";
          |message FieldRules {
          |  optional Int32Rules int32 = 1;
+         |  optional StringRules string = 2;
          |}
          |message Int32Rules {
          |  optional int32 gt = 1;
          |  optional int32 gte = 2;
          |  optional int32 lt = 3;
+         |}
+         |message StringRules {
+         |  optional string const = 1;
          |}
          |extend google.protobuf.FieldOptions {
          |  optional FieldRules rules = 50001;
@@ -430,6 +434,14 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       extensions
     ) must be(
       scalapbOptions("aux_field_options: { options: {type: \"Thingie(1)\"} }")
+    )
+
+    interpolateStrings(
+      fieldOptions("type: \"Thingie($([opts.rules].string.const))\""),
+      fieldRules("string: {const: \"r/(.{7}).*/$1xxxxx/\"}"),
+      extensions
+    ) must be(
+      fieldOptions("type: \"Thingie(\"\"r/(.{7}).*/$1xxxxx/\"\")\"")
     )
 
     intercept[GeneratorException] {
