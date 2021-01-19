@@ -299,7 +299,7 @@ private[compiler] object FieldTransformations {
     val matcher = pattern.matcher(templateText)
     val result  = new StringBuffer()
     while (matcher.find()) {
-      matcher.appendReplacement(result, replacer.apply(matcher));
+      matcher.appendReplacement(result, Matcher.quoteReplacement(replacer.apply(matcher)));
     }
     matcher.appendTail(result);
     result.toString()
