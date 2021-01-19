@@ -58,20 +58,19 @@ private[compiler] object FieldTransformations {
       input: Map[FieldDescriptor, Any],
       pattern: Map[FieldDescriptor, Any]
   ): Boolean = {
-    pattern.forall {
-      case (fd, v) =>
-        input.get(fd) match {
-          case None => false
-          case Some(u) =>
-            if (fd.getType() != Type.MESSAGE)
-              u == v
-            else
-              matchContains(
-                currentFile,
-                fieldMap(currentFile, u.asInstanceOf[Message], Set.empty),
-                fieldMap(currentFile, v.asInstanceOf[Message], Set.empty)
-              )
-        }
+    pattern.forall { case (fd, v) =>
+      input.get(fd) match {
+        case None => false
+        case Some(u) =>
+          if (fd.getType() != Type.MESSAGE)
+            u == v
+          else
+            matchContains(
+              currentFile,
+              fieldMap(currentFile, u.asInstanceOf[Message], Set.empty),
+              fieldMap(currentFile, v.asInstanceOf[Message], Set.empty)
+            )
+      }
     }
   }
 
@@ -112,19 +111,18 @@ private[compiler] object FieldTransformations {
       input: Map[FieldDescriptor, Any],
       pattern: Map[FieldDescriptor, Any]
   ): Boolean = {
-    pattern.forall {
-      case (fd, value) =>
-        if (fd.isRepeated())
-          throw new GeneratorException(
-            "Presence matching on repeated fields is not supported"
-          )
-        else if (fd.getType() == Type.MESSAGE && input.contains(fd))
-          matchPresence(
-            input(fd).asInstanceOf[Message].getAllFields().asScala.toMap,
-            value.asInstanceOf[Message].getAllFields().asScala.toMap
-          )
-        else
-          input.contains(fd)
+    pattern.forall { case (fd, value) =>
+      if (fd.isRepeated())
+        throw new GeneratorException(
+          "Presence matching on repeated fields is not supported"
+        )
+      else if (fd.getType() == Type.MESSAGE && input.contains(fd))
+        matchPresence(
+          input(fd).asInstanceOf[Message].getAllFields().asScala.toMap,
+          value.asInstanceOf[Message].getAllFields().asScala.toMap
+        )
+      else
+        input.contains(fd)
     }
   }
 
@@ -217,19 +215,21 @@ private[compiler] object FieldTransformations {
   ): Either[String, String] = {
     for {
       fieldName <- path.headOption.toRight("Got an empty path")
-      fd <- if (fieldName.startsWith("["))
-        extensions
-          .find(_.getFullName == fieldName.substring(1, fieldName.length() - 1))
-          .toRight(
-            s"Could not find extension $fieldName when resolving $allPath"
-          )
-      else
-        Option(message.getDescriptorForType().findFieldByName(fieldName))
-          .toRight(
-            s"Could not find field named $fieldName when resolving $allPath"
-          )
-      _ <- if (fd.isRepeated()) Left("Repeated fields are not supported")
-      else Right(())
+      fd <-
+        if (fieldName.startsWith("["))
+          extensions
+            .find(_.getFullName == fieldName.substring(1, fieldName.length() - 1))
+            .toRight(
+              s"Could not find extension $fieldName when resolving $allPath"
+            )
+        else
+          Option(message.getDescriptorForType().findFieldByName(fieldName))
+            .toRight(
+              s"Could not find field named $fieldName when resolving $allPath"
+            )
+      _ <-
+        if (fd.isRepeated()) Left("Repeated fields are not supported")
+        else Right(())
       v = if (fd.isExtension) getExtensionField(message, fd) else message.getField(fd)
       res <- path match {
         case _ :: Nil => Right(v.toString())

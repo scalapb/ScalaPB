@@ -339,32 +339,31 @@ class ProtobufGenerator(
         .indent
         .add("(__fieldNumber: @_root_.scala.unchecked) match {")
         .indent
-        .print(message.fields) {
-          case (fp, f) =>
-            val e = toBaseFieldType(f)
-              .apply(
-                fieldAccessorSymbol(f),
-                sourceType = f.enclosingType,
-                targetType = f.fieldMapEnclosingType
-              )
-            if (f.supportsPresence || f.isInOneof)
-              fp.add(s"case ${f.getNumber} => $e.orNull")
-            else if (f.isOptional && !f.noBoxRequired) {
-              // In proto3, drop default value
-              fp.add(s"case ${f.getNumber} => {")
-                .indent
-                .add(s"val __t = $e")
-                .add({
-                  val cond =
-                    if (!f.isEnum)
-                      s"__t != ${defaultValueForGet(f, uncustomized = true)}"
-                    else
-                      s"__t.getNumber() != 0"
-                  s"if ($cond) __t else null"
-                })
-                .outdent
-                .add("}")
-            } else fp.add(s"case ${f.getNumber} => $e")
+        .print(message.fields) { case (fp, f) =>
+          val e = toBaseFieldType(f)
+            .apply(
+              fieldAccessorSymbol(f),
+              sourceType = f.enclosingType,
+              targetType = f.fieldMapEnclosingType
+            )
+          if (f.supportsPresence || f.isInOneof)
+            fp.add(s"case ${f.getNumber} => $e.orNull")
+          else if (f.isOptional && !f.noBoxRequired) {
+            // In proto3, drop default value
+            fp.add(s"case ${f.getNumber} => {")
+              .indent
+              .add(s"val __t = $e")
+              .add({
+                val cond =
+                  if (!f.isEnum)
+                    s"__t != ${defaultValueForGet(f, uncustomized = true)}"
+                  else
+                    s"__t.getNumber() != 0"
+                s"if ($cond) __t else null"
+              })
+              .outdent
+              .add("}")
+          } else fp.add(s"case ${f.getNumber} => $e")
         }
         .outdent
         .add("}")
@@ -634,44 +633,44 @@ class ProtobufGenerator(
             )
           )
 
-            printer.add(s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
-                           |  _output__.writeTag(${field.getNumber}, 2)
-                           |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
-                           |  ${field.collection.foreach}($writeFunc)
-                           |};""".stripMargin)
-          } else if (field.isRequired || field.noBoxRequired) {
-            printer
-              .add("")
-              .add("{")
-              .indent
-              .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
-              .call(generateWriteSingleValue(field, "__v"))
-              .outdent
-              .add("};")
-          } else if (field.isSingular) {
-            // Singular that are not required are written only if they don't equal their default
-            // value.
-            printer
-              .add(s"{")
-              .indent
-              .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
-              .add(s"if (${isNonEmpty("__v", field)}) {")
-              .indent
-              .call(generateWriteSingleValue(field, "__v"))
-              .outdent
-              .add("}")
-              .outdent
-              .add("};")
-          } else {
-            printer
-              .when(field.isRepeated)(_.add(s"${field.collection.foreach} { __v =>"))
-              .when(!field.isRepeated)(_.add(s"${fieldAccessorSymbol(field)}.foreach { __v =>"))
-              .indent
-              .add(s"val __m = ${toBaseType(field)("__v")}")
-              .call(generateWriteSingleValue(field, "__m"))
-              .outdent
-              .add("};")
-          }
+          printer.add(s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
+                         |  _output__.writeTag(${field.getNumber}, 2)
+                         |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
+                         |  ${field.collection.foreach}($writeFunc)
+                         |};""".stripMargin)
+        } else if (field.isRequired || field.noBoxRequired) {
+          printer
+            .add("")
+            .add("{")
+            .indent
+            .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
+            .call(generateWriteSingleValue(field, "__v"))
+            .outdent
+            .add("};")
+        } else if (field.isSingular) {
+          // Singular that are not required are written only if they don't equal their default
+          // value.
+          printer
+            .add(s"{")
+            .indent
+            .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
+            .add(s"if (${isNonEmpty("__v", field)}) {")
+            .indent
+            .call(generateWriteSingleValue(field, "__v"))
+            .outdent
+            .add("}")
+            .outdent
+            .add("};")
+        } else {
+          printer
+            .when(field.isRepeated)(_.add(s"${field.collection.foreach} { __v =>"))
+            .when(!field.isRepeated)(_.add(s"${fieldAccessorSymbol(field)}.foreach { __v =>"))
+            .indent
+            .add(s"val __m = ${toBaseType(field)("__v")}")
+            .call(generateWriteSingleValue(field, "__m"))
+            .outdent
+            .add("};")
+        }
       }
       .when(message.preservesUnknownFields)(_.add("unknownFields.writeTo(_output__)"))
       .outdent
@@ -1004,16 +1003,15 @@ class ProtobufGenerator(
     } yield (field, adapter)
 
     printer
-      .print(fieldsWithAdapter) {
-        case (printer, (field, adapter)) =>
-          val modifier =
-            if (field.getFile().scalaPackage.fullName.isEmpty) "private"
-            else s"private[${field.getFile().scalaPackage.fullName.split('.').last}]"
-          printer
-            .add("@transient")
-            .add(
-              s"$modifier val ${field.collection.adapter.get.nameSymbol}: _root_.scalapb.CollectionAdapter[${field.singleScalaTypeName}, ${field.scalaTypeName}] = $adapter()"
-            )
+      .print(fieldsWithAdapter) { case (printer, (field, adapter)) =>
+        val modifier =
+          if (field.getFile().scalaPackage.fullName.isEmpty) "private"
+          else s"private[${field.getFile().scalaPackage.fullName.split('.').last}]"
+        printer
+          .add("@transient")
+          .add(
+            s"$modifier val ${field.collection.adapter.get.nameSymbol}: _root_.scalapb.CollectionAdapter[${field.singleScalaTypeName}, ${field.scalaTypeName}] = $adapter()"
+          )
       }
   }
 

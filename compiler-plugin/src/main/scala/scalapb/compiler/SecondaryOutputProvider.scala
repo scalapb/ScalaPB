@@ -38,11 +38,10 @@ private final class FileBasedSecondaryOutputProvider(inputDir: File)
     val bytes = Files.readAllBytes(in)
     Try {
       com.google.protobuf.Any.parseFrom(bytes).unpack(classOf[PreprocessorOutput])
-    }.recoverWith {
-      case e: InvalidProtocolBufferException =>
-        throw new GeneratorException(
-          s"Invalid secondary output file format for '$name': ${e.toString()}"
-        )
+    }.recoverWith { case e: InvalidProtocolBufferException =>
+      throw new GeneratorException(
+        s"Invalid secondary output file format for '$name': ${e.toString()}"
+      )
     }
   }
 }

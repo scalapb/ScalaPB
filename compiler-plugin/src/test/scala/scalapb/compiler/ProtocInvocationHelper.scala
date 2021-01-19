@@ -13,13 +13,12 @@ import scala.jdk.CollectionConverters._
 trait ProtocInvocationHelper {
   def generateFileSet(files: Seq[(String, String)]): Seq[FileDescriptor] = {
     val tmpDir = Files.createTempDirectory("validation").toFile
-    val fileNames = files.map {
-      case (name, content) =>
-        val file = new File(tmpDir, name)
-        val pw   = new PrintWriter(file)
-        pw.write(content)
-        pw.close()
-        file.getAbsoluteFile
+    val fileNames = files.map { case (name, content) =>
+      val file = new File(tmpDir, name)
+      val pw   = new PrintWriter(file)
+      pw.write(content)
+      pw.close()
+      file.getAbsoluteFile
     }
     val outFile = new File(tmpDir, "descriptor.out")
 
@@ -49,10 +48,9 @@ trait ProtocInvocationHelper {
           fin.close()
         }
       fileset.getFileList.asScala
-        .foldLeft[Map[String, FileDescriptor]](Map.empty) {
-          case (acc, fp) =>
-            val deps = fp.getDependencyList.asScala.map(acc)
-            acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
+        .foldLeft[Map[String, FileDescriptor]](Map.empty) { case (acc, fp) =>
+          val deps = fp.getDependencyList.asScala.map(acc)
+          acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
         }
         .values
         .toVector

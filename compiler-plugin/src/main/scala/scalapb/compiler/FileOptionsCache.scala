@@ -40,45 +40,44 @@ object FileOptionsCache {
     // Process files by package name, and process package scoped options for each package first.
     files
       .sortBy(f => (f._1.getPackage(), f._2.getScope != OptionsScope.PACKAGE))
-      .foreach {
-        case (f, opts) =>
-          val isPackageScoped = (opts.getScope == OptionsScope.PACKAGE)
-          if (isPackageScoped && f.getPackage().isEmpty())
-            throw new GeneratorException(
-              s"${f.getFullName()}: a package statement is required when package-scoped options are used"
+      .foreach { case (f, opts) =>
+        val isPackageScoped = (opts.getScope == OptionsScope.PACKAGE)
+        if (isPackageScoped && f.getPackage().isEmpty())
+          throw new GeneratorException(
+            s"${f.getFullName()}: a package statement is required when package-scoped options are used"
+          )
+        if (isPackageScoped && byPackage.contains(f.getPackage())) {
+          val dups = files
+            .filter(other =>
+              other._1.getPackage() == f.getPackage() && other._2
+                .getScope() == OptionsScope.PACKAGE
             )
-          if (isPackageScoped && byPackage.contains(f.getPackage())) {
-            val dups = files
-              .filter(other =>
-                other._1.getPackage() == f.getPackage() && other._2
-                  .getScope() == OptionsScope.PACKAGE
-              )
-              .map(_._1.getFullName())
-              .mkString(", ")
-            throw new GeneratorException(
-              s"Multiple files contain package-scoped options for package '${f.getPackage}': ${dups}"
-            )
-          }
+            .map(_._1.getFullName())
+            .mkString(", ")
+          throw new GeneratorException(
+            s"Multiple files contain package-scoped options for package '${f.getPackage}': ${dups}"
+          )
+        }
 
-          if (isPackageScoped && opts.hasObjectName())
-            throw new GeneratorException(
-              s"${f.getFullName()}: object_name is not allowed in package-scoped options."
-            )
+        if (isPackageScoped && opts.hasObjectName())
+          throw new GeneratorException(
+            s"${f.getFullName()}: object_name is not allowed in package-scoped options."
+          )
 
-          val packagesToInheritFrom =
-            if (isPackageScoped) parentPackages(f.getPackage())
-            else f.getPackage() :: parentPackages(f.getPackage())
+        val packagesToInheritFrom =
+          if (isPackageScoped) parentPackages(f.getPackage())
+          else f.getPackage() :: parentPackages(f.getPackage())
 
-          val inherited = packagesToInheritFrom.find(byPackage.contains(_)).map(byPackage(_))
+        val inherited = packagesToInheritFrom.find(byPackage.contains(_)).map(byPackage(_))
 
-          val res = inherited match {
-            case Some(base) => op(base, data(f, opts))
-            case None       => data(f, opts)
-          }
-          output += f -> res
-          if (isPackageScoped) {
-            byPackage += f.getPackage -> res
-          }
+        val res = inherited match {
+          case Some(base) => op(base, data(f, opts))
+          case None       => data(f, opts)
+        }
+        output += f -> res
+        if (isPackageScoped) {
+          byPackage += f.getPackage -> res
+        }
       }
     output.toMap
   }
@@ -169,18 +168,17 @@ object FileOptionsCache {
           .toSeq
     )(_ ++ _)
 
-    fileOptions.map {
-      case (f, opts) =>
-        f ->
-          (if (opts.getIgnoreAllTransformations) opts
-           else
-             opts.toBuilder
-               .addAllAuxFieldOptions(
-                 FieldTransformations
-                   .processFieldTransformations(f, fieldTransformations(f))
-                   .asJava
-               )
-               .build())
+    fileOptions.map { case (f, opts) =>
+      f ->
+        (if (opts.getIgnoreAllTransformations) opts
+         else
+           opts.toBuilder
+             .addAllAuxFieldOptions(
+               FieldTransformations
+                 .processFieldTransformations(f, fieldTransformations(f))
+                 .asJava
+             )
+             .build())
     }.toMap
   }
 
