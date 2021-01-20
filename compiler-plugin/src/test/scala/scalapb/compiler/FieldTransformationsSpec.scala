@@ -122,6 +122,12 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |  string z = 4 [(opts.rules).string = {const: "foo"}];
          |}
          |""".stripMargin,
+    "has_scalapb.proto" ->
+      """|syntax = "proto3";
+         |package pkg;
+         |import "scalapb/scalapb.proto";
+         |option (scalapb.options).flat_package = false; // avoid unused warning
+      """.stripMargin,
     "ignores.proto" ->
       """|syntax = "proto3";
          |package pkg;
@@ -192,42 +198,63 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
   def options(cache: Map[FileDescriptor, ScalaPbOptions], name: String): ScalaPbOptions =
     cache.find(_._1.getFullName == name).get._2
 
-  val cache    = FileOptionsCache.buildCache(files, SecondaryOutputProvider.empty)
-  val locals   = files.find(_.getFullName() == "locals.proto").get
-  val inherits = files.find(_.getFullName() == "inherits.proto").get
-  val ignores  = files.find(_.getFullName() == "ignores.proto").get
+  val cache      = FileOptionsCache.buildCache(files, SecondaryOutputProvider.empty)
+  val locals     = files.find(_.getFullName() == "locals.proto").get
+  val inherits   = files.find(_.getFullName() == "inherits.proto").get
+  val hasScalapb = files.find(_.getFullName() == "has_scalapb.proto").get
+  val ignores    = files.find(_.getFullName() == "ignores.proto").get
   val context =
     ExtensionResolutionContext("-", FieldTransformations.fieldExtensionsForFile(inherits))
+  val contextWithScalaPB =
+    ExtensionResolutionContext("-", FieldTransformations.fieldExtensionsForFile(hasScalapb))
 
-  def fieldRules(s: String): FieldDescriptorProto = {
+  def fieldRules(
+      rules: String,
+      scalapbFieldOptions: Option[String] = None
+  ): FieldDescriptorProto = {
     val fieldRulesDesc = files
       .flatMap { f => f.getMessageTypes().asScala }
       .find(_.getFullName == "opts.FieldRules")
       .get
     val dm = DynamicMessage.newBuilder(fieldRulesDesc)
-    TextFormat.merge(s, dm)
+    TextFormat.merge(rules, dm)
     dm.build()
-    FieldDescriptorProto.newBuilder
-      .setOptions(
-        FieldOptions
+    val unknownOptions =
+      UnknownFieldSet
+        .newBuilder()
+        .addField(
+          50001,
+          Field
+            .newBuilder()
+            .addLengthDelimited(
+              dm.build().toByteString()
+            )
+            .build()
+        )
+    scalapbFieldOptions.foreach(text =>
+      unknownOptions.addField(
+        Scalapb.field.getNumber(),
+        Field
           .newBuilder()
-          .setUnknownFields(
-            UnknownFieldSet
-              .newBuilder()
-              .addField(
-                50001,
-                Field
-                  .newBuilder()
-                  .addLengthDelimited(
-                    dm.build().toByteString()
-                  )
-                  .build()
-              )
-              .build()
+          .addLengthDelimited(
+            TextFormat.parse(text, classOf[scalapb.options.Scalapb.FieldOptions]).toByteString()
           )
           .build()
       )
-      .build()
+    )
+    val fieldOptions =
+      FieldOptions
+        .newBuilder()
+        .setUnknownFields(
+          unknownOptions
+            .build()
+        )
+
+    val builder = FieldDescriptorProto.newBuilder
+      .setOptions(
+        fieldOptions.build()
+      )
+    builder.build()
   }
 
   def matchPresence(msg: String, pattern: String): Boolean = {
@@ -595,6 +622,12 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       fieldDescriptor("type: \"Thingie(\"\"r/(.{7}).*/$1xxxxx/\"\")\"")
     )
 
+    interpolateStrings(
+      fieldDescriptor("type: \"Thingie($(options.[scalapb.field].type))\""),
+      fieldRules("int32: {gt: 1, lt: 2}", scalapbFieldOptions = Some("type: \"CUSTOM\"")),
+      contextWithScalaPB
+    ) must be(fieldDescriptor("type: \"Thingie(CUSTOM)\""))
+
     intercept[GeneratorException] {
       interpolateStrings(
         fieldDescriptor("type: \"Thingie($(options.[opts.rules].int32.gtx))\""),
@@ -603,6 +636,39 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       )
     }.getMessage() must be(
       "Could not find field named gtx when resolving options.[opts.rules].int32.gtx"
+    )
+
+    intercept[GeneratorException] {
+      interpolateStrings(
+        fieldDescriptor("type: \"Thingie($([opts.rules].int32.gt))\""),
+        fieldRules("int32: {gt: 1, lt: 2}"),
+        context
+      )
+    }.getMessage() must be(
+      "Extension [opts.rules] is not an extension of google.protobuf.FieldDescriptorProto, " +
+        "it is an extension of google.protobuf.FieldOptions. Did you mean options.[opts.rules] ?"
+    )
+
+    intercept[GeneratorException] {
+      interpolateStrings(
+        fieldDescriptor("type: \"Thingie($([scalapb.field].int32.gt))\""),
+        fieldRules("int32: {gt: 1, lt: 2}"),
+        contextWithScalaPB
+      )
+    }.getMessage() must be(
+      "Extension [scalapb.field] is not an extension of google.protobuf.FieldDescriptorProto, " +
+        "it is an extension of google.protobuf.FieldOptions. Did you mean options.[scalapb.field] ?"
+    )
+
+    intercept[GeneratorException] {
+      interpolateStrings(
+        fieldDescriptor("type: \"Thingie($(options.[opts.rules].int32.[opts.rules].gt))\""),
+        fieldRules("int32: {gt: 1, lt: 2}"),
+        context
+      )
+    }.getMessage() must be(
+      "Extension [opts.rules] is not an extension of opts.Int32Rules, it is an extension of " +
+        "google.protobuf.FieldOptions. Did you mean options.[opts.rules] ?"
     )
   }
 }
