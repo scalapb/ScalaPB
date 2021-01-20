@@ -104,7 +104,7 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |    match_type: PRESENCE
          |    set {
          |      [scalapb.field] {
-         |        type: "MatchLt[$(options.[opts.rules].int32.lt)]"
+         |        type: "MatchLt[\"$(type)\",$(options.[opts.rules].int32.lt)]"
          |      }
          |    }
          |  }
@@ -298,7 +298,7 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       .find(_.getTarget() == "pkg.X.y")
       .get
       .getOptions()
-      .getType() must be("MatchLt[317]")
+      .getType() must be("MatchLt[\"TYPE_INT32\",317]")
     cache(ignores)
       .getAuxFieldOptionsList()
       .asScala
