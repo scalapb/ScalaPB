@@ -288,6 +288,20 @@ private[compiler] object FieldTransformations {
           .toRight(
             s"Could not find field named $fieldName when resolving $allPath"
           )
+      _ <- if (fd.isExtension() && fd
+                 .getContainingType()
+                 .getFullName != message.getDescriptorForType().getFullName()) {
+        val containingType = fd.getContainingType().getFullName()
+
+        val dym =
+          if (containingType == "google.protobuf.FieldOptions")
+            s" Did you mean options.${fieldName} ?"
+          else ""
+
+        Left(s"Extension $fieldName is not an extension of ${message
+          .getDescriptorForType()
+          .getFullName()}, it is an extension of ${fd.getContainingType().getFullName()}.$dym")
+      } else Right(())
       _ <- if (fd.isRepeated()) Left("Repeated fields are not supported")
       else Right(())
       v = if (fd.isExtension) getExtensionField(message, fd) else message.getField(fd)
