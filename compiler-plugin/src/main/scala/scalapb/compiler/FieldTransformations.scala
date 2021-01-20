@@ -2,7 +2,7 @@ package scalapb.compiler
 
 import com.google.protobuf.Message
 import scalapb.options.Scalapb
-import scalapb.options.Scalapb.FieldTransformation.MatchType
+import scalapb.options.Scalapb.MatchType
 import com.google.protobuf.Descriptors.FieldDescriptor
 import com.google.protobuf.Descriptors.FileDescriptor
 import scala.jdk.CollectionConverters._
@@ -49,7 +49,7 @@ private[compiler] object ResolvedFieldTransformation {
         .subsetOf(Set(Scalapb.field.getNumber()))
     ) {
       throw new GeneratorException(
-        s"${file.getFullName}: FieldTransformation.set must contain only [scalapb.field] field"
+        s"${file.getFullName}: FieldTransformation.set must contain only [scalapb.field] field."
       )
     }
     ResolvedFieldTransformation(
