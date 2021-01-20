@@ -161,9 +161,8 @@ object FileOptionsCache {
           .asScala
           .map(t =>
             ResolvedFieldTransformation(
-              file.getFullName(),
-              t,
-              FieldTransformations.fieldExtensionsForFile(file)
+              file,
+              t
             )
           )
           .toSeq

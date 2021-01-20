@@ -11,6 +11,8 @@ import protocbridge.ExtraEnvParser
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
+import com.google.protobuf.ExtensionRegistry
+import scalapb.options.Scalapb
 
 trait SecondaryOutputProvider {
   def get(name: String): Try[PreprocessorOutput]
@@ -37,7 +39,12 @@ private final class FileBasedSecondaryOutputProvider(inputDir: File)
     }
     val bytes = Files.readAllBytes(in)
     Try {
-      com.google.protobuf.Any.parseFrom(bytes).unpack(classOf[PreprocessorOutput])
+      val er = ExtensionRegistry.newInstance()
+      Scalapb.registerAllExtensions(er)
+      // When unpacking Any we get ScalaPB extensions as unknown fields. We reparse with an
+      // extension registry.
+      val tmp = com.google.protobuf.Any.parseFrom(bytes, er).unpack(classOf[PreprocessorOutput])
+      PreprocessorOutput.parseFrom(tmp.toByteArray(), er)
     }.recoverWith {
       case e: InvalidProtocolBufferException =>
         throw new GeneratorException(

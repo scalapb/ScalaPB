@@ -7,9 +7,9 @@ package scalapb.options
 
 @SerialVersionUID(0L)
 final case class FieldTransformation(
-    when: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
+    when: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.None,
     matchType: _root_.scala.Option[scalapb.options.FieldTransformation.MatchType] = _root_.scala.None,
-    set: _root_.scala.Option[scalapb.options.FieldOptions] = _root_.scala.None,
+    set: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldTransformation] {
     @transient
@@ -58,15 +58,15 @@ final case class FieldTransformation(
       };
       unknownFields.writeTo(_output__)
     }
-    def getWhen: com.google.protobuf.descriptor.FieldOptions = when.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)
+    def getWhen: com.google.protobuf.descriptor.FieldDescriptorProto = when.getOrElse(com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
     def clearWhen: FieldTransformation = copy(when = _root_.scala.None)
-    def withWhen(__v: com.google.protobuf.descriptor.FieldOptions): FieldTransformation = copy(when = Option(__v))
+    def withWhen(__v: com.google.protobuf.descriptor.FieldDescriptorProto): FieldTransformation = copy(when = Option(__v))
     def getMatchType: scalapb.options.FieldTransformation.MatchType = matchType.getOrElse(scalapb.options.FieldTransformation.MatchType.CONTAINS)
     def clearMatchType: FieldTransformation = copy(matchType = _root_.scala.None)
     def withMatchType(__v: scalapb.options.FieldTransformation.MatchType): FieldTransformation = copy(matchType = Option(__v))
-    def getSet: scalapb.options.FieldOptions = set.getOrElse(scalapb.options.FieldOptions.defaultInstance)
+    def getSet: com.google.protobuf.descriptor.FieldOptions = set.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)
     def clearSet: FieldTransformation = copy(set = _root_.scala.None)
-    def withSet(__v: scalapb.options.FieldOptions): FieldTransformation = copy(set = Option(__v))
+    def withSet(__v: com.google.protobuf.descriptor.FieldOptions): FieldTransformation = copy(set = Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -96,9 +96,9 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.opt
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
       scalapb.options.FieldTransformation(
-        when = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]]),
+        when = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto]]),
         matchType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => scalapb.options.FieldTransformation.MatchType.fromValue(__e.number)),
-        set = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[scalapb.options.FieldOptions]])
+        set = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -107,8 +107,8 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.opt
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
-      case 1 => __out = com.google.protobuf.descriptor.FieldOptions
-      case 3 => __out = scalapb.options.FieldOptions
+      case 1 => __out = com.google.protobuf.descriptor.FieldDescriptorProto
+      case 3 => __out = com.google.protobuf.descriptor.FieldOptions
     }
     __out
   }
@@ -124,9 +124,9 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.opt
     set = _root_.scala.None
   )
   final class Builder private (
-    private var __when: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
+    private var __when: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto],
     private var __matchType: _root_.scala.Option[scalapb.options.FieldTransformation.MatchType],
-    private var __set: _root_.scala.Option[scalapb.options.FieldOptions],
+    private var __set: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
     private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
   ) extends _root_.scalapb.MessageBuilder[scalapb.options.FieldTransformation] {
     def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
@@ -136,11 +136,11 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.opt
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __when = Option(__when.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __when = Option(__when.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case 16 =>
             __matchType = Option(scalapb.options.FieldTransformation.MatchType.fromValue(_input__.readEnum()))
           case 26 =>
-            __set = Option(__set.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __set = Option(__set.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -222,20 +222,20 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.opt
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.FieldTransformation.scalaDescriptor.enums(0)
   }
   implicit class FieldTransformationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldTransformation]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.FieldTransformation](_l) {
-    def when: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions] = field(_.getWhen)((c_, f_) => c_.copy(when = Option(f_)))
-    def optionalWhen: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]] = field(_.when)((c_, f_) => c_.copy(when = f_))
+    def when: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto] = field(_.getWhen)((c_, f_) => c_.copy(when = Option(f_)))
+    def optionalWhen: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.when)((c_, f_) => c_.copy(when = f_))
     def matchType: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldTransformation.MatchType] = field(_.getMatchType)((c_, f_) => c_.copy(matchType = Option(f_)))
     def optionalMatchType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.FieldTransformation.MatchType]] = field(_.matchType)((c_, f_) => c_.copy(matchType = f_))
-    def set: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldOptions] = field(_.getSet)((c_, f_) => c_.copy(set = Option(f_)))
-    def optionalSet: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.FieldOptions]] = field(_.set)((c_, f_) => c_.copy(set = f_))
+    def set: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions] = field(_.getSet)((c_, f_) => c_.copy(set = Option(f_)))
+    def optionalSet: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]] = field(_.set)((c_, f_) => c_.copy(set = f_))
   }
   final val WHEN_FIELD_NUMBER = 1
   final val MATCH_TYPE_FIELD_NUMBER = 2
   final val SET_FIELD_NUMBER = 3
   def of(
-    when: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
+    when: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto],
     matchType: _root_.scala.Option[scalapb.options.FieldTransformation.MatchType],
-    set: _root_.scala.Option[scalapb.options.FieldOptions]
+    set: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions]
   ): _root_.scalapb.options.FieldTransformation = _root_.scalapb.options.FieldTransformation(
     when,
     matchType,
