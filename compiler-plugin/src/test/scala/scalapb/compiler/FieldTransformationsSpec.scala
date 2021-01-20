@@ -6,9 +6,10 @@ import org.scalatest.matchers.must.Matchers
 import scala.jdk.CollectionConverters._
 import com.google.protobuf.DynamicMessage
 import com.google.protobuf.TextFormat
-import com.google.protobuf.DescriptorProtos.FieldOptions
+import com.google.protobuf.DescriptorProtos.{FieldDescriptorProto, FieldOptions}
 import com.google.protobuf.UnknownFieldSet
 import com.google.protobuf.UnknownFieldSet.Field
+import scalapb.options.Scalapb
 import scalapb.options.Scalapb.ScalaPbOptions
 import scalapb.options.Scalapb.FieldTransformation
 import scalapb.options.Scalapb.PreprocessorOutput
@@ -24,6 +25,10 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |message FieldRules {
          |  optional Int32Rules int32 = 1;
          |  optional StringRules string = 2;
+         |  optional RepeatedRules repeated = 3;
+         |}
+         |message RepeatedRules {
+         |  optional FieldRules items = 1;
          |}
          |message Int32Rules {
          |  optional int32 gt = 1;
@@ -44,20 +49,25 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |import "scalapb/scalapb.proto";
          |option (scalapb.options) = {
          |  field_transformations: [
-         |   {
-         |     when {
-         |       [opts.rules] {
-         |         int32: {gt: 17}
-         |       }
-         |     }
-         |     set {
-         |       type: "MatchGt17"
-         |     }
+         |    {
+         |      when {
+         |        options {
+         |          [opts.rules] {
+         |            int32: {gt: 17}
+         |          }
+         |        }
+         |      }
+         |      set {
+         |         [scalapb.field] {
+         |           type: "MatchGt17"
+         |         }
+         |      }
          |    }
          |  ]
          |};
          |message X {
          |  int32 x = 1 [(opts.rules).int32 = {gt: 17}];
+         |  int32 y = 2 [(opts.rules).string = {const: "foo"}];
          |}
          |""".stripMargin,
     "package.proto" ->
@@ -70,23 +80,32 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |  field_transformations: [
          |  {
          |    when {
-         |      [opts.rules] {
-         |        int32: {gt: 12}
+         |      type: TYPE_INT32
+         |      options {
+         |        [opts.rules] {
+         |          int32: {gt: 12}
+         |        }
          |      }
          |    }
          |    set {
-         |      type: "MatchGt12"
+         |      [scalapb.field] {
+         |        type: "MatchGt12"
+         |      }
          |    }
          |  },
          |  {
          |    when {
-         |      [opts.rules] {
-         |        int32: {lt: 1}
+         |      options {
+         |        [opts.rules] {
+         |          int32: {lt: 1}
+         |        }
          |      }
          |    }
          |    match_type: PRESENCE
          |    set {
-         |      type: "MatchLt[$([opts.rules].int32.lt)]"
+         |      [scalapb.field] {
+         |        type: "MatchLt[$(options.[opts.rules].int32.lt)]"
+         |      }
          |    }
          |  }
          |  ]
@@ -98,7 +117,9 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |import "myvalidate.proto";
          |message X {
          |  int32 x = 1 [(opts.rules).int32 = {gt: 12}];
-         |  int32 y = 2 [(opts.rules).int32 = {lt: 317}];
+         |  int64 x_no = 2 [(opts.rules).int32 = {gt: 12}];  // should not be impacted since matching for only int32
+         |  int32 y = 3 [(opts.rules).int32 = {lt: 317}];
+         |  string z = 4 [(opts.rules).string = {const: "foo"}];
          |}
          |""".stripMargin,
     "ignores.proto" ->
@@ -117,23 +138,29 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
   val files = generateFileSet(base)
 
   def preproc = {
-    val when = FieldOptions
-      .newBuilder()
-      .setUnknownFields(
-        UnknownFieldSet
-          .newBuilder()
-          .addField(
-            50001,
-            Field
-              .newBuilder()
-              .addLengthDelimited(
-                ByteString.copyFrom(Array[Byte](10, 2, 8, 0)) // {int32: gt{0}}
-              )
-              .build()
-          )
-          .build()
-      )
-      .build()
+    val when =
+      FieldDescriptorProto
+        .newBuilder()
+        .setOptions(
+          FieldOptions
+            .newBuilder()
+            .setUnknownFields(
+              UnknownFieldSet
+                .newBuilder()
+                .addField(
+                  50001,
+                  Field
+                    .newBuilder()
+                    .addLengthDelimited(
+                      ByteString.copyFrom(Array[Byte](10, 2, 8, 0)) // {int32: gt{0}}
+                    )
+                    .build()
+                )
+                .build()
+            )
+            .build()
+        )
+        .build()
     SecondaryOutputProvider.fromMap(
       Map(
         "myproc" ->
@@ -145,9 +172,15 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
                   FieldTransformation.newBuilder
                     .setWhen(when)
                     .setSet(
-                      scalapb.options.Scalapb.FieldOptions.newBuilder().setType("PositiveInt")
+                      FieldOptions.newBuilder
+                        .setExtension(
+                          Scalapb.field,
+                          scalapb.options.Scalapb.FieldOptions
+                            .newBuilder()
+                            .setType("PositiveInt")
+                            .build()
+                        )
                     )
-                    .build()
                 )
                 .build()
             )
@@ -159,13 +192,14 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
   def options(cache: Map[FileDescriptor, ScalaPbOptions], name: String): ScalaPbOptions =
     cache.find(_._1.getFullName == name).get._2
 
-  val cache      = FileOptionsCache.buildCache(files, SecondaryOutputProvider.empty)
-  val locals     = files.find(_.getFullName() == "locals.proto").get
-  val inherits   = files.find(_.getFullName() == "inherits.proto").get
-  val ignores    = files.find(_.getFullName() == "ignores.proto").get
-  val extensions = FieldTransformations.fieldExtensionsForFile(inherits)
+  val cache    = FileOptionsCache.buildCache(files, SecondaryOutputProvider.empty)
+  val locals   = files.find(_.getFullName() == "locals.proto").get
+  val inherits = files.find(_.getFullName() == "inherits.proto").get
+  val ignores  = files.find(_.getFullName() == "ignores.proto").get
+  val context =
+    ExtensionResolutionContext("-", FieldTransformations.fieldExtensionsForFile(inherits))
 
-  def fieldRules(s: String): FieldOptions = {
+  def fieldRules(s: String): FieldDescriptorProto = {
     val fieldRulesDesc = files
       .flatMap { f => f.getMessageTypes().asScala }
       .find(_.getFullName == "opts.FieldRules")
@@ -173,17 +207,21 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
     val dm = DynamicMessage.newBuilder(fieldRulesDesc)
     TextFormat.merge(s, dm)
     dm.build()
-    FieldOptions
-      .newBuilder()
-      .setUnknownFields(
-        UnknownFieldSet
+    FieldDescriptorProto.newBuilder
+      .setOptions(
+        FieldOptions
           .newBuilder()
-          .addField(
-            50001,
-            Field
+          .setUnknownFields(
+            UnknownFieldSet
               .newBuilder()
-              .addLengthDelimited(
-                dm.build().toByteString()
+              .addField(
+                50001,
+                Field
+                  .newBuilder()
+                  .addLengthDelimited(
+                    dm.build().toByteString()
+                  )
+                  .build()
               )
               .build()
           )
@@ -194,8 +232,17 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
 
   def matchPresence(msg: String, pattern: String): Boolean = {
     FieldTransformations.matchPresence(
-      FieldTransformations.fieldMap("-", fieldRules(msg), extensions),
-      FieldTransformations.fieldMap("-", fieldRules(pattern), extensions)
+      fieldRules(msg),
+      FieldTransformations.fieldMap(fieldRules(pattern), context),
+      context
+    )
+  }
+
+  def matchContains(msg: String, pattern: String): Boolean = {
+    FieldTransformations.matchContains(
+      fieldRules(msg),
+      FieldTransformations.fieldMap(fieldRules(pattern), context),
+      context
     )
   }
 
@@ -226,6 +273,10 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       .get
       .getOptions()
       .getType() must be("MatchGt17")
+    cache(locals)
+      .getAuxFieldOptionsList()
+      .asScala
+      .find(_.getTarget() == "local.X.y") must be(None)
     cache(inherits)
       .getAuxFieldOptionsList()
       .asScala
@@ -233,6 +284,14 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       .get
       .getOptions()
       .getType() must be("MatchGt12")
+    cache(inherits)
+      .getAuxFieldOptionsList()
+      .asScala
+      .find(_.getTarget() == "pkg.X.x_no") must be(None)
+    cache(inherits)
+      .getAuxFieldOptionsList()
+      .asScala
+      .find(_.getTarget() == "pkg.X.z") must be(None)
     cache(inherits)
       .getAuxFieldOptionsList()
       .asScala
@@ -244,6 +303,42 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       .getAuxFieldOptionsList()
       .asScala
       .find(_.getTarget() == "pkg.I.x") must be(None)
+  }
+
+  it should "throw exception when setting no ScalaPB options" in {
+    val settingOthers =
+      Map(
+        "e1.proto" ->
+          """|syntax = "proto3";
+             |package local;
+             |import "myvalidate.proto";
+             |import "scalapb/scalapb.proto";
+             |option (scalapb.options) = {
+             |  field_transformations: [
+             |    {
+             |      when {
+             |        options {
+             |          [opts.rules] {
+             |            int32: {gt: 17}
+             |          }
+             |        }
+             |      }
+             |      set {
+             |         [opts.rules] {}
+             |      }
+             |    }
+             |  ]
+             |};
+             |""".stripMargin
+      )
+    intercept[GeneratorException] {
+      FileOptionsCache.buildCache(
+        generateFileSet(base ++ settingOthers),
+        SecondaryOutputProvider.empty
+      )
+    }.getMessage() must startWith(
+      "e1.proto: FieldTransformation.set must contain only [scalapb.field] field"
+    )
   }
 
   it should "throw exception when import is missing on injected transformations" in {
@@ -303,6 +398,48 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
     )
   }
 
+  "matchContains" must "match correctly" in {
+    matchContains(
+      msg = "",
+      pattern = ""
+    ) must be(true)
+
+    matchContains(
+      msg = "",
+      pattern = "int32: {gt: 1}"
+    ) must be(false)
+
+    matchContains(
+      msg = "int32: {gt: 1, lt: 2}",
+      pattern = "int32: {gt: 1}"
+    ) must be(true)
+
+    matchContains(
+      msg = "int32: {gt: 1, lt: 2}",
+      pattern = "int32: {gt: 1, lt: 2}"
+    ) must be(true)
+
+    matchContains(
+      msg = "int32: {gt: 1, lt: 2}",
+      pattern = "int32: {gt: 1, lt: 3}"
+    ) must be(false)
+
+    matchContains(
+      msg = "int32: {gt: 1, lt: 2}",
+      pattern = "repeated { items { int32: {gt: 1}}}"
+    ) must be(false)
+
+    matchContains(
+      msg = "repeated { items { int32: {gt: 1, lt: 2} } }",
+      pattern = "repeated { items { int32: {gt: 1}}}"
+    ) must be(true)
+
+    matchContains(
+      msg = "",
+      pattern = "int32: {gt: 0}"
+    ) must be(false)
+  }
+
   "matchPresence" must "match correctly" in {
     matchPresence(
       msg = "",
@@ -350,39 +487,41 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
     ) must be(true)
   }
 
-  def fieldByPath(fo: FieldOptions, path: String) =
-    FieldTransformations.fieldByPath(fo, path, extensions)
+  def fieldByPath(fo: FieldDescriptorProto, path: String) =
+    FieldTransformations.fieldByPath(fo, path, context)
 
   "fieldByPath" should "return correct result" in {
     fieldByPath(
       fieldRules("int32: {gt: 1, lt: 2}"),
-      "[opts.rules].int32.gt"
+      "options.[opts.rules].int32.gt"
     ) must be("1")
 
     fieldByPath(
       fieldRules("int32: {gt: 1, lt: 2}"),
-      "[opts.rules].int32.lt"
+      "options.[opts.rules].int32.lt"
     ) must be("2")
 
     fieldByPath(
       fieldRules("int32: {gt: 1, lt: 2}"),
-      "[opts.rules].int32.gte"
+      "options.[opts.rules].int32.gte"
     ) must be("0")
 
     intercept[GeneratorException] {
       fieldByPath(
         fieldRules("int32: {gt: 1, lt: 2}"),
-        "[opts.rules].int32.foo"
+        "options.[opts.rules].int32.foo"
       )
-    }.getMessage must be("Could not find field named foo when resolving [opts.rules].int32.foo")
+    }.getMessage must be(
+      "Could not find field named foo when resolving options.[opts.rules].int32.foo"
+    )
 
     intercept[GeneratorException] {
       fieldByPath(
         fieldRules("int32: {gt: 1, lt: 2}"),
-        "[opts.rules].int32.gt.lt"
+        "options.[opts.rules].int32.gt.lt"
       )
     }.getMessage must be(
-      "Type INT32 does not have a field lt in [opts.rules].int32.gt.lt"
+      "Type INT32 does not have a field lt in options.[opts.rules].int32.gt.lt"
     )
 
     intercept[GeneratorException] {
@@ -395,62 +534,74 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
 
   import FieldTransformations.interpolateStrings
 
-  def fieldOptions(s: String) = TextFormat.parse(s, classOf[scalapb.options.Scalapb.FieldOptions])
+  def fieldDescriptor(s: String) =
+    FieldDescriptorProto.newBuilder
+      .setOptions(
+        FieldOptions.newBuilder
+          .setExtension(
+            Scalapb.field,
+            TextFormat.parse(s, classOf[scalapb.options.Scalapb.FieldOptions])
+          )
+          .build()
+      )
+      .build()
 
   def scalapbOptions(s: String) = TextFormat.parse(s, classOf[ScalaPbOptions])
 
   "interpolateStrings" should "interpolate strings" in {
     interpolateStrings(
-      fieldOptions("type: \"Thingie($([opts.rules].int32.gt))\""),
+      fieldDescriptor("type: \"Thingie($(options.[opts.rules].int32.gt))\""),
       fieldRules("int32: {gt: 1, lt: 2}"),
-      extensions
+      context
     ) must be(
-      fieldOptions("type: \"Thingie(1)\"")
+      fieldDescriptor("type: \"Thingie(1)\"")
     )
 
     interpolateStrings(
-      fieldOptions("type: \"Thingie($([opts.rules].int32.gt), $([opts.rules].int32.lt))\""),
+      fieldDescriptor(
+        "type: \"Thingie($(options.[opts.rules].int32.gt), $(options.[opts.rules].int32.lt))\""
+      ),
       fieldRules("int32: {gt: 1, lt: 2}"),
-      extensions
+      context
     ) must be(
-      fieldOptions("type: \"Thingie(1, 2)\"")
+      fieldDescriptor("type: \"Thingie(1, 2)\"")
     )
 
     interpolateStrings(
-      fieldOptions("type: \"Thingie($([opts.rules].int32.gte))\""),
+      fieldDescriptor("type: \"Thingie($(options.[opts.rules].int32.gte))\""),
       fieldRules("int32: {gt: 1, lt: 2}"),
-      extensions
+      context
     ) must be(
-      fieldOptions("type: \"Thingie(0)\"")
+      fieldDescriptor("type: \"Thingie(0)\"")
     )
 
     // To test that it looks into nested fields:
     interpolateStrings(
       scalapbOptions(
-        "aux_field_options { options: { type: \"Thingie($([opts.rules].int32.gt))\" } }"
+        "aux_field_options { options: { type: \"Thingie($(options.[opts.rules].int32.gt))\" } }"
       ),
       fieldRules("int32: {gt: 1, lt: 2}"),
-      extensions
+      context
     ) must be(
       scalapbOptions("aux_field_options: { options: {type: \"Thingie(1)\"} }")
     )
 
     interpolateStrings(
-      fieldOptions("type: \"Thingie($([opts.rules].string.const))\""),
+      fieldDescriptor("type: \"Thingie($(options.[opts.rules].string.const))\""),
       fieldRules("string: {const: \"r/(.{7}).*/$1xxxxx/\"}"),
-      extensions
+      context
     ) must be(
-      fieldOptions("type: \"Thingie(\"\"r/(.{7}).*/$1xxxxx/\"\")\"")
+      fieldDescriptor("type: \"Thingie(\"\"r/(.{7}).*/$1xxxxx/\"\")\"")
     )
 
     intercept[GeneratorException] {
       interpolateStrings(
-        fieldOptions("type: \"Thingie($([opts.rules].int32.gtx))\""),
+        fieldDescriptor("type: \"Thingie($(options.[opts.rules].int32.gtx))\""),
         fieldRules("int32: {gt: 1, lt: 2}"),
-        extensions
+        context
       )
     }.getMessage() must be(
-      "Could not find field named gtx when resolving [opts.rules].int32.gtx"
+      "Could not find field named gtx when resolving options.[opts.rules].int32.gtx"
     )
   }
 }

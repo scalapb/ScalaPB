@@ -332,14 +332,14 @@ extend google.protobuf.OneofOptions {
 }
 
 message FieldTransformation {
-  optional google.protobuf.FieldOptions when = 1;
+  optional google.protobuf.FieldDescriptorProto when = 1;
   enum MatchType {
     CONTAINS = 0;
     EXACT = 1;
     PRESENCE = 2;
   }
   optional MatchType match_type = 2 [default=CONTAINS];
-  optional FieldOptions set = 3;
+  optional google.protobuf.FieldOptions set = 3;
 }
 
 message PreprocessorOutput {

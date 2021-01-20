@@ -9,31 +9,41 @@ option (scalapb.options) = {
   field_transformations : [
     {
       when : {
-        [com.thesamet.proto.e2e.transformations.custom]{sensitive : true}
+        options {
+          [com.thesamet.proto.e2e.transformations.custom]{sensitive : true}
+        }
       }
-      set : {type : 'com.thesamet.proto.e2e.SensitiveString'}
+      set : {[scalapb.field] {type : 'com.thesamet.proto.e2e.SensitiveString'}}
     },
     {
       when : {
-        [com.thesamet.proto.e2e.transformations.custom]{
-          sensitive : true,
-          vnum : 1
+        options {
+          [com.thesamet.proto.e2e.transformations.custom]{
+            sensitive : true,
+            vnum : 1
+          }
         }
       }
       match_type : PRESENCE,
       set : {
-        type : 'com.thesamet.proto.e2e.SensitiveString$([com.thesamet.proto.e2e.transformations.custom].vnum)'
+        [scalapb.field] {
+          type : 'com.thesamet.proto.e2e.SensitiveString$(options.[com.thesamet.proto.e2e.transformations.custom].vnum)'
+        }
       },
     },
     {
       when : {
-        [com.thesamet.proto.e2e.transformations.custom]{
-          nested : {nn: {n: 4}}
+        options {
+          [com.thesamet.proto.e2e.transformations.custom]{
+            nested : {nn: {n: 4}}
+          }
         }
       }
       match_type : CONTAINS,
       set : {
-        scala_name: 'nested_four'
+        [scalapb.field] {
+          scala_name: 'nested_four'
+        }
       },
     }
   ]
