@@ -45,11 +45,10 @@ private final class FileBasedSecondaryOutputProvider(inputDir: File)
       // extension registry.
       val tmp = com.google.protobuf.Any.parseFrom(bytes, er).unpack(classOf[PreprocessorOutput])
       PreprocessorOutput.parseFrom(tmp.toByteArray(), er)
-    }.recoverWith {
-      case e: InvalidProtocolBufferException =>
-        throw new GeneratorException(
-          s"Invalid secondary output file format for '$name': ${e.toString()}"
-        )
+    }.recoverWith { case e: InvalidProtocolBufferException =>
+      throw new GeneratorException(
+        s"Invalid secondary output file format for '$name': ${e.toString()}"
+      )
     }
   }
 }

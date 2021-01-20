@@ -38,14 +38,16 @@ private[compiler] object ResolvedFieldTransformation {
         file.getFullName(),
         FieldTransformations.fieldExtensionsForFile(file)
       )
-    if (!ft.getSet().getAllFields().keySet().asScala.subsetOf(Set(Scalapb.field.getDescriptor()))
-        || !ft
-          .getSet()
-          .getUnknownFields()
-          .asMap()
-          .keySet()
-          .asScala
-          .subsetOf(Set(Scalapb.field.getNumber()))) {
+    if (
+      !ft.getSet().getAllFields().keySet().asScala.subsetOf(Set(Scalapb.field.getDescriptor()))
+      || !ft
+        .getSet()
+        .getUnknownFields()
+        .asMap()
+        .keySet()
+        .asScala
+        .subsetOf(Set(Scalapb.field.getNumber()))
+    ) {
       throw new GeneratorException(
         s"${file.getFullName}: FieldTransformation.set must contain only [scalapb.field] field"
       )
@@ -90,26 +92,25 @@ private[compiler] object FieldTransformations {
       pattern: Map[FieldDescriptor, Any],
       context: ExtensionResolutionContext
   ): Boolean = {
-    pattern.forall {
-      case (fd, v) =>
-        if (!fd.isExtension()) {
-          if (fd.getType() != Type.MESSAGE)
-            input.hasField(fd) && input.getField(fd) == v
-          else {
-            input.hasField(fd) && matchContains(
-              input.getField(fd).asInstanceOf[Message],
-              v.asInstanceOf[Map[FieldDescriptor, Any]],
-              context
-            )
-          }
-        } else {
-          input.getUnknownFields().hasField(fd.getNumber) &&
-          matchContains(
-            getExtensionField(input, fd),
+    pattern.forall { case (fd, v) =>
+      if (!fd.isExtension()) {
+        if (fd.getType() != Type.MESSAGE)
+          input.hasField(fd) && input.getField(fd) == v
+        else {
+          input.hasField(fd) && matchContains(
+            input.getField(fd).asInstanceOf[Message],
             v.asInstanceOf[Map[FieldDescriptor, Any]],
             context
           )
         }
+      } else {
+        input.getUnknownFields().hasField(fd.getNumber) &&
+        matchContains(
+          getExtensionField(input, fd),
+          v.asInstanceOf[Map[FieldDescriptor, Any]],
+          context
+        )
+      }
     }
   }
 
@@ -118,26 +119,25 @@ private[compiler] object FieldTransformations {
       pattern: Map[FieldDescriptor, Any],
       context: ExtensionResolutionContext
   ): Boolean = {
-    pattern.forall {
-      case (fd, v) =>
-        if (!fd.isExtension()) {
-          if (fd.getType() != Type.MESSAGE)
-            input.hasField(fd)
-          else {
-            input.hasField(fd) && matchPresence(
-              input.getField(fd).asInstanceOf[Message],
-              v.asInstanceOf[Map[FieldDescriptor, Any]],
-              context
-            )
-          }
-        } else {
-          input.getUnknownFields().hasField(fd.getNumber) &&
-          matchPresence(
-            getExtensionField(input, fd),
+    pattern.forall { case (fd, v) =>
+      if (!fd.isExtension()) {
+        if (fd.getType() != Type.MESSAGE)
+          input.hasField(fd)
+        else {
+          input.hasField(fd) && matchPresence(
+            input.getField(fd).asInstanceOf[Message],
             v.asInstanceOf[Map[FieldDescriptor, Any]],
             context
           )
         }
+      } else {
+        input.getUnknownFields().hasField(fd.getNumber) &&
+        matchPresence(
+          getExtensionField(input, fd),
+          v.asInstanceOf[Map[FieldDescriptor, Any]],
+          context
+        )
+      }
     }
   }
 
@@ -205,16 +205,15 @@ private[compiler] object FieldTransformations {
       ext -> fieldMap(getExtensionField(m, ext), context)
     }
 
-    val knownFields = m.getAllFields().asScala.map {
-      case (field, value) =>
-        if (field.getType() == Type.MESSAGE && !field.isOptional()) {
-          throw new GeneratorException(
-            s"${context.currentFile}: matching is supported only for scalar types and optional message fields."
-          )
-        }
-        (field -> (if (field.getType() == Type.MESSAGE)
-                     fieldMap(value.asInstanceOf[Message], context)
-                   else value))
+    val knownFields = m.getAllFields().asScala.map { case (field, value) =>
+      if (field.getType() == Type.MESSAGE && !field.isOptional()) {
+        throw new GeneratorException(
+          s"${context.currentFile}: matching is supported only for scalar types and optional message fields."
+        )
+      }
+      (field -> (if (field.getType() == Type.MESSAGE)
+                   fieldMap(value.asInstanceOf[Message], context)
+                 else value))
     }
 
     unknownFields.toMap ++ knownFields
@@ -277,33 +276,38 @@ private[compiler] object FieldTransformations {
   ): Either[String, String] = {
     for {
       fieldName <- path.headOption.toRight("Got an empty path")
-      fd <- if (fieldName.startsWith("["))
-        context.extensions
-          .find(_.getFullName == fieldName.substring(1, fieldName.length() - 1))
-          .toRight(
-            s"Could not find extension $fieldName when resolving $allPath"
-          )
-      else
-        Option(message.getDescriptorForType().findFieldByName(fieldName))
-          .toRight(
-            s"Could not find field named $fieldName when resolving $allPath"
-          )
-      _ <- if (fd.isExtension() && fd
-                 .getContainingType()
-                 .getFullName != message.getDescriptorForType().getFullName()) {
-        val containingType = fd.getContainingType().getFullName()
+      fd <-
+        if (fieldName.startsWith("["))
+          context.extensions
+            .find(_.getFullName == fieldName.substring(1, fieldName.length() - 1))
+            .toRight(
+              s"Could not find extension $fieldName when resolving $allPath"
+            )
+        else
+          Option(message.getDescriptorForType().findFieldByName(fieldName))
+            .toRight(
+              s"Could not find field named $fieldName when resolving $allPath"
+            )
+      _ <-
+        if (
+          fd.isExtension() && fd
+            .getContainingType()
+            .getFullName != message.getDescriptorForType().getFullName()
+        ) {
+          val containingType = fd.getContainingType().getFullName()
 
-        val dym =
-          if (containingType == "google.protobuf.FieldOptions")
-            s" Did you mean options.${fieldName} ?"
-          else ""
+          val dym =
+            if (containingType == "google.protobuf.FieldOptions")
+              s" Did you mean options.${fieldName} ?"
+            else ""
 
-        Left(s"Extension $fieldName is not an extension of ${message
-          .getDescriptorForType()
-          .getFullName()}, it is an extension of ${fd.getContainingType().getFullName()}.$dym")
-      } else Right(())
-      _ <- if (fd.isRepeated()) Left("Repeated fields are not supported")
-      else Right(())
+          Left(s"Extension $fieldName is not an extension of ${message
+            .getDescriptorForType()
+            .getFullName()}, it is an extension of ${fd.getContainingType().getFullName()}.$dym")
+        } else Right(())
+      _ <-
+        if (fd.isRepeated()) Left("Repeated fields are not supported")
+        else Right(())
       v = if (fd.isExtension) getExtensionField(message, fd) else message.getField(fd)
       res <- path match {
         case _ :: Nil => Right(v.toString())
