@@ -12,7 +12,7 @@ object Dependencies {
     val collectionCompat        = "2.3.2"
     val coursier                = "2.0.0-RC6-21"
     val mockito                 = "3.2.0"
-    val protocGen               = "0.9.0-RC10"
+    val protocGen               = "0.9.0"
     val protobufRuntimeScala    = "0.8.6"
     val commonsCodec            = "1.14"
     val scalaTest               = "3.2.0"
