@@ -29,7 +29,15 @@
 - Removed dependency on fastparse2 which was used for ASCII format parsing. ScalaPB now
   implements its own custom parser.
 
-## [0.10.9](https://github.com/scalapb/ScalaPB/compare/v0.10.8..v10.0.9)
+## [0.10.10](https://github.com/scalapb/ScalaPB/compare/v0.10.9..v0.10.10)
+- Adds support for preprocessor plugins that can mutate ScalaPB options (see #1007)
+- Adds new field transformation DSL that allows changing FieldOptions when
+  user-defined rules match (see #1007).
+- Add more collection-level options in scalapb.proto to support non-standard collections such
+  as cats.data.NonEmptyList, NonEmptyMap and NonEmptySet (see scalapb/scalapb-validate#38)
+- ScalaPBC backport from master to support NixOS.
+
+## [0.10.9](https://github.com/scalapb/ScalaPB/compare/v0.10.8..v0.10.9)
 - Add option for annotating the unknown field (#898)
 - Add extension ranges for scalapb.proto messages so plugins can further
   extend ScalaPB.
