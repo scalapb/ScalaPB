@@ -397,14 +397,14 @@ lazy val docs = project
     docusaurusCreateSite := docusaurusCreateSite.dependsOn(unidoc in Compile).value,
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(unidoc in Compile).value,
     mdocVariables := Map(
-      "scalapb"          -> "0.10.9",
+      "scalapb"          -> "0.10.10",
       "scalapb_latest"   -> "0.11.0-M4",
       "scala3"           -> Dependencies.Dotty,
-      "sbt_protoc"       -> "1.0.0-RC4",
+      "sbt_protoc"       -> "1.0.0",
       "sbt_dotty"        -> "0.4.6",
       "protoc"           -> "3.11.4",
       "sparksql_scalapb" -> "0.10.4",
-      "scalapb_validate" -> "0.1.3"
+      "scalapb_validate" -> "0.2.0"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
     ghpagesBranch := "master"
