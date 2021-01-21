@@ -134,30 +134,19 @@ option (scalapb.options) = {
 
 ## Rule-based type customization
 
-:::note
-The functionality described in the remainder of this page is available in a preview release of ScalaPB. It is still being refined and is subject to change without notice.
-:::note
-
 Starting from version 0.10.10, ScalaPB provides a way to customize its own options by writing rules that are matched against
 arbitrary protobuf options. When these rules are matched, additional ScalaPB options are added to the matched entity. For example, you can create a transformation that whenever a field has a PGV-rule like `int32: { gt: 0 }}`, then it will be typemapped to a custom class `PositiveInt`.
 
 ### Installation
 
-The minimum required versions of sbt-protoc is `1.0.0-RC7`. You will also need a preview version of
-ScalaPB and ScalaPB-validate. Your `project/plugins.sbt` should have something like this:
-
-```scala
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0-RC7")
-
-libraryDependencies ++= Seq(
-    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.10-preview14",
-    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.0-preview14"
-)
-```
+The features described in this section have the following version requirements:
+* sbt-protoc >= `1.0.0`
+* ScalaPB >= `0.10.10`
+* scalapb-validate >= `0.2.0`
 
 While field transformation is a generic ScalaPB mechanism, it is also recommended that you add
 scalapb-validate's preprocessor to `PB.targets`. The preprocessor does two things:
-1. Provides field transformations for Set and cats data types.
+1. Provides field transformations for `Set` and cats data types.
 2. Expand your PGV-based rules such that they match repeated items, map keys and map values.
 
 ```scala
