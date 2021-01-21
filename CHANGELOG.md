@@ -35,38 +35,38 @@
   extend ScalaPB.
 - scalapb.proto is no longer shaded into compilerplugin.
 
-## [0.10.8](https://github.com/scalapb/ScalaPB/compare/v0.10.7..v10.0.8)
+## [0.10.8](https://github.com/scalapb/ScalaPB/compare/v0.10.7..v0.10.8)
 - Fix a regression where calling scalapb.gen() without parameters would not
   generate grpc stubs. Workaround: pass grpc=true explictly. #879
 - Add asMap to UnkownFieldSet to make it possible to extract the map (#878)
 - ScalaPBC now accepts --jvm-plugin flag that loads an artifact from maven
   that is expected to have a main class which extends ProtocCodeGenerator.
 
-## [0.10.7](https://github.com/scalapb/ScalaPB/compare/v0.10.6..v10.0.7)
+## [0.10.7](https://github.com/scalapb/ScalaPB/compare/v0.10.6..v0.10.7)
 - Add support for insertion points so other plugins can inject code into
   ScalaPB generated code. Currently, the only insertion point available is at
   the companion object of messages.
 
-## [0.10.6](https://github.com/scalapb/ScalaPB/compare/v0.10.5..v10.0.6)
+## [0.10.6](https://github.com/scalapb/ScalaPB/compare/v0.10.5..v0.10.6)
 - Updated protoc-bridge to 0.9.0-RC2.
 
-## [0.10.5](https://github.com/scalapb/ScalaPB/compare/v0.10.4..v10.0.5)
+## [0.10.5](https://github.com/scalapb/ScalaPB/compare/v0.10.4..v0.10.5)
 - Updated protoc-bridge to 0.9.0-RC1.
 - Minimum version of sbt-protoc required is 0.99.33
 - ScalaPB compiler plugin is now compatible with SBT 1.4.0-M1
 - Plugin runs in a sandboxed classloader.
 
-## [0.10.3](https://github.com/scalapb/ScalaPB/compare/v0.10.3..v10.0.4)
+## [0.10.3](https://github.com/scalapb/ScalaPB/compare/v0.10.3..v0.10.4)
 - Updated protoc-bridge to 0.8.3
 - Changed scalapb.Message to extend Any, instead of a type alias to Any (see #777)
 
-## [0.10.3](https://github.com/scalapb/ScalaPB/compare/v0.10.1..v10.0.3)
+## [0.10.3](https://github.com/scalapb/ScalaPB/compare/v0.10.1..v0.10.3)
 - Added StructUtils to convert between messages to Struct, see #812 (Thanks, @ittaiz)
 
-## [0.10.2](https://github.com/scalapb/ScalaPB/compare/v0.10.1..v10.0.2)
+## [0.10.2](https://github.com/scalapb/ScalaPB/compare/v0.10.1..v0.10.2)
 - BREAKING CHANGE: remove unknownFields parameter from `of` (see #778)
 
-## [0.10.1](https://github.com/scalapb/ScalaPB/compare/v0.10.0..v10.0.1)
+## [0.10.1](https://github.com/scalapb/ScalaPB/compare/v0.10.0..v0.10.11)
 - Add ScalaPBC support for fetching artifacts from maven.
 
 ## [0.10.0](https://github.com/scalapb/ScalaPB/compare/v0.9.4..0.10.0)
