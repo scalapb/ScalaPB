@@ -62,9 +62,9 @@ To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/protoc.sbt`
 containing the following line:
 
-    addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.28")
+    addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0")
 
-    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.10.0"
+    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.10.10"
 
 Add the following line to your `build.sbt`:
 
