@@ -194,29 +194,30 @@ final case class FieldOptions(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => ctype.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => packed.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => packed.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => jstype.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 5 => `lazy`.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 10 => weak.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 5 => `lazy`.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => weak.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.FieldOptions
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldOptions])
 }
 
-object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] = this
+object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FieldOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.DescriptorProtos.FieldOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FieldOptions): com.google.protobuf.DescriptorProtos.FieldOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FieldOptions.newBuilder
-    scalaPbSource.ctype.map(com.google.protobuf.descriptor.FieldOptions.CType.toJavaValue).foreach(javaPbOut.setCtype)
+    scalaPbSource.ctype.map(com.google.protobuf.descriptor.FieldOptions.CType.toJavaValue(_)).foreach(javaPbOut.setCtype)
     scalaPbSource.packed.foreach(javaPbOut.setPacked)
-    scalaPbSource.jstype.map(com.google.protobuf.descriptor.FieldOptions.JSType.toJavaValue).foreach(javaPbOut.setJstype)
+    scalaPbSource.jstype.map(com.google.protobuf.descriptor.FieldOptions.JSType.toJavaValue(_)).foreach(javaPbOut.setJstype)
     scalaPbSource.`lazy`.foreach(javaPbOut.setLazy)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.weak.foreach(javaPbOut.setWeak)
-    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions): com.google.protobuf.descriptor.FieldOptions = com.google.protobuf.descriptor.FieldOptions(
@@ -226,54 +227,9 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else _root_.scala.None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
     weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto).toSeq
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
-  def merge(`_message__`: com.google.protobuf.descriptor.FieldOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldOptions = {
-    var __ctype = `_message__`.ctype
-    var __packed = `_message__`.packed
-    var __jstype = `_message__`.jstype
-    var __lazy = `_message__`.`lazy`
-    var __deprecated = `_message__`.deprecated
-    var __weak = `_message__`.weak
-    val __uninterpretedOption = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= `_message__`.uninterpretedOption)
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __ctype = Option(com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
-        case 16 =>
-          __packed = Option(_input__.readBool())
-        case 48 =>
-          __jstype = Option(com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum()))
-        case 40 =>
-          __lazy = Option(_input__.readBool())
-        case 24 =>
-          __deprecated = Option(_input__.readBool())
-        case 80 =>
-          __weak = Option(_input__.readBool())
-        case 7994 =>
-          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.UninterpretedOption.defaultInstance)
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.descriptor.FieldOptions(
-        ctype = __ctype,
-        packed = __packed,
-        jstype = __jstype,
-        `lazy` = __lazy,
-        deprecated = __deprecated,
-        weak = __weak,
-        uninterpretedOption = __uninterpretedOption.result(),
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.descriptor.FieldOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldOptions = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FieldOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -313,6 +269,82 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     weak = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
+  final class Builder private (
+    private var __ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType],
+    private var __packed: _root_.scala.Option[_root_.scala.Boolean],
+    private var __jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType],
+    private var __lazy: _root_.scala.Option[_root_.scala.Boolean],
+    private var __deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    private var __weak: _root_.scala.Option[_root_.scala.Boolean],
+    private val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.FieldOptions] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __ctype = Option(com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
+          case 16 =>
+            __packed = Option(_input__.readBool())
+          case 48 =>
+            __jstype = Option(com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum()))
+          case 40 =>
+            __lazy = Option(_input__.readBool())
+          case 24 =>
+            __deprecated = Option(_input__.readBool())
+          case 80 =>
+            __weak = Option(_input__.readBool())
+          case 7994 =>
+            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.descriptor.FieldOptions = {
+      com.google.protobuf.descriptor.FieldOptions(
+          ctype = __ctype,
+          packed = __packed,
+          jstype = __jstype,
+          `lazy` = __lazy,
+          deprecated = __deprecated,
+          weak = __weak,
+          uninterpretedOption = __uninterpretedOption.result(),
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.FieldOptions, com.google.protobuf.descriptor.FieldOptions.Builder] {
+    def apply(): Builder = new Builder(
+      __ctype = _root_.scala.None,
+      __packed = _root_.scala.None,
+      __jstype = _root_.scala.None,
+      __lazy = _root_.scala.None,
+      __deprecated = _root_.scala.None,
+      __weak = _root_.scala.None,
+      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.descriptor.FieldOptions): Builder = new Builder(
+      __ctype = _message__.ctype,
+      __packed = _message__.packed,
+      __jstype = _message__.jstype,
+      __lazy = _message__.`lazy`,
+      __deprecated = _message__.deprecated,
+      __weak = _message__.weak,
+      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.descriptor.FieldOptions.Builder()
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.FieldOptions): Builder = com.google.protobuf.descriptor.FieldOptions.Builder(_message__)
   sealed abstract class CType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = CType
     def isString: _root_.scala.Boolean = false

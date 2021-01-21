@@ -15,10 +15,20 @@ import scalapb.options.Scalapb._
 
 import scala.jdk.CollectionConverters._
 import scala.collection.immutable.IndexedSeq
+import protocgen.CodeGenRequest
 
-class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
-    extends DeprecatedImplicits {
+class DescriptorImplicits private[compiler] (
+    params: GeneratorParams,
+    files: Seq[FileDescriptor],
+    secondaryOutputsProvider: SecondaryOutputProvider
+) {
+  implicits =>
   import DescriptorImplicits._
+
+  @deprecated("Use DescriptorImplicits.fromCodeGenRequest. Preprocessors will not work.", "0.10.10")
+  def this(params: GeneratorParams, files: Seq[FileDescriptor]) = {
+    this(params, files, SecondaryOutputProvider.empty)
+  }
 
   case class ScalaName(emptyPackage: Boolean, xs: Seq[String]) {
     def name = xs.last
@@ -64,7 +74,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
     new SealedOneofsCache(sealedOneof)
   }
 
-  private lazy val fileOptionsCache = FileOptionsCache.buildCache(files)
+  private[scalapb] lazy val fileOptionsCache =
+    FileOptionsCache.buildCache(files, secondaryOutputsProvider)
 
   implicit final class ExtendedMethodDescriptor(method: MethodDescriptor) {
     class MethodTypeWrapper(descriptor: Descriptor) {
@@ -235,9 +246,12 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
     }
 
     def noBox =
-      if (fieldOptions.hasNoBox) fieldOptions.getNoBox
+      if (fieldOptions.hasNoBox || fieldOptions.hasRequired)
+        fieldOptions.getNoBox || fieldOptions.getRequired
       else if (fd.isMessage) fd.getMessageType.noBox
       else false
+
+    def noBoxRequired = fieldOptions.getRequired
 
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
@@ -259,14 +273,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
       else {
-        EnclosingType.Collection(collectionType)
+        EnclosingType.Collection(collectionType, collection.adapter.map(_.fullName))
       }
 
     def fieldMapEnclosingType: EnclosingType =
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
-      else if (!fd.isMapField) EnclosingType.Collection(collectionType)
-      else EnclosingType.Collection(ScalaSeq)
+      else EnclosingType.Collection(ScalaSeq, None)
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
@@ -275,47 +288,29 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
       fd.getMessageType.mapType
     }
 
-    def collectionBuilder: String = {
-      require(fd.isRepeated)
-      val t = if (collectionType == ScalaSeq) ScalaVector else collectionType
-
-      if (!fd.isMapField)
-        s"$t.newBuilder[$singleScalaTypeName]"
-      else {
-        s"$t.newBuilder[${fd.mapType.keyType}, ${fd.mapType.valueType}]"
-      }
-    }
-
-    def emptyCollection: String = {
-      s"${collectionType}.empty"
-    }
+    def collection: CollectionMethods = new CollectionMethods(fd, implicits)
 
     // In scalapb.proto, we separate between collection_type and map_type, but internally this is unified.
     def collectionType: String = {
       require(fd.isRepeated)
       if (fd.isMapField) {
-        if (fd.fieldOptions.hasMapType) fd.fieldOptions.getMapType
+        if (fd.fieldOptions.getCollection.hasType) fd.fieldOptions.getCollection.getType
+        else if (fd.fieldOptions.hasMapType) fd.fieldOptions.getMapType
         else if (fd.getFile.scalaOptions.hasMapType) fd.getFile.scalaOptions.getMapType
         else ScalaMap
       } else {
-        if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
+        if (fd.fieldOptions.getCollection.hasType) fd.fieldOptions.getCollection.getType
+        else if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
         else if (fd.getFile.scalaOptions.hasCollectionType)
           fd.getFile.scalaOptions.getCollectionType
         else ScalaSeq
       }
     }
 
-    def fieldMapCollection(innerType: String) = {
-      if (supportsPresence) s"_root_.scala.Option[$innerType]"
-      else if (fd.isRepeated && !fd.isMapField) s"${collectionType}[$innerType]"
-      else if (fd.isRepeated && fd.isMapField) s"${ScalaSeq}[$innerType]"
-      else innerType
-    }
-
     def fieldsMapEmptyCollection: String = {
       require(fd.isRepeated)
       if (fd.isMapField) s"$ScalaSeq.empty"
-      else emptyCollection
+      else collection.empty
     }
 
     def scalaTypeName: String =
@@ -328,11 +323,12 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
     def fieldOptions: FieldOptions = {
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
-      fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
-        .find(_.getTarget == fd.getFullName())
-        .fold(localOptions)(aux =>
-          FieldOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
-        )
+      (fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
+        .collect {
+          case opt if opt.getTarget == fd.getFullName() => opt.getOptions
+        } :+ localOptions).reduce[FieldOptions]((left, right) =>
+        left.toBuilder.mergeFrom(right).build()
+      )
     }
 
     def annotationList: Seq[String] = {
@@ -658,7 +654,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
         case _                           => Seq()
       }
 
-      Seq(s"scalapb.GeneratedMessageCompanion[${scalaType.fullName}]") ++
+      Seq(
+        s"scalapb.GeneratedMessageCompanion[${scalaType.fullName}]",
+        s"scalapb.HasBuilder[${scalaType.fullName}]"
+      ) ++
         mixins ++
         companionExtendsOption ++
         specialMixins
@@ -689,6 +688,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor])
 
     def messageCompanionInsertionPoint: InsertionPoint =
       InsertionPoint(scalaFileName, s"GeneratedMessageCompanion[${message.getFullName}]")
+
+    def messageClassInsertionPoint: InsertionPoint =
+      InsertionPoint(scalaFileName, s"GeneratedMessage[${message.getFullName}]")
 
     class MapType {
       def keyField = message.findFieldByName("key")
@@ -1027,7 +1029,17 @@ object DescriptorImplicits {
   val ScalaMap      = "_root_.scala.collection.immutable.Map"
   val ScalaVector   = "_root_.scala.collection.immutable.Vector"
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
+  val ScalaIterator = "_root_.scala.collection.Iterator"
   val ScalaOption   = "_root_.scala.Option"
+
+  def fromCodeGenRequest(
+      params: GeneratorParams,
+      request: CodeGenRequest
+  ): DescriptorImplicits = new DescriptorImplicits(
+    params,
+    request.allProtos,
+    SecondaryOutputProvider.fromCodeGenRequestOrEnv(request)
+  )
 
   implicit class AsSymbolExtension(val s: String) {
     def asSymbol: String =

@@ -20,7 +20,7 @@ jobs:
         key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
     - uses: actions/setup-java@v1
       with:
-        java-version: 12
+        java-version: 8
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
@@ -54,7 +54,7 @@ jobs:
     - uses: actions/checkout@v1
     - uses: actions/setup-java@v1
       with:
-        java-version: 12
+        java-version: 8
     - run: |
         sbt scalapbcJVM2_12/universal:packageBin
     - uses: actions/upload-artifact@v2

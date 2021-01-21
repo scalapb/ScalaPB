@@ -162,11 +162,20 @@ message ScalaPbOptions {
   // List of enum value options to apply to some enum values.
   repeated AuxEnumValueOptions aux_enum_value_options = 22;
 
+  // List of preprocessors to apply.
+  repeated string preprocessors = 24;
+
+  repeated FieldTransformation field_transformations = 25;
+
+  // Ignores all transformations for this file. This is meant to allow specific files to
+  // opt out from transformations inherited through package-scoped options.
+  optional bool ignore_all_transformations = 26;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
-  optional bool test_only_no_java_conversions = 1001;
+  optional bool test_only_no_java_conversions = 999;
 
-  extensions 10000 to max;
+  extensions 1000 to max;
 }
 
 extend google.protobuf.FileOptions {
@@ -202,13 +211,29 @@ message MessageOptions {
   // Custom annotations to add to the generated `unknownFields` case class field.
   repeated string unknown_fields_annotations = 8;
 
-  extensions 10000 to max;
+  extensions 1000 to max;
 }
 
 extend google.protobuf.MessageOptions {
   // Message-level optionals for ScalaPB.
   // Extension number officially assigned by protobuf-global-extension-registry@google.com
   optional MessageOptions message = 1020;
+}
+
+// Represents a custom Collection type in Scala. This allows ScalaPB to integrate with
+// collection types that are different enough from the ones in the standard library.
+message Collection {
+  // Type of the collection
+  optional string type = 1;
+
+  // Set to true if this collection type is not allowed to be empty, for example
+  // cats.data.NonEmptyList.  When true, ScalaPB will not generate `clearX` for the repeated
+  // field and not provide a default argument in the constructor.
+  optional bool non_empty = 2;
+
+  // An Adapter is a Scala object available at runtime that provides certain static methods
+  // that can operate on this collection type.
+  optional string adapter = 3;
 }
 
 message FieldOptions {
@@ -220,6 +245,8 @@ message FieldOptions {
   // it falls back to the file option named `collection_type`, which defaults
   // to `scala.collection.Seq`.
   optional string collection_type = 3;
+
+  optional Collection collection = 8;
 
   // If the field is a map, you can specify custom Scala types for the key
   // or value.
@@ -237,7 +264,11 @@ message FieldOptions {
   // Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
   optional bool no_box = 30;
 
-  extensions 10000 to max;
+  // Like no_box it does not box a value in Option[T], but also fails parsing when a value
+  // is not provided. This enables to emulate required fields in proto3.
+  optional bool required = 31;
+
+  extensions 1000 to max;
 }
 
 extend google.protobuf.FieldOptions {
@@ -257,7 +288,7 @@ message EnumOptions {
   // must be present.
   optional string type = 3;
 
-  extensions 10000 to max;
+  extensions 1000 to max;
 }
 
 extend google.protobuf.EnumOptions {
@@ -275,7 +306,7 @@ message EnumValueOptions {
   // Name in Scala to use for this enum value.
   optional string scala_name = 2;
 
-  extensions 10000 to max;
+  extensions 1000 to max;
 }
 
 extend google.protobuf.EnumValueOptions {
@@ -291,11 +322,27 @@ message OneofOptions {
   // Name in Scala to use for this oneof field.
   optional string scala_name = 2;
 
-  extensions 10000 to max;
+  extensions 1000 to max;
 }
 
 extend google.protobuf.OneofOptions {
   // Enum-level optionals for ScalaPB.
   // Extension number officially assigned by protobuf-global-extension-registry@google.com
   optional OneofOptions oneof = 1020;
+}
+
+enum MatchType {
+  CONTAINS = 0;
+  EXACT = 1;
+  PRESENCE = 2;
+}
+
+message FieldTransformation {
+  optional google.protobuf.FieldDescriptorProto when = 1;
+  optional MatchType match_type = 2 [default=CONTAINS];
+  optional google.protobuf.FieldOptions set = 3;
+}
+
+message PreprocessorOutput {
+  map<string, ScalaPbOptions> options_by_file = 1;
 }

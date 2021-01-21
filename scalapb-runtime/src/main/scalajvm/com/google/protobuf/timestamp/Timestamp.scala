@@ -173,10 +173,11 @@ final case class Timestamp(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.timestamp.Timestamp
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Timestamp])
 }
 
-object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods = this
+object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.HasBuilder[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.HasBuilder[com.google.protobuf.timestamp.Timestamp] with scalapb.JavaProtoSupport[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.Timestamp] with scalapb.TimestampCompanionMethods = this
   def toJavaProto(scalaPbSource: com.google.protobuf.timestamp.Timestamp): com.google.protobuf.Timestamp = {
     val javaPbOut = com.google.protobuf.Timestamp.newBuilder
     javaPbOut.setSeconds(scalaPbSource.seconds)
@@ -187,32 +188,7 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
     seconds = javaPbSource.getSeconds.longValue,
     nanos = javaPbSource.getNanos.intValue
   )
-  def merge(`_message__`: com.google.protobuf.timestamp.Timestamp, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = {
-    var __seconds = `_message__`.seconds
-    var __nanos = `_message__`.nanos
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __seconds = _input__.readInt64()
-        case 16 =>
-          __nanos = _input__.readInt32()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.timestamp.Timestamp(
-        seconds = __seconds,
-        nanos = __nanos,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+  def merge(`_message__`: com.google.protobuf.timestamp.Timestamp, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.timestamp.Timestamp] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -231,6 +207,52 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
     seconds = 0L,
     nanos = 0
   )
+  final class Builder private (
+    private var __seconds: _root_.scala.Long,
+    private var __nanos: _root_.scala.Int,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.timestamp.Timestamp] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __seconds = _input__.readInt64()
+          case 16 =>
+            __nanos = _input__.readInt32()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.timestamp.Timestamp = {
+      com.google.protobuf.timestamp.Timestamp(
+          seconds = __seconds,
+          nanos = __nanos,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.timestamp.Timestamp, com.google.protobuf.timestamp.Timestamp.Builder] {
+    def apply(): Builder = new Builder(
+      __seconds = 0L,
+      __nanos = 0,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.timestamp.Timestamp): Builder = new Builder(
+      __seconds = _message__.seconds,
+      __nanos = _message__.nanos,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.timestamp.Timestamp.Builder()
+  def newBuilder(`_message__`: com.google.protobuf.timestamp.Timestamp): Builder = com.google.protobuf.timestamp.Timestamp.Builder(_message__)
   implicit class TimestampLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.timestamp.Timestamp]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.timestamp.Timestamp](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
     def nanos: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.nanos)((c_, f_) => c_.copy(nanos = f_))

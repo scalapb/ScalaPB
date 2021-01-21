@@ -60,32 +60,12 @@ final case class Enum(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.perf.protos.Enum
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.Enum])
 }
 
-object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] = this
-  def merge(`_message__`: scalapb.perf.protos.Enum, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.Enum = {
-    var __color = `_message__`.color
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __color = scalapb.perf.protos.Color.fromValue(_input__.readEnum())
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    scalapb.perf.protos.Enum(
-        color = __color,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] with scalapb.HasBuilder[scalapb.perf.protos.Enum] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] with scalapb.HasBuilder[scalapb.perf.protos.Enum] = this
+  def merge(`_message__`: scalapb.perf.protos.Enum, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.Enum = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.Enum] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -106,6 +86,46 @@ object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] 
   lazy val defaultInstance = scalapb.perf.protos.Enum(
     color = scalapb.perf.protos.Color.UNKNOWN
   )
+  final class Builder private (
+    private var __color: scalapb.perf.protos.Color,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.Enum] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __color = scalapb.perf.protos.Color.fromValue(_input__.readEnum())
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): scalapb.perf.protos.Enum = {
+      scalapb.perf.protos.Enum(
+          color = __color,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.Enum, scalapb.perf.protos.Enum.Builder] {
+    def apply(): Builder = new Builder(
+      __color = scalapb.perf.protos.Color.UNKNOWN,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: scalapb.perf.protos.Enum): Builder = new Builder(
+      __color = _message__.color,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = scalapb.perf.protos.Enum.Builder()
+  def newBuilder(`_message__`: scalapb.perf.protos.Enum): Builder = scalapb.perf.protos.Enum.Builder(_message__)
   implicit class EnumLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.Enum]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.Enum](_l) {
     def color: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.Color] = field(_.color)((c_, f_) => c_.copy(color = f_))
   }

@@ -1,71 +1,24 @@
 package scalapb.compiler
 
-import java.io.{File, FileInputStream, PrintWriter}
-import java.nio.file.Files
-
-import scala.jdk.CollectionConverters._
-import com.google.protobuf.DescriptorProtos.FileDescriptorSet
-import com.google.protobuf.Descriptors.FileDescriptor
-import com.google.protobuf.ExtensionRegistry
-import scalapb.options.Scalapb
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
-class ProtoValidationSpec extends AnyFlatSpec with Matchers {
-  def generateFileSet(files: Seq[(String, String)]) = {
-    val tmpDir = Files.createTempDirectory("validation").toFile
-    val fileNames = files.map { case (name, content) =>
-      val file = new File(tmpDir, name)
-      val pw   = new PrintWriter(file)
-      pw.write(content)
-      pw.close()
-      file.getAbsoluteFile
-    }
-    val outFile = new File(tmpDir, "descriptor.out")
-
-    require(
-      ProtocRunner.runProtoc(
-        Version.protobufVersion,
-        Seq(
-          "-I",
-          tmpDir.toString + ":protobuf:third_party",
-          s"--descriptor_set_out=${outFile.toString}",
-          "--include_imports"
-        ) ++ fileNames.map(_.toString)
-      ) == 0,
-      "protoc exited with an error"
+class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocationHelper {
+  def runValidation(
+      generatorParams: GeneratorParams,
+      secondaryOutput: SecondaryOutputProvider,
+      files: (String, String)*
+  ): Unit = {
+    val fileset = generateFileSet(files)
+    val validation = new ProtoValidation(
+      new DescriptorImplicits(generatorParams, fileset, secondaryOutput)
     )
-
-    val fileset: Seq[FileDescriptor] = {
-      val fin      = new FileInputStream(outFile)
-      val registry = ExtensionRegistry.newInstance()
-      Scalapb.registerAllExtensions(registry)
-      val fileset =
-        try {
-          FileDescriptorSet.parseFrom(fin, registry)
-        } finally {
-          fin.close()
-        }
-      fileset.getFileList.asScala
-        .foldLeft[Map[String, FileDescriptor]](Map.empty) { case (acc, fp) =>
-          val deps = fp.getDependencyList.asScala.map(acc)
-          acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
-        }
-        .values
-        .toVector
-    }
-    fileset
-  }
-
-  def runValidation(generatorParams: GeneratorParams, files: (String, String)*): Unit = {
-    val fileset    = generateFileSet(files)
-    val validation = new ProtoValidation(new DescriptorImplicits(generatorParams, fileset))
     validation.validateFiles(fileset)
     ()
   }
 
   def runValidation(files: (String, String)*): Unit = {
-    runValidation(new GeneratorParams(), files: _*)
+    runValidation(new GeneratorParams(), SecondaryOutputProvider.fromMap(Map.empty), files: _*)
   }
 
   "simple message" should "validate" in {
@@ -335,7 +288,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
   }
 
   // package scoped options
-  it should "fail when multiple scoped option objects found for same package" in {
+  "package scoped options" should "fail when multiple scoped option objects found for same package" in {
     intercept[GeneratorException] {
       runValidation(
         "file1.proto" ->
@@ -429,6 +382,144 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers {
       )
     }.message must be(
       "a.b.Msg.field: message fields in oneofs are not allowed to have no_box set."
+    )
+  }
+
+  "required fields proto" should "fail when oneof contains a required message" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message NoBox {
+            |}
+            |
+            |message Msg {
+            |  oneof foo {
+            |    NoBox field = 1 [(scalapb.field).required = true];
+            |  }
+            |}
+            """.stripMargin
+      )
+    }.message must be(
+      "a.b.Msg.field: setting required is not allowed on oneof fields."
+    )
+  }
+
+  it should "fail when no_box and required are in contradiction" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message Test {
+            |  Msg req = 1 [(scalapb.field).required = true, (scalapb.field).no_box=false];
+            |}
+            |
+            |message Msg {
+            |}
+            """.stripMargin
+      )
+    }.getMessage must be(
+      "a.b.Test.req: setting no_box to false is not allowed while setting required to true."
+    )
+  }
+
+  it should "fail when required is set on repeated field" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message Test {
+            |  repeated Msg req = 1 [(scalapb.field).required = true];
+            |}
+            |
+            |message Msg {
+            |}
+            """.stripMargin
+      )
+    }.getMessage must be(
+      "a.b.Test.req: required is not allowed on repeated fields."
+    )
+  }
+
+  it should "fail when required is set on non-message field" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |package a.b;
+            |
+            |import "scalapb/scalapb.proto";
+            |
+            |message Test {
+            |  int32 req = 1 [(scalapb.field).required = true];
+            |}
+            |
+            |message Msg {
+            |}
+            """.stripMargin
+      )
+    }.getMessage must be(
+      "a.b.Test.req: required can only be applied to message fields."
+    )
+  }
+
+  "preprocessors" should "fail when preprocessor name is invalid" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |import "scalapb/scalapb.proto";
+            |package a.b;
+            |
+            |option (scalapb.options) = {
+            |  preprocessors: ["."]
+            };
+            """.stripMargin
+      )
+    }.message must be(
+      "file1.proto: Invalid preprocessor name: '.'"
+    )
+  }
+
+  it should "fail when preprocessor name is missing" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto3";
+            |
+            |import "scalapb/scalapb.proto";
+            |package a.b;
+            |
+            |option (scalapb.options) = {
+            |  preprocessors: ["foo"]
+            };
+            """.stripMargin
+      )
+    }.message must be(
+      "file1.proto: Preprocessor 'foo' was not found."
     )
   }
 }

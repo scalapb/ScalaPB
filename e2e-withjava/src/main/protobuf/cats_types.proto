@@ -1,0 +1,72 @@
+syntax = "proto2";
+
+package com.thesamet.proto.e2e;
+
+import "scalapb/scalapb.proto";
+import "custom_types.proto";
+import "collection_types.proto";
+
+message CollectionTypesNEL {
+  repeated    int32 repeated_int32    = 31           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated    int64 repeated_int64    = 32           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   uint32 repeated_uint32   = 33           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   uint64 repeated_uint64   = 34           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   sint32 repeated_sint32   = 35           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   sint64 repeated_sint64   = 36           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated  fixed32 repeated_fixed32  = 37           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated  fixed64 repeated_fixed64  = 38           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated sfixed32 repeated_sfixed32 = 39           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated sfixed64 repeated_sfixed64 = 40           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated    float repeated_float    = 41           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   double repeated_double   = 42           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated     bool repeated_bool     = 43           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   string repeated_string   = 44           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated    bytes repeated_bytes    = 45           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated     Enum repeated_enum     = 46           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   SubMsg repeated_msg      = 47           [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated CustomMessage.Name repeated_fullname = 48 [(scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }, (scalapb.field).type = "com.thesamet.pb.FullName"];
+}
+
+message CollectionTypesNELPacked {
+  repeated    int32 repeated_int32    = 31           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated    int64 repeated_int64    = 32           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   uint32 repeated_uint32   = 33           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   uint64 repeated_uint64   = 34           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   sint32 repeated_sint32   = 35           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   sint64 repeated_sint64   = 36           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated  fixed32 repeated_fixed32  = 37           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated  fixed64 repeated_fixed64  = 38           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated sfixed32 repeated_sfixed32 = 39           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated sfixed64 repeated_sfixed64 = 40           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated    float repeated_float    = 41           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated   double repeated_double   = 42           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated     bool repeated_bool     = 43           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+  repeated     Enum repeated_enum     = 46           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptyList", adapter: "com.thesamet.pb.NonEmptyListAdapter", non_empty: true }];
+}
+
+message CollectionTypesNES {
+  repeated    int32 repeated_int32    = 31           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated    int64 repeated_int64    = 32           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated   uint32 repeated_uint32   = 33           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated   uint64 repeated_uint64   = 34           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated   sint32 repeated_sint32   = 35           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated   sint64 repeated_sint64   = 36           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated  fixed32 repeated_fixed32  = 37           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated  fixed64 repeated_fixed64  = 38           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated sfixed32 repeated_sfixed32 = 39           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated sfixed64 repeated_sfixed64 = 40           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated    float repeated_float    = 41           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated   double repeated_double   = 42           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated     bool repeated_bool     = 43           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+  repeated     Enum repeated_enum     = 46           [packed=true, (scalapb.field).collection = {type:"cats.data.NonEmptySet", adapter: "com.thesamet.pb.NonEmptySetAdapter", non_empty: true }];
+}
+
+message CollectionTypesNEM {
+  map<int32, bool> map_int32_bool = 1                  [(scalapb.field).collection = {type:"cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true }];
+  map<int32, Enum0> map_int32_enum = 2                 [(scalapb.field).collection = {type:"cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true }];
+  map<int32, SubMsg> map_int32_submsg = 3              [(scalapb.field).collection = {type:"cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true }];
+  map<int32, bool> mymap_int32_bool = 4                [(scalapb.field).collection = {type:"cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true }];
+  map<int32, Enum0> mymap_int32_enum = 5               [(scalapb.field).collection = {type:"cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true }];
+  map<int32, SubMsg> mymap_int32_submsg = 6            [(scalapb.field).collection = {type:"cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true }];
+  map<int32, CustomMessage.Name> repeated_fullname = 7 [(scalapb.field).collection = {type:"cats.data.NonEmptyMap", adapter: "com.thesamet.pb.NonEmptyMapAdapter", non_empty: true}, (scalapb.field).value_type="com.thesamet.pb.FullName"];
+}

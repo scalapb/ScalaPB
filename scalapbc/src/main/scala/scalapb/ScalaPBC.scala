@@ -11,9 +11,8 @@ import java.net.URLClassLoader
 import java.util.jar.JarInputStream
 import java.io.FileInputStream
 import protocbridge.SandboxedJvmGenerator
-import sys.process._
-import scala.io.Source
 import scala.util.{Try, Success, Failure}
+import protocbridge.ProtocRunner
 
 case class Config(
     version: String = scalapb.compiler.Version.protobufVersion,
@@ -180,16 +179,8 @@ object ScalaPBC {
       config.customProtocLocation
         .getOrElse(getProtoc(config.version).fold(fatalError(_), identity(_)))
 
-    val maybeNixDynamicLinker: Option[String] =
-      sys.env.get("NIX_CC").map { nixCC =>
-        Source.fromFile(nixCC + "/nix-support/dynamic-linker").mkString.trim()
-      }
-
-    def runner(args: Seq[String]): Int =
-      ((maybeNixDynamicLinker.toSeq :+ protoc) ++ args).!
-
     ProtocBridge.runWithGenerators(
-      runner,
+      ProtocRunner(protoc),
       namedGenerators = config.namedGenerators ++ jvmGenerators,
       params = config.args ++ pluginArgs
     )

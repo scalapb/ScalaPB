@@ -68,6 +68,9 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
                        else Nil),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
+      ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
+      ProblemFilters.exclude[Problem]("scalapb.options.*"),
+      ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom")
     )
   )
   .jvmPlatform(
@@ -263,6 +266,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
     grpcServices,
     grpcServices % "protobuf",
     annotationApi,
+    cats,
     (scalaTest.value               % "test"),
     (scalaTestPlusScalaCheck.value % "test")
   ),

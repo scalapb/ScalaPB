@@ -196,7 +196,7 @@ final case class DescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => _root_.scalapb.descriptors.PRepeated(field.iterator.map(_.toPMessage).toVector)
         case 6 => _root_.scalapb.descriptors.PRepeated(extension.iterator.map(_.toPMessage).toVector)
         case 3 => _root_.scalapb.descriptors.PRepeated(nestedType.iterator.map(_.toPMessage).toVector)
@@ -205,73 +205,17 @@ final case class DescriptorProto(
         case 8 => _root_.scalapb.descriptors.PRepeated(oneofDecl.iterator.map(_.toPMessage).toVector)
         case 7 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => _root_.scalapb.descriptors.PRepeated(reservedRange.iterator.map(_.toPMessage).toVector)
-        case 10 => _root_.scalapb.descriptors.PRepeated(reservedName.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 10 => _root_.scalapb.descriptors.PRepeated(reservedName.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = com.google.protobuf.descriptor.DescriptorProto
+    // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto])
 }
 
-object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] = this
-  def merge(`_message__`: com.google.protobuf.descriptor.DescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto = {
-    var __name = `_message__`.name
-    val __field = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= `_message__`.field)
-    val __extension = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= `_message__`.extension)
-    val __nestedType = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= `_message__`.nestedType)
-    val __enumType = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= `_message__`.enumType)
-    val __extensionRange = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] ++= `_message__`.extensionRange)
-    val __oneofDecl = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] ++= `_message__`.oneofDecl)
-    var __options = `_message__`.options
-    val __reservedRange = (_root_.scala.collection.immutable.Vector.newBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] ++= `_message__`.reservedRange)
-    val __reservedName = (_root_.scala.collection.immutable.Vector.newBuilder[_root_.scala.Predef.String] ++= `_message__`.reservedName)
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 10 =>
-          __name = Option(_input__.readStringRequireUtf8())
-        case 18 =>
-          __field += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
-        case 50 =>
-          __extension += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
-        case 26 =>
-          __nestedType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.defaultInstance)
-        case 34 =>
-          __enumType += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.EnumDescriptorProto.defaultInstance)
-        case 42 =>
-          __extensionRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.defaultInstance)
-        case 66 =>
-          __oneofDecl += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.OneofDescriptorProto.defaultInstance)
-        case 58 =>
-          __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)))
-        case 74 =>
-          __reservedRange += _root_.scalapb.LiteParser.readMessage(_input__, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.defaultInstance)
-        case 82 =>
-          __reservedName += _input__.readStringRequireUtf8()
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    com.google.protobuf.descriptor.DescriptorProto(
-        name = __name,
-        field = __field.result(),
-        extension = __extension.result(),
-        nestedType = __nestedType.result(),
-        enumType = __enumType.result(),
-        extensionRange = __extensionRange.result(),
-        oneofDecl = __oneofDecl.result(),
-        options = __options,
-        reservedRange = __reservedRange.result(),
-        reservedName = __reservedName.result(),
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto] = this
+  def merge(`_message__`: com.google.protobuf.descriptor.DescriptorProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -323,6 +267,100 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     reservedRange = _root_.scala.Seq.empty,
     reservedName = _root_.scala.Seq.empty
   )
+  final class Builder private (
+    private var __name: _root_.scala.Option[_root_.scala.Predef.String],
+    private val __field: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+    private val __extension: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+    private val __nestedType: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto],
+    private val __enumType: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto],
+    private val __extensionRange: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange],
+    private val __oneofDecl: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.OneofDescriptorProto],
+    private var __options: _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions],
+    private val __reservedRange: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange],
+    private val __reservedName: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.DescriptorProto] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __name = Option(_input__.readStringRequireUtf8())
+          case 18 =>
+            __field += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__)
+          case 50 =>
+            __extension += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__)
+          case 26 =>
+            __nestedType += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto](_input__)
+          case 34 =>
+            __enumType += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumDescriptorProto](_input__)
+          case 42 =>
+            __extensionRange += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_input__)
+          case 66 =>
+            __oneofDecl += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.OneofDescriptorProto](_input__)
+          case 58 =>
+            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          case 74 =>
+            __reservedRange += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_input__)
+          case 82 =>
+            __reservedName += _input__.readStringRequireUtf8()
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): com.google.protobuf.descriptor.DescriptorProto = {
+      com.google.protobuf.descriptor.DescriptorProto(
+          name = __name,
+          field = __field.result(),
+          extension = __extension.result(),
+          nestedType = __nestedType.result(),
+          enumType = __enumType.result(),
+          extensionRange = __extensionRange.result(),
+          oneofDecl = __oneofDecl.result(),
+          options = __options,
+          reservedRange = __reservedRange.result(),
+          reservedName = __reservedName.result(),
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.DescriptorProto, com.google.protobuf.descriptor.DescriptorProto.Builder] {
+    def apply(): Builder = new Builder(
+      __name = _root_.scala.None,
+      __field = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+      __extension = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto],
+      __nestedType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto],
+      __enumType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto],
+      __extensionRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange],
+      __oneofDecl = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.OneofDescriptorProto],
+      __options = _root_.scala.None,
+      __reservedRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange],
+      __reservedName = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: com.google.protobuf.descriptor.DescriptorProto): Builder = new Builder(
+      __name = _message__.name,
+      __field = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.field,
+      __extension = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldDescriptorProto] ++= _message__.extension,
+      __nestedType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto] ++= _message__.nestedType,
+      __enumType = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] ++= _message__.enumType,
+      __extensionRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] ++= _message__.extensionRange,
+      __oneofDecl = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.OneofDescriptorProto] ++= _message__.oneofDecl,
+      __options = _message__.options,
+      __reservedRange = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] ++= _message__.reservedRange,
+      __reservedName = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.reservedName,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.Builder()
+  def newBuilder(`_message__`: com.google.protobuf.descriptor.DescriptorProto): Builder = com.google.protobuf.descriptor.DescriptorProto.Builder(_message__)
   /** @param start
     *   Inclusive.
     * @param end
@@ -400,47 +438,19 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => start.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 2 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => start.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
           case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto.ExtensionRange])
   }
   
-  object ExtensionRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = this
-    def merge(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
-      var __start = `_message__`.start
-      var __end = `_message__`.end
-      var __options = `_message__`.options
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __start = Option(_input__.readInt32())
-          case 16 =>
-            __end = Option(_input__.readInt32())
-          case 26 =>
-            __options = Option(_root_.scalapb.LiteParser.readMessage(_input__, __options.getOrElse(com.google.protobuf.descriptor.ExtensionRangeOptions.defaultInstance)))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
-          start = __start,
-          end = __end,
-          options = __options,
-          unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-      )
-    }
+  object ExtensionRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = this
+    def merge(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -467,6 +477,58 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       end = _root_.scala.None,
       options = _root_.scala.None
     )
+    final class Builder private (
+      private var __start: _root_.scala.Option[_root_.scala.Int],
+      private var __end: _root_.scala.Option[_root_.scala.Int],
+      private var __options: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions],
+      private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+    ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] {
+      def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+        var _done__ = false
+        while (!_done__) {
+          val _tag__ = _input__.readTag()
+          _tag__ match {
+            case 0 => _done__ = true
+            case 8 =>
+              __start = Option(_input__.readInt32())
+            case 16 =>
+              __end = Option(_input__.readInt32())
+            case 26 =>
+              __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.ExtensionRangeOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.parseField(tag, _input__)
+          }
+        }
+        this
+      }
+      def result(): com.google.protobuf.descriptor.DescriptorProto.ExtensionRange = {
+        com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
+            start = __start,
+            end = __end,
+            options = __options,
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        )
+      }
+    }
+    object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.Builder] {
+      def apply(): Builder = new Builder(
+        __start = _root_.scala.None,
+        __end = _root_.scala.None,
+        __options = _root_.scala.None,
+        `_unknownFields__` = null
+      )
+      def apply(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange): Builder = new Builder(
+        __start = _message__.start,
+        __end = _message__.end,
+        __options = _message__.options,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+      )
+    }
+    def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.Builder()
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange): Builder = com.google.protobuf.descriptor.DescriptorProto.ExtensionRange.Builder(_message__)
     implicit class ExtensionRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
@@ -556,42 +618,18 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => start.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 2 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => start.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
       def companion = com.google.protobuf.descriptor.DescriptorProto.ReservedRange
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DescriptorProto.ReservedRange])
   }
   
-  object ReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = this
-    def merge(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ReservedRange, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
-      var __start = `_message__`.start
-      var __end = `_message__`.end
-      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __start = Option(_input__.readInt32())
-          case 16 =>
-            __end = Option(_input__.readInt32())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
-          start = __start,
-          end = __end,
-          unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-      )
-    }
+  object ReservedRange extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] with scalapb.HasBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = this
+    def merge(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ReservedRange, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = newBuilder(_message__).merge(_input__).result()
     implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -610,6 +648,52 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       start = _root_.scala.None,
       end = _root_.scala.None
     )
+    final class Builder private (
+      private var __start: _root_.scala.Option[_root_.scala.Int],
+      private var __end: _root_.scala.Option[_root_.scala.Int],
+      private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+    ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] {
+      def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+        var _done__ = false
+        while (!_done__) {
+          val _tag__ = _input__.readTag()
+          _tag__ match {
+            case 0 => _done__ = true
+            case 8 =>
+              __start = Option(_input__.readInt32())
+            case 16 =>
+              __end = Option(_input__.readInt32())
+            case tag =>
+              if (_unknownFields__ == null) {
+                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+              }
+              _unknownFields__.parseField(tag, _input__)
+          }
+        }
+        this
+      }
+      def result(): com.google.protobuf.descriptor.DescriptorProto.ReservedRange = {
+        com.google.protobuf.descriptor.DescriptorProto.ReservedRange(
+            start = __start,
+            end = __end,
+            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+        )
+      }
+    }
+    object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.DescriptorProto.ReservedRange, com.google.protobuf.descriptor.DescriptorProto.ReservedRange.Builder] {
+      def apply(): Builder = new Builder(
+        __start = _root_.scala.None,
+        __end = _root_.scala.None,
+        `_unknownFields__` = null
+      )
+      def apply(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ReservedRange): Builder = new Builder(
+        __start = _message__.start,
+        __end = _message__.end,
+        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+      )
+    }
+    def newBuilder: Builder = com.google.protobuf.descriptor.DescriptorProto.ReservedRange.Builder()
+    def newBuilder(`_message__`: com.google.protobuf.descriptor.DescriptorProto.ReservedRange): Builder = com.google.protobuf.descriptor.DescriptorProto.ReservedRange.Builder(_message__)
     implicit class ReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
       def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))

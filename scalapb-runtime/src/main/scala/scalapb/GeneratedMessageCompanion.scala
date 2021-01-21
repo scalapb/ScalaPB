@@ -161,9 +161,12 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
 }
 
 trait GeneratedMessageCompanion[A <: GeneratedMessage] {
+  self =>
   type ValueType = A
+
   def merge(a: A, input: CodedInputStream): A
 
+  /** Parses a message from a CodedInputStream. */
   def parseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
@@ -233,6 +236,13 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
     validateAscii(s).fold(t => throw new TextFormatException(t.msg), identity[A])
 
   def defaultInstance: A
+}
+
+trait HasBuilder[A <: GeneratedMessage] {
+  self: GeneratedMessageCompanion[A] =>
+  def newBuilder: MessageBuilder[A]
+
+  override final def parseFrom(input: CodedInputStream): A = newBuilder.merge(input).result()
 }
 
 abstract class GeneratedFileObject {

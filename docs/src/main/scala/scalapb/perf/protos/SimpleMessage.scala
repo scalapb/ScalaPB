@@ -120,44 +120,12 @@ final case class SimpleMessage(
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
     def companion = scalapb.perf.protos.SimpleMessage
+    // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.SimpleMessage])
 }
 
-object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] = this
-  def merge(`_message__`: scalapb.perf.protos.SimpleMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.SimpleMessage = {
-    var __i = `_message__`.i
-    var __j = `_message__`.j
-    var __k = `_message__`.k
-    var __color = `_message__`.color
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
-    while (!_done__) {
-      val _tag__ = _input__.readTag()
-      _tag__ match {
-        case 0 => _done__ = true
-        case 8 =>
-          __i = _input__.readInt32()
-        case 16 =>
-          __j = _input__.readInt32()
-        case 26 =>
-          __k = _input__.readBytes()
-        case 32 =>
-          __color = scalapb.perf.protos.Color.fromValue(_input__.readEnum())
-        case tag =>
-          if (_unknownFields__ == null) {
-            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-          }
-          _unknownFields__.parseField(tag, _input__)
-      }
-    }
-    scalapb.perf.protos.SimpleMessage(
-        i = __i,
-        j = __j,
-        k = __k,
-        color = __color,
-        unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()
-    )
-  }
+object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] with scalapb.HasBuilder[scalapb.perf.protos.SimpleMessage] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.SimpleMessage] with scalapb.HasBuilder[scalapb.perf.protos.SimpleMessage] = this
+  def merge(`_message__`: scalapb.perf.protos.SimpleMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.SimpleMessage = newBuilder(_message__).merge(_input__).result()
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.SimpleMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -184,6 +152,64 @@ object SimpleMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     k = _root_.com.google.protobuf.ByteString.EMPTY,
     color = scalapb.perf.protos.Color.UNKNOWN
   )
+  final class Builder private (
+    private var __i: _root_.scala.Int,
+    private var __j: _root_.scala.Int,
+    private var __k: _root_.com.google.protobuf.ByteString,
+    private var __color: scalapb.perf.protos.Color,
+    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
+  ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.SimpleMessage] {
+    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __i = _input__.readInt32()
+          case 16 =>
+            __j = _input__.readInt32()
+          case 26 =>
+            __k = _input__.readBytes()
+          case 32 =>
+            __color = scalapb.perf.protos.Color.fromValue(_input__.readEnum())
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      this
+    }
+    def result(): scalapb.perf.protos.SimpleMessage = {
+      scalapb.perf.protos.SimpleMessage(
+          i = __i,
+          j = __j,
+          k = __k,
+          color = __color,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+  }
+  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.SimpleMessage, scalapb.perf.protos.SimpleMessage.Builder] {
+    def apply(): Builder = new Builder(
+      __i = 0,
+      __j = 0,
+      __k = _root_.com.google.protobuf.ByteString.EMPTY,
+      __color = scalapb.perf.protos.Color.UNKNOWN,
+      `_unknownFields__` = null
+    )
+    def apply(`_message__`: scalapb.perf.protos.SimpleMessage): Builder = new Builder(
+      __i = _message__.i,
+      __j = _message__.j,
+      __k = _message__.k,
+      __color = _message__.color,
+      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
+    )
+  }
+  def newBuilder: Builder = scalapb.perf.protos.SimpleMessage.Builder()
+  def newBuilder(`_message__`: scalapb.perf.protos.SimpleMessage): Builder = scalapb.perf.protos.SimpleMessage.Builder(_message__)
   implicit class SimpleMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.SimpleMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.SimpleMessage](_l) {
     def i: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.i)((c_, f_) => c_.copy(i = f_))
     def j: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.j)((c_, f_) => c_.copy(j = f_))

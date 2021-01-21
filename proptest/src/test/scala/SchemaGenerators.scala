@@ -157,10 +157,11 @@ object SchemaGenerators {
     tmpDir
   }
 
+  val runner = scalapb.compiler.ProtocRunner.forVersion(scalapb.compiler.Version.protobufVersion)
+
   private def runProtoc(args: String*) =
     ProtocBridge.runWithGenerators(
-      args =>
-        scalapb.compiler.ProtocRunner.runProtoc(scalapb.compiler.Version.protobufVersion, args),
+      runner,
       Seq("scala" -> ScalaPbCodeGenerator),
       args
     )

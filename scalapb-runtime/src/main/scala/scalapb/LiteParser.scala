@@ -16,6 +16,17 @@ object LiteParser {
     result
   }
 
+  def readMessage[A <: GeneratedMessage](input: CodedInputStream)(implicit
+      cmp: GeneratedMessageCompanion[A]
+  ): A = {
+    val length    = input.readRawVarint32()
+    val oldLimit  = input.pushLimit(length)
+    val result: A = cmp.parseFrom(input)
+    input.checkLastTagWas(0)
+    input.popLimit(oldLimit)
+    result
+  }
+
   def parseDelimitedFrom[A <: GeneratedMessage](
       input: InputStream
   )(implicit cmp: GeneratedMessageCompanion[A]): Option[A] = {
@@ -31,7 +42,7 @@ object LiteParser {
       input: CodedInputStream
   )(implicit cmp: GeneratedMessageCompanion[A]): Option[A] = {
     if (input.isAtEnd) None
-    else Some(readMessage(input, cmp.defaultInstance))
+    else Some(readMessage(input))
   }
 
   @inline

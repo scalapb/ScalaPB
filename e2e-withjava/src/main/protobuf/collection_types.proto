@@ -152,7 +152,6 @@ message CollectionTypesMap {
   map<int32, SubMsg> mymap_int32_submsg = 6 [(scalapb.field).map_type="com.thesamet.pb.MyMap"];
   map<int32, CustomMessage.Name> repeated_fullname = 7 [(scalapb.field).map_type="com.thesamet.pb.MyMap", (scalapb.field).value_type="com.thesamet.pb.FullName"];
 }
-
 message CustomCollection {
   repeated int32 repeated_int32 = 31 [(scalapb.field).collection_type="com.thesamet.pb.MyVector"];
   repeated CustomMessage.Name repeated_fullname = 32 [(scalapb.field).type="com.thesamet.pb.FullName", (scalapb.field).collection_type="com.thesamet.pb.MyVector"];

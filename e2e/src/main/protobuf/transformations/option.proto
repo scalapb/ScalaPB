@@ -1,0 +1,22 @@
+
+syntax = "proto2";
+
+package com.thesamet.proto.e2e.transformations;
+
+import "google/protobuf/descriptor.proto";
+
+message Nested {
+    optional int32 n = 1;
+    optional Nested nn = 2;
+}
+
+message MyCustomFieldOptions {
+  optional bool sensitive = 1;
+  optional int32 vnum = 2;
+  optional int32 other = 3;
+  optional Nested nested = 4;
+}
+
+extend google.protobuf.FieldOptions {
+  optional MyCustomFieldOptions custom = 50001;
+}
