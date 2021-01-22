@@ -25,8 +25,8 @@ In build.sbt:
 ```scala
 scalaVersion := "@scala3@"
 
-PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value / "scalapb"
+Compile / PB.targets := Seq(
+  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
 )
 ```
 

@@ -48,8 +48,8 @@ is the default:
 
 **Add** a value to `gen.targets`:
 
-    PB.targets in Compile := Seq(
-      scalapb.gen() -> (sourceManaged in Compile).value
+    Compile / PB.targets := Seq(
+      scalapb.gen() -> (Compile / sourceManaged).value
     )
 
 If you need Java Conversions, flat packages, etc see

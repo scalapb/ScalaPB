@@ -105,7 +105,7 @@ object BuildHelper {
   }
 
   val scalajsSourceMaps = scalacOptions += {
-    val a = (baseDirectory in LocalRootProject).value.toURI.toString
+    val a = (LocalRootProject / baseDirectory).value.toURI.toString
     val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process
       .Process("git rev-parse HEAD")
       .lineStream_!

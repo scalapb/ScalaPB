@@ -17,8 +17,8 @@ libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "@scalapb@"
 Add the following line to your `build.sbt`:
 
 ```scala
-PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value / "scalapb"
+Compile / PB.targets := Seq(
+  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
 )
 
 // (optional) If you need scalapb/scalapb.proto or anything from

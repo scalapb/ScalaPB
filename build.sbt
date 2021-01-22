@@ -258,7 +258,7 @@ lazy val lensesJVM2_12 = lenses.jvm(Scala212)
 
 val e2eCommonSettings = commonSettings ++ Seq(
   useCoursier := true,
-  skip in publish := true,
+  publish / skip := true,
   javacOptions ++= Seq("-Xlint:deprecation"),
   libraryDependencies ++= Seq(
     grpcNetty,
@@ -389,17 +389,17 @@ lazy val docs = project
       "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
     ),
     mdocIn := baseDirectory.value / "src" / "main" / "markdown",
-    siteSubdirName in ScalaUnidoc := "api/scalapb/latest",
-    addMappingsToSiteDir(mappings in (ScalaUnidoc, packageDoc), siteSubdirName in ScalaUnidoc),
-    unidocProjectFilter in (ScalaUnidoc, unidoc) := inProjects(
+    ScalaUnidoc / siteSubdirName := "api/scalapb/latest",
+    addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, ScalaUnidoc / siteSubdirName),
+    ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
       lensesJVM2_12,
       runtimeJVM2_12,
       grpcRuntimeJVM2_12
     ),
-    target in (ScalaUnidoc, unidoc) := (baseDirectory in LocalRootProject).value / "website" / "static" / "api",
-    cleanFiles += (target in (ScalaUnidoc, unidoc)).value,
-    docusaurusCreateSite := docusaurusCreateSite.dependsOn(unidoc in Compile).value,
-    docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(unidoc in Compile).value,
+    ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
+    cleanFiles += (ScalaUnidoc / unidoc / target).value,
+    docusaurusCreateSite := docusaurusCreateSite.dependsOn(Compile / unidoc).value,
+    docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(Compile / unidoc).value,
     mdocVariables := Map(
       "scalapb"          -> "0.10.10",
       "scalapb_latest"   -> "0.11.0-M4",
@@ -413,7 +413,7 @@ lazy val docs = project
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
     ghpagesBranch := "master"
     /*
-    includeFilter in ghpagesCleanSite := GlobFilter(
+    ghpagesCleanSite / includeFilter := GlobFilter(
       (ghpagesRepository.value / "README.md").getCanonicalPath
     )
      */
