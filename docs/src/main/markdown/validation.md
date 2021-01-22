@@ -56,9 +56,9 @@ libraryDependencies ++= Seq(
 Change your `PB.targets` to generate the validation code. The output directory must be the same as the one used for `scalapb.gen`:
 
 ```scala
-PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value / "scalapb",
-  scalapb.validate.gen() -> (sourceManaged in Compile).value / "scalapb"
+Compile / PB.targets := Seq(
+  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb",
+  scalapb.validate.gen() -> (Compile / sourceManaged).value / "scalapb"
 )
 
 libraryDependencies ++= Seq(
@@ -150,10 +150,10 @@ scalapb-validate's preprocessor to `PB.targets`. The preprocessor does two thing
 2. Expand your PGV-based rules such that they match repeated items, map keys and map values.
 
 ```scala
-PB.targets in Compile := Seq(
-  scalapb.validate.preprocessor() -> (sourceManaged in Compile).value / "scalapb",
-  scalapb.gen() -> (sourceManaged in Compile).value / "scalapb",
-  scalapb.validate.gen() -> (sourceManaged in Compile).value / "scalapb"
+Compile / PB.targets := Seq(
+  scalapb.validate.preprocessor() -> (Compile / sourceManaged).value / "scalapb",
+  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb",
+  scalapb.validate.gen() -> (Compile / sourceManaged).value / "scalapb"
 )
 
 libraryDependencies ++= Seq(

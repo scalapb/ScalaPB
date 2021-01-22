@@ -247,10 +247,10 @@ via options. To add custom options, follow this process:
    custom options proto by adding the following settings to the `core`
    project in `build.sbt`:
    ```scala
-   PB.targets in Compile := Seq(
-     PB.gens.java -> (sourceManaged in Compile).value / "scalapb",
+   Compile / PB.targets := Seq(
+     PB.gens.java -> (Compile / sourceManaged).value / "scalapb",
      scalapb.gen(javaConversions = true) ->
-       (sourceManaged in Compile).value / "scalapb",
+       (Compile / sourceManaged).value / "scalapb",
    )
    ```
 
@@ -263,9 +263,9 @@ via options. To add custom options, follow this process:
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion,
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf",
     ),
-    PB.protoSources in Compile += core.base / "src" / "main" / "protobuf",
-    PB.targets in Compile := Seq(
-      PB.gens.java -> (sourceManaged in Compile).value / "scalapb"
+    Compile / PB.protoSources += core.base / "src" / "main" / "protobuf",
+    Compile / PB.targets := Seq(
+      PB.gens.java -> (Compile / sourceManaged).value / "scalapb"
     )
    ```
 
@@ -306,9 +306,9 @@ The project can be published to Maven using the “publish” command. We recomm
 SBT users of your code generators will add your plugin to the build by adding it to their `project/plugins.sbt` like this:
 
 ```scala
-PB.targets in Compile := Seq(
-  scalapb.gen()      -> (sourceManaged in Compile).value / "scalapb",
-  com.myplugin.gen() -> (sourceManaged in Compile).value / "scalapb"
+Compile / PB.targets := Seq(
+  scalapb.gen()      -> (Compile / sourceManaged).value / "scalapb",
+  com.myplugin.gen() -> (Compile / sourceManaged).value / "scalapb"
 )
 ```
 

@@ -15,8 +15,8 @@ libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "@scalapb@"
 Add the following line to your `build.sbt`:
 
 ```scala
-PB.targets in Compile := Seq(
-  scalapb.gen() -> (sourceManaged in Compile).value / "scalapb"
+Compile / PB.targets := Seq(
+  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
 )
 ```
 
@@ -34,7 +34,7 @@ libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.com
 ## Defaults
 
 The plugin assumes your `proto` files are under `src/main/protobuf`,
-however this is configurable using the `PB.protoSources in Compile` setting.
+however this is configurable using the `Compile / PB.protoSources` setting.
 
 By default, `sbt-protoc` invokes `protoc` 3.x that is shipped with `protoc-jar`.
 If you would like to run a different version of `protoc`:
@@ -50,9 +50,9 @@ See all available options in [sbt-protoc documentation](https://github.com/thesa
 To enable Java conversions add the following to your build.sbt:
 
 ```scala
-PB.targets in Compile := Seq(
-  PB.gens.java -> (sourceManaged in Compile).value,
-  scalapb.gen(javaConversions=true) -> (sourceManaged in Compile).value
+Compile / PB.targets := Seq(
+  PB.gens.java -> (Compile / sourceManaged).value,
+  scalapb.gen(javaConversions=true) -> (Compile / sourceManaged).value
 )
 ```
 
@@ -61,8 +61,8 @@ PB.targets in Compile := Seq(
 Generating gRPC stubs for services is enabled by default. To disable:
 
 ```scala
-PB.targets in Compile := Seq(
-  scalapb.gen(grpc=false) -> (sourceManaged in Compile).value
+Compile / PB.targets := Seq(
+  scalapb.gen(grpc=false) -> (Compile / sourceManaged).value
 )
 ```
 

@@ -407,13 +407,13 @@ renames.
 
 If you are dealing with legacy Java protocol buffer code, while still wanting
 to write new code using ScalaPB, it can be useful to generate converters
-to/from the Java protocol buffers. To do this, set `PB.targets in Compile`
+to/from the Java protocol buffers. To do this, set `Compile / PB.targets`
 like this in your `build.sbt`:
 
 ```scala
-PB.targets in Compile := Seq(
-  PB.gens.java -> (sourceManaged in Compile).value,
-  scalapb.gen(javaConversions=true) -> (sourceManaged in Compile).value
+Compile / PB.targets := Seq(
+  PB.gens.java -> (Compile / sourceManaged).value,
+  scalapb.gen(javaConversions=true) -> (Compile / sourceManaged).value
 )
 ```
 

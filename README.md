@@ -68,8 +68,8 @@ containing the following line:
 
 Add the following line to your `build.sbt`:
 
-    PB.targets in Compile := Seq(
-      scalapb.gen() -> (sourceManaged in Compile).value / "scalapb"
+    Compile / PB.targets := Seq(
+      scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
     )
 
 For additional configuration options, see [ScalaPB SBT Settings](https://scalapb.github.io/sbt-settings.html) documentation
