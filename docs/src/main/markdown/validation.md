@@ -68,7 +68,7 @@ libraryDependencies ++= Seq(
 
 Note that we are adding `scalapb-validate-core` as a `protobuf` dependency. This makes it possible to import `validate/validate.proto` from your own protos.
 
-If [ScalaPB generator parameters](sbt-settings.md#additional-options-to-the-generator) are passed via `scalapb.gen(options: GeneratorOption*)`, the same parameters must be passed to `scalapb.validate.gen(options: GeneratorOption*)`.
+If [ScalaPB generator parameters](sbt-settings#additional-options-to-the-generator) are passed via `scalapb.gen(options: GeneratorOption*)`, the same parameters must be passed to `scalapb.validate.gen(options: GeneratorOption*)`.
 
 ## Using the generated code
 
@@ -169,7 +169,8 @@ There is an example project [available on github](https://github.com/scalapb/sca
 
 ### Field transformations
 
-if you want all positive integers to be typemapped to a Scala class called `PositiveInt` you can create a proto file with the following content:
+If you want all positive integers to be typemapped to a Scala class called `PositiveInt` you can
+create a proto file with the following content:
 
 ```protobuf
 syntax = "proto2";
@@ -184,7 +185,7 @@ option (scalapb.options) = {
   preprocessors: ["scalapb-validate-preprocessor"]
   field_transformations: [
     {
-      when: {options [ [validate.rules] {int32: {gt: 0}} ]}
+      when: {options { [validate.rules] {int32: {gt: 0}} }}
       set: {
         [scalapb.field] {
           type: "mypkg.PositiveInt"
@@ -198,14 +199,9 @@ option (scalapb.options) = {
 The scope of this definition is the entire protobuf file it is found in. Field tranformations can also
 be used in package-scoped options so they are passed to all files within the package.
 
-Here, `field_transformations` is a list of `FieldTransformation` messages. Each of them describes a single rule. The `when` condition is `google.protobuf.FieldDescriptorProto` message embedding a PGV `FieldRule` (defined in `validate/validate.proto`). When the rule is matched for any field in this file, the `google.protobuf.FieldOptions` options in `set` are applied to the field. Currently, only `[scalapb.field]` options  may appear in the `set` field. Multiple transformations may match a single field. The transformations from parent packages are applied first in descending order, that is from the outermost package to the package where the field resides. Within each package, the transformations are applied in the order they appear in the file. Options defined locally at the field-level are applied last.
+You can learn more about [field transformations in this page](transformations).
 
-There are three matching modes available:
-* `CONTAINS` is the default matching mode. In this mode, the preprocessor checks that all the options in the `when` pattern are defined on the field and having the same value. Additional options may be defined on the field besides the ones on the `when` pattern.
-* `EXACT` is a strict equality comparison between the `when` pattern and the field's rules.
-* `PRESENCE` checks whether every field that is present on the `when` pattern is also present on the field's rules. The specific value the option has is not compared. This allows matching on any value. For example, `{int32: {gt: 1}}` would match for any number assigned to `int32.gt`.
-
-Example syntax:
+More examples of field transformations usage:
 
 The following rule with match whenever there is a `gt` field set, no matter to which value:
 ```protobuf
@@ -342,15 +338,12 @@ option (scalapb.options) = {
 };
 ```
 
-### Referencing rules values
+### Using with refined
 
-It is possible to reference values in the rules and use them
-on the `set` part. Whenever there is a singular string field  in Scala options, the preprocessor would replace tokens in the format `$(p)` with the value of the field's option at the path `p`, relative to the
-`FieldDescriptorProto` of the field. To reference extension fields, wrap the extension full name in brackets (`[]`). For example, `$(options.[validate.rules].int32.gt)` would be substituted with the value of that option on the field. If the option is not set on the field, a default value will be replaced (0 for numeric types, empty string, and so on).
-
-The paths that are referenced don't have to appear on the `when` pattern. While referencing rule values is useful when the matching mode is `PRESENCE`, it is supported to reference rule values in all matching modes.
-
-A possible application for this is in conjunction with [refined types](https://github.com/fthomas/refined). For example, you can define the following field transformations:
+As explained in ["referencing rule values"](transformations#referencing-rules-values), it is possible
+to reference field descriptor values in the `set` part of field transformation.
+A use case for this is with [refined types](https://github.com/fthomas/refined). For example, you can
+ define the following field transformations:
 
 ```protobuf
 syntax = "proto3";

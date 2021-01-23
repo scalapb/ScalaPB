@@ -9,6 +9,7 @@ module.exports = {
     'Customizing': [
         'customizations',
         'sbt-settings',
+        'transformations',
     ],
     'Guides': [
         'generated-code',
