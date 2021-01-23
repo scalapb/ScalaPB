@@ -68,7 +68,7 @@ libraryDependencies ++= Seq(
 
 Note that we are adding `scalapb-validate-core` as a `protobuf` dependency. This makes it possible to import `validate/validate.proto` from your own protos.
 
-If [ScalaPB generator parameters](sbt-settings#additional-options-to-the-generator) are passed via `scalapb.gen(options: GeneratorOption*)`, the same parameters must be passed to `scalapb.validate.gen(options: GeneratorOption*)`.
+If [ScalaPB generator parameters](sbt-settings.md#additional-options-to-the-generator) are passed via `scalapb.gen(options: GeneratorOption*)`, the same parameters must be passed to `scalapb.validate.gen(options: GeneratorOption*)`.
 
 ## Using the generated code
 
@@ -199,7 +199,7 @@ option (scalapb.options) = {
 The scope of this definition is the entire protobuf file it is found in. Field tranformations can also
 be used in package-scoped options so they are passed to all files within the package.
 
-You can learn more about [field transformations in this page](transformations).
+You can learn more about [field transformations in this page](transformations.md).
 
 More examples of field transformations usage:
 
@@ -340,7 +340,7 @@ option (scalapb.options) = {
 
 ### Using with refined
 
-As explained in ["referencing rule values"](transformations#referencing-rules-values), it is possible
+As explained in ["referencing rule values"](transformations.md#referencing-rules-values), it is possible
 to reference field descriptor values in the `set` part of field transformation.
 A use case for this is with [refined types](https://github.com/fthomas/refined). For example, you can
  define the following field transformations:
