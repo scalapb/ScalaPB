@@ -286,7 +286,7 @@ via options. To add custom options, follow this process:
    ```scsala
    messageDescriptor.getOptions.getExtension(myplugin.Myplugin.myopts).getMyOption
    ```
-   
+
 6. You can now use the new option in your e2e tests. Also the newly added proto will be automatically
    packaged with the core jar. External projects will be able to unpack it by depending on the core
    library with a `% "protobuf"` scope. To use:
@@ -313,6 +313,37 @@ Compile / PB.targets := Seq(
 ```
 
 The template also publishes artifacts with names ending with `unix.sh` and `windows.bat`. These are executable jars for Unix and Windows systems that contain all the classes needed to run your code generator (except of a JVM which is expected to be in `JAVA_HOME` or in the `PATH`). This is useful if your users need to use your plugin directly with protoc, or with a build tool such as maven.
+
+## Secondary outputs
+
+:::note
+Secondary outputs were introduced in protoc-bridge 0.9.0 and are supported by sbt-protoc 1.0.0 and onwards.
+:::
+
+Secondary outputs provide a simple way for protoc plugins to pass information for other protoc plugins running after them in the same protoc invocation. The information is passed through files that are created in a temporary directory. The absolute path of that temporary directory is provided to all protoc plugins. Plugins may create new files in that directory for subsequent plugins to consume.
+
+Conventions:
+* Names of secondary output files should be in `kebab-case`, and should clearly identify the plugin producing them. For example `scalapb-validate-preprocessor`.
+* The content of the file should be a serialized `google.protobuf.Any` message that packs the arbitrary payload the plugin wants to publish.
+
+### Determining the secondary output directory location
+JVM-based plugins that are executed in the same JVM that spawns protoc (like the ones described on this page), receive the location of the secondary output directory via the `CodeGeneratorRequest`. `protoc-bridge` appends to the request an unknown field carrying a message called `ExtraEnv` which contains the path to the secondary output directory.
+
+Other plugins that are invoked directly by protoc can find the secondary output directory by inspecting the `SCALAPB_SECONDARY_OUTPUT_DIR` environment variable.
+
+`protoc-bridge` takes care of creating the temporary directory and setting up the environment variable before invoking `protoc`. If `protoc` is ran manually (for example, through the CLI), it is the user's responsibility to create a directory for secondary outputs and pass it as an environment variable to `protoc`. It's worth noting that ScalaPB only looks for secondary output directory if a preprocessor is requested, and therefore for the most part users do not need to worry about secondary output directories.
+
+In ScalaPB's code base, [SecondaryOutputProvider](https://github.com/scalapb/ScalaPB/blob/75ad2323b8fc35f005c40471fa714a0eca0afd6d/compiler-plugin/src/main/scala/scalapb/compiler/SecondaryOutputProvider.scala#L78-L83) provides a method to find the secondary output directory as described above.
+
+## Preprocessors
+
+Preprocessors are protoc plugins that provide [secondary outputs](#secondary-outputs) that are consumed by ScalaPB. ScalaPB expects the secondary output to be a `google.protobuf.Any` that encodes a [PreprocessorOutput](https://github.com/scalapb/ScalaPB/blob/75ad2323b8fc35f005c40471fa714a0eca0afd6d/protobuf/scalapb/scalapb.proto#L346-L348). The message contains a map between proto file names (as given by `FileDescriptor#getFullName()`) to additional `ScalaPbOptions` that are merged with the files options. By appending to `aux_field_options`, a preprocessor can, for example, impact the generated types of ScalaPB fields.
+
+* ScalaPB applies the provided options to a proto file only if the original file lists the preprocessor secondary output filename in a `preprocessors` file-level option. That option can be inherited from a package-scoped option.
+* To exclude a specific file from being preprocessed (if it would be otherwise impacted by a package-scoped option), add a `-NAME` entry to the list of preprocessors where `NAME` is the name of the preprocessor's secondary output.
+* In case of multiple preprocessors, options of later preprocessors overrides the one of earlier processors. Options in the file are merged over the preprocessor's options. When merging, repeated fields get concatenated.
+* Preprocessor plugins need to be invoked (in `PB.targets` or protoc's command line) before ScalaPB, so when ScalaPB runs their output is available.
+* Plugins that depend on ScalaPB (such as scalapb-validate) rely on `DescriptorImplicits` which consume the preprocessor output and therefore also see the updated options.
 
 ## Summary
 
