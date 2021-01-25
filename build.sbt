@@ -248,6 +248,9 @@ lazy val lenses = (projectMatrix in file("lenses"))
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
   )
+  .nativePlatform(
+    scalaVersions = Seq(Scala212, Scala213)
+  )
 
 lazy val lensesJVM2_12 = lenses.jvm(Scala212)
 
