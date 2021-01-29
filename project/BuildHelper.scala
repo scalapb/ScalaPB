@@ -58,7 +58,6 @@ object BuildHelper {
   def commonSettings = Seq(
     scalacOptions ++= commonScalacOptions ++ (if (isDotty.value) scalac3Options
                                               else scalac2Options),
-    libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil),
     libraryDependencies += Dependencies.scalaCollectionCompat.value
       .withDottyCompat(scalaVersion.value),
     Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (

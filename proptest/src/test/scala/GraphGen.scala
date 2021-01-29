@@ -4,7 +4,7 @@ import scalapb.options.Scalapb.ScalaPbOptions
 import scalapb.compiler.{NameUtils, StreamType}
 import org.scalacheck.{Arbitrary, Gen}
 import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
-import scala.collection.compat._
+import scala.annotation.nowarn
 
 object GraphGen {
   import Nodes._
@@ -175,6 +175,8 @@ object GraphGen {
     genBits(fieldCount, 0, NotInOneof, state)
   }
 
+  // zipped3 deprecated: https://github.com/scala/scala-collection-compat/issues/118
+  @nowarn()
   def genMessageNode(depth: Int = 0, parentMessageId: Option[Int] = None, protoSyntax: ProtoSyntax)(
       state: State
   ): Gen[(MessageNode, State)] =
@@ -201,10 +203,11 @@ object GraphGen {
             GenTypes.genOptionsForField(myId, fieldType, protoSyntax, inOneof = inOneof)
           }
         )
-        fields = (fieldNames zip oneOfGroupings) zip (fieldTypes
-          .lazyZip(fieldOptions)
-          .lazyZip(fieldTags))
-          .toList map { case ((n, oog), (t, opts, tag)) =>
+        fields = (fieldNames zip oneOfGroupings) zip ((
+          fieldTypes,
+          fieldOptions,
+          fieldTags
+        ).zipped).toList map { case ((n, oog), (t, opts, tag)) =>
           FieldNode(n, t, opts, oog, tag)
         }
       } yield (

@@ -58,14 +58,14 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       commonsCodec          % "test",
       protobufJavaUtil      % "test"
     ),
-    testFrameworks += new TestFramework("munit.Framework"),
-    Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
     scalacOptions ++= (if (!isDotty.value)
                          Seq(
-                           "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
-                           "-P:silencer:lineContentFilters=import scala.collection.compat._"
+                           "-Wconf:origin=.*EqualsAndHash:s",
+                           "-Wconf:src=UnknownFieldSet.scala:s"
                          )
-                       else Nil),
+                       else Seq.empty),
+    testFrameworks += new TestFramework("munit.Framework"),
+    Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
@@ -217,11 +217,6 @@ lazy val proptest = (projectMatrix in file("proptest"))
       scalaTest.value                                         % "test",
       scalaTestPlusScalaCheck.value                           % "test"
     ),
-    scalacOptions ++= (if (!isDotty.value)
-                         Seq(
-                           "-P:silencer:lineContentFilters=import scala.collection.compat._"
-                         )
-                       else Nil),
     libraryDependencies ++= (if (!isDotty.value)
                                Seq("org.scala-lang" % "scala-compiler" % scalaVersion.value)
                              else
@@ -282,12 +277,6 @@ lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
   .settings(e2eCommonSettings)
   .settings(
     libraryDependencies += (grpcProtocGen asProtocPlugin),
-    scalacOptions ++= (if (!isDotty.value)
-                         Seq(
-                           "-P:silencer:pathFilters=ServerReflectionGrpc.scala;ReflectionProto.scala",
-                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-                         )
-                       else Nil),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
@@ -298,7 +287,12 @@ lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
         Seq("grpc", "java_conversions")
       ) -> (Compile / sourceManaged).value
     ),
-    codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
+    codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value,
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-Wconf:msg=ServerReflectionProto.*is deprecated:s"
+                         )
+                       else Nil)
   )
 
 lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
@@ -309,7 +303,8 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
   .settings(
     scalacOptions ++= (if (!isDotty.value)
                          Seq(
-                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
+                           "-Wconf:cat=unused&src=src_managed/main/com/thesamet/proto/e2e/custom_.*:s",
+                           "-Wconf:cat=unused&src=src_managed/main/com/thesamet/proto/e2e/maps2/.*:s"
                          )
                        else Nil)
   )
@@ -358,18 +353,20 @@ lazy val e2e = (projectMatrix in file("e2e"))
   )
   .settings(e2eCommonSettings)
   .settings(
-    scalacOptions ++= (if (!isDotty.value)
-                         Seq(
-                           "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
-                           "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;TestDeprecatedFields.scala",
-                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-                         )
-                       else Nil),
     PB.protocVersion := versions.protobuf,
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
     Compile / PB.targets := Seq(
       genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
-    )
+    ),
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-Wconf:origin=.*EqualsAndHash:s",
+                           "-Wconf:origin=.*eprecatedInt32:s",
+                           "-Wconf:origin=.*v1alpha.*:s",
+                           "-Wconf:src=FieldAnnotations\\.scala:s",
+                           "-Wconf:cat=unused&src=src_managed/main/com/thesamet/proto/e2e/custom_.*:s"
+                         )
+                       else Nil)
   )
 
 lazy val docs = project
