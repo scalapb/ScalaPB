@@ -98,4 +98,30 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
       .scalaType
       .fullName must be("outside.outside.C")
   }
+
+  "disableOutput" should "be set for package option files" in {
+    val files = generateFileSet(base)
+    val implicits = new DescriptorImplicits(
+      GeneratorParams(flatPackage = false),
+      files,
+      SecondaryOutputProvider.empty
+    )
+    import implicits._
+
+    files
+      .find(_.getFullName() == "disable_flat.proto")
+      .get
+      .disableOutput must be(true)
+
+    files
+      .find(_.getFullName() == "enable_flat.proto")
+      .get
+      .disableOutput must be(false) // has a message Foo
+
+    files
+      .find(_.getFullName() == "inside_disable_flat.proto")
+      .get
+      .disableOutput must be(false)
+
+  }
 }

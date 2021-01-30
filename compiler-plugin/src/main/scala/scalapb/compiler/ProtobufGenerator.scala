@@ -1669,7 +1669,7 @@ object ProtobufGenerator {
           val validator = new ProtoValidation(implicits)
           validator.validateFiles(request.allProtos)
           import implicits.FileDescriptorPimp
-          val files = request.filesToGenerate.flatMap { file =>
+          val files = request.filesToGenerate.filterNot(_.disableOutput).flatMap { file =>
             if (file.scalaOptions.getSingleFile)
               generator.generateSingleScalaFileForFileDescriptor(file)
             else generator.generateMultipleScalaFilesForFileDescriptor(file)
