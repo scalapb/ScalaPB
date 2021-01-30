@@ -1003,6 +1003,18 @@ class DescriptorImplicits private[compiler] (
       file.getMessageTypes.asScala.foreach(visitMessage)
       messages.result()
     }
+
+    // Disable generating code when protobuf has package-scoped options and is
+    // otherwise empty. This is meant to allow users to add proto files with only
+    // package-scoped options as *source* files in their protoc command line, without
+    // worrying of duplicate source code being generated.
+    def disableOutput: Boolean =
+      (scalaOptions.getScope == Scalapb.ScalaPbOptions.OptionsScope.PACKAGE) &&
+        file.getEnumTypes().isEmpty &&
+        file.getMessageTypes().isEmpty() &&
+        file.getServices().isEmpty &&
+        file.getExtensions().isEmpty() &&
+        scalaOptions.getPreambleList().isEmpty()
   }
 
   private def allCapsToCamelCase(name: String, upperInitial: Boolean): String = {
