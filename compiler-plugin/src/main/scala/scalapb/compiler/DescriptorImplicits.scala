@@ -879,15 +879,22 @@ class DescriptorImplicits private[compiler] (
         else r + "OuterClass"
       }
 
-    private def isNonFlatDependency =
-      (file.getPackage == "google.protobuf") || (file.getPackage == "scalapb")
+    private def isFlatPackage = {
+      // Disable flat-package for these two packages, even if a generator
+      // option is given:
+      val isFlatPackageSpecialCase =
+        (file.getPackage == "google.protobuf") || (file.getPackage == "scalapb")
+
+      if (scalaOptions.hasFlatPackage()) scalaOptions.getFlatPackage()
+      else (params.flatPackage && !isFlatPackageSpecialCase)
+    }
 
     private def scalaPackageParts: Seq[String] = {
       val requestedPackageName: Seq[String] =
         (if (scalaOptions.hasPackageName) scalaOptions.getPackageName.split('.')
          else javaPackage.split('.')).toIndexedSeq.filterNot(_.isEmpty)
 
-      if (scalaOptions.getFlatPackage || (params.flatPackage && !isNonFlatDependency))
+      if (isFlatPackage)
         requestedPackageName
       else requestedPackageName ++ baseName(file.getName).replace('-', '_').split('.')
     }
