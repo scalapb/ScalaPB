@@ -19,13 +19,9 @@ inThisBuild(
 
 addCommandAlias("fmt", "all scalafmtSbt scalafmt test:scalafmt")
 
-/*
 lazy val sharedNativeSettings = List(
-  nativeLinkStubs := true, // for utest
-  scalaVersion := Scala211,
-  crossScalaVersions := List(Scala211)
+  nativeLinkStubs := true // for utest
 )
- */
 
 lazy val root: Project =
   project
@@ -83,6 +79,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
         PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
       ),
       PB.protocVersion := versions.protobuf,
+      Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "jvm-native",
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
       )
@@ -94,18 +91,30 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       libraryDependencies += protobufRuntimeScala.value,
       scalajsSourceMaps,
       Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "third_party",
+      Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "js-native",
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
   )
-/*
-  .nativeSettings(
-    sharedNativeSettings
+  .nativePlatform(
+    scalaVersions = Seq(Scala212, Scala213),
+    settings = sharedNativeSettings ++ Seq(
+      libraryDependencies += protobufRuntimeScala.value,
+      Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "third_party",
+      Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "js-native",
+      Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "jvm-native",
+      Test / sources ~= { files =>
+        // TODO
+        val exclude = Set(
+          "TokenizerSpec.scala",
+          "ParserSpec.scala",
+          "FileDescriptorSpec.scala"
+        )
+        files.filterNot(f => exclude(f.getName))
+      }
+    )
   )
- */
 
 lazy val runtimeJVM2_12 = runtime.jvm(Scala212)
-
-//lazy val runtimeNative = runtime.native
 
 lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
   .defaultAxes()
@@ -252,6 +261,10 @@ lazy val lenses = (projectMatrix in file("lenses"))
     settings = scalajsSourceMaps ++ Seq(
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
+  )
+  .nativePlatform(
+    scalaVersions = Seq(Scala212, Scala213),
+    settings = sharedNativeSettings
   )
 
 lazy val lensesJVM2_12 = lenses.jvm(Scala212)

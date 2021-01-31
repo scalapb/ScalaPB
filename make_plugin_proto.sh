@@ -9,7 +9,7 @@ GOOGLE_PROTOS=$(find third_party/google/protobuf/ -name '*.proto' -print)
 sbt "scalapbcJVM2_12/run --scala_out=java_conversions:scalapb-runtime/src/main/scalajvm \
     --proto_path=./third_party \
     $GOOGLE_PROTOS" \
-    "scalapbcJVM2_12/run --scala_out=scalapb-runtime/src/main/scalajs \
+    "scalapbcJVM2_12/run --scala_out=scalapb-runtime/src/main/js-native \
     --proto_path=./third_party \
     $GOOGLE_PROTOS" \
     "scalapbcJVM2_12/run --scala_out=scalapb-runtime/src/main/scala \

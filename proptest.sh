@@ -12,5 +12,7 @@ sbt \
 if [[ $SCALA_VERSION = 2* ]]; then
     sbt \
         lensesJS${SCALA_VERSION}/test \
-        runtimeJS${SCALA_VERSION}/test
+        runtimeJS${SCALA_VERSION}/test \
+        lensesNative${SCALA_VERSION}/test \
+        runtimeNative${SCALA_VERSION}/test
 fi
