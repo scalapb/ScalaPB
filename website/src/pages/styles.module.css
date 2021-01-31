@@ -52,3 +52,16 @@
   font-weight: bold;
   padding: 18px 36px;
 }
+
+.sponsors {
+  display: flex;
+  align-items: center;
+  padding: 2rem 0;
+  width: 100%;
+  text-align: center;
+  background: #ddd;
+}
+
+.sponsor a {
+  color: #333;
+}

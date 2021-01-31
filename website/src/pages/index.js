@@ -65,6 +65,11 @@ const features = [
   },
 ];
 
+const sponsors = [{
+  name: <>Timothy Klim</>,
+  profileUrl: 'https://github.com/TimothyKlim'
+}];
+
 function Feature({imageUrl, title, description}) {
   const imgUrl = useBaseUrl(imageUrl);
   return (
@@ -76,6 +81,14 @@ function Feature({imageUrl, title, description}) {
       )}
       <h3>{title}</h3>
       <p>{description}</p>
+    </div>
+  );
+}
+
+function Sponsor({name, profileUrl}) {
+  return (
+    <div className={clsx('col col--4', styles.sponsor)}>
+      <a href={profileUrl}>{name}</a>
     </div>
   );
 }
@@ -116,6 +129,16 @@ function Home() {
             </div>
           </section>
         )}
+        <section className={styles.sponsors}>
+          <div className="container">
+            <div clsasName="row">
+              <h3>Sponsors</h3>
+              {sponsors.map((props, idx) => (
+                <Sponsor key={idx} {...props} />
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
     </Layout>
   );
