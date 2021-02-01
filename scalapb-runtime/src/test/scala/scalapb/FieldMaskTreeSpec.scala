@@ -28,7 +28,7 @@ class FieldMaskTreeSpec extends FunSuite {
     // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskTreeTest.java#L64-L69
     val tree1 = FieldMaskTree(Seq("foo", "bar.baz", "bar.quz"))
     assertEquals(tree1.fieldMask, FieldMask(Seq("bar.baz", "bar.quz", "foo")))
-    val tree2 = FieldMaskTree(Seq("foo.bar", "bar"))
+    val tree2 = FieldMaskTree.union(tree1, FieldMaskTree(Seq("foo.bar", "bar")))
     assertEquals(tree2.fieldMask, FieldMask(Seq("bar", "foo")))
   }
 }
