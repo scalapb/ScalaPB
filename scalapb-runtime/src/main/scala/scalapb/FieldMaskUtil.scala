@@ -119,4 +119,15 @@ object FieldMaskUtil {
       .toList
     FieldMask(result)
   }
+
+  def isValid[M <: GeneratedMessage: GeneratedMessageCompanion](fieldMask: FieldMask): Boolean = {
+    FieldMaskTree(fieldMask).isValidFor[M]
+  }
+
+  def union(fieldMask: FieldMask, otherMasks: FieldMask*): FieldMask = {
+    val tree = otherMasks.foldLeft(FieldMaskTree(fieldMask)) { case (acc, nextMask) =>
+      FieldMaskTree.union(acc, FieldMaskTree(nextMask))
+    }
+    tree.fieldMask
+  }
 }
