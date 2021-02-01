@@ -131,12 +131,11 @@ function Home() {
         )}
         <section className={styles.sponsors}>
           <div className="container">
-            <div clsasName="row">
-              <h3>Sponsors</h3>
+            <h3>Sponsors</h3>
               {sponsors.map((props, idx) => (
                 <Sponsor key={idx} {...props} />
               ))}
-            </div>
+            <a href="https://github.com/sponsors/thesamet">Become a sponsor.</a>
           </div>
         </section>
       </main>
