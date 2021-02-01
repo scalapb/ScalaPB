@@ -2,32 +2,44 @@ package scalapb
 
 import com.google.protobuf.Descriptors.{Descriptor, FieldDescriptor}
 import com.google.protobuf.field_mask.FieldMask
+import scalapb.FieldMaskTree.Empty
+import scalapb.descriptors.PMessage
 
 import scala.collection.SortedMap
 
 private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree]) {
 
+  def applyToMessage[M <: GeneratedMessage: GeneratedMessageCompanion](message: M): M = {
+    val companion        = implicitly[GeneratedMessageCompanion[M]]
+    val filteredPMessage = applyToMessage(message.toPMessage)
+    companion.messageReads.read(filteredPMessage)
+  }
+
   def containsField[M <: GeneratedMessage: GeneratedMessageCompanion](fieldNumber: Int): Boolean = {
-    val descriptor = implicitly[GeneratedMessageCompanion[M]].javaDescriptor
-    Option(descriptor.findFieldByNumber(fieldNumber)) match {
-      case Some(field) => nodes.contains(field.getName)
+    val descriptor = implicitly[GeneratedMessageCompanion[M]].scalaDescriptor
+    descriptor.findFieldByNumber(fieldNumber) match {
+      case Some(field) => nodes.contains(field.name)
       case None        => false
     }
   }
 
   def fieldMask: FieldMask = FieldMask(paths)
 
-  private def paths: Vector[String] = {
-    nodes.toVector.flatMap {
-      case (field, FieldMaskTree.Empty) => Vector(field)
-      case (field, subTree) =>
-        subTree.paths.map(path => s"$field${FieldMaskTree.FieldSeparator}$path")
-    }
-  }
-
   def isValidFor[M <: GeneratedMessage: GeneratedMessageCompanion]: Boolean = {
     val descriptor = implicitly[GeneratedMessageCompanion[M]].javaDescriptor
     isValidFor(descriptor)
+  }
+
+  private def applyToMessage(message: PMessage): PMessage = {
+    val fieldValues = message.value.keys.flatMap { fieldDescriptor =>
+      val value = (message.value.apply(fieldDescriptor), nodes.get(fieldDescriptor.name)) match {
+        case (pValue, Some(Empty))                 => Some(pValue)
+        case (subMessage: PMessage, Some(subTree)) => Some(subTree.applyToMessage(subMessage))
+        case _                                     => None
+      }
+      value.map(fieldDescriptor -> _)
+    }.toMap
+    PMessage(fieldValues)
   }
 
   private def isValidFor(descriptor: Descriptor): Boolean = {
@@ -43,6 +55,14 @@ private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree
             false
           }
       }
+    }
+  }
+
+  private def paths: Vector[String] = {
+    nodes.toVector.flatMap {
+      case (field, FieldMaskTree.Empty) => Vector(field)
+      case (field, subTree) =>
+        subTree.paths.map(path => s"$field${FieldMaskTree.FieldSeparator}$path")
     }
   }
 }

@@ -120,6 +120,13 @@ object FieldMaskUtil {
     FieldMask(result)
   }
 
+  def applyFieldMask[M <: GeneratedMessage: GeneratedMessageCompanion](
+      message: M,
+      fieldMask: FieldMask
+  ): M = {
+    FieldMaskTree(fieldMask).applyToMessage(message)
+  }
+
   def containsField[M <: GeneratedMessage: GeneratedMessageCompanion](
       fieldMask: FieldMask,
       fieldNumber: Int
