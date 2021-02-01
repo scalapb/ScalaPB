@@ -120,8 +120,32 @@ object FieldMaskUtil {
     FieldMask(result)
   }
 
+  def containsField[M <: GeneratedMessage: GeneratedMessageCompanion](
+      fieldMask: FieldMask,
+      fieldNumber: Int
+  ): Boolean = {
+    FieldMaskTree(fieldMask).containsField[M](fieldNumber)
+  }
+
   def isValid[M <: GeneratedMessage: GeneratedMessageCompanion](fieldMask: FieldMask): Boolean = {
     FieldMaskTree(fieldMask).isValidFor[M]
+  }
+
+  def fromFieldNumbers[M <: GeneratedMessage: GeneratedMessageCompanion](
+      fieldNumbers: Int*
+  ): FieldMask = {
+    val companion = implicitly[GeneratedMessageCompanion[M]]
+    FieldMask.apply(fieldNumbers.map { fieldNumber =>
+      companion.javaDescriptor.findFieldByNumber(fieldNumber).getName
+    })
+  }
+
+  def selectFieldNumbers[M <: GeneratedMessage: GeneratedMessageCompanion](
+      fieldNumberPredicate: Int => Boolean
+  ): FieldMask = {
+    val companion    = implicitly[GeneratedMessageCompanion[M]]
+    val fieldNumbers = companion.scalaDescriptor.fields.map(_.number).filter(fieldNumberPredicate)
+    fromFieldNumbers[M](fieldNumbers: _*)
   }
 
   def union(fieldMask: FieldMask, otherMasks: FieldMask*): FieldMask = {

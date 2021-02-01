@@ -7,6 +7,14 @@ import scala.collection.SortedMap
 
 private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree]) {
 
+  def containsField[M <: GeneratedMessage: GeneratedMessageCompanion](fieldNumber: Int): Boolean = {
+    val descriptor = implicitly[GeneratedMessageCompanion[M]].javaDescriptor
+    Option(descriptor.findFieldByNumber(fieldNumber)) match {
+      case Some(field) => nodes.contains(field.getName)
+      case None        => false
+    }
+  }
+
   def fieldMask: FieldMask = FieldMask(paths)
 
   private def paths: Vector[String] = {

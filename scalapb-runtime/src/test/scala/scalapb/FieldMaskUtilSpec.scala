@@ -13,7 +13,7 @@ class FieldMaskUtilSpec extends FunSuite {
   }
 
   test("union") {
-    // https://github.com/protocolbuffers/protobuf/blob/master/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L209-L216
+    // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L175-L182
     val mask1  = FieldMask(Seq("foo", "bar.baz", "bar.quz"))
     val mask2  = FieldMask(Seq("foo.bar", "bar"))
     val expect = FieldMask(Seq("bar", "foo"))
@@ -22,7 +22,7 @@ class FieldMaskUtilSpec extends FunSuite {
   }
 
   test("union using var args") {
-    // https://github.com/protocolbuffers/protobuf/blob/master/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L218-L225
+    // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L184-L191
     val mask1  = FieldMask(Seq("foo"))
     val mask2  = FieldMask(Seq("foo.bar", "bar.quz"))
     val mask3  = FieldMask(Seq("bar.quz"))
