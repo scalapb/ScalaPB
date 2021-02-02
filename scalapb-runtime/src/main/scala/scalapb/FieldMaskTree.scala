@@ -67,7 +67,7 @@ private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree
   }
 }
 
-object FieldMaskTree {
+private[scalapb] object FieldMaskTree {
 
   val Empty: FieldMaskTree = FieldMaskTree(SortedMap.empty[String, FieldMaskTree])
 
