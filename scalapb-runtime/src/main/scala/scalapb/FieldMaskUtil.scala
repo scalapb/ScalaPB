@@ -127,7 +127,7 @@ object FieldMaskUtil {
     FieldMaskTree(fieldMask).applyToMessage(message)
   }
 
-  def containsField[M <: GeneratedMessage: GeneratedMessageCompanion](
+  def containsFieldNumber[M <: GeneratedMessage: GeneratedMessageCompanion](
       fieldMask: FieldMask,
       fieldNumber: Int
   ): Boolean = {
@@ -140,11 +140,16 @@ object FieldMaskUtil {
 
   def fromFieldNumbers[M <: GeneratedMessage: GeneratedMessageCompanion](
       fieldNumbers: Int*
-  ): FieldMask = {
+  ): Option[FieldMask] = {
     val companion = implicitly[GeneratedMessageCompanion[M]]
-    FieldMask.apply(fieldNumbers.map { fieldNumber =>
-      companion.javaDescriptor.findFieldByNumber(fieldNumber).getName
-    })
+    val fields = fieldNumbers.map { fieldNumber =>
+      companion.scalaDescriptor.findFieldByNumber(fieldNumber)
+    }
+    val fieldNames = fields.foldLeft[Option[Vector[String]]](Some(Vector.empty)) {
+      case (Some(acc), Some(field)) => Some(acc :+ field.name)
+      case _                        => None
+    }
+    fieldNames.map(names => FieldMask(paths = names))
   }
 
   def selectFieldNumbers[M <: GeneratedMessage: GeneratedMessageCompanion](
@@ -152,7 +157,7 @@ object FieldMaskUtil {
   ): FieldMask = {
     val companion    = implicitly[GeneratedMessageCompanion[M]]
     val fieldNumbers = companion.scalaDescriptor.fields.map(_.number).filter(fieldNumberPredicate)
-    fromFieldNumbers[M](fieldNumbers: _*)
+    fromFieldNumbers[M](fieldNumbers: _*).get
   }
 
   def union(fieldMask: FieldMask, otherMasks: FieldMask*): FieldMask = {

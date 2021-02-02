@@ -23,16 +23,16 @@ class FieldMaskUtilsSpec extends AnyFlatSpec with Matchers {
     )
   }
 
-  "containsField" should "check that field is present" in {
-    FieldMaskUtil.containsField[NestedTestAllTypes](
+  "containsFieldNumber" should "check that field is present" in {
+    FieldMaskUtil.containsFieldNumber[NestedTestAllTypes](
       FieldMask(Seq("payload")),
       NestedTestAllTypes.PAYLOAD_FIELD_NUMBER
     ) must be(true)
-    FieldMaskUtil.containsField[NestedTestAllTypes](
+    FieldMaskUtil.containsFieldNumber[NestedTestAllTypes](
       FieldMask(Seq("payload.optional_int32")),
       NestedTestAllTypes.PAYLOAD_FIELD_NUMBER
     ) must be(true)
-    FieldMaskUtil.containsField[NestedTestAllTypes](
+    FieldMaskUtil.containsFieldNumber[NestedTestAllTypes](
       FieldMask(Seq("payload")),
       NestedTestAllTypes.CHILD_FIELD_NUMBER
     ) must be(false)
@@ -40,21 +40,19 @@ class FieldMaskUtilsSpec extends AnyFlatSpec with Matchers {
 
   // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L124-L147
   "fromFieldNumbers" should "construct TestAllTypes mask" in {
-    FieldMaskUtil.fromFieldNumbers[TestAllTypes]() must be(FieldMask())
+    FieldMaskUtil.fromFieldNumbers[TestAllTypes]() must be(Some(FieldMask()))
     FieldMaskUtil.fromFieldNumbers[TestAllTypes](
       TestAllTypes.OPTIONAL_INT32_FIELD_NUMBER
-    ) must be(FieldMask(Seq("optional_int32")))
+    ) must be(Some(FieldMask(Seq("optional_int32"))))
     FieldMaskUtil.fromFieldNumbers[TestAllTypes](
       TestAllTypes.OPTIONAL_INT32_FIELD_NUMBER,
       TestAllTypes.OPTIONAL_INT64_FIELD_NUMBER
-    ) must be(FieldMask(Seq("optional_int32", "optional_int64")))
+    ) must be(Some(FieldMask(Seq("optional_int32", "optional_int64"))))
   }
 
-  "fromFieldNumbers" should "throw an exception for invalid field" in {
+  "fromFieldNumbers" should "return None for invalid field numbers" in {
     val invalidFieldNumber = 1000
-    a[NullPointerException] shouldBe thrownBy(
-      FieldMaskUtil.fromFieldNumbers[TestAllTypes](invalidFieldNumber)
-    )
+    FieldMaskUtil.fromFieldNumbers[TestAllTypes](invalidFieldNumber) must be(None)
   }
 
   def isValid(paths: Seq[String]): Boolean = {

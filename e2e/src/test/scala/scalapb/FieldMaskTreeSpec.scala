@@ -6,7 +6,7 @@ import protobuf_unittest.unittest.{NestedTestAllTypes, TestAllTypes}
 
 class FieldMaskTreeSpec extends AnyFlatSpec with Matchers {
 
-  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskTreeTest.java#L94-L266
+  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskTreeTest.java#L94-L193
   "applyToMessage" should "apply field mask to a message" in {
     val value = TestAllTypes(
       optionalInt32 = Some(1234),
@@ -39,6 +39,102 @@ class FieldMaskTreeSpec extends AnyFlatSpec with Matchers {
         )
       )
     )
+    FieldMaskTree(Seq("payload.optional_nested_message")).applyToMessage(source) must be(
+      NestedTestAllTypes(
+        payload = Some(
+          TestAllTypes(
+            optionalNestedMessage = Some(
+              TestAllTypes.NestedMessage(
+                bb = Some(5678)
+              )
+            )
+          )
+        )
+      )
+    )
+    FieldMaskTree(Seq("payload.repeated_int32")).applyToMessage(source) must be(
+      NestedTestAllTypes(
+        payload = Some(
+          TestAllTypes(
+            repeatedInt32 = List(4321)
+          )
+        )
+      )
+    )
+    FieldMaskTree(Seq("payload.repeated_nested_message")).applyToMessage(source) must be(
+      NestedTestAllTypes(
+        payload = Some(
+          TestAllTypes(
+            repeatedNestedMessage = List(
+              TestAllTypes.NestedMessage(
+                bb = Some(8765)
+              )
+            )
+          )
+        )
+      )
+    )
+    FieldMaskTree(Seq("child.payload.optional_int32")).applyToMessage(source) must be(
+      NestedTestAllTypes(
+        child = Some(
+          NestedTestAllTypes(
+            payload = Some(
+              TestAllTypes(
+                optionalInt32 = Some(1234)
+              )
+            )
+          )
+        )
+      )
+    )
+    FieldMaskTree(Seq("child.payload.optional_nested_message")).applyToMessage(source) must be(
+      NestedTestAllTypes(
+        child = Some(
+          NestedTestAllTypes(
+            payload = Some(
+              TestAllTypes(
+                optionalNestedMessage = Some(
+                  TestAllTypes.NestedMessage(
+                    bb = Some(5678)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+    FieldMaskTree(Seq("child.payload.repeated_int32")).applyToMessage(source) must be(
+      NestedTestAllTypes(
+        child = Some(
+          NestedTestAllTypes(
+            payload = Some(
+              TestAllTypes(
+                repeatedInt32 = List(4321)
+              )
+            )
+          )
+        )
+      )
+    )
+    FieldMaskTree(Seq("child.payload.repeated_nested_message")).applyToMessage(source) must be(
+      NestedTestAllTypes(
+        child = Some(
+          NestedTestAllTypes(
+            payload = Some(
+              TestAllTypes(
+                repeatedNestedMessage = List(
+                  TestAllTypes.NestedMessage(
+                    bb = Some(8765)
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+    FieldMaskTree(Seq("child", "payload")).applyToMessage(source) must be(source)
   }
 
   "containsField" should "check that field is present" in {

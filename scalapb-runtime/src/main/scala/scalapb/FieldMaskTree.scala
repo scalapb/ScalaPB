@@ -1,9 +1,8 @@
 package scalapb
 
-import com.google.protobuf.Descriptors.{Descriptor, FieldDescriptor}
 import com.google.protobuf.field_mask.FieldMask
 import scalapb.FieldMaskTree.Empty
-import scalapb.descriptors.PMessage
+import scalapb.descriptors.{Descriptor, PMessage, ScalaType}
 
 import scala.collection.SortedMap
 
@@ -26,7 +25,7 @@ private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree
   def fieldMask: FieldMask = FieldMask(paths)
 
   def isValidFor[M <: GeneratedMessage: GeneratedMessageCompanion]: Boolean = {
-    val descriptor = implicitly[GeneratedMessageCompanion[M]].javaDescriptor
+    val descriptor = implicitly[GeneratedMessageCompanion[M]].scalaDescriptor
     isValidFor(descriptor)
   }
 
@@ -44,15 +43,16 @@ private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree
 
   private def isValidFor(descriptor: Descriptor): Boolean = {
     nodes.forall { case (field, tree) =>
-      Option(descriptor.findFieldByName(field)) match {
+      descriptor.findFieldByName(field) match {
         case None => false
         case Some(field) =>
           if (tree == FieldMaskTree.Empty) {
             true
-          } else if (!field.isRepeated && field.getJavaType == FieldDescriptor.JavaType.MESSAGE) {
-            tree.isValidFor(field.getMessageType)
           } else {
-            false
+            field.scalaType match {
+              case ScalaType.Message(m) if !field.isRepeated => tree.isValidFor(m)
+              case _                                         => false
+            }
           }
       }
     }
