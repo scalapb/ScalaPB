@@ -2,7 +2,7 @@ package scalapb
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
-import protobuf_unittest.unittest.{NestedTestAllTypes, TestAllTypes}
+import protobuf_unittest.unittest.{NestedTestAllTypes, TestAllTypes, TestRequired, TestRequiredMessage}
 
 class FieldMaskTreeSpec extends AnyFlatSpec with Matchers {
 
@@ -135,6 +135,21 @@ class FieldMaskTreeSpec extends AnyFlatSpec with Matchers {
       )
     )
     FieldMaskTree(Seq("child", "payload")).applyToMessage(source) must be(source)
+  }
+
+  // https://github.com/protocolbuffers/protobuf/blob/v3.14.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskTreeTest.java#L174-L201
+  "applyToMessage" should "thrown an exception when required field is not selected" in {
+    val value = TestRequired(
+      a = 4321,
+      b = 8765,
+      c = 233333
+    )
+    val source = TestRequiredMessage(
+      requiredMessage = value
+    )
+    a[NoSuchElementException] shouldBe thrownBy(
+      FieldMaskTree(Seq("required_message.b", "required_message.c")).applyToMessage(source)
+    )
   }
 
   "containsField" should "check that field is present" in {
