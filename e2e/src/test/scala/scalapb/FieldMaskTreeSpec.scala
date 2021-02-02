@@ -6,7 +6,7 @@ import protobuf_unittest.unittest.{NestedTestAllTypes, TestAllTypes}
 
 class FieldMaskTreeSpec extends AnyFlatSpec with Matchers {
 
-  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskTreeTest.java#L94-L193
+  // https://github.com/protocolbuffers/protobuf/blob/v3.14.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskTreeTest.java#L203-L312
   "applyToMessage" should "apply field mask to a message" in {
     val value = TestAllTypes(
       optionalInt32 = Some(1234),

@@ -7,7 +7,7 @@ import protobuf_unittest.unittest.{NestedTestAllTypes, TestAllTypes}
 
 class FieldMaskUtilsSpec extends AnyFlatSpec with Matchers {
 
-  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L202-L212
+  // https://github.com/protocolbuffers/protobuf/blob/v3.14.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L254-L264
   "applyFieldMask" should "apply field mask to a message" in {
     val message = NestedTestAllTypes(
       payload = Some(TestAllTypes(
@@ -38,7 +38,7 @@ class FieldMaskUtilsSpec extends AnyFlatSpec with Matchers {
     ) must be(false)
   }
 
-  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L124-L147
+  // https://github.com/protocolbuffers/protobuf/blob/v3.14.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L126-L149
   "fromFieldNumbers" should "construct TestAllTypes mask" in {
     FieldMaskUtil.fromFieldNumbers[TestAllTypes]() must be(Some(FieldMask()))
     FieldMaskUtil.fromFieldNumbers[TestAllTypes](
@@ -59,7 +59,7 @@ class FieldMaskUtilsSpec extends AnyFlatSpec with Matchers {
     FieldMaskUtil.isValid[NestedTestAllTypes](FieldMask(paths))
   }
 
-  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L41-L75
+  // https://github.com/protocolbuffers/protobuf/blob/v3.14.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L43-L77
   "isValid" should "pass for valid NestedTestAllTypes masks" in {
     isValid(Seq("payload")) must be(true)
     isValid(Seq("payload.optional_int32")) must be(true)
