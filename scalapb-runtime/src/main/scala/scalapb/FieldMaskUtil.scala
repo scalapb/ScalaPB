@@ -119,4 +119,64 @@ object FieldMaskUtil {
       .toList
     FieldMask(result)
   }
+
+  /** Applies a field mask to a message.
+    */
+  def applyFieldMask[M <: GeneratedMessage: GeneratedMessageCompanion](
+      message: M,
+      fieldMask: FieldMask
+  ): M = {
+    FieldMaskTree(fieldMask).applyToMessage(message)
+  }
+
+  /** Checks that a field mask selects a certain message field number.
+    */
+  def containsFieldNumber[M <: GeneratedMessage: GeneratedMessageCompanion](
+      fieldMask: FieldMask,
+      fieldNumber: Int
+  ): Boolean = {
+    FieldMaskTree(fieldMask).containsField[M](fieldNumber)
+  }
+
+  /** Checks that field masks corresponds to message schema.
+    */
+  def isValid[M <: GeneratedMessage: GeneratedMessageCompanion](fieldMask: FieldMask): Boolean = {
+    FieldMaskTree(fieldMask).isValidFor[M]
+  }
+
+  /** Constructs a field mask based on message field numbers.
+    * @return Some(mask) if all fields number are valid, [[None]] otherwise.
+    */
+  def fromFieldNumbers[M <: GeneratedMessage: GeneratedMessageCompanion](
+      fieldNumbers: Int*
+  ): Option[FieldMask] = {
+    val companion = implicitly[GeneratedMessageCompanion[M]]
+    val fields = fieldNumbers.map { fieldNumber =>
+      companion.scalaDescriptor.findFieldByNumber(fieldNumber)
+    }
+    val fieldNames = fields.foldLeft[Option[Vector[String]]](Some(Vector.empty)) {
+      case (Some(acc), Some(field)) => Some(acc :+ field.name)
+      case _                        => None
+    }
+    fieldNames.map(names => FieldMask(paths = names))
+  }
+
+  /** Constructs a field mask based on a predicate for message field numbers.
+    */
+  def selectFieldNumbers[M <: GeneratedMessage: GeneratedMessageCompanion](
+      fieldNumberPredicate: Int => Boolean
+  ): FieldMask = {
+    val companion    = implicitly[GeneratedMessageCompanion[M]]
+    val fieldNumbers = companion.scalaDescriptor.fields.map(_.number).filter(fieldNumberPredicate)
+    fromFieldNumbers[M](fieldNumbers: _*).get
+  }
+
+  /** Unions two or more field masks.
+    */
+  def union(fieldMask: FieldMask, otherMasks: FieldMask*): FieldMask = {
+    val tree = otherMasks.foldLeft(FieldMaskTree(fieldMask)) { case (acc, nextMask) =>
+      FieldMaskTree.union(acc, FieldMaskTree(nextMask))
+    }
+    tree.fieldMask
+  }
 }
