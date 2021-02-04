@@ -73,6 +73,12 @@ object BuildHelper {
                                                                                        "scala-3"
                                                                                      else
                                                                                        "scala-2"),
+    assembly / assemblyMergeStrategy := {
+      case PathList("scala", "annotation", "nowarn.class" | "nowarn$.class") =>
+        MergeStrategy.first
+      case x =>
+        (assembly / assemblyMergeStrategy).value.apply(x)
+    },
     compileOrder := CompileOrder.JavaThenScala
   )
 
