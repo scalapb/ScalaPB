@@ -189,6 +189,7 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
 lazy val protocGenScala =
   protocGenProject("protoc-gen-scala", compilerPluginJVM2_12)
     .settings(
+      commonSettings,
       Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
     )
 
