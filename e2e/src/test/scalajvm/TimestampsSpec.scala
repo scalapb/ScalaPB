@@ -38,4 +38,20 @@ class TimestampsSpec extends AnyFlatSpec with Matchers {
         duration must be(Duration(1, 333000000))
         duration.asJavaDuration must be(jtDuration.between(t1, t2))
     }
+
+    "Durations" should "be valid when their seconds and nanos are in defined range and have same sign" in {
+        Duration.isValid(Duration(315576000001L, 0)) must be(false)
+        Duration.isValid(Duration(315576000000L, 999999999)) must be(true)
+        Duration.isValid(Duration(315576000000L, 0)) must be(true)
+        Duration.isValid(Duration(315576000000L, -999999999)) must be(false)
+        Duration.isValid(Duration(0, 1000000000)) must be(false)
+        Duration.isValid(Duration(0, 999999999)) must be(true)
+        Duration.isValid(Duration(0, 0)) must be(true)
+        Duration.isValid(Duration(0, -999999999)) must be(true)
+        Duration.isValid(Duration(0, -1000000000)) must be(false)
+        Duration.isValid(Duration(-315576000000L, 999999999)) must be(false)
+        Duration.isValid(Duration(-315576000000L, 0)) must be(true)
+        Duration.isValid(Duration(-315576000000L, -999999999)) must be(true)
+        Duration.isValid(Duration(-315576000001L, 0)) must be(false)
+    }
 }

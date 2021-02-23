@@ -20,7 +20,8 @@ trait DurationCompanionMethods {
 
   final def isValid(seconds: Long, nanos: Int): Boolean =
     (seconds >= DURATION_SECONDS_MIN) && (seconds <= DURATION_SECONDS_MAX) &&
-      (nanos >= 0) && (nanos < NANOS_PER_SECOND)
+      (nanos > -NANOS_PER_SECOND) && (nanos < NANOS_PER_SECOND) &&
+      (math.signum(seconds) * math.signum(nanos) != -1)
 
   final def isValid(duration: Duration): Boolean =
     isValid(duration.seconds, duration.nanos)
