@@ -34,7 +34,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
 In `build.sbt` add a dependency on `sparksql-scalapb`:
 
 ```scala
-libraryDepenencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "@sparksql_scalapb@"
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "@sparksql_scalapb@"
 ```
 
 Spark ships with an old version of Google's Protocol Buffers runtime that is not compatible with
