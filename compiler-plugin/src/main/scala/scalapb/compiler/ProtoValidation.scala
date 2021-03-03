@@ -72,6 +72,11 @@ class ProtoValidation(implicits: DescriptorImplicits) {
           s"${m.getFullName}.${field.getName}: sealed oneofs must be in the same containing message (if any) as all case messages"
         )
       }
+      fields.find(_.getMessageType.getFile != m.getFile()).foreach { field =>
+        throw new GeneratorException(
+          s"${m.getFullName}.${field.getName}: all sealed oneof cases must be defined in the same file as the sealed oneof field."
+        )
+      }
       val distinctTypes = fields.map(_.getMessageType).toSet
       if (distinctTypes.size != fields.size) {
         throw new GeneratorException(
