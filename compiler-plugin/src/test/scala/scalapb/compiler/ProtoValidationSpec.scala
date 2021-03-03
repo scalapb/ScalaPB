@@ -246,6 +246,32 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocatio
     )
   }
 
+  it should "fail when sealed oneof and a case are in different files" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file1.proto" ->
+          """
+            |syntax = "proto2";
+            |package mypkg;
+            |import "file2.proto";
+            |message MyOneof {
+            |  oneof sealed_value {
+            |    Case1 case1 = 1;
+            |  }
+            |}
+          """.stripMargin,
+        "file2.proto" ->
+          """
+            |syntax = "proto2";
+            |package mypkg;
+            |message Case1 {}
+          """.stripMargin
+      )
+    }.message must include(
+      "mypkg.MyOneof.case1: all sealed oneof cases must be defined in the same file as the sealed oneof field."
+    )
+  }
+
   // package scoped options
   "package scoped options" should "fail when multiple scoped option objects found for same package" in {
     intercept[GeneratorException] {
