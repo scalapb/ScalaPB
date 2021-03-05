@@ -31,7 +31,7 @@ object StructUtils {
         .getOrElse(Right(defaultFor(fd)))
         .map(value => fd -> value)
     }
-    flatten(fieldDescriptorToPValue).map(_.toMap).map(PMessage)
+    flatten(fieldDescriptorToPValue).map(_.toMap).map(PMessage(_))
   }
 
   private def fromValue(fd: FieldDescriptor)(value: Value)(implicit
@@ -58,7 +58,7 @@ object StructUtils {
     case (Kind.StringValue(v), en @ ScalaType.Enum(_)) =>
       en.descriptor.values
         .find(_.name == v)
-        .map(PEnum)
+        .map(PEnum(_))
         .toRight(
           StructParsingError(
             s"""Field "${fd.fullName}" is of type enum "${en.descriptor.fullName}" but received invalid enum value "$v""""
@@ -67,7 +67,7 @@ object StructUtils {
     case (Kind.StringValue(v), ScalaType.String) => Right(PString(v))
     case (Kind.BoolValue(v), ScalaType.Boolean)  => Right(PBoolean(v))
     case (Kind.ListValue(v), _) if (fd.isRepeated) =>
-      flatten(v.values.map(fromValue(fd))).map(PRepeated)
+      flatten(v.values.map(fromValue(fd))).map(PRepeated(_))
     case (Kind.StructValue(v), _: ScalaType.Message) =>
       structMapToFDMap(v.fields)(companion.messageCompanionForFieldNumber(fd.number))
     case (Kind.Empty, _) => Right(PEmpty)

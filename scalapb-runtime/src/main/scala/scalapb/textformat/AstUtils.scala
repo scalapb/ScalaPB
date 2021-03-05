@@ -119,7 +119,7 @@ private[scalapb] object AstUtils {
 
     def parseString(p: TPrimitive): Either[AstError, PString] = p match {
       case TBytes(_, value) =>
-        TextFormatUtils.unescapeText(value).map(PString).left.map { error =>
+        TextFormatUtils.unescapeText(value).map(PString(_)).left.map { error =>
           AstError(p.position, error.msg)
         }
       case p => Left(AstError(p.position, s"Invalid input '${p.asString}', expected string"))
@@ -127,7 +127,7 @@ private[scalapb] object AstUtils {
 
     def parseBytes(p: TPrimitive): Either[AstError, PByteString] = p match {
       case TBytes(_, value) =>
-        TextFormatUtils.unescapeBytes(value).map(PByteString).left.map { error =>
+        TextFormatUtils.unescapeBytes(value).map(PByteString(_)).left.map { error =>
           AstError(p.position, error.msg)
         }
       case _ => Left(AstError(p.position, "Unexpected input"))
@@ -158,7 +158,7 @@ private[scalapb] object AstUtils {
             case TIntLiteral(index, num) =>
               enumDesc.values
                 .find(_.number == num.toInt)
-                .map(PEnum)
+                .map(PEnum(_))
                 .toRight(
                   AstError(
                     index,
@@ -168,7 +168,7 @@ private[scalapb] object AstUtils {
             case TLiteral(index, name) =>
               enumDesc.values
                 .find(_.name == name)
-                .map(PEnum)
+                .map(PEnum(_))
                 .toRight(
                   AstError(
                     index,
@@ -212,14 +212,14 @@ private[scalapb] object AstUtils {
                       )
                     )
                     .toVector
-                ).map(PRepeated)
+                ).map(PRepeated(_))
             } else {
               val idx = arr.values.indexWhere(!_.isInstanceOf[TPrimitive])
               if (idx != -1) Left(AstError(arr.position, s"Unexpected value at index $idx"))
               else
                 flatten(
                   arr.values.map(t => parsePrimitive(fd, t.asInstanceOf[TPrimitive])).toVector
-                ).map(PRepeated)
+                ).map(PRepeated(_))
             }
           }
         case p: TPrimitive =>

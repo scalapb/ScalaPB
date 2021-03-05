@@ -1,5 +1,7 @@
 # Change Log
 ## [0.11.0 Unreleased]
+- Update to Scala 3.0.0-RC1
+- Update to Scala 2.13.5
 
 ## [0.11.0-M5]
 - GeneratedMessage now extends Product for better type inference (#984)
