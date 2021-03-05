@@ -123,7 +123,7 @@ object CodeGenerator extends CodeGenApp {
         // Implicits gives you extension methods that provide ScalaPB
         // names and types for protobuf entities.
         val implicits =
-          new DescriptorImplicits(params, request.allProtos)
+          DescriptorImplicits.fromCodeGenRequest(params, request)
 
         // Process each top-level message in each file.
         // This can be customized if you want to traverse
