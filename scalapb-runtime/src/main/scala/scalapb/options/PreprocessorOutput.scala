@@ -60,9 +60,30 @@ final case class PreprocessorOutput(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.PreprocessorOutput])
 }
 
-object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput] with scalapb.HasBuilder[scalapb.options.PreprocessorOutput] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput] with scalapb.HasBuilder[scalapb.options.PreprocessorOutput] = this
-  def merge(`_message__`: scalapb.options.PreprocessorOutput, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocessorOutput = newBuilder(_message__).merge(_input__).result()
+object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocessorOutput = {
+    val __optionsByFile: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, scalapb.options.ScalaPbOptions), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions]] = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions]
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __optionsByFile += scalapb.options.PreprocessorOutput._typemapper_optionsByFile.toCustom(_root_.scalapb.LiteParser.readMessage[scalapb.options.PreprocessorOutput.OptionsByFileEntry](_input__))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    scalapb.options.PreprocessorOutput(
+        optionsByFile = __optionsByFile.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.PreprocessorOutput] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -88,46 +109,6 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
   lazy val defaultInstance = scalapb.options.PreprocessorOutput(
     optionsByFile = _root_.scala.collection.immutable.Map.empty
   )
-  final class Builder private (
-    private val __optionsByFile: _root_.scala.collection.mutable.Builder[(_root_.scala.Predef.String, scalapb.options.ScalaPbOptions), _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions]],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[scalapb.options.PreprocessorOutput] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __optionsByFile += scalapb.options.PreprocessorOutput._typemapper_optionsByFile.toCustom(_root_.scalapb.LiteParser.readMessage[scalapb.options.PreprocessorOutput.OptionsByFileEntry](_input__))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): scalapb.options.PreprocessorOutput = {
-      scalapb.options.PreprocessorOutput(
-          optionsByFile = __optionsByFile.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.options.PreprocessorOutput, scalapb.options.PreprocessorOutput.Builder] {
-    def apply(): Builder = new Builder(
-      __optionsByFile = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions],
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: scalapb.options.PreprocessorOutput): Builder = new Builder(
-      __optionsByFile = _root_.scala.collection.immutable.Map.newBuilder[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions] ++= _message__.optionsByFile,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = scalapb.options.PreprocessorOutput.Builder()
-  def newBuilder(`_message__`: scalapb.options.PreprocessorOutput): Builder = scalapb.options.PreprocessorOutput.Builder(_message__)
   @SerialVersionUID(0L)
   final case class OptionsByFileEntry(
       key: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
@@ -196,9 +177,34 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       // @@protoc_insertion_point(GeneratedMessage[scalapb.PreprocessorOutput.OptionsByFileEntry])
   }
   
-  object OptionsByFileEntry extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput.OptionsByFileEntry] with scalapb.HasBuilder[scalapb.options.PreprocessorOutput.OptionsByFileEntry] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput.OptionsByFileEntry] with scalapb.HasBuilder[scalapb.options.PreprocessorOutput.OptionsByFileEntry] = this
-    def merge(`_message__`: scalapb.options.PreprocessorOutput.OptionsByFileEntry, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocessorOutput.OptionsByFileEntry = newBuilder(_message__).merge(_input__).result()
+  object OptionsByFileEntry extends scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput.OptionsByFileEntry] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.PreprocessorOutput.OptionsByFileEntry] = this
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.PreprocessorOutput.OptionsByFileEntry = {
+      var __key: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+      var __value: _root_.scala.Option[scalapb.options.ScalaPbOptions] = _root_.scala.None
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 10 =>
+            __key = Option(_input__.readStringRequireUtf8())
+          case 18 =>
+            __value = Option(__value.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      scalapb.options.PreprocessorOutput.OptionsByFileEntry(
+          key = __key,
+          value = __value,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
     implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.PreprocessorOutput.OptionsByFileEntry] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -223,52 +229,6 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       key = _root_.scala.None,
       value = _root_.scala.None
     )
-    final class Builder private (
-      private var __key: _root_.scala.Option[_root_.scala.Predef.String],
-      private var __value: _root_.scala.Option[scalapb.options.ScalaPbOptions],
-      private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-    ) extends _root_.scalapb.MessageBuilder[scalapb.options.PreprocessorOutput.OptionsByFileEntry] {
-      def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-        var _done__ = false
-        while (!_done__) {
-          val _tag__ = _input__.readTag()
-          _tag__ match {
-            case 0 => _done__ = true
-            case 10 =>
-              __key = Option(_input__.readStringRequireUtf8())
-            case 18 =>
-              __value = Option(__value.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-            case tag =>
-              if (_unknownFields__ == null) {
-                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-              }
-              _unknownFields__.parseField(tag, _input__)
-          }
-        }
-        this
-      }
-      def result(): scalapb.options.PreprocessorOutput.OptionsByFileEntry = {
-        scalapb.options.PreprocessorOutput.OptionsByFileEntry(
-            key = __key,
-            value = __value,
-            unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-        )
-      }
-    }
-    object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.options.PreprocessorOutput.OptionsByFileEntry, scalapb.options.PreprocessorOutput.OptionsByFileEntry.Builder] {
-      def apply(): Builder = new Builder(
-        __key = _root_.scala.None,
-        __value = _root_.scala.None,
-        `_unknownFields__` = null
-      )
-      def apply(`_message__`: scalapb.options.PreprocessorOutput.OptionsByFileEntry): Builder = new Builder(
-        __key = _message__.key,
-        __value = _message__.value,
-        `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-      )
-    }
-    def newBuilder: Builder = scalapb.options.PreprocessorOutput.OptionsByFileEntry.Builder()
-    def newBuilder(`_message__`: scalapb.options.PreprocessorOutput.OptionsByFileEntry): Builder = scalapb.options.PreprocessorOutput.OptionsByFileEntry.Builder(_message__)
     implicit class OptionsByFileEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.PreprocessorOutput.OptionsByFileEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.PreprocessorOutput.OptionsByFileEntry](_l) {
       def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKey)((c_, f_) => c_.copy(key = Option(f_)))
       def optionalKey: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.key)((c_, f_) => c_.copy(key = f_))

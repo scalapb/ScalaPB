@@ -97,8 +97,8 @@ final case class MethodOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.MethodOptions])
 }
 
-object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] = this
+object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MethodOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.DescriptorProtos.MethodOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.MethodOptions): com.google.protobuf.DescriptorProtos.MethodOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.MethodOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
@@ -111,7 +111,36 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     idempotencyLevel = if (javaPbSource.hasIdempotencyLevel) Some(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromJavaValue(javaPbSource.getIdempotencyLevel)) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
-  def merge(`_message__`: com.google.protobuf.descriptor.MethodOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodOptions = newBuilder(_message__).merge(_input__).result()
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MethodOptions = {
+    var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None
+    val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 264 =>
+          __deprecated = Option(_input__.readBool())
+        case 272 =>
+          __idempotencyLevel = Option(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
+        case 7994 =>
+          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.descriptor.MethodOptions(
+        deprecated = __deprecated,
+        idempotencyLevel = __idempotencyLevel,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.MethodOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -142,58 +171,6 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     idempotencyLevel = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
-  final class Builder private (
-    private var __deprecated: _root_.scala.Option[_root_.scala.Boolean],
-    private var __idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel],
-    private val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.MethodOptions] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 264 =>
-            __deprecated = Option(_input__.readBool())
-          case 272 =>
-            __idempotencyLevel = Option(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
-          case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.descriptor.MethodOptions = {
-      com.google.protobuf.descriptor.MethodOptions(
-          deprecated = __deprecated,
-          idempotencyLevel = __idempotencyLevel,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.MethodOptions, com.google.protobuf.descriptor.MethodOptions.Builder] {
-    def apply(): Builder = new Builder(
-      __deprecated = _root_.scala.None,
-      __idempotencyLevel = _root_.scala.None,
-      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.descriptor.MethodOptions): Builder = new Builder(
-      __deprecated = _message__.deprecated,
-      __idempotencyLevel = _message__.idempotencyLevel,
-      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.descriptor.MethodOptions.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.descriptor.MethodOptions): Builder = com.google.protobuf.descriptor.MethodOptions.Builder(_message__)
   /** Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
     * or neither? HTTP based RPC implementation may choose GET verb for safe
     * methods, and PUT verb for idempotent methods instead of the default POST.

@@ -98,9 +98,38 @@ final case class Collection(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.Collection])
 }
 
-object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Collection] with scalapb.HasBuilder[scalapb.options.Collection] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.Collection] with scalapb.HasBuilder[scalapb.options.Collection] = this
-  def merge(`_message__`: scalapb.options.Collection, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.Collection = newBuilder(_message__).merge(_input__).result()
+object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Collection] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.Collection] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.Collection = {
+    var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __nonEmpty: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __adapter: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __type = Option(_input__.readStringRequireUtf8())
+        case 16 =>
+          __nonEmpty = Option(_input__.readBool())
+        case 26 =>
+          __adapter = Option(_input__.readStringRequireUtf8())
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    scalapb.options.Collection(
+        `type` = __type,
+        nonEmpty = __nonEmpty,
+        adapter = __adapter,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.Collection] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -121,58 +150,6 @@ object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Coll
     nonEmpty = _root_.scala.None,
     adapter = _root_.scala.None
   )
-  final class Builder private (
-    private var __type: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __nonEmpty: _root_.scala.Option[_root_.scala.Boolean],
-    private var __adapter: _root_.scala.Option[_root_.scala.Predef.String],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[scalapb.options.Collection] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __type = Option(_input__.readStringRequireUtf8())
-          case 16 =>
-            __nonEmpty = Option(_input__.readBool())
-          case 26 =>
-            __adapter = Option(_input__.readStringRequireUtf8())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): scalapb.options.Collection = {
-      scalapb.options.Collection(
-          `type` = __type,
-          nonEmpty = __nonEmpty,
-          adapter = __adapter,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.options.Collection, scalapb.options.Collection.Builder] {
-    def apply(): Builder = new Builder(
-      __type = _root_.scala.None,
-      __nonEmpty = _root_.scala.None,
-      __adapter = _root_.scala.None,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: scalapb.options.Collection): Builder = new Builder(
-      __type = _message__.`type`,
-      __nonEmpty = _message__.nonEmpty,
-      __adapter = _message__.adapter,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = scalapb.options.Collection.Builder()
-  def newBuilder(`_message__`: scalapb.options.Collection): Builder = scalapb.options.Collection.Builder(_message__)
   implicit class CollectionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.Collection]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.Collection](_l) {
     def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))

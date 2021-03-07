@@ -180,9 +180,58 @@ final case class MessageOptions(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.MessageOptions])
 }
 
-object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] with scalapb.HasBuilder[scalapb.options.MessageOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] with scalapb.HasBuilder[scalapb.options.MessageOptions] = this
-  def merge(`_message__`: scalapb.options.MessageOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = newBuilder(_message__).merge(_input__).result()
+object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.MessageOptions] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.MessageOptions = {
+    val __extends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    val __companionExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    val __annotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    val __companionAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    val __sealedOneofExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    var __noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    val __unknownFieldsAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __extends += _input__.readStringRequireUtf8()
+        case 18 =>
+          __companionExtends += _input__.readStringRequireUtf8()
+        case 26 =>
+          __annotations += _input__.readStringRequireUtf8()
+        case 34 =>
+          __type = Option(_input__.readStringRequireUtf8())
+        case 42 =>
+          __companionAnnotations += _input__.readStringRequireUtf8()
+        case 50 =>
+          __sealedOneofExtends += _input__.readStringRequireUtf8()
+        case 56 =>
+          __noBox = Option(_input__.readBool())
+        case 66 =>
+          __unknownFieldsAnnotations += _input__.readStringRequireUtf8()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    scalapb.options.MessageOptions(
+        `extends` = __extends.result(),
+        companionExtends = __companionExtends.result(),
+        annotations = __annotations.result(),
+        `type` = __type,
+        companionAnnotations = __companionAnnotations.result(),
+        sealedOneofExtends = __sealedOneofExtends.result(),
+        noBox = __noBox,
+        unknownFieldsAnnotations = __unknownFieldsAnnotations.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.MessageOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -213,88 +262,6 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     noBox = _root_.scala.None,
     unknownFieldsAnnotations = _root_.scala.Seq.empty
   )
-  final class Builder private (
-    private val __extends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-    private val __companionExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-    private val __annotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-    private var __type: _root_.scala.Option[_root_.scala.Predef.String],
-    private val __companionAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-    private val __sealedOneofExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-    private var __noBox: _root_.scala.Option[_root_.scala.Boolean],
-    private val __unknownFieldsAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[scalapb.options.MessageOptions] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __extends += _input__.readStringRequireUtf8()
-          case 18 =>
-            __companionExtends += _input__.readStringRequireUtf8()
-          case 26 =>
-            __annotations += _input__.readStringRequireUtf8()
-          case 34 =>
-            __type = Option(_input__.readStringRequireUtf8())
-          case 42 =>
-            __companionAnnotations += _input__.readStringRequireUtf8()
-          case 50 =>
-            __sealedOneofExtends += _input__.readStringRequireUtf8()
-          case 56 =>
-            __noBox = Option(_input__.readBool())
-          case 66 =>
-            __unknownFieldsAnnotations += _input__.readStringRequireUtf8()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): scalapb.options.MessageOptions = {
-      scalapb.options.MessageOptions(
-          `extends` = __extends.result(),
-          companionExtends = __companionExtends.result(),
-          annotations = __annotations.result(),
-          `type` = __type,
-          companionAnnotations = __companionAnnotations.result(),
-          sealedOneofExtends = __sealedOneofExtends.result(),
-          noBox = __noBox,
-          unknownFieldsAnnotations = __unknownFieldsAnnotations.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.options.MessageOptions, scalapb.options.MessageOptions.Builder] {
-    def apply(): Builder = new Builder(
-      __extends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-      __companionExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-      __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-      __type = _root_.scala.None,
-      __companionAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-      __sealedOneofExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-      __noBox = _root_.scala.None,
-      __unknownFieldsAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: scalapb.options.MessageOptions): Builder = new Builder(
-      __extends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.`extends`,
-      __companionExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.companionExtends,
-      __annotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.annotations,
-      __type = _message__.`type`,
-      __companionAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.companionAnnotations,
-      __sealedOneofExtends = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.sealedOneofExtends,
-      __noBox = _message__.noBox,
-      __unknownFieldsAnnotations = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.unknownFieldsAnnotations,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = scalapb.options.MessageOptions.Builder()
-  def newBuilder(`_message__`: scalapb.options.MessageOptions): Builder = scalapb.options.MessageOptions.Builder(_message__)
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.MessageOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))

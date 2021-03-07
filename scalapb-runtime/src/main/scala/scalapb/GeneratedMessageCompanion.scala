@@ -164,10 +164,8 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   self =>
   type ValueType = A
 
-  def merge(a: A, input: CodedInputStream): A
-
   /** Parses a message from a CodedInputStream. */
-  def parseFrom(input: CodedInputStream): A = merge(defaultInstance, input)
+  def parseFrom(input: CodedInputStream): A
 
   def parseFrom(input: InputStream): A = parseFrom(CodedInputStream.newInstance(input))
 
@@ -185,6 +183,11 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   }
 
   def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
+
+  /** Merges the given message with the additional fields in the steam. */
+  def merge(a: A, input: CodedInputStream): A = {
+    parseFrom(a.toByteArray ++ parseFrom(input).toByteArray)
+  }
 
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 
@@ -236,13 +239,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
     validateAscii(s).fold(t => throw new TextFormatException(t.msg), identity[A])
 
   def defaultInstance: A
-}
-
-trait HasBuilder[A <: GeneratedMessage] {
-  self: GeneratedMessageCompanion[A] =>
-  def newBuilder: MessageBuilder[A]
-
-  override final def parseFrom(input: CodedInputStream): A = newBuilder.merge(input).result()
 }
 
 abstract class GeneratedFileObject {

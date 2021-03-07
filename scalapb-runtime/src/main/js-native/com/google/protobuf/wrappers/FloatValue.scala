@@ -70,9 +70,30 @@ final case class FloatValue(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FloatValue])
 }
 
-object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.FloatValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] with scalapb.HasBuilder[com.google.protobuf.wrappers.FloatValue] = this
-  def merge(`_message__`: com.google.protobuf.wrappers.FloatValue, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.FloatValue = newBuilder(_message__).merge(_input__).result()
+object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.FloatValue = {
+    var __value: _root_.scala.Float = 0.0f
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 13 =>
+          __value = _input__.readFloat()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.wrappers.FloatValue(
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.FloatValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -89,46 +110,6 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   lazy val defaultInstance = com.google.protobuf.wrappers.FloatValue(
     value = 0.0f
   )
-  final class Builder private (
-    private var __value: _root_.scala.Float,
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.wrappers.FloatValue] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 13 =>
-            __value = _input__.readFloat()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.wrappers.FloatValue = {
-      com.google.protobuf.wrappers.FloatValue(
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.wrappers.FloatValue, com.google.protobuf.wrappers.FloatValue.Builder] {
-    def apply(): Builder = new Builder(
-      __value = 0.0f,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.wrappers.FloatValue): Builder = new Builder(
-      __value = _message__.value,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.wrappers.FloatValue.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.wrappers.FloatValue): Builder = com.google.protobuf.wrappers.FloatValue.Builder(_message__)
   implicit class FloatValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.FloatValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.FloatValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Float] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

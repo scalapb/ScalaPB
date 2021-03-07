@@ -59,9 +59,30 @@ final case class MyContainer(
     // @@protoc_insertion_point(GeneratedMessage[com.thesamet.docs.MyContainer])
 }
 
-object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] with scalapb.HasBuilder[com.thesamet.docs.json.MyContainer] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] with scalapb.HasBuilder[com.thesamet.docs.json.MyContainer] = this
-  def merge(`_message__`: com.thesamet.docs.json.MyContainer, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyContainer = newBuilder(_message__).merge(_input__).result()
+object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyContainer] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyContainer = {
+    var __myAny: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __myAny = Option(__myAny.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.thesamet.docs.json.MyContainer(
+        myAny = __myAny,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.thesamet.docs.json.MyContainer] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -84,46 +105,6 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
   lazy val defaultInstance = com.thesamet.docs.json.MyContainer(
     myAny = _root_.scala.None
   )
-  final class Builder private (
-    private var __myAny: _root_.scala.Option[com.google.protobuf.any.Any],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.thesamet.docs.json.MyContainer] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __myAny = Option(__myAny.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.thesamet.docs.json.MyContainer = {
-      com.thesamet.docs.json.MyContainer(
-          myAny = __myAny,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.thesamet.docs.json.MyContainer, com.thesamet.docs.json.MyContainer.Builder] {
-    def apply(): Builder = new Builder(
-      __myAny = _root_.scala.None,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.thesamet.docs.json.MyContainer): Builder = new Builder(
-      __myAny = _message__.myAny,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.thesamet.docs.json.MyContainer.Builder()
-  def newBuilder(`_message__`: com.thesamet.docs.json.MyContainer): Builder = com.thesamet.docs.json.MyContainer.Builder(_message__)
   implicit class MyContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.thesamet.docs.json.MyContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.thesamet.docs.json.MyContainer](_l) {
     def myAny: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getMyAny)((c_, f_) => c_.copy(myAny = Option(f_)))
     def optionalMyAny: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.any.Any]] = field(_.myAny)((c_, f_) => c_.copy(myAny = f_))

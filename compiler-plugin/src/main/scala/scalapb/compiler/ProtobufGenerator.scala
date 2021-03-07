@@ -726,13 +726,15 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
+  /*
   def generateMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
     printer
       .add(
-        s"def merge(`_message__`: $myFullScalaName, `_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = newBuilder(_message__).merge(_input__).result()"
+        s"def merge(`_message__`: $myFullScalaName, `_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = ??? // newBuilder(_message__).merge(_input__).result()"
       )
   }
+   */
 
   def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullName
@@ -1254,14 +1256,13 @@ class ProtobufGenerator(
       .indent
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))
-      .call(generateMerge(message))
+      .call(ParseFromGenerator.generateParseFrom(implicits, this, message))
       .call(generateMessageReads(message))
       .call(generateDescriptors(message))
       .call(generateMessageCompanionForField(message))
       .call(generateNestedMessagesCompanions(message))
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
-      .call(BuilderGenerator.generateBuilder(implicits, this, message))
       .print(message.getEnumTypes.asScala)(printEnum)
       .print(message.getRealOneofs.asScala)(printOneof)
       .print(message.nestedTypes)(printMessage)

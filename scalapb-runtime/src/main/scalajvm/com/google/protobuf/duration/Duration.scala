@@ -154,8 +154,8 @@ final case class Duration(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Duration])
 }
 
-object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.HasBuilder[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.HasBuilder[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods = this
+object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.duration.Duration] with scalapb.JavaProtoSupport[com.google.protobuf.duration.Duration, com.google.protobuf.Duration] with scalapb.DurationCompanionMethods = this
   def toJavaProto(scalaPbSource: com.google.protobuf.duration.Duration): com.google.protobuf.Duration = {
     val javaPbOut = com.google.protobuf.Duration.newBuilder
     javaPbOut.setSeconds(scalaPbSource.seconds)
@@ -166,7 +166,32 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
     seconds = javaPbSource.getSeconds.longValue,
     nanos = javaPbSource.getNanos.intValue
   )
-  def merge(`_message__`: com.google.protobuf.duration.Duration, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = newBuilder(_message__).merge(_input__).result()
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.duration.Duration = {
+    var __seconds: _root_.scala.Long = 0L
+    var __nanos: _root_.scala.Int = 0
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 8 =>
+          __seconds = _input__.readInt64()
+        case 16 =>
+          __nanos = _input__.readInt32()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.duration.Duration(
+        seconds = __seconds,
+        nanos = __nanos,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.duration.Duration] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -185,52 +210,6 @@ object Duration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.du
     seconds = 0L,
     nanos = 0
   )
-  final class Builder private (
-    private var __seconds: _root_.scala.Long,
-    private var __nanos: _root_.scala.Int,
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.duration.Duration] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __seconds = _input__.readInt64()
-          case 16 =>
-            __nanos = _input__.readInt32()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.duration.Duration = {
-      com.google.protobuf.duration.Duration(
-          seconds = __seconds,
-          nanos = __nanos,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.duration.Duration, com.google.protobuf.duration.Duration.Builder] {
-    def apply(): Builder = new Builder(
-      __seconds = 0L,
-      __nanos = 0,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.duration.Duration): Builder = new Builder(
-      __seconds = _message__.seconds,
-      __nanos = _message__.nanos,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.duration.Duration.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.duration.Duration): Builder = com.google.protobuf.duration.Duration.Builder(_message__)
   implicit class DurationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.duration.Duration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.duration.Duration](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
     def nanos: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.nanos)((c_, f_) => c_.copy(nanos = f_))

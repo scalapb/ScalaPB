@@ -83,9 +83,34 @@ final case class StringMessage(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.StringMessage])
 }
 
-object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] with scalapb.HasBuilder[scalapb.perf.protos.StringMessage] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] with scalapb.HasBuilder[scalapb.perf.protos.StringMessage] = this
-  def merge(`_message__`: scalapb.perf.protos.StringMessage, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.StringMessage = newBuilder(_message__).merge(_input__).result()
+object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.StringMessage = {
+    var __str1: _root_.scala.Predef.String = ""
+    var __str2: _root_.scala.Predef.String = ""
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __str1 = _input__.readStringRequireUtf8()
+        case 18 =>
+          __str2 = _input__.readStringRequireUtf8()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    scalapb.perf.protos.StringMessage(
+        str1 = __str1,
+        str2 = __str2,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.StringMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -104,52 +129,6 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
     str1 = "",
     str2 = ""
   )
-  final class Builder private (
-    private var __str1: _root_.scala.Predef.String,
-    private var __str2: _root_.scala.Predef.String,
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[scalapb.perf.protos.StringMessage] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __str1 = _input__.readStringRequireUtf8()
-          case 18 =>
-            __str2 = _input__.readStringRequireUtf8()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): scalapb.perf.protos.StringMessage = {
-      scalapb.perf.protos.StringMessage(
-          str1 = __str1,
-          str2 = __str2,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.perf.protos.StringMessage, scalapb.perf.protos.StringMessage.Builder] {
-    def apply(): Builder = new Builder(
-      __str1 = "",
-      __str2 = "",
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: scalapb.perf.protos.StringMessage): Builder = new Builder(
-      __str1 = _message__.str1,
-      __str2 = _message__.str2,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = scalapb.perf.protos.StringMessage.Builder()
-  def newBuilder(`_message__`: scalapb.perf.protos.StringMessage): Builder = scalapb.perf.protos.StringMessage.Builder(_message__)
   implicit class StringMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.StringMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.StringMessage](_l) {
     def str1: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.str1)((c_, f_) => c_.copy(str1 = f_))
     def str2: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.str2)((c_, f_) => c_.copy(str2 = f_))

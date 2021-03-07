@@ -93,8 +93,8 @@ final case class OptionProto(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Option])
 }
 
-object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with scalapb.HasBuilder[com.google.protobuf.`type`.OptionProto] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with scalapb.HasBuilder[com.google.protobuf.`type`.OptionProto] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] = this
+object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.OptionProto] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.OptionProto, com.google.protobuf.Option] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.OptionProto): com.google.protobuf.Option = {
     val javaPbOut = com.google.protobuf.Option.newBuilder
     javaPbOut.setName(scalaPbSource.name)
@@ -105,7 +105,32 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     name = javaPbSource.getName,
     value = if (javaPbSource.hasValue) Some(com.google.protobuf.any.Any.fromJavaProto(javaPbSource.getValue)) else _root_.scala.None
   )
-  def merge(`_message__`: com.google.protobuf.`type`.OptionProto, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.OptionProto = newBuilder(_message__).merge(_input__).result()
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.OptionProto = {
+    var __name: _root_.scala.Predef.String = ""
+    var __value: _root_.scala.Option[com.google.protobuf.any.Any] = _root_.scala.None
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __name = _input__.readStringRequireUtf8()
+        case 18 =>
+          __value = Option(__value.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.`type`.OptionProto(
+        name = __name,
+        value = __value,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.OptionProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -130,52 +155,6 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     name = "",
     value = _root_.scala.None
   )
-  final class Builder private (
-    private var __name: _root_.scala.Predef.String,
-    private var __value: _root_.scala.Option[com.google.protobuf.any.Any],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.`type`.OptionProto] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __name = _input__.readStringRequireUtf8()
-          case 18 =>
-            __value = Option(__value.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.`type`.OptionProto = {
-      com.google.protobuf.`type`.OptionProto(
-          name = __name,
-          value = __value,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.`type`.OptionProto, com.google.protobuf.`type`.OptionProto.Builder] {
-    def apply(): Builder = new Builder(
-      __name = "",
-      __value = _root_.scala.None,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.`type`.OptionProto): Builder = new Builder(
-      __name = _message__.name,
-      __value = _message__.value,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.`type`.OptionProto.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.`type`.OptionProto): Builder = com.google.protobuf.`type`.OptionProto.Builder(_message__)
   implicit class OptionProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.OptionProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.OptionProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def value: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))

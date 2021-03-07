@@ -89,9 +89,38 @@ final case class FieldTransformation(
     // @@protoc_insertion_point(GeneratedMessage[scalapb.FieldTransformation])
 }
 
-object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.options.FieldTransformation] with scalapb.HasBuilder[scalapb.options.FieldTransformation] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.FieldTransformation] with scalapb.HasBuilder[scalapb.options.FieldTransformation] = this
-  def merge(`_message__`: scalapb.options.FieldTransformation, `_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldTransformation = newBuilder(_message__).merge(_input__).result()
+object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.options.FieldTransformation] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.FieldTransformation] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.FieldTransformation = {
+    var __when: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.None
+    var __matchType: _root_.scala.Option[scalapb.options.MatchType] = _root_.scala.None
+    var __set: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __when = Option(__when.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case 16 =>
+          __matchType = Option(scalapb.options.MatchType.fromValue(_input__.readEnum()))
+        case 26 =>
+          __set = Option(__set.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    scalapb.options.FieldTransformation(
+        when = __when,
+        matchType = __matchType,
+        set = __set,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.FieldTransformation] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -123,58 +152,6 @@ object FieldTransformation extends scalapb.GeneratedMessageCompanion[scalapb.opt
     matchType = _root_.scala.None,
     set = _root_.scala.None
   )
-  final class Builder private (
-    private var __when: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto],
-    private var __matchType: _root_.scala.Option[scalapb.options.MatchType],
-    private var __set: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[scalapb.options.FieldTransformation] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __when = Option(__when.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-          case 16 =>
-            __matchType = Option(scalapb.options.MatchType.fromValue(_input__.readEnum()))
-          case 26 =>
-            __set = Option(__set.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): scalapb.options.FieldTransformation = {
-      scalapb.options.FieldTransformation(
-          when = __when,
-          matchType = __matchType,
-          set = __set,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[scalapb.options.FieldTransformation, scalapb.options.FieldTransformation.Builder] {
-    def apply(): Builder = new Builder(
-      __when = _root_.scala.None,
-      __matchType = _root_.scala.None,
-      __set = _root_.scala.None,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: scalapb.options.FieldTransformation): Builder = new Builder(
-      __when = _message__.when,
-      __matchType = _message__.matchType,
-      __set = _message__.set,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = scalapb.options.FieldTransformation.Builder()
-  def newBuilder(`_message__`: scalapb.options.FieldTransformation): Builder = scalapb.options.FieldTransformation.Builder(_message__)
   implicit class FieldTransformationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldTransformation]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.FieldTransformation](_l) {
     def when: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldDescriptorProto] = field(_.getWhen)((c_, f_) => c_.copy(when = Option(f_)))
     def optionalWhen: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.when)((c_, f_) => c_.copy(when = f_))

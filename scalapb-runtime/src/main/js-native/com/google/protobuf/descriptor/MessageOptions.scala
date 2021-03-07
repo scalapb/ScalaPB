@@ -169,9 +169,46 @@ final case class MessageOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.MessageOptions])
 }
 
-object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MessageOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.MessageOptions] = this
-  def merge(`_message__`: com.google.protobuf.descriptor.MessageOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MessageOptions = newBuilder(_message__).merge(_input__).result()
+object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.MessageOptions] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MessageOptions = {
+    var __messageSetWireFormat: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __mapEntry: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 8 =>
+          __messageSetWireFormat = Option(_input__.readBool())
+        case 16 =>
+          __noStandardDescriptorAccessor = Option(_input__.readBool())
+        case 24 =>
+          __deprecated = Option(_input__.readBool())
+        case 56 =>
+          __mapEntry = Option(_input__.readBool())
+        case 7994 =>
+          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.descriptor.MessageOptions(
+        messageSetWireFormat = __messageSetWireFormat,
+        noStandardDescriptorAccessor = __noStandardDescriptorAccessor,
+        deprecated = __deprecated,
+        mapEntry = __mapEntry,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.MessageOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -202,70 +239,6 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     mapEntry = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
-  final class Builder private (
-    private var __messageSetWireFormat: _root_.scala.Option[_root_.scala.Boolean],
-    private var __noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean],
-    private var __deprecated: _root_.scala.Option[_root_.scala.Boolean],
-    private var __mapEntry: _root_.scala.Option[_root_.scala.Boolean],
-    private val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.MessageOptions] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __messageSetWireFormat = Option(_input__.readBool())
-          case 16 =>
-            __noStandardDescriptorAccessor = Option(_input__.readBool())
-          case 24 =>
-            __deprecated = Option(_input__.readBool())
-          case 56 =>
-            __mapEntry = Option(_input__.readBool())
-          case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.descriptor.MessageOptions = {
-      com.google.protobuf.descriptor.MessageOptions(
-          messageSetWireFormat = __messageSetWireFormat,
-          noStandardDescriptorAccessor = __noStandardDescriptorAccessor,
-          deprecated = __deprecated,
-          mapEntry = __mapEntry,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.MessageOptions, com.google.protobuf.descriptor.MessageOptions.Builder] {
-    def apply(): Builder = new Builder(
-      __messageSetWireFormat = _root_.scala.None,
-      __noStandardDescriptorAccessor = _root_.scala.None,
-      __deprecated = _root_.scala.None,
-      __mapEntry = _root_.scala.None,
-      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.descriptor.MessageOptions): Builder = new Builder(
-      __messageSetWireFormat = _message__.messageSetWireFormat,
-      __noStandardDescriptorAccessor = _message__.noStandardDescriptorAccessor,
-      __deprecated = _message__.deprecated,
-      __mapEntry = _message__.mapEntry,
-      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.descriptor.MessageOptions.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.descriptor.MessageOptions): Builder = com.google.protobuf.descriptor.MessageOptions.Builder(_message__)
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MessageOptions](_l) {
     def messageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMessageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = Option(f_)))
     def optionalMessageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.messageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = f_))

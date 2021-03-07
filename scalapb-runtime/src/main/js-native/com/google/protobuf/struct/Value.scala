@@ -129,9 +129,40 @@ final case class Value(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Value])
 }
 
-object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.HasBuilder[com.google.protobuf.struct.Value] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] with scalapb.HasBuilder[com.google.protobuf.struct.Value] = this
-  def merge(`_message__`: com.google.protobuf.struct.Value, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = newBuilder(_message__).merge(_input__).result()
+object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.Value] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.Value = {
+    var __kind: com.google.protobuf.struct.Value.Kind = com.google.protobuf.struct.Value.Kind.Empty
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 8 =>
+          __kind = com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(_input__.readEnum()))
+        case 17 =>
+          __kind = com.google.protobuf.struct.Value.Kind.NumberValue(_input__.readDouble())
+        case 26 =>
+          __kind = com.google.protobuf.struct.Value.Kind.StringValue(_input__.readStringRequireUtf8())
+        case 32 =>
+          __kind = com.google.protobuf.struct.Value.Kind.BoolValue(_input__.readBool())
+        case 42 =>
+          __kind = com.google.protobuf.struct.Value.Kind.StructValue(__kind.structValue.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.Struct](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case 50 =>
+          __kind = com.google.protobuf.struct.Value.Kind.ListValue(__kind.listValue.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.ListValue](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.struct.Value(
+        kind = __kind,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.struct.Value] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -165,56 +196,6 @@ object Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.struc
   lazy val defaultInstance = com.google.protobuf.struct.Value(
     kind = com.google.protobuf.struct.Value.Kind.Empty
   )
-  final class Builder private (
-    private var __kind: com.google.protobuf.struct.Value.Kind,
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.struct.Value] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 8 =>
-            __kind = com.google.protobuf.struct.Value.Kind.NullValue(com.google.protobuf.struct.NullValue.fromValue(_input__.readEnum()))
-          case 17 =>
-            __kind = com.google.protobuf.struct.Value.Kind.NumberValue(_input__.readDouble())
-          case 26 =>
-            __kind = com.google.protobuf.struct.Value.Kind.StringValue(_input__.readStringRequireUtf8())
-          case 32 =>
-            __kind = com.google.protobuf.struct.Value.Kind.BoolValue(_input__.readBool())
-          case 42 =>
-            __kind = com.google.protobuf.struct.Value.Kind.StructValue(__kind.structValue.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.Struct](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-          case 50 =>
-            __kind = com.google.protobuf.struct.Value.Kind.ListValue(__kind.listValue.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.struct.ListValue](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.struct.Value = {
-      com.google.protobuf.struct.Value(
-          kind = __kind,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.struct.Value, com.google.protobuf.struct.Value.Builder] {
-    def apply(): Builder = new Builder(
-      __kind = com.google.protobuf.struct.Value.Kind.Empty,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.struct.Value): Builder = new Builder(
-      __kind = _message__.kind,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.struct.Value.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.struct.Value): Builder = com.google.protobuf.struct.Value.Builder(_message__)
   sealed trait Kind extends _root_.scalapb.GeneratedOneof {
     def isEmpty: _root_.scala.Boolean = false
     def isDefined: _root_.scala.Boolean = true

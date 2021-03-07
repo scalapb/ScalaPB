@@ -70,8 +70,8 @@ final case class SourceContext(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.SourceContext])
 }
 
-object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.HasBuilder[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.HasBuilder[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] = this
+object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.source_context.SourceContext] with scalapb.JavaProtoSupport[com.google.protobuf.source_context.SourceContext, com.google.protobuf.SourceContext] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.source_context.SourceContext): com.google.protobuf.SourceContext = {
     val javaPbOut = com.google.protobuf.SourceContext.newBuilder
     javaPbOut.setFileName(scalaPbSource.fileName)
@@ -80,7 +80,28 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
   def fromJavaProto(javaPbSource: com.google.protobuf.SourceContext): com.google.protobuf.source_context.SourceContext = com.google.protobuf.source_context.SourceContext(
     fileName = javaPbSource.getFileName
   )
-  def merge(`_message__`: com.google.protobuf.source_context.SourceContext, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.source_context.SourceContext = newBuilder(_message__).merge(_input__).result()
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.source_context.SourceContext = {
+    var __fileName: _root_.scala.Predef.String = ""
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __fileName = _input__.readStringRequireUtf8()
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.source_context.SourceContext(
+        fileName = __fileName,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.source_context.SourceContext] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -97,46 +118,6 @@ object SourceContext extends scalapb.GeneratedMessageCompanion[com.google.protob
   lazy val defaultInstance = com.google.protobuf.source_context.SourceContext(
     fileName = ""
   )
-  final class Builder private (
-    private var __fileName: _root_.scala.Predef.String,
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.source_context.SourceContext] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __fileName = _input__.readStringRequireUtf8()
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.source_context.SourceContext = {
-      com.google.protobuf.source_context.SourceContext(
-          fileName = __fileName,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.source_context.SourceContext, com.google.protobuf.source_context.SourceContext.Builder] {
-    def apply(): Builder = new Builder(
-      __fileName = "",
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.source_context.SourceContext): Builder = new Builder(
-      __fileName = _message__.fileName,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.source_context.SourceContext.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.source_context.SourceContext): Builder = com.google.protobuf.source_context.SourceContext.Builder(_message__)
   implicit class SourceContextLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.source_context.SourceContext](_l) {
     def fileName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.fileName)((c_, f_) => c_.copy(fileName = f_))
   }

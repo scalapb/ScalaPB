@@ -164,8 +164,8 @@ final case class Type(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Type])
 }
 
-object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with scalapb.HasBuilder[com.google.protobuf.`type`.Type] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with scalapb.HasBuilder[com.google.protobuf.`type`.Type] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] = this
+object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Type] with scalapb.JavaProtoSupport[com.google.protobuf.`type`.Type, com.google.protobuf.Type] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Type): com.google.protobuf.Type = {
     val javaPbOut = com.google.protobuf.Type.newBuilder
     javaPbOut.setName(scalaPbSource.name)
@@ -184,7 +184,48 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else _root_.scala.None,
     syntax = com.google.protobuf.`type`.Syntax.fromValue(javaPbSource.getSyntaxValue.intValue)
   )
-  def merge(`_message__`: com.google.protobuf.`type`.Type, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = newBuilder(_message__).merge(_input__).result()
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Type = {
+    var __name: _root_.scala.Predef.String = ""
+    val __fields: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.Field] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.Field]
+    val __oneofs: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto]
+    var __sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None
+    var __syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __name = _input__.readStringRequireUtf8()
+        case 18 =>
+          __fields += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.Field](_input__)
+        case 26 =>
+          __oneofs += _input__.readStringRequireUtf8()
+        case 34 =>
+          __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
+        case 42 =>
+          __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case 48 =>
+          __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.`type`.Type(
+        name = __name,
+        fields = __fields.result(),
+        oneofs = __oneofs.result(),
+        options = __options.result(),
+        sourceContext = __sourceContext,
+        syntax = __syntax,
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Type] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -223,76 +264,6 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     sourceContext = _root_.scala.None,
     syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
-  final class Builder private (
-    private var __name: _root_.scala.Predef.String,
-    private val __fields: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.Field],
-    private val __oneofs: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-    private val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
-    private var __sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext],
-    private var __syntax: com.google.protobuf.`type`.Syntax,
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.`type`.Type] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __name = _input__.readStringRequireUtf8()
-          case 18 =>
-            __fields += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.Field](_input__)
-          case 26 =>
-            __oneofs += _input__.readStringRequireUtf8()
-          case 34 =>
-            __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
-          case 42 =>
-            __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
-          case 48 =>
-            __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.`type`.Type = {
-      com.google.protobuf.`type`.Type(
-          name = __name,
-          fields = __fields.result(),
-          oneofs = __oneofs.result(),
-          options = __options.result(),
-          sourceContext = __sourceContext,
-          syntax = __syntax,
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.`type`.Type, com.google.protobuf.`type`.Type.Builder] {
-    def apply(): Builder = new Builder(
-      __name = "",
-      __fields = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.Field],
-      __oneofs = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String],
-      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto],
-      __sourceContext = _root_.scala.None,
-      __syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.`type`.Type): Builder = new Builder(
-      __name = _message__.name,
-      __fields = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.Field] ++= _message__.fields,
-      __oneofs = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] ++= _message__.oneofs,
-      __options = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] ++= _message__.options,
-      __sourceContext = _message__.sourceContext,
-      __syntax = _message__.syntax,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.`type`.Type.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.`type`.Type): Builder = com.google.protobuf.`type`.Type.Builder(_message__)
   implicit class TypeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Type]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Type](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def fields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.Field]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))

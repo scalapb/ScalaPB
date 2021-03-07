@@ -421,9 +421,110 @@ final case class FileOptions(
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FileOptions])
 }
 
-object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FileOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.HasBuilder[com.google.protobuf.descriptor.FileOptions] = this
-  def merge(`_message__`: com.google.protobuf.descriptor.FileOptions, `_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = newBuilder(_message__).merge(_input__).result()
+object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = {
+    var __javaPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __javaMultipleFiles: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __javaGenerateEqualsAndHash: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __javaStringCheckUtf8: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __optimizeFor: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode] = _root_.scala.None
+    var __goPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __ccGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __javaGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __pyGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __phpGenericServices: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __ccEnableArenas: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __objcClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __csharpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __swiftPrefix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __phpClassPrefix: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __phpNamespace: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __rubyPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
+    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__ = false
+    while (!_done__) {
+      val _tag__ = _input__.readTag()
+      _tag__ match {
+        case 0 => _done__ = true
+        case 10 =>
+          __javaPackage = Option(_input__.readStringRequireUtf8())
+        case 66 =>
+          __javaOuterClassname = Option(_input__.readStringRequireUtf8())
+        case 80 =>
+          __javaMultipleFiles = Option(_input__.readBool())
+        case 160 =>
+          __javaGenerateEqualsAndHash = Option(_input__.readBool())
+        case 216 =>
+          __javaStringCheckUtf8 = Option(_input__.readBool())
+        case 72 =>
+          __optimizeFor = Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
+        case 90 =>
+          __goPackage = Option(_input__.readStringRequireUtf8())
+        case 128 =>
+          __ccGenericServices = Option(_input__.readBool())
+        case 136 =>
+          __javaGenericServices = Option(_input__.readBool())
+        case 144 =>
+          __pyGenericServices = Option(_input__.readBool())
+        case 336 =>
+          __phpGenericServices = Option(_input__.readBool())
+        case 184 =>
+          __deprecated = Option(_input__.readBool())
+        case 248 =>
+          __ccEnableArenas = Option(_input__.readBool())
+        case 290 =>
+          __objcClassPrefix = Option(_input__.readStringRequireUtf8())
+        case 298 =>
+          __csharpNamespace = Option(_input__.readStringRequireUtf8())
+        case 314 =>
+          __swiftPrefix = Option(_input__.readStringRequireUtf8())
+        case 322 =>
+          __phpClassPrefix = Option(_input__.readStringRequireUtf8())
+        case 330 =>
+          __phpNamespace = Option(_input__.readStringRequireUtf8())
+        case 354 =>
+          __phpMetadataNamespace = Option(_input__.readStringRequireUtf8())
+        case 362 =>
+          __rubyPackage = Option(_input__.readStringRequireUtf8())
+        case 7994 =>
+          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
+        case tag =>
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.parseField(tag, _input__)
+      }
+    }
+    com.google.protobuf.descriptor.FileOptions(
+        javaPackage = __javaPackage,
+        javaOuterClassname = __javaOuterClassname,
+        javaMultipleFiles = __javaMultipleFiles,
+        javaGenerateEqualsAndHash = __javaGenerateEqualsAndHash,
+        javaStringCheckUtf8 = __javaStringCheckUtf8,
+        optimizeFor = __optimizeFor,
+        goPackage = __goPackage,
+        ccGenericServices = __ccGenericServices,
+        javaGenericServices = __javaGenericServices,
+        pyGenericServices = __pyGenericServices,
+        phpGenericServices = __phpGenericServices,
+        deprecated = __deprecated,
+        ccEnableArenas = __ccEnableArenas,
+        objcClassPrefix = __objcClassPrefix,
+        csharpNamespace = __csharpNamespace,
+        swiftPrefix = __swiftPrefix,
+        phpClassPrefix = __phpClassPrefix,
+        phpNamespace = __phpNamespace,
+        phpMetadataNamespace = __phpMetadataNamespace,
+        rubyPackage = __rubyPackage,
+        uninterpretedOption = __uninterpretedOption.result(),
+        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+    )
+  }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FileOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
@@ -490,166 +591,6 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     rubyPackage = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
-  final class Builder private (
-    private var __javaPackage: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __javaMultipleFiles: _root_.scala.Option[_root_.scala.Boolean],
-    private var __javaGenerateEqualsAndHash: _root_.scala.Option[_root_.scala.Boolean],
-    private var __javaStringCheckUtf8: _root_.scala.Option[_root_.scala.Boolean],
-    private var __optimizeFor: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode],
-    private var __goPackage: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __ccGenericServices: _root_.scala.Option[_root_.scala.Boolean],
-    private var __javaGenericServices: _root_.scala.Option[_root_.scala.Boolean],
-    private var __pyGenericServices: _root_.scala.Option[_root_.scala.Boolean],
-    private var __phpGenericServices: _root_.scala.Option[_root_.scala.Boolean],
-    private var __deprecated: _root_.scala.Option[_root_.scala.Boolean],
-    private var __ccEnableArenas: _root_.scala.Option[_root_.scala.Boolean],
-    private var __objcClassPrefix: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __csharpNamespace: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __swiftPrefix: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __phpClassPrefix: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __phpNamespace: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String],
-    private var __rubyPackage: _root_.scala.Option[_root_.scala.Predef.String],
-    private val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
-    private var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder
-  ) extends _root_.scalapb.MessageBuilder[com.google.protobuf.descriptor.FileOptions] {
-    def merge(`_input__`: _root_.com.google.protobuf.CodedInputStream): this.type = {
-      var _done__ = false
-      while (!_done__) {
-        val _tag__ = _input__.readTag()
-        _tag__ match {
-          case 0 => _done__ = true
-          case 10 =>
-            __javaPackage = Option(_input__.readStringRequireUtf8())
-          case 66 =>
-            __javaOuterClassname = Option(_input__.readStringRequireUtf8())
-          case 80 =>
-            __javaMultipleFiles = Option(_input__.readBool())
-          case 160 =>
-            __javaGenerateEqualsAndHash = Option(_input__.readBool())
-          case 216 =>
-            __javaStringCheckUtf8 = Option(_input__.readBool())
-          case 72 =>
-            __optimizeFor = Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
-          case 90 =>
-            __goPackage = Option(_input__.readStringRequireUtf8())
-          case 128 =>
-            __ccGenericServices = Option(_input__.readBool())
-          case 136 =>
-            __javaGenericServices = Option(_input__.readBool())
-          case 144 =>
-            __pyGenericServices = Option(_input__.readBool())
-          case 336 =>
-            __phpGenericServices = Option(_input__.readBool())
-          case 184 =>
-            __deprecated = Option(_input__.readBool())
-          case 248 =>
-            __ccEnableArenas = Option(_input__.readBool())
-          case 290 =>
-            __objcClassPrefix = Option(_input__.readStringRequireUtf8())
-          case 298 =>
-            __csharpNamespace = Option(_input__.readStringRequireUtf8())
-          case 314 =>
-            __swiftPrefix = Option(_input__.readStringRequireUtf8())
-          case 322 =>
-            __phpClassPrefix = Option(_input__.readStringRequireUtf8())
-          case 330 =>
-            __phpNamespace = Option(_input__.readStringRequireUtf8())
-          case 354 =>
-            __phpMetadataNamespace = Option(_input__.readStringRequireUtf8())
-          case 362 =>
-            __rubyPackage = Option(_input__.readStringRequireUtf8())
-          case 7994 =>
-            __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
-          case tag =>
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.parseField(tag, _input__)
-        }
-      }
-      this
-    }
-    def result(): com.google.protobuf.descriptor.FileOptions = {
-      com.google.protobuf.descriptor.FileOptions(
-          javaPackage = __javaPackage,
-          javaOuterClassname = __javaOuterClassname,
-          javaMultipleFiles = __javaMultipleFiles,
-          javaGenerateEqualsAndHash = __javaGenerateEqualsAndHash,
-          javaStringCheckUtf8 = __javaStringCheckUtf8,
-          optimizeFor = __optimizeFor,
-          goPackage = __goPackage,
-          ccGenericServices = __ccGenericServices,
-          javaGenericServices = __javaGenericServices,
-          pyGenericServices = __pyGenericServices,
-          phpGenericServices = __phpGenericServices,
-          deprecated = __deprecated,
-          ccEnableArenas = __ccEnableArenas,
-          objcClassPrefix = __objcClassPrefix,
-          csharpNamespace = __csharpNamespace,
-          swiftPrefix = __swiftPrefix,
-          phpClassPrefix = __phpClassPrefix,
-          phpNamespace = __phpNamespace,
-          phpMetadataNamespace = __phpMetadataNamespace,
-          rubyPackage = __rubyPackage,
-          uninterpretedOption = __uninterpretedOption.result(),
-          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
-      )
-    }
-  }
-  object Builder extends _root_.scalapb.MessageBuilderCompanion[com.google.protobuf.descriptor.FileOptions, com.google.protobuf.descriptor.FileOptions.Builder] {
-    def apply(): Builder = new Builder(
-      __javaPackage = _root_.scala.None,
-      __javaOuterClassname = _root_.scala.None,
-      __javaMultipleFiles = _root_.scala.None,
-      __javaGenerateEqualsAndHash = _root_.scala.None,
-      __javaStringCheckUtf8 = _root_.scala.None,
-      __optimizeFor = _root_.scala.None,
-      __goPackage = _root_.scala.None,
-      __ccGenericServices = _root_.scala.None,
-      __javaGenericServices = _root_.scala.None,
-      __pyGenericServices = _root_.scala.None,
-      __phpGenericServices = _root_.scala.None,
-      __deprecated = _root_.scala.None,
-      __ccEnableArenas = _root_.scala.None,
-      __objcClassPrefix = _root_.scala.None,
-      __csharpNamespace = _root_.scala.None,
-      __swiftPrefix = _root_.scala.None,
-      __phpClassPrefix = _root_.scala.None,
-      __phpNamespace = _root_.scala.None,
-      __phpMetadataNamespace = _root_.scala.None,
-      __rubyPackage = _root_.scala.None,
-      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption],
-      `_unknownFields__` = null
-    )
-    def apply(`_message__`: com.google.protobuf.descriptor.FileOptions): Builder = new Builder(
-      __javaPackage = _message__.javaPackage,
-      __javaOuterClassname = _message__.javaOuterClassname,
-      __javaMultipleFiles = _message__.javaMultipleFiles,
-      __javaGenerateEqualsAndHash = _message__.javaGenerateEqualsAndHash,
-      __javaStringCheckUtf8 = _message__.javaStringCheckUtf8,
-      __optimizeFor = _message__.optimizeFor,
-      __goPackage = _message__.goPackage,
-      __ccGenericServices = _message__.ccGenericServices,
-      __javaGenericServices = _message__.javaGenericServices,
-      __pyGenericServices = _message__.pyGenericServices,
-      __phpGenericServices = _message__.phpGenericServices,
-      __deprecated = _message__.deprecated,
-      __ccEnableArenas = _message__.ccEnableArenas,
-      __objcClassPrefix = _message__.objcClassPrefix,
-      __csharpNamespace = _message__.csharpNamespace,
-      __swiftPrefix = _message__.swiftPrefix,
-      __phpClassPrefix = _message__.phpClassPrefix,
-      __phpNamespace = _message__.phpNamespace,
-      __phpMetadataNamespace = _message__.phpMetadataNamespace,
-      __rubyPackage = _message__.rubyPackage,
-      __uninterpretedOption = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] ++= _message__.uninterpretedOption,
-      `_unknownFields__` = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-    )
-  }
-  def newBuilder: Builder = com.google.protobuf.descriptor.FileOptions.Builder()
-  def newBuilder(`_message__`: com.google.protobuf.descriptor.FileOptions): Builder = com.google.protobuf.descriptor.FileOptions.Builder(_message__)
   /** Generated classes can be optimized for speed or code size.
     */
   sealed abstract class OptimizeMode(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
