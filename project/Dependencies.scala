@@ -19,7 +19,7 @@ object Dependencies {
     val cats                    = "2.4.2"
     val mockito                 = "3.2.0"
     val munit                   = "0.7.22"
-    val scalaTest               = "3.2.5"
+    val scalaTest               = "3.2.6"
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.5.0"
     val utest                   = "0.7.4"
