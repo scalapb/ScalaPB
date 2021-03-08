@@ -726,16 +726,6 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
-  /*
-  def generateMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
-    printer
-      .add(
-        s"def merge(`_message__`: $myFullScalaName, `_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = ??? // newBuilder(_message__).merge(_input__).result()"
-      )
-  }
-   */
-
   def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullName
     printer
