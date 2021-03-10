@@ -86,7 +86,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     )
   )
   .jsPlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       libraryDependencies += protobufRuntimeScala.value,
       scalajsSourceMaps,
@@ -258,7 +258,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
   )
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
   .jsPlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Dotty),
     settings = scalajsSourceMaps ++ Seq(
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
@@ -340,7 +340,7 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
     )
   )
   .jsPlatform(
-    Seq(Scala212, Scala213),
+    Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf",
       Compile / PB.targets := Seq(
@@ -365,7 +365,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
     )
   )
   .jsPlatform(
-    Seq(Scala212, Scala213),
+    Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf"
     )

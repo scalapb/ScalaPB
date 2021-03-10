@@ -116,6 +116,7 @@ object BuildHelper {
       .Process("git rev-parse HEAD")
       .lineStream_!
       .head
-    s"-P:scalajs:mapSourceURI:$a->$g/"
+    val flagPrefix = if (isDotty.value) "-" else "-P:"
+    s"${flagPrefix}scalajs:mapSourceURI:$a->$g/"
   }
 }
