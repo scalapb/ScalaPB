@@ -11,7 +11,7 @@ object Dependencies {
     val collectionCompat     = "2.4.2"
     val coursier             = "2.0.13"
     val protocGen            = "0.9.2"
-    val protobufRuntimeScala = "0.8.8"
+    val protobufRuntimeScala = "0.8.9"
     val commonsCodec         = "1.15"
 
     // For testing
