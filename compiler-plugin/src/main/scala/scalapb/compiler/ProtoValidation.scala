@@ -20,6 +20,11 @@ class ProtoValidation(implicits: DescriptorImplicits) {
         s"${fd.getFullName}: primitive_wrappers and no_primitive_wrappers must not be used at the same time."
       )
     }
+    if (fd.javaConversions && fd.javaPackage.isEmpty) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: java_conversions require either a package statement or setting the java_package option."
+      )
+    }
     val allSealedOneofCases = for {
       msg   <- fd.getMessageTypes.asScala
       cases <- msg.sealedOneofCases.getOrElse(Seq.empty)
