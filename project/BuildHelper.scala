@@ -79,7 +79,8 @@ object BuildHelper {
       case x =>
         (assembly / assemblyMergeStrategy).value.apply(x)
     },
-    compileOrder := CompileOrder.JavaThenScala
+    compileOrder := CompileOrder.JavaThenScala,
+    versionScheme := Some("early-semver")
   )
 
   object Compiler {
