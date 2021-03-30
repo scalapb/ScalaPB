@@ -4,7 +4,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
 
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.1.2")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.8.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.8.1")
 
 addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
 
@@ -24,9 +24,9 @@ addSbtPlugin("com.typesafe.sbt" % "sbt-ghpages" % "0.6.3")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.2")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.1")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.2")
 
-addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.5")
+addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.6")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.6")
 
@@ -34,7 +34,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.7.0")
 
 addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.3")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.18")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.19")
 
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(

@@ -86,7 +86,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     )
   )
   .jsPlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       libraryDependencies += protobufRuntimeScala.value,
       scalajsSourceMaps,
@@ -258,7 +258,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
   )
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
   .jsPlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Dotty),
     settings = scalajsSourceMaps ++ Seq(
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
@@ -340,7 +340,7 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
     )
   )
   .jsPlatform(
-    Seq(Scala212, Scala213),
+    Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf",
       Compile / PB.targets := Seq(
@@ -365,7 +365,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
     )
   )
   .jsPlatform(
-    Seq(Scala212, Scala213),
+    Seq(Scala212, Scala213, Dotty),
     settings = Seq(
       Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf"
     )
@@ -415,14 +415,14 @@ lazy val docs = project
     docusaurusCreateSite := docusaurusCreateSite.dependsOn(Compile / unidoc).value,
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(Compile / unidoc).value,
     mdocVariables := Map(
-      "scalapb"          -> "0.10.10",
-      "scalapb_latest"   -> "0.11.0-M4",
+      "scalapb"          -> "0.11.0",
+      "scalapb_latest"   -> "0.11.0",
       "scala3"           -> Dependencies.Dotty,
-      "sbt_protoc"       -> "1.0.0",
-      "sbt_dotty"        -> "0.4.6",
-      "protoc"           -> "3.11.4",
-      "sparksql_scalapb" -> "0.10.4",
-      "scalapb_validate" -> "0.2.0"
+      "sbt_protoc"       -> "1.0.2",
+      "sbt_dotty"        -> "0.5.3",
+      "protoc"           -> "3.15.6",
+      "sparksql_scalapb" -> "0.11.0",
+      "scalapb_validate" -> "0.3.0"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
     ghpagesBranch := "master"

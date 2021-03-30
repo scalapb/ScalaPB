@@ -47,9 +47,16 @@ Add the following to your `project/plugins.sbt`:
 ```scala
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "@sbt_protoc@")
 
+// For ScalaPB 0.11.x:
 libraryDependencies ++= Seq(
     "com.thesamet.scalapb" %% "compilerplugin"           % "@scalapb@",
     "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "@scalapb_validate@"
+)
+
+// For ScalaPB 0.10.x:
+libraryDependencies ++= Seq(
+    "com.thesamet.scalapb" %% "compilerplugin"           % "0.10.11",
+    "com.thesamet.scalapb" %% "scalapb-validate-codegen" % "0.2.2"
 )
 ```
 

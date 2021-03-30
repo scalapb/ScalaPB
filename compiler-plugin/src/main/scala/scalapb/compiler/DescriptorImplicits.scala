@@ -145,7 +145,7 @@ class DescriptorImplicits private[compiler] (
     }
 
     def javaDescriptorSource: String =
-      s"${method.getService.javaDescriptorSource}.getMethods.get(${method.getIndex})"
+      s"${method.getService.javaDescriptorSource}.getMethods().get(${method.getIndex})"
   }
 
   implicit final class ExtendedServiceDescriptor(self: ServiceDescriptor) {
@@ -173,7 +173,7 @@ class DescriptorImplicits private[compiler] (
       s"${self.getFile.fileDescriptorObject.fullName}.scalaDescriptor.services(${self.getIndex})"
 
     def javaDescriptorSource: String =
-      s"${self.getFile.fileDescriptorObject.fullName}.javaDescriptor.getServices.get(${self.getIndex})"
+      s"${self.getFile.fileDescriptorObject.fullName}.javaDescriptor.getServices().get(${self.getIndex})"
 
     def sourcePath: Seq[Int] = Seq(FileDescriptorProto.SERVICE_FIELD_NUMBER, self.getIndex)
 

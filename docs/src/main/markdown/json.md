@@ -13,6 +13,9 @@ Make sure that you are using ScalaPB 0.5.x or later.
 In `build.sbt` add a dependency on `scalapb-json4s`:
 
 ```scala
+// For ScalaPB 0.11.x:
+libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.11.0"
+
 // For ScalaPB 0.10.x:
 libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.10.1"
 

@@ -5,21 +5,21 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.36.0"
-    val protobuf             = "3.13.0"
+    val grpc                 = "1.36.1"
+    val protobuf             = "3.15.6"
     val silencer             = "1.7.3"
-    val collectionCompat     = "2.4.2"
-    val coursier             = "2.0.12"
+    val collectionCompat     = "2.4.3"
+    val coursier             = "2.0.16"
     val protocGen            = "0.9.2"
-    val protobufRuntimeScala = "0.8.7"
+    val protobufRuntimeScala = "0.8.9"
     val commonsCodec         = "1.15"
 
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.4.2"
     val mockito                 = "3.2.0"
-    val munit                   = "0.7.22"
-    val scalaTest               = "3.2.6"
+    val munit                   = "0.7.23"
+    val scalaTest               = "3.2.5"
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.5.0"
     val utest                   = "0.7.4"

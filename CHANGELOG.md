@@ -1,5 +1,8 @@
 # Change Log
 ## [0.11.0 Unreleased]
+## [0.11.0-M7]
+- Add ScalaJs cross build for Scala 3.0.0-RC1
+
 ## [0.11.0-M6]
 - Update to Scala 3.0.0-RC1
 - Update to Scala 2.13.5
