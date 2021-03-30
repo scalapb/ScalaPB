@@ -8,7 +8,7 @@ object Dependencies {
     val grpc                 = "1.36.1"
     val protobuf             = "3.15.6"
     val silencer             = "1.7.3"
-    val collectionCompat     = "2.4.2"
+    val collectionCompat     = "2.4.3"
     val coursier             = "2.0.16"
     val protocGen            = "0.9.2"
     val protobufRuntimeScala = "0.8.9"
