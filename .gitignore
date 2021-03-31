@@ -2,6 +2,7 @@
 .metals/
 project/.bloop/
 project/metals.sbt
+.vscode/
 
 *.class
 *.log

@@ -16,12 +16,12 @@ object Dependencies {
 
     // For testing
     val annotationApi           = "1.3.2"
-    val cats                    = "2.4.2"
+    val cats                    = "2.5.0"
     val mockito                 = "3.2.0"
     val munit                   = "0.7.23"
-    val scalaTest               = "3.2.5"
+    val scalaTest               = "3.2.7"
     val scalaTestPlusMockito    = "3.1.0.0"
-    val scalaTestPlusScalaCheck = "3.2.5.0"
+    val scalaTestPlusScalaCheck = "3.2.7.0"
     val utest                   = "0.7.4"
   }
 
@@ -29,7 +29,7 @@ object Dependencies {
 
   val Scala213 = "2.13.5"
 
-  val Dotty = "3.0.0-RC1"
+  val Dotty = "3.0.0-RC2"
 
   val silencer = Seq(
     sbt.compilerPlugin(
