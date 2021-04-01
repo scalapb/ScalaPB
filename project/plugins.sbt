@@ -32,8 +32,6 @@ addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.6")
 
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.7.0")
 
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.4")
-
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.19")
 
 // For https://github.com/lightbend/mima/issues/422

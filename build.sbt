@@ -127,8 +127,8 @@ lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
     libraryDependencies ++= Seq(
       grpcStub,
       grpcProtobuf,
-      munit.value  % "test",
-      (mockitoCore % "test").withDottyCompat(scalaVersion.value)
+      munit.value % "test",
+      mockitoCore % "test"
     ),
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
@@ -142,9 +142,9 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
-      protocGen.withDottyCompat(scalaVersion.value),
+      protocGen.cross(CrossVersion.for3Use2_13),
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      (protocCacheCoursier  % "test").withDottyCompat(scalaVersion.value),
+      (protocCacheCoursier  % "test").cross(CrossVersion.for3Use2_13),
       scalaTest.value       % "test"
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
@@ -171,7 +171,7 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .settings(
     libraryDependencies ++= Seq(
       coursier,
-      protocCacheCoursier.withDottyCompat(scalaVersion.value)
+      protocCacheCoursier.cross(CrossVersion.for3Use2_13)
     ),
     /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
       * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the
@@ -221,11 +221,11 @@ lazy val proptest = (projectMatrix in file("proptest"))
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
       protobufJava,
-      grpcNetty                                               % "test",
-      grpcProtobuf                                            % "test",
-      protocCacheCoursier.withDottyCompat(scalaVersion.value) % "test",
-      scalaTest.value                                         % "test",
-      scalaTestPlusScalaCheck.value                           % "test"
+      grpcNetty                                           % "test",
+      grpcProtobuf                                        % "test",
+      protocCacheCoursier.cross(CrossVersion.for3Use2_13) % "test",
+      scalaTest.value                                     % "test",
+      scalaTestPlusScalaCheck.value                       % "test"
     ),
     scalacOptions ++= (if (!isDotty.value)
                          Seq(
