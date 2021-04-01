@@ -36,6 +36,8 @@ addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "0.5.4")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.19")
 
+addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.0")
+
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
   "typesafe sbt-plugins",

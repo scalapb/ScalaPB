@@ -162,6 +162,8 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
 
 lazy val compilerPluginJVM2_12 = compilerPlugin.jvm(Scala212)
 
+lazy val compilerPluginJVM2_13 = compilerPlugin.jvm(Scala213)
+
 lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .defaultAxes()
   .dependsOn(compilerPlugin)
@@ -195,16 +197,18 @@ lazy val protocGenScala =
 
 lazy val protocGenScalaNativeImage =
   (project in file("protoc-gen-scala-native-image"))
-    .enablePlugins(GraalVMNativeImagePlugin)
-    .dependsOn(compilerPluginJVM2_12)
+    .enablePlugins(NativeImagePlugin)
+    .dependsOn(compilerPluginJVM2_13)
     .settings(
       name := "protoc-gen-scala-native-image",
-      graalVMNativeImageOptions ++= Seq(
+      scalaVersion := Scala213,
+      nativeImageOutput := file("target") / "protoc-gen-scala",
+      nativeImageOptions ++= Seq(
         "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
         "-H:Name=protoc-gen-scala"
       ) ++ (
         if (System.getProperty("os.name").toLowerCase.contains("linux"))
-          Seq("--static")
+          Seq("--static", "--no-fallback")
         else Seq.empty,
       ),
       publish / skip := true,
