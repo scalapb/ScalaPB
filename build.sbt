@@ -192,25 +192,29 @@ lazy val scalapbc = project
     maintainer := "thesamet@gmail.com"
   )
 
-lazy val protocGenScalaUnix = project
-  .enablePlugins(AssemblyPlugin, GraalVMNativeImagePlugin)
-  .dependsOn(compilerPlugin)
-  .settings(
-    graalVMNativeImageOptions ++= Seq(
-      "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
-      "-H:Name=protoc-gen-scala"
-    ) ++ (
-      if (System.getProperty("os.name").toLowerCase.contains("linux"))
-        Seq("--static")
-      else Seq.empty,
-    ),
-    assemblyOption in assembly := (assemblyOption in
-      assembly).value.copy(
-      prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))
-    ),
-    skip in publish := true,
-    Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
-  )
+lazy val protocGenScalaUnix =
+  (project in file("protoc-gen-scala-native-image"))
+    .enablePlugins(AssemblyPlugin, NativeImagePlugin)
+    .dependsOn(compilerPlugin)
+    .settings(
+      name := "protoc-gen-scala-native-image",
+      scalaVersion := Scala212,
+      nativeImageOutput := file("target") / "protoc-gen-scala",
+      nativeImageOptions ++= Seq(
+        "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
+        "-H:Name=protoc-gen-scala"
+      ) ++ (
+        if (System.getProperty("os.name").toLowerCase.contains("linux"))
+          Seq("--static", "--no-fallback")
+        else Seq.empty,
+      ),
+      assemblyOption in assembly := (assemblyOption in
+        assembly).value.copy(
+        prependShellScript = Some(sbtassembly.AssemblyPlugin.defaultUniversalScript(shebang = true))
+      ),
+      publish / skip := true,
+      Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
+    )
 
 lazy val protocGenScalaWindows = project
   .enablePlugins(AssemblyPlugin)

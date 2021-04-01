@@ -30,6 +30,8 @@ addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0")
 
 addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.5")
 
+addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.0")
+
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
   "typesafe sbt-plugins",
