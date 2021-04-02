@@ -1,7 +1,11 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -e
 
-SCALA_VERSION=${SCALA_VERSION:-2_13}
+if [[ "$SCALA_VERSION" = 3* ]]
+then
+    echo Skipping test for Scala 3.
+    exit 0
+fi
 
 sbt \
 grpcRuntimeJVM${SCALA_VERSION}/mimaReportBinaryIssues \
