@@ -401,7 +401,7 @@ lazy val docs = project
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.11.0",
       "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.11.0",
-      "org.apache.spark"     %% "spark-sql"        % "2.4.4",
+      "org.apache.spark"     %% "spark-sql"        % "3.1.1",
       "com.lihaoyi"          %% "ujson"            % "0.9.0",
       "com.lihaoyi"          %% "os-lib"           % "0.5.0",
       "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
@@ -431,7 +431,7 @@ lazy val docs = project
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
     ghpagesBranch := "master",
     // scalameta tree's uses ScalaPB 0.10.x, which is "sufficiently binary compatible".
-    ThisBuild / libraryDependencySchemes += "com.thesamet.scalapb" %% "scalapb-runtime" % "always"
+    libraryDependencySchemes += "com.thesamet.scalapb" %% "scalapb-runtime" % "always"
 
     /*
     ghpagesCleanSite / includeFilter := GlobFilter(
