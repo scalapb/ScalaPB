@@ -1,9 +1,9 @@
 import sbt._
+import sbt.internal.inc.ScalaInstance
 import Keys._
 import Dependencies.versions
 import sbtprotoc.ProtocPlugin.autoImport.PB
 import sbtassembly.AssemblyPlugin.autoImport._
-import dotty.tools.sbtplugin.DottyPlugin.autoImport.{isDotty, DottyCompatModuleID}
 
 object BuildHelper {
   val commonScalacOptions = Seq(
@@ -55,12 +55,14 @@ object BuildHelper {
 
   val scala3Settings = Seq()
 
+  def isDotty = Def.setting[Boolean] { scalaVersion.value.startsWith("3.") }
+
   def commonSettings = Seq(
     scalacOptions ++= commonScalacOptions ++ (if (isDotty.value) scalac3Options
                                               else scalac2Options),
     libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil),
     libraryDependencies += Dependencies.scalaCollectionCompat.value
-      .withDottyCompat(scalaVersion.value),
+      .cross(CrossVersion.for3Use2_13),
     Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (
                                                                                              isDotty.value
                                                                                            )
