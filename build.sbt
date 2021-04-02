@@ -429,7 +429,10 @@ lazy val docs = project
       "scalapb_validate" -> "0.3.0"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
-    ghpagesBranch := "master"
+    ghpagesBranch := "master",
+    // scalameta tree's uses ScalaPB 0.10.x, which is "sufficiently binary compatible".
+    ThisBuild / libraryDependencySchemes += "com.thesamet.scalapb" %% "scalapb-runtime" % "always"
+
     /*
     ghpagesCleanSite / includeFilter := GlobFilter(
       (ghpagesRepository.value / "README.md").getCanonicalPath
