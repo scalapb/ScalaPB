@@ -1,9 +1,7 @@
 #!/usr/bin/env sh
 set -e
 
-exit 0
-
-SCALA_VERSION=${SCALA_VERSION:-2_12}
+SCALA_VERSION=${SCALA_VERSION:-2_13}
 
 sbt \
 grpcRuntimeJVM${SCALA_VERSION}/mimaReportBinaryIssues \

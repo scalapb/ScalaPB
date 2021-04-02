@@ -5,7 +5,7 @@ import Dependencies._
 
 val protobufCompilerVersion = "3.13.0"
 
-val MimaPreviousVersion = "0.11.0-M1"
+val MimaPreviousVersion = "0.11.0"
 
 inThisBuild(
   List(
