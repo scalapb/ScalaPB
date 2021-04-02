@@ -93,7 +93,7 @@ jobs:
         set -x
         gu install native-image
         ./make_reflect_config.sh
-        sbt protocGenScalaNativeImage/graalvm-native-image:packageBin
+        sbt protocGenScalaNativeImage/nativeImage
         zip -j $ASSET.zip target/protoc-gen-scala
 
     - uses: actions/upload-artifact@v2
