@@ -197,8 +197,6 @@ lazy val protocGenScalaUnix =
     .enablePlugins(AssemblyPlugin, NativeImagePlugin)
     .dependsOn(compilerPlugin)
     .settings(
-      name := "protoc-gen-scala-native-image",
-      scalaVersion := Scala212,
       nativeImageOutput := file("target") / "protoc-gen-scala",
       nativeImageOptions ++= Seq(
         "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
