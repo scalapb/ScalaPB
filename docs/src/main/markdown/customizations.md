@@ -3,6 +3,23 @@ title: "Customizations"
 layout: docs
 ---
 
+## Getting started with scalapb.proto
+
+ScalaPB's code generator provides supports many different customizations. To
+get access to these customizations, you need to import `scalapb/scala.proto`
+in the proto files you want to customize. You can also have the options apply
+to an entire proto3 package by using package-scoped options (see below).
+
+To have `scalapb/scalapb.proto` available to be imported in your project, add
+the following SBT setting in your `build.sbt`:
+
+    libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
+
+If you are invoking `protoc` manually, you will need to ensure that the files in
+[`protobuf`](https://github.com/scalapb/ScalaPB/tree/master/protobuf)
+directory are available to your project.
+
+
 ## ScalaPB File-level Options
 
 ScalaPB file-level options lets you
@@ -664,17 +681,4 @@ message BarMessage {
   option (scalapb.message).unknown_field_annotations = "@annotation1";
 }
 ```
-
-
-## Adding scalapb.proto to your project
-
-The easiest way to get `protoc` to find `scalapb/scalapb.proto` when compiling
-through SBT is by adding the following to your `build.sbt`:
-
-    libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
-
-If you are invoking `protoc` manually, you will need to ensure that the files in
-[`protobuf`](https://github.com/scalapb/ScalaPB/tree/master/protobuf)
-directory are available to your project.
-
 
