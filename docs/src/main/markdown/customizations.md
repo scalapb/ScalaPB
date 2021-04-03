@@ -63,7 +63,9 @@ option (scalapb.options) = {
   for more details.
 
 - `package_name` sets the Scala base package name, if this is not defined,
-then it falls back to `java_package` and then to `package`.
+then it falls back to the `java_package` option. If the `java_package` option
+is also not the found, then the package name from file's `package` statement
+is used.
 
 - Setting `flat_package` to true (default is `false`) makes ScalaPB not append
 the protofile base name to the package name.  You can also apply this option
