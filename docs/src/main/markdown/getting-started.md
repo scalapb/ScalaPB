@@ -106,7 +106,7 @@ final case class Person(
     ...
 ```
 
-The actual generated code will contain fully qualified class names (such as `_root_.scala.Predef.String`) to prevent name collissions between entities defined in your protocol buffer and other Scala code.
+The actual generated code will contain fully qualified class names (such as `_root_.scala.Predef.String`) to prevent name collisions between entities defined in your protocol buffer and other Scala code.
 
 As you can see, each protobuf field becomes a member in the generated case class.
 
