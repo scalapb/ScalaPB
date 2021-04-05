@@ -132,12 +132,14 @@ option (scalapb.options) = {
   [scalapb.validate.file] {
       validate_at_construction: true
       insert_validator_instance: true
+      skip: false
   }
 };
 ```
 
 - `validate_at_construction` when true, a check for validity is added to the message class body, so construction of invalid messages results in a validation exception. Default: `false`.
 - `insert_validator_instance` when true, implicit instance of a `Validator` is added to the companion object of the message. This enables writing `Validator[MyMsg].validate(instance)`. Default: `true`.
+- `skip` when true, skips gnerating validators for messages defined in this file. This can be set for a third-party package to work around the problem that there are no validators for it. See [this testcase](https://github.com/scalapb/scalapb-validate/tree/master/e2e/src/main/protobuf/skip) for a usage example.
 
 ## Rule-based type customization
 
