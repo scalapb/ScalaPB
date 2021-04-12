@@ -1,3 +1,6 @@
+# April 12, 2021: Please update to sbt-protoc 1.0.3. Older artifacts published
+to bintray are [currently not accessible](https://status.bintray.com/)
+
 ScalaPB
 =======
 
