@@ -422,7 +422,7 @@ lazy val docs = project
       "scalapb"          -> "0.11.1",
       "scalapb_latest"   -> "0.11.1",
       "scala3"           -> Dependencies.Dotty,
-      "sbt_protoc"       -> "1.0.2",
+      "sbt_protoc"       -> "1.0.3",
       "sbt_dotty"        -> "0.5.3",
       "protoc"           -> "3.15.6",
       "sparksql_scalapb" -> "0.11.0",
