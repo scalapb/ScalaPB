@@ -4,30 +4,6 @@ sidebar_label: "FAQ"
 layout: docs
 ---
 
-## IntelliJ complains on duplicate files ("class is already defined")
-
-If you are using sbt-protoc this should not happen. Please file a bug.
-
-If you are still using sbt-scalapb, please switch to sbt-protoc as described
-in the installation instruction.
-
-sbt-protobuf which sbt-scalapb relies on defaults to generating the case
-classes in `target/src_managed/compiled_protobuf/`.  This leads to a situation
-where both `target/src_managed/compiled_protobuf/` and its parent, `target/src_managed/`,
-are considered source directories and the source files are seen twice. To
-eliminate this problem, let's tell sbt-protobuf to generate the sources into
-the parent directory. Add this to your `build.sbt`:
-
-```scala
-scalaSource in PB.protobufConfig := sourceManaged.value
-```
-
-If you generate Java sources, add,
-
-```scala
-javaSource in PB.protobufConfig := sourceManaged.value
-```
-
 ## How do I use ScalaPB from the command line?
 
 Check out [ScalaPBC](scalapbc.md).
