@@ -54,7 +54,6 @@ object FieldMaskUtil {
     }
 
     val array = name.split("\\_")
-    toLowerCase(array(0), buf)
 
     @tailrec
     def loop(i: Int): Unit = {
@@ -64,7 +63,10 @@ object FieldMaskUtil {
       }
     }
 
-    loop(1)
+    if (array.nonEmpty) {
+      toLowerCase(array(0), buf)
+      loop(1)
+    }
     buf
   }
 

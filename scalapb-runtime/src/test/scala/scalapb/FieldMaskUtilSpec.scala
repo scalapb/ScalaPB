@@ -2,6 +2,7 @@ package scalapb
 
 import com.google.protobuf.field_mask.FieldMask
 import munit.FunSuite
+import com.google.common.base.CaseFormat
 
 class FieldMaskUtilSpec extends FunSuite {
   test("toJsonString") {
@@ -30,5 +31,23 @@ class FieldMaskUtilSpec extends FunSuite {
     val expect = FieldMask(Seq("bar", "foo"))
     val union  = FieldMaskUtil.union(mask1, mask2, mask3, mask4)
     assertEquals(union, expect)
+  }
+
+  test("lowerSnakeCaseToCamelCase handles empty string") {
+    val useScala = FieldMaskUtil.lowerSnakeCaseToCamelCase("")
+    val useJava  = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "")
+    assertEquals(useScala, useJava)
+  }
+
+  test("lowerSnakeCaseToCamelCase handles '_'") {
+    val useScala = FieldMaskUtil.lowerSnakeCaseToCamelCase("_")
+    val useJava  = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "_")
+    assertEquals(useScala, useJava)
+  }
+
+  test("lowerSnakeCaseToCamelCase handles '__'") {
+    val useScala = FieldMaskUtil.lowerSnakeCaseToCamelCase("__")
+    val useJava  = CaseFormat.LOWER_UNDERSCORE.to(CaseFormat.LOWER_CAMEL, "__")
+    assertEquals(useScala, useJava)
   }
 }
