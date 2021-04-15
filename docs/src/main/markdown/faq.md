@@ -141,6 +141,10 @@ message MyPrivateMessage {
 }
 ```
 
+## How do I customize third-party types?
+
+You can use field-transformations to match on third-party types and apply arbitrary field-level options. See [example here](transformations.md#example-customizing-third-party-types).
+
 ## How do I use ScalaPB with Gradle?
 
 You can use ScalaPB with the official [Protobuf Plugin for Gradle](https://github.com/google/protobuf-gradle-plugin).

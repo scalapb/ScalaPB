@@ -128,3 +128,35 @@ It is possible to reference values in the rules and use them on the `set` part. 
 The paths that are referenced don't have to appear on the `when` pattern. While referencing rule values is useful when the matching mode is `PRESENCE`, it is supported to reference rule values in all matching modes.
 
 One application for this is in conjunction with [refined types](https://github.com/fthomas/refined). See example in [ScalaPB validate documentation](validation.md#using-with-refined).
+
+## Example: customizing third-party types
+
+When you want to customize your own messages, ScalaPB lets you add [custom
+options](customizations.md#message-level-custom-type-and-boxing) within the message is defined. You may also want to apply customizations to types defined in third-party protos which you can not change. To accomplish that, we can use field transformations. In the following example, we match on `google.protobuf.Timestamp` and map it to a custom type. In `src/main/protobuf/myexample/options.proto`:
+
+```protobuf
+syntax = "proto2";
+
+package com.e;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  scope: PACKAGE
+  field_transformations : [
+    {
+      when : {
+        type: TYPE_MESSAGE
+        type_name: ".google.protobuf.Timestamp"
+      }
+      set : {[scalapb.field] {type : 'com.myexample.MyType' }}
+    }
+  ]
+};
+```
+
+:::note
+Note the `.` (dot) prefix in the `type_name` field above. It is needed as [explained here](https://github.com/protocolbuffers/protobuf/blob/68cb69ea68822d96eee6d6104463edf85e70d689/src/google/protobuf/descriptor.proto#L187-L192). In this example we assume the user's package is not named `google` or `google.protobuf` since then `type_name` could be relative and would not match.
+:::
+
+Now, we need to make sure there is an implicit typemapper converting between `google.protobuf.timestamp.Timestamp` and `com.myexample.MyType`. The typemapper can be defined in the companion object of `MyType` as exampled in [custom types](customizations.md#custom-types).
