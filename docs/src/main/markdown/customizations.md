@@ -127,7 +127,7 @@ enums to a single Scala file.
 
 ## Package-scoped options
 
-Note: this option is experimental and is available in ScalaPB 0.8.2 and later.
+Note: this option is available in ScalaPB 0.8.2 and later.
 
 Sometimes you want to have the same file-level options applied to all
 the proto files in your project.  To accomplish that, add a `package.proto`
@@ -173,11 +173,46 @@ The following rules are applied when validating package-scoped options:
   classes that are shipped with ScalaPB already assume certain options, so
   overriding options globally may lead to compilation errors.
 
-NOTE: If you are shipping a library that includes both protos and Scala generated code, and
-downstream users are expected to import the protos you ship, then you need to import the package
-options proto explicitly from all the proto files that are meant to inherit the options.  The
-reason is that if you don't do that, then downstream projects would not
-process the proto package file which may lead to compilation errors.
+### Publishing package-scoped options
+
+If you are publishing a library that includes protos with package-scoped
+options, you need to make sure your library users source the package-scoped
+option proto file so the customizations are applied when they generate code.
+
+Your users can simply import your package-scoped options from any proto file
+in their project to have the settings applied (a single import of
+the package-scoped options file would apply it globally for the code generator).
+However, since ScalaPB 0.10.11 and sbt-protoc 1.0.1, sbt-protoc provides a way to automate this with no
+need to manually import the package-scoped options file. This is accomplished
+by including a special attribute in the manifest of the library you publish. Add the following to
+your library's settings:
+
+```scala
+Compile / packageBin / packageOptions += (
+    Package.ManifestAttributes("ScalaPB-Options-Proto" -> "path/to/package.proto")
+)
+```
+
+The path above is relative to the root directory of the published JAR (so `src/main/protobuf` is not needed). Users add your library to their projects like this:
+
+```scala
+libraryDependencies ++= Seq(
+    "com.example" %% "your-library" % "0.1.0",
+    "com.example" %% "your-library" % "0.1.0" % "protobuf"
+)
+```
+
+The first dependency provides the precompiled class files. The second dependency makes it possible
+for users to import the protos in the jar file. `sbt-protoc` will look for the
+`ScalaPB-Options-Proto` attribute in the jar's manifest and automatically add the package scoped options file
+to the protoc command line.
+
+:::note
+Since the package-scoped options file is used as a source file in multiple
+projects, it should not define any types (messages, enums, services). 
+This ensures that the package-scoped proto file does not generate any code on its own so we don't
+end up with duplicate class files.
+:::
 
 ## Auxiliary options
 
