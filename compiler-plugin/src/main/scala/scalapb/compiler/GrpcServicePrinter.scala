@@ -18,7 +18,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       case StreamType.ClientStreaming =>
         s"(responseObserver: ${observer(method.outputType.scalaType)}): ${observer(method.inputType.scalaType)}"
       case StreamType.ServerStreaming =>
-        s"(request: ${method.inputType.scalaType}, responseObserver: ${observer(method.outputType.scalaType)}): Unit"
+        s"(request: ${method.inputType.scalaType}, responseObserver: ${observer(method.outputType.scalaType)}): _root_.scala.Unit"
       case StreamType.Bidirectional =>
         s"(responseObserver: ${observer(method.outputType.scalaType)}): ${observer(method.inputType.scalaType)}"
     })
@@ -208,7 +208,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
             val serverMethod =
               s"$serverCalls.UnaryMethod[${method.inputType.scalaType}, ${method.outputType.scalaType}]"
             p.add(s"""$call(new $serverMethod {
-                     |  override def invoke(request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]): Unit =
+                     |  override def invoke(request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]): _root_.scala.Unit =
                      |    $serviceImpl.${method.name}(request).onComplete(scalapb.grpc.Grpc.completeObserver(observer))(
                      |      $executionContext)
                      |}))""".stripMargin)
@@ -216,7 +216,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
             val serverMethod =
               s"$serverCalls.ServerStreamingMethod[${method.inputType.scalaType}, ${method.outputType.scalaType}]"
             p.add(s"""$call(new $serverMethod {
-                     |  override def invoke(request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]): Unit =
+                     |  override def invoke(request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]): _root_.scala.Unit =
                      |    $serviceImpl.${method.name}(request, observer)
                      |}))""".stripMargin)
           case _ =>
