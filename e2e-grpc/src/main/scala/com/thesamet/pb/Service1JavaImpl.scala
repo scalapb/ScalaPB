@@ -2,7 +2,7 @@ package com.thesamet.pb
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.thesamet.proto.e2e.Service._
+import com.thesamet.proto.e2e.Service.{Unit=>_, _}
 import com.thesamet.proto.e2e.Service1Grpc._
 import io.grpc.stub.StreamObserver
 

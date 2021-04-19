@@ -47,6 +47,9 @@ message SealedResponse {
     }
 }
 
+// https://github.com/scalapb/ScalaPB/issues/1126
+message Unit {}
+
 extend google.protobuf.MethodOptions {
     string custom_option = 50001;
 }
@@ -57,7 +60,7 @@ extend google.protobuf.ServiceOptions {
 
 service Service1 {
   option (custom_service_option) = "custom_service_value";
-  
+
   // Computes string length
   rpc UnaryStringLength(Req1) returns (Res1) {}
 
