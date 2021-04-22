@@ -11,25 +11,25 @@ object Dependencies {
     val collectionCompat     = "2.4.3"
     val coursier             = "2.0.16"
     val protocGen            = "0.9.2"
-    val protobufRuntimeScala = "0.8.10"
+    val protobufRuntimeScala = "0.8.11"
     val commonsCodec         = "1.15"
 
     // For testing
     val annotationApi           = "1.3.2"
-    val cats                    = "2.5.0"
+    val cats                    = "2.6.0"
     val mockito                 = "3.2.0"
     val munit                   = "0.7.25"
-    val scalaTest               = "3.2.7"
+    val scalaTest               = "3.2.8"
     val scalaTestPlusMockito    = "3.1.0.0"
-    val scalaTestPlusScalaCheck = "3.2.7.0"
-    val utest                   = "0.7.8"
+    val scalaTestPlusScalaCheck = "3.2.8.0"
+    val utest                   = "0.7.9"
   }
 
   val Scala212 = "2.12.13"
 
   val Scala213 = "2.13.5"
 
-  val Dotty = "3.0.0-RC2"
+  val Dotty = "3.0.0-RC3"
 
   val silencer = Seq(
     sbt.compilerPlugin(
