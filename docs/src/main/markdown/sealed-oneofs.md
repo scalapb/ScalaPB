@@ -80,6 +80,9 @@ A sealed oneof is detected when a message (denoted below as the *containing mess
 
 6. A message type can appear in at most one sealed oneof.
 
+7. Sealed oneofs and the fields within them can not be typemapped to custom
+   types.
+
 ## Experimental Status
 
 Some of the rules above are inherently required (for example, that the message types need to be distinct). Other rules, such as the one requesting that all involved messages need to be inside the same namespace, were added to make the implementation simpler. That particular rule helps ensuring that all the cases can be generated into a single Scala source file without changing too much the existing way the code generator works. It is possible that some of the rules will change over time, though most likely they are only going to become less restrictive so existing code does not break.

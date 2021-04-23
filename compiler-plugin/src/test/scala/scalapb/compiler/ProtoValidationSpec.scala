@@ -270,6 +270,24 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocatio
     }.message must include("Sealed oneofs can not be type mapped. Use regular oneofs instead.")
   }
 
+  it should "fail when a sealed oneof case is typemapped" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file.proto" ->
+          """
+            |syntax = "proto2";
+            |import "scalapb/scalapb.proto";
+            |message Case1 {}
+            |message MyOneof {
+            |  oneof sealed_value {
+            |    Case1 case1 = 1 [(scalapb.field).type="SomeType"];
+            |  }
+            |}
+          """.stripMargin
+      )
+    }.message must include("sealed oneof cases may not have custom types.")
+  }
+
   it should "fail when sealed_oneof_extends used outside of a sealed oneof type" in {
     intercept[GeneratorException] {
       runValidation(
