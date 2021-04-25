@@ -2,8 +2,6 @@
 title: "Sealed oneofs"
 ---
 
-**Note: sealed oneofs are available only in ScalaPB 0.8 or later. The API and rules are considered experimental. See note at the bottom. **
-
 Sealed oneofs are a subset of oneofs for which ScalaPB generates idiomatic data types for.
 
 ## Example
@@ -82,8 +80,6 @@ A sealed oneof is detected when a message (denoted below as the *containing mess
 
 7. Sealed oneofs and the fields within them can not be typemapped to custom
    types.
-
-## Experimental Status
 
 Some of the rules above are inherently required (for example, that the message types need to be distinct). Other rules, such as the one requesting that all involved messages need to be inside the same namespace, were added to make the implementation simpler. That particular rule helps ensuring that all the cases can be generated into a single Scala source file without changing too much the existing way the code generator works. It is possible that some of the rules will change over time, though most likely they are only going to become less restrictive so existing code does not break.
 
