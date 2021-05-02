@@ -30,7 +30,7 @@ addSbtPlugin("com.geirsson" % "sbt-ci-release" % "1.5.7")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.7")
 
-addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.7.0")
+addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.8.0")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.20")
 
