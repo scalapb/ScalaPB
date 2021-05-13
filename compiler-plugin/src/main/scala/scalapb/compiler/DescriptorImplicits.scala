@@ -613,6 +613,11 @@ class DescriptorImplicits private[compiler] (
         (message.getFile.scalaOptions.getLenses)
       else params.lenses
 
+    def generateGetters: Boolean =
+      if (message.getFile.scalaOptions.hasGetters)
+        message.getFile.scalaOptions.getGetters
+      else true
+
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
         case "google.protobuf.Any"       => Seq("_root_.scalapb.AnyMethods")
