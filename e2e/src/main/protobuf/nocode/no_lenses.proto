@@ -6,7 +6,11 @@ option (scalapb.options).lenses = false;
 
 import "scalapb/scalapb.proto";
 
-message NoLenses {
+message NoLensesA {
   int32 a = 1;
+}
+
+message NoLenses {
+  NoLensesA a = 1;
   int32 b = 2;
 }

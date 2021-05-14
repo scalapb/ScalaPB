@@ -5,31 +5,31 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.37.1"
-    val protobuf             = "3.15.6"
+    val grpc                 = "1.37.0"
+    val protobuf             = "3.15.8"
     val silencer             = "1.7.3"
     val collectionCompat     = "2.4.4"
     val coursier             = "2.0.16"
     val protocGen            = "0.9.2"
-    val protobufRuntimeScala = "0.8.11"
+    val protobufRuntimeScala = "0.8.12"
     val commonsCodec         = "1.15"
 
     // For testing
     val annotationApi           = "1.3.2"
-    val cats                    = "2.6.0"
-    val mockito                 = "3.2.0"
+    val cats                    = "2.6.1"
+    val mockito                 = "3.2.4"
     val munit                   = "0.7.26"
-    val scalaTest               = "3.2.8"
+    val scalaTest               = "3.2.9"
     val scalaTestPlusMockito    = "3.1.0.0"
-    val scalaTestPlusScalaCheck = "3.2.8.0"
-    val utest                   = "0.7.9"
+    val scalaTestPlusScalaCheck = "3.2.9.0"
+    val utest                   = "0.7.10"
   }
 
   val Scala212 = "2.12.13"
 
   val Scala213 = "2.13.5"
 
-  val Dotty = "3.0.0-RC3"
+  val Scala3 = "3.0.0"
 
   val silencer = Seq(
     sbt.compilerPlugin(

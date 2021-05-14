@@ -47,30 +47,29 @@ object BuildHelper {
 
   val scalac3Options = Seq(
     "-language:implicitConversions",
-    "-source",
-    "3.0"
+    "-source:3.0-migration"
   )
 
   val scala2Settings = Seq()
 
   val scala3Settings = Seq()
 
-  def isDotty = Def.setting[Boolean] { scalaVersion.value.startsWith("3.") }
+  def isScala3 = Def.setting[Boolean] { scalaVersion.value.startsWith("3.") }
 
   def commonSettings = Seq(
-    scalacOptions ++= commonScalacOptions ++ (if (isDotty.value) scalac3Options
+    scalacOptions ++= commonScalacOptions ++ (if (isScala3.value) scalac3Options
                                               else scalac2Options),
-    libraryDependencies ++= (if (!isDotty.value) Dependencies.silencer else Nil),
+    libraryDependencies ++= (if (!isScala3.value) Dependencies.silencer else Nil),
     libraryDependencies += Dependencies.scalaCollectionCompat.value
       .cross(CrossVersion.for3Use2_13),
     Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (
-                                                                                             isDotty.value
+                                                                                             isScala3.value
                                                                                            )
                                                                                              "scala-3"
                                                                                            else
                                                                                              "scala-2"),
     Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (
-                                                                                       isDotty.value
+                                                                                       isScala3.value
                                                                                      )
                                                                                        "scala-3"
                                                                                      else
@@ -119,7 +118,7 @@ object BuildHelper {
       .Process("git rev-parse HEAD")
       .lineStream_!
       .head
-    val flag = if (isDotty.value) "-scalajs-mapSourceURI" else "-P:scalajs:mapSourceURI"
+    val flag = if (isScala3.value) "-scalajs-mapSourceURI" else "-P:scalajs:mapSourceURI"
     s"$flag:$a->$g/"
   }
 }

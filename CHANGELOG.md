@@ -1,6 +1,7 @@
 # Change Log
 ## [0.11.2] (Unreleased)
 - Fix bug where generated code would not compile if a message was named Unit (#1126)
+- Add option to block generation/access to field getters (#1098)
 - 
 ## [0.11.1]
 - Support Scala 3.0.0-RC2

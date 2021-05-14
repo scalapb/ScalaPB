@@ -49,6 +49,7 @@ option (scalapb.options) = {
   preamble: "sealed trait BaseMessage"
   preamble: "sealed trait CommonMessage"
   lenses: true
+  getters: true
   retain_source_code_info: false
   no_default_values_in_constructor: false
   preserve_unknown_fields: false
@@ -91,6 +92,7 @@ enums to a single Scala file.
   with other things in your project.
 
 - Setting `lenses` to `false` inhibits generation of lenses (default is `true`).
+- Setting `getters` to `false` inhibits generation of getters (default is `true`).
 
 - Setting `retain_source_code_info` to `true` retains information in the descriptor that
   can be used to retrieve source code information from the descriptor at
