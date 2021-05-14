@@ -1326,10 +1326,13 @@ class ProtobufGenerator(
         val clearMethod = "clear" + field.upperScalaName
         val singleType  = field.singleScalaTypeName
         printer
-          .when(field.supportsPresence || field.isInOneof) { p =>
+          .when(
+            (field.supportsPresence || field.isInOneof) && (message.generateGetters || message.generateLenses)
+          ) { p =>
             val default = defaultValueForGet(field)
+            val scope   = if (message.generateGetters) "" else "private "
             p.add(
-              s"def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)"
+              s"${scope}def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)"
             )
           }
           .when(field.supportsPresence) { p =>
