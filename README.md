@@ -1,5 +1,3 @@
-# April 12, 2021: Please update to sbt-protoc 1.0.3. Older artifacts published to bintray are [currently not accessible](https://status.bintray.com/)
-
 ScalaPB
 =======
 
@@ -64,9 +62,9 @@ To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/protoc.sbt`
 containing the following line:
 
-    addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.0")
+    addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.2")
 
-    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.10.10"
+    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.11.3"
 
 Add the following line to your `build.sbt`:
 
