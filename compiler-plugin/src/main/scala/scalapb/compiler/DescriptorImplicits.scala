@@ -614,9 +614,7 @@ class DescriptorImplicits private[compiler] (
       else params.lenses
 
     def generateGetters: Boolean =
-      if (message.getFile.scalaOptions.hasGetters)
-        message.getFile.scalaOptions.getGetters
-      else true
+      message.getFile.scalaOptions.getGetters
 
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
