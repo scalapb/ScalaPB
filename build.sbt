@@ -3,7 +3,7 @@ import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
 
-val protobufCompilerVersion = "3.13.0"
+val protobufCompilerVersion = "3.15.8"
 
 val MimaPreviousVersion = "0.11.0"
 
@@ -56,7 +56,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     ),
     testFrameworks += new TestFramework("munit.Framework"),
     Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
-    scalacOptions ++= (if (!isDotty.value)
+    scalacOptions ++= (if (!isScala3.value)
                          Seq(
                            "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
                            "-P:silencer:lineContentFilters=import scala.collection.compat._"
@@ -70,7 +70,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     )
   )
   .jvmPlatform(
-    scalaVersions = Seq(Scala212, Scala213, Dotty),
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = Seq(
       libraryDependencies ++= Seq(
         protobufJava
@@ -86,7 +86,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     )
   )
   .jsPlatform(
-    scalaVersions = Seq(Scala212, Scala213, Dotty),
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = Seq(
       libraryDependencies += protobufRuntimeScala.value,
       scalajsSourceMaps,
@@ -120,7 +120,7 @@ lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
   .defaultAxes()
   .dependsOn(runtime)
   .settings(commonSettings)
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
   .settings(
     name := "scalapb-runtime-grpc",
     testFrameworks += new TestFramework("munit.Framework"),
@@ -159,7 +159,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     Compiler.generateVersionFile,
     Compiler.generateEncodingFile
   )
-  .jvmPlatform(Seq(Scala212, Scala213, Dotty))
+  .jvmPlatform(Seq(Scala212, Scala213, Scala3))
 
 lazy val compilerPluginJVM2_12 = compilerPlugin.jvm(Scala212)
 
@@ -219,7 +219,7 @@ lazy val protocGenScalaNativeImage =
 lazy val proptest = (projectMatrix in file("proptest"))
   .defaultAxes()
   .dependsOn(compilerPlugin % "compile->compile;test->test", runtime, grpcRuntime)
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
   .settings(commonSettings)
   .settings(
     publishArtifact := false,
@@ -232,12 +232,12 @@ lazy val proptest = (projectMatrix in file("proptest"))
       scalaTest.value                                     % "test",
       scalaTestPlusScalaCheck.value                       % "test"
     ),
-    scalacOptions ++= (if (!isDotty.value)
+    scalacOptions ++= (if (!isScala3.value)
                          Seq(
                            "-P:silencer:lineContentFilters=import scala.collection.compat._"
                          )
                        else Nil),
-    libraryDependencies ++= (if (!isDotty.value)
+    libraryDependencies ++= (if (!isScala3.value)
                                Seq("org.scala-lang" % "scala-compiler" % scalaVersion.value)
                              else
                                Seq(
@@ -261,9 +261,9 @@ lazy val lenses = (projectMatrix in file("lenses"))
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Dotty))
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
   .jsPlatform(
-    scalaVersions = Seq(Scala212, Scala213, Dotty),
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = scalajsSourceMaps ++ Seq(
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
@@ -297,11 +297,11 @@ lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
   .defaultAxes()
   .dependsOn(runtime, grpcRuntime)
   .enablePlugins(LocalCodeGenPlugin)
-  .jvmPlatform(Seq(Scala212, Scala213, Dotty))
+  .jvmPlatform(Seq(Scala212, Scala213, Scala3))
   .settings(e2eCommonSettings)
   .settings(
     libraryDependencies += (grpcProtocGen asProtocPlugin),
-    scalacOptions ++= (if (!isDotty.value)
+    scalacOptions ++= (if (!isScala3.value)
                          Seq(
                            "-P:silencer:pathFilters=ServerReflectionGrpc.scala;ReflectionProto.scala",
                            "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
@@ -326,14 +326,14 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
   .enablePlugins(LocalCodeGenPlugin)
   .settings(e2eCommonSettings)
   .settings(
-    scalacOptions ++= (if (!isDotty.value)
+    scalacOptions ++= (if (!isScala3.value)
                          Seq(
                            "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
                          )
                        else Nil)
   )
   .jvmPlatform(
-    Seq(Scala212, Scala213, Dotty),
+    Seq(Scala212, Scala213, Scala3),
     settings = Seq(
       Compile / PB.targets := Seq(
         PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
@@ -345,7 +345,7 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
     )
   )
   .jsPlatform(
-    Seq(Scala212, Scala213, Dotty),
+    Seq(Scala212, Scala213, Scala3),
     settings = Seq(
       Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf",
       Compile / PB.targets := Seq(
@@ -359,10 +359,10 @@ lazy val e2e = (projectMatrix in file("e2e"))
   .dependsOn(runtime, e2eWithJava)
   .enablePlugins(LocalCodeGenPlugin)
   .jvmPlatform(
-    Seq(Scala212, Scala213, Dotty),
+    Seq(Scala212, Scala213, Scala3),
     settings = Seq(
       Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (
-                                                                                         isDotty.value
+                                                                                         isScala3.value
                                                                                        )
                                                                                          "scalajvm-3"
                                                                                        else
@@ -370,14 +370,14 @@ lazy val e2e = (projectMatrix in file("e2e"))
     )
   )
   .jsPlatform(
-    Seq(Scala212, Scala213, Dotty),
+    Seq(Scala212, Scala213, Scala3),
     settings = Seq(
       Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf"
     )
   )
   .settings(e2eCommonSettings)
   .settings(
-    scalacOptions ++= (if (!isDotty.value)
+    scalacOptions ++= (if (!isScala3.value)
                          Seq(
                            "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
                            "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;TestDeprecatedFields.scala",
@@ -422,7 +422,7 @@ lazy val docs = project
     mdocVariables := Map(
       "scalapb"          -> "0.11.1",
       "scalapb_latest"   -> "0.11.1",
-      "scala3"           -> Dependencies.Dotty,
+      "scala3"           -> Dependencies.Scala3,
       "sbt_protoc"       -> "1.0.3",
       "sbt_dotty"        -> "0.5.3",
       "protoc"           -> "3.15.6",
