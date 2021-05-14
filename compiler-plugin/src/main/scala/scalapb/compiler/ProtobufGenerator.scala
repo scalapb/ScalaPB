@@ -1330,9 +1330,7 @@ class ProtobufGenerator(
             (field.supportsPresence || field.isInOneof) && (message.generateGetters || message.generateLenses)
           ) { p =>
             val default = defaultValueForGet(field)
-            val scope =
-              if (message.generateGetters) ""
-              else s"private[${message.getFile.scalaPackage.xs.last}] "
+            val scope   = if (message.generateGetters) "" else "private "
             p.add(
               s"${scope}def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)"
             )

@@ -149,6 +149,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.*")
     ),
     PB.protocVersion := protobufCompilerVersion,
     Compile / PB.targets := Seq(
