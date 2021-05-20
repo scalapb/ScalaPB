@@ -241,6 +241,33 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] {
   def defaultInstance: A
 }
 
+/** This trait is not used in ScalaPB 0.11.x, but having it present on the classpath
+  * improves binary compatibility with 0.10.x: it allows using code generated with
+  * 0.10.x with newer versions of the runtime in some cases.
+  *
+  * This class is included here to ease updates from 0.10.x to 0.11.x, but this is
+  * not guaranteed to keep working. You are encouraged to upgrade to 0.11.x ASAP.
+  */
+@deprecated(
+  "No longer used in newly-generated ScalaPB code, but might be referenced in code generated with ScalaPB 0.10.x",
+  "0.11.x"
+)
+trait HasBuilder[A <: GeneratedMessage] {
+  self: GeneratedMessageCompanion[A] =>
+
+  /** This method is never implemented by newly-generated ScalaPB code anymore, but might
+    * be present in code generated with ScalaPB 0.10.x
+    */
+  @deprecated("unused for new code, only remains for binary compatibility", "0.11.x")
+  def newBuilder: MessageBuilder[A]
+
+  /** This method should never be referenced by newly-generated ScalaPB code anymore, but might
+    * be called from code generated with ScalaPB 0.10.x
+    */
+  @deprecated("unused for new code, only remains for binary compatibility", "0.11.x")
+  final def parseFrom(input: CodedInputStream): A = newBuilder.merge(input).result()
+}
+
 abstract class GeneratedFileObject {
   def scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor
 

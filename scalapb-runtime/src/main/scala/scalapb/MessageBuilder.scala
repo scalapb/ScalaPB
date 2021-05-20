@@ -2,12 +2,12 @@ package scalapb
 
 import com.google.protobuf.CodedInputStream
 
-/** Allows building an instance of a message A
+/** Kept for binary compatibility between 0.11.x and 0.10.x
   *
-  * The code generator will create a class that extends MessageBuilder for each message.
-  * It generally contains a `var` for each optional and required field, and a
-  * [scala.collection.mutable.Builder] for each repeated field.
+  * On 0.10.x, the code generator would create a class that extended MessageBuilder
+  * for each message.
   */
+@deprecated("Kept for binary compatibility", "0.11.x")
 abstract class MessageBuilder[A] {
   def merge(input: CodedInputStream): this.type
 
@@ -17,6 +17,7 @@ abstract class MessageBuilder[A] {
   def result(): A
 }
 
+@deprecated("Kept for binary compatibility", "0.11.x")
 trait MessageBuilderCompanion[A, Builder] {
   def apply(a: A): Builder
 }
