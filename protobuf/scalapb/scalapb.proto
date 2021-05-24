@@ -291,6 +291,18 @@ message EnumOptions {
   // must be present.
   optional string type = 3;
 
+  // Custom annotations to add to the generated case object.
+  repeated string annotations_for_trait = 4;
+
+  // Custom annotations to add to the generated case object.
+  repeated string annotations_for_value = 5;
+
+  // Custom annotations to add to the generated Unrecognised case class.
+  repeated string annotations_for_unrecognized = 6;
+
+  // If true, the generated Unrecognized case class will be private.
+  optional bool unrecognized_is_private = 7 [default=false];
+
   extensions 1000 to max;
 }
 
@@ -308,6 +320,9 @@ message EnumValueOptions {
 
   // Name in Scala to use for this enum value.
   optional string scala_name = 2;
+
+  // Custom annotations to add to the generated case object.
+  repeated string annotations = 3;
 
   extensions 1000 to max;
 }

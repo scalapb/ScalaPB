@@ -50,14 +50,15 @@ class ProtobufGenerator(
       }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
+      .seq(e.annotationForTraitList)
       .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .print(e.getValues.asScala) { case (p, v) =>
         p.call(generateScalaDoc(v))
-          .add(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
-            " " + ProtobufGenerator.deprecatedAnnotation
-          } else ""}
-                  |case object ${v.scalaName.asSymbol} extends ${v.valueExtends
+          .add("@SerialVersionUID(0L)")
+          .seq(e.annotationForValueList)
+          .seq(v.annotationList)
+          .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends
             .mkString(" with ")} {
                   |  val index = ${v.getIndex}
                   |  val name = "${v.getName}"
@@ -65,8 +66,9 @@ class ProtobufGenerator(
                   |}
                   |""".stripMargin)
       }
-      .add(s"""@SerialVersionUID(0L)
-              |final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+      .add("@SerialVersionUID(0L)")
+      .seq(e.annotationListForUnrecognised)
+      .add(s"""${if (e.isPrivateUnrecognized) "private " else ""}final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
               |
               |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
         .map(_.scalaName.asSymbol)

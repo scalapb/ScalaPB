@@ -721,3 +721,10 @@ message BarMessage {
 }
 ```
 
+In ScalaPB 0.11.2, you can also add annotations to the enum values and the `Unrecognized` case class:
+
+```protobuf
+enum BarEnum {
+  option (scalapb.enum_options) = "@annotation"
+}
+```
