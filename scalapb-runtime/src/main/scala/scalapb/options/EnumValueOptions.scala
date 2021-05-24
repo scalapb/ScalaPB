@@ -10,7 +10,7 @@ package scalapb.options
   * @param scalaName
   *   Name in Scala to use for this enum value.
   * @param annotations
-  *   Custom annotations to add to the generated case object.
+  *   Custom annotations to add to the generated case object for this enum value.
   */
 @SerialVersionUID(0L)
 final case class EnumValueOptions(

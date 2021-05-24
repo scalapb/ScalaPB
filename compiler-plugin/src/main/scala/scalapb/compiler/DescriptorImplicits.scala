@@ -816,21 +816,20 @@ class DescriptorImplicits private[compiler] (
         .filter(_.nonEmpty)
     }
 
-    private[this] def deprecatedAnnotation: Seq[String] = {
-      if (enumDescriptor.getOptions.getDeprecated)
-        List(ProtobufGenerator.deprecatedAnnotation)
-      else
-        Nil
-    }
+    private[this] def deprecatedAnnotation: Seq[String] =
+      enumDescriptor.getOptions.getDeprecated match {
+        case true  => List(ProtobufGenerator.deprecatedAnnotation)
+        case false => Nil
+      }
 
-    def annotationForTraitList: Seq[String] =
-      deprecatedAnnotation ++ scalaOptions.getAnnotationsForTraitList().asScala.toSeq
+    def traitAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getTraitAnnotationsList().asScala.toSeq
 
-    def annotationForValueList: Seq[String] =
-      deprecatedAnnotation ++ scalaOptions.getAnnotationsForValueList().asScala.toSeq
+    def valueAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getValueAnnotationsList().asScala.toSeq
 
-    def annotationListForUnrecognised: Seq[String] =
-      deprecatedAnnotation ++ scalaOptions.getAnnotationsForUnrecognizedList().asScala.toSeq
+    def unrecognizedAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getUnrecognizedAnnotationsList().asScala.toSeq
 
     def isPrivateUnrecognized: Boolean = scalaOptions.getUnrecognizedIsPrivate
   }
@@ -888,12 +887,11 @@ class DescriptorImplicits private[compiler] (
         .filter(_.nonEmpty)
     }
 
-    private[this] def deprecatedAnnotation: Seq[String] = {
-      if (enumValue.getOptions.getDeprecated)
-        List(ProtobufGenerator.deprecatedAnnotation)
-      else
-        Nil
-    }
+    private[this] def deprecatedAnnotation: Seq[String] =
+      enumValue.getOptions.getDeprecated match {
+        case true  => List(ProtobufGenerator.deprecatedAnnotation)
+        case false => Nil
+      }
 
     def annotationList: Seq[String] = {
       deprecatedAnnotation ++ scalaOptions.getAnnotationsList().asScala
