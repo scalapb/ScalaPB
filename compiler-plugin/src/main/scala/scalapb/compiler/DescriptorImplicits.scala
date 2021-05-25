@@ -1077,6 +1077,7 @@ object DescriptorImplicits {
     "do",
     "else",
     "enum",
+    "export",
     "extends",
     "false",
     "final",
@@ -1089,6 +1090,7 @@ object DescriptorImplicits {
     "lazy",
     "macro",
     "match",
+    "ne",
     "new",
     "null",
     "object",
@@ -1110,8 +1112,7 @@ object DescriptorImplicits {
     "var",
     "while",
     "with",
-    "yield",
-    "ne"
+    "yield"
   )
 
   def primitiveWrapperType(messageType: Descriptor): Option[String] =
