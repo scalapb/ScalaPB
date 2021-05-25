@@ -1111,7 +1111,8 @@ object DescriptorImplicits {
     "while",
     "with",
     "yield",
-    "ne"
+    "ne",
+    "export"
   )
 
   def primitiveWrapperType(messageType: Descriptor): Option[String] =
