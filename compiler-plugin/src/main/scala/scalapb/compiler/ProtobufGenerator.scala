@@ -53,6 +53,7 @@ class ProtobufGenerator(
       .seq(e.traitAnnotationList)
       .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
+      .newline
       .print(e.getValues.asScala) { case (p, v) =>
         p.call(generateScalaDoc(v))
           .add("@SerialVersionUID(0L)")
@@ -68,17 +69,22 @@ class ProtobufGenerator(
       }
       .add("@SerialVersionUID(0L)")
       .seq(e.unrecognizedAnnotationList)
-      .add(s"""${if (e.isPrivateUnrecognized) "private " else ""}final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-              |
-              |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
-        .map(_.scalaName.asSymbol)
-        .mkString(", ")})
-              |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin)
+      .add(
+        s"""final case class Unrecognized private[$name](unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+           |object Unrecognized {
+           |  @deprecated("Could have lead to issues before. Use $name.fromValue instead. This might be private in the future.")
+           |  def apply(unrecognizedValue: _root_.scala.Int): $name = fromValue(unrecognizedValue) 
+           |}
+           |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
+          .map(_.scalaName.asSymbol)
+          .mkString(", ")})
+           |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin
+      )
       .print(e.valuesWithNoDuplicates) { case (p, v) =>
         p.add(s"  case ${v.getNumber} => ${v.scalaName.asSymbol}")
       }
       .add(
-        s"""  case __other => Unrecognized(__other)
+        s"""  case __other => new Unrecognized(__other)
            |}
            |def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}
            |def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = ${e.scalaDescriptorSource}""".stripMargin
@@ -1435,7 +1441,7 @@ class ProtobufGenerator(
       .print(file.scalaOptions.getImportList.asScala) { case (printer, i) =>
         printer.add(s"import $i")
       }
-      .add("")
+      .newline
       .seq(file.scalaOptions.getPreambleList.asScala.toSeq)
       .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
   }

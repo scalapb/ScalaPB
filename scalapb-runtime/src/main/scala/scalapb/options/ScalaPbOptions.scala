@@ -765,6 +765,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
     sealed trait Recognized extends OptionsScope
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = this
+    
     /** Apply the options for this file only (default)
       */
     @SerialVersionUID(0L)
@@ -784,13 +785,16 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionsScope(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[OptionsScope](unrecognizedValue: _root_.scala.Int) extends OptionsScope(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use OptionsScope.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): OptionsScope = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(FILE, PACKAGE)
     def fromValue(__value: _root_.scala.Int): OptionsScope = __value match {
       case 0 => FILE
       case 1 => PACKAGE
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(0)
@@ -808,6 +812,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   object EnumValueNaming extends _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] {
     sealed trait Recognized extends EnumValueNaming
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = this
+    
     /** Enum value names in Scala use the same name as in the proto
       */
     @SerialVersionUID(0L)
@@ -827,13 +832,16 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends EnumValueNaming(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[EnumValueNaming](unrecognizedValue: _root_.scala.Int) extends EnumValueNaming(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use EnumValueNaming.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): EnumValueNaming = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
     def fromValue(__value: _root_.scala.Int): EnumValueNaming = __value match {
       case 0 => AS_IN_PROTO
       case 1 => CAMEL_CASE
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes().get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(1)

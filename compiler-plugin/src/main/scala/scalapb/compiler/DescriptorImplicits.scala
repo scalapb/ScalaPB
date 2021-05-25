@@ -830,8 +830,6 @@ class DescriptorImplicits private[compiler] (
 
     def unrecognizedAnnotationList: Seq[String] =
       deprecatedAnnotation ++ scalaOptions.getUnrecognizedAnnotationsList().asScala.toSeq
-
-    def isPrivateUnrecognized: Boolean = scalaOptions.getUnrecognizedIsPrivate
   }
 
   implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {

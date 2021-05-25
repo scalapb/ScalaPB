@@ -187,6 +187,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   object IdempotencyLevel extends _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] {
     sealed trait Recognized extends IdempotencyLevel
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = this
+    
     @SerialVersionUID(0L)
     case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel(0) with IdempotencyLevel.Recognized {
       val index = 0
@@ -213,14 +214,17 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[IdempotencyLevel](unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use IdempotencyLevel.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): IdempotencyLevel = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
     def fromValue(__value: _root_.scala.Int): IdempotencyLevel = __value match {
       case 0 => IDEMPOTENCY_UNKNOWN
       case 1 => NO_SIDE_EFFECTS
       case 2 => IDEMPOTENT
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.scalaDescriptor.enums(0)

@@ -20,6 +20,7 @@ sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scal
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   sealed trait Recognized extends NullValue
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
+  
   /** Null value.
     */
   @SerialVersionUID(0L)
@@ -30,12 +31,15 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   }
   
   @SerialVersionUID(0L)
-  final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends NullValue(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  
+  final case class Unrecognized private[NullValue](unrecognizedValue: _root_.scala.Int) extends NullValue(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+  object Unrecognized {
+    @deprecated("Could have lead to issues before. Use NullValue.fromValue instead. This might be private in the future.")
+    def apply(unrecognizedValue: _root_.scala.Int): NullValue = fromValue(unrecognizedValue) 
+  }
   lazy val values = scala.collection.immutable.Seq(NULL_VALUE)
   def fromValue(__value: _root_.scala.Int): NullValue = __value match {
     case 0 => NULL_VALUE
-    case __other => Unrecognized(__other)
+    case __other => new Unrecognized(__other)
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = StructProto.javaDescriptor.getEnumTypes().get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = StructProto.scalaDescriptor.enums(0)

@@ -326,6 +326,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
     sealed trait Recognized extends CType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[CType] = this
+    
     /** Default mode.
       */
     @SerialVersionUID(0L)
@@ -350,14 +351,17 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[CType](unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use CType.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): CType = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(__value: _root_.scala.Int): CType = __value match {
       case 0 => STRING
       case 1 => CORD
       case 2 => STRING_PIECE
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(0)
@@ -379,6 +383,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {
     sealed trait Recognized extends JSType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[JSType] = this
+    
     /** Use the default type.
       */
     @SerialVersionUID(0L)
@@ -407,14 +412,17 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[JSType](unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use JSType.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): JSType = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(__value: _root_.scala.Int): JSType = __value match {
       case 0 => JS_NORMAL
       case 1 => JS_STRING
       case 2 => JS_NUMBER
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(1)

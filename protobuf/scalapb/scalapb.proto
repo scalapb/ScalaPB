@@ -301,9 +301,6 @@ message EnumOptions {
   // Custom annotations to add to the generated Unrecognized case class.
   repeated string unrecognized_annotations = 6;
 
-  // If true, the generated Unrecognized case class will be private.
-  optional bool unrecognized_is_private = 7 [default=false];
-
   extensions 1000 to max;
 }
 

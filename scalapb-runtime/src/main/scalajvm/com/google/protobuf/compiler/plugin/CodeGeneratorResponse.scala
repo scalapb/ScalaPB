@@ -190,6 +190,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   object Feature extends _root_.scalapb.GeneratedEnumCompanion[Feature] {
     sealed trait Recognized extends Feature
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Feature] = this
+    
     @SerialVersionUID(0L)
     case object FEATURE_NONE extends Feature(0) with Feature.Recognized {
       val index = 0
@@ -205,13 +206,16 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Feature(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[Feature](unrecognizedValue: _root_.scala.Int) extends Feature(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use Feature.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): Feature = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(FEATURE_NONE, FEATURE_PROTO3_OPTIONAL)
     def fromValue(__value: _root_.scala.Int): Feature = __value match {
       case 0 => FEATURE_NONE
       case 1 => FEATURE_PROTO3_OPTIONAL
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.scalaDescriptor.enums(0)

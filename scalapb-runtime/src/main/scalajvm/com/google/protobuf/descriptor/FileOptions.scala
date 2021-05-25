@@ -654,6 +654,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
     sealed trait Recognized extends OptimizeMode
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
+    
     /** Generate complete code for parsing, serialization,
       */
     @SerialVersionUID(0L)
@@ -683,14 +684,17 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptimizeMode(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[OptimizeMode](unrecognizedValue: _root_.scala.Int) extends OptimizeMode(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use OptimizeMode.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): OptimizeMode = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
     def fromValue(__value: _root_.scala.Int): OptimizeMode = __value match {
       case 1 => SPEED
       case 2 => CODE_SIZE
       case 3 => LITE_RUNTIME
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.scalaDescriptor.enums(0)

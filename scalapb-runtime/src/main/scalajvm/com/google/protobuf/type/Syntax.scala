@@ -18,6 +18,7 @@ sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb
 object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   sealed trait Recognized extends Syntax
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = this
+  
   /** Syntax `proto2`.
     */
   @SerialVersionUID(0L)
@@ -37,13 +38,16 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   }
   
   @SerialVersionUID(0L)
-  final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Syntax(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  
+  final case class Unrecognized private[Syntax](unrecognizedValue: _root_.scala.Int) extends Syntax(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+  object Unrecognized {
+    @deprecated("Could have lead to issues before. Use Syntax.fromValue instead. This might be private in the future.")
+    def apply(unrecognizedValue: _root_.scala.Int): Syntax = fromValue(unrecognizedValue) 
+  }
   lazy val values = scala.collection.immutable.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
   def fromValue(__value: _root_.scala.Int): Syntax = __value match {
     case 0 => SYNTAX_PROTO2
     case 1 => SYNTAX_PROTO3
-    case __other => Unrecognized(__other)
+    case __other => new Unrecognized(__other)
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes().get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = TypeProto.scalaDescriptor.enums(0)

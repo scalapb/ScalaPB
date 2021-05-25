@@ -172,6 +172,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   object AddressType extends _root_.scalapb.GeneratedEnumCompanion[AddressType] {
     sealed trait Recognized extends AddressType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = this
+    
     @SerialVersionUID(0L)
     case object HOME extends AddressType(0) with AddressType.Recognized {
       val index = 0
@@ -187,13 +188,16 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends AddressType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
+    final case class Unrecognized private[AddressType](unrecognizedValue: _root_.scala.Int) extends AddressType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    object Unrecognized {
+      @deprecated("Could have lead to issues before. Use AddressType.fromValue instead. This might be private in the future.")
+      def apply(unrecognizedValue: _root_.scala.Int): AddressType = fromValue(unrecognizedValue) 
+    }
     lazy val values = scala.collection.immutable.Seq(HOME, WORK)
     def fromValue(__value: _root_.scala.Int): AddressType = __value match {
       case 0 => HOME
       case 1 => WORK
-      case __other => Unrecognized(__other)
+      case __other => new Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.docs.person.Person.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.docs.person.Person.scalaDescriptor.enums(0)
