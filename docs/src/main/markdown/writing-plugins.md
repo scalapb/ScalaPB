@@ -277,7 +277,7 @@ via options. To add custom options, follow this process:
    look for the `registerExtensions` method, and add a call to register your own extension:
 
    ```scala
-   myorg.Myplugin.registerExtensin(registry)
+   myorg.Myplugin.registerAllExtensions(registry)
    ```
 
 5. Now you are able to extract the extension value in your generator using the standard protobuf-java
