@@ -224,7 +224,7 @@ via options. To add custom options, follow this process:
    ```protobuf
    syntax = "proto2";
 
-   package myplugin;
+   package myorg.myplugin;
 
    import "google/protobuf/descriptor.proto";
 
@@ -277,14 +277,14 @@ via options. To add custom options, follow this process:
    look for the `registerExtensions` method, and add a call to register your own extension:
 
    ```scala
-   myplugin.Myplugin.registerExtensin(registry)
+   myorg.myplugin.Myplugin.registerAllExtensions(registry)
    ```
 
 5. Now you are able to extract the extension value in your generator using the standard protobuf-java
    APIs:
 
    ```scsala
-   messageDescriptor.getOptions.getExtension(myplugin.Myplugin.myopts).getMyOption
+   messageDescriptor.getOptions.getExtension(myorg.myplugin.Myplugin.myopts).getMyOption
    ```
 
 6. You can now use the new option in your e2e tests. Also the newly added proto will be automatically
