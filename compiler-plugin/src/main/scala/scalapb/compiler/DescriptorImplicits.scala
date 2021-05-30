@@ -816,11 +816,12 @@ class DescriptorImplicits private[compiler] (
         .filter(_.nonEmpty)
     }
 
-    private[this] def deprecatedAnnotation: Seq[String] =
-      enumDescriptor.getOptions.getDeprecated match {
-        case true  => List(ProtobufGenerator.deprecatedAnnotation)
-        case false => Nil
-      }
+    private[this] def deprecatedAnnotation: Seq[String] = {
+      if (enumDescriptor.getOptions.getDeprecated)
+        List(ProtobufGenerator.deprecatedAnnotation)
+      else
+        Nil
+    }
 
     def traitAnnotationList: Seq[String] =
       deprecatedAnnotation ++ scalaOptions.getTraitAnnotationsList().asScala.toSeq
@@ -885,11 +886,12 @@ class DescriptorImplicits private[compiler] (
         .filter(_.nonEmpty)
     }
 
-    private[this] def deprecatedAnnotation: Seq[String] =
-      enumValue.getOptions.getDeprecated match {
-        case true  => List(ProtobufGenerator.deprecatedAnnotation)
-        case false => Nil
-      }
+    private[this] def deprecatedAnnotation: Seq[String] = {
+      if (enumValue.getOptions.getDeprecated)
+        List(ProtobufGenerator.deprecatedAnnotation)
+      else
+        Nil
+    }
 
     def annotationList: Seq[String] = {
       deprecatedAnnotation ++ scalaOptions.getAnnotationsList().asScala

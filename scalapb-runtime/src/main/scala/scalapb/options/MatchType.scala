@@ -40,11 +40,7 @@ object MatchType extends _root_.scalapb.GeneratedEnumCompanion[MatchType] {
   }
   
   @SerialVersionUID(0L)
-  final case class Unrecognized private[MatchType](unrecognizedValue: _root_.scala.Int) extends MatchType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  object Unrecognized {
-    @deprecated("Could have lead to issues before. Use MatchType.fromValue instead. This might be private in the future.")
-    def apply(unrecognizedValue: _root_.scala.Int): MatchType = fromValue(unrecognizedValue) 
-  }
+  final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends MatchType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
   lazy val values = scala.collection.immutable.Seq(CONTAINS, EXACT, PRESENCE)
   def fromValue(__value: _root_.scala.Int): MatchType = __value match {
     case 0 => CONTAINS

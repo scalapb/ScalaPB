@@ -566,11 +566,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized private[Type](unrecognizedValue: _root_.scala.Int) extends Type(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    object Unrecognized {
-      @deprecated("Could have lead to issues before. Use Type.fromValue instead. This might be private in the future.")
-      def apply(unrecognizedValue: _root_.scala.Int): Type = fromValue(unrecognizedValue) 
-    }
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Type(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     lazy val values = scala.collection.immutable.Seq(TYPE_DOUBLE, TYPE_FLOAT, TYPE_INT64, TYPE_UINT64, TYPE_INT32, TYPE_FIXED64, TYPE_FIXED32, TYPE_BOOL, TYPE_STRING, TYPE_GROUP, TYPE_MESSAGE, TYPE_BYTES, TYPE_UINT32, TYPE_ENUM, TYPE_SFIXED32, TYPE_SFIXED64, TYPE_SINT32, TYPE_SINT64)
     def fromValue(__value: _root_.scala.Int): Type = __value match {
       case 1 => TYPE_DOUBLE
@@ -638,11 +634,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized private[Label](unrecognizedValue: _root_.scala.Int) extends Label(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    object Unrecognized {
-      @deprecated("Could have lead to issues before. Use Label.fromValue instead. This might be private in the future.")
-      def apply(unrecognizedValue: _root_.scala.Int): Label = fromValue(unrecognizedValue) 
-    }
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Label(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     lazy val values = scala.collection.immutable.Seq(LABEL_OPTIONAL, LABEL_REQUIRED, LABEL_REPEATED)
     def fromValue(__value: _root_.scala.Int): Label = __value match {
       case 1 => LABEL_OPTIONAL

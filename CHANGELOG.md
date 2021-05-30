@@ -2,7 +2,6 @@
 
 ## [0.11.4] (Unreleased)
 - Add options for enum annotations (#1155)
-- Add `unrecognized_value_class_is_private` option to make `Unrecognised` class private for safer development. (#1155)
 
 ## [0.11.2]
 - Fix bug where generated code would not compile if a message was named Unit (#1126)

@@ -70,11 +70,7 @@ class ProtobufGenerator(
       .add("@SerialVersionUID(0L)")
       .seq(e.unrecognizedAnnotationList)
       .add(
-        s"""final case class Unrecognized private[$name](unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-           |object Unrecognized {
-           |  @deprecated("Could have lead to issues before. Use $name.fromValue instead. This might be private in the future.")
-           |  def apply(unrecognizedValue: _root_.scala.Int): $name = fromValue(unrecognizedValue) 
-           |}
+        s"""final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
            |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
           .map(_.scalaName.asSymbol)
           .mkString(", ")})

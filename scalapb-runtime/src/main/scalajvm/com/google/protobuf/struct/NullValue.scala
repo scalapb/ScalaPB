@@ -31,11 +31,7 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   }
   
   @SerialVersionUID(0L)
-  final case class Unrecognized private[NullValue](unrecognizedValue: _root_.scala.Int) extends NullValue(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  object Unrecognized {
-    @deprecated("Could have lead to issues before. Use NullValue.fromValue instead. This might be private in the future.")
-    def apply(unrecognizedValue: _root_.scala.Int): NullValue = fromValue(unrecognizedValue) 
-  }
+  final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends NullValue(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
   lazy val values = scala.collection.immutable.Seq(NULL_VALUE)
   def fromValue(__value: _root_.scala.Int): NullValue = __value match {
     case 0 => NULL_VALUE

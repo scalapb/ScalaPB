@@ -351,11 +351,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized private[CType](unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    object Unrecognized {
-      @deprecated("Could have lead to issues before. Use CType.fromValue instead. This might be private in the future.")
-      def apply(unrecognizedValue: _root_.scala.Int): CType = fromValue(unrecognizedValue) 
-    }
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     lazy val values = scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(__value: _root_.scala.Int): CType = __value match {
       case 0 => STRING
@@ -412,11 +408,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized private[JSType](unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    object Unrecognized {
-      @deprecated("Could have lead to issues before. Use JSType.fromValue instead. This might be private in the future.")
-      def apply(unrecognizedValue: _root_.scala.Int): JSType = fromValue(unrecognizedValue) 
-    }
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     lazy val values = scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(__value: _root_.scala.Int): JSType = __value match {
       case 0 => JS_NORMAL

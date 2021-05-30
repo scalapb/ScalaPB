@@ -201,11 +201,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     }
     
     @SerialVersionUID(0L)
-    final case class Unrecognized private[IdempotencyLevel](unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    object Unrecognized {
-      @deprecated("Could have lead to issues before. Use IdempotencyLevel.fromValue instead. This might be private in the future.")
-      def apply(unrecognizedValue: _root_.scala.Int): IdempotencyLevel = fromValue(unrecognizedValue) 
-    }
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
     lazy val values = scala.collection.immutable.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
     def fromValue(__value: _root_.scala.Int): IdempotencyLevel = __value match {
       case 0 => IDEMPOTENCY_UNKNOWN
