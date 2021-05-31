@@ -211,7 +211,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     def fromValue(__value: _root_.scala.Int): Feature = __value match {
       case 0 => FEATURE_NONE
       case 1 => FEATURE_PROTO3_OPTIONAL
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.scalaDescriptor.enums(0)

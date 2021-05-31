@@ -12,11 +12,10 @@ package scalapb.options
   * @param type
   *   All instances of this enum will be converted to this type. An implicit TypeMapper
   *   must be present.
-  * @param traitAnnotations
-  *   Custom annotations to add to the generated enum's base trait.
-  * @param valueAnnotations
-  *   Custom annotations to add to the generated case object
-  *   but not for Unrecognized case class.
+  * @param baseAnnotations
+  *   Custom annotations to add to the generated enum's base class.
+  * @param recognisedAnnotations
+  *   Custom annotations to add to the generated trait.
   * @param unrecognizedAnnotations
   *   Custom annotations to add to the generated Unrecognized case class.
   */
@@ -25,8 +24,8 @@ final case class EnumOptions(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    traitAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    valueAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    baseAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    recognisedAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     unrecognizedAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumOptions] with _root_.scalapb.ExtendableMessage[EnumOptions] {
@@ -46,11 +45,11 @@ final case class EnumOptions(
         val __value = `type`.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
       };
-      traitAnnotations.foreach { __item =>
+      baseAnnotations.foreach { __item =>
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(4, __value)
       }
-      valueAnnotations.foreach { __item =>
+      recognisedAnnotations.foreach { __item =>
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(5, __value)
       }
@@ -82,11 +81,11 @@ final case class EnumOptions(
         val __m = __v
         _output__.writeString(3, __m)
       };
-      traitAnnotations.foreach { __v =>
+      baseAnnotations.foreach { __v =>
         val __m = __v
         _output__.writeString(4, __m)
       };
-      valueAnnotations.foreach { __v =>
+      recognisedAnnotations.foreach { __v =>
         val __m = __v
         _output__.writeString(5, __m)
       };
@@ -107,14 +106,14 @@ final case class EnumOptions(
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: EnumOptions = copy(`type` = _root_.scala.None)
     def withType(__v: _root_.scala.Predef.String): EnumOptions = copy(`type` = Option(__v))
-    def clearTraitAnnotations = copy(traitAnnotations = _root_.scala.Seq.empty)
-    def addTraitAnnotations(__vs: _root_.scala.Predef.String*): EnumOptions = addAllTraitAnnotations(__vs)
-    def addAllTraitAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(traitAnnotations = traitAnnotations ++ __vs)
-    def withTraitAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumOptions = copy(traitAnnotations = __v)
-    def clearValueAnnotations = copy(valueAnnotations = _root_.scala.Seq.empty)
-    def addValueAnnotations(__vs: _root_.scala.Predef.String*): EnumOptions = addAllValueAnnotations(__vs)
-    def addAllValueAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(valueAnnotations = valueAnnotations ++ __vs)
-    def withValueAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumOptions = copy(valueAnnotations = __v)
+    def clearBaseAnnotations = copy(baseAnnotations = _root_.scala.Seq.empty)
+    def addBaseAnnotations(__vs: _root_.scala.Predef.String*): EnumOptions = addAllBaseAnnotations(__vs)
+    def addAllBaseAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(baseAnnotations = baseAnnotations ++ __vs)
+    def withBaseAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumOptions = copy(baseAnnotations = __v)
+    def clearRecognisedAnnotations = copy(recognisedAnnotations = _root_.scala.Seq.empty)
+    def addRecognisedAnnotations(__vs: _root_.scala.Predef.String*): EnumOptions = addAllRecognisedAnnotations(__vs)
+    def addAllRecognisedAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(recognisedAnnotations = recognisedAnnotations ++ __vs)
+    def withRecognisedAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumOptions = copy(recognisedAnnotations = __v)
     def clearUnrecognizedAnnotations = copy(unrecognizedAnnotations = _root_.scala.Seq.empty)
     def addUnrecognizedAnnotations(__vs: _root_.scala.Predef.String*): EnumOptions = addAllUnrecognizedAnnotations(__vs)
     def addAllUnrecognizedAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(unrecognizedAnnotations = unrecognizedAnnotations ++ __vs)
@@ -126,8 +125,8 @@ final case class EnumOptions(
         case 1 => `extends`
         case 2 => companionExtends
         case 3 => `type`.orNull
-        case 4 => traitAnnotations
-        case 5 => valueAnnotations
+        case 4 => baseAnnotations
+        case 5 => recognisedAnnotations
         case 6 => unrecognizedAnnotations
       }
     }
@@ -137,8 +136,8 @@ final case class EnumOptions(
         case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 3 => `type`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 4 => _root_.scalapb.descriptors.PRepeated(traitAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 5 => _root_.scalapb.descriptors.PRepeated(valueAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 4 => _root_.scalapb.descriptors.PRepeated(baseAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 5 => _root_.scalapb.descriptors.PRepeated(recognisedAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 6 => _root_.scalapb.descriptors.PRepeated(unrecognizedAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
       }
     }
@@ -153,8 +152,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
     val __extends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     val __companionExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
-    val __traitAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
-    val __valueAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    val __baseAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    val __recognisedAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     val __unrecognizedAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -169,9 +168,9 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
         case 26 =>
           __type = Option(_input__.readStringRequireUtf8())
         case 34 =>
-          __traitAnnotations += _input__.readStringRequireUtf8()
+          __baseAnnotations += _input__.readStringRequireUtf8()
         case 42 =>
-          __valueAnnotations += _input__.readStringRequireUtf8()
+          __recognisedAnnotations += _input__.readStringRequireUtf8()
         case 50 =>
           __unrecognizedAnnotations += _input__.readStringRequireUtf8()
         case tag =>
@@ -185,8 +184,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
         `extends` = __extends.result(),
         companionExtends = __companionExtends.result(),
         `type` = __type,
-        traitAnnotations = __traitAnnotations.result(),
-        valueAnnotations = __valueAnnotations.result(),
+        baseAnnotations = __baseAnnotations.result(),
+        recognisedAnnotations = __recognisedAnnotations.result(),
         unrecognizedAnnotations = __unrecognizedAnnotations.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -198,8 +197,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
         `extends` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         companionExtends = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         `type` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-        traitAnnotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
-        valueAnnotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
+        baseAnnotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
+        recognisedAnnotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         unrecognizedAnnotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -213,8 +212,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
     `extends` = _root_.scala.Seq.empty,
     companionExtends = _root_.scala.Seq.empty,
     `type` = _root_.scala.None,
-    traitAnnotations = _root_.scala.Seq.empty,
-    valueAnnotations = _root_.scala.Seq.empty,
+    baseAnnotations = _root_.scala.Seq.empty,
+    recognisedAnnotations = _root_.scala.Seq.empty,
     unrecognizedAnnotations = _root_.scala.Seq.empty
   )
   implicit class EnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.EnumOptions](_l) {
@@ -222,29 +221,29 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
     def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
-    def traitAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.traitAnnotations)((c_, f_) => c_.copy(traitAnnotations = f_))
-    def valueAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.valueAnnotations)((c_, f_) => c_.copy(valueAnnotations = f_))
+    def baseAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.baseAnnotations)((c_, f_) => c_.copy(baseAnnotations = f_))
+    def recognisedAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.recognisedAnnotations)((c_, f_) => c_.copy(recognisedAnnotations = f_))
     def unrecognizedAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.unrecognizedAnnotations)((c_, f_) => c_.copy(unrecognizedAnnotations = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
   final val COMPANION_EXTENDS_FIELD_NUMBER = 2
   final val TYPE_FIELD_NUMBER = 3
-  final val TRAIT_ANNOTATIONS_FIELD_NUMBER = 4
-  final val VALUE_ANNOTATIONS_FIELD_NUMBER = 5
+  final val BASE_ANNOTATIONS_FIELD_NUMBER = 4
+  final val RECOGNISED_ANNOTATIONS_FIELD_NUMBER = 5
   final val UNRECOGNIZED_ANNOTATIONS_FIELD_NUMBER = 6
   def of(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
     companionExtends: _root_.scala.Seq[_root_.scala.Predef.String],
     `type`: _root_.scala.Option[_root_.scala.Predef.String],
-    traitAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
-    valueAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
+    baseAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
+    recognisedAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
     unrecognizedAnnotations: _root_.scala.Seq[_root_.scala.Predef.String]
   ): _root_.scalapb.options.EnumOptions = _root_.scalapb.options.EnumOptions(
     `extends`,
     companionExtends,
     `type`,
-    traitAnnotations,
-    valueAnnotations,
+    baseAnnotations,
+    recognisedAnnotations,
     unrecognizedAnnotations
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.EnumOptions])

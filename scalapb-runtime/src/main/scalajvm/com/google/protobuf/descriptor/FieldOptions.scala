@@ -357,7 +357,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       case 0 => STRING
       case 1 => CORD
       case 2 => STRING_PIECE
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(0)
@@ -414,7 +414,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       case 0 => JS_NORMAL
       case 1 => JS_STRING
       case 2 => JS_NUMBER
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(1)

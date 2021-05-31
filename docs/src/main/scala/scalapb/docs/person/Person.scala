@@ -193,7 +193,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     def fromValue(__value: _root_.scala.Int): AddressType = __value match {
       case 0 => HOME
       case 1 => WORK
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.docs.person.Person.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.docs.person.Person.scalaDescriptor.enums(0)

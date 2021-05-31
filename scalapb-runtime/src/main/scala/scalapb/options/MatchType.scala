@@ -46,7 +46,7 @@ object MatchType extends _root_.scalapb.GeneratedEnumCompanion[MatchType] {
     case 0 => CONTAINS
     case 1 => EXACT
     case 2 => PRESENCE
-    case __other => new Unrecognized(__other)
+    case __other => Unrecognized(__other)
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ScalapbProto.javaDescriptor.getEnumTypes().get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = ScalapbProto.scalaDescriptor.enums(0)

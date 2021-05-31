@@ -790,7 +790,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def fromValue(__value: _root_.scala.Int): OptionsScope = __value match {
       case 0 => FILE
       case 1 => PACKAGE
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(0)
@@ -833,7 +833,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def fromValue(__value: _root_.scala.Int): EnumValueNaming = __value match {
       case 0 => AS_IN_PROTO
       case 1 => CAMEL_CASE
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.javaDescriptor.getEnumTypes().get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalaPbOptions.scalaDescriptor.enums(1)

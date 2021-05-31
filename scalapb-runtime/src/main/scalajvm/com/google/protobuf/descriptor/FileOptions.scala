@@ -690,7 +690,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       case 1 => SPEED
       case 2 => CODE_SIZE
       case 3 => LITE_RUNTIME
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.scalaDescriptor.enums(0)

@@ -559,7 +559,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       case 16 => TYPE_SFIXED64
       case 17 => TYPE_SINT32
       case 18 => TYPE_SINT64
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
@@ -607,7 +607,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
       case 1 => LABEL_OPTIONAL
       case 2 => LABEL_REQUIRED
       case 3 => LABEL_REPEATED
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.javaDescriptor.getEnumTypes().get(1)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(1)

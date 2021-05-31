@@ -30,6 +30,7 @@ class ProtobufGenerator(
         _.add(ProtobufGenerator.deprecatedAnnotation)
       }
       .call(generateScalaDoc(e))
+      .seq(e.baseAnnotationList)
       .add(
         s"sealed abstract class $name(val value: _root_.scala.Int) extends ${e.baseTraitExtends.mkString(" with ")} {"
       )
@@ -50,14 +51,13 @@ class ProtobufGenerator(
       }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
-      .seq(e.traitAnnotationList)
+      .seq(e.recognisedAnnotationList)
       .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .newline
       .print(e.getValues.asScala) { case (p, v) =>
         p.call(generateScalaDoc(v))
           .add("@SerialVersionUID(0L)")
-          .seq(e.valueAnnotationList)
           .seq(v.annotationList)
           .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends
             .mkString(" with ")} {
@@ -80,7 +80,7 @@ class ProtobufGenerator(
         p.add(s"  case ${v.getNumber} => ${v.scalaName.asSymbol}")
       }
       .add(
-        s"""  case __other => new Unrecognized(__other)
+        s"""  case __other => Unrecognized(__other)
            |}
            |def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = ${e.javaDescriptorSource}
            |def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = ${e.scalaDescriptorSource}""".stripMargin

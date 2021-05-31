@@ -207,7 +207,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
       case 0 => IDEMPOTENCY_UNKNOWN
       case 1 => NO_SIDE_EFFECTS
       case 2 => IDEMPOTENT
-      case __other => new Unrecognized(__other)
+      case __other => Unrecognized(__other)
     }
     def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.javaDescriptor.getEnumTypes().get(0)
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.scalaDescriptor.enums(0)

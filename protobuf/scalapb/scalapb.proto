@@ -291,12 +291,11 @@ message EnumOptions {
   // must be present.
   optional string type = 3;
 
-  // Custom annotations to add to the generated enum's base trait.
-  repeated string trait_annotations = 4;
+  // Custom annotations to add to the generated enum's base class.
+  repeated string base_annotations = 4;
 
-  // Custom annotations to add to the generated case object
-  // but not for Unrecognized case class.
-  repeated string value_annotations = 5;
+  // Custom annotations to add to the generated trait.
+  repeated string recognised_annotations = 5;
 
   // Custom annotations to add to the generated Unrecognized case class.
   repeated string unrecognized_annotations = 6;

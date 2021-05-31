@@ -43,7 +43,7 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   def fromValue(__value: _root_.scala.Int): Syntax = __value match {
     case 0 => SYNTAX_PROTO2
     case 1 => SYNTAX_PROTO3
-    case __other => new Unrecognized(__other)
+    case __other => Unrecognized(__other)
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes().get(0)
   def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = TypeProto.scalaDescriptor.enums(0)

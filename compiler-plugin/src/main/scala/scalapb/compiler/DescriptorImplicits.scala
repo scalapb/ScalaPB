@@ -823,11 +823,11 @@ class DescriptorImplicits private[compiler] (
         Nil
     }
 
-    def traitAnnotationList: Seq[String] =
-      deprecatedAnnotation ++ scalaOptions.getTraitAnnotationsList().asScala.toSeq
+    def baseAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getBaseAnnotationsList().asScala.toSeq
 
-    def valueAnnotationList: Seq[String] =
-      deprecatedAnnotation ++ scalaOptions.getValueAnnotationsList().asScala.toSeq
+    def recognisedAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getRecognisedAnnotationsList().asScala.toSeq
 
     def unrecognizedAnnotationList: Seq[String] =
       deprecatedAnnotation ++ scalaOptions.getUnrecognizedAnnotationsList().asScala.toSeq
