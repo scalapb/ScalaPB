@@ -11,7 +11,7 @@ import com.google.protobuf.ByteString
     Alternatively you can import this implicit using file-level Scala imports (see documentation)
     """
 )
-abstract class TypeMapper[BaseType, CustomType] {
+abstract class TypeMapper[BaseType, CustomType] extends Serializable {
   def toCustom(base: BaseType): CustomType
   def toBase(custom: CustomType): BaseType
 
