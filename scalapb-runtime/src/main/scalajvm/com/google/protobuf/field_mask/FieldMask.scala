@@ -241,7 +241,7 @@ final case class FieldMask(
       unknownFields.writeTo(_output__)
     }
     def clearPaths = copy(paths = _root_.scala.Seq.empty)
-    def addPaths(__vs: _root_.scala.Predef.String*): FieldMask = addAllPaths(__vs)
+    def addPaths(__vs: _root_.scala.Predef.String *): FieldMask = addAllPaths(__vs)
     def addAllPaths(__vs: Iterable[_root_.scala.Predef.String]): FieldMask = copy(paths = paths ++ __vs)
     def withPaths(__v: _root_.scala.Seq[_root_.scala.Predef.String]): FieldMask = copy(paths = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

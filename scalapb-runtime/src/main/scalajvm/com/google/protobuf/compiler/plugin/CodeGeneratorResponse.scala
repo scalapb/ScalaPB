@@ -79,7 +79,7 @@ final case class CodeGeneratorResponse(
     def clearSupportedFeatures: CodeGeneratorResponse = copy(supportedFeatures = _root_.scala.None)
     def withSupportedFeatures(__v: _root_.scala.Long): CodeGeneratorResponse = copy(supportedFeatures = Option(__v))
     def clearFile = copy(file = _root_.scala.Seq.empty)
-    def addFile(__vs: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File*): CodeGeneratorResponse = addAllFile(__vs)
+    def addFile(__vs: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File *): CodeGeneratorResponse = addAllFile(__vs)
     def addAllFile(__vs: Iterable[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = file ++ __vs)
     def withFile(__v: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

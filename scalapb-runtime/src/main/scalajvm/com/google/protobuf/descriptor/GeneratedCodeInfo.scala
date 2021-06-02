@@ -48,7 +48,7 @@ final case class GeneratedCodeInfo(
       unknownFields.writeTo(_output__)
     }
     def clearAnnotation = copy(annotation = _root_.scala.Seq.empty)
-    def addAnnotation(__vs: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation*): GeneratedCodeInfo = addAllAnnotation(__vs)
+    def addAnnotation(__vs: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation *): GeneratedCodeInfo = addAllAnnotation(__vs)
     def addAllAnnotation(__vs: Iterable[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = annotation ++ __vs)
     def withAnnotation(__v: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
@@ -208,7 +208,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         unknownFields.writeTo(_output__)
       }
       def clearPath = copy(path = _root_.scala.Seq.empty)
-      def addPath(__vs: _root_.scala.Int*): Annotation = addAllPath(__vs)
+      def addPath(__vs: _root_.scala.Int *): Annotation = addAllPath(__vs)
       def addAllPath(__vs: Iterable[_root_.scala.Int]): Annotation = copy(path = path ++ __vs)
       def withPath(__v: _root_.scala.Seq[_root_.scala.Int]): Annotation = copy(path = __v)
       def getSourceFile: _root_.scala.Predef.String = sourceFile.getOrElse("")

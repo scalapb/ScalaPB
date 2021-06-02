@@ -51,7 +51,7 @@ final case class Struct(
       unknownFields.writeTo(_output__)
     }
     def clearFields = copy(fields = _root_.scala.collection.immutable.Map.empty)
-    def addFields(__vs: (_root_.scala.Predef.String, com.google.protobuf.struct.Value)*): Struct = addAllFields(__vs)
+    def addFields(__vs: (_root_.scala.Predef.String, com.google.protobuf.struct.Value) *): Struct = addAllFields(__vs)
     def addAllFields(__vs: Iterable[(_root_.scala.Predef.String, com.google.protobuf.struct.Value)]): Struct = copy(fields = fields ++ __vs)
     def withFields(__v: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, com.google.protobuf.struct.Value]): Struct = copy(fields = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
