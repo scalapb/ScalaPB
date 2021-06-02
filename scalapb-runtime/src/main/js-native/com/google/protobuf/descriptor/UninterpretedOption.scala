@@ -104,7 +104,7 @@ final case class UninterpretedOption(
       unknownFields.writeTo(_output__)
     }
     def clearName = copy(name = _root_.scala.Seq.empty)
-    def addName(__vs: com.google.protobuf.descriptor.UninterpretedOption.NamePart*): UninterpretedOption = addAllName(__vs)
+    def addName(__vs: com.google.protobuf.descriptor.UninterpretedOption.NamePart *): UninterpretedOption = addAllName(__vs)
     def addAllName(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = name ++ __vs)
     def withName(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = __v)
     def getIdentifierValue: _root_.scala.Predef.String = identifierValue.getOrElse("")

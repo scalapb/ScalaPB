@@ -72,7 +72,7 @@ final case class MethodOptions(
     def clearIdempotencyLevel: MethodOptions = copy(idempotencyLevel = _root_.scala.None)
     def withIdempotencyLevel(__v: com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel): MethodOptions = copy(idempotencyLevel = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
-    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): MethodOptions = addAllUninterpretedOption(__vs)
+    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): MethodOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): MethodOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MethodOptions = copy(uninterpretedOption = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

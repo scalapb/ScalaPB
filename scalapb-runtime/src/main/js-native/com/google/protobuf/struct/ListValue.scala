@@ -46,7 +46,7 @@ final case class ListValue(
       unknownFields.writeTo(_output__)
     }
     def clearValues = copy(values = _root_.scala.Seq.empty)
-    def addValues(__vs: com.google.protobuf.struct.Value*): ListValue = addAllValues(__vs)
+    def addValues(__vs: com.google.protobuf.struct.Value *): ListValue = addAllValues(__vs)
     def addAllValues(__vs: Iterable[com.google.protobuf.struct.Value]): ListValue = copy(values = values ++ __vs)
     def withValues(__v: _root_.scala.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

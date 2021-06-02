@@ -64,7 +64,7 @@ final case class ServiceDescriptorProto(
     def clearName: ServiceDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): ServiceDescriptorProto = copy(name = Option(__v))
     def clearMethod = copy(method = _root_.scala.Seq.empty)
-    def addMethod(__vs: com.google.protobuf.descriptor.MethodDescriptorProto*): ServiceDescriptorProto = addAllMethod(__vs)
+    def addMethod(__vs: com.google.protobuf.descriptor.MethodDescriptorProto *): ServiceDescriptorProto = addAllMethod(__vs)
     def addAllMethod(__vs: Iterable[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = method ++ __vs)
     def withMethod(__v: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = __v)
     def getOptions: com.google.protobuf.descriptor.ServiceOptions = options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)

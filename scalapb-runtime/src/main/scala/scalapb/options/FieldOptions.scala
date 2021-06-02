@@ -157,7 +157,7 @@ final case class FieldOptions(
     def clearValueType: FieldOptions = copy(valueType = _root_.scala.None)
     def withValueType(__v: _root_.scala.Predef.String): FieldOptions = copy(valueType = Option(__v))
     def clearAnnotations = copy(annotations = _root_.scala.Seq.empty)
-    def addAnnotations(__vs: _root_.scala.Predef.String*): FieldOptions = addAllAnnotations(__vs)
+    def addAnnotations(__vs: _root_.scala.Predef.String *): FieldOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: Iterable[_root_.scala.Predef.String]): FieldOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): FieldOptions = copy(annotations = __v)
     def getMapType: _root_.scala.Predef.String = mapType.getOrElse("")

@@ -60,7 +60,7 @@ final case class ServiceOptions(
     def clearDeprecated: ServiceOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): ServiceOptions = copy(deprecated = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
-    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): ServiceOptions = addAllUninterpretedOption(__vs)
+    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): ServiceOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): ServiceOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): ServiceOptions = copy(uninterpretedOption = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

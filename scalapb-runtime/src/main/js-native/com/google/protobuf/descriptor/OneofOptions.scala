@@ -42,7 +42,7 @@ final case class OneofOptions(
       unknownFields.writeTo(_output__)
     }
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
-    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): OneofOptions = addAllUninterpretedOption(__vs)
+    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): OneofOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): OneofOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): OneofOptions = copy(uninterpretedOption = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

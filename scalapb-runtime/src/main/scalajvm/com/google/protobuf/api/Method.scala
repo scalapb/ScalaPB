@@ -146,7 +146,7 @@ final case class Method(
     def withResponseTypeUrl(__v: _root_.scala.Predef.String): Method = copy(responseTypeUrl = __v)
     def withResponseStreaming(__v: _root_.scala.Boolean): Method = copy(responseStreaming = __v)
     def clearOptions = copy(options = _root_.scala.Seq.empty)
-    def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Method = addAllOptions(__vs)
+    def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Method = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Method = copy(syntax = __v)
