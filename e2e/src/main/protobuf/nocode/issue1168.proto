@@ -1,0 +1,10 @@
+syntax = "proto2";
+package sample;
+
+message Stack_ {
+  required uint32 id = 1;
+}
+
+message Stacks {
+  repeated Stack_ Stack = 1;
+}
