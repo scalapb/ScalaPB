@@ -43,7 +43,7 @@ trait UnrecognizedEnum extends GeneratedEnum {
     companion.scalaDescriptor.findValueByNumberCreatingIfUnknown(value)
 }
 
-trait GeneratedEnumCompanion[A <: GeneratedEnum] {
+trait GeneratedEnumCompanion[A <: GeneratedEnum] extends Serializable {
   type ValueType = A
   def fromValue(value: Int): A
   def fromName(name: String): Option[A] = values.find(_.name == name)
@@ -160,7 +160,7 @@ trait JavaProtoSupport[ScalaPB, JavaPB] extends Any {
   def toJavaProto(scalaProto: ScalaPB): JavaPB
 }
 
-trait GeneratedMessageCompanion[A <: GeneratedMessage] {
+trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
   self =>
   type ValueType = A
 
