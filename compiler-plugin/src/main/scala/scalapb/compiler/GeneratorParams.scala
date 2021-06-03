@@ -7,7 +7,8 @@ case class GeneratorParams(
     singleLineToProtoString: Boolean = false,
     asciiFormatToString: Boolean = false,
     lenses: Boolean = true,
-    retainSourceCodeInfo: Boolean = false
+    retainSourceCodeInfo: Boolean = false,
+    preserveUnknownFields: Boolean = true
 )
 
 object GeneratorParams {
@@ -48,6 +49,8 @@ object GeneratorParams {
             case "no_lenses" => Right((params.copy(lenses = false), unrecognized))
             case "retain_source_code_info" =>
               Right((params.copy(retainSourceCodeInfo = true), unrecognized))
+            case "not_preserve_unknown_fields" =>
+              Right((params.copy(preserveUnknownFields = false), unrecognized))
             case p => Right((params, unrecognized :+ p))
           }
         case (l, _) => l

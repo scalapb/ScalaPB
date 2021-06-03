@@ -22,4 +22,9 @@ class DefaultOptionsSpec extends AnyFlatSpec with Matchers {
     scalapb.gen(NoLenses)._2 must contain theSameElementsAs (Seq("no_lenses"))
     scalapb.gen(FlatPackage)._2 must contain theSameElementsAs (Seq("flat_package"))
   }
+
+  "preserve_unknown_fields" should "be present or absent when passed explicitly" in {
+    scalapb.gen(preserveUnknownFields = false)._2 must be(Seq("grpc", "not_preserve_unknown_fields"))
+    scalapb.gen(preserveUnknownFields = true)._2 must be(Seq("grpc"))
+  }
 }

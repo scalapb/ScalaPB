@@ -593,10 +593,12 @@ class DescriptorImplicits private[compiler] (
 
     // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for
     // value classes since they must have an exactly one val.
-    def preservesUnknownFields =
-      (
-        message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
-      ) && !isValueClass
+    def preservesUnknownFields: Boolean =
+      if (params.preserveUnknownFields)
+        (
+          message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
+        ) && !isValueClass
+      else params.preserveUnknownFields
 
     def unknownFieldsAnnotations: Seq[String] = {
       message.messageOptions.getUnknownFieldsAnnotationsList.asScala.toList
