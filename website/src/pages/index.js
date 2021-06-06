@@ -66,8 +66,6 @@ const features = [
 ];
 
 const sponsors = [{
-  name: <>Timothy Klim</>,
-  profileUrl: 'https://github.com/TimothyKlim'
 }];
 
 function Feature({imageUrl, title, description}) {

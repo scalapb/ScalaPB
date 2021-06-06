@@ -103,11 +103,11 @@ final case class Enum(
     }
     def withName(__v: _root_.scala.Predef.String): Enum = copy(name = __v)
     def clearEnumvalue = copy(enumvalue = _root_.scala.Seq.empty)
-    def addEnumvalue(__vs: com.google.protobuf.`type`.EnumValue*): Enum = addAllEnumvalue(__vs)
+    def addEnumvalue(__vs: com.google.protobuf.`type`.EnumValue *): Enum = addAllEnumvalue(__vs)
     def addAllEnumvalue(__vs: Iterable[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = enumvalue ++ __vs)
     def withEnumvalue(__v: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = __v)
     def clearOptions = copy(options = _root_.scala.Seq.empty)
-    def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Enum = addAllOptions(__vs)
+    def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Enum = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)

@@ -197,7 +197,7 @@ final case class Field(
     def withOneofIndex(__v: _root_.scala.Int): Field = copy(oneofIndex = __v)
     def withPacked(__v: _root_.scala.Boolean): Field = copy(packed = __v)
     def clearOptions = copy(options = _root_.scala.Seq.empty)
-    def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): Field = addAllOptions(__vs)
+    def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Field = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Field = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
     def withJsonName(__v: _root_.scala.Predef.String): Field = copy(jsonName = __v)

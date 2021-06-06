@@ -111,4 +111,4 @@ We are very thankful to our sponsors:
 
 * [Oliver Wickham (ollyw)](https://github.com/ollyw)
 * [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
-* [Timothy Klim](https://github.com/TimothyKlim)
+* [Alex Gaiduchok](https://github.com/alex-gaiduchok)

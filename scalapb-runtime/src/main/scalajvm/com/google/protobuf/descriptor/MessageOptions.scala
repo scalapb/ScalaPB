@@ -141,7 +141,7 @@ final case class MessageOptions(
     def clearMapEntry: MessageOptions = copy(mapEntry = _root_.scala.None)
     def withMapEntry(__v: _root_.scala.Boolean): MessageOptions = copy(mapEntry = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
-    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption*): MessageOptions = addAllUninterpretedOption(__vs)
+    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): MessageOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

@@ -43,7 +43,7 @@ final case class FileDescriptorSet(
       unknownFields.writeTo(_output__)
     }
     def clearFile = copy(file = _root_.scala.Seq.empty)
-    def addFile(__vs: com.google.protobuf.descriptor.FileDescriptorProto*): FileDescriptorSet = addAllFile(__vs)
+    def addFile(__vs: com.google.protobuf.descriptor.FileDescriptorProto *): FileDescriptorSet = addAllFile(__vs)
     def addAllFile(__vs: Iterable[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = file ++ __vs)
     def withFile(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]): FileDescriptorSet = copy(file = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

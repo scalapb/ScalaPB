@@ -47,7 +47,7 @@ final case class EnumVector(
       unknownFields.writeTo(_output__)
     }
     def clearColors = copy(colors = _root_.scala.Seq.empty)
-    def addColors(__vs: scalapb.perf.protos.Color*): EnumVector = addAllColors(__vs)
+    def addColors(__vs: scalapb.perf.protos.Color *): EnumVector = addAllColors(__vs)
     def addAllColors(__vs: Iterable[scalapb.perf.protos.Color]): EnumVector = copy(colors = colors ++ __vs)
     def withColors(__v: _root_.scala.Seq[scalapb.perf.protos.Color]): EnumVector = copy(colors = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
