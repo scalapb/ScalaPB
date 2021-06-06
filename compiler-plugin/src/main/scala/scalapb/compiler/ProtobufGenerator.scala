@@ -1354,7 +1354,7 @@ class ProtobufGenerator(
                 s"def $clearMethod = copy(${field.scalaName.asSymbol} = ${field.collection.empty})"
               )
             ).add(
-              s"""|def add${field.upperScalaName}(__vs: $singleType*): ${message.scalaType.nameSymbol} = addAll${field.upperScalaName}(__vs)
+              s"""|def add${field.upperScalaName}(__vs: $singleType *): ${message.scalaType.nameSymbol} = addAll${field.upperScalaName}(__vs)
                   |def addAll${field.upperScalaName}(__vs: Iterable[$singleType]): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = $concat)""".stripMargin
             )
           }

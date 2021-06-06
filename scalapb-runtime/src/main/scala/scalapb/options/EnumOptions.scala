@@ -63,11 +63,11 @@ final case class EnumOptions(
       unknownFields.writeTo(_output__)
     }
     def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
-    def addExtends(__vs: _root_.scala.Predef.String*): EnumOptions = addAllExtends(__vs)
+    def addExtends(__vs: _root_.scala.Predef.String *): EnumOptions = addAllExtends(__vs)
     def addAllExtends(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(`extends` = `extends` ++ __vs)
     def withExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumOptions = copy(`extends` = __v)
     def clearCompanionExtends = copy(companionExtends = _root_.scala.Seq.empty)
-    def addCompanionExtends(__vs: _root_.scala.Predef.String*): EnumOptions = addAllCompanionExtends(__vs)
+    def addCompanionExtends(__vs: _root_.scala.Predef.String *): EnumOptions = addAllCompanionExtends(__vs)
     def addAllCompanionExtends(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(companionExtends = companionExtends ++ __vs)
     def withCompanionExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumOptions = copy(companionExtends = __v)
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")

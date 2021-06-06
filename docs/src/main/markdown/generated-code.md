@@ -76,7 +76,7 @@ object Person extends GeneratedMessageCompanion[Person] {
 The case class contains various methods for serialization, and the companion
 object contains method for parsing. [See the source code for
 `GeneratedMessage` and
-`GeneratedMessageCompanion`](https://github.com/scalapb/ScalaPB/blob/master/scalapb-runtime/shared/src/main/scala/scalapb/GeneratedMessageCompanion.scala)
+`GeneratedMessageCompanion`](https://github.com/scalapb/ScalaPB/blob/master/scalapb-runtime/src/main/scala/scalapb/GeneratedMessageCompanion.scala)
 to see what methods are available
 
 ### Building New Messages

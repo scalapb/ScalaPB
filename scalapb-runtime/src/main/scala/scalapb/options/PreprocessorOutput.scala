@@ -39,7 +39,7 @@ final case class PreprocessorOutput(
       unknownFields.writeTo(_output__)
     }
     def clearOptionsByFile = copy(optionsByFile = _root_.scala.collection.immutable.Map.empty)
-    def addOptionsByFile(__vs: (_root_.scala.Predef.String, scalapb.options.ScalaPbOptions)*): PreprocessorOutput = addAllOptionsByFile(__vs)
+    def addOptionsByFile(__vs: (_root_.scala.Predef.String, scalapb.options.ScalaPbOptions) *): PreprocessorOutput = addAllOptionsByFile(__vs)
     def addAllOptionsByFile(__vs: Iterable[(_root_.scala.Predef.String, scalapb.options.ScalaPbOptions)]): PreprocessorOutput = copy(optionsByFile = optionsByFile ++ __vs)
     def withOptionsByFile(__v: _root_.scala.collection.immutable.Map[_root_.scala.Predef.String, scalapb.options.ScalaPbOptions]): PreprocessorOutput = copy(optionsByFile = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

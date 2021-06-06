@@ -79,7 +79,7 @@ final case class EnumValue(
     def withName(__v: _root_.scala.Predef.String): EnumValue = copy(name = __v)
     def withNumber(__v: _root_.scala.Int): EnumValue = copy(number = __v)
     def clearOptions = copy(options = _root_.scala.Seq.empty)
-    def addOptions(__vs: com.google.protobuf.`type`.OptionProto*): EnumValue = addAllOptions(__vs)
+    def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): EnumValue = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): EnumValue = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): EnumValue = copy(options = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

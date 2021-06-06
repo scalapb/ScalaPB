@@ -7,7 +7,7 @@ object Dependencies {
   object versions {
     val grpc                 = "1.38.0"
     val protobuf             = "3.15.8"
-    val silencer             = "1.7.4"
+    val silencer             = "1.7.5"
     val collectionCompat     = "2.4.4"
     val coursier             = "2.0.16"
     val protocGen            = "0.9.2"
@@ -17,7 +17,7 @@ object Dependencies {
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "3.10.0"
+    val mockito                 = "3.11.0"
     val munit                   = "0.7.26"
     val scalaTest               = "3.2.9"
     val scalaTestPlusMockito    = "3.1.0.0"

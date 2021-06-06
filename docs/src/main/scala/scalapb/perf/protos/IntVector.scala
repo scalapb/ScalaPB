@@ -47,7 +47,7 @@ final case class IntVector(
       unknownFields.writeTo(_output__)
     }
     def clearInts = copy(ints = _root_.scala.Seq.empty)
-    def addInts(__vs: _root_.scala.Int*): IntVector = addAllInts(__vs)
+    def addInts(__vs: _root_.scala.Int *): IntVector = addAllInts(__vs)
     def addAllInts(__vs: Iterable[_root_.scala.Int]): IntVector = copy(ints = ints ++ __vs)
     def withInts(__v: _root_.scala.Seq[_root_.scala.Int]): IntVector = copy(ints = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

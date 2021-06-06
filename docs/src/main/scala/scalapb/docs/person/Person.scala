@@ -69,7 +69,7 @@ final case class Person(
     def withName(__v: _root_.scala.Predef.String): Person = copy(name = __v)
     def withAge(__v: _root_.scala.Int): Person = copy(age = __v)
     def clearAddresses = copy(addresses = _root_.scala.Seq.empty)
-    def addAddresses(__vs: scalapb.docs.person.Person.Address*): Person = addAllAddresses(__vs)
+    def addAddresses(__vs: scalapb.docs.person.Person.Address *): Person = addAllAddresses(__vs)
     def addAllAddresses(__vs: Iterable[scalapb.docs.person.Person.Address]): Person = copy(addresses = addresses ++ __vs)
     def withAddresses(__v: _root_.scala.Seq[scalapb.docs.person.Person.Address]): Person = copy(addresses = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
