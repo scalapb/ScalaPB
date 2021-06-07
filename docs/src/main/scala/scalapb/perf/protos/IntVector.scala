@@ -64,7 +64,7 @@ final case class IntVector(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = scalapb.perf.protos.IntVector
+    def companion: scalapb.perf.protos.IntVector.type = scalapb.perf.protos.IntVector
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.IntVector])
 }
 

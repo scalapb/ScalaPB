@@ -56,7 +56,7 @@ final case class PreprocessorOutput(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = scalapb.options.PreprocessorOutput
+    def companion: scalapb.options.PreprocessorOutput.type = scalapb.options.PreprocessorOutput
     // @@protoc_insertion_point(GeneratedMessage[scalapb.PreprocessorOutput])
 }
 
@@ -173,7 +173,7 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion = scalapb.options.PreprocessorOutput.OptionsByFileEntry
+      def companion: scalapb.options.PreprocessorOutput.OptionsByFileEntry.type = scalapb.options.PreprocessorOutput.OptionsByFileEntry
       // @@protoc_insertion_point(GeneratedMessage[scalapb.PreprocessorOutput.OptionsByFileEntry])
   }
   

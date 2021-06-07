@@ -1396,7 +1396,7 @@ class ProtobufGenerator(
       .when(params.asciiFormatToString)(
         _.add("override def toString: _root_.scala.Predef.String = toProtoString")
       )
-      .add(s"def companion = ${fullName}")
+      .add(s"def companion: ${fullName}.type = ${fullName}")
       .when(message.isSealedOneofType) { fp =>
         val scalaType = message.sealedOneofScalaType
         val name      = message.sealedOneofTraitScalaType.name

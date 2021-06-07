@@ -212,7 +212,7 @@ final case class Api(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.api.Api
+    def companion: com.google.protobuf.api.Api.type = com.google.protobuf.api.Api
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Api])
 }
 

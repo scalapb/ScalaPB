@@ -246,7 +246,7 @@ final case class FieldDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.FieldDescriptorProto
+    def companion: com.google.protobuf.descriptor.FieldDescriptorProto.type = com.google.protobuf.descriptor.FieldDescriptorProto
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldDescriptorProto])
 }
 

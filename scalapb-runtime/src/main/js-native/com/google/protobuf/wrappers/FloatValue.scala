@@ -66,7 +66,7 @@ final case class FloatValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.wrappers.FloatValue
+    def companion: com.google.protobuf.wrappers.FloatValue.type = com.google.protobuf.wrappers.FloatValue
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FloatValue])
 }
 

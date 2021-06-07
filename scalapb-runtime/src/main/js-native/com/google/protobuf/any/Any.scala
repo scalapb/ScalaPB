@@ -190,7 +190,7 @@ final case class Any(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.any.Any
+    def companion: com.google.protobuf.any.Any.type = com.google.protobuf.any.Any
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Any])
 }
 

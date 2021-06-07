@@ -105,7 +105,7 @@ final case class SourceCodeInfo(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.SourceCodeInfo
+    def companion: com.google.protobuf.descriptor.SourceCodeInfo.type = com.google.protobuf.descriptor.SourceCodeInfo
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.SourceCodeInfo])
 }
 
@@ -372,7 +372,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion = com.google.protobuf.descriptor.SourceCodeInfo.Location
+      def companion: com.google.protobuf.descriptor.SourceCodeInfo.Location.type = com.google.protobuf.descriptor.SourceCodeInfo.Location
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.SourceCodeInfo.Location])
   }
   

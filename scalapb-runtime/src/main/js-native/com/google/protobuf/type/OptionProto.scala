@@ -89,7 +89,7 @@ final case class OptionProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.`type`.OptionProto
+    def companion: com.google.protobuf.`type`.OptionProto.type = com.google.protobuf.`type`.OptionProto
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Option])
 }
 

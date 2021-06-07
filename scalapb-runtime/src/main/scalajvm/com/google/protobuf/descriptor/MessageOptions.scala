@@ -166,7 +166,7 @@ final case class MessageOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.MessageOptions
+    def companion: com.google.protobuf.descriptor.MessageOptions.type = com.google.protobuf.descriptor.MessageOptions
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.MessageOptions])
 }
 

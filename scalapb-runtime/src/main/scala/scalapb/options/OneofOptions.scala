@@ -73,7 +73,7 @@ final case class OneofOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = scalapb.options.OneofOptions
+    def companion: scalapb.options.OneofOptions.type = scalapb.options.OneofOptions
     // @@protoc_insertion_point(GeneratedMessage[scalapb.OneofOptions])
 }
 

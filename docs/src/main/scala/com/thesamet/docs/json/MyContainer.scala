@@ -55,7 +55,7 @@ final case class MyContainer(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.thesamet.docs.json.MyContainer
+    def companion: com.thesamet.docs.json.MyContainer.type = com.thesamet.docs.json.MyContainer
     // @@protoc_insertion_point(GeneratedMessage[com.thesamet.docs.MyContainer])
 }
 

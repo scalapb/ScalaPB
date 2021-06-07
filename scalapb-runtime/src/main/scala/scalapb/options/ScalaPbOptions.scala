@@ -525,7 +525,7 @@ final case class ScalaPbOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = scalapb.options.ScalaPbOptions
+    def companion: scalapb.options.ScalaPbOptions.type = scalapb.options.ScalaPbOptions
     // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions])
 }
 
@@ -912,7 +912,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion = scalapb.options.ScalaPbOptions.AuxMessageOptions
+      def companion: scalapb.options.ScalaPbOptions.AuxMessageOptions.type = scalapb.options.ScalaPbOptions.AuxMessageOptions
       // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions.AuxMessageOptions])
   }
   
@@ -1060,7 +1060,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion = scalapb.options.ScalaPbOptions.AuxFieldOptions
+      def companion: scalapb.options.ScalaPbOptions.AuxFieldOptions.type = scalapb.options.ScalaPbOptions.AuxFieldOptions
       // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions.AuxFieldOptions])
   }
   
@@ -1208,7 +1208,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion = scalapb.options.ScalaPbOptions.AuxEnumOptions
+      def companion: scalapb.options.ScalaPbOptions.AuxEnumOptions.type = scalapb.options.ScalaPbOptions.AuxEnumOptions
       // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions.AuxEnumOptions])
   }
   
@@ -1356,7 +1356,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion = scalapb.options.ScalaPbOptions.AuxEnumValueOptions
+      def companion: scalapb.options.ScalaPbOptions.AuxEnumValueOptions.type = scalapb.options.ScalaPbOptions.AuxEnumValueOptions
       // @@protoc_insertion_point(GeneratedMessage[scalapb.ScalaPbOptions.AuxEnumValueOptions])
   }
   
