@@ -262,7 +262,7 @@ final case class Field(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.`type`.Field
+    def companion: com.google.protobuf.`type`.Field.type = com.google.protobuf.`type`.Field
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Field])
 }
 

@@ -71,7 +71,7 @@ final case class OneofDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.OneofDescriptorProto
+    def companion: com.google.protobuf.descriptor.OneofDescriptorProto.type = com.google.protobuf.descriptor.OneofDescriptorProto
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.OneofDescriptorProto])
 }
 

@@ -60,7 +60,7 @@ final case class FileDescriptorSet(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.FileDescriptorSet
+    def companion: com.google.protobuf.descriptor.FileDescriptorSet.type = com.google.protobuf.descriptor.FileDescriptorSet
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FileDescriptorSet])
 }
 

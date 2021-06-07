@@ -66,7 +66,7 @@ final case class BoolValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.wrappers.BoolValue
+    def companion: com.google.protobuf.wrappers.BoolValue.type = com.google.protobuf.wrappers.BoolValue
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.BoolValue])
 }
 

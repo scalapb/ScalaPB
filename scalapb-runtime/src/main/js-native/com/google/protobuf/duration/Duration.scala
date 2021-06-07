@@ -150,7 +150,7 @@ final case class Duration(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.duration.Duration
+    def companion: com.google.protobuf.duration.Duration.type = com.google.protobuf.duration.Duration
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Duration])
 }
 

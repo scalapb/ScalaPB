@@ -59,7 +59,7 @@ final case class MyMessage(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.thesamet.docs.json.MyMessage
+    def companion: com.thesamet.docs.json.MyMessage.type = com.thesamet.docs.json.MyMessage
     // @@protoc_insertion_point(GeneratedMessage[com.thesamet.docs.MyMessage])
 }
 

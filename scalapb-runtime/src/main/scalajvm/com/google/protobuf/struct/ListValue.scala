@@ -64,7 +64,7 @@ final case class ListValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.struct.ListValue
+    def companion: com.google.protobuf.struct.ListValue.type = com.google.protobuf.struct.ListValue
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ListValue])
 }
 

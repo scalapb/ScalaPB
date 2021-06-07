@@ -85,7 +85,7 @@ final case class FieldTransformation(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = scalapb.options.FieldTransformation
+    def companion: scalapb.options.FieldTransformation.type = scalapb.options.FieldTransformation
     // @@protoc_insertion_point(GeneratedMessage[scalapb.FieldTransformation])
 }
 

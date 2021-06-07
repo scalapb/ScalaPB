@@ -176,7 +176,7 @@ final case class MessageOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = scalapb.options.MessageOptions
+    def companion: scalapb.options.MessageOptions.type = scalapb.options.MessageOptions
     // @@protoc_insertion_point(GeneratedMessage[scalapb.MessageOptions])
 }
 

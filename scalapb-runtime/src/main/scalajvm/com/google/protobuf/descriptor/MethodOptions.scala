@@ -93,7 +93,7 @@ final case class MethodOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.MethodOptions
+    def companion: com.google.protobuf.descriptor.MethodOptions.type = com.google.protobuf.descriptor.MethodOptions
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.MethodOptions])
 }
 

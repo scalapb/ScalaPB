@@ -152,7 +152,7 @@ final case class UninterpretedOption(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.UninterpretedOption
+    def companion: com.google.protobuf.descriptor.UninterpretedOption.type = com.google.protobuf.descriptor.UninterpretedOption
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.UninterpretedOption])
 }
 
@@ -329,7 +329,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion = com.google.protobuf.descriptor.UninterpretedOption.NamePart
+      def companion: com.google.protobuf.descriptor.UninterpretedOption.NamePart.type = com.google.protobuf.descriptor.UninterpretedOption.NamePart
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.UninterpretedOption.NamePart])
   }
   

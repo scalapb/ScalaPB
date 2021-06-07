@@ -89,7 +89,7 @@ final case class ServiceDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.descriptor.ServiceDescriptorProto
+    def companion: com.google.protobuf.descriptor.ServiceDescriptorProto.type = com.google.protobuf.descriptor.ServiceDescriptorProto
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ServiceDescriptorProto])
 }
 

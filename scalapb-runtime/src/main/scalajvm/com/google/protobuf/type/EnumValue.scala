@@ -106,7 +106,7 @@ final case class EnumValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = com.google.protobuf.`type`.EnumValue
+    def companion: com.google.protobuf.`type`.EnumValue.type = com.google.protobuf.`type`.EnumValue
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.EnumValue])
 }
 
