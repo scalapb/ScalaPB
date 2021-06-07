@@ -722,9 +722,20 @@ message BarMessage {
 ```
 
 In ScalaPB 0.11.4, you can also add annotations to the enum values and the `Unrecognized` case class:
-TODO:mapek
+
 ```protobuf
 enum BarEnum {
   option (scalapb.enum_options) = "@annotation"
+}
+
+enum BarEnum {
+  // every value will have it
+  option (scalapb.enum_options).base_annotations = "@annotation1";
+  // only known values (case objects) will have it
+  option (scalapb.enum_options).recognized_annotations = "@annotation2";
+  // only the unrecognized case class will have it
+  option (scalapb.enum_options).unrecognized_annotations = "@annotation3";
+  // only this value (case object) will have it
+  BarValue = 1 [(scalapb.enum_value).annotations = "@annotation4"];
 }
 ```

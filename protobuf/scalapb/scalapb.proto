@@ -295,7 +295,7 @@ message EnumOptions {
   repeated string base_annotations = 4;
 
   // Custom annotations to add to the generated trait.
-  repeated string recognised_annotations = 5;
+  repeated string recognized_annotations = 5;
 
   // Custom annotations to add to the generated Unrecognized case class.
   repeated string unrecognized_annotations = 6;
