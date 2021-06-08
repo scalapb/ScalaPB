@@ -729,13 +729,13 @@ enum BarEnum {
 }
 
 enum BarEnum {
-  // every value will have it
+  // every value will have the annotation added.
   option (scalapb.enum_options).base_annotations = "@annotation1";
-  // only known values (case objects) will have it
+  // only known values (case objects) will have the annotation added.
   option (scalapb.enum_options).recognized_annotations = "@annotation2";
-  // only the unrecognized case class will have it
+  // only the unrecognized case class will have the annotation added.
   option (scalapb.enum_options).unrecognized_annotations = "@annotation3";
-  // only this value (case object) will have it
+  // only this value (case object) will have the annotation added.
   BarValue = 1 [(scalapb.enum_value).annotations = "@annotation4"];
 }
 ```
