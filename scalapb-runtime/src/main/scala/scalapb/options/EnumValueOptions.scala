@@ -69,7 +69,7 @@ final case class EnumValueOptions(
     def clearScalaName: EnumValueOptions = copy(scalaName = _root_.scala.None)
     def withScalaName(__v: _root_.scala.Predef.String): EnumValueOptions = copy(scalaName = Option(__v))
     def clearAnnotations = copy(annotations = _root_.scala.Seq.empty)
-    def addAnnotations(__vs: _root_.scala.Predef.String*): EnumValueOptions = addAllAnnotations(__vs)
+    def addAnnotations(__vs: _root_.scala.Predef.String *): EnumValueOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumValueOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumValueOptions = copy(annotations = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
