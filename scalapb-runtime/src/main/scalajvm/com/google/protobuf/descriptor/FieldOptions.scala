@@ -326,6 +326,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   object CType extends _root_.scalapb.GeneratedEnumCompanion[CType] {
     sealed trait Recognized extends CType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[CType] = this
+    
     /** Default mode.
       */
     @SerialVersionUID(0L)
@@ -351,7 +352,6 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
     lazy val values = scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(__value: _root_.scala.Int): CType = __value match {
       case 0 => STRING
@@ -379,6 +379,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   object JSType extends _root_.scalapb.GeneratedEnumCompanion[JSType] {
     sealed trait Recognized extends JSType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[JSType] = this
+    
     /** Use the default type.
       */
     @SerialVersionUID(0L)
@@ -408,7 +409,6 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
     lazy val values = scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(__value: _root_.scala.Int): JSType = __value match {
       case 0 => JS_NORMAL

@@ -815,6 +815,22 @@ class DescriptorImplicits private[compiler] (
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
     }
+
+    private[this] def deprecatedAnnotation: Seq[String] = {
+      if (enumDescriptor.getOptions.getDeprecated)
+        List(ProtobufGenerator.deprecatedAnnotation)
+      else
+        Nil
+    }
+
+    def baseAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getBaseAnnotationsList().asScala.toSeq
+
+    def recognizedAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getRecognizedAnnotationsList().asScala.toSeq
+
+    def unrecognizedAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getUnrecognizedAnnotationsList().asScala.toSeq
   }
 
   implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {
@@ -868,6 +884,17 @@ class DescriptorImplicits private[compiler] (
         .map(t => t.getLeadingComments + t.getTrailingComments)
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
+    }
+
+    private[this] def deprecatedAnnotation: Seq[String] = {
+      if (enumValue.getOptions.getDeprecated)
+        List(ProtobufGenerator.deprecatedAnnotation)
+      else
+        Nil
+    }
+
+    def annotationList: Seq[String] = {
+      deprecatedAnnotation ++ scalaOptions.getAnnotationsList().asScala
     }
   }
 

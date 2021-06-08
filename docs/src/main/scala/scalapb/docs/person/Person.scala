@@ -172,6 +172,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   object AddressType extends _root_.scalapb.GeneratedEnumCompanion[AddressType] {
     sealed trait Recognized extends AddressType
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[AddressType] = this
+    
     @SerialVersionUID(0L)
     case object HOME extends AddressType(0) with AddressType.Recognized {
       val index = 0
@@ -188,7 +189,6 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends AddressType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
     lazy val values = scala.collection.immutable.Seq(HOME, WORK)
     def fromValue(__value: _root_.scala.Int): AddressType = __value match {
       case 0 => HOME

@@ -30,6 +30,7 @@ class ProtobufGenerator(
         _.add(ProtobufGenerator.deprecatedAnnotation)
       }
       .call(generateScalaDoc(e))
+      .seq(e.baseAnnotationList)
       .add(
         s"sealed abstract class $name(val value: _root_.scala.Int) extends ${e.baseTraitExtends.mkString(" with ")} {"
       )
@@ -50,14 +51,15 @@ class ProtobufGenerator(
       }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
+      .seq(e.recognizedAnnotationList)
       .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
+      .newline
       .print(e.getValues.asScala) { case (p, v) =>
         p.call(generateScalaDoc(v))
-          .add(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
-            " " + ProtobufGenerator.deprecatedAnnotation
-          } else ""}
-                  |case object ${v.scalaName.asSymbol} extends ${v.valueExtends
+          .add("@SerialVersionUID(0L)")
+          .seq(v.annotationList)
+          .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends
             .mkString(" with ")} {
                   |  val index = ${v.getIndex}
                   |  val name = "${v.getName}"
@@ -65,13 +67,15 @@ class ProtobufGenerator(
                   |}
                   |""".stripMargin)
       }
-      .add(s"""@SerialVersionUID(0L)
-              |final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-              |
-              |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
-        .map(_.scalaName.asSymbol)
-        .mkString(", ")})
-              |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin)
+      .add("@SerialVersionUID(0L)")
+      .seq(e.unrecognizedAnnotationList)
+      .add(
+        s"""final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+           |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
+          .map(_.scalaName.asSymbol)
+          .mkString(", ")})
+           |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin
+      )
       .print(e.valuesWithNoDuplicates) { case (p, v) =>
         p.add(s"  case ${v.getNumber} => ${v.scalaName.asSymbol}")
       }
@@ -1433,7 +1437,7 @@ class ProtobufGenerator(
       .print(file.scalaOptions.getImportList.asScala) { case (printer, i) =>
         printer.add(s"import $i")
       }
-      .add("")
+      .newline
       .seq(file.scalaOptions.getPreambleList.asScala.toSeq)
       .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
   }

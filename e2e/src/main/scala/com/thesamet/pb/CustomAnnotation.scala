@@ -9,6 +9,8 @@ class CustomAnnotation1() extends StaticAnnotation
 
 class CustomAnnotation2() extends StaticAnnotation
 
+class CustomAnnotation3() extends StaticAnnotation
+
 @getter @setter @beanGetter @beanSetter @field
 final class CustomFieldAnnotation1 extends StaticAnnotation
 

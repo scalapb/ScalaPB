@@ -18,6 +18,7 @@ sealed abstract class Color(val value: _root_.scala.Int) extends _root_.scalapb.
 object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
   sealed trait Recognized extends Color
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[Color] = this
+  
   @SerialVersionUID(0L)
   case object UNKNOWN extends Color(0) with Color.Recognized {
     val index = 0
@@ -48,7 +49,6 @@ object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Color(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  
   lazy val values = scala.collection.immutable.Seq(UNKNOWN, RED, GREEN, BLUE)
   def fromValue(__value: _root_.scala.Int): Color = __value match {
     case 0 => UNKNOWN

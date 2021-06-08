@@ -765,6 +765,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   object OptionsScope extends _root_.scalapb.GeneratedEnumCompanion[OptionsScope] {
     sealed trait Recognized extends OptionsScope
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionsScope] = this
+    
     /** Apply the options for this file only (default)
       */
     @SerialVersionUID(0L)
@@ -785,7 +786,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionsScope(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
     lazy val values = scala.collection.immutable.Seq(FILE, PACKAGE)
     def fromValue(__value: _root_.scala.Int): OptionsScope = __value match {
       case 0 => FILE
@@ -808,6 +808,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   object EnumValueNaming extends _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] {
     sealed trait Recognized extends EnumValueNaming
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[EnumValueNaming] = this
+    
     /** Enum value names in Scala use the same name as in the proto
       */
     @SerialVersionUID(0L)
@@ -828,7 +829,6 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends EnumValueNaming(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
     lazy val values = scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
     def fromValue(__value: _root_.scala.Int): EnumValueNaming = __value match {
       case 0 => AS_IN_PROTO

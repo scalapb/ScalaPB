@@ -654,6 +654,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   object OptimizeMode extends _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] {
     sealed trait Recognized extends OptimizeMode
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptimizeMode] = this
+    
     /** Generate complete code for parsing, serialization,
       */
     @SerialVersionUID(0L)
@@ -684,7 +685,6 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptimizeMode(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
     lazy val values = scala.collection.immutable.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
     def fromValue(__value: _root_.scala.Int): OptimizeMode = __value match {
       case 1 => SPEED

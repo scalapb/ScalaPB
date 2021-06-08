@@ -20,6 +20,7 @@ sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scal
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   sealed trait Recognized extends NullValue
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = this
+  
   /** Null value.
     */
   @SerialVersionUID(0L)
@@ -31,7 +32,6 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends NullValue(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  
   lazy val values = scala.collection.immutable.Seq(NULL_VALUE)
   def fromValue(__value: _root_.scala.Int): NullValue = __value match {
     case 0 => NULL_VALUE

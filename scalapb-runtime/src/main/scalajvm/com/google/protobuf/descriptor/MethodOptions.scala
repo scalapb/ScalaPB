@@ -187,6 +187,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
   object IdempotencyLevel extends _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] {
     sealed trait Recognized extends IdempotencyLevel
     implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[IdempotencyLevel] = this
+    
     @SerialVersionUID(0L)
     case object IDEMPOTENCY_UNKNOWN extends IdempotencyLevel(0) with IdempotencyLevel.Recognized {
       val index = 0
@@ -214,7 +215,6 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    
     lazy val values = scala.collection.immutable.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
     def fromValue(__value: _root_.scala.Int): IdempotencyLevel = __value match {
       case 0 => IDEMPOTENCY_UNKNOWN

@@ -17,6 +17,7 @@ sealed abstract class MatchType(val value: _root_.scala.Int) extends _root_.scal
 object MatchType extends _root_.scalapb.GeneratedEnumCompanion[MatchType] {
   sealed trait Recognized extends MatchType
   implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[MatchType] = this
+  
   @SerialVersionUID(0L)
   case object CONTAINS extends MatchType(0) with MatchType.Recognized {
     val index = 0
@@ -40,7 +41,6 @@ object MatchType extends _root_.scalapb.GeneratedEnumCompanion[MatchType] {
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends MatchType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  
   lazy val values = scala.collection.immutable.Seq(CONTAINS, EXACT, PRESENCE)
   def fromValue(__value: _root_.scala.Int): MatchType = __value match {
     case 0 => CONTAINS
