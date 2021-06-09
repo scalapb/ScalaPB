@@ -66,7 +66,7 @@ val spark: SparkSession = SparkSession
   .getOrCreate()
 ```
 
-*IMPORTANT*: Ensure you do not import `spark.implicits._` to avoid ambiguity between ScalaPB provided encoders and Spark's default encoders. You may want to import `StringToColumn` to convert `$"col name"` into a `Column`. Add an import `scaslapb.spark.Implicits` to add ScalaPB's encoders for protocol buffers into the implicit search scope:
+*IMPORTANT*: Ensure you do not import `spark.implicits._` to avoid ambiguity between ScalaPB provided encoders and Spark's default encoders. You may want to import `StringToColumn` to convert `$"col name"` into a `Column`. Add an import `scalapb.spark.Implicits` to add ScalaPB's encoders for protocol buffers into the implicit search scope:
 
 ```scala mdoc
 import org.apache.spark.sql.{Dataset, DataFrame, functions => F}
