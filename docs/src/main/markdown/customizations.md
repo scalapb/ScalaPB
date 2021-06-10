@@ -211,10 +211,26 @@ to the protoc command line.
 
 :::note
 Since the package-scoped options file is used as a source file in multiple
-projects, it should not define any types (messages, enums, services). 
+projects, it should not define any types (messages, enums, services).
 This ensures that the package-scoped proto file does not generate any code on its own so we don't
 end up with duplicate class files.
 :::
+
+### Disabling package-scoped options processing
+
+As a consumer of third-party dependencies that come with options proto, you
+can disable the behavior of automatically adding the options proto to protoc
+by setting 
+
+```scala
+Compile / PB.manifestProcessing := false
+``` 
+
+in sbt. In that case, it is your responsibility to either manually `import` the option protos in one
+of your own project source files so it gets applied, or ensure that the
+generator settigs used in your project are consistent with the ones used to
+generate the dependency. Differences in settings can lead to generated code
+that does not compile.
 
 ## Auxiliary options
 
