@@ -1602,14 +1602,17 @@ class ProtobufGenerator(
     val messageFiles = for {
       message <- file.getMessageTypes.asScala if !message.isSealedOneofCase
     } yield {
-      val b = CodeGeneratorResponse.File.newBuilder()
+      val b     = CodeGeneratorResponse.File.newBuilder()
+      val cases = message.sealedOneofCases.getOrElse(Seq.empty)
       b.setName(message.scalaFileName)
       b.setContent(
         scalaFileHeader(
           file,
-          javaConverterImport = file.javaConversions && messageContainsRepeatedFields(message)
+          javaConverterImport = file.javaConversions && (messageContainsRepeatedFields(
+            message
+          ) || cases.exists(messageContainsRepeatedFields(_)))
         ).call(printMessage(_, message))
-          .print(message.sealedOneofCases.getOrElse(Seq.empty))(printMessage)
+          .print(cases)(printMessage)
           .result()
       )
       b.build
