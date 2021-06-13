@@ -145,6 +145,28 @@ message MyPrivateMessage {
 
 You can use field-transformations to match on third-party types and apply arbitrary field-level options. See [example here](transformations.md#example-customizing-third-party-types).
 
+## Using Spark, I am getting `No encoder found for ...` or `Unable to find encoder for type`
+
+When using ScalaPB case classes with Spark datasets or dataframes,
+you need to be using sparksql-scalapb:
+
+1. Make sure the version of ScalaPB, sparksql-scalapb and ScalaPB match according to [this table](sparksql.md#setting-up-your-project).
+
+2. In the scope where the exception occurs, make sure you import `scalapb.spark.Implicits._`. **Do not import `spark.implicits._`**.
+
+3. If you use an interactive notebook such as Databricks or spark-shell, there is a default import of `spark.implicits._` that is executed prior to your own code. There is currently no way to disable this behavior. The workaround is to manually pass the encoder
+   explicitly in the locations where an encoder is not found, for example:
+   ```scala
+   import scalapb.spark.Implicits.typedEncoderToEncoder
+
+   df.as[MyMessageType](typedEncoderToEncoder[MyMessageType])
+
+   spark.createDataset(myList, typedEncoderToEncoder[MyMessageType])
+   ```
+
+This error is very common for newcomers to ScalaPB and Spark. If the guidance above did not resolve your issue and you would like to get support over Gitter, Github or Stackoverflow, please clearly indicate that you have read this FAQ, and provide the protos and code that triggers the exception, including the relevant imports in scope. Ideally, provide a reproducible example. The easiest way to do it is to fork [this repo](https://github.com/thesamet/sparksql-scalapb-test), adjust so it reproduces the issue you have and provide a link to your fork in your problem report.
+
+
 ## How do I use ScalaPB with Gradle?
 
 You can use ScalaPB with the official [Protobuf Plugin for Gradle](https://github.com/google/protobuf-gradle-plugin).
