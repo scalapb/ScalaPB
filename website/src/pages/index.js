@@ -66,6 +66,8 @@ const features = [
 ];
 
 const sponsors = [{
+  name: <>MOIA</>,
+  profileUrl: 'https://moia.io'
 }];
 
 function Feature({imageUrl, title, description}) {
