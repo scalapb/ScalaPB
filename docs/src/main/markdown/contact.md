@@ -27,6 +27,18 @@ issue, please describe what are you trying to do, what you expect it to do,
 and what unexpected things happen. Provide as much detail as possible and
 include all relevant code so it is possible for us to reproduce the issue.
 
+## Providing minimal reproducible example
+
+Depending on the case, you may be asked to provide a minimal reproducible example
+that demonstrates the issue. This means that the maintainer is unable to tell
+what is going on without additional context. At the same time, to save time, the additional
+context provided need to be kept to a minimum. To accomplish that, provide a
+small sbt project that includes only the relevant plugins and settings, and
+the minimal code, minimal amount of proto files, messages and field that are
+needed to demonstrate the problem. Include instructions on how to run the
+project so the problem can be exhibited. This makes it much easier for a
+maintainer to identify a bug and propose a solution or a workaround.
+
 ## I need urgent support! When can I have a feature ready?
 
 If you need an issue resolved or a feature developed for you in a timely
