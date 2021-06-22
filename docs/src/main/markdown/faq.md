@@ -160,10 +160,10 @@ Generated code would be:
 
 ```scala
 final case class MyMessage(
-                            private val privateField: String = "",
-                            protected val protectedField: String = "",
-                            private[proto] val packagePrivateField: String = ""
-                          )
+    private val privateField: String = "",
+    protected val protectedField: String = "",
+    private[proto] val packagePrivateField: String = ""
+) extends ...
 ```
 
 ## How do I customize third-party types?
