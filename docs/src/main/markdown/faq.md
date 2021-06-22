@@ -141,6 +141,31 @@ message MyPrivateMessage {
 }
 ```
 
+## How do I define custom field scope?
+
+Easy! See this example:
+
+```protobuf
+syntax = "proto3";
+import "scalapb/scalapb.proto";
+
+message MyMessage {
+  string privateField        = 1 [(scalapb.field).annotations = 'private val'];
+  string protectedField      = 2 [(scalapb.field).annotations = 'protected val'];
+  string packagePrivateField = 3 [(scalapb.field).annotations = 'private[proto] val'];
+}
+```
+
+Generated code would be:
+
+```scala
+final case class MyMessage(
+    private val privateField: String = "",
+    protected val protectedField: String = "",
+    private[proto] val packagePrivateField: String = ""
+) extends ...
+```
+
 ## How do I customize third-party types?
 
 You can use field-transformations to match on third-party types and apply arbitrary field-level options. See [example here](transformations.md#example-customizing-third-party-types).
