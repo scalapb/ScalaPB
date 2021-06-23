@@ -19,13 +19,18 @@ class CustomAnnotationsSpec extends AnyFlatSpec with Matchers {
   }
 
   "field annotations" should "be set correctly" in {
+    val message =
     typeOf[FieldAnnotations]
       .member(TermName("z"))
       .annotations
       .map(_.toString)
       .filter(_.contains("deprecated"))
-      .head must
-      include("deprecated(\"Will be removed\", \"0.1\")")
+      .head
+    // Formatting is different between Scala 2.13 and Scala 2.12, so testing
+    // the relevant text exists, but without specific formatting.
+    message must include("deprecated")
+    message must include("Will be removed")
+    message must include("0.1")
   }
 
   "companion annotations" should "be set correctly" in {
