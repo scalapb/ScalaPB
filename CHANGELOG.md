@@ -1,7 +1,11 @@
 # Change Log
 
-## [0.11.4] (Unreleased)
+## [0.11.4]
 - Add options for enum annotations (#1155)
+- Add "export" as reserved word (#1159)
+- Remove Serializable from types inferred across companions (#1162)
+- Added new options to support enum annotations
+- Fix java conversion not working for sealed oneofs (#1158)
 
 ## [0.11.2]
 - Fix bug where generated code would not compile if a message was named Unit (#1126)
