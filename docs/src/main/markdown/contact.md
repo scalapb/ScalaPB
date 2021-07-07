@@ -39,6 +39,12 @@ needed to demonstrate the problem. Include instructions on how to run the
 project so the problem can be exhibited. This makes it much easier for a
 maintainer to identify a bug and propose a solution or a workaround.
 
+You can use the ScalaPB sbt template to quickly generate a minimal project:
+
+```
+sbt new scalapb/scalapb-template.g8
+```
+
 ## I need urgent support! When can I have a feature ready?
 
 If you need an issue resolved or a feature developed for you in a timely
