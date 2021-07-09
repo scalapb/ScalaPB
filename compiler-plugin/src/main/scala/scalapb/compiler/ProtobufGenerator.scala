@@ -542,7 +542,7 @@ class ProtobufGenerator(
       fp.when(!message.isValueClass) {
         _.add(
           """@transient
-            |private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0""".stripMargin
+            |private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1""".stripMargin
         )
       }.add("private[this] def __computeSerializedValue(): _root_.scala.Int = {")
         .indent
@@ -558,12 +558,12 @@ class ProtobufGenerator(
           _.add("__computeSerializedValue()")
         }
         .when(!message.isValueClass) {
-          _.add("""var read = __serializedSizeCachedValue
-                  |if (read == 0) {
-                  |  read = __computeSerializedValue()
-                  |  __serializedSizeCachedValue = read
+          _.add("""var __size = __serializedSizeCachedValue
+                  |if (__size == -1) {
+                  |  __size = __computeSerializedValue()
+                  |  __serializedSizeCachedValue = __size
                   |}
-                  |read""".stripMargin)
+                  |__size""".stripMargin)
         }
         .outdent
         .add("}")
