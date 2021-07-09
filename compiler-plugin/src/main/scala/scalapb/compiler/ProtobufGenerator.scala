@@ -616,6 +616,7 @@ class ProtobufGenerator(
   private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
     if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
     else if (field.getType == Type.ENUM) s"${expr} != 0"
+    else if (field.getType == Type.MESSAGE) s"${expr}.serializedSize != 0"
     else s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"
   }
 

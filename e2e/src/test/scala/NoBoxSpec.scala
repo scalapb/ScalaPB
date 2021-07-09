@@ -1,7 +1,4 @@
-import com.thesamet.proto.e2e.no_box.Car
-import com.thesamet.proto.e2e.no_box.DontBoxMe
-import com.thesamet.proto.e2e.no_box.RequiredCar
-import com.thesamet.proto.e2e.no_box.Tyre
+import com.thesamet.proto.e2e.no_box._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 import com.google.protobuf.InvalidProtocolBufferException
@@ -52,5 +49,22 @@ class NoBoxSpec extends AnyFlatSpec with Matchers {
     intercept[NoSuchElementException] {
       RequiredCar.fromAscii("")
     }
+  }
+
+  // Issue 1198
+  "Non-total type" should "serialize and parse correctly" in {
+    val p = Person("", Money(BigDecimal("123.123")))
+    Person.parseFrom(p.toByteArray) must be(p)
+  }
+
+  it should "throw an exception when missing data" in {
+    intercept[NumberFormatException] {
+      Person.parseFrom(Array.empty[Byte])
+    }
+  }
+
+  it should "Convert to and from Java" in {
+    val p = Person("", Money(BigDecimal("123.123")))
+    Person.fromJavaProto(Person.toJavaProto(p)) must be(p)
   }
 }

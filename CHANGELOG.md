@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.11.5] (Unreleased)
+- Fix: non-total typemappers now work in `no_box` fields (#1198)
+
 ## [0.11.4]
 - Add options for enum annotations (#1155)
 - Add "export" as reserved word (#1159)

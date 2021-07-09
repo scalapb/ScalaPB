@@ -34,3 +34,12 @@ message Car {
 message RequiredCar {
     Tyre tyre1 = 1 [(scalapb.field).required = true];
 }
+
+message Money {
+  string amount = 1 [(scalapb.field).type = "scala.BigDecimal"];
+}
+
+message Person {
+  string name = 1;
+  Money money = 2[(scalapb.field).no_box = true];
+}
