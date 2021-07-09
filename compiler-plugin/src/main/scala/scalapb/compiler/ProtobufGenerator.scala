@@ -542,9 +542,9 @@ class ProtobufGenerator(
       fp.when(!message.isValueClass) {
         _.add(
           """@transient
-            |private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1""".stripMargin
+            |private[this] var __serializedSizeMemoized: _root_.scala.Int = 0""".stripMargin
         )
-      }.add("private[this] def __computeSerializedValue(): _root_.scala.Int = {")
+      }.add("private[this] def __computeSerializedSize(): _root_.scala.Int = {")
         .indent
         .add("var __size = 0")
         .print(message.fields)(generateSerializedSizeForField)
@@ -555,15 +555,18 @@ class ProtobufGenerator(
         .add("override def serializedSize: _root_.scala.Int = {")
         .indent
         .when(message.isValueClass) {
-          _.add("__computeSerializedValue()")
+          _.add("__computeSerializedSize()")
         }
         .when(!message.isValueClass) {
-          _.add("""var __size = __serializedSizeCachedValue
-                  |if (__size == -1) {
-                  |  __size = __computeSerializedValue()
-                  |  __serializedSizeCachedValue = __size
+          // Since zero is a valid value, we actually store the serialized
+          // size plus one. Zero means that the memoized value was not initialized.
+          _.add("""var __size = __serializedSizeMemoized
+                  |if (__size == 0) {
+                  |  __size = __computeSerializedSize() + 1
+                  |  __serializedSizeMemoized = __size
                   |}
-                  |__size""".stripMargin)
+                  |__size - 1
+                  |""".stripMargin)
         }
         .outdent
         .add("}")
