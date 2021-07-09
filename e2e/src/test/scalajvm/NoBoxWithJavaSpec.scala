@@ -1,6 +1,5 @@
 import com.thesamet.proto.e2e.NoBox
-import com.thesamet.proto.e2e.no_box.Car
-import com.thesamet.proto.e2e.no_box.Tyre
+import com.thesamet.proto.e2e.no_box._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
@@ -16,5 +15,10 @@ class NoBoxWithJavaSpec extends AnyFlatSpec with Matchers {
     val scalaCar = Car(tyre1 = Tyre.defaultInstance)
     val javaCar = NoBox.Car.parseFrom(scalaCar.toByteArray)
     javaCar.hasTyre1 must be(false)
+  }
+
+  "Non-total type" should "Convert to and from Java" in {
+    val p = Person("", Money(BigDecimal("123.123")))
+    Person.fromJavaProto(Person.toJavaProto(p)) must be(p)
   }
 }

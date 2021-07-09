@@ -62,9 +62,4 @@ class NoBoxSpec extends AnyFlatSpec with Matchers {
       Person.parseFrom(Array.empty[Byte])
     }
   }
-
-  it should "Convert to and from Java" in {
-    val p = Person("", Money(BigDecimal("123.123")))
-    Person.fromJavaProto(Person.toJavaProto(p)) must be(p)
-  }
 }
