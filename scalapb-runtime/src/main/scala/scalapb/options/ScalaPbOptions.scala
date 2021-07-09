@@ -114,7 +114,7 @@ final case class ScalaPbOptions(
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ScalaPbOptions] with _root_.scalapb.ExtendableMessage[ScalaPbOptions] {
     @transient
-    private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+    private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
     private[this] def __computeSerializedValue(): _root_.scala.Int = {
       var __size = 0
       if (packageName.isDefined) {
@@ -233,12 +233,12 @@ final case class ScalaPbOptions(
       __size
     }
     override def serializedSize: _root_.scala.Int = {
-      var read = __serializedSizeCachedValue
-      if (read == 0) {
-        read = __computeSerializedValue()
-        __serializedSizeCachedValue = read
+      var __size = __serializedSizeCachedValue
+      if (__size == -1) {
+        __size = __computeSerializedValue()
+        __serializedSizeCachedValue = __size
       }
-      read
+      __size
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       packageName.foreach { __v =>
@@ -855,7 +855,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxMessageOptions] {
       @transient
-      private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+      private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
         if (target.isDefined) {
@@ -870,12 +870,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __size
       }
       override def serializedSize: _root_.scala.Int = {
-        var read = __serializedSizeCachedValue
-        if (read == 0) {
-          read = __computeSerializedValue()
-          __serializedSizeCachedValue = read
+        var __size = __serializedSizeCachedValue
+        if (__size == -1) {
+          __size = __computeSerializedValue()
+          __serializedSizeCachedValue = __size
         }
-        read
+        __size
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
@@ -1003,7 +1003,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxFieldOptions] {
       @transient
-      private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+      private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
         if (target.isDefined) {
@@ -1018,12 +1018,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __size
       }
       override def serializedSize: _root_.scala.Int = {
-        var read = __serializedSizeCachedValue
-        if (read == 0) {
-          read = __computeSerializedValue()
-          __serializedSizeCachedValue = read
+        var __size = __serializedSizeCachedValue
+        if (__size == -1) {
+          __size = __computeSerializedValue()
+          __serializedSizeCachedValue = __size
         }
-        read
+        __size
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
@@ -1151,7 +1151,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxEnumOptions] {
       @transient
-      private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+      private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
         if (target.isDefined) {
@@ -1166,12 +1166,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __size
       }
       override def serializedSize: _root_.scala.Int = {
-        var read = __serializedSizeCachedValue
-        if (read == 0) {
-          read = __computeSerializedValue()
-          __serializedSizeCachedValue = read
+        var __size = __serializedSizeCachedValue
+        if (__size == -1) {
+          __size = __computeSerializedValue()
+          __serializedSizeCachedValue = __size
         }
-        read
+        __size
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
@@ -1299,7 +1299,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxEnumValueOptions] {
       @transient
-      private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0
+      private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
       private[this] def __computeSerializedValue(): _root_.scala.Int = {
         var __size = 0
         if (target.isDefined) {
@@ -1314,12 +1314,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         __size
       }
       override def serializedSize: _root_.scala.Int = {
-        var read = __serializedSizeCachedValue
-        if (read == 0) {
-          read = __computeSerializedValue()
-          __serializedSizeCachedValue = read
+        var __size = __serializedSizeCachedValue
+        if (__size == -1) {
+          __size = __computeSerializedValue()
+          __serializedSizeCachedValue = __size
         }
-        read
+        __size
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         target.foreach { __v =>
