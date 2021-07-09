@@ -20,8 +20,8 @@ final case class EnumVector(
     }
     @transient private[this] var __colorsSerializedSizeField: _root_.scala.Int = 0
     @transient
-    private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
-    private[this] def __computeSerializedValue(): _root_.scala.Int = {
+    private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
+    private[this] def __computeSerializedSize(): _root_.scala.Int = {
       var __size = 0
       if (colors.nonEmpty) {
         val __localsize = colorsSerializedSize
@@ -31,12 +31,13 @@ final case class EnumVector(
       __size
     }
     override def serializedSize: _root_.scala.Int = {
-      var __size = __serializedSizeCachedValue
-      if (__size == -1) {
-        __size = __computeSerializedValue()
-        __serializedSizeCachedValue = __size
+      var __size = __serializedSizeMemoized
+      if (__size == 0) {
+        __size = __computeSerializedSize() + 1
+        __serializedSizeMemoized = __size
       }
-      __size
+      __size - 1
+      
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       if (colors.nonEmpty) {

@@ -20,8 +20,8 @@ final case class GeneratedCodeInfo(
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[GeneratedCodeInfo] {
     @transient
-    private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
-    private[this] def __computeSerializedValue(): _root_.scala.Int = {
+    private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
+    private[this] def __computeSerializedSize(): _root_.scala.Int = {
       var __size = 0
       annotation.foreach { __item =>
         val __value = __item
@@ -31,12 +31,13 @@ final case class GeneratedCodeInfo(
       __size
     }
     override def serializedSize: _root_.scala.Int = {
-      var __size = __serializedSizeCachedValue
-      if (__size == -1) {
-        __size = __computeSerializedValue()
-        __serializedSizeCachedValue = __size
+      var __size = __serializedSizeMemoized
+      if (__size == 0) {
+        __size = __computeSerializedSize() + 1
+        __serializedSizeMemoized = __size
       }
-      __size
+      __size - 1
+      
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
       annotation.foreach { __v =>
@@ -157,8 +158,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       }
       @transient private[this] var __pathSerializedSizeField: _root_.scala.Int = 0
       @transient
-      private[this] var __serializedSizeCachedValue: _root_.scala.Int = -1
-      private[this] def __computeSerializedValue(): _root_.scala.Int = {
+      private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
+      private[this] def __computeSerializedSize(): _root_.scala.Int = {
         var __size = 0
         if (path.nonEmpty) {
           val __localsize = pathSerializedSize
@@ -180,12 +181,13 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         __size
       }
       override def serializedSize: _root_.scala.Int = {
-        var __size = __serializedSizeCachedValue
-        if (__size == -1) {
-          __size = __computeSerializedValue()
-          __serializedSizeCachedValue = __size
+        var __size = __serializedSizeMemoized
+        if (__size == 0) {
+          __size = __computeSerializedSize() + 1
+          __serializedSizeMemoized = __size
         }
-        __size
+        __size - 1
+        
       }
       def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
         if (path.nonEmpty) {
