@@ -46,7 +46,7 @@ For some proto packages, we may already provide pre-compiled generated code in
 To build it yourself using SBT: include the jar as a `protobuf` dependency in your libraryDependencies:
 
 ```scala
-libraryDependencies += "com.somepackage" %% "that-has-jar" % "1.0" % "protobuf-src" transitive()
+libraryDependencies += "com.somepackage" %% "that-has-jar" % "1.0" % "protobuf-src" intransitive()
 ```
 
 This will tell sbt-protoc to extract the protos from that jar into
