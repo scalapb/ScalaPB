@@ -13,4 +13,10 @@ class EnumOptions2Spec extends AnyFlatSpec with Matchers with OptionValues {
   "Prefixes" should "be stripped from MyEnum3" in {
     MyEnum3.V1.isV1 must be(true)
   }
+
+  "scalaName" should "return the name with the prefix stripped" in {
+    MyEnum2.V1.scalaValueDescriptor.scalaName must be("V1")
+    MyEnum3.V1.scalaValueDescriptor.scalaName must be("V1")
+    MyEnum2.`2`.scalaValueDescriptor.scalaName must be("2")
+  }
 }

@@ -1456,19 +1456,46 @@ class ProtobufGenerator(
       fb.build()
     }
 
+    def updateEnum(enumDescriptor: EnumDescriptor): DescriptorProtos.EnumDescriptorProto = {
+      enumDescriptor
+        .toProto()
+        .toBuilder()
+        .clearValue()
+        .addAllValue(
+          enumDescriptor.getValues().asScala.map(updateEnumValue(_)).asJava
+        )
+        .build()
+    }
+
+    def updateEnumValue(
+        enumValue: EnumValueDescriptor
+    ): DescriptorProtos.EnumValueDescriptorProto = {
+      val ev = enumValue.toProto().toBuilder()
+      val extBuilder =
+        enumValue.getOptions().getExtension[Scalapb.EnumValueOptions](Scalapb.enumValue).toBuilder
+      assert(!extBuilder.hasScalaName || extBuilder.getScalaName == enumValue.scalaName)
+      extBuilder.setScalaName(enumValue.scalaName)
+      ev.getOptionsBuilder().setExtension(Scalapb.enumValue, extBuilder.build())
+      ev.build()
+    }
+
     def updateMessageType(msg: Descriptor): DescriptorProtos.DescriptorProto = {
       msg.toProto.toBuilder
         .clearField()
         .addAllField(msg.getFields.asScala.map(updateField(_)).asJava)
         .clearNestedType()
         .addAllNestedType(msg.getNestedTypes.asScala.map(updateMessageType(_)).asJava)
+        .clearEnumType()
+        .addAllEnumType(msg.getEnumTypes.asScala.map(updateEnum(_)).asJava)
         .build()
     }
 
     val fileProto = tmp.toProto
     fileProto.toBuilder
       .clearMessageType()
-      .addAllMessageType(tmp.getMessageTypes.asScala.map(updateMessageType).asJava)
+      .addAllMessageType(tmp.getMessageTypes().asScala.map(updateMessageType(_)).asJava)
+      .clearEnumType()
+      .addAllEnumType(tmp.getEnumTypes().asScala.map(updateEnum(_)).asJava)
       .build
   }
 

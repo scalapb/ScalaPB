@@ -4,6 +4,7 @@
 - Fix: non-total typemappers now work in `no_box` fields (#1198)
 - Memoize serializedSize of empty messages (previously serialized size was recomputed for
   empty message)
+- Expose `scalaName` for enum values through Scala descriptors (#1201)
 
 ## [0.11.4]
 - Add options for enum annotations (#1155)

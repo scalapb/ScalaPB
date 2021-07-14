@@ -181,6 +181,12 @@ class EnumValueDescriptor private[descriptors] (
 
   def name = asProto.getName
 
+  def scalaName: String =
+    asProto.getOptions
+      .extension(scalapb.options.ScalapbProto.enumValue)
+      .getOrElse(scalapb.options.EnumValueOptions.defaultInstance)
+      .getScalaName
+
   def isUnrecognized = (index == -1)
 
   def location = containingEnum.file.findLocationByPath(SourceCodePath.get(this))

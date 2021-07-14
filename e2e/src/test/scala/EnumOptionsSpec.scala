@@ -27,4 +27,11 @@ class EnumOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
     MyEnum.MyThing.isMyThing must be(true)
     MyEnum.FuzzBUZZ.isFuzzBuzz must be(true)
   }
+
+  "enum values" should "have the scala name provided in the descriptor" in {
+    MyEnum.FuzzBUZZ.scalaValueDescriptor.scalaName must be ("FuzzBUZZ")
+    MyEnum.FuzzBUZZ.name must be("ANOTHER_ONE")
+    MyEnum.MyThing.scalaValueDescriptor.scalaName must be ("MyThing")
+    MyEnum.MyThing.scalaValueDescriptor.name must be("MY_THING")
+  }
 }
