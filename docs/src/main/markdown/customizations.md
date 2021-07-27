@@ -643,15 +643,16 @@ message CollTest {
     repeated int32  rep1 = 1;
 
     // Will generate an Array[String]
-    repeated string rep2 = 2  [(scalapb.field).collection_type="Array"];
+    repeated string rep2 = 2 [
+      (scalapb.field).collection_type="Array"];
 
     // Will generate Seq[collection.immutable.Seq]
-    repeated bool rep3 = 3  [
+    repeated bool rep3 = 3 [
       (scalapb.field).collection_type="collection.immutable.Seq"];
 
-    map<int32, string> my_map [
-      (scalapb.field).map_type="collection.mutable.Map"];
-    ]
+    map<int32, string> my_map = 4 [
+      (scalapb.field).map_type="collection.mutable.Map"
+    ];
 }
 ```
 
