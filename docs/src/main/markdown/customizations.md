@@ -651,8 +651,7 @@ message CollTest {
       (scalapb.field).collection_type="collection.immutable.Seq"];
 
     map<int32, string> my_map = 4 [
-      (scalapb.field).map_type="collection.mutable.Map"
-    ];
+      (scalapb.field).map_type="collection.mutable.Map"];
 }
 ```
 
