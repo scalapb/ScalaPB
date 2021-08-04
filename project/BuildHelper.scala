@@ -61,7 +61,6 @@ object BuildHelper {
                                               else scalac2Options),
     libraryDependencies ++= (if (!isScala3.value) Dependencies.silencer else Nil),
     libraryDependencies += Dependencies.scalaCollectionCompat.value
-      .cross(CrossVersion.for3Use2_13),
     Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (
                                                                                              isScala3.value
                                                                                            )
