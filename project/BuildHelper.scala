@@ -60,7 +60,7 @@ object BuildHelper {
     scalacOptions ++= commonScalacOptions ++ (if (isScala3.value) scalac3Options
                                               else scalac2Options),
     libraryDependencies ++= (if (!isScala3.value) Dependencies.silencer else Nil),
-    libraryDependencies += Dependencies.scalaCollectionCompat.value
+    libraryDependencies += Dependencies.scalaCollectionCompat.value,
     Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (
                                                                                              isScala3.value
                                                                                            )
