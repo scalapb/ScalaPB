@@ -83,6 +83,8 @@ message ScalaPbOptions {
   optional string map_type = 14;
 
   // If true, no default values will be generated in message constructors.
+  // This setting can be overridden at the message-level and for individual
+  // fields.
   optional bool no_default_values_in_constructor = 15;
 
   /* Naming convention for generated enum values */
@@ -214,6 +216,11 @@ message MessageOptions {
   // Custom annotations to add to the generated `unknownFields` case class field.
   repeated string unknown_fields_annotations = 8;
 
+  // If true, no default values will be generated in message constructors.
+  // If set (to true or false), the message-level setting overrides the
+  // file-level value, and can be overridden by the field-level setting.
+  optional bool no_default_values_in_constructor = 9;
+
   extensions 1000 to max;
 }
 
@@ -263,6 +270,11 @@ message FieldOptions {
   // it falls back to the file option named `map_type` which defaults to
   // `scala.collection.immutable.Map`
   optional string map_type = 7;
+  
+  // If true, no default value will be generated for this field in the message
+  // constructor. If this field is set, it has the highest precedence and overrides the
+  // values at the message-level and file-level.
+  optional bool no_default_value_in_constructor = 9;
 
   // Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
   optional bool no_box = 30;

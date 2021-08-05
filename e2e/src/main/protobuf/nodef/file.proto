@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.nodef;
+
+option (scalapb.options).no_default_values_in_constructor = true;
+
+import "scalapb/scalapb.proto";
+
+message NoDefaultValuesTest {
+  int32 a = 1;
+  int32 b = 2;
+  oneof oo {
+    int32 x = 3;
+    string y = 4;
+  }
+}
+
+message NoDefaultValuesNegMessageLevel {
+    // overrides the setting at the message-level
+    option (scalapb.message).no_default_values_in_constructor = false;
+    // `a` should be required
+    int32 a = 1 [(scalapb.field).no_default_value_in_constructor = true];
+    int32 b = 2;
+}
+
+message NoDefaultValuesNegFieldLevel {
+    // `b` should be required.
+    int32 a = 1 [(scalapb.field).no_default_value_in_constructor = false];
+    int32 b = 2;
+}

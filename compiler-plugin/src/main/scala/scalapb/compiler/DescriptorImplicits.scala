@@ -251,6 +251,10 @@ class DescriptorImplicits private[compiler] (
       else if (fd.isMessage) fd.getMessageType.noBox
       else false
 
+    def noDefaultValueInConstructor: Boolean = if (fieldOptions.hasNoDefaultValueInConstructor)
+      fieldOptions.getNoDefaultValueInConstructor
+    else fd.getContainingType.noDefaultValueInConstructor
+
     def noBoxRequired = fieldOptions.getRequired
 
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
@@ -533,7 +537,11 @@ class DescriptorImplicits private[compiler] (
         )
     }
 
-    def noBox = message.messageOptions.getNoBox
+    def noBox = messageOptions.getNoBox
+
+    def noDefaultValueInConstructor: Boolean = if (messageOptions.hasNoDefaultValuesInConstructor)
+      messageOptions.getNoDefaultValuesInConstructor
+    else message.getFile.noDefaultValuesInConstructor
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)

@@ -692,7 +692,7 @@ class ProtobufGenerator(
       case field if !field.isInOneof =>
         val typeName = field.scalaTypeName
         val ctorDefaultValue: Option[String] =
-          if (message.getFile.noDefaultValuesInConstructor) None
+          if (field.noDefaultValueInConstructor) None
           else if (field.isOptional && field.supportsPresence) Some(C.None)
           else if (field.isSingular && !field.isRequired && !field.noBoxRequired)
             Some(defaultValueForGet(field).toString)

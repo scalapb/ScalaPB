@@ -103,7 +103,11 @@ enums to a single Scala file.
 
 - By default, all non-required fields have default values in the constructor of the generated
   case classes. When setting `no_default_values_in_constructor` to `true` no
-  default values will be generated for all fields.
+  default values will be generated for all fields. There is also a
+  message-level `no_default_values_in_constructor` and field-level
+  `no_default_value_in_constructor`. If the field-level setting is set, it
+  overrides the message-level. If the message-level setting is set, it overrides
+  the file-level setting.
 
 - Typically, enum values appear in UPPER_CASE in proto files, and ScalaPB generates case objects
   with exactly the same name in Scala. If you would like ScalaPB to transform the names into CamelCase, set `enum_value_naming` to `CAMEL_CASE`.
@@ -220,11 +224,11 @@ end up with duplicate class files.
 
 As a consumer of third-party dependencies that come with options proto, you
 can disable the behavior of automatically adding the options proto to protoc
-by setting 
+by setting
 
 ```scala
 Compile / PB.manifestProcessing := false
-``` 
+```
 
 in sbt. In that case, it is your responsibility to either manually `import` the option protos in one
 of your own project source files so it gets applied, or ensure that the

@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.nodef;
+
+import "scalapb/scalapb.proto";
+
+message NoDefaultValuesPosMessageLevel {
+    // overrides the setting at the message-level
+    option (scalapb.message).no_default_values_in_constructor = true;
+    // a should have default value, b not.
+    int32 a = 1 [(scalapb.field).no_default_value_in_constructor = false];
+    int32 b = 2;
+}
+
+message NoDefaultValuesPosFieldLevel {
+    // a should not have default value, b does.
+    int32 a = 1 [(scalapb.field).no_default_value_in_constructor = true];
+    int32 b = 2;
+}

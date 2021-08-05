@@ -11,7 +11,8 @@ import org.scalatest._
 import com.google.protobuf.ByteString
 import com.google.protobuf.descriptor.MessageOptions
 import com.thesamet.pb.{Base1, Base2, FullName}
-import com.thesamet.proto.e2e.no_default_values_in_constructor.NoDefaultValuesTest
+import com.thesamet.proto.e2e.nodef.file._
+import com.thesamet.proto.e2e.nodef.message._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
@@ -257,5 +258,25 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
   "no default values" should "not generate default values" in {
     assertDoesNotCompile("NoDefaultValuesTest()")
     assertCompiles("NoDefaultValuesTest(a=1, b=3, oo=NoDefaultValuesTest.Oo.Empty)")
+  }
+
+  "no default values" should "be overridden at message level" in {
+    assertDoesNotCompile("NoDefaultValuesNegMessageLevel()")
+    assertDoesNotCompile("NoDefaultValuesNegMessageLevel(b=5)")
+    assertCompiles("NoDefaultValuesNegMessageLevel(a=17)")
+
+    assertDoesNotCompile("NoDefaultValuesPosMessageLevel()")
+    assertDoesNotCompile("NoDefaultValuesPosMessageLevel(a=15)")
+    assertCompiles("NoDefaultValuesPosMessageLevel(b=17)")
+  }
+
+  "no default values" should "be overridden at field level" in {
+    assertDoesNotCompile("NoDefaultValuesNegFieldLevel()")
+    assertDoesNotCompile("NoDefaultValuesNegFieldLevel(a=5)")
+    assertCompiles("NoDefaultValuesNegFieldLevel(b=17)")
+
+    assertDoesNotCompile("NoDefaultValuesPosFieldLevel()")
+    assertDoesNotCompile("NoDefaultValuesPosFieldLevel(b=15)")
+    assertCompiles("NoDefaultValuesPosFieldLevel(a=7)")
   }
 }
