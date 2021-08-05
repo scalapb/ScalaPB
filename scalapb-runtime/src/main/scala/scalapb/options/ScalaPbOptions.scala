@@ -55,6 +55,8 @@ package scalapb.options
   *   `scala.collection.immutable.Map` will be used.
   * @param noDefaultValuesInConstructor
   *   If true, no default values will be generated in message constructors.
+  *   This setting can be overridden at the message-level and for individual
+  *   fields.
   * @param enumStripPrefix
   *   Indicate if prefix (enum name + optional underscore) should be removed in scala code
   *   Strip is applied before enum value naming changes.

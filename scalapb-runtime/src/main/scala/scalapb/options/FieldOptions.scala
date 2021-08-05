@@ -19,7 +19,9 @@ package scalapb.options
   *   it falls back to the file option named `map_type` which defaults to
   *   `scala.collection.immutable.Map`
   * @param noDefaultValueInConstructor
-  *   If true, no default value will be generated in message constructors.
+  *   If true, no default value will be generated for this field in the message
+  *   constructor. If this field is set, it has the highest precedence and overrides the
+  *   values at the message-level and file-level.
   * @param noBox
   *   Do not box this value in Option[T]. If set, this overrides MessageOptions.no_box
   * @param required
