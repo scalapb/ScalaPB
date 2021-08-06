@@ -34,6 +34,9 @@ jobs:
     - name: ${{matrix.script}}
       run: |
         ./${{matrix.script}}.sh
+      env:
+        JAVA_OPTS: -Xmx4G -XX:+UseG1GC
+        JVM_OPTS:  -Xmx4G -XX:+UseG1GC
   # Single final job for mergify.
   ci-passed:
     runs-on: ubuntu-latest
