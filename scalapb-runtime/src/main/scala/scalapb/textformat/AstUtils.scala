@@ -80,7 +80,7 @@ private[scalapb] object AstUtils {
               .toRight(AstError(p.position, s"Invalid value for double: '$value'"))
         }
       case TIntLiteral(_, value) => Right(PDouble(value.toDouble))
-      case p                     => Left(AstError(p.position, s"Invalid input '${p.asString}', expected float"))
+      case p => Left(AstError(p.position, s"Invalid input '${p.asString}', expected float"))
     }
 
     def parseFloat(p: TPrimitive): Either[AstError, PFloat] = p match {
@@ -96,7 +96,7 @@ private[scalapb] object AstUtils {
               .toRight(AstError(p.position, s"Invalid value for float: '$value'"))
         }
       case TIntLiteral(_, value) => Right(PFloat(value.toFloat))
-      case p                     => Left(AstError(p.position, s"Invalid input '${p.asString}', expected float"))
+      case p => Left(AstError(p.position, s"Invalid input '${p.asString}', expected float"))
     }
 
     def parseBoolean(p: TPrimitive): Either[AstError, PBoolean] = {

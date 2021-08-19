@@ -24,14 +24,14 @@ object CommonProtos {
   def footer: String = ""
 
   def table: String = {
-      Seq(
-          ("proto-google-common-protos", "1.17.0-0"),
-          ("proto-google-cloud-pubsub-v1", "1.85.1-0")
-      ).map((row _).tupled).mkString(header, "", "footer")
+    Seq(
+      ("proto-google-common-protos", "1.17.0-0"),
+      ("proto-google-cloud-pubsub-v1", "1.85.1-0")
+    ).map((row _).tupled).mkString(header, "", "footer")
   }
 
   def printTable(): Unit = {
-      println(table)
+    println(table)
   }
 
 }
