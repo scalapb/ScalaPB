@@ -103,7 +103,7 @@ private[scalapb] object TextFormatUtils {
         case (EscapeMode, CH_SQ)                     => result += '\''; Default
         case (EscapeMode, CH_DQ)                     => result += '\"'; Default
         case (EscapeMode, CH_X)                      => Hex0
-        case (EscapeMode, _)                         => Error("Invalid escape sequence: " + b.toChar)
+        case (EscapeMode, _) => Error("Invalid escape sequence: " + b.toChar)
         case (Octal1(i), b) if b >= '0' && b <= '7' =>
           Octal2(i * 8 + digitValue(b))
         case (Octal1(i), b) =>

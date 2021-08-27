@@ -19,28 +19,28 @@ class CustomTypesSpec extends AnyFlatSpec with Matchers {
 
   "Custom message types" should "concatenate correctly" in {
     val m1 = CustomMessage(
-        name = Some(FullName("Foo", "EMPTY")),
-        requiredPersonId = PersonId("p1"),
-        requiredName = FullName("first_req", "EMPTY"),
-        age = Some(Years(4)),
-        requiredAge = Years(1),
-        requiredWeather = WrappedWeather(Weather.SUNNY),
-        packedWeathers = Seq(
-          WrappedWeather(Weather.SUNNY),
-          WrappedWeather(Weather.RAIN)
-        )
+      name = Some(FullName("Foo", "EMPTY")),
+      requiredPersonId = PersonId("p1"),
+      requiredName = FullName("first_req", "EMPTY"),
+      age = Some(Years(4)),
+      requiredAge = Years(1),
+      requiredWeather = WrappedWeather(Weather.SUNNY),
+      packedWeathers = Seq(
+        WrappedWeather(Weather.SUNNY),
+        WrappedWeather(Weather.RAIN)
+      )
     )
     val m2 = CustomMessage(
-        name = Some(FullName("EMPTY", "Bar")),
-        requiredPersonId = PersonId("p2"),
-        requiredName = FullName("EMPTY", "last_req"),
-        age = Some(Years(5)),
-        requiredAge = Years(2),
-        requiredWeather = WrappedWeather(Weather.RAIN),
-        packedWeathers = Seq(
-          WrappedWeather(Weather.RAIN),
-          WrappedWeather(Weather.SUNNY)
-        )
+      name = Some(FullName("EMPTY", "Bar")),
+      requiredPersonId = PersonId("p2"),
+      requiredName = FullName("EMPTY", "last_req"),
+      age = Some(Years(5)),
+      requiredAge = Years(2),
+      requiredWeather = WrappedWeather(Weather.RAIN),
+      packedWeathers = Seq(
+        WrappedWeather(Weather.RAIN),
+        WrappedWeather(Weather.SUNNY)
+      )
     )
 
     val expected = CustomMessage(
@@ -56,7 +56,7 @@ class CustomTypesSpec extends AnyFlatSpec with Matchers {
       )
     ).update(
       _.name := FullName("Foo", "Bar"),
-      _.age := Years(5)
+      _.age  := Years(5)
     )
     val concat = (m1.toByteArray ++ m2.toByteArray)
     CustomMessage.parseFrom(concat) must be(expected)

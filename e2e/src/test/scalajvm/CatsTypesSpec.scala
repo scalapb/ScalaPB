@@ -36,7 +36,7 @@ class CatsTypesSpec extends AnyFlatSpec with Matchers {
       repeatedBytes = NonEmptyList.of(com.google.protobuf.ByteString.EMPTY),
       repeatedEnum = NonEmptyList.of(Enum.ONE),
       repeatedMsg = NonEmptyList.of(SubMsg()),
-      repeatedFullname = NonEmptyList.of(FullName("X", "Y")),
+      repeatedFullname = NonEmptyList.of(FullName("X", "Y"))
     )
     CollectionTypesNEL.parseFrom(c1.toByteArray) must be(c1)
     CollectionTypesNEL.fromJavaProto(CollectionTypesNEL.toJavaProto(c1)) must be(c1)

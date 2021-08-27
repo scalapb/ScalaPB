@@ -10,4 +10,3 @@ libraryDependencies ++= Seq(
   // For finding google/protobuf/descriptor.proto
   "com.thesamet.scalapb" %% "scalapb-runtime" % scalapbVersion % "protobuf"
 )
-
