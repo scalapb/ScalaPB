@@ -25,8 +25,8 @@ object CommonProtos {
 
   def table: String = {
       Seq(
-          ("proto-google-common-protos", "2.5.0-0"),
-          ("proto-google-cloud-pubsub-v1", "1.96.2-1"),
+          ("proto-google-common-protos", "2.5.0-2"),
+          ("proto-google-cloud-pubsub-v1", "1.96.2-2"),
           ("pgv-proto", "0.6.1-0")
       ).map((row _).tupled).mkString(header, "", "footer")
   }
