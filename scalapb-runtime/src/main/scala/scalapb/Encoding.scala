@@ -4,8 +4,7 @@ import scala.collection.mutable
 
 /** Utility functions to encode/decode byte arrays as Base64 strings.
   *
-  * Used internally between the protocol buffer compiler and the runtime to encode
-  * messages.
+  * Used internally between the protocol buffer compiler and the runtime to encode messages.
   *
   * We could have used Apache Commons, but we would like to avoid an additional dependency.
   * java.xml.bind.DataTypeConverter.parseBase64Binary is not available on Android. And the Java

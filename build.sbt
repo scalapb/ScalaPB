@@ -28,8 +28,8 @@ lazy val root: Project =
     .in(file("."))
     .settings(
       publishArtifact := false,
-      publish := {},
-      publishLocal := {}
+      publish         := {},
+      publishLocal    := {}
     )
     .aggregate(protocGenScala.agg)
     .aggregate(
@@ -176,17 +176,18 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
       coursier,
       protocCacheCoursier.cross(CrossVersion.for3Use2_13)
     ),
-    /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen, we start
-      * to take advantage over sbt-native-package ability to create multiple scripts. As a result the name of the
-      * executable it generates became scala-pbc. To avoid breakage we create under the scalapb.scripts the scripts
-      * with the names we would like to feed into scala-native-packager. We keep the original scalapb.ScalaPBC to not
-      * break integrations that use it (maven, pants), but we still want to exclude it below so a script named scala-pbc
-      * is not generated for it.
+    /** Originally, we had scalapb.ScalaPBC as the only main class. Now when we added scalapb-gen,
+      * we start to take advantage over sbt-native-package ability to create multiple scripts. As a
+      * result the name of the executable it generates became scala-pbc. To avoid breakage we create
+      * under the scalapb.scripts the scripts with the names we would like to feed into
+      * scala-native-packager. We keep the original scalapb.ScalaPBC to not break integrations that
+      * use it (maven, pants), but we still want to exclude it below so a script named scala-pbc is
+      * not generated for it.
       */
     Compile / discoveredMainClasses := (Compile / discoveredMainClasses).value
       .filter(_.startsWith("scalapb.scripts.")),
     Compile / mainClass := Some("scalapb.scripts.scalapbc"),
-    maintainer := "thesamet@gmail.com"
+    maintainer          := "thesamet@gmail.com"
   )
 
 lazy val protocGenScala =
@@ -201,8 +202,8 @@ lazy val protocGenScalaNativeImage =
     .enablePlugins(NativeImagePlugin)
     .dependsOn(compilerPluginJVM2_13)
     .settings(
-      name := "protoc-gen-scala-native-image",
-      scalaVersion := Scala213,
+      name              := "protoc-gen-scala-native-image",
+      scalaVersion      := Scala213,
       nativeImageOutput := file("target") / "protoc-gen-scala",
       nativeImageOptions ++= Seq(
         "-H:ReflectionConfigurationFiles=" + baseDirectory.value + "/native-image-config/reflect-config.json",
@@ -212,7 +213,7 @@ lazy val protocGenScalaNativeImage =
           Seq("--static", "--no-fallback")
         else Seq.empty,
       ),
-      publish / skip := true,
+      publish / skip      := true,
       Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
     )
 
@@ -244,8 +245,8 @@ lazy val proptest = (projectMatrix in file("proptest"))
                                  "org.scala-lang" %% "scala3-compiler" % scalaVersion.value,
                                  "org.scala-lang" %% "scala3-library"  % scalaVersion.value
                                )),
-    publish / skip := true,
-    Test / fork := true,
+    publish / skip       := true,
+    Test / fork          := true,
     Test / baseDirectory := (LocalRootProject / baseDirectory).value,
     Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
   )
@@ -276,7 +277,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
 lazy val lensesJVM2_12 = lenses.jvm(Scala212)
 
 val e2eCommonSettings = commonSettings ++ Seq(
-  useCoursier := true,
+  useCoursier    := true,
   publish / skip := true,
   javacOptions ++= Seq("-Xlint:deprecation"),
   libraryDependencies ++= Seq(
@@ -290,7 +291,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
     (scalaTestPlusScalaCheck.value % "test")
   ),
   Compile / PB.recompile := true, // always regenerate protos, not cache
-  codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
+  codeGenClasspath       := (compilerPluginJVM2_12 / Compile / fullClasspath).value
 )
 
 lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
@@ -396,8 +397,8 @@ lazy val docs = project
   .dependsOn(runtimeJVM2_12)
   .settings(commonSettings)
   .settings(
-    publish / skip := true,
-    scalaVersion := Scala212,
+    publish / skip     := true,
+    scalaVersion       := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.11.0",
@@ -407,7 +408,7 @@ lazy val docs = project
       "com.lihaoyi"          %% "os-lib"           % "0.5.0",
       "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
     ),
-    mdocIn := baseDirectory.value / "src" / "main" / "markdown",
+    mdocIn                       := baseDirectory.value / "src" / "main" / "markdown",
     ScalaUnidoc / siteSubdirName := "api/scalapb/latest",
     addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, ScalaUnidoc / siteSubdirName),
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
@@ -417,7 +418,7 @@ lazy val docs = project
     ),
     ScalaUnidoc / unidoc / target := (LocalRootProject / baseDirectory).value / "website" / "static" / "api",
     cleanFiles += (ScalaUnidoc / unidoc / target).value,
-    docusaurusCreateSite := docusaurusCreateSite.dependsOn(Compile / unidoc).value,
+    docusaurusCreateSite     := docusaurusCreateSite.dependsOn(Compile / unidoc).value,
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(Compile / unidoc).value,
     mdocVariables := Map(
       "scalapb"          -> "0.11.1",
@@ -430,7 +431,7 @@ lazy val docs = project
       "scalapb_validate" -> "0.3.1"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
-    ghpagesBranch := "master",
+    ghpagesBranch  := "master",
     // scalameta tree's uses ScalaPB 0.10.x, which is "sufficiently binary compatible".
     libraryDependencySchemes += "com.thesamet.scalapb" %% "scalapb-runtime" % "always"
 

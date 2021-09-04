@@ -35,10 +35,10 @@ class OneofSpec
     unspecified.myOneOf.isTempField must be(false)
     unspecified.myOneOf.isOtherField must be(false)
     unspecified.myOneOf.isSub must be(false)
-    tempField.myOneOf.isTempField mustBe(true)
+    tempField.myOneOf.isTempField mustBe (true)
     tempField.myOneOf mustBe defined
     tempField.myOneOf must not be empty
-    tempField.myOneOf.isOtherField mustBe(false)
+    tempField.myOneOf.isOtherField mustBe (false)
     tempField.myOneOf.isSub must be(false)
   }
 
