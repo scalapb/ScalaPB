@@ -10,16 +10,20 @@ class FieldMaskUtilsSpec extends AnyFlatSpec with Matchers {
   // https://github.com/protocolbuffers/protobuf/blob/v3.14.0/java/util/src/test/java/com/google/protobuf/util/FieldMaskUtilTest.java#L254-L264
   "applyFieldMask" should "apply field mask to a message" in {
     val message = NestedTestAllTypes(
-      payload = Some(TestAllTypes(
-        optionalInt32 = Some(1234)
-      ))
+      payload = Some(
+        TestAllTypes(
+          optionalInt32 = Some(1234)
+        )
+      )
     )
     val fieldMask = FieldMask(Seq("payload"))
 
     FieldMaskUtil.applyFieldMask(message, fieldMask).payload must be(
-      Some(TestAllTypes(
-        optionalInt32 = Some(1234)
-      ))
+      Some(
+        TestAllTypes(
+          optionalInt32 = Some(1234)
+        )
+      )
     )
   }
 
@@ -84,7 +88,7 @@ class FieldMaskUtilsSpec extends AnyFlatSpec with Matchers {
     FieldMaskUtil.selectFieldNumbers[NestedTestAllTypes](
       Set(
         NestedTestAllTypes.CHILD_FIELD_NUMBER,
-        NestedTestAllTypes.PAYLOAD_FIELD_NUMBER,
+        NestedTestAllTypes.PAYLOAD_FIELD_NUMBER
       )
     ) must be(FieldMask(Seq("child", "payload")))
   }

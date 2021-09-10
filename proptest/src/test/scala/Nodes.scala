@@ -217,8 +217,8 @@ object Nodes {
         .print(services)((service, p) => p.print(service))
 
     /** @return
-      * Right(package name) if `java_multiple_files` option is true
-      * Left(outer class name) if `java_multiple_files` option is false
+      *   Right(package name) if `java_multiple_files` option is true Left(outer class name) if
+      *   `java_multiple_files` option is false
       */
     def javaOuterClassOrPackage: Either[String, String] = {
       val pkg = javaPackage.orElse(protoPackage).toSeq
