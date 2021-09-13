@@ -108,7 +108,7 @@ trait GeneratedMessage extends Any with Product with Serializable {
 
   def companion: GeneratedMessageCompanion[_]
 
-  /** Serializes the messgae and returns a byte array containing its raw bytes */
+  /** Serializes the message and returns a byte array containing its raw bytes */
   final def toByteArray: Array[Byte] = {
     val a            = new Array[Byte](serializedSize)
     val outputStream = CodedOutputStream.newInstance(a)
@@ -117,7 +117,7 @@ trait GeneratedMessage extends Any with Product with Serializable {
     a
   }
 
-  /** Serializes the messgae and returns a ByteString containing its raw bytes */
+  /** Serializes the message and returns a ByteString containing its raw bytes */
   final def toByteString: ByteString = {
     val output = ByteString.newOutput(serializedSize)
     writeTo(output)
