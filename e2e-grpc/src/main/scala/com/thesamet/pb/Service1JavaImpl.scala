@@ -2,7 +2,7 @@ package com.thesamet.pb
 
 import java.util.concurrent.atomic.AtomicInteger
 
-import com.thesamet.proto.e2e.Service.{Unit=>_, _}
+import com.thesamet.proto.e2e.Service.{Unit => _, _}
 import com.thesamet.proto.e2e.Service1Grpc._
 import io.grpc.stub.StreamObserver
 
@@ -52,7 +52,7 @@ class Service1JavaImpl extends Service1ImplBase {
   override def bidiStreamingDoubler(observer: StreamObserver[Res4]): StreamObserver[Req4] =
     new StreamObserver[Req4] {
       override def onError(e: Throwable): Unit = {}
-      override def onCompleted(): Unit         = { observer.onCompleted() }
+      override def onCompleted(): Unit = { observer.onCompleted() }
       override def onNext(request: Req4): Unit = {
         observer.onNext(Res4.newBuilder.setB(request.getA * 2).build())
       }

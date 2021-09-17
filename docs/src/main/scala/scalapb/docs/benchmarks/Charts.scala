@@ -20,7 +20,7 @@ object Charts {
 
   val points = (for {
     file <- files
-    in = ujson.read(os.read(file))
+    in                                     = ujson.read(os.read(file))
     Array(_, scalapbVersion, scalaVersion) = file.baseName.split("_")
     bs <- in.arr
   } yield DataPoint(
@@ -45,29 +45,29 @@ object Charts {
   def traceForKey(key: LineKey, showLegend: Boolean) = {
     val (x, y) = ts(key).toVector.sortBy(v => versionKey(v._1)).unzip
     Obj(
-      "x" -> x,
-      "y" -> y.map(_._1),
+      "x"    -> x,
+      "y"    -> y.map(_._1),
       "name" -> ("Scala " + key.scalaVersion.split('.').dropRight(1).mkString(".")),
       "error_y" -> Obj(
-        "array" -> y.map(t => t._3 - t._1),
+        "array"      -> y.map(t => t._3 - t._1),
         "arrayminus" -> y.map(t => t._1 - t._2),
-        "type" -> "data",
+        "type"       -> "data"
       ),
       "legendgroup" -> "a",
-      "showlegend" -> showLegend,
-      "type" -> "scatter"
+      "showlegend"  -> showLegend,
+      "type"        -> "scatter"
     )
   }
 
   def javaTraceForKey(key: LineKey, scalapbVersions: Seq[String], showLegend: Boolean) = {
     val Vector(("", y)) = ts(key).toVector
     Obj(
-        "x" -> scalapbVersions,
-        "y" -> Vector.fill(scalapbVersions.size)(y._1),
-        "name" -> "Java",
-        "legendgroup" -> "b",
-        "showlegend" -> showLegend,
-        "mode" -> "lines",
+      "x"           -> scalapbVersions,
+      "y"           -> Vector.fill(scalapbVersions.size)(y._1),
+      "name"        -> "Java",
+      "legendgroup" -> "b",
+      "showlegend"  -> showLegend,
+      "mode"        -> "lines"
     )
   }
 
@@ -80,7 +80,7 @@ object Charts {
     val data = Arr(
       traceForKey(key1, showLegend),
       traceForKey(key2, showLegend),
-      javaTraceForKey(java, allVersions, showLegend),
+      javaTraceForKey(java, allVersions, showLegend)
     )
     val layout = Obj(
       "title" -> title,
@@ -88,21 +88,24 @@ object Charts {
         "title" -> "ScalaPB Version"
       ),
       "yaxis" -> Obj(
-        "title" -> "ns/op",
+        "title"     -> "ns/op",
         "rangemode" -> "tozero"
       )
     )
     val divName = s"div-$baseName"
-    (s"""<div id="$divName"></div>""",
-    s"""<script>Plotly.newPlot('${divName}', ${data.render()}, ${layout.render()}, {responsive: true});</script>""")
+    (
+      s"""<div id="$divName"></div>""",
+      s"""<script>Plotly.newPlot('${divName}', ${data.render()}, ${layout
+        .render()}, {responsive: true});</script>"""
+    )
   }
 
   def makeParseChart(fn: String) = {
-    makeChart(s"scalapb.perf.${fn}Test.parse", s"$fn parse", showLegend=false)
+    makeChart(s"scalapb.perf.${fn}Test.parse", s"$fn parse", showLegend = false)
   }
 
   def makeSerializeChart(fn: String) = {
-    makeChart(s"scalapb.perf.${fn}Test.serialize", s"$fn serialize", showLegend=true)
+    makeChart(s"scalapb.perf.${fn}Test.serialize", s"$fn serialize", showLegend = true)
   }
 
   def makeChartPair(fn: String) = {
@@ -111,8 +114,8 @@ object Charts {
 
     println(
       """<table class="table"><tr>""" +
-      s"""<td width="50%">${d1}</td>""" +
-      s"""<td width="50%">${d2}</td></tr></table>${s1}${s2}"""
+        s"""<td width="50%">${d1}</td>""" +
+        s"""<td width="50%">${d2}</td></tr></table>${s1}${s2}"""
     )
   }
 }

@@ -44,7 +44,6 @@ class EnumJavaSpec extends AnyFlatSpec with Matchers with OptionValues {
     repeatedColor = Seq(Color.RED, Color.Unrecognized(17), Color.Unrecognized(22))
   )
 
-
   "Required Unrecognized enum" should "not be parsable by Java or convertible to Java" in {
     // This documents that Java proto2 is unable to parse a message with required
     // unrecognized enum.
