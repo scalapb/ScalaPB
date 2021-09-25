@@ -49,9 +49,9 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] extends Serializable {
   def fromName(name: String): Option[A] = values.find(_.name == name)
   def values: Seq[A]
 
-  /** Returns the Java descriptors for this enum. It is recommended to use
-    *  scalaDescriptors. The Java descriptors are available even when Java conversions is
-    *  disabled, however they are not avaialable in Scala.js or scala-native.
+  /** Returns the Java descriptors for this enum. It is recommended to use scalaDescriptors. The
+    * Java descriptors are available even when Java conversions is disabled, however they are not
+    * avaialable in Scala.js or scala-native.
     */
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
 
@@ -129,10 +129,11 @@ trait GeneratedMessage extends Any with Product with Serializable {
 
   /** Returns a human-readable ASCII format representation of this message.
     *
-    * The original message can be decoded from this format by using fromAscii on
-    * the companion object.
+    * The original message can be decoded from this format by using fromAscii on the companion
+    * object.
     *
-    * @return human-readable representation of this message.
+    * @return
+    *   human-readable representation of this message.
     */
   def toProtoString: String
 }
@@ -193,9 +194,9 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
 
-  /** Returns the Java descriptors for this message. It is recommended to use
-    *  scalaDescriptors. The Java descriptors are available even when Java conversions is
-    *  disabled, however they are not avaialable in Scala.js or scala-native.
+  /** Returns the Java descriptors for this message. It is recommended to use scalaDescriptors. The
+    * Java descriptors are available even when Java conversions is disabled, however they are not
+    * avaialable in Scala.js or scala-native.
     */
   def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
 
@@ -244,9 +245,9 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
 abstract class GeneratedFileObject {
   def scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor
 
-  /** Returns the Java descriptors for this file. It is recommended to use
-    *  scalaDescriptors. The Java descriptors are available even when Java conversions is
-    *  disabled, however they are not avaialable in Scala.js or scala-native.
+  /** Returns the Java descriptors for this file. It is recommended to use scalaDescriptors. The
+    * Java descriptors are available even when Java conversions is disabled, however they are not
+    * avaialable in Scala.js or scala-native.
     */
   def javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor
   // Other file objects that this file depends on.

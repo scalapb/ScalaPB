@@ -43,7 +43,7 @@ object ScalaPBC {
           case (false, p) if p.startsWith(CustomGenArgument) =>
             val Array(genName, klassName) = p.substring(CustomGenArgument.length).split('=')
             val klass                     = Class.forName(klassName + "$")
-            val gen                       = klass.getField("MODULE$").get(klass).asInstanceOf[ProtocCodeGenerator]
+            val gen = klass.getField("MODULE$").get(klass).asInstanceOf[ProtocCodeGenerator]
             state.copy(
               cfg = state.cfg.copy(namedGenerators = state.cfg.namedGenerators :+ (genName -> gen))
             )

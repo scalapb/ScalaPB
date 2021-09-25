@@ -180,9 +180,9 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
 
   "packed fields" should "parse correctly" in {
     val ps = PackedStuff().update(
-      _.packedInt32 := Seq(1, 19, -6),
-      _.packedInt64 := Seq(1L, 19L, -7),
-      _.packedBool := Seq(false, true, false),
+      _.packedInt32  := Seq(1, 19, -6),
+      _.packedInt64  := Seq(1L, 19L, -7),
+      _.packedBool   := Seq(false, true, false),
       _.packedSint32 := Seq(3, -15, 246),
       _.packedSint64 := Seq(-29, 35, 145),
       _.packedDouble := Seq(
@@ -203,9 +203,9 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
       ),
       _.packedFixed32 := Seq(1, 19, -6),
       _.packedFixed64 := Seq(1L, 19L, -6),
-      _.packedEnum := Seq(GoodOrBad.BAD, GoodOrBad.GOOD, GoodOrBad.Unrecognized(39)),
-      _.packedUint32 := Seq(3, -15, 246),
-      _.packedUint64 := Seq(-29, 35, 145)
+      _.packedEnum    := Seq(GoodOrBad.BAD, GoodOrBad.GOOD, GoodOrBad.Unrecognized(39)),
+      _.packedUint32  := Seq(3, -15, 246),
+      _.packedUint64  := Seq(-29, 35, 145)
     )
     val m = MessageOptions.parseFrom(ps.toByteArray)
     m.extension(CustomOptionsProto.packedInt32) must be(Seq(1, 19, -6))
