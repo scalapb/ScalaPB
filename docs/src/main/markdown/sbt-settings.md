@@ -21,7 +21,7 @@ Compile / PB.targets := Seq(
 ```
 
 Running the `compile` command in sbt will generate Scala sources from
-your protos and compile them. If you just want to generate Scala sources for your protocol buffers without compiling them, run `protoc-generate`.
+your protos and compile them. If you just want to generate Scala sources for your protocol buffers without compiling them, run `protocGenerate`.
 
 Additionally, if you need [customizations](customizations.md) from
 scalapb/scalapb.proto or anything from `google/protobuf/*.proto`, add the
