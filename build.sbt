@@ -6,7 +6,7 @@ import Dependencies._
 val protobufCompilerVersion = "3.15.8"
 
 val MimaPreviousVersion = "0.11.0"
-
+lazy val jvmPlatformVersions = Seq(Scala211, Scala212, Scala213, Scala3)
 inThisBuild(
   List(
     scalaVersion := Scala212,
@@ -70,7 +70,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     )
   )
   .jvmPlatform(
-    scalaVersions = Seq(Scala212, Scala213, Scala3),
+    scalaVersions = jvmPlatformVersions,
     settings = Seq(
       libraryDependencies ++= Seq(
         protobufJava
@@ -120,7 +120,7 @@ lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
   .defaultAxes()
   .dependsOn(runtime)
   .settings(commonSettings)
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
+  .jvmPlatform(scalaVersions = jvmPlatformVersions)
   .settings(
     name := "scalapb-runtime-grpc",
     testFrameworks += new TestFramework("munit.Framework"),
@@ -159,7 +159,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     Compiler.generateVersionFile,
     Compiler.generateEncodingFile
   )
-  .jvmPlatform(Seq(Scala212, Scala213, Scala3))
+  .jvmPlatform(scalaVersions = jvmPlatformVersions)
 
 lazy val compilerPluginJVM2_12 = compilerPlugin.jvm(Scala212)
 
@@ -219,7 +219,7 @@ lazy val protocGenScalaNativeImage =
 lazy val proptest = (projectMatrix in file("proptest"))
   .defaultAxes()
   .dependsOn(compilerPlugin % "compile->compile;test->test", runtime, grpcRuntime)
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
+  .jvmPlatform(scalaVersions = jvmPlatformVersions)
   .settings(commonSettings)
   .settings(
     publishArtifact := false,
@@ -261,7 +261,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
+  .jvmPlatform(scalaVersions = jvmPlatformVersions)
   .jsPlatform(
     scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = scalajsSourceMaps ++ Seq(
