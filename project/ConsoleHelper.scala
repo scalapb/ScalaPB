@@ -20,6 +20,7 @@ object ConsoleHelper {
       item("fmt", "Run scalafmt on the entire project."),
       item("e2eJVM2_12/test", "Run end-to-end for Scala 2.12"),
       item("e2eJVM2_13/test", "Run end-to-end for Scala 2.13"),
+      item("e2eJVM3/test", "Run end-to-end for Scala 3"),
       item("docs/mdoc --watch", "Generate docs markdown through mdoc. See docs/README.md")
     )
 

@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.issue1226;
+
+enum EnumWithReservedKeywords {
+  unknown = 0;
+  abstract = 1;
+  case = 2;
+  catch = 3;
+  class = 4;
+  def = 5;
+  do = 6;
+  else = 7;
+  enum = 8;
+  export = 9;
+  extends = 10;
+  false = 11;
+  final = 12;
+  finally = 13;
+  for = 14;
+  for_some = 15;
+  given = 16;
+  if = 17;
+  implicit = 18;
+  import = 19;
+  infix = 20;
+  inline = 21;
+  lazy = 22;
+  macro = 23;
+  match = 24;
+  ne = 25;
+  new = 26;
+  null = 27;
+  object = 28;
+  opaque = 29;
+  open = 30;
+  override = 31;
+  package = 32;
+  private = 33;
+  protected = 34;
+  return = 35;
+  sealed = 36;
+  super = 37;
+  then = 38;
+  this = 39;
+  throw = 40;
+  trait = 41;
+  transparent = 42;
+  try = 43;
+  true = 44;
+  type = 45;
+  val = 46;
+  var = 47;
+  while = 48;
+  with = 49;
+  yield = 50;
+  other = 100;
+}
+
+message Message {
+  EnumWithReservedKeywords field = 1;
+}
