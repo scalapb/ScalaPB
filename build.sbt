@@ -159,7 +159,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     Compiler.generateVersionFile,
     Compiler.generateEncodingFile
   )
-  .jvmPlatform(scalaVersions = jvmPlatformVersions)
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
 
 lazy val compilerPluginJVM2_12 = compilerPlugin.jvm(Scala212)
 
@@ -219,7 +219,7 @@ lazy val protocGenScalaNativeImage =
 lazy val proptest = (projectMatrix in file("proptest"))
   .defaultAxes()
   .dependsOn(compilerPlugin % "compile->compile;test->test", runtime, grpcRuntime)
-  .jvmPlatform(scalaVersions = jvmPlatformVersions)
+  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(commonSettings)
   .settings(
     publishArtifact := false,

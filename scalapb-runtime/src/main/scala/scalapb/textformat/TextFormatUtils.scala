@@ -1,7 +1,7 @@
 package scalapb.textformat
 
 import java.math.BigInteger
-
+import scalapb.internal.compat._
 import com.google.protobuf.ByteString
 import scalapb.TextFormatError
 
@@ -49,9 +49,9 @@ private[scalapb] object TextFormatUtils {
       case CH_SLASH_R => sb.append("\\r")
       case CH_SLASH_T => sb.append("\\t")
       case CH_SLASH_V => sb.append("\\v")
-      case CH_SLASH   => sb.append("\\\\")
-      case CH_SQ      => sb.append("\\\'")
-      case CH_DQ      => sb.append("\\\"")
+      case CH_SLASH => sb.append("\\\\")
+      case CH_SQ => sb.append("\\\'")
+      case CH_DQ => sb.append("\\\"")
       case b if b >= 0x20 =>
         sb.append(b.toChar)
       case b =>
@@ -74,9 +74,9 @@ private[scalapb] object TextFormatUtils {
 
   def unescapeBytes(
       charString: String
-  ): Either[TextFormatError, ByteString] with Product with Serializable = {
+    ): Either[TextFormatError, ByteString] with Product with Serializable = {
     val input: ByteString = ByteString.copyFromUtf8(charString)
-    val result            = mutable.ArrayBuilder.make[Byte]
+    val result = mutable.ArrayBuilder.make[Byte]
     result.sizeHint(input.size)
 
     def defaultHandle(b: Byte) = {
@@ -89,21 +89,21 @@ private[scalapb] object TextFormatUtils {
 
     val endState = input.foldLeft[ByteParsingState](Default) { (state, b) =>
       (state, b) match {
-        case (e: Error, _)                           => e
-        case (Default, b)                            => defaultHandle(b)
+        case (e: Error, _) => e
+        case (Default, b) => defaultHandle(b)
         case (EscapeMode, b) if b >= '0' && b <= '7' => Octal1(digitValue(b))
-        case (EscapeMode, CH_A)                      => result += 7; Default
-        case (EscapeMode, CH_B)                      => result += '\b'; Default
-        case (EscapeMode, CH_F)                      => result += '\f'; Default
-        case (EscapeMode, CH_N)                      => result += '\n'; Default
-        case (EscapeMode, CH_R)                      => result += '\r'; Default
-        case (EscapeMode, CH_T)                      => result += '\t'; Default
-        case (EscapeMode, CH_V)                      => result += 11; Default
-        case (EscapeMode, CH_SLASH)                  => result += '\\'; Default
-        case (EscapeMode, CH_SQ)                     => result += '\''; Default
-        case (EscapeMode, CH_DQ)                     => result += '\"'; Default
-        case (EscapeMode, CH_X)                      => Hex0
-        case (EscapeMode, _)                         => Error("Invalid escape sequence: " + b.toChar)
+        case (EscapeMode, CH_A) => result += 7; Default
+        case (EscapeMode, CH_B) => result += '\b'; Default
+        case (EscapeMode, CH_F) => result += '\f'; Default
+        case (EscapeMode, CH_N) => result += '\n'; Default
+        case (EscapeMode, CH_R) => result += '\r'; Default
+        case (EscapeMode, CH_T) => result += '\t'; Default
+        case (EscapeMode, CH_V) => result += 11; Default
+        case (EscapeMode, CH_SLASH) => result += '\\'; Default
+        case (EscapeMode, CH_SQ) => result += '\''; Default
+        case (EscapeMode, CH_DQ) => result += '\"'; Default
+        case (EscapeMode, CH_X) => Hex0
+        case (EscapeMode, _) => Error("Invalid escape sequence: " + b.toChar)
         case (Octal1(i), b) if b >= '0' && b <= '7' =>
           Octal2(i * 8 + digitValue(b))
         case (Octal1(i), b) =>
@@ -115,9 +115,9 @@ private[scalapb] object TextFormatUtils {
         case (Octal2(i), b) =>
           result += i.toByte
           defaultHandle(b)
-        case (Hex0, b) if (isHexDigit(b.toChar)) => Hex1(digitValue(b))
-        case (Hex0, _)                           => Error("'\\x' with no digits")
-        case (Hex1(i), b) if (isHexDigit(b.toChar)) =>
+        case (Hex0, b) if isHexDigit(b.toChar) => Hex1(digitValue(b))
+        case (Hex0, _) => Error("'\\x' with no digits")
+        case (Hex1(i), b) if isHexDigit(b.toChar) =>
           result += (16 * i + digitValue(b)).toByte
           Default
         case (Hex1(i), b) =>
@@ -127,8 +127,8 @@ private[scalapb] object TextFormatUtils {
     }
 
     endState match {
-      case Error(e)   => Left(TextFormatError(e))
-      case Hex0       => Left(TextFormatError("'\\x' with no digits"))
+      case Error(e) => Left(TextFormatError(e))
+      case Hex0 => Left(TextFormatError("'\\x' with no digits"))
       case EscapeMode => Left(TextFormatError("Invalid escape sequence '\\' at end of string."))
       case Hex1(i) =>
         result += i.toByte
