@@ -11,9 +11,9 @@ import org.scalatest.matchers.must.Matchers
 
 class SealedOneofSpec extends AnyFlatSpec with Matchers {
 
-  val expr = Add(Lit(1), Add(Lit(2), Lit(3)))
+  val expr       = Add(Lit(1), Add(Lit(2), Lit(3)))
   val nestedExpr = Nested.Add(Nested.Lit(1), Nested.Add(Nested.Lit(2), Nested.Lit(3)))
-  
+
   "Expr.toExprMessage.toExpr" should "roundtrip" in {
     assert(expr == expr.asMessage.toExpr)
   }
@@ -21,7 +21,7 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
   "Nested.Expr.toExprMessage.toExpr" should "roundtrip" in {
     assert(nestedExpr == nestedExpr.asMessage.toExpr)
   }
-  
+
   "ExprMessage.toByteArray" should "work via Expr" in {
     val expr2 = ExprMessage.parseFrom(expr.asMessage.toByteArray).toExpr
     assert(expr == expr2)
@@ -30,7 +30,7 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
   "Nested.ExprMessage.toByteArray" should "work via Expr" in {
     val expr2 = Nested.ExprMessage.parseFrom(nestedExpr.asMessage.toByteArray).toExpr
     assert(nestedExpr == expr2)
-  } 
+  }
 
   "fields of sealed_oneof type" should "default Empty" in {
     assert(Add() == Add(Expr.Empty, Expr.Empty))
@@ -38,7 +38,7 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
 
   "fields of nested sealed_oneof type" should "default Empty" in {
     assert(Nested.Add() == Nested.Add(Nested.Expr.Empty, Nested.Expr.Empty))
-  } 
+  }
 
   "fields of repeated sealed_oneof type" should "work like normal" in {
     val programs =
@@ -49,10 +49,14 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
 
   "fields of repeated nested sealed_oneof type" should "work like normal" in {
     val programs =
-      Nested.Programs(programs = List(nestedExpr, nestedExpr), optionalExpr = nestedExpr, exprMap = Map("44" -> nestedExpr))
+      Nested.Programs(
+        programs = List(nestedExpr, nestedExpr),
+        optionalExpr = nestedExpr,
+        exprMap = Map("44" -> nestedExpr)
+      )
     val programs2 = Nested.Programs.parseFrom(programs.toByteArray)
     assert(programs == programs2)
-  } 
+  }
 
   trait UnsealedExpr
 
@@ -60,7 +64,7 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
     assertCompiles("class Foo extends UnsealedExpr")
     assertTypeError("class Foo extends Expr")
   }
-  
+
   "single_file=true" should "work with sealed_oneof" in {
     val fexpr = f.Add(f.Lit(1), f.Add(f.Lit(2), f.Lit(3)))
     assert(
@@ -73,9 +77,9 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
     val fexpr = f2.Nested.Add(f2.Nested.Lit(1), f2.Nested.Add(f2.Nested.Lit(2), f2.Nested.Lit(3)))
     assert(
       fexpr.asMessage.toProtoString ==
-          expr.asMessage.toProtoString
+        expr.asMessage.toProtoString
     )
-  } 
+  }
 
   "sealed_oneof message" should "work as a oneof case of another message" in {
     // Exhaustive matching of all possible cases
@@ -97,8 +101,8 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
                      |}
       """.stripMargin)
   }
-  
-   "nested sealed_oneof message" should "work as a oneof case of another message" in {
+
+  "nested sealed_oneof message" should "work as a oneof case of another message" in {
     // Exhaustive matching of all possible cases
     assertCompiles("""
                      |Zoo.Animal.defaultInstance.value match {
@@ -117,7 +121,7 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
                      |    }
                      |}
       """.stripMargin)
-  } 
+  }
 
   "messages using sealed_oneof_extends" should "all extend from custom user trait" in {
     PlayerShim.defaultInstance mustBe a[PlayerBaseTrait]
@@ -131,7 +135,7 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
     Parent.BasketBallPlayer() mustBe a[NestedPlayerBaseTrait]
     Parent.SoccerPlayer() mustBe a[NestedPlayerBaseTrait]
     Parent.SoccerPlayer() mustBe a[scalapb.GeneratedSealedOneof]
-  } 
+  }
 
   "asNonEmpty" should "return Some or None" in {
     expr.asNonEmpty must be(Some(expr))

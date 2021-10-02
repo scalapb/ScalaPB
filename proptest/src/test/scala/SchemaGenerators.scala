@@ -127,8 +127,8 @@ object SchemaGenerators {
 
   //// String Generators ////
 
-  /** Generates a string that starts with a lower-case alpha character,
-    * and only contains alphanumerical characters
+  /** Generates a string that starts with a lower-case alpha character, and only contains
+    * alphanumerical characters
     */
   def snakeIdentifier: Gen[String] =
     (for {

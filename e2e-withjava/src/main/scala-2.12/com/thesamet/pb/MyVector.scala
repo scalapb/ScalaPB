@@ -20,8 +20,8 @@ case class MyVector[T](stuff: Vector[T]) {
 object MyVector {
   def empty[T] = new MyVector[T](Vector())
 
-  implicit def cbf[From, T](
-      implicit vcbf: CanBuildFrom[From, T, Vector[T]]
+  implicit def cbf[From, T](implicit
+      vcbf: CanBuildFrom[From, T, Vector[T]]
   ): CanBuildFrom[From, T, MyVector[T]] =
     new CanBuildFrom[From, T, MyVector[T]] {
       override def apply(from: From): mutable.Builder[T, MyVector[T]] =
@@ -30,7 +30,7 @@ object MyVector {
       override def apply(): mutable.Builder[T, MyVector[T]] = vcbf().mapResult(MyVector(_))
     }
 
-  class Builder[T] extends collection.mutable.Builder[T, MyVector[T]]  {
+  class Builder[T] extends collection.mutable.Builder[T, MyVector[T]] {
     private val underlying = Vector.newBuilder[T]
 
     def clear(): Unit = underlying.clear()

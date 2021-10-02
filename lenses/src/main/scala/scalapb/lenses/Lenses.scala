@@ -8,8 +8,8 @@ trait Lens[Container, A] extends Any {
 
   /** Represents an assignment operator.
     *
-    * Given a value of type A, sets knows how to transform a container such that `a` is
-    * assigned to the field.
+    * Given a value of type A, sets knows how to transform a container such that `a` is assigned to
+    * the field.
     *
     * We must have get(set(a)(c)) == a
     */
@@ -20,8 +20,8 @@ trait Lens[Container, A] extends Any {
 
   /** Optional assignment.
     *
-    * Given a `Some[A]`, assign the `Some`'s value to the field. Given `None`, the
-    * container is unchanged.
+    * Given a `Some[A]`, assign the `Some`'s value to the field. Given `None`, the container is
+    * unchanged.
     */
   def setIfDefined(aOpt: Option[A]): Mutation[Container] =
     c => aOpt.fold(c)(set(_)(c))
@@ -31,8 +31,8 @@ trait Lens[Container, A] extends Any {
 
   /** Composes two lenses, this enables nesting.
     *
-    * If our field of type A has a sub-field of type B, then given a lens for it
-    * (other: Lens[A, B]) we can create a single lens from Container to B.
+    * If our field of type A has a sub-field of type B, then given a lens for it (other: Lens[A, B])
+    * we can create a single lens from Container to B.
     */
   def compose[B](other: Lens[A, B]): Lens[Container, B] = new Lens[Container, B] {
     def get(c: Container) = other.get(self.get(c))
@@ -62,9 +62,9 @@ object Lens extends CompatLensImplicits {
   /** This is the unit lens, with respect to the compose operation defined above. That is,
     * len.compose(unit) == len == unit.compose(len)
     *
-    * More practically, you can view it as a len that mutates the entire object, instead of
-    * just a field of it: get() gives the original object, and set() returns the assigned value,
-    * no matter what the original value was.
+    * More practically, you can view it as a len that mutates the entire object, instead of just a
+    * field of it: get() gives the original object, and set() returns the assigned value, no matter
+    * what the original value was.
     */
   def unit[U]: Lens[U, U] = Lens(identity[U])((_, v) => v)
 

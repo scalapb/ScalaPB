@@ -109,7 +109,7 @@ class SimpleTest extends FunSuite {
     assertEquals(
       mosh.update(
         _.address.update(
-          _.city := "Valejo",
+          _.city   := "Valejo",
           _.street := "Fourth"
         )
       ),
@@ -151,7 +151,7 @@ class SimpleTest extends FunSuite {
   test("it should allow mutating an element of a sequence by index") {
     assertEquals(
       mosh.update(
-        _.address.residents := Seq(josh, mosh),
+        _.address.residents              := Seq(josh, mosh),
         _.address.residents(1).firstName := "ModName"
       ),
       (mosh.copy(
@@ -294,17 +294,17 @@ class SimpleTest extends FunSuite {
       _.iSeq :++= collection.immutable.Seq("6", "7", "8"),
       _.iSeq :++= Seq("6", "7", "8"),
       _.iSeq(5) := "11",
-      _.vector := Vector("3", "4", "5"),
+      _.vector  := Vector("3", "4", "5"),
       _.vector :+= "foo",
       _.vector :++= collection.immutable.Seq("6", "7", "8"),
       _.vector :++= Seq("6", "7", "8"),
       _.vector(5) := "11",
-      _.list := List("3", "4", "5"),
+      _.list      := List("3", "4", "5"),
       _.list :+= "foo",
       _.list :++= collection.immutable.Seq("6", "7", "8"),
       _.list :++= Seq("6", "7", "8"),
       _.list(5) := "11",
-      _.sett := Set("3", "4", "5"),
+      _.sett    := Set("3", "4", "5"),
       _.sett :+= "foo",
       _.sett :++= collection.immutable.Seq("6", "7", "8"),
       _.sett :++= Seq("6", "7", "8")

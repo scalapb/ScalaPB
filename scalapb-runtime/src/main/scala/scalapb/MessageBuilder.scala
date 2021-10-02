@@ -4,8 +4,8 @@ import com.google.protobuf.CodedInputStream
 
 /** Allows building an instance of a message A
   *
-  * The code generator will create a class that extends MessageBuilder for each message.
-  * It generally contains a `var` for each optional and required field, and a
+  * The code generator will create a class that extends MessageBuilder for each message. It
+  * generally contains a `var` for each optional and required field, and a
   * [scala.collection.mutable.Builder] for each repeated field.
   */
 abstract class MessageBuilder[A] {

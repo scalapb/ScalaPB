@@ -67,7 +67,7 @@ object ExpressionBuilder {
 
   def convertCollection(expr: String, targetType: EnclosingType): String = {
     val convert = List(targetType match {
-      case Collection(_, Some(tc))                        => FunctionApplication(s"${tc}.fromIteratorUnsafe")
+      case Collection(_, Some(tc)) => FunctionApplication(s"${tc}.fromIteratorUnsafe")
       case Collection(DescriptorImplicits.ScalaVector, _) => MethodApplication("toVector")
       case Collection(DescriptorImplicits.ScalaSeq, _)    => MethodApplication("toSeq")
       case Collection(DescriptorImplicits.ScalaMap, _)    => MethodApplication("toMap")

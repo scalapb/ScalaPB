@@ -233,7 +233,7 @@ class FileDescriptorSpec extends FunSuite {
   }
 
   test("buildFrom recognizes enums when type field is missing") {
-    val fdp     = FileDescriptorProto.fromAscii("""package: "mypkg"
+    val fdp = FileDescriptorProto.fromAscii("""package: "mypkg"
                                               |message_type {
                                               |  name: "Msg1"
                                               |  enum_type {

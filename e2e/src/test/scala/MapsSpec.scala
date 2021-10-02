@@ -150,7 +150,7 @@ class MapsSpec
   }
 
   "custom map types" should "provide custom key and value types" in {
-    import MapSpec.{c1,c2}
+    import MapSpec.{c1, c2}
     CustomMaps.parseFrom(c1.toByteArray) must be(c1)
     CustomMaps.fromAscii(c1.toProtoString) must be(c1)
 
@@ -161,14 +161,14 @@ class MapsSpec
 
 object MapSpec {
   val c1 = CustomMaps(
-    stringToYear = Map("314"           -> Years(314)),
-    personToInt = Map(PersonId("315")  -> 314),
+    stringToYear = Map("314" -> Years(314)),
+    personToInt = Map(PersonId("315") -> 314),
     personToYear = Map(PersonId("275") -> Years(188))
   )
 
   val c2 = CustomMaps2(
-    stringToYear = Map("314"           -> Years(314)),
-    personToInt = Map(PersonId("315")  -> 314),
+    stringToYear = Map("314" -> Years(314)),
+    personToInt = Map(PersonId("315") -> 314),
     personToYear = Map(PersonId("275") -> Years(188))
   )
 }
