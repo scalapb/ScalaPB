@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.11.5] (Unreleased)
+## [0.11.5]
 - Fix: non-total typemappers now work in `no_box` fields (#1198)
 - Memoize serializedSize of empty messages (previously serialized size was recomputed for
   empty message)
