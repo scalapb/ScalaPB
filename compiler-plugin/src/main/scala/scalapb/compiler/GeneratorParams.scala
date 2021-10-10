@@ -20,11 +20,12 @@ object GeneratorParams {
 
   /** Parses generator parameters from the comma-separated string, collects the unrecognized ones.
     *
-    *  This allows subsequent generators to try and process those parameters.
+    * This allows subsequent generators to try and process those parameters.
     *
-    *  Returns:
-    *    Left(error): if a parsing error occurred.
-    *    Right((params, remainder)): generated params and all unrecognized params
+    * @return
+    *   Returns Left(error) if a parsing error occurred. On success, it returns `Right((params,
+    *   remainder))` where `params` are recognized parameters and `remainder` are all unrecognized
+    *   params.
     */
   def fromStringCollectUnrecognized(
       params: String

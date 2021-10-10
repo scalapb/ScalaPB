@@ -147,7 +147,8 @@ object FieldMaskUtil {
   }
 
   /** Constructs a field mask based on message field numbers.
-    * @return Some(mask) if all fields number are valid, `None` otherwise.
+    * @return
+    *   Some(mask) if all fields number are valid, `None` otherwise.
     */
   def fromFieldNumbers[M <: GeneratedMessage: GeneratedMessageCompanion](
       fieldNumbers: Int*
