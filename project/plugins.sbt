@@ -34,7 +34,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.8.0")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.2.23")
 
-addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.1")
+addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.2")
 
 // For https://github.com/lightbend/mima/issues/422
 resolvers += Resolver.url(
