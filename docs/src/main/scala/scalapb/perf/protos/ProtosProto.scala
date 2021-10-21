@@ -9,7 +9,8 @@ object ProtosProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
     scalapb.options.ScalapbProto
   )
-  lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
+  lazy val messagesCompanions
+      : Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
       scalapb.perf.protos.SimpleMessage,
       scalapb.perf.protos.MessageContainer,
@@ -19,8 +20,10 @@ object ProtosProto extends _root_.scalapb.GeneratedFileObject {
       scalapb.perf.protos.StringMessage
     )
   private lazy val ProtoBytes: _root_.scala.Array[Byte] =
-      scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
-  """Cgxwcm90b3MucHJvdG8SDHNjYWxhcGIucGVyZhoVc2NhbGFwYi9zY2FsYXBiLnByb3RvIogBCg1TaW1wbGVNZXNzYWdlEhQKA
+    scalapb.Encoding.fromBase64(
+      scala.collection.immutable
+        .Seq(
+          """Cgxwcm90b3MucHJvdG8SDHNjYWxhcGIucGVyZhoVc2NhbGFwYi9zY2FsYXBiLnByb3RvIogBCg1TaW1wbGVNZXNzYWdlEhQKA
   WkYASABKAVCBuI/AxIBaVIBaRIUCgFqGAIgASgFQgbiPwMSAWpSAWoSFAoBaxgDIAEoDEIG4j8DEgFrUgFrEjUKBWNvbG9yGAQgA
   SgOMhMuc2NhbGFwYi5wZXJmLkNvbG9yQgriPwcSBWNvbG9yUgVjb2xvciKEAQoQTWVzc2FnZUNvbnRhaW5lchI3CgNvcHQYASABK
   AsyGy5zY2FsYXBiLnBlcmYuU2ltcGxlTWVzc2FnZUII4j8FEgNvcHRSA29wdBI3CgNyZXAYAiADKAsyGy5zY2FsYXBiLnBlcmYuU
@@ -44,17 +47,26 @@ object ProtosProto extends _root_.scalapb.GeneratedFileObject {
   AESAyYIEQoLCgQEBAIAEgMnAhoKDAoFBAQCAAQSAycCCgoMCgUEBAIABRIDJwsQCgwKBQQEAgABEgMnERUKDAoFBAQCAAMSAycYG
   QoKCgIEBRIEKgAtAQoKCgMEBQESAyoIFQoLCgQEBQIAEgMrAhIKDAoFBAUCAAUSAysCCAoMCgUEBQIAARIDKwkNCgwKBQQFAgADE
   gMrEBEKCwoEBAUCARIDLAISCgwKBQQFAgEFEgMsAggKDAoFBAUCAQESAywJDQoMCgUEBQIBAxIDLBARYgZwcm90bzM="""
-      ).mkString)
+        )
+        .mkString
+    )
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)
-    _root_.scalapb.descriptors.FileDescriptor.buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))
+    _root_.scalapb.descriptors.FileDescriptor
+      .buildFrom(scalaProto, dependencies.map(_.scalaDescriptor))
   }
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
-    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array(
-      scalapb.options.ScalapbProto.javaDescriptor
-    ))
+    com.google.protobuf.Descriptors.FileDescriptor.buildFrom(
+      javaProto,
+      _root_.scala.Array(
+        scalapb.options.ScalapbProto.javaDescriptor
+      )
+    )
   }
-  @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
+  @deprecated(
+    "Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.",
+    "ScalaPB 0.5.47"
+  )
   def descriptor: com.google.protobuf.Descriptors.FileDescriptor = javaDescriptor
 }
