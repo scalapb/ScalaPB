@@ -579,7 +579,7 @@ class ProtobufGenerator(
     fp.print(message.fields.filter(_.isPacked)) { case (printer, field) =>
       val methodName = s"${field.scalaName}SerializedSize"
       printer
-        .add(s"private[this] def $methodName = {") //closing brace is in each case
+        .add(s"private[this] def $methodName = {") // closing brace is in each case
         .call({ fp =>
           Types.fixedSize(field.getType) match {
             case Some(size) =>

@@ -107,7 +107,7 @@ object StructUtils {
       case PEnum(value)     => Value.Kind.StringValue(value.name)
       case PMessage(value)  => Value.Kind.StructValue(toStruct(value))
       case PRepeated(value) => Value.Kind.ListValue(ListValue(value.map(toValue)))
-      //added for completeness of match case but we should never get here because we filter empty fields before
+      // added for completeness of match case but we should never get here because we filter empty fields before
       case PEmpty => Value.Kind.Empty
     })
 
