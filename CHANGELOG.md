@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.11.7] (Unreleased)
+- Fix native protoc plugin handling of custom options that extend ScalaPB.
+
 ## [0.11.6]
 - Update grpc to 1.41.0
 - Add new Scala 3 reserved keywords (#1230)
