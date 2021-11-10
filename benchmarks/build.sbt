@@ -8,9 +8,9 @@ lazy val root = project
   .in(file("."))
   .enablePlugins(JmhPlugin)
   .settings(
-    publish / skip := true,
-    crossScalaVersions := Seq(Scala213, Scala212),
-    scalaVersion := Scala213,
+    publish / skip             := true,
+    crossScalaVersions         := Seq(Scala213, Scala212),
+    scalaVersion               := Scala213,
     Compile / PB.protocVersion := "-v" + ProtobufJavaVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(ProtobufJavaVersion)   -> (Compile / sourceManaged).value / "protos",

@@ -1,10 +1,10 @@
 object TestNames {
   val testNames = Seq(
-    "Enum", 
-    "EnumVector", 
-    "IntVector", 
-    "MessageContainer", 
-    "SimpleMessage", 
-    "StringMessage",
+    "Enum",
+    "EnumVector",
+    "IntVector",
+    "MessageContainer",
+    "SimpleMessage",
+    "StringMessage"
   )
 }

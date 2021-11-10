@@ -8,7 +8,7 @@ case class Point2D(x: Int, y: Int) {
 }
 
 object Point2D {
-  implicit val typeMapper: TypeMapper[XYMessage, Point2D]=
+  implicit val typeMapper: TypeMapper[XYMessage, Point2D] =
     TypeMapper[XYMessage, Point2D](xy => Point2D(xy.getX, xy.getY))(p => p.toXYMessage)
 }
 

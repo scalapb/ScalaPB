@@ -134,7 +134,10 @@ class EnumSpec extends AnyFlatSpec with Matchers with OptionValues {
   }
 
   "Unrecognized" should "be fine" in {
-    var x = Color.Unrecognized(117).scalaValueDescriptor // Do not use 117 elsewhere we need to have it gc'ed.
+    var x =
+      Color
+        .Unrecognized(117)
+        .scalaValueDescriptor // Do not use 117 elsewhere we need to have it gc'ed.
     var y = Color.Unrecognized(117).scalaValueDescriptor
     x must be theSameInstanceAs y
     x = null

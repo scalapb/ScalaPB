@@ -4,7 +4,7 @@ import java.util.concurrent.atomic.AtomicInteger
 
 import com.thesamet.proto.e2e.service.SealedRequest
 import com.thesamet.proto.e2e.service.Service1Grpc.Service1
-import com.thesamet.proto.e2e.service.{Unit=>_, _}
+import com.thesamet.proto.e2e.service.{Unit => _, _}
 import io.grpc.stub.StreamObserver
 
 import scala.concurrent.Future
