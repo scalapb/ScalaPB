@@ -1,0 +1,63 @@
+syntax = "proto2";
+
+package scalapb_ext;
+
+import "scalapb/scalapb.proto";
+
+// The options in this file extend ScalaPB's own options. This is done by
+// scalapb-validate.  These extensions trigger reflective calls in Java when
+// the protos are parsed. Therefore, one of the goals of this test is to
+// trigger them so they are available for the native protoc-gen-scala.
+
+extend scalapb.ScalaPbOptions {
+  optional int32 file = 10001;
+}
+
+extend scalapb.MessageOptions {
+  optional int32 message = 10001;
+}
+
+extend scalapb.FieldOptions {
+  optional int32 field = 10001;
+}
+
+extend scalapb.EnumOptions {
+  optional int32 enum_opt = 10001;
+}
+
+extend scalapb.EnumValueOptions {
+  optional int32 enum_value_opt = 10001;
+}
+
+extend scalapb.OneofOptions {
+  optional int32 oneof_opt = 10001;
+}
+
+option (scalapb.options) = {
+    [scalapb_ext.file]: 1;
+};
+
+message M {
+  option (scalapb.message) = {
+      [scalapb_ext.message]: 1;
+  };
+
+  required int32 f = 1 [(scalapb.field) = {
+      [scalapb_ext.field]: 1;
+  }];
+  oneof o {
+    option (scalapb.oneof) = {
+      [scalapb_ext.oneof_opt]: 1;
+    };
+    int32 x = 2;
+  };
+}
+
+enum E {
+  option (scalapb.enum_options) = {
+      [scalapb_ext.enum_opt]: 1;
+  };
+  DEFAULT = 0 [(scalapb.enum_value) = {
+      [scalapb_ext.enum_value_opt]: 1;
+  }];
+}

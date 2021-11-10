@@ -125,7 +125,7 @@ object SchemaGenerators {
   /** Generates an alphanumerical character */
   def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const('_')), (9, Gen.alphaChar))
 
-  //// String Generators ////
+  // String Generators
 
   /** Generates a string that starts with a lower-case alpha character, and only contains
     * alphanumerical characters

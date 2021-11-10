@@ -1,5 +1,13 @@
 # Change Log
 
+## [0.11.7] (Unreleased)
+- Fix native protoc plugin handling of custom options that extend ScalaPB.
+
+## [0.11.6]
+- Update grpc to 1.41.0
+- Add new Scala 3 reserved keywords (#1230)
+- Bump Scala versions to 3.0.2 and 2.12.15
+
 ## [0.11.5]
 - Fix: non-total typemappers now work in `no_box` fields (#1198)
 - Memoize serializedSize of empty messages (previously serialized size was recomputed for
