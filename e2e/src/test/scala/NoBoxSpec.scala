@@ -35,7 +35,7 @@ class NoBoxSpec extends AnyFlatSpec with Matchers {
   }
 
   "RequiredCar" should "have unboxed message field" in {
-    RequiredCar(tyre1=Tyre(size=12))
+    RequiredCar(tyre1 = Tyre(size = 12))
   }
 
   "RequiredCar" should "fail validation if required field is missing" in {

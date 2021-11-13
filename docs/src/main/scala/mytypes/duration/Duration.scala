@@ -9,67 +9,73 @@ package mytypes.duration
 final case class Duration(
     seconds: _root_.scala.Int = 0,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Duration] {
-    @transient
-    private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
-    private[this] def __computeSerializedSize(): _root_.scala.Int = {
-      var __size = 0
-      
-      {
-        val __value = seconds
-        if (__value != 0) {
-          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
-        }
-      };
-      __size += unknownFields.serializedSize
-      __size
-    }
-    override def serializedSize: _root_.scala.Int = {
-      var __size = __serializedSizeMemoized
-      if (__size == 0) {
-        __size = __computeSerializedSize() + 1
-        __serializedSizeMemoized = __size
+) extends scalapb.GeneratedMessage
+    with scalapb.lenses.Updatable[Duration] {
+  @transient
+  private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
+  private[this] def __computeSerializedSize(): _root_.scala.Int = {
+    var __size = 0
+
+    {
+      val __value = seconds
+      if (__value != 0) {
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
       }
-      __size - 1
-      
+    };
+    __size += unknownFields.serializedSize
+    __size
+  }
+  override def serializedSize: _root_.scala.Int = {
+    var __size = __serializedSizeMemoized
+    if (__size == 0) {
+      __size = __computeSerializedSize() + 1
+      __serializedSizeMemoized = __size
     }
-    def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
-      {
-        val __v = seconds
-        if (__v != 0) {
-          _output__.writeInt32(1, __v)
-        }
-      };
-      unknownFields.writeTo(_output__)
-    }
-    def withSeconds(__v: _root_.scala.Int): Duration = copy(seconds = __v)
-    def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
-    def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
-    def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
-      (__fieldNumber: @_root_.scala.unchecked) match {
-        case 1 => {
-          val __t = seconds
-          if (__t != 0) __t else null
-        }
+    __size - 1
+
+  }
+  def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+    {
+      val __v = seconds
+      if (__v != 0) {
+        _output__.writeInt32(1, __v)
       }
-    }
-    def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
-      _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
-      (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PInt(seconds)
+    };
+    unknownFields.writeTo(_output__)
+  }
+  def withSeconds(__v: _root_.scala.Int): Duration           = copy(seconds = __v)
+  def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+  def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
+  def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
+    (__fieldNumber: @ _root_.scala.unchecked) match {
+      case 1 => {
+        val __t = seconds
+        if (__t != 0) __t else null
       }
     }
-    def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: mytypes.duration.Duration.type = mytypes.duration.Duration
-    // @@protoc_insertion_point(GeneratedMessage[mytypes.Duration])
+  }
+  def getField(
+      __field: _root_.scalapb.descriptors.FieldDescriptor
+  ): _root_.scalapb.descriptors.PValue = {
+    _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
+    (__field.number: @ _root_.scala.unchecked) match {
+      case 1 => _root_.scalapb.descriptors.PInt(seconds)
+    }
+  }
+  def toProtoString: _root_.scala.Predef.String =
+    _root_.scalapb.TextFormat.printToUnicodeString(this)
+  def companion: mytypes.duration.Duration.type = mytypes.duration.Duration
+  // @@protoc_insertion_point(GeneratedMessage[mytypes.Duration])
 }
 
 object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[mytypes.duration.Duration] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): mytypes.duration.Duration = {
-    var __seconds: _root_.scala.Int = 0
-    var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
-    var _done__ = false
+  def parseFrom(
+      `_input__`: _root_.com.google.protobuf.CodedInputStream
+  ): mytypes.duration.Duration = {
+    var __seconds: _root_.scala.Int                                 = 0
+    var `_unknownFields__` : _root_.scalapb.UnknownFieldSet.Builder = null
+    var _done__                                                     = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
       _tag__ match {
@@ -84,32 +90,52 @@ object Duration extends scalapb.GeneratedMessageCompanion[mytypes.duration.Durat
       }
     }
     mytypes.duration.Duration(
-        seconds = __seconds,
-        unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      seconds = __seconds,
+      unknownFields =
+        if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty
+        else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[mytypes.duration.Duration] = _root_.scalapb.descriptors.Reads{
-    case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
-      _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      mytypes.duration.Duration(
-        seconds = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Int]).getOrElse(0)
-      )
-    case _ => throw new RuntimeException("Expected PMessage")
-  }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DurationProto.javaDescriptor.getMessageTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DurationProto.scalaDescriptor.messages(0)
-  def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
-  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[mytypes.duration.Duration] =
+    _root_.scalapb.descriptors.Reads {
+      case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+        _root_.scala.Predef.require(
+          __fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor),
+          "FieldDescriptor does not match message type."
+        )
+        mytypes.duration.Duration(
+          seconds = __fieldsMap
+            .get(scalaDescriptor.findFieldByNumber(1).get)
+            .map(_.as[_root_.scala.Int])
+            .getOrElse(0)
+        )
+      case _ => throw new RuntimeException("Expected PMessage")
+    }
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor =
+    DurationProto.javaDescriptor.getMessageTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor =
+    DurationProto.scalaDescriptor.messages(0)
+  def messageCompanionForFieldNumber(
+      __number: _root_.scala.Int
+  ): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+  lazy val nestedMessagesCompanions
+      : Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
+    Seq.empty
+  def enumCompanionForFieldNumber(
+      __fieldNumber: _root_.scala.Int
+  ): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = mytypes.duration.Duration(
     seconds = 0
   )
-  implicit class DurationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, mytypes.duration.Duration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, mytypes.duration.Duration](_l) {
-    def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
+  implicit class DurationLens[UpperPB](
+      _l: _root_.scalapb.lenses.Lens[UpperPB, mytypes.duration.Duration]
+  ) extends _root_.scalapb.lenses.ObjectLens[UpperPB, mytypes.duration.Duration](_l) {
+    def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] =
+      field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
   }
   final val SECONDS_FIELD_NUMBER = 1
   def of(
-    seconds: _root_.scala.Int
+      seconds: _root_.scala.Int
   ): _root_.mytypes.duration.Duration = _root_.mytypes.duration.Duration(
     seconds
   )
