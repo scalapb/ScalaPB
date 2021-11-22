@@ -2,7 +2,12 @@ package scalapb
 
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
-import protobuf_unittest.unittest.{NestedTestAllTypes, TestAllTypes, TestRequired, TestRequiredMessage}
+import protobuf_unittest.unittest.{
+  NestedTestAllTypes,
+  TestAllTypes,
+  TestRequired,
+  TestRequiredMessage
+}
 
 class FieldMaskTreeSpec extends AnyFlatSpec with Matchers {
 

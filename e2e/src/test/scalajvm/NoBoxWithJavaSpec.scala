@@ -13,7 +13,7 @@ class NoBoxWithJavaSpec extends AnyFlatSpec with Matchers {
 
   "Java representation of Scala message with a no_box field with default value" should "not have that field" in {
     val scalaCar = Car(tyre1 = Tyre.defaultInstance)
-    val javaCar = NoBox.Car.parseFrom(scalaCar.toByteArray)
+    val javaCar  = NoBox.Car.parseFrom(scalaCar.toByteArray)
     javaCar.hasTyre1 must be(false)
   }
 
