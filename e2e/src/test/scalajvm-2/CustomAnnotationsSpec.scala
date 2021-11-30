@@ -20,12 +20,12 @@ class CustomAnnotationsSpec extends AnyFlatSpec with Matchers {
 
   "field annotations" should "be set correctly" in {
     val message =
-    typeOf[FieldAnnotations]
-      .member(TermName("z"))
-      .annotations
-      .map(_.toString)
-      .filter(_.contains("deprecated"))
-      .head
+      typeOf[FieldAnnotations]
+        .member(TermName("z"))
+        .annotations
+        .map(_.toString)
+        .filter(_.contains("deprecated"))
+        .head
     // Formatting is different between Scala 2.13 and Scala 2.12, so testing
     // the relevant text exists, but without specific formatting.
     message must include("deprecated")
@@ -41,7 +41,10 @@ class CustomAnnotationsSpec extends AnyFlatSpec with Matchers {
   }
 
   "unknownFields annotations" should "be set correctly" in {
-    typeOf[FieldAnnotations].member(TermName("unknownFields")).annotations.map(_.toString) must contain allOf (
+    typeOf[FieldAnnotations]
+      .member(TermName("unknownFields"))
+      .annotations
+      .map(_.toString) must contain allOf (
       "com.thesamet.pb.CustomFieldAnnotation1",
       "com.thesamet.pb.CustomFieldAnnotation2"
     )
