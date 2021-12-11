@@ -1,4 +1,4 @@
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.4")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.5")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.4.5")
 
