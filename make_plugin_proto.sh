@@ -14,7 +14,7 @@ sbt "scalapbcJVM2_12/run --scala_out=java_conversions:scalapb-runtime/src/main/s
     $GOOGLE_PROTOS" \
     "scalapbcJVM2_12/run --scala_out=scalapb-runtime/src/main/scala \
     --proto_path=./protobuf:./third_party ./protobuf/scalapb/scalapb.proto" \
-    "scalapbcJVM2_12/run --scala_out=docs/src/main/scala \
+    "scalapbcJVM2_12/run --scala_out=docs/src/main/scala/generated \
     --proto_path=./protobuf:./third_party:./docs/src/main/protobuf:./benchmarks/src/main/protobuf \
     ./docs/src/main/protobuf/duration.proto \
     ./docs/src/main/protobuf/json.proto \
