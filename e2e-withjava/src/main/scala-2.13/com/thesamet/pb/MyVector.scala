@@ -17,7 +17,7 @@ case class MyVector[T](stuff: Vector[T]) extends IterableOnce[T] {
 object MyVector extends IterableFactory[MyVector] {
   override def newBuilder[A]: mutable.Builder[A, MyVector[A]] = new Builder[A]
 
-  override def from[A](source:  IterableOnce[A]): MyVector[A] = MyVector(Vector.from(source))
+  override def from[A](source: IterableOnce[A]): MyVector[A] = MyVector(Vector.from(source))
 
   def empty[T] = new MyVector[T](Vector())
 

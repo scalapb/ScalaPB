@@ -25,8 +25,8 @@ class EnumOptions4Spec extends AnyFlatSpec with Matchers with OptionValues {
   }
 
   "annotations for value" should "be added" in {
-    //TODO
-    //MyEnum4.E4_V1 should be annotated with "com.thesamet.pb.CustomAnnotation2"
-    //MyEnum4.E4_V2 should not be annotated with "com.thesamet.pb.CustomAnnotation2"
+    // TODO
+    // MyEnum4.E4_V1 should be annotated with "com.thesamet.pb.CustomAnnotation2"
+    // MyEnum4.E4_V2 should not be annotated with "com.thesamet.pb.CustomAnnotation2"
   }
 }
