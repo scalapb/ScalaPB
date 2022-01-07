@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.11.8]
+- Bump up protobuf-java to 3.19.2 for CVE-2021-22569.
+
 ## [0.11.7]
 - Fix native protoc plugin handling of custom options that extend ScalaPB.
 - Update default protoc used to 3.19.1
