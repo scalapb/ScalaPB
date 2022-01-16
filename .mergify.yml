@@ -1,3 +1,8 @@
+queue_rules:
+  - name: default
+    conditions:
+      - check-success=ci-passed
+
 pull_request_rules:
   - name: assign and label scala-steward's PRs
     conditions:
@@ -10,8 +15,8 @@ pull_request_rules:
   - name: merge scala-steward's PRs
     conditions:
       - author=scala-steward
-      - status-success=ci-passed
+      - check-success=ci-passed
     actions:
-      merge:
+      queue:
         method: squash
-        strict: true
+        name: default
