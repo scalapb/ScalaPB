@@ -29,7 +29,9 @@ object Dependencies {
 
   val Scala213 = "2.13.7"
 
-  val Scala3 = "3.1.0"
+  // NOTE: Scala 3 versions are not forward-compatible across minor versions. To allow
+  // maximal compatibility for end-users Scala 3 version needs to be kept on 3.0.x.
+  val Scala3 = "3.0.2"
 
   val silencer = Seq(
     sbt.compilerPlugin(
