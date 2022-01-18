@@ -29,11 +29,8 @@ object Dependencies {
 
   val Scala213 = "2.13.7"
 
-  // NOTE: scala 3 is backward compatible across 3.x, but not forward
-  // compatible. For example, this means that a library built with 3.0.2 can be
-  // consumed by 3.1.0, but NOT the other way around. Since ScalaPB is a very
-  // commonly used library, the Scala 3 version should be kept as low as
-  // reasonably possible.
+  // NOTE: Scala 3 versions are not forward-compatible across minor versions. To allow
+  // maximal compatibility for end-users Scala 3 version needs to be kept on 3.0.x.
   val Scala3 = "3.0.2"
 
   val silencer = Seq(
