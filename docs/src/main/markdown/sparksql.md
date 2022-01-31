@@ -13,17 +13,6 @@ However, it turns out there is another obstacle. Spark does not provide any mech
 
 ## Setting up your project
 
-The version of sparksql-scalapb needs to match the Spark and
-ScalaPB version:
-
-|Spark | ScalaPB   | SparkSQL-ScalaPB|
-| ---- | --------- |-----------------|
-|3.0   | 0.11.x    | 0.11.0          |
-|3.0   | 0.10.x    | 0.11.0-RC1      |
-|2.x   | 0.10.x    | 0.10.4          |
-|2.x   | 0.9.x     | 0.9.3           |
-
-
 We are going to use sbt-assembly to deploy a fat JAR containing ScalaPB, and
 your compiled protos.  Make sure in project/plugins.sbt you have a line
 that adds sbt-assembly:
@@ -32,10 +21,33 @@ that adds sbt-assembly:
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
 ```
 
-In `build.sbt` add a dependency on `sparksql-scalapb`:
+To add sparksql-scalapb to your project, add *one* of the following lines that
+matches *both the version of ScalaPB and Spark* you use:
 
 ```scala
-libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "@sparksql_scalapb@"
+// Spark 3.2 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql32-scalapb0_11" % "@sparksql_scalapb@"
+
+// Spark 3.1 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql31-scalapb0_11" % "@sparksql_scalapb@"
+
+// Spark 3.0 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql30-scalapb0_11" % "@sparksql_scalapb@"
+
+// Spark 3.2 and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql32-scalapb0_10" % "@sparksql_scalapb@"
+
+// Spark 3.1 and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql31-scalapb0_10" % "@sparksql_scalapb@"
+
+// Spark 3.0 and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql30-scalapb0_10" % "@sparksql_scalapb@"
+
+// Spark 2.x and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.4"
+
+// Spark 2.x and ScalaPB 0.9
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.3"
 ```
 
 Spark ships with an old version of Google's Protocol Buffers runtime that is not compatible with
