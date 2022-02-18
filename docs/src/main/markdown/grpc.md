@@ -160,7 +160,7 @@ NettyServerBuilder
   .keepAliveTime(500, TimeUnit.SECONDS)
 ```
 
-2. If using SBT, try thefollowing merge conflict strategy:
+2. If using SBT, try the following merge conflict strategy:
 
 ```scala
 assemblyMergeStrategy in assembly := {
