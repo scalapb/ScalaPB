@@ -1557,9 +1557,12 @@ class ProtobufGenerator(
   def generateServiceFiles(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     if (params.grpc) {
       file.getServices.asScala.map { service =>
-        val p    = new GrpcServicePrinter(service, implicits)
-        val code = p.printService(FunctionalPrinter()).result()
-        val b    = CodeGeneratorResponse.File.newBuilder()
+        val p = new GrpcServicePrinter(service, implicits)
+        val code = scalaFileHeader(
+          file,
+          file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields)
+        ).call(p.printService).result()
+        val b = CodeGeneratorResponse.File.newBuilder()
         b.setName(file.scalaDirectory + "/" + service.companionObject.name + ".scala")
         b.setContent(code)
         b.build
