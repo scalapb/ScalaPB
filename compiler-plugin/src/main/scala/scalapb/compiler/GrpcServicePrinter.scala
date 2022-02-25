@@ -251,7 +251,6 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   def printService(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
       .add(
-        "package " + service.getFile.scalaPackage.fullName,
         "",
         s"${service.deprecatedAnnotation}object ${service.companionObject.nameSymbol} {"
       )
