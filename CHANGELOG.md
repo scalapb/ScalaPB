@@ -1,5 +1,11 @@
 # Change Log
 
+## [0.11.10] (Not released yet)
+- Fix missing import definitions in services. (#1331)
+
+## [0.11.9]
+- Downgrade to Scala 3.0.2 for compatibility reasons (#1326)
+
 ## [0.11.8]
 - Bump up protobuf-java to 3.19.2 for CVE-2021-22569.
 
