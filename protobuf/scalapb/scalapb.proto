@@ -3,9 +3,8 @@ syntax = "proto2";
 package scalapb;
 
 option csharp_namespace = "ScalaPb.Options";
-option go_package = "scalapb.github.io/pirum.com/cda/grpc/trades";
+option go_package = "scalapb.github.io/cda/grpc/trades";
 option java_package = "scalapb.options";
-option php_namespace = "ScalaPb\\Options";
 
 option (options) = {
   package_name: "scalapb.options"
