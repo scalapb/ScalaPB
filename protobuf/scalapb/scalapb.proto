@@ -2,6 +2,7 @@ syntax = "proto2";
 
 package scalapb;
 
+option go_package = "scalapb.github.io/protobuf/scalapb";
 option java_package = "scalapb.options";
 
 option (options) = {
