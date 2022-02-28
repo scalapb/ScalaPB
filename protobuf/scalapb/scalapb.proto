@@ -2,7 +2,6 @@ syntax = "proto2";
 
 package scalapb;
 
-option csharp_namespace = "ScalaPb.Options";
 option go_package = "scalapb.github.io/cda/grpc/trades";
 option java_package = "scalapb.options";
 
