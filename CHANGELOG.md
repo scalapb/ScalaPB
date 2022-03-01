@@ -2,6 +2,7 @@
 
 ## [0.11.10] (Not released yet)
 - Fix missing import definitions in services. (#1331)
+- Add namespace for go to scalapb.proto (#1336)
 
 ## [0.11.9]
 - Downgrade to Scala 3.0.2 for compatibility reasons (#1326)
