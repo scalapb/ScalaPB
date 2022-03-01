@@ -2,6 +2,7 @@ package scalapb
 
 import java.time.Instant
 
+import com.google.protobuf.duration.Duration
 import com.google.protobuf.timestamp.Timestamp
 
 trait TimestampCompanionMethods {
@@ -27,6 +28,47 @@ trait TimestampCompanionMethods {
   final def checkValid(timestamp: Timestamp): Timestamp = {
     require(isValid(timestamp), s"Timestamp ${timestamp} is not valid.")
     timestamp
+  }
+
+  final def normalizedTimestamp(seconds: Long, nanos: Int): Timestamp = {
+    var s = seconds
+    var n = nanos
+    if (n <= -NANOS_PER_SECOND || n >= NANOS_PER_SECOND) {
+      s = Math.addExact(s, n / NANOS_PER_SECOND)
+      n = (n % NANOS_PER_SECOND).toInt
+    }
+    if (n < 0) {
+      s = Math.subtractExact(s, 1)
+      n = (n + NANOS_PER_SECOND).toInt // no overflow since negative nanos is added
+    }
+    checkValid(Timestamp(s, n))
+  }
+
+  final def between(from: Timestamp, to: Timestamp): Duration = {
+    checkValid(from)
+    checkValid(to)
+    Duration.normalizedDuration(
+      Math.subtractExact(to.seconds, from.seconds),
+      Math.subtractExact(to.nanos, from.nanos)
+    )
+  }
+
+  final def add(start: Timestamp, length: Duration): Timestamp = {
+    checkValid(start)
+    Duration.checkValid(length)
+    normalizedTimestamp(
+      Math.addExact(start.seconds, length.seconds),
+      Math.addExact(start.nanos, length.nanos)
+    )
+  }
+
+  final def subtract(start: Timestamp, length: Duration): Timestamp = {
+    checkValid(start)
+    Duration.checkValid(length)
+    normalizedTimestamp(
+      Math.subtractExact(start.seconds, length.seconds),
+      Math.subtractExact(start.nanos, length.nanos)
+    )
   }
 
   final val TIMESTAMP_SECONDS_MIN: Long = -62135596800L
