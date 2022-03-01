@@ -302,8 +302,8 @@ private[compiler] object FieldTransformations {
             else ""
 
           Left(s"Extension $fieldName is not an extension of ${message
-            .getDescriptorForType()
-            .getFullName()}, it is an extension of ${fd.getContainingType().getFullName()}.$dym")
+              .getDescriptorForType()
+              .getFullName()}, it is an extension of ${fd.getContainingType().getFullName()}.$dym")
         } else Right(())
       _ <-
         if (fd.isRepeated()) Left("Repeated fields are not supported")

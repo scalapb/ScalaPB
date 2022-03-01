@@ -188,7 +188,7 @@ object FileOptionsCache {
     output.getOptionsByFileMap().asScala.find(_._2.getScope() != OptionsScope.FILE).foreach { ev =>
       throw new GeneratorException(
         s"Preprocessor options must be file-scoped. Preprocessor '${name}' provided scope '${ev._2
-          .getScope()}' for file ${ev._1}."
+            .getScope()}' for file ${ev._1}."
       )
     }
     output

@@ -60,7 +60,7 @@ class ProtobufGenerator(
           .add("@SerialVersionUID(0L)")
           .seq(v.annotationList)
           .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends
-            .mkString(" with ")} {
+                   .mkString(" with ")} {
                   |  val index = ${v.getIndex}
                   |  val name = "${v.getName}"
                   |  override def ${v.isName}: _root_.scala.Boolean = true
@@ -72,8 +72,8 @@ class ProtobufGenerator(
       .add(
         s"""final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
            |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
-          .map(_.scalaName.asSymbol)
-          .mkString(", ")})
+            .map(_.scalaName.asSymbol)
+            .mkString(", ")})
            |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin
       )
       .print(e.valuesWithNoDuplicates) { case (p, v) =>
@@ -124,15 +124,17 @@ class ProtobufGenerator(
               |""".stripMargin)
       .indent
       .print(e.fields) { case (p, v) =>
-        p.add(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
-          " " + ProtobufGenerator.deprecatedAnnotation
-        } else ""}
-                 |final case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaType.fullName} {
-                 |  type ValueType = ${v.scalaTypeName}
-                 |  override def is${v.upperScalaName}: _root_.scala.Boolean = true
-                 |  override def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = Some(value)
-                 |  override def number: _root_.scala.Int = ${v.getNumber}
-                 |}""".stripMargin)
+        p.add(
+          s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
+              " " + ProtobufGenerator.deprecatedAnnotation
+            } else ""}
+             |final case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaType.fullName} {
+             |  type ValueType = ${v.scalaTypeName}
+             |  override def is${v.upperScalaName}: _root_.scala.Boolean = true
+             |  override def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = Some(value)
+             |  override def number: _root_.scala.Int = ${v.getNumber}
+             |}""".stripMargin
+        )
       }
       .outdent
       .add("}")
@@ -247,9 +249,9 @@ class ProtobufGenerator(
       else field.upperJavaName
     ExpressionBuilder.convertCollection(
       s"${container}.get${upperJavaName}Map.asScala.iterator.map(__pv => (${unitConversion(
-        "__pv._1",
-        field.mapType.keyField
-      )}, ${unitConversion("__pv._2", field.mapType.valueField)}))",
+          "__pv._1",
+          field.mapType.keyField
+        )}, ${unitConversion("__pv._2", field.mapType.valueField)}))",
       field.enclosingType
     )
   }
@@ -293,13 +295,13 @@ class ProtobufGenerator(
 
     s"""$javaObject
        |  .$putAll(${field.collection.iterator(
-      scalaObject + "." + field.scalaName.asSymbol,
-      EnclosingType.None
-    )}.map {
+        scalaObject + "." + field.scalaName.asSymbol,
+        EnclosingType.None
+      )}.map {
        |    __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert(
-      "__kv._2",
-      field.mapType.valueField
-    )})
+        "__kv._2",
+        field.mapType.valueField
+      )})
        |  }.toMap.asJava)""".stripMargin
   }
 
@@ -529,10 +531,12 @@ class ProtobufGenerator(
         }
       } else {
         val fieldName = field.scalaName
-        fp.add(s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
-                  |  val __localsize = ${fieldName}SerializedSize
-                  |  __size += $tagSize + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
-                  |}""".stripMargin)
+        fp.add(
+          s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
+             |  val __localsize = ${fieldName}SerializedSize
+             |  __size += $tagSize + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
+             |}""".stripMargin
+        )
       }
     } else throw new RuntimeException("Should not reach here.")
   }
@@ -937,10 +941,12 @@ class ProtobufGenerator(
             val optionLensName = "optional" + field.upperScalaName
             printer
               .add(
-                s"""def $fieldName: ${lensType(field.singleScalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
+                s"""def $fieldName: ${lensType(
+                    field.singleScalaTypeName
+                  )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
                    |def ${optionLensName}: ${lensType(
-                  field.scalaTypeName
-                )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
+                    field.scalaTypeName
+                  )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
               )
           } else
             printer.add(
@@ -951,7 +957,7 @@ class ProtobufGenerator(
           printer
             .add(
               s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
-                .fullNameWithMaybeRoot(message)}(f_)))"
+                  .fullNameWithMaybeRoot(message)}(f_)))"
             )
         }
       }
@@ -1237,7 +1243,7 @@ class ProtobufGenerator(
       ) ++ args
       fp.add(
         s"  $factoryMethod(${fd.getNumber}, _root_.scalapb.UnknownFieldSet.Field.$listLens)(${argList
-          .mkString(", ")})"
+            .mkString(", ")})"
       )
     }
   }
@@ -1352,7 +1358,7 @@ class ProtobufGenerator(
           .when(field.isInOneof) { p =>
             p.add(
               s"""def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.getContainingOneof.scalaName.nameSymbol} = ${field.oneOfTypeName
-                .fullNameWithMaybeRoot(message)}(__v))"""
+                  .fullNameWithMaybeRoot(message)}(__v))"""
             )
           }
           .when(field.isRepeated) { p =>
@@ -1375,10 +1381,10 @@ class ProtobufGenerator(
       .print(message.getRealOneofs.asScala) { case (printer, oneof) =>
         printer.add(
           s"""def clear${oneof.scalaType.name}: ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = ${oneof.empty
-            .fullNameWithMaybeRoot(message)})
+              .fullNameWithMaybeRoot(message)})
              |def with${oneof.scalaType.name}(__v: ${oneof.scalaType.fullNameWithMaybeRoot(
-            message
-          )}): ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = __v)""".stripMargin
+              message
+            )}): ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = __v)""".stripMargin
         )
       }
       .when(message.preservesUnknownFields)(

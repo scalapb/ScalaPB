@@ -27,5 +27,7 @@ object MyMap extends MapFactory[MyMap] {
 
   def newBuilder[K, V] = new Builder[K, V]
 
-  override def from[K, V](it: _root_.scala.collection.IterableOnce[(K, V)]): MyMap[K, V] = MyMap(Map.from(it))
+  override def from[K, V](it: _root_.scala.collection.IterableOnce[(K, V)]): MyMap[K, V] = MyMap(
+    Map.from(it)
+  )
 }
