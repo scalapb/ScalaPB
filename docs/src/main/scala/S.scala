@@ -8,7 +8,7 @@ package object S {
     else 0
 
   def example(name: String, marker: String) = {
-    val content   =
+    val content =
       Source
         .fromFile("examples/basic/src/main/scala/" + name)
         .getLines()

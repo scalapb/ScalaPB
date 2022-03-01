@@ -83,10 +83,8 @@ class TextFormatSpec
 
   def failParsingWith(error: String) = new FailParsingWith(error)
 
-  /**
-    * Helper to construct a ByteString from a String containing only 8-bit
-    * characters.  The characters are converted directly to bytes, *not*
-    * encoded using UTF-8.
+  /** Helper to construct a ByteString from a String containing only 8-bit characters. The
+    * characters are converted directly to bytes, *not* encoded using UTF-8.
     */
   def bytes(str: String): ByteString =
     ByteString.copyFrom(str.getBytes("ISO-8859-1"));
@@ -244,9 +242,9 @@ class TextFormatSpec
   }
 
   "testParseErrors" should "pass" in {
-    val EXPECTED_FIELD = "':', '{', '<', or '['"
+    val EXPECTED_FIELD      = "':', '{', '<', or '['"
     val EXPECTED_IDENTIFIER = "Expected identifier, got"
-    val UNCLOSED_STRING = "String missing ending quote"
+    val UNCLOSED_STRING     = "String missing ending quote"
     "optional_int32 123" must failParsingWith(EXPECTED_FIELD)
     "optional_nested_enum: ?" must failParsingWith(EXPECTED_FIELD)
     "optional_uint32: -1" must failParsingWith("Number must be positive: -1 (line 1, column 18)")
@@ -269,7 +267,9 @@ class TextFormatSpec
     )
     "optional_string: \"ueoauaoe\noptional_int32: 123" must failParsingWith(UNCLOSED_STRING)
     "[nosuchext]: 123" must failParsingWith("Expected identifier, got [")
-    "[protobuf_unittest.optional_int32_extension]: 123" must failParsingWith("Expected identifier, got [")
+    "[protobuf_unittest.optional_int32_extension]: 123" must failParsingWith(
+      "Expected identifier, got ["
+    )
     "nosuchfield: 123" must failParsingWith("Unknown field name 'nosuchfield' (line 1, column 1)")
     "optional_nested_enum: NO_SUCH_VALUE" must failParsingWith(
       "Expected Enum type \"NestedEnum\" has no value named \"NO_SUCH_VALUE\" (line 1, column 23)"
@@ -279,7 +279,9 @@ class TextFormatSpec
     )
 
     // Additional by ScalaPB:
-    "optional_string: \"hello\\\"" must failParsingWith("Invalid escape sequence '\\' at end of string.")
+    "optional_string: \"hello\\\"" must failParsingWith(
+      "Invalid escape sequence '\\' at end of string."
+    )
     "optional_string: \"hello\\xhello\"" must failParsingWith(
       "'\\x' with no digits (line 1, column 18)"
     )
@@ -309,21 +311,35 @@ class TextFormatSpec
       TextFormatUtils.escapeText("\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"")
     )
     bytes("\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"") must be(
-      TextFormatUtils.unescapeBytes("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").getOrElse(throw new RuntimeException())
+      TextFormatUtils
+        .unescapeBytes("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"")
+        .getOrElse(throw new RuntimeException())
     )
     "\u0000\u0001\u0007\b\f\n\r\t\u000b\\\'\"" must be(
-      TextFormatUtils.unescapeText("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"").getOrElse(throw new RuntimeException())
+      TextFormatUtils
+        .unescapeText("\\000\\001\\a\\b\\f\\n\\r\\t\\v\\\\\\'\\\"")
+        .getOrElse(throw new RuntimeException())
     )
     kEscapeTestStringEscaped must be(TextFormatUtils.escapeText(kEscapeTestString))
-    kEscapeTestString must be(TextFormatUtils.unescapeText(kEscapeTestStringEscaped).getOrElse(throw new RuntimeException()))
+    kEscapeTestString must be(
+      TextFormatUtils.unescapeText(kEscapeTestStringEscaped).getOrElse(throw new RuntimeException())
+    )
 
     // Unicode handling.
     "\\341\\210\\264" must be(TextFormatUtils.escapeText("\u1234"))
     "\\341\\210\\264" must be(TextFormatUtils.escapeBytes(bytes(0xe1, 0x88, 0xb4)))
-    "\u1234" must be(TextFormatUtils.unescapeText("\\341\\210\\264").getOrElse(throw new RuntimeException()))
-    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\341\\210\\264").getOrElse(throw new RuntimeException()))
-    "\u1234" must be(TextFormatUtils.unescapeText("\\xe1\\x88\\xb4").getOrElse(throw new RuntimeException()))
-    bytes(0xe1, 0x88, 0xb4) must be(TextFormatUtils.unescapeBytes("\\xe1\\x88\\xb4").getOrElse(throw new RuntimeException()))
+    "\u1234" must be(
+      TextFormatUtils.unescapeText("\\341\\210\\264").getOrElse(throw new RuntimeException())
+    )
+    bytes(0xe1, 0x88, 0xb4) must be(
+      TextFormatUtils.unescapeBytes("\\341\\210\\264").getOrElse(throw new RuntimeException())
+    )
+    "\u1234" must be(
+      TextFormatUtils.unescapeText("\\xe1\\x88\\xb4").getOrElse(throw new RuntimeException())
+    )
+    bytes(0xe1, 0x88, 0xb4) must be(
+      TextFormatUtils.unescapeBytes("\\xe1\\x88\\xb4").getOrElse(throw new RuntimeException())
+    )
 
     // Handling of strings with unescaped Unicode characters > 255.
     val zh           = "\u9999\u6e2f\u4e0a\u6d77\ud84f\udf80\u8c50\u9280\u884c"
@@ -332,7 +348,9 @@ class TextFormatSpec
 
     TextFormatUtils.unescapeText("\\x").swap.getOrElse(???).msg must be("'\\x' with no digits")
 
-    TextFormatUtils.unescapeText("\\z").swap.getOrElse(???).msg must be("Invalid escape sequence: z")
+    TextFormatUtils.unescapeText("\\z").swap.getOrElse(???).msg must be(
+      "Invalid escape sequence: z"
+    )
 
     TextFormatUtils.unescapeText("\\").swap.getOrElse(???).msg must be(
       "Invalid escape sequence '\\' at end of string."
@@ -340,7 +358,7 @@ class TextFormatSpec
   }
 
   def check[T](input: String, f: Parser => String => Option[T]): Option[T] = {
-    val p = new Parser(input)
+    val p     = new Parser(input)
     val token = p.it.next()
     f(p)(token)
   }
@@ -411,7 +429,7 @@ class TextFormatSpec
     0x1234abcd must be(parseInt32("0x1234abcd"))
     -0x1234abcd must be(parseInt32("-0x1234abcd"))
     -1 must be(parseUInt64("0xffffffffffffffff"))
-    0x7FFFFFFFFFFFFFFFL must be(parseInt64("0x7fffffffffffffff"))
+    0x7fffffffffffffffL must be(parseInt64("0x7fffffffffffffff"))
 
     // Octal
     342391 must be(parseInt32("01234567"))
@@ -527,8 +545,8 @@ class TextFormatSpec
     printFieldValue(descriptors.PInt(123), "repeated_int32") must be("123")
     printFieldValue(descriptors.PLong(123L), "repeated_int64") must be("123")
     printFieldValue(descriptors.PBoolean(true), "repeated_bool") must be("true")
-    printFieldValue(descriptors.PInt(0xFFFFFFFF), "repeated_uint32") must be("4294967295")
-    printFieldValue(descriptors.PLong(0xFFFFFFFFFFFFFFFFL), "repeated_uint64") must be(
+    printFieldValue(descriptors.PInt(0xffffffff), "repeated_uint32") must be("4294967295")
+    printFieldValue(descriptors.PLong(0xffffffffffffffffL), "repeated_uint64") must be(
       "18446744073709551615"
     )
     printFieldValue(
@@ -541,13 +559,13 @@ class TextFormatSpec
     "optional_string: \"abc\u3042efg\"\n" +
       "optional_bytes: \"\\343\\201\\202\"\n" +
       "repeated_string: \"\u3093XYZ\"\n" must be(
-      TextFormat.printToUnicodeString(
-        TestAllTypes()
-          .withOptionalString("abc\u3042efg")
-          .withOptionalBytes(bytes(0xe3, 0x81, 0x82))
-          .addRepeatedString("\u3093XYZ")
+        TextFormat.printToUnicodeString(
+          TestAllTypes()
+            .withOptionalString("abc\u3042efg")
+            .withOptionalBytes(bytes(0xe3, 0x81, 0x82))
+            .addRepeatedString("\u3093XYZ")
+        )
       )
-    )
 
     // Double quotes and backslashes should be escaped
     "optional_string: \"a\\\\bc\\\"ef\\\"g\"\n" must be(
@@ -605,9 +623,11 @@ class TextFormatSpec
     )
 
     // Test escaping roundtrip
-    val m = TestAllTypes(optionalString = Some(
-      "\ntest\nnewlines\n\nin\nstring\n"
-    ))
+    val m = TestAllTypes(optionalString =
+      Some(
+        "\ntest\nnewlines\n\nin\nstring\n"
+      )
+    )
     TestAllTypes.fromAscii(m.toProtoString) must be(m)
   }
 
@@ -641,21 +661,24 @@ class TextFormatSpec
 
   val TrailingComma = "Expected value, found ']' (trailing commas not allowed)"
   "testParseShortRepeatedFormWithTrailingComma" should "fail" in {
-    "repeated_foreign_enum: [FOREIGN_FOO, ]\n" must failParsingWith(TrailingComma + " (line 1, column 38)")
+    "repeated_foreign_enum: [FOREIGN_FOO, ]\n" must failParsingWith(
+      TrailingComma + " (line 1, column 38)"
+    )
     "repeated_int32: [ 1, ]\n" must failParsingWith(TrailingComma + " (line 1, column 22)")
-    "repeated_nested_message [{ bb: 1 }, ]\n" must failParsingWith(TrailingComma + " (line 1, column 37)")
+    "repeated_nested_message [{ bb: 1 }, ]\n" must failParsingWith(
+      TrailingComma + " (line 1, column 37)"
+    )
     // See also testMapShortFormTrailingComma.
   }
-
 
   // =======================================================================
   // test oneof
   "testOneofTextFormat" should "pass" in {
     val p = TestOneof2().update(
       _.fooLazyMessage.quxInt := 100,
-      _.barString := "101",
-      _.bazInt := 102,
-      _.bazString := "103"
+      _.barString             := "101",
+      _.bazInt                := 102,
+      _.bazString             := "103"
     )
     TestOneof2.fromAscii(p.toProtoString) must be(p)
   }
@@ -682,25 +705,28 @@ class TextFormatSpec
 
   "testMapShortForm" should "pass" in {
     val text =
-        "string_to_int32 [{ key: 'x' value: 10 }, { key: 'y' value: 20 }]\n" +
-            "int32_to_message_field " +
-            "[{ key: 1 value { value: 100 } }, { key: 2 value: { value: 200 } }]\n"
+      "string_to_int32 [{ key: 'x' value: 10 }, { key: 'y' value: 20 }]\n" +
+        "int32_to_message_field " +
+        "[{ key: 1 value { value: 100 } }, { key: 2 value: { value: 200 } }]\n"
 
-    MapsTest.fromAscii(text) must be(MapsTest(
-      stringToInt32 = Map(
-        "x" -> 10, "y" -> 20
-      ),
-      int32ToMessageField = Map(
-        1 -> MessageValue(100),
-        2 -> MessageValue(200),
+    MapsTest.fromAscii(text) must be(
+      MapsTest(
+        stringToInt32 = Map(
+          "x" -> 10,
+          "y" -> 20
+        ),
+        int32ToMessageField = Map(
+          1 -> MessageValue(100),
+          2 -> MessageValue(200)
+        )
       )
-    ))
+    )
   }
 
   "testMapShortFormEmpty" should "pass" in {
     val text =
-        "string_to_int32 []\n" +
-            "int32_to_message_field: []\n "
+      "string_to_int32 []\n" +
+        "int32_to_message_field: []\n "
 
     MapsTest.fromAscii(text) must be(MapsTest())
   }
@@ -711,126 +737,126 @@ class TextFormatSpec
     text must failParsingWith(TrailingComma + " (line 1, column 42)")
   }
 
-  val AllFieldsSetText=
-  """|optional_int32: 101
-     |optional_int64: 102
-     |optional_uint32: 103
-     |optional_uint64: 104
-     |optional_sint32: 105
-     |optional_sint64: 106
-     |optional_fixed32: 107
-     |optional_fixed64: 108
-     |optional_sfixed32: 109
-     |optional_sfixed64: 110
-     |optional_float: 111
-     |optional_double: 112
-     |optional_bool: true
-     |optional_string: "115"
-     |optional_bytes: "116"
-     |optional_nested_message {
-     |  bb: 118
-     |}
-     |optional_foreign_message {
-     |  c: 119
-     |}
-     |optional_import_message {
-     |  d: 120
-     |}
-     |optional_nested_enum: BAZ
-     |optional_foreign_enum: FOREIGN_BAZ
-     |optional_import_enum: IMPORT_BAZ
-     |optional_string_piece: "124"
-     |optional_cord: "125"
-     |optional_public_import_message {
-     |  e: 126
-     |}
-     |optional_lazy_message {
-     |  bb: 127
-     |}
-     |repeated_int32: 201
-     |repeated_int32: 301
-     |repeated_int64: 202
-     |repeated_int64: 302
-     |repeated_uint32: 203
-     |repeated_uint32: 303
-     |repeated_uint64: 204
-     |repeated_uint64: 304
-     |repeated_sint32: 205
-     |repeated_sint32: 305
-     |repeated_sint64: 206
-     |repeated_sint64: 306
-     |repeated_fixed32: 207
-     |repeated_fixed32: 307
-     |repeated_fixed64: 208
-     |repeated_fixed64: 308
-     |repeated_sfixed32: 209
-     |repeated_sfixed32: 309
-     |repeated_sfixed64: 210
-     |repeated_sfixed64: 310
-     |repeated_float: 211
-     |repeated_float: 311
-     |repeated_double: 212
-     |repeated_double: 312
-     |repeated_bool: true
-     |repeated_bool: false
-     |repeated_string: "215"
-     |repeated_string: "315"
-     |repeated_bytes: "216"
-     |repeated_bytes: "316"
-     |repeated_nested_message {
-     |  bb: 218
-     |}
-     |repeated_nested_message {
-     |  bb: 318
-     |}
-     |repeated_foreign_message {
-     |  c: 219
-     |}
-     |repeated_foreign_message {
-     |  c: 319
-     |}
-     |repeated_import_message {
-     |  d: 220
-     |}
-     |repeated_import_message {
-     |  d: 320
-     |}
-     |repeated_nested_enum: BAR
-     |repeated_nested_enum: BAZ
-     |repeated_foreign_enum: FOREIGN_BAR
-     |repeated_foreign_enum: FOREIGN_BAZ
-     |repeated_import_enum: IMPORT_BAR
-     |repeated_import_enum: IMPORT_BAZ
-     |repeated_string_piece: "224"
-     |repeated_string_piece: "324"
-     |repeated_cord: "225"
-     |repeated_cord: "325"
-     |repeated_lazy_message {
-     |  bb: 227
-     |}
-     |repeated_lazy_message {
-     |  bb: 327
-     |}
-     |default_int32: 401
-     |default_int64: 402
-     |default_uint32: 403
-     |default_uint64: 404
-     |default_sint32: 405
-     |default_sint64: 406
-     |default_fixed32: 407
-     |default_fixed64: 408
-     |default_sfixed32: 409
-     |default_sfixed64: 410
-     |default_float: 411
-     |default_double: 412
-     |default_bool: false
-     |default_string: "415"
-     |default_bytes: "416"
-     |default_nested_enum: FOO
-     |default_foreign_enum: FOREIGN_FOO
-     |default_import_enum: IMPORT_FOO
-     |default_string_piece: "424"
-     |default_cord: "425"
-     |oneof_bytes: "604"
-     |""".stripMargin
+  val AllFieldsSetText =
+    """|optional_int32: 101
+       |optional_int64: 102
+       |optional_uint32: 103
+       |optional_uint64: 104
+       |optional_sint32: 105
+       |optional_sint64: 106
+       |optional_fixed32: 107
+       |optional_fixed64: 108
+       |optional_sfixed32: 109
+       |optional_sfixed64: 110
+       |optional_float: 111
+       |optional_double: 112
+       |optional_bool: true
+       |optional_string: "115"
+       |optional_bytes: "116"
+       |optional_nested_message {
+       |  bb: 118
+       |}
+       |optional_foreign_message {
+       |  c: 119
+       |}
+       |optional_import_message {
+       |  d: 120
+       |}
+       |optional_nested_enum: BAZ
+       |optional_foreign_enum: FOREIGN_BAZ
+       |optional_import_enum: IMPORT_BAZ
+       |optional_string_piece: "124"
+       |optional_cord: "125"
+       |optional_public_import_message {
+       |  e: 126
+       |}
+       |optional_lazy_message {
+       |  bb: 127
+       |}
+       |repeated_int32: 201
+       |repeated_int32: 301
+       |repeated_int64: 202
+       |repeated_int64: 302
+       |repeated_uint32: 203
+       |repeated_uint32: 303
+       |repeated_uint64: 204
+       |repeated_uint64: 304
+       |repeated_sint32: 205
+       |repeated_sint32: 305
+       |repeated_sint64: 206
+       |repeated_sint64: 306
+       |repeated_fixed32: 207
+       |repeated_fixed32: 307
+       |repeated_fixed64: 208
+       |repeated_fixed64: 308
+       |repeated_sfixed32: 209
+       |repeated_sfixed32: 309
+       |repeated_sfixed64: 210
+       |repeated_sfixed64: 310
+       |repeated_float: 211
+       |repeated_float: 311
+       |repeated_double: 212
+       |repeated_double: 312
+       |repeated_bool: true
+       |repeated_bool: false
+       |repeated_string: "215"
+       |repeated_string: "315"
+       |repeated_bytes: "216"
+       |repeated_bytes: "316"
+       |repeated_nested_message {
+       |  bb: 218
+       |}
+       |repeated_nested_message {
+       |  bb: 318
+       |}
+       |repeated_foreign_message {
+       |  c: 219
+       |}
+       |repeated_foreign_message {
+       |  c: 319
+       |}
+       |repeated_import_message {
+       |  d: 220
+       |}
+       |repeated_import_message {
+       |  d: 320
+       |}
+       |repeated_nested_enum: BAR
+       |repeated_nested_enum: BAZ
+       |repeated_foreign_enum: FOREIGN_BAR
+       |repeated_foreign_enum: FOREIGN_BAZ
+       |repeated_import_enum: IMPORT_BAR
+       |repeated_import_enum: IMPORT_BAZ
+       |repeated_string_piece: "224"
+       |repeated_string_piece: "324"
+       |repeated_cord: "225"
+       |repeated_cord: "325"
+       |repeated_lazy_message {
+       |  bb: 227
+       |}
+       |repeated_lazy_message {
+       |  bb: 327
+       |}
+       |default_int32: 401
+       |default_int64: 402
+       |default_uint32: 403
+       |default_uint64: 404
+       |default_sint32: 405
+       |default_sint64: 406
+       |default_fixed32: 407
+       |default_fixed64: 408
+       |default_sfixed32: 409
+       |default_sfixed64: 410
+       |default_float: 411
+       |default_double: 412
+       |default_bool: false
+       |default_string: "415"
+       |default_bytes: "416"
+       |default_nested_enum: FOO
+       |default_foreign_enum: FOREIGN_FOO
+       |default_import_enum: IMPORT_FOO
+       |default_string_piece: "424"
+       |default_cord: "425"
+       |oneof_bytes: "604"
+       |""".stripMargin
 }

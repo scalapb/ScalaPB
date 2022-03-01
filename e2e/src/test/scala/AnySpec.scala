@@ -12,7 +12,7 @@ class AnySpec extends AnyFlatSpec with Matchers {
     val t = AnyTestMessage()
       .update(
         _.myAny.typeUrl := "https://example.com",
-        _.myAny.value := com.google.protobuf.ByteString.copyFromUtf8("foo")
+        _.myAny.value   := com.google.protobuf.ByteString.copyFromUtf8("foo")
       )
     t.myAny.get.is[com.google.protobuf.any.Any] must be(false)
   }

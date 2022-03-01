@@ -45,7 +45,7 @@ private[scalapb] object AstUtils {
           AstError(
             index,
             s"Number out of range for ${if (isLong) 64 else 32}-bit ${if (isSigned) "signed"
-            else "unsigned"} integer: $v"
+              else "unsigned"} integer: $v"
           )
         )
       else Right(v)
