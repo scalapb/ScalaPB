@@ -27,7 +27,7 @@ object Dependencies {
 
   val Scala212 = "2.12.15"
 
-  val Scala213 = "2.13.7"
+  val Scala213 = "2.13.8"
 
   // NOTE: Scala 3 versions are not forward-compatible across minor versions. To allow
   // maximal compatibility for end-users Scala 3 version needs to be kept on 3.0.x.
