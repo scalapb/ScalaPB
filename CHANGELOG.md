@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.11.10] (Not released yet)
+## [0.11.10]
 - Fix missing import definitions in services. (#1331)
 - Add namespace for go to scalapb.proto (#1336)
 
