@@ -286,7 +286,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .newline
       .add(s"object ${service.name}StubFactory extends $stubFactory[${service.stub}] { ")
       .indent
-      .add(s"override def newStub(channel: $channel, options: $callOptions) = new ${service.stub}(channel, options)")
+      .add(
+        s"override def newStub(channel: $channel, options: $callOptions) = new ${service.stub}(channel, options)"
+      )
       .outdent
       .add("}")
       .newline
