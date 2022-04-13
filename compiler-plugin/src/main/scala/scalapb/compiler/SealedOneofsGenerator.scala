@@ -45,7 +45,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           .add(s"object $sealedOneofName {")
           .indented(
             _.add(s"case object Empty extends $sealedOneofType", "")
-              .add(s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofType")
+              .add(s"sealed trait $sealedOneofNonEmptyName extends Any with $sealedOneofType")
               .add(
                 s"def defaultInstance: ${sealedOneofType} = Empty",
                 "",
