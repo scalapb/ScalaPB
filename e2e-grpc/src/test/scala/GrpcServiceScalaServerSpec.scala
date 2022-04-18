@@ -1,5 +1,8 @@
+import io.grpc.CallOptions
+import io.grpc.stub.AbstractStub.StubFactory
 import io.grpc.reflection.v1alpha.reflection._
 import io.grpc.reflection.v1alpha.reflection.ServerReflectionRequest.MessageRequest
+
 import scala.concurrent.Await
 import scala.concurrent.duration._
 import scala.util.Random
@@ -206,6 +209,14 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
           requestObserver.onCompleted()
           Await.result(future, 2.seconds) must be(Vector(Res1(17), Res2(3), Res1(17), Res2(3)))
         }
+      }
+
+      it("companion object acts as stub factory") {
+        withScalaServer { channel =>
+          Service1GrpcScala.Service1Stub.newStub(channel, CallOptions.DEFAULT) mustBe a[Service1GrpcScala.Service1Stub]
+          implicitly[StubFactory[Service1GrpcScala.Service1Stub]].newStub(channel, CallOptions.DEFAULT) mustBe a[Service1GrpcScala.Service1Stub]
+        }
+
       }
 
     }
