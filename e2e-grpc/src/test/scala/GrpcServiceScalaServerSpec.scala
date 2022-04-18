@@ -213,8 +213,8 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
 
       it("companion object acts as stub factory") {
         withScalaServer { channel =>
-          Service1GrpcScala.Service1.newStub(channel, CallOptions.DEFAULT) mustBe a[Service1GrpcScala.Service1]
-          implicitly[StubFactory[Service1GrpcScala.Service1]].newStub(channel, CallOptions.DEFAULT) mustBe a[Service1GrpcScala.Service1]
+          Service1GrpcScala.Service1Stub.newStub(channel, CallOptions.DEFAULT) mustBe a[Service1GrpcScala.Service1]
+          implicitly[StubFactory[Service1GrpcScala.Service1Stub]].newStub(channel, CallOptions.DEFAULT) mustBe a[Service1GrpcScala.Service1]
         }
 
       }
