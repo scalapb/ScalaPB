@@ -1,4 +1,5 @@
 import io.grpc.CallOptions
+import io.grpc.stub.AbstractStub.StubFactory
 import io.grpc.reflection.v1alpha.reflection._
 import io.grpc.reflection.v1alpha.reflection.ServerReflectionRequest.MessageRequest
 
