@@ -130,6 +130,25 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .add("}")
   }
 
+  private def stubCompanion(
+      className: String
+  ): PrinterEndo = { p =>
+    val newStub =
+      s"override def newStub(channel: $channel, options: $callOptions): $className = new $className(channel, options)"
+
+    val implicitStub =
+      s"implicit val stubFactory: $stubFactory[$className] = this"
+
+    p.add(
+      s"object $className extends $stubFactory[$className] {"
+    ).indent
+      .add(newStub)
+      .newline
+      .add(implicitStub)
+      .outdent
+      .add("}")
+  }
+
   private[this] val blockingStub: PrinterEndo = {
     val methods = service.methods.filter(_.canBeBlocking).map(clientMethodImpl(_, true))
     stubImplementation(service.blockingStub, service.blockingClient, methods)
@@ -274,6 +293,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .newline
       .call(stub)
       .newline
+      .call(stubCompanion(service.stub))
+      .newline
       .add(
         s"""def bindService(serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef = ${service.name}.bindService(serviceImpl, executionContext)"""
       )
@@ -283,14 +304,6 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       )
       .newline
       .add(s"def stub(channel: $channel): ${service.stub} = new ${service.stub}(channel)")
-      .newline
-      .add(s"object ${service.name}StubFactory extends $stubFactory[${service.stub}] { ")
-      .indent
-      .add(
-        s"override def newStub(channel: $channel, options: $callOptions) = new ${service.stub}(channel, options)"
-      )
-      .outdent
-      .add("}")
       .newline
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.javaDescriptorSource}"
