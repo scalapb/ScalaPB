@@ -117,9 +117,9 @@ option (when `scope: PACKAGE` option is set).
 A field transformation matches on the `when` condition which a [FieldDescriptorProto](https://github.com/protocolbuffers/protobuf/blob/48234f5f012582843bb476ee3afef36cda94cb66/src/google/protobuf/descriptor.proto#L138-L239). This allows it to match on the field's type, or label (`LABEL_REPEATED`, `LABEL_OPTIONAL`, `LABEL_REQUIRED`), as well as on custom options like in the previous example. There are few matching modes that are described below and can be selected using `match_type`. The `set` field tells ScalaPB what options to apply to the field if the rule conditions match. Currently, only `[scalapb.field]` options  may appear in the `set` field.
 
 There are three matching modes available:
-* `CONTAINS` is the default matching mode. In this mode, ScalaPB checks that all the options in the `when` pattern are defined on the field descriptor and having the same value. Additional fields may be defined on the field besides the ones on the `when` pattern.
+* `CONTAINS` is the default matching mode. In this mode, ScalaPB checks that all the options in the `when` pattern are defined on the field descriptor and having the same value (even if the field is repeated). Additional fields may be defined on the field besides the ones on the `when` pattern.
 * `EXACT` is a strict equality comparison between the `when` pattern and the field descriptor.
-* `PRESENCE` checks whether every field that is present on the `when` pattern is also present on the field's rules. The specific value the option has is not compared. This allows matching on any value. For example, `{int32: {gt: 1}}` would match for any number assigned to `int32.gt`.
+* `PRESENCE` checks whether every field that is present on the `when` pattern is also present on the field's rules. The specific value the option has is not compared. This allows matching on any value. For example, `{int32: {gt: 1}}` would match for any number assigned to `int32.gt`. For repeated fields, `PRESENCE` verifies that the value is not empty. 
 
 ### Referencing rules values
 
