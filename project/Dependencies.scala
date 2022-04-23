@@ -11,7 +11,7 @@ object Dependencies {
     val collectionCompat     = "2.7.0"
     val coursier             = "2.0.16"
     val protocGen            = "0.9.5"
-    val protobufRuntimeScala = "0.8.12"
+    val protobufRuntimeScala = "0.8.13-SNAPSHOT"
     val commonsCodec         = "1.15"
 
     // For testing
@@ -29,9 +29,7 @@ object Dependencies {
 
   val Scala213 = "2.13.8"
 
-  // NOTE: Scala 3 versions are not forward-compatible across minor versions. To allow
-  // maximal compatibility for end-users Scala 3 version needs to be kept on 3.0.x.
-  val Scala3 = "3.0.2"
+  val Scala3 = "3.1.2"
 
   val silencer = Seq(
     sbt.compilerPlugin(
