@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.11.11]
+- Add StubFactory for grpc clients (#1351)
+- Support transformation on repeated option scalar (#1355)
+
 ## [0.11.10]
 - Fix missing import definitions in services. (#1331)
 - Add namespace for go to scalapb.proto (#1336)
