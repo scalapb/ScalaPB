@@ -86,8 +86,8 @@ object BuildHelper {
   val setScalaOutputVersion = {
     scalaOutputVersion := {
       CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((3, _)) => "3.1.2"
-          case _ => scalaVersion.value
+        case Some((3, _)) => "3.1.2"
+        case _            => scalaVersion.value
       }
     }
   }

@@ -275,7 +275,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
     settings = scalajsSourceMaps ++ Seq(
       scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
       setScalaOutputVersion
-    ),
+    )
   )
   .nativePlatform(
     scalaVersions = Seq(Scala212, Scala213, Scala3),
