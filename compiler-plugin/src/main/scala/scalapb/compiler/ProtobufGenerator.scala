@@ -1426,7 +1426,15 @@ class ProtobufGenerator(
       .call(generateMessageCompanion(message))
   }
 
-  def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter = {
+  @deprecated("Use overloaded method that takes includePreamble=true", "0.11.11")
+  def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter =
+    scalaFileHeader(file, javaConverterImport, true)
+
+  def scalaFileHeader(
+      file: FileDescriptor,
+      javaConverterImport: Boolean,
+      includePreamble: Boolean
+  ): FunctionalPrinter = {
     if (file.scalaOptions.getPreambleList.asScala.nonEmpty && !file.scalaOptions.getSingleFile) {
       throw new GeneratorException(
         s"${file.getName}: single_file must be true when a preamble is provided."
@@ -1448,8 +1456,10 @@ class ProtobufGenerator(
         printer.add(s"import $i")
       }
       .newline
-      .seq(file.scalaOptions.getPreambleList.asScala.toSeq)
-      .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
+      .when(includePreamble)(
+        _.seq(file.scalaOptions.getPreambleList.asScala.toSeq)
+          .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
+      )
   }
 
   def updateDescriptor(tmp: FileDescriptor): DescriptorProtos.FileDescriptorProto = {
@@ -1566,7 +1576,10 @@ class ProtobufGenerator(
         val p = new GrpcServicePrinter(service, implicits)
         val code = scalaFileHeader(
           file,
-          file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields)
+          file.javaConversions && file.getMessageTypes.asScala.exists(
+            messageContainsRepeatedFields
+          ),
+          includePreamble = false
         ).call(p.printService).result()
         val b = CodeGeneratorResponse.File.newBuilder()
         b.setName(file.scalaDirectory + "/" + service.companionObject.name + ".scala")
@@ -1610,7 +1623,8 @@ class ProtobufGenerator(
     val code =
       scalaFileHeader(
         file,
-        file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields)
+        file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields),
+        includePreamble = true
       ).print(file.getEnumTypes.asScala)(printEnum)
         .print(file.getMessageTypes.asScala)(printMessage)
         .call(generateFileObject(file))
@@ -1632,7 +1646,7 @@ class ProtobufGenerator(
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaDirectory + "/" + enumDesc.getName + ".scala")
       b.setContent(
-        scalaFileHeader(file, false)
+        scalaFileHeader(file, false, false)
           .call(printEnum(_, enumDesc))
           .result()
       )
@@ -1650,7 +1664,8 @@ class ProtobufGenerator(
           file,
           javaConverterImport = file.javaConversions && (messageContainsRepeatedFields(
             message
-          ) || cases.exists(messageContainsRepeatedFields(_)))
+          ) || cases.exists(messageContainsRepeatedFields(_))),
+          true
         ).call(printMessage(_, message))
           .print(cases)(printMessage)
           .result()
@@ -1662,7 +1677,7 @@ class ProtobufGenerator(
       val b = CodeGeneratorResponse.File.newBuilder()
       b.setName(file.scalaFileName)
       b.setContent(
-        scalaFileHeader(file, false)
+        scalaFileHeader(file, false, true)
           .call(generateFileObject(file))
           .result()
       )
