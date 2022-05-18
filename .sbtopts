@@ -1,7 +1,0 @@
--J-Xss8m
--J-Xms4g
--J-Xmx20g
--J-XX:MaxMetaspaceSize=2G
--J-XX:ReservedCodeCacheSize=500M
--J-XX:+TieredCompilation
--J-XX:+UseG1GC
