@@ -393,6 +393,23 @@ message MyEither {
 }
 ```
 
+## Custom base traits for sealed oneofs companion objects
+
+Note: this option is available in ScalaPB 0.11.11 and later.
+
+Use the following option to define one or more base traits for a generated SealedOneof companion object:
+
+```protobuf
+message MyEither {
+  option (scalapb.message).sealed_oneof_companion_extends = "MyBaseTrait";
+
+  oneof sealed_value {
+    Left left = 1;
+    Right right = 2;
+  }
+}
+```
+
 ## Custom base traits for enums
 
 In a similar fashion to custom base traits for messages, it is possible to

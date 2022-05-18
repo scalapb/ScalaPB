@@ -31,6 +31,10 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           if (message.sealedOneofBaseClasses.nonEmpty)
             s"extends ${message.sealedOneofBaseClasses.mkString(" with ")} "
           else ""
+        val companionBases =
+          if (message.sealedOneofCompanionExtendsOption.nonEmpty)
+            s"extends ${message.sealedOneofCompanionExtendsOption.mkString(" with ")} "
+          else ""
 
         fp.add(
           s"sealed trait $sealedOneofName $bases{"
@@ -42,7 +46,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           s"final def asNonEmpty: Option[$sealedOneofNonEmptyType] = if (isEmpty) None else Some(this.asInstanceOf[$sealedOneofNonEmptyType])"
         ).add("}")
           .add("")
-          .add(s"object $sealedOneofName {")
+          .add(s"object $sealedOneofName $companionBases{")
           .indented(
             _.add(s"case object Empty extends $sealedOneofType", "")
               .add(s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofType")
