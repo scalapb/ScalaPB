@@ -3,7 +3,24 @@ title: "Customizations"
 layout: docs
 ---
 
-# ScalaPB File-level Options
+## Getting started with scalapb.proto
+
+ScalaPB's code generator provides supports many different customizations. To
+get access to these customizations, you need to import `scalapb/scala.proto`
+in the proto files you want to customize. You can also have the options apply
+to an entire proto3 package by using package-scoped options (see below).
+
+To have `scalapb/scalapb.proto` available to be imported in your project, add
+the following SBT setting in your `build.sbt`:
+
+    libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
+
+If you are invoking `protoc` manually, you will need to ensure that the files in
+[`protobuf`](https://github.com/scalapb/ScalaPB/tree/master/protobuf)
+directory are available to your project.
+
+
+## ScalaPB File-level Options
 
 ScalaPB file-level options lets you
 
@@ -16,7 +33,7 @@ The file-level options are not required, unless you are interested in those
 customizations. If you do not want to customize the defaults, you can safely
 skip this section.
 
-# File-level options
+## File-level options
 
 ```protobuf
 import "scalapb/scalapb.proto";
@@ -26,11 +43,13 @@ option (scalapb.options) = {
   package_name: "com.example.myprotos"
   flat_package: true
   single_file: true
+  java_conversions: false
   import: "com.thesamet.pb.MyType"
   import: "com.thesamet.other._"
   preamble: "sealed trait BaseMessage"
   preamble: "sealed trait CommonMessage"
   lenses: true
+  getters: true
   retain_source_code_info: false
   no_default_values_in_constructor: false
   preserve_unknown_fields: false
@@ -45,14 +64,21 @@ option (scalapb.options) = {
   for more details.
 
 - `package_name` sets the Scala base package name, if this is not defined,
-then it falls back to `java_package` and then to `package`.
+then it falls back to the `java_package` option. If the `java_package` option
+is also not the found, then the package name from file's `package` statement
+is used.
 
 - Setting `flat_package` to true (default is `false`) makes ScalaPB not append
 the protofile base name to the package name.  You can also apply this option
-globally to all files by adding it to your [ScalaPB SBT Settings]({{site.baseurl}}/sbt-settings.html).
+globally to all files by adding it to your [ScalaPB SBT Settings](sbt-settings.md).
 
 - The `single_file` option makes the generator output all messages and
 enums to a single Scala file.
+
+- The `java_conversions` options tells ScalaPB to generate converters to the
+  corresponding Java messages in this file. It does not automatically trigger
+  Java source code generation for the messages. If you need to generate source code
+  in Java, include `PB.gens.java` in the list of targets in sbt-protoc.
 
 - The `preamble` is a list of strings that is output at the top of the
   generated Scala file. This option requires `single_file` to be set. It is
@@ -66,6 +92,7 @@ enums to a single Scala file.
   with other things in your project.
 
 - Setting `lenses` to `false` inhibits generation of lenses (default is `true`).
+- Setting `getters` to `false` inhibits generation of getters (default is `true`).
 
 - Setting `retain_source_code_info` to `true` retains information in the descriptor that
   can be used to retrieve source code information from the descriptor at
@@ -76,7 +103,11 @@ enums to a single Scala file.
 
 - By default, all non-required fields have default values in the constructor of the generated
   case classes. When setting `no_default_values_in_constructor` to `true` no
-  default values will be generated for all fields.
+  default values will be generated for all fields. There is also a
+  message-level `no_default_values_in_constructor` and field-level
+  `no_default_value_in_constructor`. If the field-level setting is set, it
+  overrides the message-level. If the message-level setting is set, it overrides
+  the file-level setting.
 
 - Typically, enum values appear in UPPER_CASE in proto files, and ScalaPB generates case objects
   with exactly the same name in Scala. If you would like ScalaPB to transform the names into CamelCase, set `enum_value_naming` to `CAMEL_CASE`.
@@ -100,9 +131,9 @@ enums to a single Scala file.
   found if it is defined under `YourType` companion object, or on a package
   object that matches the generated code (or any of its parent packages).
 
-# Package-scoped options
+## Package-scoped options
 
-Note: this option is experimental and is available in ScalaPB 0.8.2 and later.
+Note: this option is available in ScalaPB 0.8.2 and later.
 
 Sometimes you want to have the same file-level options applied to all
 the proto files in your project.  To accomplish that, add a `package.proto`
@@ -148,13 +179,64 @@ The following rules are applied when validating package-scoped options:
   classes that are shipped with ScalaPB already assume certain options, so
   overriding options globally may lead to compilation errors.
 
-NOTE: If you are shipping a library that includes both protos and Scala generated code, and
-downstream users are expected to import the protos you ship, then you need to import the package
-options proto explicitly from all the proto files that are meant to inherit the options.  The
-reason is that if you don't do that, then downstream projects would not
-process the proto package file which may lead to compilation errors.
+### Publishing package-scoped options
 
-# Auxiliary options
+If you are publishing a library that includes protos with package-scoped
+options, you need to make sure your library users source the package-scoped
+option proto file so the customizations are applied when they generate code.
+
+Your users can simply import your package-scoped options from any proto file
+in their project to have the settings applied (a single import of
+the package-scoped options file would apply it globally for the code generator).
+However, since ScalaPB 0.10.11 and sbt-protoc 1.0.1, sbt-protoc provides a way to automate this with no
+need to manually import the package-scoped options file. This is accomplished
+by including a special attribute in the manifest of the library you publish. Add the following to
+your library's settings:
+
+```scala
+Compile / packageBin / packageOptions += (
+    Package.ManifestAttributes("ScalaPB-Options-Proto" -> "path/to/package.proto")
+)
+```
+
+The path above is relative to the root directory of the published JAR (so `src/main/protobuf` is not needed). Users add your library to their projects like this:
+
+```scala
+libraryDependencies ++= Seq(
+    "com.example" %% "your-library" % "0.1.0",
+    "com.example" %% "your-library" % "0.1.0" % "protobuf"
+)
+```
+
+The first dependency provides the precompiled class files. The second dependency makes it possible
+for users to import the protos in the jar file. `sbt-protoc` will look for the
+`ScalaPB-Options-Proto` attribute in the jar's manifest and automatically add the package scoped options file
+to the protoc command line.
+
+:::note
+Since the package-scoped options file is used as a source file in multiple
+projects, it should not define any types (messages, enums, services).
+This ensures that the package-scoped proto file does not generate any code on its own so we don't
+end up with duplicate class files.
+:::
+
+### Disabling package-scoped options processing
+
+As a consumer of third-party dependencies that come with options proto, you
+can disable the behavior of automatically adding the options proto to protoc
+by setting
+
+```scala
+Compile / PB.manifestProcessing := false
+```
+
+in sbt. In that case, it is your responsibility to either manually `import` the option protos in one
+of your own project source files so it gets applied, or ensure that the
+generator settigs used in your project are consistent with the ones used to
+generate the dependency. Differences in settings can lead to generated code
+that does not compile.
+
+## Auxiliary options
 
 In some situations, you may want to set some options in a proto file, but without
 modifying the original proto file or adding anything ScalaPB-specific to it. To accomplish
@@ -196,9 +278,9 @@ option (scalapb.options) = {
 };
 ```
 
-The list `aux_message_options` contains options targeted at different messages define under the same proto package of the package-scoped options. The `target` name needs to be fully-qualified message name in the protobuf namespace. Similar to `aux_message_options`, we also have `aux_enum_options` and `aux_field_options`. See [example usage here](https://github.com/scalapb/ScalaPB/tree/master/e2e/src/main/protobuf/scoped).
+The list `aux_message_options` contains options targeted at different messages define under the same proto package of the package-scoped options. The `target` name needs to be fully-qualified message name in the protobuf namespace. Similar to `aux_message_options`, we also have `aux_enum_options`, `aux_enum_value_options` and `aux_field_options`. See [example usage here](https://github.com/scalapb/ScalaPB/tree/master/e2e/src/main/protobuf/scoped).
 
-# Primitive wrappers
+## Primitive wrappers
 
 In proto 3, unlike proto 2, primitives are not wrapped in an option by default.
 The standard technique to obtain an optional primitive is to wrap it inside a
@@ -245,7 +327,7 @@ option (scalapb.options) = {
 };
 ```
 
-# Custom base traits for messages
+## Custom base traits for messages
 
 Note: this option is available in ScalaPB 0.6.1 and later.
 
@@ -294,7 +376,7 @@ message MyMessage {
 Will generate a case class that extends `MySuperClass`, and the companion
 object will extend `MySuperCompanionClass`.
 
-# Custom base traits for sealed oneofs
+## Custom base traits for sealed oneofs
 
 Note: this option is available in ScalaPB 0.9.0 and later.
 
@@ -311,7 +393,7 @@ message MyEither {
 }
 ```
 
-# Custom base traits for enums
+## Custom base traits for enums
 
 In a similar fashion to custom base traits for messages, it is possible to
 define custom base traits for enum types, for the companion objects of enum
@@ -356,7 +438,7 @@ object MyEnum extends GeneratedEnumCompanion[MyEnum]
 }
 ```
 
-# Custom types
+## Custom types
 
 You can customize the Scala type of any field.  One use-case for this is when
 you would like to use type-safe wrappers around primitive values to enforce unit
@@ -424,7 +506,7 @@ package object c {
 }
 ```
 
-# Message-level custom type and boxing
+## Message-level custom type and boxing
 
 In the previous section you saw how to customize the type generated for a
 specific field. ScalaPB also lets you specify a custom type at the message
@@ -535,7 +617,7 @@ Example: see `CustomMaps` in [maps.proto](https://github.com/scalapb/ScalaPB/blo
 You can also customize the collection type used for a map. See the next
 section for details.
 
-# Custom collection types
+## Custom collection types
 
 By default, ScalaPB compiles repeated fields into a `Seq[T]`. When a message
 is parsed from bytes, the default implementation instantiates a `Vector[T]`,
@@ -565,15 +647,15 @@ message CollTest {
     repeated int32  rep1 = 1;
 
     // Will generate an Array[String]
-    repeated string rep2 = 2  [(scalapb.field).collection_type="Array"];
+    repeated string rep2 = 2 [
+      (scalapb.field).collection_type="Array"];
 
     // Will generate Seq[collection.immutable.Seq]
-    repeated bool rep3 = 3  [
+    repeated bool rep3 = 3 [
       (scalapb.field).collection_type="collection.immutable.Seq"];
 
-    map<int32, string> my_map [
+    map<int32, string> my_map = 4 [
       (scalapb.field).map_type="collection.mutable.Map"];
-    ]
 }
 ```
 
@@ -592,7 +674,7 @@ and `MyMap`, the simplest custom collection that is compatible with ScalaPB:
 - [MyMap.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala-pre-2.13/com/thesamet/pb/MyMap.scala)
 - [collection_types.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/collection_types.proto)
 
-# Custom names
+## Custom names
 
 Sometimes it may be useful to manually specify the name of a field in the
 generated code.  For example, if you have a field named `hash_code`, then the
@@ -614,8 +696,18 @@ enum MyEnum {
 }
 ```
 
+The same customization can be applied to `oneof` fields:
 
-# Adding annotations
+```protobuf
+oneof notify {
+  option (scalapb.oneof).scala_name = "myNotify";
+
+  string foo = 1;
+  int32 bar = 2;
+}
+```
+
+## Adding annotations
 
 Since ScalaPB 0.6.3, you can add annotations to the generated case classes like this:
 
@@ -627,15 +719,43 @@ message BarMessage {
 }
 ```
 
-# Adding scalapb.proto to your project
+In ScalaPB 0.7.0, you can add annotations to the companion object of a
+message and to individual fields:
 
-The easiest way to get `protoc` to find `scalapb/scalapb.proto` when compiling
-through SBT is by adding the following to your `build.sbt`:
+```protobuf
+message BarMessage {
+  option (scalapb.message).companion_annotations = "@mypackage.AnotherAnnotation2";
 
-    libraryDependencies += "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
+  optional string x = 1 [
+      (scalapb.field).annotations = '@deprecated("Will be gone", "1.0")'
+  ];
+}
+```
 
-If you are invoking `protoc` manually, you will need to ensure that the files in
-[`protobuf`](https://github.com/scalapb/ScalaPB/tree/master/protobuf)
-directory are available to your project.
 
+In ScalaPB 0.10.9, you can also add annotations to the auto generated unknownFields field:
 
+```protobuf
+message BarMessage {
+  option (scalapb.message).unknown_field_annotations = "@annotation1";
+}
+```
+
+In ScalaPB 0.11.4, you can also add annotations to the enum values and the `Unrecognized` case class:
+
+```protobuf
+enum BarEnum {
+  option (scalapb.enum_options) = "@annotation"
+}
+
+enum BarEnum {
+  // every value will have the annotation added.
+  option (scalapb.enum_options).base_annotations = "@annotation1";
+  // only known values (case objects) will have the annotation added.
+  option (scalapb.enum_options).recognized_annotations = "@annotation2";
+  // only the unrecognized case class will have the annotation added.
+  option (scalapb.enum_options).unrecognized_annotations = "@annotation3";
+  // only this value (case object) will have the annotation added.
+  BarValue = 1 [(scalapb.enum_value).annotations = "@annotation4"];
+}
+```

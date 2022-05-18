@@ -3,22 +3,22 @@ package scalapb.grpc
 import io.grpc.StatusException
 import io.grpc.stub.StreamObserver
 import org.mockito.{ArgumentMatchers, Mockito}
-import org.scalatestplus.mockito.MockitoSugar
+import org.mockito.Mockito.mock
 
 import scala.util.{Failure, Success}
-import org.scalatest.flatspec.AnyFlatSpec
+import munit.FunSuite
 
-class GrpcSpec extends AnyFlatSpec with MockitoSugar {
-  "Complete observer" should "wrap an exception as a StatusException on failure" in {
-    val observer = mock[StreamObserver[_]]
+class GrpcSpec extends FunSuite {
+  test("Complete observer should wrap an exception as a StatusException on failure") {
+    val observer = mock(classOf[StreamObserver[_]])
 
     Grpc.completeObserver(observer)(Failure(new RuntimeException("Error!")))
 
     Mockito.verify(observer).onError(ArgumentMatchers.any(classOf[StatusException]))
   }
 
-  "Complete observer" should "call onError when onNext fails" in {
-    val observer = mock[StreamObserver[String]]
+  test("Complete observer should call onError when onNext fails") {
+    val observer = mock(classOf[StreamObserver[String]])
     Mockito
       .when(observer.onNext(ArgumentMatchers.anyString()))
       .thenThrow(new RuntimeException("Error!"))

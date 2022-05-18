@@ -3,12 +3,14 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 import com.google.protobuf.CodedInputStream
 import com.thesamet.proto.e2e.repeatables.RepeatablesTest
 import com.thesamet.proto.e2e.repeatables.RepeatablesTest.Nested
-import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalacheck.{Arbitrary, Gen}
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
+import scala.annotation.nowarn
+
+@nowarn("cat=deprecation")
 class RepeatablesSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks with Matchers {
 
   val nestedGen =

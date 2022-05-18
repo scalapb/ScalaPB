@@ -31,133 +31,122 @@
 package scalapb
 
 import com.google.protobuf.ByteString
-import com.google.protobuf.test.UnittestImport.{ImportEnum, ImportMessage}
-import com.google.protobuf.test.UnittestImportPublic.PublicImportMessage
-import protobuf_unittest.UnittestProto.{ForeignEnum, ForeignMessage, TestAllTypes}
-import protobuf_unittest.unittest
+import com.google.protobuf.test.unittest_import.{ImportEnum, ImportMessage}
+import com.google.protobuf.test.unittest_import_public.PublicImportMessage
+import protobuf_unittest.unittest.{ForeignMessage, ForeignEnum, TestAllTypes}
 
 object TestUtil {
+  def isScalaJS = System.getProperty("java.vm.name") == "Scala.js"
+
   private def toBytes(str: String) = ByteString.copyFrom(str.getBytes("UTF-8"))
 
-  def getAllTypesAllSet: unittest.TestAllTypes = {
-    val message = TestAllTypes.newBuilder()
-    message.setOptionalInt32(101)
-    message.setOptionalInt64(102)
-    message.setOptionalUint32(103)
-    message.setOptionalUint64(104)
-    message.setOptionalSint32(105)
-    message.setOptionalSint64(106)
-    message.setOptionalFixed32(107)
-    message.setOptionalFixed64(108)
-    message.setOptionalSfixed32(109)
-    message.setOptionalSfixed64(110)
-    message.setOptionalFloat(111)
-    message.setOptionalDouble(112)
-    message.setOptionalBool(true)
-    message.setOptionalString("115")
-    message.setOptionalBytes(toBytes("116"))
+  def getAllTypesAllSet: TestAllTypes = {
+    TestAllTypes().update(
+      _.optionalInt32               := 101,
+      _.optionalInt64               := 102,
+      _.optionalUint32              := 103,
+      _.optionalUint64              := 104,
+      _.optionalSint32              := 105,
+      _.optionalSint64              := 106,
+      _.optionalFixed32             := 107,
+      _.optionalFixed64             := 108,
+      _.optionalSfixed32            := 109,
+      _.optionalSfixed64            := 110,
+      _.optionalFloat               := 111,
+      _.optionalDouble              := 112,
+      _.optionalBool                := true,
+      _.optionalString              := "115",
+      _.optionalBytes               := toBytes("116"),
+      _.optionalNestedMessage       := TestAllTypes.NestedMessage(bb = Some(118)),
+      _.optionalForeignMessage      := ForeignMessage(c = Some(119)),
+      _.optionalImportMessage       := ImportMessage(d = Some(120)),
+      _.optionalPublicImportMessage := PublicImportMessage(e = Some(126)),
+      _.optionalLazyMessage         := TestAllTypes.NestedMessage(bb = Some(127)),
+      _.optionalNestedEnum          := TestAllTypes.NestedEnum.BAZ,
+      _.optionalForeignEnum         := ForeignEnum.FOREIGN_BAZ,
+      _.optionalImportEnum          := ImportEnum.IMPORT_BAZ,
+      _.optionalStringPiece         := "124",
+      _.optionalCord                := "125",
 
-    message.setOptionalNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(118).build())
-    message.setOptionalForeignMessage(ForeignMessage.newBuilder().setC(119).build())
-    message.setOptionalImportMessage(ImportMessage.newBuilder().setD(120).build())
-    message.setOptionalPublicImportMessage(PublicImportMessage.newBuilder().setE(126).build())
-    message.setOptionalLazyMessage(TestAllTypes.NestedMessage.newBuilder().setBb(127).build())
+      // -----------------------------------------------------------------
 
-    message.setOptionalNestedEnum(TestAllTypes.NestedEnum.BAZ)
-    message.setOptionalForeignEnum(ForeignEnum.FOREIGN_BAZ)
-    message.setOptionalImportEnum(ImportEnum.IMPORT_BAZ)
+      _.repeatedInt32 :+= 201,
+      _.repeatedInt64 :+= 202,
+      _.repeatedUint32 :+= 203,
+      _.repeatedUint64 :+= 204,
+      _.repeatedSint32 :+= 205,
+      _.repeatedSint64 :+= 206,
+      _.repeatedFixed32 :+= 207,
+      _.repeatedFixed64 :+= 208,
+      _.repeatedSfixed32 :+= 209,
+      _.repeatedSfixed64 :+= 210,
+      _.repeatedFloat :+= 211,
+      _.repeatedDouble :+= 212,
+      _.repeatedBool :+= true,
+      _.repeatedString :+= "215",
+      _.repeatedBytes :+= toBytes("216"),
+      _.repeatedNestedMessage :+= TestAllTypes.NestedMessage(bb = Some(218)),
+      _.repeatedForeignMessage :+= ForeignMessage(c = Some(219)),
+      _.repeatedImportMessage :+= ImportMessage(d = Some(220)),
+      _.repeatedLazyMessage :+= TestAllTypes.NestedMessage(bb = Some(227)),
+      _.repeatedNestedEnum :+= TestAllTypes.NestedEnum.BAR,
+      _.repeatedForeignEnum :+= ForeignEnum.FOREIGN_BAR,
+      _.repeatedImportEnum :+= ImportEnum.IMPORT_BAR,
+      _.repeatedStringPiece :+= "224",
+      _.repeatedCord :+= "225",
 
-    message.setOptionalStringPiece("124")
-    message.setOptionalCord("125")
+      // Add second one of each field.
+      _.repeatedInt32 :+= 301,
+      _.repeatedInt64 :+= 302,
+      _.repeatedUint32 :+= 303,
+      _.repeatedUint64 :+= 304,
+      _.repeatedSint32 :+= 305,
+      _.repeatedSint64 :+= 306,
+      _.repeatedFixed32 :+= 307,
+      _.repeatedFixed64 :+= 308,
+      _.repeatedSfixed32 :+= 309,
+      _.repeatedSfixed64 :+= 310,
+      _.repeatedFloat :+= 311,
+      _.repeatedDouble :+= 312,
+      _.repeatedBool :+= false,
+      _.repeatedString :+= "315",
+      _.repeatedBytes :+= toBytes("316"),
+      _.repeatedNestedMessage :+= TestAllTypes.NestedMessage(bb = Some(318)),
+      _.repeatedForeignMessage :+= ForeignMessage(c = Some(319)),
+      _.repeatedImportMessage :+= ImportMessage(d = Some(320)),
+      _.repeatedLazyMessage :+= TestAllTypes.NestedMessage(bb = Some(327)),
+      _.repeatedNestedEnum :+= TestAllTypes.NestedEnum.BAZ,
+      _.repeatedForeignEnum :+= ForeignEnum.FOREIGN_BAZ,
+      _.repeatedImportEnum :+= ImportEnum.IMPORT_BAZ,
+      _.repeatedStringPiece :+= "324",
+      _.repeatedCord :+= "325",
 
-    // -----------------------------------------------------------------
+      // -----------------------------------------------------------------
 
-    message.addRepeatedInt32(201)
-    message.addRepeatedInt64(202)
-    message.addRepeatedUint32(203)
-    message.addRepeatedUint64(204)
-    message.addRepeatedSint32(205)
-    message.addRepeatedSint64(206)
-    message.addRepeatedFixed32(207)
-    message.addRepeatedFixed64(208)
-    message.addRepeatedSfixed32(209)
-    message.addRepeatedSfixed64(210)
-    message.addRepeatedFloat(211)
-    message.addRepeatedDouble(212)
-    message.addRepeatedBool(true)
-    message.addRepeatedString("215")
-    message.addRepeatedBytes(toBytes("216"))
-
-    message.addRepeatedNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(218).build())
-    message.addRepeatedForeignMessage(ForeignMessage.newBuilder().setC(219).build())
-    message.addRepeatedImportMessage(ImportMessage.newBuilder().setD(220).build())
-    message.addRepeatedLazyMessage(TestAllTypes.NestedMessage.newBuilder().setBb(227).build())
-
-    message.addRepeatedNestedEnum(TestAllTypes.NestedEnum.BAR)
-    message.addRepeatedForeignEnum(ForeignEnum.FOREIGN_BAR)
-    message.addRepeatedImportEnum(ImportEnum.IMPORT_BAR)
-
-    message.addRepeatedStringPiece("224")
-    message.addRepeatedCord("225")
-
-    // Add a second one of each field.
-    message.addRepeatedInt32(301)
-    message.addRepeatedInt64(302)
-    message.addRepeatedUint32(303)
-    message.addRepeatedUint64(304)
-    message.addRepeatedSint32(305)
-    message.addRepeatedSint64(306)
-    message.addRepeatedFixed32(307)
-    message.addRepeatedFixed64(308)
-    message.addRepeatedSfixed32(309)
-    message.addRepeatedSfixed64(310)
-    message.addRepeatedFloat(311)
-    message.addRepeatedDouble(312)
-    message.addRepeatedBool(false)
-    message.addRepeatedString("315")
-    message.addRepeatedBytes(toBytes("316"))
-
-    message.addRepeatedNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(318).build())
-    message.addRepeatedForeignMessage(ForeignMessage.newBuilder().setC(319).build())
-    message.addRepeatedImportMessage(ImportMessage.newBuilder().setD(320).build())
-    message.addRepeatedLazyMessage(TestAllTypes.NestedMessage.newBuilder().setBb(327).build())
-
-    message.addRepeatedNestedEnum(TestAllTypes.NestedEnum.BAZ)
-    message.addRepeatedForeignEnum(ForeignEnum.FOREIGN_BAZ)
-    message.addRepeatedImportEnum(ImportEnum.IMPORT_BAZ)
-
-    message.addRepeatedStringPiece("324")
-    message.addRepeatedCord("325")
-
-    // -----------------------------------------------------------------
-
-    message.setDefaultInt32(401)
-    message.setDefaultInt64(402)
-    message.setDefaultUint32(403)
-    message.setDefaultUint64(404)
-    message.setDefaultSint32(405)
-    message.setDefaultSint64(406)
-    message.setDefaultFixed32(407)
-    message.setDefaultFixed64(408)
-    message.setDefaultSfixed32(409)
-    message.setDefaultSfixed64(410)
-    message.setDefaultFloat(411)
-    message.setDefaultDouble(412)
-    message.setDefaultBool(false)
-    message.setDefaultString("415")
-    message.setDefaultBytes(toBytes("416"))
-
-    message.setDefaultNestedEnum(TestAllTypes.NestedEnum.FOO)
-    message.setDefaultForeignEnum(ForeignEnum.FOREIGN_FOO)
-    message.setDefaultImportEnum(ImportEnum.IMPORT_FOO)
-
-    message.setDefaultStringPiece("424")
-    message.setDefaultCord("425")
-
-    message.setOneofUint32(601)
-    message.setOneofNestedMessage(TestAllTypes.NestedMessage.newBuilder().setBb(602).build())
-    message.setOneofString("603")
-    message.setOneofBytes(toBytes("604"))
-    protobuf_unittest.unittest.TestAllTypes.fromJavaProto(message.build())
+      _.defaultInt32       := 401,
+      _.defaultInt64       := 402,
+      _.defaultUint32      := 403,
+      _.defaultUint64      := 404,
+      _.defaultSint32      := 405,
+      _.defaultSint64      := 406,
+      _.defaultFixed32     := 407,
+      _.defaultFixed64     := 408,
+      _.defaultSfixed32    := 409,
+      _.defaultSfixed64    := 410,
+      _.defaultFloat       := 411,
+      _.defaultDouble      := 412,
+      _.defaultBool        := false,
+      _.defaultString      := "415",
+      _.defaultBytes       := toBytes("416"),
+      _.defaultNestedEnum  := TestAllTypes.NestedEnum.FOO,
+      _.defaultForeignEnum := ForeignEnum.FOREIGN_FOO,
+      _.defaultImportEnum  := ImportEnum.IMPORT_FOO,
+      _.defaultStringPiece := "424",
+      _.defaultCord        := "425",
+      _.oneofUint32        := 601,
+      _.oneofNestedMessage := TestAllTypes.NestedMessage(bb = Some(602)),
+      _.oneofString        := "603",
+      _.oneofBytes         := toBytes("604")
+    )
   }
 }

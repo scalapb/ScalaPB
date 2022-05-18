@@ -1,0 +1,10 @@
+{
+  "scalapbc": {
+    "repositories": [
+      "central"
+    ],
+    "dependencies": [
+      "com.thesamet.scalapb::scalapbc:latest.release"
+    ]
+  }
+}

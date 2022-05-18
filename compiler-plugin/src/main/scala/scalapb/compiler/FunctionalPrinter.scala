@@ -53,8 +53,8 @@ case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel
 
   // Adds the strings, while putting a delimiter between two lines.
   def addWithDelimiter(delimiter: String)(s: Seq[String]) = {
-    add(s.zipWithIndex.map {
-      case (line, index) => if (index == s.length - 1) line else (line + delimiter)
+    add(s.zipWithIndex.map { case (line, index) =>
+      if (index == s.length - 1) line else (line + delimiter)
     }: _*)
   }
 

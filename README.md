@@ -1,9 +1,9 @@
 ScalaPB
 =======
 
-[![Join the chat at https://gitter.im/trueaccord/ScalaPB](https://badges.gitter.im/trueaccord/ScalaPB.svg)](https://gitter.im/trueaccord/ScalaPB?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/ScalaPB/community](https://badges.gitter.im/ScalaPB/community.svg)](https://gitter.im/ScalaPB/community)
 
-[![Build Status](https://travis-ci.org/scalapb/ScalaPB.svg?branch=master)](https://travis-ci.org/scalapb/ScalaPB)
+[![Build Status](https://github.com/scalapb/ScalaPB/workflows/CI/badge.svg)](https://github.com/scalapb/ScalaPB/actions?query=workflow%3ACI)
 
 ScalaPB is a protocol buffer compiler (`protoc`) plugin for Scala. It will
 generate Scala case classes, parsers and serializers for your protocol
@@ -62,14 +62,14 @@ To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/protoc.sbt`
 containing the following line:
 
-    addSbtPlugin("com.thesamet" % "sbt-protoc" % "0.99.23")
+    addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.2")
 
-    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.9.4"
+    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "0.11.3"
 
 Add the following line to your `build.sbt`:
 
-    PB.targets in Compile := Seq(
-      scalapb.gen() -> (sourceManaged in Compile).value
+    Compile / PB.targets := Seq(
+      scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
     )
 
 For additional configuration options, see [ScalaPB SBT Settings](https://scalapb.github.io/sbt-settings.html) documentation
@@ -109,4 +109,7 @@ Sponsors
 ========
 We are very thankful to our sponsors: 
 
+* [MOIA](https://moia.io)
 * [Oliver Wickham (ollyw)](https://github.com/ollyw)
+* [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
+* [Alex Gaiduchok](https://github.com/alex-gaiduchok)

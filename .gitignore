@@ -1,3 +1,4 @@
+.vscode/
 .bloop/
 .metals/
 project/.bloop/
@@ -8,6 +9,7 @@ project/metals.sbt
 *.swp
 
 # sbt specific
+.bsp
 .cache/
 .history/
 .lib/
@@ -27,5 +29,8 @@ compiler-plugin/src/main/scala/scalapb/compiler/Version.scala
 e2e/project/project/Version.scala
 e2e/project/Version.scala
 e2e/.bin
+protoc-gen-scala-native-image
+docs/_site
 
-.travis/travis-deploy-key
+# API
+website/static/api

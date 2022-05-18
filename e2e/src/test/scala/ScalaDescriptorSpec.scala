@@ -1,6 +1,5 @@
 import com.thesamet.proto.e2e.one_of.OneofTest.SubMessage
 import com.thesamet.proto.e2e.one_of.{OneOfProto, OneofTest}
-import com.thesamet.proto.e2e.service.Service1Grpc.Service1
 import scalapb.descriptors._
 import org.scalatest._
 import org.scalatest.flatspec.AnyFlatSpec
@@ -55,9 +54,5 @@ class ScalaDescriptorSpec extends AnyFlatSpec with Matchers with LoneElement wit
     xyzs.scalaName must be("xyzs")
 
     OneofTest.XYZ.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.OneofTest.XYZ")
-
-    Service1.scalaDescriptor.fullName must be("com.thesamet.proto.e2e.Service1")
-    val method = Service1.scalaDescriptor.methods.find(_.name == "SealedUnary").get
-    method.fullName must be("com.thesamet.proto.e2e.Service1.SealedUnary")
   }
 }

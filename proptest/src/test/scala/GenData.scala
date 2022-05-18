@@ -1,11 +1,10 @@
 import scalapb.compiler.FunctionalPrinter
 import org.scalacheck.Gen
-import scala.collection.JavaConverters._
 
 object GenData {
   import GenTypes._
   import Nodes._
-  import org.scalacheck.Gen._
+  import org.scalacheck.Gen.{sized, oneOf}
 
   sealed trait ProtoValue
   case class PrimitiveValue(value: String) extends ProtoValue
@@ -94,7 +93,9 @@ object GenData {
 
     val x: Seq[Gen[Seq[(String, ProtoValue)]]] = fieldGens ++ oneofGens
 
-    Gen.sequence(x).map(s => MessageValue(s.asScala.toSeq.flatten))
+    Gen
+      .sequence[Seq[Seq[(String, ProtoValue)]], Seq[(String, ProtoValue)]](x)
+      .map(s => MessageValue(s.toSeq.flatten))
   }
 
   def genMessageValueInstance(rootNode: RootNode): Gen[(MessageNode, MessageValue)] =

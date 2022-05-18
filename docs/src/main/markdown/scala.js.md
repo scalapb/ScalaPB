@@ -1,13 +1,11 @@
 ---
-title: "Scala.js"
-layout: docs
+title: "Using ScalaPB with Scala.js"
+sidebar_label: "Scala.js"
 ---
-
-# ScalaPB in Scala.js
 
 [Scala.js](http://scala-js.org) compiles Scala source code to equivalent
 Javascript code.  It is possible to use ScalaPB generated case classes and
-lenses in ScalaJS, and even serialize and parse byte arrays.
+lenses in Scala.js, and even serialize and parse byte arrays.
 
 Limitations:
 
@@ -25,15 +23,6 @@ Add to your library dependencies:
       // The following needed only if you include scalapb/scalapb.proto:
       "com.thesamet.scalapb" %%% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
     )
-
-Since the ScalaJS compiler depends on an old version of protobuf it is
-recommended to work with the `compilerplugin-shaded` artifact. This artifact contains a shaded version of protobuf-java and other dependencies. Have
-this in your `project/scalapb.sbt` file instead of what described in the
-standard installation instructions:
-
-    addSbtPlugin("com.thesamet" % "sbt-protoc" % "{{site.data.version.sbt_protoc}}" exclude ("com.thesamet.scalapb", "protoc-bridge_2.10"))
-
-    libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin-shaded" % "{{site.data.version.scalapb}}"
 
 ## Demo
 

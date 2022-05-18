@@ -1,25 +1,19 @@
 package scalapb
 
-import com.google.protobuf.{CodedInputStream, ExtensionRegistry}
-import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scalapb.compiler.ProtobufGenerator
-import scalapb.options.compiler.Scalapb
-import protocbridge.{Artifact, ProtocCodeGenerator}
+import scalapb.options.Scalapb
+import com.google.protobuf.ExtensionRegistry
+import protocbridge.Artifact
+import protocgen.CodeGenApp
+import protocgen.CodeGenRequest
+import protocgen.CodeGenResponse
 
-object ScalaPbCodeGenerator extends ProtocCodeGenerator {
-  override def run(req: Array[Byte]): Array[Byte] = run(CodedInputStream.newInstance(req))
-
-  def run(input: CodedInputStream): Array[Byte] = {
-    val registry = ExtensionRegistry.newInstance()
+object ScalaPbCodeGenerator extends CodeGenApp {
+  override def registerExtensions(registry: ExtensionRegistry): Unit =
     Scalapb.registerAllExtensions(registry)
-    try {
-      val request = CodeGeneratorRequest.parseFrom(input, registry)
-      ProtobufGenerator.handleCodeGeneratorRequest(request).toByteArray
-    } catch {
-      case t: Throwable =>
-        CodeGeneratorResponse.newBuilder().setError(t.toString).build().toByteArray
-    }
-  }
+
+  def process(request: CodeGenRequest): CodeGenResponse =
+    ProtobufGenerator.handleCodeGeneratorRequest(request)
 
   override def suggestedDependencies: Seq[Artifact] = Seq(
     Artifact(

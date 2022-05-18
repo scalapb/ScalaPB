@@ -8,18 +8,18 @@ lazy val root = project
   .in(file("."))
   .enablePlugins(JmhPlugin)
   .settings(
-    skip in publish := true,
-    crossScalaVersions := Seq(Scala213, Scala212),
-    scalaVersion := Scala213,
-    PB.protocVersion in Compile := "-v" + ProtobufJavaVersion,
-    PB.targets in Compile := Seq(
-      PB.gens.java(ProtobufJavaVersion)   -> (sourceManaged in Compile).value / "protos",
-      scalapb.gen(javaConversions = true) -> (sourceManaged in Compile).value / "protos"
+    publish / skip             := true,
+    crossScalaVersions         := Seq(Scala213, Scala212),
+    scalaVersion               := Scala213,
+    Compile / PB.protocVersion := "-v" + ProtobufJavaVersion,
+    Compile / PB.targets := Seq(
+      PB.gens.java(ProtobufJavaVersion)   -> (Compile / sourceManaged).value / "protos",
+      scalapb.gen(javaConversions = true) -> (Compile / sourceManaged).value / "protos"
     ),
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-runtime" % scalapb.compiler.Version.scalapbVersion % "protobuf"
     ),
-    sourceGenerators in Compile += Def.task {
+    Compile / sourceGenerators += Def.task {
       val file    = (Compile / sourceDirectory).value / "templates" / "message.scala.tmpl"
       val content = IO.read(file)
       TestNames.testNames.map { m =>

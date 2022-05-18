@@ -1,7 +1,6 @@
 import org.scalacheck.Gen
 
-/**
-  * Created by thesamet on 9/28/14.
+/** Created by thesamet on 9/28/14.
   */
 object GenUtils {
   import org.scalacheck.Gen._
@@ -27,7 +26,7 @@ object GenUtils {
     } yield (l, idState)
   }
 
-  def genListOfDistinctPositiveNumbers(size: Int) = Gen.parameterized { params =>
+  def genListOfDistinctPositiveNumbers(size: Int) = Gen.parameterized { _ =>
     Gen
       .listOfN(size, Gen.chooseNum(1, 10))
       .map(_.scan(0)(_ + _).tail)

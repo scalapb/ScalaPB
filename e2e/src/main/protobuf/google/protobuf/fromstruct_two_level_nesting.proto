@@ -1,0 +1,26 @@
+// A proto file we will use for unit testing.
+
+syntax = "proto3";
+
+package protobuf_unittest;
+
+message ContainerMessage {
+  message NestedMessage {
+    int32 a = 1;
+  }
+  NestedMessage nested_message = 1;
+  ImportMessage import_message = 2;
+}
+message ImportMessage {
+  int32 a = 1;
+  DeepMessage b = 2;
+  DeepEnum c = 3;
+}
+message DeepMessage {
+  int32 a = 1;
+}
+enum DeepEnum {
+  DEEP_FOO = 0;
+  DEEP_BAR = 1;
+  DEEP_BAZ = 2;
+}

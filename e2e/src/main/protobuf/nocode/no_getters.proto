@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package scalapb.e2e;
+
+option (scalapb.options).getters = false;
+
+import "scalapb/scalapb.proto";
+
+message NoGettersA {
+  int32 a = 1;
+}
+
+message NoGetters {
+  NoGettersA a = 1;
+}

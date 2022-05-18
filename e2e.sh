@@ -1,4 +1,12 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -e
-SCALA_VERSION=${SCALA_VERSION:-${TRAVIS_SCALA_VERSION:-2.12.10}}
-sbt ++$SCALA_VERSION e2e/clean e2eNoJava/clean e2e/test e2eNoJava/test
+SCALA_VERSION=${SCALA_VERSION:-2_12}
+sbt clean \
+    e2eJVM$SCALA_VERSION/test \
+    e2eGrpcJVM$SCALA_VERSION/test
+
+if [[ "$SCALA_VERSION" != "3_0"* ]]; then
+sbt \
+    e2eJS${SCALA_VERSION}/test
+fi
+

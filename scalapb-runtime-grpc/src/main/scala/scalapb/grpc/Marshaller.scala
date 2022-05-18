@@ -2,7 +2,7 @@ package scalapb.grpc
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-import scalapb.{GeneratedMessage, GeneratedMessageCompanion, Message, TypeMapper}
+import scalapb.{GeneratedMessage, GeneratedMessageCompanion, TypeMapper}
 
 class Marshaller[T <: GeneratedMessage](companion: GeneratedMessageCompanion[T])
     extends io.grpc.MethodDescriptor.Marshaller[T] {
@@ -24,13 +24,13 @@ class TypeMappedMarshaller[T <: GeneratedMessage, Custom](
 }
 
 object Marshaller {
-  def forMessage[T <: GeneratedMessage](
-      implicit companion: GeneratedMessageCompanion[T]
+  def forMessage[T <: GeneratedMessage](implicit
+      companion: GeneratedMessageCompanion[T]
   ) =
     new Marshaller[T](companion)
 
-  def forTypeMappedType[T <: GeneratedMessage, Custom](
-      implicit typeMapper: TypeMapper[T, Custom],
+  def forTypeMappedType[T <: GeneratedMessage, Custom](implicit
+      typeMapper: TypeMapper[T, Custom],
       companion: GeneratedMessageCompanion[T]
   ) =
     new TypeMappedMarshaller[T, Custom](typeMapper, companion)

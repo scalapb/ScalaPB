@@ -1,12 +1,14 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 set -e
-exit 0
-SCALA_VERSION=${SCALA_VERSION:-${TRAVIS_SCALA_VERSION:-2.13.1}}
 
-if [ "$SCALA_VERSION" != "2.13.1" ]
-then    sbt ++$SCALA_VERSION \
-        grpcRuntime/mimaReportBinaryIssues \
-        lensesJVM/mimaReportBinaryIssues \
-        runtimeJVM/mimaReportBinaryIssues \
-        compilerPlugin/mimaReportBinaryIssues
+if [[ "$SCALA_VERSION" = 3* ]]
+then
+    echo Skipping test for Scala 3.
+    exit 0
 fi
+
+sbt \
+grpcRuntimeJVM${SCALA_VERSION}/mimaReportBinaryIssues \
+lensesJVM${SCALA_VERSION}/mimaReportBinaryIssues \
+runtimeJVM${SCALA_VERSION}/mimaReportBinaryIssues \
+compilerPluginJVM${SCALA_VERSION}/mimaReportBinaryIssues

@@ -10,7 +10,7 @@ import scalapb._
 import protocbridge.ProtocBridge
 
 import scala.reflect.ClassTag
-import _root_.scalapb.ScalaPbCodeGenerator
+import scalapb.ScalaPbCodeGenerator
 
 object SchemaGenerators {
   import Nodes._
@@ -123,12 +123,13 @@ object SchemaGenerators {
     Gen.resize(4, Gen.identifier).retryUntil(e => !RESERVED.contains(e) && !e.startsWith("is"))
 
   /** Generates an alphanumerical character */
-  def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const("_")), (9, Gen.alphaChar))
+  def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const('_')), (9, Gen.alphaChar))
 
-  //// String Generators ////
+  // String Generators
 
-  /** Generates a string that starts with a lower-case alpha character,
-    * and only contains alphanumerical characters */
+  /** Generates a string that starts with a lower-case alpha character, and only contains
+    * alphanumerical characters
+    */
   def snakeIdentifier: Gen[String] =
     (for {
       c  <- Gen.alphaChar
@@ -156,11 +157,11 @@ object SchemaGenerators {
     tmpDir
   }
 
+  val runner = scalapb.compiler.ProtocRunner.forVersion(scalapb.compiler.Version.protobufVersion)
+
   private def runProtoc(args: String*) =
     ProtocBridge.runWithGenerators(
-      args =>
-        com.github.os72.protocjar.Protoc
-          .runProtoc(s"-v${scalapb.compiler.Version.protobufVersion}" +: args.toArray),
+      runner,
       Seq("scala" -> ScalaPbCodeGenerator),
       args
     )
@@ -172,6 +173,7 @@ object SchemaGenerators {
       file.getAbsolutePath
     }
     val args = Seq(
+      "--experimental_allow_proto3_optional",
       "--proto_path",
       (tmpDir.toString + ":protobuf:third_party"),
       "--java_out",
@@ -184,9 +186,9 @@ object SchemaGenerators {
     }
   }
 
-  def getFileTree(f: File): Stream[File] =
-    f #:: (if (f.isDirectory) f.listFiles().toStream.flatMap(getFileTree)
-           else Stream.empty)
+  def getFileTree(f: File): Seq[File] =
+    f +: (if (f.isDirectory) f.listFiles().toSeq.flatMap(getFileTree)
+          else Seq.empty)
 
   def jarForClass[T](implicit c: ClassTag[T]): URL =
     c.runtimeClass.getProtectionDomain.getCodeSource.getLocation
@@ -202,26 +204,28 @@ object SchemaGenerators {
     getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".java"))
       .foreach { file =>
-        if (compiler.run(
-              null,
-              null,
-              null,
-              "-sourcepath",
-              rootDir.toString,
-              "-cp",
-              protobufJar.mkString(":"),
-              "-d",
-              rootDir.toString,
-              file.getAbsolutePath
-            ) != 0) {
+        if (
+          compiler.run(
+            null,
+            null,
+            null,
+            "-sourcepath",
+            rootDir.toString,
+            "-cp",
+            protobufJar.mkString(":"),
+            "-d",
+            rootDir.toString,
+            file.getAbsolutePath
+          ) != 0
+        ) {
           throw new RuntimeException(s"Compilation of $file failed.")
         }
       }
   }
 
   def compileScalaInDir(rootDir: File): Unit = {
-    print("Compiling Scala sources. ")
-    val classPath = Seq(
+    println("Compiling Scala sources. ")
+    val classPath: Seq[String] = Seq(
       jarForClass[annotation.Annotation].getPath,
       jarForClass[scalapb.GeneratedMessage].getPath,
       jarForClass[scalapb.options.Scalapb].getPath,
@@ -230,28 +234,16 @@ object SchemaGenerators {
       jarForClass[io.grpc.Channel].getPath,
       jarForClass[io.grpc.stub.AbstractStub[_]].getPath,
       jarForClass[io.grpc.protobuf.ProtoFileDescriptorSupplier].getPath,
-      jarForClass[com.google.common.util.concurrent.ListenableFuture[_]],
-      jarForClass[javax.annotation.Nullable],
-      jarForClass[scalapb.lenses.Lens[_, _]].getPath,
-      jarForClass[fastparse.Parsed[_]].getPath,
-      rootDir
+      jarForClass[com.google.common.util.concurrent.ListenableFuture[_]].getPath(),
+      jarForClass[javax.annotation.Nullable].getPath(),
+      jarForClass[scalapb.lenses.Lens[_, _]].getPath(),
+      rootDir.toString()
     )
-    val annotationJar =
-      classOf[annotation.Annotation].getProtectionDomain.getCodeSource.getLocation.getPath
-    import scala.tools.nsc._
-
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
-    val s                        = new Settings(error => throw new RuntimeException(error))
-    val breakCycles: Seq[String] = Seq("-Ybreak-cycles")
 
-    s.processArgumentString(
-      s"""-cp "${classPath.mkString(":")}" ${breakCycles.mkString(" ")} -d "$rootDir""""
-    )
+    scalapb.proptest.CompilerInterface.compile(scalaFiles.toVector, classPath, rootDir)
 
-    val g   = new Global(s)
-    val run = new g.Run
-    run.compile(scalaFiles.map(_.toString).toList)
     println("[DONE]")
   }
 
@@ -278,14 +270,12 @@ object SchemaGenerators {
         .asInstanceOf[com.google.protobuf.Message]
     }
 
-    def scalaObject(m: MessageNode): CompanionWithJavaSupport[_ <: GeneratedMessage] = {
-      val className = rootNode.scalaObjectName(m)
-      val u         = scala.reflect.runtime.universe
-      val mirror    = u.runtimeMirror(classLoader)
-      mirror
-        .reflectModule(mirror.staticModule(className))
-        .instance
-        .asInstanceOf[CompanionWithJavaSupport[_ <: GeneratedMessage]]
+    def scalaObject(m: MessageNode): CompanionWithJavaSupport[GeneratedMessage] = {
+      val klass = Class.forName(rootNode.scalaObjectName(m) + "$", true, classLoader)
+      klass
+        .getField("MODULE$")
+        .get(null)
+        .asInstanceOf[CompanionWithJavaSupport[GeneratedMessage]]
     }
   }
 
@@ -303,6 +293,7 @@ object SchemaGenerators {
         sys.process
           .Process(Seq("tar", "czf", "/tmp/protos.tgz", "--exclude", "*.class", "."), tmpDir)
           .!!
+        ()
       }
 
       CompiledSchema(rootNode, tmpDir)

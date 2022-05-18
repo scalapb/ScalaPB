@@ -1,14 +1,15 @@
 package scalapb.compiler
 
 import com.google.protobuf.Descriptors._
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class ProtoValidation(implicits: DescriptorImplicits) {
   import implicits._
 
-  def validateFiles(files: Seq[FileDescriptor]) = {
+  def validateFiles(files: Seq[FileDescriptor]): Unit = {
     files.foreach(validateFile)
-    FileOptionsCache.buildCache(files)
+    implicits.fileOptionsCache
+    ()
   }
 
   def validateFile(fd: FileDescriptor): Unit = {
@@ -17,6 +18,11 @@ class ProtoValidation(implicits: DescriptorImplicits) {
     if (fd.scalaOptions.hasPrimitiveWrappers && fd.scalaOptions.getNoPrimitiveWrappers) {
       throw new GeneratorException(
         s"${fd.getFullName}: primitive_wrappers and no_primitive_wrappers must not be used at the same time."
+      )
+    }
+    if (fd.javaConversions && fd.javaPackage.isEmpty) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: java_conversions require either a package statement or setting the java_package option."
       )
     }
     val allSealedOneofCases = for {
@@ -49,10 +55,7 @@ class ProtoValidation(implicits: DescriptorImplicits) {
     m.getNestedTypes.asScala.foreach(validateMessage)
     m.getFields.asScala.foreach(validateField)
     if (m.isSealedOneofType) {
-      val oneof = m.getOneofs.get(0)
-      if (m.getContainingType != null) {
-        throw new GeneratorException(s"${m.getFullName}: sealed oneofs must be top-level messages")
-      }
+      val oneof = m.getRealOneofs.get(0)
       if (m.getFields.size() != oneof.getFields.size()) {
         throw new GeneratorException(
           s"${m.getFullName}: sealed oneofs must have all their fields inside a single oneof"
@@ -69,9 +72,19 @@ class ProtoValidation(implicits: DescriptorImplicits) {
           s"${m.getFullName}.${field.getName}: sealed oneofs may not be a case within another sealed oneof"
         )
       }
-      fields.find(_.getMessageType.getContainingType != null).foreach { field =>
+      fields.find(_.getMessageType.getContainingType != m.getContainingType).foreach { field =>
         throw new GeneratorException(
-          s"${m.getFullName}.${field.getName}: all sealed oneof cases must be top-level"
+          s"${m.getFullName}.${field.getName}: sealed oneofs must be in the same containing message (if any) as all case messages"
+        )
+      }
+      fields.find(_.getMessageType.getFile != m.getFile()).foreach { field =>
+        throw new GeneratorException(
+          s"${m.getFullName}.${field.getName}: all sealed oneof cases must be defined in the same file as the sealed oneof field."
+        )
+      }
+      fields.find(_.customSingleScalaTypeName.isDefined).foreach { field =>
+        throw new GeneratorException(
+          s"${m.getFullName}.${field.getName}: sealed oneof cases may not have custom types."
         )
       }
       val distinctTypes = fields.map(_.getMessageType).toSet
@@ -133,6 +146,30 @@ class ProtoValidation(implicits: DescriptorImplicits) {
       throw new GeneratorException(
         s"${fd.getFullName}: Sealed oneofs can not be type mapped. Use regular oneofs instead."
       )
+    }
+    if (fd.isMessage && fd.isInOneof && fd.getMessageType().messageOptions.getNoBox()) {
+      throw new GeneratorException(
+        s"${fd.getFullName}: message fields in oneofs are not allowed to have no_box set."
+      )
+    }
+    if (fd.noBoxRequired) {
+      if (fd.fieldOptions.hasNoBox && !fd.fieldOptions.getNoBox)
+        throw new GeneratorException(
+          s"${fd.getFullName}: setting no_box to false is not allowed while setting required to true."
+        )
+      if (fd.isInOneof)
+        throw new GeneratorException(
+          s"${fd.getFullName}: setting required is not allowed on oneof fields."
+        )
+      if (fd.isRepeated() || fd.isMapField())
+        throw new GeneratorException(
+          s"${fd.getFullName}: required is not allowed on repeated fields."
+        )
+      if (!fd.isMessage) {
+        throw new GeneratorException(
+          s"${fd.getFullName}: required can only be applied to message fields."
+        )
+      }
     }
   }
 }

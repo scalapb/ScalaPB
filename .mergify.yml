@@ -1,0 +1,22 @@
+queue_rules:
+  - name: default
+    conditions:
+      - check-success=ci-passed
+
+pull_request_rules:
+  - name: assign and label scala-steward's PRs
+    conditions:
+      - author=scala-steward
+    actions:
+      assign:
+        users: [thesamet]
+      label:
+        add: [dependency-update]
+  - name: merge scala-steward's PRs
+    conditions:
+      - author=scala-steward
+      - check-success=ci-passed
+    actions:
+      queue:
+        method: squash
+        name: default

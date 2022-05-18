@@ -3,7 +3,18 @@ title: "gRPC"
 layout: docs
 ---
 
-# gRPC
+## gRPC Libraries for ScalaPB
+
+This page covers ScalaPB's gRPC support. This support is a thin wrapper around
+grpc-java, and provides you with an interface that is based on Scala's
+standard library `Future`, while streaming is based on the Observer pattern.
+
+There are additional gRPC libraries built on top of ScalaPB that provide integration with other concurrency frameworks and effect systems:
+
+* [ZIO gRPC](https://scalapb.github.io/zio-grpc/) enables you to build gRPC
+  servers and clients using ZIO.
+* [fs2-grpc](https://github.com/typelevel/fs2-grpc) provides gGRPC support for FS2 and Cats Effect.
+* [Akka gRPC](https://doc.akka.io/docs/akka-grpc/current/index.html) provides support for building streaming gRPC servers and clients on top of Akka Streams and Akka HTTP.
 
 ## Project Setup
 
@@ -137,5 +148,25 @@ following exception:
 
     Exception in thread "main" io.grpc.ManagedChannelProvider$ProviderNotFoundException: No functional server found. Try adding a dependency on the grpc-netty artifact
 
-To work around this issue, create a `NettyServer` explicitly using
-`io.grpc.netty.NettyServerBuilder`.
+To work around this issue, try the following solutions:
+
+1. Create a `NettyServer` explicitly using `io.grpc.netty.NettyServerBuilder`.
+
+Example:
+
+```scala
+NettyServerBuilder
+  .forPort(9000)
+  .keepAliveTime(500, TimeUnit.SECONDS)
+```
+
+2. If using SBT, try the following merge conflict strategy:
+
+```scala
+assemblyMergeStrategy in assembly := {
+    case x if x.contains("io.netty.versions.properties") => MergeStrategy.discard
+    case x =>
+        val oldStrategy = (assemblyMergeStrategy in assembly).value
+        oldStrategy(x)
+}
+```

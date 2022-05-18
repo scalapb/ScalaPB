@@ -1,0 +1,143 @@
+syntax = "proto2";
+
+package name_test;
+
+// Tests that verify that field names generate code that compiles.
+
+message Match {
+  optional int32 val = 1;
+  optional int32 for = 2;
+}
+
+message IfThenElse {
+  optional int32 if = 1;
+  optional int32 then = 2;
+  optional int32 else = 3;
+}
+
+message Option {
+}
+
+message WeirdNames {
+  optional string get = 1;
+  optional string tag = 2;
+  oneof type {
+    int32 val = 3;
+    string value = 10;
+    bytes number = 11;
+    Match my_match = 14;
+  }
+  optional Match match = 4;
+  optional Option option = 5;
+  optional string input = 6;
+  optional string output = 7;
+  optional string class = 8;
+  optional int32 serialized_size = 9;
+  enum with {
+    V = 0;
+  }
+  enum name {
+    x = 0;
+    y = 1;
+    t = 2;
+  }
+  optional int32 com = 12;
+  optional int32 scala = 13;
+}
+
+message WeirdNamesRequired {
+  enum Option {
+    ZZZ = 0;
+  }
+  required string get = 1;
+  required string tag = 2;
+  required Option option = 3;
+}
+
+message yield {
+}
+
+// https://github.com/scalapb/ScalaPB/issues/427
+message Unit {
+}
+
+message Any {
+}
+
+message NamesDotProto {
+}
+
+message Contact {
+  oneof contact {
+    Phone phone = 1;
+    Email email = 2;
+  }
+  message Phone {
+    required string areaCode = 1;
+    required string number = 2;
+  }
+  message Email {
+    required string emailAddr = 1;
+  }
+}
+
+message Issue137 {
+  repeated double type = 1;
+  repeated float class = 2;
+  repeated int32 val = 3;
+  repeated int64 var = 4;
+}
+
+message Issue348 {
+  enum ValueType {
+    STRING = 0;
+    BOOL = 1;
+    INT64 = 2;
+  }
+
+  optional ValueType value_type = 1;
+}
+
+message ValueTypeOneOf {
+  oneof ValueType {
+    string value_1 = 1;
+    int32  value_2 = 2;
+  }
+}
+
+message ValueTypeOneOfUnderscore {
+  oneof value_type {
+    string value_1 = 1;
+    int32  value_2 = 2;
+  }
+}
+
+// https://github.com/scalapb/ScalaPB/issues/395
+message String {
+  optional string value = 1;
+}
+
+message Int {
+  optional int32 value = 1;
+}
+
+message Float {
+  optional float value = 1;
+}
+
+message Double {
+  optional double value = 1;
+}
+
+message Long {
+  optional int64 value = 1;
+}
+
+message Boolean {
+  optional bool value = 1;
+}
+
+// See https://github.com/scalapb/ScalaPB/issues/543
+message None {
+}
+

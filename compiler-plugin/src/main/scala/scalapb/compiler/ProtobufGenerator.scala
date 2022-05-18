@@ -3,22 +3,14 @@ package scalapb.compiler
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.{CodedOutputStream, DescriptorProtos, ByteString => GoogleByteString}
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
-import com.google.protobuf.compiler.PluginProtos.{CodeGeneratorRequest, CodeGeneratorResponse}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
-import scalapb.options.compiler.Scalapb
-import scalapb.options.compiler.Scalapb.FieldOptions
+import scalapb.options.Scalapb
+import scalapb.options.Scalapb.FieldOptions
 
-import scala.collection.JavaConverters._
-
-case class GeneratorParams(
-    javaConversions: Boolean = false,
-    flatPackage: Boolean = false,
-    grpc: Boolean = false,
-    singleLineToProtoString: Boolean = false,
-    asciiFormatToString: Boolean = false,
-    lenses: Boolean = true,
-    retainSourceCodeInfo: Boolean = false
-)
+import scala.jdk.CollectionConverters._
+import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
+import protocgen.CodeGenRequest
+import protocgen.CodeGenResponse
 
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
@@ -28,7 +20,7 @@ class ProtobufGenerator(
     implicits: DescriptorImplicits
 ) {
   import implicits._
-  import DescriptorImplicits.AsSymbolPimp
+  import DescriptorImplicits.AsSymbolExtension
   import ProtobufGenerator._
 
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
@@ -38,13 +30,14 @@ class ProtobufGenerator(
         _.add(ProtobufGenerator.deprecatedAnnotation)
       }
       .call(generateScalaDoc(e))
+      .seq(e.baseAnnotationList)
       .add(
         s"sealed abstract class $name(val value: _root_.scala.Int) extends ${e.baseTraitExtends.mkString(" with ")} {"
       )
       .indent
       .add(s"type EnumType = $name")
-      .print(e.getValues.asScala) {
-        case (p, v) => p.add(s"def ${v.isName}: _root_.scala.Boolean = false")
+      .print(e.getValues.asScala) { case (p, v) =>
+        p.add(s"def ${v.isName}: _root_.scala.Boolean = false")
       }
       .add(s"def companion: _root_.scalapb.GeneratedEnumCompanion[$name] = ${e.scalaType.fullName}")
       .add(
@@ -58,31 +51,33 @@ class ProtobufGenerator(
       }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
+      .seq(e.recognizedAnnotationList)
       .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
-      .print(e.getValues.asScala) {
-        case (p, v) =>
-          p.call(generateScalaDoc(v))
-            .add(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
-                      " " + ProtobufGenerator.deprecatedAnnotation
-                    } else ""}
-                    |case object ${v.scalaName.asSymbol} extends ${v.valueExtends
-                      .mkString(" with ")} {
-                    |  val index = ${v.getIndex}
-                    |  val name = "${v.getName}"
-                    |  override def ${v.isName}: _root_.scala.Boolean = true
-                    |}
-                    |""".stripMargin)
+      .newline
+      .print(e.getValues.asScala) { case (p, v) =>
+        p.call(generateScalaDoc(v))
+          .add("@SerialVersionUID(0L)")
+          .seq(v.annotationList)
+          .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends
+                   .mkString(" with ")} {
+                  |  val index = ${v.getIndex}
+                  |  val name = "${v.getName}"
+                  |  override def ${v.isName}: _root_.scala.Boolean = true
+                  |}
+                  |""".stripMargin)
       }
-      .add(s"""@SerialVersionUID(0L)
-              |final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-              |
-              |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
-                .map(_.scalaName.asSymbol)
-                .mkString(", ")})
-              |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin)
-      .print(e.valuesWithNoDuplicates) {
-        case (p, v) => p.add(s"  case ${v.getNumber} => ${v.scalaName.asSymbol}")
+      .add("@SerialVersionUID(0L)")
+      .seq(e.unrecognizedAnnotationList)
+      .add(
+        s"""final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+           |lazy val values = scala.collection.immutable.Seq(${e.getValues.asScala
+            .map(_.scalaName.asSymbol)
+            .mkString(", ")})
+           |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin
+      )
+      .print(e.valuesWithNoDuplicates) { case (p, v) =>
+        p.add(s"  case ${v.getNumber} => ${v.scalaName.asSymbol}")
       }
       .add(
         s"""  case __other => Unrecognized(__other)
@@ -104,26 +99,20 @@ class ProtobufGenerator(
   }
 
   def printOneof(printer: FunctionalPrinter, e: OneofDescriptor): FunctionalPrinter = {
-    val possiblyConflictingName =
-      e.getContainingType.getEnumTypes.asScala.exists(_.scalaType.name == e.scalaType.name) ||
-        e.getContainingType.nestedTypes.exists(_.scalaType.name == e.scalaType.name)
-
     printer
       .add(s"sealed trait ${e.scalaType.nameSymbol} extends ${e.baseClasses.mkString(" with ")} {")
       .indent
       .add(s"def isEmpty: _root_.scala.Boolean = false")
       .add(s"def isDefined: _root_.scala.Boolean = true")
-      .print(e.fields) {
-        case (p, v) =>
-          p.add(s"def is${v.upperScalaName}: _root_.scala.Boolean = false")
+      .print(e.fields) { case (p, v) =>
+        p.add(s"def is${v.upperScalaName}: _root_.scala.Boolean = false")
       }
-      .print(e.fields) {
-        case (p, v) =>
-          p.add(s"def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = ${C.None}")
+      .print(e.fields) { case (p, v) =>
+        p.add(s"def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = ${C.None}")
       }
       .outdent
       .add(s"""}
-              |object ${e.scalaType.nameSymbol} extends {
+              |object ${e.scalaType.nameSymbol} {
               |  @SerialVersionUID(0L)
               |  case object Empty extends ${e.scalaType.fullName} {
               |    type ValueType = _root_.scala.Nothing
@@ -134,37 +123,22 @@ class ProtobufGenerator(
               |  }
               |""".stripMargin)
       .indent
-      .print(e.fields) {
-        case (p, v) =>
-          p.add(s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
-                     " " + ProtobufGenerator.deprecatedAnnotation
-                   } else ""}
-                   |final case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaType.fullName} {
-                   |  type ValueType = ${v.scalaTypeName}
-                   |  override def is${v.upperScalaName}: _root_.scala.Boolean = true
-                   |  override def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = Some(value)
-                   |  override def number: _root_.scala.Int = ${v.getNumber}
-                   |}""".stripMargin)
+      .print(e.fields) { case (p, v) =>
+        p.add(
+          s"""@SerialVersionUID(0L)${if (v.getOptions.getDeprecated) {
+              " " + ProtobufGenerator.deprecatedAnnotation
+            } else ""}
+             |final case class ${v.upperScalaName}(value: ${v.scalaTypeName}) extends ${e.scalaType.fullName} {
+             |  type ValueType = ${v.scalaTypeName}
+             |  override def is${v.upperScalaName}: _root_.scala.Boolean = true
+             |  override def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = Some(value)
+             |  override def number: _root_.scala.Int = ${v.getNumber}
+             |}""".stripMargin
+        )
       }
       .outdent
       .add("}")
   }
-
-  def escapeString(raw: String): String =
-    raw
-      .map {
-        case '\b'                      => "\\b"
-        case '\f'                      => "\\f"
-        case '\n'                      => "\\n"
-        case '\r'                      => "\\r"
-        case '\t'                      => "\\t"
-        case '\\'                      => "\\\\"
-        case '\"'                      => "\\\""
-        case '\''                      => "\\\'"
-        case u if u >= ' ' && u <= '~' => u.toString
-        case c: Char                   => "\\u%4s".format(c.toInt.toHexString).replace(' ', '0')
-      }
-      .mkString("\"", "", "\"")
 
   def defaultValueForGet(field: FieldDescriptor, uncustomized: Boolean = false) = {
     // Needs to be 'def' and not val since for some of the cases it's invalid to call it.
@@ -194,7 +168,7 @@ class ProtobufGenerator(
           d.asScala
             .map(_.toString)
             .mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
-      case FieldDescriptor.JavaType.STRING => escapeString(defaultValue.asInstanceOf[String])
+      case FieldDescriptor.JavaType.STRING => escapeScalaString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         field.getMessageType.scalaType
           .fullNameWithMaybeRoot(field.getContainingType) + ".defaultInstance"
@@ -212,7 +186,7 @@ class ProtobufGenerator(
 
   def defaultValueForDefaultInstance(field: FieldDescriptor) =
     if (field.supportsPresence) C.None
-    else if (field.isRepeated) field.emptyCollection
+    else if (field.isRepeated) field.collection.empty
     else defaultValueForGet(field)
 
   def javaToScalaConversion(field: FieldDescriptor) = {
@@ -240,11 +214,12 @@ class ProtobufGenerator(
     val valueConversion: Expression = javaToScalaConversion(field)
 
     if (field.supportsPresence)
-      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, enclosingType = EnclosingType.None)}) else ${C.None}"
+      s"if ($javaHazzer) Some(${valueConversion.apply(javaGetter, EnclosingType.None)}) else ${C.None}"
     else if (field.isRepeated)
       valueConversion(
         javaGetter + ".asScala",
-        EnclosingType.Collection(field.collectionType),
+        sourceType = EnclosingType.Collection(DescriptorImplicits.ScalaSeq, None),
+        targetType = field.enclosingType,
         mustCopy = true
       )
     else valueConversion(javaGetter, EnclosingType.None)
@@ -274,9 +249,9 @@ class ProtobufGenerator(
       else field.upperJavaName
     ExpressionBuilder.convertCollection(
       s"${container}.get${upperJavaName}Map.asScala.iterator.map(__pv => (${unitConversion(
-        "__pv._1",
-        field.mapType.keyField
-      )}, ${unitConversion("__pv._2", field.mapType.valueField)}))",
+          "__pv._1",
+          field.mapType.keyField
+        )}, ${unitConversion("__pv._2", field.mapType.valueField)}))",
       field.enclosingType
     )
   }
@@ -311,16 +286,22 @@ class ProtobufGenerator(
       (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = true))
         .apply(v, EnclosingType.None)
 
-    val putAll = s"putAll${field.upperScalaName}" + (if (field.mapType.valueField.isEnum && field.getFile.isProto3)
-                                                       "Value"
-                                                     else "")
+    val putAll =
+      s"putAll${field.upperScalaName}" + (if (
+                                            field.mapType.valueField.isEnum && field.getFile.isProto3
+                                          )
+                                            "Value"
+                                          else "")
 
     s"""$javaObject
-       |  .$putAll($scalaObject.${fieldAccessorSymbol(field)}.iterator.map {
+       |  .$putAll(${field.collection.iterator(
+        scalaObject + "." + field.scalaName.asSymbol,
+        EnclosingType.None
+      )}.map {
        |    __kv => (${valueConvert("__kv._1", field.mapType.keyField)}, ${valueConvert(
-         "__kv._2",
-         field.mapType.valueField
-       )})
+        "__kv._2",
+        field.mapType.valueField
+      )})
        |  }.toMap.asJava)""".stripMargin
   }
 
@@ -342,9 +323,10 @@ class ProtobufGenerator(
         (toBaseTypeExpr(field) andThen scalaToJava(field, boxPrimitives = field.isRepeated))
           .apply(
             scalaGetter,
-            enclosingType = field.enclosingType match {
-              case EnclosingType.Collection(_) =>
-                EnclosingType.Collection(DescriptorImplicits.ScalaIterable)
+            sourceType = field.enclosingType,
+            targetType = field.enclosingType match {
+              case _: EnclosingType.Collection =>
+                EnclosingType.Collection(DescriptorImplicits.ScalaIterable, None)
               case o => o
             }
           )
@@ -363,28 +345,31 @@ class ProtobufGenerator(
         .indent
         .add("(__fieldNumber: @_root_.scala.unchecked) match {")
         .indent
-        .print(message.fields) {
-          case (fp, f) =>
-            val e = toBaseFieldType(f)
-              .apply(fieldAccessorSymbol(f), enclosingType = f.fieldMapEnclosingType)
-            if (f.supportsPresence || f.isInOneof)
-              fp.add(s"case ${f.getNumber} => $e.orNull")
-            else if (f.isOptional) {
-              // In proto3, drop default value
-              fp.add(s"case ${f.getNumber} => {")
-                .indent
-                .add(s"val __t = $e")
-                .add({
-                  val cond =
-                    if (!f.isEnum)
-                      s"__t != ${defaultValueForGet(f, uncustomized = true)}"
-                    else
-                      s"__t.getNumber() != 0"
-                  s"if ($cond) __t else null"
-                })
-                .outdent
-                .add("}")
-            } else fp.add(s"case ${f.getNumber} => $e")
+        .print(message.fields) { case (fp, f) =>
+          val e = toBaseFieldType(f)
+            .apply(
+              fieldAccessorSymbol(f),
+              sourceType = f.enclosingType,
+              targetType = f.fieldMapEnclosingType
+            )
+          if (f.supportsPresence || f.isInOneof)
+            fp.add(s"case ${f.getNumber} => $e.orNull")
+          else if (f.isOptional && !f.noBoxRequired) {
+            // In proto3, drop default value
+            fp.add(s"case ${f.getNumber} => {")
+              .indent
+              .add(s"val __t = $e")
+              .add({
+                val cond =
+                  if (!f.isEnum)
+                    s"__t != ${defaultValueForGet(f, uncustomized = true)}"
+                  else
+                    s"__t.getNumber() != 0"
+                s"if ($cond) __t else null"
+              })
+              .outdent
+              .add("}")
+          } else fp.add(s"case ${f.getNumber} => $e")
         }
         .outdent
         .add("}")
@@ -417,25 +402,25 @@ class ProtobufGenerator(
         .add("_root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)")
         .add("(__field.number: @_root_.scala.unchecked) match {")
         .indent
-        .print(message.fields) {
-          case (fp, f) =>
-            val e = toBaseFieldTypeWithScalaDescriptors(f)
-              .andThen(singleFieldAsPvalue(f))
-              .apply(
-                fieldAccessorSymbol(f),
-                enclosingType = f.enclosingType match {
-                  case EnclosingType.Collection(_) =>
-                    EnclosingType.Collection(DescriptorImplicits.ScalaVector)
-                  case other => other
-                }
-              )
-            if (f.supportsPresence || f.isInOneof) {
-              fp.add(s"case ${f.getNumber} => $e.getOrElse(_root_.scalapb.descriptors.PEmpty)")
-            } else if (f.isRepeated) {
-              fp.add(s"case ${f.getNumber} => _root_.scalapb.descriptors.PRepeated($e)")
-            } else {
-              fp.add(s"case ${f.getNumber} => $e")
-            }
+        .print(message.fields) { case (fp, f) =>
+          val e = toBaseFieldTypeWithScalaDescriptors(f)
+            .andThen(singleFieldAsPvalue(f))
+            .apply(
+              fieldAccessorSymbol(f),
+              sourceType = f.enclosingType,
+              targetType = f.enclosingType match {
+                case _: EnclosingType.Collection =>
+                  EnclosingType.Collection(DescriptorImplicits.ScalaVector, None)
+                case other => other
+              }
+            )
+          if (f.supportsPresence || f.isInOneof) {
+            fp.add(s"case ${f.getNumber} => $e.getOrElse(_root_.scalapb.descriptors.PEmpty)")
+          } else if (f.isRepeated) {
+            fp.add(s"case ${f.getNumber} => _root_.scalapb.descriptors.PRepeated($e)")
+          } else {
+            fp.add(s"case ${f.getNumber} => $e")
+          }
         }
         .outdent
         .add("}")
@@ -507,7 +492,7 @@ class ProtobufGenerator(
   ): FunctionalPrinter = {
     val fieldNameSymbol = fieldAccessorSymbol(field)
 
-    if (field.isRequired) {
+    if (field.isRequired || field.noBoxRequired) {
       fp.add(s"""
                 |{
                 |  val __value = ${toBaseType(field)(fieldNameSymbol)}
@@ -534,19 +519,24 @@ class ProtobufGenerator(
       val tagSize = CodedOutputStream.computeTagSize(field.getNumber)
       if (!field.isPacked) {
         Types.fixedSize(field.getType) match {
-          case Some(size) => fp.add(s"__size += ${size + tagSize} * $fieldNameSymbol.size")
+          case Some(size) =>
+            fp.add(
+              s"__size += ${size + tagSize} * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}"
+            )
           case None =>
-            fp.add(s"""$fieldNameSymbol.foreach { __item =>
+            fp.add(s"""${field.collection.foreach} { __item =>
                       |  val __value = ${toBaseType(field)("__item")}
                       |  __size += ${sizeExpressionForSingleField(field, "__value")}
                       |}""".stripMargin)
         }
       } else {
         val fieldName = field.scalaName
-        fp.add(s"""if($fieldNameSymbol.nonEmpty) {
-                  |  val __localsize = ${fieldName}SerializedSize
-                  |  __size += $tagSize + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
-                  |}""".stripMargin)
+        fp.add(
+          s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
+             |  val __localsize = ${fieldName}SerializedSize
+             |  __size += $tagSize + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
+             |}""".stripMargin
+        )
       }
     } else throw new RuntimeException("Should not reach here.")
   }
@@ -554,12 +544,11 @@ class ProtobufGenerator(
   def generateSerializedSize(message: Descriptor)(fp: FunctionalPrinter) = {
     if (message.fields.nonEmpty || message.preservesUnknownFields) {
       fp.when(!message.isValueClass) {
-          _.add(
-            """@transient
-              |private[this] var __serializedSizeCachedValue: _root_.scala.Int = 0""".stripMargin
-          )
-        }
-        .add("private[this] def __computeSerializedValue(): _root_.scala.Int = {")
+        _.add(
+          """@transient
+            |private[this] var __serializedSizeMemoized: _root_.scala.Int = 0""".stripMargin
+        )
+      }.add("private[this] def __computeSerializedSize(): _root_.scala.Int = {")
         .indent
         .add("var __size = 0")
         .print(message.fields)(generateSerializedSizeForField)
@@ -570,15 +559,18 @@ class ProtobufGenerator(
         .add("override def serializedSize: _root_.scala.Int = {")
         .indent
         .when(message.isValueClass) {
-          _.add("__computeSerializedValue()")
+          _.add("__computeSerializedSize()")
         }
         .when(!message.isValueClass) {
-          _.add("""var read = __serializedSizeCachedValue
-                  |if (read == 0) {
-                  |  read = __computeSerializedValue()
-                  |  __serializedSizeCachedValue = read
+          // Since zero is a valid value, we actually store the serialized
+          // size plus one. Zero means that the memoized value was not initialized.
+          _.add("""var __size = __serializedSizeMemoized
+                  |if (__size == 0) {
+                  |  __size = __computeSerializedSize() + 1
+                  |  __serializedSizeMemoized = __size
                   |}
-                  |read""".stripMargin)
+                  |__size - 1
+                  |""".stripMargin)
         }
         .outdent
         .add("}")
@@ -588,39 +580,40 @@ class ProtobufGenerator(
   }
 
   def generateSerializedSizeForPackedFields(message: Descriptor)(fp: FunctionalPrinter) =
-    fp.print(message.fields.filter(_.isPacked).zipWithIndex) {
-      case (printer, (field, index)) =>
-        val methodName = s"${field.scalaName}SerializedSize"
-        printer
-          .add(s"private[this] def $methodName = {") //closing brace is in each case
-          .call({ fp =>
-            Types.fixedSize(field.getType) match {
-              case Some(size) =>
-                fp.add(s"  $size * ${field.scalaName.asSymbol}.size").add("}")
-              case None =>
-                val capTypeName = Types.capitalizedType(field.getType)
-                val sizeFunc = FunctionApplication(
-                  s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
-                )
-                val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
-                val fromCustom =
-                  if (field.customSingleScalaTypeName.isDefined)
-                    FunctionApplication(s"${field.typeMapper.fullName}.toBase")
-                  else Identity
-                val funcs    = List(sizeFunc, fromEnum, fromCustom)
-                val sizeExpr = ExpressionBuilder.runSingleton(funcs)("__i")
-                fp.indent
-                  .add(s"if (__${methodName}Field == 0) __${methodName}Field = {")
-                  .add(s"  var __s: _root_.scala.Int = 0")
-                  .add(s"  ${field.scalaName.asSymbol}.foreach(__i => __s += $sizeExpr)")
-                  .add(s"  __s")
-                  .add(s"}")
-                  .add(s"__${methodName}Field")
-                  .outdent
-                  .add("}") // closing brace for the method
-                  .add(s"@transient private[this] var __${methodName}Field: _root_.scala.Int = 0")
-            }
-          })
+    fp.print(message.fields.filter(_.isPacked)) { case (printer, field) =>
+      val methodName = s"${field.scalaName}SerializedSize"
+      printer
+        .add(s"private[this] def $methodName = {") // closing brace is in each case
+        .call({ fp =>
+          Types.fixedSize(field.getType) match {
+            case Some(size) =>
+              fp.add(
+                s"  $size * ${field.collection.size(field.scalaName.asSymbol, EnclosingType.None)}"
+              ).add("}")
+            case None =>
+              val capTypeName = Types.capitalizedType(field.getType)
+              val sizeFunc = FunctionApplication(
+                s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
+              )
+              val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
+              val fromCustom =
+                if (field.customSingleScalaTypeName.isDefined)
+                  FunctionApplication(s"${field.typeMapper.fullName}.toBase")
+                else Identity
+              val funcs    = List(sizeFunc, fromEnum, fromCustom)
+              val sizeExpr = ExpressionBuilder.runSingleton(funcs)("__i")
+              fp.indent
+                .add(s"if (__${methodName}Field == 0) __${methodName}Field = {")
+                .add(s"  var __s: _root_.scala.Int = 0")
+                .add(s"  ${field.collection.foreach}(__i => __s += $sizeExpr)")
+                .add(s"  __s")
+                .add(s"}")
+                .add(s"__${methodName}Field")
+                .outdent
+                .add("}") // closing brace for the method
+                .add(s"@transient private[this] var __${methodName}Field: _root_.scala.Int = 0")
+          }
+        })
     }
 
   private def composeGen(funcs: Seq[String]) =
@@ -630,66 +623,66 @@ class ProtobufGenerator(
   private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
     if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
     else if (field.getType == Type.ENUM) s"${expr} != 0"
+    else if (field.getType == Type.MESSAGE) s"${expr}.serializedSize != 0"
     else s"${expr} != ${defaultValueForGet(field, uncustomized = true)}"
   }
 
   def generateWriteTo(message: Descriptor)(fp: FunctionalPrinter) =
     fp.add(
-        s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {"
-      )
-      .indent
-      .print(message.fields.sortBy(_.getNumber).zipWithIndex) {
-        case (printer, (field, index)) =>
-          val fieldNameSymbol = fieldAccessorSymbol(field)
-          val capTypeName     = Types.capitalizedType(field.getType)
-          if (field.isPacked) {
-            val writeFunc = composeGen(
-              Seq(s"_output__.write${capTypeName}NoTag") ++ (
-                if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).value") else Nil
-              ) ++ (
-                if (field.customSingleScalaTypeName.isDefined)
-                  Seq(s"${field.typeMapper.fullName}.toBase")
-                else Nil
-              )
+      s"def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {"
+    ).indent
+      .print(message.fields.sortBy(_.getNumber)) { case (printer, field) =>
+        val fieldNameSymbol = fieldAccessorSymbol(field)
+        val capTypeName     = Types.capitalizedType(field.getType)
+        if (field.isPacked) {
+          val writeFunc = composeGen(
+            Seq(s"_output__.write${capTypeName}NoTag") ++ (
+              if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).value") else Nil
+            ) ++ (
+              if (field.customSingleScalaTypeName.isDefined)
+                Seq(s"${field.typeMapper.fullName}.toBase")
+              else Nil
             )
+          )
 
-            printer.add(s"""if (${fieldNameSymbol}.nonEmpty) {
-                           |  _output__.writeTag(${field.getNumber}, 2)
-                           |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
-                           |  ${fieldNameSymbol}.foreach($writeFunc)
-                           |};""".stripMargin)
-          } else if (field.isRequired) {
-            printer
-              .add("")
-              .add("{")
-              .indent
-              .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
-              .call(generateWriteSingleValue(field, "__v"))
-              .outdent
-              .add("};")
-          } else if (field.isSingular) {
-            // Singular that are not required are written only if they don't equal their default
-            // value.
-            printer
-              .add(s"{")
-              .indent
-              .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
-              .add(s"if (${isNonEmpty("__v", field)}) {")
-              .indent
-              .call(generateWriteSingleValue(field, "__v"))
-              .outdent
-              .add("}")
-              .outdent
-              .add("};")
-          } else {
-            printer
-              .add(s"${fieldNameSymbol}.foreach { __v =>")
-              .indent
-              .add(s"val __m = ${toBaseType(field)("__v")}")
-              .call(generateWriteSingleValue(field, "__m"))
-              .outdent
-              .add("};")
-          }
+          printer.add(s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
+                         |  _output__.writeTag(${field.getNumber}, 2)
+                         |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
+                         |  ${field.collection.foreach}($writeFunc)
+                         |};""".stripMargin)
+        } else if (field.isRequired || field.noBoxRequired) {
+          printer
+            .add("")
+            .add("{")
+            .indent
+            .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
+            .call(generateWriteSingleValue(field, "__v"))
+            .outdent
+            .add("};")
+        } else if (field.isSingular) {
+          // Singular that are not required are written only if they don't equal their default
+          // value.
+          printer
+            .add(s"{")
+            .indent
+            .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
+            .add(s"if (${isNonEmpty("__v", field)}) {")
+            .indent
+            .call(generateWriteSingleValue(field, "__v"))
+            .outdent
+            .add("}")
+            .outdent
+            .add("};")
+        } else {
+          printer
+            .when(field.isRepeated)(_.add(s"${field.collection.foreach} { __v =>"))
+            .when(!field.isRepeated)(_.add(s"${fieldAccessorSymbol(field)}.foreach { __v =>"))
+            .indent
+            .add(s"val __m = ${toBaseType(field)("__v")}")
+            .call(generateWriteSingleValue(field, "__m"))
+            .outdent
+            .add("};")
+        }
       }
       .when(message.preservesUnknownFields)(_.add("unknownFields.writeTo(_output__)"))
       .outdent
@@ -703,10 +696,12 @@ class ProtobufGenerator(
       case field if !field.isInOneof =>
         val typeName = field.scalaTypeName
         val ctorDefaultValue: Option[String] =
-          if (message.getFile.noDefaultValuesInConstructor) None
+          if (field.noDefaultValueInConstructor) None
           else if (field.isOptional && field.supportsPresence) Some(C.None)
-          else if (field.isSingular && !field.isRequired) Some(defaultValueForGet(field).toString)
-          else if (field.isRepeated) Some(s"${field.emptyCollection}")
+          else if (field.isSingular && !field.isRequired && !field.noBoxRequired)
+            Some(defaultValueForGet(field).toString)
+          else if (field.isRepeated && !field.collection.nonEmptyType)
+            Some(s"${field.collection.empty}")
           else None
 
         ConstructorField(
@@ -717,29 +712,22 @@ class ProtobufGenerator(
           annotations = annotations(field)
         )
     }
-    val oneOfFields = message.getOneofs.asScala.map { oneOf =>
+    val oneOfFields = message.getRealOneofs.asScala.map { oneOf =>
       val ctorDefaultValue: Option[String] =
-        if (message.getFile.noDefaultValuesInConstructor) None else Some(oneOf.empty.fullName)
+        if (message.getFile.noDefaultValuesInConstructor) None
+        else Some(oneOf.empty.fullNameWithMaybeRoot(message))
 
       ConstructorField(
         name = oneOf.scalaName.nameSymbol,
-        typeName = oneOf.scalaType.fullName,
+        typeName = oneOf.scalaType.fullNameWithMaybeRoot(message),
         default = ctorDefaultValue,
         index = oneOf.getField(0).getIndex
       )
     }
     val maybeUnknownFields =
-      if (message.preservesUnknownFields)
-        Seq(
-          ConstructorField(
-            name = "unknownFields",
-            typeName = "_root_.scalapb.UnknownFieldSet",
-            default = Some("_root_.scalapb.UnknownFieldSet.empty"),
-            index = Int.MaxValue
-          )
-        )
-      else
-        Seq()
+      if (message.preservesUnknownFields) {
+        Seq(ConstructorField.unknownFields(message.unknownFieldsAnnotations))
+      } else Seq()
 
     (regularFields ++ oneOfFields ++ maybeUnknownFields).sortBy(_.index)
   }
@@ -750,164 +738,14 @@ class ProtobufGenerator(
     printer.addWithDelimiter(",")(constructorFields(message).map(_.fullString))
   }
 
-  def generateMerge(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
-    val requiredFieldMap: Map[FieldDescriptor, Int] =
-      message.fields.filter(_.isRequired).zipWithIndex.toMap
-    printer
-      .add(
-        s"def merge(`_message__`: $myFullScalaName, `_input__`: _root_.com.google.protobuf.CodedInputStream): $myFullScalaName = {"
-      )
-      .indent
-      .print(message.fieldsWithoutOneofs)((printer, field) =>
-        if (!field.isRepeated)
-          printer.add(s"var __${field.scalaName} = `_message__`.${field.scalaName.asSymbol}")
-        else
-          printer.add(
-            s"val __${field.scalaName} = (${field.collectionBuilder} ++= `_message__`.${field.scalaName.asSymbol})"
-          )
-      )
-      .when(message.preservesUnknownFields)(
-        _.add(
-          "var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null"
-        )
-      )
-      .when(requiredFieldMap.nonEmpty) { fp =>
-        // Sets the bit 0...(n-1) inclusive to 1.
-        def hexBits(n: Int): String = "0x%xL".format((0 to (n - 1)).map(i => (1L << i)).sum)
-        val requiredFieldCount      = requiredFieldMap.size
-        val fullWords               = (requiredFieldCount - 1) / 64
-        val bits: Seq[String] = (1 to fullWords).map(_ => hexBits(64)) :+ hexBits(
-          requiredFieldCount - 64 * fullWords
-        )
-        fp.print(bits.zipWithIndex) {
-          case (fp, (bn, index)) =>
-            fp.add(s"var __requiredFields$index: _root_.scala.Long = $bn")
-        }
-      }
-      .print(message.getOneofs.asScala)((printer, oneof) =>
-        printer.add(s"var __${oneof.scalaName.name} = `_message__`.${oneof.scalaName.nameSymbol}")
-      )
-      .add(s"""var _done__ = false
-              |while (!_done__) {
-              |  val _tag__ = _input__.readTag()
-              |  _tag__ match {
-              |    case 0 => _done__ = true""".stripMargin)
-      .print(message.fields) { (printer, field) =>
-        val p = {
-          val newValBase = if (field.isMessage) {
-            val defInstance =
-              s"${field.getMessageType.scalaType.fullNameWithMaybeRoot(message)}.defaultInstance"
-            val baseInstance =
-              if (field.isRepeated) defInstance
-              else {
-                val expr =
-                  if (field.isInOneof)
-                    s"_message__.${fieldAccessorSymbol(field)}"
-                  else s"__${field.scalaName}"
-                val mappedType =
-                  toBaseFieldType(field).apply(expr, field.enclosingType)
-                if (field.isInOneof || field.supportsPresence)
-                  (mappedType + s".getOrElse($defInstance)")
-                else mappedType
-              }
-            s"_root_.scalapb.LiteParser.readMessage(_input__, $baseInstance)"
-          } else if (field.isEnum)
-            s"${field.getEnumType.scalaType.fullNameWithMaybeRoot(message)}.fromValue(_input__.readEnum())"
-          else if (field.getType == Type.STRING) s"_input__.readStringRequireUtf8()"
-          else s"_input__.read${Types.capitalizedType(field.getType)}()"
-
-          val newVal = toCustomType(field)(newValBase)
-
-          val updateOp =
-            if (field.supportsPresence) s"__${field.scalaName} = Option($newVal)"
-            else if (field.isInOneof) {
-              s"__${field.getContainingOneof.scalaName.name} = ${field.oneOfTypeName.fullName}($newVal)"
-            } else if (field.isRepeated) s"__${field.scalaName} += $newVal"
-            else s"__${field.scalaName} = $newVal"
-
-          printer
-            .add(
-              s"""    case ${(field.getNumber << 3) + Types.wireType(field.getType)} =>
-                 |      $updateOp""".stripMargin
-            )
-            .when(field.isRequired) { p =>
-              val fieldNumber = requiredFieldMap(field)
-              p.add(
-                s"      __requiredFields${fieldNumber / 64} &= 0x${"%x".format(~(1L << fieldNumber))}L"
-              )
-            }
-        }
-
-        if (field.isPackable) {
-          val read = {
-            val tmp = s"""_input__.read${Types.capitalizedType(field.getType)}"""
-            if (field.isEnum)
-              s"${field.getEnumType.scalaType.fullName}.fromValue($tmp)"
-            else tmp
-          }
-          val readExpr = toCustomType(field)(read)
-          p.add(s"""    case ${(field.getNumber << 3) + Types.WIRETYPE_LENGTH_DELIMITED} => {
-                   |      val length = _input__.readRawVarint32()
-                   |      val oldLimit = _input__.pushLimit(length)
-                   |      while (_input__.getBytesUntilLimit > 0) {
-                   |        __${field.scalaName} += $readExpr
-                   |      }
-                   |      _input__.popLimit(oldLimit)
-                   |    }""".stripMargin)
-        } else p
-      }
-      .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
-      .when(message.preservesUnknownFields)(
-        _.add(
-          """    case tag =>
-            |      if (_unknownFields__ == null) {
-            |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder(_message__.unknownFields)
-            |      }
-            |      _unknownFields__.parseField(tag, _input__)""".stripMargin
-        )
-      )
-      .add("  }")
-      .add("}")
-      .when(requiredFieldMap.nonEmpty) { p =>
-        val r = (0 until (requiredFieldMap.size + 63) / 64)
-          .map(i => s"__requiredFields$i != 0L")
-          .mkString(" || ")
-        p.add(
-          s"""if (${r}) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
-        )
-      }
-      .add(s"$myFullScalaName(")
-      .indent
-      .addWithDelimiter(",")(
-        (message.fieldsWithoutOneofs ++ message.getOneofs.asScala).map {
-          case e: FieldDescriptor if e.isRepeated =>
-            s"  ${e.scalaName.asSymbol} = __${e.scalaName}.result()"
-          case e: FieldDescriptor =>
-            s"  ${e.scalaName.asSymbol} = __${e.scalaName}"
-          case e: OneofDescriptor =>
-            s"  ${e.scalaName.nameSymbol} = __${e.scalaName.name}"
-        } ++ (if (message.preservesUnknownFields)
-                Seq(
-                  "  unknownFields = if (_unknownFields__ == null) _message__.unknownFields else _unknownFields__.result()"
-                )
-              else Seq())
-      )
-      .outdent
-      .add(")")
-      .outdent
-      .add("}")
-  }
-
   def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullName
     printer
       .add(s"def toJavaProto(scalaPbSource: $myFullScalaName): ${message.javaTypeName} = {")
       .indent
       .add(s"val javaPbOut = ${message.javaTypeName}.newBuilder")
-      .print(message.fields) {
-        case (printer, field) =>
-          printer.add(assignScalaFieldToJava("scalaPbSource", "javaPbOut", field))
+      .print(message.fields) { case (printer, field) =>
+        printer.add(assignScalaFieldToJava("scalaPbSource", "javaPbOut", field))
       }
       .add("javaPbOut.build")
       .outdent
@@ -929,15 +767,14 @@ class ProtobufGenerator(
               else javaFieldToScala("javaPbSource", field)
             Seq(s"${field.scalaName.asSymbol} = $conversion")
         }
-        val oneOfs = message.getOneofs.asScala.map {
-          case oneOf =>
-            val head =
-              s"${oneOf.scalaName.nameSymbol} = javaPbSource.${oneOf.javaEnumName}.getNumber match {"
-            val body = oneOf.fields.map { field =>
-              s"  case ${field.getNumber} => ${field.oneOfTypeName.fullName}(${javaFieldToScala("javaPbSource", field)})"
-            }
-            val tail = Seq(s"  case _ => ${oneOf.empty.fullName}", "}")
-            Seq(head) ++ body ++ tail
+        val oneOfs = message.getRealOneofs.asScala.map { case oneOf =>
+          val head =
+            s"${oneOf.scalaName.nameSymbol} = javaPbSource.${oneOf.javaEnumName}.getNumber match {"
+          val body = oneOf.fields.map { field =>
+            s"  case ${field.getNumber} => ${field.oneOfTypeName.fullName}(${javaFieldToScala("javaPbSource", field)})"
+          }
+          val tail = Seq(s"  case _ => ${oneOf.empty.fullName}", "}")
+          Seq(head) ++ body ++ tail
         }
         printer.addGroupsWithDelimiter(",")(normal ++ oneOfs)
       }
@@ -948,7 +785,7 @@ class ProtobufGenerator(
   def generateNoDefaultArgsFactory(
       message: Descriptor
   )(printer: FunctionalPrinter): FunctionalPrinter = {
-    val fields = constructorFields(message)
+    val fields = constructorFields(message).filterNot(_.isUnknownFields)
 
     printer
       .add(
@@ -978,13 +815,22 @@ class ProtobufGenerator(
     printer
       .add(s"""implicit def messageReads: _root_.scalapb.descriptors.Reads[${myFullScalaName}] = _root_.scalapb.descriptors.Reads{
               |  case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
-              |    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), \"FieldDescriptor does not match message type.\")
+              |    _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), \"FieldDescriptor does not match message type.\")
               |    ${myFullScalaName}(""".stripMargin)
       .indent(3)
       .call { printer =>
         val fields = message.fields.collect {
           case field if !field.isInOneof =>
-            val baseTypeName = field.fieldMapCollection(
+            val readsEnclosing =
+              if (field.supportsPresence) EnclosingType.ScalaOption
+              else if (field.isRepeated && field.isMapField)
+                EnclosingType.Collection(DescriptorImplicits.ScalaSeq, None)
+              else if (field.isRepeated && !field.isMapField) field.collection.adapter match {
+                case Some(_) => EnclosingType.Collection(DescriptorImplicits.ScalaIterator, None)
+                case None    => EnclosingType.Collection(field.collectionType, None)
+              }
+              else EnclosingType.None
+            val baseTypeName = readsEnclosing.asType(
               if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor"
               else field.baseSingleScalaTypeName
             )
@@ -993,9 +839,16 @@ class ProtobufGenerator(
             val e =
               if (field.supportsPresence)
                 s"$value.flatMap(_.as[$baseTypeName])"
-              else if (field.isRepeated)
-                s"$value.map(_.as[${baseTypeName}]).getOrElse(${field.fieldsMapEmptyCollection})"
-              else if (field.isRequired)
+              else if (field.isRepeated) {
+                val empty = readsEnclosing match {
+                  case EnclosingType.Collection(s, _) => s"$s.empty"
+                  case _ =>
+                    throw new GeneratorException(
+                      "Expected a collection enclosing. Pleae report this as a bug."
+                    )
+                }
+                s"$value.map(_.as[${baseTypeName}]).getOrElse($empty)"
+              } else if (field.isRequired || field.noBoxRequired)
                 s"$value.get.as[$baseTypeName]"
               else {
                 // This is for proto3, no default value.
@@ -1005,12 +858,21 @@ class ProtobufGenerator(
                 s"$value.map(_.as[$baseTypeName]).getOrElse($t)"
               }
 
-            s"${field.scalaName.asSymbol} = " + transform(field).apply(
+            val itemTypeTranform = transform(field)(
               e,
-              enclosingType = field.enclosingType
+              sourceType = readsEnclosing,
+              targetType = if (field.isMapField) field.enclosingType else readsEnclosing
             )
+
+            val expr = field.collection.adapter match {
+              case Some(tc) if (!field.isMapField()) =>
+                s"${tc.fullName}.fromIteratorUnsafe($itemTypeTranform)"
+              case _ => itemTypeTranform
+            }
+
+            s"${field.scalaName.asSymbol} = $expr"
         }
-        val oneOfs = message.getOneofs.asScala.map { oneOf =>
+        val oneOfs = message.getRealOneofs.asScala.map { oneOf =>
           val elems = oneOf.fields.map { field =>
             val value =
               s"__fieldsMap.get(scalaDescriptor.findFieldByNumber(${field.getNumber}).get)"
@@ -1056,7 +918,7 @@ class ProtobufGenerator(
         case field if !field.isInOneof =>
           val default = defaultValueForDefaultInstance(field)
           s"${field.scalaName.asSymbol} = $default"
-      } ++ message.getOneofs.asScala.map { oneof =>
+      } ++ message.getRealOneofs.asScala.map { oneof =>
         s"${oneof.scalaName.nameSymbol} = ${oneof.empty.fullName}"
       })
       .outdent
@@ -1072,36 +934,39 @@ class ProtobufGenerator(
         s"implicit class ${className}Lens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, ${message.scalaType.fullName}]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, ${message.scalaType.fullName}](_l) {"
       )
       .indent
-      .print(message.fields) {
-        case (printer, field) =>
-          val fieldName = field.scalaName.asSymbol
-          if (!field.isInOneof) {
-            if (field.supportsPresence) {
-              val optionLensName = "optional" + field.upperScalaName
-              printer
-                .add(
-                  s"""def $fieldName: ${lensType(field.singleScalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
-                     |def ${optionLensName}: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
-                )
-            } else
-              printer.add(
-                s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
-              )
-          } else {
-            val oneofName = field.getContainingOneof.scalaName.nameSymbol
+      .print(message.fields) { case (printer, field) =>
+        val fieldName = field.scalaName.asSymbol
+        if (!field.isInOneof) {
+          if (field.supportsPresence) {
+            val optionLensName = "optional" + field.upperScalaName
             printer
               .add(
-                s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName.fullName}(f_)))"
+                s"""def $fieldName: ${lensType(
+                    field.singleScalaTypeName
+                  )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
+                   |def ${optionLensName}: ${lensType(
+                    field.scalaTypeName
+                  )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
               )
-          }
-      }
-      .print(message.getOneofs.asScala) {
-        case (printer, oneof) =>
-          val oneofName = oneof.scalaName.nameSymbol
+          } else
+            printer.add(
+              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
+            )
+        } else {
+          val oneofName = field.getContainingOneof.scalaName.nameSymbol
           printer
             .add(
-              s"def $oneofName: ${lensType(oneof.scalaType.fullName)} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
+              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
+                  .fullNameWithMaybeRoot(message)}(f_)))"
             )
+        }
+      }
+      .print(message.getRealOneofs.asScala) { case (printer, oneof) =>
+        val oneofName = oneof.scalaName.nameSymbol
+        printer
+          .add(
+            s"def $oneofName: ${lensType(oneof.scalaType.fullNameWithMaybeRoot(message))} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
+          )
       }
       .outdent
       .add("}")
@@ -1109,9 +974,8 @@ class ProtobufGenerator(
 
   def generateFieldNumbers(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
-      .print(message.fields) {
-        case (printer, field) =>
-          printer.add(s"final val ${field.fieldNumberConstantName} = ${field.getNumber}")
+      .print(message.fields) { case (printer, field) =>
+        printer.add(s"final val ${field.fieldNumberConstantName} = ${field.getNumber}")
       }
   }
 
@@ -1124,17 +988,36 @@ class ProtobufGenerator(
     } yield (field, custom)
 
     printer
-      .print(customizedFields) {
-        case (printer, (field, customType)) =>
-          val modifier =
-            if (field.getContainingType.isMapEntry)
-              s"private[${field.getContainingType.getContainingType.scalaType.nameSymbol}]"
-            else s"private"
-          printer
-            .add("@transient")
-            .add(
-              s"$modifier val ${field.typeMapperValName}: _root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]"
-            )
+      .print(customizedFields) { case (printer, (field, customType)) =>
+        val modifier =
+          if (field.getFile().scalaPackage.fullName.isEmpty) "private"
+          else s"private[${field.getFile().scalaPackage.fullName.split('.').last}]"
+        printer
+          .add("@transient")
+          .add(
+            s"$modifier val ${field.typeMapperValName}: _root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]"
+          )
+      }
+  }
+
+  def generateCollectionAdapters(
+      fields: Seq[FieldDescriptor]
+  )(printer: FunctionalPrinter): FunctionalPrinter = {
+    val fieldsWithAdapter: Seq[(FieldDescriptor, String)] = for {
+      field   <- fields
+      adapter <- field.collection.adapterClass
+    } yield (field, adapter)
+
+    printer
+      .print(fieldsWithAdapter) { case (printer, (field, adapter)) =>
+        val modifier =
+          if (field.getFile().scalaPackage.fullName.isEmpty) "private"
+          else s"private[${field.getFile().scalaPackage.fullName.split('.').last}]"
+        printer
+          .add("@transient")
+          .add(
+            s"$modifier val ${field.collection.adapter.get.nameSymbol}: _root_.scalapb.CollectionAdapter[${field.singleScalaTypeName}, ${field.scalaTypeName}] = $adapter()"
+          )
       }
   }
 
@@ -1174,9 +1057,8 @@ class ProtobufGenerator(
         .add("var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null")
         .add("(__number: @_root_.scala.unchecked) match {")
         .indent
-        .print(messageNumbers) {
-          case (fp, (f, number)) =>
-            fp.add(s"case $number => __out = ${f.scalaType.fullName}")
+        .print(messageNumbers) { case (fp, (f, number)) =>
+          fp.add(s"case $number => __out = ${f.scalaType.fullName}")
         }
         .outdent
         .add("}")
@@ -1240,9 +1122,8 @@ class ProtobufGenerator(
         .indent
         .add("(__fieldNumber: @_root_.scala.unchecked) match {")
         .indent
-        .print(message.fields.filter(_.isEnum)) {
-          case (fp, f) =>
-            fp.add(s"case ${f.getNumber} => ${f.getEnumType.scalaType.fullName}")
+        .print(message.fields.filter(_.isEnum)) { case (fp, f) =>
+          fp.add(s"case ${f.getNumber} => ${f.getEnumType.scalaType.fullName}")
         }
         .outdent
         .add("}")
@@ -1253,114 +1134,118 @@ class ProtobufGenerator(
 
   def printExtension(fp: FunctionalPrinter, fd: FieldDescriptor) = {
     fp.add(
-        s"val ${fd.scalaName.asSymbol}: _root_.scalapb.GeneratedExtension[${fd.getContainingType.scalaType.fullName}, ${fd.scalaTypeName}] ="
-      )
-      .call { fp =>
-        val (listLens, fromFieldToBase, fromBaseToField) = fd.getType match {
-          case Type.DOUBLE =>
-            (
-              "fixed64Lens",
-              FunctionApplication("java.lang.Double.longBitsToDouble"),
-              FunctionApplication("java.lang.Double.doubleToLongBits")
+      s"val ${fd.scalaName.asSymbol}: _root_.scalapb.GeneratedExtension[${fd.getContainingType.scalaType.fullName}, ${fd.scalaTypeName}] ="
+    ).call { fp =>
+      val (listLens, fromFieldToBase, fromBaseToField) = fd.getType match {
+        case Type.DOUBLE =>
+          (
+            "fixed64Lens",
+            FunctionApplication("java.lang.Double.longBitsToDouble"),
+            FunctionApplication("java.lang.Double.doubleToLongBits")
+          )
+        case Type.FLOAT =>
+          (
+            "fixed32Lens",
+            FunctionApplication("java.lang.Float.intBitsToFloat"),
+            FunctionApplication("java.lang.Float.floatToIntBits")
+          )
+        case Type.INT64   => ("varintLens", Identity, Identity)
+        case Type.UINT64  => ("varintLens", Identity, Identity)
+        case Type.INT32   => ("varintLens", MethodApplication("toInt"), MethodApplication("toLong"))
+        case Type.FIXED64 => ("fixed64Lens", Identity, Identity)
+        case Type.FIXED32 => ("fixed32Lens", Identity, Identity)
+        case Type.BOOL =>
+          (
+            "varintLens",
+            OperatorApplication("!= 0"),
+            FunctionApplication("_root_.scalapb.GeneratedExtension.Internal.bool2Long")
+          )
+        case Type.STRING =>
+          (
+            "lengthDelimitedLens",
+            MethodApplication("toStringUtf8()"),
+            FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8")
+          )
+        case Type.GROUP => throw new RuntimeException("Not supported")
+        case Type.MESSAGE =>
+          (
+            "lengthDelimitedLens",
+            FunctionApplication(
+              s"_root_.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"
+            ),
+            MethodApplication(s"toByteString")
+          )
+        case Type.BYTES => ("lengthDelimitedLens", Identity, Identity)
+        case Type.UINT32 =>
+          ("varintLens", MethodApplication("toInt"), MethodApplication("toLong"))
+        case Type.ENUM =>
+          (
+            "varintLens",
+            MethodApplication("toInt") andThen FunctionApplication(
+              fd.baseSingleScalaTypeName + ".fromValue"
+            ),
+            MethodApplication("value") andThen MethodApplication("toLong")
+          )
+        case Type.SFIXED32 => ("fixed32Lens", Identity, Identity)
+        case Type.SFIXED64 => ("fixed64Lens", Identity, Identity)
+        case Type.SINT32 =>
+          (
+            "varintLens",
+            MethodApplication("toInt") andThen FunctionApplication(
+              "_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"
+            ),
+            FunctionApplication(
+              "_root_.com.google.protobuf.CodedOutputStream.encodeZigZag32"
+            ) andThen (
+              MethodApplication("toLong")
             )
-          case Type.FLOAT =>
-            (
-              "fixed32Lens",
-              FunctionApplication("java.lang.Float.intBitsToFloat"),
-              FunctionApplication("java.lang.Float.floatToIntBits")
-            )
-          case Type.INT64   => ("varintLens", Identity, Identity)
-          case Type.UINT64  => ("varintLens", Identity, Identity)
-          case Type.INT32   => ("varintLens", MethodApplication("toInt"), Identity)
-          case Type.FIXED64 => ("fixed64Lens", Identity, Identity)
-          case Type.FIXED32 => ("fixed32Lens", Identity, Identity)
-          case Type.BOOL =>
-            (
-              "varintLens",
-              OperatorApplication("!= 0"),
-              FunctionApplication("_root_.scalapb.GeneratedExtension.Internal.bool2Long")
-            )
-          case Type.STRING =>
-            (
-              "lengthDelimitedLens",
-              MethodApplication("toStringUtf8"),
-              FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8")
-            )
-          case Type.GROUP => throw new RuntimeException("Not supported")
-          case Type.MESSAGE =>
-            (
-              "lengthDelimitedLens",
-              FunctionApplication(
-                s"_root_.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"
-              ),
-              MethodApplication(s"toByteString")
-            )
-          case Type.BYTES  => ("lengthDelimitedLens", Identity, Identity)
-          case Type.UINT32 => ("varintLens", MethodApplication("toInt"), Identity)
-          case Type.ENUM =>
-            (
-              "varintLens",
-              MethodApplication("toInt") andThen FunctionApplication(
-                fd.baseSingleScalaTypeName + ".fromValue"
-              ),
-              MethodApplication("value")
-            )
-          case Type.SFIXED32 => ("fixed32Lens", Identity, Identity)
-          case Type.SFIXED64 => ("fixed64Lens", Identity, Identity)
-          case Type.SINT32 =>
-            (
-              "varintLens",
-              MethodApplication("toInt") andThen FunctionApplication(
-                "_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"
-              ),
-              FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag32")
-            )
-          case Type.SINT64 =>
-            (
-              "varintLens",
-              FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag64"),
-              FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag64")
-            )
-        }
-        val fromFieldToCustom = fromFieldToBase andThen toCustomTypeExpr(fd)
-        val fromCustomToField = toBaseTypeExpr(fd) andThen fromBaseToField
-
-        val (factoryMethod, args) = {
-          if (fd.supportsPresence && !fd.isMessage)
-            ("_root_.scalapb.GeneratedExtension.forOptionalUnknownField", Seq.empty)
-          else if (fd.supportsPresence && fd.isMessage)
-            ("_root_.scalapb.GeneratedExtension.forOptionalUnknownMessageField", Seq.empty)
-          else if (fd.isRepeated && fd.isPackable)
-            (
-              "_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldPackable",
-              Seq(fd.getType match {
-                case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64"
-                case Type.FLOAT | Type.FIXED32 | Type.SFIXED32  => "_.readFixed32"
-                case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM | Type.BOOL |
-                    Type.SINT32 | Type.SINT64 =>
-                  "_.readInt64"
-                case _ =>
-                  throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
-              })
-            )
-          else if (fd.isRepeated && !fd.isPackable) {
-            ("_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldUnpackable", Seq())
-          } else
-            (
-              if (!fd.isMessage) "_root_.scalapb.GeneratedExtension.forSingularUnknownField"
-              else "_root_.scalapb.GeneratedExtension.forSingularUnknownMessageField",
-              Seq(defaultValueForGet(fd))
-            )
-        }
-        val argList = Seq(
-          s"{__valueIn => ${fromFieldToCustom("__valueIn", EnclosingType.None)}}",
-          s"{__valueIn => ${fromCustomToField("__valueIn", EnclosingType.None)}}"
-        ) ++ args
-        fp.add(
-          s"  $factoryMethod(${fd.getNumber}, _root_.scalapb.UnknownFieldSet.Field.$listLens)(${argList
-            .mkString(", ")})"
-        )
+          )
+        case Type.SINT64 =>
+          (
+            "varintLens",
+            FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag64"),
+            FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag64")
+          )
       }
+      val fromFieldToCustom = fromFieldToBase andThen toCustomTypeExpr(fd)
+      val fromCustomToField = toBaseTypeExpr(fd) andThen fromBaseToField
+
+      val (factoryMethod, args) = {
+        if (fd.supportsPresence && !fd.isMessage)
+          ("_root_.scalapb.GeneratedExtension.forOptionalUnknownField", Seq.empty)
+        else if (fd.supportsPresence && fd.isMessage)
+          ("_root_.scalapb.GeneratedExtension.forOptionalUnknownMessageField", Seq.empty)
+        else if (fd.isRepeated && fd.isPackable)
+          (
+            "_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldPackable",
+            Seq(fd.getType match {
+              case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64()"
+              case Type.FLOAT | Type.FIXED32 | Type.SFIXED32  => "_.readFixed32()"
+              case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM |
+                  Type.BOOL | Type.SINT32 | Type.SINT64 =>
+                "_.readInt64()"
+              case _ =>
+                throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
+            })
+          )
+        else if (fd.isRepeated && !fd.isPackable) {
+          ("_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldUnpackable", Seq())
+        } else
+          (
+            if (!fd.isMessage) "_root_.scalapb.GeneratedExtension.forSingularUnknownField"
+            else "_root_.scalapb.GeneratedExtension.forSingularUnknownMessageField",
+            Seq(defaultValueForGet(fd))
+          )
+      }
+      val argList = Seq(
+        s"{__valueIn => ${fromFieldToCustom("__valueIn", EnclosingType.None)}}",
+        s"{__valueIn => ${fromCustomToField("__valueIn", EnclosingType.None)}}"
+      ) ++ args
+      fp.add(
+        s"  $factoryMethod(${fd.getNumber}, _root_.scalapb.UnknownFieldSet.Field.$listLens)(${argList
+            .mkString(", ")})"
+      )
+    }
   }
 
   def generateMessageCompanion(
@@ -1375,7 +1260,7 @@ class ProtobufGenerator(
       .indent
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))
-      .call(generateMerge(message))
+      .call(ParseFromGenerator.generateParseFrom(implicits, this, message))
       .call(generateMessageReads(message))
       .call(generateDescriptors(message))
       .call(generateMessageCompanionForField(message))
@@ -1383,21 +1268,23 @@ class ProtobufGenerator(
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
       .print(message.getEnumTypes.asScala)(printEnum)
-      .print(message.getOneofs.asScala)(printOneof)
+      .print(message.getRealOneofs.asScala)(printOneof)
       .print(message.nestedTypes)(printMessage)
       .print(message.getExtensions.asScala)(printExtension)
       .when(message.generateLenses)(generateMessageLens(message))
       .call(generateFieldNumbers(message))
       .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
+      .call(generateCollectionAdapters(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
       .call(generateNoDefaultArgsFactory(message))
+      .add(s"// @@protoc_insertion_point(${message.messageCompanionInsertionPoint.insertionPoint})")
       .outdent
       .add("}")
       .add("")
   }
 
-  def generateScalaDoc(enum: EnumDescriptor): PrinterEndo = { fp =>
-    val lines = asScalaDocBlock(enum.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
+  def generateScalaDoc(enumDesc: EnumDescriptor): PrinterEndo = { fp =>
+    val lines = asScalaDocBlock(enumDesc.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty))
     fp.add(lines: _*)
   }
 
@@ -1407,17 +1294,25 @@ class ProtobufGenerator(
   }
 
   def generateScalaDoc(message: Descriptor): PrinterEndo = { fp =>
-    val mainDoc: Seq[String] = message.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty)
+    val mainDoc: Seq[String] = {
+      val base = message.comment.map(_.split('\n').toSeq).getOrElse(Seq.empty)
+      // Hack: there's an heading in `any.proto` that causes a Scaladoc
+      // warning.
+      if (message.getFullName() != "google.protobuf.Any")
+        base
+      else
+        base.collect {
+          case l if l.trim == "====" => ""
+          case l                     => l
+        }
+    }
 
     val fieldsDoc: Seq[String] = message.fields
       .filterNot(_.isInOneof)
-      .map { fd =>
-        (fd, fd.comment.map(_.split("\n").toSeq).getOrElse(Seq.empty))
-      }
+      .map { fd => (fd, fd.comment.map(_.split("\n").toSeq).getOrElse(Seq.empty)) }
       .filter(_._2.nonEmpty)
-      .flatMap {
-        case (fd, lines) =>
-          Seq(s"@param ${fd.scalaName}") ++ lines.map("  " + _)
+      .flatMap { case (fd, lines) =>
+        Seq(s"@param ${fd.scalaName}") ++ lines.map("  " + _)
       }
 
     val sep = if (mainDoc.nonEmpty && fieldsDoc.nonEmpty) Seq("") else Seq.empty
@@ -1426,6 +1321,7 @@ class ProtobufGenerator(
   }
 
   def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
+    val fullName = message.scalaType.fullNameWithMaybeRoot(message)
     printer
       .call(new SealedOneofsGenerator(message, implicits).generateSealedOneofTrait)
       .call(generateScalaDoc(message))
@@ -1439,72 +1335,82 @@ class ProtobufGenerator(
       .call(generateSerializedSizeForPackedFields(message))
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
-      .print(message.fields) {
-        case (printer, field) =>
-          val withMethod  = "with" + field.upperScalaName
-          val clearMethod = "clear" + field.upperScalaName
-          val singleType  = field.singleScalaTypeName
-          printer
-            .when(field.supportsPresence || field.isInOneof) { p =>
-              val default = defaultValueForGet(field)
-              p.add(
-                s"def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)"
-              )
-            }
-            .when(field.supportsPresence) { p =>
-              p.add(
-                s"""def $clearMethod: ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = ${C.None})
-                   |def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = Option(__v))""".stripMargin
-              )
-            }
-            .when(field.isInOneof) { p =>
-              p.add(
-                s"""def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.getContainingOneof.scalaName.nameSymbol} = ${field.oneOfTypeName.fullName}(__v))"""
-              )
-            }
-            .when(field.isRepeated) { p =>
-              val emptyValue = field.emptyCollection
-              p.add(
-                s"""def $clearMethod = copy(${field.scalaName.asSymbol} = $emptyValue)
-                   |def add${field.upperScalaName}(__vs: $singleType*): ${message.scalaType.nameSymbol} = addAll${field.upperScalaName}(__vs)
-                   |def addAll${field.upperScalaName}(__vs: Iterable[$singleType]): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = ${field.scalaName.asSymbol} ++ __vs)""".stripMargin
-              )
-            }
-            .when(field.isRepeated || field.isSingular) {
+      .print(message.fields) { case (printer, field) =>
+        val withMethod  = "with" + field.upperScalaName
+        val clearMethod = "clear" + field.upperScalaName
+        val singleType  = field.singleScalaTypeName
+        printer
+          .when(
+            (field.supportsPresence || field.isInOneof) && (message.generateGetters || message.generateLenses)
+          ) { p =>
+            val default = defaultValueForGet(field)
+            val scope   = if (message.generateGetters) "" else "private "
+            p.add(
+              s"${scope}def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)"
+            )
+          }
+          .when(field.supportsPresence) { p =>
+            p.add(
+              s"""def $clearMethod: ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = ${C.None})
+                 |def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = Option(__v))""".stripMargin
+            )
+          }
+          .when(field.isInOneof) { p =>
+            p.add(
+              s"""def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.getContainingOneof.scalaName.nameSymbol} = ${field.oneOfTypeName
+                  .fullNameWithMaybeRoot(message)}(__v))"""
+            )
+          }
+          .when(field.isRepeated) { p =>
+            val concat = field.collection.concat(field.scalaName.asSymbol, "__vs")
+            p.when(!field.collection.nonEmptyType)(
               _.add(
-                s"def $withMethod(__v: ${field.scalaTypeName}): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)"
+                s"def $clearMethod = copy(${field.scalaName.asSymbol} = ${field.collection.empty})"
               )
-            }
+            ).add(
+              s"""|def add${field.upperScalaName}(__vs: $singleType *): ${message.scalaType.nameSymbol} = addAll${field.upperScalaName}(__vs)
+                  |def addAll${field.upperScalaName}(__vs: Iterable[$singleType]): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = $concat)""".stripMargin
+            )
+          }
+          .when(field.isRepeated || field.isSingular) {
+            _.add(
+              s"def $withMethod(__v: ${field.scalaTypeName}): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = __v)"
+            )
+          }
       }
-      .print(message.getOneofs.asScala) {
-        case (printer, oneof) =>
-          printer.add(
-            s"""def clear${oneof.scalaType.name}: ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = ${oneof.empty.fullName})
-               |def with${oneof.scalaType.name}(__v: ${oneof.scalaType.fullName}): ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = __v)""".stripMargin
-          )
+      .print(message.getRealOneofs.asScala) { case (printer, oneof) =>
+        printer.add(
+          s"""def clear${oneof.scalaType.name}: ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = ${oneof.empty
+              .fullNameWithMaybeRoot(message)})
+             |def with${oneof.scalaType.name}(__v: ${oneof.scalaType.fullNameWithMaybeRoot(
+              message
+            )}): ${message.scalaType.nameSymbol} = copy(${oneof.scalaName.nameSymbol} = __v)""".stripMargin
+        )
       }
       .when(message.preservesUnknownFields)(
         _.add(
-          """def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
-            |def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)""".stripMargin
+          s"""def withUnknownFields(__v: ${C.UnknownFieldSet}) = copy(unknownFields = __v)
+             |def discardUnknownFields = copy(unknownFields = ${C.UnknownFieldSetEmpty})""".stripMargin
         )
       )
       .call(generateGetField(message))
       .call(generateGetFieldPValue(message))
       .when(!params.singleLineToProtoString)(
         _.add(
-          s"def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)"
+          s"def toProtoString: _root_.scala.Predef.String = " +
+            "_root_.scalapb.TextFormat.printToUnicodeString(this)"
         )
       )
       .when(params.singleLineToProtoString)(
         _.add(
-          s"def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToSingleLineUnicodeString(this)"
+          s"def toProtoString: _root_.scala.Predef.String = " +
+            "_root_.scalapb.TextFormat.printToSingleLineUnicodeString(this)"
         )
       )
       .when(params.asciiFormatToString)(
         _.add("override def toString: _root_.scala.Predef.String = toProtoString")
       )
-      .add(s"def companion = ${message.scalaType.fullNameWithMaybeRoot(message)}")
+      .add(s"def companion: ${fullName}.type = ${fullName}")
       .when(message.isSealedOneofType) { fp =>
         val scalaType = message.sealedOneofScalaType
         val name      = message.sealedOneofTraitScalaType.name
@@ -1512,6 +1418,7 @@ class ProtobufGenerator(
           s"def to$name: $scalaType = ${message.sealedOneofTypeMapper.fullName}.toCustom(this)"
         )
       }
+      .add(s"// @@protoc_insertion_point(${message.messageClassInsertionPoint.insertionPoint})")
       .outdent
       .outdent
       .add(s"""}
@@ -1519,7 +1426,15 @@ class ProtobufGenerator(
       .call(generateMessageCompanion(message))
   }
 
-  def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter = {
+  @deprecated("Use overloaded method that takes includePreamble=true", "0.11.11")
+  def scalaFileHeader(file: FileDescriptor, javaConverterImport: Boolean): FunctionalPrinter =
+    scalaFileHeader(file, javaConverterImport, true)
+
+  def scalaFileHeader(
+      file: FileDescriptor,
+      javaConverterImport: Boolean,
+      includePreamble: Boolean
+  ): FunctionalPrinter = {
     if (file.scalaOptions.getPreambleList.asScala.nonEmpty && !file.scalaOptions.getSingleFile) {
       throw new GeneratorException(
         s"${file.getName}: single_file must be true when a preamble is provided."
@@ -1537,12 +1452,14 @@ class ProtobufGenerator(
       .when(javaConverterImport)(
         _.add("import _root_.scalapb.internal.compat.JavaConverters._").add()
       )
-      .print(file.scalaOptions.getImportList.asScala) {
-        case (printer, i) => printer.add(s"import $i")
+      .print(file.scalaOptions.getImportList.asScala) { case (printer, i) =>
+        printer.add(s"import $i")
       }
-      .add("")
-      .seq(file.scalaOptions.getPreambleList.asScala.toSeq)
-      .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
+      .newline
+      .when(includePreamble)(
+        _.seq(file.scalaOptions.getPreambleList.asScala.toSeq)
+          .when(file.scalaOptions.getPreambleList.asScala.nonEmpty)(_.add(""))
+      )
   }
 
   def updateDescriptor(tmp: FileDescriptor): DescriptorProtos.FileDescriptorProto = {
@@ -1555,19 +1472,46 @@ class ProtobufGenerator(
       fb.build()
     }
 
+    def updateEnum(enumDescriptor: EnumDescriptor): DescriptorProtos.EnumDescriptorProto = {
+      enumDescriptor
+        .toProto()
+        .toBuilder()
+        .clearValue()
+        .addAllValue(
+          enumDescriptor.getValues().asScala.map(updateEnumValue(_)).asJava
+        )
+        .build()
+    }
+
+    def updateEnumValue(
+        enumValue: EnumValueDescriptor
+    ): DescriptorProtos.EnumValueDescriptorProto = {
+      val ev = enumValue.toProto().toBuilder()
+      val extBuilder =
+        enumValue.getOptions().getExtension[Scalapb.EnumValueOptions](Scalapb.enumValue).toBuilder
+      assert(!extBuilder.hasScalaName || extBuilder.getScalaName == enumValue.scalaName)
+      extBuilder.setScalaName(enumValue.scalaName)
+      ev.getOptionsBuilder().setExtension(Scalapb.enumValue, extBuilder.build())
+      ev.build()
+    }
+
     def updateMessageType(msg: Descriptor): DescriptorProtos.DescriptorProto = {
       msg.toProto.toBuilder
         .clearField()
         .addAllField(msg.getFields.asScala.map(updateField(_)).asJava)
         .clearNestedType()
         .addAllNestedType(msg.getNestedTypes.asScala.map(updateMessageType(_)).asJava)
+        .clearEnumType()
+        .addAllEnumType(msg.getEnumTypes.asScala.map(updateEnum(_)).asJava)
         .build()
     }
 
     val fileProto = tmp.toProto
     fileProto.toBuilder
       .clearMessageType()
-      .addAllMessageType(tmp.getMessageTypes.asScala.map(updateMessageType).asJava)
+      .addAllMessageType(tmp.getMessageTypes().asScala.map(updateMessageType(_)).asJava)
+      .clearEnumType()
+      .addAllEnumType(tmp.getEnumTypes().asScala.map(updateEnum(_)).asJava)
       .build
   }
 
@@ -1590,7 +1534,7 @@ class ProtobufGenerator(
         lines.dropRight(1) :+ (lines.last + "\"\"\"")
       }
       .toSeq
-    fp.add("private lazy val ProtoBytes: Array[Byte] =")
+    fp.add("private lazy val ProtoBytes: _root_.scala.Array[Byte] =")
       .add("    scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(")
       .addGroupsWithDelimiter(",")(base64)
       .add("    ).mkString)")
@@ -1611,7 +1555,9 @@ class ProtobufGenerator(
           .add(
             "  val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)"
           )
-          .add("  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, Array(")
+          .add(
+            "  com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array("
+          )
           .addWithDelimiter(",")(file.getDependencies.asScala.map { d =>
             s"    ${d.fileDescriptorObject.fullName}.javaDescriptor"
           }.toSeq)
@@ -1627,10 +1573,16 @@ class ProtobufGenerator(
   def generateServiceFiles(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     if (params.grpc) {
       file.getServices.asScala.map { service =>
-        val p    = new GrpcServicePrinter(service, implicits)
-        val code = p.printService(FunctionalPrinter()).result()
-        val b    = CodeGeneratorResponse.File.newBuilder()
-        b.setName(file.scalaDirectory + "/" + service.objectName + ".scala")
+        val p = new GrpcServicePrinter(service, implicits)
+        val code = scalaFileHeader(
+          file,
+          file.javaConversions && file.getMessageTypes.asScala.exists(
+            messageContainsRepeatedFields
+          ),
+          includePreamble = false
+        ).call(p.printService).result()
+        val b = CodeGeneratorResponse.File.newBuilder()
+        b.setName(file.scalaDirectory + "/" + service.companionObject.name + ".scala")
         b.setContent(code)
         b.build
       }
@@ -1640,9 +1592,8 @@ class ProtobufGenerator(
 
   def generateFileObject(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
     fp.add(
-        s"object ${file.fileDescriptorObject.nameSymbol} extends _root_.scalapb.GeneratedFileObject {"
-      )
-      .indent
+      s"object ${file.fileDescriptorObject.nameSymbol} extends _root_.scalapb.GeneratedFileObject {"
+    ).indent
       .when(file.getDependencies.isEmpty) {
         _.add("lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq.empty")
       }
@@ -1672,13 +1623,14 @@ class ProtobufGenerator(
     val code =
       scalaFileHeader(
         file,
-        file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields)
+        file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields),
+        includePreamble = true
       ).print(file.getEnumTypes.asScala)(printEnum)
         .print(file.getMessageTypes.asScala)(printMessage)
         .call(generateFileObject(file))
         .result()
     val b = CodeGeneratorResponse.File.newBuilder()
-    b.setName(file.scalaDirectory + "/" + file.fileDescriptorObject.name + ".scala")
+    b.setName(file.scalaFileName)
     b.setContent(code)
     generateServiceFiles(file) :+ b.build
   }
@@ -1689,13 +1641,13 @@ class ProtobufGenerator(
     val serviceFiles = generateServiceFiles(file)
 
     val enumFiles = for {
-      enum <- file.getEnumTypes.asScala
+      enumDesc <- file.getEnumTypes.asScala
     } yield {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaDirectory + "/" + enum.getName + ".scala")
+      b.setName(file.scalaDirectory + "/" + enumDesc.getName + ".scala")
       b.setContent(
-        scalaFileHeader(file, false)
-          .call(printEnum(_, enum))
+        scalaFileHeader(file, false, false)
+          .call(printEnum(_, enumDesc))
           .result()
       )
       b.build
@@ -1704,19 +1656,18 @@ class ProtobufGenerator(
     val messageFiles = for {
       message <- file.getMessageTypes.asScala if !message.isSealedOneofCase
     } yield {
-      val b = CodeGeneratorResponse.File.newBuilder()
-      val filename = if (message.isSealedOneofType) {
-        file.scalaDirectory + "/" + message.sealedOneofTraitScalaType.name + ".scala"
-      } else {
-        file.scalaDirectory + "/" + message.scalaType.name + ".scala"
-      }
-      b.setName(filename)
+      val b     = CodeGeneratorResponse.File.newBuilder()
+      val cases = message.sealedOneofCases.getOrElse(Seq.empty)
+      b.setName(message.scalaFileName)
       b.setContent(
         scalaFileHeader(
           file,
-          javaConverterImport = file.javaConversions && messageContainsRepeatedFields(message)
+          javaConverterImport = file.javaConversions && (messageContainsRepeatedFields(
+            message
+          ) || cases.exists(messageContainsRepeatedFields(_))),
+          true
         ).call(printMessage(_, message))
-          .print(message.sealedOneofCases.getOrElse(Seq.empty))(printMessage)
+          .print(cases)(printMessage)
           .result()
       )
       b.build
@@ -1724,9 +1675,9 @@ class ProtobufGenerator(
 
     val fileDescriptorObjectFile = {
       val b = CodeGeneratorResponse.File.newBuilder()
-      b.setName(file.scalaDirectory + s"/${file.fileDescriptorObject.name}.scala")
+      b.setName(file.scalaFileName)
       b.setContent(
-        scalaFileHeader(file, false)
+        scalaFileHeader(file, false, true)
           .call(generateFileObject(file))
           .result()
       )
@@ -1738,79 +1689,44 @@ class ProtobufGenerator(
 }
 
 private[this] object C {
-  val None = "_root_.scala.None"
+  val None                 = "_root_.scala.None"
+  val UnknownFieldSet      = "_root_.scalapb.UnknownFieldSet"
+  val UnknownFieldSetEmpty = "_root_.scalapb.UnknownFieldSet.empty"
 }
 
 object ProtobufGenerator {
-  def parseParameters(params: String): Either[String, GeneratorParams] = {
-    params
-      .split(",")
-      .map(_.trim)
-      .filter(_.nonEmpty)
-      .foldLeft[Either[String, GeneratorParams]](Right(GeneratorParams())) {
-        case (Right(params), "java_conversions") => Right(params.copy(javaConversions = true))
-        case (Right(params), "flat_package")     => Right(params.copy(flatPackage = true))
-        case (Right(params), "grpc")             => Right(params.copy(grpc = true))
-        case (Right(params), "single_line_to_proto_string") =>
-          Right(params.copy(singleLineToProtoString = true))
-        case (Right(params), "ascii_format_to_string") =>
-          Right(params.copy(asciiFormatToString = true))
-        case (Right(params), "no_lenses") =>
-          Right(params.copy(lenses = false))
-        case (Right(params), "retain_source_code_info") =>
-          Right(params.copy(retainSourceCodeInfo = true))
-        case (Right(params), p) => Left(s"Unrecognized parameter: '$p'")
-        case (x, _)             => x
-      }
-  }
+  def parseParameters(params: String): Either[String, GeneratorParams] =
+    GeneratorParams.fromString(params)
 
-  def getFileDescByName(request: CodeGeneratorRequest): Map[String, FileDescriptor] =
-    request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
-      case (acc, fp) =>
-        val deps = fp.getDependencyList.asScala.map(acc)
-        acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
-    }
-
-  def handleCodeGeneratorRequest(request: CodeGeneratorRequest): CodeGeneratorResponse = {
-    val b = CodeGeneratorResponse.newBuilder
-    parseParameters(request.getParameter) match {
+  def handleCodeGeneratorRequest(request: CodeGenRequest): CodeGenResponse = {
+    parseParameters(request.parameter) match {
       case Right(params) =>
         try {
-          val filesByName: Map[String, FileDescriptor] =
-            request.getProtoFileList.asScala.foldLeft[Map[String, FileDescriptor]](Map.empty) {
-              case (acc, fp) =>
-                val deps = fp.getDependencyList.asScala.map(acc)
-                acc + (fp.getName -> FileDescriptor.buildFrom(fp, deps.toArray))
-            }
-          val implicits = new DescriptorImplicits(params, filesByName.values.toVector)
+          val implicits = DescriptorImplicits.fromCodeGenRequest(params, request)
           val generator = new ProtobufGenerator(params, implicits)
           val validator = new ProtoValidation(implicits)
-          validator.validateFiles(filesByName.values.toSeq)
-          import implicits.FileDescriptorPimp
-          request.getFileToGenerateList.asScala.foreach { name =>
-            val file = filesByName(name)
-            val responseFiles =
-              if (file.scalaOptions.getSingleFile)
-                generator.generateSingleScalaFileForFileDescriptor(file)
-              else generator.generateMultipleScalaFilesForFileDescriptor(file)
-            b.addAllFile(responseFiles.asJava)
+          validator.validateFiles(request.allProtos)
+          import implicits.ExtendedFileDescriptor
+          val files = request.filesToGenerate.filterNot(_.disableOutput).flatMap { file =>
+            if (file.scalaOptions.getSingleFile)
+              generator.generateSingleScalaFileForFileDescriptor(file)
+            else generator.generateMultipleScalaFilesForFileDescriptor(file)
           }
+          CodeGenResponse.succeed(files, Set(CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL))
         } catch {
           case e: GeneratorException =>
-            b.setError(e.message)
+            CodeGenResponse.fail(e.message)
         }
       case Left(error) =>
-        b.setError(error)
+        CodeGenResponse.fail(error)
     }
-    b.build
   }
 
   def asScalaDocBlock(contentLines: Seq[String]): Seq[String] = {
     if (contentLines.nonEmpty) {
-      contentLines.zipWithIndex.map {
-        case (line, index) =>
-          val prefix = if (index == 0) "/**" else "  *"
-          if (line.startsWith(" ") || line.isEmpty) (prefix + line) else (prefix + " " + line)
+      contentLines.zipWithIndex.map { case (line, index) =>
+        val prefix = if (index == 0) "/**" else "  *"
+        if (line.startsWith(" ") || line.isEmpty) (prefix + line) else (prefix + " " + line)
       } :+ "  */"
     } else contentLines
   }
@@ -1820,4 +1736,20 @@ object ProtobufGenerator {
 
   private val CompSeqType =
     "Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]]"
+
+  private[scalapb] def escapeScalaString(raw: String): String =
+    raw
+      .map {
+        case '\b'                      => "\\b"
+        case '\f'                      => "\\f"
+        case '\n'                      => "\\n"
+        case '\r'                      => "\\r"
+        case '\t'                      => "\\t"
+        case '\\'                      => "\\\\"
+        case '\"'                      => "\\\""
+        case '\''                      => "\\\'"
+        case u if u >= ' ' && u <= '~' => u.toString
+        case c: Char                   => "\\u%4s".format(c.toInt.toHexString).replace(' ', '0')
+      }
+      .mkString("\"", "", "\"")
 }

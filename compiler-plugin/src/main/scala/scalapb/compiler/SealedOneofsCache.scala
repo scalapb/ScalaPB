@@ -1,6 +1,6 @@
 package scalapb.compiler
 
-import com.google.protobuf.Descriptors.{Descriptor, FileDescriptor}
+import com.google.protobuf.Descriptors.Descriptor
 
 case class SealedOneof(container: Descriptor, cases: Seq[Descriptor])
 

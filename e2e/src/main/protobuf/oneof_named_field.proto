@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+message NamedOneOf {
+  oneof my_oneof {
+    option (scalapb.oneof).scala_name = "myField";
+
+    string subfield_one = 1;
+    int32 subfield_two = 2;
+  }
+}

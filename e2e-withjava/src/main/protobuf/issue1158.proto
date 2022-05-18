@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+message Event {
+  oneof sealed_value {
+    MessageX msgX = 1;
+    MessageY msgY = 2;
+  }
+}
+
+message MessageX {
+  repeated string ids = 1;
+}
+
+message MessageY {
+  string id = 1;
+}

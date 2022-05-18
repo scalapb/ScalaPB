@@ -23,6 +23,8 @@ Project Structure
 * `proptest`: a test suite that generates random protocol buffers, fake date
   for them and tries to get it all to compile and pass property-based testing.
 * `e2e`: a test suite that exercises all the functionality of ScalaPB end-to-end.
+* `e2e-withjava`: like `e2e` but also have `java_conversions` enabled.
+* `e2e-grpc`: e2e test that includes generated services
 * `protobuf/scalapb/scalapb.proto`: the place where ScalaPB options are
   defined.
 * `scalapbc`: a CLI and a library that can used invoke ScalaPB without SBT.
@@ -33,33 +35,16 @@ Running the e2e (end-to-end) tests
 We assume that you have a JVM and SBT installed.
 
 The end-to-end tests contain main test protobufs under `e2e/src/main/protobuf` and runtime
-tests at `e2e/src/test/scala` that exercise the generated code.
+tests at `e2e/src/test/scala`.
 
-To run the tests, use the e2e.sh script
-
-```
-$ ./e2e.sh
-```
-
-This script compiles the compiler and the runtime and publishes them locally,
-so the end-to-end test can use your development version of those libraries.
-
-You can run `e2e.sh` for a specific version of Scala by providing
-`SCALA_VERSION` as an environment variable:
+Our sbt build uses sbt-projectmatrix which creates a synthetic project for
+each Scala version and platform (JVM/Native/JS). Type `projects` in sbt to see available
+projects. To run the test for a specific project:
 
 ```
-SCALA_VERSION=2.13.1 ./e2e.sh
+e2eJVM2_12/test
+e2eJS2_13/test
 ```
-
-`e2e` is a normal SBT project, so if you already have a locally published
-`compiler-plugin` and `runtime`, you can invoke `sbt` inside the `e2e`
-directory and run `test`. You need to remember that changes that you make to
-the runtime and compiler-plugin won't take effect until you run `e2e.sh`
-again.
-
-Note that e2e has a subproject called `noJava` where the generated protos do
-not have Java converters enabled. Some features require testing on this
-subproject, but for most features this does not matter.
 
 Modifying scalapb.proto
 =======================
@@ -88,6 +73,6 @@ Wrapping up your PR
   meantime we have some tolerance for certain type of incompatabilities.
 * In SBT, run `scalafmt` and `test:scalafmt` to ensure the code compiles
   cleanly.
-* Run `./make_plugin_protos.sh` to re-generate all the generated code that
+* Run `./make_plugin_proto.sh` to re-generate all the generated code that
   ships with ScalaPB.
-
+* Update the documentation (see docs/README.md) and CHANGELOG.md

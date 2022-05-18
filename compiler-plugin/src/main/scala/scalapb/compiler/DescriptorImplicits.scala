@@ -9,15 +9,26 @@ import com.google.protobuf.DescriptorProtos.{
 }
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.WireFormat.FieldType
-import scalapb.options.compiler.Scalapb
-import scalapb.options.compiler.Scalapb.ScalaPbOptions.EnumValueNaming
-import scalapb.options.compiler.Scalapb._
+import scalapb.options.Scalapb
+import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
+import scalapb.options.Scalapb._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.immutable.IndexedSeq
+import protocgen.CodeGenRequest
 
-class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
+class DescriptorImplicits private[compiler] (
+    params: GeneratorParams,
+    files: Seq[FileDescriptor],
+    secondaryOutputsProvider: SecondaryOutputProvider
+) {
+  implicits =>
   import DescriptorImplicits._
+
+  @deprecated("Use DescriptorImplicits.fromCodeGenRequest. Preprocessors will not work.", "0.10.10")
+  def this(params: GeneratorParams, files: Seq[FileDescriptor]) = {
+    this(params, files, SecondaryOutputProvider.empty)
+  }
 
   case class ScalaName(emptyPackage: Boolean, xs: Seq[String]) {
     def name = xs.last
@@ -58,14 +69,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       message <- file.allMessages if message.isSealedOneofType
     } yield SealedOneof(
       message,
-      message.getOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
+      message.getRealOneofs.get(0).getFields.asScala.map(_.getMessageType).toVector
     )
     new SealedOneofsCache(sealedOneof)
   }
 
-  private lazy val fileOptionsCache = FileOptionsCache.buildCache(files)
+  private[scalapb] lazy val fileOptionsCache =
+    FileOptionsCache.buildCache(files, secondaryOutputsProvider)
 
-  implicit final class MethodDescriptorPimp(method: MethodDescriptor) {
+  implicit final class ExtendedMethodDescriptor(method: MethodDescriptor) {
     class MethodTypeWrapper(descriptor: Descriptor) {
       def customScalaType: Option[String] =
         if (descriptor.isSealedOneofType)
@@ -77,7 +89,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
       def baseScalaType = descriptor.scalaType.fullNameWithMaybeRoot(Seq("build"))
 
-      def scalaType = customScalaType.getOrElse(baseScalaType)
+      def scalaType: String = customScalaType.getOrElse(baseScalaType)
     }
 
     def inputType = new MethodTypeWrapper(method.getInputType)
@@ -103,7 +115,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def name: String = name0.asSymbol
 
-    def descriptorName = s"METHOD_${NameUtils.toAllCaps(method.getName)}"
+    def grpcDescriptor =
+      method.getService.companionObject / s"METHOD_${NameUtils.toAllCaps(method.getName)}"
+
+    @deprecated("Use grpcDescriptor instead to get the name or full name", "0.10.0")
+    def descriptorName = grpcDescriptor.name
 
     def sourcePath: Seq[Int] = {
       method.getService.sourcePath ++ Seq(
@@ -129,11 +145,14 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
 
     def javaDescriptorSource: String =
-      s"${method.getService.javaDescriptorSource}.getMethods.get(${method.getIndex})"
+      s"${method.getService.javaDescriptorSource}.getMethods().get(${method.getIndex})"
   }
 
-  implicit final class ServiceDescriptorPimp(self: ServiceDescriptor) {
-    def objectName = self.getName + "Grpc"
+  implicit final class ExtendedServiceDescriptor(self: ServiceDescriptor) {
+    @deprecated("Use companionObject instead to get the name or the full name", "0.10.0")
+    def objectName = companionObject.name
+
+    def companionObject = self.getFile.scalaPackage / (self.getName + "Grpc")
 
     def name = self.getName.asSymbol
 
@@ -145,13 +164,16 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def methods = self.getMethods.asScala.toIndexedSeq
 
+    def grpcDescriptor = companionObject / "SERVICE"
+
+    @deprecated("Use grpcDescriptor to get the name of the full name", "0.10.0")
     def descriptorName = "SERVICE"
 
     def scalaDescriptorSource: String =
       s"${self.getFile.fileDescriptorObject.fullName}.scalaDescriptor.services(${self.getIndex})"
 
     def javaDescriptorSource: String =
-      s"${self.getFile.fileDescriptorObject.fullName}.javaDescriptor.getServices.get(${self.getIndex})"
+      s"${self.getFile.fileDescriptorObject.fullName}.javaDescriptor.getServices().get(${self.getIndex})"
 
     def sourcePath: Seq[Int] = Seq(FileDescriptorProto.SERVICE_FIELD_NUMBER, self.getIndex)
 
@@ -172,10 +194,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class FieldDescriptorPimp(val fd: FieldDescriptor) {
+  implicit class ExtendedFieldDescriptor(val fd: FieldDescriptor) {
     import NameUtils._
 
-    def containingOneOf: Option[OneofDescriptor] = Option(fd.getContainingOneof)
+    def containingOneOf: Option[OneofDescriptor] = Option(fd.getRealContainingOneof())
 
     def isInOneof: Boolean = containingOneOf.isDefined
 
@@ -220,23 +242,34 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def oneOfTypeName: ScalaName = {
       assert(isInOneof)
-      fd.getContainingOneof.scalaType / upperScalaName
+      fd.getRealContainingOneof.scalaType / upperScalaName
     }
 
     def noBox =
-      if (fieldOptions.hasNoBox) fieldOptions.getNoBox
+      if (fieldOptions.hasNoBox || fieldOptions.hasRequired)
+        fieldOptions.getNoBox || fieldOptions.getRequired
       else if (fd.isMessage) fd.getMessageType.noBox
       else false
+
+    def noDefaultValueInConstructor: Boolean = if (fieldOptions.hasNoDefaultValueInConstructor)
+      fieldOptions.getNoDefaultValueInConstructor
+    else fd.getContainingType.noDefaultValueInConstructor
+
+    def noBoxRequired = fieldOptions.getRequired
 
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage) &&
+      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage || fd
+        .toProto()
+        .getProto3Optional()) &&
         !noBox && !fd.isSealedOneofType
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
-      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage) || (
+      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage && !fd
+        .toProto()
+        .getProto3Optional()) || (
         fd.isOptional && (noBox || (fd.isSealedOneofType && !fd.isInOneof))
       )
 
@@ -244,63 +277,44 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
       else {
-        EnclosingType.Collection(collectionType)
+        EnclosingType.Collection(collectionType, collection.adapter.map(_.fullName))
       }
 
     def fieldMapEnclosingType: EnclosingType =
       if (isSingular) EnclosingType.None
       else if (supportsPresence || fd.isInOneof) EnclosingType.ScalaOption
-      else if (!fd.isMapField) EnclosingType.Collection(collectionType)
-      else EnclosingType.Collection(ScalaSeq)
+      else EnclosingType.Collection(ScalaSeq, None)
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
-    def mapType: MessageDescriptorPimp#MapType = {
+    def mapType: ExtendedMessageDescriptor#MapType = {
       assert(isMapField)
       fd.getMessageType.mapType
     }
 
-    def collectionBuilder: String = {
-      require(fd.isRepeated)
-      val t = if (collectionType == ScalaSeq) ScalaVector else collectionType
-
-      if (!fd.isMapField)
-        s"$t.newBuilder[$singleScalaTypeName]"
-      else {
-        s"$t.newBuilder[${fd.mapType.keyType}, ${fd.mapType.valueType}]"
-      }
-    }
-
-    def emptyCollection: String = {
-      s"${collectionType}.empty"
-    }
+    def collection: CollectionMethods = new CollectionMethods(fd, implicits)
 
     // In scalapb.proto, we separate between collection_type and map_type, but internally this is unified.
     def collectionType: String = {
       require(fd.isRepeated)
       if (fd.isMapField) {
-        if (fd.fieldOptions.hasMapType) fd.fieldOptions.getMapType
+        if (fd.fieldOptions.getCollection.hasType) fd.fieldOptions.getCollection.getType
+        else if (fd.fieldOptions.hasMapType) fd.fieldOptions.getMapType
         else if (fd.getFile.scalaOptions.hasMapType) fd.getFile.scalaOptions.getMapType
         else ScalaMap
       } else {
-        if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
+        if (fd.fieldOptions.getCollection.hasType) fd.fieldOptions.getCollection.getType
+        else if (fd.fieldOptions.hasCollectionType) fd.fieldOptions.getCollectionType
         else if (fd.getFile.scalaOptions.hasCollectionType)
           fd.getFile.scalaOptions.getCollectionType
         else ScalaSeq
       }
     }
 
-    def fieldMapCollection(innerType: String) = {
-      if (supportsPresence) s"_root_.scala.Option[$innerType]"
-      else if (fd.isRepeated && !fd.isMapField) s"${collectionType}[$innerType]"
-      else if (fd.isRepeated && fd.isMapField) s"${ScalaSeq}[$innerType]"
-      else innerType
-    }
-
     def fieldsMapEmptyCollection: String = {
       require(fd.isRepeated)
       if (fd.isMapField) s"$ScalaSeq.empty"
-      else emptyCollection
+      else collection.empty
     }
 
     def scalaTypeName: String =
@@ -313,11 +327,12 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def fieldOptions: FieldOptions = {
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
 
-      fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
-        .find(_.getTarget == fd.getFullName())
-        .fold(localOptions)(aux =>
-          FieldOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
-        )
+      (fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
+        .collect {
+          case opt if opt.getTarget == fd.getFullName() => opt.getOptions
+        } :+ localOptions).reduce[FieldOptions]((left, right) =>
+        left.toBuilder.mergeFrom(right).build()
+      )
     }
 
     def annotationList: Seq[String] = {
@@ -352,9 +367,13 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         Some(fd.getEnumType.scalaOptions.getType)
       else if (isBytes && fd.getFile.scalaOptions.hasBytesType)
         Some(fd.getFile.scalaOptions.getBytesType)
-      else if (fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType)
+      else if (
+        fd.getContainingType.isMapEntry && fd.getNumber == 1 && fieldReferencingMap.fieldOptions.hasKeyType
+      )
         Some(fieldReferencingMap.fieldOptions.getKeyType)
-      else if (fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType)
+      else if (
+        fd.getContainingType.isMapEntry && fd.getNumber == 2 && fieldReferencingMap.fieldOptions.hasValueType
+      )
         Some(fieldReferencingMap.fieldOptions.getValueType)
       else if (isMessage && fd.getFile.usePrimitiveWrappers)
         DescriptorImplicits.primitiveWrapperType(fd.getMessageType)
@@ -420,14 +439,20 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class OneofDescriptorPimp(val oneof: OneofDescriptor) {
+  implicit class ExtendedOneofDescriptor(val oneof: OneofDescriptor) {
+
     def javaEnumName = {
       val name = NameUtils.snakeCaseToCamelCase(oneof.getName, true)
       s"get${name}Case"
     }
 
-    def scalaName =
-      oneof.getContainingType.scalaType / NameUtils.snakeCaseToCamelCase(oneof.getName)
+    def scalaName = {
+      val fieldName =
+        if (oneofOptions.getScalaName.nonEmpty) oneofOptions.getScalaName
+        else NameUtils.snakeCaseToCamelCase(oneof.getName)
+
+      oneof.getContainingType.scalaType / fieldName
+    }
 
     def scalaType = {
       val name = oneof.getName match {
@@ -457,7 +482,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
   private val OneofMessageSuffix = "Message"
 
-  implicit class MessageDescriptorPimp(val message: Descriptor) {
+  implicit class ExtendedMessageDescriptor(val message: Descriptor) {
     def fields = message.getFields.asScala.filter(_.getLiteType != FieldType.GROUP).toSeq
 
     def fieldsWithoutOneofs = fields.filterNot(_.isInOneof)
@@ -466,8 +491,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def sealedOneofStyle: SealedOneofStyle = {
       assert(isSealedOneofType)
-      if (message.getOneofs.asScala.exists(_.getName == "sealed_value")) SealedOneofStyle.Default
-      else if (message.getOneofs.asScala.exists(_.getName == "sealed_value_optional"))
+      if (message.getRealOneofs.asScala.exists(_.getName == "sealed_value"))
+        SealedOneofStyle.Default
+      else if (message.getRealOneofs.asScala.exists(_.getName == "sealed_value_optional"))
         SealedOneofStyle.Optional
       else throw new RuntimeException("Unexpected oneof style")
     }
@@ -475,7 +501,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     // every message that passes this filter must be a sealed oneof. The check that it actually
     // obeys the rules is done in ProtoValidation.
     def isSealedOneofType: Boolean = {
-      message.getOneofs.asScala
+      message.getRealOneofs.asScala
         .exists(o => o.getName == "sealed_value" || o.getName == "sealed_value_optional")
     }
 
@@ -511,7 +537,11 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         )
     }
 
-    def noBox = message.messageOptions.getNoBox
+    def noBox = messageOptions.getNoBox
+
+    def noDefaultValueInConstructor: Boolean = if (messageOptions.hasNoDefaultValuesInConstructor)
+      messageOptions.getNoDefaultValuesInConstructor
+    else message.getFile.noDefaultValuesInConstructor
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)
@@ -576,6 +606,10 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
       ) && !isValueClass
 
+    def unknownFieldsAnnotations: Seq[String] = {
+      message.messageOptions.getUnknownFieldsAnnotationsList.asScala.toList
+    }
+
     def sealedOneofContainer: Option[Descriptor] =
       sealedOneofsCache.getContainer(message)
 
@@ -587,10 +621,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         (message.getFile.scalaOptions.getLenses)
       else params.lenses
 
+    def generateGetters: Boolean =
+      message.getFile.scalaOptions.getGetters
+
     def baseClasses: Seq[String] = {
       val specialMixins = message.getFullName match {
-        case "google.protobuf.Any" => Seq("_root_.scalapb.AnyMethods")
-        case _                     => Seq()
+        case "google.protobuf.Any"       => Seq("_root_.scalapb.AnyMethods")
+        case "google.protobuf.Timestamp" => Seq("_root_.scalapb.TimestampMethods")
+        case "google.protobuf.Duration"  => Seq("_root_.scalapb.DurationMethods")
+        case _                           => Seq()
       }
 
       val updatable =
@@ -620,11 +659,15 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         else Nil
 
       val specialMixins = message.getFullName match {
-        case "google.protobuf.Any" => Seq("scalapb.AnyCompanionMethods")
-        case _                     => Seq()
+        case "google.protobuf.Any"       => Seq("scalapb.AnyCompanionMethods")
+        case "google.protobuf.Timestamp" => Seq("scalapb.TimestampCompanionMethods")
+        case "google.protobuf.Duration"  => Seq("scalapb.DurationCompanionMethods")
+        case _                           => Seq()
       }
 
-      Seq(s"scalapb.GeneratedMessageCompanion[${scalaType.fullName}]") ++
+      Seq(
+        s"scalapb.GeneratedMessageCompanion[${scalaType.fullName}]"
+      ) ++
         mixins ++
         companionExtendsOption ++
         specialMixins
@@ -643,6 +686,21 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     def javaConversions = message.getFile.javaConversions && !isMapEntry
 
     def isTopLevel = message.getContainingType == null
+
+    def scalaFileName: String =
+      if (message.getFile().scalaOptions.getSingleFile())
+        message.getFile().scalaFileName
+      else if (message.isSealedOneofType)
+        message.getFile.scalaDirectory + "/" + message.sealedOneofTraitScalaType.name + ".scala"
+      else if (message.isSealedOneofCase)
+        message.sealedOneofContainer.get.scalaFileName
+      else message.getFile.scalaDirectory + "/" + message.scalaType.name + ".scala"
+
+    def messageCompanionInsertionPoint: InsertionPoint =
+      InsertionPoint(scalaFileName, s"GeneratedMessageCompanion[${message.getFullName}]")
+
+    def messageClassInsertionPoint: InsertionPoint =
+      InsertionPoint(scalaFileName, s"GeneratedMessage[${message.getFullName}]")
 
     class MapType {
       def keyField = message.findFieldByName("key")
@@ -663,9 +721,9 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     def javaDescriptorSource: String =
       if (message.isTopLevel)
-        s"${message.getFile.fileDescriptorObject.name}.javaDescriptor.getMessageTypes.get(${message.getIndex})"
+        s"${message.getFile.fileDescriptorObject.name}.javaDescriptor.getMessageTypes().get(${message.getIndex})"
       else
-        s"${message.getContainingType.scalaType.fullName}.javaDescriptor.getNestedTypes.get(${message.getIndex})"
+        s"${message.getContainingType.scalaType.fullName}.javaDescriptor.getNestedTypes().get(${message.getIndex})"
 
     def scalaDescriptorSource: String =
       if (message.isTopLevel)
@@ -691,56 +749,56 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
     }
   }
 
-  implicit class EnumDescriptorPimp(val enum: EnumDescriptor) {
-    def parentMessage: Option[Descriptor] = Option(enum.getContainingType)
+  implicit class ExtendedEnumDescriptor(val enumDescriptor: EnumDescriptor) {
+    def parentMessage: Option[Descriptor] = Option(enumDescriptor.getContainingType)
 
     def scalaOptions: EnumOptions = {
-      val localOptions = enum.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
+      val localOptions = enumDescriptor.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
 
-      enum.getFile.scalaOptions.getAuxEnumOptionsList.asScala
-        .find(_.getTarget == enum.getFullName())
+      enumDescriptor.getFile.scalaOptions.getAuxEnumOptionsList.asScala
+        .find(_.getTarget == enumDescriptor.getFullName())
         .fold(localOptions)(aux =>
           EnumOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
         )
     }
 
     lazy val scalaType: ScalaName = {
-      val name: String = enum.getName match {
+      val name: String = enumDescriptor.getName match {
         case "Option" => "OptionEnum"
         case "ValueType" =>
           "ValueTypeEnum" // Issue 348, conflicts with "type ValueType" in GeneratedEnumCompanion.
         case n => n
       }
 
-      parentMessage.fold(enum.getFile().scalaPackage)(_.scalaType) / name
+      parentMessage.fold(enumDescriptor.getFile().scalaPackage)(_.scalaType) / name
     }
 
     def recognizedEnum: ScalaName = scalaType / "Recognized"
 
-    def isTopLevel = enum.getContainingType == null
+    def isTopLevel = enumDescriptor.getContainingType == null
 
-    def javaTypeName = enum.getFile.fullJavaName(enum.getFullName)
+    def javaTypeName = enumDescriptor.getFile.fullJavaName(enumDescriptor.getFullName)
 
-    def javaConversions = enum.getFile.javaConversions
+    def javaConversions = enumDescriptor.getFile.javaConversions
 
     def valuesWithNoDuplicates =
-      enum.getValues.asScala
+      enumDescriptor.getValues.asScala
         .groupBy(_.getNumber)
-        .mapValues(_.head)
-        .values
+        .map { case (_, v) => v.head }
         .toVector
         .sortBy(_.getNumber)
 
     def javaDescriptorSource: String =
-      if (enum.isTopLevel)
-        s"${enum.getFile.fileDescriptorObject.name}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+      if (enumDescriptor.isTopLevel)
+        s"${enumDescriptor.getFile.fileDescriptorObject.name}.javaDescriptor.getEnumTypes().get(${enumDescriptor.getIndex})"
       else
-        s"${enum.getContainingType.scalaType.fullName}.javaDescriptor.getEnumTypes.get(${enum.getIndex})"
+        s"${enumDescriptor.getContainingType.scalaType.fullName}.javaDescriptor.getEnumTypes().get(${enumDescriptor.getIndex})"
 
     def scalaDescriptorSource: String =
-      if (enum.isTopLevel)
-        s"${enum.getFile.fileDescriptorObject.name}.scalaDescriptor.enums(${enum.getIndex})"
-      else s"${enum.getContainingType.scalaType.fullName}.scalaDescriptor.enums(${enum.getIndex})"
+      if (enumDescriptor.isTopLevel)
+        s"${enumDescriptor.getFile.fileDescriptorObject.name}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
+      else
+        s"${enumDescriptor.getContainingType.scalaType.fullName}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
 
     def baseTraitExtends: Seq[String] =
       "_root_.scalapb.GeneratedEnum" +: scalaOptions.getExtendsList.asScala.toSeq
@@ -749,26 +807,50 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       s"_root_.scalapb.GeneratedEnumCompanion[${scalaType.nameSymbol}]" +: scalaOptions.getCompanionExtendsList.asScala.toSeq
 
     def sourcePath: Seq[Int] = {
-      if (enum.isTopLevel) Seq(FileDescriptorProto.ENUM_TYPE_FIELD_NUMBER, enum.getIndex)
+      if (enumDescriptor.isTopLevel)
+        Seq(FileDescriptorProto.ENUM_TYPE_FIELD_NUMBER, enumDescriptor.getIndex)
       else
-        enum.getContainingType.sourcePath ++ Seq(
+        enumDescriptor.getContainingType.sourcePath ++ Seq(
           DescriptorProto.ENUM_TYPE_FIELD_NUMBER,
-          enum.getIndex
+          enumDescriptor.getIndex
         )
     }
 
     def comment: Option[String] = {
-      enum.getFile
+      enumDescriptor.getFile
         .findLocationByPath(sourcePath)
         .map(t => t.getLeadingComments + t.getTrailingComments)
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
     }
+
+    private[this] def deprecatedAnnotation: Seq[String] = {
+      if (enumDescriptor.getOptions.getDeprecated)
+        List(ProtobufGenerator.deprecatedAnnotation)
+      else
+        Nil
+    }
+
+    def baseAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getBaseAnnotationsList().asScala.toSeq
+
+    def recognizedAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getRecognizedAnnotationsList().asScala.toSeq
+
+    def unrecognizedAnnotationList: Seq[String] =
+      deprecatedAnnotation ++ scalaOptions.getUnrecognizedAnnotationsList().asScala.toSeq
   }
 
-  implicit class EnumValueDescriptorPimp(val enumValue: EnumValueDescriptor) {
-    def scalaOptions: EnumValueOptions =
-      enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
+  implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {
+    def scalaOptions: EnumValueOptions = {
+      val localOptions = enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
+
+      enumValue.getFile.scalaOptions.getAuxEnumValueOptionsList.asScala
+        .find(_.getTarget == enumValue.getFullName())
+        .fold(localOptions)(aux =>
+          EnumValueOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        )
+    }
 
     def valueExtends: Seq[String] =
       s"${enumValue.getType.scalaType.nameSymbol}(${enumValue.getNumber})" +: enumValue.getType.recognizedEnum
@@ -792,9 +874,7 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       Helper.makeUniqueNames(
         enumValue.getType.getValues.asScala
           .sortBy(v => (v.getNumber, v.scalaName))
-          .map { e =>
-            e -> ("is" + allCapsToCamelCase(e.scalaName, true))
-          }
+          .map { e => e -> ("is" + allCapsToCamelCase(e.scalaName, true)) }
           .toSeq
       )(enumValue)
     }
@@ -813,13 +893,25 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
     }
+
+    private[this] def deprecatedAnnotation: Seq[String] = {
+      if (enumValue.getOptions.getDeprecated)
+        List(ProtobufGenerator.deprecatedAnnotation)
+      else
+        Nil
+    }
+
+    def annotationList: Seq[String] = {
+      deprecatedAnnotation ++ scalaOptions.getAnnotationsList().asScala
+    }
   }
 
-  implicit class FileDescriptorPimp(val file: FileDescriptor) {
+  implicit class ExtendedFileDescriptor(val file: FileDescriptor) {
     def scalaOptions: ScalaPbOptions =
       fileOptionsCache(file)
 
-    def javaConversions = params.javaConversions && !scalaOptions.getTestOnlyNoJavaConversions
+    def javaConversions =
+      (scalaOptions.getJavaConversions || params.javaConversions) && !scalaOptions.getTestOnlyNoJavaConversions
 
     def javaPackage: String = {
       if (file.getOptions.hasJavaPackage)
@@ -851,15 +943,22 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
         else r + "OuterClass"
       }
 
-    private def isNonFlatDependency =
-      (file.getPackage == "google.protobuf") || (file.getPackage == "scalapb")
+    private def isFlatPackage = {
+      // Disable flat-package for these two packages, even if a generator
+      // option is given:
+      val isFlatPackageSpecialCase =
+        (file.getPackage == "google.protobuf") || (file.getPackage == "scalapb")
+
+      if (scalaOptions.hasFlatPackage()) scalaOptions.getFlatPackage()
+      else (params.flatPackage && !isFlatPackageSpecialCase)
+    }
 
     private def scalaPackageParts: Seq[String] = {
       val requestedPackageName: Seq[String] =
         (if (scalaOptions.hasPackageName) scalaOptions.getPackageName.split('.')
          else javaPackage.split('.')).toIndexedSeq.filterNot(_.isEmpty)
 
-      if (scalaOptions.getFlatPackage || (params.flatPackage && !isNonFlatDependency))
+      if (isFlatPackage)
         requestedPackageName
       else requestedPackageName ++ baseName(file.getName).replace('-', '_').split('.')
     }
@@ -868,6 +967,8 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
 
     @deprecated("Use scalaPackage.fullName", "0.10.0")
     def scalaPackageName = scalaPackage.fullName
+
+    def scalaFileName = scalaDirectory + s"/${fileDescriptorObject.name}.scala"
 
     def scalaDirectory = {
       scalaPackageParts.mkString("/")
@@ -939,9 +1040,21 @@ class DescriptorImplicits(params: GeneratorParams, files: Seq[FileDescriptor]) {
       file.getMessageTypes.asScala.foreach(visitMessage)
       messages.result()
     }
+
+    // Disable generating code when protobuf has package-scoped options and is
+    // otherwise empty. This is meant to allow users to add proto files with only
+    // package-scoped options as *source* files in their protoc command line, without
+    // worrying of duplicate source code being generated.
+    def disableOutput: Boolean =
+      (scalaOptions.getScope == Scalapb.ScalaPbOptions.OptionsScope.PACKAGE) &&
+        file.getEnumTypes().isEmpty &&
+        file.getMessageTypes().isEmpty() &&
+        file.getServices().isEmpty &&
+        file.getExtensions().isEmpty() &&
+        scalaOptions.getPreambleList().isEmpty()
   }
 
-  private def allCapsToCamelCase(name: String, upperInitial: Boolean = false): String = {
+  private def allCapsToCamelCase(name: String, upperInitial: Boolean): String = {
     val b = new StringBuilder()
     @annotation.tailrec
     def inner(name: String, capNext: Boolean): Unit = if (name.nonEmpty) {
@@ -972,9 +1085,19 @@ object DescriptorImplicits {
   val ScalaMap      = "_root_.scala.collection.immutable.Map"
   val ScalaVector   = "_root_.scala.collection.immutable.Vector"
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
+  val ScalaIterator = "_root_.scala.collection.Iterator"
   val ScalaOption   = "_root_.scala.Option"
 
-  implicit class AsSymbolPimp(val s: String) {
+  def fromCodeGenRequest(
+      params: GeneratorParams,
+      request: CodeGenRequest
+  ): DescriptorImplicits = new DescriptorImplicits(
+    params,
+    request.allProtos,
+    SecondaryOutputProvider.fromCodeGenRequestOrEnv(request)
+  )
+
+  implicit class AsSymbolExtension(val s: String) {
     def asSymbol: String =
       if (SCALA_RESERVED_WORDS.contains(s) || s(0).isDigit) s"`$s`"
       else s
@@ -988,21 +1111,29 @@ object DescriptorImplicits {
     "def",
     "do",
     "else",
+    "enum",
+    "export",
     "extends",
     "false",
     "final",
     "finally",
     "for",
     "forSome",
+    "given",
     "if",
     "implicit",
     "import",
+    "infix",
+    "inline",
     "lazy",
     "macro",
     "match",
+    "ne",
     "new",
     "null",
     "object",
+    "opaque",
+    "open",
     "override",
     "package",
     "private",
@@ -1014,6 +1145,7 @@ object DescriptorImplicits {
     "this",
     "throw",
     "trait",
+    "transparent",
     "try",
     "true",
     "type",
@@ -1021,8 +1153,7 @@ object DescriptorImplicits {
     "var",
     "while",
     "with",
-    "yield",
-    "ne"
+    "yield"
   )
 
   def primitiveWrapperType(messageType: Descriptor): Option[String] =
@@ -1043,15 +1174,14 @@ object DescriptorImplicits {
 object Helper {
   def makeUniqueNames[T](values: Seq[(T, String)]): Map[T, String] = {
     val newNameMap: Map[String, T] =
-      values.foldLeft(Map.empty[String, T]) {
-        case (nameMap, (t, name)) =>
-          var newName: String = name
-          var attempt: Int    = 0
-          while (nameMap.contains(newName)) {
-            attempt += 1
-            newName = s"${name}_$attempt"
-          }
-          nameMap + (newName -> t)
+      values.foldLeft(Map.empty[String, T]) { case (nameMap, (t, name)) =>
+        var newName: String = name
+        var attempt: Int    = 0
+        while (nameMap.contains(newName)) {
+          attempt += 1
+          newName = s"${name}_$attempt"
+        }
+        nameMap + (newName -> t)
       }
     newNameMap.map(_.swap)
   }

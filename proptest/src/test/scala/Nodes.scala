@@ -27,7 +27,7 @@ object Nodes {
     def isProto3: Boolean  = true
   }
 
-  private def snakeCaseToCamelCase(name: String, upperInitial: Boolean = false): String = {
+  private def snakeCaseToCamelCase(name: String, upperInitial: Boolean): String = {
     val b = new mutable.StringBuilder()
     @annotation.tailrec
     def inner(name: String, index: Int, capNext: Boolean): Unit = if (name.nonEmpty) {
@@ -47,7 +47,7 @@ object Nodes {
   }
 
   sealed trait Node {
-    def allMessages: Stream[MessageNode]
+    def allMessages: Seq[MessageNode]
   }
 
   case class RootNode(files: Seq[FileNode]) {
@@ -104,10 +104,9 @@ object Nodes {
 
     override def toString: String = {
       files
-        .foldLeft(new FunctionalPrinter) {
-          case (fp, f) =>
-            fp.add(s"${f.baseFileName}.proto:\n")
-              .call(f.print(this, _))
+        .foldLeft(new FunctionalPrinter) { case (fp, f) =>
+          fp.add(s"${f.baseFileName}.proto:\n")
+            .call(f.print(this, _))
         }
         .result()
     }
@@ -161,9 +160,9 @@ object Nodes {
       enums: Seq[EnumNode],
       fileId: Int
   ) extends Node {
-    def allMessages = messages.foldLeft(Stream.empty[MessageNode])(_ ++ _.allMessages)
+    def allMessages = messages.foldLeft(Seq.empty[MessageNode])(_ ++ _.allMessages)
 
-    def allEnums = messages.foldLeft(enums.toStream)(_ ++ _.allEnums)
+    def allEnums = messages.foldLeft(enums.toSeq)(_ ++ _.allEnums)
 
     lazy val minMessageId = Try(allMessages.map(_.id).min).toOption
     lazy val maxMessageId = Try(allMessages.map(_.id).max).toOption
@@ -176,10 +175,10 @@ object Nodes {
         field   <- message.fields
       } yield field.fieldType)
         .collect({
-          case MessageReference(id)                   => rootNode.messagesById(id).fileId
-          case EnumReference(id)                      => rootNode.enumsById(id).fileId
-          case MapType(keyType, EnumReference(id))    => rootNode.enumsById(id).fileId
-          case MapType(keyType, MessageReference(id)) => rootNode.messagesById(id).fileId
+          case MessageReference(id)                       => rootNode.messagesById(id).fileId
+          case EnumReference(id)                          => rootNode.enumsById(id).fileId
+          case MapType(keyType @ _, EnumReference(id))    => rootNode.enumsById(id).fileId
+          case MapType(keyType @ _, MessageReference(id)) => rootNode.messagesById(id).fileId
         })
         .toSet
         .map(rootNode.filesById)
@@ -213,14 +212,13 @@ object Nodes {
             })
             .toSeq: _*
         )
-        .print(enums)((enum, p) => p.print(enum))
+        .print(enums)((enumNode, p) => p.print(enumNode))
         .print(messages)((message, p) => p.print(rootNode, this, message))
         .print(services)((service, p) => p.print(service))
 
-    /**
-      * @return
-      * Right(package name) if `java_multiple_files` option is true
-      * Left(outer class name) if `java_multiple_files` option is false
+    /** @return
+      *   `Right(package name)` if `java_multiple_files` option is true, or `Left(outer class name)`
+      *   if `java_multiple_files` option is false
       */
     def javaOuterClassOrPackage: Either[String, String] = {
       val pkg = javaPackage.orElse(protoPackage).toSeq
@@ -251,9 +249,9 @@ object Nodes {
       parentMessageId: Option[Int],
       fileId: Int
   ) extends Node {
-    def allMessages: Stream[MessageNode] = messages.foldLeft(Stream(this))(_ ++ _.allMessages)
+    def allMessages: Seq[MessageNode] = messages.foldLeft(Seq(this))(_ ++ _.allMessages)
 
-    def allEnums: Stream[EnumNode] = messages.foldLeft(enums.toStream)(_ ++ _.allEnums)
+    def allEnums: Seq[EnumNode] = messages.foldLeft(enums)(_ ++ _.allEnums)
 
     def print(
         rootNode: RootNode,
@@ -293,7 +291,7 @@ object Nodes {
       printer
         .add(s"message $name {  // message $id")
         .indent
-        .print(enums)((enum, p) => p.print(enum))
+        .print(enums)((enumNode, p) => p.print(enumNode))
         .print(messages)((message, p) => p.print(rootNode, fileNode, message))
         .print(makeList(fields)) {
           case (printer, OneofOpener(name)) =>
@@ -326,12 +324,13 @@ object Nodes {
       if (!oneOfGroup.isOneof) {
         val packed = if (fieldOptions.isPacked) " [packed = true]" else ""
         val modifier = if (fileNode.protoSyntax.isProto2) {
-          if (fieldType.isMap) "" else fieldOptions.modifier + " "
+          if (fieldType.isMap) "" else fieldOptions.modifier.toString + " "
         } else {
           assert(
             fieldOptions.modifier == FieldModifier.OPTIONAL || fieldOptions.modifier == FieldModifier.REPEATED
           )
-          if (fieldOptions.modifier == FieldModifier.OPTIONAL || fieldType.isMap) ""
+          if (fieldOptions.proto3Presence) "optional "
+          else if (fieldOptions.modifier == FieldModifier.OPTIONAL || fieldType.isMap) ""
           else if (fieldOptions.modifier == FieldModifier.REPEATED) "repeated "
           else throw new RuntimeException("Unexpected modifier")
         }

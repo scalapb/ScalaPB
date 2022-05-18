@@ -1,5 +1,4 @@
 import com.thesamet.proto.well_known._
-import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
@@ -20,16 +19,16 @@ class WellKnownTypesSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks
 
   "TestWrapper" should "be updatable with primitives" in {
     // We just test that it compiles and we don't go through the wrapper.
-    val o = TestWrappers().update(
+    TestWrappers().update(
       _.myDouble := 34.1,
-      _.myFloat := 14.5f,
-      _.myInt32 := 35,
-      _.myInt64 := 35,
+      _.myFloat  := 14.5f,
+      _.myInt32  := 35,
+      _.myInt64  := 35,
       _.myUint32 := 35,
       _.myUint64 := 17,
-      _.myBool := true,
+      _.myBool   := true,
       _.myString := "foo",
-      _.myBytes := com.google.protobuf.ByteString.copyFromUtf8("foo")
+      _.myBytes  := com.google.protobuf.ByteString.copyFromUtf8("foo")
     )
   }
 }

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package event;
+
+message UserCreated {
+  string event = 1;
+  oneof contact {
+    string phone = 5;
+    string email = 6;
+  };
+
+}

@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package com.thesamet.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+enum MyEnum4 {
+  option (scalapb.enum_options).base_annotations = "@com.thesamet.pb.CustomAnnotation";
+  option (scalapb.enum_options).recognized_annotations = "@com.thesamet.pb.CustomAnnotation1";
+  option (scalapb.enum_options).unrecognized_annotations = "@com.thesamet.pb.CustomAnnotation3";
+  E4_V1 = 1 [(scalapb.enum_value).annotations = "@com.thesamet.pb.CustomAnnotation2"];
+  E4_V2 = 2;
+}

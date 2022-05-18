@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+// See https://github.com/scalapb/ScalaPB/issues/1354
+
+package com.thesamet.proto.e2e.issue1354;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+    scope: PACKAGE
+    no_default_values_in_constructor: true
+    field_transformations : [
+        {
+            when : {
+                proto3_optional: true
+            }
+            set : {[scalapb.field] {no_box : true }}
+        }
+    ]
+};
+
+// The request message containing the user's name.
+message HelloRequest {
+    Name name = 1;
+    optional Name nickname = 2;
+}
+
+message Name {
+    string name = 1;
+}
+
+// The response message containing the greetings
+message HelloReply {
+    string message = 1;
+}

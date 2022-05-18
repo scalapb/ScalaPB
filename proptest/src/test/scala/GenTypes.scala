@@ -2,8 +2,7 @@ import GraphGen.State
 import Nodes.{Proto3, Proto2, ProtoSyntax}
 import org.scalacheck.{Arbitrary, Gen}
 
-/**
-  * Created by thesamet on 9/28/14.
+/** Created by thesamet on 9/28/14.
   */
 object GenTypes {
   sealed trait ProtoType {
@@ -124,7 +123,7 @@ object GenTypes {
     val REPEATED = Value("repeated")
   }
 
-  case class FieldOptions(modifier: FieldModifier.Value, isPacked: Boolean)
+  case class FieldOptions(modifier: FieldModifier.Value, isPacked: Boolean, proto3Presence: Boolean)
 
   def genFieldModifier(allowRequired: Boolean): Gen[FieldModifier.Value] =
     if (allowRequired)
@@ -145,7 +144,10 @@ object GenTypes {
       if (state._nextMessageId > 0 && allowCurrentMessage)
         (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference)) :: baseFreq
       else if (!allowCurrentMessage && state.currentFileInitialMessageId > 0)
-        (1, Gen.chooseNum(0, state.currentFileInitialMessageId - 1).map(MessageReference)) :: baseFreq
+        (
+          1,
+          Gen.chooseNum(0, state.currentFileInitialMessageId - 1).map(MessageReference)
+        ) :: baseFreq
       else baseFreq
     val withEnums = syntax match {
       case Proto2 =>
@@ -188,19 +190,31 @@ object GenTypes {
       protoSyntax: ProtoSyntax,
       inOneof: Boolean
   ): Gen[FieldOptions] =
-    if (inOneof) Gen.const(FieldOptions(FieldModifier.OPTIONAL, isPacked = false))
+    if (inOneof)
+      Gen.const(FieldOptions(FieldModifier.OPTIONAL, isPacked = false, proto3Presence = false))
     else
       fieldType match {
         case MessageReference(id) =>
-          genFieldModifier(allowRequired = protoSyntax.isProto2 && id < messageId)
-            .map(mod => FieldOptions(mod, isPacked = false))
-        case MapType(_, _) => Gen.const(FieldOptions(FieldModifier.REPEATED, isPacked = false))
+          for {
+            mod <- genFieldModifier(allowRequired = protoSyntax.isProto2 && id < messageId)
+            proto3Presence <-
+              if (mod == FieldModifier.OPTIONAL && protoSyntax.isProto3)
+                Gen.oneOf(true, false)
+              else Gen.const(false)
+          } yield FieldOptions(mod, isPacked = false, proto3Presence = proto3Presence)
+        case MapType(_, _) =>
+          Gen.const(FieldOptions(FieldModifier.REPEATED, isPacked = false, proto3Presence = false))
         case _ =>
           for {
             mod <- genFieldModifier(allowRequired = protoSyntax.isProto2)
-            packed <- if (fieldType.packable && mod == FieldModifier.REPEATED)
-              Gen.oneOf(true, false)
-            else Gen.const(false)
-          } yield FieldOptions(mod, isPacked = packed)
+            packed <-
+              if (fieldType.packable && mod == FieldModifier.REPEATED)
+                Gen.oneOf(true, false)
+              else Gen.const(false)
+            proto3Presence <-
+              if (mod == FieldModifier.OPTIONAL && protoSyntax.isProto3)
+                Gen.oneOf(true, false)
+              else Gen.const(false)
+          } yield FieldOptions(mod, isPacked = packed, proto3Presence = proto3Presence)
       }
 }

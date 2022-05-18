@@ -1,9 +1,7 @@
 ---
-title: "JSON"
-layout: docs
+title: "ScalaPB and JSON"
+sidebar_label: "JSON"
 ---
-
-# ScalaPB and JSON
 
 ScalaPB can convert protocol buffers to and from JSON, using
 [json4s](http://json4s.org/).
@@ -15,8 +13,14 @@ Make sure that you are using ScalaPB 0.5.x or later.
 In `build.sbt` add a dependency on `scalapb-json4s`:
 
 ```scala
+// For ScalaPB 0.11.x (json4s 0.4.x, released for Scala 3):
+libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.12.0"
+
+// For ScalaPB 0.11.x (json4s 0.3.x):
+libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.11.1"
+
 // For ScalaPB 0.10.x:
-libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.10.1-M1"
+libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.10.1"
 
 // For ScalaPB 0.9.x:
 libraryDependencies += "com.thesamet.scalapb" %% "scalapb-json4s" % "0.9.3"
@@ -91,6 +95,12 @@ Options:
   strings. To use the numeric representation, set this option to true. Note that
   due to the way Javascript represents numbers, there is a possibility to lose
   precision ([more details here](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/isSafeInteger)).
+
+The parser can be instantiated with `new scalapb.json4s.Parser()`, and various methods can return instances of the parser with customized configuration:
+
+- `ignoringUnkownFields`: by default the parser will throw a `JsonFormatException` when encountering unknown fields. By enabling this option, unknown options will be silently ignored.
+- `ignoringOverlappingOneofFields`: by default the parser will throw a `JsonFormatException` if values are provided for more than one field within the same oneof. By enabling this option, when more than one field is present for a oneof, one of the values of this field will be picked for the oneof.
+- `mapEntriesAsKeyValuePairs`: by default, protobuf maps are modeled as json objects. When this setting is enabled, protobuf maps are expected to be read as arrays of objects with `key` and `value` keys.
 
 See the list of [constructor paramerters here](https://github.com/scalapb/scalapb-json4s/blob/master/src/main/scala/scalapb/json4s/JsonFormat.scala)
 

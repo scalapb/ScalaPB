@@ -1,8 +1,7 @@
 import com.thesamet.proto.any._
 import com.google.protobuf.any.Any
-import org.scalatest._
-import com.thesamet.proto.e2e.enum.EnumTest
-import com.thesamet.proto.e2e.enum.Color
+import com.thesamet.proto.e2e.`enum`.EnumTest
+import com.thesamet.proto.e2e.`enum`.Color
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
@@ -13,7 +12,7 @@ class AnySpec extends AnyFlatSpec with Matchers {
     val t = AnyTestMessage()
       .update(
         _.myAny.typeUrl := "https://example.com",
-        _.myAny.value := com.google.protobuf.ByteString.copyFromUtf8("foo")
+        _.myAny.value   := com.google.protobuf.ByteString.copyFromUtf8("foo")
       )
     t.myAny.get.is[com.google.protobuf.any.Any] must be(false)
   }

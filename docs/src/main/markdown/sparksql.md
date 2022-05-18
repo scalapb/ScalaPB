@@ -1,9 +1,7 @@
 ---
-title: "SparkSQL"
-layout: docs
+title: "Using ScalaPB with Spark"
+sidebar_label: "SparkSQL"
 ---
-
-# ScalaPB with SparkSQL
 
 ## Introduction
 
@@ -15,8 +13,6 @@ However, it turns out there is another obstacle. Spark does not provide any mech
 
 ## Setting up your project
 
-Make sure that you are using ScalaPB 0.9.0 or later.
-
 We are going to use sbt-assembly to deploy a fat JAR containing ScalaPB, and
 your compiled protos.  Make sure in project/plugins.sbt you have a line
 that adds sbt-assembly:
@@ -25,19 +21,44 @@ that adds sbt-assembly:
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
 ```
 
-In `build.sbt` add a dependency on `sparksql-scalapb`:
+To add sparksql-scalapb to your project, add *one* of the following lines that
+matches *both the version of ScalaPB and Spark* you use:
 
 ```scala
-libraryDepenencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "{{site.data.version.sparksql_scalapb}}"
+// Spark 3.2 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql32-scalapb0_11" % "@sparksql_scalapb@"
+
+// Spark 3.1 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql31-scalapb0_11" % "@sparksql_scalapb@"
+
+// Spark 3.0 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql30-scalapb0_11" % "@sparksql_scalapb@"
+
+// Spark 3.2 and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql32-scalapb0_10" % "@sparksql_scalapb@"
+
+// Spark 3.1 and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql31-scalapb0_10" % "@sparksql_scalapb@"
+
+// Spark 3.0 and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql30-scalapb0_10" % "@sparksql_scalapb@"
+
+// Spark 2.x and ScalaPB 0.10
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.4"
+
+// Spark 2.x and ScalaPB 0.9
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.3"
 ```
 
 Spark ships with an old version of Google's Protocol Buffers runtime that is not compatible with
-the current version. Therefore, we need to shade our copy of the Protocol Buffer runtime.
-Add this to your build.sbt:
+the current version. Therefore, we need to shade our copy of the Protocol Buffer runtime. Spark 3
+also ships with an incompatible version of scala-collection-compat.  Add the following to your
+build.sbt:
 
 ```scala
 assemblyShadeRules in assembly := Seq(
-  ShadeRule.rename("com.google.protobuf.**" -> "shadeproto.@1").inAll
+  ShadeRule.rename("com.google.protobuf.**" -> "shadeproto.@1").inAll,
+  ShadeRule.rename("scala.collection.compat.**" -> "shadecompat.@1").inAll
 )
 ```
 
@@ -57,7 +78,7 @@ val spark: SparkSession = SparkSession
   .getOrCreate()
 ```
 
-*IMPORTANT*: Ensure you do not import `spark.implicits._` to avoid ambiguity between ScalaPB provided encoders and Spark's default encoders. You may want to import `StringToColumn` to convert `$"col name"` into a `Column`. Add an import `scaslapb.spark.Implicits` to add ScalaPB's encoders for protocol buffers into the implicit search scope:
+*IMPORTANT*: Ensure you do not import `spark.implicits._` to avoid ambiguity between ScalaPB provided encoders and Spark's default encoders. You may want to import `StringToColumn` to convert `$"col name"` into a `Column`. Add an import `scalapb.spark.Implicits` to add ScalaPB's encoders for protocol buffers into the implicit search scope:
 
 ```scala mdoc
 import org.apache.spark.sql.{Dataset, DataFrame, functions => F}
@@ -152,6 +173,30 @@ val protoDF: DataFrame = ProtoSQL.protoToDataFrame(spark, protoRDD)
 
 val protoDS: Dataset[Person] = spark.createDataset(protoRDD)
 ```
+
+## UDFs
+
+If you need to write a UDF that returns a message, it would not pick up our encoder and you may get a runtime failure.  To work around this, sparksql-scalapb provides `ProtoSQL.udf` to create UDFs. For example, if you need to parse a binary column into a proto:
+
+```scala mdoc
+val binaryDF = protosBinary.toDF("value")
+
+val parsePersons = ProtoSQL.udf { bytes: Array[Byte] => Person.parseFrom(bytes) }
+
+binaryDF.withColumn("person", parsePersons($"value"))
+```
+
+## Primitive wrappers
+
+In ProtoSQL 0.9.x and 0.10.x, primitive wrappers are represented in Spark as structs
+witha single field named `value`. A better representation in Spark would be a
+nullable field of the primitive type. The better representation will be the
+default in 0.11.x. To enable this representation today, replace the usages of
+`scalapb.spark.ProtoSQL` with `scalapb.spark.ProtoSQL.withPrimitiveWrappers`.
+Instead of importing `scalapb.spark.Implicits._`, import
+`scalapb.spark.ProtoSQL.implicits._`
+
+See example in [WrappersSpec](https://github.com/scalapb/sparksql-scalapb/blob/80f3162b69313d57f95d3dcbfee865809873567a/sparksql-scalapb/src/test/scala/WrappersSpec.scala#L42-L59).
 
 ## Datasets and `<none> is not a term`
 

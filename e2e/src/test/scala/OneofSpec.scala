@@ -1,10 +1,11 @@
-import com.thesamet.proto.e2e.one_of._
 import org.scalatest._
 import org.scalatestplus.scalacheck._
 import org.scalacheck.Gen
-import collection.JavaConverters._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
+
+import com.thesamet.proto.e2e.one_of._
+import com.thesamet.proto.e2e.oneof_named_field._
 
 class OneofSpec
     extends AnyFlatSpec
@@ -24,16 +25,20 @@ class OneofSpec
     OneofTest.parseFrom(sub.toByteArray) must be(sub)
   }
 
+  "oneofs.scala_name" should "set the scala field name" in {
+    NamedOneOf().myField must be(NamedOneOf.MyOneof.Empty)
+  }
+
   "oneof.isX function" should "return correct value" in {
     unspecified.myOneOf mustBe empty
     unspecified.myOneOf must not be defined
     unspecified.myOneOf.isTempField must be(false)
     unspecified.myOneOf.isOtherField must be(false)
     unspecified.myOneOf.isSub must be(false)
-    tempField.myOneOf.isTempField mustBe(true)
+    tempField.myOneOf.isTempField mustBe (true)
     tempField.myOneOf mustBe defined
     tempField.myOneOf must not be empty
-    tempField.myOneOf.isOtherField mustBe(false)
+    tempField.myOneOf.isOtherField mustBe (false)
     tempField.myOneOf.isSub must be(false)
   }
 
@@ -138,11 +143,6 @@ class OneofSpec
   }
 
   "oneof field descriptors" should "give the right containing name" in {
-    for (fieldDescriptor <- OneofTest.javaDescriptor.getFields.asScala) {
-      if (fieldDescriptor.getNumber >= 2 && fieldDescriptor.getNumber <= 4) {
-        fieldDescriptor.getContainingOneof.getName must be("my_one_of")
-      }
-    }
     for (fieldDescriptor <- OneofTest.scalaDescriptor.fields) {
       if (fieldDescriptor.number >= 2 && fieldDescriptor.number <= 4) {
         fieldDescriptor.containingOneof.value.name must be("my_one_of")

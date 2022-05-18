@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+message Nested {
+    message Lit {
+        int32 value = 1;
+    }
+
+    message Add {
+        Expr lhs = 1;
+        Expr rhs = 2;
+    }
+
+    message Expr {
+        oneof sealed_value {
+            Lit lit = 1;
+            Add add = 2;
+        }
+    }
+
+    message Programs {
+        repeated Expr programs = 1;
+        Expr optional_expr = 2;
+        map<string, Expr> expr_map = 3;
+    }
+}

@@ -1,3 +1,0 @@
-addSbtPlugin("com.thesamet" % "sbt-protoc" % scalapb.Version.sbtPluginVersion)
-
-libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin-shaded" % scalapb.Version.scalapbVersion

@@ -2,7 +2,7 @@ package scalapb.grpc
 import io.grpc.stub.StreamObserver
 import io.grpc.{CallOptions, Channel, MethodDescriptor}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.concurrent.Future
 
 object ClientCalls {
