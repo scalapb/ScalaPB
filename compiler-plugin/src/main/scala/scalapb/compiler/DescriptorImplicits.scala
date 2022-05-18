@@ -566,6 +566,8 @@ class DescriptorImplicits private[compiler] (
 
     def sealedOneOfExtendsCount = messageOptions.getSealedOneofExtendsCount
 
+    def sealedOneOfUniversalTrait = messageOptions.getSealedOneofUniversalTrait
+
     def sealedOneofTraitScalaType: ScalaName = {
       require(isSealedOneofType)
       val name = scalaType.name.stripSuffix(OneofMessageSuffix)
@@ -675,7 +677,11 @@ class DescriptorImplicits private[compiler] (
 
     def sealedOneofBaseClasses: Seq[String] = sealedOneofStyle match {
       case SealedOneofStyle.Default =>
-        messageOptions.getSealedOneofExtendsList.asScala.toSeq :+ "scalapb.GeneratedSealedOneof"
+        var base = messageOptions.getSealedOneofExtendsList.asScala.toSeq
+        if (messageOptions.getSealedOneofUniversalTrait) {
+          base = "Any" +: base
+        }
+        base :+ "scalapb.GeneratedSealedOneof"
       case SealedOneofStyle.Optional => messageOptions.getSealedOneofExtendsList.asScala.toSeq
     }
 

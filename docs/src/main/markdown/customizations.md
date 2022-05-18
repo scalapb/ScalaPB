@@ -393,6 +393,36 @@ message MyEither {
 }
 ```
 
+As of ScalaPB 0.11.11 you may also use following option to make generated SealedOneof
+trait [universal](https://docs.scala-lang.org/overviews/core/value-classes.html).
+It may be useful when your sealed oneof variants are value-classes (e.g. extends AnyVal)
+
+```scala
+trait MyBaseUniversalTrait extends Any
+```
+
+```protobuf
+message Left {
+  option (scalapb.message).extends = "AnyVal";
+  string error = 1;
+}
+
+message Right {
+  option (scalapb.message).extends = "AnyVal";
+  int32 value = 1;
+}
+
+message MyEither {
+  option (scalapb.message).sealed_oneof_extends = "MyBaseUniversalTrait";
+  option (scalapb.message).sealed_oneof_universal_trait = true;
+
+  oneof sealed_value {
+    Left left = 1;
+    Right right = 2;
+  }
+}
+```
+
 ## Custom base traits for enums
 
 In a similar fashion to custom base traits for messages, it is possible to

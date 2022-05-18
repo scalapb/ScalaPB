@@ -222,6 +222,10 @@ message MessageOptions {
   // file-level value, and can be overridden by the field-level setting.
   optional bool no_default_values_in_constructor = 9;
 
+  // If true, base sealed oneof trait will be universal (e.g. extends Any)
+  // It may be useful if your sealed oneof variants are extending AnyVal
+  optional bool sealed_oneof_universal_trait = 10;
+
   extensions 1000 to max;
 }
 
