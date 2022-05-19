@@ -25,11 +25,8 @@ To add sparksql-scalapb to your project, add *one* of the following lines that
 matches *both the version of ScalaPB and Spark* you use:
 
 ```scala
-// Spark 3.2.1 and ScalaPB 0.11
+// Spark 3.2 and ScalaPB 0.11
 libraryDependencies += "com.thesamet.scalapb" %% "sparksql32-scalapb0_11" % "@sparksql_scalapb@"
-
-// Spark 3.2.0 and ScalaPB 0.11
-libraryDependencies += "com.thesamet.scalapb" %% "sparksql32-scalapb0_11" % "1.0.0-M1"
 
 // Spark 3.1 and ScalaPB 0.11
 libraryDependencies += "com.thesamet.scalapb" %% "sparksql31-scalapb0_11" % "@sparksql_scalapb@"
@@ -52,6 +49,9 @@ libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.4"
 // Spark 2.x and ScalaPB 0.9
 libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.3"
 ```
+
+Known issue: Spark 3.2.1 is binary incompatible with Spark 3.2.0 in some of its internal
+APIs being used. If you use Spark 3.2.0, please stick to sparksql-scalapb 1.0.0-M1.
 
 Spark ships with an old version of Google's Protocol Buffers runtime that is not compatible with
 the current version. Therefore, we need to shade our copy of the Protocol Buffer runtime. Spark 3
