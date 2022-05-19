@@ -305,6 +305,23 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocatio
     )
   }
 
+  it should "fail when sealed_oneof_companion_extends used outside of a sealed oneof type" in {
+    intercept[GeneratorException] {
+      runValidation(
+        "file.proto" ->
+          """
+            |syntax = "proto2";
+            |import "scalapb/scalapb.proto";
+            |message Foo {
+            |  option (scalapb.message).sealed_oneof_companion_extends = "SomeTrait";
+            |}
+          """.stripMargin
+      )
+    }.message must include(
+      "is not a Sealed oneof and may not contain a sealed_oneof_companion_extends message option. Use companion_extends instead."
+    )
+  }
+
   it should "fail when sealed oneof and a case are in different files" in {
     intercept[GeneratorException] {
       runValidation(

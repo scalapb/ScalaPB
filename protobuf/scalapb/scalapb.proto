@@ -223,7 +223,7 @@ message MessageOptions {
   optional bool no_default_values_in_constructor = 9;
 
   // Additional classes and traits to mix in to generated sealed_oneof base trait companion object.
-  repeated string sealed_oneof_companion_extends = 11;
+  repeated string sealed_oneof_companion_extends = 10;
 
   extensions 1000 to max;
 }
