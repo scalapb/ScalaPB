@@ -435,7 +435,7 @@ lazy val docs = project
       "sbt_protoc"       -> "1.0.3",
       "sbt_dotty"        -> "0.5.3",
       "protoc"           -> "3.15.6",
-      "sparksql_scalapb" -> "1.0.0-M1",
+      "sparksql_scalapb" -> "1.0.0",
       "scalapb_validate" -> "0.3.1"
     ),
     git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
