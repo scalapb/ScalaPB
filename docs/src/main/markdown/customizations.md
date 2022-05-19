@@ -395,7 +395,7 @@ message MyEither {
 
 ## Custom base traits for sealed oneofs companion objects
 
-Note: this option is available in ScalaPB 0.11.11 and later.
+Note: this option is available in ScalaPB 0.11.12 and later.
 
 Use the following option to define one or more base traits for a generated SealedOneof companion object:
 
