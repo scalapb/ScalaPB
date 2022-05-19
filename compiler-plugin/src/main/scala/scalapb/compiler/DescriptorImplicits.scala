@@ -562,11 +562,10 @@ class DescriptorImplicits private[compiler] (
 
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 
-    def sealedOneofExtendsOption = messageOptions.getSealedOneofExtendsList.asScala.toSeq
+    def sealedOneofExtendsOption =
+      messageOptions.getSealedOneofExtendsList.asScala.filterNot(universalTraitNames).toSeq
 
     def sealedOneOfExtendsCount = messageOptions.getSealedOneofExtendsCount
-
-    def sealedOneOfUniversalTrait = messageOptions.getSealedOneofUniversalTrait
 
     def sealedOneofTraitScalaType: ScalaName = {
       require(isSealedOneofType)
@@ -597,16 +596,20 @@ class DescriptorImplicits private[compiler] (
     def sealedOneofTypeMapper =
       sealedOneofTraitScalaType / (sealedOneofTraitScalaType.name + "TypeMapper")
 
-    private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
+    private[this] val valueClassNames     = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
+    private[this] val universalTraitNames = Set("Any", "scala.Any", "_root_.scala.Any")
 
     def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
+
+    def isUniversalTrait: Boolean =
+      messageOptions.getSealedOneofExtendsList.asScala.exists(universalTraitNames)
 
     // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for
     // value classes since they must have an exactly one val.
     def preservesUnknownFields =
       (
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
-      ) && !isValueClass
+      ) && !isValueClass && !isUniversalTrait
 
     def unknownFieldsAnnotations: Seq[String] = {
       message.messageOptions.getUnknownFieldsAnnotationsList.asScala.toList
@@ -677,11 +680,8 @@ class DescriptorImplicits private[compiler] (
 
     def sealedOneofBaseClasses: Seq[String] = sealedOneofStyle match {
       case SealedOneofStyle.Default =>
-        var base = messageOptions.getSealedOneofExtendsList.asScala.toSeq
-        if (messageOptions.getSealedOneofUniversalTrait) {
-          base = "Any" +: base
-        }
-        base :+ "scalapb.GeneratedSealedOneof"
+        val any = if (isUniversalTrait) Seq("Any") else Seq.empty
+        any ++ sealedOneofExtendsOption :+ "scalapb.GeneratedSealedOneof"
       case SealedOneofStyle.Optional => messageOptions.getSealedOneofExtendsList.asScala.toSeq
     }
 

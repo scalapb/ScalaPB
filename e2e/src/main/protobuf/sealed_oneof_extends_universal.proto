@@ -12,12 +12,13 @@ option (scalapb.options) = {
   preamble: [
     "sealed trait PlayerBaseTrait extends Any {",
     "}"
-  ];
+  ]
 };
 
 message PlayerShim {
-  option (scalapb.message).sealed_oneof_extends = "PlayerBaseTrait";
-  option (scalapb.message).sealed_oneof_universal_trait = true;
+  option (scalapb.message) = {
+    sealed_oneof_extends: ["Any", "PlayerBaseTrait"]
+  };
 
   oneof sealed_value {
       BasketBallPlayer BasketBallPlayer = 1;
