@@ -265,6 +265,8 @@ class DescriptorImplicits private[compiler] (
         .getProto3Optional()) &&
         !noBox && !fd.isSealedOneofType
 
+    def isLazy: Boolean = fd.getOptions.getLazy || fd.getContainingType.isLazy
+
     // Is the Scala representation of this field a singular type.
     def isSingular =
       fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage && !fd
@@ -320,9 +322,17 @@ class DescriptorImplicits private[compiler] (
     def scalaTypeName: String =
       if (fd.isMapField) {
         s"$collectionType[${mapType.keyType}, ${mapType.valueType}]"
-      } else if (fd.isRepeated) s"${collectionType}[$singleScalaTypeName]"
-      else if (supportsPresence) s"${ScalaOption}[$singleScalaTypeName]"
-      else singleScalaTypeName
+      } else {
+        if (fd.isRepeated) s"${collectionType}[$singleScalaTypeName]"
+        else {
+          val typeName = {
+            if (fd.isLazy) s"_root_.scalapb.LazyField[$singleScalaTypeName]"
+            else singleScalaTypeName
+          }
+          if (supportsPresence) s"${ScalaOption}[$typeName]"
+          else typeName
+        }
+      }
 
     def fieldOptions: FieldOptions = {
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
@@ -549,6 +559,8 @@ class DescriptorImplicits private[compiler] (
       else
         Nil
     }
+
+    def isLazy: Boolean = messageOptions.getLazyFields || message.getFile.isLazy
 
     def annotationList: Seq[String] = {
       deprecatedAnnotation ++ messageOptions.getAnnotationsList().asScala
@@ -942,6 +954,8 @@ class DescriptorImplicits private[compiler] (
         if (!hasConflictingJavaClassName(r)) r
         else r + "OuterClass"
       }
+
+    def isLazy: Boolean = scalaOptions.getLazyFields
 
     private def isFlatPackage = {
       // Disable flat-package for these two packages, even if a generator

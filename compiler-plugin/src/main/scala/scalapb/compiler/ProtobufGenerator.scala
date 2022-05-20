@@ -1346,7 +1346,7 @@ class ProtobufGenerator(
             val default = defaultValueForGet(field)
             val scope   = if (message.generateGetters) "" else "private "
             p.add(
-              s"${scope}def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.getOrElse($default)"
+              s"${scope}def ${field.getMethod}: ${field.singleScalaTypeName} = ${fieldAccessorSymbol(field)}.fold[${field.singleScalaTypeName}]($default)(x => x)"
             )
           }
           .when(field.supportsPresence) { p =>

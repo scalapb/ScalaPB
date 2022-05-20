@@ -177,6 +177,9 @@ message ScalaPbOptions {
   // If true, getters will be generated.
   optional bool getters = 27 [default=true];
 
+  // If true, complex fields would be lazy
+  optional bool lazy_fields = 100;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
@@ -221,6 +224,9 @@ message MessageOptions {
   // If set (to true or false), the message-level setting overrides the
   // file-level value, and can be overridden by the field-level setting.
   optional bool no_default_values_in_constructor = 9;
+
+  // If true, complex fields would be lazy
+  optional bool lazy_fields = 100;
 
   extensions 1000 to max;
 }
@@ -283,6 +289,9 @@ message FieldOptions {
   // Like no_box it does not box a value in Option[T], but also fails parsing when a value
   // is not provided. This enables to emulate required fields in proto3.
   optional bool required = 31;
+
+  // If true, complex field would be lazy
+  optional bool lazy_field = 100;
 
   extensions 1000 to max;
 }

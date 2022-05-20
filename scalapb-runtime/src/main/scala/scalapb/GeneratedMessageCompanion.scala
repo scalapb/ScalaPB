@@ -185,6 +185,8 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
 
   def parseFrom(s: Array[Byte]): A = parseFrom(CodedInputStream.newInstance(s))
 
+  def parseFrom(bs: ByteString): A = parseFrom(bs.newCodedInput())
+
   /** Merges the given message with the additional fields in the steam. */
   def merge(a: A, input: CodedInputStream): A = {
     parseFrom(a.toByteArray ++ parseFrom(input).toByteArray)
@@ -193,6 +195,12 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
   def validate(s: Array[Byte]): Try[A] = Try(parseFrom(s))
 
   def toByteArray(a: A): Array[Byte] = a.toByteArray
+
+  def toByteString(a: A): ByteString = a.toByteString
+
+  final implicit val byteStringEncoder: ByteStringEncoder[A] = _.toByteString
+  
+  final implicit val byteStringDecoder: ByteStringDecoder[A] = parseFrom
 
   /** Returns the Java descriptors for this message. It is recommended to use scalaDescriptors. The
     * Java descriptors are available even when Java conversions is disabled, however they are not
