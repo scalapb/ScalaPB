@@ -82,7 +82,8 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "jvm-native",
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
-      )
+      ),
+      setScalaOutputVersion
     )
   )
   .jsPlatform(
@@ -92,11 +93,12 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       scalajsSourceMaps,
       Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "third_party",
       Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "js-native",
-      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+      setScalaOutputVersion
     )
   )
   .nativePlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = sharedNativeSettings ++ Seq(
       libraryDependencies += protobufRuntimeScala.value,
       Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "third_party",
@@ -262,15 +264,21 @@ lazy val lenses = (projectMatrix in file("lenses"))
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
+  .jvmPlatform(
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
+    settings = Seq(
+      setScalaOutputVersion
+    )
+  )
   .jsPlatform(
     scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = scalajsSourceMaps ++ Seq(
-      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
+      setScalaOutputVersion
     )
   )
   .nativePlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = sharedNativeSettings
   )
 

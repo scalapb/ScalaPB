@@ -81,6 +81,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
   private[this] val callOptions = "_root_.io.grpc.CallOptions"
 
   private[this] val abstractStub   = "_root_.io.grpc.stub.AbstractStub"
+  private[this] val stubFactory    = "_root_.io.grpc.stub.AbstractStub.StubFactory"
   private[this] val streamObserver = "_root_.io.grpc.stub.StreamObserver"
 
   private[this] val serverCalls = "_root_.io.grpc.stub.ServerCalls"
@@ -125,6 +126,25 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     ).indent
       .call(methods: _*)
       .add(build)
+      .outdent
+      .add("}")
+  }
+
+  private def stubCompanion(
+      className: String
+  ): PrinterEndo = { p =>
+    val newStub =
+      s"override def newStub(channel: $channel, options: $callOptions): $className = new $className(channel, options)"
+
+    val implicitStub =
+      s"implicit val stubFactory: $stubFactory[$className] = this"
+
+    p.add(
+      s"object $className extends $stubFactory[$className] {"
+    ).indent
+      .add(newStub)
+      .newline
+      .add(implicitStub)
       .outdent
       .add("}")
   }
@@ -272,6 +292,8 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       .call(blockingStub)
       .newline
       .call(stub)
+      .newline
+      .call(stubCompanion(service.stub))
       .newline
       .add(
         s"""def bindService(serviceImpl: ${service.name}, $executionContext: scala.concurrent.ExecutionContext): $serverServiceDef = ${service.name}.bindService(serviceImpl, executionContext)"""

@@ -95,7 +95,10 @@ private[compiler] object FieldTransformations {
     pattern.forall { case (fd, v) =>
       if (!fd.isExtension()) {
         if (fd.getType() != Type.MESSAGE)
-          input.hasField(fd) && input.getField(fd) == v
+          if (fd.isRepeated) {
+            input.getRepeatedFieldCount(fd) > 0 && input.getField(fd) == v
+          } else
+            input.hasField(fd) && input.getField(fd) == v
         else {
           input.hasField(fd) && matchContains(
             input.getField(fd).asInstanceOf[Message],
@@ -122,7 +125,11 @@ private[compiler] object FieldTransformations {
     pattern.forall { case (fd, v) =>
       if (!fd.isExtension()) {
         if (fd.getType() != Type.MESSAGE)
-          input.hasField(fd)
+          if (fd.isRepeated) {
+            input.getRepeatedFieldCount(fd) > 0
+          } else {
+            input.hasField(fd)
+          }
         else {
           input.hasField(fd) && matchPresence(
             input.getField(fd).asInstanceOf[Message],

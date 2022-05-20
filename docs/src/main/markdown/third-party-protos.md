@@ -17,7 +17,7 @@ You will add such libraries to your project twice: once with a `protobuf` suffix
 
 ```
 libraryDependencies ++= Seq(
-  "com.thesamet.scalapb.common-protos" %% "proto-google-common-protos-scalapb_1.0" % "1.17.0-0" % "protobuf"
+  "com.thesamet.scalapb.common-protos" %% "proto-google-common-protos-scalapb_1.0" % "1.17.0-0" % "protobuf",
   "com.thesamet.scalapb.common-protos" %% "proto-google-common-protos-scalapb_1.0" % "1.17.0-0"
 )
 ```

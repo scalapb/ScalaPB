@@ -37,6 +37,7 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
          |}
          |message StringRules {
          |  optional string const = 1;
+         |  repeated string in = 2;
          |}
          |extend google.protobuf.FieldOptions {
          |  optional FieldRules rules = 50001;
@@ -465,6 +466,26 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       msg = "",
       pattern = "int32: {gt: 0}"
     ) must be(false)
+
+    matchContains(
+      msg = """string: {in: ["a", "b"]}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(true)
+
+    matchContains(
+      msg = """string: {in: ["a", "b", "c"]}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(false)
+
+    matchContains(
+      msg = """string: {in: ["a"]}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(false)
+
+    matchContains(
+      msg = """string: {const: "a"}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(false)
   }
 
   "matchPresence" must "match correctly" in {
@@ -512,6 +533,26 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
       msg = "int32: {gt: 0, lt: 0}",
       pattern = "int32: {gt: 0}"
     ) must be(true)
+
+    matchPresence(
+      msg = """string: {in: ["a", "b", "c"]}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(true)
+
+    matchPresence(
+      msg = """string: {in: ["a"]}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(true)
+
+    matchPresence(
+      msg = """string: {in: []}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(false)
+
+    matchPresence(
+      msg = """string: {const: "a"}""",
+      pattern = """string: {in: ["a", "b"]}"""
+    ) must be(false)
   }
 
   def fieldByPath(fo: FieldDescriptorProto, path: String) =
