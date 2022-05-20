@@ -1,13 +1,13 @@
 syntax = "proto3";
 
-package com.thesamet.proto.e2e.universal;
+package com.thesamet.proto.e2e.sealed_oneof_extends.universal;
 
 import "scalapb/scalapb.proto";
 
 // Demonstrates a sealed_oneof that extends from a custom user trait.
 option (scalapb.options) = {
   single_file: true
-
+  flat_package: true
   // Generate the custom base trait.
   preamble: [
     "sealed trait PlayerBaseTrait extends Any {",

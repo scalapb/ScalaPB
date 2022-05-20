@@ -34,11 +34,21 @@ import com.google.protobuf.ByteString
 import com.google.protobuf.test.unittest_import.{ImportEnum, ImportMessage}
 import com.google.protobuf.test.unittest_import_public.PublicImportMessage
 import protobuf_unittest.unittest.{ForeignMessage, ForeignEnum, TestAllTypes}
+import org.scalactic.source.Position
+
+import scala.reflect.ClassTag
+import scala.annotation.nowarn
 
 object TestUtil {
   def isScalaJS = System.getProperty("java.vm.name") == "Scala.js"
 
   private def toBytes(str: String) = ByteString.copyFrom(str.getBytes("UTF-8"))
+
+  def isAnyVal[T](@nowarn value: T)(implicit pos: Position, tag: ClassTag[T], ev: T <:< AnyVal = null): Unit = {
+    if (ev == null) {
+      org.scalatest.matchers.must.Matchers.fail(s"${tag.toString()} is not AnyVal")
+    }
+  }
 
   def getAllTypesAllSet: TestAllTypes = {
     TestAllTypes().update(
