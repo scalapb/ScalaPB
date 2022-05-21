@@ -246,3 +246,16 @@ sourceSets {
 ```
 
 See [full example here](https://github.com/scalapb/gradle-demo).
+
+## Does ScalaPB work on Apple M1? I am getting "Bad CPU type".
+
+Yes. Currently the official protoc ships with x86_64 binary, and you will be enable to run
+it seamlessly if you have Rosetta enabled. If you don't already have Rosetta installed on your system
+, you can install it by running:
+
+```
+softwareupdate --install-rosetta
+``
+
+Use a recent version of sbt-protoc (at least 1.0.6), which defaults to a
+compatible version of protoc (3.19.2).
