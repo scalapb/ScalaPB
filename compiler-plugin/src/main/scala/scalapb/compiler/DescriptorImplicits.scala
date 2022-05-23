@@ -570,11 +570,12 @@ class DescriptorImplicits private[compiler] (
       deprecatedAnnotation ++ message.messageOptions.getCompanionAnnotationsList().asScala
     }
 
-    def extendsOption = messageOptions.getExtendsList.asScala.filterNot(valueClassNames).toSeq
+    def extendsOption = messageOptions.getExtendsList.asScala.filterNot(ValueClassNames).toSeq
 
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 
-    def sealedOneofExtendsOption = messageOptions.getSealedOneofExtendsList.asScala.toSeq
+    def sealedOneofExtendsOption =
+      messageOptions.getSealedOneofExtendsList.asScala.filterNot(UniversalTraitNames).toSeq
 
     def sealedOneOfExtendsCount = messageOptions.getSealedOneofExtendsCount
 
@@ -607,16 +608,17 @@ class DescriptorImplicits private[compiler] (
     def sealedOneofTypeMapper =
       sealedOneofTraitScalaType / (sealedOneofTraitScalaType.name + "TypeMapper")
 
-    private[this] val valueClassNames = Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
+    def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(ValueClassNames)
 
-    def isValueClass: Boolean = messageOptions.getExtendsList.asScala.exists(valueClassNames)
+    def isUniversalTrait: Boolean =
+      messageOptions.getSealedOneofExtendsList.asScala.exists(UniversalTraitNames)
 
     // In protobuf 3.5.0 all messages preserve unknown fields. We make an exception for
     // value classes since they must have an exactly one val.
     def preservesUnknownFields =
       (
         message.isExtendable || message.getFile.scalaOptions.getPreserveUnknownFields
-      ) && !isValueClass
+      ) && !isValueClass && !isUniversalTrait
 
     def unknownFieldsAnnotations: Seq[String] = {
       message.messageOptions.getUnknownFieldsAnnotationsList.asScala.toList
@@ -687,7 +689,8 @@ class DescriptorImplicits private[compiler] (
 
     def sealedOneofBaseClasses: Seq[String] = sealedOneofStyle match {
       case SealedOneofStyle.Default =>
-        messageOptions.getSealedOneofExtendsList.asScala.toSeq :+ "scalapb.GeneratedSealedOneof"
+        val maybeAny = if (isUniversalTrait) Seq("Any") else Seq.empty
+        maybeAny ++ sealedOneofExtendsOption :+ "scalapb.GeneratedSealedOneof"
       case SealedOneofStyle.Optional => messageOptions.getSealedOneofExtendsList.asScala.toSeq
     }
 
@@ -1169,6 +1172,10 @@ object DescriptorImplicits {
     "with",
     "yield"
   )
+
+  private[DescriptorImplicits] val ValueClassNames =
+    Set("AnyVal", "scala.AnyVal", "_root_.scala.AnyVal")
+  private[DescriptorImplicits] val UniversalTraitNames = Set("Any", "scala.Any", "_root_.scala.Any")
 
   def primitiveWrapperType(messageType: Descriptor): Option[String] =
     messageType.getFullName match {

@@ -8,6 +8,7 @@ import com.thesamet.proto.e2e.sealed_oneof_in_oneof_nested.Zoo
 import com.thesamet.proto.e2e.sealed_oneof_nested.Nested
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
+import scalapb.TestUtil.isAnyVal
 
 class SealedOneofSpec extends AnyFlatSpec with Matchers {
 
@@ -128,6 +129,16 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
     BasketBallPlayer() mustBe a[PlayerBaseTrait]
     SoccerPlayer() mustBe a[PlayerBaseTrait]
     SoccerPlayer() mustBe a[scalapb.GeneratedSealedOneof]
+  }
+
+  "messages extends AnyVal using sealed_oneof_extends Any" should "all extend from custom user trait" in {
+    universal.PlayerShim.defaultInstance mustBe a[universal.PlayerBaseTrait]
+    universal.BasketBallPlayer() mustBe an[universal.PlayerBaseTrait]
+    universal.BasketBallPlayer() mustBe a[scalapb.GeneratedSealedOneof]
+    isAnyVal(universal.BasketBallPlayer())
+    universal.SoccerPlayer() mustBe an[universal.PlayerBaseTrait]
+    universal.SoccerPlayer() mustBe a[scalapb.GeneratedSealedOneof]
+    isAnyVal(universal.SoccerPlayer())
   }
 
   "nested messages using sealed_oneof_extends" should "all extend from custom user trait" in {
