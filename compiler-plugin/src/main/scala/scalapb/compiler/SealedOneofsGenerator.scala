@@ -23,6 +23,11 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
       val typeMapper      = s"_root_.scalapb.TypeMapper[${baseType}, ${sealedOneofType}]"
       val oneof           = message.getRealOneofs.get(0)
       val typeMapperName  = message.sealedOneofTypeMapper.name
+      val baseClasses     = message.sealedOneofBaseClasses
+      val bases =
+        if (baseClasses.nonEmpty)
+          s"extends ${baseClasses.mkString(" with ")} "
+        else ""
 
       if (message.sealedOneofStyle != SealedOneofStyle.Optional) {
         val sealedOneofNonEmptyName = message.sealedOneofNonEmptyScalaType.nameSymbol
@@ -35,6 +40,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           if (message.sealedOneofCompanionExtendsOption.nonEmpty)
             s"extends ${message.sealedOneofCompanionExtendsOption.mkString(" with ")} "
           else ""
+        val sealedOneofUniversalMark = if (message.isUniversalTrait) "Any with " else ""
 
         fp.add(
           s"sealed trait $sealedOneofName $bases{"
@@ -49,7 +55,9 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           .add(s"object $sealedOneofName $companionBases{")
           .indented(
             _.add(s"case object Empty extends $sealedOneofType", "")
-              .add(s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofType")
+              .add(
+                s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofUniversalMark$sealedOneofType"
+              )
               .add(
                 s"def defaultInstance: ${sealedOneofType} = Empty",
                 "",
@@ -79,10 +87,6 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           )
           .add("}")
       } else {
-        val bases =
-          if (message.sealedOneofBaseClasses.nonEmpty)
-            s"extends ${message.sealedOneofBaseClasses.mkString(" with ")} "
-          else ""
         fp.add(
           s"sealed trait $sealedOneofName $bases{"
         ).addIndented(

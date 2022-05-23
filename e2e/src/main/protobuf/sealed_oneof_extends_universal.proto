@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.sealed_oneof_extends.universal;
+
+import "scalapb/scalapb.proto";
+
+// Demonstrates a sealed_oneof that extends from a custom user trait.
+option (scalapb.options) = {
+  single_file: true
+  flat_package: true
+  // Generate the custom base trait.
+  preamble: [
+    "sealed trait PlayerBaseTrait extends Any {",
+    "}"
+  ]
+};
+
+message PlayerShim {
+  option (scalapb.message) = {
+    sealed_oneof_extends: ["Any", "PlayerBaseTrait"]
+  };
+
+  oneof sealed_value {
+      BasketBallPlayer BasketBallPlayer = 1;
+      SoccerPlayer SoccerPlayer = 2;
+  }
+}
+
+message BasketBallPlayer {
+  option (scalapb.message).extends = "AnyVal";
+  int32 something = 1;
+}
+
+message SoccerPlayer {
+  option (scalapb.message).extends = "AnyVal";
+  int32 something_else = 1;
+}
