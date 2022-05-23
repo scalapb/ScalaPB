@@ -301,7 +301,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocatio
           """.stripMargin
       )
     }.message must include(
-      "is not a Sealed oneof and may not contain a sealed_oneof_extends message option. Use extends instead."
+      "uses `sealed_oneof_extends` option while not being a sealed oneof (see https://scalapb.github.io/docs/sealed-oneofs). Did you mean `extends`?"
     )
   }
 
@@ -318,7 +318,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocatio
           """.stripMargin
       )
     }.message must include(
-      "is not a Sealed oneof and may not contain a sealed_oneof_companion_extends message option. Use companion_extends instead."
+      "uses `sealed_oneof_companion_extends` option while not being a sealed oneof (see https://scalapb.github.io/docs/sealed-oneofs). Did you mean `companion_extends`?"
     )
   }
 

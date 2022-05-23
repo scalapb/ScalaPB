@@ -106,12 +106,12 @@ class ProtoValidation(implicits: DescriptorImplicits) {
     } else {
       if (m.sealedOneOfExtendsCount > 0) {
         throw new GeneratorException(
-          s"${m.getFullName}: is not a Sealed oneof and may not contain a sealed_oneof_extends message option. Use extends instead."
+          s"${m.getFullName} uses `sealed_oneof_extends` option while not being a sealed oneof (see https://scalapb.github.io/docs/sealed-oneofs). Did you mean `extends`?"
         )
       }
       if (m.sealedOneofCompanionExtendsCount > 0) {
         throw new GeneratorException(
-          s"${m.getFullName}: is not a Sealed oneof and may not contain a sealed_oneof_companion_extends message option. Use companion_extends instead."
+          s"${m.getFullName} uses `sealed_oneof_companion_extends` option while not being a sealed oneof (see https://scalapb.github.io/docs/sealed-oneofs). Did you mean `companion_extends`?"
         )
       }
     }
