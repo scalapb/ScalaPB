@@ -50,15 +50,18 @@ libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.10.4"
 libraryDependencies += "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.9.3"
 ```
 
+Known issue: Spark 3.2.1 is binary incompatible with Spark 3.2.0 in some of its internal
+APIs being used. If you use Spark 3.2.0, please stick to sparksql-scalapb 1.0.0-M1.
+
 Spark ships with an old version of Google's Protocol Buffers runtime that is not compatible with
-the current version. Therefore, we need to shade our copy of the Protocol Buffer runtime. Spark 3
-also ships with an incompatible version of scala-collection-compat.  Add the following to your
-build.sbt:
+the current version. In addition, it comes with incompatible versions of scala-collection-compat
+and shapeless.  Therefore, we need to shade these libraries. Add the following to your build.sbt:
 
 ```scala
 assemblyShadeRules in assembly := Seq(
   ShadeRule.rename("com.google.protobuf.**" -> "shadeproto.@1").inAll,
-  ShadeRule.rename("scala.collection.compat.**" -> "shadecompat.@1").inAll
+  ShadeRule.rename("scala.collection.compat.**" -> "shadecompat.@1").inAll,
+  ShadeRule.rename("shapeless.**" -> "shadeshapeless.@1").inAll
 )
 ```
 
