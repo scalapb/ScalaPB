@@ -6,7 +6,7 @@
 - Add StubFactory for grpc clients (#1351)
 - Support transformation on repeated option scalar (#1355)
 - Exclude preamble from service files. (#1367)
-- Add support for universal traits (#1352)
+- Add support for universal traits for sealed oneofs (#1352)
 
 ## [0.11.10]
 - Fix missing import definitions in services. (#1331)
