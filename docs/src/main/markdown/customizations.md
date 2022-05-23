@@ -393,7 +393,7 @@ message MyEither {
 }
 ```
 
-As of ScalaPB 0.11.12 you may also use following option to make the generated sealed oneof
+As of ScalaPB 0.11.11 you may also use following option to make the generated sealed oneof
 trait [universal](https://docs.scala-lang.org/overviews/core/value-classes.html).
 It may be useful when your sealed oneof variants are value-classes (e.g. extends `AnyVal`)
 
