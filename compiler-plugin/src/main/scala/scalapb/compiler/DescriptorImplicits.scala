@@ -319,20 +319,20 @@ class DescriptorImplicits private[compiler] (
       else collection.empty
     }
 
-    def scalaTypeName: String =
-      if (fd.isMapField) {
-        s"$collectionType[${mapType.keyType}, ${mapType.valueType}]"
-      } else {
-        if (fd.isRepeated) s"${collectionType}[$singleScalaTypeName]"
-        else {
-          val typeName = {
-            if (fd.isLazy) s"_root_.scalapb.LazyField[$singleScalaTypeName]"
-            else singleScalaTypeName
-          }
-          if (supportsPresence) s"${ScalaOption}[$typeName]"
-          else typeName
-        }
-      }
+    def scalaTypeName: String = {
+      val typeName = scalaTypeNameNoLazyOpt
+      if (fd.isRepeated && isLazy) s"$collectionType[_root_.scalapb.LazyField[$typeName]]"
+      else if (isLazy && supportsPresence) s"$ScalaOption[_root_.scalapb.LazyField[$typeName]]"
+      else if (isLazy) s"_root_.scalapb.LazyField[$typeName]"
+      else if (supportsPresence) s"$ScalaOption[$singleScalaTypeName]"
+      else typeName
+
+    }
+
+    def scalaTypeNameNoLazyOpt: String =
+      if (fd.isMapField) s"$collectionType[${mapType.keyType}, ${mapType.valueType}]"
+      else if (fd.isRepeated) s"${collectionType}[$singleScalaTypeName]"
+      else singleScalaTypeName
 
     def fieldOptions: FieldOptions = {
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)

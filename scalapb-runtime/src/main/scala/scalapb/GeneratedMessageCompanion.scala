@@ -198,8 +198,6 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
 
   def toByteString(a: A): ByteString = a.toByteString
 
-  final implicit val byteStringEncoder: ByteStringEncoder[A] = _.toByteString
-  
   final implicit val byteStringDecoder: ByteStringDecoder[A] = parseFrom
 
   /** Returns the Java descriptors for this message. It is recommended to use scalaDescriptors. The

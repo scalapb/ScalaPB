@@ -937,26 +937,38 @@ class ProtobufGenerator(
       .print(message.fields) { case (printer, field) =>
         val fieldName = field.scalaName.asSymbol
         if (!field.isInOneof) {
+          val getter = {
+            if (field.isLazy) {
+              if (field.supportsPresence) {
+                s"_.$fieldName.map(_.value)"
+              } else {
+                s"_.$fieldName.value"
+              }
+            } else {
+              s"_.$fieldName"
+            }
+          }
           if (field.supportsPresence) {
             val optionLensName = "optional" + field.upperScalaName
             printer
               .add(
                 s"""def $fieldName: ${lensType(
-                    field.singleScalaTypeName
+                    field.scalaTypeNameNoLazyOpt
                   )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
                    |def ${optionLensName}: ${lensType(
-                    field.scalaTypeName
-                  )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
+                    s"${DescriptorImplicits.ScalaOption}[${field.scalaTypeNameNoLazyOpt}]"
+                  )} = field($getter)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
               )
-          } else
+          } else {
             printer.add(
-              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
+              s"def $fieldName: ${lensType(field.scalaTypeNameNoLazyOpt)} = field($getter)((c_, f_) => c_.copy($fieldName = f_))"
             )
+          }
         } else {
           val oneofName = field.getContainingOneof.scalaName.nameSymbol
           printer
             .add(
-              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
+              s"def $fieldName: ${lensType(field.scalaTypeNameNoLazyOpt)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
                   .fullNameWithMaybeRoot(message)}(f_)))"
             )
         }

@@ -1,1 +1,3 @@
-package scalapb.compiler case class FieldGenContext ()
+package scalapb.compiler
+
+case class FieldGenContext()

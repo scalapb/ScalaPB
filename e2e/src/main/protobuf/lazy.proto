@@ -7,4 +7,12 @@ message Lazy {
 
   required string foo = 1;
   optional string bar = 2;
+  repeated string baz = 3;
+  required Bax bax1 = 4;
+  optional Bax bax2 = 5;
+  repeated Bax bax3 = 6;
+}
+
+message Bax {
+  repeated string x = 1;
 }

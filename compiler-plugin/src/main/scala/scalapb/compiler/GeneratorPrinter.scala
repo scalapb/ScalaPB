@@ -1,1 +1,3 @@
-package scalapb.compiler case class GeneratorPrinter ()
+package scalapb.compiler
+
+case class GeneratorPrinter ()

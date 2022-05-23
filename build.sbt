@@ -1,4 +1,3 @@
-import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._

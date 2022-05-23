@@ -8,6 +8,10 @@ object PrinterEndo {
 
 object FunctionalPrinter {
   type PrinterEndo = FunctionalPrinter => FunctionalPrinter
+
+  implicit class PrinterEndoOps(val f: PrinterEndo) extends AnyVal {
+    def ++(o: PrinterEndo): PrinterEndo = f.andThen(o)
+  }
 }
 
 case class FunctionalPrinter(content: Vector[String] = Vector.empty, indentLevel: Int = 0) {

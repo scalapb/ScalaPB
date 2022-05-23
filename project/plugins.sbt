@@ -36,8 +36,5 @@ addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.3.2")
 
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.2")
 
-// For https://github.com/lightbend/mima/issues/422
-resolvers += Resolver.url(
-  "typesafe sbt-plugins",
-  url("https://dl.bintray.com/typesafe/sbt-plugins")
-)(Resolver.ivyStylePatterns)
+addSbtPlugin("org.jetbrains" % "sbt-ide-settings" % "1.0.0")
+
