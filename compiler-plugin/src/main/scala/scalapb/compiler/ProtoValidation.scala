@@ -103,10 +103,17 @@ class ProtoValidation(implicits: DescriptorImplicits) {
           s"${m.getFullName}: sealed oneofs may not contain nested enums"
         )
       }
-    } else if (m.sealedOneOfExtendsCount > 0) {
-      throw new GeneratorException(
-        s"${m.getFullName}: is not a Sealed oneof and may not contain a sealed_oneof_extends message option. Use extends instead."
-      )
+    } else {
+      if (m.sealedOneOfExtendsCount > 0) {
+        throw new GeneratorException(
+          s"${m.getFullName}: `sealed_oneof_extends` option can only be used on a sealed oneof. Did you mean `extends`?"
+        )
+      }
+      if (m.sealedOneofCompanionExtendsCount > 0) {
+        throw new GeneratorException(
+          s"${m.getFullName}: `sealed_oneof_companion_extends` option can only be used on a sealed oneof. Did you mean `companion_extends`?"
+        )
+      }
     }
   }
 

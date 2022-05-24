@@ -30,8 +30,16 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
         else ""
 
       if (message.sealedOneofStyle != SealedOneofStyle.Optional) {
-        val sealedOneofNonEmptyName  = message.sealedOneofNonEmptyScalaType.nameSymbol
-        val sealedOneofNonEmptyType  = message.sealedOneofNonEmptyScalaType.fullName
+        val sealedOneofNonEmptyName = message.sealedOneofNonEmptyScalaType.nameSymbol
+        val sealedOneofNonEmptyType = message.sealedOneofNonEmptyScalaType.fullName
+        val bases =
+          if (message.sealedOneofBaseClasses.nonEmpty)
+            s"extends ${message.sealedOneofBaseClasses.mkString(" with ")} "
+          else ""
+        val companionBases =
+          if (message.sealedOneofCompanionExtendsOption.nonEmpty)
+            s"extends ${message.sealedOneofCompanionExtendsOption.mkString(" with ")} "
+          else ""
         val sealedOneofUniversalMark = if (message.isUniversalTrait) "Any with " else ""
 
         fp.add(
@@ -44,7 +52,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           s"final def asNonEmpty: Option[$sealedOneofNonEmptyType] = if (isEmpty) None else Some(this.asInstanceOf[$sealedOneofNonEmptyType])"
         ).add("}")
           .add("")
-          .add(s"object $sealedOneofName {")
+          .add(s"object $sealedOneofName $companionBases{")
           .indented(
             _.add(s"case object Empty extends $sealedOneofType", "")
               .add(

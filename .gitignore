@@ -2,7 +2,7 @@
 .bloop/
 .metals/
 project/.bloop/
-project/metals.sbt
+metals.sbt
 
 *.class
 *.log
