@@ -1,6 +1,6 @@
 # Change Log
 
-## [0.11.11](Unreleased)
+## [0.11.11]
 - Add StubFactory for grpc clients (#1351)
 - Support transformation on repeated option scalar (#1355)
 - Exclude preamble from service files. (#1367)
