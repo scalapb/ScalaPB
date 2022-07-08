@@ -5,9 +5,9 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.46.0"
+    val grpc                 = "1.47.0"
     val protobuf             = "3.19.2"
-    val silencer             = "1.7.8"
+    val silencer             = "1.7.9"
     val collectionCompat     = "2.7.0"
     val coursier             = "2.0.16"
     val protocGen            = "0.9.5"
@@ -17,7 +17,7 @@ object Dependencies {
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "4.5.1"
+    val mockito                 = "4.6.1"
     val munit                   = "0.7.29"
     val scalaTest               = "3.2.11"
     val scalaTestPlusMockito    = "3.1.0.0"
