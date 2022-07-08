@@ -44,7 +44,9 @@ object TestUtil {
 
   private def toBytes(str: String) = ByteString.copyFrom(str.getBytes("UTF-8"))
 
-  def isAnyVal[T](@nowarn value: T)(implicit pos: Position, tag: ClassTag[T], ev: T <:< AnyVal = null): Unit = {
+  def isAnyVal[T](
+      @nowarn value: T
+  )(implicit pos: Position, tag: ClassTag[T], ev: T <:< AnyVal = null): Unit = {
     if (ev == null) {
       org.scalatest.matchers.must.Matchers.fail(s"${tag.toString()} is not AnyVal")
     }
