@@ -5,7 +5,7 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.47.0"
+    val grpc                 = "1.48.0"
     val protobuf             = "3.19.2"
     val silencer             = "1.7.9"
     val collectionCompat     = "2.8.0"
