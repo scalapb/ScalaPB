@@ -15,8 +15,6 @@ In `project/plugins.sbt`:
 ```scala
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "@sbt_protoc@")
 
-addSbtPlugin("ch.epfl.lamp" % "sbt-dotty" % "@sbt_dotty@")
-
 libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "@scalapb_latest@"
 ```
 
