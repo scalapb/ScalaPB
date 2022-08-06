@@ -98,7 +98,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     )
   )
   .nativePlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = sharedNativeSettings ++ Seq(
       libraryDependencies += protobufRuntimeScala.value,
       Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "third_party",
@@ -278,7 +278,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
     )
   )
   .nativePlatform(
-    scalaVersions = Seq(Scala212, Scala213),
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = sharedNativeSettings
   )
 
