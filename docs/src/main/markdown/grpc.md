@@ -67,7 +67,7 @@ object GreeterGrpc {
     def sayHello(request: HelloRequest): Future[HelloReply]
   }
 
-  object Greeter extend ServiceCompanion[Greeter] {
+  object Greeter extends ServiceCompanion[Greeter] {
       def descriptor = ...
   }
 
