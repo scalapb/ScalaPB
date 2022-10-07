@@ -83,7 +83,7 @@ enums to a single Scala file.
 - The `preamble` is a list of strings that is output at the top of the
   generated Scala file. This option requires `single_file` to be set. It is
   commonly used to define sealed traits that are extended using
-  `(scalapb.message).extends` - see custom base traits below and [this example](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/sealed_trait.proto).
+  `(scalapb.message).extends` - see custom base traits below and [this example](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/nocode/sealed_trait.proto).
 
 - The `object_name` option lets you customize the name of the generated class
   that contains various file-level members such as descriptors and a list of
