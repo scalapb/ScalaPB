@@ -32,9 +32,9 @@ object CommonProtos {
 
   def table: String = {
     Seq(
-      ("proto-google-common-protos", "2.5.0-2"),
-      ("proto-google-cloud-pubsub-v1", "1.96.2-2"),
-      ("pgv-proto", "0.6.1-0")
+      ("proto-google-common-protos", "2.9.6-0"),
+      ("proto-google-cloud-pubsub-v1", "1.102.20-0"),
+      ("pgv-proto", "0.6.13-0")
     ).map((row _).tupled).mkString(header, "", "footer")
   }
 
