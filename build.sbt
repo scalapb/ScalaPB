@@ -82,8 +82,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "jvm-native",
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
-      ),
-      setScalaOutputVersion
+      )
     )
   )
   .jsPlatform(
@@ -93,8 +92,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       scalajsSourceMaps,
       Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "third_party",
       Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "js-native",
-      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
-      setScalaOutputVersion
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
   )
   .nativePlatform(
@@ -265,16 +263,12 @@ lazy val lenses = (projectMatrix in file("lenses"))
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
   )
   .jvmPlatform(
-    scalaVersions = Seq(Scala212, Scala213, Scala3),
-    settings = Seq(
-      setScalaOutputVersion
-    )
+    scalaVersions = Seq(Scala212, Scala213, Scala3)
   )
   .jsPlatform(
     scalaVersions = Seq(Scala212, Scala213, Scala3),
     settings = scalajsSourceMaps ++ Seq(
-      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule)),
-      setScalaOutputVersion
+      scalaJSLinkerConfig ~= (_.withModuleKind(ModuleKind.CommonJSModule))
     )
   )
   .nativePlatform(
