@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.11.12]
+- Lens now extends Serializable.
+
 ## [0.11.11]
 - Add StubFactory for grpc clients (#1351)
 - Support transformation on repeated option scalar (#1355)

@@ -1,6 +1,6 @@
 package scalapb.lenses
 
-trait Lens[Container, A] extends Any {
+trait Lens[Container, A] extends Serializable {
   self =>
 
   /** get knows how to extract some field of type `A` from a container */
