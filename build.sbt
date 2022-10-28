@@ -3,7 +3,7 @@ import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
 
-val protobufCompilerVersion = "3.19.2"
+val protobufCompilerVersion = "3.19.6"
 
 val MimaPreviousVersion = "0.11.0"
 

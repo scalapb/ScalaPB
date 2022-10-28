@@ -2,6 +2,7 @@
 
 ## [0.11.12]
 - Lens now extends Serializable.
+- Bump up to protobuf-java 3.19.6
 
 ## [0.11.11]
 - Add StubFactory for grpc clients (#1351)
