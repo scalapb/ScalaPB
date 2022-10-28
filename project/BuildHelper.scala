@@ -8,7 +8,8 @@ import sbtassembly.AssemblyPlugin.autoImport._
 object BuildHelper {
   val commonScalacOptions = Seq(
     "-deprecation",
-    "-release", "8",
+    "-release",
+    "8",
     "-feature"
   )
 
