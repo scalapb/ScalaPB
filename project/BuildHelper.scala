@@ -8,7 +8,8 @@ import sbtassembly.AssemblyPlugin.autoImport._
 object BuildHelper {
   val commonScalacOptions = Seq(
     "-deprecation",
-    "-target:jvm-1.8",
+    "-release",
+    "8",
     "-feature"
   )
 
@@ -82,15 +83,6 @@ object BuildHelper {
     compileOrder  := CompileOrder.JavaThenScala,
     versionScheme := Some("early-semver")
   )
-
-  val setScalaOutputVersion = {
-    scalaOutputVersion := {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((3, _)) => "3.1.2"
-        case _            => scalaVersion.value
-      }
-    }
-  }
 
   object Compiler {
     val generateVersionFile = Compile / sourceGenerators += Def.task {

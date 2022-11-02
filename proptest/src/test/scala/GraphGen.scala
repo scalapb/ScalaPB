@@ -27,9 +27,9 @@ object GraphGen {
 
     def generateName: Gen[String] = SchemaGenerators.identifier.retryUntil(isNameAvailable)
 
-    // See https://github.com/google/protobuf/issues/2738
+    // See https://github.com/protocolbuffers/protobuf/issues/10834
     def generateJavaPackageName: Gen[String] =
-      SchemaGenerators.identifier.retryUntil(s => s != "key" && isNameAvailable(s))
+      SchemaGenerators.identifier.retryUntil(s => s != "m" && isNameAvailable(s))
   }
 
   val ROOT_NAMESPACE = Namespace(Set("foo", "bar"), None)

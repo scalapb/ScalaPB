@@ -74,7 +74,7 @@ jobs:
         include:
         - os: ubuntu-latest
           arch: linux-x86_64
-        - os: macos-10.15
+        - os: macos-12
           arch: osx-x86_64
     runs-on: ${{matrix.os}}
     steps:
@@ -83,7 +83,7 @@ jobs:
         fetch-depth: 0
     - uses: olafurpg/setup-scala@v10
       with:
-        java-version: graalvm@20.1
+        java-version: graalvm@22.2
     - name: Asset name
       id: vars
       run: |

@@ -6,18 +6,18 @@ import Keys._
 object Dependencies {
   object versions {
     val grpc                 = "1.47.1"
-    val protobuf             = "3.19.2"
-    val silencer             = "1.7.11"
+    val protobuf             = "3.19.6"
+    val silencer             = "1.7.12"
     val collectionCompat     = "2.8.1"
     val coursier             = "2.0.16"
-    val protocGen            = "0.9.5"
+    val protocGen            = "0.9.6"
     val protobufRuntimeScala = "0.8.13"
     val commonsCodec         = "1.15"
 
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "4.8.0"
+    val mockito                 = "4.8.1"
     val munit                   = "1.0.0-M6"
     val scalaTest               = "3.2.14"
     val scalaTestPlusMockito    = "3.1.0.0"
@@ -25,11 +25,11 @@ object Dependencies {
     val utest                   = "0.7.10"
   }
 
-  val Scala212 = "2.12.15"
+  val Scala212 = "2.12.17"
 
-  val Scala213 = "2.13.8"
+  val Scala213 = "2.13.10"
 
-  val Scala3 = "3.1.2"
+  val Scala3 = "3.2.0"
 
   val silencer = Seq(
     sbt.compilerPlugin(
