@@ -148,7 +148,7 @@ object GraphGen {
         prev: OneOfGrouping,
         state: State
     ): Gen[(List[OneOfGrouping], State)] =
-      if (n == 0)(Gen.const((Nil, state)))
+      if (n == 0) (Gen.const((Nil, state)))
       else
         Gen.frequency(
           (
