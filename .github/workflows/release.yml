@@ -74,8 +74,12 @@ jobs:
         include:
         - os: ubuntu-latest
           arch: linux-x86_64
+        - os: ubuntu-latest
+          arch: linux-arm64
         - os: macos-12
           arch: osx-x86_64
+        - os: macos-12
+          arch: osx-arm64
     runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v2
