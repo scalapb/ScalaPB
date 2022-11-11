@@ -26,31 +26,31 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - uses: olafurpg/setup-gpg@v3
-      if: startsWith(github.ref, 'refs/tags/v')
-    - name: Publish ${{ github.ref }}
-      run: sbt ci-release
-      env:
-        JAVA_OPTS: -Xmx4G -XX:+UseG1GC
-        JVM_OPTS:  -Xmx4G -XX:+UseG1GC
-        PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-        PGP_SECRET: ${{ secrets.PGP_SECRET }}
-        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-    - name: Update docs
-      run: |
-        git config --global user.name "ScalaPB Docs"
-        git config --global user.email "scalapb-updater@users.noreply.github.com"
-        eval "$(ssh-agent -s)"
-        echo "$TOKEN" | ssh-add -
-        sbt docs/mdoc docs/unidoc
-        cd website
-        yarn install
-        yarn deploy
-      env:
-          TOKEN: ${{secrets.DEPLOY_KEY}}
-          USE_SSH: true
-          GIT_USER: git
+    # - uses: olafurpg/setup-gpg@v3
+    #   if: startsWith(github.ref, 'refs/tags/v')
+    # - name: Publish ${{ github.ref }}
+    #   run: sbt ci-release
+    #   env:
+    #     JAVA_OPTS: -Xmx4G -XX:+UseG1GC
+    #     JVM_OPTS:  -Xmx4G -XX:+UseG1GC
+    #     PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+    #     PGP_SECRET: ${{ secrets.PGP_SECRET }}
+    #     SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+    #     SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+    # - name: Update docs
+    #   run: |
+    #     git config --global user.name "ScalaPB Docs"
+    #     git config --global user.email "scalapb-updater@users.noreply.github.com"
+    #     eval "$(ssh-agent -s)"
+    #     echo "$TOKEN" | ssh-add -
+    #     sbt docs/mdoc docs/unidoc
+    #     cd website
+    #     yarn install
+    #     yarn deploy
+    #   env:
+    #       TOKEN: ${{secrets.DEPLOY_KEY}}
+    #       USE_SSH: true
+    #       GIT_USER: git
 
   scalapbc:
     runs-on: ubuntu-latest
@@ -75,11 +75,11 @@ jobs:
         - os: ubuntu-latest
           arch: linux-x86_64
         - os: ubuntu-latest
-          arch: linux-arm64
+          arch: aarch64
         - os: macos-12
           arch: osx-x86_64
         - os: macos-12
-          arch: osx-arm64
+          arch: aarch64
     runs-on: ${{matrix.os}}
     steps:
     - uses: actions/checkout@v2
@@ -99,6 +99,10 @@ jobs:
         echo "ASSET=protoc-gen-scala-${RELEASE_VERSION}-${{matrix.arch}}" >> $GITHUB_ENV
 
     - name: build native image
+      uses: uraimo/run-on-arch-action@v2
+      with:
+        arch: ${{matrix.arch}}
+        distro: ${{matrix.os}}
       run: |
         set -x
         gu install native-image
