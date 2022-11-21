@@ -529,8 +529,8 @@ In addition to primitive values, you can customize enums and messages as well.
 
 For more examples, see:
 
-- [`custom_types.proto`](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/custom_types.proto)
-- [`PersonId.scala`](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala/com/thesamet/pb/PersonId.scala)
+- [`custom_types.proto`](https://github.com/scalapb/ScalaPB/blob/master/e2e-withjava/src/main/protobuf/custom_types.proto)
+- [`PersonId.scala`](https://github.com/scalapb/ScalaPB/blob/master/e2e-withjava/src/main/scala/com/thesamet/pb/PersonId.scala)
 - [`CustomTypesSpec.scala`](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/test/scala/CustomTypesSpec.scala)
 
 If you have a TypeMapper that maps a generated type into a type you don't own
@@ -656,7 +656,7 @@ message CustomMaps {
 }
 ```
 
-Example: see `CustomMaps` in [maps.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/maps.proto)
+Example: see `CustomMaps` in [maps.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e-withjava/src/main/protobuf/maps.proto)
 
 You can also customize the collection type used for a map. See the next
 section for details.
@@ -714,9 +714,9 @@ Note: Most Scala collections can be used with this feature. If you are trying
 to implement your own collection type, it may be useful to check `MyVector`
 and `MyMap`, the simplest custom collection that is compatible with ScalaPB:
 
-- [MyVector.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala-pre-2.13/com/thesamet/pb/MyVector.scala)
-- [MyMap.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/scala-pre-2.13/com/thesamet/pb/MyMap.scala)
-- [collection_types.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e/src/main/protobuf/collection_types.proto)
+- [MyVector.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e-withjava/src/main/scala-2.13/com/thesamet/pb/MyVector.scala)
+- [MyMap.scala](https://github.com/scalapb/ScalaPB/blob/master/e2e-withjava/src/main/scala-2.13/com/thesamet/pb/MyMap.scala)
+- [collection_types.proto](https://github.com/scalapb/ScalaPB/blob/master/e2e-withjava/src/main/protobuf/collection_types.proto)
 
 ## Custom names
 
