@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.issue1431;
+
+message aaa {
+    oneof alts {
+        int64 instance_of = 1;
+    }
+}
+

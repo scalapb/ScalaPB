@@ -220,6 +220,7 @@ class DescriptorImplicits private[compiler] (
         fd.getName match {
           case "serialized_size"       => "_SerializedSize"
           case "class"                 => "_Class"
+          case "instance_of"           => "_InstanceOf"
           case "empty" if fd.isInOneof => "_Empty"
           case x                       => getNameWithFallback(x, Case.PascalCase, Appendage.Prefix)
         }
