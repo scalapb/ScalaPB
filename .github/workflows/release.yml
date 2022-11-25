@@ -83,7 +83,7 @@ jobs:
         fetch-depth: 0
     - uses: olafurpg/setup-scala@v10
       with:
-        java-version: graalvm@22.2
+        java-version: graalvm@21.1.0
     - name: Asset name
       id: vars
       run: |
