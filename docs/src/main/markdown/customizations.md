@@ -349,7 +349,7 @@ message CustomerWithPhone {
 }
 ```
 
-In your code, define the base trait `DomainEvent` and include any subset of the fields:
+In your code, define the base trait `BaseCustomer` and include any subset of the fields:
 
 ```scala
 package com.thesamet.pb
