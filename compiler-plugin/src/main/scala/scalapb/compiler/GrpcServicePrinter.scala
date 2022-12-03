@@ -225,34 +225,22 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
         method.streamType match {
           case StreamType.Unary =>
-            val serverMethod =
-              s"$serverCalls.UnaryMethod[${method.inputType.scalaType}, ${method.outputType.scalaType}]"
             p.add(
-              s"""$call(new $serverMethod {
-                 |  override def invoke(request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]): _root_.scala.Unit =
-                 |    $serviceImpl.${method.name}(request).onComplete(scalapb.grpc.Grpc.completeObserver(observer))(
-                 |      $executionContext)
+              s"""$call((request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]) => {
+                 |  $serviceImpl.${method.name}(request).onComplete(scalapb.grpc.Grpc.completeObserver(observer))(
+                 |    $executionContext)
                  |}))""".stripMargin
             )
           case StreamType.ServerStreaming =>
-            val serverMethod =
-              s"$serverCalls.ServerStreamingMethod[${method.inputType.scalaType}, ${method.outputType.scalaType}]"
             p.add(
-              s"""$call(new $serverMethod {
-                 |  override def invoke(request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]): _root_.scala.Unit =
-                 |    $serviceImpl.${method.name}(request, observer)
+              s"""$call((request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]) => {
+                 |  $serviceImpl.${method.name}(request, observer)
                  |}))""".stripMargin
             )
           case _ =>
-            val serverMethod = if (method.streamType == StreamType.ClientStreaming) {
-              s"$serverCalls.ClientStreamingMethod[${method.inputType.scalaType}, ${method.outputType.scalaType}]"
-            } else {
-              s"$serverCalls.BidiStreamingMethod[${method.inputType.scalaType}, ${method.outputType.scalaType}]"
-            }
             p.add(
-              s"""$call(new $serverMethod {
-                 |  override def invoke(observer: $streamObserver[${method.outputType.scalaType}]): $streamObserver[${method.inputType.scalaType}] =
-                 |    $serviceImpl.${method.name}(observer)
+              s"""$call((observer: $streamObserver[${method.outputType.scalaType}]) => {
+                 |  $serviceImpl.${method.name}(observer)
                  |}))""".stripMargin
             )
         }
