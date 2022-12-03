@@ -9,21 +9,22 @@ jobs:
   publish:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Scala caches
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           ~/.sbt
           ~/.ivy2/cache
           ~/.cache/coursier
         key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
-    - uses: actions/setup-java@v1
+    - uses: actions/setup-java@v3
       with:
         java-version: 8
-    - uses: actions/setup-node@v1
+        distribution: temurin
+    - uses: actions/setup-node@v3
       with:
         node-version: '12.x'
     - uses: olafurpg/setup-gpg@v3
@@ -55,15 +56,16 @@ jobs:
   scalapbc:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - uses: actions/setup-java@v1
+    - uses: actions/setup-java@v3
       with:
         java-version: 8
+        distribution: temurin
     - run: |
         sbt scalapbcJVM2_12/universal:packageBin
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: scalapbc
         path: scalapbc/target/jvm-2.12/universal/scalapbc-*.zip
@@ -78,10 +80,10 @@ jobs:
           arch: osx-x86_64
     runs-on: ${{matrix.os}}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - uses: olafurpg/setup-scala@v10
+    - uses: olafurpg/setup-scala@v13
       with:
         java-version: graalvm@21.1.0
     - name: Asset name
@@ -102,7 +104,7 @@ jobs:
         sbt protocGenScalaNativeImage/nativeImage
         zip -j $ASSET.zip target/protoc-gen-scala
 
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
         name: ${{env.ASSET}}
         path: ${{env.ASSET}}.zip
@@ -112,11 +114,11 @@ jobs:
     runs-on: ubuntu-20.04
     needs: [native, scalapbc]
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0
     - name: Download artifacts
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         path: artifacts
     - name: Display structure of downloaded files
