@@ -1,4 +1,3 @@
-import sbtcrossproject.CrossPlugin.autoImport.{CrossType, crossProject}
 import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
@@ -431,8 +430,6 @@ lazy val docs = project
       "sparksql_scalapb" -> "1.0.0",
       "scalapb_validate" -> "0.3.1"
     ),
-    git.remoteRepo := "git@github.com:scalapb/scalapb.github.io.git",
-    ghpagesBranch  := "master",
     // scalameta tree's uses ScalaPB 0.10.x, which is "sufficiently binary compatible".
     libraryDependencySchemes += "com.thesamet.scalapb" %% "scalapb-runtime" % "always"
 
