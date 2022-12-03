@@ -1,5 +1,4 @@
 import sbt._
-import sbtcrossproject.CrossPlugin.autoImport._
 import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
 import Keys._
 
