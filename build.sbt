@@ -409,9 +409,7 @@ lazy val docs = project
       "com.lihaoyi"          %% "os-lib"           % "0.5.0",
       "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
     ),
-    mdocIn                       := baseDirectory.value / "src" / "main" / "markdown",
-    ScalaUnidoc / siteSubdirName := "api/scalapb/latest",
-    addMappingsToSiteDir(ScalaUnidoc / packageDoc / mappings, ScalaUnidoc / siteSubdirName),
+    mdocIn := baseDirectory.value / "src" / "main" / "markdown",
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
       lensesJVM2_12,
       runtimeJVM2_12,
