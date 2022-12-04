@@ -12,8 +12,6 @@ addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.9")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.1")
 
-addSbtPlugin("com.typesafe.sbt" % "sbt-site" % "1.4.1")
-
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.0")
