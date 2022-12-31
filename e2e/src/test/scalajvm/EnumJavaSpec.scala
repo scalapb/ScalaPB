@@ -93,7 +93,7 @@ class EnumJavaSpec extends AnyFlatSpec with Matchers with OptionValues {
     )
   }
 
-  "Proto3 with optional unrecognized enum" should "support convertion to/from java" in {
+  "Proto3 with optional unrecognized enum" should "support conversion to/from java" in {
     val proto3 = EnumTest3(color = Color3.Unrecognized(17))
     val asJava = EnumTest3.toJavaProto(proto3)
     EnumTest3.fromJavaProto(asJava) must be(proto3)
@@ -105,7 +105,7 @@ class EnumJavaSpec extends AnyFlatSpec with Matchers with OptionValues {
     EnumTest3.parseFrom(proto3.toByteArray) must be(proto3)
   }
 
-  "Proto3 with repeated unrecognized enum" should "support convertion to/from java" in {
+  "Proto3 with repeated unrecognized enum" should "support conversion to/from java" in {
     val proto3 =
       EnumTest3(colorVector = Seq(Color3.Unrecognized(17), Color3.C3_RED, Color3.Unrecognized(22)))
     EnumTest3.fromJavaProto(EnumTest3.toJavaProto(proto3)) must be(proto3)

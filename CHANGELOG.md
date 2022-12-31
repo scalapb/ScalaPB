@@ -105,7 +105,7 @@
 
 ## [0.10.8](https://github.com/scalapb/ScalaPB/compare/v0.10.7..v0.10.8)
 - Fix a regression where calling scalapb.gen() without parameters would not
-  generate grpc stubs. Workaround: pass grpc=true explictly. #879
+  generate grpc stubs. Workaround: pass grpc=true explicitly. #879
 - Add asMap to UnkownFieldSet to make it possible to extract the map (#878)
 - ScalaPBC now accepts --jvm-plugin flag that loads an artifact from maven
   that is expected to have a main class which extends ProtocCodeGenerator.

@@ -3,7 +3,7 @@ import com.thesamet.proto.e2e.one_of._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
-class elatPackageSpec extends AnyFlatSpec with Matchers {
+class FlatPackageSpec extends AnyFlatSpec with Matchers {
 
   "FlatTest" should "serialize and parse" in {
     val ft = FlatTest(

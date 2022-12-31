@@ -1,6 +1,6 @@
 package scalapb.descriptors
 
-/** Javascript (and hence Scala.js) does not have WeakReferences and WeahHashMap, so we use a normal
+/** Javascript (and hence Scala.js) does not have WeakReferences and WeakHashMap, so we use a normal
   * HashMap.
   */
 private[descriptors] class ConcurrentWeakReferenceMap[K, V] {

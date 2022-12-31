@@ -73,7 +73,7 @@ See [full example here](https://github.com/thesamet/sbt-protoc/tree/master/examp
 
 For a proto like this:
 ```protobuf
-synax = "proto3";
+syntax = "proto3";
 
 message A {}
 
@@ -86,7 +86,7 @@ The generated case class for `B` will have a field `a: Option[A]`. The reason
 is that in the proto3 format, it is valid for an encoded message of type `B` to not
 contain a value for the field `a`. Using the `Option[A]` type lets us distinguish
 between the case where a value for `A` was not provided and the case where `A`
-was explictly set to a certain value (even if that value is the default value
+was explicitly set to a certain value (even if that value is the default value
 for `A`). The case where `a` is not set, and the case that `A` is set to its
 default value have two distinct binary representations (in both proto2 and
 proto3).

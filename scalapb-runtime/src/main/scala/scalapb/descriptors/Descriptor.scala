@@ -410,7 +410,7 @@ object FileDescriptor {
     else nameChain(parentOf(fullName), fullName :: acc)
   }
 
-  /** Looks up a name in the given file and its dependencies relative to the given contenxt.
+  /** Looks up a name in the given file and its dependencies relative to the given context.
     *
     * If name starts with a dot (.) then name is considered to be a full name (and context is
     * ignored) Otherwise, name is looked inside the given context and then on each enclosing

@@ -51,7 +51,7 @@ trait GeneratedEnumCompanion[A <: GeneratedEnum] extends Serializable {
 
   /** Returns the Java descriptors for this enum. It is recommended to use scalaDescriptors. The
     * Java descriptors are available even when Java conversions is disabled, however they are not
-    * avaialable in Scala.js or scala-native.
+    * available in Scala.js or scala-native.
     */
   def javaDescriptor: com.google.protobuf.Descriptors.EnumDescriptor
 
@@ -196,7 +196,7 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
 
   /** Returns the Java descriptors for this message. It is recommended to use scalaDescriptors. The
     * Java descriptors are available even when Java conversions is disabled, however they are not
-    * avaialable in Scala.js or scala-native.
+    * available in Scala.js or scala-native.
     */
   def javaDescriptor: com.google.protobuf.Descriptors.Descriptor
 
@@ -247,7 +247,7 @@ abstract class GeneratedFileObject {
 
   /** Returns the Java descriptors for this file. It is recommended to use scalaDescriptors. The
     * Java descriptors are available even when Java conversions is disabled, however they are not
-    * avaialable in Scala.js or scala-native.
+    * available in Scala.js or scala-native.
     */
   def javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor
   // Other file objects that this file depends on.

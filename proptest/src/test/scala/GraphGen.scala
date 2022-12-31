@@ -108,7 +108,7 @@ object GraphGen {
           //     When enum name is stripped and label is PascalCased (X), this value label conflicts
           //     with abc_bar_x. This will make the proto fail to compile for some languages, such as C#.
           //
-          // To eliminate any posssibility of triggering it, we don't allow labels (lower case, underscores removed)
+          // To eliminate any possibility of triggering it, we don't allow labels (lower case, underscores removed)
           // to start with the enum names (lower case, underscores removed)
           val enumNameCanon = enumName.toLowerCase.replaceAll("_", "")
           names.forall(n => !n.toLowerCase.replaceAll("_", "").startsWith(enumNameCanon)) &&

@@ -153,7 +153,7 @@ option (scalapb.options) = {
 All the options in this file will be applied to all proto files in the
 package `com.mypackage` and its sub-packages.
 
-There is no need to explictly import this file from other protos. If you are
+There is no need to explicitly import this file from other protos. If you are
 using `sbt-protoc` and the file is in the proto source directory (default is
 `src/main/protobuf`) then the file will be found and the options applied. If
 you are invoking protoc in another way, you need to ensure that this
