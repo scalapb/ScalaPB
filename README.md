@@ -72,7 +72,7 @@ Add the following line to your `build.sbt`:
       scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
     )
 
-For additional configuration options, see [ScalaPB SBT Settings](https://scalapb.github.io/docs/sbt-settings/) documentation
+For additional configuration options, see [ScalaPB SBT Settings](https://scalapb.github.io/docs/sbt-settings) documentation
 
 Using ScalaPB
 =============
