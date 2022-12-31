@@ -1,4 +1,4 @@
-Got a question? Please see https://scalapb.github.io/contact.html first.
+Got a question? Please see https://scalapb.github.io/docs/contact/ first.
 
 If you have found a bug or have a feature request, please
 search our open Github issues at https://github.com/scalapb/ScalaPB/issues

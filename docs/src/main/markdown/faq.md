@@ -227,7 +227,7 @@ protobuf {
       }
       task.plugins {
           scalapb {
-            // add any ScalaPB generator options here. See: https://scalapb.github.io/scalapbc.html#passing-generator-parameters
+            // add any ScalaPB generator options here. See: https://scalapb.github.io/docs/scalapbc/#passing-generator-parameters
             // option 'flat_package'
           }
       }
