@@ -120,7 +120,7 @@ class ProtoValidation(implicits: DescriptorImplicits) {
   def validateField(fd: FieldDescriptor): Unit = {
     if (ProtoValidation.ForbiddenFieldNames.contains(fd.scalaName))
       throw new GeneratorException(
-        s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed. See https://scalapb.github.io/customizations.html#custom-names"
+        s"Field named '${fd.getName}' in message '${fd.getFullName}' is not allowed. See https://scalapb.github.io/docs/customizations#custom-names"
       )
     if (!fd.isRepeated && fd.fieldOptions.hasCollectionType)
       throw new GeneratorException(
