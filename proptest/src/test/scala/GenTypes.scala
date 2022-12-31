@@ -24,7 +24,7 @@ object GenTypes {
   private val genUInt64 = Gen.chooseNum[Long](0, Long.MaxValue)
   private val genUInt32 = Gen.chooseNum[Int](0, Int.MaxValue)
 
-  // Simple version, since the one at TextFormatUtils is only in runtimne.
+  // Simple version, since the one at TextFormatUtils is only in runtime.
   private def escapeBytes(raw: Seq[Byte]): String = {
     val builder = new StringBuilder
     builder.append('"')
