@@ -27,6 +27,8 @@ package scalapb.options
   *   If true, no default values will be generated in message constructors.
   *   If set (to true or false), the message-level setting overrides the
   *   file-level value, and can be overridden by the field-level setting.
+  * @param sealedOneofCompanionExtends
+  *   Additional classes and traits to mix in to generated sealed oneof base trait's companion object.
   */
 @SerialVersionUID(0L)
 final case class MessageOptions(
@@ -39,6 +41,7 @@ final case class MessageOptions(
     noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFieldsAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    sealedOneofCompanionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageOptions] with _root_.scalapb.ExtendableMessage[MessageOptions] {
     @transient
@@ -81,6 +84,10 @@ final case class MessageOptions(
         val __value = noDefaultValuesInConstructor.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(9, __value)
       };
+      sealedOneofCompanionExtends.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(10, __value)
+      }
       __size += unknownFields.serializedSize
       __size
     }
@@ -130,6 +137,10 @@ final case class MessageOptions(
         val __m = __v
         _output__.writeBool(9, __m)
       };
+      sealedOneofCompanionExtends.foreach { __v =>
+        val __m = __v
+        _output__.writeString(10, __m)
+      };
       unknownFields.writeTo(_output__)
     }
     def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
@@ -165,6 +176,10 @@ final case class MessageOptions(
     def getNoDefaultValuesInConstructor: _root_.scala.Boolean = noDefaultValuesInConstructor.getOrElse(false)
     def clearNoDefaultValuesInConstructor: MessageOptions = copy(noDefaultValuesInConstructor = _root_.scala.None)
     def withNoDefaultValuesInConstructor(__v: _root_.scala.Boolean): MessageOptions = copy(noDefaultValuesInConstructor = Option(__v))
+    def clearSealedOneofCompanionExtends = copy(sealedOneofCompanionExtends = _root_.scala.Seq.empty)
+    def addSealedOneofCompanionExtends(__vs: _root_.scala.Predef.String *): MessageOptions = addAllSealedOneofCompanionExtends(__vs)
+    def addAllSealedOneofCompanionExtends(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofCompanionExtends = sealedOneofCompanionExtends ++ __vs)
+    def withSealedOneofCompanionExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofCompanionExtends = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -178,6 +193,7 @@ final case class MessageOptions(
         case 7 => noBox.orNull
         case 8 => unknownFieldsAnnotations
         case 9 => noDefaultValuesInConstructor.orNull
+        case 10 => sealedOneofCompanionExtends
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -192,6 +208,7 @@ final case class MessageOptions(
         case 7 => noBox.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 8 => _root_.scalapb.descriptors.PRepeated(unknownFieldsAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 9 => noDefaultValuesInConstructor.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => _root_.scalapb.descriptors.PRepeated(sealedOneofCompanionExtends.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -211,6 +228,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     var __noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     val __unknownFieldsAnnotations: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     var __noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    val __sealedOneofCompanionExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -235,6 +253,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
           __unknownFieldsAnnotations += _input__.readStringRequireUtf8()
         case 72 =>
           __noDefaultValuesInConstructor = Option(_input__.readBool())
+        case 82 =>
+          __sealedOneofCompanionExtends += _input__.readStringRequireUtf8()
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -252,6 +272,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         noBox = __noBox,
         unknownFieldsAnnotations = __unknownFieldsAnnotations.result(),
         noDefaultValuesInConstructor = __noDefaultValuesInConstructor,
+        sealedOneofCompanionExtends = __sealedOneofCompanionExtends.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
@@ -267,7 +288,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         sealedOneofExtends = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         noBox = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         unknownFieldsAnnotations = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
-        noDefaultValuesInConstructor = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
+        noDefaultValuesInConstructor = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        sealedOneofCompanionExtends = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -285,7 +307,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     sealedOneofExtends = _root_.scala.Seq.empty,
     noBox = _root_.scala.None,
     unknownFieldsAnnotations = _root_.scala.Seq.empty,
-    noDefaultValuesInConstructor = _root_.scala.None
+    noDefaultValuesInConstructor = _root_.scala.None,
+    sealedOneofCompanionExtends = _root_.scala.Seq.empty
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.MessageOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
@@ -300,6 +323,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def unknownFieldsAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.unknownFieldsAnnotations)((c_, f_) => c_.copy(unknownFieldsAnnotations = f_))
     def noDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = Option(f_)))
     def optionalNoDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = f_))
+    def sealedOneofCompanionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.sealedOneofCompanionExtends)((c_, f_) => c_.copy(sealedOneofCompanionExtends = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
   final val COMPANION_EXTENDS_FIELD_NUMBER = 2
@@ -310,6 +334,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   final val NO_BOX_FIELD_NUMBER = 7
   final val UNKNOWN_FIELDS_ANNOTATIONS_FIELD_NUMBER = 8
   final val NO_DEFAULT_VALUES_IN_CONSTRUCTOR_FIELD_NUMBER = 9
+  final val SEALED_ONEOF_COMPANION_EXTENDS_FIELD_NUMBER = 10
   def of(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
     companionExtends: _root_.scala.Seq[_root_.scala.Predef.String],
@@ -319,7 +344,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String],
     noBox: _root_.scala.Option[_root_.scala.Boolean],
     unknownFieldsAnnotations: _root_.scala.Seq[_root_.scala.Predef.String],
-    noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean]
+    noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean],
+    sealedOneofCompanionExtends: _root_.scala.Seq[_root_.scala.Predef.String]
   ): _root_.scalapb.options.MessageOptions = _root_.scalapb.options.MessageOptions(
     `extends`,
     companionExtends,
@@ -329,7 +355,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     sealedOneofExtends,
     noBox,
     unknownFieldsAnnotations,
-    noDefaultValuesInConstructor
+    noDefaultValuesInConstructor,
+    sealedOneofCompanionExtends
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.MessageOptions])
 }
