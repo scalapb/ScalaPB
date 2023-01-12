@@ -89,11 +89,11 @@ For Linux and Mac OS X, you can download a native executable version of the plug
 * For Linux: [protoc-gen-scala-@scalapb@-linux-x86_64.zip](https://github.com/scalapb/ScalaPB/releases/download/v@scalapb@/protoc-gen-scala-@scalapb@-linux-x86_64.zip)
 * For OS X: [protoc-gen-scala-@scalapb@-osx-x86_64.zip](https://github.com/scalapb/ScalaPB/releases/download/v@scalapb@/protoc-gen-scala-@scalapb@-osx-x86_64.zip)
 
-Those zip files contain native executables of the plugin for the respective operating system built using GraalVM. If you are using another operating system (such as Windows), or prefer to use a JVM based plugin implementation, you will find in [scalapbc-@scalapb@.zip](https://github.com/scalapb/ScalaPB/releases/download/v@scalapb@/scalapbc-@scalapb@.zip) an executable named `bin/protoc-gen-scala` which requires a JVM to run (a JVM needs to be available on the path, or through the `JAVA_HOME` environment variable)
+Those zip files contain native executables of the plugin for the respective operating system built using GraalVM. If you are using another operating system, or prefer to use a JVM based plugin implementation, you will find executable scripts for Windows and Unix-like operating systems [in maven](https://repo1.maven.org/maven2/com/thesamet/scalapb/protoc-gen-scala/@scalapb@/). These scripts require a JVM to run. The JVM needs to be available on the path, or through the `JAVA_HOME` environment variable.
 
 To generate code:
 
-    protoc my.protos --plugin=/path/to/bin/protoc-gen-scala --scala_out=scala
+    protoc my.protos --plugin=/path/to/bin/protoc-gen-scala-@scalapb@-unix.sh --scala_out=scala
 
 On Windows:
 
