@@ -80,9 +80,6 @@ class Descriptor private[descriptors] (
   lazy val fieldsByNumberMap: Map[Int, FieldDescriptor] =
     fields.map(fd => (fd.number, fd)).toMap
 
-  lazy val fieldsByNameMap: Map[String, FieldDescriptor] =
-    fields.map(fd => (fd.name, fd)).toMap
-
   lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map { case (oneof, index) =>
     val oneofFields = fields.filter { t =>
       t.asProto.oneofIndex.isDefined && t.asProto.oneofIndex.get == index
@@ -92,7 +89,10 @@ class Descriptor private[descriptors] (
 
   def name: String = asProto.getName
 
-  def findFieldByName(name: String): Option[FieldDescriptor] = fieldsByNameMap.get(name)
+  def findFieldByName(name: String): Option[FieldDescriptor] = file.findSymbol(fullName + "." + name) match {
+    case Some(fd: FieldDescriptor) => Some(fd)
+    case _ => None
+  }
 
   def findFieldByNumber(number: Int): Option[FieldDescriptor] = fieldsByNumberMap.get(number)
 
@@ -383,7 +383,7 @@ class FileDescriptor private[descriptors] (
 
   def packageName: String = asProto.getPackage
 
-  private def findSymbol(name: String): Option[BaseDescriptor] = {
+  private[scalapb] def findSymbol(name: String): Option[BaseDescriptor] = {
     descriptorsByName.get(name).orElse {
       dependencies.view.flatMap(_.findSymbol(name)).headOption
     }
