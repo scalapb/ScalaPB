@@ -77,6 +77,12 @@ class Descriptor private[descriptors] (
       FieldDescriptor.buildFieldDescriptor(fd, index, this)
     }.toVector
 
+  lazy val fieldsByNumberMap: Map[Int, FieldDescriptor] =
+    fields.map(fd => (fd.number, fd)).toMap
+
+  lazy val fieldsByNameMap: Map[String, FieldDescriptor] =
+    fields.map(fd => (fd.name, fd)).toMap
+
   lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map { case (oneof, index) =>
     val oneofFields = fields.filter { t =>
       t.asProto.oneofIndex.isDefined && t.asProto.oneofIndex.get == index
@@ -86,9 +92,9 @@ class Descriptor private[descriptors] (
 
   def name: String = asProto.getName
 
-  def findFieldByName(name: String): Option[FieldDescriptor] = fields.find(_.name == name)
+  def findFieldByName(name: String): Option[FieldDescriptor] = fieldsByNameMap.get(name)
 
-  def findFieldByNumber(number: Int): Option[FieldDescriptor] = fields.find(_.number == number)
+  def findFieldByNumber(number: Int): Option[FieldDescriptor] = fieldsByNumberMap.get(number)
 
   def location = file.findLocationByPath(SourceCodePath.get(this))
 
