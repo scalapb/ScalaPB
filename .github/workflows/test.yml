@@ -43,29 +43,37 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - uses: actions/cache@v3
+      id: conformance-cache
+      with:
+          key: conformance-${{ runner.os }}-${{hashFiles('conformance/build_test_runner.sh')}}
+          path: /tmp/conformance-test-runner
+
+    # Build conformance_test_runner on a cache miss
     - uses: bazelbuild/setup-bazelisk@v2
+      if: steps.conformance-cache.outputs.cache-hit != 'true'
+    - uses: actions/cache@v3
+      if: steps.conformance-cache.outputs.cache-hit != 'true'
+      with:
+        path: |
+          ~/.cache/bazel
+        key: bazel
+    - run: conformance/build_test_runner.sh
+      if: steps.conformance-cache.outputs.cache-hit != 'true'
+
     - uses: actions/cache@v3
       with:
         path: |
           ~/.sbt
-          ~/.cache/bazel
           ~/.ivy2/cache
           ~/.cache/coursier
-        key: bazel
+        key: ${{ runner.os }}-sbt-${{matrix.scala}}-${{matrix.script}}-${{ hashFiles('**/*.sbt') }}
     - run: |
-        export PROTOBUF_VERSION=3.19.6
-        export USE_BAZEL_VERSION=3.7.2
-        curl -L https://github.com/protocolbuffers/protobuf/archive/refs/tags/v${PROTOBUF_VERSION}.zip -o /tmp/protobuf.zip
-        unzip /tmp/protobuf.zip
-        cd protobuf-${PROTOBUF_VERSION}
-        bazel build conformance_test_runner
-        cd ..
         sbt conformanceJVM2_13/assembly
-        protobuf-${PROTOBUF_VERSION}/bazel-bin/conformance_test_runner --enforce_recommended \
+        /tmp/conformance-test-runner/conformance_test_runner --enforce_recommended \
           --failure_list conformance/failure_list_scalapb.txt \
           --text_format_failure_list conformance/text_format_failure_list_scalapb.txt \
           conformance/target/jvm-2.13/conformance
-
       shell: bash
 
   # Single final job for mergify.
