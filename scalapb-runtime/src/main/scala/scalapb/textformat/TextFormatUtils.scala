@@ -150,7 +150,7 @@ private[scalapb] object TextFormatUtils {
 
   def unescapeText(input: String): Either[TextFormatError, String] = for {
     bytes <- unescapeBytes(input)
-    _     <- if (bytes.isValidUtf8) Right(()) else Left(TextFormatError(s"Invalid UTF8: $input"))
+    _     <- if (bytes.isValidUtf8()) Right(()) else Left(TextFormatError(s"Invalid UTF8: $input"))
   } yield bytes.toStringUtf8()
 
   /** Convert an unsigned 32-bit integer to a string. */
