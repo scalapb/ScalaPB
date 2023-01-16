@@ -79,8 +79,6 @@ class Descriptor private[descriptors] (
 
   private lazy val sortedFields: Array[FieldDescriptor] = fields.toArray.sortBy(_.number)
 
-  private lazy val fieldsByNameMap: Map[String, FieldDescriptor] = fields.map(fd => (fd.name, fd)).toMap
-
   lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map { case (oneof, index) =>
     val oneofFields = fields.filter { t =>
       t.asProto.oneofIndex.isDefined && t.asProto.oneofIndex.get == index
@@ -90,9 +88,10 @@ class Descriptor private[descriptors] (
 
   def name: String = asProto.getName
 
-  def findFieldByName(name: String): Option[FieldDescriptor] = fieldsByNameMap.get(name)
+  def findFieldByName(name: String): Option[FieldDescriptor] =
+    file.fieldDescriptorsByName.get((this, name))
 
-  def findFieldByNumber(number: Int): Option[FieldDescriptor] = binarySearch(sortedFields, (fd: FieldDescriptor) => fd.number, number)
+  def findFieldByNumber(number: Int): Option[FieldDescriptor] = binarySearchSortedFields(number)
 
   def location = file.findLocationByPath(SourceCodePath.get(this))
 
@@ -100,23 +99,22 @@ class Descriptor private[descriptors] (
 
   override def toString: String = fullName
 
-  private def binarySearch[A](arr: Array[A], getter: A => Int, number: Int): Option[A] = {
+  private def binarySearchSortedFields(number: Int): Option[FieldDescriptor] = {
     @tailrec
-    def go(left: Int, right: Int): Option[A] =
+    def go(left: Int, right: Int): Option[FieldDescriptor] =
       if (left <= right) {
-        val mid = (left + right) / 2
-        val midValue = arr(mid)
-        val midValueNumber = getter(midValue)
+        val midIndex: Int             = (left + right) / 2
+        val midValue: FieldDescriptor = sortedFields(midIndex)
+        val midValueNumber            = midValue.number
         if (number < midValueNumber)
-          go(left, mid - 1)
+          go(left, midIndex - 1)
         else if (number > midValueNumber)
-          go(mid + 1, right)
+          go(midIndex + 1, right)
         else
           Some(midValue)
-      }
-      else None
+      } else None
 
-    go(0, arr.length - 1)
+    go(0, sortedFields.length - 1)
   }
 
 }
@@ -394,6 +392,12 @@ class FileDescriptor private[descriptors] (
       c.oneofs
     case _ =>
   }
+
+  private[descriptors] val fieldDescriptorsByName: Map[(Descriptor, String), FieldDescriptor] =
+    descriptorsByName.flatMap {
+      case (_, d: Descriptor) => d.fields.map(fd => (d, fd.name) -> fd)
+      case _                  => Nil
+    }
 
   def getOptions = asProto.getOptions
 
