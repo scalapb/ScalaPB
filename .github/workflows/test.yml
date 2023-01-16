@@ -38,9 +38,39 @@ jobs:
       env:
         JAVA_OPTS: -Xmx4G -XX:+UseG1GC
         JVM_OPTS:  -Xmx4G -XX:+UseG1GC
+
+  conformance:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: bazelbuild/setup-bazelisk@v2
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.sbt
+          ~/.cache/bazel
+          ~/.ivy2/cache
+          ~/.cache/coursier
+        key: bazel
+    - run: |
+        export PROTOBUF_VERSION=3.19.6
+        export USE_BAZEL_VERSION=3.7.2
+        curl -L https://github.com/protocolbuffers/protobuf/archive/refs/tags/v${PROTOBUF_VERSION}.zip -o /tmp/protobuf.zip
+        unzip /tmp/protobuf.zip
+        cd protobuf-${PROTOBUF_VERSION}
+        bazel build conformance_test_runner
+        cd ..
+        sbt conformanceJVM2_13/assembly
+        protobuf-${PROTOBUF_VERSION}/bazel-bin/conformance_test_runner --enforce_recommended \
+          --failure_list conformance/failure_list_scalapb.txt \
+          --text_format_failure_list conformance/text_format_failure_list_scalapb.txt \
+          conformance/target/jvm-2.13/conformance
+
+      shell: bash
+
   # Single final job for mergify.
   ci-passed:
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, conformance]
     steps:
     - run: ':'

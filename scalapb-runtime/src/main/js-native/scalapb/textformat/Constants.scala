@@ -12,6 +12,7 @@ object Constants {
   val CH_SQ: scala.Byte    = '\''.toByte
   val CH_DQ: scala.Byte    = '\"'.toByte
   val CH_X: scala.Byte     = 'x'.toByte
+  val CH_QM: scala.Byte    = '?'.toByte
 
   val CH_SLASH_A: scala.Byte = 7.toByte
   val CH_SLASH_B: scala.Byte = '\b'.toByte

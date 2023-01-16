@@ -1,6 +1,7 @@
 import com.typesafe.tools.mima.core._
 import BuildHelper._
 import Dependencies._
+import sbtassembly.AssemblyPlugin.defaultUniversalScript
 
 val protobufCompilerVersion = "3.19.6"
 
@@ -391,6 +392,34 @@ lazy val e2e = (projectMatrix in file("e2e"))
     Compile / PB.targets := Seq(
       genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
     )
+  )
+
+lazy val conformance = (projectMatrix in file("conformance"))
+  .defaultAxes()
+  .dependsOn(runtime)
+  .enablePlugins(LocalCodeGenPlugin)
+  .jvmPlatform(
+    Seq(Scala213)
+  )
+  .settings(
+    PB.protocVersion := versions.protobuf,
+    Compile / PB.targets := Seq(
+      genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
+    ),
+    codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value,
+    libraryDependencies ++= Seq(
+      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.12.1" exclude ("com.thesamet.scalapb", "scalapb-runtime_2.13")
+    ),
+    maintainer                 := "thesamet@gmail.com",
+    Compile / mainClass        := Some("scalapb.ConformanceScala"),
+    assemblyJarName            := "conformance",
+    assemblyPrependShellScript := Some(defaultUniversalScript(shebang = true)),
+    assembly / assemblyMergeStrategy := {
+      case x if x.endsWith("module-info.class") => MergeStrategy.discard
+      case x =>
+        val oldStrategy = (assembly / assemblyMergeStrategy).value
+        oldStrategy(x)
+    }
   )
 
 lazy val docs = project

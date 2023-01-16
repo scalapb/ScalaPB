@@ -254,7 +254,8 @@ object FieldDescriptor {
           if (field.`type`.isEmpty || field.getType.isTypeEnum) ScalaType.Enum(e)
           else throw typeError
         case Some(d: Descriptor) =>
-          if (field.`type`.isEmpty || field.getType.isTypeMessage) ScalaType.Message(d)
+          if (field.`type`.isEmpty || field.getType.isTypeMessage || field.getType.isTypeGroup)
+            ScalaType.Message(d)
           else throw typeError
         case _ =>
           throw new DescriptorValidationException(

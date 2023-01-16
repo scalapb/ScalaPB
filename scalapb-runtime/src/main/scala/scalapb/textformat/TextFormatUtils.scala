@@ -102,6 +102,7 @@ private[scalapb] object TextFormatUtils {
         case (EscapeMode, CH_SLASH)                  => result += '\\'; Default
         case (EscapeMode, CH_SQ)                     => result += '\''; Default
         case (EscapeMode, CH_DQ)                     => result += '\"'; Default
+        case (EscapeMode, CH_QM)                     => result += '?'; Default
         case (EscapeMode, CH_X)                      => Hex0
         case (EscapeMode, _) => Error("Invalid escape sequence: " + b.toChar)
         case (Octal1(i), b) if b >= '0' && b <= '7' =>
@@ -147,8 +148,10 @@ private[scalapb] object TextFormatUtils {
   def escapeText(input: String): String =
     escapeBytes(ByteString.copyFromUtf8(input))
 
-  def unescapeText(input: String): Either[TextFormatError, String] =
-    unescapeBytes(input).map(_.toStringUtf8())
+  def unescapeText(input: String): Either[TextFormatError, String] = for {
+    bytes <- unescapeBytes(input)
+    _     <- if (bytes.isValidUtf8) Right(()) else Left(TextFormatError(s"Invalid UTF8: $input"))
+  } yield bytes.toStringUtf8()
 
   /** Convert an unsigned 32-bit integer to a string. */
   def unsignedToString(value: Int): String = {
