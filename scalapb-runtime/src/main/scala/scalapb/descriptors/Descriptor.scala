@@ -77,8 +77,9 @@ class Descriptor private[descriptors] (
       FieldDescriptor.buildFieldDescriptor(fd, index, this)
     }.toVector
 
-  lazy val fieldsByNumberMap: Map[Int, FieldDescriptor] =
-    fields.map(fd => (fd.number, fd)).toMap
+  private lazy val sortedFields: Array[FieldDescriptor] = fields.toArray.sortBy(_.number)
+
+  private lazy val fieldsByNameMap: Map[String, FieldDescriptor] = fields.map(fd => (fd.name, fd)).toMap
 
   lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map { case (oneof, index) =>
     val oneofFields = fields.filter { t =>
@@ -89,18 +90,35 @@ class Descriptor private[descriptors] (
 
   def name: String = asProto.getName
 
-  def findFieldByName(name: String): Option[FieldDescriptor] = file.findSymbol(fullName + "." + name) match {
-    case Some(fd: FieldDescriptor) => Some(fd)
-    case _ => None
-  }
+  def findFieldByName(name: String): Option[FieldDescriptor] = fieldsByNameMap.get(name)
 
-  def findFieldByNumber(number: Int): Option[FieldDescriptor] = fieldsByNumberMap.get(number)
+  def findFieldByNumber(number: Int): Option[FieldDescriptor] = binarySearch(sortedFields, (fd: FieldDescriptor) => fd.number, number)
 
   def location = file.findLocationByPath(SourceCodePath.get(this))
 
   def getOptions = asProto.getOptions
 
   override def toString: String = fullName
+
+  private def binarySearch[A](arr: Array[A], getter: A => Int, number: Int): Option[A] = {
+    @tailrec
+    def go(left: Int, right: Int): Option[A] =
+      if (left <= right) {
+        val mid = (left + right) / 2
+        val midValue = arr(mid)
+        val midValueNumber = getter(midValue)
+        if (number < midValueNumber)
+          go(left, mid - 1)
+        else if (number > midValueNumber)
+          go(mid + 1, right)
+        else
+          Some(midValue)
+      }
+      else None
+
+    go(0, arr.length - 1)
+  }
+
 }
 
 class ServiceDescriptor private[descriptors] (
