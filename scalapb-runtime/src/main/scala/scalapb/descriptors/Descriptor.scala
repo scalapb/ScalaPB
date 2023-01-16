@@ -77,6 +77,8 @@ class Descriptor private[descriptors] (
       FieldDescriptor.buildFieldDescriptor(fd, index, this)
     }.toVector
 
+  private lazy val sortedFields: Array[FieldDescriptor] = fields.toArray.sortBy(_.number)
+
   lazy val oneofs = asProto.oneofDecl.toVector.zipWithIndex.map { case (oneof, index) =>
     val oneofFields = fields.filter { t =>
       t.asProto.oneofIndex.isDefined && t.asProto.oneofIndex.get == index
@@ -86,15 +88,35 @@ class Descriptor private[descriptors] (
 
   def name: String = asProto.getName
 
-  def findFieldByName(name: String): Option[FieldDescriptor] = fields.find(_.name == name)
+  def findFieldByName(name: String): Option[FieldDescriptor] =
+    file.fieldDescriptorsByName.get((this, name))
 
-  def findFieldByNumber(number: Int): Option[FieldDescriptor] = fields.find(_.number == number)
+  def findFieldByNumber(number: Int): Option[FieldDescriptor] = binarySearchSortedFields(number)
 
   def location = file.findLocationByPath(SourceCodePath.get(this))
 
   def getOptions = asProto.getOptions
 
   override def toString: String = fullName
+
+  private def binarySearchSortedFields(number: Int): Option[FieldDescriptor] = {
+    @tailrec
+    def go(left: Int, right: Int): Option[FieldDescriptor] =
+      if (left <= right) {
+        val midIndex: Int             = (left + right) / 2
+        val midValue: FieldDescriptor = sortedFields(midIndex)
+        val midValueNumber            = midValue.number
+        if (number < midValueNumber)
+          go(left, midIndex - 1)
+        else if (number > midValueNumber)
+          go(midIndex + 1, right)
+        else
+          Some(midValue)
+      } else None
+
+    go(0, sortedFields.length - 1)
+  }
+
 }
 
 class ServiceDescriptor private[descriptors] (
@@ -372,13 +394,19 @@ class FileDescriptor private[descriptors] (
     case _ =>
   }
 
+  private[descriptors] val fieldDescriptorsByName: Map[(Descriptor, String), FieldDescriptor] =
+    descriptorsByName.flatMap {
+      case (_, d: Descriptor) => d.fields.map(fd => (d, fd.name) -> fd)
+      case _                  => Nil
+    }
+
   def getOptions = asProto.getOptions
 
   def fullName: String = asProto.getName
 
   def packageName: String = asProto.getPackage
 
-  private def findSymbol(name: String): Option[BaseDescriptor] = {
+  private[scalapb] def findSymbol(name: String): Option[BaseDescriptor] = {
     descriptorsByName.get(name).orElse {
       dependencies.view.flatMap(_.findSymbol(name)).headOption
     }
