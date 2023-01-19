@@ -62,15 +62,25 @@ class ScalaDescriptorSpec extends AnyFlatSpec with Matchers with LoneElement wit
     TestEmptyMessage.scalaDescriptor.findFieldByNumber(3) must be(None)
 
     OneString.scalaDescriptor.findFieldByNumber(0) must be(None)
-    OneString.scalaDescriptor.findFieldByNumber(1) must be(Some(OneString.scalaDescriptor.fields(0)))
+    OneString.scalaDescriptor.findFieldByNumber(1) must be(
+      Some(OneString.scalaDescriptor.fields(0))
+    )
     OneString.scalaDescriptor.findFieldByNumber(2) must be(None)
 
     TestAllTypes.scalaDescriptor.findFieldByNumber(0) must be(None)
-    TestAllTypes.scalaDescriptor.findFieldByNumber(1) must be(Some(TestAllTypes.scalaDescriptor.findFieldByName("optional_int32").get))
-    TestAllTypes.scalaDescriptor.findFieldByNumber(10) must be(Some(TestAllTypes.scalaDescriptor.findFieldByName("optional_sfixed64").get))
-    TestAllTypes.scalaDescriptor.findFieldByNumber(20) must be(Some(TestAllTypes.scalaDescriptor.findFieldByName("optional_import_message").get))
+    TestAllTypes.scalaDescriptor.findFieldByNumber(1) must be(
+      Some(TestAllTypes.scalaDescriptor.findFieldByName("optional_int32").get)
+    )
+    TestAllTypes.scalaDescriptor.findFieldByNumber(10) must be(
+      Some(TestAllTypes.scalaDescriptor.findFieldByName("optional_sfixed64").get)
+    )
+    TestAllTypes.scalaDescriptor.findFieldByNumber(20) must be(
+      Some(TestAllTypes.scalaDescriptor.findFieldByName("optional_import_message").get)
+    )
     TestAllTypes.scalaDescriptor.findFieldByNumber(100) must be(None)
-    TestAllTypes.scalaDescriptor.findFieldByNumber(111) must be(Some(TestAllTypes.scalaDescriptor.findFieldByName("oneof_uint32").get))
+    TestAllTypes.scalaDescriptor.findFieldByNumber(111) must be(
+      Some(TestAllTypes.scalaDescriptor.findFieldByName("oneof_uint32").get)
+    )
     TestAllTypes.scalaDescriptor.findFieldByNumber(200) must be(None)
 
   }

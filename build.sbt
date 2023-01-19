@@ -211,7 +211,7 @@ lazy val protocGenScalaNativeImage =
       ) ++ (
         if (System.getProperty("os.name").toLowerCase.contains("linux"))
           Seq("--static", "--no-fallback")
-        else Seq.empty,
+        else Seq.empty
       ),
       publish / skip      := true,
       Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
