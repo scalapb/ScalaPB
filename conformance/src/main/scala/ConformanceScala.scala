@@ -12,8 +12,8 @@ import scalapb.json4s.JsonFormat
 sealed trait ExitStatus
 
 object ExitStatus {
-    case object Finished extends ExitStatus
-    case class Error(error: Throwable) extends ExitStatus
+  case object Finished               extends ExitStatus
+  case class Error(error: Throwable) extends ExitStatus
 }
 
 object ConformanceScala {
@@ -22,7 +22,7 @@ object ConformanceScala {
   }
 
   private def readFromStdin(len: Int): Option[Array[Byte]] = {
-    val buf = new Array[Byte](len)
+    val buf       = new Array[Byte](len)
     var offset    = 0
     var remaining = len
     while (offset < len) {
@@ -73,77 +73,83 @@ object ConformanceScala {
     else JsonParser
   }
 
-  def readInputMessage[T <: GeneratedMessage](request: ConformanceRequest)(implicit cmp: GeneratedMessageCompanion[T]): Either[Throwable, T] = {
+  def readInputMessage[T <: GeneratedMessage](
+      request: ConformanceRequest
+  )(implicit cmp: GeneratedMessageCompanion[T]): Either[Throwable, T] = {
     request.payload match {
-        case ConformanceRequest.Payload.ProtobufPayload(bytes) =>
-            Try(
-                cmp.parseFrom(bytes.toByteArray)
-            ).toEither
-        case ConformanceRequest.Payload.JsonPayload(json) =>
-            Try(
-                jsonParser(request).fromJsonString(json)
-            ).toEither
-        case ConformanceRequest.Payload.TextPayload(text) =>
-            Try(cmp.fromAscii(text)).toEither
-        case _ => Left(new RuntimeException("Unsupported input format"))
+      case ConformanceRequest.Payload.ProtobufPayload(bytes) =>
+        Try(
+          cmp.parseFrom(bytes.toByteArray)
+        ).toEither
+      case ConformanceRequest.Payload.JsonPayload(json) =>
+        Try(
+          jsonParser(request).fromJsonString(json)
+        ).toEither
+      case ConformanceRequest.Payload.TextPayload(text) =>
+        Try(cmp.fromAscii(text)).toEither
+      case _ => Left(new RuntimeException("Unsupported input format"))
     }
   }
 
-  def handleTestTyped[T <: GeneratedMessage: GeneratedMessageCompanion](request: ConformanceRequest): ConformanceResponse = {
+  def handleTestTyped[T <: GeneratedMessage: GeneratedMessageCompanion](
+      request: ConformanceRequest
+  ): ConformanceResponse = {
     readInputMessage(request) match {
-        case Right(input) =>
-            request.requestedOutputFormat match {
-                case WireFormat.PROTOBUF =>
-                    ConformanceResponse().withProtobufPayload(input.toByteString)
-                case WireFormat.JSON =>
-                    try {
-                        val res = ConformanceResponse().withJsonPayload(JsonPrinter.print(input))
-                        res
-                    } catch {
-                        case err: Throwable =>
-                            ConformanceResponse().withSerializeError(err.getMessage)
-                    }
-                case WireFormat.TEXT_FORMAT =>
-                    ConformanceResponse().withTextPayload(input.toProtoString)
-                case _ => ConformanceResponse()
+      case Right(input) =>
+        request.requestedOutputFormat match {
+          case WireFormat.PROTOBUF =>
+            ConformanceResponse().withProtobufPayload(input.toByteString)
+          case WireFormat.JSON =>
+            try {
+              val res = ConformanceResponse().withJsonPayload(JsonPrinter.print(input))
+              res
+            } catch {
+              case err: Throwable =>
+                ConformanceResponse().withSerializeError(err.getMessage)
             }
-        case Left(err) =>
-            ConformanceResponse().withParseError(err.getMessage)
+          case WireFormat.TEXT_FORMAT =>
+            ConformanceResponse().withTextPayload(input.toProtoString)
+          case _ => ConformanceResponse()
+        }
+      case Left(err) =>
+        ConformanceResponse().withParseError(err.getMessage)
     }
   }
 
   def handleTest(request: ConformanceRequest): ConformanceResponse = {
     request.messageType match {
-        case "protobuf_test_messages.proto3.TestAllTypesProto3" =>
-            handleTestTyped[test_messages_proto3.TestAllTypesProto3](request)
-        case "protobuf_test_messages.proto2.TestAllTypesProto2" =>
-            handleTestTyped[test_messages_proto2.TestAllTypesProto2](request)
-        case "conformance.FailureSet" =>
-            ConformanceResponse().withProtobufPayload(FailureSet().toByteString)
+      case "protobuf_test_messages.proto3.TestAllTypesProto3" =>
+        handleTestTyped[test_messages_proto3.TestAllTypesProto3](request)
+      case "protobuf_test_messages.proto2.TestAllTypesProto2" =>
+        handleTestTyped[test_messages_proto2.TestAllTypesProto2](request)
+      case "conformance.FailureSet" =>
+        ConformanceResponse().withProtobufPayload(FailureSet().toByteString)
     }
   }
 
   def doTestIO(): Either[ExitStatus, Unit] = {
     for {
-    bytes <- readLittleEndianIntFromStdin.toRight(ExitStatus.Finished)
-    input <- readFromStdin(bytes).toRight(ExitStatus.Error(new RuntimeException("Unexpected EOF while reading request.")))
-    request = ConformanceRequest.parseFrom(input)
-    response = handleTest(request).toByteArray
-    _ = writeLittleEndianIntToStdout(response.length)
-    _ = writeToStdout(response)
+      bytes <- readLittleEndianIntFromStdin.toRight(ExitStatus.Finished)
+      input <- readFromStdin(bytes).toRight(
+        ExitStatus.Error(new RuntimeException("Unexpected EOF while reading request."))
+      )
+      request  = ConformanceRequest.parseFrom(input)
+      response = handleTest(request).toByteArray
+      _        = writeLittleEndianIntToStdout(response.length)
+      _        = writeToStdout(response)
     } yield ()
-    }
+  }
 
   @tailrec
   def runTests(): Unit = {
     import ExitStatus._
     doTestIO() match {
-        case Right(()) => runTests
-        case Left(Error(throwable)) =>
-            throwable.printStackTrace()
-            sys.exit(1)
-        case Left(Finished) =>
-            sys.exit(0)
+      case Right(()) => runTests
+      case Left(Error(throwable)) =>
+        throwable.printStackTrace()
+        sys.exit(1)
+      case Left(Finished) =>
+        sys.exit(0)
     }
   }
 }
