@@ -41,6 +41,50 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
          |""".stripMargin
   )
 
+  "deprecated field" should "be annotated with deprecated and nowarn" in {
+
+    val base = Seq(
+      "deprecated_field.proto" ->
+        """|syntax = "proto2";
+           |package deprecated_field;
+           |message D {optional string e = 1 [deprecated = true];};
+           |""".stripMargin,
+      "deprecated_message.proto" ->
+        """|syntax = "proto2";
+           |package deprecated_message;
+           |message D {option deprecated = true;};
+      """.stripMargin
+    )
+    val files = generateFileSet(base)
+    val implicits = new DescriptorImplicits(
+      GeneratorParams(flatPackage = true),
+      files,
+      SecondaryOutputProvider.empty
+    )
+    import implicits._
+
+    files
+      .find(_.getFullName() == "deprecated_message.proto")
+      .get
+      .findMessageTypeByName("D")
+      .annotationList must be(
+      Seq(
+        """@scala.annotation.nowarn("cat=deprecation") @scala.deprecated(message="Marked as deprecated in proto file", "")"""
+      )
+    )
+
+    files
+      .find(_.getFullName() == "deprecated_field.proto")
+      .get
+      .findMessageTypeByName("D")
+      .findFieldByNumber(1)
+      .annotationList must be(
+      Seq(
+        """@scala.annotation.nowarn("cat=deprecation") @scala.deprecated(message="Marked as deprecated in proto file", "")"""
+      )
+    )
+  }
+
   "flat package" should "be overridable to false when set as generator parameter" in {
     val files = generateFileSet(base)
     val implicits = new DescriptorImplicits(

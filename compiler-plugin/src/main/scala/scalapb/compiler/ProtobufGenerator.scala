@@ -1732,7 +1732,7 @@ object ProtobufGenerator {
   }
 
   val deprecatedAnnotation: String =
-    """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
+    """@scala.annotation.nowarn("cat=deprecation") @scala.deprecated(message="Marked as deprecated in proto file", "")"""
 
   private val CompSeqType =
     "Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]]"
