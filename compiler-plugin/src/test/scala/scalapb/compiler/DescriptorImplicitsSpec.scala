@@ -69,7 +69,8 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
       .findMessageTypeByName("D")
       .annotationList must be(
       Seq(
-        """@scala.annotation.nowarn("cat=deprecation") @scala.deprecated(message="Marked as deprecated in proto file", "")"""
+        """@scala.annotation.nowarn("cat=deprecation")""",
+        """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
       )
     )
 
@@ -80,7 +81,8 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
       .findFieldByNumber(1)
       .annotationList must be(
       Seq(
-        """@scala.annotation.nowarn("cat=deprecation") @scala.deprecated(message="Marked as deprecated in proto file", "")"""
+        """@scala.annotation.nowarn("cat=deprecation")""",
+        """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
       )
     )
   }

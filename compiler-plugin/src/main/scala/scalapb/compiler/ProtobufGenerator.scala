@@ -27,7 +27,7 @@ class ProtobufGenerator(
     val name = e.scalaType.nameSymbol
     printer
       .when(e.getOptions.getDeprecated) {
-        _.add(ProtobufGenerator.deprecatedAnnotation)
+        _.add(ProtobufGenerator.deprecatedAnnotation: _*)
       }
       .call(generateScalaDoc(e))
       .seq(e.baseAnnotationList)
@@ -47,7 +47,7 @@ class ProtobufGenerator(
       .add("}")
       .add("")
       .when(e.getOptions.getDeprecated) {
-        _.add(ProtobufGenerator.deprecatedAnnotation)
+        _.add(ProtobufGenerator.deprecatedAnnotation: _*)
       }
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
@@ -1731,8 +1731,11 @@ object ProtobufGenerator {
     } else contentLines
   }
 
-  val deprecatedAnnotation: String =
-    """@scala.annotation.nowarn("cat=deprecation") @scala.deprecated(message="Marked as deprecated in proto file", "")"""
+  val deprecatedAnnotation: Seq[String] =
+    Seq(
+      """@scala.annotation.nowarn("cat=deprecation")""",
+      """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
+    )
 
   private val CompSeqType =
     "Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]]"

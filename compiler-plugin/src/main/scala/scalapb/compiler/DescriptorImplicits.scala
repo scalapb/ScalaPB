@@ -77,6 +77,10 @@ class DescriptorImplicits private[compiler] (
   private[scalapb] lazy val fileOptionsCache =
     FileOptionsCache.buildCache(files, secondaryOutputsProvider)
 
+  object ExtendedDescriptorConstants {
+    val AnnotationSeparator = " "
+  }
+
   implicit final class ExtendedMethodDescriptor(method: MethodDescriptor) {
     class MethodTypeWrapper(descriptor: Descriptor) {
       def customScalaType: Option[String] =
@@ -136,13 +140,14 @@ class DescriptorImplicits private[compiler] (
         .filter(_.nonEmpty)
     }
 
-    def deprecatedAnnotation: String = {
+    def deprecatedAnnotation: String =
       if (method.getOptions.getDeprecated) {
-        ProtobufGenerator.deprecatedAnnotation + " "
+        ProtobufGenerator.deprecatedAnnotation.mkString(
+          ExtendedDescriptorConstants.AnnotationSeparator
+        )
       } else {
         ""
       }
-    }
 
     def javaDescriptorSource: String =
       s"${method.getService.javaDescriptorSource}.getMethods().get(${method.getIndex})"
@@ -185,13 +190,14 @@ class DescriptorImplicits private[compiler] (
         .filter(_.nonEmpty)
     }
 
-    def deprecatedAnnotation: String = {
+    def deprecatedAnnotation: String =
       if (self.getOptions.getDeprecated) {
-        ProtobufGenerator.deprecatedAnnotation + " "
+        ProtobufGenerator.deprecatedAnnotation.mkString(
+          ExtendedDescriptorConstants.AnnotationSeparator
+        )
       } else {
         ""
       }
-    }
   }
 
   implicit class ExtendedFieldDescriptor(val fd: FieldDescriptor) {
@@ -339,7 +345,7 @@ class DescriptorImplicits private[compiler] (
     def annotationList: Seq[String] = {
       val deprecated = {
         if (fd.getOptions.getDeprecated)
-          List(ProtobufGenerator.deprecatedAnnotation)
+          ProtobufGenerator.deprecatedAnnotation
         else
           Nil
       }
@@ -546,7 +552,7 @@ class DescriptorImplicits private[compiler] (
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)
-        List(ProtobufGenerator.deprecatedAnnotation)
+        ProtobufGenerator.deprecatedAnnotation
       else
         Nil
     }
@@ -836,7 +842,7 @@ class DescriptorImplicits private[compiler] (
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (enumDescriptor.getOptions.getDeprecated)
-        List(ProtobufGenerator.deprecatedAnnotation)
+        ProtobufGenerator.deprecatedAnnotation
       else
         Nil
     }
@@ -906,7 +912,7 @@ class DescriptorImplicits private[compiler] (
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (enumValue.getOptions.getDeprecated)
-        List(ProtobufGenerator.deprecatedAnnotation)
+        ProtobufGenerator.deprecatedAnnotation
       else
         Nil
     }
