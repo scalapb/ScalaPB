@@ -358,10 +358,7 @@ class ProtobufGenerator(
             // In proto3, drop default value
             fp.add(s"case ${f.getNumber} => {")
               .indent
-              .add(s"""
-                      |${f.referenceAnnotations}
-                      |val __t = $e
-              """.stripMargin)
+              .add(s"val __t = $e")
               .add({
                 val cond =
                   if (!f.isEnum)
@@ -372,10 +369,7 @@ class ProtobufGenerator(
               })
               .outdent
               .add("}")
-          } else fp.add(s"""
-                           |${f.referenceAnnotations}
-                           |case ${f.getNumber} => $e
-          """.stripMargin)
+          } else fp.add(s"case ${f.getNumber} => $e")
         }
         .outdent
         .add("}")
@@ -400,18 +394,8 @@ class ProtobufGenerator(
   }
 
   def generateGetFieldPValue(message: Descriptor)(fp: FunctionalPrinter) = {
-    // if `message` has 1 or more deprecated fields, just retrieve one FieldDescriptor to populate the deprecatedAnnotations
-    // this is general, for generating any method where we want to produce annotations at the method-signature level
-    val anyDeprecatedField: Option[FieldDescriptor] =
-      message.fields.find(_.getOptions.getDeprecated)
-    val methodAnnotations: String = anyDeprecatedField.map(_.deprecatedAnnotation).getOrElse("")
-
     val signature =
-      s"""
-         |${methodAnnotations}
-         |def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = 
-      """.stripMargin
-
+      "def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = "
     if (message.fields.nonEmpty)
       fp.add(signature + "{")
         .indent
@@ -509,19 +493,15 @@ class ProtobufGenerator(
     val fieldNameSymbol = fieldAccessorSymbol(field)
 
     if (field.isRequired || field.noBoxRequired) {
-      fp.add(
-        s"""
-           |{
-           |  ${field.referenceAnnotations} 
-           |  val __value = ${toBaseType(field)(fieldNameSymbol)}
-           |  __size += ${sizeExpressionForSingleField(field, "__value")}
-           |};""".stripMargin
-      )
+      fp.add(s"""
+                |{
+                |  val __value = ${toBaseType(field)(fieldNameSymbol)}
+                |  __size += ${sizeExpressionForSingleField(field, "__value")}
+                |};""".stripMargin)
     } else if (field.isSingular) {
       fp.add(
         s"""
            |{
-           |  ${field.referenceAnnotations}
            |  val __value = ${toBaseType(field)(fieldNameSymbol)}
            |  if (${isNonEmpty("__value", field)}) {
            |    __size += ${sizeExpressionForSingleField(field, "__value")}
@@ -531,10 +511,7 @@ class ProtobufGenerator(
     } else if (field.isOptional) {
       fp.add(
         s"""if ($fieldNameSymbol.isDefined) {
-           |  ${field.referenceAnnotations}
-           |  val __value = ${toBaseType(field)(
-            fieldNameSymbol + ".get"
-          )}
+           |  val __value = ${toBaseType(field)(fieldNameSymbol + ".get")}
            |  __size += ${sizeExpressionForSingleField(field, "__value")}
            |};""".stripMargin
       )
@@ -548,7 +525,6 @@ class ProtobufGenerator(
             )
           case None =>
             fp.add(s"""${field.collection.foreach} { __item =>
-                      |  ${field.referenceAnnotations}
                       |  val __value = ${toBaseType(field)("__item")}
                       |  __size += ${sizeExpressionForSingleField(field, "__value")}
                       |}""".stripMargin)
@@ -557,7 +533,6 @@ class ProtobufGenerator(
         val fieldName = field.scalaName
         fp.add(
           s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
-             |  ${field.referenceAnnotations}
              |  val __localsize = ${fieldName}SerializedSize
              |  __size += $tagSize + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__localsize) + __localsize
              |}""".stripMargin
@@ -680,7 +655,7 @@ class ProtobufGenerator(
             .add("")
             .add("{")
             .indent
-            .add(s"${field.referenceAnnotations} val __v = ${toBaseType(field)(fieldNameSymbol)}")
+            .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
             .call(generateWriteSingleValue(field, "__v"))
             .outdent
             .add("};")
@@ -690,7 +665,7 @@ class ProtobufGenerator(
           printer
             .add(s"{")
             .indent
-            .add(s"${field.referenceAnnotations} val __v = ${toBaseType(field)(fieldNameSymbol)}")
+            .add(s"val __v = ${toBaseType(field)(fieldNameSymbol)}")
             .add(s"if (${isNonEmpty("__v", field)}) {")
             .indent
             .call(generateWriteSingleValue(field, "__v"))
@@ -966,42 +941,28 @@ class ProtobufGenerator(
             val optionLensName = "optional" + field.upperScalaName
             printer
               .add(
-                s"""
-                   |${field.referenceAnnotations}
-                   |def $fieldName: ${lensType(
+                s"""def $fieldName: ${lensType(
                     field.singleScalaTypeName
                   )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
-                   |${field.referenceAnnotations}
                    |def ${optionLensName}: ${lensType(
                     field.scalaTypeName
                   )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
               )
           } else
             printer.add(
-              s"""
-                 |${field.referenceAnnotations}
-                 |def $fieldName: ${lensType(
-                  field.scalaTypeName
-                )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))
-              """.stripMargin
+              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
             )
         } else {
           val oneofName = field.getContainingOneof.scalaName.nameSymbol
           printer
             .add(
-              s"""
-                 |${field.referenceAnnotations}
-                 |def $fieldName: ${lensType(
-                  field.scalaTypeName
-                )} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
-                  .fullNameWithMaybeRoot(message)}(f_)))
-              """.stripMargin
+              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
+                  .fullNameWithMaybeRoot(message)}(f_)))"
             )
         }
       }
       .print(message.getRealOneofs.asScala) { case (printer, oneof) =>
         val oneofName = oneof.scalaName.nameSymbol
-        // todo
         printer
           .add(
             s"def $oneofName: ${lensType(oneof.scalaType.fullNameWithMaybeRoot(message))} = field(_.$oneofName)((c_, f_) => c_.copy($oneofName = f_))"
@@ -1770,9 +1731,28 @@ object ProtobufGenerator {
     } else contentLines
   }
 
+  // for descriptors that need to silence other warnings such as @scala.deprecated.
+  def nowarnAnnotation(msg: String = "cat=deprecation"): String =
+    s"""@scala.annotation.nowarn("$msg")"""
+
+  /** Create the deprecation annotations for any [Descriptor].
+    *
+    * @note
+    *   using these anontations will propagate the warnings if this [Descriptpor] is used on the
+    *   right of the assignment operator (=)
+    *
+    * @example
+    *   ```
+    *   \@scala.annotation.nowarn(..)
+    *   \@scala.deprecated(...)
+    *   val value = someVariableThatIsDeprecated
+    *   ```
+    *   will cause future references to `value` to produce warnings. In this case, only use
+    *   `nowarnAnnotation()`
+    */
   val deprecatedAnnotation: Seq[String] =
     Seq(
-      """@scala.annotation.nowarn("cat=deprecation")""",
+      s"${nowarnAnnotation()}",
       """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
     )
 
