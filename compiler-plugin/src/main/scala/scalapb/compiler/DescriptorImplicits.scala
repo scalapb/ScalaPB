@@ -352,6 +352,36 @@ class DescriptorImplicits private[compiler] (
       deprecated ++ fieldOptions.getAnnotationsList().asScala.toSeq
     }
 
+    def deprecatedAnnotation: String =
+      if (fd.getOptions.getDeprecated) {
+        // for field descriptors only need to use nowarn as adding a @deprecation annotation will propagate
+        //  the warnings if this field is used on the right of the assignment operator (=)
+        //  ex. ```
+        // @scala.annotation.nowarn(..) @scala.deprecated(...)
+        //  val value = someVariableThatIsDeprecated
+        //  ```
+        //  will cause references to `value` to produce warnings
+        """@scala.annotation.nowarn("cat=deprecation")"""
+      } else {
+        ""
+      }
+
+    def referenceAnnotations: String =
+      if (fd.getOptions.getDeprecated) {
+        // todo: for field descriptors only need to use nowarn as adding a @deprecation annotation will propagate
+        //  the warnings if this field is used on the right of the assignment operator (=)
+        //  ex. ```
+        // @scala.annotation.nowarn(..) @ todo
+        //  val value = someVariableThatIsDeprecated
+        //  ```
+        // ProtobufGenerator.deprecatedAnnotation.mkString(
+        //   ExtendedDescriptorConstants.AnnotationSeparator
+        // )
+        """@scala.annotation.nowarn("cat=deprecation")"""
+      } else {
+        ""
+      }
+
     def customSingleScalaTypeName: Option[String] = {
       // If the current message is within a MapEntry (that is a key, or a value), find the actual map
       // field in the enclosing message. This is used to determine map level options when processing the
@@ -551,7 +581,9 @@ class DescriptorImplicits private[compiler] (
     else message.getFile.noDefaultValuesInConstructor
 
     private[this] def deprecatedAnnotation: Seq[String] = {
-      if (message.getOptions.getDeprecated)
+      val hasDeprecatedField = message.fields.exists(_.getOptions.getDeprecated)
+      if (message.getOptions.getDeprecated || hasDeprecatedField)
+        // either the message is deprecated or it has a field that is
         ProtobufGenerator.deprecatedAnnotation
       else
         Nil
