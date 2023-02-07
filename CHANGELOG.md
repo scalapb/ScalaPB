@@ -1,5 +1,15 @@
 # Change Log
 
+## [0.11.13]
+- Improved performance for field lookup which is used by JSON deserialization.  (#1468)
+- use SAM conversion (#1444)
+- ScalaPB is now tested with upsteam protobuf conformance tests and multiple
+  conformance issues have been fixed. See `conformance/*.txt` for a list of some remaining
+  failing tests, some due to unimplemented feature such as `group` fields.
+  By large, ScalaPB is highly compliant with the official protobuf implementation, however
+  there are some minor differences that are not expected to occur in practice
+  for users.
+
 ## [0.11.12]
 - Lens now extends Serializable.
 - Bump up to protobuf-java 3.19.6
