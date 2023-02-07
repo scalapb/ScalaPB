@@ -69,11 +69,11 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.ExtensionRangeOptions, com.google.protobuf.DescriptorProtos.ExtensionRangeOptions] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.ExtensionRangeOptions): com.google.protobuf.DescriptorProtos.ExtensionRangeOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.ExtensionRangeOptions.newBuilder
-    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.ExtensionRangeOptions): com.google.protobuf.descriptor.ExtensionRangeOptions = com.google.protobuf.descriptor.ExtensionRangeOptions(
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions = {
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]

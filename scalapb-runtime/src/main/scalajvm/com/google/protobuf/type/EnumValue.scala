@@ -117,13 +117,13 @@ object EnumValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`
     val javaPbOut = com.google.protobuf.EnumValue.newBuilder
     javaPbOut.setName(scalaPbSource.name)
     javaPbOut.setNumber(scalaPbSource.number)
-    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.EnumValue): com.google.protobuf.`type`.EnumValue = com.google.protobuf.`type`.EnumValue(
     name = javaPbSource.getName,
     number = javaPbSource.getNumber.intValue,
-    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)).toSeq
+    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.EnumValue = {
     var __name: _root_.scala.Predef.String = ""

@@ -134,12 +134,12 @@ final case class EnumOptions(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 3 => `type`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 4 => _root_.scalapb.descriptors.PRepeated(baseAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 5 => _root_.scalapb.descriptors.PRepeated(recognizedAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 6 => _root_.scalapb.descriptors.PRepeated(unrecognizedAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 3 => `type`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 4 => _root_.scalapb.descriptors.PRepeated(baseAnnotations.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 5 => _root_.scalapb.descriptors.PRepeated(recognizedAnnotations.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 6 => _root_.scalapb.descriptors.PRepeated(unrecognizedAnnotations.iterator.map(_root_.scalapb.descriptors.PString).toVector)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)

@@ -1,5 +1,7 @@
 package scalapb.compiler
+
 import scalapb.compiler.EnclosingType.Collection
+import scala.runtime.AbstractFunction1
 
 sealed trait Expression extends Product with Serializable {
   def andThen(other: Expression) = (this, other) match {
@@ -42,8 +44,18 @@ case object Identity extends LiteralExpression {
 }
 
 case class FunctionApplication(name: String) extends LiteralExpression {
+  def etaExpansion: Boolean          = false
   def isIdentity: Boolean            = false
   def isFunctionApplication: Boolean = true
+}
+
+object FunctionApplication extends AbstractFunction1[String, FunctionApplication] {
+  def apply(name: String, etaExpansion: Boolean): FunctionApplication = {
+    val e = etaExpansion
+    new FunctionApplication(name) {
+      override def etaExpansion = e
+    }
+  }
 }
 
 case class MethodApplication(name: String) extends LiteralExpression {
@@ -106,8 +118,12 @@ object ExpressionBuilder {
       convertCollection(s"""$e.map(__e => ${runSingleton(nontrivial)("__e")})""", targetType)
     else if (nontrivial.nonEmpty) {
       val f = nontrivial match {
-        case List(FunctionApplication(name)) =>
-          s"${name}(_)"
+        case List(ap: FunctionApplication) =>
+          if (ap.etaExpansion) {
+            ap.name
+          } else {
+            s"${ap.name}(_)"
+          }
         case _ =>
           runSingleton(nontrivial)("_")
       }

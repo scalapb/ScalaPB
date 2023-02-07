@@ -73,11 +73,11 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.struct.ListValue] with scalapb.JavaProtoSupport[com.google.protobuf.struct.ListValue, com.google.protobuf.ListValue] = this
   def toJavaProto(scalaPbSource: com.google.protobuf.struct.ListValue): com.google.protobuf.ListValue = {
     val javaPbOut = com.google.protobuf.ListValue.newBuilder
-    javaPbOut.addAllValues(_root_.scalapb.internal.compat.toIterable(scalaPbSource.values.iterator.map(com.google.protobuf.struct.Value.toJavaProto(_))).asJava)
+    javaPbOut.addAllValues(_root_.scalapb.internal.compat.toIterable(scalaPbSource.values.iterator.map(com.google.protobuf.struct.Value.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.ListValue): com.google.protobuf.struct.ListValue = com.google.protobuf.struct.ListValue(
-    values = javaPbSource.getValuesList.asScala.iterator.map(com.google.protobuf.struct.Value.fromJavaProto(_)).toSeq
+    values = javaPbSource.getValuesList.asScala.iterator.map(com.google.protobuf.struct.Value.fromJavaProto).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.struct.ListValue = {
     val __values: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.struct.Value] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.struct.Value]

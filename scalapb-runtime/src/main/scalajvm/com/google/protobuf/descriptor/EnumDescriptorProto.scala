@@ -122,11 +122,11 @@ final case class EnumDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 2 => _root_.scalapb.descriptors.PRepeated(value.iterator.map(_.toPMessage).toVector)
         case 3 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 4 => _root_.scalapb.descriptors.PRepeated(reservedRange.iterator.map(_.toPMessage).toVector)
-        case 5 => _root_.scalapb.descriptors.PRepeated(reservedName.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 5 => _root_.scalapb.descriptors.PRepeated(reservedName.iterator.map(_root_.scalapb.descriptors.PString).toVector)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -139,17 +139,17 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumDescriptorProto): com.google.protobuf.DescriptorProtos.EnumDescriptorProto = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
-    javaPbOut.addAllValue(_root_.scalapb.internal.compat.toIterable(scalaPbSource.value.iterator.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto(_))).asJava)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.EnumOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
-    javaPbOut.addAllReservedRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.reservedRange.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.toJavaProto(_))).asJava)
+    javaPbOut.addAllValue(_root_.scalapb.internal.compat.toIterable(scalaPbSource.value.iterator.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.toJavaProto)).asJava)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.EnumOptions.toJavaProto).foreach(javaPbOut.setOptions)
+    javaPbOut.addAllReservedRange(_root_.scalapb.internal.compat.toIterable(scalaPbSource.reservedRange.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.toJavaProto)).asJava)
     javaPbOut.addAllReservedName(scalaPbSource.reservedName.asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumDescriptorProto): com.google.protobuf.descriptor.EnumDescriptorProto = com.google.protobuf.descriptor.EnumDescriptorProto(
     name = if (javaPbSource.hasName) Some(javaPbSource.getName) else _root_.scala.None,
-    value = javaPbSource.getValueList.asScala.iterator.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto(_)).toSeq,
+    value = javaPbSource.getValueList.asScala.iterator.map(com.google.protobuf.descriptor.EnumValueDescriptorProto.fromJavaProto).toSeq,
     options = if (javaPbSource.hasOptions) Some(com.google.protobuf.descriptor.EnumOptions.fromJavaProto(javaPbSource.getOptions)) else _root_.scala.None,
-    reservedRange = javaPbSource.getReservedRangeList.asScala.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.fromJavaProto(_)).toSeq,
+    reservedRange = javaPbSource.getReservedRangeList.asScala.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange.fromJavaProto).toSeq,
     reservedName = javaPbSource.getReservedNameList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumDescriptorProto = {
@@ -295,8 +295,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
         _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
         (__field.number: @_root_.scala.unchecked) match {
-          case 1 => start.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-          case 2 => end.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 1 => start.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => end.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)

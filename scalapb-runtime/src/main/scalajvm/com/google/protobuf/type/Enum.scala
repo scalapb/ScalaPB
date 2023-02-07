@@ -153,16 +153,16 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.Enum): com.google.protobuf.Enum = {
     val javaPbOut = com.google.protobuf.Enum.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    javaPbOut.addAllEnumvalue(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumvalue.iterator.map(com.google.protobuf.`type`.EnumValue.toJavaProto(_))).asJava)
-    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))).asJava)
-    scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto(_)).foreach(javaPbOut.setSourceContext)
+    javaPbOut.addAllEnumvalue(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumvalue.iterator.map(com.google.protobuf.`type`.EnumValue.toJavaProto)).asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
+    scalaPbSource.sourceContext.map(com.google.protobuf.source_context.SourceContext.toJavaProto).foreach(javaPbOut.setSourceContext)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Enum): com.google.protobuf.`type`.Enum = com.google.protobuf.`type`.Enum(
     name = javaPbSource.getName,
-    enumvalue = javaPbSource.getEnumvalueList.asScala.iterator.map(com.google.protobuf.`type`.EnumValue.fromJavaProto(_)).toSeq,
-    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)).toSeq,
+    enumvalue = javaPbSource.getEnumvalueList.asScala.iterator.map(com.google.protobuf.`type`.EnumValue.fromJavaProto).toSeq,
+    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto).toSeq,
     sourceContext = if (javaPbSource.hasSourceContext) Some(com.google.protobuf.source_context.SourceContext.fromJavaProto(javaPbSource.getSourceContext)) else _root_.scala.None,
     syntax = com.google.protobuf.`type`.Syntax.fromValue(javaPbSource.getSyntaxValue.intValue)
   )

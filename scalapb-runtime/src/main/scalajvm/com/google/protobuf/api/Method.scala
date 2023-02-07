@@ -208,7 +208,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     javaPbOut.setRequestStreaming(scalaPbSource.requestStreaming)
     javaPbOut.setResponseTypeUrl(scalaPbSource.responseTypeUrl)
     javaPbOut.setResponseStreaming(scalaPbSource.responseStreaming)
-    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     javaPbOut.setSyntaxValue(scalaPbSource.syntax.value)
     javaPbOut.build
   }
@@ -218,7 +218,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     requestStreaming = javaPbSource.getRequestStreaming.booleanValue,
     responseTypeUrl = javaPbSource.getResponseTypeUrl,
     responseStreaming = javaPbSource.getResponseStreaming.booleanValue,
-    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)).toSeq,
+    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto).toSeq,
     syntax = com.google.protobuf.`type`.Syntax.fromValue(javaPbSource.getSyntaxValue.intValue)
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Method = {

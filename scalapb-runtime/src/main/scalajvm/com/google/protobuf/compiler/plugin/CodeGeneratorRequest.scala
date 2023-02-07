@@ -122,8 +122,8 @@ final case class CodeGeneratorRequest(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(fileToGenerate.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 2 => parameter.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => _root_.scalapb.descriptors.PRepeated(fileToGenerate.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 2 => parameter.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 15 => _root_.scalapb.descriptors.PRepeated(protoFile.iterator.map(_.toPMessage).toVector)
         case 3 => compilerVersion.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
@@ -139,14 +139,14 @@ object CodeGeneratorRequest extends scalapb.GeneratedMessageCompanion[com.google
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest.newBuilder
     javaPbOut.addAllFileToGenerate(scalaPbSource.fileToGenerate.asJava)
     scalaPbSource.parameter.foreach(javaPbOut.setParameter)
-    javaPbOut.addAllProtoFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.protoFile.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto(_))).asJava)
-    scalaPbSource.compilerVersion.map(com.google.protobuf.compiler.plugin.Version.toJavaProto(_)).foreach(javaPbOut.setCompilerVersion)
+    javaPbOut.addAllProtoFile(_root_.scalapb.internal.compat.toIterable(scalaPbSource.protoFile.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.toJavaProto)).asJava)
+    scalaPbSource.compilerVersion.map(com.google.protobuf.compiler.plugin.Version.toJavaProto).foreach(javaPbOut.setCompilerVersion)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.CodeGeneratorRequest): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = com.google.protobuf.compiler.plugin.CodeGeneratorRequest(
     fileToGenerate = javaPbSource.getFileToGenerateList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
     parameter = if (javaPbSource.hasParameter) Some(javaPbSource.getParameter) else _root_.scala.None,
-    protoFile = javaPbSource.getProtoFileList.asScala.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto(_)).toSeq,
+    protoFile = javaPbSource.getProtoFileList.asScala.iterator.map(com.google.protobuf.descriptor.FileDescriptorProto.fromJavaProto).toSeq,
     compilerVersion = if (javaPbSource.hasCompilerVersion) Some(com.google.protobuf.compiler.plugin.Version.fromJavaProto(javaPbSource.getCompilerVersion)) else _root_.scala.None
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.CodeGeneratorRequest = {

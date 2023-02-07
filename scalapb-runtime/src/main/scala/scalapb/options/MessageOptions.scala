@@ -199,16 +199,16 @@ final case class MessageOptions(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 3 => _root_.scalapb.descriptors.PRepeated(annotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 4 => `type`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 5 => _root_.scalapb.descriptors.PRepeated(companionAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 6 => _root_.scalapb.descriptors.PRepeated(sealedOneofExtends.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 7 => noBox.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 8 => _root_.scalapb.descriptors.PRepeated(unknownFieldsAnnotations.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 9 => noDefaultValuesInConstructor.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 10 => _root_.scalapb.descriptors.PRepeated(sealedOneofCompanionExtends.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 1 => _root_.scalapb.descriptors.PRepeated(`extends`.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 2 => _root_.scalapb.descriptors.PRepeated(companionExtends.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 3 => _root_.scalapb.descriptors.PRepeated(annotations.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 4 => `type`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 5 => _root_.scalapb.descriptors.PRepeated(companionAnnotations.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 6 => _root_.scalapb.descriptors.PRepeated(sealedOneofExtends.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 7 => noBox.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => _root_.scalapb.descriptors.PRepeated(unknownFieldsAnnotations.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 9 => noDefaultValuesInConstructor.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => _root_.scalapb.descriptors.PRepeated(sealedOneofCompanionExtends.iterator.map(_root_.scalapb.descriptors.PString).toVector)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)

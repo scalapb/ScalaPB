@@ -233,17 +233,17 @@ final case class FieldDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => number.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => number.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 4 => label.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 5 => `type`.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 6 => typeName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => extendee.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 7 => defaultValue.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 9 => oneofIndex.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 10 => jsonName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 6 => typeName.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => extendee.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 7 => defaultValue.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 9 => oneofIndex.map(_root_.scalapb.descriptors.PInt).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => jsonName.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 17 => proto3Optional.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 17 => proto3Optional.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -257,14 +257,14 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     val javaPbOut = com.google.protobuf.DescriptorProtos.FieldDescriptorProto.newBuilder
     scalaPbSource.name.foreach(javaPbOut.setName)
     scalaPbSource.number.foreach(javaPbOut.setNumber)
-    scalaPbSource.label.map(com.google.protobuf.descriptor.FieldDescriptorProto.Label.toJavaValue(_)).foreach(javaPbOut.setLabel)
-    scalaPbSource.`type`.map(com.google.protobuf.descriptor.FieldDescriptorProto.Type.toJavaValue(_)).foreach(javaPbOut.setType)
+    scalaPbSource.label.map(com.google.protobuf.descriptor.FieldDescriptorProto.Label.toJavaValue).foreach(javaPbOut.setLabel)
+    scalaPbSource.`type`.map(com.google.protobuf.descriptor.FieldDescriptorProto.Type.toJavaValue).foreach(javaPbOut.setType)
     scalaPbSource.typeName.foreach(javaPbOut.setTypeName)
     scalaPbSource.extendee.foreach(javaPbOut.setExtendee)
     scalaPbSource.defaultValue.foreach(javaPbOut.setDefaultValue)
     scalaPbSource.oneofIndex.foreach(javaPbOut.setOneofIndex)
     scalaPbSource.jsonName.foreach(javaPbOut.setJsonName)
-    scalaPbSource.options.map(com.google.protobuf.descriptor.FieldOptions.toJavaProto(_)).foreach(javaPbOut.setOptions)
+    scalaPbSource.options.map(com.google.protobuf.descriptor.FieldOptions.toJavaProto).foreach(javaPbOut.setOptions)
     scalaPbSource.proto3Optional.foreach(javaPbOut.setProto3Optional)
     javaPbOut.build
   }

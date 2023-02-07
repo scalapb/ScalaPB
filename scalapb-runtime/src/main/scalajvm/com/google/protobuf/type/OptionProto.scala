@@ -99,7 +99,7 @@ object OptionProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def toJavaProto(scalaPbSource: com.google.protobuf.`type`.OptionProto): com.google.protobuf.Option = {
     val javaPbOut = com.google.protobuf.Option.newBuilder
     javaPbOut.setName(scalaPbSource.name)
-    scalaPbSource.value.map(com.google.protobuf.any.Any.toJavaProto(_)).foreach(javaPbOut.setValue)
+    scalaPbSource.value.map(com.google.protobuf.any.Any.toJavaProto).foreach(javaPbOut.setValue)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.Option): com.google.protobuf.`type`.OptionProto = com.google.protobuf.`type`.OptionProto(

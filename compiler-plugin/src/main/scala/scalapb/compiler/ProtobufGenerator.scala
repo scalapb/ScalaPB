@@ -199,13 +199,21 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.BYTE_STRING => Identity
       case FieldDescriptor.JavaType.STRING      => Identity
       case FieldDescriptor.JavaType.MESSAGE =>
-        FunctionApplication(field.getMessageType.scalaType.fullName + ".fromJavaProto")
+        FunctionApplication(
+          field.getMessageType.scalaType.fullName + ".fromJavaProto",
+          etaExpansion = true
+        )
       case FieldDescriptor.JavaType.ENUM =>
         if (field.getFile.isProto3)
           MethodApplication("intValue") andThen FunctionApplication(
-            field.getEnumType.scalaType.fullName + ".fromValue"
+            field.getEnumType.scalaType.fullName + ".fromValue",
+            etaExpansion = true
           )
-        else FunctionApplication(field.getEnumType.scalaType.fullName + ".fromJavaValue")
+        else
+          FunctionApplication(
+            field.getEnumType.scalaType.fullName + ".fromJavaValue",
+            etaExpansion = true
+          )
     }
     baseValueConversion andThen toCustomTypeExpr(field)
   }
@@ -257,7 +265,8 @@ class ProtobufGenerator(
   }
 
   def scalaToJava(field: FieldDescriptor, boxPrimitives: Boolean): Expression = {
-    def maybeBox(name: String) = if (boxPrimitives) FunctionApplication(name) else Identity
+    def maybeBox(name: String) =
+      if (boxPrimitives) FunctionApplication(name, etaExpansion = true) else Identity
 
     field.getJavaType match {
       case FieldDescriptor.JavaType.INT         => maybeBox("_root_.scala.Int.box")
@@ -268,12 +277,18 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.BYTE_STRING => Identity
       case FieldDescriptor.JavaType.STRING      => Identity
       case FieldDescriptor.JavaType.MESSAGE =>
-        FunctionApplication(field.getMessageType.scalaType.fullName + ".toJavaProto")
+        FunctionApplication(
+          field.getMessageType.scalaType.fullName + ".toJavaProto",
+          etaExpansion = true
+        )
       case FieldDescriptor.JavaType.ENUM =>
         if (field.getFile.isProto3)
           (MethodApplication("value") andThen maybeBox("_root_.scala.Int.box"))
         else
-          FunctionApplication(field.getEnumType.scalaType.fullName + ".toJavaValue")
+          FunctionApplication(
+            field.getEnumType.scalaType.fullName + ".toJavaValue",
+            etaExpansion = true
+          )
     }
   }
 
@@ -381,15 +396,24 @@ class ProtobufGenerator(
   def singleFieldAsPvalue(fd: FieldDescriptor): LiteralExpression = {
     val d = "_root_.scalapb.descriptors"
     fd.getJavaType match {
-      case FieldDescriptor.JavaType.INT         => FunctionApplication(s"$d.PInt")
-      case FieldDescriptor.JavaType.LONG        => FunctionApplication(s"$d.PLong")
-      case FieldDescriptor.JavaType.FLOAT       => FunctionApplication(s"$d.PFloat")
-      case FieldDescriptor.JavaType.DOUBLE      => FunctionApplication(s"$d.PDouble")
-      case FieldDescriptor.JavaType.BOOLEAN     => FunctionApplication(s"$d.PBoolean")
-      case FieldDescriptor.JavaType.BYTE_STRING => FunctionApplication(s"$d.PByteString")
-      case FieldDescriptor.JavaType.STRING      => FunctionApplication(s"$d.PString")
-      case FieldDescriptor.JavaType.ENUM        => FunctionApplication(s"$d.PEnum")
-      case FieldDescriptor.JavaType.MESSAGE     => MethodApplication("toPMessage")
+      case FieldDescriptor.JavaType.INT =>
+        FunctionApplication(s"$d.PInt", etaExpansion = true)
+      case FieldDescriptor.JavaType.LONG =>
+        FunctionApplication(s"$d.PLong", etaExpansion = true)
+      case FieldDescriptor.JavaType.FLOAT =>
+        FunctionApplication(s"$d.PFloat", etaExpansion = true)
+      case FieldDescriptor.JavaType.DOUBLE =>
+        FunctionApplication(s"$d.PDouble", etaExpansion = true)
+      case FieldDescriptor.JavaType.BOOLEAN =>
+        FunctionApplication(s"$d.PBoolean", etaExpansion = true)
+      case FieldDescriptor.JavaType.BYTE_STRING =>
+        FunctionApplication(s"$d.PByteString", etaExpansion = true)
+      case FieldDescriptor.JavaType.STRING =>
+        FunctionApplication(s"$d.PString", etaExpansion = true)
+      case FieldDescriptor.JavaType.ENUM =>
+        FunctionApplication(s"$d.PEnum", etaExpansion = true)
+      case FieldDescriptor.JavaType.MESSAGE =>
+        MethodApplication("toPMessage")
     }
   }
 
@@ -461,7 +485,7 @@ class ProtobufGenerator(
 
   def toBaseTypeExpr(field: FieldDescriptor) =
     if (field.customSingleScalaTypeName.isDefined)
-      FunctionApplication(field.typeMapper.fullName + ".toBase")
+      FunctionApplication(field.typeMapper.fullName + ".toBase", etaExpansion = true)
     else Identity
 
   def toBaseFieldType(field: FieldDescriptor) =
@@ -481,7 +505,7 @@ class ProtobufGenerator(
 
   def toCustomTypeExpr(field: FieldDescriptor) =
     if (field.customSingleScalaTypeName.isEmpty) Identity
-    else FunctionApplication(s"${field.typeMapper.fullName}.toCustom")
+    else FunctionApplication(s"${field.typeMapper.fullName}.toCustom", etaExpansion = true)
 
   def toCustomType(field: FieldDescriptor)(expr: String) =
     toCustomTypeExpr(field).apply(expr, EnclosingType.None)
@@ -593,12 +617,13 @@ class ProtobufGenerator(
             case None =>
               val capTypeName = Types.capitalizedType(field.getType)
               val sizeFunc = FunctionApplication(
-                s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
+                s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag",
+                etaExpansion = true
               )
               val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
               val fromCustom =
                 if (field.customSingleScalaTypeName.isDefined)
-                  FunctionApplication(s"${field.typeMapper.fullName}.toBase")
+                  FunctionApplication(s"${field.typeMapper.fullName}.toBase", etaExpansion = true)
                 else Identity
               val funcs    = List(sizeFunc, fromEnum, fromCustom)
               val sizeExpr = ExpressionBuilder.runSingleton(funcs)("__i")
@@ -808,7 +833,10 @@ class ProtobufGenerator(
       (if (!field.isEnum) Identity
        else
          (MethodApplication("number") andThen
-           FunctionApplication(field.getEnumType.scalaType.fullName + ".fromValue"))) andThen
+           FunctionApplication(
+             field.getEnumType.scalaType.fullName + ".fromValue",
+             etaExpansion = true
+           ))) andThen
         toCustomTypeExpr(field)
 
     val myFullScalaName = message.scalaType.fullName
@@ -1140,14 +1168,14 @@ class ProtobufGenerator(
         case Type.DOUBLE =>
           (
             "fixed64Lens",
-            FunctionApplication("java.lang.Double.longBitsToDouble"),
-            FunctionApplication("java.lang.Double.doubleToLongBits")
+            FunctionApplication("java.lang.Double.longBitsToDouble", etaExpansion = true),
+            FunctionApplication("java.lang.Double.doubleToLongBits", etaExpansion = true)
           )
         case Type.FLOAT =>
           (
             "fixed32Lens",
-            FunctionApplication("java.lang.Float.intBitsToFloat"),
-            FunctionApplication("java.lang.Float.floatToIntBits")
+            FunctionApplication("java.lang.Float.intBitsToFloat", etaExpansion = true),
+            FunctionApplication("java.lang.Float.floatToIntBits", etaExpansion = true)
           )
         case Type.INT64   => ("varintLens", Identity, Identity)
         case Type.UINT64  => ("varintLens", Identity, Identity)
@@ -1158,20 +1186,27 @@ class ProtobufGenerator(
           (
             "varintLens",
             OperatorApplication("!= 0"),
-            FunctionApplication("_root_.scalapb.GeneratedExtension.Internal.bool2Long")
+            FunctionApplication(
+              "_root_.scalapb.GeneratedExtension.Internal.bool2Long",
+              etaExpansion = true
+            )
           )
         case Type.STRING =>
           (
             "lengthDelimitedLens",
             MethodApplication("toStringUtf8()"),
-            FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8")
+            FunctionApplication(
+              "_root_.com.google.protobuf.ByteString.copyFromUtf8",
+              etaExpansion = true
+            )
           )
         case Type.GROUP => throw new RuntimeException("Not supported")
         case Type.MESSAGE =>
           (
             "lengthDelimitedLens",
             FunctionApplication(
-              s"_root_.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})"
+              s"_root_.scalapb.GeneratedExtension.readMessageFromByteString(${fd.baseSingleScalaTypeName})",
+              etaExpansion = true
             ),
             MethodApplication(s"toByteString")
           )
@@ -1182,7 +1217,8 @@ class ProtobufGenerator(
           (
             "varintLens",
             MethodApplication("toInt") andThen FunctionApplication(
-              fd.baseSingleScalaTypeName + ".fromValue"
+              fd.baseSingleScalaTypeName + ".fromValue",
+              etaExpansion = true
             ),
             MethodApplication("value") andThen MethodApplication("toLong")
           )
@@ -1192,10 +1228,12 @@ class ProtobufGenerator(
           (
             "varintLens",
             MethodApplication("toInt") andThen FunctionApplication(
-              "_root_.com.google.protobuf.CodedInputStream.decodeZigZag32"
+              "_root_.com.google.protobuf.CodedInputStream.decodeZigZag32",
+              etaExpansion = true
             ),
             FunctionApplication(
-              "_root_.com.google.protobuf.CodedOutputStream.encodeZigZag32"
+              "_root_.com.google.protobuf.CodedOutputStream.encodeZigZag32",
+              etaExpansion = true
             ) andThen (
               MethodApplication("toLong")
             )
@@ -1203,8 +1241,14 @@ class ProtobufGenerator(
         case Type.SINT64 =>
           (
             "varintLens",
-            FunctionApplication("_root_.com.google.protobuf.CodedInputStream.decodeZigZag64"),
-            FunctionApplication("_root_.com.google.protobuf.CodedOutputStream.encodeZigZag64")
+            FunctionApplication(
+              "_root_.com.google.protobuf.CodedInputStream.decodeZigZag64",
+              etaExpansion = true
+            ),
+            FunctionApplication(
+              "_root_.com.google.protobuf.CodedOutputStream.encodeZigZag64",
+              etaExpansion = true
+            )
           )
       }
       val fromFieldToCustom = fromFieldToBase andThen toCustomTypeExpr(fd)

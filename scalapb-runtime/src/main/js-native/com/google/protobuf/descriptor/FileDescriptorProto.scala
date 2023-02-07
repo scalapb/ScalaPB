@@ -236,18 +236,18 @@ final case class FileDescriptorProto(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => name.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 2 => `package`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
-        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
-        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+        case 1 => name.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => `package`.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => _root_.scalapb.descriptors.PRepeated(dependency.iterator.map(_root_.scalapb.descriptors.PString).toVector)
+        case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.iterator.map(_root_.scalapb.descriptors.PInt).toVector)
+        case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.iterator.map(_root_.scalapb.descriptors.PInt).toVector)
         case 4 => _root_.scalapb.descriptors.PRepeated(messageType.iterator.map(_.toPMessage).toVector)
         case 5 => _root_.scalapb.descriptors.PRepeated(enumType.iterator.map(_.toPMessage).toVector)
         case 6 => _root_.scalapb.descriptors.PRepeated(service.iterator.map(_.toPMessage).toVector)
         case 7 => _root_.scalapb.descriptors.PRepeated(extension.iterator.map(_.toPMessage).toVector)
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => sourceCodeInfo.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 12 => syntax.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 12 => syntax.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)

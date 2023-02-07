@@ -395,26 +395,26 @@ final case class FileOptions(
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
-        case 1 => javaPackage.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 8 => javaOuterClassname.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 10 => javaMultipleFiles.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 20 => javaGenerateEqualsAndHash.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 27 => javaStringCheckUtf8.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 1 => javaPackage.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 8 => javaOuterClassname.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 10 => javaMultipleFiles.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 20 => javaGenerateEqualsAndHash.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 27 => javaStringCheckUtf8.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => optimizeFor.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 11 => goPackage.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 16 => ccGenericServices.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 17 => javaGenericServices.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 18 => pyGenericServices.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 42 => phpGenericServices.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 23 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 31 => ccEnableArenas.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 36 => objcClassPrefix.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 37 => csharpNamespace.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 39 => swiftPrefix.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 40 => phpClassPrefix.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 41 => phpNamespace.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 44 => phpMetadataNamespace.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
-        case 45 => rubyPackage.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 11 => goPackage.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 16 => ccGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 17 => javaGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 18 => pyGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 42 => phpGenericServices.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 23 => deprecated.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 31 => ccEnableArenas.map(_root_.scalapb.descriptors.PBoolean).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 36 => objcClassPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 37 => csharpNamespace.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 39 => swiftPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 40 => phpClassPrefix.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 41 => phpNamespace.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 44 => phpMetadataNamespace.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 45 => rubyPackage.map(_root_.scalapb.descriptors.PString).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -432,7 +432,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     scalaPbSource.javaMultipleFiles.foreach(javaPbOut.setJavaMultipleFiles)
     scalaPbSource.javaGenerateEqualsAndHash.foreach(javaPbOut.setJavaGenerateEqualsAndHash)
     scalaPbSource.javaStringCheckUtf8.foreach(javaPbOut.setJavaStringCheckUtf8)
-    scalaPbSource.optimizeFor.map(com.google.protobuf.descriptor.FileOptions.OptimizeMode.toJavaValue(_)).foreach(javaPbOut.setOptimizeFor)
+    scalaPbSource.optimizeFor.map(com.google.protobuf.descriptor.FileOptions.OptimizeMode.toJavaValue).foreach(javaPbOut.setOptimizeFor)
     scalaPbSource.goPackage.foreach(javaPbOut.setGoPackage)
     scalaPbSource.ccGenericServices.foreach(javaPbOut.setCcGenericServices)
     scalaPbSource.javaGenericServices.foreach(javaPbOut.setJavaGenericServices)
@@ -447,7 +447,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     scalaPbSource.phpNamespace.foreach(javaPbOut.setPhpNamespace)
     scalaPbSource.phpMetadataNamespace.foreach(javaPbOut.setPhpMetadataNamespace)
     scalaPbSource.rubyPackage.foreach(javaPbOut.setRubyPackage)
-    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
+    javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto)).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): com.google.protobuf.descriptor.FileOptions = com.google.protobuf.descriptor.FileOptions(
@@ -471,7 +471,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     phpNamespace = if (javaPbSource.hasPhpNamespace) Some(javaPbSource.getPhpNamespace) else _root_.scala.None,
     phpMetadataNamespace = if (javaPbSource.hasPhpMetadataNamespace) Some(javaPbSource.getPhpMetadataNamespace) else _root_.scala.None,
     rubyPackage = if (javaPbSource.hasRubyPackage) Some(javaPbSource.getRubyPackage) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FileOptions = {
     var __javaPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None

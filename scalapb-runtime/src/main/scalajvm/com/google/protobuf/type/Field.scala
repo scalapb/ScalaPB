@@ -278,7 +278,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
     javaPbOut.setOneofIndex(scalaPbSource.oneofIndex)
     javaPbOut.setPacked(scalaPbSource.packed)
-    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto(_))).asJava)
+    javaPbOut.addAllOptions(_root_.scalapb.internal.compat.toIterable(scalaPbSource.options.iterator.map(com.google.protobuf.`type`.OptionProto.toJavaProto)).asJava)
     javaPbOut.setJsonName(scalaPbSource.jsonName)
     javaPbOut.setDefaultValue(scalaPbSource.defaultValue)
     javaPbOut.build
@@ -291,7 +291,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     typeUrl = javaPbSource.getTypeUrl,
     oneofIndex = javaPbSource.getOneofIndex.intValue,
     packed = javaPbSource.getPacked.booleanValue,
-    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto(_)).toSeq,
+    options = javaPbSource.getOptionsList.asScala.iterator.map(com.google.protobuf.`type`.OptionProto.fromJavaProto).toSeq,
     jsonName = javaPbSource.getJsonName,
     defaultValue = javaPbSource.getDefaultValue
   )
