@@ -454,7 +454,7 @@ lazy val docs = project
       "scala3"           -> Dependencies.Scala3,
       "sbt_protoc"       -> "1.0.3",
       "protoc"           -> "3.15.6",
-      "sparksql_scalapb" -> "1.0.0",
+      "sparksql_scalapb" -> "1.0.2",
       "scalapb_validate" -> "0.3.1"
     ),
     // scalameta tree's uses ScalaPB 0.10.x, which is "sufficiently binary compatible".
