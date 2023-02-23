@@ -36,6 +36,7 @@ class ProtobufGenerator(
       )
       .indent
       .add(s"type EnumType = $name")
+      .add(s"type RecognizedType = ${e.recognizedEnum.fullName}")
       .print(e.getValues.asScala) { case (p, v) =>
         p.add(s"def ${v.isName}: _root_.scala.Boolean = false")
       }

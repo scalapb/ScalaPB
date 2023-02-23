@@ -7,6 +7,7 @@ package scalapb.options
 
 sealed abstract class MatchType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = MatchType
+  type RecognizedType = scalapb.options.MatchType.Recognized
   def isContains: _root_.scala.Boolean = false
   def isExact: _root_.scala.Boolean = false
   def isPresence: _root_.scala.Boolean = false

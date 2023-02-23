@@ -12,6 +12,7 @@ import scala.annotation.nowarn
 
 trait GeneratedEnum extends Any with Product with Serializable {
   type EnumType <: GeneratedEnum
+  type RecognizedType <: EnumType
 
   def value: Int
 
@@ -30,6 +31,8 @@ trait GeneratedEnum extends Any with Product with Serializable {
 
   def scalaValueDescriptor: _root_.scalapb.descriptors.EnumValueDescriptor =
     companion.scalaDescriptor.values(index)
+
+  def asRecognized: Option[RecognizedType]
 }
 
 trait UnrecognizedEnum extends GeneratedEnum {
