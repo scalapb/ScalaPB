@@ -114,3 +114,4 @@ We are very thankful to our sponsors:
 * [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
 * [Alex Gaiduchok](https://github.com/alex-gaiduchok)
 * [Ahmad Ragab](https://github.com/ASRagab)
+* [@dejvid](https://github.com/dejvid)
