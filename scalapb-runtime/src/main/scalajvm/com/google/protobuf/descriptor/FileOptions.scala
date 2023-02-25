@@ -645,6 +645,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     */
   sealed abstract class OptimizeMode(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = OptimizeMode
+    type RecognizedType = com.google.protobuf.descriptor.FileOptions.OptimizeMode.Recognized
     def isSpeed: _root_.scala.Boolean = false
     def isCodeSize: _root_.scala.Boolean = false
     def isLiteRuntime: _root_.scala.Boolean = false

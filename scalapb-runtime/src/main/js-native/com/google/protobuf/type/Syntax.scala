@@ -9,6 +9,7 @@ package com.google.protobuf.`type`
   */
 sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = Syntax
+  type RecognizedType = com.google.protobuf.`type`.Syntax.Recognized
   def isSyntaxProto2: _root_.scala.Boolean = false
   def isSyntaxProto3: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
