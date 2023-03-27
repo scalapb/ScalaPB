@@ -110,8 +110,6 @@ Sponsors
 We are very thankful to our sponsors: 
 
 * [MOIA](https://moia.io)
-* [Oliver Wickham (ollyw)](https://github.com/ollyw)
 * [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
-* [Alex Gaiduchok](https://github.com/alex-gaiduchok)
-* [Ahmad Ragab](https://github.com/ASRagab)
 * [@dejvid](https://github.com/dejvid)
+* [Andrew Selvia](https://github.com/andrew-selvia)
