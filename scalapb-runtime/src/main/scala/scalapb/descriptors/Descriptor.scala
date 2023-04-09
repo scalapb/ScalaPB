@@ -151,28 +151,48 @@ class MethodDescriptor private[descriptors] (
 
   lazy val inputType: Descriptor = {
     val inputType = asProto.inputType.getOrElse(
-      throw new DescriptorValidationException(this, "missing method input type")
+      throw new DescriptorValidationException(
+        this,
+        s"Missing method input type for method $fullName"
+      )
     )
 
-    FileDescriptor
-      .find(containingService.file, this, inputType)
-      .getOrElse(
-        throw new DescriptorValidationException(this, "couldn't build input type descriptor")
-      )
-      .asInstanceOf[Descriptor]
+    FileDescriptor.find(containingService.file, this, inputType) match {
+      case Some(descriptor: Descriptor) => descriptor
+      case Some(otherDescriptor) =>
+        throw new DescriptorValidationException(
+          this,
+          s"Unexpected descriptor type ${otherDescriptor.getClass.getName} for input type $inputType"
+        )
+      case None =>
+        throw new DescriptorValidationException(
+          this,
+          s"Couldn't find descriptor for input type $inputType"
+        )
+    }
   }
 
   lazy val outputType: Descriptor = {
     val outputType = asProto.outputType.getOrElse(
-      throw new DescriptorValidationException(this, "missing method output type")
+      throw new DescriptorValidationException(
+        this,
+        s"Missing method output type for method $fullName"
+      )
     )
 
-    FileDescriptor
-      .find(containingService.file, this, outputType)
-      .getOrElse(
-        throw new DescriptorValidationException(this, "couldn't build output type descriptor")
-      )
-      .asInstanceOf[Descriptor]
+    FileDescriptor.find(containingService.file, this, outputType) match {
+      case Some(descriptor: Descriptor) => descriptor
+      case Some(otherDescriptor) =>
+        throw new DescriptorValidationException(
+          this,
+          s"Unexpected descriptor type ${otherDescriptor.getClass.getName} for output type $outputType"
+        )
+      case None =>
+        throw new DescriptorValidationException(
+          this,
+          s"Couldn't find descriptor for output type $outputType"
+        )
+    }
   }
 }
 
