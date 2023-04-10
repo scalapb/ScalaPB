@@ -1,8 +1,8 @@
 # Change Log
 
 ## [0.11.13]
-- Added input and output message type for method descriptor.
-- 
+- Added input and output message type for method descriptor (#1503)
+
 ## [0.11.13]
 - Improved performance for field lookup which is used by JSON deserialization.  (#1468)
 - use SAM conversion (#1444)
