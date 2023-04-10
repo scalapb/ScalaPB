@@ -1,6 +1,9 @@
 # Change Log
 
 ## [0.11.13]
+- Added input and output message type for method descriptor.
+- 
+## [0.11.13]
 - Improved performance for field lookup which is used by JSON deserialization.  (#1468)
 - use SAM conversion (#1444)
 - ScalaPB is now tested with upsteam protobuf conformance tests and multiple
