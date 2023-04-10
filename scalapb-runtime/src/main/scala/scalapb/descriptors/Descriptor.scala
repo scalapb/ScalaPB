@@ -148,6 +148,52 @@ class MethodDescriptor private[descriptors] (
   def location = containingService.file.findLocationByPath(SourceCodePath.get(this))
 
   def getOptions = asProto.getOptions
+
+  lazy val inputType: Descriptor = {
+    val inputType = asProto.inputType.getOrElse(
+      throw new DescriptorValidationException(
+        this,
+        s"Missing method input type for method $fullName"
+      )
+    )
+
+    FileDescriptor.find(containingService.file, this, inputType) match {
+      case Some(descriptor: Descriptor) => descriptor
+      case Some(otherDescriptor) =>
+        throw new DescriptorValidationException(
+          this,
+          s"Unexpected descriptor type ${otherDescriptor.getClass.getName} for input type $inputType"
+        )
+      case None =>
+        throw new DescriptorValidationException(
+          this,
+          s"Couldn't find descriptor for input type $inputType"
+        )
+    }
+  }
+
+  lazy val outputType: Descriptor = {
+    val outputType = asProto.outputType.getOrElse(
+      throw new DescriptorValidationException(
+        this,
+        s"Missing method output type for method $fullName"
+      )
+    )
+
+    FileDescriptor.find(containingService.file, this, outputType) match {
+      case Some(descriptor: Descriptor) => descriptor
+      case Some(otherDescriptor) =>
+        throw new DescriptorValidationException(
+          this,
+          s"Unexpected descriptor type ${otherDescriptor.getClass.getName} for output type $outputType"
+        )
+      case None =>
+        throw new DescriptorValidationException(
+          this,
+          s"Couldn't find descriptor for output type $outputType"
+        )
+    }
+  }
 }
 
 class EnumDescriptor private[descriptors] (
