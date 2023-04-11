@@ -1,6 +1,8 @@
 ScalaPB
 =======
 
+[![compilerplugin Scala version support](https://index.scala-lang.org/scalapb/scalapb/compilerplugin/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/scalapb/scalapb/compilerplugin)
+
 [![Join the chat at https://gitter.im/ScalaPB/community](https://badges.gitter.im/ScalaPB/community.svg)](https://gitter.im/ScalaPB/community)
 
 [![Build Status](https://github.com/scalapb/ScalaPB/workflows/CI/badge.svg)](https://github.com/scalapb/ScalaPB/actions?query=workflow%3ACI)
