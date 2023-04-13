@@ -136,18 +136,12 @@ object GenTypes {
       state: State,
       syntax: ProtoSyntax,
       allowMaps: Boolean = true,
-      allowCurrentMessage: Boolean = true,
       enumMustHaveZeroDefined: Boolean = false
   ): Gen[ProtoType] = {
     val baseFreq = List((5, generatePrimitive))
     val withMessages =
-      if (state._nextMessageId > 0 && allowCurrentMessage)
+      if (state._nextMessageId > 0)
         (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference)) :: baseFreq
-      else if (!allowCurrentMessage && state.currentFileInitialMessageId > 0)
-        (
-          1,
-          Gen.chooseNum(0, state.currentFileInitialMessageId - 1).map(MessageReference)
-        ) :: baseFreq
       else baseFreq
     val withEnums = syntax match {
       case Proto2 =>
@@ -176,8 +170,6 @@ object GenTypes {
         state,
         syntax,
         allowMaps = false,
-        // until https://github.com/google/protobuf/issues/355 is fixed.
-        allowCurrentMessage = false,
         enumMustHaveZeroDefined = true
       )
     } yield MapType(keyType, valueType)
