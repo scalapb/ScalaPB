@@ -14,5 +14,7 @@ message NoGettersOrLensesA {
 }
 
 message NoGettersOrLenses {
-    NoGettersOrLensesA a = 1;
+  NoGettersOrLensesA a = 1;
+
+  map<string, NoGettersOrLensesA> test_map = 2;
 }

@@ -1342,7 +1342,7 @@ class ProtobufGenerator(
         val singleType  = field.singleScalaTypeName
         printer
           .when(
-            (field.supportsPresence || field.isInOneof) && (message.generateGetters || message.generateLenses)
+            (field.supportsPresence || field.isInOneof) && (message.generateGetters || message.generateLenses || message.isMapEntry)
           ) { p =>
             val default = defaultValueForGet(field)
             val scope   = if (message.generateGetters) "" else "private "
