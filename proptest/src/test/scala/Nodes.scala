@@ -202,6 +202,8 @@ object Nodes {
               _.add(s"""enum_value_naming: ${options.getEnumValueNaming}""")
             )
             .add(s"flat_package: ${options.getFlatPackage}")
+            .add(s"getters: ${options.getGetters}")
+            .add(s"lenses: ${options.getLenses}")
             .outdent
             .add("};")
         )

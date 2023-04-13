@@ -221,6 +221,8 @@ object GraphGen {
       flatPackage        <- Gen.oneOf(true, false)
       singleFile         <- Gen.oneOf(true, false)
       enumValueCamelCase <- Gen.oneOf(false, true)
+      lenses             <- Gen.oneOf(true, false)
+      getters            <- Gen.oneOf(true, false)
     } yield {
       val b = ScalaPbOptions.newBuilder
       if (scalaPackageName.nonEmpty) {
@@ -231,6 +233,8 @@ object GraphGen {
       }
       b.setFlatPackage(flatPackage)
         .setSingleFile(singleFile)
+        .setLenses(lenses)
+        .setGetters(getters)
       (Some(b.build), state)
     }
 
