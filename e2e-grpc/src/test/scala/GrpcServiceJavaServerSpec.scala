@@ -20,7 +20,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
       withJavaServer { channel =>
         val client = Service1GrpcScala.stub(channel)
         val string = randomString()
-        Await.result(client.unaryStringLength(Req1(string)), 30.seconds).length must be(
+        Await.result(client.unaryStringLength(Req1(string)), 10.seconds).length must be(
           string.length
         )
       }
@@ -44,7 +44,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
         }
 
         requestObserver.onCompleted()
-        Await.result(future, 30.seconds).count must be(n)
+        Await.result(future, 10.seconds).count must be(n)
       }
     }
 
@@ -53,7 +53,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
         val client             = Service1GrpcScala.stub(channel)
         val (observer, future) = getObserverAndFutureVector[Res3]
         client.serverStreamingFan(Req3(100), observer)
-        Await.result(future, 30.seconds) must be(Vector.fill(100)(Res3()))
+        Await.result(future, 10.seconds) must be(Vector.fill(100)(Res3()))
       }
     }
 
@@ -66,7 +66,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
         requestObserver.onNext(Req4(3))
         requestObserver.onNext(Req4(6))
         requestObserver.onCompleted()
-        Await.result(future, 30.seconds).map(_.b) must be(Vector(22, 6, 12))
+        Await.result(future, 10.seconds).map(_.b) must be(Vector(22, 6, 12))
       }
     }
 
@@ -75,7 +75,7 @@ class GrpcServiceJavaServerSpec extends GrpcServiceSpecBase {
         val client = Service1GrpcScala.stub(channel)
 
         intercept[io.grpc.StatusRuntimeException] {
-          Await.result(client.throwException(Req5()), 30.seconds)
+          Await.result(client.throwException(Req5()), 10.seconds)
         }
       }
     }
