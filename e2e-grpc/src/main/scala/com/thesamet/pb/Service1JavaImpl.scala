@@ -38,9 +38,7 @@ class Service1JavaImpl extends Service1ImplBase {
       }
 
       override def onNext(v: Req2): Unit = {
-        println(s"Got on next: $v")
         counter.incrementAndGet()
-        println(s"Incremented: $v")
         ()
       }
     }

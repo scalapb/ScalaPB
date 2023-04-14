@@ -82,6 +82,7 @@ class Service1ScalaImpl extends Service1 {
 
     override def onCompleted(): Unit = {
       observer.onNext(Res2(counter.getAndSet(0)))
+      observer.onCompleted()
     }
 
     override def onNext(v: SealedRequest): Unit = {
