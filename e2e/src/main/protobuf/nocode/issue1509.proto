@@ -6,7 +6,11 @@ import "scalapb/scalapb.proto";
 import "google/protobuf/descriptor.proto";
 
 extend google.protobuf.MethodOptions {
-  repeated string ext_vector = 1051 [(scalapb.field).collection_type = "Vector"];
-  repeated string ext_set = 1052 [(scalapb.field).collection_type = "Set"];
-  repeated string ext_list = 1053 [(scalapb.field).collection_type = "List"];
+  repeated string ext_str_vector = 1051 [(scalapb.field).collection_type = "Vector"];
+  repeated string ext_str_set = 1052 [(scalapb.field).collection_type = "Set"];
+  repeated string ext_str_list = 1053 [(scalapb.field).collection_type = "List"];
+
+  repeated int32 ext_int_vector = 1054 [(scalapb.field).collection_type = "Vector"];
+  repeated int32 ext_int_set = 1055 [(scalapb.field).collection_type = "Set"];
+  repeated int32 ext_int_list = 1056 [(scalapb.field).collection_type = "List"];
 }

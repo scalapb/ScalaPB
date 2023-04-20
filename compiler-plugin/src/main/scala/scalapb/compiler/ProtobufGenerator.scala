@@ -1218,7 +1218,7 @@ class ProtobufGenerator(
           ("_root_.scalapb.GeneratedExtension.forOptionalUnknownMessageField", Seq.empty)
         else if (fd.isRepeated && fd.isPackable)
           (
-            "_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldPackable",
+            "_root_.scalapb.GeneratedExtension.forRepeatedPackable",
             Seq(fd.getType match {
               case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64()"
               case Type.FLOAT | Type.FIXED32 | Type.SFIXED32  => "_.readFixed32()"
