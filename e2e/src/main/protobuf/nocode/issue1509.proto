@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package scalapb.e2e;
+
+import "scalapb/scalapb.proto";
+import "google/protobuf/descriptor.proto";
+
+extend google.protobuf.MethodOptions {
+  repeated string ext_vector = 1051 [(scalapb.field).collection_type = "Vector"];
+  repeated string ext_set = 1052 [(scalapb.field).collection_type = "Set"];
+  repeated string ext_list = 1053 [(scalapb.field).collection_type = "List"];
+}

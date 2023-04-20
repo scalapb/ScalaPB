@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.11.14]
+- Repeated extensions can now use arbitrary iterable types or any collection type there is a
+  CollectionAdapter for (#1509)
+
 ## [0.11.13]
 - Added input and output message type for method descriptor (#1503)
 

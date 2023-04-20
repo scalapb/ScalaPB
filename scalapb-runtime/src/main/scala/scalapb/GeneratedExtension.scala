@@ -58,11 +58,26 @@ object GeneratedExtension {
     v.result()
   }
 
-  def repeatedUnknownFieldLensUnpackable[E, T](
+  @deprecated("Use repeatedLensUnpackable that takes implicit CollectionAdapter", "0.11.14")
+  def repeatedUnknownFieldLensUnpackable[E, T, Coll](
       fromBase: E => T,
       toBase: T => E
   ): Lens[Seq[E], Seq[T]] =
     Lens[Seq[E], Seq[T]]({ es => es.map(fromBase) })({ (_, t) => t.map(toBase) })
+
+  def repeatedLensUnpackable[E, T, Coll](
+      fromBase: E => T,
+      toBase: T => E
+  )(implicit ca: CollectionAdapter[T, Coll]): Lens[Seq[E], Coll] =
+    Lens[Seq[E], Coll]({ es =>
+      val b = ca.newBuilder
+      es.foreach { e =>
+        b += fromBase(e)
+      }
+      b.result().toOption.get
+    })({ (_, t) =>
+      ca.toIterator(t).map(toBase).toSeq
+    })
 
   def repeatedUnknownFieldLensPackable[E, T](
       fromBase: E => T,
@@ -153,15 +168,24 @@ object GeneratedExtension {
     )
   }
 
+  @deprecated("Use forRepeatedUnpackable that takes implicit CollectionAdapter", "0.11.14")
   def forRepeatedUnknownFieldUnpackable[C <: ExtendableMessage[C], E, T](
       fieldNumber: Int,
       listLens: Lens[UnknownFieldSet.Field, Seq[E]]
-  )(fromBase: E => T, toBase: T => E): GeneratedExtension[C, Seq[T]] = {
+  )(fromBase: E => T, toBase: T => E): GeneratedExtension[C, Seq[T]] =
+    forRepeatedUnpackable[C, E, T, Seq[T]](fieldNumber, listLens)(fromBase, toBase)
+
+  def forRepeatedUnpackable[C <: ExtendableMessage[C], E, T, Coll](
+      fieldNumber: Int,
+      listLens: Lens[UnknownFieldSet.Field, Seq[E]]
+  )(fromBase: E => T, toBase: T => E)(implicit
+      ca: CollectionAdapter[T, Coll]
+  ): GeneratedExtension[C, Coll] = {
     GeneratedExtension(
       ExtendableMessage
         .unknownFieldsLen(fieldNumber)
         .compose(listLens)
-        .compose(repeatedUnknownFieldLensUnpackable(fromBase, toBase))
+        .compose(repeatedLensUnpackable(fromBase, toBase))
     )
   }
 

@@ -1230,7 +1230,7 @@ class ProtobufGenerator(
             })
           )
         else if (fd.isRepeated && !fd.isPackable) {
-          ("_root_.scalapb.GeneratedExtension.forRepeatedUnknownFieldUnpackable", Seq())
+          ("_root_.scalapb.GeneratedExtension.forRepeatedUnpackable", Seq())
         } else
           (
             if (!fd.isMessage) "_root_.scalapb.GeneratedExtension.forSingularUnknownField"
@@ -1240,7 +1240,7 @@ class ProtobufGenerator(
       }
       val argList = Seq(
         s"{__valueIn => ${fromFieldToCustom("__valueIn", EnclosingType.None)}}",
-        s"{__valueIn => ${fromCustomToField("__valueIn", EnclosingType.None)}}"
+        s"{(__valueIn: ${fd.singleScalaTypeName}) => ${fromCustomToField("__valueIn", EnclosingType.None)}}"
       ) ++ args
       fp.add(
         s"  $factoryMethod(${fd.getNumber}, _root_.scalapb.UnknownFieldSet.Field.$listLens)(${argList
