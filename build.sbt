@@ -67,7 +67,9 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.GeneratedEnum.asRecognized"),
       ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
       ProblemFilters.exclude[Problem]("scalapb.options.*"),
-      ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom")
+      ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom"),
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("scalapb.UnknownFieldSet#Builder.parseField"),
+      ProblemFilters.exclude[IncompatibleResultTypeProblem]("scalapb.UnknownFieldSet#Field#Builder.parseField"),
     )
   )
   .jvmPlatform(
@@ -381,13 +383,14 @@ lazy val e2e = (projectMatrix in file("e2e"))
   )
   .settings(e2eCommonSettings)
   .settings(
-    scalacOptions ++= (if (!isScala3.value)
+    Compile / scalacOptions ++= (if (!isScala3.value)
                          Seq(
                            "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
                            "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;TestDeprecatedFields.scala",
                            "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-                         )
+                         ) ++ (if (scalaVersion.value.startsWith("2.13")) Seq("-Wnonunit-statement", "-Xlint") else Nil)
                        else Nil),
+    Test / scalacOptions ++= (if (scalaVersion.value.startsWith("2.13")) Seq("-Wnonunit-statement:false", "-Xlint:-multiarg-infix") else Nil),
     PB.protocVersion := versions.protobuf,
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
     Compile / PB.targets := Seq(

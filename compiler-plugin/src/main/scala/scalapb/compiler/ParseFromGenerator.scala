@@ -212,7 +212,9 @@ private[compiler] class ParseFromGenerator(
                        |    }""".stripMargin)
             } else p
           }
-          .when(!message.preservesUnknownFields)(_.add("    case tag => _input__.skipField(tag)"))
+          .when(!message.preservesUnknownFields)(
+            _.add("    case tag => _input__.skipField(tag): Unit")
+          )
           .when(message.preservesUnknownFields)(
             _.add(
               """    case tag =>

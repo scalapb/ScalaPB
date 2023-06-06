@@ -68,11 +68,13 @@ object GenTypes {
     def packable = false
     def isMap    = false
   }
+  object MessageReference extends (Int => ProtoType)
 
   case class EnumReference(id: Int) extends ProtoType {
     def packable = true
     def isMap    = false
   }
+  object EnumReference extends (Int => ProtoType)
 
   case class MapType(keyType: ProtoType, valueType: ProtoType) extends ProtoType {
     def packable = false
