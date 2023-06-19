@@ -132,7 +132,8 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__)
+          _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+          ()
       }
     }
     com.google.protobuf.descriptor.MethodOptions(

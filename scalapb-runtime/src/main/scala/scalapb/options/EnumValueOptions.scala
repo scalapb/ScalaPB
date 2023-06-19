@@ -117,7 +117,8 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__)
+          _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+          ()
       }
     }
     scalapb.options.EnumValueOptions(
