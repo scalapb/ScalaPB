@@ -89,7 +89,7 @@ object UnknownFieldSet {
           lengthDelimited = lengthDelimited.result()
         )
 
-      def parseField(tag: Int, input: CodedInputStream): this.type = {
+      def parseField(tag: Int, input: CodedInputStream) = {
         val wireType = WireType.getTagWireType(tag)
 
         wireType match {
@@ -106,7 +106,6 @@ object UnknownFieldSet {
               s"Protocol message tag had invalid wire type: ${wireType}"
             )
         }
-        this
       }
     }
 
@@ -136,10 +135,9 @@ object UnknownFieldSet {
       if (fieldBuilders.isEmpty) UnknownFieldSet.empty
       else new UnknownFieldSet(fieldBuilders.view.mapValues(_.result()).toMap)
 
-    def parseField(tag: Int, input: CodedInputStream): this.type = {
+    def parseField(tag: Int, input: CodedInputStream) = {
       val fieldNumber = WireType.getTagFieldNumber(tag)
       fieldBuilders.getOrElseUpdate(fieldNumber, new Field.Builder()).parseField(tag, input)
-      this
     }
   }
 }

@@ -67,9 +67,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.GeneratedEnum.asRecognized"),
       ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
       ProblemFilters.exclude[Problem]("scalapb.options.*"),
-      ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom"),
-      ProblemFilters.exclude[IncompatibleResultTypeProblem]("scalapb.UnknownFieldSet#Builder.parseField"),
-      ProblemFilters.exclude[IncompatibleResultTypeProblem]("scalapb.UnknownFieldSet#Field#Builder.parseField"),
+      ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom")
     )
   )
   .jvmPlatform(

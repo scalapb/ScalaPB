@@ -213,7 +213,11 @@ private[compiler] class ParseFromGenerator(
             } else p
           }
           .when(!message.preservesUnknownFields)(
-            _.add("    case tag => _input__.skipField(tag): Unit")
+            _.add(
+              """|    case tag =>
+                 |      _input__.skipField(tag): @_root_.scala.annotation.nowarn
+                 |      ()""".stripMargin
+            )
           )
           .when(message.preservesUnknownFields)(
             _.add(
@@ -221,7 +225,8 @@ private[compiler] class ParseFromGenerator(
                 |      if (_unknownFields__ == null) {
                 |        _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
                 |      }
-                |      _unknownFields__.parseField(tag, _input__)""".stripMargin
+                |      _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+                |      ()""".stripMargin
             )
           )
           .add("  }")
