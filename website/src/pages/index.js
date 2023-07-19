@@ -66,6 +66,8 @@ const features = [
 ];
 
 const sponsors = [{
+  name: <>Pentech Ltd</>,
+  profileUrl: 'https://github.com/PentechLtd',
   name: <>MOIA</>,
   profileUrl: 'https://moia.io'
 }];
