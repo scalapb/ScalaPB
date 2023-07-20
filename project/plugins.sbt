@@ -10,7 +10,7 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.4.14")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.2")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.3")
 
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 
