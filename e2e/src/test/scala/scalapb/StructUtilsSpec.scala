@@ -250,6 +250,19 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
     )
   }
 
+  "fromStruct with null enum field" should "pass" in {
+    StructUtils
+      .fromStruct(
+        Struct(
+          Map()
+        )
+      )
+      .right
+      .value must be(
+      TestAllTypes().withDefaultForeignEnum(ForeignEnum.FOREIGN_FOO).withDefaultImportEnum(ImportEnum.IMPORT_FOO).withDefaultNestedEnum(TestAllTypes.NestedEnum.FOO)
+    )
+  }
+
   "fromStruct with repeated field" should "pass" in {
     val someRepeatedIntValue = Seq(Random.nextInt(), Random.nextInt())
     StructUtils
@@ -414,6 +427,13 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
     val types =
       ContainerMessage().withImportMessage(ContainerMessageImportMessage().withC(DeepEnum.DEEP_BAZ))
     StructUtils.fromStruct[ContainerMessage](StructUtils.toStruct(types)).right.value must be(types)
+  }
+
+  "fromStruct with null enum field proto3" should "pass" in {
+    implicit val containerMessageCompanion = ContainerMessage.messageCompanion
+    val types =
+      ContainerMessage().withImportMessage(ContainerMessageImportMessage().withC(DeepEnum.DEEP_BAZ))
+    StructUtils.fromStruct[ContainerMessage](Struct(Map())).right.value must be(types)
   }
 
   // failures
