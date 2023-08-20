@@ -164,7 +164,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     * methods, and PUT verb for idempotent methods instead of the default POST.
     */
   sealed abstract class IdempotencyLevel(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = IdempotencyLevel
+    type EnumType = com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel
     type RecognizedType = com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized
     def isIdempotencyUnknown: _root_.scala.Boolean = false
     def isNoSideEffects: _root_.scala.Boolean = false

@@ -363,7 +363,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     proto3Optional = _root_.scala.None
   )
   sealed abstract class Type(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = Type
+    type EnumType = com.google.protobuf.descriptor.FieldDescriptorProto.Type
     type RecognizedType = com.google.protobuf.descriptor.FieldDescriptorProto.Type.Recognized
     def isTypeDouble: _root_.scala.Boolean = false
     def isTypeFloat: _root_.scala.Boolean = false
@@ -567,7 +567,7 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldDescriptorProto.scalaDescriptor.enums(0)
   }
   sealed abstract class Label(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = Label
+    type EnumType = com.google.protobuf.descriptor.FieldDescriptorProto.Label
     type RecognizedType = com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized
     def isLabelOptional: _root_.scala.Boolean = false
     def isLabelRequired: _root_.scala.Boolean = false

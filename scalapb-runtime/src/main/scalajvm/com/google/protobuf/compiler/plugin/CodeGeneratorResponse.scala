@@ -181,7 +181,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   /** Sync with code_generator.h.
     */
   sealed abstract class Feature(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = Feature
+    type EnumType = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.Feature
     type RecognizedType = com.google.protobuf.compiler.plugin.CodeGeneratorResponse.Feature.Recognized
     def isFeatureNone: _root_.scala.Boolean = false
     def isFeatureProto3Optional: _root_.scala.Boolean = false

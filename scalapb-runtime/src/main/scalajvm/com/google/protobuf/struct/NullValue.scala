@@ -11,7 +11,7 @@ package com.google.protobuf.struct
   *  The JSON representation for `NullValue` is JSON `null`.
   */
 sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = NullValue
+  type EnumType = com.google.protobuf.struct.NullValue
   type RecognizedType = com.google.protobuf.struct.NullValue.Recognized
   def isNullValue: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
