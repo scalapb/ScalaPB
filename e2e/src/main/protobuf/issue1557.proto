@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.issue1557;
+
+message FeatureSet {
+    enum EnumType {
+        DEFAULT = 0;
+        A = 1;
+        B = 2;
+    }
+}

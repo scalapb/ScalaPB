@@ -163,7 +163,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
     addresses = _root_.scala.Seq.empty
   )
   sealed abstract class AddressType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = AddressType
+    type EnumType = scalapb.docs.person.Person.AddressType
     type RecognizedType = scalapb.docs.person.Person.AddressType.Recognized
     def isHome: _root_.scala.Boolean = false
     def isWork: _root_.scala.Boolean = false

@@ -35,7 +35,7 @@ class ProtobufGenerator(
         s"sealed abstract class $name(val value: _root_.scala.Int) extends ${e.baseTraitExtends.mkString(" with ")} {"
       )
       .indent
-      .add(s"type EnumType = $name")
+      .add(s"type EnumType = ${e.scalaType.fullName}")
       .add(s"type RecognizedType = ${e.recognizedEnum.fullName}")
       .print(e.getValues.asScala) { case (p, v) =>
         p.add(s"def ${v.isName}: _root_.scala.Boolean = false")

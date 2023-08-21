@@ -374,7 +374,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   /** Basic field types.
     */
   sealed abstract class Kind(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = Kind
+    type EnumType = com.google.protobuf.`type`.Field.Kind
     type RecognizedType = com.google.protobuf.`type`.Field.Kind.Recognized
     def isTypeUnknown: _root_.scala.Boolean = false
     def isTypeDouble: _root_.scala.Boolean = false
@@ -605,7 +605,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   /** Whether a field is optional, required, or repeated.
     */
   sealed abstract class Cardinality(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = Cardinality
+    type EnumType = com.google.protobuf.`type`.Field.Cardinality
     type RecognizedType = com.google.protobuf.`type`.Field.Cardinality.Recognized
     def isCardinalityUnknown: _root_.scala.Boolean = false
     def isCardinalityOptional: _root_.scala.Boolean = false

@@ -8,7 +8,7 @@ package com.google.protobuf.`type`
 /** The syntax in which a protocol buffer element is defined.
   */
 sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = Syntax
+  type EnumType = com.google.protobuf.`type`.Syntax
   type RecognizedType = com.google.protobuf.`type`.Syntax.Recognized
   def isSyntaxProto2: _root_.scala.Boolean = false
   def isSyntaxProto3: _root_.scala.Boolean = false
