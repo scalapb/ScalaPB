@@ -10,10 +10,14 @@ jobs:
     strategy:
       matrix:
         scala: [2_12, 2_13, 3]
-        script: [mima, e2e, proptest]
+        script: [mima, e2e, test]
         include:
         - scala: 2_12
           script: examples_and_formatting
+        - scala: 2_13
+          script: scala3_compat_test
+        - scala: 3
+          script: scala3_compat_test
 
     steps:
     - uses: actions/checkout@v3

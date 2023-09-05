@@ -99,7 +99,7 @@ object GenTypes {
     )
 
   def genProto3EnumReference(state: State) =
-    Gen.oneOf(state.proto3EnumIds).map(EnumReference)
+    Gen.oneOf(state.proto3EnumIds).map(EnumReference(_))
 
   def generateMapKey: Gen[ProtoType] =
     Gen.oneOf(
@@ -141,14 +141,14 @@ object GenTypes {
     val baseFreq = List((5, generatePrimitive))
     val withMessages =
       if (state._nextMessageId > 0)
-        (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference)) :: baseFreq
+        (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference(_))) :: baseFreq
       else baseFreq
     val withEnums = syntax match {
       case Proto2 =>
         if (enumMustHaveZeroDefined && state.enumsWithZeroDefined.nonEmpty) {
-          (1, Gen.oneOf(state.enumsWithZeroDefined).map(EnumReference)) :: withMessages
+          (1, Gen.oneOf(state.enumsWithZeroDefined).map(EnumReference(_))) :: withMessages
         } else if (!enumMustHaveZeroDefined && state._nextEnumId > 0) {
-          (1, Gen.chooseNum(0, state._nextEnumId - 1).map(EnumReference)) :: withMessages
+          (1, Gen.chooseNum(0, state._nextEnumId - 1).map(EnumReference(_))) :: withMessages
         } else withMessages
       case Proto3 =>
         // Proto3 can not include proto2 enums (which always have zero defined)

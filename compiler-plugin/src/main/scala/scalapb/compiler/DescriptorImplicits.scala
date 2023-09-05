@@ -757,6 +757,8 @@ class DescriptorImplicits private[compiler] (
         .map(Helper.escapeComment)
         .filter(_.nonEmpty)
     }
+
+    def V: ScalaCompatConstants = message.getFile.V
   }
 
   implicit class ExtendedEnumDescriptor(val enumDescriptor: EnumDescriptor) {
@@ -928,6 +930,10 @@ class DescriptorImplicits private[compiler] (
         file.getOptions.getJavaPackage
       else file.getPackage
     }
+
+    def emitScala3Sources: Boolean = scalaOptions.getScala3Sources || params.scala3Sources
+
+    def V: ScalaCompatConstants = new ScalaCompatConstants(emitScala3Sources)
 
     def javaPackageAsSymbol: String =
       javaPackage.split('.').map(_.asSymbol).mkString(".")
@@ -1183,6 +1189,26 @@ object DescriptorImplicits {
       case "google.protobuf.BytesValue"  => Some("_root_.com.google.protobuf.ByteString")
       case _                             => None
     }
+}
+
+// For constants that depends on the Scala 2 or 3 mode.
+private[scalapb] class ScalaCompatConstants(emitScala3Sources: Boolean) {
+  val WildcardType: String =
+    if (emitScala3Sources) "?" else "_"
+
+  val WildcardImport: String = if (emitScala3Sources) "*" else "_"
+
+  val CompSeqType: String =
+    s"Seq[_root_.scalapb.GeneratedMessageCompanion[$WildcardType <: _root_.scalapb.GeneratedMessage]]"
+
+  val PrivateThis: String =
+    if (emitScala3Sources) "private" else "private[this]"
+
+  val WithOperator: String = if (emitScala3Sources) " & " else " with "
+
+  val MessageLens =
+    if (emitScala3Sources) "_root_.scalapb.lenses.MessageLens"
+    else "_root_.scalapb.lenses.ObjectLens"
 }
 
 object Helper {

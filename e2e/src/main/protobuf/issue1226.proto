@@ -35,7 +35,7 @@ enum EnumWithReservedKeywords {
   opaque = 29;
   open = 30;
   override = 31;
-  package = 32;
+  // package = 32;
   private = 33;
   protected = 34;
   return = 35;
