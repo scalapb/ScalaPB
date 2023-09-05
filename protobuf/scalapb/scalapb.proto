@@ -177,6 +177,9 @@ message ScalaPbOptions {
   // If true, getters will be generated.
   optional bool getters = 27 [default=true];
 
+  // Generate sources that are compatible with Scala 3
+  optional bool scala3_sources = 28;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
@@ -274,7 +277,7 @@ message FieldOptions {
   // it falls back to the file option named `map_type` which defaults to
   // `scala.collection.immutable.Map`
   optional string map_type = 7;
-  
+
   // If true, no default value will be generated for this field in the message
   // constructor. If this field is set, it has the highest precedence and overrides the
   // values at the message-level and file-level.

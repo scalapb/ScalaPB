@@ -111,7 +111,6 @@ object Lens extends CompatLensImplicits {
   }
 }
 
-/** Represents a lens that has sub-lenses. */
 class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Container] {
 
   /** Creates a sub-lens */
@@ -128,6 +127,11 @@ class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Contain
   def update(ms: (Lens[Container, Container] => Mutation[Container])*): Mutation[U] =
     u => set(ms.foldLeft[Container](get(u))((p, m) => m(Lens.unit[Container])(p)))(u)
 }
+
+// In Scala 3 source mode, message lenses extend this class to avoid an error of extending
+// non-open class.
+// TODO(thesamet): unify ObjectLens and MessageLens in next major release (#1581)
+abstract class MessageLens[U, Container](self: Lens[U, Container]) extends ObjectLens(self)
 
 trait Updatable[A] extends Any {
   self: A =>

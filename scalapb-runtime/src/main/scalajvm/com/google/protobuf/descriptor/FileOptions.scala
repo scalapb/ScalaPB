@@ -687,7 +687,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptimizeMode(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values = scala.collection.immutable.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
+    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(SPEED, CODE_SIZE, LITE_RUNTIME)
     def fromValue(__value: _root_.scala.Int): OptimizeMode = __value match {
       case 1 => SPEED
       case 2 => CODE_SIZE

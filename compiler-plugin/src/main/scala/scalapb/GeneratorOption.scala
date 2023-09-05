@@ -30,4 +30,8 @@ object GeneratorOption {
   case object RetainSourceCodeInfo extends GeneratorOption {
     override def toString = "retain_source_code_info"
   }
+
+  case object Scala3Sources extends GeneratorOption {
+    override def toString = "scala3_sources"
+  }
 }
