@@ -15,6 +15,35 @@ import protocgen.CodeGenResponse
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
 
+private class Constants(params: GeneratorParams) {
+
+  val WildCardType: String = {
+    if (params.scala3Sources) {
+      "?"
+    } else {
+      "_"
+    }
+  }
+
+  val CompSeqType: String = s"Seq[_root_.scalapb.GeneratedMessageCompanion[$WildCardType <: _root_.scalapb.GeneratedMessage]]"
+
+  val PrivateThis: String = {
+    if (params.scala3Sources) {
+      "private"
+    } else {
+      "private[this]"
+    }
+  }
+
+  val WithOperator: String = {
+    if (params.scala3Sources) {
+      " & "
+    } else {
+      " with "
+    }
+  }
+}
+
 class ProtobufGenerator(
     params: GeneratorParams,
     implicits: DescriptorImplicits
@@ -22,7 +51,9 @@ class ProtobufGenerator(
   import implicits._
   import DescriptorImplicits.AsSymbolExtension
   import ProtobufGenerator._
-
+  
+  private val constants = new Constants(params)
+  
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name = e.scalaType.nameSymbol
     printer
@@ -546,10 +577,10 @@ class ProtobufGenerator(
     if (message.fields.nonEmpty || message.preservesUnknownFields) {
       fp.when(!message.isValueClass) {
         _.add(
-          """@transient
-            |private[this] var __serializedSizeMemoized: _root_.scala.Int = 0""".stripMargin
+          s"""@transient
+             |${constants.PrivateThis} var __serializedSizeMemoized: _root_.scala.Int = 0""".stripMargin
         )
-      }.add("private[this] def __computeSerializedSize(): _root_.scala.Int = {")
+      }.add(s"${constants.PrivateThis} def __computeSerializedSize(): _root_.scala.Int = {")
         .indent
         .add("var __size = 0")
         .print(message.fields)(generateSerializedSizeForField)
@@ -584,7 +615,7 @@ class ProtobufGenerator(
     fp.print(message.fields.filter(_.isPacked)) { case (printer, field) =>
       val methodName = s"${field.scalaName}SerializedSize"
       printer
-        .add(s"private[this] def $methodName = {") // closing brace is in each case
+        .add(s"${constants.PrivateThis} def $methodName = {") // closing brace is in each case
         .call({ fp =>
           Types.fixedSize(field.getType) match {
             case Some(size) =>
@@ -612,14 +643,22 @@ class ProtobufGenerator(
                 .add(s"__${methodName}Field")
                 .outdent
                 .add("}") // closing brace for the method
-                .add(s"@transient private[this] var __${methodName}Field: _root_.scala.Int = 0")
+                .add(s"@transient ${constants.PrivateThis} var __${methodName}Field: _root_.scala.Int = 0")
           }
         })
     }
 
-  private def composeGen(funcs: Seq[String]) =
-    if (funcs.length == 1) funcs(0)
-    else s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
+  private def composeGen(funcs: Seq[String]) = {
+    if (funcs.length == 1) {
+      funcs(0)
+    } else {
+      if (params.scala3Sources) {
+        s"(${funcs(0)})" + funcs.tail.map(func => s".compose($func)").mkString
+      } else {
+        s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
+      }
+    }
+  }
 
   private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
     if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
@@ -1048,14 +1087,16 @@ class ProtobufGenerator(
   def generateMessageCompanionMatcher(methodName: String, messageNumbers: Seq[(Descriptor, Int)])(
       fp: FunctionalPrinter
   ): FunctionalPrinter = {
-    val signature =
-      s"def $methodName(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = "
+    val signature = s"def $methodName(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[${constants.WildCardType}] = "
+
     // Due to https://issues.scala-lang.org/browse/SI-9111 we can't directly return the companion
     // object.
+
+    val outStr = s"var __out: _root_.scalapb.GeneratedMessageCompanion[${constants.WildCardType}] = null"
     if (messageNumbers.nonEmpty)
       fp.add(signature + "{")
         .indent
-        .add("var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null")
+        .add(outStr)
         .add("(__number: @_root_.scala.unchecked) match {")
         .indent
         .print(messageNumbers) { case (fp, (f, number)) =>
@@ -1083,13 +1124,13 @@ class ProtobufGenerator(
       message: Descriptor
   )(fp: FunctionalPrinter): FunctionalPrinter = {
     val signature =
-      s"lazy val nestedMessagesCompanions: ${ProtobufGenerator.CompSeqType} ="
+      s"lazy val nestedMessagesCompanions: ${constants.CompSeqType} ="
     if (message.nestedTypes.isEmpty)
       fp.add(signature + " Seq.empty")
     else
       fp.add(signature)
         .indent
-        .add(ProtobufGenerator.CompSeqType + "(")
+        .add(constants.CompSeqType + "(")
         .indent
         .addWithDelimiter(",")(message.nestedTypes.map(m => m.scalaType.fullNameWithMaybeRoot))
         .outdent
@@ -1099,13 +1140,13 @@ class ProtobufGenerator(
 
   // Finding companion objects for top-level types.
   def generateMessagesCompanions(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val signature = s"lazy val messagesCompanions: ${ProtobufGenerator.CompSeqType} ="
+    val signature = s"lazy val messagesCompanions: ${constants.CompSeqType} ="
     if (file.getMessageTypes.isEmpty)
       fp.add(signature + " Seq.empty")
     else
       fp.add(signature)
         .indent
-        .add(ProtobufGenerator.CompSeqType + "(")
+        .add(constants.CompSeqType + "(")
         .indent
         .addWithDelimiter(",")(file.getMessageTypes.asScala.map(_.scalaType.fullName).toSeq)
         .outdent
@@ -1116,8 +1157,7 @@ class ProtobufGenerator(
   def generateEnumCompanionForField(
       message: Descriptor
   )(fp: FunctionalPrinter): FunctionalPrinter = {
-    val signature =
-      "def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = "
+    val signature = s"def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[${constants.WildCardType}] = "
     if (message.fields.exists(_.isEnum))
       fp.add(signature + "{")
         .indent
@@ -1254,10 +1294,11 @@ class ProtobufGenerator(
   )(printer: FunctionalPrinter): FunctionalPrinter = {
     val className     = message.scalaType.nameSymbol
     val companionType = message.companionBaseClasses.mkString(" with ")
+    val companionTypeDecl = message.companionBaseClasses.mkString(constants.WithOperator)
     printer
       .seq(message.companionAnnotationList)
       .add(s"""object $className extends $companionType {
-              |  implicit def messageCompanion: $companionType = this""".stripMargin)
+              |  implicit def messageCompanion: $companionTypeDecl = this""".stripMargin)
       .indent
       .when(message.javaConversions)(generateToJavaProto(message))
       .when(message.javaConversions)(generateFromJavaProto(message))
@@ -1734,9 +1775,6 @@ object ProtobufGenerator {
 
   val deprecatedAnnotation: String =
     """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
-
-  private val CompSeqType =
-    "Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]]"
 
   private[scalapb] def escapeScalaString(raw: String): String =
     raw
