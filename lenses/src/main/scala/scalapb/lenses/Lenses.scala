@@ -7,22 +7,22 @@ trait Lens[Container, A] extends Serializable {
   def get(c: Container): A
 
   /** Represents an assignment operator.
-    *
-    * Given a value of type A, sets knows how to transform a container such that `a` is assigned to
-    * the field.
-    *
-    * We must have get(set(a)(c)) == a
-    */
+   *
+   * Given a value of type A, sets knows how to transform a container such that `a` is assigned to
+   * the field.
+   *
+   * We must have get(set(a)(c)) == a
+   */
   def set(a: A): Mutation[Container]
 
   /** alias to set */
   def :=(a: A) = set(a)
 
   /** Optional assignment.
-    *
-    * Given a `Some[A]`, assign the `Some`'s value to the field. Given `None`, the container is
-    * unchanged.
-    */
+   *
+   * Given a `Some[A]`, assign the `Some`'s value to the field. Given `None`, the container is
+   * unchanged.
+   */
   def setIfDefined(aOpt: Option[A]): Mutation[Container] =
     c => aOpt.fold(c)(set(_)(c))
 
@@ -30,10 +30,10 @@ trait Lens[Container, A] extends Serializable {
   def modify(f: A => A): Mutation[Container] = c => set(f(get(c)))(c)
 
   /** Composes two lenses, this enables nesting.
-    *
-    * If our field of type A has a sub-field of type B, then given a lens for it (other: Lens[A, B])
-    * we can create a single lens from Container to B.
-    */
+   *
+   * If our field of type A has a sub-field of type B, then given a lens for it (other: Lens[A, B])
+   * we can create a single lens from Container to B.
+   */
   def compose[B](other: Lens[A, B]): Lens[Container, B] = new Lens[Container, B] {
     def get(c: Container) = other.get(self.get(c))
 
@@ -41,8 +41,8 @@ trait Lens[Container, A] extends Serializable {
   }
 
   /** Given two lenses with the same origin, returns a new lens that can mutate both values
-    * represented by both lenses through a tuple.
-    */
+   * represented by both lenses through a tuple.
+   */
   def zip[B](other: Lens[Container, B]): Lens[Container, (A, B)] = new Lens[Container, (A, B)] {
     def get(c: Container): (A, B)           = (self.get(c), other.get(c))
     def set(t: (A, B)): Mutation[Container] = self.set(t._1).andThen(other.set(t._2))
@@ -52,20 +52,20 @@ trait Lens[Container, A] extends Serializable {
 object Lens extends CompatLensImplicits {
   /* Create a Lens from getter and setter. */
   def apply[Container, A](
-      getter: Container => A
-  )(setter: (Container, A) => Container): Lens[Container, A] = new Lens[Container, A] {
+                           getter: Container => A
+                         )(setter: (Container, A) => Container): Lens[Container, A] = new Lens[Container, A] {
     def get(c: Container) = getter(c)
 
     def set(a: A): Mutation[Container] = setter(_, a)
   }
 
   /** This is the unit lens, with respect to the compose operation defined above. That is,
-    * len.compose(unit) == len == unit.compose(len)
-    *
-    * More practically, you can view it as a len that mutates the entire object, instead of just a
-    * field of it: get() gives the original object, and set() returns the assigned value, no matter
-    * what the original value was.
-    */
+   * len.compose(unit) == len == unit.compose(len)
+   *
+   * More practically, you can view it as a len that mutates the entire object, instead of just a
+   * field of it: get() gives the original object, and set() returns the assigned value, no matter
+   * what the original value was.
+   */
   def unit[U]: Lens[U, U] = Lens(identity[U])((_, v) => v)
 
   /** Implicit that adds some syntactic sugar if our lens watches an Option[_]. */
@@ -112,7 +112,7 @@ object Lens extends CompatLensImplicits {
 }
 
 /** Represents a lens that has sub-lenses. */
-open class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Container] {
+class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Container] {
 
   /** Creates a sub-lens */
   def field[A](lens: Lens[Container, A]): Lens[U, A] = self.compose(lens)
