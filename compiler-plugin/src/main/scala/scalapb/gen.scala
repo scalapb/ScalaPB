@@ -33,7 +33,8 @@ object gen {
       grpc: Boolean = true,
       singleLineToProtoString: Boolean = false,
       asciiFormatToString: Boolean = false,
-      lenses: Boolean = true
+      lenses: Boolean = true,
+      retainSourceCodeInfo: Boolean = false
   ): (SandboxedJvmGenerator, Seq[String]) = {
     val optionsBuilder = Set.newBuilder[GeneratorOption]
     if (flatPackage) {
@@ -53,6 +54,9 @@ object gen {
     }
     if (!lenses) {
       optionsBuilder += NoLenses
+    }
+    if (retainSourceCodeInfo) {
+      optionsBuilder += RetainSourceCodeInfo
     }
     apply(optionsBuilder.result())
   }
