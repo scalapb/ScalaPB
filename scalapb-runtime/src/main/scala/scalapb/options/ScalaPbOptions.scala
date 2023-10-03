@@ -874,11 +874,14 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     * @param options
     *   Options to apply to the message. If there are any options defined on the target message
     *   they take precedence over the options.
+    * @param targetRegex
+    *   Regex string that will be matched against the fully-qualified name of the message
     */
   @SerialVersionUID(0L)
   final case class AuxMessageOptions(
       target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       options: _root_.scala.Option[scalapb.options.MessageOptions] = _root_.scala.None,
+      targetRegex: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[AuxMessageOptions] {
       @transient
@@ -892,6 +895,10 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         if (options.isDefined) {
           val __value = options.get
           __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+        };
+        if (targetRegex.isDefined) {
+          val __value = targetRegex.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
         };
         __size += unknownFields.serializedSize
         __size
@@ -916,6 +923,10 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
           _output__.writeUInt32NoTag(__m.serializedSize)
           __m.writeTo(_output__)
         };
+        targetRegex.foreach { __v =>
+          val __m = __v
+          _output__.writeString(3, __m)
+        };
         unknownFields.writeTo(_output__)
       }
       def getTarget: _root_.scala.Predef.String = target.getOrElse("")
@@ -924,12 +935,16 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       def getOptions: scalapb.options.MessageOptions = options.getOrElse(scalapb.options.MessageOptions.defaultInstance)
       def clearOptions: AuxMessageOptions = copy(options = _root_.scala.None)
       def withOptions(__v: scalapb.options.MessageOptions): AuxMessageOptions = copy(options = Option(__v))
+      def getTargetRegex: _root_.scala.Predef.String = targetRegex.getOrElse("")
+      def clearTargetRegex: AuxMessageOptions = copy(targetRegex = _root_.scala.None)
+      def withTargetRegex(__v: _root_.scala.Predef.String): AuxMessageOptions = copy(targetRegex = Option(__v))
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
       def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
         (__fieldNumber: @_root_.scala.unchecked) match {
           case 1 => target.orNull
           case 2 => options.orNull
+          case 3 => targetRegex.orNull
         }
       }
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -937,6 +952,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         (__field.number: @_root_.scala.unchecked) match {
           case 1 => target.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
           case 2 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 3 => targetRegex.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -949,6 +965,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.ScalaPbOptions.AuxMessageOptions = {
       var __target: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __options: _root_.scala.Option[scalapb.options.MessageOptions] = _root_.scala.None
+      var __targetRegex: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
@@ -959,6 +976,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             __target = Option(_input__.readStringRequireUtf8())
           case 18 =>
             __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          case 26 =>
+            __targetRegex = Option(_input__.readStringRequireUtf8())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -969,6 +988,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       scalapb.options.ScalaPbOptions.AuxMessageOptions(
           target = __target,
           options = __options,
+          targetRegex = __targetRegex,
           unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
@@ -977,7 +997,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
         scalapb.options.ScalaPbOptions.AuxMessageOptions(
           target = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-          options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[scalapb.options.MessageOptions]])
+          options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[scalapb.options.MessageOptions]]),
+          targetRegex = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
@@ -994,22 +1015,28 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = scalapb.options.ScalaPbOptions.AuxMessageOptions(
       target = _root_.scala.None,
-      options = _root_.scala.None
+      options = _root_.scala.None,
+      targetRegex = _root_.scala.None
     )
     implicit class AuxMessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxMessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxMessageOptions](_l) {
       def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))
       def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
       def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+      def targetRegex: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTargetRegex)((c_, f_) => c_.copy(targetRegex = Option(f_)))
+      def optionalTargetRegex: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.targetRegex)((c_, f_) => c_.copy(targetRegex = f_))
     }
     final val TARGET_FIELD_NUMBER = 1
     final val OPTIONS_FIELD_NUMBER = 2
+    final val TARGET_REGEX_FIELD_NUMBER = 3
     def of(
       target: _root_.scala.Option[_root_.scala.Predef.String],
-      options: _root_.scala.Option[scalapb.options.MessageOptions]
+      options: _root_.scala.Option[scalapb.options.MessageOptions],
+      targetRegex: _root_.scala.Option[_root_.scala.Predef.String]
     ): _root_.scalapb.options.ScalaPbOptions.AuxMessageOptions = _root_.scalapb.options.ScalaPbOptions.AuxMessageOptions(
       target,
-      options
+      options,
+      targetRegex
     )
     // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.ScalaPbOptions.AuxMessageOptions])
   }

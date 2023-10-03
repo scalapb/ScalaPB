@@ -115,6 +115,9 @@ message ScalaPbOptions {
     // Options to apply to the message. If there are any options defined on the target message
     // they take precedence over the options.
     optional MessageOptions options = 2;
+
+    // Regex string that will be matched against the fully-qualified name of the message
+    optional string target_regex = 3;
   }
 
   // AuxFieldOptions enables you to set field-level options through package-scoped options.
@@ -227,6 +230,9 @@ message MessageOptions {
 
   // Additional classes and traits to mix in to generated sealed oneof base trait's companion object.
   repeated string sealed_oneof_companion_extends = 10;
+
+  // Include the following types in a `derives` clause for the resulting trait, enum or case class.
+  repeated string derives = 11;
 
   extensions 1000 to max;
 }

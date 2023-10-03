@@ -43,7 +43,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
         val sealedOneofUniversalMark = if (message.isUniversalTrait) "Any with " else ""
 
         fp.add(
-          s"sealed trait $sealedOneofName $bases{"
+          s"sealed trait $sealedOneofName $bases${message.derivesClause} {"
         ).addIndented(
           s"type MessageType = $baseType",
           s"final def isEmpty = this.isInstanceOf[${sealedOneofType}.Empty.type]",
@@ -56,7 +56,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           .indented(
             _.add(s"case object Empty extends $sealedOneofType", "")
               .add(
-                s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofUniversalMark$sealedOneofType"
+                s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofUniversalMark$sealedOneofType${message.derivesClause}"
               )
               .add(
                 s"def defaultInstance: ${sealedOneofType} = Empty",
@@ -88,7 +88,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           .add("}")
       } else {
         fp.add(
-          s"sealed trait $sealedOneofName $bases{"
+          s"sealed trait $sealedOneofName $bases${message.derivesClause}{"
         ).addIndented(
           s"type MessageType = $baseType",
           s"final def asMessage: $baseType = ${message.sealedOneofTypeMapper.fullName}.toBase(Some(this))"

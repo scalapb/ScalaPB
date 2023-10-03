@@ -532,7 +532,12 @@ class DescriptorImplicits private[compiler] (
       val localOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
 
       message.getFile.scalaOptions.getAuxMessageOptionsList.asScala
-        .find(_.getTarget == message.getFullName())
+        .find(aux =>
+          aux.getTarget == message.getFullName() ||
+          Option(aux.getTargetRegex)
+            .filter(_.nonEmpty)
+            .exists(message.getFullName().matches(_))
+        )
         .fold(localOptions)(aux =>
           MessageOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
         )
@@ -560,6 +565,15 @@ class DescriptorImplicits private[compiler] (
     }
 
     def extendsOption = messageOptions.getExtendsList.asScala.filterNot(ValueClassNames).toSeq
+
+    def derivesOption = messageOptions.getDerivesList.asScala.toSeq
+
+    def derivesClause = {
+      derivesOption match {
+        case Seq() => ""
+        case ts => s" derives ${ts.mkString(", ")}"
+      }
+    }
 
     def companionExtendsOption = messageOptions.getCompanionExtendsList.asScala.toSeq
 

@@ -23,7 +23,7 @@ class ProtobufGenerator(
   import DescriptorImplicits.AsSymbolExtension
   import ProtobufGenerator._
 
-  def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
+  def printEnum(derivesClause: Option[String])(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name = e.scalaType.nameSymbol
     printer
       .when(e.getOptions.getDeprecated) {
@@ -53,7 +53,7 @@ class ProtobufGenerator(
       .add(s"object $name extends ${e.companionExtends.mkString(" with ")} {")
       .indent
       .seq(e.recognizedAnnotationList)
-      .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
+      .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name${derivesClause.getOrElse("")}")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .newline
       .print(e.getValues.asScala) { case (p, v) =>
@@ -99,9 +99,9 @@ class ProtobufGenerator(
       .add("}")
   }
 
-  def printOneof(printer: FunctionalPrinter, e: OneofDescriptor): FunctionalPrinter = {
+  def printOneof(derivesClause: String)(printer: FunctionalPrinter, e: OneofDescriptor): FunctionalPrinter = {
     printer
-      .add(s"sealed trait ${e.scalaType.nameSymbol} extends ${e.baseClasses.mkString(" with ")} {")
+      .add(s"sealed trait ${e.scalaType.nameSymbol} extends ${e.baseClasses.mkString(" with ")}${derivesClause} {")
       .indent
       .add(s"def isEmpty: _root_.scala.Boolean = false")
       .add(s"def isDefined: _root_.scala.Boolean = true")
@@ -1289,8 +1289,8 @@ class ProtobufGenerator(
       .call(generateNestedMessagesCompanions(message))
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
-      .print(message.getEnumTypes.asScala)(printEnum)
-      .print(message.getRealOneofs.asScala)(printOneof)
+      .print(message.getEnumTypes.asScala)(printEnum(Some(message.derivesClause)))
+      .print(message.getRealOneofs.asScala)(printOneof(message.derivesClause))
       .print(message.nestedTypes)(printMessage)
       .print(message.getExtensions.asScala)(printExtension)
       .when(message.generateLenses)(generateMessageLens(message))
@@ -1353,7 +1353,7 @@ class ProtobufGenerator(
       .indent
       .indent
       .call(printConstructorFieldList(message))
-      .add(s") extends ${message.baseClasses.mkString(" with ")} {")
+      .add(s") extends ${message.baseClasses.mkString(" with ")}${message.derivesClause} {")
       .call(generateSerializedSizeForPackedFields(message))
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
@@ -1648,7 +1648,7 @@ class ProtobufGenerator(
         file,
         file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields),
         includePreamble = true
-      ).print(file.getEnumTypes.asScala)(printEnum)
+      ).print(file.getEnumTypes.asScala)(printEnum(None))
         .print(file.getMessageTypes.asScala)(printMessage)
         .call(generateFileObject(file))
         .result()
@@ -1670,7 +1670,7 @@ class ProtobufGenerator(
       b.setName(file.scalaDirectory + "/" + enumDesc.getName + ".scala")
       b.setContent(
         scalaFileHeader(file, false, false)
-          .call(printEnum(_, enumDesc))
+          .call(printEnum(None)(_, enumDesc))
           .result()
       )
       b.build
