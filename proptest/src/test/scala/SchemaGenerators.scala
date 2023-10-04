@@ -125,6 +125,8 @@ object SchemaGenerators {
   /** Generates an alphanumerical character */
   def snakeIdChar = Gen.frequency((1, Gen.numChar), (1, Gen.const('_')), (9, Gen.alphaChar))
 
+  def isScala3Sources = sys.props.get("scala3_sources").isDefined
+
   // String Generators
 
   /** Generates a string that starts with a lower-case alpha character, and only contains
@@ -172,6 +174,7 @@ object SchemaGenerators {
       println(file.getAbsolutePath)
       file.getAbsolutePath
     }
+    val scala3SourcesParam = if (isScala3Sources) ",scala3_sources" else ""
     val args = Seq(
       "--experimental_allow_proto3_optional",
       "--proto_path",
@@ -179,7 +182,7 @@ object SchemaGenerators {
       "--java_out",
       tmpDir.toString,
       "--scala_out",
-      "grpc,java_conversions:" + tmpDir.toString
+      s"grpc,java_conversions,$scala3SourcesParam:" + tmpDir.toString
     ) ++ files
     if (runProtoc(args: _*) != 0) {
       throw new RuntimeException("Protoc failed")
@@ -242,7 +245,12 @@ object SchemaGenerators {
     val scalaFiles = getFileTree(rootDir)
       .filter(f => f.isFile && f.getName.endsWith(".scala"))
 
-    scalapb.proptest.CompilerInterface.compile(scalaFiles.toVector, classPath, rootDir)
+    scalapb.proptest.CompilerInterface.compile(
+      scalaFiles.toVector,
+      classPath,
+      rootDir,
+      isScala3Sources
+    )
 
     println("[DONE]")
   }

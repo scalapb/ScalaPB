@@ -2,7 +2,7 @@ package scalapb.descriptors
 
 import com.google.protobuf.ByteString
 
-sealed trait PValue extends Any {
+sealed trait PValue extends Any with PValueCompat {
   def as[A](implicit reads: Reads[A]): A = reads.read(this)
 }
 

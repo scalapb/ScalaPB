@@ -209,7 +209,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Feature(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values = scala.collection.immutable.Seq(FEATURE_NONE, FEATURE_PROTO3_OPTIONAL)
+    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(FEATURE_NONE, FEATURE_PROTO3_OPTIONAL)
     def fromValue(__value: _root_.scala.Int): Feature = __value match {
       case 0 => FEATURE_NONE
       case 1 => FEATURE_PROTO3_OPTIONAL

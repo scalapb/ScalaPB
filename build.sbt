@@ -150,7 +150,12 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     ),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
-      ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.*")
+      ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.*"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.*"),
+      ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.gen.*"),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "scalapb.compiler.ProtobufGenerator.generateMessageCompanionMatcher"
+      )
     ),
     PB.protocVersion := protobufCompilerVersion,
     Compile / PB.targets := Seq(
@@ -218,10 +223,24 @@ lazy val protocGenScalaNativeImage =
       Compile / mainClass := Some("scalapb.ScalaPbCodeGenerator")
     )
 
+lazy val ScalaSources  = GeneratorAxis("", "scalagen")
+lazy val Scala3Sources = GeneratorAxis("Scala3Sources", "scala3sources")
+
 lazy val proptest = (projectMatrix in file("proptest"))
-  .defaultAxes()
   .dependsOn(compilerPlugin % "compile->compile;test->test", runtime, grpcRuntime)
-  .jvmPlatform(scalaVersions = Seq(Scala212, Scala213, Scala3))
+  .defaultAxes()
+  .customRow(
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
+    axisValues = Seq(ScalaSources, VirtualAxis.jvm),
+    settings = Seq()
+  )
+  .customRow(
+    scalaVersions = Seq(Scala213, Scala3),
+    axisValues = Seq(Scala3Sources, VirtualAxis.jvm),
+    settings = Seq(
+      Test / javaOptions += "-Dscala3_sources"
+    )
+  )
   .settings(commonSettings)
   .settings(
     publishArtifact := false,
@@ -370,13 +389,41 @@ lazy val e2e = (projectMatrix in file("e2e"))
                                                                                        )
                                                                                          "scalajvm-3"
                                                                                        else
-                                                                                         "scalajvm-2")
+                                                                                         "scalajvm-2"),
+      Compile / PB.targets := Seq(
+        genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
+      )
+    )
+  )
+  .customRow(
+    scalaVersions = Seq(Scala213, Scala3),
+    axisValues = Seq(Scala3Sources, VirtualAxis.jvm),
+    settings = Seq(
+      Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (
+                                                                                         isScala3.value
+                                                                                       )
+                                                                                         "scalajvm-3"
+                                                                                       else
+                                                                                         "scalajvm-2"),
+      scalacOptions ++=
+        (if (isScala3.value) Seq("-source", "future") else Seq("-Xsource:3")),
+      Test / scalacOptions --=
+        (if (isScala3.value) Seq("-source", "future") else Seq("-Xsource:3")),
+      Compile / PB.targets := Seq(
+        (
+          genModule("scalapb.ScalaPbCodeGenerator$"),
+          Seq("scala3_sources")
+        ) -> (Compile / sourceManaged).value
+      )
     )
   )
   .jsPlatform(
     Seq(Scala212, Scala213, Scala3),
     settings = Seq(
-      Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf"
+      Compile / PB.includePaths += (ThisBuild / baseDirectory).value / "protobuf",
+      Compile / PB.targets := Seq(
+        genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
+      )
     )
   )
   .settings(e2eCommonSettings)
@@ -389,10 +436,10 @@ lazy val e2e = (projectMatrix in file("e2e"))
                          )
                        else Nil),
     PB.protocVersion := versions.protobuf,
-    Compile / PB.protocOptions += "--experimental_allow_proto3_optional",
-    Compile / PB.targets := Seq(
-      genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
-    )
+    Compile / PB.protoSources ++= (if (isScala3.value)
+                                     Seq(sourceDirectory.value / "main" / "protobuf-scala3")
+                                   else Nil),
+    Compile / PB.protocOptions += "--experimental_allow_proto3_optional"
   )
 
 lazy val conformance = (projectMatrix in file("conformance"))

@@ -56,6 +56,7 @@ option (scalapb.options) = {
   enum_value_naming: CAMEL_CASE
   enum_strip_prefix: false
   bytes_type: "scodec.bits.ByteVector"
+  scala3_sources: false
 };
 ```
 
@@ -130,6 +131,8 @@ enums to a single Scala file.
   can convert back and forth to the type of your choice. That implicit will be
   found if it is defined under `YourType` companion object, or on a package
   object that matches the generated code (or any of its parent packages).
+
+- By default, ScalaPB generates Scala sources that are compatible with both Scala 2 and Scala 3. To generate sources that can be compiled error-free with `-source feature` on Scala 3 or with `-Xsource:3` on Scala 2.13, set `scala3_sources` to `true` or pass the `scala3_sources` generator parameter.
 
 ## Package-scoped options
 

@@ -39,7 +39,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     p.call(generateScalaDoc(service))
       .add(s"trait ${service.name} extends _root_.scalapb.grpc.AbstractService {")
       .indent
-      .add(s"override def serviceCompanion = ${service.name}")
+      .add(
+        s"override def serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = ${service.name}"
+      )
       .print(service.methods) { case (p, method) =>
         p.call(generateScalaDoc(method)).add(serviceMethodSignature(method, overrideSig = false))
       }
@@ -69,7 +71,9 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
     p.call(generateScalaDoc(service))
       .add(s"trait ${service.blockingClient} {")
       .indent
-      .add(s"def serviceCompanion = ${service.name}")
+      .add(
+        s"def serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = ${service.name}"
+      )
       .print(service.methods.filter(_.canBeBlocking)) { case (p, method) =>
         p.call(generateScalaDoc(method)).add(blockingMethodSignature(method, overrideSig = false))
       }
