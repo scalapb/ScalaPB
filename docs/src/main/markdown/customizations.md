@@ -520,7 +520,7 @@ package mydomain
 case class Seconds(v: Int) extends AnyVal
 
 object Seconds {
-  implicit val typeMapper = TypeMapper(Seconds.apply)(_.v)
+  implicit val typeMapper: TypeMapper[Int, Seconds] = TypeMapper(Seconds.apply)(_.v)
 }
 ```
 
@@ -548,7 +548,7 @@ goes into the `a.b.c` package, you can define the type mapper like this:
 package a.b
 
 package object c {
-  implicit val segmentType =
+  implicit val segmentType: TypeMapper[SegmentType, String] =
     TypeMapper[SegmentType, String](_.name)(SegmentType.fromName(_).get)
 }
 ```
@@ -584,7 +584,7 @@ import mytypes.duration.Duration
 case class MyDurationClass(seconds: Int)
 
 object MyDurationClass {
-    implicit val tm = TypeMapper[Duration, MyDurationClass] {
+    implicit val tm: TypeMapper[Duration, MyDurationClass] = TypeMapper[Duration, MyDurationClass] {
         d: Duration => MyDurationClass(d.seconds) } {
         m: MyDurationClass => Duration(m.seconds)
     }
