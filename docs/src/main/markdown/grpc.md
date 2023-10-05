@@ -15,6 +15,7 @@ There are additional gRPC libraries built on top of ScalaPB that provide integra
   servers and clients using ZIO.
 * [fs2-grpc](https://github.com/typelevel/fs2-grpc) provides gGRPC support for FS2 and Cats Effect.
 * [Akka gRPC](https://doc.akka.io/docs/akka-grpc/current/index.html) provides support for building streaming gRPC servers and clients on top of Akka Streams and Akka HTTP.
+* [Pekko gRPC](https://pekko.apache.org/docs/pekko-grpc/current/) provides support for building streaming gRPC servers and clients on top of Pekko Streams and Pekko HTTP.
 * [http4s-grpc](https://github.com/davenverse/http4s-grpc) enables you to build gRPC clients and servers with Cats Effect and FS2. It is implemented on top of http4s Ember and runs on JVM, Node.js, and Scala Native.
 
 ## Project Setup

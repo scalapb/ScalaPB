@@ -16,7 +16,7 @@ A protoc plugin is a program that gets invoked by protoc (the protobuf compiler)
 
 ## When to write a protoc plugin?
 
-Generally, write a protoc plugin whenever you want to generate code that corresponds to the structure of protobufs. For example, ScalaPB’s code protoc plugin generates case classes for each protobuf message. The protoc plugins shipped with [akka-grpc](https://doc.akka.io/docs/akka-grpc/current/), [fs2-grpc](https://github.com/typelevel/fs2-grpc) and [zio-grpc](https://scalapb.github.io/zio-grpc/) generate Scala traits with methods that correspond to protobuf service methods.
+Generally, write a protoc plugin whenever you want to generate code that corresponds to the structure of protobufs. For example, ScalaPB’s code protoc plugin generates case classes for each protobuf message. The protoc plugins shipped with [akka-grpc](https://doc.akka.io/docs/akka-grpc/current/), [pekko-grpc](https://pekko.apache.org/docs/pekko-grpc/current/), [fs2-grpc](https://github.com/typelevel/fs2-grpc) and [zio-grpc](https://scalapb.github.io/zio-grpc/) generate Scala traits with methods that correspond to protobuf service methods.
 
 Plugins can also be used to generate code that validates messages (see  [scalapb-validate](https://github.com/scalapb/scalapb-validate)), or convert protobufs to a different format.
 
