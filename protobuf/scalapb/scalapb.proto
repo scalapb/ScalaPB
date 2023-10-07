@@ -228,6 +228,12 @@ message MessageOptions {
   // Additional classes and traits to mix in to generated sealed oneof base trait's companion object.
   repeated string sealed_oneof_companion_extends = 10;
 
+  // Adds a derives clause to the message case class
+  repeated string derives = 11;
+
+  // Additional classes and traits to add to the derives clause of a sealed oneof.
+  repeated string sealed_oneof_derives = 12;
+
   extensions 1000 to max;
 }
 

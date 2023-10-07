@@ -689,6 +689,10 @@ class DescriptorImplicits private[compiler] (
       case SealedOneofStyle.Optional => messageOptions.getSealedOneofExtendsList.asScala.toSeq
     }
 
+    def derives: Seq[String] = messageOptions.getDerivesList.asScala
+
+    def sealedOneofDerives: Seq[String] = messageOptions.getSealedOneofDerivesList.asScala
+
     def nestedTypes: Seq[Descriptor] = message.getNestedTypes.asScala.toSeq
 
     def isMapEntry: Boolean = message.getOptions.getMapEntry

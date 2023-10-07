@@ -1344,6 +1344,8 @@ class ProtobufGenerator(
 
   def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
     val fullName = message.scalaType.fullNameWithMaybeRoot(message)
+    val derives =
+      if (message.derives.nonEmpty) message.derives.mkString(" derives ", ", ", "") else ""
     printer
       .call(new SealedOneofsGenerator(message, implicits).generateSealedOneofTrait)
       .call(generateScalaDoc(message))
@@ -1353,7 +1355,7 @@ class ProtobufGenerator(
       .indent
       .indent
       .call(printConstructorFieldList(message))
-      .add(s") extends ${message.baseClasses.mkString(" with ")} {")
+      .add(s") extends ${message.baseClasses.mkString(" with ")}${derives} {")
       .call(generateSerializedSizeForPackedFields(message))
       .call(generateSerializedSize(message))
       .call(generateWriteTo(message))
