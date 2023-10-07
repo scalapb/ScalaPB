@@ -23,7 +23,11 @@ class ProtobufGenerator(
   import DescriptorImplicits.AsSymbolExtension
   import ProtobufGenerator._
 
-  def printEnum(derivesClause: Option[String])(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
+  def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
+    printEnum(printer, e, None)
+  }
+
+  def printEnum(printer: FunctionalPrinter, e: EnumDescriptor, derivesClause: Option[String]): FunctionalPrinter = {
     val name = e.scalaType.nameSymbol
     printer
       .when(e.getOptions.getDeprecated) {
@@ -99,7 +103,11 @@ class ProtobufGenerator(
       .add("}")
   }
 
-  def printOneof(derivesClause: String)(printer: FunctionalPrinter, e: OneofDescriptor): FunctionalPrinter = {
+  def printOneof(printer: FunctionalPrinter, e: OneofDescriptor): FunctionalPrinter = {
+    printOneof(printer, e, "")
+  }
+
+  def printOneof(printer: FunctionalPrinter, e: OneofDescriptor, derivesClause: String): FunctionalPrinter = {
     printer
       .add(s"sealed trait ${e.scalaType.nameSymbol} extends ${e.baseClasses.mkString(" with ")}${derivesClause} {")
       .indent
@@ -1289,8 +1297,8 @@ class ProtobufGenerator(
       .call(generateNestedMessagesCompanions(message))
       .call(generateEnumCompanionForField(message))
       .call(generateDefaultInstance(message))
-      .print(message.getEnumTypes.asScala)(printEnum(Some(message.derivesClause)))
-      .print(message.getRealOneofs.asScala)(printOneof(message.derivesClause))
+      .print(message.getEnumTypes.asScala)(printEnum(_, _, Some(message.derivesClause)))
+      .print(message.getRealOneofs.asScala)(printOneof(_, _, message.derivesClause))
       .print(message.nestedTypes)(printMessage)
       .print(message.getExtensions.asScala)(printExtension)
       .when(message.generateLenses)(generateMessageLens(message))
@@ -1648,7 +1656,7 @@ class ProtobufGenerator(
         file,
         file.javaConversions && file.getMessageTypes.asScala.exists(messageContainsRepeatedFields),
         includePreamble = true
-      ).print(file.getEnumTypes.asScala)(printEnum(None))
+      ).print(file.getEnumTypes.asScala)(printEnum(_, _, None))
         .print(file.getMessageTypes.asScala)(printMessage)
         .call(generateFileObject(file))
         .result()
@@ -1670,7 +1678,7 @@ class ProtobufGenerator(
       b.setName(file.scalaDirectory + "/" + enumDesc.getName + ".scala")
       b.setContent(
         scalaFileHeader(file, false, false)
-          .call(printEnum(None)(_, enumDesc))
+          .call(printEnum(_, enumDesc, None))
           .result()
       )
       b.build
