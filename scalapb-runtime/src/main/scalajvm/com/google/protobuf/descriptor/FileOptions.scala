@@ -88,6 +88,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   See the documentation for the "Options" section above.
   */
 @SerialVersionUID(0L)
+@scala.annotation.nowarn("cat=deprecation")
 final case class FileOptions(
     javaPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     javaOuterClassname: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
@@ -425,6 +426,7 @@ final case class FileOptions(
 
 object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileOptions, com.google.protobuf.DescriptorProtos.FileOptions] {
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FileOptions] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FileOptions, com.google.protobuf.DescriptorProtos.FileOptions] = this
+  @scala.annotation.nowarn("cat=deprecation")
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FileOptions): com.google.protobuf.DescriptorProtos.FileOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FileOptions.newBuilder
     scalaPbSource.javaPackage.foreach(javaPbOut.setJavaPackage)
@@ -450,6 +452,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
     javaPbOut.build
   }
+  @scala.annotation.nowarn("cat=deprecation")
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FileOptions): com.google.protobuf.descriptor.FileOptions = com.google.protobuf.descriptor.FileOptions(
     javaPackage = if (javaPbSource.hasJavaPackage) Some(javaPbSource.getJavaPackage) else _root_.scala.None,
     javaOuterClassname = if (javaPbSource.hasJavaOuterClassname) Some(javaPbSource.getJavaOuterClassname) else _root_.scala.None,
@@ -709,8 +712,8 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def optionalJavaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.javaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = f_))
     def javaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = _root_.scala.Option(f_)))
     def optionalJavaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = f_))
-    def javaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = _root_.scala.Option(f_)))
-    def optionalJavaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
+    @scala.deprecated(message="Marked as deprecated in proto file", "") def javaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = _root_.scala.Option(f_)))
+    @scala.deprecated(message="Marked as deprecated in proto file", "") def optionalJavaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
     def javaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = _root_.scala.Option(f_)))
     def optionalJavaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = f_))
     def optimizeFor: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = _root_.scala.Option(f_)))

@@ -60,7 +60,6 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
     scalacOptions ++= (if (!isScala3.value)
                          Seq(
-                           "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
                            "-P:silencer:lineContentFilters=import scala.collection.compat._"
                          )
                        else Nil),
@@ -431,8 +430,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
   .settings(
     scalacOptions ++= (if (!isScala3.value)
                          Seq(
-                           "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
-                           "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;TestDeprecatedFields.scala",
+                           "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala",
                            "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
                          )
                        else Nil),
