@@ -27,6 +27,10 @@ object GeneratorOption {
     override def toString = "no_lenses"
   }
 
+  case object NoGetters extends GeneratorOption {
+    override def toString = "no_getters"
+  }
+
   case object RetainSourceCodeInfo extends GeneratorOption {
     override def toString = "retain_source_code_info"
   }

@@ -8,7 +8,8 @@ case class GeneratorParams(
     asciiFormatToString: Boolean = false,
     lenses: Boolean = true,
     retainSourceCodeInfo: Boolean = false,
-    scala3Sources: Boolean = false
+    scala3Sources: Boolean = false,
+    getters: Boolean = true
 )
 
 object GeneratorParams {
@@ -47,7 +48,8 @@ object GeneratorParams {
               Right((params.copy(singleLineToProtoString = true), unrecognized))
             case "ascii_format_to_string" =>
               Right((params.copy(asciiFormatToString = true), unrecognized))
-            case "no_lenses" => Right((params.copy(lenses = false), unrecognized))
+            case "no_lenses"  => Right((params.copy(lenses = false), unrecognized))
+            case "no_getters" => Right((params.copy(getters = false), unrecognized))
             case "retain_source_code_info" =>
               Right((params.copy(retainSourceCodeInfo = true), unrecognized))
             case "scala3_sources" =>

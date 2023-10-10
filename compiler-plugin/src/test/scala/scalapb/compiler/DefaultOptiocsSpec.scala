@@ -20,6 +20,7 @@ class DefaultOptionsSpec extends AnyFlatSpec with Matchers {
   "grpc" should "be explicitly passed when using GeneratorOptions" in {
     scalapb.gen(Grpc, NoLenses)._2 must contain theSameElementsAs (Seq("grpc", "no_lenses"))
     scalapb.gen(NoLenses)._2 must contain theSameElementsAs (Seq("no_lenses"))
+    scalapb.gen(NoGetters)._2 must contain theSameElementsAs (Seq("no_getters"))
     scalapb.gen(FlatPackage)._2 must contain theSameElementsAs (Seq("flat_package"))
   }
 }

@@ -76,7 +76,8 @@ scalapb.gen(
   singleLineToProtoString: Boolean = false,
   asciiFormatToString: Boolean = false,
   lenses: Boolean = true,
-  retainSourceCodeInfo: Boolean = false
+  retainSourceCodeInfo: Boolean = false,
+  getters: Boolean = true
 )
 ```
 
@@ -88,5 +89,6 @@ scalapb.gen(
 |`singleLineToProtoString` | `single_line_to_proto_string` | By default, ScalaPB generates a `toProtoString()` method that renders the message as a multi-line format (using `TextFormat.printToUnicodeString`). If set, ScalaPB generates `toString()` methods that use the single line format. |
 |`asciiFormatToString` | `ascii_format_to_string` | Setting this to true, overrides `toString` to return a standard ASCII representation of the message by calling `toProtoString`. |
 |`lenses` | `no_lenses` | By default, ScalaPB generates lenses for each message for easy updating. If you are not using this feature and would like to reduce code size or compilation time, you can set this to `false` and lenses will not be generated. |
+|`getters` | `no_getters` | By default, ScalaPB generates getters for each message. If you are not using this feature, you can set this to `false` and getters will not be generated. |
 | `retainSourceCodeInfo` | `retain_source_code_info` | Retain source code information (locations, comments) provided by protoc in the descriptors. Use the `location` accessor to get that information from a descriptor.|
 | `scala3Sources` | `scala3_sources` | If set, generates sources that are error-free under `-source future` with Scala 3, or `Xsource:3` with Scala 2.13. |

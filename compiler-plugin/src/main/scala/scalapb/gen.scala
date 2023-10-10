@@ -34,7 +34,8 @@ object gen {
       singleLineToProtoString: Boolean = false,
       asciiFormatToString: Boolean = false,
       lenses: Boolean = true,
-      scala3Sources: Boolean = false
+      scala3Sources: Boolean = false,
+      getters: Boolean = true
   ): (SandboxedJvmGenerator, Seq[String]) = {
     val optionsBuilder = Set.newBuilder[GeneratorOption]
     if (flatPackage) {
@@ -54,6 +55,9 @@ object gen {
     }
     if (!lenses) {
       optionsBuilder += NoLenses
+    }
+    if (!getters) {
+      optionsBuilder += NoGetters
     }
     if (scala3Sources) {
       optionsBuilder += Scala3Sources
