@@ -870,7 +870,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     * defines the message.
     *
     * @param target
-    *   The fully-qualified name of the message in the proto name space.
+    *   The fully-qualified name of the message in the proto name space. Set to `*` to apply to all
+    *   messages in scope.
     * @param options
     *   Options to apply to the message. If there are any options defined on the target message
     *   they take precedence over the options.
@@ -1019,7 +1020,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     * defines the field.
     *
     * @param target
-    *   The fully-qualified name of the field in the proto name space.
+    *   The fully-qualified name of the field in the proto name space. Set to `*` to apply to all
+    *   fields in scope.
     * @param options
     *   Options to apply to the field. If there are any options defined on the target message
     *   they take precedence over the options.
@@ -1168,7 +1170,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     * defines the enum.
     *
     * @param target
-    *   The fully-qualified name of the enum in the proto name space.
+    *   The fully-qualified name of the enum in the proto name space. Set to `*` to apply to
+    *   all enums in scope.
     * @param options
     *   Options to apply to the enum. If there are any options defined on the target enum
     *   they take precedence over the options.
@@ -1317,7 +1320,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     * file that defines the enum.
     *
     * @param target
-    *   The fully-qualified name of the enum value in the proto name space.
+    *   The fully-qualified name of the enum value in the proto name space. Set to `*` to apply
+    *   to all enum values in scope.
     * @param options
     *   Options to apply to the enum value. If there are any options defined on
     *   the target enum value they take precedence over the options.
