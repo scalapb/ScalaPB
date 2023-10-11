@@ -5,8 +5,10 @@
   CollectionAdapter for (#1509)
 - Introduced new generator parameter `scala3_sources` (also available via
   scalapb.proto) to generate sources that are compatible with Scala 3 (#1576)
-- aux_*_options now accept "*" in the target field to match all entities in
+- `aux_*_options` now accept `*` in the target field to match all entities in
   scope.
+- Add `derives` and `sealed_oneof_derives` to the message options that adds a
+  derived clause to generated messages and sealed oneofs.
 
 ## [0.11.13]
 - Added input and output message type for method descriptor (#1503)
