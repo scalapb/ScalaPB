@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package scalapb.e2e.scoped;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+    aux_message_options: [
+        {
+            target: "scalapb.e2e.scoped.Wild2",
+            options: {
+                extends: "scalapb.e2e.scoped.SomeTrait"
+            }
+        },
+        {
+            target: "*"
+            options: {
+                extends: "scalapb.e2e.scoped.WildcardTrait"
+            }
+        }
+    ]
+};
+
+message Wild1 {}
+
+message Wild2 {}

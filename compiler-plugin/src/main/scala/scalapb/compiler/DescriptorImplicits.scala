@@ -330,7 +330,7 @@ class DescriptorImplicits private[compiler] (
 
       (fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
         .collect {
-          case opt if opt.getTarget == fd.getFullName() => opt.getOptions
+          case opt if Helper.targetMatches(opt.getTarget(), fd.getFullName()) => opt.getOptions
         } :+ localOptions).reduce[FieldOptions]((left, right) =>
         left.toBuilder.mergeFrom(right).build()
       )
@@ -532,9 +532,9 @@ class DescriptorImplicits private[compiler] (
       val localOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
 
       message.getFile.scalaOptions.getAuxMessageOptionsList.asScala
-        .find(_.getTarget == message.getFullName())
-        .fold(localOptions)(aux =>
-          MessageOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        .filter(o => Helper.targetMatches(o.getTarget, message.getFullName()))
+        .foldLeft(localOptions)((local, aux) =>
+          MessageOptions.newBuilder(aux.getOptions).mergeFrom(local).build
         )
     }
 
@@ -772,9 +772,9 @@ class DescriptorImplicits private[compiler] (
       val localOptions = enumDescriptor.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
 
       enumDescriptor.getFile.scalaOptions.getAuxEnumOptionsList.asScala
-        .find(_.getTarget == enumDescriptor.getFullName())
-        .fold(localOptions)(aux =>
-          EnumOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        .filter(o => Helper.targetMatches(o.getTarget, enumDescriptor.getFullName()))
+        .foldLeft(localOptions)((local, aux) =>
+          EnumOptions.newBuilder(aux.getOptions).mergeFrom(local).build
         )
     }
 
@@ -862,9 +862,9 @@ class DescriptorImplicits private[compiler] (
       val localOptions = enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
 
       enumValue.getFile.scalaOptions.getAuxEnumValueOptionsList.asScala
-        .find(_.getTarget == enumValue.getFullName())
-        .fold(localOptions)(aux =>
-          EnumValueOptions.newBuilder(aux.getOptions).mergeFrom(localOptions).build
+        .filter(o => Helper.targetMatches(o.getTarget, enumValue.getFullName()))
+        .foldLeft(localOptions)((local, aux) =>
+          EnumValueOptions.newBuilder(aux.getOptions).mergeFrom(local).build
         )
     }
 
@@ -1238,5 +1238,12 @@ object Helper {
       .replace("<", "&lt;")
       .replace(">", "&gt;")
       .replace("\\", "&92;")
+  }
+
+  // Does the pattern matches the name. If the pattern is "*" the name always matches, otherwise
+  // must be an exact match. This may evolve in the future.
+  def targetMatches(pattern: String, name: String): Boolean = pattern match {
+    case "*" => true
+    case o   => name == o
   }
 }

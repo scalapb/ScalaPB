@@ -281,7 +281,8 @@ option (scalapb.options) = {
 };
 ```
 
-The list `aux_message_options` contains options targeted at different messages define under the same proto package of the package-scoped options. The `target` name needs to be fully-qualified message name in the protobuf namespace. Similar to `aux_message_options`, we also have `aux_enum_options`, `aux_enum_value_options` and `aux_field_options`. See [example usage here](https://github.com/scalapb/ScalaPB/tree/master/e2e/src/main/protobuf/scoped).
+The list `aux_message_options` contains options targeted at different messages define under the same proto package of the package-scoped options. The `target` name needs to be fully-qualified message name in the protobuf namespace. Similar to `aux_message_options`, we also have `aux_enum_options`, `aux_enum_value_options` and `aux_field_options`. See [example usage here](https://github.com/scalapb/ScalaPB/tree/master/e2e/src/main/protobuf/scoped). If the target is set `*` then the options will be
+applied to all the entities in the file or package (depending on the `scope` option).
 
 ## Primitive wrappers
 

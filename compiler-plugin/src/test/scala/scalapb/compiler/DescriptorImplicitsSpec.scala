@@ -122,6 +122,25 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
       .find(_.getFullName() == "inside_disable_flat.proto")
       .get
       .disableOutput must be(false)
+  }
 
+  "Helpers.targetMatches" should "do exact match when not *" in {
+    Helper.targetMatches("foo", "foo") must be(true)
+    Helper.targetMatches("foo", "") must be(false)
+    Helper.targetMatches("foo", "bar") must be(false)
+    Helper.targetMatches("", "") must be(true)
+    Helper.targetMatches("", "foo") must be(false)
+  }
+
+  "Helpers.targetMatches" should "return true when *" in {
+    Helper.targetMatches("*", "foo") must be(true)
+    Helper.targetMatches("*", "bar") must be(true)
+    Helper.targetMatches("*", "") must be(true)
+    Helper.targetMatches("*", "*") must be(true)
+  }
+
+  "Helpers.targetMatches" should "not support * as a generic wildcard" in {
+    Helper.targetMatches("foo.*", "foo.bar") must be(false)
+    Helper.targetMatches("foo.*.bar", "bar.giz.bar") must be(false)
   }
 }
