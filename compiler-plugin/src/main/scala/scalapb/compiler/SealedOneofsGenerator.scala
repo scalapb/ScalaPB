@@ -31,7 +31,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
       val bases =
         if (baseClasses.nonEmpty)
           s"extends ${baseClasses.mkString(" with ")} $derives"
-        else ""
+        else derives
 
       if (message.sealedOneofStyle != SealedOneofStyle.Optional) {
         val sealedOneofNonEmptyName = message.sealedOneofNonEmptyScalaType.nameSymbol
