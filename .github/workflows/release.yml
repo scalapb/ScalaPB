@@ -131,4 +131,4 @@ jobs:
         set -x
         assets=$(find ./artifacts -name "*.zip" -printf "-a %p ")
         RELEASE_NAME=${GITHUB_REF#refs/tags/}
-        hub release create ${assets} -m "$RELEASE_NAME" "$RELEASE_NAME"
+        gh release create "$RELEASE_NAME" --generate-notes ${assets}
