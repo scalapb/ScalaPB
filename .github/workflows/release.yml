@@ -129,6 +129,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         set -x
-        assets=$(find ./artifacts -name "*.zip" -printf "-a %p ")
+        assets=$(find ./artifacts -name "*.zip")
         RELEASE_NAME=${GITHUB_REF#refs/tags/}
         gh release create "$RELEASE_NAME" --generate-notes ${assets}
