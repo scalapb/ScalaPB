@@ -21,4 +21,10 @@ class NoBoxWithJavaSpec extends AnyFlatSpec with Matchers {
     val p = Person("", Money(BigDecimal("123.123")))
     Person.fromJavaProto(Person.toJavaProto(p)) must be(p)
   }
+
+  "Scala message with a no_box field with null value" should "throw exception when being serialized" in {
+    val car = Car(tyre1 = null)
+    a[Exception] shouldBe thrownBy(car.toByteArray)
+  }
+
 }

@@ -9,6 +9,7 @@
   scope.
 - Add `derives` and `sealed_oneof_derives` to the message options that adds a
   derived clause to generated messages and sealed oneofs.
+- Bump Scala.js to 1.14.0
 
 ## [0.11.13]
 - Added input and output message type for method descriptor (#1503)

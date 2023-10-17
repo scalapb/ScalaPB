@@ -21,11 +21,6 @@ class NoBoxSpec extends AnyFlatSpec with Matchers {
     scalaCar.tyre1 must be(Tyre.defaultInstance)
   }
 
-  "Scala message with a no_box field with null value" should "throw exception when being serialized" in {
-    val car = Car(tyre1 = null)
-    a[Exception] shouldBe thrownBy(car.toByteArray)
-  }
-
   "Scala message with a no_box reference" should "generate correct types" in {
     val car = Car()
     car.dontBoxMeDef mustBe (DontBoxMe.defaultInstance)
