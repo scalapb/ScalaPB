@@ -807,3 +807,22 @@ enum BarEnum {
   BarValue = 1 [(scalapb.enum_value).annotations = "@annotation4"];
 }
 ```
+
+## Adding derives clause
+
+In ScalaPB 0.11.14, it is possible to add a `derives` clause to generated messages and
+sealed oneofs:
+
+```protobuf
+message Foo {
+  option (scalapb.message).derives = "yourpkg.Show";
+  ...
+}}}
+
+message Expr {
+  option (scalapb.message).sealed_oneof_derives = "yourpkg.Show";
+  oneof sealed_value {
+    ...
+  }
+}
+```
