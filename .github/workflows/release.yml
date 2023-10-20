@@ -83,7 +83,7 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - uses: olafurpg/setup-scala@v13
+    - uses: olafurpg/setup-scala@v14
       with:
         java-version: graalvm@21.1.0
     - name: Asset name
