@@ -17,7 +17,7 @@ inThisBuild(
   )
 )
 
-addCommandAlias("fmt", "all scalafmtSbt scalafmt test:scalafmt")
+addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
 
 lazy val sharedNativeSettings = List(
   nativeLinkStubs := true // for utest
