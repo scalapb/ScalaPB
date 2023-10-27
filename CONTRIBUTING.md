@@ -71,7 +71,7 @@ Wrapping up your PR
   while working on this. Add the exclusions to `build.sbt`. Binary
   incompatibilities are expected when modifying `scalapb.proto` and in the
   meantime we have some tolerance for certain type of incompatabilities.
-* In SBT, run `scalafmt` and `test:scalafmt` to ensure the code compiles
+* In SBT, run `scalafmtAll` to ensure the code compiles
   cleanly.
 * Run `./make_plugin_proto.sh` to re-generate all the generated code that
   ships with ScalaPB.
