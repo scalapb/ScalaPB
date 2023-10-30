@@ -30,7 +30,7 @@ Protocol buffers are the flexible, efficient, automated solution to solve exactl
 ## Where to Find the Example Code
 
 The example code for this tutorial is under the `examples/basic` directory
-in ScalaPB's repo. To get your copy:
+in [ScalaPB's repo](https://github.com/scalapb/ScalaPB/tree/master/examples/basic). To get your copy:
 
 ```bash
 git clone https://github.com/scalapb/ScalaPB.git
@@ -135,7 +135,7 @@ object PhoneType {
   case object HOME extends PhoneType(1) {
     val index = 1
     val name = "HOME"
-    override def isMobile: Boolean = true
+    override def isHome: Boolean = true
   }
 
   // ...
