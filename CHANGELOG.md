@@ -1,5 +1,10 @@
 # Change Log
 
+## [0.11.15]
+- When more than one enum values share the same number, the first one would
+  generate a case object as usual, and subsequent ones will value values
+  referencing the case object. This is consistent with the Java behavior (#1611)
+  
 ## [0.11.14]
 - Repeated extensions can now use arbitrary iterable types or any collection type there is a
   CollectionAdapter for (#1509)

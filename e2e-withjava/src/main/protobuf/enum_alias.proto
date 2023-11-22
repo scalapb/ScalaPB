@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+enum EnumAllowingAlias {
+  option allow_alias = true;
+  EAA_UNSPECIFIED = 0;
+  EAA_STARTED = 1;
+  EAA_RUNNING = 1;  // some doc
+  EAA_FINISHED = 2;
+}
