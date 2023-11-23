@@ -63,22 +63,23 @@ class ProtobufGenerator(
           p.call(generateScalaDoc(v))
             .add("@SerialVersionUID(0L)")
             .seq(v.annotationList)
-            .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {""")
+            .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends.mkString(
+                " with "
+              )} {""")
             .indented(
               _.add(s"val index = ${v.getIndex}")
                 .add(s"""val name = "${v.getName}"""")
-                .print(valuesByNumber(v.getNumber)) {
-                   case (p, u) =>
-                      p.add(s"override def ${u.isName}: _root_.scala.Boolean = true")
+                .print(valuesByNumber(v.getNumber)) { case (p, u) =>
+                  p.add(s"override def ${u.isName}: _root_.scala.Boolean = true")
                 }
             )
             .add("}")
             .add("")
-          else
-            p.call(generateScalaDoc(v))
-              .seq(v.annotationList)
-              .add(s"@transient val ${v.scalaName.asSymbol} = ${firstVal.scalaName.asSymbol}")
-              .add("")
+        else
+          p.call(generateScalaDoc(v))
+            .seq(v.annotationList)
+            .add(s"@transient val ${v.scalaName.asSymbol} = ${firstVal.scalaName.asSymbol}")
+            .add("")
       }
       .add("@SerialVersionUID(0L)")
       .seq(e.unrecognizedAnnotationList)
