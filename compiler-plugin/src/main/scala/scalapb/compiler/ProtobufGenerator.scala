@@ -57,27 +57,28 @@ class ProtobufGenerator(
       .add(s"sealed trait ${e.recognizedEnum.nameSymbol} extends $name")
       .add(s"implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[$name] = this")
       .newline
-      .print(valuesByNumber) { case (p, (_, values)) =>
-        val v = values.head
-        p.call(generateScalaDoc(v))
-          .add("@SerialVersionUID(0L)")
-          .seq(v.annotationList)
-          .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends
-              .mkString(" with ")} {""")
-          .indented(
-            _.add(s"val index = ${v.getIndex}")
-              .add(s"""val name = "${v.getName}"""")
-              .print(values) { case (p, u) =>
-                p.add(s"override def ${u.isName}: _root_.scala.Boolean = true")
-              }
-          )
-          .add("}")
-          .print(values.tail) { case (p, u) =>
-            p.call(generateScalaDoc(u))
-              .seq(u.annotationList)
-              .add(s"@transient val ${u.scalaName.asSymbol} = ${v.scalaName.asSymbol}")
-          }
-          .add("")
+      .print(e.getValues().asScala) { case (p, v) =>
+        val firstVal = valuesByNumber(v.getNumber()).head
+        if (firstVal == v)
+          p.call(generateScalaDoc(v))
+            .add("@SerialVersionUID(0L)")
+            .seq(v.annotationList)
+            .add(s"""case object ${v.scalaName.asSymbol} extends ${v.valueExtends.mkString(" with ")} {""")
+            .indented(
+              _.add(s"val index = ${v.getIndex}")
+                .add(s"""val name = "${v.getName}"""")
+                .print(valuesByNumber(v.getNumber)) {
+                   case (p, u) =>
+                      p.add(s"override def ${u.isName}: _root_.scala.Boolean = true")
+                }
+            )
+            .add("}")
+            .add("")
+          else
+            p.call(generateScalaDoc(v))
+              .seq(v.annotationList)
+              .add(s"@transient val ${v.scalaName.asSymbol} = ${firstVal.scalaName.asSymbol}")
+              .add("")
       }
       .add("@SerialVersionUID(0L)")
       .seq(e.unrecognizedAnnotationList)
