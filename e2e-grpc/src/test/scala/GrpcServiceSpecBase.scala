@@ -1,11 +1,11 @@
 import java.util.concurrent.TimeUnit
-
 import com.thesamet.pb.{Service1Interceptor, Service1JavaImpl, Service1ScalaImpl}
 import com.thesamet.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
 import io.grpc.protobuf.services.ProtoReflectionService
 import io.grpc.stub.StreamObserver
 import io.grpc.{ManagedChannel, Server}
+import io.grpc.inprocess.{InProcessChannelBuilder, InProcessServerBuilder}
 
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.util.Random
@@ -27,6 +27,25 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
 
   protected[this] final def withJavaServer[T](f: ManagedChannel => T): T = {
     withServer(_.addService(new Service1JavaImpl).intercept(new Service1Interceptor).build())(f)
+  }
+
+  protected[this] def withInMemoryTransportScalaServer[T](f: ManagedChannel => T): T = {
+    val channelName = "test-in-mem-server"
+    val server = InProcessServerBuilder.forName(channelName)
+      .addService(Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext))
+      .build()
+
+    try {
+      server.start()
+      val channel = InProcessChannelBuilder.forName(channelName)
+        .usePlaintext()
+        .build()
+      f(channel)
+    } finally {
+      server.shutdown()
+      server.awaitTermination(3000, TimeUnit.MILLISECONDS)
+      ()
+    }
   }
 
   private[this] def withServer[T](

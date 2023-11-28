@@ -10,6 +10,10 @@ import io.grpc.stub.StreamObserver
 import scala.concurrent.Future
 
 class Service1ScalaImpl extends Service1 {
+
+  override def echoRequest(request: Req1): Future[Res6] =
+    Future.successful(Res6(Some(request)))
+
   override def unaryStringLength(request: Req1): Future[Res1] =
     Future.successful(Res1(length = request.request.length))
 
