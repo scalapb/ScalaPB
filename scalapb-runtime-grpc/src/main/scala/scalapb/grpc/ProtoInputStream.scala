@@ -9,7 +9,7 @@ import java.io.{ByteArrayInputStream, InputStream}
   * Allows skipping serialization completely when the io.grpc.inprocess.InProcessTransport is used.
   * Inspired by https://github.com/grpc/grpc-java/blob/master/protobuf-lite/src/main/java/io/grpc/protobuf/lite/ProtoInputStream.java
   */
-class ProtoInputStream[T <: GeneratedMessage](msg: T, val marshaller: Marshaller[T]) extends InputStream {
+class ProtoInputStream[T <: GeneratedMessage](msg: T) extends InputStream {
 
   private var state: State = Message(msg)
 

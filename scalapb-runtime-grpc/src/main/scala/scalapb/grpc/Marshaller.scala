@@ -6,10 +6,10 @@ import scalapb.{GeneratedMessage, GeneratedMessageCompanion, TypeMapper}
 
 class Marshaller[T <: GeneratedMessage](companion: GeneratedMessageCompanion[T])
     extends io.grpc.MethodDescriptor.Marshaller[T] {
-  override def stream(t: T): InputStream = new ProtoInputStream[T](t, this)
+  override def stream(t: T): InputStream = new ProtoInputStream[T](t)
 
   override def parse(inputStream: InputStream): T = inputStream match {
-    case pis: ProtoInputStream[T] if pis.marshaller == this => pis.message
+    case pis: ProtoInputStream[_] => pis.message.asInstanceOf[T]
     case _ => companion.parseFrom(inputStream)
   }
 }
