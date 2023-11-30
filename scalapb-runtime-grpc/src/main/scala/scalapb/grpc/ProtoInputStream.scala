@@ -5,9 +5,9 @@ import scalapb.GeneratedMessage
 
 import java.io.{ByteArrayInputStream, InputStream}
 
-/**
-  * Allows skipping serialization completely when the io.grpc.inprocess.InProcessTransport is used.
-  * Inspired by https://github.com/grpc/grpc-java/blob/master/protobuf-lite/src/main/java/io/grpc/protobuf/lite/ProtoInputStream.java
+/** Allows skipping serialization completely when the io.grpc.inprocess.InProcessTransport is used.
+  * Inspired by
+  * https://github.com/grpc/grpc-java/blob/master/protobuf-lite/src/main/java/io/grpc/protobuf/lite/ProtoInputStream.java
   */
 class ProtoInputStream[T <: GeneratedMessage](msg: T) extends InputStream {
 
@@ -21,15 +21,15 @@ class ProtoInputStream[T <: GeneratedMessage](msg: T) extends InputStream {
   }
 
   private object Drained extends State {
-    override def available: Int = 0
-    override def read(): Int = -1
+    override def available: Int                                = 0
+    override def read(): Int                                   = -1
     override def read(b: Array[Byte], off: Int, len: Int): Int = -1
   }
 
   private case class Message(value: T) extends State {
     override def available: Int = value.serializedSize
-    override def message: T = value
-    override def read(): Int = toStream.read()
+    override def message: T     = value
+    override def read(): Int    = toStream.read()
     override def read(b: Array[Byte], off: Int, len: Int): Int = {
       value.serializedSize match {
         case 0 => toDrained.read(b, off, len)
@@ -54,13 +54,13 @@ class ProtoInputStream[T <: GeneratedMessage](msg: T) extends InputStream {
   }
 
   private case class Stream(value: InputStream) extends State {
-    override def available: Int = value.available()
-    override def read(): Int = value.read()
+    override def available: Int                                = value.available()
+    override def read(): Int                                   = value.read()
     override def read(b: Array[Byte], off: Int, len: Int): Int = value.read(b, off, len)
   }
 
-  override def read(): Int = state.read()
+  override def read(): Int                                   = state.read()
   override def read(b: Array[Byte], off: Int, len: Int): Int = state.read(b, off, len)
-  override def available(): Int = state.available
-  def message: T = state.message
+  override def available(): Int                              = state.available
+  def message: T                                             = state.message
 }
