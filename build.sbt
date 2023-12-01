@@ -303,6 +303,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
   publish / skip := true,
   javacOptions ++= Seq("-Xlint:deprecation"),
   libraryDependencies ++= Seq(
+    grpcInprocess,
     grpcNetty,
     grpcProtobuf,
     grpcServices,

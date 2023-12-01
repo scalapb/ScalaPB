@@ -60,6 +60,7 @@ object Dependencies {
   val grpcNetty     = "io.grpc" % "grpc-netty"           % versions.grpc
   val grpcServices  = "io.grpc" % "grpc-services"        % versions.grpc
   val grpcProtocGen = "io.grpc" % "protoc-gen-grpc-java" % versions.grpc
+  val grpcInprocess = "io.grpc" % "grpc-inprocess"       % versions.grpc
 
   // testing
   val scalaTest = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
