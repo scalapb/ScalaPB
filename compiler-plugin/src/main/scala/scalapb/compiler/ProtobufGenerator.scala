@@ -968,7 +968,7 @@ class ProtobufGenerator(
               .add(
                 s"""def $fieldName: ${lensType(
                     field.singleScalaTypeName
-                  )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = Option(f_)))
+                  )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = _root_.scala.Option(f_)))
                    |def ${optionLensName}: ${lensType(
                     field.scalaTypeName
                   )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin

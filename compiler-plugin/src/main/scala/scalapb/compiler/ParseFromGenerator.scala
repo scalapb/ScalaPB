@@ -175,7 +175,7 @@ private[compiler] class ParseFromGenerator(
                 if (!usesBaseTypeInBuilder(field)) toCustomType(field)(newValBase) else newValBase
 
               val updateOp =
-                if (field.supportsPresence) s"__${field.scalaName} = Option($newVal)"
+                if (field.supportsPresence) s"__${field.scalaName} = _root_.scala.Option($newVal)"
                 else if (field.isInOneof) {
                   s"__${field.getContainingOneof.scalaName.name} = ${field.oneOfTypeName.fullName}($newVal)"
                 } else if (field.isRepeated) s"__${field.scalaName} += $newVal"

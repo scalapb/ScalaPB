@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.issue1623;
+
+message CreditCard {};
+
+message PayPal {};
+
+message Money {}
+
+message PaymentMethod {
+    string id = 1;
+    Money money = 2;
+    oneof option {
+        CreditCard credit_card = 3;
+        PayPal paypal = 4;
+    }
+}
