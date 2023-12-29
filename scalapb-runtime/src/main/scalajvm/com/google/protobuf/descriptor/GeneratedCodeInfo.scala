@@ -284,11 +284,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
             _input__.popLimit(oldLimit)
           }
           case 18 =>
-            __sourceFile = Option(_input__.readStringRequireUtf8())
+            __sourceFile = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 24 =>
-            __begin = Option(_input__.readInt32())
+            __begin = _root_.scala.Option(_input__.readInt32())
           case 32 =>
-            __end = Option(_input__.readInt32())
+            __end = _root_.scala.Option(_input__.readInt32())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -328,11 +328,11 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     )
     implicit class AnnotationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
-      def sourceFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = Option(f_)))
+      def sourceFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSourceFile)((c_, f_) => c_.copy(sourceFile = _root_.scala.Option(f_)))
       def optionalSourceFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.sourceFile)((c_, f_) => c_.copy(sourceFile = f_))
-      def begin: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getBegin)((c_, f_) => c_.copy(begin = Option(f_)))
+      def begin: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getBegin)((c_, f_) => c_.copy(begin = _root_.scala.Option(f_)))
       def optionalBegin: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.begin)((c_, f_) => c_.copy(begin = f_))
-      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
+      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = _root_.scala.Option(f_)))
       def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val PATH_FIELD_NUMBER = 1

@@ -277,9 +277,9 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __name = Option(_input__.readStringRequireUtf8())
+          __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
-          __package = Option(_input__.readStringRequireUtf8())
+          __package = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 26 =>
           __dependency += _input__.readStringRequireUtf8()
         case 80 =>
@@ -311,11 +311,11 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         case 58 =>
           __extension += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__)
         case 66 =>
-          __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FileOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FileOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 74 =>
-          __sourceCodeInfo = Option(__sourceCodeInfo.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.SourceCodeInfo](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __sourceCodeInfo = _root_.scala.Option(__sourceCodeInfo.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.SourceCodeInfo](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 98 =>
-          __syntax = Option(_input__.readStringRequireUtf8())
+          __syntax = _root_.scala.Option(_input__.readStringRequireUtf8())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -389,9 +389,9 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     syntax = _root_.scala.None
   )
   implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = _root_.scala.Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def `package`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPackage)((c_, f_) => c_.copy(`package` = Option(f_)))
+    def `package`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPackage)((c_, f_) => c_.copy(`package` = _root_.scala.Option(f_)))
     def optionalPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`package`)((c_, f_) => c_.copy(`package` = f_))
     def dependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.dependency)((c_, f_) => c_.copy(dependency = f_))
     def publicDependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.publicDependency)((c_, f_) => c_.copy(publicDependency = f_))
@@ -400,11 +400,11 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     def enumType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
     def service: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]] = field(_.service)((c_, f_) => c_.copy(service = f_))
     def extension: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FileOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def sourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo] = field(_.getSourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = Option(f_)))
+    def sourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo] = field(_.getSourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = _root_.scala.Option(f_)))
     def optionalSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]] = field(_.sourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = f_))
-    def syntax: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSyntax)((c_, f_) => c_.copy(syntax = Option(f_)))
+    def syntax: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSyntax)((c_, f_) => c_.copy(syntax = _root_.scala.Option(f_)))
     def optionalSyntax: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }
   final val NAME_FIELD_NUMBER = 1

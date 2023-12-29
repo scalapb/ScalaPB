@@ -130,9 +130,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __error = Option(_input__.readStringRequireUtf8())
+          __error = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 16 =>
-          __supportedFeatures = Option(_input__.readUInt64())
+          __supportedFeatures = _root_.scala.Option(_input__.readUInt64())
         case 122 =>
           __file += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File](_input__)
         case tag =>
@@ -384,11 +384,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __name = Option(_input__.readStringRequireUtf8())
+            __name = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __insertionPoint = Option(_input__.readStringRequireUtf8())
+            __insertionPoint = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 122 =>
-            __content = Option(_input__.readStringRequireUtf8())
+            __content = _root_.scala.Option(_input__.readStringRequireUtf8())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -424,11 +424,11 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
       content = _root_.scala.None
     )
     implicit class FileLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File](_l) {
-      def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
+      def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = _root_.scala.Option(f_)))
       def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-      def insertionPoint: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getInsertionPoint)((c_, f_) => c_.copy(insertionPoint = Option(f_)))
+      def insertionPoint: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getInsertionPoint)((c_, f_) => c_.copy(insertionPoint = _root_.scala.Option(f_)))
       def optionalInsertionPoint: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.insertionPoint)((c_, f_) => c_.copy(insertionPoint = f_))
-      def content: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getContent)((c_, f_) => c_.copy(content = Option(f_)))
+      def content: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getContent)((c_, f_) => c_.copy(content = _root_.scala.Option(f_)))
       def optionalContent: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.content)((c_, f_) => c_.copy(content = f_))
     }
     final val NAME_FIELD_NUMBER = 1
@@ -447,9 +447,9 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
   }
   
   implicit class CodeGeneratorResponseLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.CodeGeneratorResponse](_l) {
-    def error: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getError)((c_, f_) => c_.copy(error = Option(f_)))
+    def error: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getError)((c_, f_) => c_.copy(error = _root_.scala.Option(f_)))
     def optionalError: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.error)((c_, f_) => c_.copy(error = f_))
-    def supportedFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getSupportedFeatures)((c_, f_) => c_.copy(supportedFeatures = Option(f_)))
+    def supportedFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getSupportedFeatures)((c_, f_) => c_.copy(supportedFeatures = _root_.scala.Option(f_)))
     def optionalSupportedFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Long]] = field(_.supportedFeatures)((c_, f_) => c_.copy(supportedFeatures = f_))
     def file: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]] = field(_.file)((c_, f_) => c_.copy(file = f_))
   }

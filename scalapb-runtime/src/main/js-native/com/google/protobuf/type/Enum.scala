@@ -168,7 +168,7 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
         case 26 =>
           __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
         case 34 =>
-          __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __sourceContext = _root_.scala.Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 40 =>
           __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
         case tag =>
@@ -227,7 +227,7 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def enumvalue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]] = field(_.enumvalue)((c_, f_) => c_.copy(enumvalue = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
+    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = _root_.scala.Option(f_)))
     def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }

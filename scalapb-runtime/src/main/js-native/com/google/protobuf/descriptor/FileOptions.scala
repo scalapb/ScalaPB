@@ -453,45 +453,45 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __javaPackage = Option(_input__.readStringRequireUtf8())
+          __javaPackage = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 66 =>
-          __javaOuterClassname = Option(_input__.readStringRequireUtf8())
+          __javaOuterClassname = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 80 =>
-          __javaMultipleFiles = Option(_input__.readBool())
+          __javaMultipleFiles = _root_.scala.Option(_input__.readBool())
         case 160 =>
-          __javaGenerateEqualsAndHash = Option(_input__.readBool())
+          __javaGenerateEqualsAndHash = _root_.scala.Option(_input__.readBool())
         case 216 =>
-          __javaStringCheckUtf8 = Option(_input__.readBool())
+          __javaStringCheckUtf8 = _root_.scala.Option(_input__.readBool())
         case 72 =>
-          __optimizeFor = Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
+          __optimizeFor = _root_.scala.Option(com.google.protobuf.descriptor.FileOptions.OptimizeMode.fromValue(_input__.readEnum()))
         case 90 =>
-          __goPackage = Option(_input__.readStringRequireUtf8())
+          __goPackage = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 128 =>
-          __ccGenericServices = Option(_input__.readBool())
+          __ccGenericServices = _root_.scala.Option(_input__.readBool())
         case 136 =>
-          __javaGenericServices = Option(_input__.readBool())
+          __javaGenericServices = _root_.scala.Option(_input__.readBool())
         case 144 =>
-          __pyGenericServices = Option(_input__.readBool())
+          __pyGenericServices = _root_.scala.Option(_input__.readBool())
         case 336 =>
-          __phpGenericServices = Option(_input__.readBool())
+          __phpGenericServices = _root_.scala.Option(_input__.readBool())
         case 184 =>
-          __deprecated = Option(_input__.readBool())
+          __deprecated = _root_.scala.Option(_input__.readBool())
         case 248 =>
-          __ccEnableArenas = Option(_input__.readBool())
+          __ccEnableArenas = _root_.scala.Option(_input__.readBool())
         case 290 =>
-          __objcClassPrefix = Option(_input__.readStringRequireUtf8())
+          __objcClassPrefix = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 298 =>
-          __csharpNamespace = Option(_input__.readStringRequireUtf8())
+          __csharpNamespace = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 314 =>
-          __swiftPrefix = Option(_input__.readStringRequireUtf8())
+          __swiftPrefix = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 322 =>
-          __phpClassPrefix = Option(_input__.readStringRequireUtf8())
+          __phpClassPrefix = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 330 =>
-          __phpNamespace = Option(_input__.readStringRequireUtf8())
+          __phpNamespace = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 354 =>
-          __phpMetadataNamespace = Option(_input__.readStringRequireUtf8())
+          __phpMetadataNamespace = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 362 =>
-          __rubyPackage = Option(_input__.readStringRequireUtf8())
+          __rubyPackage = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -649,45 +649,45 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FileOptions.scalaDescriptor.enums(0)
   }
   implicit class FileOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileOptions](_l) {
-    def javaPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = Option(f_)))
+    def javaPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getJavaPackage)((c_, f_) => c_.copy(javaPackage = _root_.scala.Option(f_)))
     def optionalJavaPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.javaPackage)((c_, f_) => c_.copy(javaPackage = f_))
-    def javaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = Option(f_)))
+    def javaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getJavaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = _root_.scala.Option(f_)))
     def optionalJavaOuterClassname: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.javaOuterClassname)((c_, f_) => c_.copy(javaOuterClassname = f_))
-    def javaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = Option(f_)))
+    def javaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = _root_.scala.Option(f_)))
     def optionalJavaMultipleFiles: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaMultipleFiles)((c_, f_) => c_.copy(javaMultipleFiles = f_))
-    def javaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = Option(f_)))
+    def javaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = _root_.scala.Option(f_)))
     def optionalJavaGenerateEqualsAndHash: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaGenerateEqualsAndHash)((c_, f_) => c_.copy(javaGenerateEqualsAndHash = f_))
-    def javaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = Option(f_)))
+    def javaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = _root_.scala.Option(f_)))
     def optionalJavaStringCheckUtf8: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaStringCheckUtf8)((c_, f_) => c_.copy(javaStringCheckUtf8 = f_))
-    def optimizeFor: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = Option(f_)))
+    def optimizeFor: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileOptions.OptimizeMode] = field(_.getOptimizeFor)((c_, f_) => c_.copy(optimizeFor = _root_.scala.Option(f_)))
     def optionalOptimizeFor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FileOptions.OptimizeMode]] = field(_.optimizeFor)((c_, f_) => c_.copy(optimizeFor = f_))
-    def goPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = Option(f_)))
+    def goPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getGoPackage)((c_, f_) => c_.copy(goPackage = _root_.scala.Option(f_)))
     def optionalGoPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.goPackage)((c_, f_) => c_.copy(goPackage = f_))
-    def ccGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = Option(f_)))
+    def ccGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getCcGenericServices)((c_, f_) => c_.copy(ccGenericServices = _root_.scala.Option(f_)))
     def optionalCcGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.ccGenericServices)((c_, f_) => c_.copy(ccGenericServices = f_))
-    def javaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = Option(f_)))
+    def javaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaGenericServices)((c_, f_) => c_.copy(javaGenericServices = _root_.scala.Option(f_)))
     def optionalJavaGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaGenericServices)((c_, f_) => c_.copy(javaGenericServices = f_))
-    def pyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = Option(f_)))
+    def pyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPyGenericServices)((c_, f_) => c_.copy(pyGenericServices = _root_.scala.Option(f_)))
     def optionalPyGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.pyGenericServices)((c_, f_) => c_.copy(pyGenericServices = f_))
-    def phpGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPhpGenericServices)((c_, f_) => c_.copy(phpGenericServices = Option(f_)))
+    def phpGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPhpGenericServices)((c_, f_) => c_.copy(phpGenericServices = _root_.scala.Option(f_)))
     def optionalPhpGenericServices: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.phpGenericServices)((c_, f_) => c_.copy(phpGenericServices = f_))
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def ccEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = Option(f_)))
+    def ccEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getCcEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = _root_.scala.Option(f_)))
     def optionalCcEnableArenas: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.ccEnableArenas)((c_, f_) => c_.copy(ccEnableArenas = f_))
-    def objcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = Option(f_)))
+    def objcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getObjcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = _root_.scala.Option(f_)))
     def optionalObjcClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.objcClassPrefix)((c_, f_) => c_.copy(objcClassPrefix = f_))
-    def csharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = Option(f_)))
+    def csharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCsharpNamespace)((c_, f_) => c_.copy(csharpNamespace = _root_.scala.Option(f_)))
     def optionalCsharpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.csharpNamespace)((c_, f_) => c_.copy(csharpNamespace = f_))
-    def swiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSwiftPrefix)((c_, f_) => c_.copy(swiftPrefix = Option(f_)))
+    def swiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSwiftPrefix)((c_, f_) => c_.copy(swiftPrefix = _root_.scala.Option(f_)))
     def optionalSwiftPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.swiftPrefix)((c_, f_) => c_.copy(swiftPrefix = f_))
-    def phpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = Option(f_)))
+    def phpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = _root_.scala.Option(f_)))
     def optionalPhpClassPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.phpClassPrefix)((c_, f_) => c_.copy(phpClassPrefix = f_))
-    def phpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpNamespace)((c_, f_) => c_.copy(phpNamespace = Option(f_)))
+    def phpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpNamespace)((c_, f_) => c_.copy(phpNamespace = _root_.scala.Option(f_)))
     def optionalPhpNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.phpNamespace)((c_, f_) => c_.copy(phpNamespace = f_))
-    def phpMetadataNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpMetadataNamespace)((c_, f_) => c_.copy(phpMetadataNamespace = Option(f_)))
+    def phpMetadataNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPhpMetadataNamespace)((c_, f_) => c_.copy(phpMetadataNamespace = _root_.scala.Option(f_)))
     def optionalPhpMetadataNamespace: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.phpMetadataNamespace)((c_, f_) => c_.copy(phpMetadataNamespace = f_))
-    def rubyPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getRubyPackage)((c_, f_) => c_.copy(rubyPackage = Option(f_)))
+    def rubyPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getRubyPackage)((c_, f_) => c_.copy(rubyPackage = _root_.scala.Option(f_)))
     def optionalRubyPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.rubyPackage)((c_, f_) => c_.copy(rubyPackage = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

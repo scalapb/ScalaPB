@@ -175,17 +175,17 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
         case 18 =>
           __name += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption.NamePart](_input__)
         case 26 =>
-          __identifierValue = Option(_input__.readStringRequireUtf8())
+          __identifierValue = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 32 =>
-          __positiveIntValue = Option(_input__.readUInt64())
+          __positiveIntValue = _root_.scala.Option(_input__.readUInt64())
         case 40 =>
-          __negativeIntValue = Option(_input__.readInt64())
+          __negativeIntValue = _root_.scala.Option(_input__.readInt64())
         case 49 =>
-          __doubleValue = Option(_input__.readDouble())
+          __doubleValue = _root_.scala.Option(_input__.readDouble())
         case 58 =>
-          __stringValue = Option(_input__.readBytes())
+          __stringValue = _root_.scala.Option(_input__.readBytes())
         case 66 =>
-          __aggregateValue = Option(_input__.readStringRequireUtf8())
+          __aggregateValue = _root_.scala.Option(_input__.readStringRequireUtf8())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -382,17 +382,17 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
   
   implicit class UninterpretedOptionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.UninterpretedOption](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def identifierValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = Option(f_)))
+    def identifierValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getIdentifierValue)((c_, f_) => c_.copy(identifierValue = _root_.scala.Option(f_)))
     def optionalIdentifierValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.identifierValue)((c_, f_) => c_.copy(identifierValue = f_))
-    def positiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = Option(f_)))
+    def positiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getPositiveIntValue)((c_, f_) => c_.copy(positiveIntValue = _root_.scala.Option(f_)))
     def optionalPositiveIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Long]] = field(_.positiveIntValue)((c_, f_) => c_.copy(positiveIntValue = f_))
-    def negativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = Option(f_)))
+    def negativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.getNegativeIntValue)((c_, f_) => c_.copy(negativeIntValue = _root_.scala.Option(f_)))
     def optionalNegativeIntValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Long]] = field(_.negativeIntValue)((c_, f_) => c_.copy(negativeIntValue = f_))
-    def doubleValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = Option(f_)))
+    def doubleValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Double] = field(_.getDoubleValue)((c_, f_) => c_.copy(doubleValue = _root_.scala.Option(f_)))
     def optionalDoubleValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Double]] = field(_.doubleValue)((c_, f_) => c_.copy(doubleValue = f_))
-    def stringValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = Option(f_)))
+    def stringValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.getStringValue)((c_, f_) => c_.copy(stringValue = _root_.scala.Option(f_)))
     def optionalStringValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.ByteString]] = field(_.stringValue)((c_, f_) => c_.copy(stringValue = f_))
-    def aggregateValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = Option(f_)))
+    def aggregateValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getAggregateValue)((c_, f_) => c_.copy(aggregateValue = _root_.scala.Option(f_)))
     def optionalAggregateValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.aggregateValue)((c_, f_) => c_.copy(aggregateValue = f_))
   }
   final val NAME_FIELD_NUMBER = 2

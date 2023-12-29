@@ -587,43 +587,43 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __packageName = Option(_input__.readStringRequireUtf8())
+          __packageName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 16 =>
-          __flatPackage = Option(_input__.readBool())
+          __flatPackage = _root_.scala.Option(_input__.readBool())
         case 26 =>
           __import += _input__.readStringRequireUtf8()
         case 34 =>
           __preamble += _input__.readStringRequireUtf8()
         case 40 =>
-          __singleFile = Option(_input__.readBool())
+          __singleFile = _root_.scala.Option(_input__.readBool())
         case 56 =>
-          __noPrimitiveWrappers = Option(_input__.readBool())
+          __noPrimitiveWrappers = _root_.scala.Option(_input__.readBool())
         case 48 =>
-          __primitiveWrappers = Option(_input__.readBool())
+          __primitiveWrappers = _root_.scala.Option(_input__.readBool())
         case 66 =>
-          __collectionType = Option(_input__.readStringRequireUtf8())
+          __collectionType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 72 =>
-          __preserveUnknownFields = Option(_input__.readBool())
+          __preserveUnknownFields = _root_.scala.Option(_input__.readBool())
         case 82 =>
-          __objectName = Option(_input__.readStringRequireUtf8())
+          __objectName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 88 =>
-          __scope = Option(scalapb.options.ScalaPbOptions.OptionsScope.fromValue(_input__.readEnum()))
+          __scope = _root_.scala.Option(scalapb.options.ScalaPbOptions.OptionsScope.fromValue(_input__.readEnum()))
         case 96 =>
-          __lenses = Option(_input__.readBool())
+          __lenses = _root_.scala.Option(_input__.readBool())
         case 104 =>
-          __retainSourceCodeInfo = Option(_input__.readBool())
+          __retainSourceCodeInfo = _root_.scala.Option(_input__.readBool())
         case 114 =>
-          __mapType = Option(_input__.readStringRequireUtf8())
+          __mapType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 120 =>
-          __noDefaultValuesInConstructor = Option(_input__.readBool())
+          __noDefaultValuesInConstructor = _root_.scala.Option(_input__.readBool())
         case 128 =>
-          __enumValueNaming = Option(scalapb.options.ScalaPbOptions.EnumValueNaming.fromValue(_input__.readEnum()))
+          __enumValueNaming = _root_.scala.Option(scalapb.options.ScalaPbOptions.EnumValueNaming.fromValue(_input__.readEnum()))
         case 136 =>
-          __enumStripPrefix = Option(_input__.readBool())
+          __enumStripPrefix = _root_.scala.Option(_input__.readBool())
         case 170 =>
-          __bytesType = Option(_input__.readStringRequireUtf8())
+          __bytesType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 184 =>
-          __javaConversions = Option(_input__.readBool())
+          __javaConversions = _root_.scala.Option(_input__.readBool())
         case 146 =>
           __auxMessageOptions += _root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions.AuxMessageOptions](_input__)
         case 154 =>
@@ -637,13 +637,13 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         case 202 =>
           __fieldTransformations += _root_.scalapb.LiteParser.readMessage[scalapb.options.FieldTransformation](_input__)
         case 208 =>
-          __ignoreAllTransformations = Option(_input__.readBool())
+          __ignoreAllTransformations = _root_.scala.Option(_input__.readBool())
         case 216 =>
-          __getters = Option(_input__.readBool())
+          __getters = _root_.scala.Option(_input__.readBool())
         case 224 =>
-          __scala3Sources = Option(_input__.readBool())
+          __scala3Sources = _root_.scala.Option(_input__.readBool())
         case 7992 =>
-          __testOnlyNoJavaConversions = Option(_input__.readBool())
+          __testOnlyNoJavaConversions = _root_.scala.Option(_input__.readBool())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -957,9 +957,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __target = Option(_input__.readStringRequireUtf8())
+            __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -998,9 +998,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       options = _root_.scala.None
     )
     implicit class AuxMessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxMessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxMessageOptions](_l) {
-      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
+      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = _root_.scala.Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))
-      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
       def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     }
     final val TARGET_FIELD_NUMBER = 1
@@ -1107,9 +1107,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __target = Option(_input__.readStringRequireUtf8())
+            __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.FieldOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -1148,9 +1148,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       options = _root_.scala.None
     )
     implicit class AuxFieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxFieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxFieldOptions](_l) {
-      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
+      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = _root_.scala.Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))
-      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
       def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.FieldOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     }
     final val TARGET_FIELD_NUMBER = 1
@@ -1257,9 +1257,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __target = Option(_input__.readStringRequireUtf8())
+            __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.EnumOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.EnumOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -1298,9 +1298,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       options = _root_.scala.None
     )
     implicit class AuxEnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxEnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxEnumOptions](_l) {
-      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
+      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = _root_.scala.Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))
-      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
       def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.EnumOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     }
     final val TARGET_FIELD_NUMBER = 1
@@ -1407,9 +1407,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __target = Option(_input__.readStringRequireUtf8())
+            __target = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.EnumValueOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.EnumValueOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -1448,9 +1448,9 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
       options = _root_.scala.None
     )
     implicit class AuxEnumValueOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.AuxEnumValueOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions.AuxEnumValueOptions](_l) {
-      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = Option(f_)))
+      def target: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTarget)((c_, f_) => c_.copy(target = _root_.scala.Option(f_)))
       def optionalTarget: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.target)((c_, f_) => c_.copy(target = f_))
-      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumValueOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+      def options: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumValueOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
       def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.EnumValueOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     }
     final val TARGET_FIELD_NUMBER = 1
@@ -1466,41 +1466,41 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   }
   
   implicit class ScalaPbOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.ScalaPbOptions](_l) {
-    def packageName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPackageName)((c_, f_) => c_.copy(packageName = Option(f_)))
+    def packageName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getPackageName)((c_, f_) => c_.copy(packageName = _root_.scala.Option(f_)))
     def optionalPackageName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.packageName)((c_, f_) => c_.copy(packageName = f_))
-    def flatPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getFlatPackage)((c_, f_) => c_.copy(flatPackage = Option(f_)))
+    def flatPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getFlatPackage)((c_, f_) => c_.copy(flatPackage = _root_.scala.Option(f_)))
     def optionalFlatPackage: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.flatPackage)((c_, f_) => c_.copy(flatPackage = f_))
     def `import`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`import`)((c_, f_) => c_.copy(`import` = f_))
     def preamble: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.preamble)((c_, f_) => c_.copy(preamble = f_))
-    def singleFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getSingleFile)((c_, f_) => c_.copy(singleFile = Option(f_)))
+    def singleFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getSingleFile)((c_, f_) => c_.copy(singleFile = _root_.scala.Option(f_)))
     def optionalSingleFile: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.singleFile)((c_, f_) => c_.copy(singleFile = f_))
-    def noPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = Option(f_)))
+    def noPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = _root_.scala.Option(f_)))
     def optionalNoPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noPrimitiveWrappers)((c_, f_) => c_.copy(noPrimitiveWrappers = f_))
-    def primitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPrimitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = Option(f_)))
+    def primitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPrimitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = _root_.scala.Option(f_)))
     def optionalPrimitiveWrappers: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.primitiveWrappers)((c_, f_) => c_.copy(primitiveWrappers = f_))
-    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
+    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = _root_.scala.Option(f_)))
     def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
-    def preserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPreserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = Option(f_)))
+    def preserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPreserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = _root_.scala.Option(f_)))
     def optionalPreserveUnknownFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.preserveUnknownFields)((c_, f_) => c_.copy(preserveUnknownFields = f_))
-    def objectName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getObjectName)((c_, f_) => c_.copy(objectName = Option(f_)))
+    def objectName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getObjectName)((c_, f_) => c_.copy(objectName = _root_.scala.Option(f_)))
     def optionalObjectName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.objectName)((c_, f_) => c_.copy(objectName = f_))
-    def scope: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.OptionsScope] = field(_.getScope)((c_, f_) => c_.copy(scope = Option(f_)))
+    def scope: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.OptionsScope] = field(_.getScope)((c_, f_) => c_.copy(scope = _root_.scala.Option(f_)))
     def optionalScope: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.ScalaPbOptions.OptionsScope]] = field(_.scope)((c_, f_) => c_.copy(scope = f_))
-    def lenses: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLenses)((c_, f_) => c_.copy(lenses = Option(f_)))
+    def lenses: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLenses)((c_, f_) => c_.copy(lenses = _root_.scala.Option(f_)))
     def optionalLenses: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.lenses)((c_, f_) => c_.copy(lenses = f_))
-    def retainSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getRetainSourceCodeInfo)((c_, f_) => c_.copy(retainSourceCodeInfo = Option(f_)))
+    def retainSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getRetainSourceCodeInfo)((c_, f_) => c_.copy(retainSourceCodeInfo = _root_.scala.Option(f_)))
     def optionalRetainSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.retainSourceCodeInfo)((c_, f_) => c_.copy(retainSourceCodeInfo = f_))
-    def mapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getMapType)((c_, f_) => c_.copy(mapType = Option(f_)))
+    def mapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getMapType)((c_, f_) => c_.copy(mapType = _root_.scala.Option(f_)))
     def optionalMapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.mapType)((c_, f_) => c_.copy(mapType = f_))
-    def noDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = Option(f_)))
+    def noDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = _root_.scala.Option(f_)))
     def optionalNoDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = f_))
-    def enumValueNaming: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.EnumValueNaming] = field(_.getEnumValueNaming)((c_, f_) => c_.copy(enumValueNaming = Option(f_)))
+    def enumValueNaming: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions.EnumValueNaming] = field(_.getEnumValueNaming)((c_, f_) => c_.copy(enumValueNaming = _root_.scala.Option(f_)))
     def optionalEnumValueNaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.ScalaPbOptions.EnumValueNaming]] = field(_.enumValueNaming)((c_, f_) => c_.copy(enumValueNaming = f_))
-    def enumStripPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getEnumStripPrefix)((c_, f_) => c_.copy(enumStripPrefix = Option(f_)))
+    def enumStripPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getEnumStripPrefix)((c_, f_) => c_.copy(enumStripPrefix = _root_.scala.Option(f_)))
     def optionalEnumStripPrefix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.enumStripPrefix)((c_, f_) => c_.copy(enumStripPrefix = f_))
-    def bytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getBytesType)((c_, f_) => c_.copy(bytesType = Option(f_)))
+    def bytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getBytesType)((c_, f_) => c_.copy(bytesType = _root_.scala.Option(f_)))
     def optionalBytesType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.bytesType)((c_, f_) => c_.copy(bytesType = f_))
-    def javaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaConversions)((c_, f_) => c_.copy(javaConversions = Option(f_)))
+    def javaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getJavaConversions)((c_, f_) => c_.copy(javaConversions = _root_.scala.Option(f_)))
     def optionalJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.javaConversions)((c_, f_) => c_.copy(javaConversions = f_))
     def auxMessageOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions]] = field(_.auxMessageOptions)((c_, f_) => c_.copy(auxMessageOptions = f_))
     def auxFieldOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions]] = field(_.auxFieldOptions)((c_, f_) => c_.copy(auxFieldOptions = f_))
@@ -1508,13 +1508,13 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def auxEnumValueOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions]] = field(_.auxEnumValueOptions)((c_, f_) => c_.copy(auxEnumValueOptions = f_))
     def preprocessors: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.preprocessors)((c_, f_) => c_.copy(preprocessors = f_))
     def fieldTransformations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.options.FieldTransformation]] = field(_.fieldTransformations)((c_, f_) => c_.copy(fieldTransformations = f_))
-    def ignoreAllTransformations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getIgnoreAllTransformations)((c_, f_) => c_.copy(ignoreAllTransformations = Option(f_)))
+    def ignoreAllTransformations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getIgnoreAllTransformations)((c_, f_) => c_.copy(ignoreAllTransformations = _root_.scala.Option(f_)))
     def optionalIgnoreAllTransformations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.ignoreAllTransformations)((c_, f_) => c_.copy(ignoreAllTransformations = f_))
-    def getters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getGetters)((c_, f_) => c_.copy(getters = Option(f_)))
+    def getters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getGetters)((c_, f_) => c_.copy(getters = _root_.scala.Option(f_)))
     def optionalGetters: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.getters)((c_, f_) => c_.copy(getters = f_))
-    def scala3Sources: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getScala3Sources)((c_, f_) => c_.copy(scala3Sources = Option(f_)))
+    def scala3Sources: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getScala3Sources)((c_, f_) => c_.copy(scala3Sources = _root_.scala.Option(f_)))
     def optionalScala3Sources: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.scala3Sources)((c_, f_) => c_.copy(scala3Sources = f_))
-    def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = Option(f_)))
+    def testOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getTestOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = _root_.scala.Option(f_)))
     def optionalTestOnlyNoJavaConversions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.testOnlyNoJavaConversions)((c_, f_) => c_.copy(testOnlyNoJavaConversions = f_))
   }
   final val PACKAGE_NAME_FIELD_NUMBER = 1

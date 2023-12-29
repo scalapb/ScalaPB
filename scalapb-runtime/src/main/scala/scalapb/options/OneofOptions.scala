@@ -92,7 +92,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
         case 10 =>
           __extends += _input__.readStringRequireUtf8()
         case 18 =>
-          __scalaName = Option(_input__.readStringRequireUtf8())
+          __scalaName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -126,7 +126,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   )
   implicit class OneofOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.OneofOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.OneofOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
-    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))
+    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = _root_.scala.Option(f_)))
     def optionalScalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1

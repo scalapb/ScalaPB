@@ -71,7 +71,7 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __myAny = Option(__myAny.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __myAny = _root_.scala.Option(__myAny.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.any.Any](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -107,7 +107,7 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
     myAny = _root_.scala.None
   )
   implicit class MyContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.thesamet.docs.json.MyContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.thesamet.docs.json.MyContainer](_l) {
-    def myAny: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getMyAny)((c_, f_) => c_.copy(myAny = Option(f_)))
+    def myAny: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any] = field(_.getMyAny)((c_, f_) => c_.copy(myAny = _root_.scala.Option(f_)))
     def optionalMyAny: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.any.Any]] = field(_.myAny)((c_, f_) => c_.copy(myAny = f_))
   }
   final val MY_ANY_FIELD_NUMBER = 1

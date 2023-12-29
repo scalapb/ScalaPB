@@ -262,7 +262,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
         case 34 =>
           __version = _input__.readStringRequireUtf8()
         case 42 =>
-          __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __sourceContext = _root_.scala.Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 50 =>
           __mixins += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.api.Mixin](_input__)
         case 56 =>
@@ -331,7 +331,7 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
     def methods: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.api.Method]] = field(_.methods)((c_, f_) => c_.copy(methods = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def version: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.version)((c_, f_) => c_.copy(version = f_))
-    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
+    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = _root_.scala.Option(f_)))
     def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def mixins: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.api.Mixin]] = field(_.mixins)((c_, f_) => c_.copy(mixins = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))

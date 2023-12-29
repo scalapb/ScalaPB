@@ -207,7 +207,7 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
         case 34 =>
           __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
         case 42 =>
-          __sourceContext = Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __sourceContext = _root_.scala.Option(__sourceContext.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.source_context.SourceContext](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 48 =>
           __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
         case tag =>
@@ -270,7 +270,7 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
     def fields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.Field]] = field(_.fields)((c_, f_) => c_.copy(fields = f_))
     def oneofs: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.oneofs)((c_, f_) => c_.copy(oneofs = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = Option(f_)))
+    def sourceContext: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.source_context.SourceContext] = field(_.getSourceContext)((c_, f_) => c_.copy(sourceContext = _root_.scala.Option(f_)))
     def optionalSourceContext: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.source_context.SourceContext]] = field(_.sourceContext)((c_, f_) => c_.copy(sourceContext = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
   }

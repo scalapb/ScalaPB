@@ -92,7 +92,7 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __opt = Option(__opt.fold(_root_.scalapb.LiteParser.readMessage[scalapb.perf.protos.SimpleMessage](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __opt = _root_.scala.Option(__opt.fold(_root_.scalapb.LiteParser.readMessage[scalapb.perf.protos.SimpleMessage](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 18 =>
           __rep += _root_.scalapb.LiteParser.readMessage[scalapb.perf.protos.SimpleMessage](_input__)
         case tag =>
@@ -134,7 +134,7 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
     rep = _root_.scala.Seq.empty
   )
   implicit class MessageContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.MessageContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.MessageContainer](_l) {
-    def opt: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.SimpleMessage] = field(_.getOpt)((c_, f_) => c_.copy(opt = Option(f_)))
+    def opt: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.SimpleMessage] = field(_.getOpt)((c_, f_) => c_.copy(opt = _root_.scala.Option(f_)))
     def optionalOpt: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.perf.protos.SimpleMessage]] = field(_.opt)((c_, f_) => c_.copy(opt = f_))
     def rep: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]] = field(_.rep)((c_, f_) => c_.copy(rep = f_))
   }

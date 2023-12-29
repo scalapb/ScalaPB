@@ -245,17 +245,17 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __ctype = Option(com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
+          __ctype = _root_.scala.Option(com.google.protobuf.descriptor.FieldOptions.CType.fromValue(_input__.readEnum()))
         case 16 =>
-          __packed = Option(_input__.readBool())
+          __packed = _root_.scala.Option(_input__.readBool())
         case 48 =>
-          __jstype = Option(com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum()))
+          __jstype = _root_.scala.Option(com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum()))
         case 40 =>
-          __lazy = Option(_input__.readBool())
+          __lazy = _root_.scala.Option(_input__.readBool())
         case 24 =>
-          __deprecated = Option(_input__.readBool())
+          __deprecated = _root_.scala.Option(_input__.readBool())
         case 80 =>
-          __weak = Option(_input__.readBool())
+          __weak = _root_.scala.Option(_input__.readBool())
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -428,17 +428,17 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     }
   }
   implicit class FieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldOptions](_l) {
-    def ctype: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.CType] = field(_.getCtype)((c_, f_) => c_.copy(ctype = Option(f_)))
+    def ctype: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.CType] = field(_.getCtype)((c_, f_) => c_.copy(ctype = _root_.scala.Option(f_)))
     def optionalCtype: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType]] = field(_.ctype)((c_, f_) => c_.copy(ctype = f_))
-    def packed: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPacked)((c_, f_) => c_.copy(packed = Option(f_)))
+    def packed: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getPacked)((c_, f_) => c_.copy(packed = _root_.scala.Option(f_)))
     def optionalPacked: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.packed)((c_, f_) => c_.copy(packed = f_))
-    def jstype: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.JSType] = field(_.getJstype)((c_, f_) => c_.copy(jstype = Option(f_)))
+    def jstype: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.JSType] = field(_.getJstype)((c_, f_) => c_.copy(jstype = _root_.scala.Option(f_)))
     def optionalJstype: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType]] = field(_.jstype)((c_, f_) => c_.copy(jstype = f_))
-    def `lazy`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLazy)((c_, f_) => c_.copy(`lazy` = Option(f_)))
+    def `lazy`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLazy)((c_, f_) => c_.copy(`lazy` = _root_.scala.Option(f_)))
     def optionalLazy: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.`lazy`)((c_, f_) => c_.copy(`lazy` = f_))
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def weak: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getWeak)((c_, f_) => c_.copy(weak = Option(f_)))
+    def weak: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getWeak)((c_, f_) => c_.copy(weak = _root_.scala.Option(f_)))
     def optionalWeak: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.weak)((c_, f_) => c_.copy(weak = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

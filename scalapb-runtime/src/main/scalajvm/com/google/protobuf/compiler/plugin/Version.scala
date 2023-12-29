@@ -134,13 +134,13 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __major = Option(_input__.readInt32())
+          __major = _root_.scala.Option(_input__.readInt32())
         case 16 =>
-          __minor = Option(_input__.readInt32())
+          __minor = _root_.scala.Option(_input__.readInt32())
         case 24 =>
-          __patch = Option(_input__.readInt32())
+          __patch = _root_.scala.Option(_input__.readInt32())
         case 34 =>
-          __suffix = Option(_input__.readStringRequireUtf8())
+          __suffix = _root_.scala.Option(_input__.readStringRequireUtf8())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -179,13 +179,13 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     suffix = _root_.scala.None
   )
   implicit class VersionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.Version]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.Version](_l) {
-    def major: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getMajor)((c_, f_) => c_.copy(major = Option(f_)))
+    def major: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getMajor)((c_, f_) => c_.copy(major = _root_.scala.Option(f_)))
     def optionalMajor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.major)((c_, f_) => c_.copy(major = f_))
-    def minor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getMinor)((c_, f_) => c_.copy(minor = Option(f_)))
+    def minor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getMinor)((c_, f_) => c_.copy(minor = _root_.scala.Option(f_)))
     def optionalMinor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.minor)((c_, f_) => c_.copy(minor = f_))
-    def patch: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getPatch)((c_, f_) => c_.copy(patch = Option(f_)))
+    def patch: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getPatch)((c_, f_) => c_.copy(patch = _root_.scala.Option(f_)))
     def optionalPatch: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.patch)((c_, f_) => c_.copy(patch = f_))
-    def suffix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSuffix)((c_, f_) => c_.copy(suffix = Option(f_)))
+    def suffix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSuffix)((c_, f_) => c_.copy(suffix = _root_.scala.Option(f_)))
     def optionalSuffix: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.suffix)((c_, f_) => c_.copy(suffix = f_))
   }
   final val MAJOR_FIELD_NUMBER = 1

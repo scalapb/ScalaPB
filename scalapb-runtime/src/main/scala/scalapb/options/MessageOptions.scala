@@ -278,17 +278,17 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
         case 26 =>
           __annotations += _input__.readStringRequireUtf8()
         case 34 =>
-          __type = Option(_input__.readStringRequireUtf8())
+          __type = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 42 =>
           __companionAnnotations += _input__.readStringRequireUtf8()
         case 50 =>
           __sealedOneofExtends += _input__.readStringRequireUtf8()
         case 56 =>
-          __noBox = Option(_input__.readBool())
+          __noBox = _root_.scala.Option(_input__.readBool())
         case 66 =>
           __unknownFieldsAnnotations += _input__.readStringRequireUtf8()
         case 72 =>
-          __noDefaultValuesInConstructor = Option(_input__.readBool())
+          __noDefaultValuesInConstructor = _root_.scala.Option(_input__.readBool())
         case 82 =>
           __sealedOneofCompanionExtends += _input__.readStringRequireUtf8()
         case 90 =>
@@ -360,14 +360,14 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
     def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = _root_.scala.Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
     def companionAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.companionAnnotations)((c_, f_) => c_.copy(companionAnnotations = f_))
     def sealedOneofExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.sealedOneofExtends)((c_, f_) => c_.copy(sealedOneofExtends = f_))
-    def noBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Option(f_)))
+    def noBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = _root_.scala.Option(f_)))
     def optionalNoBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noBox)((c_, f_) => c_.copy(noBox = f_))
     def unknownFieldsAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.unknownFieldsAnnotations)((c_, f_) => c_.copy(unknownFieldsAnnotations = f_))
-    def noDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = Option(f_)))
+    def noDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = _root_.scala.Option(f_)))
     def optionalNoDefaultValuesInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noDefaultValuesInConstructor)((c_, f_) => c_.copy(noDefaultValuesInConstructor = f_))
     def sealedOneofCompanionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.sealedOneofCompanionExtends)((c_, f_) => c_.copy(sealedOneofCompanionExtends = f_))
     def derives: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.derives)((c_, f_) => c_.copy(derives = f_))

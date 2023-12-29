@@ -191,9 +191,9 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
         _tag__ match {
           case 0 => _done__ = true
           case 10 =>
-            __key = Option(_input__.readStringRequireUtf8())
+            __key = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 18 =>
-            __value = Option(__value.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __value = _root_.scala.Option(__value.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.ScalaPbOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -232,9 +232,9 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       value = _root_.scala.None
     )
     implicit class OptionsByFileEntryLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.PreprocessorOutput.OptionsByFileEntry]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.PreprocessorOutput.OptionsByFileEntry](_l) {
-      def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKey)((c_, f_) => c_.copy(key = Option(f_)))
+      def key: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKey)((c_, f_) => c_.copy(key = _root_.scala.Option(f_)))
       def optionalKey: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.key)((c_, f_) => c_.copy(key = f_))
-      def value: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions] = field(_.getValue)((c_, f_) => c_.copy(value = Option(f_)))
+      def value: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.ScalaPbOptions] = field(_.getValue)((c_, f_) => c_.copy(value = _root_.scala.Option(f_)))
       def optionalValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.ScalaPbOptions]] = field(_.value)((c_, f_) => c_.copy(value = f_))
     }
     final val KEY_FIELD_NUMBER = 1

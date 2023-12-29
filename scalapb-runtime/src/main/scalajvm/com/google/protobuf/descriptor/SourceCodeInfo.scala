@@ -429,9 +429,9 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
             _input__.popLimit(oldLimit)
           }
           case 26 =>
-            __leadingComments = Option(_input__.readStringRequireUtf8())
+            __leadingComments = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 34 =>
-            __trailingComments = Option(_input__.readStringRequireUtf8())
+            __trailingComments = _root_.scala.Option(_input__.readStringRequireUtf8())
           case 50 =>
             __leadingDetachedComments += _input__.readStringRequireUtf8()
           case tag =>
@@ -477,9 +477,9 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     implicit class LocationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))
       def span: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.span)((c_, f_) => c_.copy(span = f_))
-      def leadingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getLeadingComments)((c_, f_) => c_.copy(leadingComments = Option(f_)))
+      def leadingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getLeadingComments)((c_, f_) => c_.copy(leadingComments = _root_.scala.Option(f_)))
       def optionalLeadingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.leadingComments)((c_, f_) => c_.copy(leadingComments = f_))
-      def trailingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTrailingComments)((c_, f_) => c_.copy(trailingComments = Option(f_)))
+      def trailingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getTrailingComments)((c_, f_) => c_.copy(trailingComments = _root_.scala.Option(f_)))
       def optionalTrailingComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.trailingComments)((c_, f_) => c_.copy(trailingComments = f_))
       def leadingDetachedComments: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.leadingDetachedComments)((c_, f_) => c_.copy(leadingDetachedComments = f_))
     }

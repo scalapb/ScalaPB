@@ -110,9 +110,9 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
       _tag__ match {
         case 0 => _done__ = true
         case 264 =>
-          __deprecated = Option(_input__.readBool())
+          __deprecated = _root_.scala.Option(_input__.readBool())
         case 272 =>
-          __idempotencyLevel = Option(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
+          __idempotencyLevel = _root_.scala.Option(com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum()))
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -215,9 +215,9 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.MethodOptions.scalaDescriptor.enums(0)
   }
   implicit class MethodOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MethodOptions](_l) {
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def idempotencyLevel: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = field(_.getIdempotencyLevel)((c_, f_) => c_.copy(idempotencyLevel = Option(f_)))
+    def idempotencyLevel: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = field(_.getIdempotencyLevel)((c_, f_) => c_.copy(idempotencyLevel = _root_.scala.Option(f_)))
     def optionalIdempotencyLevel: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel]] = field(_.idempotencyLevel)((c_, f_) => c_.copy(idempotencyLevel = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

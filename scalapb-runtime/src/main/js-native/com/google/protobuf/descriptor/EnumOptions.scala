@@ -113,9 +113,9 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       _tag__ match {
         case 0 => _done__ = true
         case 16 =>
-          __allowAlias = Option(_input__.readBool())
+          __allowAlias = _root_.scala.Option(_input__.readBool())
         case 24 =>
-          __deprecated = Option(_input__.readBool())
+          __deprecated = _root_.scala.Option(_input__.readBool())
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -159,9 +159,9 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     uninterpretedOption = _root_.scala.Seq.empty
   )
   implicit class EnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumOptions](_l) {
-    def allowAlias: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getAllowAlias)((c_, f_) => c_.copy(allowAlias = Option(f_)))
+    def allowAlias: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getAllowAlias)((c_, f_) => c_.copy(allowAlias = _root_.scala.Option(f_)))
     def optionalAllowAlias: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.allowAlias)((c_, f_) => c_.copy(allowAlias = f_))
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

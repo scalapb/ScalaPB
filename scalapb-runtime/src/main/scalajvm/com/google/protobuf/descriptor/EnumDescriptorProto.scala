@@ -165,11 +165,11 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __name = Option(_input__.readStringRequireUtf8())
+          __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
           __value += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumValueDescriptorProto](_input__)
         case 26 =>
-          __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 34 =>
           __reservedRange += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange](_input__)
         case 42 =>
@@ -326,9 +326,9 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            __start = Option(_input__.readInt32())
+            __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>
-            __end = Option(_input__.readInt32())
+            __end = _root_.scala.Option(_input__.readInt32())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -361,9 +361,9 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
       end = _root_.scala.None
     )
     implicit class EnumReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange](_l) {
-      def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
+      def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = _root_.scala.Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
-      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
+      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = _root_.scala.Option(f_)))
       def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
@@ -379,10 +379,10 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   }
   
   implicit class EnumDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumDescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = _root_.scala.Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto]] = field(_.value)((c_, f_) => c_.copy(value = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def reservedRange: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]] = field(_.reservedRange)((c_, f_) => c_.copy(reservedRange = f_))
     def reservedName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.reservedName)((c_, f_) => c_.copy(reservedName = f_))

@@ -156,17 +156,17 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __name = Option(_input__.readStringRequireUtf8())
+          __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
-          __inputType = Option(_input__.readStringRequireUtf8())
+          __inputType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 26 =>
-          __outputType = Option(_input__.readStringRequireUtf8())
+          __outputType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 34 =>
-          __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.MethodOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.MethodOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 40 =>
-          __clientStreaming = Option(_input__.readBool())
+          __clientStreaming = _root_.scala.Option(_input__.readBool())
         case 48 =>
-          __serverStreaming = Option(_input__.readBool())
+          __serverStreaming = _root_.scala.Option(_input__.readBool())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -217,17 +217,17 @@ object MethodDescriptorProto extends scalapb.GeneratedMessageCompanion[com.googl
     serverStreaming = _root_.scala.None
   )
   implicit class MethodDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MethodDescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = _root_.scala.Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def inputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getInputType)((c_, f_) => c_.copy(inputType = Option(f_)))
+    def inputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getInputType)((c_, f_) => c_.copy(inputType = _root_.scala.Option(f_)))
     def optionalInputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.inputType)((c_, f_) => c_.copy(inputType = f_))
-    def outputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getOutputType)((c_, f_) => c_.copy(outputType = Option(f_)))
+    def outputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getOutputType)((c_, f_) => c_.copy(outputType = _root_.scala.Option(f_)))
     def optionalOutputType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.outputType)((c_, f_) => c_.copy(outputType = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MethodOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
-    def clientStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getClientStreaming)((c_, f_) => c_.copy(clientStreaming = Option(f_)))
+    def clientStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getClientStreaming)((c_, f_) => c_.copy(clientStreaming = _root_.scala.Option(f_)))
     def optionalClientStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.clientStreaming)((c_, f_) => c_.copy(clientStreaming = f_))
-    def serverStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getServerStreaming)((c_, f_) => c_.copy(serverStreaming = Option(f_)))
+    def serverStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getServerStreaming)((c_, f_) => c_.copy(serverStreaming = _root_.scala.Option(f_)))
     def optionalServerStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.serverStreaming)((c_, f_) => c_.copy(serverStreaming = f_))
   }
   final val NAME_FIELD_NUMBER = 1

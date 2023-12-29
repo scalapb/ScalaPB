@@ -167,7 +167,7 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
         case 18 =>
           __companionExtends += _input__.readStringRequireUtf8()
         case 26 =>
-          __type = Option(_input__.readStringRequireUtf8())
+          __type = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 34 =>
           __baseAnnotations += _input__.readStringRequireUtf8()
         case 42 =>
@@ -220,7 +220,7 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Enu
   implicit class EnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.EnumOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
     def companionExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.companionExtends)((c_, f_) => c_.copy(companionExtends = f_))
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = _root_.scala.Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
     def baseAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.baseAnnotations)((c_, f_) => c_.copy(baseAnnotations = f_))
     def recognizedAnnotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.recognizedAnnotations)((c_, f_) => c_.copy(recognizedAnnotations = f_))

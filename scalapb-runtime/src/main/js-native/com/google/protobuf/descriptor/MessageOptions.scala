@@ -185,13 +185,13 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __messageSetWireFormat = Option(_input__.readBool())
+          __messageSetWireFormat = _root_.scala.Option(_input__.readBool())
         case 16 =>
-          __noStandardDescriptorAccessor = Option(_input__.readBool())
+          __noStandardDescriptorAccessor = _root_.scala.Option(_input__.readBool())
         case 24 =>
-          __deprecated = Option(_input__.readBool())
+          __deprecated = _root_.scala.Option(_input__.readBool())
         case 56 =>
-          __mapEntry = Option(_input__.readBool())
+          __mapEntry = _root_.scala.Option(_input__.readBool())
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -241,13 +241,13 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     uninterpretedOption = _root_.scala.Seq.empty
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MessageOptions](_l) {
-    def messageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMessageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = Option(f_)))
+    def messageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMessageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = _root_.scala.Option(f_)))
     def optionalMessageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.messageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = f_))
-    def noStandardDescriptorAccessor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoStandardDescriptorAccessor)((c_, f_) => c_.copy(noStandardDescriptorAccessor = Option(f_)))
+    def noStandardDescriptorAccessor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoStandardDescriptorAccessor)((c_, f_) => c_.copy(noStandardDescriptorAccessor = _root_.scala.Option(f_)))
     def optionalNoStandardDescriptorAccessor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noStandardDescriptorAccessor)((c_, f_) => c_.copy(noStandardDescriptorAccessor = f_))
-    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = Option(f_)))
+    def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
-    def mapEntry: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMapEntry)((c_, f_) => c_.copy(mapEntry = Option(f_)))
+    def mapEntry: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMapEntry)((c_, f_) => c_.copy(mapEntry = _root_.scala.Option(f_)))
     def optionalMapEntry: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.mapEntry)((c_, f_) => c_.copy(mapEntry = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }

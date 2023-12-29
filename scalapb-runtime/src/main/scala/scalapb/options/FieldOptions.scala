@@ -245,27 +245,27 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __type = Option(_input__.readStringRequireUtf8())
+          __type = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
-          __scalaName = Option(_input__.readStringRequireUtf8())
+          __scalaName = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 26 =>
-          __collectionType = Option(_input__.readStringRequireUtf8())
+          __collectionType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 66 =>
-          __collection = Option(__collection.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.Collection](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __collection = _root_.scala.Option(__collection.fold(_root_.scalapb.LiteParser.readMessage[scalapb.options.Collection](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 34 =>
-          __keyType = Option(_input__.readStringRequireUtf8())
+          __keyType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 42 =>
-          __valueType = Option(_input__.readStringRequireUtf8())
+          __valueType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 50 =>
           __annotations += _input__.readStringRequireUtf8()
         case 58 =>
-          __mapType = Option(_input__.readStringRequireUtf8())
+          __mapType = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 72 =>
-          __noDefaultValueInConstructor = Option(_input__.readBool())
+          __noDefaultValueInConstructor = _root_.scala.Option(_input__.readBool())
         case 240 =>
-          __noBox = Option(_input__.readBool())
+          __noBox = _root_.scala.Option(_input__.readBool())
         case 248 =>
-          __required = Option(_input__.readBool())
+          __required = _root_.scala.Option(_input__.readBool())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -331,26 +331,26 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     required = _root_.scala.None
   )
   implicit class FieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.FieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.FieldOptions](_l) {
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = _root_.scala.Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
-    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = Option(f_)))
+    def scalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getScalaName)((c_, f_) => c_.copy(scalaName = _root_.scala.Option(f_)))
     def optionalScalaName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.scalaName)((c_, f_) => c_.copy(scalaName = f_))
-    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = Option(f_)))
+    def collectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getCollectionType)((c_, f_) => c_.copy(collectionType = _root_.scala.Option(f_)))
     def optionalCollectionType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.collectionType)((c_, f_) => c_.copy(collectionType = f_))
-    def collection: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.Collection] = field(_.getCollection)((c_, f_) => c_.copy(collection = Option(f_)))
+    def collection: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.Collection] = field(_.getCollection)((c_, f_) => c_.copy(collection = _root_.scala.Option(f_)))
     def optionalCollection: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[scalapb.options.Collection]] = field(_.collection)((c_, f_) => c_.copy(collection = f_))
-    def keyType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKeyType)((c_, f_) => c_.copy(keyType = Option(f_)))
+    def keyType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getKeyType)((c_, f_) => c_.copy(keyType = _root_.scala.Option(f_)))
     def optionalKeyType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.keyType)((c_, f_) => c_.copy(keyType = f_))
-    def valueType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = Option(f_)))
+    def valueType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getValueType)((c_, f_) => c_.copy(valueType = _root_.scala.Option(f_)))
     def optionalValueType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.valueType)((c_, f_) => c_.copy(valueType = f_))
     def annotations: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.annotations)((c_, f_) => c_.copy(annotations = f_))
-    def mapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getMapType)((c_, f_) => c_.copy(mapType = Option(f_)))
+    def mapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getMapType)((c_, f_) => c_.copy(mapType = _root_.scala.Option(f_)))
     def optionalMapType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.mapType)((c_, f_) => c_.copy(mapType = f_))
-    def noDefaultValueInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValueInConstructor)((c_, f_) => c_.copy(noDefaultValueInConstructor = Option(f_)))
+    def noDefaultValueInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoDefaultValueInConstructor)((c_, f_) => c_.copy(noDefaultValueInConstructor = _root_.scala.Option(f_)))
     def optionalNoDefaultValueInConstructor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noDefaultValueInConstructor)((c_, f_) => c_.copy(noDefaultValueInConstructor = f_))
-    def noBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = Option(f_)))
+    def noBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNoBox)((c_, f_) => c_.copy(noBox = _root_.scala.Option(f_)))
     def optionalNoBox: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.noBox)((c_, f_) => c_.copy(noBox = f_))
-    def required: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getRequired)((c_, f_) => c_.copy(required = Option(f_)))
+    def required: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getRequired)((c_, f_) => c_.copy(required = _root_.scala.Option(f_)))
     def optionalRequired: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.required)((c_, f_) => c_.copy(required = f_))
   }
   final val TYPE_FIELD_NUMBER = 1

@@ -261,7 +261,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __name = Option(_input__.readStringRequireUtf8())
+          __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
           __field += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldDescriptorProto](_input__)
         case 50 =>
@@ -275,7 +275,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
         case 66 =>
           __oneofDecl += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.OneofDescriptorProto](_input__)
         case 58 =>
-          __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.MessageOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 74 =>
           __reservedRange += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_input__)
         case 82 =>
@@ -465,11 +465,11 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            __start = Option(_input__.readInt32())
+            __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>
-            __end = Option(_input__.readInt32())
+            __end = _root_.scala.Option(_input__.readInt32())
           case 26 =>
-            __options = Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.ExtensionRangeOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+            __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.ExtensionRangeOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -511,11 +511,11 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       options = _root_.scala.None
     )
     implicit class ExtensionRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ExtensionRange](_l) {
-      def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
+      def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = _root_.scala.Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
-      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
+      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = _root_.scala.Option(f_)))
       def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
-      def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+      def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
       def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     }
     final val START_FIELD_NUMBER = 1
@@ -631,9 +631,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
         _tag__ match {
           case 0 => _done__ = true
           case 8 =>
-            __start = Option(_input__.readInt32())
+            __start = _root_.scala.Option(_input__.readInt32())
           case 16 =>
-            __end = Option(_input__.readInt32())
+            __end = _root_.scala.Option(_input__.readInt32())
           case tag =>
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -666,9 +666,9 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       end = _root_.scala.None
     )
     implicit class ReservedRangeLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto.ReservedRange](_l) {
-      def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = Option(f_)))
+      def start: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getStart)((c_, f_) => c_.copy(start = _root_.scala.Option(f_)))
       def optionalStart: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.start)((c_, f_) => c_.copy(start = f_))
-      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = Option(f_)))
+      def end: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getEnd)((c_, f_) => c_.copy(end = _root_.scala.Option(f_)))
       def optionalEnd: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.end)((c_, f_) => c_.copy(end = f_))
     }
     final val START_FIELD_NUMBER = 1
@@ -684,7 +684,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   }
   
   implicit class DescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.DescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.DescriptorProto](_l) {
-    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = Option(f_)))
+    def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = _root_.scala.Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def field: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.field)((c_, f_) => c_.copy(field = f_))
     def extension: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]] = field(_.extension)((c_, f_) => c_.copy(extension = f_))
@@ -692,7 +692,7 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
     def enumType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
     def extensionRange: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]] = field(_.extensionRange)((c_, f_) => c_.copy(extensionRange = f_))
     def oneofDecl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]] = field(_.oneofDecl)((c_, f_) => c_.copy(oneofDecl = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = Option(f_)))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
     def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def reservedRange: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]] = field(_.reservedRange)((c_, f_) => c_.copy(reservedRange = f_))
     def reservedName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.reservedName)((c_, f_) => c_.copy(reservedName = f_))

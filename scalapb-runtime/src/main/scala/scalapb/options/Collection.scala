@@ -112,11 +112,11 @@ object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Coll
       _tag__ match {
         case 0 => _done__ = true
         case 10 =>
-          __type = Option(_input__.readStringRequireUtf8())
+          __type = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 16 =>
-          __nonEmpty = Option(_input__.readBool())
+          __nonEmpty = _root_.scala.Option(_input__.readBool())
         case 26 =>
-          __adapter = Option(_input__.readStringRequireUtf8())
+          __adapter = _root_.scala.Option(_input__.readStringRequireUtf8())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -152,11 +152,11 @@ object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Coll
     adapter = _root_.scala.None
   )
   implicit class CollectionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.Collection]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.Collection](_l) {
-    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = Option(f_)))
+    def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = _root_.scala.Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
-    def nonEmpty: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNonEmpty)((c_, f_) => c_.copy(nonEmpty = Option(f_)))
+    def nonEmpty: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNonEmpty)((c_, f_) => c_.copy(nonEmpty = _root_.scala.Option(f_)))
     def optionalNonEmpty: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.nonEmpty)((c_, f_) => c_.copy(nonEmpty = f_))
-    def adapter: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getAdapter)((c_, f_) => c_.copy(adapter = Option(f_)))
+    def adapter: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getAdapter)((c_, f_) => c_.copy(adapter = _root_.scala.Option(f_)))
     def optionalAdapter: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.adapter)((c_, f_) => c_.copy(adapter = f_))
   }
   final val TYPE_FIELD_NUMBER = 1
