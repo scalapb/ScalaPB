@@ -1,5 +1,5 @@
 package scalapb.grpc
 
 trait AbstractService {
-  def serviceCompanion: ServiceCompanion[_]
+  def serviceCompanion: ServiceCompanion[?]
 }

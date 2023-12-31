@@ -235,11 +235,11 @@ object SchemaGenerators {
       jarForClass[scalapb.grpc.Grpc.type].getPath,
       jarForClass[com.google.protobuf.Message].getPath,
       jarForClass[io.grpc.Channel].getPath,
-      jarForClass[io.grpc.stub.AbstractStub[_]].getPath,
+      jarForClass[io.grpc.stub.AbstractStub[?]].getPath,
       jarForClass[io.grpc.protobuf.ProtoFileDescriptorSupplier].getPath,
-      jarForClass[com.google.common.util.concurrent.ListenableFuture[_]].getPath(),
+      jarForClass[com.google.common.util.concurrent.ListenableFuture[?]].getPath(),
       jarForClass[javax.annotation.Nullable].getPath(),
-      jarForClass[scalapb.lenses.Lens[_, _]].getPath(),
+      jarForClass[scalapb.lenses.Lens[?, ?]].getPath(),
       rootDir.toString()
     )
     val scalaFiles = getFileTree(rootDir)
@@ -256,7 +256,7 @@ object SchemaGenerators {
   }
 
   type CompanionWithJavaSupport[A <: GeneratedMessage] =
-    GeneratedMessageCompanion[A] with JavaProtoSupport[A, _]
+    GeneratedMessageCompanion[A] with JavaProtoSupport[A, ?]
 
   case class CompiledSchema(rootNode: RootNode, rootDir: File) {
     lazy val classLoader =

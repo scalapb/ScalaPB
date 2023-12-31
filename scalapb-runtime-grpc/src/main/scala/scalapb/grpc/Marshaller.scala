@@ -9,7 +9,7 @@ class Marshaller[T <: GeneratedMessage](companion: GeneratedMessageCompanion[T])
   override def stream(t: T): InputStream = new ProtoInputStream[T](t)
 
   override def parse(inputStream: InputStream): T = inputStream match {
-    case pis: ProtoInputStream[_] => pis.message.asInstanceOf[T]
+    case pis: ProtoInputStream[?] => pis.message.asInstanceOf[T]
     case _                        => companion.parseFrom(inputStream)
   }
 }

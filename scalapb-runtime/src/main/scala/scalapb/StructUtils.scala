@@ -23,7 +23,7 @@ object StructUtils {
 
   private def structMapToFDMap(
       structFields: Map[String, Value]
-  )(implicit companion: GeneratedMessageCompanion[_]): Either[StructParsingError, PMessage] = {
+  )(implicit companion: GeneratedMessageCompanion[?]): Either[StructParsingError, PMessage] = {
     val fieldDescriptorToPValue = companion.scalaDescriptor.fields.map { fd =>
       structFields
         .get(fd.name)
@@ -35,7 +35,7 @@ object StructUtils {
   }
 
   private def fromValue(fd: FieldDescriptor)(value: Value)(implicit
-      companion: GeneratedMessageCompanion[_]
+      companion: GeneratedMessageCompanion[?]
   ): Either[StructParsingError, PValue] = (value.kind, fd.scalaType) match {
     case (Kind.NumberValue(v), ScalaType.Int) if v.isValidInt =>
       Right(PInt(v.toInt))
