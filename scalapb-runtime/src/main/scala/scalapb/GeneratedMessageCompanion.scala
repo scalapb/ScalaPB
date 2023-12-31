@@ -109,7 +109,7 @@ trait GeneratedMessage extends Any with Product with Serializable {
       (f, getField(f))
     }.toMap)
 
-  def companion: GeneratedMessageCompanion[_]
+  def companion: GeneratedMessageCompanion[?]
 
   /** Serializes the message and returns a byte array containing its raw bytes */
   final def toByteArray: Array[Byte] = {
@@ -207,15 +207,15 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
 
   // Companion object of all nested messages. That is, all messages that are defined directly inside this
   // message.
-  def nestedMessagesCompanions: Seq[GeneratedMessageCompanion[_ <: GeneratedMessage]]
+  def nestedMessagesCompanions: Seq[GeneratedMessageCompanion[? <: GeneratedMessage]]
 
   def messageReads: _root_.scalapb.descriptors.Reads[A]
 
-  def messageCompanionForFieldNumber(field: Int): GeneratedMessageCompanion[_]
+  def messageCompanionForFieldNumber(field: Int): GeneratedMessageCompanion[?]
 
   def messageCompanionForField(
       field: JavaDescriptors.FieldDescriptor
-  ): GeneratedMessageCompanion[_] = {
+  ): GeneratedMessageCompanion[?] = {
     require(
       field.getContainingType() == javaDescriptor,
       "FieldDescriptor does not match message type."
@@ -223,9 +223,9 @@ trait GeneratedMessageCompanion[A <: GeneratedMessage] extends Serializable {
     messageCompanionForFieldNumber(field.getNumber())
   }
 
-  def enumCompanionForFieldNumber(field: Int): GeneratedEnumCompanion[_]
+  def enumCompanionForFieldNumber(field: Int): GeneratedEnumCompanion[?]
 
-  def enumCompanionForField(field: JavaDescriptors.FieldDescriptor): GeneratedEnumCompanion[_] = {
+  def enumCompanionForField(field: JavaDescriptors.FieldDescriptor): GeneratedEnumCompanion[?] = {
     require(
       field.getContainingType() == javaDescriptor,
       "FieldDescriptor does not match message type."
@@ -257,7 +257,7 @@ abstract class GeneratedFileObject {
   def dependencies: Seq[GeneratedFileObject]
 
   // Companion object of all top-level messages
-  def messagesCompanions: Seq[GeneratedMessageCompanion[_ <: GeneratedMessage]]
+  def messagesCompanions: Seq[GeneratedMessageCompanion[? <: GeneratedMessage]]
 }
 
 trait GeneratedSealedOneof extends Any with Product with Serializable {

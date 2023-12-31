@@ -10,7 +10,7 @@ import munit.FunSuite
 
 class GrpcSpec extends FunSuite {
   test("Complete observer should wrap an exception as a StatusException on failure") {
-    val observer = mock(classOf[StreamObserver[_]])
+    val observer = mock(classOf[StreamObserver[?]])
 
     Grpc.completeObserver(observer)(Failure(new RuntimeException("Error!")))
 

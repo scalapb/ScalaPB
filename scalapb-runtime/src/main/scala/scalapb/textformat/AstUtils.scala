@@ -65,7 +65,7 @@ private[scalapb] object AstUtils {
     checkBigInt(p, isSigned = false, isLong = true).map(t => PLong(t.longValue))
 
   private def parseUnsafe(
-      v: GeneratedMessageCompanion[_],
+      v: GeneratedMessageCompanion[?],
       ast: TMessage
   ): Either[AstError, PMessage] = {
     def parseDouble(p: TPrimitive): Either[AstError, PDouble] = p match {
