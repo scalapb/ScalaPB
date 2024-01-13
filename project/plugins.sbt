@@ -1,4 +1,4 @@
-val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.14.0")
+val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.15.0")
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
 
@@ -22,7 +22,7 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.5.12")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.8")
 
-addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.9.1")
+addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.9.2")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.5.1")
 
