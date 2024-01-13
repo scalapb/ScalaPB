@@ -214,11 +214,11 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
       it("InProcessTransport skips serialization") {
         withInMemoryTransportScalaServer { channel =>
           val client = Service1GrpcScala.stub(channel)
-          val req = service.Req1(request = "AmIsraelChai")
+          val req    = service.Req1(request = "AmIsraelChai")
 
           val res = Await.result(client.echoRequest(req), 10.seconds)
 
-          res.req.get must be theSameInstanceAs(req)
+          res.req.get must be theSameInstanceAs (req)
         }
       }
 
