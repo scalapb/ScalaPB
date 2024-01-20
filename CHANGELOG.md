@@ -4,6 +4,8 @@
 - When more than one enum values share the same number, the first one would
   generate a case object as usual, and subsequent ones will value values
   referencing the case object. This is consistent with the Java behavior (#1611)
+- `Option` now rendered as `_root_.scala.Option` to resolve name conflicts (#1623)
+- scalapb-runtime-grpc: optimize Marshaller for InProcessTransport (#1615)
   
 ## [0.11.14]
 - Repeated extensions can now use arbitrary iterable types or any collection type there is a
