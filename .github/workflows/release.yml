@@ -24,7 +24,7 @@ jobs:
       with:
         java-version: 8
         distribution: temurin
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: '12.x'
     - uses: olafurpg/setup-gpg@v3
@@ -57,7 +57,7 @@ jobs:
       with:
         java-version: 11
         distribution: temurin
-    - uses: actions/setup-node@v3
+    - uses: actions/setup-node@v4
       with:
         node-version: '12.x'
     - name: Update docs
