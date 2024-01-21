@@ -143,11 +143,6 @@ object SchemaGenerators {
     Gen.sized(max => c.choose(-fromInt(max), fromInt(max)))
   }
 
-  def escapeString(raw: String): String = {
-    import scala.reflect.runtime.universe._
-    Literal(Constant(raw)).toString
-  }
-
   def writeFileSet(rootNode: RootNode) = {
     val tmpDir = Files.createTempDirectory(s"set_").toFile.getAbsoluteFile
     rootNode.files.foreach { fileNode =>
