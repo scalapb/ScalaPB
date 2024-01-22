@@ -28,7 +28,7 @@ jobs:
         distribution: temurin
 
     - name: Mount caches
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.sbt
@@ -47,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       id: conformance-cache
       with:
           key: conformance-${{ runner.os }}-${{hashFiles('conformance/build_test_runner.sh')}}
@@ -56,7 +56,7 @@ jobs:
     # Build conformance_test_runner on a cache miss
     - uses: bazelbuild/setup-bazelisk@v2
       if: steps.conformance-cache.outputs.cache-hit != 'true'
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       if: steps.conformance-cache.outputs.cache-hit != 'true'
       with:
         path: |
@@ -65,7 +65,7 @@ jobs:
     - run: conformance/build_test_runner.sh
       if: steps.conformance-cache.outputs.cache-hit != 'true'
 
-    - uses: actions/cache@v3
+    - uses: actions/cache@v4
       with:
         path: |
           ~/.sbt
