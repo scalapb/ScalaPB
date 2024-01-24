@@ -257,7 +257,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__)
+          _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+          ()
       }
     }
     com.google.protobuf.descriptor.DescriptorProto(
@@ -435,7 +436,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.parseField(tag, _input__)
+            _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+            ()
         }
       }
       com.google.protobuf.descriptor.DescriptorProto.ExtensionRange(
@@ -589,7 +591,8 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.parseField(tag, _input__)
+            _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+            ()
         }
       }
       com.google.protobuf.descriptor.DescriptorProto.ReservedRange(

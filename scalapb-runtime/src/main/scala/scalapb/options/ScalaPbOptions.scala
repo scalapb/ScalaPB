@@ -648,7 +648,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__)
+          _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+          ()
       }
     }
     scalapb.options.ScalaPbOptions(
@@ -964,7 +965,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.parseField(tag, _input__)
+            _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+            ()
         }
       }
       scalapb.options.ScalaPbOptions.AuxMessageOptions(
@@ -1114,7 +1116,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.parseField(tag, _input__)
+            _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+            ()
         }
       }
       scalapb.options.ScalaPbOptions.AuxFieldOptions(
@@ -1264,7 +1267,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.parseField(tag, _input__)
+            _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+            ()
         }
       }
       scalapb.options.ScalaPbOptions.AuxEnumOptions(
@@ -1414,7 +1418,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
             if (_unknownFields__ == null) {
               _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
             }
-            _unknownFields__.parseField(tag, _input__)
+            _unknownFields__.parseField(tag, _input__): @_root_.scala.annotation.nowarn
+            ()
         }
       }
       scalapb.options.ScalaPbOptions.AuxEnumValueOptions(
