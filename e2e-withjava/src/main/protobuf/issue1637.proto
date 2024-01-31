@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.issue1637;
+
+message Request {
+  message Target {
+    enum Kind {
+        UNSPECIFIED = 0;
+        // Other enum values ...
+    }
+
+    Kind kind = 3;
+  }
+
+  Target target = 1;
+}
