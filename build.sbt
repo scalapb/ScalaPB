@@ -19,6 +19,8 @@ inThisBuild(
 
 addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
 
+ThisBuild / PB.protocVersion := versions.protobuf
+
 lazy val sharedNativeSettings = List(
   nativeLinkStubs := true // for utest
 )
@@ -79,7 +81,6 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / PB.targets ++= Seq(
         PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value
       ),
-      PB.protocVersion := versions.protobuf,
       Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "jvm-native",
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
@@ -332,7 +333,6 @@ lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
                          )
                        else Nil),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
-    PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
       PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
       PB.gens.plugin("grpc-java")     -> (Compile / sourceManaged).value,
@@ -436,7 +436,6 @@ lazy val e2e = (projectMatrix in file("e2e"))
                            "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
                          )
                        else Nil),
-    PB.protocVersion := versions.protobuf,
     Compile / PB.protoSources ++= (if (isScala3.value)
                                      Seq(sourceDirectory.value / "main" / "protobuf-scala3")
                                    else Nil),
@@ -451,7 +450,6 @@ lazy val conformance = (projectMatrix in file("conformance"))
     Seq(Scala213)
   )
   .settings(
-    PB.protocVersion := versions.protobuf,
     Compile / PB.targets := Seq(
       genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
     ),
