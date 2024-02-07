@@ -54,7 +54,7 @@ jobs:
           path: /tmp/conformance-test-runner
 
     # Build conformance_test_runner on a cache miss
-    - uses: bazelbuild/setup-bazelisk@v2
+    - uses: bazelbuild/setup-bazelisk@v3
       if: steps.conformance-cache.outputs.cache-hit != 'true'
     - uses: actions/cache@v3
       if: steps.conformance-cache.outputs.cache-hit != 'true'
