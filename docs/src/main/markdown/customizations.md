@@ -382,13 +382,15 @@ object will extend `MySuperCompanionClass`.
 
 ## Custom base traits for sealed oneofs
 
-Note: this option is available in ScalaPB 0.9.0 and later.
+Since 0.9.0, you can use `sealed_one_extends` to define one or more base traits for a generated SealedOneof.
 
-Use the following option to define one or more base traits for a generated SealedOneof:
+Since 0.11.16, you can also add base traits to the empty case object using `sealed_oneof_empty_extends`.
 
+Use the following options to
 ```protobuf
 message MyEither {
   option (scalapb.message).sealed_oneof_extends = "MyBaseTrait";
+  option (scalapb.message).sealed_oneof_empty_extends = "MyEmptyTrait";
 
   oneof sealed_value {
     Left left = 1;

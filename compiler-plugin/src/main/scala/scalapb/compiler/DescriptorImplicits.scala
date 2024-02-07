@@ -569,6 +569,9 @@ class DescriptorImplicits private[compiler] (
     def sealedOneofCompanionExtendsOption =
       messageOptions.getSealedOneofCompanionExtendsList.asScala.toSeq
 
+    def sealedOneofEmptyExtendsOption =
+      messageOptions.getSealedOneofEmptyExtendsList.asScala.toSeq
+
     def sealedOneofCompanionExtendsCount =
       messageOptions.getSealedOneofCompanionExtendsCount
 

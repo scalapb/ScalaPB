@@ -238,6 +238,9 @@ message MessageOptions {
   // Additional classes and traits to add to the derives clause of a sealed oneof.
   repeated string sealed_oneof_derives = 12;
 
+  // Additional traits to mixin for the empty case object of sealed oneofs.
+  repeated string sealed_oneof_empty_extends = 13;
+
   extensions 1000 to max;
 }
 

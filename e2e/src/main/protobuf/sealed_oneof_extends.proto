@@ -10,13 +10,16 @@ option (scalapb.options) = {
 
   // Generate the custom base trait.
   preamble: [
-    "sealed trait PlayerBaseTrait {",
-    "}"
+    "sealed trait PlayerBaseTrait",
+    "",
+    "sealed trait PlayerEmptyTrait",
+    ""
   ];
 };
 
 message PlayerShim {
     option (scalapb.message).sealed_oneof_extends = "PlayerBaseTrait";
+    option (scalapb.message).sealed_oneof_empty_extends = "PlayerEmptyTrait";
 
     oneof sealed_value {
         BasketBallPlayer BasketBallPlayer = 1;

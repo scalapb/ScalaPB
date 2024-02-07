@@ -42,6 +42,8 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
         val sealedOneofNonEmptyName  = message.sealedOneofNonEmptyScalaType.nameSymbol
         val sealedOneofNonEmptyType  = message.sealedOneofNonEmptyScalaType.fullName
         val sealedOneofUniversalMark = if (message.isUniversalTrait) "Any with " else ""
+        val sealedOneofEmptyExtends =
+          (sealedOneofType +: message.sealedOneofEmptyExtendsOption).mkString(" with ")
 
         fp.add(
           s"sealed trait $sealedOneofName $bases{"
@@ -55,7 +57,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           .add("")
           .add(s"object $sealedOneofName $companionBases{")
           .indented(
-            _.add(s"case object Empty extends $sealedOneofType", "")
+            _.add(s"case object Empty extends $sealedOneofEmptyExtends", "")
               .add(
                 s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofUniversalMark$sealedOneofType"
               )

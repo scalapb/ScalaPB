@@ -126,7 +126,9 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
 
   "messages using sealed_oneof_extends" should "all extend from custom user trait" in {
     PlayerShim.defaultInstance mustBe a[PlayerBaseTrait]
+    PlayerShim.defaultInstance mustBe a[PlayerEmptyTrait]
     BasketBallPlayer() mustBe a[PlayerBaseTrait]
+    BasketBallPlayer() must not be a[PlayerEmptyTrait]
     SoccerPlayer() mustBe a[PlayerBaseTrait]
     SoccerPlayer() mustBe a[scalapb.GeneratedSealedOneof]
   }
