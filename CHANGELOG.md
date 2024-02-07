@@ -1,5 +1,8 @@
 # Change Log
 
+## [0.11.16]
+- sealed_oneof_companion_extends is handled also for optional sealed oneofs (#1639)
+
 ## [0.11.15]
 - When more than one enum values share the same number, the first one would
   generate a case object as usual, and subsequent ones will value values

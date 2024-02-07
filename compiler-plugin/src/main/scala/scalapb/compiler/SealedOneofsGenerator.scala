@@ -33,13 +33,14 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           s"extends ${baseClasses.mkString(" with ")} $derives"
         else derives
 
+      val companionBases =
+        if (message.sealedOneofCompanionExtendsOption.nonEmpty)
+          s"extends ${message.sealedOneofCompanionExtendsOption.mkString(" with ")} "
+        else ""
+
       if (message.sealedOneofStyle != SealedOneofStyle.Optional) {
-        val sealedOneofNonEmptyName = message.sealedOneofNonEmptyScalaType.nameSymbol
-        val sealedOneofNonEmptyType = message.sealedOneofNonEmptyScalaType.fullName
-        val companionBases =
-          if (message.sealedOneofCompanionExtendsOption.nonEmpty)
-            s"extends ${message.sealedOneofCompanionExtendsOption.mkString(" with ")} "
-          else ""
+        val sealedOneofNonEmptyName  = message.sealedOneofNonEmptyScalaType.nameSymbol
+        val sealedOneofNonEmptyType  = message.sealedOneofNonEmptyScalaType.fullName
         val sealedOneofUniversalMark = if (message.isUniversalTrait) "Any with " else ""
 
         fp.add(
@@ -94,7 +95,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           s"final def asMessage: $baseType = ${message.sealedOneofTypeMapper.fullName}.toBase(Some(this))"
         ).add("}")
           .add("")
-          .add(s"object $sealedOneofName {")
+          .add(s"object $sealedOneofName $companionBases {")
           .indented(
             _.add(
               s"implicit val $typeMapperName: $typeMapper = new $typeMapper {"

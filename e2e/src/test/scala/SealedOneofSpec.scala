@@ -161,6 +161,7 @@ class SealedOneofSpec extends AnyFlatSpec with Matchers {
 
   "or-empty sealed oneofs" should "Work" in {
     import com.thesamet.proto.e2e.optional.{sealed_oneof_optional => OO}
+    OO.Expr mustBe a[OO.CompanionBase]
     OO.Programs(optionalExpr = None)
     OO.Programs(optionalExpr = Some(OO.Lit(32)))
     OO.Programs(programs = Seq(Some(OO.Lit(32))))

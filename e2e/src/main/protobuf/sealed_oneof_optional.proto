@@ -2,6 +2,18 @@ syntax = "proto3";
 
 package com.thesamet.proto.e2e.optional;
 
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  single_file: true
+
+  // Generate the custom base trait.
+  preamble: [
+    "sealed trait CompanionBase {",
+    "}"
+  ];
+};
+
 message Lit {
     int32 value = 1;
 }
@@ -12,6 +24,8 @@ message Add {
 }
 
 message Expr {
+    option (scalapb.message).sealed_oneof_companion_extends = "CompanionBase";
+
     oneof sealed_value_optional {
         Lit lit = 1;
         Add add = 2;
