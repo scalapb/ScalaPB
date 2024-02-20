@@ -4,14 +4,14 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.61.0"
+    val grpc                 = "1.61.1"
     val protobuf             = "3.19.6"
     val silencer             = "1.7.14"
     val collectionCompat     = "2.11.0"
-    val coursier             = "2.1.8"
+    val coursier             = "2.1.9"
     val protocGen            = "0.9.7"
     val protobufRuntimeScala = "0.8.14"
-    val commonsCodec         = "1.16.0"
+    val commonsCodec         = "1.16.1"
 
     // For testing
     val annotationApi           = "1.3.2"
