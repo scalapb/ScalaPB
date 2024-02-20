@@ -11,7 +11,7 @@ object Dependencies {
     val coursier             = "2.1.8"
     val protocGen            = "0.9.7"
     val protobufRuntimeScala = "0.8.14"
-    val commonsCodec         = "1.16.0"
+    val commonsCodec         = "1.16.1"
 
     // For testing
     val annotationApi           = "1.3.2"
