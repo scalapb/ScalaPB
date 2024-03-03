@@ -551,8 +551,19 @@ class DescriptorImplicits private[compiler] (
         Nil
     }
 
+    def containsADeprecatedField = message.fields.exists(_.getOptions.getDeprecated)
+
+    private[this] def ignoreDeprecatedFieldsAnnotation: Option[String] = {
+      if (containsADeprecatedField)
+        Some(ProtobufGenerator.ignoreDeprecatedAnnotation)
+      else
+        None
+    }
+
     def annotationList: Seq[String] = {
-      deprecatedAnnotation ++ messageOptions.getAnnotationsList().asScala
+      deprecatedAnnotation ++ ignoreDeprecatedFieldsAnnotation.toList ++ messageOptions
+        .getAnnotationsList()
+        .asScala
     }
 
     def companionAnnotationList: Seq[String] = {

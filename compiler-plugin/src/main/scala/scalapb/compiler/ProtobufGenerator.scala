@@ -766,6 +766,7 @@ class ProtobufGenerator(
   def generateToJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullName
     printer
+      .when(message.containsADeprecatedField)(_.add(ProtobufGenerator.ignoreDeprecatedAnnotation))
       .add(s"def toJavaProto(scalaPbSource: $myFullScalaName): ${message.javaTypeName} = {")
       .indent
       .add(s"val javaPbOut = ${message.javaTypeName}.newBuilder")
@@ -780,6 +781,7 @@ class ProtobufGenerator(
   def generateFromJavaProto(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullName
     printer
+      .when(message.containsADeprecatedField)(_.add(ProtobufGenerator.ignoreDeprecatedAnnotation))
       .add(
         s"def fromJavaProto(javaPbSource: ${message.javaTypeName}): $myFullScalaName = $myFullScalaName("
       )
@@ -961,27 +963,36 @@ class ProtobufGenerator(
       .indent
       .print(message.fields) { case (printer, field) =>
         val fieldName = field.scalaName.asSymbol
+
+        val deprecatedAnnotation: String = {
+          if (field.getOptions.getDeprecated) {
+            ProtobufGenerator.deprecatedAnnotation + " "
+          } else {
+            ""
+          }
+        }
+
         if (!field.isInOneof) {
           if (field.supportsPresence) {
             val optionLensName = "optional" + field.upperScalaName
             printer
               .add(
-                s"""def $fieldName: ${lensType(
+                s"""${deprecatedAnnotation}def $fieldName: ${lensType(
                     field.singleScalaTypeName
                   )} = field(_.${field.getMethod})((c_, f_) => c_.copy($fieldName = _root_.scala.Option(f_)))
-                   |def ${optionLensName}: ${lensType(
+                   |${deprecatedAnnotation}def ${optionLensName}: ${lensType(
                     field.scalaTypeName
                   )} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))""".stripMargin
               )
           } else
             printer.add(
-              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
+              s"${deprecatedAnnotation}def $fieldName: ${lensType(field.scalaTypeName)} = field(_.$fieldName)((c_, f_) => c_.copy($fieldName = f_))"
             )
         } else {
           val oneofName = field.getContainingOneof.scalaName.nameSymbol
           printer
             .add(
-              s"def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
+              s"${deprecatedAnnotation}def $fieldName: ${lensType(field.scalaTypeName)} = field(_.${field.getMethod})((c_, f_) => c_.copy($oneofName = ${field.oneOfTypeName
                   .fullNameWithMaybeRoot(message)}(f_)))"
             )
         }
@@ -1771,6 +1782,9 @@ object ProtobufGenerator {
 
   val deprecatedAnnotation: String =
     """@scala.deprecated(message="Marked as deprecated in proto file", "")"""
+
+  val ignoreDeprecatedAnnotation: String =
+    """@scala.annotation.nowarn("cat=deprecation")"""
 
   private[scalapb] def escapeScalaString(raw: String): String =
     raw
