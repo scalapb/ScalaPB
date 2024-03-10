@@ -513,3 +513,36 @@ lazy val docs = project
     )
      */
   )
+
+lazy val benchmark = (project in file("benchmarks"))
+  .aggregate(benchmarkLocal.projectRefs ++ benchmarkIvy.projectRefs: _*)
+
+lazy val benchmarkLocal = (projectMatrix in file("benchmarks"))
+  .defaultAxes()
+  .dependsOn(runtime)
+  .enablePlugins(BenchmarkingPlugin)
+  .settings(
+    codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
+  )
+  .customRow(
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
+    axisValues = Seq(VirtualAxis.jvm, BenchLocal()),
+    settings = Seq()
+  )
+  .customRow(
+    scalaVersions = Seq(Scala213),
+    axisValues = Seq(VirtualAxis.jvm, BenchJavapb(protobufCompilerVersion)),
+    settings = Seq()
+  )
+
+lazy val benchmarkIvy = (projectMatrix in file("benchmarks"))
+  .defaultAxes()
+  .enablePlugins(BenchmarkingPlugin)
+  .settings(
+    codeGenClasspath := (Bench / codeGenClasspath).value
+  )
+  .customRow(
+    scalaVersions = Seq(Scala212, Scala213, Scala3),
+    axisValues = Seq(VirtualAxis.jvm, BenchIvyScalapb("0.11.15")),
+    settings = Seq()
+  )
