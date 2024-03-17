@@ -1,4 +1,7 @@
 # Change Log
+## [0.12.0] (Not released)
+- Bump protobuf and protoc to 4.26.0. Currently files must specify proto2 and
+  proto3 syntax. Editions are not supported yet.
 
 ## [0.11.16]
 - sealed_oneof_companion_extends is handled also for optional sealed oneofs (#1639)

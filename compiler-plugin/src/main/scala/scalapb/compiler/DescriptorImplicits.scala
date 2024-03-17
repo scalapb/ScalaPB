@@ -1036,9 +1036,9 @@ class DescriptorImplicits private[compiler] (
       scalaPackage / objectName
     }
 
-    def isProto2 = file.getSyntax == FileDescriptor.Syntax.PROTO2
+    def isProto2 = file.toProto.getSyntax == "proto2"
 
-    def isProto3 = file.getSyntax == FileDescriptor.Syntax.PROTO3
+    def isProto3 = file.toProto.getSyntax == "proto3"
 
     def findLocationByPath(path: Seq[Int]): Option[SourceCodeInfo.Location] = {
       file.toProto.getSourceCodeInfo.getLocationList.asScala.find(_.getPathList.asScala == path)
