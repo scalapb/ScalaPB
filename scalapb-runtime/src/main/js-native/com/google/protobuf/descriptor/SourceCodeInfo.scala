@@ -139,8 +139,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(19)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(19)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(21)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = DescriptorProtoCompanion.scalaDescriptor.messages(21)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
@@ -161,8 +161,8 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     *   location.
     *  
     *   Each element is a field number or an index.  They form a path from
-    *   the root FileDescriptorProto to the place where the definition.  For
-    *   example, this path:
+    *   the root FileDescriptorProto to the place where the definition appears.
+    *   For example, this path:
     *     [ 4, 3, 2, 7, 1 ]
     *   refers to:
     *     file.message_type(3)  // 4, 3
@@ -214,13 +214,13 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     *     // Comment attached to baz.
     *     // Another line attached to baz.
     *  
-    *     // Comment attached to qux.
+    *     // Comment attached to moo.
     *     //
-    *     // Another line attached to qux.
-    *     optional double qux = 4;
+    *     // Another line attached to moo.
+    *     optional double moo = 4;
     *  
     *     // Detached comment for corge. This is not leading or trailing comments
-    *     // to qux or corge because there are blank lines separating it from
+    *     // to moo or corge because there are blank lines separating it from
     *     // both.
     *  
     *     // Detached comment for corge paragraph 2.

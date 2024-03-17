@@ -7,14 +7,18 @@ import _root_.scalapb.internal.compat.JavaConverters._
 /** @param ctype
   *   The ctype option instructs the C++ code generator to use a different
   *   representation of the field than it normally would.  See the specific
-  *   options below.  This option is not yet implemented in the open source
-  *   release -- sorry, we'll try to include it in a future version!
+  *   options below.  This option is only implemented to support use of
+  *   [ctype=CORD] and [ctype=STRING] (the default) on non-repeated fields of
+  *   type "bytes" in the open source release -- sorry, we'll try to include
+  *   other types in a future version!
   * @param packed
   *   The packed option can be enabled for repeated primitive fields to enable
   *   a more efficient representation on the wire. Rather than repeatedly
   *   writing the tag and type for each element, the entire array is encoded as
   *   a single length-delimited blob. In proto3, only explicit setting it to
-  *   false will avoid using packed encoding.
+  *   false will avoid using packed encoding.  This option is prohibited in
+  *   Editions, but the `repeated_field_encoding` feature can be used to control
+  *   the behavior.
   * @param jstype
   *   The jstype option determines the JavaScript type used for values of the
   *   field.  The option is permitted only for 64 bit integral and fixed types
@@ -45,17 +49,15 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   call from multiple threads concurrently, while non-const methods continue
   *   to require exclusive access.
   *  
-  *  
-  *   Note that implementations may choose not to check required fields within
-  *   a lazy sub-message.  That is, calling IsInitialized() on the outer message
-  *   may return true even if the inner message has missing required fields.
-  *   This is necessary because otherwise the inner message would have to be
-  *   parsed in order to perform the check, defeating the purpose of lazy
-  *   parsing.  An implementation which chooses not to check required fields
-  *   must be consistent about it.  That is, for any particular sub-message, the
-  *   implementation must either *always* check its required fields, or *never*
-  *   check its required fields, regardless of whether or not the message has
-  *   been parsed.
+  *   Note that lazy message fields are still eagerly verified to check
+  *   ill-formed wireformat or missing required fields. Calling IsInitialized()
+  *   on the outer message would fail if the inner message has missing required
+  *   fields. Failed verification would result in parsing failure (except when
+  *   uninitialized messages are acceptable).
+  * @param unverifiedLazy
+  *   unverified_lazy does no correctness checks on the byte stream. This should
+  *   only be used where lazy with verification is prohibitive for performance
+  *   reasons.
   * @param deprecated
   *   Is this field deprecated?
   *   Depending on the target platform, this can emit Deprecated annotations
@@ -63,6 +65,11 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   is a formalization for deprecating fields.
   * @param weak
   *   For Google-internal migration only. Do not use.
+  * @param debugRedact
+  *   Indicate that the field value should not be printed out when using debug
+  *   formats, e.g. when the field contains sensitive credentials.
+  * @param features
+  *   Any features defined in the specific edition.
   * @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
   */
@@ -72,8 +79,14 @@ final case class FieldOptions(
     packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = _root_.scala.None,
     `lazy`: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    unverifiedLazy: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    debugRedact: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    retention: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionRetention] = _root_.scala.None,
+    targets: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType] = _root_.scala.Seq.empty,
+    editionDefaults: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault] = _root_.scala.Seq.empty,
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] with _root_.scalapb.ExtendableMessage[FieldOptions] {
@@ -97,6 +110,10 @@ final case class FieldOptions(
         val __value = `lazy`.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, __value)
       };
+      if (unverifiedLazy.isDefined) {
+        val __value = unverifiedLazy.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(15, __value)
+      };
       if (deprecated.isDefined) {
         val __value = deprecated.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, __value)
@@ -104,6 +121,26 @@ final case class FieldOptions(
       if (weak.isDefined) {
         val __value = weak.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(10, __value)
+      };
+      if (debugRedact.isDefined) {
+        val __value = debugRedact.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(16, __value)
+      };
+      if (retention.isDefined) {
+        val __value = retention.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(17, __value)
+      };
+      targets.foreach { __item =>
+        val __value = __item.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(19, __value)
+      }
+      editionDefaults.foreach { __item =>
+        val __value = __item
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      if (features.isDefined) {
+        val __value = features.get
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
       uninterpretedOption.foreach { __item =>
         val __value = __item
@@ -146,6 +183,34 @@ final case class FieldOptions(
         val __m = __v
         _output__.writeBool(10, __m)
       };
+      unverifiedLazy.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(15, __m)
+      };
+      debugRedact.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(16, __m)
+      };
+      retention.foreach { __v =>
+        val __m = __v.value
+        _output__.writeEnum(17, __m)
+      };
+      targets.foreach { __v =>
+        val __m = __v.value
+        _output__.writeEnum(19, __m)
+      };
+      editionDefaults.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(20, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
+      features.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(21, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
@@ -166,12 +231,32 @@ final case class FieldOptions(
     def getLazy: _root_.scala.Boolean = `lazy`.getOrElse(false)
     def clearLazy: FieldOptions = copy(`lazy` = _root_.scala.None)
     def withLazy(__v: _root_.scala.Boolean): FieldOptions = copy(`lazy` = Option(__v))
+    def getUnverifiedLazy: _root_.scala.Boolean = unverifiedLazy.getOrElse(false)
+    def clearUnverifiedLazy: FieldOptions = copy(unverifiedLazy = _root_.scala.None)
+    def withUnverifiedLazy(__v: _root_.scala.Boolean): FieldOptions = copy(unverifiedLazy = Option(__v))
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
     def clearDeprecated: FieldOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): FieldOptions = copy(deprecated = Option(__v))
     def getWeak: _root_.scala.Boolean = weak.getOrElse(false)
     def clearWeak: FieldOptions = copy(weak = _root_.scala.None)
     def withWeak(__v: _root_.scala.Boolean): FieldOptions = copy(weak = Option(__v))
+    def getDebugRedact: _root_.scala.Boolean = debugRedact.getOrElse(false)
+    def clearDebugRedact: FieldOptions = copy(debugRedact = _root_.scala.None)
+    def withDebugRedact(__v: _root_.scala.Boolean): FieldOptions = copy(debugRedact = Option(__v))
+    def getRetention: com.google.protobuf.descriptor.FieldOptions.OptionRetention = retention.getOrElse(com.google.protobuf.descriptor.FieldOptions.OptionRetention.RETENTION_UNKNOWN)
+    def clearRetention: FieldOptions = copy(retention = _root_.scala.None)
+    def withRetention(__v: com.google.protobuf.descriptor.FieldOptions.OptionRetention): FieldOptions = copy(retention = Option(__v))
+    def clearTargets = copy(targets = _root_.scala.Seq.empty)
+    def addTargets(__vs: com.google.protobuf.descriptor.FieldOptions.OptionTargetType *): FieldOptions = addAllTargets(__vs)
+    def addAllTargets(__vs: Iterable[com.google.protobuf.descriptor.FieldOptions.OptionTargetType]): FieldOptions = copy(targets = targets ++ __vs)
+    def withTargets(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType]): FieldOptions = copy(targets = __v)
+    def clearEditionDefaults = copy(editionDefaults = _root_.scala.Seq.empty)
+    def addEditionDefaults(__vs: com.google.protobuf.descriptor.FieldOptions.EditionDefault *): FieldOptions = addAllEditionDefaults(__vs)
+    def addAllEditionDefaults(__vs: Iterable[com.google.protobuf.descriptor.FieldOptions.EditionDefault]): FieldOptions = copy(editionDefaults = editionDefaults ++ __vs)
+    def withEditionDefaults(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault]): FieldOptions = copy(editionDefaults = __v)
+    def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
+    def clearFeatures: FieldOptions = copy(features = _root_.scala.None)
+    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): FieldOptions = copy(features = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): FieldOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): FieldOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -184,8 +269,14 @@ final case class FieldOptions(
         case 2 => packed.orNull
         case 6 => jstype.map(_.javaValueDescriptor).orNull
         case 5 => `lazy`.orNull
+        case 15 => unverifiedLazy.orNull
         case 3 => deprecated.orNull
         case 10 => weak.orNull
+        case 16 => debugRedact.orNull
+        case 17 => retention.map(_.javaValueDescriptor).orNull
+        case 19 => targets.iterator.map(_.javaValueDescriptor).toSeq
+        case 20 => editionDefaults
+        case 21 => features.orNull
         case 999 => uninterpretedOption
       }
     }
@@ -196,8 +287,14 @@ final case class FieldOptions(
         case 2 => packed.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 6 => jstype.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 5 => `lazy`.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 15 => unverifiedLazy.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 10 => weak.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 16 => debugRedact.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 17 => retention.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 19 => _root_.scalapb.descriptors.PRepeated(targets.iterator.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).toVector)
+        case 20 => _root_.scalapb.descriptors.PRepeated(editionDefaults.iterator.map(_.toPMessage).toVector)
+        case 21 => features.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -214,8 +311,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     scalaPbSource.packed.foreach(javaPbOut.setPacked)
     scalaPbSource.jstype.map(com.google.protobuf.descriptor.FieldOptions.JSType.toJavaValue(_)).foreach(javaPbOut.setJstype)
     scalaPbSource.`lazy`.foreach(javaPbOut.setLazy)
+    scalaPbSource.unverifiedLazy.foreach(javaPbOut.setUnverifiedLazy)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.weak.foreach(javaPbOut.setWeak)
+    scalaPbSource.debugRedact.foreach(javaPbOut.setDebugRedact)
+    scalaPbSource.retention.map(com.google.protobuf.descriptor.FieldOptions.OptionRetention.toJavaValue(_)).foreach(javaPbOut.setRetention)
+    javaPbOut.addAllTargets(_root_.scalapb.internal.compat.toIterable(scalaPbSource.targets.iterator.map(com.google.protobuf.descriptor.FieldOptions.OptionTargetType.toJavaValue(_))).asJava)
+    javaPbOut.addAllEditionDefaults(_root_.scalapb.internal.compat.toIterable(scalaPbSource.editionDefaults.iterator.map(com.google.protobuf.descriptor.FieldOptions.EditionDefault.toJavaProto(_))).asJava)
+    scalaPbSource.features.map(com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setFeatures)
     javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
     javaPbOut.build
   }
@@ -224,8 +327,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     packed = if (javaPbSource.hasPacked) Some(javaPbSource.getPacked.booleanValue) else _root_.scala.None,
     jstype = if (javaPbSource.hasJstype) Some(com.google.protobuf.descriptor.FieldOptions.JSType.fromJavaValue(javaPbSource.getJstype)) else _root_.scala.None,
     `lazy` = if (javaPbSource.hasLazy) Some(javaPbSource.getLazy.booleanValue) else _root_.scala.None,
+    unverifiedLazy = if (javaPbSource.hasUnverifiedLazy) Some(javaPbSource.getUnverifiedLazy.booleanValue) else _root_.scala.None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
     weak = if (javaPbSource.hasWeak) Some(javaPbSource.getWeak.booleanValue) else _root_.scala.None,
+    debugRedact = if (javaPbSource.hasDebugRedact) Some(javaPbSource.getDebugRedact.booleanValue) else _root_.scala.None,
+    retention = if (javaPbSource.hasRetention) Some(com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromJavaValue(javaPbSource.getRetention)) else _root_.scala.None,
+    targets = javaPbSource.getTargetsList.asScala.iterator.map(com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromJavaValue(_)).toSeq,
+    editionDefaults = javaPbSource.getEditionDefaultsList.asScala.iterator.map(com.google.protobuf.descriptor.FieldOptions.EditionDefault.fromJavaProto(_)).toSeq,
+    features = if (javaPbSource.hasFeatures) Some(com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldOptions = {
@@ -233,8 +342,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     var __packed: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType] = _root_.scala.None
     var __lazy: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __unverifiedLazy: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __debugRedact: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __retention: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionRetention] = _root_.scala.None
+    val __targets: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldOptions.OptionTargetType] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldOptions.OptionTargetType]
+    val __editionDefaults: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldOptions.EditionDefault] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.FieldOptions.EditionDefault]
+    var __features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -250,10 +365,30 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
           __jstype = _root_.scala.Option(com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(_input__.readEnum()))
         case 40 =>
           __lazy = _root_.scala.Option(_input__.readBool())
+        case 120 =>
+          __unverifiedLazy = _root_.scala.Option(_input__.readBool())
         case 24 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 80 =>
           __weak = _root_.scala.Option(_input__.readBool())
+        case 128 =>
+          __debugRedact = _root_.scala.Option(_input__.readBool())
+        case 136 =>
+          __retention = _root_.scala.Option(com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(_input__.readEnum()))
+        case 152 =>
+          __targets += com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+        case 154 => {
+          val length = _input__.readRawVarint32()
+          val oldLimit = _input__.pushLimit(length)
+          while (_input__.getBytesUntilLimit > 0) {
+            __targets += com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(_input__.readEnum())
+          }
+          _input__.popLimit(oldLimit)
+        }
+        case 162 =>
+          __editionDefaults += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FieldOptions.EditionDefault](_input__)
+        case 170 =>
+          __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -268,8 +403,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
         packed = __packed,
         jstype = __jstype,
         `lazy` = __lazy,
+        unverifiedLazy = __unverifiedLazy,
         deprecated = __deprecated,
         weak = __weak,
+        debugRedact = __debugRedact,
+        retention = __retention,
+        targets = __targets.result(),
+        editionDefaults = __editionDefaults.result(),
+        features = __features,
         uninterpretedOption = __uninterpretedOption.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -282,8 +423,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
         packed = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         jstype = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FieldOptions.JSType.fromValue(__e.number)),
         `lazy` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        unverifiedLazy = __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         deprecated = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         weak = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        debugRedact = __fieldsMap.get(scalaDescriptor.findFieldByNumber(16).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        retention = __fieldsMap.get(scalaDescriptor.findFieldByNumber(17).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FieldOptions.OptionRetention.fromValue(__e.number)),
+        targets = __fieldsMap.get(scalaDescriptor.findFieldByNumber(19).get).map(_.as[_root_.scala.Seq[_root_.scalapb.descriptors.EnumValueDescriptor]]).getOrElse(_root_.scala.Seq.empty).iterator.map(__e => com.google.protobuf.descriptor.FieldOptions.OptionTargetType.fromValue(__e.number)).toSeq,
+        editionDefaults = __fieldsMap.get(scalaDescriptor.findFieldByNumber(20).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault]]).getOrElse(_root_.scala.Seq.empty),
+        features = __fieldsMap.get(scalaDescriptor.findFieldByNumber(21).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]]),
         uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -293,15 +440,22 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
+      case 20 => __out = com.google.protobuf.descriptor.FieldOptions.EditionDefault
+      case 21 => __out = com.google.protobuf.descriptor.FeatureSet
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
   }
-  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
+    Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
+      _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault
+    )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
       case 1 => com.google.protobuf.descriptor.FieldOptions.CType
       case 6 => com.google.protobuf.descriptor.FieldOptions.JSType
+      case 17 => com.google.protobuf.descriptor.FieldOptions.OptionRetention
+      case 19 => com.google.protobuf.descriptor.FieldOptions.OptionTargetType
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FieldOptions(
@@ -309,8 +463,14 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     packed = _root_.scala.None,
     jstype = _root_.scala.None,
     `lazy` = _root_.scala.None,
+    unverifiedLazy = _root_.scala.None,
     deprecated = _root_.scala.None,
     weak = _root_.scala.None,
+    debugRedact = _root_.scala.None,
+    retention = _root_.scala.None,
+    targets = _root_.scala.Seq.empty,
+    editionDefaults = _root_.scala.Seq.empty,
+    features = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
   sealed abstract class CType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
@@ -336,6 +496,13 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       override def isString: _root_.scala.Boolean = true
     }
     
+    /** The option [ctype=CORD] may be applied to a non-repeated field of type
+      * "bytes". It indicates that in C++, the data should be stored in a Cord
+      * instead of a string.  For very large strings, this may reduce memory
+      * fragmentation. It may also allow better performance when parsing from a
+      * Cord, or when parsing with aliasing enabled, as the parsed Cord may then
+      * alias the original buffer.
+      */
     @SerialVersionUID(0L)
     case object CORD extends CType(1) with CType.Recognized {
       val index = 1
@@ -425,6 +592,330 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
       com.google.protobuf.DescriptorProtos.FieldOptions.JSType.forNumber(pbScalaSource.value)
     }
   }
+  /** If set to RETENTION_SOURCE, the option will be omitted from the binary.
+    * Note: as of January 2023, support for this is in progress and does not yet
+    * have an effect (b/264593489).
+    */
+  sealed abstract class OptionRetention(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
+    type EnumType = com.google.protobuf.descriptor.FieldOptions.OptionRetention
+    type RecognizedType = com.google.protobuf.descriptor.FieldOptions.OptionRetention.Recognized
+    def isRetentionUnknown: _root_.scala.Boolean = false
+    def isRetentionRuntime: _root_.scala.Boolean = false
+    def isRetentionSource: _root_.scala.Boolean = false
+    def companion: _root_.scalapb.GeneratedEnumCompanion[OptionRetention] = com.google.protobuf.descriptor.FieldOptions.OptionRetention
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionRetention.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.OptionRetention.Recognized])
+  }
+  
+  object OptionRetention extends _root_.scalapb.GeneratedEnumCompanion[OptionRetention] {
+    sealed trait Recognized extends OptionRetention
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionRetention] = this
+    
+    @SerialVersionUID(0L)
+    case object RETENTION_UNKNOWN extends OptionRetention(0) with OptionRetention.Recognized {
+      val index = 0
+      val name = "RETENTION_UNKNOWN"
+      override def isRetentionUnknown: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object RETENTION_RUNTIME extends OptionRetention(1) with OptionRetention.Recognized {
+      val index = 1
+      val name = "RETENTION_RUNTIME"
+      override def isRetentionRuntime: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object RETENTION_SOURCE extends OptionRetention(2) with OptionRetention.Recognized {
+      val index = 2
+      val name = "RETENTION_SOURCE"
+      override def isRetentionSource: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionRetention(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(RETENTION_UNKNOWN, RETENTION_RUNTIME, RETENTION_SOURCE)
+    def fromValue(__value: _root_.scala.Int): OptionRetention = __value match {
+      case 0 => RETENTION_UNKNOWN
+      case 1 => RETENTION_RUNTIME
+      case 2 => RETENTION_SOURCE
+      case __other => Unrecognized(__other)
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(2)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(2)
+    def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.OptionRetention): OptionRetention = fromValue(pbJavaSource.getNumber)
+    def toJavaValue(pbScalaSource: OptionRetention): com.google.protobuf.DescriptorProtos.FieldOptions.OptionRetention = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.DescriptorProtos.FieldOptions.OptionRetention.forNumber(pbScalaSource.value)
+    }
+  }
+  /** This indicates the types of entities that the field may apply to when used
+    * as an option. If it is unset, then the field may be freely used as an
+    * option on any kind of entity. Note: as of January 2023, support for this is
+    * in progress and does not yet have an effect (b/264593489).
+    */
+  sealed abstract class OptionTargetType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
+    type EnumType = com.google.protobuf.descriptor.FieldOptions.OptionTargetType
+    type RecognizedType = com.google.protobuf.descriptor.FieldOptions.OptionTargetType.Recognized
+    def isTargetTypeUnknown: _root_.scala.Boolean = false
+    def isTargetTypeFile: _root_.scala.Boolean = false
+    def isTargetTypeExtensionRange: _root_.scala.Boolean = false
+    def isTargetTypeMessage: _root_.scala.Boolean = false
+    def isTargetTypeField: _root_.scala.Boolean = false
+    def isTargetTypeOneof: _root_.scala.Boolean = false
+    def isTargetTypeEnum: _root_.scala.Boolean = false
+    def isTargetTypeEnumEntry: _root_.scala.Boolean = false
+    def isTargetTypeService: _root_.scala.Boolean = false
+    def isTargetTypeMethod: _root_.scala.Boolean = false
+    def companion: _root_.scalapb.GeneratedEnumCompanion[OptionTargetType] = com.google.protobuf.descriptor.FieldOptions.OptionTargetType
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionTargetType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldOptions.OptionTargetType.Recognized])
+  }
+  
+  object OptionTargetType extends _root_.scalapb.GeneratedEnumCompanion[OptionTargetType] {
+    sealed trait Recognized extends OptionTargetType
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[OptionTargetType] = this
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_UNKNOWN extends OptionTargetType(0) with OptionTargetType.Recognized {
+      val index = 0
+      val name = "TARGET_TYPE_UNKNOWN"
+      override def isTargetTypeUnknown: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_FILE extends OptionTargetType(1) with OptionTargetType.Recognized {
+      val index = 1
+      val name = "TARGET_TYPE_FILE"
+      override def isTargetTypeFile: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_EXTENSION_RANGE extends OptionTargetType(2) with OptionTargetType.Recognized {
+      val index = 2
+      val name = "TARGET_TYPE_EXTENSION_RANGE"
+      override def isTargetTypeExtensionRange: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_MESSAGE extends OptionTargetType(3) with OptionTargetType.Recognized {
+      val index = 3
+      val name = "TARGET_TYPE_MESSAGE"
+      override def isTargetTypeMessage: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_FIELD extends OptionTargetType(4) with OptionTargetType.Recognized {
+      val index = 4
+      val name = "TARGET_TYPE_FIELD"
+      override def isTargetTypeField: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_ONEOF extends OptionTargetType(5) with OptionTargetType.Recognized {
+      val index = 5
+      val name = "TARGET_TYPE_ONEOF"
+      override def isTargetTypeOneof: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_ENUM extends OptionTargetType(6) with OptionTargetType.Recognized {
+      val index = 6
+      val name = "TARGET_TYPE_ENUM"
+      override def isTargetTypeEnum: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_ENUM_ENTRY extends OptionTargetType(7) with OptionTargetType.Recognized {
+      val index = 7
+      val name = "TARGET_TYPE_ENUM_ENTRY"
+      override def isTargetTypeEnumEntry: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_SERVICE extends OptionTargetType(8) with OptionTargetType.Recognized {
+      val index = 8
+      val name = "TARGET_TYPE_SERVICE"
+      override def isTargetTypeService: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object TARGET_TYPE_METHOD extends OptionTargetType(9) with OptionTargetType.Recognized {
+      val index = 9
+      val name = "TARGET_TYPE_METHOD"
+      override def isTargetTypeMethod: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionTargetType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(TARGET_TYPE_UNKNOWN, TARGET_TYPE_FILE, TARGET_TYPE_EXTENSION_RANGE, TARGET_TYPE_MESSAGE, TARGET_TYPE_FIELD, TARGET_TYPE_ONEOF, TARGET_TYPE_ENUM, TARGET_TYPE_ENUM_ENTRY, TARGET_TYPE_SERVICE, TARGET_TYPE_METHOD)
+    def fromValue(__value: _root_.scala.Int): OptionTargetType = __value match {
+      case 0 => TARGET_TYPE_UNKNOWN
+      case 1 => TARGET_TYPE_FILE
+      case 2 => TARGET_TYPE_EXTENSION_RANGE
+      case 3 => TARGET_TYPE_MESSAGE
+      case 4 => TARGET_TYPE_FIELD
+      case 5 => TARGET_TYPE_ONEOF
+      case 6 => TARGET_TYPE_ENUM
+      case 7 => TARGET_TYPE_ENUM_ENTRY
+      case 8 => TARGET_TYPE_SERVICE
+      case 9 => TARGET_TYPE_METHOD
+      case __other => Unrecognized(__other)
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getEnumTypes().get(3)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(3)
+    def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FieldOptions.OptionTargetType): OptionTargetType = fromValue(pbJavaSource.getNumber)
+    def toJavaValue(pbScalaSource: OptionTargetType): com.google.protobuf.DescriptorProtos.FieldOptions.OptionTargetType = {
+      _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
+      com.google.protobuf.DescriptorProtos.FieldOptions.OptionTargetType.forNumber(pbScalaSource.value)
+    }
+  }
+  /** @param value
+    *   Textproto value.
+    */
+  @SerialVersionUID(0L)
+  final case class EditionDefault(
+      edition: _root_.scala.Option[com.google.protobuf.descriptor.Edition] = _root_.scala.None,
+      value: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EditionDefault] {
+      @transient
+      private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
+      private[this] def __computeSerializedSize(): _root_.scala.Int = {
+        var __size = 0
+        if (edition.isDefined) {
+          val __value = edition.get.value
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(3, __value)
+        };
+        if (value.isDefined) {
+          val __value = value.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+        };
+        __size += unknownFields.serializedSize
+        __size
+      }
+      override def serializedSize: _root_.scala.Int = {
+        var __size = __serializedSizeMemoized
+        if (__size == 0) {
+          __size = __computeSerializedSize() + 1
+          __serializedSizeMemoized = __size
+        }
+        __size - 1
+        
+      }
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+        value.foreach { __v =>
+          val __m = __v
+          _output__.writeString(2, __m)
+        };
+        edition.foreach { __v =>
+          val __m = __v.value
+          _output__.writeEnum(3, __m)
+        };
+        unknownFields.writeTo(_output__)
+      }
+      def getEdition: com.google.protobuf.descriptor.Edition = edition.getOrElse(com.google.protobuf.descriptor.Edition.EDITION_UNKNOWN)
+      def clearEdition: EditionDefault = copy(edition = _root_.scala.None)
+      def withEdition(__v: com.google.protobuf.descriptor.Edition): EditionDefault = copy(edition = Option(__v))
+      def getValue: _root_.scala.Predef.String = value.getOrElse("")
+      def clearValue: EditionDefault = copy(value = _root_.scala.None)
+      def withValue(__v: _root_.scala.Predef.String): EditionDefault = copy(value = Option(__v))
+      def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+      def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
+        (__fieldNumber: @_root_.scala.unchecked) match {
+          case 3 => edition.map(_.javaValueDescriptor).orNull
+          case 2 => value.orNull
+        }
+      }
+      def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+        _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
+        (__field.number: @_root_.scala.unchecked) match {
+          case 3 => edition.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => value.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        }
+      }
+      def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def companion: com.google.protobuf.descriptor.FieldOptions.EditionDefault.type = com.google.protobuf.descriptor.FieldOptions.EditionDefault
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FieldOptions.EditionDefault])
+  }
+  
+  object EditionDefault extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions.EditionDefault] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions.EditionDefault, com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FieldOptions.EditionDefault] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FieldOptions.EditionDefault, com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault] = this
+    def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FieldOptions.EditionDefault): com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault = {
+      val javaPbOut = com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault.newBuilder
+      scalaPbSource.edition.map(com.google.protobuf.descriptor.Edition.toJavaValue(_)).foreach(javaPbOut.setEdition)
+      scalaPbSource.value.foreach(javaPbOut.setValue)
+      javaPbOut.build
+    }
+    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FieldOptions.EditionDefault): com.google.protobuf.descriptor.FieldOptions.EditionDefault = com.google.protobuf.descriptor.FieldOptions.EditionDefault(
+      edition = if (javaPbSource.hasEdition) Some(com.google.protobuf.descriptor.Edition.fromJavaValue(javaPbSource.getEdition)) else _root_.scala.None,
+      value = if (javaPbSource.hasValue) Some(javaPbSource.getValue) else _root_.scala.None
+    )
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldOptions.EditionDefault = {
+      var __edition: _root_.scala.Option[com.google.protobuf.descriptor.Edition] = _root_.scala.None
+      var __value: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 24 =>
+            __edition = _root_.scala.Option(com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
+          case 18 =>
+            __value = _root_.scala.Option(_input__.readStringRequireUtf8())
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      com.google.protobuf.descriptor.FieldOptions.EditionDefault(
+          edition = __edition,
+          value = __value,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FieldOptions.EditionDefault] = _root_.scalapb.descriptors.Reads{
+      case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+        _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
+        com.google.protobuf.descriptor.FieldOptions.EditionDefault(
+          edition = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.Edition.fromValue(__e.number)),
+          value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
+        )
+      case _ => throw new RuntimeException("Expected PMessage")
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.FieldOptions.javaDescriptor.getNestedTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.nestedMessages(0)
+    def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+    lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
+    def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
+      (__fieldNumber: @_root_.scala.unchecked) match {
+        case 3 => com.google.protobuf.descriptor.Edition
+      }
+    }
+    lazy val defaultInstance = com.google.protobuf.descriptor.FieldOptions.EditionDefault(
+      edition = _root_.scala.None,
+      value = _root_.scala.None
+    )
+    implicit class EditionDefaultLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.EditionDefault]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldOptions.EditionDefault](_l) {
+      def edition: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.Edition] = field(_.getEdition)((c_, f_) => c_.copy(edition = _root_.scala.Option(f_)))
+      def optionalEdition: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.Edition]] = field(_.edition)((c_, f_) => c_.copy(edition = f_))
+      def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getValue)((c_, f_) => c_.copy(value = _root_.scala.Option(f_)))
+      def optionalValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.value)((c_, f_) => c_.copy(value = f_))
+    }
+    final val EDITION_FIELD_NUMBER = 3
+    final val VALUE_FIELD_NUMBER = 2
+    def of(
+      edition: _root_.scala.Option[com.google.protobuf.descriptor.Edition],
+      value: _root_.scala.Option[_root_.scala.Predef.String]
+    ): _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault = _root_.com.google.protobuf.descriptor.FieldOptions.EditionDefault(
+      edition,
+      value
+    )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FieldOptions.EditionDefault])
+  }
+  
   implicit class FieldOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FieldOptions](_l) {
     def ctype: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.CType] = field(_.getCtype)((c_, f_) => c_.copy(ctype = _root_.scala.Option(f_)))
     def optionalCtype: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType]] = field(_.ctype)((c_, f_) => c_.copy(ctype = f_))
@@ -434,34 +925,62 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def optionalJstype: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType]] = field(_.jstype)((c_, f_) => c_.copy(jstype = f_))
     def `lazy`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLazy)((c_, f_) => c_.copy(`lazy` = _root_.scala.Option(f_)))
     def optionalLazy: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.`lazy`)((c_, f_) => c_.copy(`lazy` = f_))
+    def unverifiedLazy: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getUnverifiedLazy)((c_, f_) => c_.copy(unverifiedLazy = _root_.scala.Option(f_)))
+    def optionalUnverifiedLazy: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.unverifiedLazy)((c_, f_) => c_.copy(unverifiedLazy = f_))
     def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def weak: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getWeak)((c_, f_) => c_.copy(weak = _root_.scala.Option(f_)))
     def optionalWeak: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.weak)((c_, f_) => c_.copy(weak = f_))
+    def debugRedact: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDebugRedact)((c_, f_) => c_.copy(debugRedact = _root_.scala.Option(f_)))
+    def optionalDebugRedact: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.debugRedact)((c_, f_) => c_.copy(debugRedact = f_))
+    def retention: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FieldOptions.OptionRetention] = field(_.getRetention)((c_, f_) => c_.copy(retention = _root_.scala.Option(f_)))
+    def optionalRetention: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionRetention]] = field(_.retention)((c_, f_) => c_.copy(retention = f_))
+    def targets: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType]] = field(_.targets)((c_, f_) => c_.copy(targets = f_))
+    def editionDefaults: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault]] = field(_.editionDefaults)((c_, f_) => c_.copy(editionDefaults = f_))
+    def features: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))
+    def optionalFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]] = field(_.features)((c_, f_) => c_.copy(features = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val CTYPE_FIELD_NUMBER = 1
   final val PACKED_FIELD_NUMBER = 2
   final val JSTYPE_FIELD_NUMBER = 6
   final val LAZY_FIELD_NUMBER = 5
+  final val UNVERIFIED_LAZY_FIELD_NUMBER = 15
   final val DEPRECATED_FIELD_NUMBER = 3
   final val WEAK_FIELD_NUMBER = 10
+  final val DEBUG_REDACT_FIELD_NUMBER = 16
+  final val RETENTION_FIELD_NUMBER = 17
+  final val TARGETS_FIELD_NUMBER = 19
+  final val EDITION_DEFAULTS_FIELD_NUMBER = 20
+  final val FEATURES_FIELD_NUMBER = 21
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   def of(
     ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType],
     packed: _root_.scala.Option[_root_.scala.Boolean],
     jstype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.JSType],
     `lazy`: _root_.scala.Option[_root_.scala.Boolean],
+    unverifiedLazy: _root_.scala.Option[_root_.scala.Boolean],
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     weak: _root_.scala.Option[_root_.scala.Boolean],
+    debugRedact: _root_.scala.Option[_root_.scala.Boolean],
+    retention: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionRetention],
+    targets: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType],
+    editionDefaults: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault],
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet],
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.FieldOptions = _root_.com.google.protobuf.descriptor.FieldOptions(
     ctype,
     packed,
     jstype,
     `lazy`,
+    unverifiedLazy,
     deprecated,
     weak,
+    debugRedact,
+    retention,
+    targets,
+    editionDefaults,
+    features,
     uninterpretedOption
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FieldOptions])

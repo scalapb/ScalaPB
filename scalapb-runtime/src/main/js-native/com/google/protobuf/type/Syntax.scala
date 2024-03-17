@@ -10,6 +10,7 @@ sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb
   type RecognizedType = com.google.protobuf.`type`.Syntax.Recognized
   def isSyntaxProto2: _root_.scala.Boolean = false
   def isSyntaxProto3: _root_.scala.Boolean = false
+  def isSyntaxEditions: _root_.scala.Boolean = false
   def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
   final def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Syntax.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Syntax.Recognized])
 }
@@ -36,12 +37,22 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
     override def isSyntaxProto3: _root_.scala.Boolean = true
   }
   
+  /** Syntax `editions`.
+    */
+  @SerialVersionUID(0L)
+  case object SYNTAX_EDITIONS extends Syntax(2) with Syntax.Recognized {
+    val index = 2
+    val name = "SYNTAX_EDITIONS"
+    override def isSyntaxEditions: _root_.scala.Boolean = true
+  }
+  
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Syntax(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3)
+  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3, SYNTAX_EDITIONS)
   def fromValue(__value: _root_.scala.Int): Syntax = __value match {
     case 0 => SYNTAX_PROTO2
     case 1 => SYNTAX_PROTO3
+    case 2 => SYNTAX_EDITIONS
     case __other => Unrecognized(__other)
   }
   def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = TypeProto.javaDescriptor.getEnumTypes().get(0)

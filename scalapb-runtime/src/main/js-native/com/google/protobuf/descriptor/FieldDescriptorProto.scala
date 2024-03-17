@@ -22,7 +22,6 @@ package com.google.protobuf.descriptor
   *   For booleans, "true" or "false".
   *   For strings, contains the default text contents (not escaped in any way).
   *   For bytes, contains the C escaped value.  All bytes &gt;= 128 are escaped.
-  *   TODO(kenton):  Base-64 encode?
   * @param oneofIndex
   *   If set, gives the index of a oneof in the containing type's oneof_decl
   *   list.  This field is a member of that oneof.
@@ -35,12 +34,12 @@ package com.google.protobuf.descriptor
   *   If true, this is a proto3 "optional". When a proto3 field is optional, it
   *   tracks presence regardless of field type.
   *  
-  *   When proto3_optional is true, this field must be belong to a oneof to
-  *   signal to old proto3 clients that presence is tracked for this field. This
-  *   oneof is known as a "synthetic" oneof, and this field must be its sole
-  *   member (each proto3 optional field gets its own synthetic oneof). Synthetic
-  *   oneofs exist in the descriptor only, and do not generate any API. Synthetic
-  *   oneofs must be ordered after all "real" oneofs.
+  *   When proto3_optional is true, this field must belong to a oneof to signal
+  *   to old proto3 clients that presence is tracked for this field. This oneof
+  *   is known as a "synthetic" oneof, and this field must be its sole member
+  *   (each proto3 optional field gets its own synthetic oneof). Synthetic oneofs
+  *   exist in the descriptor only, and do not generate any API. Synthetic oneofs
+  *   must be ordered after all "real" oneofs.
   *  
   *   For message fields, proto3_optional doesn't create any semantic change,
   *   since non-repeated message fields always track presence. However it still
@@ -462,9 +461,10 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     /** Tag-delimited aggregate.
-      * Group type is deprecated and not supported in proto3. However, Proto3
+      * Group type is deprecated and not supported after google.protobuf. However, Proto3
       * implementations should still be able to parse the group wire format and
-      * treat group fields as unknown fields.
+      * treat group fields as unknown fields.  In Editions, the group wire format
+      * can be enabled via the `message_encoding` feature.
       */
     @SerialVersionUID(0L)
     case object TYPE_GROUP extends Type(10) with Type.Recognized {
@@ -568,8 +568,8 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     type EnumType = com.google.protobuf.descriptor.FieldDescriptorProto.Label
     type RecognizedType = com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized
     def isLabelOptional: _root_.scala.Boolean = false
-    def isLabelRequired: _root_.scala.Boolean = false
     def isLabelRepeated: _root_.scala.Boolean = false
+    def isLabelRequired: _root_.scala.Boolean = false
     def companion: _root_.scalapb.GeneratedEnumCompanion[Label] = com.google.protobuf.descriptor.FieldDescriptorProto.Label
     final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FieldDescriptorProto.Label.Recognized])
   }
@@ -588,22 +588,26 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
     }
     
     @SerialVersionUID(0L)
-    case object LABEL_REQUIRED extends Label(2) with Label.Recognized {
+    case object LABEL_REPEATED extends Label(3) with Label.Recognized {
       val index = 1
+      val name = "LABEL_REPEATED"
+      override def isLabelRepeated: _root_.scala.Boolean = true
+    }
+    
+    /** The required label is only allowed in google.protobuf.  In proto3 and Editions
+      * it's explicitly prohibited.  In Editions, the `field_presence` feature
+      * can be used to get this behavior.
+      */
+    @SerialVersionUID(0L)
+    case object LABEL_REQUIRED extends Label(2) with Label.Recognized {
+      val index = 2
       val name = "LABEL_REQUIRED"
       override def isLabelRequired: _root_.scala.Boolean = true
     }
     
     @SerialVersionUID(0L)
-    case object LABEL_REPEATED extends Label(3) with Label.Recognized {
-      val index = 2
-      val name = "LABEL_REPEATED"
-      override def isLabelRepeated: _root_.scala.Boolean = true
-    }
-    
-    @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Label(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(LABEL_OPTIONAL, LABEL_REQUIRED, LABEL_REPEATED)
+    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(LABEL_OPTIONAL, LABEL_REPEATED, LABEL_REQUIRED)
     def fromValue(__value: _root_.scala.Int): Label = __value match {
       case 1 => LABEL_OPTIONAL
       case 2 => LABEL_REQUIRED

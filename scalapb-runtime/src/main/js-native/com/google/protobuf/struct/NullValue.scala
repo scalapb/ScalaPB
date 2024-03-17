@@ -6,7 +6,7 @@ package com.google.protobuf.struct
 /** `NullValue` is a singleton enumeration to represent the null value for the
   * `Value` type union.
   *
-  *  The JSON representation for `NullValue` is JSON `null`.
+  * The JSON representation for `NullValue` is JSON `null`.
   */
 sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
   type EnumType = com.google.protobuf.struct.NullValue

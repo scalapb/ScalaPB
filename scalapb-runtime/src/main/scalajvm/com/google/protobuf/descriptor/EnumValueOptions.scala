@@ -9,12 +9,20 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   Depending on the target platform, this can emit Deprecated annotations
   *   for the enum value, or it will be completely ignored; in the very least,
   *   this is a formalization for deprecating enum values.
+  * @param features
+  *   Any features defined in the specific edition.
+  * @param debugRedact
+  *   Indicate that fields annotated with this enum value should not be printed
+  *   out when using debug formats, e.g. when the field contains sensitive
+  *   credentials.
   * @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
   */
 @SerialVersionUID(0L)
 final case class EnumValueOptions(
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
+    debugRedact: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumValueOptions] with _root_.scalapb.ExtendableMessage[EnumValueOptions] {
@@ -25,6 +33,14 @@ final case class EnumValueOptions(
       if (deprecated.isDefined) {
         val __value = deprecated.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(1, __value)
+      };
+      if (features.isDefined) {
+        val __value = features.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
+      if (debugRedact.isDefined) {
+        val __value = debugRedact.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, __value)
       };
       uninterpretedOption.foreach { __item =>
         val __value = __item
@@ -47,6 +63,16 @@ final case class EnumValueOptions(
         val __m = __v
         _output__.writeBool(1, __m)
       };
+      features.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(2, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
+      debugRedact.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(3, __m)
+      };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
@@ -58,6 +84,12 @@ final case class EnumValueOptions(
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
     def clearDeprecated: EnumValueOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): EnumValueOptions = copy(deprecated = Option(__v))
+    def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
+    def clearFeatures: EnumValueOptions = copy(features = _root_.scala.None)
+    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): EnumValueOptions = copy(features = Option(__v))
+    def getDebugRedact: _root_.scala.Boolean = debugRedact.getOrElse(false)
+    def clearDebugRedact: EnumValueOptions = copy(debugRedact = _root_.scala.None)
+    def withDebugRedact(__v: _root_.scala.Boolean): EnumValueOptions = copy(debugRedact = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): EnumValueOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): EnumValueOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -67,6 +99,8 @@ final case class EnumValueOptions(
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 1 => deprecated.orNull
+        case 2 => features.orNull
+        case 3 => debugRedact.orNull
         case 999 => uninterpretedOption
       }
     }
@@ -74,6 +108,8 @@ final case class EnumValueOptions(
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 1 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 2 => features.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => debugRedact.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -87,15 +123,21 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
   def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.EnumValueOptions): com.google.protobuf.DescriptorProtos.EnumValueOptions = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.EnumValueOptions.newBuilder
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
+    scalaPbSource.features.map(com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setFeatures)
+    scalaPbSource.debugRedact.foreach(javaPbOut.setDebugRedact)
     javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
     javaPbOut.build
   }
   def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.EnumValueOptions): com.google.protobuf.descriptor.EnumValueOptions = com.google.protobuf.descriptor.EnumValueOptions(
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
+    features = if (javaPbSource.hasFeatures) Some(com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
+    debugRedact = if (javaPbSource.hasDebugRedact) Some(javaPbSource.getDebugRedact.booleanValue) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumValueOptions = {
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
+    var __debugRedact: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -105,6 +147,10 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
         case 0 => _done__ = true
         case 8 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
+        case 18 =>
+          __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case 24 =>
+          __debugRedact = _root_.scala.Option(_input__.readBool())
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -116,6 +162,8 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
     }
     com.google.protobuf.descriptor.EnumValueOptions(
         deprecated = __deprecated,
+        features = __features,
+        debugRedact = __debugRedact,
         uninterpretedOption = __uninterpretedOption.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -125,6 +173,8 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.EnumValueOptions(
         deprecated = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        features = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]]),
+        debugRedact = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -134,6 +184,7 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
+      case 2 => __out = com.google.protobuf.descriptor.FeatureSet
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
@@ -142,20 +193,32 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[com.google.pro
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.EnumValueOptions(
     deprecated = _root_.scala.None,
+    features = _root_.scala.None,
+    debugRedact = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
   implicit class EnumValueOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumValueOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumValueOptions](_l) {
     def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
+    def features: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))
+    def optionalFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]] = field(_.features)((c_, f_) => c_.copy(features = f_))
+    def debugRedact: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDebugRedact)((c_, f_) => c_.copy(debugRedact = _root_.scala.Option(f_)))
+    def optionalDebugRedact: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.debugRedact)((c_, f_) => c_.copy(debugRedact = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val DEPRECATED_FIELD_NUMBER = 1
+  final val FEATURES_FIELD_NUMBER = 2
+  final val DEBUG_REDACT_FIELD_NUMBER = 3
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   def of(
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet],
+    debugRedact: _root_.scala.Option[_root_.scala.Boolean],
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.EnumValueOptions = _root_.com.google.protobuf.descriptor.EnumValueOptions(
     deprecated,
+    features,
+    debugRedact,
     uninterpretedOption
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.EnumValueOptions])

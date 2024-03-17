@@ -54,6 +54,19 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   NOTE: Do not set the option in .proto files. Always use the maps syntax
   *   instead. The option should only be implicitly set by the proto compiler
   *   parser.
+  * @param deprecatedLegacyJsonFieldConflicts
+  *   Enable the legacy handling of JSON field name conflicts.  This lowercases
+  *   and strips underscored from the fields before comparison in proto3 only.
+  *   The new behavior takes `json_name` into account and applies to proto2 as
+  *   well.
+  *  
+  *   This should only be used as a temporary measure against broken builds due
+  *   to the change in behavior for JSON field name conflicts.
+  *  
+  *   TODO This is legacy behavior we plan to remove once downstream
+  *   teams have had time to migrate.
+  * @param features
+  *   Any features defined in the specific edition.
   * @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
   */
@@ -63,6 +76,8 @@ final case class MessageOptions(
     noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     mapEntry: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    @scala.deprecated(message="Marked as deprecated in proto file", "") deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageOptions] with _root_.scalapb.ExtendableMessage[MessageOptions] {
@@ -85,6 +100,14 @@ final case class MessageOptions(
       if (mapEntry.isDefined) {
         val __value = mapEntry.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(7, __value)
+      };
+      if (deprecatedLegacyJsonFieldConflicts.isDefined) {
+        val __value = deprecatedLegacyJsonFieldConflicts.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(11, __value)
+      };
+      if (features.isDefined) {
+        val __value = features.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
       uninterpretedOption.foreach { __item =>
         val __value = __item
@@ -119,6 +142,16 @@ final case class MessageOptions(
         val __m = __v
         _output__.writeBool(7, __m)
       };
+      deprecatedLegacyJsonFieldConflicts.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(11, __m)
+      };
+      features.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(12, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
@@ -139,6 +172,12 @@ final case class MessageOptions(
     def getMapEntry: _root_.scala.Boolean = mapEntry.getOrElse(false)
     def clearMapEntry: MessageOptions = copy(mapEntry = _root_.scala.None)
     def withMapEntry(__v: _root_.scala.Boolean): MessageOptions = copy(mapEntry = Option(__v))
+    def getDeprecatedLegacyJsonFieldConflicts: _root_.scala.Boolean = deprecatedLegacyJsonFieldConflicts.getOrElse(false)
+    def clearDeprecatedLegacyJsonFieldConflicts: MessageOptions = copy(deprecatedLegacyJsonFieldConflicts = _root_.scala.None)
+    def withDeprecatedLegacyJsonFieldConflicts(__v: _root_.scala.Boolean): MessageOptions = copy(deprecatedLegacyJsonFieldConflicts = Option(__v))
+    def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
+    def clearFeatures: MessageOptions = copy(features = _root_.scala.None)
+    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): MessageOptions = copy(features = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): MessageOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -151,6 +190,8 @@ final case class MessageOptions(
         case 2 => noStandardDescriptorAccessor.orNull
         case 3 => deprecated.orNull
         case 7 => mapEntry.orNull
+        case 11 => deprecatedLegacyJsonFieldConflicts.orNull
+        case 12 => features.orNull
         case 999 => uninterpretedOption
       }
     }
@@ -161,6 +202,8 @@ final case class MessageOptions(
         case 2 => noStandardDescriptorAccessor.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 7 => mapEntry.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 11 => deprecatedLegacyJsonFieldConflicts.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 12 => features.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -177,6 +220,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     scalaPbSource.noStandardDescriptorAccessor.foreach(javaPbOut.setNoStandardDescriptorAccessor)
     scalaPbSource.deprecated.foreach(javaPbOut.setDeprecated)
     scalaPbSource.mapEntry.foreach(javaPbOut.setMapEntry)
+    scalaPbSource.deprecatedLegacyJsonFieldConflicts.foreach(javaPbOut.setDeprecatedLegacyJsonFieldConflicts)
+    scalaPbSource.features.map(com.google.protobuf.descriptor.FeatureSet.toJavaProto(_)).foreach(javaPbOut.setFeatures)
     javaPbOut.addAllUninterpretedOption(_root_.scalapb.internal.compat.toIterable(scalaPbSource.uninterpretedOption.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.toJavaProto(_))).asJava)
     javaPbOut.build
   }
@@ -185,6 +230,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     noStandardDescriptorAccessor = if (javaPbSource.hasNoStandardDescriptorAccessor) Some(javaPbSource.getNoStandardDescriptorAccessor.booleanValue) else _root_.scala.None,
     deprecated = if (javaPbSource.hasDeprecated) Some(javaPbSource.getDeprecated.booleanValue) else _root_.scala.None,
     mapEntry = if (javaPbSource.hasMapEntry) Some(javaPbSource.getMapEntry.booleanValue) else _root_.scala.None,
+    deprecatedLegacyJsonFieldConflicts = if (javaPbSource.hasDeprecatedLegacyJsonFieldConflicts) Some(javaPbSource.getDeprecatedLegacyJsonFieldConflicts.booleanValue) else _root_.scala.None,
+    features = if (javaPbSource.hasFeatures) Some(com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
     uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.MessageOptions = {
@@ -192,6 +239,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     var __noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __mapEntry: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -207,6 +256,10 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 56 =>
           __mapEntry = _root_.scala.Option(_input__.readBool())
+        case 88 =>
+          __deprecatedLegacyJsonFieldConflicts = _root_.scala.Option(_input__.readBool())
+        case 98 =>
+          __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -221,6 +274,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
         noStandardDescriptorAccessor = __noStandardDescriptorAccessor,
         deprecated = __deprecated,
         mapEntry = __mapEntry,
+        deprecatedLegacyJsonFieldConflicts = __deprecatedLegacyJsonFieldConflicts,
+        features = __features,
         uninterpretedOption = __uninterpretedOption.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -233,6 +288,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
         noStandardDescriptorAccessor = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         deprecated = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         mapEntry = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        deprecatedLegacyJsonFieldConflicts = __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        features = __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]]),
         uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -242,6 +299,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
+      case 12 => __out = com.google.protobuf.descriptor.FeatureSet
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
@@ -253,6 +311,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     noStandardDescriptorAccessor = _root_.scala.None,
     deprecated = _root_.scala.None,
     mapEntry = _root_.scala.None,
+    deprecatedLegacyJsonFieldConflicts = _root_.scala.None,
+    features = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MessageOptions](_l) {
@@ -264,24 +324,34 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
     def mapEntry: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMapEntry)((c_, f_) => c_.copy(mapEntry = _root_.scala.Option(f_)))
     def optionalMapEntry: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.mapEntry)((c_, f_) => c_.copy(mapEntry = f_))
+    def deprecatedLegacyJsonFieldConflicts: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecatedLegacyJsonFieldConflicts)((c_, f_) => c_.copy(deprecatedLegacyJsonFieldConflicts = _root_.scala.Option(f_)))
+    def optionalDeprecatedLegacyJsonFieldConflicts: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecatedLegacyJsonFieldConflicts)((c_, f_) => c_.copy(deprecatedLegacyJsonFieldConflicts = f_))
+    def features: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))
+    def optionalFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]] = field(_.features)((c_, f_) => c_.copy(features = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val MESSAGE_SET_WIRE_FORMAT_FIELD_NUMBER = 1
   final val NO_STANDARD_DESCRIPTOR_ACCESSOR_FIELD_NUMBER = 2
   final val DEPRECATED_FIELD_NUMBER = 3
   final val MAP_ENTRY_FIELD_NUMBER = 7
+  final val DEPRECATED_LEGACY_JSON_FIELD_CONFLICTS_FIELD_NUMBER = 11
+  final val FEATURES_FIELD_NUMBER = 12
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   def of(
     messageSetWireFormat: _root_.scala.Option[_root_.scala.Boolean],
     noStandardDescriptorAccessor: _root_.scala.Option[_root_.scala.Boolean],
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
     mapEntry: _root_.scala.Option[_root_.scala.Boolean],
+    deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean],
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet],
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.MessageOptions = _root_.com.google.protobuf.descriptor.MessageOptions(
     messageSetWireFormat,
     noStandardDescriptorAccessor,
     deprecated,
     mapEntry,
+    deprecatedLegacyJsonFieldConflicts,
+    features,
     uninterpretedOption
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.MessageOptions])

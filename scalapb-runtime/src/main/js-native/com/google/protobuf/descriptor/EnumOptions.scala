@@ -11,6 +11,15 @@ package com.google.protobuf.descriptor
   *   Depending on the target platform, this can emit Deprecated annotations
   *   for the enum, or it will be completely ignored; in the very least, this
   *   is a formalization for deprecating enums.
+  * @param deprecatedLegacyJsonFieldConflicts
+  *   Enable the legacy handling of JSON field name conflicts.  This lowercases
+  *   and strips underscored from the fields before comparison in proto3 only.
+  *   The new behavior takes `json_name` into account and applies to proto2 as
+  *   well.
+  *   TODO Remove this legacy behavior once downstream teams have
+  *   had time to migrate.
+  * @param features
+  *   Any features defined in the specific edition.
   * @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
   */
@@ -18,6 +27,8 @@ package com.google.protobuf.descriptor
 final case class EnumOptions(
     allowAlias: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    @scala.deprecated(message="Marked as deprecated in proto file", "") deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumOptions] with _root_.scalapb.ExtendableMessage[EnumOptions] {
@@ -32,6 +43,14 @@ final case class EnumOptions(
       if (deprecated.isDefined) {
         val __value = deprecated.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(3, __value)
+      };
+      if (deprecatedLegacyJsonFieldConflicts.isDefined) {
+        val __value = deprecatedLegacyJsonFieldConflicts.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, __value)
+      };
+      if (features.isDefined) {
+        val __value = features.get
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       };
       uninterpretedOption.foreach { __item =>
         val __value = __item
@@ -58,6 +77,16 @@ final case class EnumOptions(
         val __m = __v
         _output__.writeBool(3, __m)
       };
+      deprecatedLegacyJsonFieldConflicts.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(6, __m)
+      };
+      features.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(7, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
@@ -72,6 +101,12 @@ final case class EnumOptions(
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
     def clearDeprecated: EnumOptions = copy(deprecated = _root_.scala.None)
     def withDeprecated(__v: _root_.scala.Boolean): EnumOptions = copy(deprecated = Option(__v))
+    def getDeprecatedLegacyJsonFieldConflicts: _root_.scala.Boolean = deprecatedLegacyJsonFieldConflicts.getOrElse(false)
+    def clearDeprecatedLegacyJsonFieldConflicts: EnumOptions = copy(deprecatedLegacyJsonFieldConflicts = _root_.scala.None)
+    def withDeprecatedLegacyJsonFieldConflicts(__v: _root_.scala.Boolean): EnumOptions = copy(deprecatedLegacyJsonFieldConflicts = Option(__v))
+    def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
+    def clearFeatures: EnumOptions = copy(features = _root_.scala.None)
+    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): EnumOptions = copy(features = Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): EnumOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): EnumOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
@@ -82,6 +117,8 @@ final case class EnumOptions(
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 2 => allowAlias.orNull
         case 3 => deprecated.orNull
+        case 6 => deprecatedLegacyJsonFieldConflicts.orNull
+        case 7 => features.orNull
         case 999 => uninterpretedOption
       }
     }
@@ -90,6 +127,8 @@ final case class EnumOptions(
       (__field.number: @_root_.scala.unchecked) match {
         case 2 => allowAlias.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 3 => deprecated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 6 => deprecatedLegacyJsonFieldConflicts.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 7 => features.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
       }
     }
@@ -103,6 +142,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.EnumOptions = {
     var __allowAlias: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+    var __features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -114,6 +155,10 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
           __allowAlias = _root_.scala.Option(_input__.readBool())
         case 24 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
+        case 48 =>
+          __deprecatedLegacyJsonFieldConflicts = _root_.scala.Option(_input__.readBool())
+        case 58 =>
+          __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case tag =>
@@ -126,6 +171,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     com.google.protobuf.descriptor.EnumOptions(
         allowAlias = __allowAlias,
         deprecated = __deprecated,
+        deprecatedLegacyJsonFieldConflicts = __deprecatedLegacyJsonFieldConflicts,
+        features = __features,
         uninterpretedOption = __uninterpretedOption.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
@@ -136,6 +183,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
       com.google.protobuf.descriptor.EnumOptions(
         allowAlias = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         deprecated = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        deprecatedLegacyJsonFieldConflicts = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+        features = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]]),
         uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -145,6 +194,7 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
+      case 7 => __out = com.google.protobuf.descriptor.FeatureSet
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
     }
     __out
@@ -154,6 +204,8 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
   lazy val defaultInstance = com.google.protobuf.descriptor.EnumOptions(
     allowAlias = _root_.scala.None,
     deprecated = _root_.scala.None,
+    deprecatedLegacyJsonFieldConflicts = _root_.scala.None,
+    features = _root_.scala.None,
     uninterpretedOption = _root_.scala.Seq.empty
   )
   implicit class EnumOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.EnumOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.EnumOptions](_l) {
@@ -161,18 +213,28 @@ object EnumOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     def optionalAllowAlias: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.allowAlias)((c_, f_) => c_.copy(allowAlias = f_))
     def deprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecated)((c_, f_) => c_.copy(deprecated = _root_.scala.Option(f_)))
     def optionalDeprecated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecated)((c_, f_) => c_.copy(deprecated = f_))
+    def deprecatedLegacyJsonFieldConflicts: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getDeprecatedLegacyJsonFieldConflicts)((c_, f_) => c_.copy(deprecatedLegacyJsonFieldConflicts = _root_.scala.Option(f_)))
+    def optionalDeprecatedLegacyJsonFieldConflicts: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.deprecatedLegacyJsonFieldConflicts)((c_, f_) => c_.copy(deprecatedLegacyJsonFieldConflicts = f_))
+    def features: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))
+    def optionalFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]] = field(_.features)((c_, f_) => c_.copy(features = f_))
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
   }
   final val ALLOW_ALIAS_FIELD_NUMBER = 2
   final val DEPRECATED_FIELD_NUMBER = 3
+  final val DEPRECATED_LEGACY_JSON_FIELD_CONFLICTS_FIELD_NUMBER = 6
+  final val FEATURES_FIELD_NUMBER = 7
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   def of(
     allowAlias: _root_.scala.Option[_root_.scala.Boolean],
     deprecated: _root_.scala.Option[_root_.scala.Boolean],
+    deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean],
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet],
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
   ): _root_.com.google.protobuf.descriptor.EnumOptions = _root_.com.google.protobuf.descriptor.EnumOptions(
     allowAlias,
     deprecated,
+    deprecatedLegacyJsonFieldConflicts,
+    features,
     uninterpretedOption
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.EnumOptions])

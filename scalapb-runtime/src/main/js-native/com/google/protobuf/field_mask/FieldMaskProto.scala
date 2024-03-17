@@ -12,9 +12,9 @@ object FieldMaskProto extends _root_.scalapb.GeneratedFileObject {
   private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
   """CiBnb29nbGUvcHJvdG9idWYvZmllbGRfbWFzay5wcm90bxIPZ29vZ2xlLnByb3RvYnVmIi0KCUZpZWxkTWFzaxIgCgVwYXRoc
-  xgBIAMoCUIK4j8HEgVwYXRoc1IFcGF0aHNCjAEKE2NvbS5nb29nbGUucHJvdG9idWZCDkZpZWxkTWFza1Byb3RvUAFaOWdvb2dsZ
-  S5nb2xhbmcub3JnL2dlbnByb3RvL3Byb3RvYnVmL2ZpZWxkX21hc2s7ZmllbGRfbWFza/gBAaICA0dQQqoCHkdvb2dsZS5Qcm90b
-  2J1Zi5XZWxsS25vd25UeXBlc2IGcHJvdG8z"""
+  xgBIAMoCUIK4j8HEgVwYXRoc1IFcGF0aHNChQEKE2NvbS5nb29nbGUucHJvdG9idWZCDkZpZWxkTWFza1Byb3RvUAFaMmdvb2dsZ
+  S5nb2xhbmcub3JnL3Byb3RvYnVmL3R5cGVzL2tub3duL2ZpZWxkbWFza3Bi+AEBogIDR1BCqgIeR29vZ2xlLlByb3RvYnVmLldlb
+  GxLbm93blR5cGVzYgZwcm90bzM="""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)

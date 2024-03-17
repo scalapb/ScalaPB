@@ -25,9 +25,9 @@ object WrappersProto extends _root_.scalapb.GeneratedFileObject {
   ARCCuI/BxIFdmFsdWVSBXZhbHVlIi4KCkludDMyVmFsdWUSIAoFdmFsdWUYASABKAVCCuI/BxIFdmFsdWVSBXZhbHVlIi8KC1VJb
   nQzMlZhbHVlEiAKBXZhbHVlGAEgASgNQgriPwcSBXZhbHVlUgV2YWx1ZSItCglCb29sVmFsdWUSIAoFdmFsdWUYASABKAhCCuI/B
   xIFdmFsdWVSBXZhbHVlIi8KC1N0cmluZ1ZhbHVlEiAKBXZhbHVlGAEgASgJQgriPwcSBXZhbHVlUgV2YWx1ZSIuCgpCeXRlc1Zhb
-  HVlEiAKBXZhbHVlGAEgASgMQgriPwcSBXZhbHVlUgV2YWx1ZUJ8ChNjb20uZ29vZ2xlLnByb3RvYnVmQg1XcmFwcGVyc1Byb3RvU
-  AFaKmdpdGh1Yi5jb20vZ29sYW5nL3Byb3RvYnVmL3B0eXBlcy93cmFwcGVyc/gBAaICA0dQQqoCHkdvb2dsZS5Qcm90b2J1Zi5XZ
-  WxsS25vd25UeXBlc2IGcHJvdG8z"""
+  HVlEiAKBXZhbHVlGAEgASgMQgriPwcSBXZhbHVlUgV2YWx1ZUKDAQoTY29tLmdvb2dsZS5wcm90b2J1ZkINV3JhcHBlcnNQcm90b
+  1ABWjFnb29nbGUuZ29sYW5nLm9yZy9wcm90b2J1Zi90eXBlcy9rbm93bi93cmFwcGVyc3Bi+AEBogIDR1BCqgIeR29vZ2xlLlByb
+  3RvYnVmLldlbGxLbm93blR5cGVzYgZwcm90bzM="""
       ).mkString)
   lazy val scalaDescriptor: _root_.scalapb.descriptors.FileDescriptor = {
     val scalaProto = com.google.protobuf.descriptor.FileDescriptorProto.parseFrom(ProtoBytes)

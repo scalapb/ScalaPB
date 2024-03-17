@@ -60,7 +60,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
     scalacOptions ++= (if (!isScala3.value)
                          Seq(
-                           "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
+                           "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated;eprecatedLegacyJsonFieldConflicts in class .* is deprecated",
                            "-P:silencer:lineContentFilters=import scala.collection.compat._"
                          )
                        else Nil),

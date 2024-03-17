@@ -5,10 +5,23 @@ package com.google.protobuf.descriptor
 
 /** @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
+  * @param declaration
+  *   For external users: DO NOT USE. We are in the process of open sourcing
+  *   extension declaration and executing internal cleanups before it can be
+  *   used externally.
+  * @param features
+  *   Any features defined in the specific edition.
+  * @param verification
+  *   The verification state of the range.
+  *   TODO: flip the default to DECLARATION once all empty ranges
+  *   are marked as UNVERIFIED.
   */
 @SerialVersionUID(0L)
 final case class ExtensionRangeOptions(
     uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    declaration: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scala.Seq.empty,
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
+    verification: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ExtensionRangeOptions] with _root_.scalapb.ExtendableMessage[ExtensionRangeOptions] {
     @transient
@@ -19,6 +32,18 @@ final case class ExtensionRangeOptions(
         val __value = __item
         __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
       }
+      declaration.foreach { __item =>
+        val __value = __item
+        __size += 1 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      }
+      if (features.isDefined) {
+        val __value = features.get
+        __size += 2 + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag(__value.serializedSize) + __value.serializedSize
+      };
+      if (verification.isDefined) {
+        val __value = verification.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(3, __value)
+      };
       __size += unknownFields.serializedSize
       __size
     }
@@ -32,6 +57,22 @@ final case class ExtensionRangeOptions(
       
     }
     def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+      declaration.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(2, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
+      verification.foreach { __v =>
+        val __m = __v.value
+        _output__.writeEnum(3, __m)
+      };
+      features.foreach { __v =>
+        val __m = __v
+        _output__.writeTag(50, 2)
+        _output__.writeUInt32NoTag(__m.serializedSize)
+        __m.writeTo(_output__)
+      };
       uninterpretedOption.foreach { __v =>
         val __m = __v
         _output__.writeTag(999, 2)
@@ -44,17 +85,33 @@ final case class ExtensionRangeOptions(
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): ExtensionRangeOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = __v)
+    def clearDeclaration = copy(declaration = _root_.scala.Seq.empty)
+    def addDeclaration(__vs: com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration *): ExtensionRangeOptions = addAllDeclaration(__vs)
+    def addAllDeclaration(__vs: Iterable[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = declaration ++ __vs)
+    def withDeclaration(__v: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = __v)
+    def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
+    def clearFeatures: ExtensionRangeOptions = copy(features = _root_.scala.None)
+    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): ExtensionRangeOptions = copy(features = Option(__v))
+    def getVerification: com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState = verification.getOrElse(com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.UNVERIFIED)
+    def clearVerification: ExtensionRangeOptions = copy(verification = _root_.scala.None)
+    def withVerification(__v: com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState): ExtensionRangeOptions = copy(verification = Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
       (__fieldNumber: @_root_.scala.unchecked) match {
         case 999 => uninterpretedOption
+        case 2 => declaration
+        case 50 => features.orNull
+        case 3 => verification.map(_.javaValueDescriptor).orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
       _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
       (__field.number: @_root_.scala.unchecked) match {
         case 999 => _root_.scalapb.descriptors.PRepeated(uninterpretedOption.iterator.map(_.toPMessage).toVector)
+        case 2 => _root_.scalapb.descriptors.PRepeated(declaration.iterator.map(_.toPMessage).toVector)
+        case 50 => features.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 3 => verification.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -66,6 +123,9 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
   implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] = this
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions = {
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
+    val __declaration: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]
+    var __features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
+    var __verification: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -74,6 +134,12 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
         case 0 => _done__ = true
         case 7994 =>
           __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
+        case 18 =>
+          __declaration += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration](_input__)
+        case 402 =>
+          __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+        case 24 =>
+          __verification = _root_.scala.Option(com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -83,6 +149,9 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     }
     com.google.protobuf.descriptor.ExtensionRangeOptions(
         uninterpretedOption = __uninterpretedOption.result(),
+        declaration = __declaration.result(),
+        features = __features,
+        verification = __verification,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
@@ -90,7 +159,10 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
       com.google.protobuf.descriptor.ExtensionRangeOptions(
-        uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty)
+        uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty),
+        declaration = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]]).getOrElse(_root_.scala.Seq.empty),
+        features = __fieldsMap.get(scalaDescriptor.findFieldByNumber(50).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]]),
+        verification = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(__e.number))
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -100,22 +172,313 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
       case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
+      case 2 => __out = com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration
+      case 50 => __out = com.google.protobuf.descriptor.FeatureSet
     }
     __out
   }
-  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
+    Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
+      _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration
+    )
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
+    (__fieldNumber: @_root_.scala.unchecked) match {
+      case 3 => com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
+    }
+  }
   lazy val defaultInstance = com.google.protobuf.descriptor.ExtensionRangeOptions(
-    uninterpretedOption = _root_.scala.Seq.empty
+    uninterpretedOption = _root_.scala.Seq.empty,
+    declaration = _root_.scala.Seq.empty,
+    features = _root_.scala.None,
+    verification = _root_.scala.None
   )
+  /** The verification state of the extension range.
+    */
+  sealed abstract class VerificationState(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
+    type EnumType = com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
+    type RecognizedType = com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized
+    def isDeclaration: _root_.scala.Boolean = false
+    def isUnverified: _root_.scala.Boolean = false
+    def companion: _root_.scalapb.GeneratedEnumCompanion[VerificationState] = com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
+    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized])
+  }
+  
+  object VerificationState extends _root_.scalapb.GeneratedEnumCompanion[VerificationState] {
+    sealed trait Recognized extends VerificationState
+    implicit def enumCompanion: _root_.scalapb.GeneratedEnumCompanion[VerificationState] = this
+    
+    /** All the extensions of the range must be declared.
+      */
+    @SerialVersionUID(0L)
+    case object DECLARATION extends VerificationState(0) with VerificationState.Recognized {
+      val index = 0
+      val name = "DECLARATION"
+      override def isDeclaration: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    case object UNVERIFIED extends VerificationState(1) with VerificationState.Recognized {
+      val index = 1
+      val name = "UNVERIFIED"
+      override def isUnverified: _root_.scala.Boolean = true
+    }
+    
+    @SerialVersionUID(0L)
+    final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends VerificationState(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
+    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(DECLARATION, UNVERIFIED)
+    def fromValue(__value: _root_.scala.Int): VerificationState = __value match {
+      case 0 => DECLARATION
+      case 1 => UNVERIFIED
+      case __other => Unrecognized(__other)
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.javaDescriptor.getEnumTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.scalaDescriptor.enums(0)
+  }
+  /** @param number
+    *   The extension number declared within the extension range.
+    * @param fullName
+    *   The fully-qualified name of the extension field. There must be a leading
+    *   dot in front of the full name.
+    * @param type
+    *   The fully-qualified type name of the extension field. Unlike
+    *   Metadata.type, Declaration.type must have a leading dot for messages
+    *   and enums.
+    * @param reserved
+    *   If true, indicates that the number is reserved in the extension range,
+    *   and any extension field with the number will fail to compile. Set this
+    *   when a declared extension field is deleted.
+    * @param repeated
+    *   If true, indicates that the extension must be defined as repeated.
+    *   Otherwise the extension must be defined as optional.
+    */
+  @SerialVersionUID(0L)
+  final case class Declaration(
+      number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
+      fullName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+      reserved: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+      repeated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+      unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
+      ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Declaration] {
+      @transient
+      private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
+      private[this] def __computeSerializedSize(): _root_.scala.Int = {
+        var __size = 0
+        if (number.isDefined) {
+          val __value = number.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(1, __value)
+        };
+        if (fullName.isDefined) {
+          val __value = fullName.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(2, __value)
+        };
+        if (`type`.isDefined) {
+          val __value = `type`.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(3, __value)
+        };
+        if (reserved.isDefined) {
+          val __value = reserved.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(5, __value)
+        };
+        if (repeated.isDefined) {
+          val __value = repeated.get
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(6, __value)
+        };
+        __size += unknownFields.serializedSize
+        __size
+      }
+      override def serializedSize: _root_.scala.Int = {
+        var __size = __serializedSizeMemoized
+        if (__size == 0) {
+          __size = __computeSerializedSize() + 1
+          __serializedSizeMemoized = __size
+        }
+        __size - 1
+        
+      }
+      def writeTo(`_output__`: _root_.com.google.protobuf.CodedOutputStream): _root_.scala.Unit = {
+        number.foreach { __v =>
+          val __m = __v
+          _output__.writeInt32(1, __m)
+        };
+        fullName.foreach { __v =>
+          val __m = __v
+          _output__.writeString(2, __m)
+        };
+        `type`.foreach { __v =>
+          val __m = __v
+          _output__.writeString(3, __m)
+        };
+        reserved.foreach { __v =>
+          val __m = __v
+          _output__.writeBool(5, __m)
+        };
+        repeated.foreach { __v =>
+          val __m = __v
+          _output__.writeBool(6, __m)
+        };
+        unknownFields.writeTo(_output__)
+      }
+      def getNumber: _root_.scala.Int = number.getOrElse(0)
+      def clearNumber: Declaration = copy(number = _root_.scala.None)
+      def withNumber(__v: _root_.scala.Int): Declaration = copy(number = Option(__v))
+      def getFullName: _root_.scala.Predef.String = fullName.getOrElse("")
+      def clearFullName: Declaration = copy(fullName = _root_.scala.None)
+      def withFullName(__v: _root_.scala.Predef.String): Declaration = copy(fullName = Option(__v))
+      def getType: _root_.scala.Predef.String = `type`.getOrElse("")
+      def clearType: Declaration = copy(`type` = _root_.scala.None)
+      def withType(__v: _root_.scala.Predef.String): Declaration = copy(`type` = Option(__v))
+      def getReserved: _root_.scala.Boolean = reserved.getOrElse(false)
+      def clearReserved: Declaration = copy(reserved = _root_.scala.None)
+      def withReserved(__v: _root_.scala.Boolean): Declaration = copy(reserved = Option(__v))
+      def getRepeated: _root_.scala.Boolean = repeated.getOrElse(false)
+      def clearRepeated: Declaration = copy(repeated = _root_.scala.None)
+      def withRepeated(__v: _root_.scala.Boolean): Declaration = copy(repeated = Option(__v))
+      def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
+      def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
+      def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
+        (__fieldNumber: @_root_.scala.unchecked) match {
+          case 1 => number.orNull
+          case 2 => fullName.orNull
+          case 3 => `type`.orNull
+          case 5 => reserved.orNull
+          case 6 => repeated.orNull
+        }
+      }
+      def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
+        _root_.scala.Predef.require(__field.containingMessage eq companion.scalaDescriptor)
+        (__field.number: @_root_.scala.unchecked) match {
+          case 1 => number.map(_root_.scalapb.descriptors.PInt(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 2 => fullName.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 3 => `type`.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 5 => reserved.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+          case 6 => repeated.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        }
+      }
+      def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
+      def companion: com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration.type = com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration
+      // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ExtensionRangeOptions.Declaration])
+  }
+  
+  object Declaration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = this
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration = {
+      var __number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
+      var __fullName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+      var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+      var __reserved: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+      var __repeated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
+      var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+      var _done__ = false
+      while (!_done__) {
+        val _tag__ = _input__.readTag()
+        _tag__ match {
+          case 0 => _done__ = true
+          case 8 =>
+            __number = _root_.scala.Option(_input__.readInt32())
+          case 18 =>
+            __fullName = _root_.scala.Option(_input__.readStringRequireUtf8())
+          case 26 =>
+            __type = _root_.scala.Option(_input__.readStringRequireUtf8())
+          case 40 =>
+            __reserved = _root_.scala.Option(_input__.readBool())
+          case 48 =>
+            __repeated = _root_.scala.Option(_input__.readBool())
+          case tag =>
+            if (_unknownFields__ == null) {
+              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+            }
+            _unknownFields__.parseField(tag, _input__)
+        }
+      }
+      com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
+          number = __number,
+          fullName = __fullName,
+          `type` = __type,
+          reserved = __reserved,
+          repeated = __repeated,
+          unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
+      )
+    }
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scalapb.descriptors.Reads{
+      case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
+        _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
+        com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
+          number = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
+          fullName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+          `type` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+          reserved = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
+          repeated = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
+        )
+      case _ => throw new RuntimeException("Expected PMessage")
+    }
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.javaDescriptor.getNestedTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.scalaDescriptor.nestedMessages(0)
+    def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
+    lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
+    def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+    lazy val defaultInstance = com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
+      number = _root_.scala.None,
+      fullName = _root_.scala.None,
+      `type` = _root_.scala.None,
+      reserved = _root_.scala.None,
+      repeated = _root_.scala.None
+    )
+    implicit class DeclarationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration](_l) {
+      def number: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getNumber)((c_, f_) => c_.copy(number = _root_.scala.Option(f_)))
+      def optionalNumber: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
+      def fullName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getFullName)((c_, f_) => c_.copy(fullName = _root_.scala.Option(f_)))
+      def optionalFullName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.fullName)((c_, f_) => c_.copy(fullName = f_))
+      def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = _root_.scala.Option(f_)))
+      def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
+      def reserved: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getReserved)((c_, f_) => c_.copy(reserved = _root_.scala.Option(f_)))
+      def optionalReserved: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.reserved)((c_, f_) => c_.copy(reserved = f_))
+      def repeated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getRepeated)((c_, f_) => c_.copy(repeated = _root_.scala.Option(f_)))
+      def optionalRepeated: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.repeated)((c_, f_) => c_.copy(repeated = f_))
+    }
+    final val NUMBER_FIELD_NUMBER = 1
+    final val FULL_NAME_FIELD_NUMBER = 2
+    final val TYPE_FIELD_NUMBER = 3
+    final val RESERVED_FIELD_NUMBER = 5
+    final val REPEATED_FIELD_NUMBER = 6
+    def of(
+      number: _root_.scala.Option[_root_.scala.Int],
+      fullName: _root_.scala.Option[_root_.scala.Predef.String],
+      `type`: _root_.scala.Option[_root_.scala.Predef.String],
+      reserved: _root_.scala.Option[_root_.scala.Boolean],
+      repeated: _root_.scala.Option[_root_.scala.Boolean]
+    ): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
+      number,
+      fullName,
+      `type`,
+      reserved,
+      repeated
+    )
+    // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.ExtensionRangeOptions.Declaration])
+  }
+  
   implicit class ExtensionRangeOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions](_l) {
     def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
+    def declaration: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]] = field(_.declaration)((c_, f_) => c_.copy(declaration = f_))
+    def features: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))
+    def optionalFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]] = field(_.features)((c_, f_) => c_.copy(features = f_))
+    def verification: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = field(_.getVerification)((c_, f_) => c_.copy(verification = _root_.scala.Option(f_)))
+    def optionalVerification: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState]] = field(_.verification)((c_, f_) => c_.copy(verification = f_))
   }
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
+  final val DECLARATION_FIELD_NUMBER = 2
+  final val FEATURES_FIELD_NUMBER = 50
+  final val VERIFICATION_FIELD_NUMBER = 3
   def of(
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption],
+    declaration: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration],
+    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet],
+    verification: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState]
   ): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions(
-    uninterpretedOption
+    uninterpretedOption,
+    declaration,
+    features,
+    verification
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.ExtensionRangeOptions])
 }

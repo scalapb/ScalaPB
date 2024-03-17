@@ -25,7 +25,11 @@ package com.google.protobuf.descriptor
   *   development tools.
   * @param syntax
   *   The syntax of the proto file.
-  *   The supported values are "proto2" and "proto3".
+  *   The supported values are "proto2", "proto3", and "editions".
+  *  
+  *   If `edition` is present, this value must be "editions".
+  * @param edition
+  *   The edition of the proto file.
   */
 @SerialVersionUID(0L)
 final case class FileDescriptorProto(
@@ -41,6 +45,7 @@ final case class FileDescriptorProto(
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None,
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
     syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
+    edition: _root_.scala.Option[com.google.protobuf.descriptor.Edition] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorProto] {
     @transient
@@ -94,6 +99,10 @@ final case class FileDescriptorProto(
       if (syntax.isDefined) {
         val __value = syntax.get
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(12, __value)
+      };
+      if (edition.isDefined) {
+        val __value = edition.get.value
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(14, __value)
       };
       __size += unknownFields.serializedSize
       __size
@@ -168,6 +177,10 @@ final case class FileDescriptorProto(
         val __m = __v
         _output__.writeString(12, __m)
       };
+      edition.foreach { __v =>
+        val __m = __v.value
+        _output__.writeEnum(14, __m)
+      };
       unknownFields.writeTo(_output__)
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
@@ -213,6 +226,9 @@ final case class FileDescriptorProto(
     def getSyntax: _root_.scala.Predef.String = syntax.getOrElse("")
     def clearSyntax: FileDescriptorProto = copy(syntax = _root_.scala.None)
     def withSyntax(__v: _root_.scala.Predef.String): FileDescriptorProto = copy(syntax = Option(__v))
+    def getEdition: com.google.protobuf.descriptor.Edition = edition.getOrElse(com.google.protobuf.descriptor.Edition.EDITION_UNKNOWN)
+    def clearEdition: FileDescriptorProto = copy(edition = _root_.scala.None)
+    def withEdition(__v: com.google.protobuf.descriptor.Edition): FileDescriptorProto = copy(edition = Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -229,6 +245,7 @@ final case class FileDescriptorProto(
         case 8 => options.orNull
         case 9 => sourceCodeInfo.orNull
         case 12 => syntax.orNull
+        case 14 => edition.map(_.javaValueDescriptor).orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -246,6 +263,7 @@ final case class FileDescriptorProto(
         case 8 => options.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 9 => sourceCodeInfo.map(_.toPMessage).getOrElse(_root_.scalapb.descriptors.PEmpty)
         case 12 => syntax.map(_root_.scalapb.descriptors.PString(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
+        case 14 => edition.map(__e => _root_.scalapb.descriptors.PEnum(__e.scalaValueDescriptor)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -268,6 +286,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     var __options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None
     var __sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None
     var __syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
+    var __edition: _root_.scala.Option[com.google.protobuf.descriptor.Edition] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -314,6 +333,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
           __sourceCodeInfo = _root_.scala.Option(__sourceCodeInfo.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.SourceCodeInfo](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 98 =>
           __syntax = _root_.scala.Option(_input__.readStringRequireUtf8())
+        case 112 =>
+          __edition = _root_.scala.Option(com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -334,6 +355,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         options = __options,
         sourceCodeInfo = __sourceCodeInfo,
         syntax = __syntax,
+        edition = __edition,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
@@ -352,7 +374,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         extension = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
         options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FileOptions]]),
         sourceCodeInfo = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]]),
-        syntax = __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
+        syntax = __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
+        edition = __fieldsMap.get(scalaDescriptor.findFieldByNumber(14).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.Edition.fromValue(__e.number))
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -371,7 +394,11 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     __out
   }
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
-  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
+  def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
+    (__fieldNumber: @_root_.scala.unchecked) match {
+      case 14 => com.google.protobuf.descriptor.Edition
+    }
+  }
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorProto(
     name = _root_.scala.None,
     `package` = _root_.scala.None,
@@ -384,7 +411,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension = _root_.scala.Seq.empty,
     options = _root_.scala.None,
     sourceCodeInfo = _root_.scala.None,
-    syntax = _root_.scala.None
+    syntax = _root_.scala.None,
+    edition = _root_.scala.None
   )
   implicit class FileDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FileDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = _root_.scala.Option(f_)))
@@ -404,6 +432,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     def optionalSourceCodeInfo: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo]] = field(_.sourceCodeInfo)((c_, f_) => c_.copy(sourceCodeInfo = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getSyntax)((c_, f_) => c_.copy(syntax = _root_.scala.Option(f_)))
     def optionalSyntax: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
+    def edition: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.Edition] = field(_.getEdition)((c_, f_) => c_.copy(edition = _root_.scala.Option(f_)))
+    def optionalEdition: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.Edition]] = field(_.edition)((c_, f_) => c_.copy(edition = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val PACKAGE_FIELD_NUMBER = 2
@@ -417,6 +447,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   final val OPTIONS_FIELD_NUMBER = 8
   final val SOURCE_CODE_INFO_FIELD_NUMBER = 9
   final val SYNTAX_FIELD_NUMBER = 12
+  final val EDITION_FIELD_NUMBER = 14
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
     `package`: _root_.scala.Option[_root_.scala.Predef.String],
@@ -429,7 +460,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto],
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions],
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo],
-    syntax: _root_.scala.Option[_root_.scala.Predef.String]
+    syntax: _root_.scala.Option[_root_.scala.Predef.String],
+    edition: _root_.scala.Option[com.google.protobuf.descriptor.Edition]
   ): _root_.com.google.protobuf.descriptor.FileDescriptorProto = _root_.com.google.protobuf.descriptor.FileDescriptorProto(
     name,
     `package`,
@@ -442,7 +474,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     extension,
     options,
     sourceCodeInfo,
-    syntax
+    syntax,
+    edition
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FileDescriptorProto])
 }
