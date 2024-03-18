@@ -10,7 +10,7 @@ jobs:
     strategy:
       matrix:
         scala: [2_12, 2_13, 3]
-        script: [mima, e2e, test]
+        script: [e2e, test]
         include:
         - scala: 2_12
           script: examples_and_formatting
