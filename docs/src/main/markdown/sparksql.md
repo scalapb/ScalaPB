@@ -25,6 +25,12 @@ To add sparksql-scalapb to your project, add *one* of the following lines that
 matches *both the version of ScalaPB and Spark* you use:
 
 ```scala
+// Spark 3.5 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql35-scalapb0_11" % "@sparksql_scalapb@"
+
+// Spark 3.4 and ScalaPB 0.11
+libraryDependencies += "com.thesamet.scalapb" %% "sparksql34-scalapb0_11" % "@sparksql_scalapb@"
+
 // Spark 3.3 and ScalaPB 0.11
 libraryDependencies += "com.thesamet.scalapb" %% "sparksql33-scalapb0_11" % "@sparksql_scalapb@"
 
