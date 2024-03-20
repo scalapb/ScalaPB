@@ -1172,6 +1172,7 @@ object DescriptorImplicits {
     "try",
     "true",
     "type",
+    "using",
     "val",
     "var",
     "while",
