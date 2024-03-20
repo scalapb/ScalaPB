@@ -3,6 +3,9 @@
 - Bump protobuf and protoc to 4.26.0. Currently files must specify proto2 and
   proto3 syntax. Editions are not supported yet.
 
+## [0.11.17] (Unreleased)
+- Add `using` as a reserved keyword (#1666)
+
 ## [0.11.16]
 - sealed_oneof_companion_extends is handled also for optional sealed oneofs (#1639)
 - added sealed_oneof_empty_extends to add trait to the empty case object of

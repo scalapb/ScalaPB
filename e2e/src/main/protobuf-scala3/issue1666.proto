@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e.scala3;
+
+message Issue1666 {
+    optional string using = 1;
+}
