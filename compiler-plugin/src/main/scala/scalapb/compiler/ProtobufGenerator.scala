@@ -215,7 +215,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.MESSAGE =>
         FunctionApplication(field.getMessageType.scalaType.fullName + ".fromJavaProto")
       case FieldDescriptor.JavaType.ENUM =>
-        if (field.getFile.isProto3)
+        if (!field.getEnumType().isClosed())
           MethodApplication("intValue") andThen FunctionApplication(
             field.getEnumType.scalaType.fullName + ".fromValue"
           )
@@ -242,7 +242,7 @@ class ProtobufGenerator(
   def javaFieldToScala(container: String, field: FieldDescriptor): String = {
     val javaHazzer = container + ".has" + field.upperJavaName
     val upperJavaName =
-      if (field.isEnum && field.getFile.isProto3) (field.upperJavaName + "Value")
+      if (field.isEnum && !field.getEnumType.isClosed()) (field.upperJavaName + "Value")
       else field.upperJavaName
     val javaGetter =
       if (field.isRepeated)
@@ -258,7 +258,7 @@ class ProtobufGenerator(
     def unitConversion(n: String, field: FieldDescriptor) =
       javaToScalaConversion(field).apply(n, EnclosingType.None)
     val upperJavaName =
-      if (field.mapType.valueField.isEnum && field.getFile.isProto3)
+      if (field.mapType.valueField.isEnum && !field.mapType.valueField.getEnumType.isClosed())
         (field.upperJavaName + "Value")
       else field.upperJavaName
     ExpressionBuilder.convertCollection(
@@ -284,7 +284,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.MESSAGE =>
         FunctionApplication(field.getMessageType.scalaType.fullName + ".toJavaProto")
       case FieldDescriptor.JavaType.ENUM =>
-        if (field.getFile.isProto3)
+        if (!field.getEnumType().isClosed())
           (MethodApplication("value") andThen maybeBox("_root_.scala.Int.box"))
         else
           FunctionApplication(field.getEnumType.scalaType.fullName + ".toJavaValue")
@@ -302,7 +302,9 @@ class ProtobufGenerator(
 
     val putAll =
       s"putAll${field.upperScalaName}" + (if (
-                                            field.mapType.valueField.isEnum && field.getFile.isProto3
+                                            field.mapType.valueField.isEnum && !field.mapType.valueField
+                                              .getEnumType()
+                                              .isClosed()
                                           )
                                             "Value"
                                           else "")
@@ -329,7 +331,8 @@ class ProtobufGenerator(
       val javaSetter = javaObject +
         (if (field.isRepeated) ".addAll"
          else
-           ".set") + field.upperJavaName + (if (field.isEnum && field.getFile.isProto3) "Value"
+           ".set") + field.upperJavaName + (if (field.isEnum && !field.getEnumType().isClosed())
+                                              "Value"
                                             else "")
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
@@ -1748,7 +1751,13 @@ object ProtobufGenerator {
               generator.generateSingleScalaFileForFileDescriptor(file)
             else generator.generateMultipleScalaFilesForFileDescriptor(file)
           }
-          CodeGenResponse.succeed(files, Set(CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL))
+          CodeGenResponse.succeed(
+            files,
+            Set(
+              CodeGeneratorResponse.Feature.FEATURE_PROTO3_OPTIONAL,
+              CodeGeneratorResponse.Feature.FEATURE_SUPPORTS_EDITIONS
+            )
+          )
         } catch {
           case e: GeneratorException =>
             CodeGenResponse.fail(e.message)

@@ -261,18 +261,11 @@ class DescriptorImplicits private[compiler] (
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.isOptional && !fd.isInOneof && (!fd.getFile.isProto3 || fd.isMessage || fd
-        .toProto()
-        .getProto3Optional()) &&
-        !noBox && !fd.isSealedOneofType
+      fd.hasPresence() && fd.isOptional() && !fd.isInOneof && !noBox && !fd.isSealedOneofType
 
     // Is the Scala representation of this field a singular type.
     def isSingular =
-      fd.isRequired || (fd.getFile.isProto3 && !fd.isInOneof && fd.isOptional && !fd.isMessage && !fd
-        .toProto()
-        .getProto3Optional()) || (
-        fd.isOptional && (noBox || (fd.isSealedOneofType && !fd.isInOneof))
-      )
+      !supportsPresence && !fd.isRepeated() && !fd.isInOneof
 
     def enclosingType: EnclosingType =
       if (isSingular) EnclosingType.None
@@ -1035,10 +1028,6 @@ class DescriptorImplicits private[compiler] (
 
       scalaPackage / objectName
     }
-
-    def isProto2 = file.toProto.getSyntax == "proto2"
-
-    def isProto3 = file.toProto.getSyntax == "proto3"
 
     def findLocationByPath(path: Seq[Int]): Option[SourceCodeInfo.Location] = {
       file.toProto.getSourceCodeInfo.getLocationList.asScala.find(_.getPathList.asScala == path)
