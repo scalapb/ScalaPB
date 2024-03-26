@@ -2,6 +2,7 @@
 
 ## [0.11.17] (Unreleased)
 - Add `using` as a reserved keyword (#1666)
+- Deprecate undocumented getFieldByNumber in favor of the PValue-based API (#1669)
 
 ## [0.11.16]
 - sealed_oneof_companion_extends is handled also for optional sealed oneofs (#1639)
