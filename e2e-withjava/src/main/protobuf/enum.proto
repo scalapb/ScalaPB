@@ -2,6 +2,8 @@ syntax = "proto2";
 
 package com.thesamet.proto.e2e;
 
+import "enum3.proto";
+
 enum Color {
   RED = 1;
   GREEN = 2;
@@ -28,4 +30,8 @@ message EnumTest {
 
 message RequiredEnum {
   required Color color = 1;
+}
+
+message RequiredEnum3InProto2 {
+  required Color3 color3 = 2;
 }

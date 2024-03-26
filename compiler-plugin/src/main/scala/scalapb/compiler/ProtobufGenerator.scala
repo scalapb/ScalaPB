@@ -215,7 +215,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.MESSAGE =>
         FunctionApplication(field.getMessageType.scalaType.fullName + ".fromJavaProto")
       case FieldDescriptor.JavaType.ENUM =>
-        if (!field.getEnumType().isClosed())
+        if (!field.legacyEnumFieldTreatedAsClosed())
           MethodApplication("intValue") andThen FunctionApplication(
             field.getEnumType.scalaType.fullName + ".fromValue"
           )
@@ -242,7 +242,7 @@ class ProtobufGenerator(
   def javaFieldToScala(container: String, field: FieldDescriptor): String = {
     val javaHazzer = container + ".has" + field.upperJavaName
     val upperJavaName =
-      if (field.isEnum && !field.getEnumType.isClosed()) (field.upperJavaName + "Value")
+      if (field.isEnum && !field.legacyEnumFieldTreatedAsClosed()) (field.upperJavaName + "Value")
       else field.upperJavaName
     val javaGetter =
       if (field.isRepeated)
@@ -258,7 +258,9 @@ class ProtobufGenerator(
     def unitConversion(n: String, field: FieldDescriptor) =
       javaToScalaConversion(field).apply(n, EnclosingType.None)
     val upperJavaName =
-      if (field.mapType.valueField.isEnum && !field.mapType.valueField.getEnumType.isClosed())
+      if (
+        field.mapType.valueField.isEnum && !field.mapType.valueField.legacyEnumFieldTreatedAsClosed
+      )
         (field.upperJavaName + "Value")
       else field.upperJavaName
     ExpressionBuilder.convertCollection(
@@ -284,7 +286,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.MESSAGE =>
         FunctionApplication(field.getMessageType.scalaType.fullName + ".toJavaProto")
       case FieldDescriptor.JavaType.ENUM =>
-        if (!field.getEnumType().isClosed())
+        if (!field.legacyEnumFieldTreatedAsClosed())
           (MethodApplication("value") andThen maybeBox("_root_.scala.Int.box"))
         else
           FunctionApplication(field.getEnumType.scalaType.fullName + ".toJavaValue")
@@ -303,8 +305,7 @@ class ProtobufGenerator(
     val putAll =
       s"putAll${field.upperScalaName}" + (if (
                                             field.mapType.valueField.isEnum && !field.mapType.valueField
-                                              .getEnumType()
-                                              .isClosed()
+                                              .legacyEnumFieldTreatedAsClosed()
                                           )
                                             "Value"
                                           else "")
@@ -331,8 +332,10 @@ class ProtobufGenerator(
       val javaSetter = javaObject +
         (if (field.isRepeated) ".addAll"
          else
-           ".set") + field.upperJavaName + (if (field.isEnum && !field.getEnumType().isClosed())
-                                              "Value"
+           ".set") + field.upperJavaName + (if (
+                                              field.isEnum && !field
+                                                .legacyEnumFieldTreatedAsClosed()
+                                            ) "Value"
                                             else "")
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
