@@ -62,10 +62,10 @@ either as `protobuf-src` or `protobuf` (depending if you want to compile them
 or just import them).
 
 You may find other protos under `protobuf_external_src` that you do not wish to
-compile. You can exclude them by adding an `includeFilter`:
+compile. You can exclude them by adding an `excludeFilter`:
 
-    includeFilter in PB.generate := new SimpleFileFilter(
-      (f: File) =>  f.getParent.endsWith("com/thesamet/protos"))
+    PB.generate / excludeFilter := new SimpleFileFilter(
+      (f: File) => f.getParent.endsWith("com/thesamet/protos"))
 
 See [full example here](https://github.com/thesamet/sbt-protoc/tree/master/examples/multi-with-external-jar).
 
