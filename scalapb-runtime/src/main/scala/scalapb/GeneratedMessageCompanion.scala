@@ -99,7 +99,6 @@ trait GeneratedMessage extends Any with Product with Serializable {
     codedOutput.flush()
   }
 
-
   @deprecated("Use getField instead.", "0.11.17")
   def getFieldByNumber(fieldNumber: Int): Any
 
