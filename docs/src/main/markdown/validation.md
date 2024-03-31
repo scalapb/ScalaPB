@@ -372,7 +372,7 @@ option (scalapb.options) = {
 
   field_transformations : [ {
     when : {options: {[validate.rules] {int32 : {gt : 1}}}}  // <-- 1 can be replaced with any number
-    set : {type : "Int Refined Greater[$(options.[validate.rules].int32.gt)]"}
+    set : {[scalapb.field] {type : "Int Refined Greater[$(options.[validate.rules].int32.gt)]"}}
     match_type : PRESENCE
   } ]
 };
