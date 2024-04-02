@@ -1020,13 +1020,10 @@ class ProtobufGenerator(
 
     printer
       .print(customizedFields) { case (printer, (field, customType)) =>
-        val modifier =
-          if (field.getFile().scalaPackage.fullName.isEmpty) "private"
-          else s"private[${field.getFile().scalaPackage.fullName.split('.').last}]"
         printer
           .add("@transient")
           .add(
-            s"$modifier val ${field.typeMapperValName}: _root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]"
+            s"val ${field.typeMapperValName}: _root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]"
           )
       }
   }
