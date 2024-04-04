@@ -19,6 +19,7 @@ class ProtobufGenerator(
     params: GeneratorParams,
     implicits: DescriptorImplicits
 ) {
+
   import implicits._
   import DescriptorImplicits.AsSymbolExtension
   import ProtobufGenerator._
@@ -157,6 +158,7 @@ class ProtobufGenerator(
   def defaultValueForGet(field: FieldDescriptor, uncustomized: Boolean = false) = {
     // Needs to be 'def' and not val since for some of the cases it's invalid to call it.
     def defaultValue = field.getDefaultValue
+
     val baseDefaultValue: String = field.getJavaType match {
       case FieldDescriptor.JavaType.INT  => defaultValue.toString
       case FieldDescriptor.JavaType.LONG => defaultValue.toString + "L"
@@ -257,6 +259,7 @@ class ProtobufGenerator(
     // TODO(thesamet): if both unit conversions are NoOp, we can omit the map call.
     def unitConversion(n: String, field: FieldDescriptor) =
       javaToScalaConversion(field).apply(n, EnclosingType.None)
+
     val upperJavaName =
       if (
         field.mapType.valueField.isEnum && !field.mapType.valueField.legacyEnumFieldTreatedAsClosed
@@ -957,7 +960,8 @@ class ProtobufGenerator(
   }
 
   def generateMessageLens(message: Descriptor)(printer: FunctionalPrinter): FunctionalPrinter = {
-    val className           = message.scalaType.name
+    val className = message.scalaType.name
+
     def lensType(s: String) = s"_root_.scalapb.lenses.Lens[UpperPB, $s]"
 
     printer
@@ -1011,7 +1015,8 @@ class ProtobufGenerator(
   }
 
   def generateTypeMappers(
-      fields: Seq[FieldDescriptor]
+      fields: Seq[FieldDescriptor],
+      generatePublicConstructorParameters: Boolean
   )(printer: FunctionalPrinter): FunctionalPrinter = {
     val customizedFields: Seq[(FieldDescriptor, String)] = for {
       field  <- fields
@@ -1020,10 +1025,15 @@ class ProtobufGenerator(
 
     printer
       .print(customizedFields) { case (printer, (field, customType)) =>
+        val modifier = {
+          if (generatePublicConstructorParameters) ""
+          else if (field.getFile().scalaPackage.fullName.isEmpty) "private "
+          else s"private[${field.getFile().scalaPackage.fullName.split('.').last}] "
+        }
         printer
           .add("@transient")
           .add(
-            s"val ${field.typeMapperValName}: _root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]"
+            s"${modifier}val ${field.typeMapperValName}: _root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}] = implicitly[_root_.scalapb.TypeMapper[${field.baseSingleScalaTypeName}, ${customType}]]"
           )
       }
   }
@@ -1311,7 +1321,12 @@ class ProtobufGenerator(
       .print(message.getExtensions.asScala)(printExtension)
       .when(message.generateLenses)(generateMessageLens(message))
       .call(generateFieldNumbers(message))
-      .call(generateTypeMappers(message.fields ++ message.getExtensions.asScala))
+      .call(
+        generateTypeMappers(
+          message.fields ++ message.getExtensions.asScala,
+          message.getFile.generatePublicConstructorParameters
+        )
+      )
       .call(generateCollectionAdapters(message.fields ++ message.getExtensions.asScala))
       .when(message.isMapEntry)(generateTypeMappersForMapEntry(message))
       .call(generateNoDefaultArgsFactory(message))
@@ -1647,7 +1662,12 @@ class ProtobufGenerator(
       .call(generateMessagesCompanions(file)(_))
       .call(generateFileDescriptor(file)(_))
       .print(file.getExtensions.asScala)(printExtension(_, _))
-      .call(generateTypeMappers(file.getExtensions.asScala.toSeq))
+      .call(
+        generateTypeMappers(
+          file.getExtensions.asScala.toSeq,
+          file.generatePublicConstructorParameters
+        )
+      )
       .outdent
       .add("}")
   }
