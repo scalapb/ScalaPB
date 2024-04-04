@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  public_constructor_parameters: true,
+  preserve_unknown_fields: false,
+  single_file: true,
+  import: "com.thesamet.proto.e2e.TypeMappers.enumMapper",
+  aux_field_options : [
+    {
+      target: "com.thesamet.proto.e2e.NestedExampleEvent.action"
+      options: {
+        type: "String"
+      }}
+  ],
+};
+
+message NestedExampleEvent {
+  string id = 1;
+  Action action = 2;
+  enum Action {
+    Undefined = 0;
+    Allow = 1;
+    Deny = 2;
+  }
+}
