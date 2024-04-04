@@ -57,6 +57,7 @@ option (scalapb.options) = {
   enum_strip_prefix: false
   bytes_type: "scodec.bits.ByteVector"
   scala3_sources: false
+  public_constructor_parameters: false
 };
 ```
 
@@ -133,6 +134,10 @@ enums to a single Scala file.
   object that matches the generated code (or any of its parent packages).
 
 - By default, ScalaPB generates Scala sources that are compatible with both Scala 2 and Scala 3. To generate sources that can be compiled error-free with `-source feature` on Scala 3 or with `-Xsource:3` on Scala 2.13, set `scala3_sources` to `true` or pass the `scala3_sources` generator parameter.
+
+- Use `public_constructor_parameters` to make constructor parameters public, including defaults and TypeMappers. 
+  This is helpful for automated schema derivation with e.g. `magnolia` when trying to also derive default fields by 
+  using the compiler flag `-Yretain-trees`. Without this flag, the companion object's `_typemapper_*` fields are private.
 
 ## Package-scoped options
 

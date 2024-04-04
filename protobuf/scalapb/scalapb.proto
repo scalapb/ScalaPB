@@ -184,6 +184,9 @@ message ScalaPbOptions {
   // Generate sources that are compatible with Scala 3
   optional bool scala3_sources = 28;
 
+  // Makes constructor parameters public, including defaults and TypeMappers.
+  optional bool public_constructor_parameters = 29;
+
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
   optional bool test_only_no_java_conversions = 999;
