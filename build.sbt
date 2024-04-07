@@ -156,6 +156,9 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
       ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.gen.*"),
       ProblemFilters.exclude[DirectMissingMethodProblem](
         "scalapb.compiler.ProtobufGenerator.generateMessageCompanionMatcher"
+      ),
+      ProblemFilters.exclude[DirectMissingMethodProblem](
+        "scalapb.compiler.ProtobufGenerator.generateTypeMappers"
       )
     ),
     PB.protocVersion := protobufCompilerVersion,
