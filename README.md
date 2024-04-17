@@ -112,7 +112,6 @@ Sponsors
 We are very thankful to our sponsors: 
 
 * [Pentech Ltd](https://github.com/PentechLtd)
-* [MOIA](https://moia.io)
 * [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
 * [@dejvid](https://github.com/dejvid)
 * [Andrew Selvia](https://github.com/andrew-selvia)
