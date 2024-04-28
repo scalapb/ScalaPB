@@ -22,7 +22,7 @@ addCommandAlias("fmt", "all scalafmtSbt scalafmtAll")
 ThisBuild / PB.protocVersion := versions.protobuf
 
 lazy val sharedNativeSettings = List(
-  nativeLinkStubs := true // for utest
+  nativeConfig ~= { _.withLinkStubs(true) } // for utest
 )
 
 lazy val root: Project =
