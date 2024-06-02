@@ -7,6 +7,7 @@
 - Add `using` as a reserved keyword (#1666)
 - Deprecate undocumented getFieldByNumber in favor of the PValue-based API (#1669)
 - Bump scala-native to 0.5.1
+- Bump Scala.js to 1.16.0
 
 
 ## [0.11.15]
