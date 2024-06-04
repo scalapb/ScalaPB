@@ -1,5 +1,9 @@
 # Change Log
 
+## [0.11.17]
+- Update to Scala 2.13.14
+- Update scala-native to 0.5.2
+
 ## [0.11.16]
 - sealed_oneof_companion_extends is handled also for optional sealed oneofs (#1639)
 - added sealed_oneof_empty_extends to add trait to the empty case object of
