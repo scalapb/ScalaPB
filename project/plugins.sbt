@@ -8,7 +8,7 @@ addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.10.0")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.3")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.4")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.3")
 
