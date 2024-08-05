@@ -21,7 +21,7 @@ package scalapb.options
   *   to a single Scala file.
   * @param noPrimitiveWrappers
   *   By default, wrappers defined at
-  *   https://github.com/google/protobuf/blob/master/src/google/protobuf/wrappers.proto,
+  *   https://github.com/protocolbuffers/protobuf/blob/master/src/google/protobuf/wrappers.proto,
   *   are mapped to an Option[T] where T is a primitive type. When this field
   *   is set to true, we do not perform this transformation.
   * @param primitiveWrappers

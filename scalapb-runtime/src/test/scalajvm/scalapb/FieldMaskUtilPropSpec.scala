@@ -7,8 +7,8 @@ import org.scalacheck.Prop._
 
 class FieldMaskUtilPropSpec extends ScalaCheckSuite {
   // protobuf-java use guava
-  // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L175
-  // https://github.com/google/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L159
+  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L175
+  // https://github.com/protocolbuffers/protobuf/blob/v3.6.0/java/util/src/main/java/com/google/protobuf/util/FieldMaskUtil.java#L159
 
   // protobuf-java convert only ASCII characters
   // e.g. `'\u00E0'.toUpper == '\u00C0'` but protobuf-java does not convert these characters

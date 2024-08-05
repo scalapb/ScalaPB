@@ -213,7 +213,7 @@ class EnumDescriptor private[descriptors] (
   def findValueByNumber(number: Int): Option[EnumValueDescriptor] = values.find(_.number == number)
 
   // We port the trick described here to Scala:
-  // https://github.com/google/protobuf/blob/d36c0c538a545fac5d9db6ba65c525246d4efa95/java/core/src/main/java/com/google/protobuf/Descriptors.java#L1600
+  // https://github.com/protocolbuffers/protobuf/blob/d36c0c538a545fac5d9db6ba65c525246d4efa95/java/core/src/main/java/com/google/protobuf/Descriptors.java#L1600
   // With one difference that we use an Option[Int] as key instead of java.lang.Integer.  We need to have the key
   // reachable from the EnumValueDescriptor, so we take advantage of enumValueDescriptor.proto.number which happens
   // to be Option[Int].
