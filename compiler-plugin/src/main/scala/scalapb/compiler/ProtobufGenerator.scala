@@ -27,6 +27,8 @@ class ProtobufGenerator(
   def printEnum(printer: FunctionalPrinter, e: EnumDescriptor): FunctionalPrinter = {
     val name           = e.scalaType.nameSymbol
     val valuesByNumber = e.getValues().asScala.groupBy(_.getNumber())
+    val derives =
+      if (e.derives.nonEmpty) e.derives.mkString(" derives ", ", ", "") else ""
     printer
       .when(e.getOptions.getDeprecated) {
         _.add(ProtobufGenerator.deprecatedAnnotation)
@@ -34,7 +36,7 @@ class ProtobufGenerator(
       .call(generateScalaDoc(e))
       .seq(e.baseAnnotationList)
       .add(
-        s"sealed abstract class $name(val value: _root_.scala.Int) extends ${e.baseTraitExtends.mkString(" with ")} {"
+        s"sealed abstract class $name(val value: _root_.scala.Int) extends ${e.baseTraitExtends.mkString(" with ")}$derives {"
       )
       .indent
       .add(s"type EnumType = ${e.scalaType.fullName}")
@@ -126,7 +128,9 @@ class ProtobufGenerator(
         p.add(s"def ${v.scalaName.asSymbol}: _root_.scala.Option[${v.scalaTypeName}] = ${C.None}")
       }
       .outdent
-      .add(s"""}
+      .add("}")
+      .when(e.getFile.emitScala3Sources)(_.add(s"given CanEqual[${e.scalaType.nameSymbol}, ${e.scalaType.nameSymbol}] = CanEqual.derived"))
+      .add(s"""
               |object ${e.scalaType.nameSymbol} {
               |  @SerialVersionUID(0L)
               |  case object Empty extends ${e.scalaType.fullName} {
@@ -384,10 +388,11 @@ class ProtobufGenerator(
               .add(s"val __t = $e")
               .add({
                 val cond =
-                  if (!f.isEnum)
-                    s"__t != ${defaultValueForGet(f, uncustomized = true)}"
-                  else
-                    s"__t.getNumber() != 0"
+                  if (f.isBytes) 
+                    "!__t.isEmpty()"
+                  else if (f.isEnum)
+                    "__t.getNumber() != 0"
+                  else s"__t != ${defaultValueForGet(f, uncustomized = true)}"
                 s"if ($cond) __t else null"
               })
               .outdent

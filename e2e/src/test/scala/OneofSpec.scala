@@ -11,7 +11,8 @@ class OneofSpec
     extends AnyFlatSpec
     with ScalaCheckDrivenPropertyChecks
     with Matchers
-    with OptionValues {
+    with OptionValues 
+    with AddCanEqualAnyAny {
   val unspecified = OneofTest()
   val tempField   = OneofTest(myOneOf = OneofTest.MyOneOf.TempField(9))
   val otherField  = OneofTest(myOneOf = OneofTest.MyOneOf.OtherField("boo"))

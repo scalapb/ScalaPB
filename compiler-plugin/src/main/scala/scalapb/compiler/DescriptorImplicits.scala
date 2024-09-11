@@ -681,11 +681,12 @@ class DescriptorImplicits private[compiler] (
     def sealedOneofBaseClasses: Seq[String] = sealedOneofStyle match {
       case SealedOneofStyle.Default =>
         val maybeAny = if (isUniversalTrait) Seq("Any") else Seq.empty
-        maybeAny ++ sealedOneofExtendsOption :+ "scalapb.GeneratedSealedOneof"
+        val maybeMatchable = if (isUniversalTrait && message.getFile.emitScala3Sources) Seq("Matchable") else Seq.empty
+        maybeAny ++ maybeMatchable ++ sealedOneofExtendsOption :+ "scalapb.GeneratedSealedOneof"
       case SealedOneofStyle.Optional => messageOptions.getSealedOneofExtendsList.asScala.toSeq
     }
 
-    def derives: Seq[String] = messageOptions.getDerivesList.asScala.toSeq
+    def derives: Seq[String] = (if (message.getFile.emitScala3Sources) Seq("CanEqual") else Nil) ++ messageOptions.getDerivesList.asScala.toSeq
 
     def sealedOneofDerives: Seq[String] = messageOptions.getSealedOneofDerivesList.asScala.toSeq
 
@@ -851,6 +852,9 @@ class DescriptorImplicits private[compiler] (
 
     def unrecognizedAnnotationList: Seq[String] =
       deprecatedAnnotation ++ scalaOptions.getUnrecognizedAnnotationsList().asScala.toSeq
+
+    def derives: Seq[String] =
+      if (enumDescriptor.getFile.emitScala3Sources) Seq("CanEqual") else Nil
   }
 
   implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {

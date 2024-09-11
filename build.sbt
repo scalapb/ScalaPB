@@ -363,7 +363,7 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
         PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
         (
           genModule("scalapb.ScalaPbCodeGenerator$"),
-          Seq("java_conversions")
+          Seq("java_conversions") ++ (if (isScala3.value) Seq("scala3_sources") else Nil),
         ) -> (Compile / sourceManaged).value
       )
     )
@@ -407,7 +407,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
                                                                                        else
                                                                                          "scalajvm-2"),
       scalacOptions ++=
-        (if (isScala3.value) Seq("-source", "future") else Seq("-Xsource:3")),
+        (if (isScala3.value) Seq("-source", "future", "-language:strictEquality") else Seq("-Xsource:3")),
       Test / scalacOptions --=
         (if (isScala3.value) Seq("-source", "future") else Seq("-Xsource:3")),
       Compile / PB.targets := Seq(

@@ -32,6 +32,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
         if (baseClasses.nonEmpty)
           s"extends ${baseClasses.mkString(" with ")} $derives"
         else derives
+      val emptyDerives = if (message.getFile.emitScala3Sources) " derives CanEqual" else ""
 
       val companionBases =
         if (message.sealedOneofCompanionExtendsOption.nonEmpty)
@@ -54,10 +55,11 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
           s"final def asMessage: $baseType = ${message.sealedOneofTypeMapper.fullName}.toBase(this)",
           s"final def asNonEmpty: Option[$sealedOneofNonEmptyType] = if (isEmpty) None else Some(this.asInstanceOf[$sealedOneofNonEmptyType])"
         ).add("}")
+          .when(message.getFile.emitScala3Sources)(_.add(s"given CanEqual[$sealedOneofName, $sealedOneofName] = CanEqual.derived"))
           .add("")
           .add(s"object $sealedOneofName $companionBases{")
           .indented(
-            _.add(s"case object Empty extends $sealedOneofEmptyExtends", "")
+            _.add(s"case object Empty extends $sealedOneofEmptyExtends$emptyDerives", "")
               .add(
                 s"sealed trait $sealedOneofNonEmptyName extends $sealedOneofUniversalMark$sealedOneofType"
               )
