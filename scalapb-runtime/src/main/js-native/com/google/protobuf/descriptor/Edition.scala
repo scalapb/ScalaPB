@@ -139,6 +139,6 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     case 2147483647 => EDITION_MAX
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = DescriptorProtoCompanion.javaDescriptor.getEnumTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = DescriptorProtoCompanion.scalaDescriptor.enums(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getEnumTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.enums(0)
 }

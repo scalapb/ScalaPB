@@ -2,6 +2,10 @@
 ## [0.12.0] (Not released)
 - Bump protobuf and protoc to 4.26.0. Currently files must specify proto2 and
   proto3 syntax. Editions are not supported yet.
+- References to descriptors are fully qualified (#1724)
+
+## [0.11.18] (Unreleased)
+- References to descriptors are fully qualified (#1724)
 
 ## [0.11.17] (Unreleased)
 - Add `using` as a reserved keyword (#1666)

@@ -731,13 +731,13 @@ class DescriptorImplicits private[compiler] (
 
     def javaDescriptorSource: String =
       if (message.isTopLevel)
-        s"${message.getFile.fileDescriptorObject.name}.javaDescriptor.getMessageTypes().get(${message.getIndex})"
+        s"${message.getFile.fileDescriptorObject.fullName}.javaDescriptor.getMessageTypes().get(${message.getIndex})"
       else
         s"${message.getContainingType.scalaType.fullName}.javaDescriptor.getNestedTypes().get(${message.getIndex})"
 
     def scalaDescriptorSource: String =
       if (message.isTopLevel)
-        s"${message.getFile.fileDescriptorObject.name}.scalaDescriptor.messages(${message.getIndex})"
+        s"${message.getFile.fileDescriptorObject.fullName}.scalaDescriptor.messages(${message.getIndex})"
       else
         s"${message.getContainingType.scalaType.fullName}.scalaDescriptor.nestedMessages(${message.getIndex})"
 
@@ -802,13 +802,13 @@ class DescriptorImplicits private[compiler] (
 
     def javaDescriptorSource: String =
       if (enumDescriptor.isTopLevel)
-        s"${enumDescriptor.getFile.fileDescriptorObject.name}.javaDescriptor.getEnumTypes().get(${enumDescriptor.getIndex})"
+        s"${enumDescriptor.getFile.fileDescriptorObject.fullName}.javaDescriptor.getEnumTypes().get(${enumDescriptor.getIndex})"
       else
         s"${enumDescriptor.getContainingType.scalaType.fullName}.javaDescriptor.getEnumTypes().get(${enumDescriptor.getIndex})"
 
     def scalaDescriptorSource: String =
       if (enumDescriptor.isTopLevel)
-        s"${enumDescriptor.getFile.fileDescriptorObject.name}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
+        s"${enumDescriptor.getFile.fileDescriptorObject.fullName}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
       else
         s"${enumDescriptor.getContainingType.scalaType.fullName}.scalaDescriptor.enums(${enumDescriptor.getIndex})"
 
