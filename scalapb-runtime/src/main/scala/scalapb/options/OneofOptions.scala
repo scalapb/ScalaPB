@@ -115,8 +115,8 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = ScalapbProto.javaDescriptor.getMessageTypes().get(6)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = ScalapbProto.scalaDescriptor.messages(6)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = scalapb.options.ScalapbProto.javaDescriptor.getMessageTypes().get(6)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = scalapb.options.ScalapbProto.scalaDescriptor.messages(6)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)

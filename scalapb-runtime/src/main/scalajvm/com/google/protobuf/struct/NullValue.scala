@@ -38,8 +38,8 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
     case 0 => NULL_VALUE
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = StructProto.javaDescriptor.getEnumTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = StructProto.scalaDescriptor.enums(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.struct.StructProto.javaDescriptor.getEnumTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.struct.StructProto.scalaDescriptor.enums(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.NullValue): NullValue = fromValue(pbJavaSource.getNumber)
   def toJavaValue(pbScalaSource: NullValue): com.google.protobuf.NullValue = {
     _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
