@@ -115,7 +115,9 @@ class ProtobufGenerator(
 
   def printOneof(printer: FunctionalPrinter, e: OneofDescriptor): FunctionalPrinter = {
     printer
-      .add(s"sealed trait ${e.scalaType.nameSymbol} extends ${e.baseClasses.mkString(" with ")} {")
+      .add(
+        s"sealed abstract class ${e.scalaType.nameSymbol} extends ${e.baseClasses.mkString(" with ")} {"
+      )
       .indent
       .add(s"def isEmpty: _root_.scala.Boolean = false")
       .add(s"def isDefined: _root_.scala.Boolean = true")
