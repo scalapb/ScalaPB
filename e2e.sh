@@ -5,7 +5,7 @@ if [[ "$SCALA_VERSION" != "2_12" ]]; then
     COMPAT_TARGET=e2eScala3SourcesJVM${SCALA_VERSION};
 fi
 
-echo sbt clean \
+sbt clean \
     e2eJVM$SCALA_VERSION/test \
     e2eGrpcJVM$SCALA_VERSION/test \
     e2eJS${SCALA_VERSION}/test \
