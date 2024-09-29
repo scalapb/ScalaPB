@@ -9,6 +9,7 @@ sealed abstract class Edition(val value: _root_.scala.Int) extends _root_.scalap
   type EnumType = com.google.protobuf.descriptor.Edition
   type RecognizedType = com.google.protobuf.descriptor.Edition.Recognized
   def isEditionUnknown: _root_.scala.Boolean = false
+  def isEditionLegacy: _root_.scala.Boolean = false
   def isEditionProto2: _root_.scala.Boolean = false
   def isEditionProto3: _root_.scala.Boolean = false
   def isEdition2023: _root_.scala.Boolean = false
@@ -36,6 +37,16 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     override def isEditionUnknown: _root_.scala.Boolean = true
   }
   
+  /** A placeholder edition for specifying default behaviors *before* a feature
+    * was first introduced.  This is effectively an "infinite past".
+    */
+  @SerialVersionUID(0L)
+  case object EDITION_LEGACY extends Edition(900) with Edition.Recognized {
+    val index = 1
+    val name = "EDITION_LEGACY"
+    override def isEditionLegacy: _root_.scala.Boolean = true
+  }
+  
   /** Legacy syntax "editions".  These pre-date editions, but behave much like
     * distinct editions.  These can't be used to specify the edition of proto
     * files, but feature definitions must supply proto2/proto3 defaults for
@@ -43,14 +54,14 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     */
   @SerialVersionUID(0L)
   case object EDITION_PROTO2 extends Edition(998) with Edition.Recognized {
-    val index = 1
+    val index = 2
     val name = "EDITION_PROTO2"
     override def isEditionProto2: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_PROTO3 extends Edition(999) with Edition.Recognized {
-    val index = 2
+    val index = 3
     val name = "EDITION_PROTO3"
     override def isEditionProto3: _root_.scala.Boolean = true
   }
@@ -61,14 +72,14 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     */
   @SerialVersionUID(0L)
   case object EDITION_2023 extends Edition(1000) with Edition.Recognized {
-    val index = 3
+    val index = 4
     val name = "EDITION_2023"
     override def isEdition2023: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_2024 extends Edition(1001) with Edition.Recognized {
-    val index = 4
+    val index = 5
     val name = "EDITION_2024"
     override def isEdition2024: _root_.scala.Boolean = true
   }
@@ -78,35 +89,35 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     */
   @SerialVersionUID(0L)
   case object EDITION_1_TEST_ONLY extends Edition(1) with Edition.Recognized {
-    val index = 5
+    val index = 6
     val name = "EDITION_1_TEST_ONLY"
     override def isEdition1TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_2_TEST_ONLY extends Edition(2) with Edition.Recognized {
-    val index = 6
+    val index = 7
     val name = "EDITION_2_TEST_ONLY"
     override def isEdition2TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_99997_TEST_ONLY extends Edition(99997) with Edition.Recognized {
-    val index = 7
+    val index = 8
     val name = "EDITION_99997_TEST_ONLY"
     override def isEdition99997TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_99998_TEST_ONLY extends Edition(99998) with Edition.Recognized {
-    val index = 8
+    val index = 9
     val name = "EDITION_99998_TEST_ONLY"
     override def isEdition99998TestOnly: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   case object EDITION_99999_TEST_ONLY extends Edition(99999) with Edition.Recognized {
-    val index = 9
+    val index = 10
     val name = "EDITION_99999_TEST_ONLY"
     override def isEdition99999TestOnly: _root_.scala.Boolean = true
   }
@@ -117,18 +128,19 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     */
   @SerialVersionUID(0L)
   case object EDITION_MAX extends Edition(2147483647) with Edition.Recognized {
-    val index = 10
+    val index = 11
     val name = "EDITION_MAX"
     override def isEditionMax: _root_.scala.Boolean = true
   }
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Edition(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(EDITION_UNKNOWN, EDITION_PROTO2, EDITION_PROTO3, EDITION_2023, EDITION_2024, EDITION_1_TEST_ONLY, EDITION_2_TEST_ONLY, EDITION_99997_TEST_ONLY, EDITION_99998_TEST_ONLY, EDITION_99999_TEST_ONLY, EDITION_MAX)
+  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(EDITION_UNKNOWN, EDITION_LEGACY, EDITION_PROTO2, EDITION_PROTO3, EDITION_2023, EDITION_2024, EDITION_1_TEST_ONLY, EDITION_2_TEST_ONLY, EDITION_99997_TEST_ONLY, EDITION_99998_TEST_ONLY, EDITION_99999_TEST_ONLY, EDITION_MAX)
   def fromValue(__value: _root_.scala.Int): Edition = __value match {
     case 0 => EDITION_UNKNOWN
     case 1 => EDITION_1_TEST_ONLY
     case 2 => EDITION_2_TEST_ONLY
+    case 900 => EDITION_LEGACY
     case 998 => EDITION_PROTO2
     case 999 => EDITION_PROTO3
     case 1000 => EDITION_2023

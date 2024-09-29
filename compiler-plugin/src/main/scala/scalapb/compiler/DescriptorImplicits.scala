@@ -311,12 +311,13 @@ class DescriptorImplicits private[compiler] (
       else collection.empty
     }
 
-    def scalaTypeName: String =
+    def scalaTypeName: String = {
       if (fd.isMapField) {
         s"$collectionType[${mapType.keyType}, ${mapType.valueType}]"
       } else if (fd.isRepeated) s"${collectionType}[$singleScalaTypeName]"
       else if (supportsPresence) s"${ScalaOption}[$singleScalaTypeName]"
       else singleScalaTypeName
+    }
 
     def fieldOptions: FieldOptions = {
       val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)

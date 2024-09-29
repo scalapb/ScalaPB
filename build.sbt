@@ -352,7 +352,8 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
   .settings(
     scalacOptions ++= (if (!isScala3.value)
                          Seq(
-                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
+                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper",
+                           "-P:silencer:pathFilters=custom_options_use"
                          )
                        else Nil)
   )

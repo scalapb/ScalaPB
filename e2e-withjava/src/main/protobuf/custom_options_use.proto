@@ -1,0 +1,118 @@
+syntax = "proto2";
+
+import "custom_options.proto";
+import "scalapb/scalapb.proto";
+
+package com.thesamet.proto.e2e;
+
+option (scalapb.options) = {
+  import: "com.thesamet.pb.{CustomAnnotation, CustomAnnotation1, CustomAnnotation2, CustomFieldAnnotation1, CustomFieldAnnotation2, Base1, Base2}"
+};
+
+option (message_a).a = "AAA";
+
+message FooMessage {
+  option (scalapb.message).annotations = "@CustomAnnotation";
+  option (scalapb.message).companion_annotations = "@CustomAnnotation1";
+  option (scalapb.message).companion_annotations = "@CustomAnnotation2";
+  option (message_b).b = "BBB";
+  option (message_b).c = "CCC";
+  option (message_b).d = "D1";
+  option (message_b).d = "D2";
+
+  optional int32 myField1 = 1 [(message_c).c = "CCC", (opt_name).first = "John"];
+  optional int32 myField2 = 2 [(rep_name) = {last: "Doe"}, (rep_name) = {first: "Moe"}];
+
+  oneof my_one_of {
+      option (scalapb.oneof).extends = "Base1";
+      option (scalapb.oneof).extends = "Base2";
+      int32 x = 3;
+      int32 y = 4;
+  }
+}
+
+message BarMessage {
+  option (scalapb.message).annotations = "@CustomAnnotation";
+  option (scalapb.message).annotations = "@CustomAnnotation1";
+  option (scalapb.message).annotations = "@CustomAnnotation2";
+
+  option (rep_int32) = 1;
+  option (rep_int32) = 2;
+  option (rep_int32) = -16;
+  option (rep_int32) = -5;
+  option (rep_int64) = 3;
+  option (rep_int64) = 4;
+  option (rep_int64) = -9;
+  option (rep_int64) = -11;
+  option (rep_uint32) = 1;
+  option (rep_uint32) = 2;
+  option (rep_uint32) = -16;
+  option (rep_uint32) = -5;
+  option (rep_uint64) = 3;
+  option (rep_uint64) = 4;
+  option (rep_uint64) = -9;
+  option (rep_uint64) = -11;
+  option (rep_sint32) = 5;
+  option (rep_sint32) = -11;
+  option (rep_sint64) = 6;
+  option (rep_sint64) = -1;
+  option (rep_sint64) = -15;
+  option (rep_fixed32) = 7;
+  option (rep_fixed32) = 5;
+  option (rep_fixed64) = 8;
+  option (rep_fixed64) = 17;
+  option (rep_string) = "foo";
+  option (rep_string) = "bar";
+  option (rep_bytes) = "foo";
+  option (rep_bytes) = "bar";
+  option (rep_float) = 4.17;
+  option (rep_double) = 5.35;
+  option (rep_enum) = GOOD;
+  option (rep_enum) = BAD;
+  option (rep_enum) = GOOD;
+  option (rep_bool) = false;
+  option (rep_bool) = true;
+  option (rep_bool) = false;
+  option (rep_message_c) = {
+    c: "C1"
+  };
+  option (rep_message_c) = {
+    c: "C2"
+  };
+
+  option (opt_int32) = 1;
+  option (opt_int64) = 3;
+  option (opt_sint32) = 5;
+  option (opt_sint64) = 6;
+  option (opt_fixed32) = 7;
+  option (opt_fixed64) = 8;
+  option (opt_string) = "foo";
+  option (opt_bytes) = "foo";
+  option (opt_float) = 4.17;
+  option (opt_double) = 5.35;
+  option (opt_enum) = GOOD;
+  option (opt_bool) = true;
+}
+
+message FieldAnnotations {
+  option (scalapb.message).unknown_fields_annotations = "@CustomFieldAnnotation1";
+  option (scalapb.message).unknown_fields_annotations = "@CustomFieldAnnotation2";
+
+  optional string x = 1 [(scalapb.field).annotations = '@deprecated("Will be gone", "1.0")'];
+
+  optional string y = 2 [
+      (scalapb.field) = {
+        annotations: '@deprecated("Will be removed", "0.1")',
+        annotations: '@unchecked'
+    }
+  ];
+
+  optional string z = 3 [
+      (scalapb.field) = {
+        annotations: [
+            '@deprecated("Will be removed", "0.1")',
+            '@unchecked'
+        ]
+    }
+  ];
+}

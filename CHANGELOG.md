@@ -1,9 +1,11 @@
 # Change Log
 ## [0.12.0] (Not released)
-- Bump protobuf and protoc to 4.26.0. Currently files must specify proto2 and
+- Bump protobuf and protoc to 4.28.2. Currently files must specify proto2 and
   proto3 syntax. Editions are not supported yet.
 - References to descriptors are fully qualified (#1724)
 - Oneofs are now generated as sealed abstract class instead of sealed traits (#1694)
+- BREAKING CHANGE: As a result of protobuf 4.x change, extensions in proto3 now have presence, 
+  and so are wrapped in an `Option[]`.
 
 ## [0.11.18] (Unreleased)
 - References to descriptors are fully qualified (#1724)
