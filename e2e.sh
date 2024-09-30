@@ -9,4 +9,4 @@ sbt clean \
     e2eJVM$SCALA_VERSION/test \
     e2eGrpcJVM$SCALA_VERSION/test \
     e2eJS${SCALA_VERSION}/test \
-    $COMPAT_TARGET
+    $COMPAT_TARGET/test
