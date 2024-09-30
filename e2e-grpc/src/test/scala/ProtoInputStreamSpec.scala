@@ -73,12 +73,13 @@ class ProtoInputStreamSpec extends AnyFunSpec with Matchers {
         var count = 0
         var buf = newBuffer
         val res    = Array.newBuilder[Byte]
-        do {
+        while({
           res ++= buf.slice(offset, offset + count)
           buf = newBuffer
           offset += count
           count = stream.read(buf, offset, Random.nextInt(3))
-        } while (count !== -1)
+          count !== -1
+        }) {}
 
         res.result() must be(message.toByteArray)
       }
