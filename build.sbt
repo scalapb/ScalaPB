@@ -409,6 +409,7 @@ lazy val e2e = (projectMatrix in file("e2e"))
                                                                                          "scalajvm-3"
                                                                                        else
                                                                                          "scalajvm-2"),
+      Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / "scalajvm-3-source",
       scalacOptions ++=
         (if (isScala3.value) Seq("-source", "future") else Seq("-Xsource:3")),
       Test / scalacOptions --=
