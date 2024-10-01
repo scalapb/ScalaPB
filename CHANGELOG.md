@@ -1,5 +1,5 @@
 # Change Log
-## [0.12.0] (Not released)
+## [1.0.0] (Not released)
 - Bump protobuf and protoc to 4.28.2. Currently files must specify proto2 and
   proto3 syntax. Editions are not supported yet.
 - References to descriptors are fully qualified (#1724)
