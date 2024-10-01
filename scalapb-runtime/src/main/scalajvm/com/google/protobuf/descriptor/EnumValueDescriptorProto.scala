@@ -59,13 +59,13 @@ final case class EnumValueDescriptorProto(
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: EnumValueDescriptorProto = copy(name = _root_.scala.None)
-    def withName(__v: _root_.scala.Predef.String): EnumValueDescriptorProto = copy(name = Option(__v))
+    def withName(__v: _root_.scala.Predef.String): EnumValueDescriptorProto = copy(name = _root_.scala.Option(__v))
     def getNumber: _root_.scala.Int = number.getOrElse(0)
     def clearNumber: EnumValueDescriptorProto = copy(number = _root_.scala.None)
-    def withNumber(__v: _root_.scala.Int): EnumValueDescriptorProto = copy(number = Option(__v))
+    def withNumber(__v: _root_.scala.Int): EnumValueDescriptorProto = copy(number = _root_.scala.Option(__v))
     def getOptions: com.google.protobuf.descriptor.EnumValueOptions = options.getOrElse(com.google.protobuf.descriptor.EnumValueOptions.defaultInstance)
     def clearOptions: EnumValueDescriptorProto = copy(options = _root_.scala.None)
-    def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = Option(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.EnumValueOptions): EnumValueDescriptorProto = copy(options = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

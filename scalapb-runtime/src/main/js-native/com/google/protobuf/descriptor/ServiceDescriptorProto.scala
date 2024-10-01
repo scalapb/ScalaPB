@@ -61,14 +61,14 @@ final case class ServiceDescriptorProto(
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: ServiceDescriptorProto = copy(name = _root_.scala.None)
-    def withName(__v: _root_.scala.Predef.String): ServiceDescriptorProto = copy(name = Option(__v))
+    def withName(__v: _root_.scala.Predef.String): ServiceDescriptorProto = copy(name = _root_.scala.Option(__v))
     def clearMethod = copy(method = _root_.scala.Seq.empty)
     def addMethod(__vs: com.google.protobuf.descriptor.MethodDescriptorProto *): ServiceDescriptorProto = addAllMethod(__vs)
     def addAllMethod(__vs: Iterable[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = method ++ __vs)
     def withMethod(__v: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = __v)
     def getOptions: com.google.protobuf.descriptor.ServiceOptions = options.getOrElse(com.google.protobuf.descriptor.ServiceOptions.defaultInstance)
     def clearOptions: ServiceDescriptorProto = copy(options = _root_.scala.None)
-    def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = Option(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.ServiceOptions): ServiceDescriptorProto = copy(options = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

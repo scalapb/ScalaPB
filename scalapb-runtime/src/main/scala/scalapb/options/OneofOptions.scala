@@ -55,7 +55,7 @@ final case class OneofOptions(
     def withExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): OneofOptions = copy(`extends` = __v)
     def getScalaName: _root_.scala.Predef.String = scalaName.getOrElse("")
     def clearScalaName: OneofOptions = copy(scalaName = _root_.scala.None)
-    def withScalaName(__v: _root_.scala.Predef.String): OneofOptions = copy(scalaName = Option(__v))
+    def withScalaName(__v: _root_.scala.Predef.String): OneofOptions = copy(scalaName = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

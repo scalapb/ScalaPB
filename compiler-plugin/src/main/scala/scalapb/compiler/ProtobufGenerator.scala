@@ -1409,7 +1409,7 @@ class ProtobufGenerator(
           .when(field.supportsPresence) { p =>
             p.add(
               s"""def $clearMethod: ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = ${C.None})
-                 |def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = Option(__v))""".stripMargin
+                 |def $withMethod(__v: ${singleType}): ${message.scalaType.nameSymbol} = copy(${field.scalaName.asSymbol} = _root_.scala.Option(__v))""".stripMargin
             )
           }
           .when(field.isInOneof) { p =>

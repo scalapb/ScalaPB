@@ -169,7 +169,7 @@ final case class Api(
     def withVersion(__v: _root_.scala.Predef.String): Api = copy(version = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
     def clearSourceContext: Api = copy(sourceContext = _root_.scala.None)
-    def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Api = copy(sourceContext = Option(__v))
+    def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Api = copy(sourceContext = _root_.scala.Option(__v))
     def clearMixins = copy(mixins = _root_.scala.Seq.empty)
     def addMixins(__vs: com.google.protobuf.api.Mixin *): Api = addAllMixins(__vs)
     def addAllMixins(__vs: Iterable[com.google.protobuf.api.Mixin]): Api = copy(mixins = mixins ++ __vs)

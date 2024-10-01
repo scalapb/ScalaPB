@@ -55,7 +55,7 @@ final case class OneofOptions(
     }
     def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: OneofOptions = copy(features = _root_.scala.None)
-    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): OneofOptions = copy(features = Option(__v))
+    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): OneofOptions = copy(features = _root_.scala.Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): OneofOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): OneofOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)

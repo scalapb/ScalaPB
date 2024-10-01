@@ -118,7 +118,7 @@ final case class CodeGeneratorRequest(
     def withFileToGenerate(__v: _root_.scala.Seq[_root_.scala.Predef.String]): CodeGeneratorRequest = copy(fileToGenerate = __v)
     def getParameter: _root_.scala.Predef.String = parameter.getOrElse("")
     def clearParameter: CodeGeneratorRequest = copy(parameter = _root_.scala.None)
-    def withParameter(__v: _root_.scala.Predef.String): CodeGeneratorRequest = copy(parameter = Option(__v))
+    def withParameter(__v: _root_.scala.Predef.String): CodeGeneratorRequest = copy(parameter = _root_.scala.Option(__v))
     def clearProtoFile = copy(protoFile = _root_.scala.Seq.empty)
     def addProtoFile(__vs: com.google.protobuf.descriptor.FileDescriptorProto *): CodeGeneratorRequest = addAllProtoFile(__vs)
     def addAllProtoFile(__vs: Iterable[com.google.protobuf.descriptor.FileDescriptorProto]): CodeGeneratorRequest = copy(protoFile = protoFile ++ __vs)
@@ -129,7 +129,7 @@ final case class CodeGeneratorRequest(
     def withSourceFileDescriptors(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto]): CodeGeneratorRequest = copy(sourceFileDescriptors = __v)
     def getCompilerVersion: com.google.protobuf.compiler.plugin.Version = compilerVersion.getOrElse(com.google.protobuf.compiler.plugin.Version.defaultInstance)
     def clearCompilerVersion: CodeGeneratorRequest = copy(compilerVersion = _root_.scala.None)
-    def withCompilerVersion(__v: com.google.protobuf.compiler.plugin.Version): CodeGeneratorRequest = copy(compilerVersion = Option(__v))
+    def withCompilerVersion(__v: com.google.protobuf.compiler.plugin.Version): CodeGeneratorRequest = copy(compilerVersion = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

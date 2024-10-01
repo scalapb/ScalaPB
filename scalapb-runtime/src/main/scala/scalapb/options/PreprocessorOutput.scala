@@ -153,10 +153,10 @@ object PreprocessorOutput extends scalapb.GeneratedMessageCompanion[scalapb.opti
       }
       def getKey: _root_.scala.Predef.String = key.getOrElse("")
       def clearKey: OptionsByFileEntry = copy(key = _root_.scala.None)
-      def withKey(__v: _root_.scala.Predef.String): OptionsByFileEntry = copy(key = Option(__v))
+      def withKey(__v: _root_.scala.Predef.String): OptionsByFileEntry = copy(key = _root_.scala.Option(__v))
       def getValue: scalapb.options.ScalaPbOptions = value.getOrElse(scalapb.options.ScalaPbOptions.defaultInstance)
       def clearValue: OptionsByFileEntry = copy(value = _root_.scala.None)
-      def withValue(__v: scalapb.options.ScalaPbOptions): OptionsByFileEntry = copy(value = Option(__v))
+      def withValue(__v: scalapb.options.ScalaPbOptions): OptionsByFileEntry = copy(value = _root_.scala.Option(__v))
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
       def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

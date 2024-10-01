@@ -140,7 +140,7 @@ final case class DescriptorProto(
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: DescriptorProto = copy(name = _root_.scala.None)
-    def withName(__v: _root_.scala.Predef.String): DescriptorProto = copy(name = Option(__v))
+    def withName(__v: _root_.scala.Predef.String): DescriptorProto = copy(name = _root_.scala.Option(__v))
     def clearField = copy(field = _root_.scala.Seq.empty)
     def addField(__vs: com.google.protobuf.descriptor.FieldDescriptorProto *): DescriptorProto = addAllField(__vs)
     def addAllField(__vs: Iterable[com.google.protobuf.descriptor.FieldDescriptorProto]): DescriptorProto = copy(field = field ++ __vs)
@@ -167,7 +167,7 @@ final case class DescriptorProto(
     def withOneofDecl(__v: _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]): DescriptorProto = copy(oneofDecl = __v)
     def getOptions: com.google.protobuf.descriptor.MessageOptions = options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)
     def clearOptions: DescriptorProto = copy(options = _root_.scala.None)
-    def withOptions(__v: com.google.protobuf.descriptor.MessageOptions): DescriptorProto = copy(options = Option(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.MessageOptions): DescriptorProto = copy(options = _root_.scala.Option(__v))
     def clearReservedRange = copy(reservedRange = _root_.scala.Seq.empty)
     def addReservedRange(__vs: com.google.protobuf.descriptor.DescriptorProto.ReservedRange *): DescriptorProto = addAllReservedRange(__vs)
     def addAllReservedRange(__vs: Iterable[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]): DescriptorProto = copy(reservedRange = reservedRange ++ __vs)
@@ -382,13 +382,13 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)
       def clearStart: ExtensionRange = copy(start = _root_.scala.None)
-      def withStart(__v: _root_.scala.Int): ExtensionRange = copy(start = Option(__v))
+      def withStart(__v: _root_.scala.Int): ExtensionRange = copy(start = _root_.scala.Option(__v))
       def getEnd: _root_.scala.Int = end.getOrElse(0)
       def clearEnd: ExtensionRange = copy(end = _root_.scala.None)
-      def withEnd(__v: _root_.scala.Int): ExtensionRange = copy(end = Option(__v))
+      def withEnd(__v: _root_.scala.Int): ExtensionRange = copy(end = _root_.scala.Option(__v))
       def getOptions: com.google.protobuf.descriptor.ExtensionRangeOptions = options.getOrElse(com.google.protobuf.descriptor.ExtensionRangeOptions.defaultInstance)
       def clearOptions: ExtensionRange = copy(options = _root_.scala.None)
-      def withOptions(__v: com.google.protobuf.descriptor.ExtensionRangeOptions): ExtensionRange = copy(options = Option(__v))
+      def withOptions(__v: com.google.protobuf.descriptor.ExtensionRangeOptions): ExtensionRange = copy(options = _root_.scala.Option(__v))
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
       def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -544,10 +544,10 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
       }
       def getStart: _root_.scala.Int = start.getOrElse(0)
       def clearStart: ReservedRange = copy(start = _root_.scala.None)
-      def withStart(__v: _root_.scala.Int): ReservedRange = copy(start = Option(__v))
+      def withStart(__v: _root_.scala.Int): ReservedRange = copy(start = _root_.scala.Option(__v))
       def getEnd: _root_.scala.Int = end.getOrElse(0)
       def clearEnd: ReservedRange = copy(end = _root_.scala.None)
-      def withEnd(__v: _root_.scala.Int): ReservedRange = copy(end = Option(__v))
+      def withEnd(__v: _root_.scala.Int): ReservedRange = copy(end = _root_.scala.Option(__v))
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
       def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
