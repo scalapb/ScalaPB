@@ -68,13 +68,13 @@ final case class Collection(
     }
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: Collection = copy(`type` = _root_.scala.None)
-    def withType(__v: _root_.scala.Predef.String): Collection = copy(`type` = Option(__v))
+    def withType(__v: _root_.scala.Predef.String): Collection = copy(`type` = _root_.scala.Option(__v))
     def getNonEmpty: _root_.scala.Boolean = nonEmpty.getOrElse(false)
     def clearNonEmpty: Collection = copy(nonEmpty = _root_.scala.None)
-    def withNonEmpty(__v: _root_.scala.Boolean): Collection = copy(nonEmpty = Option(__v))
+    def withNonEmpty(__v: _root_.scala.Boolean): Collection = copy(nonEmpty = _root_.scala.Option(__v))
     def getAdapter: _root_.scala.Predef.String = adapter.getOrElse("")
     def clearAdapter: Collection = copy(adapter = _root_.scala.None)
-    def withAdapter(__v: _root_.scala.Predef.String): Collection = copy(adapter = Option(__v))
+    def withAdapter(__v: _root_.scala.Predef.String): Collection = copy(adapter = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

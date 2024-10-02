@@ -39,7 +39,7 @@ final case class MyContainer(
     }
     def getMyAny: com.google.protobuf.any.Any = myAny.getOrElse(com.google.protobuf.any.Any.defaultInstance)
     def clearMyAny: MyContainer = copy(myAny = _root_.scala.None)
-    def withMyAny(__v: com.google.protobuf.any.Any): MyContainer = copy(myAny = Option(__v))
+    def withMyAny(__v: com.google.protobuf.any.Any): MyContainer = copy(myAny = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

@@ -183,7 +183,7 @@ object Struct extends scalapb.GeneratedMessageCompanion[com.google.protobuf.stru
       def withKey(__v: _root_.scala.Predef.String): FieldsEntry = copy(key = __v)
       def getValue: com.google.protobuf.struct.Value = value.getOrElse(com.google.protobuf.struct.Value.defaultInstance)
       def clearValue: FieldsEntry = copy(value = _root_.scala.None)
-      def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = Option(__v))
+      def withValue(__v: com.google.protobuf.struct.Value): FieldsEntry = copy(value = _root_.scala.Option(__v))
       def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
       def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

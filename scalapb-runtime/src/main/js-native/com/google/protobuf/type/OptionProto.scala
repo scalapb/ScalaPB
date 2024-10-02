@@ -68,7 +68,7 @@ final case class OptionProto(
     def withName(__v: _root_.scala.Predef.String): OptionProto = copy(name = __v)
     def getValue: com.google.protobuf.any.Any = value.getOrElse(com.google.protobuf.any.Any.defaultInstance)
     def clearValue: OptionProto = copy(value = _root_.scala.None)
-    def withValue(__v: com.google.protobuf.any.Any): OptionProto = copy(value = Option(__v))
+    def withValue(__v: com.google.protobuf.any.Any): OptionProto = copy(value = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

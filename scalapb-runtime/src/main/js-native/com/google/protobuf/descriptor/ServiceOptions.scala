@@ -69,10 +69,10 @@ final case class ServiceOptions(
     }
     def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: ServiceOptions = copy(features = _root_.scala.None)
-    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): ServiceOptions = copy(features = Option(__v))
+    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): ServiceOptions = copy(features = _root_.scala.Option(__v))
     def getDeprecated: _root_.scala.Boolean = deprecated.getOrElse(false)
     def clearDeprecated: ServiceOptions = copy(deprecated = _root_.scala.None)
-    def withDeprecated(__v: _root_.scala.Boolean): ServiceOptions = copy(deprecated = Option(__v))
+    def withDeprecated(__v: _root_.scala.Boolean): ServiceOptions = copy(deprecated = _root_.scala.Option(__v))
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): ServiceOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): ServiceOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)

@@ -53,7 +53,7 @@ final case class MessageContainer(
     }
     def getOpt: scalapb.perf.protos.SimpleMessage = opt.getOrElse(scalapb.perf.protos.SimpleMessage.defaultInstance)
     def clearOpt: MessageContainer = copy(opt = _root_.scala.None)
-    def withOpt(__v: scalapb.perf.protos.SimpleMessage): MessageContainer = copy(opt = Option(__v))
+    def withOpt(__v: scalapb.perf.protos.SimpleMessage): MessageContainer = copy(opt = _root_.scala.Option(__v))
     def clearRep = copy(rep = _root_.scala.Seq.empty)
     def addRep(__vs: scalapb.perf.protos.SimpleMessage *): MessageContainer = addAllRep(__vs)
     def addAllRep(__vs: Iterable[scalapb.perf.protos.SimpleMessage]): MessageContainer = copy(rep = rep ++ __vs)

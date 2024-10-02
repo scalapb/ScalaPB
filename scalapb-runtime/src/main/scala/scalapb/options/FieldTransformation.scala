@@ -59,13 +59,13 @@ final case class FieldTransformation(
     }
     def getWhen: com.google.protobuf.descriptor.FieldDescriptorProto = when.getOrElse(com.google.protobuf.descriptor.FieldDescriptorProto.defaultInstance)
     def clearWhen: FieldTransformation = copy(when = _root_.scala.None)
-    def withWhen(__v: com.google.protobuf.descriptor.FieldDescriptorProto): FieldTransformation = copy(when = Option(__v))
+    def withWhen(__v: com.google.protobuf.descriptor.FieldDescriptorProto): FieldTransformation = copy(when = _root_.scala.Option(__v))
     def getMatchType: scalapb.options.MatchType = matchType.getOrElse(scalapb.options.MatchType.CONTAINS)
     def clearMatchType: FieldTransformation = copy(matchType = _root_.scala.None)
-    def withMatchType(__v: scalapb.options.MatchType): FieldTransformation = copy(matchType = Option(__v))
+    def withMatchType(__v: scalapb.options.MatchType): FieldTransformation = copy(matchType = _root_.scala.Option(__v))
     def getSet: com.google.protobuf.descriptor.FieldOptions = set.getOrElse(com.google.protobuf.descriptor.FieldOptions.defaultInstance)
     def clearSet: FieldTransformation = copy(set = _root_.scala.None)
-    def withSet(__v: com.google.protobuf.descriptor.FieldOptions): FieldTransformation = copy(set = Option(__v))
+    def withSet(__v: com.google.protobuf.descriptor.FieldOptions): FieldTransformation = copy(set = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {

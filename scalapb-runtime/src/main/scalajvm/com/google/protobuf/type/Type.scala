@@ -143,7 +143,7 @@ final case class Type(
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Type = copy(options = __v)
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
     def clearSourceContext: Type = copy(sourceContext = _root_.scala.None)
-    def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Type = copy(sourceContext = Option(__v))
+    def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Type = copy(sourceContext = _root_.scala.Option(__v))
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Type = copy(syntax = __v)
     def withEdition(__v: _root_.scala.Predef.String): Type = copy(edition = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)

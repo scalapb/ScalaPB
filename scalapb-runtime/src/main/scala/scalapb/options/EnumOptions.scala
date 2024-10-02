@@ -104,7 +104,7 @@ final case class EnumOptions(
     def withCompanionExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumOptions = copy(companionExtends = __v)
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: EnumOptions = copy(`type` = _root_.scala.None)
-    def withType(__v: _root_.scala.Predef.String): EnumOptions = copy(`type` = Option(__v))
+    def withType(__v: _root_.scala.Predef.String): EnumOptions = copy(`type` = _root_.scala.Option(__v))
     def clearBaseAnnotations = copy(baseAnnotations = _root_.scala.Seq.empty)
     def addBaseAnnotations(__vs: _root_.scala.Predef.String *): EnumOptions = addAllBaseAnnotations(__vs)
     def addAllBaseAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumOptions = copy(baseAnnotations = baseAnnotations ++ __vs)

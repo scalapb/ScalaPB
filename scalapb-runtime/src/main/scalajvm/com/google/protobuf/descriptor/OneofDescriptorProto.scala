@@ -50,10 +50,10 @@ final case class OneofDescriptorProto(
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: OneofDescriptorProto = copy(name = _root_.scala.None)
-    def withName(__v: _root_.scala.Predef.String): OneofDescriptorProto = copy(name = Option(__v))
+    def withName(__v: _root_.scala.Predef.String): OneofDescriptorProto = copy(name = _root_.scala.Option(__v))
     def getOptions: com.google.protobuf.descriptor.OneofOptions = options.getOrElse(com.google.protobuf.descriptor.OneofOptions.defaultInstance)
     def clearOptions: OneofDescriptorProto = copy(options = _root_.scala.None)
-    def withOptions(__v: com.google.protobuf.descriptor.OneofOptions): OneofDescriptorProto = copy(options = Option(__v))
+    def withOptions(__v: com.google.protobuf.descriptor.OneofOptions): OneofDescriptorProto = copy(options = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
