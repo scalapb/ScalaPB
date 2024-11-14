@@ -228,9 +228,23 @@ private[compiler] class ParseFromGenerator(
             val r = (0 until (requiredFieldMap.size + 63) / 64)
               .map(i => s"__requiredFields$i != 0L")
               .mkString(" || ")
-            p.add(
-              s"""if (${r}) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
-            )
+            p.add(s"""if (${r}) {""")
+              .indent
+              .add("val __missingFields = Seq.newBuilder[_root_.scala.Predef.String]")
+              .print(requiredFieldMap.toSeq.sortBy(_._2)) {
+                case (p, (fieldDescriptor, fieldNumber)) =>
+                  val bitmask       = s"0x${"%x".format(1L << fieldNumber)}L"
+                  val fieldVariable = s"__requiredFields${fieldNumber / 64}"
+                  p.add(
+                    s"""if (($fieldVariable & $bitmask) != 0L) __missingFields += "${fieldDescriptor.scalaName}""""
+                  )
+              }
+              .add(
+                s"""val __message = s"Message missing required fields: $${__missingFields.result.mkString(", ")}"""",
+                s"""throw new _root_.com.google.protobuf.InvalidProtocolBufferException(__message)"""
+              )
+              .outdent
+              .add("}")
           }
           .add(s"$myFullScalaName(")
           .indented(
