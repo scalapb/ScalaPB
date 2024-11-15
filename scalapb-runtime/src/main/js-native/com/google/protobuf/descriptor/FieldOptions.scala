@@ -84,11 +84,11 @@ final case class FieldOptions(
     weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     debugRedact: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     retention: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionRetention] = _root_.scala.None,
-    targets: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType] = _root_.scala.Seq.empty,
-    editionDefaults: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault] = _root_.scala.Seq.empty,
+    targets: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType] = _root_.scala.Vector.empty,
+    editionDefaults: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault] = _root_.scala.Vector.empty,
     features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     featureSupport: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.FeatureSupport] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FieldOptions] with _root_.scalapb.ExtendableMessage[FieldOptions] {
     @transient
@@ -257,11 +257,11 @@ final case class FieldOptions(
     def getRetention: com.google.protobuf.descriptor.FieldOptions.OptionRetention = retention.getOrElse(com.google.protobuf.descriptor.FieldOptions.OptionRetention.RETENTION_UNKNOWN)
     def clearRetention: FieldOptions = copy(retention = _root_.scala.None)
     def withRetention(__v: com.google.protobuf.descriptor.FieldOptions.OptionRetention): FieldOptions = copy(retention = _root_.scala.Option(__v))
-    def clearTargets = copy(targets = _root_.scala.Seq.empty)
+    def clearTargets = copy(targets = _root_.scala.Vector.empty)
     def addTargets(__vs: com.google.protobuf.descriptor.FieldOptions.OptionTargetType *): FieldOptions = addAllTargets(__vs)
     def addAllTargets(__vs: Iterable[com.google.protobuf.descriptor.FieldOptions.OptionTargetType]): FieldOptions = copy(targets = targets ++ __vs)
     def withTargets(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType]): FieldOptions = copy(targets = __v)
-    def clearEditionDefaults = copy(editionDefaults = _root_.scala.Seq.empty)
+    def clearEditionDefaults = copy(editionDefaults = _root_.scala.Vector.empty)
     def addEditionDefaults(__vs: com.google.protobuf.descriptor.FieldOptions.EditionDefault *): FieldOptions = addAllEditionDefaults(__vs)
     def addAllEditionDefaults(__vs: Iterable[com.google.protobuf.descriptor.FieldOptions.EditionDefault]): FieldOptions = copy(editionDefaults = editionDefaults ++ __vs)
     def withEditionDefaults(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.EditionDefault]): FieldOptions = copy(editionDefaults = __v)
@@ -271,7 +271,7 @@ final case class FieldOptions(
     def getFeatureSupport: com.google.protobuf.descriptor.FieldOptions.FeatureSupport = featureSupport.getOrElse(com.google.protobuf.descriptor.FieldOptions.FeatureSupport.defaultInstance)
     def clearFeatureSupport: FieldOptions = copy(featureSupport = _root_.scala.None)
     def withFeatureSupport(__v: com.google.protobuf.descriptor.FieldOptions.FeatureSupport): FieldOptions = copy(featureSupport = _root_.scala.Option(__v))
-    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): FieldOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): FieldOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FieldOptions = copy(uninterpretedOption = __v)
@@ -459,11 +459,11 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     weak = _root_.scala.None,
     debugRedact = _root_.scala.None,
     retention = _root_.scala.None,
-    targets = _root_.scala.Seq.empty,
-    editionDefaults = _root_.scala.Seq.empty,
+    targets = _root_.scala.Vector.empty,
+    editionDefaults = _root_.scala.Vector.empty,
     features = _root_.scala.None,
     featureSupport = _root_.scala.None,
-    uninterpretedOption = _root_.scala.Seq.empty
+    uninterpretedOption = _root_.scala.Vector.empty
   )
   sealed abstract class CType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = com.google.protobuf.descriptor.FieldOptions.CType

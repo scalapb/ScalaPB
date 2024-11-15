@@ -89,8 +89,8 @@ package scalapb.options
 final case class ScalaPbOptions(
     packageName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     flatPackage: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    `import`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    preamble: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    `import`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    preamble: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     singleFile: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     noPrimitiveWrappers: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     primitiveWrappers: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
@@ -106,12 +106,12 @@ final case class ScalaPbOptions(
     enumStripPrefix: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     bytesType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     javaConversions: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    auxMessageOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions] = _root_.scala.Seq.empty,
-    auxFieldOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions] = _root_.scala.Seq.empty,
-    auxEnumOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions] = _root_.scala.Seq.empty,
-    auxEnumValueOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions] = _root_.scala.Seq.empty,
-    preprocessors: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    fieldTransformations: _root_.scala.Seq[scalapb.options.FieldTransformation] = _root_.scala.Seq.empty,
+    auxMessageOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions] = _root_.scala.Vector.empty,
+    auxFieldOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions] = _root_.scala.Vector.empty,
+    auxEnumOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions] = _root_.scala.Vector.empty,
+    auxEnumValueOptions: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions] = _root_.scala.Vector.empty,
+    preprocessors: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    fieldTransformations: _root_.scala.Seq[scalapb.options.FieldTransformation] = _root_.scala.Vector.empty,
     ignoreAllTransformations: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     getters: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     scala3Sources: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
@@ -394,11 +394,11 @@ final case class ScalaPbOptions(
     def getFlatPackage: _root_.scala.Boolean = flatPackage.getOrElse(false)
     def clearFlatPackage: ScalaPbOptions = copy(flatPackage = _root_.scala.None)
     def withFlatPackage(__v: _root_.scala.Boolean): ScalaPbOptions = copy(flatPackage = _root_.scala.Option(__v))
-    def clearImport = copy(`import` = _root_.scala.Seq.empty)
+    def clearImport = copy(`import` = _root_.scala.Vector.empty)
     def addImport(__vs: _root_.scala.Predef.String *): ScalaPbOptions = addAllImport(__vs)
     def addAllImport(__vs: Iterable[_root_.scala.Predef.String]): ScalaPbOptions = copy(`import` = `import` ++ __vs)
     def withImport(__v: _root_.scala.Seq[_root_.scala.Predef.String]): ScalaPbOptions = copy(`import` = __v)
-    def clearPreamble = copy(preamble = _root_.scala.Seq.empty)
+    def clearPreamble = copy(preamble = _root_.scala.Vector.empty)
     def addPreamble(__vs: _root_.scala.Predef.String *): ScalaPbOptions = addAllPreamble(__vs)
     def addAllPreamble(__vs: Iterable[_root_.scala.Predef.String]): ScalaPbOptions = copy(preamble = preamble ++ __vs)
     def withPreamble(__v: _root_.scala.Seq[_root_.scala.Predef.String]): ScalaPbOptions = copy(preamble = __v)
@@ -447,27 +447,27 @@ final case class ScalaPbOptions(
     def getJavaConversions: _root_.scala.Boolean = javaConversions.getOrElse(false)
     def clearJavaConversions: ScalaPbOptions = copy(javaConversions = _root_.scala.None)
     def withJavaConversions(__v: _root_.scala.Boolean): ScalaPbOptions = copy(javaConversions = _root_.scala.Option(__v))
-    def clearAuxMessageOptions = copy(auxMessageOptions = _root_.scala.Seq.empty)
+    def clearAuxMessageOptions = copy(auxMessageOptions = _root_.scala.Vector.empty)
     def addAuxMessageOptions(__vs: scalapb.options.ScalaPbOptions.AuxMessageOptions *): ScalaPbOptions = addAllAuxMessageOptions(__vs)
     def addAllAuxMessageOptions(__vs: Iterable[scalapb.options.ScalaPbOptions.AuxMessageOptions]): ScalaPbOptions = copy(auxMessageOptions = auxMessageOptions ++ __vs)
     def withAuxMessageOptions(__v: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxMessageOptions]): ScalaPbOptions = copy(auxMessageOptions = __v)
-    def clearAuxFieldOptions = copy(auxFieldOptions = _root_.scala.Seq.empty)
+    def clearAuxFieldOptions = copy(auxFieldOptions = _root_.scala.Vector.empty)
     def addAuxFieldOptions(__vs: scalapb.options.ScalaPbOptions.AuxFieldOptions *): ScalaPbOptions = addAllAuxFieldOptions(__vs)
     def addAllAuxFieldOptions(__vs: Iterable[scalapb.options.ScalaPbOptions.AuxFieldOptions]): ScalaPbOptions = copy(auxFieldOptions = auxFieldOptions ++ __vs)
     def withAuxFieldOptions(__v: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxFieldOptions]): ScalaPbOptions = copy(auxFieldOptions = __v)
-    def clearAuxEnumOptions = copy(auxEnumOptions = _root_.scala.Seq.empty)
+    def clearAuxEnumOptions = copy(auxEnumOptions = _root_.scala.Vector.empty)
     def addAuxEnumOptions(__vs: scalapb.options.ScalaPbOptions.AuxEnumOptions *): ScalaPbOptions = addAllAuxEnumOptions(__vs)
     def addAllAuxEnumOptions(__vs: Iterable[scalapb.options.ScalaPbOptions.AuxEnumOptions]): ScalaPbOptions = copy(auxEnumOptions = auxEnumOptions ++ __vs)
     def withAuxEnumOptions(__v: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumOptions]): ScalaPbOptions = copy(auxEnumOptions = __v)
-    def clearAuxEnumValueOptions = copy(auxEnumValueOptions = _root_.scala.Seq.empty)
+    def clearAuxEnumValueOptions = copy(auxEnumValueOptions = _root_.scala.Vector.empty)
     def addAuxEnumValueOptions(__vs: scalapb.options.ScalaPbOptions.AuxEnumValueOptions *): ScalaPbOptions = addAllAuxEnumValueOptions(__vs)
     def addAllAuxEnumValueOptions(__vs: Iterable[scalapb.options.ScalaPbOptions.AuxEnumValueOptions]): ScalaPbOptions = copy(auxEnumValueOptions = auxEnumValueOptions ++ __vs)
     def withAuxEnumValueOptions(__v: _root_.scala.Seq[scalapb.options.ScalaPbOptions.AuxEnumValueOptions]): ScalaPbOptions = copy(auxEnumValueOptions = __v)
-    def clearPreprocessors = copy(preprocessors = _root_.scala.Seq.empty)
+    def clearPreprocessors = copy(preprocessors = _root_.scala.Vector.empty)
     def addPreprocessors(__vs: _root_.scala.Predef.String *): ScalaPbOptions = addAllPreprocessors(__vs)
     def addAllPreprocessors(__vs: Iterable[_root_.scala.Predef.String]): ScalaPbOptions = copy(preprocessors = preprocessors ++ __vs)
     def withPreprocessors(__v: _root_.scala.Seq[_root_.scala.Predef.String]): ScalaPbOptions = copy(preprocessors = __v)
-    def clearFieldTransformations = copy(fieldTransformations = _root_.scala.Seq.empty)
+    def clearFieldTransformations = copy(fieldTransformations = _root_.scala.Vector.empty)
     def addFieldTransformations(__vs: scalapb.options.FieldTransformation *): ScalaPbOptions = addAllFieldTransformations(__vs)
     def addAllFieldTransformations(__vs: Iterable[scalapb.options.FieldTransformation]): ScalaPbOptions = copy(fieldTransformations = fieldTransformations ++ __vs)
     def withFieldTransformations(__v: _root_.scala.Seq[scalapb.options.FieldTransformation]): ScalaPbOptions = copy(fieldTransformations = __v)
@@ -768,8 +768,8 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   lazy val defaultInstance = scalapb.options.ScalaPbOptions(
     packageName = _root_.scala.None,
     flatPackage = _root_.scala.None,
-    `import` = _root_.scala.Seq.empty,
-    preamble = _root_.scala.Seq.empty,
+    `import` = _root_.scala.Vector.empty,
+    preamble = _root_.scala.Vector.empty,
     singleFile = _root_.scala.None,
     noPrimitiveWrappers = _root_.scala.None,
     primitiveWrappers = _root_.scala.None,
@@ -785,12 +785,12 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
     enumStripPrefix = _root_.scala.None,
     bytesType = _root_.scala.None,
     javaConversions = _root_.scala.None,
-    auxMessageOptions = _root_.scala.Seq.empty,
-    auxFieldOptions = _root_.scala.Seq.empty,
-    auxEnumOptions = _root_.scala.Seq.empty,
-    auxEnumValueOptions = _root_.scala.Seq.empty,
-    preprocessors = _root_.scala.Seq.empty,
-    fieldTransformations = _root_.scala.Seq.empty,
+    auxMessageOptions = _root_.scala.Vector.empty,
+    auxFieldOptions = _root_.scala.Vector.empty,
+    auxEnumOptions = _root_.scala.Vector.empty,
+    auxEnumValueOptions = _root_.scala.Vector.empty,
+    preprocessors = _root_.scala.Vector.empty,
+    fieldTransformations = _root_.scala.Vector.empty,
     ignoreAllTransformations = _root_.scala.None,
     getters = _root_.scala.None,
     scala3Sources = _root_.scala.None,

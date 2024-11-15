@@ -18,8 +18,8 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class ExtensionRangeOptions(
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
-    declaration: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scala.Seq.empty,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
+    declaration: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scala.Vector.empty,
     features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
     verification: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
@@ -81,11 +81,11 @@ final case class ExtensionRangeOptions(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): ExtensionRangeOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = __v)
-    def clearDeclaration = copy(declaration = _root_.scala.Seq.empty)
+    def clearDeclaration = copy(declaration = _root_.scala.Vector.empty)
     def addDeclaration(__vs: com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration *): ExtensionRangeOptions = addAllDeclaration(__vs)
     def addAllDeclaration(__vs: Iterable[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = declaration ++ __vs)
     def withDeclaration(__v: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = __v)
@@ -187,8 +187,8 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.ExtensionRangeOptions(
-    uninterpretedOption = _root_.scala.Seq.empty,
-    declaration = _root_.scala.Seq.empty,
+    uninterpretedOption = _root_.scala.Vector.empty,
+    declaration = _root_.scala.Vector.empty,
     features = _root_.scala.None,
     verification = _root_.scala.None
   )

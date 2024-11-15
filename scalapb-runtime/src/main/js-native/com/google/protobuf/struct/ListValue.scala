@@ -12,7 +12,7 @@ package com.google.protobuf.struct
   */
 @SerialVersionUID(0L)
 final case class ListValue(
-    values: _root_.scala.Seq[com.google.protobuf.struct.Value] = _root_.scala.Seq.empty,
+    values: _root_.scala.Seq[com.google.protobuf.struct.Value] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ListValue] {
     @transient
@@ -44,7 +44,7 @@ final case class ListValue(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearValues = copy(values = _root_.scala.Seq.empty)
+    def clearValues = copy(values = _root_.scala.Vector.empty)
     def addValues(__vs: com.google.protobuf.struct.Value *): ListValue = addAllValues(__vs)
     def addAllValues(__vs: Iterable[com.google.protobuf.struct.Value]): ListValue = copy(values = values ++ __vs)
     def withValues(__v: _root_.scala.Seq[com.google.protobuf.struct.Value]): ListValue = copy(values = __v)
@@ -110,7 +110,7 @@ object ListValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.s
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.struct.ListValue(
-    values = _root_.scala.Seq.empty
+    values = _root_.scala.Vector.empty
   )
   implicit class ListValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.struct.ListValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.struct.ListValue](_l) {
     def values: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.struct.Value]] = field(_.values)((c_, f_) => c_.copy(values = f_))

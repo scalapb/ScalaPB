@@ -5,7 +5,7 @@ package scalapb.perf.protos
 
 @SerialVersionUID(0L)
 final case class IntVector(
-    ints: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+    ints: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[IntVector] {
     private[this] def intsSerializedSize = {
@@ -45,7 +45,7 @@ final case class IntVector(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearInts = copy(ints = _root_.scala.Seq.empty)
+    def clearInts = copy(ints = _root_.scala.Vector.empty)
     def addInts(__vs: _root_.scala.Int *): IntVector = addAllInts(__vs)
     def addAllInts(__vs: Iterable[_root_.scala.Int]): IntVector = copy(ints = ints ++ __vs)
     def withInts(__v: _root_.scala.Seq[_root_.scala.Int]): IntVector = copy(ints = __v)
@@ -113,7 +113,7 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.perf.protos.IntVector(
-    ints = _root_.scala.Seq.empty
+    ints = _root_.scala.Vector.empty
   )
   implicit class IntVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.IntVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.IntVector](_l) {
     def ints: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.ints)((c_, f_) => c_.copy(ints = f_))

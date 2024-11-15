@@ -34,7 +34,7 @@ final case class FieldOptions(
     collection: _root_.scala.Option[scalapb.options.Collection] = _root_.scala.None,
     keyType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     valueType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     mapType: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     noDefaultValueInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
@@ -168,7 +168,7 @@ final case class FieldOptions(
     def getValueType: _root_.scala.Predef.String = valueType.getOrElse("")
     def clearValueType: FieldOptions = copy(valueType = _root_.scala.None)
     def withValueType(__v: _root_.scala.Predef.String): FieldOptions = copy(valueType = _root_.scala.Option(__v))
-    def clearAnnotations = copy(annotations = _root_.scala.Seq.empty)
+    def clearAnnotations = copy(annotations = _root_.scala.Vector.empty)
     def addAnnotations(__vs: _root_.scala.Predef.String *): FieldOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: Iterable[_root_.scala.Predef.String]): FieldOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): FieldOptions = copy(annotations = __v)
@@ -322,7 +322,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.Fi
     collection = _root_.scala.None,
     keyType = _root_.scala.None,
     valueType = _root_.scala.None,
-    annotations = _root_.scala.Seq.empty,
+    annotations = _root_.scala.Vector.empty,
     mapType = _root_.scala.None,
     noDefaultValueInConstructor = _root_.scala.None,
     noBox = _root_.scala.None,

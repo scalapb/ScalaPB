@@ -18,7 +18,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class FeatureSetDefaults(
-    defaults: _root_.scala.Seq[com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] = _root_.scala.Seq.empty,
+    defaults: _root_.scala.Seq[com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault] = _root_.scala.Vector.empty,
     minimumEdition: _root_.scala.Option[com.google.protobuf.descriptor.Edition] = _root_.scala.None,
     maximumEdition: _root_.scala.Option[com.google.protobuf.descriptor.Edition] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
@@ -68,7 +68,7 @@ final case class FeatureSetDefaults(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearDefaults = copy(defaults = _root_.scala.Seq.empty)
+    def clearDefaults = copy(defaults = _root_.scala.Vector.empty)
     def addDefaults(__vs: com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault *): FeatureSetDefaults = addAllDefaults(__vs)
     def addAllDefaults(__vs: Iterable[com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault]): FeatureSetDefaults = copy(defaults = defaults ++ __vs)
     def withDefaults(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FeatureSetDefaults.FeatureSetEditionDefault]): FeatureSetDefaults = copy(defaults = __v)
@@ -174,7 +174,7 @@ object FeatureSetDefaults extends scalapb.GeneratedMessageCompanion[com.google.p
     }
   }
   lazy val defaultInstance = com.google.protobuf.descriptor.FeatureSetDefaults(
-    defaults = _root_.scala.Seq.empty,
+    defaults = _root_.scala.Vector.empty,
     minimumEdition = _root_.scala.None,
     maximumEdition = _root_.scala.None
   )
