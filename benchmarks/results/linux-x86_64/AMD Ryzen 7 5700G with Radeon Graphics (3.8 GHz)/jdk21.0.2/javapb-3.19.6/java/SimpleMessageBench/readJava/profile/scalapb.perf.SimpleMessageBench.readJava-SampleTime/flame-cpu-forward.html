@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<style>
+	body {margin: 0; padding: 10px 10px 22px 10px; background-color: #ffffff}
+	h1 {margin: 5px 0 0 0; font-size: 18px; font-weight: normal; text-align: center}
+	header {margin: -24px 0 5px 0; line-height: 24px}
+	button {font: 12px sans-serif; cursor: pointer}
+	p {position: fixed; bottom: 0; margin: 0; padding: 2px 3px 2px 3px; outline: 1px solid #ffc000; display: none; overflow: hidden; white-space: nowrap; background-color: #ffffe0}
+	a {color: #0366d6}
+	#hl {position: absolute; display: none; overflow: hidden; white-space: nowrap; pointer-events: none; background-color: #ffffe0; outline: 1px solid #ffc000; height: 15px}
+	#hl span {padding: 0 3px 0 3px}
+	#status {left: 0}
+	#match {right: 0}
+	#reset {cursor: pointer}
+	#canvas {width: 100%; height: 592px}
+</style>
+</head>
+<body style='font: 12px Verdana, sans-serif'>
+<h1>CPU profile</h1>
+<header style='text-align: left'><button id='reverse' title='Reverse'>&#x1f53b;</button>&nbsp;&nbsp;<button id='search' title='Search'>&#x1f50d;</button></header>
+<header style='text-align: right'>Produced by <a href='https://github.com/jvm-profiling-tools/async-profiler'>async-profiler</a></header>
+<canvas id='canvas'></canvas>
+<div id='hl'><span></span></div>
+<p id='status'></p>
+<p id='match'>Matched: <span id='matchval'></span> <span id='reset' title='Clear'>&#x274c;</span></p>
+<script>
+	// Copyright 2020 Andrei Pangin
+	// Licensed under the Apache License, Version 2.0.
+	'use strict';
+	var root, rootLevel, px, pattern;
+	var reverse = false;
+	const levels = Array(37);
+	for (let h = 0; h < levels.length; h++) {
+		levels[h] = [];
+	}
+
+	const canvas = document.getElementById('canvas');
+	const c = canvas.getContext('2d');
+	const hl = document.getElementById('hl');
+	const status = document.getElementById('status');
+
+	const canvasWidth = canvas.offsetWidth;
+	const canvasHeight = canvas.offsetHeight;
+	canvas.style.width = canvasWidth + 'px';
+	canvas.width = canvasWidth * (devicePixelRatio || 1);
+	canvas.height = canvasHeight * (devicePixelRatio || 1);
+	if (devicePixelRatio) c.scale(devicePixelRatio, devicePixelRatio);
+	c.font = document.body.style.font;
+
+	const palette = [
+		[0xb2e1b2, 20, 20, 20],
+		[0x50e150, 30, 30, 30],
+		[0x50cccc, 30, 30, 30],
+		[0xe15a5a, 30, 40, 40],
+		[0xc8c83c, 30, 30, 10],
+		[0xe17d00, 30, 30,  0],
+		[0xcce880, 20, 20, 20],
+	];
+
+	function getColor(p) {
+		const v = Math.random();
+		return '#' + (p[0] + ((p[1] * v) << 16 | (p[2] * v) << 8 | (p[3] * v))).toString(16);
+	}
+
+	function f(level, left, width, type, title, inln, c1, int) {
+		levels[level].push({left: left, width: width, color: getColor(palette[type]), title: title,
+			details: (int ? ', int=' + int : '') + (c1 ? ', c1=' + c1 : '') + (inln ? ', inln=' + inln : '')
+		});
+	}
+
+	function samples(n) {
+		return n === 1 ? '1 sample' : n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' samples';
+	}
+
+	function pct(a, b) {
+		return a >= b ? '100' : (100 * a / b).toFixed(2);
+	}
+
+	function findFrame(frames, x) {
+		let left = 0;
+		let right = frames.length - 1;
+
+		while (left <= right) {
+			const mid = (left + right) >>> 1;
+			const f = frames[mid];
+
+			if (f.left > x) {
+				right = mid - 1;
+			} else if (f.left + f.width <= x) {
+				left = mid + 1;
+			} else {
+				return f;
+			}
+		}
+
+		if (frames[left] && (frames[left].left - x) * px < 0.5) return frames[left];
+		if (frames[right] && (x - (frames[right].left + frames[right].width)) * px < 0.5) return frames[right];
+
+		return null;
+	}
+
+	function search(r) {
+		if (r === true && (r = prompt('Enter regexp to search:', '')) === null) {
+			return;
+		}
+
+		pattern = r ? RegExp(r) : undefined;
+		const matched = render(root, rootLevel);
+		document.getElementById('matchval').textContent = pct(matched, root.width) + '%';
+		document.getElementById('match').style.display = r ? 'inline-block' : 'none';
+	}
+
+	function render(newRoot, newLevel) {
+		if (root) {
+			c.fillStyle = '#ffffff';
+			c.fillRect(0, 0, canvasWidth, canvasHeight);
+		}
+
+		root = newRoot || levels[0][0];
+		rootLevel = newLevel || 0;
+		px = canvasWidth / root.width;
+
+		const x0 = root.left;
+		const x1 = x0 + root.width;
+		const marked = [];
+
+		function mark(f) {
+			return marked[f.left] >= f.width || (marked[f.left] = f.width);
+		}
+
+		function totalMarked() {
+			let total = 0;
+			let left = 0;
+			Object.keys(marked).sort(function(a, b) { return a - b; }).forEach(function(x) {
+				if (+x >= left) {
+					total += marked[x];
+					left = +x + marked[x];
+				}
+			});
+			return total;
+		}
+
+		function drawFrame(f, y, alpha) {
+			if (f.left < x1 && f.left + f.width > x0) {
+				c.fillStyle = pattern && f.title.match(pattern) && mark(f) ? '#ee00ee' : f.color;
+				c.fillRect((f.left - x0) * px, y, f.width * px, 15);
+
+				if (f.width * px >= 21) {
+					const chars = Math.floor(f.width * px / 7);
+					const title = f.title.length <= chars ? f.title : f.title.substring(0, chars - 2) + '..';
+					c.fillStyle = '#000000';
+					c.fillText(title, Math.max(f.left - x0, 0) * px + 3, y + 12, f.width * px - 6);
+				}
+
+				if (alpha) {
+					c.fillStyle = 'rgba(255, 255, 255, 0.5)';
+					c.fillRect((f.left - x0) * px, y, f.width * px, 15);
+				}
+			}
+		}
+
+		for (let h = 0; h < levels.length; h++) {
+			const y = reverse ? h * 16 : canvasHeight - (h + 1) * 16;
+			const frames = levels[h];
+			for (let i = 0; i < frames.length; i++) {
+				drawFrame(frames[i], y, h < rootLevel);
+			}
+		}
+
+		return totalMarked();
+	}
+
+	canvas.onmousemove = function() {
+		const h = Math.floor((reverse ? event.offsetY : (canvasHeight - event.offsetY)) / 16);
+		if (h >= 0 && h < levels.length) {
+			const f = findFrame(levels[h], event.offsetX / px + root.left);
+			if (f) {
+				if (f != root) getSelection().removeAllRanges();
+				hl.style.left = (Math.max(f.left - root.left, 0) * px + canvas.offsetLeft) + 'px';
+				hl.style.width = (Math.min(f.width, root.width) * px) + 'px';
+				hl.style.top = ((reverse ? h * 16 : canvasHeight - (h + 1) * 16) + canvas.offsetTop) + 'px';
+				hl.firstChild.textContent = f.title;
+				hl.style.display = 'block';
+				canvas.title = f.title + '\n(' + samples(f.width) + f.details + ', ' + pct(f.width, levels[0][0].width) + '%)';
+				canvas.style.cursor = 'pointer';
+				canvas.onclick = function() {
+					if (f != root) {
+						render(f, h);
+						canvas.onmousemove();
+					}
+				};
+				status.textContent = 'Function: ' + canvas.title;
+				status.style.display = 'inline-block';
+				return;
+			}
+		}
+		canvas.onmouseout();
+	}
+
+	canvas.onmouseout = function() {
+		hl.style.display = 'none';
+		status.style.display = 'none';
+		canvas.title = '';
+		canvas.style.cursor = '';
+		canvas.onclick = '';
+	}
+
+	canvas.ondblclick = function() {
+		getSelection().selectAllChildren(hl);
+	}
+
+	document.getElementById('reverse').onclick = function() {
+		reverse = !reverse;
+		render();
+	}
+
+	document.getElementById('search').onclick = function() {
+		search(true);
+	}
+
+	document.getElementById('reset').onclick = function() {
+		search(false);
+	}
+
+	window.onkeydown = function() {
+		if (event.ctrlKey && event.keyCode === 70) {
+			event.preventDefault();
+			search(true);
+		} else if (event.keyCode === 27) {
+			search(false);
+		}
+	}
+
+f(0,0,5156,3,'all')
+f(1,0,157,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(2,1,2,5,'entry_SYSCALL_64_after_hwframe')
+f(3,1,2,5,'do_syscall_64')
+f(4,1,1,5,'__x64_sys_futex')
+f(5,1,1,5,'do_futex')
+f(6,1,1,5,'futex_wait_setup')
+f(4,2,1,5,'syscall_enter_from_user_mode')
+f(2,3,154,3,'thread_native_entry(Thread*)')
+f(3,3,154,4,'Thread::call_run()')
+f(4,3,23,4,'ConcurrentGCThread::run()')
+f(5,3,23,4,'ShenandoahControlThread::run_service()')
+f(6,5,5,4,'ShenandoahAdaptiveHeuristics::should_start_gc()')
+f(7,6,3,3,'clock_gettime')
+f(7,9,1,4,'os::elapsedTime()')
+f(6,10,2,4,'ShenandoahControlThread::service_concurrent_normal_cycle(GCCause::Cause)')
+f(7,10,2,4,'ShenandoahConcurrentGC::collect(GCCause::Cause)')
+f(8,10,2,4,'ShenandoahConcurrentGC::entry_mark_roots()')
+f(9,10,1,4,'EventMarkWithLogFunction<&Events::log>::EventMarkWithLogFunction(char const*, ...) [clone .constprop.0]')
+f(10,10,1,4,'Events::log(Thread*, char const*, ...)')
+f(11,10,1,3,'pthread_mutex_lock')
+f(9,11,1,4,'ShenandoahConcurrentMark::mark_concurrent_roots()')
+f(10,11,1,4,'ShenandoahConcurrentRootScanner::ShenandoahConcurrentRootScanner(unsigned int, ShenandoahPhaseTimings::Phase)')
+f(11,11,1,4,'ClassLoaderData::clear_claim(int)')
+f(6,12,1,4,'ShenandoahFreeSet::log_status()')
+f(6,13,2,4,'ShenandoahHeap::max_capacity() const')
+f(6,15,3,4,'ShenandoahHeap::soft_max_capacity() const')
+f(6,18,1,4,'ShenandoahHeuristics::should_start_gc()')
+f(6,19,1,4,'ShenandoahPhaseTimings::flush_par_workers_to_cycle()')
+f(6,20,1,3,'__nanosleep')
+f(6,21,5,3,'clock_nanosleep')
+f(7,21,5,5,'entry_SYSCALL_64_after_hwframe')
+f(8,21,5,5,'do_syscall_64')
+f(9,21,2,5,'__x64_sys_clock_nanosleep')
+f(10,21,2,5,'common_nsleep')
+f(11,21,2,5,'hrtimer_nanosleep')
+f(12,21,2,5,'do_nanosleep')
+f(13,22,1,5,'hrtimer_start_range_ns')
+f(14,22,1,5,'_raw_spin_unlock_irqrestore')
+f(9,23,3,5,'syscall_enter_from_user_mode')
+f(10,25,1,5,'__secure_computing')
+f(4,26,1,4,'JavaThread::thread_main_inner()')
+f(5,26,1,4,'CompileBroker::compiler_thread_loop()')
+f(6,26,1,4,'CompileBroker::invoke_compiler_on_method(CompileTask*)')
+f(7,26,1,4,'C2Compiler::compile_method(ciEnv*, ciMethod*, int, bool, DirectiveSet*)')
+f(8,26,1,4,'Compile::Compile(ciEnv*, ciMethod*, int, Options, DirectiveSet*)')
+f(9,26,1,4,'Compile::Code_Gen()')
+f(10,26,1,4,'Matcher::match()')
+f(11,26,1,4,'Matcher::xform(Node*, int)')
+f(4,27,1,4,'VMThread::run()')
+f(5,27,1,4,'VMThread::inner_execute(VM_Operation*)')
+f(6,27,1,4,'VMThread::evaluate_operation(VM_Operation*)')
+f(7,27,1,4,'VM_Operation::evaluate()')
+f(8,27,1,4,'VM_HandshakeAllThreads::doit()')
+f(9,27,1,4,'os::active_processor_count()')
+f(10,27,1,4,'CgroupSubsystem::active_processor_count()')
+f(11,27,1,3,'sched_getaffinity')
+f(4,28,1,4,'WatcherThread::run()')
+f(5,28,1,3,'pthread_mutex_unlock')
+f(4,29,128,4,'WorkerThread::run()')
+f(5,29,79,4,'ShenandoahConcurrentMarkingTask::work(unsigned int)')
+f(6,29,1,4,'BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>::pop(ShenandoahMarkTask&) [clone .part.0]')
+f(6,30,78,4,'ShenandoahMark::mark_loop(unsigned int, TaskTerminator*, ShenandoahReferenceProcessor*, bool, StringDedupMode, StringDedup::Requests*)')
+f(7,30,6,4,'BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>::pop(ShenandoahMarkTask&) [clone .part.0]')
+f(7,36,2,4,'GenericTaskQueueSet<Padded<BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>, 128ul>, (MEMFLAGS)5>::steal_best_of_2(unsigned int, ShenandoahMarkTask&)')
+f(7,38,7,4,'ShenandoahMark::count_liveness(unsigned short*, oopDesc*) [clone .isra.0]')
+f(7,45,1,4,'void OopOopIterateDispatch<ShenandoahMarkRefsClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>(ShenandoahMarkRefsClosure*, oopDesc*, Klass*)')
+f(7,46,1,4,'void ShenandoahMark::do_chunked_array_start<ShenandoahMarkRefsClosure>(Padded<BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>, 128ul>*, ShenandoahMarkRefsClosure*, oopDesc*, bool) [clone .isra.0]')
+f(7,47,61,4,'void ShenandoahMark::do_task<ShenandoahMarkRefsClosure, (StringDedupMode)0>(Padded<BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>, 128ul>*, ShenandoahMarkRefsClosure*, unsigned short*, StringDedup::Requests*, ShenandoahMarkTask*) [clone .constprop.0] [clone .isra.0]')
+f(8,75,1,4,'ClassLoaderData::oops_do(OopClosure*, int, bool)')
+f(8,76,14,4,'void OopOopIterateDispatch<ShenandoahMarkRefsClosure>::Table::oop_oop_iterate<InstanceKlass, narrowOop>(ShenandoahMarkRefsClosure*, oopDesc*, Klass*)')
+f(8,90,5,4,'void OopOopIterateDispatch<ShenandoahMarkRefsClosure>::Table::oop_oop_iterate<InstanceMirrorKlass, narrowOop>(ShenandoahMarkRefsClosure*, oopDesc*, Klass*)')
+f(9,93,2,4,'void ShenandoahMark::mark_through_ref<narrowOop>(narrowOop*, Padded<BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>, 128ul>*, ShenandoahMarkingContext*, bool)')
+f(10,94,1,4,'OverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>::push(ShenandoahMarkTask) [clone .isra.0]')
+f(8,95,3,4,'void OopOopIterateDispatch<ShenandoahMarkRefsClosure>::Table::oop_oop_iterate<InstanceRefKlass, narrowOop>(ShenandoahMarkRefsClosure*, oopDesc*, Klass*)')
+f(8,98,2,4,'void ShenandoahMark::do_chunked_array_start<ShenandoahMarkRefsClosure>(Padded<BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>, 128ul>*, ShenandoahMarkRefsClosure*, oopDesc*, bool) [clone .isra.0]')
+f(9,98,2,4,'ClassLoaderData::oops_do(OopClosure*, int, bool)')
+f(8,100,1,4,'void ShenandoahMark::mark_through_ref<narrowOop>(narrowOop*, Padded<BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>, 128ul>*, ShenandoahMarkingContext*, bool)')
+f(8,101,7,4,'void objArrayOopDesc::oop_iterate_range<ShenandoahMarkRefsClosure>(ShenandoahMarkRefsClosure*, int, int)')
+f(9,103,5,4,'void ShenandoahMark::mark_through_ref<narrowOop>(narrowOop*, Padded<BufferedOverflowTaskQueue<ShenandoahMarkTask, (MEMFLAGS)5, 131072u>, 128ul>*, ShenandoahMarkingContext*, bool)')
+f(5,108,19,4,'ShenandoahConcurrentNMethodIterator::nmethods_do(NMethodClosure*)')
+f(6,108,19,4,'ShenandoahNMethodUnlinkClosure::do_nmethod(nmethod*)')
+f(7,110,1,4,'BarrierSetNMethod::is_armed(nmethod*)')
+f(8,110,1,4,'BarrierSetNMethod::guard_value(nmethod*)')
+f(9,110,1,4,'Method::is_method_handle_intrinsic() const')
+f(7,111,16,4,'CompiledMethod::unload_nmethod_caches(bool)')
+f(8,111,1,4,'CodeHeap::find_blob(void*) const')
+f(8,112,14,4,'CompiledMethod::cleanup_inline_caches_impl(bool, bool)')
+f(9,115,1,4,'CodeHeap::find_blob(void*) const')
+f(9,116,6,4,'NativeCall::destination() const')
+f(9,122,1,4,'RelocIterator::initialize(CompiledMethod*, unsigned char*, unsigned char*)')
+f(9,123,3,3,'bool clean_if_nmethod_is_unloaded<CompiledIC>(CompiledIC*, unsigned char*, CompiledMethod*, bool)')
+f(8,126,1,4,'RelocIterator::advance_over_prefix()')
+f(5,127,6,4,'ShenandoahConcurrentWeakRootsEvacUpdateTask::work(unsigned int)')
+f(6,127,1,4,'AccessInternal::PostRuntimeDispatch<ShenandoahBarrierSet::AccessBarrier<594020ul, ShenandoahBarrierSet>, (AccessInternal::BarrierType)2, 594020ul>::oop_access_barrier(void*)')
+f(6,128,3,4,'ShenandoahConcurrentNMethodIterator::nmethods_do(NMethodClosure*)')
+f(7,130,1,4,'nmethod::is_unloading()')
+f(8,130,1,4,'Method::is_method_handle_intrinsic() const')
+f(6,131,1,4,'ShenandoahIsNMethodAliveClosure::do_nmethod(nmethod*)')
+f(6,132,1,4,'void OopStorageSetWeakParState<true, false>::oops_do<ShenandoahEvacUpdateCleanupOopStorageRootsClosure>(ShenandoahEvacUpdateCleanupOopStorageRootsClosure*)')
+f(7,132,1,4,'AccessInternal::PostRuntimeDispatch<ShenandoahBarrierSet::AccessBarrier<594020ul, ShenandoahBarrierSet>, (AccessInternal::BarrierType)2, 594020ul>::oop_access_barrier(void*)')
+f(5,133,1,4,'ShenandoahFinalMarkUpdateRegionStateClosure::heap_region_do(ShenandoahHeapRegion*)')
+f(5,134,2,4,'ShenandoahFinalMarkingTask::work(unsigned int)')
+f(6,134,1,4,'ShenandoahMark::mark_loop(unsigned int, TaskTerminator*, ShenandoahReferenceProcessor*, bool, StringDedupMode, StringDedup::Requests*)')
+f(7,134,1,4,'TaskTerminator::offer_termination(TerminatorTerminator*)')
+f(8,134,1,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(9,134,1,5,'entry_SYSCALL_64_after_hwframe')
+f(10,134,1,5,'do_syscall_64')
+f(11,134,1,5,'__x64_sys_futex')
+f(12,134,1,5,'do_futex')
+f(13,134,1,5,'futex_wait')
+f(14,134,1,5,'futex_wait_setup')
+f(15,134,1,5,'futex_q_unlock')
+f(6,135,1,4,'Thread::claim_par_threads_do(unsigned long)')
+f(5,136,8,4,'ShenandoahMarkConcurrentRootsTask::work(unsigned int)')
+f(6,136,8,4,'ShenandoahConcurrentRootScanner::roots_do(OopClosure*, unsigned int)')
+f(7,136,2,4,'ClassLoaderDataGraph::always_strong_cld_do(CLDClosure*)')
+f(8,136,2,4,'ClassLoaderData::oops_do(OopClosure*, int, bool)')
+f(9,136,2,4,'ShenandoahMarkRefsClosure::do_oop(oopDesc**)')
+f(7,138,1,4,'ShenandoahMarkRefsClosure::do_oop(oopDesc**)')
+f(7,139,5,4,'StackWatermark::finish_processing(void*)')
+f(8,139,1,4,'StackWatermark::start_processing_impl(void*)')
+f(9,139,1,4,'StackWatermarkFramesIterator::process_one(void*)')
+f(10,139,1,4,'ShenandoahStackWatermark::process(frame const&, RegisterMap&, void*)')
+f(11,139,1,4,'frame::oops_interpreted_do(OopClosure*, RegisterMap const*, bool) const')
+f(12,139,1,4,'Method::mask_for(int, InterpreterOopMap*)')
+f(13,139,1,4,'OopMapCache::compute_one_oop_map(methodHandle const&, int, InterpreterOopMap*)')
+f(14,139,1,4,'SignatureIterator::set_fingerprint(unsigned long)')
+f(8,140,4,4,'StackWatermarkFramesIterator::process_all(void*)')
+f(9,140,4,4,'ShenandoahStackWatermark::process(frame const&, RegisterMap&, void*)')
+f(10,140,1,4,'Method::bcp_from(unsigned char*) const')
+f(10,141,3,4,'frame::oops_interpreted_do(OopClosure*, RegisterMap const*, bool) const')
+f(11,141,3,4,'Method::mask_for(int, InterpreterOopMap*)')
+f(12,141,3,4,'OopMapCache::compute_one_oop_map(methodHandle const&, int, InterpreterOopMap*)')
+f(13,141,3,4,'OopMapCacheEntry::fill(methodHandle const&, int)')
+f(14,141,3,4,'OopMapForCacheEntry::compute_map(Thread*)')
+f(15,141,3,4,'GenerateOopMap::compute_map(Thread*)')
+f(16,141,3,4,'GenerateOopMap::do_interpretation()')
+f(17,141,1,4,'GenerateOopMap::init_basic_blocks()')
+f(18,141,1,4,'GenerateOopMap::mark_reachable_code()')
+f(17,142,2,4,'GenerateOopMap::interp_bb(BasicBlock*)')
+f(18,142,1,4,'GenerateOopMap::interp1(BytecodeStream*)')
+f(18,143,1,4,'GenerateOopMap::jump_targets_do(BytecodeStream*, void (*)(GenerateOopMap*, int, int*), int*) [clone .constprop.0]')
+f(19,143,1,4,'GenerateOopMap::merge_state_into_bb(BasicBlock*)')
+f(5,144,1,4,'ShenandoahReferenceProcessorTask::work(unsigned int)')
+f(6,144,1,4,'void ShenandoahReferenceProcessor::process_references<narrowOop>(ShenandoahRefProcThreadLocal&, unsigned int)')
+f(5,145,9,4,'ShenandoahResetBitmapTask::work(unsigned int)')
+f(6,151,3,4,'ShenandoahMarkingContext::clear_bitmap(ShenandoahHeapRegion*)')
+f(7,151,3,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(5,154,2,4,'ShenandoahResetUpdateRegionStateClosure::heap_region_do(ShenandoahHeapRegion*)')
+f(5,156,1,3,'sem_post')
+f(6,156,1,5,'entry_SYSCALL_64_after_hwframe')
+f(7,156,1,5,'syscall_enter_from_user_mode')
+f(1,157,8,3,'[no_Java_frame]')
+f(1,165,4,3,'[unknown]')
+f(2,165,3,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(3,166,2,5,'entry_SYSCALL_64_after_hwframe')
+f(4,166,2,5,'do_syscall_64')
+f(5,166,1,5,'__x64_sys_futex')
+f(6,166,1,5,'do_futex')
+f(7,166,1,5,'futex_wake')
+f(8,166,1,5,'wake_up_q')
+f(9,166,1,5,'try_to_wake_up')
+f(10,166,1,5,'_raw_spin_unlock_irqrestore')
+f(5,167,1,5,'syscall_enter_from_user_mode')
+f(6,167,1,5,'syscall_trace_enter.constprop.0')
+f(7,167,1,5,'__secure_computing')
+f(8,167,1,5,'__seccomp_filter')
+f(2,168,1,3,'__open')
+f(3,168,1,5,'entry_SYSCALL_64_after_hwframe')
+f(4,168,1,5,'do_syscall_64')
+f(5,168,1,5,'__x64_sys_openat')
+f(6,168,1,5,'do_sys_openat2')
+f(7,168,1,5,'do_filp_open')
+f(8,168,1,5,'path_openat')
+f(9,168,1,5,'link_path_walk.part.0.constprop.0')
+f(1,169,47,3,'[unknown_Java]')
+f(2,169,1,3,'[unknown]')
+f(3,169,1,4,'os::javaTimeNanos()')
+f(2,170,23,1,'java/lang/Object.<init>()V')
+f(2,193,23,1,'scalapb/perf/Protos$SimpleMessage$Builder.mergeFrom(Lcom/google/protobuf/CodedInputStream;Lcom/google/protobuf/ExtensionRegistryLite;)Lscalapb/perf/Protos$SimpleMessage$Builder;')
+f(1,216,4939,1,'java/lang/Thread.run()V')
+f(2,216,4939,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(3,216,4939,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(4,216,4939,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(5,216,4939,1,'java/util/concurrent/FutureTask.run()V')
+f(6,216,4939,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(7,216,4939,1,'java/util/concurrent/FutureTask.run()V')
+f(8,216,4939,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(9,216,4939,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(10,216,4939,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,216,4939,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,216,4939,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,216,4939,1,'java/lang/invoke/LambdaForm$MH.0x00007fa48402f000.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,216,4939,1,'java/lang/invoke/LambdaForm$MH.0x00007fa48402ec00.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,216,4939,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,216,4939,1,'scalapb/perf/jmh_generated/SimpleMessageBench_readJava_jmhTest.readJava_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(17,216,4939,1,'scalapb/perf/jmh_generated/SimpleMessageBench_readJava_jmhTest.readJava_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/SimpleMessageBench_jmhType;)V')
+f(18,430,1,4,'SafepointSynchronize::handle_polling_page_exception(JavaThread*)')
+f(19,430,1,4,'ThreadSafepointState::handle_polling_page_exception()')
+f(20,430,1,4,'SafepointMechanism::process(JavaThread*, bool, bool)')
+f(21,430,1,4,'StackWatermark::on_safepoint()')
+f(22,430,1,4,'StackWatermark::start_processing()')
+f(23,430,1,4,'StackWatermark::start_processing_impl(void*)')
+f(24,430,1,4,'StackWatermarkFramesIterator::process_one(void*)')
+f(25,430,1,4,'ShenandoahStackWatermark::process(frame const&, RegisterMap&, void*)')
+f(26,430,1,4,'frame::oops_interpreted_do(OopClosure*, RegisterMap const*, bool) const')
+f(27,430,1,4,'Method::mask_for(int, InterpreterOopMap*)')
+f(28,430,1,4,'OopMapCache::compute_one_oop_map(methodHandle const&, int, InterpreterOopMap*)')
+f(29,430,1,4,'OopMapCacheEntry::fill(methodHandle const&, int)')
+f(30,430,1,4,'OopMapForCacheEntry::compute_map(Thread*)')
+f(31,430,1,4,'GenerateOopMap::compute_map(Thread*)')
+f(32,430,1,4,'GenerateOopMap::do_interpretation()')
+f(33,430,1,4,'GenerateOopMap::interp_bb(BasicBlock*)')
+f(34,430,1,4,'GenerateOopMap::do_field(int, int, int, int, Bytecodes::Code)')
+f(18,431,1,3,'[vdso]')
+f(18,432,59,3,'clock_gettime')
+f(19,436,55,3,'[vdso]')
+f(18,491,7,2,'org/openjdk/jmh/util/SampleBuffer.add(J)V',7,0,0)
+f(18,498,2,4,'os::javaTimeNanos()')
+f(18,500,4655,1,'scalapb/perf/ProtobufBenchmark.readJava(Lorg/openjdk/jmh/infra/Blackhole;)V',1532,0,0)
+f(19,594,4543,1,'com/google/protobuf/AbstractParser.parseFrom([B)Ljava/lang/Object;',1420,0,0)
+f(20,594,4543,1,'com/google/protobuf/AbstractParser.parseFrom([B)Lcom/google/protobuf/MessageLite;',1420,0,0)
+f(21,594,4543,1,'com/google/protobuf/AbstractParser.parseFrom([BLcom/google/protobuf/ExtensionRegistryLite;)Lcom/google/protobuf/MessageLite;',1420,0,0)
+f(22,612,4525,1,'com/google/protobuf/AbstractParser.parseFrom([BIILcom/google/protobuf/ExtensionRegistryLite;)Lcom/google/protobuf/MessageLite;',1402,0,0)
+f(23,612,4525,1,'com/google/protobuf/AbstractParser.parsePartialFrom([BIILcom/google/protobuf/ExtensionRegistryLite;)Lcom/google/protobuf/MessageLite;',1402,0,0)
+f(24,612,33,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.checkLastTagWas(I)V',33,0,0)
+f(24,645,623,2,'com/google/protobuf/CodedInputStream.newInstance([BII)Lcom/google/protobuf/CodedInputStream;',621,0,0)
+f(25,645,623,2,'com/google/protobuf/CodedInputStream.newInstance([BIIZ)Lcom/google/protobuf/CodedInputStream;',621,0,0)
+f(26,722,2,4,'OptoRuntime::new_instance_C(Klass*, JavaThread*)')
+f(27,722,2,4,'InstanceKlass::allocate_instance(JavaThread*)')
+f(28,722,2,4,'MemAllocator::allocate() const')
+f(29,722,2,4,'ObjAllocator::initialize(HeapWordImpl**) const')
+f(26,724,275,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.<init>([BIIZLcom/google/protobuf/CodedInputStream$1;)V',275,0,0)
+f(27,724,275,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.<init>([BIIZ)V',275,0,0)
+f(28,952,47,2,'com/google/protobuf/CodedInputStream.<init>(Lcom/google/protobuf/CodedInputStream$1;)V',47,0,0)
+f(29,952,47,2,'com/google/protobuf/CodedInputStream.<init>()V',47,0,0)
+f(26,999,269,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.pushLimit(I)I',269,0,0)
+f(27,1006,262,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.recomputeBufferSizeAfterLimit()V',262,0,0)
+f(24,1268,3869,1,'scalapb/perf/Protos$SimpleMessage$1.parsePartialFrom(Lcom/google/protobuf/CodedInputStream;Lcom/google/protobuf/ExtensionRegistryLite;)Ljava/lang/Object;',748,0,0)
+f(25,1268,3869,1,'scalapb/perf/Protos$SimpleMessage$1.parsePartialFrom(Lcom/google/protobuf/CodedInputStream;Lcom/google/protobuf/ExtensionRegistryLite;)Lscalapb/perf/Protos$SimpleMessage;',748,0,0)
+f(26,1305,412,2,'scalapb/perf/Protos$SimpleMessage$Builder.buildPartial()Lscalapb/perf/Protos$SimpleMessage;',406,0,0)
+f(27,1399,6,4,'OptoRuntime::new_instance_C(Klass*, JavaThread*)')
+f(28,1399,6,4,'InstanceKlass::allocate_instance(JavaThread*)')
+f(29,1399,1,4,'MemAllocator::Allocation::notify_allocation_jfr_sampler()')
+f(29,1400,5,4,'MemAllocator::allocate() const')
+f(30,1400,1,4,'AllocTracer::send_allocation_in_new_tlab(Klass*, HeapWordImpl**, unsigned long, unsigned long, JavaThread*)')
+f(30,1401,4,4,'MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const')
+f(31,1401,3,4,'ShenandoahHeap::allocate_new_tlab(unsigned long, unsigned long, unsigned long*)')
+f(32,1401,3,4,'ShenandoahHeap::allocate_memory(ShenandoahAllocRequest&)')
+f(33,1402,1,4,'ShenandoahFreeSet::allocate_single(ShenandoahAllocRequest&, bool&)')
+f(33,1403,1,4,'ShenandoahPacer::pace_for_alloc(unsigned long)')
+f(31,1404,1,4,'ThreadLocalAllocBuffer::fill(HeapWordImpl**, HeapWordImpl**, unsigned long)')
+f(27,1405,23,2,'com/google/protobuf/GeneratedMessageV3$Builder.onBuilt()V',23,0,0)
+f(27,1428,121,2,'scalapb/perf/Protos$SimpleMessage.<init>(Lcom/google/protobuf/GeneratedMessageV3$Builder;Lscalapb/perf/Protos$1;)V',121,0,0)
+f(28,1428,121,2,'scalapb/perf/Protos$SimpleMessage.<init>(Lcom/google/protobuf/GeneratedMessageV3$Builder;)V',121,0,0)
+f(29,1429,120,2,'com/google/protobuf/GeneratedMessageV3.<init>(Lcom/google/protobuf/GeneratedMessageV3$Builder;)V',120,0,0)
+f(30,1462,87,2,'com/google/protobuf/GeneratedMessageV3$Builder.getUnknownFields()Lcom/google/protobuf/UnknownFieldSet;',87,0,0)
+f(27,1549,34,2,'scalapb/perf/Protos$SimpleMessage.access$502(Lscalapb/perf/Protos$SimpleMessage;I)I',34,0,0)
+f(27,1583,15,2,'scalapb/perf/Protos$SimpleMessage.access$602(Lscalapb/perf/Protos$SimpleMessage;I)I',15,0,0)
+f(27,1598,6,2,'scalapb/perf/Protos$SimpleMessage.access$702(Lscalapb/perf/Protos$SimpleMessage;Lcom/google/protobuf/ByteString;)Lcom/google/protobuf/ByteString;',6,0,0)
+f(27,1604,113,2,'scalapb/perf/Protos$SimpleMessage.access$802(Lscalapb/perf/Protos$SimpleMessage;I)I',113,0,0)
+f(26,1717,3060,1,'scalapb/perf/Protos$SimpleMessage$Builder.mergeFrom(Lcom/google/protobuf/CodedInputStream;Lcom/google/protobuf/ExtensionRegistryLite;)Lscalapb/perf/Protos$SimpleMessage$Builder;')
+f(27,2349,2,4,'SATBMarkQueueSet::enqueue_known_active(SATBMarkQueue&, oopDesc*)')
+f(28,2349,2,4,'SATBMarkQueueSet::handle_zero_index(SATBMarkQueue&)')
+f(29,2349,2,4,'ShenandoahSATBMarkQueueSet::filter(SATBMarkQueue&)')
+f(27,2351,826,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readBytes()Lcom/google/protobuf/ByteString;',824,0,0)
+f(28,2562,545,2,'com/google/protobuf/ByteString.copyFrom([BII)Lcom/google/protobuf/ByteString;',543,0,0)
+f(29,2594,114,2,'com/google/protobuf/ByteString$ArraysByteArrayCopier.copyFrom([BII)[B',112,0,0)
+f(30,2594,114,2,'java/util/Arrays.copyOfRange([BII)[B',112,0,0)
+f(31,2616,92,2,'java/util/Arrays.copyOfRangeByte([BII)[B',90,0,0)
+f(32,2706,2,4,'OptoRuntime::new_array_nozero_C(Klass*, int, JavaThread*)')
+f(33,2707,1,4,'TypeArrayKlass::allocate_common(int, bool, JavaThread*)')
+f(29,2708,374,2,'com/google/protobuf/ByteString$LiteralByteString.<init>([B)V',374,0,0)
+f(30,2911,6,2,'com/google/protobuf/ByteString$LeafByteString.<init>()V',6,0,0)
+f(31,2911,6,2,'com/google/protobuf/ByteString.<init>()V',6,0,0)
+f(30,2917,43,3,'jbyte_arraycopy')
+f(30,2960,122,3,'jbyte_disjoint_arraycopy')
+f(29,3082,25,2,'com/google/protobuf/ByteString.checkRange(III)I',25,0,0)
+f(28,3107,70,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readRawVarint32()I',70,0,0)
+f(27,3177,356,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readEnum()I',356,0,0)
+f(28,3177,356,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readRawVarint32()I',356,0,0)
+f(27,3533,364,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readInt32()I',364,0,0)
+f(28,3533,364,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readRawVarint32()I',364,0,0)
+f(27,3897,880,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readTag()I',880,0,0)
+f(28,3941,247,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.isAtEnd()Z',247,0,0)
+f(28,4188,566,2,'com/google/protobuf/CodedInputStream$ArrayDecoder.readRawVarint32()I',566,0,0)
+f(29,4753,1,5,'asm_sysvec_apic_timer_interrupt')
+f(30,4753,1,5,'sysvec_apic_timer_interrupt')
+f(31,4753,1,5,'irq_exit_rcu')
+f(32,4753,1,5,'__irq_exit_rcu')
+f(33,4753,1,5,'__do_softirq')
+f(34,4753,1,5,'run_timer_softirq')
+f(35,4753,1,5,'__run_timers')
+f(36,4753,1,5,'_raw_spin_unlock_irq')
+f(28,4754,23,2,'com/google/protobuf/WireFormat.getTagFieldNumber(I)I',23,0,0)
+f(26,4777,360,2,'scalapb/perf/Protos$SimpleMessage.newBuilder()Lscalapb/perf/Protos$SimpleMessage$Builder;',305,0,0)
+f(27,4777,360,2,'scalapb/perf/Protos$SimpleMessage.toBuilder()Lscalapb/perf/Protos$SimpleMessage$Builder;',305,0,0)
+f(28,4932,6,4,'OptoRuntime::new_instance_C(Klass*, JavaThread*)')
+f(29,4932,6,4,'InstanceKlass::allocate_instance(JavaThread*)')
+f(30,4932,1,4,'MemAllocator::Allocation::notify_allocation_jfr_sampler()')
+f(30,4933,5,4,'MemAllocator::allocate() const')
+f(31,4934,3,4,'MemAllocator::mem_allocate_inside_tlab_slow(MemAllocator::Allocation&) const')
+f(32,4934,2,4,'ShenandoahHeap::allocate_new_tlab(unsigned long, unsigned long, unsigned long*)')
+f(33,4934,2,4,'ShenandoahHeap::allocate_memory(ShenandoahAllocRequest&)')
+f(34,4934,2,4,'ShenandoahFreeSet::allocate_single(ShenandoahAllocRequest&, bool&)')
+f(35,4934,1,4,'ShenandoahFreeSet::adjust_bounds()')
+f(35,4935,1,4,'ShenandoahFreeSet::try_allocate_in(ShenandoahHeapRegion*, ShenandoahAllocRequest&, bool&)')
+f(32,4936,1,4,'ThreadLocalAllocBuffer::fill(HeapWordImpl**, HeapWordImpl**, unsigned long)')
+f(31,4937,1,4,'ObjAllocator::initialize(HeapWordImpl**) const')
+f(28,4938,199,2,'scalapb/perf/Protos$SimpleMessage$Builder.<init>(Lscalapb/perf/Protos$1;)V',150,0,0)
+f(29,4938,199,2,'scalapb/perf/Protos$SimpleMessage$Builder.<init>()V',150,0,0)
+f(30,4990,147,2,'com/google/protobuf/GeneratedMessageV3$Builder.<init>()V',98,0,0)
+f(31,4990,147,2,'com/google/protobuf/GeneratedMessageV3$Builder.<init>(Lcom/google/protobuf/GeneratedMessageV3$BuilderParent;)V',98,0,0)
+f(32,5034,103,2,'com/google/protobuf/AbstractMessage$Builder.<init>()V',54,0,0)
+f(33,5034,103,2,'com/google/protobuf/AbstractMessageLite$Builder.<init>()V',54,0,0)
+f(34,5088,49,1,'java/lang/Object.<init>()V')
+f(19,5137,18,2,'scalapb/perf/ProtobufBenchmark.bytes()[B',18,0,0)
+f(1,5155,1,3,'pthread_cond_broadcast')
+f(2,5155,1,5,'entry_SYSCALL_64_after_hwframe')
+f(3,5155,1,5,'do_syscall_64')
+f(4,5155,1,5,'__x64_sys_futex')
+f(5,5155,1,5,'do_futex')
+f(6,5155,1,5,'futex_wake')
+f(7,5155,1,5,'wake_up_q')
+f(8,5155,1,5,'try_to_wake_up')
+f(9,5155,1,5,'_raw_spin_unlock_irqrestore')
+
+search();
+</script></body></html>

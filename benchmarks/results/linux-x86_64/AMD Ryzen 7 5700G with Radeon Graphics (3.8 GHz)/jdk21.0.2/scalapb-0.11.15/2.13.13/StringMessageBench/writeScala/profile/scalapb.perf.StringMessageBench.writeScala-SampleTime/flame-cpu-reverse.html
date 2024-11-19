@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<style>
+	body {margin: 0; padding: 10px 10px 22px 10px; background-color: #ffffff}
+	h1 {margin: 5px 0 0 0; font-size: 18px; font-weight: normal; text-align: center}
+	header {margin: -24px 0 5px 0; line-height: 24px}
+	button {font: 12px sans-serif; cursor: pointer}
+	p {position: fixed; bottom: 0; margin: 0; padding: 2px 3px 2px 3px; outline: 1px solid #ffc000; display: none; overflow: hidden; white-space: nowrap; background-color: #ffffe0}
+	a {color: #0366d6}
+	#hl {position: absolute; display: none; overflow: hidden; white-space: nowrap; pointer-events: none; background-color: #ffffe0; outline: 1px solid #ffc000; height: 15px}
+	#hl span {padding: 0 3px 0 3px}
+	#status {left: 0}
+	#match {right: 0}
+	#reset {cursor: pointer}
+	#canvas {width: 100%; height: 432px}
+</style>
+</head>
+<body style='font: 12px Verdana, sans-serif'>
+<h1>CPU profile</h1>
+<header style='text-align: left'><button id='reverse' title='Reverse'>&#x1f53b;</button>&nbsp;&nbsp;<button id='search' title='Search'>&#x1f50d;</button></header>
+<header style='text-align: right'>Produced by <a href='https://github.com/jvm-profiling-tools/async-profiler'>async-profiler</a></header>
+<canvas id='canvas'></canvas>
+<div id='hl'><span></span></div>
+<p id='status'></p>
+<p id='match'>Matched: <span id='matchval'></span> <span id='reset' title='Clear'>&#x274c;</span></p>
+<script>
+	// Copyright 2020 Andrei Pangin
+	// Licensed under the Apache License, Version 2.0.
+	'use strict';
+	var root, rootLevel, px, pattern;
+	var reverse = true;
+	const levels = Array(27);
+	for (let h = 0; h < levels.length; h++) {
+		levels[h] = [];
+	}
+
+	const canvas = document.getElementById('canvas');
+	const c = canvas.getContext('2d');
+	const hl = document.getElementById('hl');
+	const status = document.getElementById('status');
+
+	const canvasWidth = canvas.offsetWidth;
+	const canvasHeight = canvas.offsetHeight;
+	canvas.style.width = canvasWidth + 'px';
+	canvas.width = canvasWidth * (devicePixelRatio || 1);
+	canvas.height = canvasHeight * (devicePixelRatio || 1);
+	if (devicePixelRatio) c.scale(devicePixelRatio, devicePixelRatio);
+	c.font = document.body.style.font;
+
+	const palette = [
+		[0xb2e1b2, 20, 20, 20],
+		[0x50e150, 30, 30, 30],
+		[0x50cccc, 30, 30, 30],
+		[0xe15a5a, 30, 40, 40],
+		[0xc8c83c, 30, 30, 10],
+		[0xe17d00, 30, 30,  0],
+		[0xcce880, 20, 20, 20],
+	];
+
+	function getColor(p) {
+		const v = Math.random();
+		return '#' + (p[0] + ((p[1] * v) << 16 | (p[2] * v) << 8 | (p[3] * v))).toString(16);
+	}
+
+	function f(level, left, width, type, title, inln, c1, int) {
+		levels[level].push({left: left, width: width, color: getColor(palette[type]), title: title,
+			details: (int ? ', int=' + int : '') + (c1 ? ', c1=' + c1 : '') + (inln ? ', inln=' + inln : '')
+		});
+	}
+
+	function samples(n) {
+		return n === 1 ? '1 sample' : n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' samples';
+	}
+
+	function pct(a, b) {
+		return a >= b ? '100' : (100 * a / b).toFixed(2);
+	}
+
+	function findFrame(frames, x) {
+		let left = 0;
+		let right = frames.length - 1;
+
+		while (left <= right) {
+			const mid = (left + right) >>> 1;
+			const f = frames[mid];
+
+			if (f.left > x) {
+				right = mid - 1;
+			} else if (f.left + f.width <= x) {
+				left = mid + 1;
+			} else {
+				return f;
+			}
+		}
+
+		if (frames[left] && (frames[left].left - x) * px < 0.5) return frames[left];
+		if (frames[right] && (x - (frames[right].left + frames[right].width)) * px < 0.5) return frames[right];
+
+		return null;
+	}
+
+	function search(r) {
+		if (r === true && (r = prompt('Enter regexp to search:', '')) === null) {
+			return;
+		}
+
+		pattern = r ? RegExp(r) : undefined;
+		const matched = render(root, rootLevel);
+		document.getElementById('matchval').textContent = pct(matched, root.width) + '%';
+		document.getElementById('match').style.display = r ? 'inline-block' : 'none';
+	}
+
+	function render(newRoot, newLevel) {
+		if (root) {
+			c.fillStyle = '#ffffff';
+			c.fillRect(0, 0, canvasWidth, canvasHeight);
+		}
+
+		root = newRoot || levels[0][0];
+		rootLevel = newLevel || 0;
+		px = canvasWidth / root.width;
+
+		const x0 = root.left;
+		const x1 = x0 + root.width;
+		const marked = [];
+
+		function mark(f) {
+			return marked[f.left] >= f.width || (marked[f.left] = f.width);
+		}
+
+		function totalMarked() {
+			let total = 0;
+			let left = 0;
+			Object.keys(marked).sort(function(a, b) { return a - b; }).forEach(function(x) {
+				if (+x >= left) {
+					total += marked[x];
+					left = +x + marked[x];
+				}
+			});
+			return total;
+		}
+
+		function drawFrame(f, y, alpha) {
+			if (f.left < x1 && f.left + f.width > x0) {
+				c.fillStyle = pattern && f.title.match(pattern) && mark(f) ? '#ee00ee' : f.color;
+				c.fillRect((f.left - x0) * px, y, f.width * px, 15);
+
+				if (f.width * px >= 21) {
+					const chars = Math.floor(f.width * px / 7);
+					const title = f.title.length <= chars ? f.title : f.title.substring(0, chars - 2) + '..';
+					c.fillStyle = '#000000';
+					c.fillText(title, Math.max(f.left - x0, 0) * px + 3, y + 12, f.width * px - 6);
+				}
+
+				if (alpha) {
+					c.fillStyle = 'rgba(255, 255, 255, 0.5)';
+					c.fillRect((f.left - x0) * px, y, f.width * px, 15);
+				}
+			}
+		}
+
+		for (let h = 0; h < levels.length; h++) {
+			const y = reverse ? h * 16 : canvasHeight - (h + 1) * 16;
+			const frames = levels[h];
+			for (let i = 0; i < frames.length; i++) {
+				drawFrame(frames[i], y, h < rootLevel);
+			}
+		}
+
+		return totalMarked();
+	}
+
+	canvas.onmousemove = function() {
+		const h = Math.floor((reverse ? event.offsetY : (canvasHeight - event.offsetY)) / 16);
+		if (h >= 0 && h < levels.length) {
+			const f = findFrame(levels[h], event.offsetX / px + root.left);
+			if (f) {
+				if (f != root) getSelection().removeAllRanges();
+				hl.style.left = (Math.max(f.left - root.left, 0) * px + canvas.offsetLeft) + 'px';
+				hl.style.width = (Math.min(f.width, root.width) * px) + 'px';
+				hl.style.top = ((reverse ? h * 16 : canvasHeight - (h + 1) * 16) + canvas.offsetTop) + 'px';
+				hl.firstChild.textContent = f.title;
+				hl.style.display = 'block';
+				canvas.title = f.title + '\n(' + samples(f.width) + f.details + ', ' + pct(f.width, levels[0][0].width) + '%)';
+				canvas.style.cursor = 'pointer';
+				canvas.onclick = function() {
+					if (f != root) {
+						render(f, h);
+						canvas.onmousemove();
+					}
+				};
+				status.textContent = 'Function: ' + canvas.title;
+				status.style.display = 'inline-block';
+				return;
+			}
+		}
+		canvas.onmouseout();
+	}
+
+	canvas.onmouseout = function() {
+		hl.style.display = 'none';
+		status.style.display = 'none';
+		canvas.title = '';
+		canvas.style.cursor = '';
+		canvas.onclick = '';
+	}
+
+	canvas.ondblclick = function() {
+		getSelection().selectAllChildren(hl);
+	}
+
+	document.getElementById('reverse').onclick = function() {
+		reverse = !reverse;
+		render();
+	}
+
+	document.getElementById('search').onclick = function() {
+		search(true);
+	}
+
+	document.getElementById('reset').onclick = function() {
+		search(false);
+	}
+
+	window.onkeydown = function() {
+		if (event.ctrlKey && event.keyCode === 70) {
+			event.preventDefault();
+			search(true);
+		} else if (event.keyCode === 27) {
+			search(false);
+		}
+	}
+
+f(0,0,5001,3,'all')
+f(1,0,1,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(2,0,1,3,'[unknown]')
+f(1,1,1,4,'ShenandoahAdaptiveHeuristics::should_start_gc()')
+f(2,1,1,4,'ConcurrentGCThread::run()')
+f(3,1,1,4,'Thread::call_run()')
+f(4,1,1,3,'thread_native_entry(Thread*)')
+f(5,1,1,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(1,2,55,3,'[vdso]')
+f(2,2,54,3,'clock_gettime')
+f(3,2,54,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(4,2,54,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(5,2,54,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,2,54,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,2,54,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,2,54,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,2,54,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,2,54,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,2,54,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(12,2,54,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(13,2,54,1,'java/util/concurrent/FutureTask.run()V')
+f(14,2,54,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(15,2,54,1,'java/util/concurrent/FutureTask.run()V')
+f(16,2,54,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(17,2,54,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(18,2,54,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(19,2,54,1,'java/lang/Thread.run()V')
+f(2,56,1,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(3,56,1,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(4,56,1,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(5,56,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,56,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,56,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,56,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,56,1,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,56,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,56,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(12,56,1,1,'java/util/concurrent/FutureTask.run()V')
+f(13,56,1,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(14,56,1,1,'java/util/concurrent/FutureTask.run()V')
+f(15,56,1,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(16,56,1,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(17,56,1,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(18,56,1,1,'java/lang/Thread.run()V')
+f(1,57,1,5,'__secure_computing')
+f(2,57,1,5,'syscall_enter_from_user_mode')
+f(3,57,1,5,'do_syscall_64')
+f(4,57,1,5,'entry_SYSCALL_64_after_hwframe')
+f(5,57,1,3,'clock_nanosleep')
+f(6,57,1,4,'ShenandoahControlThread::run_service()')
+f(7,57,1,4,'ConcurrentGCThread::run()')
+f(8,57,1,4,'Thread::call_run()')
+f(9,57,1,3,'thread_native_entry(Thread*)')
+f(10,57,1,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(1,58,2,5,'_raw_spin_unlock_irqrestore')
+f(2,58,2,5,'hrtimer_start_range_ns')
+f(3,58,2,5,'hrtimer_sleeper_start_expires')
+f(4,58,2,5,'futex_wait_queue')
+f(5,58,2,5,'futex_wait')
+f(6,58,2,5,'do_futex')
+f(7,58,2,5,'__x64_sys_futex')
+f(8,58,2,5,'do_syscall_64')
+f(9,58,2,5,'entry_SYSCALL_64_after_hwframe')
+f(10,58,2,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(11,58,2,3,'[unknown]')
+f(1,60,2,3,'clock_gettime')
+f(2,60,2,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(3,60,2,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(4,60,2,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(5,60,2,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,60,2,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,60,2,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,60,2,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,60,2,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,60,2,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,60,2,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(12,60,2,1,'java/util/concurrent/FutureTask.run()V')
+f(13,60,2,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(14,60,2,1,'java/util/concurrent/FutureTask.run()V')
+f(15,60,2,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(16,60,2,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(17,60,2,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(18,60,2,1,'java/lang/Thread.run()V')
+f(1,62,1,3,'clock_gettime@plt')
+f(2,62,1,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(3,62,1,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(4,62,1,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(5,62,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,62,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,62,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,62,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,62,1,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,62,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,62,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(12,62,1,1,'java/util/concurrent/FutureTask.run()V')
+f(13,62,1,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(14,62,1,1,'java/util/concurrent/FutureTask.run()V')
+f(15,62,1,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(16,62,1,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(17,62,1,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(18,62,1,1,'java/lang/Thread.run()V')
+f(1,63,1,3,'clock_nanosleep')
+f(2,63,1,4,'ShenandoahControlThread::run_service()')
+f(3,63,1,4,'ConcurrentGCThread::run()')
+f(4,63,1,4,'Thread::call_run()')
+f(5,63,1,3,'thread_native_entry(Thread*)')
+f(6,63,1,3,'/usr/lib/x86_64-linux-gnu/libc.so.6')
+f(1,64,410,2,'com/google/protobuf/CodedOutputStream$AbstractBufferedEncoder.bufferUInt32NoTag(I)V',410,0,0)
+f(2,64,178,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',178,0,0)
+f(3,64,178,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',178,0,0)
+f(4,64,178,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(5,64,178,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(6,64,178,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(7,64,178,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(8,64,178,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,64,178,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,64,178,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,64,178,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,64,178,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,64,178,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,64,178,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(15,64,178,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(16,64,178,1,'java/util/concurrent/FutureTask.run()V')
+f(17,64,178,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(18,64,178,1,'java/util/concurrent/FutureTask.run()V')
+f(19,64,178,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(20,64,178,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(21,64,178,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(22,64,178,1,'java/lang/Thread.run()V')
+f(2,242,232,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeUInt32NoTag(I)V',232,0,0)
+f(3,242,232,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeTag(II)V',232,0,0)
+f(4,242,232,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',232,0,0)
+f(5,242,232,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(6,242,232,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(7,242,232,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(8,242,232,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(9,242,232,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,242,232,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,242,232,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,242,232,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,242,232,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,242,232,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,242,232,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(16,242,232,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(17,242,232,1,'java/util/concurrent/FutureTask.run()V')
+f(18,242,232,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(19,242,232,1,'java/util/concurrent/FutureTask.run()V')
+f(20,242,232,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(21,242,232,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(22,242,232,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(23,242,232,1,'java/lang/Thread.run()V')
+f(1,474,96,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.flushIfNotAvailable(I)V',96,0,0)
+f(2,474,96,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeUInt32NoTag(I)V',96,0,0)
+f(3,474,96,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeTag(II)V',96,0,0)
+f(4,474,96,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',96,0,0)
+f(5,474,96,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(6,474,96,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(7,474,96,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(8,474,96,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(9,474,96,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,474,96,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,474,96,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,474,96,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,474,96,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,474,96,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,474,96,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(16,474,96,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(17,474,96,1,'java/util/concurrent/FutureTask.run()V')
+f(18,474,96,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(19,474,96,1,'java/util/concurrent/FutureTask.run()V')
+f(20,474,96,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(21,474,96,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(22,474,96,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(23,474,96,1,'java/lang/Thread.run()V')
+f(1,570,560,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',560,0,0)
+f(2,570,560,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',560,0,0)
+f(3,570,560,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(4,570,560,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(5,570,560,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(6,570,560,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(7,570,560,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,570,560,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,570,560,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,570,560,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,570,560,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,570,560,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,570,560,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(14,570,560,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(15,570,560,1,'java/util/concurrent/FutureTask.run()V')
+f(16,570,560,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(17,570,560,1,'java/util/concurrent/FutureTask.run()V')
+f(18,570,560,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(19,570,560,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(20,570,560,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(21,570,560,1,'java/lang/Thread.run()V')
+f(1,1130,61,2,'com/google/protobuf/CodedOutputStream.computeUInt32SizeNoTag(I)I',61,0,0)
+f(2,1130,61,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',61,0,0)
+f(3,1130,61,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',61,0,0)
+f(4,1130,61,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(5,1130,61,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(6,1130,61,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(7,1130,61,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(8,1130,61,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,1130,61,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,1130,61,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,1130,61,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,1130,61,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,1130,61,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,1130,61,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(15,1130,61,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(16,1130,61,1,'java/util/concurrent/FutureTask.run()V')
+f(17,1130,61,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(18,1130,61,1,'java/util/concurrent/FutureTask.run()V')
+f(19,1130,61,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(20,1130,61,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(21,1130,61,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(22,1130,61,1,'java/lang/Thread.run()V')
+f(1,1191,86,2,'com/google/protobuf/UnsafeUtil$JvmMemoryAccessor.putByte(Ljava/lang/Object;JB)V',86,0,0)
+f(2,1191,86,2,'com/google/protobuf/UnsafeUtil.putByte([BJB)V',86,0,0)
+f(3,1191,86,2,'com/google/protobuf/CodedOutputStream$AbstractBufferedEncoder.bufferUInt32NoTag(I)V',86,0,0)
+f(4,1191,70,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',70,0,0)
+f(5,1191,70,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',70,0,0)
+f(6,1191,70,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(7,1191,70,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(8,1191,70,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(9,1191,70,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(10,1191,70,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,1191,70,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,1191,70,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,1191,70,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,1191,70,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,1191,70,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,1191,70,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(17,1191,70,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(18,1191,70,1,'java/util/concurrent/FutureTask.run()V')
+f(19,1191,70,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(20,1191,70,1,'java/util/concurrent/FutureTask.run()V')
+f(21,1191,70,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(22,1191,70,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(23,1191,70,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(24,1191,70,1,'java/lang/Thread.run()V')
+f(4,1261,16,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeUInt32NoTag(I)V',16,0,0)
+f(5,1261,16,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeTag(II)V',16,0,0)
+f(6,1261,16,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',16,0,0)
+f(7,1261,16,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(8,1261,16,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(9,1261,16,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(10,1261,16,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,1261,16,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,1261,16,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,1261,16,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,1261,16,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,1261,16,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,1261,16,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(17,1261,16,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(18,1261,16,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(19,1261,16,1,'java/util/concurrent/FutureTask.run()V')
+f(20,1261,16,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(21,1261,16,1,'java/util/concurrent/FutureTask.run()V')
+f(22,1261,16,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(23,1261,16,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(24,1261,16,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(25,1261,16,1,'java/lang/Thread.run()V')
+f(1,1277,1137,1,'com/google/protobuf/Utf8$UnsafeProcessor.encodeUtf8(Ljava/lang/CharSequence;[BII)I')
+f(2,1277,44,3,'[unknown_Java]')
+f(2,1321,1093,1,'com/google/protobuf/Utf8.encode(Ljava/lang/CharSequence;[BII)I')
+f(3,1321,1093,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V')
+f(4,1321,1093,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V')
+f(5,1321,1093,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(6,1321,1093,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(7,1321,1093,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(8,1321,1093,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(9,1321,1093,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,1321,1093,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,1321,1093,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,1321,1093,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,1321,1093,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,1321,1093,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,1321,1093,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(16,1321,1093,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(17,1321,1093,1,'java/util/concurrent/FutureTask.run()V')
+f(18,1321,1093,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(19,1321,1093,1,'java/util/concurrent/FutureTask.run()V')
+f(20,1321,1093,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(21,1321,1093,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(22,1321,1093,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(23,1321,1093,1,'java/lang/Thread.run()V')
+f(1,2414,262,2,'com/google/protobuf/Utf8.encode(Ljava/lang/CharSequence;[BII)I',262,0,0)
+f(2,2414,262,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',262,0,0)
+f(3,2414,262,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',262,0,0)
+f(4,2414,262,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(5,2414,262,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(6,2414,262,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(7,2414,262,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(8,2414,262,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,2414,262,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,2414,262,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,2414,262,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,2414,262,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,2414,262,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,2414,262,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(15,2414,262,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(16,2414,262,1,'java/util/concurrent/FutureTask.run()V')
+f(17,2414,262,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(18,2414,262,1,'java/util/concurrent/FutureTask.run()V')
+f(19,2414,262,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(20,2414,262,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(21,2414,262,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(22,2414,262,1,'java/lang/Thread.run()V')
+f(1,2676,1,2,'java/lang/Double.compareTo(Ljava/lang/Object;)I',1,0,0)
+f(2,2676,1,2,'java/util/TreeMap.getEntry(Ljava/lang/Object;)Ljava/util/TreeMap$Entry;',1,0,0)
+f(3,2676,1,2,'java/util/TreeMap.remove(Ljava/lang/Object;)Ljava/lang/Object;',1,0,0)
+f(4,2676,1,2,'org/openjdk/jmh/util/DelegatingMultiset.add(Ljava/lang/Object;J)V',1,0,0)
+f(5,2676,1,1,'org/openjdk/jmh/util/MultisetStatistics.addValue(DJ)V')
+f(6,2676,1,1,'org/openjdk/jmh/util/SampleBuffer.getStatistics(D)Lorg/openjdk/jmh/util/Statistics;')
+f(7,2676,1,1,'org/openjdk/jmh/results/SampleTimeResult.of(Lorg/openjdk/jmh/util/SampleBuffer;Ljava/util/concurrent/TimeUnit;)Lorg/openjdk/jmh/util/Statistics;')
+f(8,2676,1,1,'org/openjdk/jmh/results/SampleTimeResult.<init>(Lorg/openjdk/jmh/results/ResultRole;Ljava/lang/String;Lorg/openjdk/jmh/util/SampleBuffer;Ljava/lang/String;Ljava/util/concurrent/TimeUnit;)V')
+f(9,2676,1,1,'org/openjdk/jmh/results/SampleTimeResult.<init>(Lorg/openjdk/jmh/results/ResultRole;Ljava/lang/String;Lorg/openjdk/jmh/util/SampleBuffer;Ljava/util/concurrent/TimeUnit;)V')
+f(10,2676,1,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,2676,1,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,2676,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,2676,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,2676,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,2676,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,2676,1,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(17,2676,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(18,2676,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(19,2676,1,1,'java/util/concurrent/FutureTask.run()V')
+f(20,2676,1,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(21,2676,1,1,'java/util/concurrent/FutureTask.run()V')
+f(22,2676,1,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(23,2676,1,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(24,2676,1,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(25,2676,1,1,'java/lang/Thread.run()V')
+f(1,2677,96,2,'java/lang/String.coder()B',96,0,0)
+f(2,2677,96,2,'java/lang/String.length()I',96,0,0)
+f(3,2677,82,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',82,0,0)
+f(4,2677,82,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',82,0,0)
+f(5,2677,82,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(6,2677,82,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(7,2677,82,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(8,2677,82,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(9,2677,82,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,2677,82,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,2677,82,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,2677,82,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,2677,82,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,2677,82,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,2677,82,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(16,2677,82,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(17,2677,82,1,'java/util/concurrent/FutureTask.run()V')
+f(18,2677,82,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(19,2677,82,1,'java/util/concurrent/FutureTask.run()V')
+f(20,2677,82,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(21,2677,82,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(22,2677,82,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(23,2677,82,1,'java/lang/Thread.run()V')
+f(3,2759,14,1,'com/google/protobuf/Utf8$UnsafeProcessor.encodeUtf8(Ljava/lang/CharSequence;[BII)I')
+f(4,2759,14,1,'com/google/protobuf/Utf8.encode(Ljava/lang/CharSequence;[BII)I')
+f(5,2759,14,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V')
+f(6,2759,14,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V')
+f(7,2759,14,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(8,2759,14,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(9,2759,14,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(10,2759,14,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,2759,14,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,2759,14,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,2759,14,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,2759,14,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,2759,14,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,2759,14,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(17,2759,14,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(18,2759,14,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(19,2759,14,1,'java/util/concurrent/FutureTask.run()V')
+f(20,2759,14,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(21,2759,14,1,'java/util/concurrent/FutureTask.run()V')
+f(22,2759,14,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(23,2759,14,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(24,2759,14,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(25,2759,14,1,'java/lang/Thread.run()V')
+f(1,2773,605,2,'java/lang/String.isEmpty()Z',605,0,0)
+f(2,2773,605,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(3,2773,605,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(4,2773,605,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(5,2773,605,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(6,2773,605,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,2773,605,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,2773,605,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,2773,605,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,2773,605,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,2773,605,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,2773,605,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(13,2773,605,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(14,2773,605,1,'java/util/concurrent/FutureTask.run()V')
+f(15,2773,605,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(16,2773,605,1,'java/util/concurrent/FutureTask.run()V')
+f(17,2773,605,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(18,2773,605,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(19,2773,605,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(20,2773,605,1,'java/lang/Thread.run()V')
+f(1,3378,203,2,'java/lang/String.length()I',203,0,0)
+f(2,3378,117,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',117,0,0)
+f(3,3378,117,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',117,0,0)
+f(4,3378,117,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(5,3378,117,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(6,3378,117,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(7,3378,117,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(8,3378,117,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,3378,117,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,3378,117,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,3378,117,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,3378,117,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,3378,117,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,3378,117,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(15,3378,117,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(16,3378,117,1,'java/util/concurrent/FutureTask.run()V')
+f(17,3378,117,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(18,3378,117,1,'java/util/concurrent/FutureTask.run()V')
+f(19,3378,117,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(20,3378,117,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(21,3378,117,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(22,3378,117,1,'java/lang/Thread.run()V')
+f(2,3495,86,1,'com/google/protobuf/Utf8$UnsafeProcessor.encodeUtf8(Ljava/lang/CharSequence;[BII)I')
+f(3,3495,86,1,'com/google/protobuf/Utf8.encode(Ljava/lang/CharSequence;[BII)I')
+f(4,3495,86,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V')
+f(5,3495,86,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V')
+f(6,3495,86,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(7,3495,86,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(8,3495,86,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(9,3495,86,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(10,3495,86,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,3495,86,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,3495,86,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,3495,86,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,3495,86,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,3495,86,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,3495,86,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(17,3495,86,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(18,3495,86,1,'java/util/concurrent/FutureTask.run()V')
+f(19,3495,86,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(20,3495,86,1,'java/util/concurrent/FutureTask.run()V')
+f(21,3495,86,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(22,3495,86,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(23,3495,86,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(24,3495,86,1,'java/lang/Thread.run()V')
+f(1,3581,274,2,'java/lang/StringLatin1.charAt([BI)C',274,0,0)
+f(2,3581,274,2,'java/lang/String.charAt(I)C',274,0,0)
+f(3,3581,274,1,'com/google/protobuf/Utf8$UnsafeProcessor.encodeUtf8(Ljava/lang/CharSequence;[BII)I')
+f(4,3581,274,1,'com/google/protobuf/Utf8.encode(Ljava/lang/CharSequence;[BII)I')
+f(5,3581,274,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V')
+f(6,3581,274,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V')
+f(7,3581,274,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(8,3581,274,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(9,3581,274,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(10,3581,274,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,3581,274,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,3581,274,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,3581,274,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,3581,274,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,3581,274,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,3581,274,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(17,3581,274,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(18,3581,274,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(19,3581,274,1,'java/util/concurrent/FutureTask.run()V')
+f(20,3581,274,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(21,3581,274,1,'java/util/concurrent/FutureTask.run()V')
+f(22,3581,274,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(23,3581,274,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(24,3581,274,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(25,3581,274,1,'java/lang/Thread.run()V')
+f(1,3855,87,2,'java/lang/invoke/DirectMethodHandle$Holder.newInvokeSpecial(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',87,0,0)
+f(2,3855,87,2,'java/lang/invoke/Invokers$Holder.linkToTargetMethod(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',87,0,0)
+f(3,3855,87,2,'scalapb/UnknownFieldSet.writeTo(Lcom/google/protobuf/CodedOutputStream;)V',87,0,0)
+f(4,3855,87,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(5,3855,87,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(6,3855,87,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(7,3855,87,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(8,3855,87,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,3855,87,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,3855,87,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,3855,87,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,3855,87,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,3855,87,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,3855,87,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(15,3855,87,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(16,3855,87,1,'java/util/concurrent/FutureTask.run()V')
+f(17,3855,87,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(18,3855,87,1,'java/util/concurrent/FutureTask.run()V')
+f(19,3855,87,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(20,3855,87,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(21,3855,87,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(22,3855,87,1,'java/lang/Thread.run()V')
+f(1,3942,5,2,'org/openjdk/jmh/util/SampleBuffer.add(J)V',5,0,0)
+f(2,3942,5,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(3,3942,5,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(4,3942,5,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(5,3942,5,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,3942,5,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,3942,5,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,3942,5,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,3942,5,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,3942,5,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,3942,5,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(12,3942,5,1,'java/util/concurrent/FutureTask.run()V')
+f(13,3942,5,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(14,3942,5,1,'java/util/concurrent/FutureTask.run()V')
+f(15,3942,5,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(16,3942,5,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(17,3942,5,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(18,3942,5,1,'java/lang/Thread.run()V')
+f(1,3947,5,4,'os::javaTimeNanos()')
+f(2,3947,2,3,'[unknown_Java]')
+f(2,3949,3,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(3,3949,3,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(4,3949,3,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(5,3949,3,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,3949,3,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,3949,3,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,3949,3,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,3949,3,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,3949,3,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,3949,3,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(12,3949,3,1,'java/util/concurrent/FutureTask.run()V')
+f(13,3949,3,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(14,3949,3,1,'java/util/concurrent/FutureTask.run()V')
+f(15,3949,3,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(16,3949,3,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(17,3949,3,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(18,3949,3,1,'java/lang/Thread.run()V')
+f(1,3952,232,2,'scalapb/UnknownFieldSet.writeTo(Lcom/google/protobuf/CodedOutputStream;)V',232,0,0)
+f(2,3952,232,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(3,3952,232,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(4,3952,232,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(5,3952,232,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(6,3952,232,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,3952,232,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,3952,232,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,3952,232,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,3952,232,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,3952,232,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,3952,232,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(13,3952,232,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(14,3952,232,1,'java/util/concurrent/FutureTask.run()V')
+f(15,3952,232,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(16,3952,232,1,'java/util/concurrent/FutureTask.run()V')
+f(17,3952,232,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(18,3952,232,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(19,3952,232,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(20,3952,232,1,'java/lang/Thread.run()V')
+f(1,4184,29,2,'scalapb/perf/ProtobufBenchmark.message()Lscalapb/GeneratedMessage;',29,0,0)
+f(2,4184,29,2,'scalapb/perf/ProtobufBenchmark.writeScala()V',29,0,0)
+f(3,4184,29,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(4,4184,29,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(5,4184,29,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,4184,29,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4184,29,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4184,29,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4184,29,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,4184,29,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,4184,29,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(12,4184,29,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(13,4184,29,1,'java/util/concurrent/FutureTask.run()V')
+f(14,4184,29,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(15,4184,29,1,'java/util/concurrent/FutureTask.run()V')
+f(16,4184,29,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(17,4184,29,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(18,4184,29,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(19,4184,29,1,'java/lang/Thread.run()V')
+f(1,4213,21,2,'scalapb/perf/ProtobufBenchmark.out()Lcom/google/protobuf/CodedOutputStream;',21,0,0)
+f(2,4213,21,2,'scalapb/perf/ProtobufBenchmark.writeScala()V',21,0,0)
+f(3,4213,21,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(4,4213,21,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(5,4213,21,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,4213,21,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4213,21,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4213,21,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4213,21,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,4213,21,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,4213,21,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(12,4213,21,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(13,4213,21,1,'java/util/concurrent/FutureTask.run()V')
+f(14,4213,21,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(15,4213,21,1,'java/util/concurrent/FutureTask.run()V')
+f(16,4213,21,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(17,4213,21,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(18,4213,21,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(19,4213,21,1,'java/lang/Thread.run()V')
+f(1,4234,138,2,'scalapb/perf/ProtobufBenchmark.writeScala()V',138,0,0)
+f(2,4234,138,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(3,4234,138,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(4,4234,138,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(5,4234,138,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,4234,138,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4234,138,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4234,138,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4234,138,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,4234,138,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,4234,138,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(12,4234,138,1,'java/util/concurrent/FutureTask.run()V')
+f(13,4234,138,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(14,4234,138,1,'java/util/concurrent/FutureTask.run()V')
+f(15,4234,138,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(16,4234,138,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(17,4234,138,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(18,4234,138,1,'java/lang/Thread.run()V')
+f(1,4372,366,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(2,4372,366,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(3,4372,366,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(4,4372,366,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(5,4372,366,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,4372,366,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4372,366,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4372,366,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4372,366,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(10,4372,366,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(11,4372,366,1,'java/util/concurrent/FutureTask.run()V')
+f(12,4372,366,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(13,4372,366,1,'java/util/concurrent/FutureTask.run()V')
+f(14,4372,366,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(15,4372,366,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(16,4372,366,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(17,4372,366,1,'java/lang/Thread.run()V')
+f(1,4738,56,2,'scalapb/perf/protos/StringMessage.str1()Ljava/lang/String;',56,0,0)
+f(2,4738,56,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(3,4738,56,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(4,4738,56,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(5,4738,56,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(6,4738,56,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4738,56,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4738,56,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4738,56,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,4738,56,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,4738,56,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,4738,56,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(13,4738,56,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(14,4738,56,1,'java/util/concurrent/FutureTask.run()V')
+f(15,4738,56,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(16,4738,56,1,'java/util/concurrent/FutureTask.run()V')
+f(17,4738,56,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(18,4738,56,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(19,4738,56,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(20,4738,56,1,'java/lang/Thread.run()V')
+f(1,4794,71,2,'scalapb/perf/protos/StringMessage.str2()Ljava/lang/String;',71,0,0)
+f(2,4794,71,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(3,4794,71,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(4,4794,71,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(5,4794,71,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(6,4794,71,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4794,71,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4794,71,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4794,71,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,4794,71,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,4794,71,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,4794,71,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(13,4794,71,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(14,4794,71,1,'java/util/concurrent/FutureTask.run()V')
+f(15,4794,71,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(16,4794,71,1,'java/util/concurrent/FutureTask.run()V')
+f(17,4794,71,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(18,4794,71,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(19,4794,71,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(20,4794,71,1,'java/lang/Thread.run()V')
+f(1,4865,28,2,'scalapb/perf/protos/StringMessage.unknownFields()Lscalapb/UnknownFieldSet;',28,0,0)
+f(2,4865,28,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(3,4865,28,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(4,4865,28,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(5,4865,28,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(6,4865,28,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4865,28,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4865,28,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4865,28,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,4865,28,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,4865,28,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,4865,28,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(13,4865,28,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(14,4865,28,1,'java/util/concurrent/FutureTask.run()V')
+f(15,4865,28,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(16,4865,28,1,'java/util/concurrent/FutureTask.run()V')
+f(17,4865,28,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(18,4865,28,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(19,4865,28,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(20,4865,28,1,'java/lang/Thread.run()V')
+f(1,4893,97,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(2,4893,37,3,'[unknown_Java]')
+f(2,4930,60,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(3,4930,60,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(4,4930,60,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(5,4930,60,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(6,4930,60,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(7,4930,60,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(8,4930,60,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(9,4930,60,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(10,4930,60,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(11,4930,60,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(12,4930,60,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(13,4930,60,1,'java/util/concurrent/FutureTask.run()V')
+f(14,4930,60,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(15,4930,60,1,'java/util/concurrent/FutureTask.run()V')
+f(16,4930,60,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(17,4930,60,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(18,4930,60,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(19,4930,60,1,'java/lang/Thread.run()V')
+f(1,4990,11,2,'sun/misc/Unsafe.putByte(Ljava/lang/Object;JB)V',11,0,0)
+f(2,4990,11,2,'com/google/protobuf/UnsafeUtil$JvmMemoryAccessor.putByte(Ljava/lang/Object;JB)V',11,0,0)
+f(3,4990,11,2,'com/google/protobuf/UnsafeUtil.putByte([BJB)V',11,0,0)
+f(4,4990,10,2,'com/google/protobuf/CodedOutputStream$AbstractBufferedEncoder.bufferUInt32NoTag(I)V',10,0,0)
+f(5,4990,7,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V',7,0,0)
+f(6,4990,7,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',7,0,0)
+f(7,4990,7,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(8,4990,7,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(9,4990,7,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(10,4990,7,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(11,4990,7,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(12,4990,7,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,4990,7,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,4990,7,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,4990,7,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,4990,7,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(17,4990,7,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(18,4990,7,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(19,4990,7,1,'java/util/concurrent/FutureTask.run()V')
+f(20,4990,7,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(21,4990,7,1,'java/util/concurrent/FutureTask.run()V')
+f(22,4990,7,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(23,4990,7,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(24,4990,7,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(25,4990,7,1,'java/lang/Thread.run()V')
+f(5,4997,3,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeUInt32NoTag(I)V',3,0,0)
+f(6,4997,3,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeTag(II)V',3,0,0)
+f(7,4997,3,2,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V',3,0,0)
+f(8,4997,3,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(9,4997,3,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(10,4997,3,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(11,4997,3,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(12,4997,3,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,4997,3,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,4997,3,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,4997,3,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,4997,3,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(17,4997,3,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(18,4997,3,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(19,4997,3,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(20,4997,3,1,'java/util/concurrent/FutureTask.run()V')
+f(21,4997,3,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(22,4997,3,1,'java/util/concurrent/FutureTask.run()V')
+f(23,4997,3,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(24,4997,3,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(25,4997,3,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(26,4997,3,1,'java/lang/Thread.run()V')
+f(4,5000,1,1,'com/google/protobuf/Utf8$UnsafeProcessor.encodeUtf8(Ljava/lang/CharSequence;[BII)I')
+f(5,5000,1,1,'com/google/protobuf/Utf8.encode(Ljava/lang/CharSequence;[BII)I')
+f(6,5000,1,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeStringNoTag(Ljava/lang/String;)V')
+f(7,5000,1,1,'com/google/protobuf/CodedOutputStream$OutputStreamEncoder.writeString(ILjava/lang/String;)V')
+f(8,5000,1,1,'scalapb/perf/protos/StringMessage.writeTo(Lcom/google/protobuf/CodedOutputStream;)V')
+f(9,5000,1,1,'scalapb/perf/ProtobufBenchmark.writeScala()V')
+f(10,5000,1,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_sample_jmhStub(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/results/RawResults;Lorg/openjdk/jmh/infra/BenchmarkParams;Lorg/openjdk/jmh/infra/IterationParams;Lorg/openjdk/jmh/infra/ThreadParams;Lorg/openjdk/jmh/infra/Blackhole;Lorg/openjdk/jmh/infra/Control;ILorg/openjdk/jmh/util/SampleBuffer;IJILscalapb/perf/jmh_generated/StringMessageBench_jmhType;)V')
+f(11,5000,1,1,'scalapb/perf/jmh_generated/StringMessageBench_writeScala_jmhTest.writeScala_SampleTime(Lorg/openjdk/jmh/runner/InfraControl;Lorg/openjdk/jmh/infra/ThreadParams;)Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(12,5000,1,1,'java/lang/invoke/DirectMethodHandle$Holder.invokeSpecial(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(13,5000,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e000.invoke(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(14,5000,1,1,'java/lang/invoke/LambdaForm$MH.0x00007fc82402e400.invokeExact_MT(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;')
+f(15,5000,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invokeImpl(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(16,5000,1,1,'jdk/internal/reflect/DirectMethodHandleAccessor.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(17,5000,1,1,'java/lang/reflect/Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;')
+f(18,5000,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Lorg/openjdk/jmh/results/BenchmarkTaskResult;')
+f(19,5000,1,1,'org/openjdk/jmh/runner/BenchmarkHandler$BenchmarkTask.call()Ljava/lang/Object;')
+f(20,5000,1,1,'java/util/concurrent/FutureTask.run()V')
+f(21,5000,1,1,'java/util/concurrent/Executors$RunnableAdapter.call()Ljava/lang/Object;')
+f(22,5000,1,1,'java/util/concurrent/FutureTask.run()V')
+f(23,5000,1,1,'java/util/concurrent/ThreadPoolExecutor.runWorker(Ljava/util/concurrent/ThreadPoolExecutor$Worker;)V')
+f(24,5000,1,1,'java/util/concurrent/ThreadPoolExecutor$Worker.run()V')
+f(25,5000,1,1,'java/lang/Thread.runWith(Ljava/lang/Object;Ljava/lang/Runnable;)V')
+f(26,5000,1,1,'java/lang/Thread.run()V')
+
+search();
+</script></body></html>
