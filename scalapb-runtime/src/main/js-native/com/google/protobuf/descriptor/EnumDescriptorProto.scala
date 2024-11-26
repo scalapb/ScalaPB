@@ -16,10 +16,10 @@ package com.google.protobuf.descriptor
 @SerialVersionUID(0L)
 final case class EnumDescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    value: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scala.Seq.empty,
+    value: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto] = _root_.scala.Vector.empty,
     options: _root_.scala.Option[com.google.protobuf.descriptor.EnumOptions] = _root_.scala.None,
-    reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scala.Seq.empty,
-    reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange] = _root_.scala.Vector.empty,
+    reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumDescriptorProto] {
     @transient
@@ -90,18 +90,18 @@ final case class EnumDescriptorProto(
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: EnumDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): EnumDescriptorProto = copy(name = _root_.scala.Option(__v))
-    def clearValue = copy(value = _root_.scala.Seq.empty)
+    def clearValue = copy(value = _root_.scala.Vector.empty)
     def addValue(__vs: com.google.protobuf.descriptor.EnumValueDescriptorProto *): EnumDescriptorProto = addAllValue(__vs)
     def addAllValue(__vs: Iterable[com.google.protobuf.descriptor.EnumValueDescriptorProto]): EnumDescriptorProto = copy(value = value ++ __vs)
     def withValue(__v: _root_.scala.Seq[com.google.protobuf.descriptor.EnumValueDescriptorProto]): EnumDescriptorProto = copy(value = __v)
     def getOptions: com.google.protobuf.descriptor.EnumOptions = options.getOrElse(com.google.protobuf.descriptor.EnumOptions.defaultInstance)
     def clearOptions: EnumDescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.EnumOptions): EnumDescriptorProto = copy(options = _root_.scala.Option(__v))
-    def clearReservedRange = copy(reservedRange = _root_.scala.Seq.empty)
+    def clearReservedRange = copy(reservedRange = _root_.scala.Vector.empty)
     def addReservedRange(__vs: com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange *): EnumDescriptorProto = addAllReservedRange(__vs)
     def addAllReservedRange(__vs: Iterable[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]): EnumDescriptorProto = copy(reservedRange = reservedRange ++ __vs)
     def withReservedRange(__v: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto.EnumReservedRange]): EnumDescriptorProto = copy(reservedRange = __v)
-    def clearReservedName = copy(reservedName = _root_.scala.Seq.empty)
+    def clearReservedName = copy(reservedName = _root_.scala.Vector.empty)
     def addReservedName(__vs: _root_.scala.Predef.String *): EnumDescriptorProto = addAllReservedName(__vs)
     def addAllReservedName(__vs: Iterable[_root_.scala.Predef.String]): EnumDescriptorProto = copy(reservedName = reservedName ++ __vs)
     def withReservedName(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumDescriptorProto = copy(reservedName = __v)
@@ -201,10 +201,10 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.EnumDescriptorProto(
     name = _root_.scala.None,
-    value = _root_.scala.Seq.empty,
+    value = _root_.scala.Vector.empty,
     options = _root_.scala.None,
-    reservedRange = _root_.scala.Seq.empty,
-    reservedName = _root_.scala.Seq.empty
+    reservedRange = _root_.scala.Vector.empty,
+    reservedName = _root_.scala.Vector.empty
   )
   /** Range of reserved numeric values. Reserved values may not be used by
     * entries in the same enum. Reserved ranges may not overlap.

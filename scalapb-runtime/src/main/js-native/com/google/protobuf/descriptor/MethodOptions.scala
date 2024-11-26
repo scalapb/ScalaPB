@@ -18,7 +18,7 @@ final case class MethodOptions(
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     idempotencyLevel: _root_.scala.Option[com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel] = _root_.scala.None,
     features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MethodOptions] with _root_.scalapb.ExtendableMessage[MethodOptions] {
     @transient
@@ -85,7 +85,7 @@ final case class MethodOptions(
     def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: MethodOptions = copy(features = _root_.scala.None)
     def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): MethodOptions = copy(features = _root_.scala.Option(__v))
-    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): MethodOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): MethodOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MethodOptions = copy(uninterpretedOption = __v)
@@ -180,7 +180,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[com.google.protob
     deprecated = _root_.scala.None,
     idempotencyLevel = _root_.scala.None,
     features = _root_.scala.None,
-    uninterpretedOption = _root_.scala.Seq.empty
+    uninterpretedOption = _root_.scala.Vector.empty
   )
   /** Is this method side-effect-free (or safe in HTTP parlance), or idempotent,
     * or neither? HTTP based RPC implementation may choose GET verb for safe

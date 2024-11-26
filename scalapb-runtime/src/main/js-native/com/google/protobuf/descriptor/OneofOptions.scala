@@ -11,7 +11,7 @@ package com.google.protobuf.descriptor
 @SerialVersionUID(0L)
 final case class OneofOptions(
     features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofOptions] with _root_.scalapb.ExtendableMessage[OneofOptions] {
     @transient
@@ -56,7 +56,7 @@ final case class OneofOptions(
     def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: OneofOptions = copy(features = _root_.scala.None)
     def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): OneofOptions = copy(features = _root_.scala.Option(__v))
-    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): OneofOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): OneofOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): OneofOptions = copy(uninterpretedOption = __v)
@@ -131,7 +131,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.OneofOptions(
     features = _root_.scala.None,
-    uninterpretedOption = _root_.scala.Seq.empty
+    uninterpretedOption = _root_.scala.Vector.empty
   )
   implicit class OneofOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.OneofOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.OneofOptions](_l) {
     def features: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))

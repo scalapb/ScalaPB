@@ -77,7 +77,7 @@ final case class MessageOptions(
     mapEntry: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     @scala.deprecated(message="Marked as deprecated in proto file", "") deprecatedLegacyJsonFieldConflicts: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageOptions] with _root_.scalapb.ExtendableMessage[MessageOptions] {
     @transient
@@ -177,7 +177,7 @@ final case class MessageOptions(
     def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: MessageOptions = copy(features = _root_.scala.None)
     def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): MessageOptions = copy(features = _root_.scala.Option(__v))
-    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): MessageOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): MessageOptions = copy(uninterpretedOption = __v)
@@ -292,7 +292,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[com.google.proto
     mapEntry = _root_.scala.None,
     deprecatedLegacyJsonFieldConflicts = _root_.scala.None,
     features = _root_.scala.None,
-    uninterpretedOption = _root_.scala.Seq.empty
+    uninterpretedOption = _root_.scala.Vector.empty
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.MessageOptions](_l) {
     def messageSetWireFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getMessageSetWireFormat)((c_, f_) => c_.copy(messageSetWireFormat = _root_.scala.Option(f_)))

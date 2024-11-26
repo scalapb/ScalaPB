@@ -38,7 +38,7 @@ final case class Field(
     typeUrl: _root_.scala.Predef.String = "",
     oneofIndex: _root_.scala.Int = 0,
     packed: _root_.scala.Boolean = false,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     jsonName: _root_.scala.Predef.String = "",
     defaultValue: _root_.scala.Predef.String = "",
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
@@ -196,7 +196,7 @@ final case class Field(
     def withTypeUrl(__v: _root_.scala.Predef.String): Field = copy(typeUrl = __v)
     def withOneofIndex(__v: _root_.scala.Int): Field = copy(oneofIndex = __v)
     def withPacked(__v: _root_.scala.Boolean): Field = copy(packed = __v)
-    def clearOptions = copy(options = _root_.scala.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.Vector.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Field = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Field = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
@@ -392,7 +392,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     typeUrl = "",
     oneofIndex = 0,
     packed = false,
-    options = _root_.scala.Seq.empty,
+    options = _root_.scala.Vector.empty,
     jsonName = "",
     defaultValue = ""
   )

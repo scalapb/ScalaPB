@@ -52,11 +52,11 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class Api(
     name: _root_.scala.Predef.String = "",
-    methods: _root_.scala.Seq[com.google.protobuf.api.Method] = _root_.scala.Seq.empty,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    methods: _root_.scala.Seq[com.google.protobuf.api.Method] = _root_.scala.Vector.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     version: _root_.scala.Predef.String = "",
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
-    mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin] = _root_.scala.Seq.empty,
+    mixins: _root_.scala.Seq[com.google.protobuf.api.Mixin] = _root_.scala.Vector.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Api] {
@@ -159,11 +159,11 @@ final case class Api(
       unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Api = copy(name = __v)
-    def clearMethods = copy(methods = _root_.scala.Seq.empty)
+    def clearMethods = copy(methods = _root_.scala.Vector.empty)
     def addMethods(__vs: com.google.protobuf.api.Method *): Api = addAllMethods(__vs)
     def addAllMethods(__vs: Iterable[com.google.protobuf.api.Method]): Api = copy(methods = methods ++ __vs)
     def withMethods(__v: _root_.scala.Seq[com.google.protobuf.api.Method]): Api = copy(methods = __v)
-    def clearOptions = copy(options = _root_.scala.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.Vector.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Api = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Api = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Api = copy(options = __v)
@@ -171,7 +171,7 @@ final case class Api(
     def getSourceContext: com.google.protobuf.source_context.SourceContext = sourceContext.getOrElse(com.google.protobuf.source_context.SourceContext.defaultInstance)
     def clearSourceContext: Api = copy(sourceContext = _root_.scala.None)
     def withSourceContext(__v: com.google.protobuf.source_context.SourceContext): Api = copy(sourceContext = _root_.scala.Option(__v))
-    def clearMixins = copy(mixins = _root_.scala.Seq.empty)
+    def clearMixins = copy(mixins = _root_.scala.Vector.empty)
     def addMixins(__vs: com.google.protobuf.api.Mixin *): Api = addAllMixins(__vs)
     def addAllMixins(__vs: Iterable[com.google.protobuf.api.Mixin]): Api = copy(mixins = mixins ++ __vs)
     def withMixins(__v: _root_.scala.Seq[com.google.protobuf.api.Mixin]): Api = copy(mixins = __v)
@@ -317,11 +317,11 @@ object Api extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Api
   }
   lazy val defaultInstance = com.google.protobuf.api.Api(
     name = "",
-    methods = _root_.scala.Seq.empty,
-    options = _root_.scala.Seq.empty,
+    methods = _root_.scala.Vector.empty,
+    options = _root_.scala.Vector.empty,
     version = "",
     sourceContext = _root_.scala.None,
-    mixins = _root_.scala.Seq.empty,
+    mixins = _root_.scala.Vector.empty,
     syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
   implicit class ApiLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Api]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Api](_l) {

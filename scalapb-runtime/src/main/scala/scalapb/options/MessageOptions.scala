@@ -36,19 +36,19 @@ package scalapb.options
   */
 @SerialVersionUID(0L)
 final case class MessageOptions(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    companionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     `type`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    companionAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    sealedOneofExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     noBox: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    unknownFieldsAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    unknownFieldsAnnotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     noDefaultValuesInConstructor: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    sealedOneofCompanionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    derives: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    sealedOneofDerives: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    sealedOneofEmptyExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    sealedOneofCompanionExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    derives: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    sealedOneofDerives: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    sealedOneofEmptyExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageOptions] with _root_.scalapb.ExtendableMessage[MessageOptions] {
     @transient
@@ -174,52 +174,52 @@ final case class MessageOptions(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
+    def clearExtends = copy(`extends` = _root_.scala.Vector.empty)
     def addExtends(__vs: _root_.scala.Predef.String *): MessageOptions = addAllExtends(__vs)
     def addAllExtends(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(`extends` = `extends` ++ __vs)
     def withExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(`extends` = __v)
-    def clearCompanionExtends = copy(companionExtends = _root_.scala.Seq.empty)
+    def clearCompanionExtends = copy(companionExtends = _root_.scala.Vector.empty)
     def addCompanionExtends(__vs: _root_.scala.Predef.String *): MessageOptions = addAllCompanionExtends(__vs)
     def addAllCompanionExtends(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(companionExtends = companionExtends ++ __vs)
     def withCompanionExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(companionExtends = __v)
-    def clearAnnotations = copy(annotations = _root_.scala.Seq.empty)
+    def clearAnnotations = copy(annotations = _root_.scala.Vector.empty)
     def addAnnotations(__vs: _root_.scala.Predef.String *): MessageOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(annotations = __v)
     def getType: _root_.scala.Predef.String = `type`.getOrElse("")
     def clearType: MessageOptions = copy(`type` = _root_.scala.None)
     def withType(__v: _root_.scala.Predef.String): MessageOptions = copy(`type` = _root_.scala.Option(__v))
-    def clearCompanionAnnotations = copy(companionAnnotations = _root_.scala.Seq.empty)
+    def clearCompanionAnnotations = copy(companionAnnotations = _root_.scala.Vector.empty)
     def addCompanionAnnotations(__vs: _root_.scala.Predef.String *): MessageOptions = addAllCompanionAnnotations(__vs)
     def addAllCompanionAnnotations(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(companionAnnotations = companionAnnotations ++ __vs)
     def withCompanionAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(companionAnnotations = __v)
-    def clearSealedOneofExtends = copy(sealedOneofExtends = _root_.scala.Seq.empty)
+    def clearSealedOneofExtends = copy(sealedOneofExtends = _root_.scala.Vector.empty)
     def addSealedOneofExtends(__vs: _root_.scala.Predef.String *): MessageOptions = addAllSealedOneofExtends(__vs)
     def addAllSealedOneofExtends(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofExtends = sealedOneofExtends ++ __vs)
     def withSealedOneofExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofExtends = __v)
     def getNoBox: _root_.scala.Boolean = noBox.getOrElse(false)
     def clearNoBox: MessageOptions = copy(noBox = _root_.scala.None)
     def withNoBox(__v: _root_.scala.Boolean): MessageOptions = copy(noBox = _root_.scala.Option(__v))
-    def clearUnknownFieldsAnnotations = copy(unknownFieldsAnnotations = _root_.scala.Seq.empty)
+    def clearUnknownFieldsAnnotations = copy(unknownFieldsAnnotations = _root_.scala.Vector.empty)
     def addUnknownFieldsAnnotations(__vs: _root_.scala.Predef.String *): MessageOptions = addAllUnknownFieldsAnnotations(__vs)
     def addAllUnknownFieldsAnnotations(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(unknownFieldsAnnotations = unknownFieldsAnnotations ++ __vs)
     def withUnknownFieldsAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(unknownFieldsAnnotations = __v)
     def getNoDefaultValuesInConstructor: _root_.scala.Boolean = noDefaultValuesInConstructor.getOrElse(false)
     def clearNoDefaultValuesInConstructor: MessageOptions = copy(noDefaultValuesInConstructor = _root_.scala.None)
     def withNoDefaultValuesInConstructor(__v: _root_.scala.Boolean): MessageOptions = copy(noDefaultValuesInConstructor = _root_.scala.Option(__v))
-    def clearSealedOneofCompanionExtends = copy(sealedOneofCompanionExtends = _root_.scala.Seq.empty)
+    def clearSealedOneofCompanionExtends = copy(sealedOneofCompanionExtends = _root_.scala.Vector.empty)
     def addSealedOneofCompanionExtends(__vs: _root_.scala.Predef.String *): MessageOptions = addAllSealedOneofCompanionExtends(__vs)
     def addAllSealedOneofCompanionExtends(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofCompanionExtends = sealedOneofCompanionExtends ++ __vs)
     def withSealedOneofCompanionExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofCompanionExtends = __v)
-    def clearDerives = copy(derives = _root_.scala.Seq.empty)
+    def clearDerives = copy(derives = _root_.scala.Vector.empty)
     def addDerives(__vs: _root_.scala.Predef.String *): MessageOptions = addAllDerives(__vs)
     def addAllDerives(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(derives = derives ++ __vs)
     def withDerives(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(derives = __v)
-    def clearSealedOneofDerives = copy(sealedOneofDerives = _root_.scala.Seq.empty)
+    def clearSealedOneofDerives = copy(sealedOneofDerives = _root_.scala.Vector.empty)
     def addSealedOneofDerives(__vs: _root_.scala.Predef.String *): MessageOptions = addAllSealedOneofDerives(__vs)
     def addAllSealedOneofDerives(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofDerives = sealedOneofDerives ++ __vs)
     def withSealedOneofDerives(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofDerives = __v)
-    def clearSealedOneofEmptyExtends = copy(sealedOneofEmptyExtends = _root_.scala.Seq.empty)
+    def clearSealedOneofEmptyExtends = copy(sealedOneofEmptyExtends = _root_.scala.Vector.empty)
     def addSealedOneofEmptyExtends(__vs: _root_.scala.Predef.String *): MessageOptions = addAllSealedOneofEmptyExtends(__vs)
     def addAllSealedOneofEmptyExtends(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofEmptyExtends = sealedOneofEmptyExtends ++ __vs)
     def withSealedOneofEmptyExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofEmptyExtends = __v)
@@ -363,19 +363,19 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.MessageOptions(
-    `extends` = _root_.scala.Seq.empty,
-    companionExtends = _root_.scala.Seq.empty,
-    annotations = _root_.scala.Seq.empty,
+    `extends` = _root_.scala.Vector.empty,
+    companionExtends = _root_.scala.Vector.empty,
+    annotations = _root_.scala.Vector.empty,
     `type` = _root_.scala.None,
-    companionAnnotations = _root_.scala.Seq.empty,
-    sealedOneofExtends = _root_.scala.Seq.empty,
+    companionAnnotations = _root_.scala.Vector.empty,
+    sealedOneofExtends = _root_.scala.Vector.empty,
     noBox = _root_.scala.None,
-    unknownFieldsAnnotations = _root_.scala.Seq.empty,
+    unknownFieldsAnnotations = _root_.scala.Vector.empty,
     noDefaultValuesInConstructor = _root_.scala.None,
-    sealedOneofCompanionExtends = _root_.scala.Seq.empty,
-    derives = _root_.scala.Seq.empty,
-    sealedOneofDerives = _root_.scala.Seq.empty,
-    sealedOneofEmptyExtends = _root_.scala.Seq.empty
+    sealedOneofCompanionExtends = _root_.scala.Vector.empty,
+    derives = _root_.scala.Vector.empty,
+    sealedOneofDerives = _root_.scala.Vector.empty,
+    sealedOneofEmptyExtends = _root_.scala.Vector.empty
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.MessageOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))

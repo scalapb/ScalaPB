@@ -10,7 +10,7 @@ package scalapb.options
   */
 @SerialVersionUID(0L)
 final case class OneofOptions(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofOptions] with _root_.scalapb.ExtendableMessage[OneofOptions] {
@@ -49,7 +49,7 @@ final case class OneofOptions(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
+    def clearExtends = copy(`extends` = _root_.scala.Vector.empty)
     def addExtends(__vs: _root_.scala.Predef.String *): OneofOptions = addAllExtends(__vs)
     def addAllExtends(__vs: Iterable[_root_.scala.Predef.String]): OneofOptions = copy(`extends` = `extends` ++ __vs)
     def withExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): OneofOptions = copy(`extends` = __v)
@@ -119,7 +119,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[scalapb.options.On
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.OneofOptions(
-    `extends` = _root_.scala.Seq.empty,
+    `extends` = _root_.scala.Vector.empty,
     scalaName = _root_.scala.None
   )
   implicit class OneofOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.OneofOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.OneofOptions](_l) {

@@ -9,7 +9,7 @@ package scalapb.perf.protos
 @SerialVersionUID(0L)
 final case class MessageContainer(
     opt: _root_.scala.Option[scalapb.perf.protos.SimpleMessage] = _root_.scala.None,
-    rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage] = _root_.scala.Seq.empty,
+    rep: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageContainer] {
     @transient
@@ -54,7 +54,7 @@ final case class MessageContainer(
     def getOpt: scalapb.perf.protos.SimpleMessage = opt.getOrElse(scalapb.perf.protos.SimpleMessage.defaultInstance)
     def clearOpt: MessageContainer = copy(opt = _root_.scala.None)
     def withOpt(__v: scalapb.perf.protos.SimpleMessage): MessageContainer = copy(opt = _root_.scala.Option(__v))
-    def clearRep = copy(rep = _root_.scala.Seq.empty)
+    def clearRep = copy(rep = _root_.scala.Vector.empty)
     def addRep(__vs: scalapb.perf.protos.SimpleMessage *): MessageContainer = addAllRep(__vs)
     def addAllRep(__vs: Iterable[scalapb.perf.protos.SimpleMessage]): MessageContainer = copy(rep = rep ++ __vs)
     def withRep(__v: _root_.scala.Seq[scalapb.perf.protos.SimpleMessage]): MessageContainer = copy(rep = __v)
@@ -129,7 +129,7 @@ object MessageContainer extends scalapb.GeneratedMessageCompanion[scalapb.perf.p
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.perf.protos.MessageContainer(
     opt = _root_.scala.None,
-    rep = _root_.scala.Seq.empty
+    rep = _root_.scala.Vector.empty
   )
   implicit class MessageContainerLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.MessageContainer]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.MessageContainer](_l) {
     def opt: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.SimpleMessage] = field(_.getOpt)((c_, f_) => c_.copy(opt = _root_.scala.Option(f_)))

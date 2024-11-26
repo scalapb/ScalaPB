@@ -12,9 +12,9 @@ package scalapb.options
   */
 @SerialVersionUID(0L)
 final case class EnumValueOptions(
-    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    `extends`: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     scalaName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    annotations: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumValueOptions] with _root_.scalapb.ExtendableMessage[EnumValueOptions] {
     @transient
@@ -60,14 +60,14 @@ final case class EnumValueOptions(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearExtends = copy(`extends` = _root_.scala.Seq.empty)
+    def clearExtends = copy(`extends` = _root_.scala.Vector.empty)
     def addExtends(__vs: _root_.scala.Predef.String *): EnumValueOptions = addAllExtends(__vs)
     def addAllExtends(__vs: Iterable[_root_.scala.Predef.String]): EnumValueOptions = copy(`extends` = `extends` ++ __vs)
     def withExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumValueOptions = copy(`extends` = __v)
     def getScalaName: _root_.scala.Predef.String = scalaName.getOrElse("")
     def clearScalaName: EnumValueOptions = copy(scalaName = _root_.scala.None)
     def withScalaName(__v: _root_.scala.Predef.String): EnumValueOptions = copy(scalaName = _root_.scala.Option(__v))
-    def clearAnnotations = copy(annotations = _root_.scala.Seq.empty)
+    def clearAnnotations = copy(annotations = _root_.scala.Vector.empty)
     def addAnnotations(__vs: _root_.scala.Predef.String *): EnumValueOptions = addAllAnnotations(__vs)
     def addAllAnnotations(__vs: Iterable[_root_.scala.Predef.String]): EnumValueOptions = copy(annotations = annotations ++ __vs)
     def withAnnotations(__v: _root_.scala.Seq[_root_.scala.Predef.String]): EnumValueOptions = copy(annotations = __v)
@@ -141,9 +141,9 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = scalapb.options.EnumValueOptions(
-    `extends` = _root_.scala.Seq.empty,
+    `extends` = _root_.scala.Vector.empty,
     scalaName = _root_.scala.None,
-    annotations = _root_.scala.Seq.empty
+    annotations = _root_.scala.Vector.empty
   )
   implicit class EnumValueOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.EnumValueOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.EnumValueOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))

@@ -34,7 +34,7 @@ final case class CodeGeneratorResponse(
     supportedFeatures: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None,
     minimumEdition: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
     maximumEdition: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
-    file: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = _root_.scala.Seq.empty,
+    file: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[CodeGeneratorResponse] {
     @transient
@@ -110,7 +110,7 @@ final case class CodeGeneratorResponse(
     def getMaximumEdition: _root_.scala.Int = maximumEdition.getOrElse(0)
     def clearMaximumEdition: CodeGeneratorResponse = copy(maximumEdition = _root_.scala.None)
     def withMaximumEdition(__v: _root_.scala.Int): CodeGeneratorResponse = copy(maximumEdition = _root_.scala.Option(__v))
-    def clearFile = copy(file = _root_.scala.Seq.empty)
+    def clearFile = copy(file = _root_.scala.Vector.empty)
     def addFile(__vs: com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File *): CodeGeneratorResponse = addAllFile(__vs)
     def addAllFile(__vs: Iterable[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = file ++ __vs)
     def withFile(__v: _root_.scala.Seq[com.google.protobuf.compiler.plugin.CodeGeneratorResponse.File]): CodeGeneratorResponse = copy(file = __v)
@@ -211,7 +211,7 @@ object CodeGeneratorResponse extends scalapb.GeneratedMessageCompanion[com.googl
     supportedFeatures = _root_.scala.None,
     minimumEdition = _root_.scala.None,
     maximumEdition = _root_.scala.None,
-    file = _root_.scala.Seq.empty
+    file = _root_.scala.Vector.empty
   )
   /** Sync with code_generator.h.
     */

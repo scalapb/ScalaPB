@@ -36,13 +36,13 @@ import _root_.scalapb.internal.compat.JavaConverters._
 final case class FileDescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     `package`: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    dependency: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    publicDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-    weakDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-    messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Seq.empty,
-    enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Seq.empty,
-    service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scala.Seq.empty,
-    extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
+    dependency: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    publicDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
+    weakDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
+    messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Vector.empty,
+    enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Vector.empty,
+    service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scala.Vector.empty,
+    extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Vector.empty,
     options: _root_.scala.Option[com.google.protobuf.descriptor.FileOptions] = _root_.scala.None,
     sourceCodeInfo: _root_.scala.Option[com.google.protobuf.descriptor.SourceCodeInfo] = _root_.scala.None,
     syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
@@ -190,31 +190,31 @@ final case class FileDescriptorProto(
     def getPackage: _root_.scala.Predef.String = `package`.getOrElse("")
     def clearPackage: FileDescriptorProto = copy(`package` = _root_.scala.None)
     def withPackage(__v: _root_.scala.Predef.String): FileDescriptorProto = copy(`package` = _root_.scala.Option(__v))
-    def clearDependency = copy(dependency = _root_.scala.Seq.empty)
+    def clearDependency = copy(dependency = _root_.scala.Vector.empty)
     def addDependency(__vs: _root_.scala.Predef.String *): FileDescriptorProto = addAllDependency(__vs)
     def addAllDependency(__vs: Iterable[_root_.scala.Predef.String]): FileDescriptorProto = copy(dependency = dependency ++ __vs)
     def withDependency(__v: _root_.scala.Seq[_root_.scala.Predef.String]): FileDescriptorProto = copy(dependency = __v)
-    def clearPublicDependency = copy(publicDependency = _root_.scala.Seq.empty)
+    def clearPublicDependency = copy(publicDependency = _root_.scala.Vector.empty)
     def addPublicDependency(__vs: _root_.scala.Int *): FileDescriptorProto = addAllPublicDependency(__vs)
     def addAllPublicDependency(__vs: Iterable[_root_.scala.Int]): FileDescriptorProto = copy(publicDependency = publicDependency ++ __vs)
     def withPublicDependency(__v: _root_.scala.Seq[_root_.scala.Int]): FileDescriptorProto = copy(publicDependency = __v)
-    def clearWeakDependency = copy(weakDependency = _root_.scala.Seq.empty)
+    def clearWeakDependency = copy(weakDependency = _root_.scala.Vector.empty)
     def addWeakDependency(__vs: _root_.scala.Int *): FileDescriptorProto = addAllWeakDependency(__vs)
     def addAllWeakDependency(__vs: Iterable[_root_.scala.Int]): FileDescriptorProto = copy(weakDependency = weakDependency ++ __vs)
     def withWeakDependency(__v: _root_.scala.Seq[_root_.scala.Int]): FileDescriptorProto = copy(weakDependency = __v)
-    def clearMessageType = copy(messageType = _root_.scala.Seq.empty)
+    def clearMessageType = copy(messageType = _root_.scala.Vector.empty)
     def addMessageType(__vs: com.google.protobuf.descriptor.DescriptorProto *): FileDescriptorProto = addAllMessageType(__vs)
     def addAllMessageType(__vs: Iterable[com.google.protobuf.descriptor.DescriptorProto]): FileDescriptorProto = copy(messageType = messageType ++ __vs)
     def withMessageType(__v: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]): FileDescriptorProto = copy(messageType = __v)
-    def clearEnumType = copy(enumType = _root_.scala.Seq.empty)
+    def clearEnumType = copy(enumType = _root_.scala.Vector.empty)
     def addEnumType(__vs: com.google.protobuf.descriptor.EnumDescriptorProto *): FileDescriptorProto = addAllEnumType(__vs)
     def addAllEnumType(__vs: Iterable[com.google.protobuf.descriptor.EnumDescriptorProto]): FileDescriptorProto = copy(enumType = enumType ++ __vs)
     def withEnumType(__v: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]): FileDescriptorProto = copy(enumType = __v)
-    def clearService = copy(service = _root_.scala.Seq.empty)
+    def clearService = copy(service = _root_.scala.Vector.empty)
     def addService(__vs: com.google.protobuf.descriptor.ServiceDescriptorProto *): FileDescriptorProto = addAllService(__vs)
     def addAllService(__vs: Iterable[com.google.protobuf.descriptor.ServiceDescriptorProto]): FileDescriptorProto = copy(service = service ++ __vs)
     def withService(__v: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]): FileDescriptorProto = copy(service = __v)
-    def clearExtension = copy(extension = _root_.scala.Seq.empty)
+    def clearExtension = copy(extension = _root_.scala.Vector.empty)
     def addExtension(__vs: com.google.protobuf.descriptor.FieldDescriptorProto *): FileDescriptorProto = addAllExtension(__vs)
     def addAllExtension(__vs: Iterable[com.google.protobuf.descriptor.FieldDescriptorProto]): FileDescriptorProto = copy(extension = extension ++ __vs)
     def withExtension(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]): FileDescriptorProto = copy(extension = __v)
@@ -435,13 +435,13 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   lazy val defaultInstance = com.google.protobuf.descriptor.FileDescriptorProto(
     name = _root_.scala.None,
     `package` = _root_.scala.None,
-    dependency = _root_.scala.Seq.empty,
-    publicDependency = _root_.scala.Seq.empty,
-    weakDependency = _root_.scala.Seq.empty,
-    messageType = _root_.scala.Seq.empty,
-    enumType = _root_.scala.Seq.empty,
-    service = _root_.scala.Seq.empty,
-    extension = _root_.scala.Seq.empty,
+    dependency = _root_.scala.Vector.empty,
+    publicDependency = _root_.scala.Vector.empty,
+    weakDependency = _root_.scala.Vector.empty,
+    messageType = _root_.scala.Vector.empty,
+    enumType = _root_.scala.Vector.empty,
+    service = _root_.scala.Vector.empty,
+    extension = _root_.scala.Vector.empty,
     options = _root_.scala.None,
     sourceCodeInfo = _root_.scala.None,
     syntax = _root_.scala.None,

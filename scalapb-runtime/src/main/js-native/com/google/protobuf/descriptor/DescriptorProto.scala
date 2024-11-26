@@ -12,15 +12,15 @@ package com.google.protobuf.descriptor
 @SerialVersionUID(0L)
 final case class DescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    field: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
-    extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Seq.empty,
-    nestedType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Seq.empty,
-    enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Seq.empty,
-    extensionRange: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = _root_.scala.Seq.empty,
-    oneofDecl: _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto] = _root_.scala.Seq.empty,
+    field: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Vector.empty,
+    extension: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto] = _root_.scala.Vector.empty,
+    nestedType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Vector.empty,
+    enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Vector.empty,
+    extensionRange: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange] = _root_.scala.Vector.empty,
+    oneofDecl: _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto] = _root_.scala.Vector.empty,
     options: _root_.scala.Option[com.google.protobuf.descriptor.MessageOptions] = _root_.scala.None,
-    reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = _root_.scala.Seq.empty,
-    reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+    reservedRange: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange] = _root_.scala.Vector.empty,
+    reservedName: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[DescriptorProto] {
     @transient
@@ -141,38 +141,38 @@ final case class DescriptorProto(
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: DescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): DescriptorProto = copy(name = _root_.scala.Option(__v))
-    def clearField = copy(field = _root_.scala.Seq.empty)
+    def clearField = copy(field = _root_.scala.Vector.empty)
     def addField(__vs: com.google.protobuf.descriptor.FieldDescriptorProto *): DescriptorProto = addAllField(__vs)
     def addAllField(__vs: Iterable[com.google.protobuf.descriptor.FieldDescriptorProto]): DescriptorProto = copy(field = field ++ __vs)
     def withField(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]): DescriptorProto = copy(field = __v)
-    def clearExtension = copy(extension = _root_.scala.Seq.empty)
+    def clearExtension = copy(extension = _root_.scala.Vector.empty)
     def addExtension(__vs: com.google.protobuf.descriptor.FieldDescriptorProto *): DescriptorProto = addAllExtension(__vs)
     def addAllExtension(__vs: Iterable[com.google.protobuf.descriptor.FieldDescriptorProto]): DescriptorProto = copy(extension = extension ++ __vs)
     def withExtension(__v: _root_.scala.Seq[com.google.protobuf.descriptor.FieldDescriptorProto]): DescriptorProto = copy(extension = __v)
-    def clearNestedType = copy(nestedType = _root_.scala.Seq.empty)
+    def clearNestedType = copy(nestedType = _root_.scala.Vector.empty)
     def addNestedType(__vs: com.google.protobuf.descriptor.DescriptorProto *): DescriptorProto = addAllNestedType(__vs)
     def addAllNestedType(__vs: Iterable[com.google.protobuf.descriptor.DescriptorProto]): DescriptorProto = copy(nestedType = nestedType ++ __vs)
     def withNestedType(__v: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]): DescriptorProto = copy(nestedType = __v)
-    def clearEnumType = copy(enumType = _root_.scala.Seq.empty)
+    def clearEnumType = copy(enumType = _root_.scala.Vector.empty)
     def addEnumType(__vs: com.google.protobuf.descriptor.EnumDescriptorProto *): DescriptorProto = addAllEnumType(__vs)
     def addAllEnumType(__vs: Iterable[com.google.protobuf.descriptor.EnumDescriptorProto]): DescriptorProto = copy(enumType = enumType ++ __vs)
     def withEnumType(__v: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]): DescriptorProto = copy(enumType = __v)
-    def clearExtensionRange = copy(extensionRange = _root_.scala.Seq.empty)
+    def clearExtensionRange = copy(extensionRange = _root_.scala.Vector.empty)
     def addExtensionRange(__vs: com.google.protobuf.descriptor.DescriptorProto.ExtensionRange *): DescriptorProto = addAllExtensionRange(__vs)
     def addAllExtensionRange(__vs: Iterable[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]): DescriptorProto = copy(extensionRange = extensionRange ++ __vs)
     def withExtensionRange(__v: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ExtensionRange]): DescriptorProto = copy(extensionRange = __v)
-    def clearOneofDecl = copy(oneofDecl = _root_.scala.Seq.empty)
+    def clearOneofDecl = copy(oneofDecl = _root_.scala.Vector.empty)
     def addOneofDecl(__vs: com.google.protobuf.descriptor.OneofDescriptorProto *): DescriptorProto = addAllOneofDecl(__vs)
     def addAllOneofDecl(__vs: Iterable[com.google.protobuf.descriptor.OneofDescriptorProto]): DescriptorProto = copy(oneofDecl = oneofDecl ++ __vs)
     def withOneofDecl(__v: _root_.scala.Seq[com.google.protobuf.descriptor.OneofDescriptorProto]): DescriptorProto = copy(oneofDecl = __v)
     def getOptions: com.google.protobuf.descriptor.MessageOptions = options.getOrElse(com.google.protobuf.descriptor.MessageOptions.defaultInstance)
     def clearOptions: DescriptorProto = copy(options = _root_.scala.None)
     def withOptions(__v: com.google.protobuf.descriptor.MessageOptions): DescriptorProto = copy(options = _root_.scala.Option(__v))
-    def clearReservedRange = copy(reservedRange = _root_.scala.Seq.empty)
+    def clearReservedRange = copy(reservedRange = _root_.scala.Vector.empty)
     def addReservedRange(__vs: com.google.protobuf.descriptor.DescriptorProto.ReservedRange *): DescriptorProto = addAllReservedRange(__vs)
     def addAllReservedRange(__vs: Iterable[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]): DescriptorProto = copy(reservedRange = reservedRange ++ __vs)
     def withReservedRange(__v: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto.ReservedRange]): DescriptorProto = copy(reservedRange = __v)
-    def clearReservedName = copy(reservedName = _root_.scala.Seq.empty)
+    def clearReservedName = copy(reservedName = _root_.scala.Vector.empty)
     def addReservedName(__vs: _root_.scala.Predef.String *): DescriptorProto = addAllReservedName(__vs)
     def addAllReservedName(__vs: Iterable[_root_.scala.Predef.String]): DescriptorProto = copy(reservedName = reservedName ++ __vs)
     def withReservedName(__v: _root_.scala.Seq[_root_.scala.Predef.String]): DescriptorProto = copy(reservedName = __v)
@@ -313,15 +313,15 @@ object DescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.prot
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.DescriptorProto(
     name = _root_.scala.None,
-    field = _root_.scala.Seq.empty,
-    extension = _root_.scala.Seq.empty,
-    nestedType = _root_.scala.Seq.empty,
-    enumType = _root_.scala.Seq.empty,
-    extensionRange = _root_.scala.Seq.empty,
-    oneofDecl = _root_.scala.Seq.empty,
+    field = _root_.scala.Vector.empty,
+    extension = _root_.scala.Vector.empty,
+    nestedType = _root_.scala.Vector.empty,
+    enumType = _root_.scala.Vector.empty,
+    extensionRange = _root_.scala.Vector.empty,
+    oneofDecl = _root_.scala.Vector.empty,
     options = _root_.scala.None,
-    reservedRange = _root_.scala.Seq.empty,
-    reservedName = _root_.scala.Seq.empty
+    reservedRange = _root_.scala.Vector.empty,
+    reservedName = _root_.scala.Vector.empty
   )
   /** @param start
     *   Inclusive.

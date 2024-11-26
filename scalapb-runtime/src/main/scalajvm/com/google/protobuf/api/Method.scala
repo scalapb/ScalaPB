@@ -28,7 +28,7 @@ final case class Method(
     requestStreaming: _root_.scala.Boolean = false,
     responseTypeUrl: _root_.scala.Predef.String = "",
     responseStreaming: _root_.scala.Boolean = false,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Method] {
@@ -144,7 +144,7 @@ final case class Method(
     def withRequestStreaming(__v: _root_.scala.Boolean): Method = copy(requestStreaming = __v)
     def withResponseTypeUrl(__v: _root_.scala.Predef.String): Method = copy(responseTypeUrl = __v)
     def withResponseStreaming(__v: _root_.scala.Boolean): Method = copy(responseStreaming = __v)
-    def clearOptions = copy(options = _root_.scala.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.Vector.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Method = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
@@ -300,7 +300,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     requestStreaming = false,
     responseTypeUrl = "",
     responseStreaming = false,
-    options = _root_.scala.Seq.empty,
+    options = _root_.scala.Vector.empty,
     syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
   )
   implicit class MethodLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {

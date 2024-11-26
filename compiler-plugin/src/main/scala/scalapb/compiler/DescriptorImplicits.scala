@@ -1098,7 +1098,7 @@ class DescriptorImplicits private[compiler] (
 object DescriptorImplicits {
   val ScalaSeq      = "_root_.scala.Seq"
   val ScalaMap      = "_root_.scala.collection.immutable.Map"
-  val ScalaVector   = "_root_.scala.collection.immutable.Vector"
+  val ScalaVector   = "_root_.scala.Vector"
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
   val ScalaIterator = "_root_.scala.collection.Iterator"
   val ScalaOption   = "_root_.scala.Option"

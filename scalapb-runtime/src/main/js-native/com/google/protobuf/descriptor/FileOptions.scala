@@ -112,7 +112,7 @@ final case class FileOptions(
     phpMetadataNamespace: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     rubyPackage: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Seq.empty,
+    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileOptions] with _root_.scalapb.ExtendableMessage[FileOptions] {
     @transient
@@ -366,7 +366,7 @@ final case class FileOptions(
     def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: FileOptions = copy(features = _root_.scala.None)
     def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): FileOptions = copy(features = _root_.scala.Option(__v))
-    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Seq.empty)
+    def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
     def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): FileOptions = addAllUninterpretedOption(__vs)
     def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
     def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): FileOptions = copy(uninterpretedOption = __v)
@@ -597,7 +597,7 @@ object FileOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf
     phpMetadataNamespace = _root_.scala.None,
     rubyPackage = _root_.scala.None,
     features = _root_.scala.None,
-    uninterpretedOption = _root_.scala.Seq.empty
+    uninterpretedOption = _root_.scala.Vector.empty
   )
   /** Generated classes can be optimized for speed or code size.
     */
