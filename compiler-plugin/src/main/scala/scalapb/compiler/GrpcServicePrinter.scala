@@ -178,11 +178,11 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       case StreamType.Bidirectional   => "BIDI_STREAMING"
     }
 
-    val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
-
     val idempotencyLevel = method.getOptions.getIdempotencyLevel
     val safe             = idempotencyLevel == IdempotencyLevel.NO_SIDE_EFFECTS
-    val idempotent       = idempotencyLevel == IdempotencyLevel.IDEMPOTENT
+    val idempotent       = idempotencyLevel == IdempotencyLevel.IDEMPOTENT || safe
+
+    val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
     p.add(
       s"""${method.deprecatedAnnotation}val ${method.grpcDescriptor.nameSymbol}: $grpcMethodDescriptor[${method.inputType.scalaType}, ${method.outputType.scalaType}] =
@@ -190,14 +190,21 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
          |    .setType($grpcMethodDescriptor.MethodType.$methodType)
          |    .setFullMethodName($grpcMethodDescriptor.generateFullMethodName("${service.getFullName}", "${method.getName}"))
          |    .setSampledToLocalTracing(true)
-         |    .setSafe($safe)
-         |    .setIdempotent($idempotent)
          |    .setRequestMarshaller(${marshaller(method.inputType)})
          |    .setResponseMarshaller(${marshaller(method.outputType)})
          |    .setSchemaDescriptor(_root_.scalapb.grpc.ConcreteProtoMethodDescriptorSupplier.fromMethodDescriptor(${method.javaDescriptorSource}))
-         |    .build()
-         |""".stripMargin
-    )
+         |""".stripMargin.stripSuffix("\n")
+    ).indented(
+      _.indented(
+        _.when(safe) {
+          _.add(".setSafe(true)")
+        }
+          .when(idempotent) {
+            _.add(".setIdempotent(true)")
+          }
+          .add(".build()")
+      )
+    ).newline
   }
 
   private[this] def serviceDescriptor(service: ServiceDescriptor) = {
