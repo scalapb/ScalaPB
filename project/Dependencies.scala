@@ -9,7 +9,7 @@ object Dependencies {
     val silencer             = "1.7.19"
     val collectionCompat     = "2.12.0"
     val coursier             = "2.1.20"
-    val protocGen            = "0.9.7"
+    val protocGen            = "0.9.8"
     val protobufRuntimeScala = "0.8.16"
     val commonsCodec         = "1.17.1"
 
