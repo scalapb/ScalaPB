@@ -58,6 +58,7 @@ jobs:
       with:
         java-version: 11
         distribution: temurin
+    - uses: actions/setup-sbt@v1
     - uses: actions/setup-node@v4
       with:
         node-version: '12.x'
@@ -87,6 +88,7 @@ jobs:
       with:
         java-version: 8
         distribution: temurin
+    - uses: actions/setup-sbt@v1
     - run: |
         sbt scalapbcJVM2_12/universal:packageBin
     - uses: actions/upload-artifact@v4
