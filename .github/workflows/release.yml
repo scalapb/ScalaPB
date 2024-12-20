@@ -24,6 +24,7 @@ jobs:
       with:
         java-version: 8
         distribution: temurin
+    - uses: actions/setup-sbt@v1
     - uses: actions/setup-node@v4
       with:
         node-version: '12.x'
