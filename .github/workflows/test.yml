@@ -27,7 +27,7 @@ jobs:
         java-version: 8
         distribution: temurin
 
-    - uses: actions/setup-sbt@v1
+    - uses: sbt/setup-sbt@v1
 
     - name: Mount caches
       uses: actions/cache@v4
@@ -54,6 +54,7 @@ jobs:
       with:
           key: conformance-${{ runner.os }}-${{hashFiles('conformance/build_test_runner.sh')}}
           path: /tmp/conformance-test-runner
+    - uses: sbt/setup-sbt@v1
 
     # Build conformance_test_runner on a cache miss
     - uses: bazelbuild/setup-bazelisk@v3
