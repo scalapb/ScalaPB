@@ -1,5 +1,4 @@
-ScalaPB
-=======
+# ScalaPB
 
 [![ScalaPB runtime version support](https://index.scala-lang.org/scalapb/scalapb/scalapb-runtime/latest-by-scala-version.svg?platform=jvm)](https://index.scala-lang.org/scalapb/scalapb/scalapb-runtime)
 
@@ -24,12 +23,11 @@ results in a significant improvement in incremental compilations.
 Another cool feature of ScalaPB is that it can optionally generate methods
 that convert a Java protocol buffer to a Scala protocol buffer and vice versa.
 This is useful if you are gradually migrating a large code base from Java
-protocol buffers to Scala.  The optional Java conversion is required if you
+protocol buffers to Scala. The optional Java conversion is required if you
 want to use `fromAscii` (parsing ASCII representation of a protocol buffer).
 The current implementation delegates to the Java version.
 
-Highlights
-==========
+# Highlights
 
 - Supports proto2 and proto3
 
@@ -47,18 +45,15 @@ Highlights
 
 - Support extensions (since 0.6.0)
 
-Versions
-========
+# Versions
 
-Version | Description
-------- | -----------
-0.6.x   | Stable. Supports Protobuf 2.6.x to 3.5.x
-0.5.x   | Supports Protobuf 2.6.x and Protobuf 3.1.x.
-0.4.x   | Stable, unsupported. Works with Protobuf 2.6.x
+| Version | Description                                    |
+| ------- | ---------------------------------------------- |
+| 0.6.x   | Stable. Supports Protobuf 2.6.x to 3.5.x       |
+| 0.5.x   | Supports Protobuf 2.6.x and Protobuf 3.1.x.    |
+| 0.4.x   | Stable, unsupported. Works with Protobuf 2.6.x |
 
-
-Installing
-==========
+# Installing
 
 To automatically generate Scala case classes for your messages add ScalaPB's
 sbt plugin to your project. Create a file named `project/protoc.sbt`
@@ -76,19 +71,15 @@ Add the following line to your `build.sbt`:
 
 For additional configuration options, see [ScalaPB SBT Settings](https://scalapb.github.io/docs/sbt-settings) documentation
 
-Using ScalaPB
-=============
+# Using ScalaPB
 
 Documentation is available at [ScalaPB website](https://scalapb.github.io/).
 
-Questions?
-==========
+# Questions?
 
 See [contacting us](https://scalapb.github.io/docs/contact).
 
-
-Testing
-=======
+# Testing
 
 ScalaPB uses ScalaCheck to aggressively test the generated code. The test
 generates many different sets of proto files. The sets are growing in
@@ -107,12 +98,11 @@ ScalaChecks on the outputs. To run it:
 
     $ ./e2e.sh
 
-Sponsors
-========
-We are very thankful to our sponsors: 
+# Sponsors
 
-* [Pentech Ltd](https://github.com/PentechLtd)
-* [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
-* [@dejvid](https://github.com/dejvid)
-* [Andrew Selvia](https://github.com/andrew-selvia)
-* [Vitaly Lavrov](https://github.com/lavrov)
+We are very thankful to our sponsors:
+
+- [Pentech Ltd](https://github.com/PentechLtd)
+- [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
+- [Andrew Selvia](https://github.com/andrew-selvia)
+- [Ahmad Ragab](https://github.com/ASRagab)
