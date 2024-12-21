@@ -9,152 +9,151 @@ jobs:
   publish:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Scala caches
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.sbt
-          ~/.ivy2/cache
-          ~/.cache/coursier
-        key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
-    - uses: actions/setup-java@v4
-      with:
-        java-version: 8
-        distribution: temurin
-    - uses: sbt/setup-sbt@v1
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '12.x'
-    - uses: olafurpg/setup-gpg@v3
-      if: startsWith(github.ref, 'refs/tags/v')
-    - name: Publish ${{ github.ref }}
-      run: sbt ci-release
-      env:
-        JAVA_OPTS: -Xmx4G -XX:+UseG1GC
-        JVM_OPTS:  -Xmx4G -XX:+UseG1GC
-        PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-        PGP_SECRET: ${{ secrets.PGP_SECRET }}
-        SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-        SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scala caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.sbt
+            ~/.ivy2/cache
+            ~/.cache/coursier
+          key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 8
+          distribution: temurin
+      - uses: sbt/setup-sbt@v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "12.x"
+      - uses: olafurpg/setup-gpg@v3
+        if: startsWith(github.ref, 'refs/tags/v')
+      - name: Publish ${{ github.ref }}
+        run: sbt ci-release
+        env:
+          JAVA_OPTS: -Xmx4G -XX:+UseG1GC
+          JVM_OPTS: -Xmx4G -XX:+UseG1GC
+          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
+          PGP_SECRET: ${{ secrets.PGP_SECRET }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
   docs:
     runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Scala caches
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.sbt
-          ~/.ivy2/cache
-          ~/.cache/coursier
-        key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
-    - uses: actions/setup-java@v4
-      with:
-        java-version: 11
-        distribution: temurin
-    - uses: sbt/setup-sbt@v1
-    - uses: actions/setup-node@v4
-      with:
-        node-version: '12.x'
-    - name: Update docs
-      run: |
-        git config --global user.name "ScalaPB Docs"
-        git config --global user.email "scalapb-updater@users.noreply.github.com"
-        eval "$(ssh-agent -s)"
-        echo "$TOKEN" | ssh-add -
-        sbt docs/mdoc docs/unidoc
-        cd website
-        yarn install
-        yarn deploy
-      env:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Scala caches
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.sbt
+            ~/.ivy2/cache
+            ~/.cache/coursier
+          key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 11
+          distribution: temurin
+      - uses: sbt/setup-sbt@v1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "12.x"
+      - name: Update docs
+        run: |
+          git config --global user.name "ScalaPB Docs"
+          git config --global user.email "scalapb-updater@users.noreply.github.com"
+          eval "$(ssh-agent -s)"
+          echo "$TOKEN" | ssh-add -
+          sbt docs/mdoc docs/unidoc
+          cd website
+          yarn install
+          yarn deploy
+        env:
           TOKEN: ${{secrets.DEPLOY_KEY}}
           USE_SSH: true
           GIT_USER: git
 
-
   scalapbc:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: actions/setup-java@v4
-      with:
-        java-version: 8
-        distribution: temurin
-    - uses: sbt/setup-sbt@v1
-    - run: |
-        sbt scalapbcJVM2_12/universal:packageBin
-    - uses: actions/upload-artifact@v4
-      with:
-        name: scalapbc
-        path: scalapbc/target/jvm-2.12/universal/scalapbc-*.zip
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          java-version: 8
+          distribution: temurin
+      - uses: sbt/setup-sbt@v1
+      - run: |
+          sbt scalapbcJVM2_12/universal:packageBin
+      - uses: actions/upload-artifact@v4
+        with:
+          name: scalapbc
+          path: scalapbc/target/jvm-2.12/universal/scalapbc-*.zip
 
   native:
     strategy:
       matrix:
         include:
-        - os: ubuntu-latest
-          arch: linux-x86_64
-        - os: macos-12
-          arch: osx-x86_64
+          - os: ubuntu-latest
+            arch: linux-x86_64
+          - os: macos-14
+            arch: osx-x86_64
     runs-on: ${{matrix.os}}
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - uses: olafurpg/setup-scala@v14
-      with:
-        java-version: graalvm@21.1.0
-    - name: Asset name
-      id: vars
-      run: |
-        if [[ $GITHUB_REF = refs/tags/v* ]]; then
-          RELEASE_VERSION=${GITHUB_REF#refs/tags/v}
-        else
-          RELEASE_VERSION=SNAPSHOT
-        fi
-        echo "ASSET=protoc-gen-scala-${RELEASE_VERSION}-${{matrix.arch}}" >> $GITHUB_ENV
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: olafurpg/setup-scala@v14
+        with:
+          java-version: graalvm@21.1.0
+      - name: Asset name
+        id: vars
+        run: |
+          if [[ $GITHUB_REF = refs/tags/v* ]]; then
+            RELEASE_VERSION=${GITHUB_REF#refs/tags/v}
+          else
+            RELEASE_VERSION=SNAPSHOT
+          fi
+          echo "ASSET=protoc-gen-scala-${RELEASE_VERSION}-${{matrix.arch}}" >> $GITHUB_ENV
 
-    - name: build native image
-      run: |
-        set -x
-        gu install native-image
-        ./make_reflect_config.sh
-        sbt protocGenScalaNativeImage/nativeImage
-        zip -j $ASSET.zip target/protoc-gen-scala
+      - name: build native image
+        run: |
+          set -x
+          gu install native-image
+          ./make_reflect_config.sh
+          sbt protocGenScalaNativeImage/nativeImage
+          zip -j $ASSET.zip target/protoc-gen-scala
 
-    - uses: actions/upload-artifact@v4
-      with:
-        name: ${{env.ASSET}}
-        path: ${{env.ASSET}}.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{env.ASSET}}
+          path: ${{env.ASSET}}.zip
 
   gh_release:
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-20.04
     needs: [native, scalapbc]
     steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-    - name: Download artifacts
-      uses: actions/download-artifact@v4
-      with:
-        path: artifacts
-    - name: Display structure of downloaded files
-      run: ls -R
-      working-directory: ./artifacts
-    - name: Create release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        set -x
-        assets=$(find ./artifacts -name "*.zip")
-        RELEASE_NAME=${GITHUB_REF#refs/tags/}
-        gh release create "$RELEASE_NAME" --generate-notes ${assets}
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: ./artifacts
+      - name: Create release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -x
+          assets=$(find ./artifacts -name "*.zip")
+          RELEASE_NAME=${GITHUB_REF#refs/tags/}
+          gh release create "$RELEASE_NAME" --generate-notes ${assets}
