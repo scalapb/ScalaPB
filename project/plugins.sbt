@@ -27,3 +27,15 @@ addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.10.1")
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.6.2")
 
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.4")
+
+addSbtPlugin("pl.project13.scala" % "sbt-jmh" % "0.4.7")
+
+libraryDependencies += {
+  val javaVersion = sys.props("java.version")
+  val oshiVersion = "6.4.13"
+  if (javaVersion.startsWith("1.8")) {
+    "com.github.oshi" % "oshi-core" % oshiVersion
+  } else {
+    "com.github.oshi" % "oshi-core-java11" % oshiVersion
+  }
+}
