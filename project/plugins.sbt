@@ -4,7 +4,7 @@ addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
 
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.1")
 
-addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.10.4")
+addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.11.0")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
@@ -14,7 +14,7 @@ addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
 
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.2")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.4")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.7")
 
