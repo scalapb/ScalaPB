@@ -97,6 +97,10 @@ service Service1 {
   rpc PrimitiveValues(google.protobuf.Int32Value) returns (google.protobuf.StringValue) {};
 
   rpc EchoRequest(Req1) returns (Res6) {}
+
+  rpc NoSideEffects(Req1) returns (Res6) {
+    option idempotency_level = NO_SIDE_EFFECTS;
+  }
 }
 
 service Issue774 {
