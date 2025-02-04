@@ -11,7 +11,7 @@ object Dependencies {
     val coursier             = "2.1.24"
     val protocGen            = "0.9.8"
     val protobufRuntimeScala = "0.8.16"
-    val commonsCodec         = "1.17.2"
+    val commonsCodec         = "1.18.0"
 
     // For testing
     val annotationApi           = "1.3.2"
@@ -28,7 +28,7 @@ object Dependencies {
 
   val Scala213 = "2.13.16"
 
-  val Scala3 = "3.3.3"
+  val Scala3 = "3.3.5"
 
   val silencer = Seq(
     sbt.compilerPlugin(
