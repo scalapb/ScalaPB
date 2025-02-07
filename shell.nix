@@ -12,7 +12,7 @@ mkShell {
     nodejs
     yarn
     clang
-    graalvm11-ce
+    graalvm-ce
 
     # keep this line if you use bash
     bashInteractive
