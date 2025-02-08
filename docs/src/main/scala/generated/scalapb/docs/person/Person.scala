@@ -7,7 +7,7 @@ package scalapb.docs.person
 final case class Person(
     name: _root_.scala.Predef.String = "",
     age: _root_.scala.Int = 0,
-    addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address] = _root_.scala.Seq.empty,
+    addresses: _root_.scala.Seq[scalapb.docs.person.Person.Address] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Person] {
     @transient
@@ -67,7 +67,7 @@ final case class Person(
     }
     def withName(__v: _root_.scala.Predef.String): Person = copy(name = __v)
     def withAge(__v: _root_.scala.Int): Person = copy(age = __v)
-    def clearAddresses = copy(addresses = _root_.scala.Seq.empty)
+    def clearAddresses = copy(addresses = _root_.scala.Vector.empty)
     def addAddresses(__vs: scalapb.docs.person.Person.Address *): Person = addAllAddresses(__vs)
     def addAllAddresses(__vs: Iterable[scalapb.docs.person.Person.Address]): Person = copy(addresses = addresses ++ __vs)
     def withAddresses(__v: _root_.scala.Seq[scalapb.docs.person.Person.Address]): Person = copy(addresses = __v)
@@ -158,7 +158,7 @@ object Person extends scalapb.GeneratedMessageCompanion[scalapb.docs.person.Pers
   lazy val defaultInstance = scalapb.docs.person.Person(
     name = "",
     age = 0,
-    addresses = _root_.scala.Seq.empty
+    addresses = _root_.scala.Vector.empty
   )
   sealed abstract class AddressType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = scalapb.docs.person.Person.AddressType

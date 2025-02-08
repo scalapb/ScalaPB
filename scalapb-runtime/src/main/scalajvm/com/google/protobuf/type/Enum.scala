@@ -22,8 +22,8 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class Enum(
     name: _root_.scala.Predef.String = "",
-    enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.Seq.empty,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    enumvalue: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue] = _root_.scala.Vector.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     edition: _root_.scala.Predef.String = "",
@@ -118,11 +118,11 @@ final case class Enum(
       unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Enum = copy(name = __v)
-    def clearEnumvalue = copy(enumvalue = _root_.scala.Seq.empty)
+    def clearEnumvalue = copy(enumvalue = _root_.scala.Vector.empty)
     def addEnumvalue(__vs: com.google.protobuf.`type`.EnumValue *): Enum = addAllEnumvalue(__vs)
     def addAllEnumvalue(__vs: Iterable[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = enumvalue ++ __vs)
     def withEnumvalue(__v: _root_.scala.Seq[com.google.protobuf.`type`.EnumValue]): Enum = copy(enumvalue = __v)
-    def clearOptions = copy(options = _root_.scala.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.Vector.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Enum = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Enum = copy(options = __v)
@@ -262,8 +262,8 @@ object Enum extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Enum(
     name = "",
-    enumvalue = _root_.scala.Seq.empty,
-    options = _root_.scala.Seq.empty,
+    enumvalue = _root_.scala.Vector.empty,
+    options = _root_.scala.Vector.empty,
     sourceContext = _root_.scala.None,
     syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     edition = ""

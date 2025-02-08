@@ -53,7 +53,7 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class SourceCodeInfo(
-    location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scala.Seq.empty,
+    location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SourceCodeInfo] {
     @transient
@@ -85,7 +85,7 @@ final case class SourceCodeInfo(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearLocation = copy(location = _root_.scala.Seq.empty)
+    def clearLocation = copy(location = _root_.scala.Vector.empty)
     def addLocation(__vs: com.google.protobuf.descriptor.SourceCodeInfo.Location *): SourceCodeInfo = addAllLocation(__vs)
     def addAllLocation(__vs: Iterable[com.google.protobuf.descriptor.SourceCodeInfo.Location]): SourceCodeInfo = copy(location = location ++ __vs)
     def withLocation(__v: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location]): SourceCodeInfo = copy(location = __v)
@@ -154,7 +154,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.SourceCodeInfo(
-    location = _root_.scala.Seq.empty
+    location = _root_.scala.Vector.empty
   )
   /** @param path
     *   Identifies which part of the FileDescriptorProto was defined at this
@@ -237,11 +237,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     */
   @SerialVersionUID(0L)
   final case class Location(
-      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
-      span: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
+      span: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
       leadingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       trailingComments: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-      leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
+      leadingDetachedComments: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
       unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
       ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Location] {
       private[this] def pathSerializedSize = {
@@ -323,11 +323,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
         };
         unknownFields.writeTo(_output__)
       }
-      def clearPath = copy(path = _root_.scala.Seq.empty)
+      def clearPath = copy(path = _root_.scala.Vector.empty)
       def addPath(__vs: _root_.scala.Int *): Location = addAllPath(__vs)
       def addAllPath(__vs: Iterable[_root_.scala.Int]): Location = copy(path = path ++ __vs)
       def withPath(__v: _root_.scala.Seq[_root_.scala.Int]): Location = copy(path = __v)
-      def clearSpan = copy(span = _root_.scala.Seq.empty)
+      def clearSpan = copy(span = _root_.scala.Vector.empty)
       def addSpan(__vs: _root_.scala.Int *): Location = addAllSpan(__vs)
       def addAllSpan(__vs: Iterable[_root_.scala.Int]): Location = copy(span = span ++ __vs)
       def withSpan(__v: _root_.scala.Seq[_root_.scala.Int]): Location = copy(span = __v)
@@ -337,7 +337,7 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
       def getTrailingComments: _root_.scala.Predef.String = trailingComments.getOrElse("")
       def clearTrailingComments: Location = copy(trailingComments = _root_.scala.None)
       def withTrailingComments(__v: _root_.scala.Predef.String): Location = copy(trailingComments = _root_.scala.Option(__v))
-      def clearLeadingDetachedComments = copy(leadingDetachedComments = _root_.scala.Seq.empty)
+      def clearLeadingDetachedComments = copy(leadingDetachedComments = _root_.scala.Vector.empty)
       def addLeadingDetachedComments(__vs: _root_.scala.Predef.String *): Location = addAllLeadingDetachedComments(__vs)
       def addAllLeadingDetachedComments(__vs: Iterable[_root_.scala.Predef.String]): Location = copy(leadingDetachedComments = leadingDetachedComments ++ __vs)
       def withLeadingDetachedComments(__v: _root_.scala.Seq[_root_.scala.Predef.String]): Location = copy(leadingDetachedComments = __v)
@@ -441,11 +441,11 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.proto
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
     lazy val defaultInstance = com.google.protobuf.descriptor.SourceCodeInfo.Location(
-      path = _root_.scala.Seq.empty,
-      span = _root_.scala.Seq.empty,
+      path = _root_.scala.Vector.empty,
+      span = _root_.scala.Vector.empty,
       leadingComments = _root_.scala.None,
       trailingComments = _root_.scala.None,
-      leadingDetachedComments = _root_.scala.Seq.empty
+      leadingDetachedComments = _root_.scala.Vector.empty
     )
     implicit class LocationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.SourceCodeInfo.Location](_l) {
       def path: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.path)((c_, f_) => c_.copy(path = f_))

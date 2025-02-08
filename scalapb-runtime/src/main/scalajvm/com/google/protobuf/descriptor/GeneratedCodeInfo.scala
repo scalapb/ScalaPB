@@ -14,7 +14,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
   */
 @SerialVersionUID(0L)
 final case class GeneratedCodeInfo(
-    annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scala.Seq.empty,
+    annotation: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[GeneratedCodeInfo] {
     @transient
@@ -46,7 +46,7 @@ final case class GeneratedCodeInfo(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearAnnotation = copy(annotation = _root_.scala.Seq.empty)
+    def clearAnnotation = copy(annotation = _root_.scala.Vector.empty)
     def addAnnotation(__vs: com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation *): GeneratedCodeInfo = addAllAnnotation(__vs)
     def addAllAnnotation(__vs: Iterable[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = annotation ++ __vs)
     def withAnnotation(__v: _root_.scala.Seq[com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation]): GeneratedCodeInfo = copy(annotation = __v)
@@ -123,7 +123,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.GeneratedCodeInfo(
-    annotation = _root_.scala.Seq.empty
+    annotation = _root_.scala.Vector.empty
   )
   /** @param path
     *   Identifies the element in the original source .proto file. This field
@@ -140,7 +140,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
     */
   @SerialVersionUID(0L)
   final case class Annotation(
-      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Seq.empty,
+      path: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
       sourceFile: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
       begin: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
       end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None,
@@ -216,7 +216,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
         };
         unknownFields.writeTo(_output__)
       }
-      def clearPath = copy(path = _root_.scala.Seq.empty)
+      def clearPath = copy(path = _root_.scala.Vector.empty)
       def addPath(__vs: _root_.scala.Int *): Annotation = addAllPath(__vs)
       def addAllPath(__vs: Iterable[_root_.scala.Int]): Annotation = copy(path = path ++ __vs)
       def withPath(__v: _root_.scala.Seq[_root_.scala.Int]): Annotation = copy(path = __v)
@@ -344,7 +344,7 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[com.google.pr
       }
     }
     lazy val defaultInstance = com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation(
-      path = _root_.scala.Seq.empty,
+      path = _root_.scala.Vector.empty,
       sourceFile = _root_.scala.None,
       begin = _root_.scala.None,
       end = _root_.scala.None,

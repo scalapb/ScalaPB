@@ -38,7 +38,11 @@ class CollectionMethods(fd: FieldDescriptor, val implicits: DescriptorImplicits)
   }
 
   def empty: String = adapter match {
-    case None     => s"${fd.collectionType}.empty"
+    case None =>
+      if (fd.collectionType == ScalaSeq)
+        s"${ScalaVector}.empty"
+      else
+        s"${fd.collectionType}.empty"
     case Some(tc) => s"${tc.fullName}.empty"
   }
 

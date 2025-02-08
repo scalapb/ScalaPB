@@ -16,7 +16,7 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class UninterpretedOption(
-    name: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scala.Seq.empty,
+    name: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart] = _root_.scala.Vector.empty,
     identifierValue: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
     positiveIntValue: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None,
     negativeIntValue: _root_.scala.Option[_root_.scala.Long] = _root_.scala.None,
@@ -102,7 +102,7 @@ final case class UninterpretedOption(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearName = copy(name = _root_.scala.Seq.empty)
+    def clearName = copy(name = _root_.scala.Vector.empty)
     def addName(__vs: com.google.protobuf.descriptor.UninterpretedOption.NamePart *): UninterpretedOption = addAllName(__vs)
     def addAllName(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = name ++ __vs)
     def withName(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption.NamePart]): UninterpretedOption = copy(name = __v)
@@ -231,7 +231,7 @@ object UninterpretedOption extends scalapb.GeneratedMessageCompanion[com.google.
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.UninterpretedOption(
-    name = _root_.scala.Seq.empty,
+    name = _root_.scala.Vector.empty,
     identifierValue = _root_.scala.None,
     positiveIntValue = _root_.scala.None,
     negativeIntValue = _root_.scala.None,

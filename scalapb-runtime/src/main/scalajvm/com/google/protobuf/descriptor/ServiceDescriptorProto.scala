@@ -9,7 +9,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 @SerialVersionUID(0L)
 final case class ServiceDescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.Seq.empty,
+    method: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto] = _root_.scala.Vector.empty,
     options: _root_.scala.Option[com.google.protobuf.descriptor.ServiceOptions] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ServiceDescriptorProto] {
@@ -63,7 +63,7 @@ final case class ServiceDescriptorProto(
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: ServiceDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): ServiceDescriptorProto = copy(name = _root_.scala.Option(__v))
-    def clearMethod = copy(method = _root_.scala.Seq.empty)
+    def clearMethod = copy(method = _root_.scala.Vector.empty)
     def addMethod(__vs: com.google.protobuf.descriptor.MethodDescriptorProto *): ServiceDescriptorProto = addAllMethod(__vs)
     def addAllMethod(__vs: Iterable[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = method ++ __vs)
     def withMethod(__v: _root_.scala.Seq[com.google.protobuf.descriptor.MethodDescriptorProto]): ServiceDescriptorProto = copy(method = __v)
@@ -160,7 +160,7 @@ object ServiceDescriptorProto extends scalapb.GeneratedMessageCompanion[com.goog
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
   lazy val defaultInstance = com.google.protobuf.descriptor.ServiceDescriptorProto(
     name = _root_.scala.None,
-    method = _root_.scala.Seq.empty,
+    method = _root_.scala.Vector.empty,
     options = _root_.scala.None
   )
   implicit class ServiceDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ServiceDescriptorProto](_l) {

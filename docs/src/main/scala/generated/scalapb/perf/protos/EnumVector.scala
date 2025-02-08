@@ -5,7 +5,7 @@ package scalapb.perf.protos
 
 @SerialVersionUID(0L)
 final case class EnumVector(
-    colors: _root_.scala.Seq[scalapb.perf.protos.Color] = _root_.scala.Seq.empty,
+    colors: _root_.scala.Seq[scalapb.perf.protos.Color] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumVector] {
     private[this] def colorsSerializedSize = {
@@ -45,7 +45,7 @@ final case class EnumVector(
       };
       unknownFields.writeTo(_output__)
     }
-    def clearColors = copy(colors = _root_.scala.Seq.empty)
+    def clearColors = copy(colors = _root_.scala.Vector.empty)
     def addColors(__vs: scalapb.perf.protos.Color *): EnumVector = addAllColors(__vs)
     def addAllColors(__vs: Iterable[scalapb.perf.protos.Color]): EnumVector = copy(colors = colors ++ __vs)
     def withColors(__v: _root_.scala.Seq[scalapb.perf.protos.Color]): EnumVector = copy(colors = __v)
@@ -117,7 +117,7 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
     }
   }
   lazy val defaultInstance = scalapb.perf.protos.EnumVector(
-    colors = _root_.scala.Seq.empty
+    colors = _root_.scala.Vector.empty
   )
   implicit class EnumVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.EnumVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.EnumVector](_l) {
     def colors: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.perf.protos.Color]] = field(_.colors)((c_, f_) => c_.copy(colors = f_))

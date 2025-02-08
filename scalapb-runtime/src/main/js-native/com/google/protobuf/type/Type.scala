@@ -23,9 +23,9 @@ package com.google.protobuf.`type`
 @SerialVersionUID(0L)
 final case class Type(
     name: _root_.scala.Predef.String = "",
-    fields: _root_.scala.Seq[com.google.protobuf.`type`.Field] = _root_.scala.Seq.empty,
-    oneofs: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Seq.empty,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Seq.empty,
+    fields: _root_.scala.Seq[com.google.protobuf.`type`.Field] = _root_.scala.Vector.empty,
+    oneofs: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     sourceContext: _root_.scala.Option[com.google.protobuf.source_context.SourceContext] = _root_.scala.None,
     syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     edition: _root_.scala.Predef.String = "",
@@ -128,15 +128,15 @@ final case class Type(
       unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Type = copy(name = __v)
-    def clearFields = copy(fields = _root_.scala.Seq.empty)
+    def clearFields = copy(fields = _root_.scala.Vector.empty)
     def addFields(__vs: com.google.protobuf.`type`.Field *): Type = addAllFields(__vs)
     def addAllFields(__vs: Iterable[com.google.protobuf.`type`.Field]): Type = copy(fields = fields ++ __vs)
     def withFields(__v: _root_.scala.Seq[com.google.protobuf.`type`.Field]): Type = copy(fields = __v)
-    def clearOneofs = copy(oneofs = _root_.scala.Seq.empty)
+    def clearOneofs = copy(oneofs = _root_.scala.Vector.empty)
     def addOneofs(__vs: _root_.scala.Predef.String *): Type = addAllOneofs(__vs)
     def addAllOneofs(__vs: Iterable[_root_.scala.Predef.String]): Type = copy(oneofs = oneofs ++ __vs)
     def withOneofs(__v: _root_.scala.Seq[_root_.scala.Predef.String]): Type = copy(oneofs = __v)
-    def clearOptions = copy(options = _root_.scala.Seq.empty)
+    def clearOptions = copy(options = _root_.scala.Vector.empty)
     def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Type = addAllOptions(__vs)
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Type = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Type = copy(options = __v)
@@ -265,9 +265,9 @@ object Type extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`
   }
   lazy val defaultInstance = com.google.protobuf.`type`.Type(
     name = "",
-    fields = _root_.scala.Seq.empty,
-    oneofs = _root_.scala.Seq.empty,
-    options = _root_.scala.Seq.empty,
+    fields = _root_.scala.Vector.empty,
+    oneofs = _root_.scala.Vector.empty,
+    options = _root_.scala.Vector.empty,
     sourceContext = _root_.scala.None,
     syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
     edition = ""
