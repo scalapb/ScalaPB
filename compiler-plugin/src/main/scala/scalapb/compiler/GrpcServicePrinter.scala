@@ -1,5 +1,6 @@
 package scalapb.compiler
 
+import com.google.protobuf.DescriptorProtos.MethodOptions.IdempotencyLevel
 import com.google.protobuf.Descriptors.{MethodDescriptor, ServiceDescriptor}
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scalapb.compiler.ProtobufGenerator.asScalaDocBlock
@@ -177,6 +178,10 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       case StreamType.Bidirectional   => "BIDI_STREAMING"
     }
 
+    val idempotencyLevel = method.getOptions.getIdempotencyLevel
+    val safe             = idempotencyLevel == IdempotencyLevel.NO_SIDE_EFFECTS
+    val idempotent       = idempotencyLevel == IdempotencyLevel.IDEMPOTENT || safe
+
     val grpcMethodDescriptor = "_root_.io.grpc.MethodDescriptor"
 
     p.add(
@@ -188,9 +193,18 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
          |    .setRequestMarshaller(${marshaller(method.inputType)})
          |    .setResponseMarshaller(${marshaller(method.outputType)})
          |    .setSchemaDescriptor(_root_.scalapb.grpc.ConcreteProtoMethodDescriptorSupplier.fromMethodDescriptor(${method.javaDescriptorSource}))
-         |    .build()
-         |""".stripMargin
-    )
+         |""".stripMargin.stripSuffix("\n")
+    ).indented(
+      _.indented(
+        _.when(safe) {
+          _.add(".setSafe(true)")
+        }
+          .when(idempotent) {
+            _.add(".setIdempotent(true)")
+          }
+          .add(".build()")
+      )
+    ).newline
   }
 
   private[this] def serviceDescriptor(service: ServiceDescriptor) = {

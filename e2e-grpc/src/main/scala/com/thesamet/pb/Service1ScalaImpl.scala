@@ -126,4 +126,8 @@ class Service1ScalaImpl extends Service1 {
   }
 
   override def primitiveValues(request: Int): Future[String] = Future.successful("boo")
+
+  override def noSideEffects(request: Req1): Future[Res6] =
+    Future.successful(Res6(Some(request)))
+
 }
