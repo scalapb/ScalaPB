@@ -86,7 +86,7 @@ class ProtobufGenerator(
       .seq(e.unrecognizedAnnotationList)
       .add(
         s"""final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-           |lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(${e.getValues.asScala
+           |${e.V.LazyVal} values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(${e.getValues.asScala
             .map(_.scalaName.asSymbol)
             .mkString(", ")})
            |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin
@@ -948,7 +948,7 @@ class ProtobufGenerator(
   )(printer: FunctionalPrinter): FunctionalPrinter = {
     val myFullScalaName = message.scalaType.fullName
     printer
-      .add(s"lazy val defaultInstance = $myFullScalaName(")
+      .add(s"${message.V.LazyVal} defaultInstance = $myFullScalaName(")
       .indent
       .addWithDelimiter(",")(message.fields.collect {
         case field if !field.isInOneof =>
@@ -1131,7 +1131,7 @@ class ProtobufGenerator(
       message: Descriptor
   )(fp: FunctionalPrinter): FunctionalPrinter = {
     val signature =
-      s"lazy val nestedMessagesCompanions: ${message.V.CompSeqType} ="
+      s"${message.V.LazyVal} nestedMessagesCompanions: ${message.V.CompSeqType} ="
     if (message.nestedTypes.isEmpty)
       fp.add(signature + " Seq.empty")
     else
@@ -1147,7 +1147,7 @@ class ProtobufGenerator(
 
   // Finding companion objects for top-level types.
   def generateMessagesCompanions(file: FileDescriptor)(fp: FunctionalPrinter): FunctionalPrinter = {
-    val signature = s"lazy val messagesCompanions: ${file.V.CompSeqType} ="
+    val signature = s"${file.V.LazyVal} messagesCompanions: ${file.V.CompSeqType} ="
     if (file.getMessageTypes.isEmpty)
       fp.add(signature + " Seq.empty")
     else
@@ -1651,10 +1651,14 @@ class ProtobufGenerator(
       s"object ${file.fileDescriptorObject.nameSymbol} extends _root_.scalapb.GeneratedFileObject {"
     ).indent
       .when(file.getDependencies.isEmpty) {
-        _.add("lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq.empty")
+        _.add(
+          s"${file.V.LazyVal} dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq.empty"
+        )
       }
       .when(!file.getDependencies.isEmpty) {
-        _.add("lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(").indent
+        _.add(
+          s"${file.V.LazyVal} dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq("
+        ).indent
           .addWithDelimiter(",")(
             file.getDependencies.asScala.map(_.fileDescriptorObject.fullName).toSeq
           )
