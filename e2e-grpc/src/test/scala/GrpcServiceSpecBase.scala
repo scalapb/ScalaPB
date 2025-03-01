@@ -34,7 +34,9 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
     withManagedServer(
       InProcessServerBuilder
         .forName(channelName)
-        .addService(Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext))
+        .addService(
+          Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)
+        )
         .build()
     ) {
       val channel = InProcessChannelBuilder
