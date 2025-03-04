@@ -215,7 +215,7 @@ message CreditCardPayment {
     optional int32 expiration_year = 3;
 }
 
-// Represent a payment by credit card
+// Represent a payment by bank transfer
 message BankTransferPayment {
     optional string routing_number = 1;
     optional string account_number = 2;
