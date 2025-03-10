@@ -852,6 +852,8 @@ class DescriptorImplicits private[compiler] (
 
     def unrecognizedAnnotationList: Seq[String] =
       deprecatedAnnotation ++ scalaOptions.getUnrecognizedAnnotationsList().asScala.toSeq
+
+    def V: ScalaCompatConstants = enumDescriptor.getFile.V
   }
 
   implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {
@@ -1206,9 +1208,13 @@ private[scalapb] class ScalaCompatConstants(emitScala3Sources: Boolean) {
 
   val WithOperator: String = if (emitScala3Sources) " & " else " with "
 
-  val MessageLens =
+  val MessageLens: String =
     if (emitScala3Sources) "_root_.scalapb.lenses.MessageLens"
     else "_root_.scalapb.lenses.ObjectLens"
+
+  val LazyVal: String =
+    if (emitScala3Sources) "@scala.annotation.threadUnsafe lazy val"
+    else "lazy val"
 }
 
 object Helper {
