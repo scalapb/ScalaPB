@@ -1270,8 +1270,8 @@ class ProtobufGenerator(
             Seq(fd.getType match {
               case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64()"
               case Type.FLOAT | Type.FIXED32 | Type.SFIXED32  => "_.readFixed32()"
-              case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM |
-                  Type.BOOL | Type.SINT32 | Type.SINT64 =>
+              case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM | Type.BOOL |
+                  Type.SINT32 | Type.SINT64 =>
                 "_.readInt64()"
               case _ =>
                 throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
