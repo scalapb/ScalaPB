@@ -78,7 +78,9 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
       Struct(
         Map(
           "optional_bytes" -> Value(
-            Value.Kind.StringValue(new String(Base64.getEncoder.encode(someBytesValue.toByteArray())))
+            Value.Kind.StringValue(
+              new String(Base64.getEncoder.encode(someBytesValue.toByteArray()))
+            )
           )
         )
       )
