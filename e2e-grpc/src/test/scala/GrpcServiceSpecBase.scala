@@ -2,7 +2,7 @@ import java.util.concurrent.TimeUnit
 import com.thesamet.pb.{Service1Interceptor, Service1JavaImpl, Service1ScalaImpl}
 import com.thesamet.proto.e2e.service.{Service1Grpc => Service1GrpcScala}
 import io.grpc.netty.{NegotiationType, NettyChannelBuilder, NettyServerBuilder}
-import io.grpc.protobuf.services.ProtoReflectionService
+import io.grpc.protobuf.services.ProtoReflectionServiceV1
 import io.grpc.stub.StreamObserver
 import io.grpc.{ManagedChannel, Server}
 import io.grpc.inprocess.{InProcessChannelBuilder, InProcessServerBuilder}
@@ -16,7 +16,7 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
 
   protected[this] final def withScalaServer[T](f: ManagedChannel => T): T = {
     withServer(
-      _.addService(ProtoReflectionService.newInstance())
+      _.addService(ProtoReflectionServiceV1.newInstance())
         .addService(
           Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)
         )
