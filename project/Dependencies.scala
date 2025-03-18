@@ -5,7 +5,7 @@ import Keys._
 object Dependencies {
   object versions {
     val grpc                 = "1.62.2"
-    val protobuf             = "3.25.5"
+    val protobuf             = "3.25.7"
     val silencer             = "1.7.17"
     val collectionCompat     = "2.12.0"
     val coursier             = "2.1.9"
@@ -26,9 +26,9 @@ object Dependencies {
 
   val Scala212 = "2.12.19"
 
-  val Scala213 = "2.13.14"
+  val Scala213 = "2.13.16"
 
-  val Scala3 = "3.3.3"
+  val Scala3 = "3.3.6"
 
   val silencer = Seq(
     sbt.compilerPlugin(
