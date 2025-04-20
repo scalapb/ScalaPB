@@ -22,7 +22,7 @@ addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.9.3")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.8")
 
-addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.10.1")
+addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.7.1")
 
