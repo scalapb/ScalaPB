@@ -457,7 +457,10 @@ lazy val conformance = (projectMatrix in file("conformance"))
     ),
     codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "scalapb-json4s" % "1.0.0-alpha.1" exclude ("com.thesamet.scalapb", "scalapb-runtime_2.13")
+      "com.thesamet.scalapb" %% "scalapb-json4s" % "1.0.0-alpha.1" exclude (
+        "com.thesamet.scalapb",
+        "scalapb-runtime_2.13"
+      )
     ),
     maintainer                 := "thesamet@gmail.com",
     Compile / mainClass        := Some("scalapb.ConformanceScala"),
