@@ -93,7 +93,7 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__)
+          _unknownFields__.parseField(tag, _input__): Unit
       }
     }
     com.google.protobuf.wrappers.FloatValue(

@@ -99,7 +99,7 @@ object OneofOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__)
+          _unknownFields__.parseField(tag, _input__): Unit
       }
     }
     com.google.protobuf.descriptor.OneofOptions(
