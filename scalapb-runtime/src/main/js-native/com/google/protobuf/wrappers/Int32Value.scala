@@ -85,7 +85,7 @@ object Int32Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__): Unit
+          val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
     com.google.protobuf.wrappers.Int32Value(

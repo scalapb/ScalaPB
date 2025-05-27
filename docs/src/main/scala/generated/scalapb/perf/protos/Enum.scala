@@ -78,7 +78,7 @@ object Enum extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.Enum] 
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__): Unit
+          val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
     scalapb.perf.protos.Enum(

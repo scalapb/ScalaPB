@@ -115,7 +115,7 @@ object EnumValueOptions extends scalapb.GeneratedMessageCompanion[scalapb.option
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__): Unit
+          val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
     scalapb.options.EnumValueOptions(
