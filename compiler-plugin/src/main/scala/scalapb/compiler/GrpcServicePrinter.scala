@@ -243,10 +243,11 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
 
         method.streamType match {
           case StreamType.Unary =>
+            val addUsing = if (method.getFile.emitScala3Sources) "using " else ""
             p.add(
               s"""$call((request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]) => {
                  |  $serviceImpl.${method.name}(request).onComplete(scalapb.grpc.Grpc.completeObserver(observer))(
-                 |    $executionContext)
+                 |    $addUsing$executionContext)
                  |}))""".stripMargin
             )
           case StreamType.ServerStreaming =>
