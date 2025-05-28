@@ -74,7 +74,7 @@ object MyContainer extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.j
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
           }
-          _unknownFields__.parseField(tag, _input__)
+          val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
     com.thesamet.docs.json.MyContainer(
