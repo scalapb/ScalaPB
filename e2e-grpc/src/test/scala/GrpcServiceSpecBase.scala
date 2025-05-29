@@ -14,6 +14,7 @@ import org.scalatest.matchers.must.Matchers
 
 abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
 
+  @scala.annotation.nowarn("cat=deprecation")
   protected[this] final def withScalaServer[T](f: ManagedChannel => T): T = {
     withServer(
       _.addService(ProtoReflectionService.newInstance())
