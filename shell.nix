@@ -8,7 +8,7 @@ in
 mkShell {
   buildInputs = [
     sbt
-    openjdk11
+    openjdk17
     nodejs
     yarn
     clang
