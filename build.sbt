@@ -58,12 +58,6 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
     ),
     testFrameworks += new TestFramework("munit.Framework"),
     Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
-    scalacOptions ++= (if (!isScala3.value)
-                         Seq(
-                           "-P:silencer:globalFilters=avaGenerateEqualsAndHash in class .* is deprecated",
-                           "-P:silencer:lineContentFilters=import scala.collection.compat._"
-                         )
-                       else Nil),
     mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "scalapb-runtime" % MimaPreviousVersion),
     mimaBinaryIssueFilters ++= Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.GeneratedEnum.asRecognized"),
@@ -84,7 +78,17 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "jvm-native",
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
-      )
+      ),
+      scalacOptions ++= {
+        CrossVersion.partialVersion(scalaVersion.value) match {
+          case Some((v, n)) if v == 2 && n >= 13 | v == 3 =>
+            Seq(
+              "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
+              "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s"
+            )
+          case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
+        }
+      }
     )
   )
   .jsPlatform(
@@ -257,11 +261,6 @@ lazy val proptest = (projectMatrix in file("proptest"))
       scalaTest.value                                     % "test",
       scalaTestPlusScalaCheck.value                       % "test"
     ),
-    scalacOptions ++= (if (!isScala3.value)
-                         Seq(
-                           "-P:silencer:lineContentFilters=import scala.collection.compat._"
-                         )
-                       else Nil),
     libraryDependencies ++= (if (!isScala3.value)
                                Seq("org.scala-lang" % "scala-compiler" % scalaVersion.value)
                              else
@@ -318,6 +317,19 @@ val e2eCommonSettings = commonSettings ++ Seq(
     (scalaTestPlusScalaCheck.value % "test")
   ),
   Compile / PB.recompile := true, // always regenerate protos, not cache
+  scalacOptions ++= {
+    CrossVersion.partialVersion(scalaVersion.value) match {
+      case Some((v, n)) if v == 2 && n >= 13 | v == 3 =>
+        Seq(
+          "-Wconf:msg=[uU]nused&origin=com.thesamet.pb.MisplacedMapper.weatherMapper:s",
+          "-Wconf:cat=deprecation&src=.*custom_options.*:s",
+          "-Wconf:cat=deprecation&src=.*CustomAnnotationProto.scala.*:s",
+          "-Wconf:cat=deprecation&src=.*TestDeprecatedFields.scala.*:s",
+          "-Wconf:msg=Unused import:s,origin=com.thesamet.proto.e2e.custom_options_use.FooMessage:s"
+        )
+      case _ => Seq.empty
+    }
+  },
   codeGenClasspath       := (compilerPluginJVM2_12 / Compile / fullClasspath).value
 )
 
@@ -329,12 +341,6 @@ lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
   .settings(e2eCommonSettings)
   .settings(
     libraryDependencies += (grpcProtocGen asProtocPlugin),
-    scalacOptions ++= (if (!isScala3.value)
-                         Seq(
-                           "-P:silencer:pathFilters=ServerReflectionGrpc.scala;ReflectionProto.scala",
-                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-                         )
-                       else Nil),
     Compile / PB.protoSources += (Compile / PB.externalIncludePath).value / "grpc" / "reflection",
     Compile / PB.targets := Seq(
       PB.gens.java(versions.protobuf) -> (Compile / sourceManaged).value,
@@ -352,13 +358,6 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
   .dependsOn(runtime)
   .enablePlugins(LocalCodeGenPlugin)
   .settings(e2eCommonSettings)
-  .settings(
-    scalacOptions ++= (if (!isScala3.value)
-                         Seq(
-                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-                         )
-                       else Nil)
-  )
   .jvmPlatform(
     Seq(Scala212, Scala213, Scala3),
     settings = Seq(
@@ -368,7 +367,7 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
           genModule("scalapb.ScalaPbCodeGenerator$"),
           Seq("java_conversions")
         ) -> (Compile / sourceManaged).value
-      )
+      ),
     )
   )
   .jsPlatform(
@@ -433,13 +432,6 @@ lazy val e2e = (projectMatrix in file("e2e"))
   )
   .settings(e2eCommonSettings)
   .settings(
-    scalacOptions ++= (if (!isScala3.value)
-                         Seq(
-                           "-P:silencer:globalFilters=value deprecatedInt32 in class TestDeprecatedFields is deprecated",
-                           "-P:silencer:pathFilters=custom_options_use;CustomAnnotationProto.scala;TestDeprecatedFields.scala",
-                           "-P:silencer:lineContentFilters=import com.thesamet.pb.MisplacedMapper.weatherMapper"
-                         )
-                       else Nil),
     Compile / PB.protoSources ++= (if (isScala3.value)
                                      Seq(sourceDirectory.value / "main" / "protobuf-scala3")
                                    else Nil),
