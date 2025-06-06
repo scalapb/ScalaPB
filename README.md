@@ -90,19 +90,18 @@ the reference implementation in Java.
 
 Running the tests:
 
-    $ sbt test
+    sbt test
 
 The tests take a few minutes to run. There is a smaller test suite called
 `e2e` that uses the sbt plugin to compile the protos and runs a series of
 ScalaChecks on the outputs. To run it:
 
-    $ ./e2e.sh
+    ./e2e.sh
 
 # Sponsors
 
 We are very thankful to our sponsors:
 
-- [Pentech Ltd](https://github.com/PentechLtd)
 - [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
 - [Andrew Selvia](https://github.com/andrew-selvia)
 - [Ahmad Ragab](https://github.com/ASRagab)

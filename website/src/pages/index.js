@@ -66,8 +66,10 @@ const features = [
 ];
 
 const sponsors = [{
-  name: <>Pentech Ltd</>,
-  profileUrl: 'https://github.com/PentechLtd'
+  /*
+  name: <>Example Ltd</>,
+  profileUrl: 'https://github.com/example'
+  */
 }];
 
 function Feature({imageUrl, title, description}) {
@@ -135,7 +137,7 @@ function Home() {
               {sponsors.map((props, idx) => (
                 <Sponsor key={idx} {...props} />
               ))}
-            <a href="https://github.com/sponsors/thesamet">Become a sponsor.</a>
+            <a href="https://github.com/sponsors/thesamet">Become a sponsor to appear here!</a>
           </div>
         </section>
       </main>
