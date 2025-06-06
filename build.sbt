@@ -81,7 +81,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       ),
       scalacOptions ++= {
         CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((v, n)) if v == 2 && n >= 13 | v == 3 =>
+          case Some((2, _)) =>
             Seq(
               "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
               "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s"
@@ -319,7 +319,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
   Compile / PB.recompile := true, // always regenerate protos, not cache
   scalacOptions ++= {
     CrossVersion.partialVersion(scalaVersion.value) match {
-      case Some((v, n)) if v == 2 && n >= 13 | v == 3 =>
+      case Some((2, _)) =>
         Seq(
           "-Wconf:msg=[uU]nused&origin=com.thesamet.pb.MisplacedMapper.weatherMapper:s",
           "-Wconf:cat=deprecation&src=.*custom_options.*:s",
