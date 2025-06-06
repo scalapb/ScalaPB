@@ -271,7 +271,17 @@ lazy val proptest = (projectMatrix in file("proptest"))
     publish / skip       := true,
     Test / fork          := true,
     Test / baseDirectory := (LocalRootProject / baseDirectory).value,
-    Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M")
+    Test / javaOptions ++= Seq("-Xmx2G", "-XX:MetaspaceSize=256M"),
+    scalacOptions ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, _)) =>
+          Seq(
+            "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
+            "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s"
+          )
+        case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
+      }
+    }
   )
 
 lazy val lenses = (projectMatrix in file("lenses"))
