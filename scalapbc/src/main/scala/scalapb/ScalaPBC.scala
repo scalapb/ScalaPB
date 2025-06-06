@@ -5,7 +5,6 @@ import java.io.File
 import protocbridge.{ProtocBridge, ProtocCodeGenerator}
 import coursier.parse.DependencyParser
 import coursier.core.Configuration
-import com.github.ghik.silencer.silent
 import coursier.core.Dependency
 import java.net.URLClassLoader
 import java.util.jar.JarInputStream
@@ -73,7 +72,6 @@ object ScalaPBC {
       .cfg
   }
 
-  @silent("method right in class Either is deprecated")
   def fetchArtifact(artifact: String): Either[String, (Dependency, Seq[File])] = {
     import coursier._
     for {
@@ -83,7 +81,6 @@ object ScalaPBC {
           scala.util.Properties.versionNumberString,
           Configuration.empty
         )
-        .right
       runResult = Fetch().addDependencies(dep).run()
       outcome <-
         if (runResult.isEmpty) Left(s"Could not find artifact for $artifact")
@@ -122,7 +119,6 @@ object ScalaPBC {
     }
   }
 
-  @silent("method right in class Either is deprecated")
   private[scalapb] def runProtoc(config: Config): Int = {
     if (
       config.namedGenerators
