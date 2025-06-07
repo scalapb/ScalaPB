@@ -64,7 +64,17 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       ProblemFilters.exclude[InheritedNewAbstractMethodProblem]("*Extension*"),
       ProblemFilters.exclude[Problem]("scalapb.options.*"),
       ProblemFilters.exclude[FinalMethodProblem]("*.parseFrom")
-    )
+    ),
+    scalacOptions ++= {
+      CrossVersion.partialVersion(scalaVersion.value) match {
+        case Some((2, _)) =>
+          Seq(
+            "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
+            "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s"
+          )
+        case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
+      }
+    }
   )
   .jvmPlatform(
     scalaVersions = Seq(Scala212, Scala213, Scala3),
@@ -79,16 +89,6 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
       ),
-      scalacOptions ++= {
-        CrossVersion.partialVersion(scalaVersion.value) match {
-          case Some((2, _)) =>
-            Seq(
-              "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
-              "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s"
-            )
-          case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
-        }
-      }
     )
   )
   .jsPlatform(
