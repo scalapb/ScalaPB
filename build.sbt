@@ -88,7 +88,7 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / "jvm-native",
       Compile / PB.protoSources := Seq(
         (LocalRootProject / baseDirectory).value / "protobuf"
-      ),
+      )
     )
   )
   .jsPlatform(
@@ -341,7 +341,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
       case _ => Seq.empty
     }
   },
-  codeGenClasspath       := (compilerPluginJVM2_12 / Compile / fullClasspath).value
+  codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value
 )
 
 lazy val e2eGrpc = (projectMatrix in file("e2e-grpc"))
@@ -378,7 +378,7 @@ lazy val e2eWithJava = (projectMatrix in file("e2e-withjava"))
           genModule("scalapb.ScalaPbCodeGenerator$"),
           Seq("java_conversions")
         ) -> (Compile / sourceManaged).value
-      ),
+      )
     )
   )
   .jsPlatform(
