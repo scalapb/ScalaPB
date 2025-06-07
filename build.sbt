@@ -335,6 +335,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
           "-Wconf:cat=deprecation&src=.*custom_options.*:s",
           "-Wconf:cat=deprecation&src=.*CustomAnnotationProto.scala.*:s",
           "-Wconf:cat=deprecation&src=.*TestDeprecatedFields.scala.*:s",
+          "-Wconf:cat=deprecation&origin=.*ServerReflectionProto.*:s",
           "-Wconf:msg=Unused import:s,origin=com.thesamet.proto.e2e.custom_options_use.FooMessage:s"
         )
       case _ => Seq.empty
