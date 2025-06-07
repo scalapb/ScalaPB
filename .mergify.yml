@@ -1,7 +1,11 @@
 queue_rules:
   - name: default
-    conditions:
+    queue_conditions:
+      - author=scala-steward
       - check-success=ci-passed
+    merge_conditions:
+      - check-success=ci-passed
+    merge_method: squash
 
 pull_request_rules:
   - name: assign and label scala-steward's PRs
@@ -13,10 +17,6 @@ pull_request_rules:
       label:
         add: [dependency-update]
   - name: merge scala-steward's PRs
-    conditions:
-      - author=scala-steward
-      - check-success=ci-passed
+    conditions: []
     actions:
       queue:
-        method: squash
-        name: default
