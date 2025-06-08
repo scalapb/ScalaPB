@@ -14,10 +14,19 @@
 - Add `using` as a reserved keyword (#1666)
 - Deprecate undocumented getFieldByNumber in favor of the PValue-based API (#1669)
 
+## [0.11.17]
+- Update to Scala 2.13.14
+- Update scala-native to 0.5.2
+
 ## [0.11.16]
 - sealed_oneof_companion_extends is handled also for optional sealed oneofs (#1639)
 - added sealed_oneof_empty_extends to add trait to the empty case object of
   sealed oneofs (#1640)
+- Add `using` as a reserved keyword (#1666)
+- Deprecate undocumented getFieldByNumber in favor of the PValue-based API (#1669)
+- Bump scala-native to 0.5.1
+- Bump Scala.js to 1.16.0
+
 
 ## [0.11.15]
 - When more than one enum values share the same number, the first one would
@@ -25,7 +34,7 @@
   referencing the case object. This is consistent with the Java behavior (#1611)
 - `Option` now rendered as `_root_.scala.Option` to resolve name conflicts (#1623)
 - scalapb-runtime-grpc: optimize Marshaller for InProcessTransport (#1615)
-  
+
 ## [0.11.14]
 - Repeated extensions can now use arbitrary iterable types or any collection type there is a
   CollectionAdapter for (#1509)

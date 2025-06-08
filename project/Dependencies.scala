@@ -4,10 +4,8 @@ import Keys._
 
 object Dependencies {
   object versions {
-
     val grpc                 = "1.73.0"
     val protobuf             = "4.28.3"
-    val silencer             = "1.7.19"
     val collectionCompat     = "2.13.0"
     val coursier             = "2.1.24"
     val protocGen            = "0.9.9"
@@ -30,13 +28,6 @@ object Dependencies {
   val Scala213 = "2.13.16"
 
   val Scala3 = "3.3.6"
-
-  val silencer = Seq(
-    sbt.compilerPlugin(
-      "com.github.ghik" % "silencer-plugin" % versions.silencer cross CrossVersion.full
-    ),
-    "com.github.ghik" % "silencer-lib" % versions.silencer % Provided cross CrossVersion.full
-  )
 
   val protobufJava = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val scalaCollectionCompat = Def.setting {
