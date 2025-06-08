@@ -8,7 +8,7 @@ addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.11.1")
 
 addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
-addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.7")
+addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.8")
 
 addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.4")
 
@@ -16,7 +16,7 @@ addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.5.0")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.4")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.7")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.8")
 
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.9.3")
 
