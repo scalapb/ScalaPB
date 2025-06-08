@@ -70,7 +70,8 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
         case Some((2, _)) =>
           Seq(
             "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
-            "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s"
+            "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s",
+            "-Wconf:cat=deprecation&msg=.*[dD]eprecatedLegacyJsonFieldConflicts:s"
           )
         case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
       }
@@ -277,7 +278,8 @@ lazy val proptest = (projectMatrix in file("proptest"))
         case Some((2, _)) =>
           Seq(
             "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
-            "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s"
+            "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s",
+            "-Wconf:cat=deprecation&msg=.*[dD]eprecatedLegacyJsonFieldConflicts:s"
           )
         case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
       }
