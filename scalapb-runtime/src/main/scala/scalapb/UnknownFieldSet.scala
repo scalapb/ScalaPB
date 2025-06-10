@@ -69,9 +69,9 @@ object UnknownFieldSet {
   }
 
   object Field {
-    val varintLens  = Lens[Field, Seq[Long]](_.varint)((c, v) => c.copy(varint = v))
-    val fixed64Lens = Lens[Field, Seq[Long]](_.fixed64)((c, v) => c.copy(fixed64 = v))
-    val fixed32Lens = Lens[Field, Seq[Int]](_.fixed32)((c, v) => c.copy(fixed32 = v))
+    val varintLens          = Lens[Field, Seq[Long]](_.varint)((c, v) => c.copy(varint = v))
+    val fixed64Lens         = Lens[Field, Seq[Long]](_.fixed64)((c, v) => c.copy(fixed64 = v))
+    val fixed32Lens         = Lens[Field, Seq[Int]](_.fixed32)((c, v) => c.copy(fixed32 = v))
     val lengthDelimitedLens =
       Lens[Field, Seq[ByteString]](_.lengthDelimited)((c, v) => c.copy(lengthDelimited = v))
 
