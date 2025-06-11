@@ -12,7 +12,7 @@ lazy val root = project
     crossScalaVersions         := Seq(Scala213, Scala212),
     scalaVersion               := Scala213,
     Compile / PB.protocVersion := "-v" + ProtobufJavaVersion,
-    Compile / PB.targets := Seq(
+    Compile / PB.targets       := Seq(
       PB.gens.java(ProtobufJavaVersion)   -> (Compile / sourceManaged).value / "protos",
       scalapb.gen(javaConversions = true) -> (Compile / sourceManaged).value / "protos"
     ),

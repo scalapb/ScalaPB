@@ -209,7 +209,7 @@ class DescriptorImplicits private[compiler] (
         fd.getName match {
           case ("number" | "value") if fd.isInOneof => "_" + fd.getName
           case "serialized_size"                    => "_serializedSize"
-          case x =>
+          case x                                    =>
             getNameWithFallback(x, Case.CamelCase, Appendage.Prefix)
         }
 
@@ -389,7 +389,7 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING      => "_root_.scala.Predef.String"
-      case FieldDescriptor.JavaType.MESSAGE =>
+      case FieldDescriptor.JavaType.MESSAGE     =>
         fd.getMessageType.scalaType
           .fullNameWithMaybeRoot(fd.getContainingType.fields.map(_.scalaName))
       case FieldDescriptor.JavaType.ENUM =>
@@ -511,7 +511,7 @@ class DescriptorImplicits private[compiler] (
     def scalaType: ScalaName = {
       val name = message.getName match {
         case "Option" => "OptionProto"
-        case name =>
+        case name     =>
           if (message.isSealedOneofType) name + OneofMessageSuffix
           else name
       }
@@ -783,7 +783,7 @@ class DescriptorImplicits private[compiler] (
 
     lazy val scalaType: ScalaName = {
       val name: String = enumDescriptor.getName match {
-        case "Option" => "OptionEnum"
+        case "Option"    => "OptionEnum"
         case "ValueType" =>
           "ValueTypeEnum" // Issue 348, conflicts with "type ValueType" in GeneratedEnumCompanion.
         case n => n
@@ -1057,7 +1057,7 @@ class DescriptorImplicits private[compiler] (
 
     /** Returns a vector with all messages (both top-level and nested) in the file. */
     def allMessages: Vector[Descriptor] = {
-      val messages = Vector.newBuilder[Descriptor]
+      val messages                          = Vector.newBuilder[Descriptor]
       def visitMessage(d: Descriptor): Unit = {
         messages += d
         d.getNestedTypes.asScala.foreach(visitMessage)

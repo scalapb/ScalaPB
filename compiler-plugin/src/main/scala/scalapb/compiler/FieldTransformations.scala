@@ -77,7 +77,7 @@ private[compiler] object FieldTransformations {
           transformation.whenFields,
           ExtensionResolutionContext(currentFile, transformation.extensions)
         )
-      case MatchType.EXACT => input == transformation.whenFields
+      case MatchType.EXACT    => input == transformation.whenFields
       case MatchType.PRESENCE =>
         matchPresence(
           input,
@@ -154,7 +154,7 @@ private[compiler] object FieldTransformations {
   ): Seq[AuxFieldOptions] =
     if (transforms.isEmpty) Seq.empty
     else {
-      val extensions: Set[FieldDescriptor] = fieldExtensionsForFile(f)
+      val extensions: Set[FieldDescriptor]  = fieldExtensionsForFile(f)
       def processFile: Seq[AuxFieldOptions] =
         f.getMessageTypes().asScala.flatMap(processMessage(_)).toSeq
 
@@ -283,7 +283,7 @@ private[compiler] object FieldTransformations {
   ): Either[String, String] = {
     for {
       fieldName <- path.headOption.toRight("Got an empty path")
-      fd <-
+      fd        <-
         if (fieldName.startsWith("["))
           context.extensions
             .find(_.getFullName == fieldName.substring(1, fieldName.length() - 1))
@@ -317,7 +317,7 @@ private[compiler] object FieldTransformations {
         else Right(())
       v = if (fd.isExtension) getExtensionField(message, fd) else message.getField(fd)
       res <- path match {
-        case _ :: Nil => Right(v.toString())
+        case _ :: Nil  => Right(v.toString())
         case _ :: tail =>
           if (fd.getType() == Type.MESSAGE)
             fieldByPath(v.asInstanceOf[Message], tail, allPath, context)
