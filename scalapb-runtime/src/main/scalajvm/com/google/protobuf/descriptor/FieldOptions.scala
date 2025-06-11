@@ -354,7 +354,8 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     editionDefaults = javaPbSource.getEditionDefaultsList.asScala.iterator.map(com.google.protobuf.descriptor.FieldOptions.EditionDefault.fromJavaProto(_)).toSeq,
     features = if (javaPbSource.hasFeatures) Some(com.google.protobuf.descriptor.FeatureSet.fromJavaProto(javaPbSource.getFeatures)) else _root_.scala.None,
     featureSupport = if (javaPbSource.hasFeatureSupport) Some(com.google.protobuf.descriptor.FieldOptions.FeatureSupport.fromJavaProto(javaPbSource.getFeatureSupport)) else _root_.scala.None,
-    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq
+    uninterpretedOption = javaPbSource.getUninterpretedOptionList.asScala.iterator.map(com.google.protobuf.descriptor.UninterpretedOption.fromJavaProto(_)).toSeq,
+    unknownFields = UnknownFieldSetProto.fromJavaProto(javaPbSource.getUnknownFields)
   )
   def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FieldOptions = {
     var __ctype: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.CType] = _root_.scala.None
@@ -1234,4 +1235,19 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     uninterpretedOption
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FieldOptions])
+
+  object UnknownFieldSetProto {
+    def fromJavaProto(javaUnknownFieldSet: com.google.protobuf.UnknownFieldSet): _root_.scalapb.UnknownFieldSet = {
+      javaUnknownFieldSet.asMap.asScala.foldLeft(_root_.scalapb.UnknownFieldSet.empty) {
+        case (aggregator, (key, field)) =>
+          aggregator.withField(key.toInt, new _root_.scalapb.UnknownFieldSet.Field(
+            varint = field.getVarintList.asScala.map(Long2long).toSeq,
+            fixed64 = field.getFixed64List.asScala.map(Long2long).toSeq,
+            fixed32 = field.getFixed32List.asScala.map(_.toInt).toSeq,
+            lengthDelimited = field.getLengthDelimitedList.asScala.toSeq,
+          )
+        )
+      }
+    }
+  }
 }
