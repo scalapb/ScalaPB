@@ -12,7 +12,7 @@ import scala.jdk.CollectionConverters._
 
 trait ProtocInvocationHelper {
   def generateFileSet(files: Seq[(String, String)]): Seq[FileDescriptor] = {
-    val tmpDir = Files.createTempDirectory("validation").toFile
+    val tmpDir    = Files.createTempDirectory("validation").toFile
     val fileNames = files.map { case (name, content) =>
       val file = new File(tmpDir, name)
       val pw   = new PrintWriter(file)
