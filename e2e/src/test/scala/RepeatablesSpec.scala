@@ -119,7 +119,7 @@ class RepeatablesSpec extends AnyFlatSpec with ScalaCheckDrivenPropertyChecks wi
     forAll(Gen.listOf(repGen)) { list =>
       val os = new ByteArrayOutputStream()
       list.foreach(_.writeDelimitedTo(os))
-      val bytes = os.toByteArray
+      val bytes        = os.toByteArray
       val parsedStream =
         RepeatablesTest.streamFromDelimitedInput(new ByteArrayInputStream(bytes)).toList
       val parsedInputStream = {
