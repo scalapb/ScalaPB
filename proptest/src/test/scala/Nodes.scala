@@ -60,9 +60,9 @@ object Nodes {
     def maxEnumId = Try(files.flatMap(_.maxEnumId).max).toOption
 
     def resolveProtoTypeName(t: GenTypes.ProtoType): String = t match {
-      case Primitive(name, _, _, _) => name
-      case MessageReference(id)     => fullMessageNameParts(id).mkString(".")
-      case EnumReference(id)        => fullEnumNameParts(id).mkString(".")
+      case Primitive(name, _, _, _)    => name
+      case MessageReference(id)        => fullMessageNameParts(id).mkString(".")
+      case EnumReference(id)           => fullEnumNameParts(id).mkString(".")
       case MapType(keyType, valueType) =>
         s"map<${resolveProtoTypeName(keyType)}, ${resolveProtoTypeName(valueType)}>"
     }
@@ -324,7 +324,7 @@ object Nodes {
         printer: compiler.FunctionalPrinter
     ): compiler.FunctionalPrinter =
       if (!oneOfGroup.isOneof) {
-        val packed = if (fieldOptions.isPacked) " [packed = true]" else ""
+        val packed   = if (fieldOptions.isPacked) " [packed = true]" else ""
         val modifier = if (fileNode.protoSyntax.isProto2) {
           if (fieldType.isMap) "" else fieldOptions.modifier.toString + " "
         } else {
