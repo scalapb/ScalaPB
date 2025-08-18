@@ -1,6 +1,6 @@
 queue_rules:
   - name: default
-    conditions:
+    queue_conditions:
       - check-success=ci-passed
 
 pull_request_rules:
