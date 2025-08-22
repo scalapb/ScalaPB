@@ -17,6 +17,9 @@ import _root_.scalapb.internal.compat.JavaConverters._
   * @param weakDependency
   *   Indexes of the weak imported files in the dependency list.
   *   For Google-internal migration only. Do not use.
+  * @param optionDependency
+  *   Names of files imported by this file purely for the purpose of providing
+  *   option extensions. These are excluded from the dependency list above.
   * @param messageType
   *   All top-level definitions in this file.
   * @param sourceCodeInfo
@@ -29,8 +32,14 @@ import _root_.scalapb.internal.compat.JavaConverters._
   *   The supported values are "proto2", "proto3", and "editions".
   *  
   *   If `edition` is present, this value must be "editions".
+  *   WARNING: This field should only be used by protobuf plugins or special
+  *   cases like the proto compiler. Other uses are discouraged and
+  *   developers should rely on the protoreflect APIs for their client language.
   * @param edition
   *   The edition of the proto file.
+  *   WARNING: This field should only be used by protobuf plugins or special
+  *   cases like the proto compiler. Other uses are discouraged and
+  *   developers should rely on the protoreflect APIs for their client language.
   */
 @SerialVersionUID(0L)
 final case class FileDescriptorProto(
@@ -39,6 +48,7 @@ final case class FileDescriptorProto(
     dependency: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     publicDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
     weakDependency: _root_.scala.Seq[_root_.scala.Int] = _root_.scala.Vector.empty,
+    optionDependency: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto] = _root_.scala.Vector.empty,
     enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto] = _root_.scala.Vector.empty,
     service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto] = _root_.scala.Vector.empty,
@@ -72,6 +82,10 @@ final case class FileDescriptorProto(
       weakDependency.foreach { __item =>
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeInt32Size(11, __value)
+      }
+      optionDependency.foreach { __item =>
+        val __value = __item
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(15, __value)
       }
       messageType.foreach { __item =>
         val __value = __item
@@ -182,6 +196,10 @@ final case class FileDescriptorProto(
         val __m = __v.value
         _output__.writeEnum(14, __m)
       };
+      optionDependency.foreach { __v =>
+        val __m = __v
+        _output__.writeString(15, __m)
+      };
       unknownFields.writeTo(_output__)
     }
     def getName: _root_.scala.Predef.String = name.getOrElse("")
@@ -202,6 +220,10 @@ final case class FileDescriptorProto(
     def addWeakDependency(__vs: _root_.scala.Int *): FileDescriptorProto = addAllWeakDependency(__vs)
     def addAllWeakDependency(__vs: Iterable[_root_.scala.Int]): FileDescriptorProto = copy(weakDependency = weakDependency ++ __vs)
     def withWeakDependency(__v: _root_.scala.Seq[_root_.scala.Int]): FileDescriptorProto = copy(weakDependency = __v)
+    def clearOptionDependency = copy(optionDependency = _root_.scala.Vector.empty)
+    def addOptionDependency(__vs: _root_.scala.Predef.String *): FileDescriptorProto = addAllOptionDependency(__vs)
+    def addAllOptionDependency(__vs: Iterable[_root_.scala.Predef.String]): FileDescriptorProto = copy(optionDependency = optionDependency ++ __vs)
+    def withOptionDependency(__v: _root_.scala.Seq[_root_.scala.Predef.String]): FileDescriptorProto = copy(optionDependency = __v)
     def clearMessageType = copy(messageType = _root_.scala.Vector.empty)
     def addMessageType(__vs: com.google.protobuf.descriptor.DescriptorProto *): FileDescriptorProto = addAllMessageType(__vs)
     def addAllMessageType(__vs: Iterable[com.google.protobuf.descriptor.DescriptorProto]): FileDescriptorProto = copy(messageType = messageType ++ __vs)
@@ -239,6 +261,7 @@ final case class FileDescriptorProto(
         case 3 => dependency
         case 10 => publicDependency
         case 11 => weakDependency
+        case 15 => optionDependency
         case 4 => messageType
         case 5 => enumType
         case 6 => service
@@ -257,6 +280,7 @@ final case class FileDescriptorProto(
         case 3 => _root_.scalapb.descriptors.PRepeated(dependency.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 10 => _root_.scalapb.descriptors.PRepeated(publicDependency.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
         case 11 => _root_.scalapb.descriptors.PRepeated(weakDependency.iterator.map(_root_.scalapb.descriptors.PInt(_)).toVector)
+        case 15 => _root_.scalapb.descriptors.PRepeated(optionDependency.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 4 => _root_.scalapb.descriptors.PRepeated(messageType.iterator.map(_.toPMessage).toVector)
         case 5 => _root_.scalapb.descriptors.PRepeated(enumType.iterator.map(_.toPMessage).toVector)
         case 6 => _root_.scalapb.descriptors.PRepeated(service.iterator.map(_.toPMessage).toVector)
@@ -281,6 +305,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     javaPbOut.addAllDependency(scalaPbSource.dependency.asJava)
     javaPbOut.addAllPublicDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.publicDependency.iterator.map(_root_.scala.Int.box(_))).asJava)
     javaPbOut.addAllWeakDependency(_root_.scalapb.internal.compat.toIterable(scalaPbSource.weakDependency.iterator.map(_root_.scala.Int.box(_))).asJava)
+    javaPbOut.addAllOptionDependency(scalaPbSource.optionDependency.asJava)
     javaPbOut.addAllMessageType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.messageType.iterator.map(com.google.protobuf.descriptor.DescriptorProto.toJavaProto(_))).asJava)
     javaPbOut.addAllEnumType(_root_.scalapb.internal.compat.toIterable(scalaPbSource.enumType.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.toJavaProto(_))).asJava)
     javaPbOut.addAllService(_root_.scalapb.internal.compat.toIterable(scalaPbSource.service.iterator.map(com.google.protobuf.descriptor.ServiceDescriptorProto.toJavaProto(_))).asJava)
@@ -297,6 +322,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     dependency = javaPbSource.getDependencyList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
     publicDependency = javaPbSource.getPublicDependencyList.asScala.iterator.map(_.intValue).toSeq,
     weakDependency = javaPbSource.getWeakDependencyList.asScala.iterator.map(_.intValue).toSeq,
+    optionDependency = javaPbSource.getOptionDependencyList.asScala.iterator.map(_root_.scala.Predef.identity).toSeq,
     messageType = javaPbSource.getMessageTypeList.asScala.iterator.map(com.google.protobuf.descriptor.DescriptorProto.fromJavaProto(_)).toSeq,
     enumType = javaPbSource.getEnumTypeList.asScala.iterator.map(com.google.protobuf.descriptor.EnumDescriptorProto.fromJavaProto(_)).toSeq,
     service = javaPbSource.getServiceList.asScala.iterator.map(com.google.protobuf.descriptor.ServiceDescriptorProto.fromJavaProto(_)).toSeq,
@@ -312,6 +338,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     val __dependency: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     val __publicDependency: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int]
     val __weakDependency: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int]
+    val __optionDependency: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     val __messageType: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.DescriptorProto]
     val __enumType: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.EnumDescriptorProto]
     val __service: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.ServiceDescriptorProto]
@@ -352,6 +379,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
           }
           _input__.popLimit(oldLimit)
         }
+        case 122 =>
+          __optionDependency += _input__.readStringRequireUtf8()
         case 34 =>
           __messageType += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.DescriptorProto](_input__)
         case 42 =>
@@ -381,6 +410,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         dependency = __dependency.result(),
         publicDependency = __publicDependency.result(),
         weakDependency = __weakDependency.result(),
+        optionDependency = __optionDependency.result(),
         messageType = __messageType.result(),
         enumType = __enumType.result(),
         service = __service.result(),
@@ -401,6 +431,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
         dependency = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         publicDependency = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.Seq.empty),
         weakDependency = __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.Seq.empty),
+        optionDependency = __fieldsMap.get(scalaDescriptor.findFieldByNumber(15).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         messageType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
         enumType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
         service = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]]).getOrElse(_root_.scala.Seq.empty),
@@ -438,6 +469,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     dependency = _root_.scala.Vector.empty,
     publicDependency = _root_.scala.Vector.empty,
     weakDependency = _root_.scala.Vector.empty,
+    optionDependency = _root_.scala.Vector.empty,
     messageType = _root_.scala.Vector.empty,
     enumType = _root_.scala.Vector.empty,
     service = _root_.scala.Vector.empty,
@@ -455,6 +487,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     def dependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.dependency)((c_, f_) => c_.copy(dependency = f_))
     def publicDependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.publicDependency)((c_, f_) => c_.copy(publicDependency = f_))
     def weakDependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.weakDependency)((c_, f_) => c_.copy(weakDependency = f_))
+    def optionDependency: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.optionDependency)((c_, f_) => c_.copy(optionDependency = f_))
     def messageType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto]] = field(_.messageType)((c_, f_) => c_.copy(messageType = f_))
     def enumType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
     def service: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto]] = field(_.service)((c_, f_) => c_.copy(service = f_))
@@ -473,6 +506,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
   final val DEPENDENCY_FIELD_NUMBER = 3
   final val PUBLIC_DEPENDENCY_FIELD_NUMBER = 10
   final val WEAK_DEPENDENCY_FIELD_NUMBER = 11
+  final val OPTION_DEPENDENCY_FIELD_NUMBER = 15
   final val MESSAGE_TYPE_FIELD_NUMBER = 4
   final val ENUM_TYPE_FIELD_NUMBER = 5
   final val SERVICE_FIELD_NUMBER = 6
@@ -487,6 +521,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     dependency: _root_.scala.Seq[_root_.scala.Predef.String],
     publicDependency: _root_.scala.Seq[_root_.scala.Int],
     weakDependency: _root_.scala.Seq[_root_.scala.Int],
+    optionDependency: _root_.scala.Seq[_root_.scala.Predef.String],
     messageType: _root_.scala.Seq[com.google.protobuf.descriptor.DescriptorProto],
     enumType: _root_.scala.Seq[com.google.protobuf.descriptor.EnumDescriptorProto],
     service: _root_.scala.Seq[com.google.protobuf.descriptor.ServiceDescriptorProto],
@@ -501,6 +536,7 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.
     dependency,
     publicDependency,
     weakDependency,
+    optionDependency,
     messageType,
     enumType,
     service,

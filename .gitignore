@@ -1,6 +1,7 @@
 .vscode/
 .bloop/
 .metals/
+.direnv
 project/.bloop/
 metals.sbt
 

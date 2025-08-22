@@ -56,7 +56,7 @@ import _root_.scalapb.internal.compat.JavaConverters._
 final case class SourceCodeInfo(
     location: _root_.scala.Seq[com.google.protobuf.descriptor.SourceCodeInfo.Location] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SourceCodeInfo] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[SourceCodeInfo] with _root_.scalapb.ExtendableMessage[SourceCodeInfo] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
     private[this] def __computeSerializedSize(): _root_.scala.Int = {

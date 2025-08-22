@@ -10,7 +10,7 @@ package com.google.protobuf.descriptor
 final case class FileDescriptorSet(
     file: _root_.scala.Seq[com.google.protobuf.descriptor.FileDescriptorProto] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
-    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorSet] {
+    ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FileDescriptorSet] with _root_.scalapb.ExtendableMessage[FileDescriptorSet] {
     @transient
     private[this] var __serializedSizeMemoized: _root_.scala.Int = 0
     private[this] def __computeSerializedSize(): _root_.scala.Int = {
