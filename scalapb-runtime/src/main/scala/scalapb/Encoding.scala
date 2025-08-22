@@ -31,7 +31,7 @@ object Encoding {
   private def fromBase64Inner(input: String): Array[Byte] = {
     require(input.length % 4 == 0)
     val lastEqualsIndex = input.indexOf('=')
-    val outputLength = (input.length * 3) / 4 - (if (lastEqualsIndex > 0)
+    val outputLength    = (input.length * 3) / 4 - (if (lastEqualsIndex > 0)
                                                    (input.length() - lastEqualsIndex)
                                                  else 0)
     val builder = mutable.ArrayBuilder.make[Byte]
