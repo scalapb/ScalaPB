@@ -186,11 +186,15 @@ class ProtobufGenerator(
             .mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
       case FieldDescriptor.JavaType.STRING => escapeScalaString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
+        val contextNames = field.getContainingType.fields.map(_.scalaName) ++
+          field.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
         field.getMessageType.scalaType
-          .fullNameWithMaybeRoot(field.getContainingType) + ".defaultInstance"
+          .fullNameWithMaybeRoot(contextNames) + ".defaultInstance"
       case FieldDescriptor.JavaType.ENUM =>
+        val contextNames = field.getContainingType.fields.map(_.scalaName) ++
+          field.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
         field.getEnumType.scalaType
-          .fullNameWithMaybeRoot(field.getContainingType) + "." + defaultValue
+          .fullNameWithMaybeRoot(contextNames) + "." + defaultValue
           .asInstanceOf[EnumValueDescriptor]
           .scalaName
           .asSymbol
@@ -215,13 +219,22 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.BYTE_STRING => Identity
       case FieldDescriptor.JavaType.STRING      => Identity
       case FieldDescriptor.JavaType.MESSAGE =>
-        FunctionApplication(field.getMessageType.scalaType.fullName + ".fromJavaProto")
+        val contextNames = field.getContainingType.fields.map(_.scalaName) ++
+          field.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
+        FunctionApplication(
+          field.getMessageType.scalaType.fullNameWithMaybeRoot(contextNames) + ".fromJavaProto"
+        )
       case FieldDescriptor.JavaType.ENUM =>
+        val contextNames = field.getContainingType.fields.map(_.scalaName) ++
+          field.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
         if (field.getFile.isProto3)
           MethodApplication("intValue") andThen FunctionApplication(
-            field.getEnumType.scalaType.fullName + ".fromValue"
+            field.getEnumType.scalaType.fullNameWithMaybeRoot(contextNames) + ".fromValue"
           )
-        else FunctionApplication(field.getEnumType.scalaType.fullName + ".fromJavaValue")
+        else
+          FunctionApplication(
+            field.getEnumType.scalaType.fullNameWithMaybeRoot(contextNames) + ".fromJavaValue"
+          )
     }
     baseValueConversion andThen toCustomTypeExpr(field)
   }
@@ -285,12 +298,20 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.BYTE_STRING => Identity
       case FieldDescriptor.JavaType.STRING      => Identity
       case FieldDescriptor.JavaType.MESSAGE =>
-        FunctionApplication(field.getMessageType.scalaType.fullName + ".toJavaProto")
+        val contextNames = field.getContainingType.fields.map(_.scalaName) ++
+          field.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
+        FunctionApplication(
+          field.getMessageType.scalaType.fullNameWithMaybeRoot(contextNames) + ".toJavaProto"
+        )
       case FieldDescriptor.JavaType.ENUM =>
+        val contextNames = field.getContainingType.fields.map(_.scalaName) ++
+          field.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
         if (field.getFile.isProto3)
           (MethodApplication("value") andThen maybeBox("_root_.scala.Int.box"))
         else
-          FunctionApplication(field.getEnumType.scalaType.fullName + ".toJavaValue")
+          FunctionApplication(
+            field.getEnumType.scalaType.fullNameWithMaybeRoot(contextNames) + ".toJavaValue"
+          )
     }
   }
 

@@ -390,10 +390,13 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING      => "_root_.scala.Predef.String"
       case FieldDescriptor.JavaType.MESSAGE =>
-        fd.getMessageType.scalaType
-          .fullNameWithMaybeRoot(fd.getContainingType.fields.map(_.scalaName))
+        val contextNames = fd.getContainingType.fields.map(_.scalaName) ++
+          fd.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
+        fd.getMessageType.scalaType.fullNameWithMaybeRoot(contextNames)
       case FieldDescriptor.JavaType.ENUM =>
-        fd.getEnumType.scalaType.fullNameWithMaybeRoot(fd.getContainingType.fields.map(_.scalaName))
+        val contextNames = fd.getContainingType.fields.map(_.scalaName) ++
+          fd.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
+        fd.getEnumType.scalaType.fullNameWithMaybeRoot(contextNames)
     }
 
     def singleScalaTypeName = customSingleScalaTypeName.getOrElse(baseSingleScalaTypeName)
