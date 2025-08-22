@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.thesamet.proto.e2e;
+
+import "location/v1/location.proto";
+
+// Test case for oneof field name conflicting with imported package name.
+// This ensures ScalaPB correctly adds _root_ prefixes to avoid naming conflicts.
+message OneofImportConflictTest {
+  oneof location {  // This field name conflicts with the imported package "location"
+    location.v1.Coordinate location_coordinate = 2;
+  }
+}
+
+// Additional test with multiple conflicts
+message MultipleConflictTest {
+  oneof location {
+    location.v1.Coordinate coord = 1;
+  }
+
+  // Regular field with same type should also get _root_ prefix due to oneof conflict
+  location.v1.Coordinate regular_coord = 2;
+}
