@@ -85,7 +85,7 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
   }
   
   /** Placeholder editions for testing feature resolution.  These should not be
-    * used or relyed on outside of tests.
+    * used or relied on outside of tests.
     */
   @SerialVersionUID(0L)
   case object EDITION_1_TEST_ONLY extends Edition(1) with Edition.Recognized {

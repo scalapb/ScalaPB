@@ -400,7 +400,7 @@ class ProtobufGenerator(
             )
           if (f.supportsPresence || f.isInOneof)
             fp.add(s"case ${f.getNumber} => $e.orNull")
-          else if (f.isOptional && !f.noBoxRequired) {
+          else if (f.isSingularOptional && !f.noBoxRequired) {
             // In proto3, drop default value
             fp.add(s"case ${f.getNumber} => {")
               .indent
@@ -554,7 +554,7 @@ class ProtobufGenerator(
            |  }
            |};""".stripMargin
       )
-    } else if (field.isOptional) {
+    } else if (field.isSingularOptional) {
       fp.add(
         s"""if ($fieldNameSymbol.isDefined) {
            |  val __value = ${toBaseType(field)(fieldNameSymbol + ".get")}
@@ -754,7 +754,7 @@ class ProtobufGenerator(
         val typeName = field.scalaTypeName
         val ctorDefaultValue: Option[String] =
           if (field.noDefaultValueInConstructor) None
-          else if (field.isOptional && field.supportsPresence) Some(C.None)
+          else if (field.isSingularOptional && field.supportsPresence) Some(C.None)
           else if (field.isSingular && !field.isRequired && !field.noBoxRequired)
             Some(defaultValueForGet(field).toString)
           else if (field.isRepeated && !field.collection.nonEmptyType)

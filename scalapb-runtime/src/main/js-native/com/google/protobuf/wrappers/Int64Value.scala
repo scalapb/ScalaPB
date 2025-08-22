@@ -7,6 +7,9 @@ package com.google.protobuf.wrappers
   *
   * The JSON representation for `Int64Value` is JSON string.
   *
+  * Not recommended for use in new APIs, but still useful for legacy APIs and
+  * has no plan to be removed.
+  *
   * @param value
   *   The int64 value.
   */

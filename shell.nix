@@ -1,4 +1,6 @@
-{ pkgs ? import <nixpkgs> { } }:
+{
+  pkgs ? import <nixpkgs> { },
+}:
 
 with pkgs;
 
@@ -8,6 +10,8 @@ in
 mkShell {
   buildInputs = [
     sbt
+    coursier
+    metals
     openjdk17
     nodejs
     yarn

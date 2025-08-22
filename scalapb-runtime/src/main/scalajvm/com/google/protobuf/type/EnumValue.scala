@@ -6,6 +6,11 @@ import _root_.scalapb.internal.compat.JavaConverters._
 
 /** Enum value definition.
   *
+  * New usages of this message as an alternative to EnumValueDescriptorProto are
+  * strongly discouraged. This message does not reliability preserve all
+  * information necessary to model the schema and preserve semantics. Instead
+  * make use of FileDescriptorSet which preserves the necessary information.
+  *
   * @param name
   *   Enum value name.
   * @param number

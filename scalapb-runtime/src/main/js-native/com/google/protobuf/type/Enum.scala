@@ -5,6 +5,11 @@ package com.google.protobuf.`type`
 
 /** Enum type definition.
   *
+  * New usages of this message as an alternative to EnumDescriptorProto are
+  * strongly discouraged. This message does not reliability preserve all
+  * information necessary to model the schema and preserve semantics. Instead
+  * make use of FileDescriptorSet which preserves the necessary information.
+  *
   * @param name
   *   Enum type name.
   * @param enumvalue

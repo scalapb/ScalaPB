@@ -5,6 +5,11 @@ package com.google.protobuf.`type`
 
 /** A single field of a message type.
   *
+  * New usages of this message as an alternative to FieldDescriptorProto are
+  * strongly discouraged. This message does not reliability preserve all
+  * information necessary to model the schema and preserve semantics. Instead
+  * make use of FileDescriptorSet which preserves the necessary information.
+  *
   * @param kind
   *   The field type.
   * @param cardinality

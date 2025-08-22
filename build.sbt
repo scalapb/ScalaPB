@@ -3,7 +3,7 @@ import BuildHelper._
 import Dependencies._
 import sbtassembly.AssemblyPlugin.defaultUniversalScript
 
-val protobufCompilerVersion = "4.28.3"
+val protobufCompilerVersion = "4.32.0"
 
 val MimaPreviousVersion = "0.11.0"
 
@@ -71,7 +71,10 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
           Seq(
             "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
             "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s",
-            "-Wconf:cat=deprecation&msg=.*[dD]eprecatedLegacyJsonFieldConflicts:s"
+            "-Wconf:cat=deprecation&msg=.*[dD]eprecatedLegacyJsonFieldConflicts:s",
+            "-Wconf:cat=deprecation&msg=.*[eE]dition.*deprecated.*:s",
+            "-Wconf:cat=deprecation&msg=.*[wW]eak.*:s",
+            "-Wconf:cat=deprecation&msg=.*[sS]yntax.*:s"
           )
         case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
       }

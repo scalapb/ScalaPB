@@ -64,12 +64,16 @@ package com.google.protobuf.descriptor
   *   for accessors, or it will be completely ignored; in the very least, this
   *   is a formalization for deprecating fields.
   * @param weak
+  *   DEPRECATED. DO NOT USE!
   *   For Google-internal migration only. Do not use.
   * @param debugRedact
   *   Indicate that the field value should not be printed out when using debug
   *   formats, e.g. when the field contains sensitive credentials.
   * @param features
   *   Any features defined in the specific edition.
+  *   WARNING: This field should only be used by protobuf plugins or special
+  *   cases like the proto compiler. Other uses are discouraged and
+  *   developers should rely on the protoreflect APIs for their client language.
   * @param uninterpretedOption
   *   The parser stores options it doesn't recognize here. See above.
   */
@@ -81,7 +85,7 @@ final case class FieldOptions(
     `lazy`: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unverifiedLazy: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     deprecated: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
-    weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
+    @scala.deprecated(message="Marked as deprecated in proto file", "") weak: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     debugRedact: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     retention: _root_.scala.Option[com.google.protobuf.descriptor.FieldOptions.OptionRetention] = _root_.scala.None,
     targets: _root_.scala.Seq[com.google.protobuf.descriptor.FieldOptions.OptionTargetType] = _root_.scala.Vector.empty,
@@ -575,8 +579,6 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
     def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FieldOptions.scalaDescriptor.enums(1)
   }
   /** If set to RETENTION_SOURCE, the option will be omitted from the binary.
-    * Note: as of January 2023, support for this is in progress and does not yet
-    * have an effect (b/264593489).
     */
   sealed abstract class OptionRetention(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = com.google.protobuf.descriptor.FieldOptions.OptionRetention
@@ -627,8 +629,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[com.google.protobu
   }
   /** This indicates the types of entities that the field may apply to when used
     * as an option. If it is unset, then the field may be freely used as an
-    * option on any kind of entity. Note: as of January 2023, support for this is
-    * in progress and does not yet have an effect (b/264593489).
+    * option on any kind of entity.
     */
   sealed abstract class OptionTargetType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
     type EnumType = com.google.protobuf.descriptor.FieldOptions.OptionTargetType

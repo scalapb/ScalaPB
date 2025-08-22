@@ -203,6 +203,9 @@ class DescriptorImplicits private[compiler] (
 
     def isSealedOneofType: Boolean = fd.isMessage && fd.getMessageType.isSealedOneofType
 
+    // isOptional is deprecated in protobuf-java.
+    def isSingularOptional: Boolean = !fd.isRequired() && !fd.isRepeated()
+
     def scalaName: String =
       if (fieldOptions.getScalaName.nonEmpty) fieldOptions.getScalaName
       else
@@ -261,7 +264,7 @@ class DescriptorImplicits private[compiler] (
     // Is this field boxed inside an Option in Scala. Equivalent, does the Java API
     // support hasX methods for this field.
     def supportsPresence: Boolean =
-      fd.hasPresence() && fd.isOptional() && !fd.isInOneof && !noBox && !fd.isSealedOneofType
+      fd.hasPresence() && fd.isSingularOptional && !fd.isInOneof && !noBox && !fd.isSealedOneofType
 
     // Is the Scala representation of this field a singular type.
     def isSingular =

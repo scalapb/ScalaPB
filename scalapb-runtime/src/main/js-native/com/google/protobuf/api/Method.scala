@@ -5,6 +5,11 @@ package com.google.protobuf.api
 
 /** Method represents a method of an API interface.
   *
+  * New usages of this message as an alternative to MethodDescriptorProto are
+  * strongly discouraged. This message does not reliability preserve all
+  * information necessary to model the schema and preserve semantics. Instead
+  * make use of FileDescriptorSet which preserves the necessary information.
+  *
   * @param name
   *   The simple name of this method.
   * @param requestTypeUrl
@@ -19,6 +24,14 @@ package com.google.protobuf.api
   *   Any metadata attached to the method.
   * @param syntax
   *   The source syntax of this method.
+  *  
+  *   This field should be ignored, instead the syntax should be inherited from
+  *   Api. This is similar to Field and EnumValue.
+  * @param edition
+  *   The source edition string, only valid when syntax is SYNTAX_EDITIONS.
+  *  
+  *   This field should be ignored, instead the edition should be inherited from
+  *   Api. This is similar to Field and EnumValue.
   */
 @SerialVersionUID(0L)
 final case class Method(
@@ -28,7 +41,8 @@ final case class Method(
     responseTypeUrl: _root_.scala.Predef.String = "",
     responseStreaming: _root_.scala.Boolean = false,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
-    syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    @scala.deprecated(message="Marked as deprecated in proto file", "") syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    @scala.deprecated(message="Marked as deprecated in proto file", "") edition: _root_.scala.Predef.String = "",
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[Method] {
     @transient
@@ -79,6 +93,13 @@ final case class Method(
         val __value = syntax.value
         if (__value != 0) {
           __size += _root_.com.google.protobuf.CodedOutputStream.computeEnumSize(7, __value)
+        }
+      };
+      
+      {
+        val __value = edition
+        if (!__value.isEmpty) {
+          __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(8, __value)
         }
       };
       __size += unknownFields.serializedSize
@@ -136,6 +157,12 @@ final case class Method(
           _output__.writeEnum(7, __v)
         }
       };
+      {
+        val __v = edition
+        if (!__v.isEmpty) {
+          _output__.writeString(8, __v)
+        }
+      };
       unknownFields.writeTo(_output__)
     }
     def withName(__v: _root_.scala.Predef.String): Method = copy(name = __v)
@@ -148,6 +175,7 @@ final case class Method(
     def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Method = copy(options = options ++ __vs)
     def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Method = copy(options = __v)
     def withSyntax(__v: com.google.protobuf.`type`.Syntax): Method = copy(syntax = __v)
+    def withEdition(__v: _root_.scala.Predef.String): Method = copy(edition = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -177,6 +205,10 @@ final case class Method(
           val __t = syntax.javaValueDescriptor
           if (__t.getNumber() != 0) __t else null
         }
+        case 8 => {
+          val __t = edition
+          if (__t != "") __t else null
+        }
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -189,6 +221,7 @@ final case class Method(
         case 5 => _root_.scalapb.descriptors.PBoolean(responseStreaming)
         case 6 => _root_.scalapb.descriptors.PRepeated(options.iterator.map(_.toPMessage).toVector)
         case 7 => _root_.scalapb.descriptors.PEnum(syntax.scalaValueDescriptor)
+        case 8 => _root_.scalapb.descriptors.PString(edition)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -206,6 +239,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     var __responseStreaming: _root_.scala.Boolean = false
     val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto]
     var __syntax: com.google.protobuf.`type`.Syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
+    var __edition: _root_.scala.Predef.String = ""
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -226,6 +260,8 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
           __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
         case 56 =>
           __syntax = com.google.protobuf.`type`.Syntax.fromValue(_input__.readEnum())
+        case 66 =>
+          __edition = _input__.readStringRequireUtf8()
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -241,6 +277,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
         responseStreaming = __responseStreaming,
         options = __options.result(),
         syntax = __syntax,
+        edition = __edition,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
@@ -254,7 +291,8 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
         responseTypeUrl = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         responseStreaming = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
         options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
-        syntax = com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number)
+        syntax = com.google.protobuf.`type`.Syntax.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2.scalaValueDescriptor).number),
+        edition = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -280,7 +318,8 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseTypeUrl = "",
     responseStreaming = false,
     options = _root_.scala.Vector.empty,
-    syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2
+    syntax = com.google.protobuf.`type`.Syntax.SYNTAX_PROTO2,
+    edition = ""
   )
   implicit class MethodLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Method]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Method](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
@@ -290,6 +329,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     def responseStreaming: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.responseStreaming)((c_, f_) => c_.copy(responseStreaming = f_))
     def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def syntax: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Syntax] = field(_.syntax)((c_, f_) => c_.copy(syntax = f_))
+    def edition: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.edition)((c_, f_) => c_.copy(edition = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val REQUEST_TYPE_URL_FIELD_NUMBER = 2
@@ -298,6 +338,7 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
   final val RESPONSE_STREAMING_FIELD_NUMBER = 5
   final val OPTIONS_FIELD_NUMBER = 6
   final val SYNTAX_FIELD_NUMBER = 7
+  final val EDITION_FIELD_NUMBER = 8
   def of(
     name: _root_.scala.Predef.String,
     requestTypeUrl: _root_.scala.Predef.String,
@@ -305,7 +346,8 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseTypeUrl: _root_.scala.Predef.String,
     responseStreaming: _root_.scala.Boolean,
     options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
-    syntax: com.google.protobuf.`type`.Syntax
+    syntax: com.google.protobuf.`type`.Syntax,
+    edition: _root_.scala.Predef.String
   ): _root_.com.google.protobuf.api.Method = _root_.com.google.protobuf.api.Method(
     name,
     requestTypeUrl,
@@ -313,7 +355,8 @@ object Method extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.
     responseTypeUrl,
     responseStreaming,
     options,
-    syntax
+    syntax,
+    edition
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.Method])
 }
