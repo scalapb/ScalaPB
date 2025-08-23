@@ -11,7 +11,6 @@ inThisBuild(
   List(
     scalaVersion := Scala212,
     javacOptions ++= List("-target", "8", "-source", "8"),
-    organization := "com.thesamet.scalapb",
     resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     ConsoleHelper.welcomeMessage
   )
