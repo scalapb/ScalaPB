@@ -34,3 +34,6 @@ docs/_site
 
 # API
 website/static/api
+
+# Claude Code settings
+.claude/
