@@ -102,7 +102,7 @@ jobs:
         include:
         - os: ubuntu-latest
           arch: linux-x86_64
-        - os: macos-12
+        - os: macos-14
           arch: osx-x86_64
     runs-on: ${{matrix.os}}
     steps:
