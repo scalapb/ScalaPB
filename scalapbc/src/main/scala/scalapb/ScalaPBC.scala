@@ -92,7 +92,7 @@ object ScalaPBC {
       artifacts: Seq[(String, String)]
   ): Either[String, Seq[(String, (Dependency, Seq[File]))]] =
     artifacts.foldLeft[Either[String, Seq[(String, (Dependency, Seq[File]))]]](Right(Seq())) {
-      case (Left(error), _) => Left(error)
+      case (Left(error), _)                  => Left(error)
       case (Right(result), (name, artifact)) =>
         fetchArtifact(artifact) match {
           case Right((dep, files)) => Right(result :+ ((name, (dep, files))))
@@ -147,8 +147,8 @@ object ScalaPBC {
       case Left(error) => fatalError(error)
       case Right(arts) =>
         arts.map { case (name, (_, files)) =>
-          val urls   = files.map(_.toURI().toURL()).toArray
-          val loader = new URLClassLoader(urls, null)
+          val urls      = files.map(_.toURI().toURL()).toArray
+          val loader    = new URLClassLoader(urls, null)
           val mainClass = findMainClass(files.head) match {
             case Right(v)  => v
             case Left(err) => fatalError(err)
