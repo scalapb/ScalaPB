@@ -159,7 +159,7 @@ class MethodDescriptor private[descriptors] (
 
     FileDescriptor.find(containingService.file, this, inputType) match {
       case Some(descriptor: Descriptor) => descriptor
-      case Some(otherDescriptor) =>
+      case Some(otherDescriptor)        =>
         throw new DescriptorValidationException(
           this,
           s"Unexpected descriptor type ${otherDescriptor.getClass.getName} for input type $inputType"
@@ -182,7 +182,7 @@ class MethodDescriptor private[descriptors] (
 
     FileDescriptor.find(containingService.file, this, outputType) match {
       case Some(descriptor: Descriptor) => descriptor
-      case Some(otherDescriptor) =>
+      case Some(otherDescriptor)        =>
         throw new DescriptorValidationException(
           this,
           s"Unexpected descriptor type ${otherDescriptor.getClass.getName} for output type $outputType"
@@ -339,7 +339,7 @@ object FieldDescriptor {
         case FieldDescriptorProto.Type.TYPE_FIXED32 => ScalaType.Int
         case FieldDescriptorProto.Type.TYPE_FIXED64 => ScalaType.Long
         case FieldDescriptorProto.Type.TYPE_FLOAT   => ScalaType.Float
-        case FieldDescriptorProto.Type.TYPE_GROUP =>
+        case FieldDescriptorProto.Type.TYPE_GROUP   =>
           throw new DescriptorValidationException(m, s"Groups are not supported.")
         case FieldDescriptorProto.Type.TYPE_INT32    => ScalaType.Int
         case FieldDescriptorProto.Type.TYPE_INT64    => ScalaType.Long
@@ -505,7 +505,7 @@ object FileDescriptor {
     if (name.startsWith(".")) {
       file.findSymbol(name.substring(1))
     } else {
-      val dotIndex = name.indexOf('.')
+      val dotIndex           = name.indexOf('.')
       val (baseName, suffix) =
         if (dotIndex == -1) (name, "") else (name.substring(0, dotIndex), name.substring(dotIndex))
       findFirstParent(context.fullName, baseName).flatMap { gd =>
