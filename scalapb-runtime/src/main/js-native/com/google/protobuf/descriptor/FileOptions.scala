@@ -86,6 +86,9 @@ package com.google.protobuf.descriptor
   *   determining the ruby package.
   * @param features
   *   Any features defined in the specific edition.
+  *   WARNING: This field should only be used by protobuf plugins or special
+  *   cases like the proto compiler. Other uses are discouraged and
+  *   developers should rely on the protoreflect APIs for their client language.
   * @param uninterpretedOption
   *   The parser stores options it doesn't recognize here.
   *   See the documentation for the "Options" section above.

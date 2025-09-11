@@ -7,6 +7,9 @@ package com.google.protobuf.wrappers
   *
   * The JSON representation for `BytesValue` is JSON string.
   *
+  * Not recommended for use in new APIs, but still useful for legacy APIs and
+  * has no plan to be removed.
+  *
   * @param value
   *   The bytes value.
   */

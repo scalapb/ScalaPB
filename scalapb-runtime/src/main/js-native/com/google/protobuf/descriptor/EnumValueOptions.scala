@@ -10,6 +10,9 @@ package com.google.protobuf.descriptor
   *   this is a formalization for deprecating enum values.
   * @param features
   *   Any features defined in the specific edition.
+  *   WARNING: This field should only be used by protobuf plugins or special
+  *   cases like the proto compiler. Other uses are discouraged and
+  *   developers should rely on the protoreflect APIs for their client language.
   * @param debugRedact
   *   Indicate that fields annotated with this enum value should not be printed
   *   out when using debug formats, e.g. when the field contains sensitive

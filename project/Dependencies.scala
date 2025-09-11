@@ -4,18 +4,18 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.73.0"
-    val protobuf             = "4.28.3"
+    val grpc                 = "1.75.0"
+    val protobuf             = "4.32.0"
     val collectionCompat     = "2.13.0"
     val coursier             = "2.1.24"
     val protocGen            = "0.9.9"
     val protobufRuntimeScala = "0.8.16"
-    val commonsCodec         = "1.18.0"
+    val commonsCodec         = "1.19.0"
 
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "5.18.0"
+    val mockito                 = "5.19.0"
     val munit                   = "1.1.0"
     val scalaTest               = "3.2.19"
     val scalaTestPlusMockito    = "3.1.0.0"

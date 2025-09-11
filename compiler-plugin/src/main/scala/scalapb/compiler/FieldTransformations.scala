@@ -213,7 +213,7 @@ private[compiler] object FieldTransformations {
     }
 
     val knownFields = m.getAllFields().asScala.map { case (field, value) =>
-      if (field.getType() == Type.MESSAGE && !field.isOptional()) {
+      if (field.getType() == Type.MESSAGE && (field.isRepeated() || field.isRequired())) {
         throw new GeneratorException(
           s"${context.currentFile}: matching is supported only for scalar types and optional message fields."
         )
@@ -230,7 +230,7 @@ private[compiler] object FieldTransformations {
       m: Message,
       ext: FieldDescriptor
   ): Message = {
-    if (ext.getType != Type.MESSAGE || !ext.isOptional) {
+    if (ext.getType != Type.MESSAGE || ext.isRepeated() || ext.isRequired()) {
       throw new GeneratorException(
         s"Unknown extension fields must be optional message types: ${ext}"
       )
