@@ -36,7 +36,7 @@ object AddressBookMain extends App {
           case "mobile" => Some(Person.PhoneType.MOBILE)
           case "home"   => Some(Person.PhoneType.HOME)
           case "work"   => Some(Person.PhoneType.WORK)
-          case _ =>
+          case _        =>
             println("Unknown phone type. Leaving as None.")
             None
         }
