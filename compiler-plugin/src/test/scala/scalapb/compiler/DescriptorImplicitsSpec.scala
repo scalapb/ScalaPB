@@ -42,7 +42,7 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
   )
 
   "flat package" should "be overridable to false when set as generator parameter" in {
-    val files = generateFileSet(base)
+    val files     = generateFileSet(base)
     val implicits = new DescriptorImplicits(
       GeneratorParams(flatPackage = true),
       files,
@@ -71,7 +71,7 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
   }
 
   "flat package" should "be overridable when not set as generator parameter" in {
-    val files = generateFileSet(base)
+    val files     = generateFileSet(base)
     val implicits = new DescriptorImplicits(
       GeneratorParams(flatPackage = false),
       files,
@@ -100,7 +100,7 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
   }
 
   "disableOutput" should "be set for package option files" in {
-    val files = generateFileSet(base)
+    val files     = generateFileSet(base)
     val implicits = new DescriptorImplicits(
       GeneratorParams(flatPackage = false),
       files,
