@@ -42,16 +42,16 @@ private[scalapb] object TextFormatUtils {
   def escapeBytes(bytes: ByteString): String = {
     val sb = new mutable.StringBuilder()
     bytes.foreach {
-      case CH_SLASH_A => sb.append("\\a")
-      case CH_SLASH_B => sb.append("\\b")
-      case CH_SLASH_F => sb.append("\\f")
-      case CH_SLASH_N => sb.append("\\n")
-      case CH_SLASH_R => sb.append("\\r")
-      case CH_SLASH_T => sb.append("\\t")
-      case CH_SLASH_V => sb.append("\\v")
-      case CH_SLASH   => sb.append("\\\\")
-      case CH_SQ      => sb.append("\\\'")
-      case CH_DQ      => sb.append("\\\"")
+      case CH_SLASH_A     => sb.append("\\a")
+      case CH_SLASH_B     => sb.append("\\b")
+      case CH_SLASH_F     => sb.append("\\f")
+      case CH_SLASH_N     => sb.append("\\n")
+      case CH_SLASH_R     => sb.append("\\r")
+      case CH_SLASH_T     => sb.append("\\t")
+      case CH_SLASH_V     => sb.append("\\v")
+      case CH_SLASH       => sb.append("\\\\")
+      case CH_SQ          => sb.append("\\\'")
+      case CH_DQ          => sb.append("\\\"")
       case b if b >= 0x20 =>
         sb.append(b.toChar)
       case b =>
@@ -104,7 +104,7 @@ private[scalapb] object TextFormatUtils {
         case (EscapeMode, CH_DQ)                     => result += '\"'; Default
         case (EscapeMode, CH_QM)                     => result += '?'; Default
         case (EscapeMode, CH_X)                      => Hex0
-        case (EscapeMode, _) => Error("Invalid escape sequence: " + b.toChar)
+        case (EscapeMode, _)                        => Error("Invalid escape sequence: " + b.toChar)
         case (Octal1(i), b) if b >= '0' && b <= '7' =>
           Octal2(i * 8 + digitValue(b))
         case (Octal1(i), b) =>
@@ -116,8 +116,8 @@ private[scalapb] object TextFormatUtils {
         case (Octal2(i), b) =>
           result += i.toByte
           defaultHandle(b)
-        case (Hex0, b) if (isHexDigit(b.toChar)) => Hex1(digitValue(b))
-        case (Hex0, _)                           => Error("'\\x' with no digits")
+        case (Hex0, b) if (isHexDigit(b.toChar))    => Hex1(digitValue(b))
+        case (Hex0, _)                              => Error("'\\x' with no digits")
         case (Hex1(i), b) if (isHexDigit(b.toChar)) =>
           result += (16 * i + digitValue(b)).toByte
           Default
@@ -131,7 +131,7 @@ private[scalapb] object TextFormatUtils {
       case Error(e)   => Left(TextFormatError(e))
       case Hex0       => Left(TextFormatError("'\\x' with no digits"))
       case EscapeMode => Left(TextFormatError("Invalid escape sequence '\\' at end of string."))
-      case Hex1(i) =>
+      case Hex1(i)    =>
         result += i.toByte
         Right(ByteString.copyFrom(result.result()))
       case Octal1(i) =>
