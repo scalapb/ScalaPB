@@ -55,19 +55,19 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
       .get
       .findMessageTypeByName("A")
       .scalaType
-      .fullName must be("disable_flat.inside_disable_flat.A")
+      .fullName must be("_root_.disable_flat.inside_disable_flat.A")
     files
       .find(_.getFullName() == "inside_enable_flat.proto")
       .get
       .findMessageTypeByName("B")
       .scalaType
-      .fullName must be("enable_flat.B")
+      .fullName must be("_root_.enable_flat.B")
     files
       .find(_.getFullName() == "outside.proto")
       .get
       .findMessageTypeByName("C")
       .scalaType
-      .fullName must be("outside.C")
+      .fullName must be("_root_.outside.C")
   }
 
   "flat package" should "be overridable when not set as generator parameter" in {
@@ -84,19 +84,19 @@ class DescriptorImplicitsSpec extends AnyFlatSpec with Matchers with ProtocInvoc
       .get
       .findMessageTypeByName("A")
       .scalaType
-      .fullName must be("disable_flat.inside_disable_flat.A")
+      .fullName must be("_root_.disable_flat.inside_disable_flat.A")
     files
       .find(_.getFullName() == "inside_enable_flat.proto")
       .get
       .findMessageTypeByName("B")
       .scalaType
-      .fullName must be("enable_flat.B")
+      .fullName must be("_root_.enable_flat.B")
     files
       .find(_.getFullName() == "outside.proto")
       .get
       .findMessageTypeByName("C")
       .scalaType
-      .fullName must be("outside.outside.C")
+      .fullName must be("_root_.outside.outside.C")
   }
 
   "disableOutput" should "be set for package option files" in {

@@ -14,7 +14,6 @@ import scalapb.options.Scalapb.ScalaPbOptions.EnumValueNaming
 import scalapb.options.Scalapb._
 
 import scala.jdk.CollectionConverters._
-import scala.collection.immutable.IndexedSeq
 import protocgen.CodeGenRequest
 
 class DescriptorImplicits private[compiler] (
@@ -37,23 +36,12 @@ class DescriptorImplicits private[compiler] (
 
     def nameRelative(levels: Int) = xs.takeRight(levels + 1).map(_.asSymbol).mkString(".")
 
-    def fullName = xs.map(_.asSymbol).mkString(".")
+    private def fullFullName = xs.map(_.asSymbol).mkString(".")
 
-    def fullNameWithMaybeRoot: String = {
+    def fullName: String = {
       if (!emptyPackage)
-        s"_root_.${fullName}"
-      else fullName
-    }
-
-    def fullNameWithMaybeRoot(context: Descriptor): String = {
-      fullNameWithMaybeRoot(context.fields.map(_.scalaName))
-    }
-
-    def fullNameWithMaybeRoot(contextNames: Seq[String]): String = {
-      val topLevelPackage = xs.head
-      if (contextNames.contains(topLevelPackage) && !emptyPackage)
-        s"_root_.${fullName}"
-      else fullName
+        s"_root_.${fullFullName}"
+      else fullFullName
     }
 
     def /(name: String) = ScalaName(emptyPackage, xs :+ name)
@@ -87,7 +75,7 @@ class DescriptorImplicits private[compiler] (
           DescriptorImplicits.primitiveWrapperType(descriptor)
         else None
 
-      def baseScalaType = descriptor.scalaType.fullNameWithMaybeRoot(Seq("build"))
+      def baseScalaType = descriptor.scalaType.fullName
 
       def scalaType: String = customScalaType.getOrElse(baseScalaType)
     }
@@ -386,14 +374,8 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING      => "_root_.scala.Predef.String"
-      case FieldDescriptor.JavaType.MESSAGE =>
-        val contextNames = fd.getContainingType.fields.map(_.scalaName) ++
-          fd.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
-        fd.getMessageType.scalaType.fullNameWithMaybeRoot(contextNames)
-      case FieldDescriptor.JavaType.ENUM =>
-        val contextNames = fd.getContainingType.fields.map(_.scalaName) ++
-          fd.getContainingType.getRealOneofs.asScala.map(_.scalaName.nameSymbol)
-        fd.getEnumType.scalaType.fullNameWithMaybeRoot(contextNames)
+      case FieldDescriptor.JavaType.MESSAGE     => fd.getMessageType.scalaType.fullName
+      case FieldDescriptor.JavaType.ENUM        => fd.getEnumType.scalaType.fullName
     }
 
     def singleScalaTypeName = customSingleScalaTypeName.getOrElse(baseSingleScalaTypeName)
@@ -583,7 +565,7 @@ class DescriptorImplicits private[compiler] (
       parent.fold(message.getFile().scalaPackage)(_.scalaType) / name
     }
 
-    def sealedOneofScalaType = {
+    def sealedOneofScalaType: String = {
       sealedOneofStyle match {
         case SealedOneofStyle.Optional =>
           s"_root_.scala.Option[${sealedOneofTraitScalaType.fullName}]"
