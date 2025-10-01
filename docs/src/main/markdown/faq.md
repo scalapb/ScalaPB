@@ -255,7 +255,7 @@ it seamlessly if you have Rosetta enabled. If you don't already have Rosetta ins
 
 ```
 softwareupdate --install-rosetta
-``
+```
 
 Use a recent version of sbt-protoc (at least 1.0.6), which defaults to a
 compatible version of protoc (3.19.2).
