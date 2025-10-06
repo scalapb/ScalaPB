@@ -58,13 +58,13 @@ final case class MyMessage(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.thesamet.docs.json.MyMessage.type = com.thesamet.docs.json.MyMessage
+    def companion: _root_.com.thesamet.docs.json.MyMessage.type = _root_.com.thesamet.docs.json.MyMessage
     // @@protoc_insertion_point(GeneratedMessage[com.thesamet.docs.MyMessage])
 }
 
-object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyMessage] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.thesamet.docs.json.MyMessage] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.thesamet.docs.json.MyMessage = {
+object MyMessage extends scalapb.GeneratedMessageCompanion[_root_.com.thesamet.docs.json.MyMessage] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.thesamet.docs.json.MyMessage] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.thesamet.docs.json.MyMessage = {
     var __x: _root_.scala.Int = 0
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -81,28 +81,28 @@ object MyMessage extends scalapb.GeneratedMessageCompanion[com.thesamet.docs.jso
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.thesamet.docs.json.MyMessage(
+    _root_.com.thesamet.docs.json.MyMessage(
         x = __x,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.thesamet.docs.json.MyMessage] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.thesamet.docs.json.MyMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.thesamet.docs.json.MyMessage(
+      _root_.com.thesamet.docs.json.MyMessage(
         x = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Int]).getOrElse(0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.thesamet.docs.json.JsonProto.javaDescriptor.getMessageTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.thesamet.docs.json.JsonProto.scalaDescriptor.messages(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.thesamet.docs.json.JsonProto.javaDescriptor.getMessageTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.thesamet.docs.json.JsonProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.thesamet.docs.json.MyMessage(
+  lazy val defaultInstance = _root_.com.thesamet.docs.json.MyMessage(
     x = 0
   )
-  implicit class MyMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.thesamet.docs.json.MyMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.thesamet.docs.json.MyMessage](_l) {
+  implicit class MyMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.thesamet.docs.json.MyMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.thesamet.docs.json.MyMessage](_l) {
     def x: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.x)((c_, f_) => c_.copy(x = f_))
   }
   final val X_FIELD_NUMBER = 1

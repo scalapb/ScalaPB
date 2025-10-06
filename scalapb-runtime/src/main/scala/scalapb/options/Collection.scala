@@ -93,13 +93,13 @@ final case class Collection(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: scalapb.options.Collection.type = scalapb.options.Collection
+    def companion: _root_.scalapb.options.Collection.type = _root_.scalapb.options.Collection
     // @@protoc_insertion_point(GeneratedMessage[scalapb.Collection])
 }
 
-object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Collection] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.options.Collection] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.options.Collection = {
+object Collection extends scalapb.GeneratedMessageCompanion[_root_.scalapb.options.Collection] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.options.Collection] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.options.Collection = {
     var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __nonEmpty: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var __adapter: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -122,34 +122,34 @@ object Collection extends scalapb.GeneratedMessageCompanion[scalapb.options.Coll
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    scalapb.options.Collection(
+    _root_.scalapb.options.Collection(
         `type` = __type,
         nonEmpty = __nonEmpty,
         adapter = __adapter,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.options.Collection] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.scalapb.options.Collection] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      scalapb.options.Collection(
+      _root_.scalapb.options.Collection(
         `type` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
         nonEmpty = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]]),
         adapter = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = scalapb.options.ScalapbProto.javaDescriptor.getMessageTypes().get(2)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = scalapb.options.ScalapbProto.scalaDescriptor.messages(2)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.scalapb.options.ScalapbProto.javaDescriptor.getMessageTypes().get(2)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.scalapb.options.ScalapbProto.scalaDescriptor.messages(2)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = scalapb.options.Collection(
+  lazy val defaultInstance = _root_.scalapb.options.Collection(
     `type` = _root_.scala.None,
     nonEmpty = _root_.scala.None,
     adapter = _root_.scala.None
   )
-  implicit class CollectionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.options.Collection]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.options.Collection](_l) {
+  implicit class CollectionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.scalapb.options.Collection]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.scalapb.options.Collection](_l) {
     def `type`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getType)((c_, f_) => c_.copy(`type` = _root_.scala.Option(f_)))
     def optionalType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.`type`)((c_, f_) => c_.copy(`type` = f_))
     def nonEmpty: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getNonEmpty)((c_, f_) => c_.copy(nonEmpty = _root_.scala.Option(f_)))

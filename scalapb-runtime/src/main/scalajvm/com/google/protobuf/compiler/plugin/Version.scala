@@ -100,13 +100,13 @@ final case class Version(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.compiler.plugin.Version.type = com.google.protobuf.compiler.plugin.Version
+    def companion: _root_.com.google.protobuf.compiler.plugin.Version.type = _root_.com.google.protobuf.compiler.plugin.Version
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.compiler.Version])
 }
 
-object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.Version, com.google.protobuf.compiler.PluginProtos.Version] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.compiler.plugin.Version] with scalapb.JavaProtoSupport[com.google.protobuf.compiler.plugin.Version, com.google.protobuf.compiler.PluginProtos.Version] = this
-  def toJavaProto(scalaPbSource: com.google.protobuf.compiler.plugin.Version): com.google.protobuf.compiler.PluginProtos.Version = {
+object Version extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.compiler.plugin.Version] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.compiler.plugin.Version, com.google.protobuf.compiler.PluginProtos.Version] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.compiler.plugin.Version] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.compiler.plugin.Version, com.google.protobuf.compiler.PluginProtos.Version] = this
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.compiler.plugin.Version): com.google.protobuf.compiler.PluginProtos.Version = {
     val javaPbOut = com.google.protobuf.compiler.PluginProtos.Version.newBuilder
     scalaPbSource.major.foreach(javaPbOut.setMajor)
     scalaPbSource.minor.foreach(javaPbOut.setMinor)
@@ -114,13 +114,13 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
     scalaPbSource.suffix.foreach(javaPbOut.setSuffix)
     javaPbOut.build
   }
-  def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.Version): com.google.protobuf.compiler.plugin.Version = com.google.protobuf.compiler.plugin.Version(
+  def fromJavaProto(javaPbSource: com.google.protobuf.compiler.PluginProtos.Version): _root_.com.google.protobuf.compiler.plugin.Version = _root_.com.google.protobuf.compiler.plugin.Version(
     major = if (javaPbSource.hasMajor) Some(javaPbSource.getMajor.intValue) else _root_.scala.None,
     minor = if (javaPbSource.hasMinor) Some(javaPbSource.getMinor.intValue) else _root_.scala.None,
     patch = if (javaPbSource.hasPatch) Some(javaPbSource.getPatch.intValue) else _root_.scala.None,
     suffix = if (javaPbSource.hasSuffix) Some(javaPbSource.getSuffix) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.compiler.plugin.Version = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.compiler.plugin.Version = {
     var __major: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
     var __minor: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
     var __patch: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
@@ -146,7 +146,7 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.compiler.plugin.Version(
+    _root_.com.google.protobuf.compiler.plugin.Version(
         major = __major,
         minor = __minor,
         patch = __patch,
@@ -154,10 +154,10 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.compiler.plugin.Version] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.compiler.plugin.Version] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.compiler.plugin.Version(
+      _root_.com.google.protobuf.compiler.plugin.Version(
         major = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
         minor = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
         patch = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
@@ -165,18 +165,18 @@ object Version extends scalapb.GeneratedMessageCompanion[com.google.protobuf.com
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.compiler.plugin.PluginProto.javaDescriptor.getMessageTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.compiler.plugin.PluginProto.scalaDescriptor.messages(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.compiler.plugin.PluginProto.javaDescriptor.getMessageTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.compiler.plugin.PluginProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.compiler.plugin.Version(
+  lazy val defaultInstance = _root_.com.google.protobuf.compiler.plugin.Version(
     major = _root_.scala.None,
     minor = _root_.scala.None,
     patch = _root_.scala.None,
     suffix = _root_.scala.None
   )
-  implicit class VersionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.compiler.plugin.Version]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.compiler.plugin.Version](_l) {
+  implicit class VersionLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.compiler.plugin.Version]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.compiler.plugin.Version](_l) {
     def major: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getMajor)((c_, f_) => c_.copy(major = _root_.scala.Option(f_)))
     def optionalMajor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.major)((c_, f_) => c_.copy(major = f_))
     def minor: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getMinor)((c_, f_) => c_.copy(minor = _root_.scala.Option(f_)))

@@ -8,7 +8,7 @@ package com.google.protobuf.descriptor
 @SerialVersionUID(0L)
 final case class OneofDescriptorProto(
     name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None,
-    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None,
+    options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[OneofDescriptorProto] {
     @transient
@@ -51,9 +51,9 @@ final case class OneofDescriptorProto(
     def getName: _root_.scala.Predef.String = name.getOrElse("")
     def clearName: OneofDescriptorProto = copy(name = _root_.scala.None)
     def withName(__v: _root_.scala.Predef.String): OneofDescriptorProto = copy(name = _root_.scala.Option(__v))
-    def getOptions: com.google.protobuf.descriptor.OneofOptions = options.getOrElse(com.google.protobuf.descriptor.OneofOptions.defaultInstance)
+    def getOptions: _root_.com.google.protobuf.descriptor.OneofOptions = options.getOrElse(_root_.com.google.protobuf.descriptor.OneofOptions.defaultInstance)
     def clearOptions: OneofDescriptorProto = copy(options = _root_.scala.None)
-    def withOptions(__v: com.google.protobuf.descriptor.OneofOptions): OneofDescriptorProto = copy(options = _root_.scala.Option(__v))
+    def withOptions(__v: _root_.com.google.protobuf.descriptor.OneofOptions): OneofDescriptorProto = copy(options = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -70,15 +70,15 @@ final case class OneofDescriptorProto(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.descriptor.OneofDescriptorProto.type = com.google.protobuf.descriptor.OneofDescriptorProto
+    def companion: _root_.com.google.protobuf.descriptor.OneofDescriptorProto.type = _root_.com.google.protobuf.descriptor.OneofDescriptorProto
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.OneofDescriptorProto])
 }
 
-object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.OneofDescriptorProto] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.OneofDescriptorProto = {
+object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.OneofDescriptorProto] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.OneofDescriptorProto] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.OneofDescriptorProto = {
     var __name: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
-    var __options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None
+    var __options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.OneofOptions] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -88,7 +88,7 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
         case 10 =>
           __name = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 18 =>
-          __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.OneofOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __options = _root_.scala.Option(__options.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.OneofOptions](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -96,47 +96,47 @@ object OneofDescriptorProto extends scalapb.GeneratedMessageCompanion[com.google
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.descriptor.OneofDescriptorProto(
+    _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
         name = __name,
         options = __options,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.OneofDescriptorProto] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.descriptor.OneofDescriptorProto] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.descriptor.OneofDescriptorProto(
+      _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
         name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
-        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.OneofOptions]])
+        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.com.google.protobuf.descriptor.OneofOptions]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(5)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.messages(5)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(5)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.messages(5)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
-      case 2 => __out = com.google.protobuf.descriptor.OneofOptions
+      case 2 => __out = _root_.com.google.protobuf.descriptor.OneofOptions
     }
     __out
   }
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.descriptor.OneofDescriptorProto(
+  lazy val defaultInstance = _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
     name = _root_.scala.None,
     options = _root_.scala.None
   )
-  implicit class OneofDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.OneofDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.OneofDescriptorProto](_l) {
+  implicit class OneofDescriptorProtoLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.OneofDescriptorProto]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.descriptor.OneofDescriptorProto](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getName)((c_, f_) => c_.copy(name = _root_.scala.Option(f_)))
     def optionalName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Predef.String]] = field(_.name)((c_, f_) => c_.copy(name = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.OneofOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
-    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.OneofOptions] = field(_.getOptions)((c_, f_) => c_.copy(options = _root_.scala.Option(f_)))
+    def optionalOptions: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.OneofOptions]] = field(_.options)((c_, f_) => c_.copy(options = f_))
   }
   final val NAME_FIELD_NUMBER = 1
   final val OPTIONS_FIELD_NUMBER = 2
   def of(
     name: _root_.scala.Option[_root_.scala.Predef.String],
-    options: _root_.scala.Option[com.google.protobuf.descriptor.OneofOptions]
+    options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.OneofOptions]
   ): _root_.com.google.protobuf.descriptor.OneofDescriptorProto = _root_.com.google.protobuf.descriptor.OneofDescriptorProto(
     name,
     options

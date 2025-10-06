@@ -35,14 +35,14 @@ package com.google.protobuf.`type`
   */
 @SerialVersionUID(0L)
 final case class Field(
-    kind: com.google.protobuf.`type`.Field.Kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
-    cardinality: com.google.protobuf.`type`.Field.Cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
+    kind: _root_.com.google.protobuf.`type`.Field.Kind = _root_.com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
+    cardinality: _root_.com.google.protobuf.`type`.Field.Cardinality = _root_.com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
     number: _root_.scala.Int = 0,
     name: _root_.scala.Predef.String = "",
     typeUrl: _root_.scala.Predef.String = "",
     oneofIndex: _root_.scala.Int = 0,
     packed: _root_.scala.Boolean = false,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
+    options: _root_.scala.Seq[_root_.com.google.protobuf.`type`.OptionProto] = _root_.scala.Vector.empty,
     jsonName: _root_.scala.Predef.String = "",
     defaultValue: _root_.scala.Predef.String = "",
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
@@ -193,17 +193,17 @@ final case class Field(
       };
       unknownFields.writeTo(_output__)
     }
-    def withKind(__v: com.google.protobuf.`type`.Field.Kind): Field = copy(kind = __v)
-    def withCardinality(__v: com.google.protobuf.`type`.Field.Cardinality): Field = copy(cardinality = __v)
+    def withKind(__v: _root_.com.google.protobuf.`type`.Field.Kind): Field = copy(kind = __v)
+    def withCardinality(__v: _root_.com.google.protobuf.`type`.Field.Cardinality): Field = copy(cardinality = __v)
     def withNumber(__v: _root_.scala.Int): Field = copy(number = __v)
     def withName(__v: _root_.scala.Predef.String): Field = copy(name = __v)
     def withTypeUrl(__v: _root_.scala.Predef.String): Field = copy(typeUrl = __v)
     def withOneofIndex(__v: _root_.scala.Int): Field = copy(oneofIndex = __v)
     def withPacked(__v: _root_.scala.Boolean): Field = copy(packed = __v)
     def clearOptions = copy(options = _root_.scala.Vector.empty)
-    def addOptions(__vs: com.google.protobuf.`type`.OptionProto *): Field = addAllOptions(__vs)
-    def addAllOptions(__vs: Iterable[com.google.protobuf.`type`.OptionProto]): Field = copy(options = options ++ __vs)
-    def withOptions(__v: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
+    def addOptions(__vs: _root_.com.google.protobuf.`type`.OptionProto *): Field = addAllOptions(__vs)
+    def addAllOptions(__vs: Iterable[_root_.com.google.protobuf.`type`.OptionProto]): Field = copy(options = options ++ __vs)
+    def withOptions(__v: _root_.scala.Seq[_root_.com.google.protobuf.`type`.OptionProto]): Field = copy(options = __v)
     def withJsonName(__v: _root_.scala.Predef.String): Field = copy(jsonName = __v)
     def withDefaultValue(__v: _root_.scala.Predef.String): Field = copy(defaultValue = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
@@ -265,21 +265,21 @@ final case class Field(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.`type`.Field.type = com.google.protobuf.`type`.Field
+    def companion: _root_.com.google.protobuf.`type`.Field.type = _root_.com.google.protobuf.`type`.Field
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Field])
 }
 
-object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.`type`.Field] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.`type`.Field = {
-    var __kind: com.google.protobuf.`type`.Field.Kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN
-    var __cardinality: com.google.protobuf.`type`.Field.Cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN
+object Field extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.`type`.Field] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.`type`.Field] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.`type`.Field = {
+    var __kind: _root_.com.google.protobuf.`type`.Field.Kind = _root_.com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN
+    var __cardinality: _root_.com.google.protobuf.`type`.Field.Cardinality = _root_.com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN
     var __number: _root_.scala.Int = 0
     var __name: _root_.scala.Predef.String = ""
     var __typeUrl: _root_.scala.Predef.String = ""
     var __oneofIndex: _root_.scala.Int = 0
     var __packed: _root_.scala.Boolean = false
-    val __options: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.`type`.OptionProto]
+    val __options: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.`type`.OptionProto] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.`type`.OptionProto]
     var __jsonName: _root_.scala.Predef.String = ""
     var __defaultValue: _root_.scala.Predef.String = ""
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -289,9 +289,9 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __kind = com.google.protobuf.`type`.Field.Kind.fromValue(_input__.readEnum())
+          __kind = _root_.com.google.protobuf.`type`.Field.Kind.fromValue(_input__.readEnum())
         case 16 =>
-          __cardinality = com.google.protobuf.`type`.Field.Cardinality.fromValue(_input__.readEnum())
+          __cardinality = _root_.com.google.protobuf.`type`.Field.Cardinality.fromValue(_input__.readEnum())
         case 24 =>
           __number = _input__.readInt32()
         case 34 =>
@@ -303,7 +303,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
         case 64 =>
           __packed = _input__.readBool()
         case 74 =>
-          __options += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.`type`.OptionProto](_input__)
+          __options += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.`type`.OptionProto](_input__)
         case 82 =>
           __jsonName = _input__.readStringRequireUtf8()
         case 90 =>
@@ -315,7 +315,7 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.`type`.Field(
+    _root_.com.google.protobuf.`type`.Field(
         kind = __kind,
         cardinality = __cardinality,
         number = __number,
@@ -329,42 +329,42 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.`type`.Field] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.`type`.Field] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.`type`.Field(
-        kind = com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.scalaValueDescriptor).number),
-        cardinality = com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.scalaValueDescriptor).number),
+      _root_.com.google.protobuf.`type`.Field(
+        kind = _root_.com.google.protobuf.`type`.Field.Kind.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(_root_.com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN.scalaValueDescriptor).number),
+        cardinality = _root_.com.google.protobuf.`type`.Field.Cardinality.fromValue(__fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scalapb.descriptors.EnumValueDescriptor]).getOrElse(_root_.com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN.scalaValueDescriptor).number),
         number = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).map(_.as[_root_.scala.Int]).getOrElse(0),
         name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         typeUrl = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         oneofIndex = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).map(_.as[_root_.scala.Int]).getOrElse(0),
         packed = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).map(_.as[_root_.scala.Boolean]).getOrElse(false),
-        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.Seq[com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
+        options = __fieldsMap.get(scalaDescriptor.findFieldByNumber(9).get).map(_.as[_root_.scala.Seq[_root_.com.google.protobuf.`type`.OptionProto]]).getOrElse(_root_.scala.Seq.empty),
         jsonName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         defaultValue = __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.`type`.TypeProto.javaDescriptor.getMessageTypes().get(1)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.`type`.TypeProto.scalaDescriptor.messages(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.`type`.TypeProto.javaDescriptor.getMessageTypes().get(1)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.`type`.TypeProto.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
-      case 9 => __out = com.google.protobuf.`type`.OptionProto
+      case 9 => __out = _root_.com.google.protobuf.`type`.OptionProto
     }
     __out
   }
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
-      case 1 => com.google.protobuf.`type`.Field.Kind
-      case 2 => com.google.protobuf.`type`.Field.Cardinality
+      case 1 => _root_.com.google.protobuf.`type`.Field.Kind
+      case 2 => _root_.com.google.protobuf.`type`.Field.Cardinality
     }
   }
-  lazy val defaultInstance = com.google.protobuf.`type`.Field(
-    kind = com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
-    cardinality = com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
+  lazy val defaultInstance = _root_.com.google.protobuf.`type`.Field(
+    kind = _root_.com.google.protobuf.`type`.Field.Kind.TYPE_UNKNOWN,
+    cardinality = _root_.com.google.protobuf.`type`.Field.Cardinality.CARDINALITY_UNKNOWN,
     number = 0,
     name = "",
     typeUrl = "",
@@ -377,8 +377,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   /** Basic field types.
     */
   sealed abstract class Kind(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.`type`.Field.Kind
-    type RecognizedType = com.google.protobuf.`type`.Field.Kind.Recognized
+    type EnumType = _root_.com.google.protobuf.`type`.Field.Kind
+    type RecognizedType = _root_.com.google.protobuf.`type`.Field.Kind.Recognized
     def isTypeUnknown: _root_.scala.Boolean = false
     def isTypeDouble: _root_.scala.Boolean = false
     def isTypeFloat: _root_.scala.Boolean = false
@@ -398,8 +398,8 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
     def isTypeSfixed64: _root_.scala.Boolean = false
     def isTypeSint32: _root_.scala.Boolean = false
     def isTypeSint64: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[Kind] = com.google.protobuf.`type`.Field.Kind
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Field.Kind.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Field.Kind.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[Kind] = _root_.com.google.protobuf.`type`.Field.Kind
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.`type`.Field.Kind.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.`type`.Field.Kind.Recognized])
   }
   
   object Kind extends _root_.scalapb.GeneratedEnumCompanion[Kind] {
@@ -602,20 +602,20 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       case 18 => TYPE_SINT64
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes().get(0)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.`type`.Field.scalaDescriptor.enums(0)
   }
   /** Whether a field is optional, required, or repeated.
     */
   sealed abstract class Cardinality(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.`type`.Field.Cardinality
-    type RecognizedType = com.google.protobuf.`type`.Field.Cardinality.Recognized
+    type EnumType = _root_.com.google.protobuf.`type`.Field.Cardinality
+    type RecognizedType = _root_.com.google.protobuf.`type`.Field.Cardinality.Recognized
     def isCardinalityUnknown: _root_.scala.Boolean = false
     def isCardinalityOptional: _root_.scala.Boolean = false
     def isCardinalityRequired: _root_.scala.Boolean = false
     def isCardinalityRepeated: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[Cardinality] = com.google.protobuf.`type`.Field.Cardinality
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Field.Cardinality.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Field.Cardinality.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[Cardinality] = _root_.com.google.protobuf.`type`.Field.Cardinality
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.`type`.Field.Cardinality.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.`type`.Field.Cardinality.Recognized])
   }
   
   object Cardinality extends _root_.scalapb.GeneratedEnumCompanion[Cardinality] {
@@ -668,18 +668,18 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
       case 3 => CARDINALITY_REPEATED
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes().get(1)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.Field.scalaDescriptor.enums(1)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.`type`.Field.javaDescriptor.getEnumTypes().get(1)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.`type`.Field.scalaDescriptor.enums(1)
   }
-  implicit class FieldLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.`type`.Field](_l) {
-    def kind: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Kind] = field(_.kind)((c_, f_) => c_.copy(kind = f_))
-    def cardinality: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.`type`.Field.Cardinality] = field(_.cardinality)((c_, f_) => c_.copy(cardinality = f_))
+  implicit class FieldLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.`type`.Field]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.`type`.Field](_l) {
+    def kind: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.`type`.Field.Kind] = field(_.kind)((c_, f_) => c_.copy(kind = f_))
+    def cardinality: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.`type`.Field.Cardinality] = field(_.cardinality)((c_, f_) => c_.copy(cardinality = f_))
     def number: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.number)((c_, f_) => c_.copy(number = f_))
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def typeUrl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
     def oneofIndex: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.oneofIndex)((c_, f_) => c_.copy(oneofIndex = f_))
     def packed: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.packed)((c_, f_) => c_.copy(packed = f_))
-    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
+    def options: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.com.google.protobuf.`type`.OptionProto]] = field(_.options)((c_, f_) => c_.copy(options = f_))
     def jsonName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.jsonName)((c_, f_) => c_.copy(jsonName = f_))
     def defaultValue: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.defaultValue)((c_, f_) => c_.copy(defaultValue = f_))
   }
@@ -694,14 +694,14 @@ object Field extends scalapb.GeneratedMessageCompanion[com.google.protobuf.`type
   final val JSON_NAME_FIELD_NUMBER = 10
   final val DEFAULT_VALUE_FIELD_NUMBER = 11
   def of(
-    kind: com.google.protobuf.`type`.Field.Kind,
-    cardinality: com.google.protobuf.`type`.Field.Cardinality,
+    kind: _root_.com.google.protobuf.`type`.Field.Kind,
+    cardinality: _root_.com.google.protobuf.`type`.Field.Cardinality,
     number: _root_.scala.Int,
     name: _root_.scala.Predef.String,
     typeUrl: _root_.scala.Predef.String,
     oneofIndex: _root_.scala.Int,
     packed: _root_.scala.Boolean,
-    options: _root_.scala.Seq[com.google.protobuf.`type`.OptionProto],
+    options: _root_.scala.Seq[_root_.com.google.protobuf.`type`.OptionProto],
     jsonName: _root_.scala.Predef.String,
     defaultValue: _root_.scala.Predef.String
   ): _root_.com.google.protobuf.`type`.Field = _root_.com.google.protobuf.`type`.Field(

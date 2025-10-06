@@ -5,7 +5,7 @@ package scalapb.perf.protos
 
 @SerialVersionUID(0L)
 final case class EnumVector(
-    colors: _root_.scala.Seq[scalapb.perf.protos.Color] = _root_.scala.Vector.empty,
+    colors: _root_.scala.Seq[_root_.scalapb.perf.protos.Color] = _root_.scala.Vector.empty,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[EnumVector] {
     private[this] def colorsSerializedSize = {
@@ -41,14 +41,14 @@ final case class EnumVector(
       if (colors.nonEmpty) {
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(colorsSerializedSize)
-        colors.foreach((_output__.writeEnumNoTag _).compose((_: scalapb.perf.protos.Color).value))
+        colors.foreach((_output__.writeEnumNoTag _).compose((_: _root_.scalapb.perf.protos.Color).value))
       };
       unknownFields.writeTo(_output__)
     }
     def clearColors = copy(colors = _root_.scala.Vector.empty)
-    def addColors(__vs: scalapb.perf.protos.Color *): EnumVector = addAllColors(__vs)
-    def addAllColors(__vs: Iterable[scalapb.perf.protos.Color]): EnumVector = copy(colors = colors ++ __vs)
-    def withColors(__v: _root_.scala.Seq[scalapb.perf.protos.Color]): EnumVector = copy(colors = __v)
+    def addColors(__vs: _root_.scalapb.perf.protos.Color *): EnumVector = addAllColors(__vs)
+    def addAllColors(__vs: Iterable[_root_.scalapb.perf.protos.Color]): EnumVector = copy(colors = colors ++ __vs)
+    def withColors(__v: _root_.scala.Seq[_root_.scalapb.perf.protos.Color]): EnumVector = copy(colors = __v)
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -63,14 +63,14 @@ final case class EnumVector(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: scalapb.perf.protos.EnumVector.type = scalapb.perf.protos.EnumVector
+    def companion: _root_.scalapb.perf.protos.EnumVector.type = _root_.scalapb.perf.protos.EnumVector
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.EnumVector])
 }
 
-object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.EnumVector] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.EnumVector = {
-    val __colors: _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.Color] = new _root_.scala.collection.immutable.VectorBuilder[scalapb.perf.protos.Color]
+object EnumVector extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.EnumVector] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.EnumVector] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.EnumVector = {
+    val __colors: _root_.scala.collection.immutable.VectorBuilder[_root_.scalapb.perf.protos.Color] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scalapb.perf.protos.Color]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -78,12 +78,12 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __colors += scalapb.perf.protos.Color.fromValue(_input__.readEnum())
+          __colors += _root_.scalapb.perf.protos.Color.fromValue(_input__.readEnum())
         case 10 => {
           val length = _input__.readRawVarint32()
           val oldLimit = _input__.pushLimit(length)
           while (_input__.getBytesUntilLimit > 0) {
-            __colors += scalapb.perf.protos.Color.fromValue(_input__.readEnum())
+            __colors += _root_.scalapb.perf.protos.Color.fromValue(_input__.readEnum())
           }
           _input__.popLimit(oldLimit)
         }
@@ -94,37 +94,37 @@ object EnumVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    scalapb.perf.protos.EnumVector(
+    _root_.scalapb.perf.protos.EnumVector(
         colors = __colors.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.EnumVector] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.scalapb.perf.protos.EnumVector] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      scalapb.perf.protos.EnumVector(
-        colors = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scalapb.descriptors.EnumValueDescriptor]]).getOrElse(_root_.scala.Seq.empty).iterator.map(__e => scalapb.perf.protos.Color.fromValue(__e.number)).toSeq
+      _root_.scalapb.perf.protos.EnumVector(
+        colors = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scalapb.descriptors.EnumValueDescriptor]]).getOrElse(_root_.scala.Seq.empty).iterator.map(__e => _root_.scalapb.perf.protos.Color.fromValue(__e.number)).toSeq
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = scalapb.perf.protos.ProtosProto.javaDescriptor.getMessageTypes().get(3)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = scalapb.perf.protos.ProtosProto.scalaDescriptor.messages(3)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.scalapb.perf.protos.ProtosProto.javaDescriptor.getMessageTypes().get(3)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.scalapb.perf.protos.ProtosProto.scalaDescriptor.messages(3)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
-      case 1 => scalapb.perf.protos.Color
+      case 1 => _root_.scalapb.perf.protos.Color
     }
   }
-  lazy val defaultInstance = scalapb.perf.protos.EnumVector(
+  lazy val defaultInstance = _root_.scalapb.perf.protos.EnumVector(
     colors = _root_.scala.Vector.empty
   )
-  implicit class EnumVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.EnumVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.EnumVector](_l) {
-    def colors: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[scalapb.perf.protos.Color]] = field(_.colors)((c_, f_) => c_.copy(colors = f_))
+  implicit class EnumVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.scalapb.perf.protos.EnumVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.scalapb.perf.protos.EnumVector](_l) {
+    def colors: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scalapb.perf.protos.Color]] = field(_.colors)((c_, f_) => c_.copy(colors = f_))
   }
   final val COLORS_FIELD_NUMBER = 1
   def of(
-    colors: _root_.scala.Seq[scalapb.perf.protos.Color]
+    colors: _root_.scala.Seq[_root_.scalapb.perf.protos.Color]
   ): _root_.scalapb.perf.protos.EnumVector = _root_.scalapb.perf.protos.EnumVector(
     colors
   )

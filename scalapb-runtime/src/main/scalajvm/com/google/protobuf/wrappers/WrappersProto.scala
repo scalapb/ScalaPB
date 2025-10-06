@@ -7,15 +7,15 @@ object WrappersProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq.empty
   lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
-      com.google.protobuf.wrappers.DoubleValue,
-      com.google.protobuf.wrappers.FloatValue,
-      com.google.protobuf.wrappers.Int64Value,
-      com.google.protobuf.wrappers.UInt64Value,
-      com.google.protobuf.wrappers.Int32Value,
-      com.google.protobuf.wrappers.UInt32Value,
-      com.google.protobuf.wrappers.BoolValue,
-      com.google.protobuf.wrappers.StringValue,
-      com.google.protobuf.wrappers.BytesValue
+      _root_.com.google.protobuf.wrappers.DoubleValue,
+      _root_.com.google.protobuf.wrappers.FloatValue,
+      _root_.com.google.protobuf.wrappers.Int64Value,
+      _root_.com.google.protobuf.wrappers.UInt64Value,
+      _root_.com.google.protobuf.wrappers.Int32Value,
+      _root_.com.google.protobuf.wrappers.UInt32Value,
+      _root_.com.google.protobuf.wrappers.BoolValue,
+      _root_.com.google.protobuf.wrappers.StringValue,
+      _root_.com.google.protobuf.wrappers.BytesValue
     )
   private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(

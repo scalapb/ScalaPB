@@ -12,14 +12,14 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class FeatureSet(
-    fieldPresence: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.FieldPresence] = _root_.scala.None,
-    enumType: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnumType] = _root_.scala.None,
-    repeatedFieldEncoding: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding] = _root_.scala.None,
-    utf8Validation: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.Utf8Validation] = _root_.scala.None,
-    messageEncoding: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.MessageEncoding] = _root_.scala.None,
-    jsonFormat: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.JsonFormat] = _root_.scala.None,
-    enforceNamingStyle: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle] = _root_.scala.None,
-    defaultSymbolVisibility: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility] = _root_.scala.None,
+    fieldPresence: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence] = _root_.scala.None,
+    enumType: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType] = _root_.scala.None,
+    repeatedFieldEncoding: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding] = _root_.scala.None,
+    utf8Validation: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation] = _root_.scala.None,
+    messageEncoding: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding] = _root_.scala.None,
+    jsonFormat: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat] = _root_.scala.None,
+    enforceNamingStyle: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle] = _root_.scala.None,
+    defaultSymbolVisibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[FeatureSet] with _root_.scalapb.ExtendableMessage[FeatureSet] {
     @transient
@@ -105,30 +105,30 @@ final case class FeatureSet(
       };
       unknownFields.writeTo(_output__)
     }
-    def getFieldPresence: com.google.protobuf.descriptor.FeatureSet.FieldPresence = fieldPresence.getOrElse(com.google.protobuf.descriptor.FeatureSet.FieldPresence.FIELD_PRESENCE_UNKNOWN)
+    def getFieldPresence: _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence = fieldPresence.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.FIELD_PRESENCE_UNKNOWN)
     def clearFieldPresence: FeatureSet = copy(fieldPresence = _root_.scala.None)
-    def withFieldPresence(__v: com.google.protobuf.descriptor.FeatureSet.FieldPresence): FeatureSet = copy(fieldPresence = _root_.scala.Option(__v))
-    def getEnumType: com.google.protobuf.descriptor.FeatureSet.EnumType = enumType.getOrElse(com.google.protobuf.descriptor.FeatureSet.EnumType.ENUM_TYPE_UNKNOWN)
+    def withFieldPresence(__v: _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence): FeatureSet = copy(fieldPresence = _root_.scala.Option(__v))
+    def getEnumType: _root_.com.google.protobuf.descriptor.FeatureSet.EnumType = enumType.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.ENUM_TYPE_UNKNOWN)
     def clearEnumType: FeatureSet = copy(enumType = _root_.scala.None)
-    def withEnumType(__v: com.google.protobuf.descriptor.FeatureSet.EnumType): FeatureSet = copy(enumType = _root_.scala.Option(__v))
-    def getRepeatedFieldEncoding: com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding = repeatedFieldEncoding.getOrElse(com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.REPEATED_FIELD_ENCODING_UNKNOWN)
+    def withEnumType(__v: _root_.com.google.protobuf.descriptor.FeatureSet.EnumType): FeatureSet = copy(enumType = _root_.scala.Option(__v))
+    def getRepeatedFieldEncoding: _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding = repeatedFieldEncoding.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.REPEATED_FIELD_ENCODING_UNKNOWN)
     def clearRepeatedFieldEncoding: FeatureSet = copy(repeatedFieldEncoding = _root_.scala.None)
-    def withRepeatedFieldEncoding(__v: com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding): FeatureSet = copy(repeatedFieldEncoding = _root_.scala.Option(__v))
-    def getUtf8Validation: com.google.protobuf.descriptor.FeatureSet.Utf8Validation = utf8Validation.getOrElse(com.google.protobuf.descriptor.FeatureSet.Utf8Validation.UTF8_VALIDATION_UNKNOWN)
+    def withRepeatedFieldEncoding(__v: _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding): FeatureSet = copy(repeatedFieldEncoding = _root_.scala.Option(__v))
+    def getUtf8Validation: _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation = utf8Validation.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.UTF8_VALIDATION_UNKNOWN)
     def clearUtf8Validation: FeatureSet = copy(utf8Validation = _root_.scala.None)
-    def withUtf8Validation(__v: com.google.protobuf.descriptor.FeatureSet.Utf8Validation): FeatureSet = copy(utf8Validation = _root_.scala.Option(__v))
-    def getMessageEncoding: com.google.protobuf.descriptor.FeatureSet.MessageEncoding = messageEncoding.getOrElse(com.google.protobuf.descriptor.FeatureSet.MessageEncoding.MESSAGE_ENCODING_UNKNOWN)
+    def withUtf8Validation(__v: _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation): FeatureSet = copy(utf8Validation = _root_.scala.Option(__v))
+    def getMessageEncoding: _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding = messageEncoding.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.MESSAGE_ENCODING_UNKNOWN)
     def clearMessageEncoding: FeatureSet = copy(messageEncoding = _root_.scala.None)
-    def withMessageEncoding(__v: com.google.protobuf.descriptor.FeatureSet.MessageEncoding): FeatureSet = copy(messageEncoding = _root_.scala.Option(__v))
-    def getJsonFormat: com.google.protobuf.descriptor.FeatureSet.JsonFormat = jsonFormat.getOrElse(com.google.protobuf.descriptor.FeatureSet.JsonFormat.JSON_FORMAT_UNKNOWN)
+    def withMessageEncoding(__v: _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding): FeatureSet = copy(messageEncoding = _root_.scala.Option(__v))
+    def getJsonFormat: _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat = jsonFormat.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.JSON_FORMAT_UNKNOWN)
     def clearJsonFormat: FeatureSet = copy(jsonFormat = _root_.scala.None)
-    def withJsonFormat(__v: com.google.protobuf.descriptor.FeatureSet.JsonFormat): FeatureSet = copy(jsonFormat = _root_.scala.Option(__v))
-    def getEnforceNamingStyle: com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle = enforceNamingStyle.getOrElse(com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.ENFORCE_NAMING_STYLE_UNKNOWN)
+    def withJsonFormat(__v: _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat): FeatureSet = copy(jsonFormat = _root_.scala.Option(__v))
+    def getEnforceNamingStyle: _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle = enforceNamingStyle.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.ENFORCE_NAMING_STYLE_UNKNOWN)
     def clearEnforceNamingStyle: FeatureSet = copy(enforceNamingStyle = _root_.scala.None)
-    def withEnforceNamingStyle(__v: com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle): FeatureSet = copy(enforceNamingStyle = _root_.scala.Option(__v))
-    def getDefaultSymbolVisibility: com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility = defaultSymbolVisibility.getOrElse(com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.DEFAULT_SYMBOL_VISIBILITY_UNKNOWN)
+    def withEnforceNamingStyle(__v: _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle): FeatureSet = copy(enforceNamingStyle = _root_.scala.Option(__v))
+    def getDefaultSymbolVisibility: _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility = defaultSymbolVisibility.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.DEFAULT_SYMBOL_VISIBILITY_UNKNOWN)
     def clearDefaultSymbolVisibility: FeatureSet = copy(defaultSymbolVisibility = _root_.scala.None)
-    def withDefaultSymbolVisibility(__v: com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility): FeatureSet = copy(defaultSymbolVisibility = _root_.scala.Option(__v))
+    def withDefaultSymbolVisibility(__v: _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility): FeatureSet = copy(defaultSymbolVisibility = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -157,43 +157,43 @@ final case class FeatureSet(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.descriptor.FeatureSet.type = com.google.protobuf.descriptor.FeatureSet
+    def companion: _root_.com.google.protobuf.descriptor.FeatureSet.type = _root_.com.google.protobuf.descriptor.FeatureSet
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FeatureSet])
 }
 
-object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FeatureSet] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FeatureSet, com.google.protobuf.DescriptorProtos.FeatureSet] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FeatureSet] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FeatureSet, com.google.protobuf.DescriptorProtos.FeatureSet] = this
-  def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FeatureSet): com.google.protobuf.DescriptorProtos.FeatureSet = {
+object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSet] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSet, com.google.protobuf.DescriptorProtos.FeatureSet] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSet] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSet, com.google.protobuf.DescriptorProtos.FeatureSet] = this
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FeatureSet): com.google.protobuf.DescriptorProtos.FeatureSet = {
     val javaPbOut = com.google.protobuf.DescriptorProtos.FeatureSet.newBuilder
-    scalaPbSource.fieldPresence.map(com.google.protobuf.descriptor.FeatureSet.FieldPresence.toJavaValue(_)).foreach(javaPbOut.setFieldPresence)
-    scalaPbSource.enumType.map(com.google.protobuf.descriptor.FeatureSet.EnumType.toJavaValue(_)).foreach(javaPbOut.setEnumType)
-    scalaPbSource.repeatedFieldEncoding.map(com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.toJavaValue(_)).foreach(javaPbOut.setRepeatedFieldEncoding)
-    scalaPbSource.utf8Validation.map(com.google.protobuf.descriptor.FeatureSet.Utf8Validation.toJavaValue(_)).foreach(javaPbOut.setUtf8Validation)
-    scalaPbSource.messageEncoding.map(com.google.protobuf.descriptor.FeatureSet.MessageEncoding.toJavaValue(_)).foreach(javaPbOut.setMessageEncoding)
-    scalaPbSource.jsonFormat.map(com.google.protobuf.descriptor.FeatureSet.JsonFormat.toJavaValue(_)).foreach(javaPbOut.setJsonFormat)
-    scalaPbSource.enforceNamingStyle.map(com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.toJavaValue(_)).foreach(javaPbOut.setEnforceNamingStyle)
-    scalaPbSource.defaultSymbolVisibility.map(com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.toJavaValue(_)).foreach(javaPbOut.setDefaultSymbolVisibility)
+    scalaPbSource.fieldPresence.map(_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.toJavaValue(_)).foreach(javaPbOut.setFieldPresence)
+    scalaPbSource.enumType.map(_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.toJavaValue(_)).foreach(javaPbOut.setEnumType)
+    scalaPbSource.repeatedFieldEncoding.map(_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.toJavaValue(_)).foreach(javaPbOut.setRepeatedFieldEncoding)
+    scalaPbSource.utf8Validation.map(_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.toJavaValue(_)).foreach(javaPbOut.setUtf8Validation)
+    scalaPbSource.messageEncoding.map(_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.toJavaValue(_)).foreach(javaPbOut.setMessageEncoding)
+    scalaPbSource.jsonFormat.map(_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.toJavaValue(_)).foreach(javaPbOut.setJsonFormat)
+    scalaPbSource.enforceNamingStyle.map(_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.toJavaValue(_)).foreach(javaPbOut.setEnforceNamingStyle)
+    scalaPbSource.defaultSymbolVisibility.map(_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.toJavaValue(_)).foreach(javaPbOut.setDefaultSymbolVisibility)
     javaPbOut.build
   }
-  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSet): com.google.protobuf.descriptor.FeatureSet = com.google.protobuf.descriptor.FeatureSet(
-    fieldPresence = if (javaPbSource.hasFieldPresence) Some(com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromJavaValue(javaPbSource.getFieldPresence)) else _root_.scala.None,
-    enumType = if (javaPbSource.hasEnumType) Some(com.google.protobuf.descriptor.FeatureSet.EnumType.fromJavaValue(javaPbSource.getEnumType)) else _root_.scala.None,
-    repeatedFieldEncoding = if (javaPbSource.hasRepeatedFieldEncoding) Some(com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromJavaValue(javaPbSource.getRepeatedFieldEncoding)) else _root_.scala.None,
-    utf8Validation = if (javaPbSource.hasUtf8Validation) Some(com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromJavaValue(javaPbSource.getUtf8Validation)) else _root_.scala.None,
-    messageEncoding = if (javaPbSource.hasMessageEncoding) Some(com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromJavaValue(javaPbSource.getMessageEncoding)) else _root_.scala.None,
-    jsonFormat = if (javaPbSource.hasJsonFormat) Some(com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromJavaValue(javaPbSource.getJsonFormat)) else _root_.scala.None,
-    enforceNamingStyle = if (javaPbSource.hasEnforceNamingStyle) Some(com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromJavaValue(javaPbSource.getEnforceNamingStyle)) else _root_.scala.None,
-    defaultSymbolVisibility = if (javaPbSource.hasDefaultSymbolVisibility) Some(com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromJavaValue(javaPbSource.getDefaultSymbolVisibility)) else _root_.scala.None
+  def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSet): _root_.com.google.protobuf.descriptor.FeatureSet = _root_.com.google.protobuf.descriptor.FeatureSet(
+    fieldPresence = if (javaPbSource.hasFieldPresence) Some(_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromJavaValue(javaPbSource.getFieldPresence)) else _root_.scala.None,
+    enumType = if (javaPbSource.hasEnumType) Some(_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.fromJavaValue(javaPbSource.getEnumType)) else _root_.scala.None,
+    repeatedFieldEncoding = if (javaPbSource.hasRepeatedFieldEncoding) Some(_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromJavaValue(javaPbSource.getRepeatedFieldEncoding)) else _root_.scala.None,
+    utf8Validation = if (javaPbSource.hasUtf8Validation) Some(_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromJavaValue(javaPbSource.getUtf8Validation)) else _root_.scala.None,
+    messageEncoding = if (javaPbSource.hasMessageEncoding) Some(_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromJavaValue(javaPbSource.getMessageEncoding)) else _root_.scala.None,
+    jsonFormat = if (javaPbSource.hasJsonFormat) Some(_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromJavaValue(javaPbSource.getJsonFormat)) else _root_.scala.None,
+    enforceNamingStyle = if (javaPbSource.hasEnforceNamingStyle) Some(_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromJavaValue(javaPbSource.getEnforceNamingStyle)) else _root_.scala.None,
+    defaultSymbolVisibility = if (javaPbSource.hasDefaultSymbolVisibility) Some(_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromJavaValue(javaPbSource.getDefaultSymbolVisibility)) else _root_.scala.None
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FeatureSet = {
-    var __fieldPresence: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.FieldPresence] = _root_.scala.None
-    var __enumType: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnumType] = _root_.scala.None
-    var __repeatedFieldEncoding: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding] = _root_.scala.None
-    var __utf8Validation: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.Utf8Validation] = _root_.scala.None
-    var __messageEncoding: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.MessageEncoding] = _root_.scala.None
-    var __jsonFormat: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.JsonFormat] = _root_.scala.None
-    var __enforceNamingStyle: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle] = _root_.scala.None
-    var __defaultSymbolVisibility: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility] = _root_.scala.None
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSet = {
+    var __fieldPresence: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence] = _root_.scala.None
+    var __enumType: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType] = _root_.scala.None
+    var __repeatedFieldEncoding: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding] = _root_.scala.None
+    var __utf8Validation: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation] = _root_.scala.None
+    var __messageEncoding: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding] = _root_.scala.None
+    var __jsonFormat: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat] = _root_.scala.None
+    var __enforceNamingStyle: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle] = _root_.scala.None
+    var __defaultSymbolVisibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -201,21 +201,21 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       _tag__ match {
         case 0 => _done__ = true
         case 8 =>
-          __fieldPresence = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromValue(_input__.readEnum()))
+          __fieldPresence = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromValue(_input__.readEnum()))
         case 16 =>
-          __enumType = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.EnumType.fromValue(_input__.readEnum()))
+          __enumType = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.fromValue(_input__.readEnum()))
         case 24 =>
-          __repeatedFieldEncoding = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromValue(_input__.readEnum()))
+          __repeatedFieldEncoding = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromValue(_input__.readEnum()))
         case 32 =>
-          __utf8Validation = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromValue(_input__.readEnum()))
+          __utf8Validation = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromValue(_input__.readEnum()))
         case 40 =>
-          __messageEncoding = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromValue(_input__.readEnum()))
+          __messageEncoding = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromValue(_input__.readEnum()))
         case 48 =>
-          __jsonFormat = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromValue(_input__.readEnum()))
+          __jsonFormat = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromValue(_input__.readEnum()))
         case 56 =>
-          __enforceNamingStyle = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromValue(_input__.readEnum()))
+          __enforceNamingStyle = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromValue(_input__.readEnum()))
         case 64 =>
-          __defaultSymbolVisibility = _root_.scala.Option(com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromValue(_input__.readEnum()))
+          __defaultSymbolVisibility = _root_.scala.Option(_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -223,7 +223,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.descriptor.FeatureSet(
+    _root_.com.google.protobuf.descriptor.FeatureSet(
         fieldPresence = __fieldPresence,
         enumType = __enumType,
         repeatedFieldEncoding = __repeatedFieldEncoding,
@@ -235,23 +235,23 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FeatureSet] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.descriptor.FeatureSet(
-        fieldPresence = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromValue(__e.number)),
-        enumType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.EnumType.fromValue(__e.number)),
-        repeatedFieldEncoding = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromValue(__e.number)),
-        utf8Validation = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromValue(__e.number)),
-        messageEncoding = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromValue(__e.number)),
-        jsonFormat = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromValue(__e.number)),
-        enforceNamingStyle = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromValue(__e.number)),
-        defaultSymbolVisibility = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromValue(__e.number))
+      _root_.com.google.protobuf.descriptor.FeatureSet(
+        fieldPresence = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.fromValue(__e.number)),
+        enumType = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.EnumType.fromValue(__e.number)),
+        repeatedFieldEncoding = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.fromValue(__e.number)),
+        utf8Validation = __fieldsMap.get(scalaDescriptor.findFieldByNumber(4).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.fromValue(__e.number)),
+        messageEncoding = __fieldsMap.get(scalaDescriptor.findFieldByNumber(5).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.fromValue(__e.number)),
+        jsonFormat = __fieldsMap.get(scalaDescriptor.findFieldByNumber(6).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.fromValue(__e.number)),
+        enforceNamingStyle = __fieldsMap.get(scalaDescriptor.findFieldByNumber(7).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.fromValue(__e.number)),
+        defaultSymbolVisibility = __fieldsMap.get(scalaDescriptor.findFieldByNumber(8).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.fromValue(__e.number))
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(19)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.messages(19)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(19)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.messages(19)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
@@ -259,17 +259,17 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
-      case 1 => com.google.protobuf.descriptor.FeatureSet.FieldPresence
-      case 2 => com.google.protobuf.descriptor.FeatureSet.EnumType
-      case 3 => com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding
-      case 4 => com.google.protobuf.descriptor.FeatureSet.Utf8Validation
-      case 5 => com.google.protobuf.descriptor.FeatureSet.MessageEncoding
-      case 6 => com.google.protobuf.descriptor.FeatureSet.JsonFormat
-      case 7 => com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle
-      case 8 => com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility
+      case 1 => _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence
+      case 2 => _root_.com.google.protobuf.descriptor.FeatureSet.EnumType
+      case 3 => _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding
+      case 4 => _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation
+      case 5 => _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding
+      case 6 => _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat
+      case 7 => _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle
+      case 8 => _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility
     }
   }
-  lazy val defaultInstance = com.google.protobuf.descriptor.FeatureSet(
+  lazy val defaultInstance = _root_.com.google.protobuf.descriptor.FeatureSet(
     fieldPresence = _root_.scala.None,
     enumType = _root_.scala.None,
     repeatedFieldEncoding = _root_.scala.None,
@@ -280,14 +280,14 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     defaultSymbolVisibility = _root_.scala.None
   )
   sealed abstract class FieldPresence(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.FeatureSet.FieldPresence
-    type RecognizedType = com.google.protobuf.descriptor.FeatureSet.FieldPresence.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence
+    type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.Recognized
     def isFieldPresenceUnknown: _root_.scala.Boolean = false
     def isExplicit: _root_.scala.Boolean = false
     def isImplicit: _root_.scala.Boolean = false
     def isLegacyRequired: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[FieldPresence] = com.google.protobuf.descriptor.FeatureSet.FieldPresence
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.FieldPresence.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.FieldPresence.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[FieldPresence] = _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.Recognized])
   }
   
   object FieldPresence extends _root_.scalapb.GeneratedEnumCompanion[FieldPresence] {
@@ -332,8 +332,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       case 3 => LEGACY_REQUIRED
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(0)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(0)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.FieldPresence): FieldPresence = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: FieldPresence): com.google.protobuf.DescriptorProtos.FeatureSet.FieldPresence = {
       _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
@@ -341,13 +341,13 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     }
   }
   sealed abstract class EnumType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.FeatureSet.EnumType
-    type RecognizedType = com.google.protobuf.descriptor.FeatureSet.EnumType.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.EnumType
+    type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.EnumType.Recognized
     def isEnumTypeUnknown: _root_.scala.Boolean = false
     def isOpen: _root_.scala.Boolean = false
     def isClosed: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[EnumType] = com.google.protobuf.descriptor.FeatureSet.EnumType
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnumType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.EnumType.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[EnumType] = _root_.com.google.protobuf.descriptor.FeatureSet.EnumType
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.Recognized])
   }
   
   object EnumType extends _root_.scalapb.GeneratedEnumCompanion[EnumType] {
@@ -384,8 +384,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       case 2 => CLOSED
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(1)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(1)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(1)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(1)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.EnumType): EnumType = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: EnumType): com.google.protobuf.DescriptorProtos.FeatureSet.EnumType = {
       _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
@@ -393,13 +393,13 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     }
   }
   sealed abstract class RepeatedFieldEncoding(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding
-    type RecognizedType = com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding
+    type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.Recognized
     def isRepeatedFieldEncodingUnknown: _root_.scala.Boolean = false
     def isPacked: _root_.scala.Boolean = false
     def isExpanded: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[RepeatedFieldEncoding] = com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[RepeatedFieldEncoding] = _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.Recognized])
   }
   
   object RepeatedFieldEncoding extends _root_.scalapb.GeneratedEnumCompanion[RepeatedFieldEncoding] {
@@ -436,8 +436,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       case 2 => EXPANDED
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(2)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(2)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(2)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(2)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.RepeatedFieldEncoding): RepeatedFieldEncoding = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: RepeatedFieldEncoding): com.google.protobuf.DescriptorProtos.FeatureSet.RepeatedFieldEncoding = {
       _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
@@ -445,13 +445,13 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     }
   }
   sealed abstract class Utf8Validation(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.FeatureSet.Utf8Validation
-    type RecognizedType = com.google.protobuf.descriptor.FeatureSet.Utf8Validation.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation
+    type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.Recognized
     def isUtf8ValidationUnknown: _root_.scala.Boolean = false
     def isVerify: _root_.scala.Boolean = false
     def isNone: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[Utf8Validation] = com.google.protobuf.descriptor.FeatureSet.Utf8Validation
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.Utf8Validation.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.Utf8Validation.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[Utf8Validation] = _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.Recognized])
   }
   
   object Utf8Validation extends _root_.scalapb.GeneratedEnumCompanion[Utf8Validation] {
@@ -488,8 +488,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       case 3 => NONE
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(3)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(3)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(3)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(3)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.Utf8Validation): Utf8Validation = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: Utf8Validation): com.google.protobuf.DescriptorProtos.FeatureSet.Utf8Validation = {
       _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
@@ -497,13 +497,13 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     }
   }
   sealed abstract class MessageEncoding(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.FeatureSet.MessageEncoding
-    type RecognizedType = com.google.protobuf.descriptor.FeatureSet.MessageEncoding.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding
+    type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.Recognized
     def isMessageEncodingUnknown: _root_.scala.Boolean = false
     def isLengthPrefixed: _root_.scala.Boolean = false
     def isDelimited: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[MessageEncoding] = com.google.protobuf.descriptor.FeatureSet.MessageEncoding
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.MessageEncoding.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.MessageEncoding.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[MessageEncoding] = _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.Recognized])
   }
   
   object MessageEncoding extends _root_.scalapb.GeneratedEnumCompanion[MessageEncoding] {
@@ -540,8 +540,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       case 2 => DELIMITED
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(4)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(4)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(4)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(4)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.MessageEncoding): MessageEncoding = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: MessageEncoding): com.google.protobuf.DescriptorProtos.FeatureSet.MessageEncoding = {
       _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
@@ -549,13 +549,13 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     }
   }
   sealed abstract class JsonFormat(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.FeatureSet.JsonFormat
-    type RecognizedType = com.google.protobuf.descriptor.FeatureSet.JsonFormat.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat
+    type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.Recognized
     def isJsonFormatUnknown: _root_.scala.Boolean = false
     def isAllow: _root_.scala.Boolean = false
     def isLegacyBestEffort: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[JsonFormat] = com.google.protobuf.descriptor.FeatureSet.JsonFormat
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.JsonFormat.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.JsonFormat.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[JsonFormat] = _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.Recognized])
   }
   
   object JsonFormat extends _root_.scalapb.GeneratedEnumCompanion[JsonFormat] {
@@ -592,8 +592,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       case 2 => LEGACY_BEST_EFFORT
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(5)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(5)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(5)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(5)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.JsonFormat): JsonFormat = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: JsonFormat): com.google.protobuf.DescriptorProtos.FeatureSet.JsonFormat = {
       _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
@@ -601,13 +601,13 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     }
   }
   sealed abstract class EnforceNamingStyle(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle
-    type RecognizedType = com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle
+    type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.Recognized
     def isEnforceNamingStyleUnknown: _root_.scala.Boolean = false
     def isStyle2024: _root_.scala.Boolean = false
     def isStyleLegacy: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[EnforceNamingStyle] = com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[EnforceNamingStyle] = _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.Recognized])
   }
   
   object EnforceNamingStyle extends _root_.scalapb.GeneratedEnumCompanion[EnforceNamingStyle] {
@@ -644,8 +644,8 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       case 2 => STYLE_LEGACY
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(6)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(6)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getEnumTypes().get(6)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.enums(6)
     def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.EnforceNamingStyle): EnforceNamingStyle = fromValue(pbJavaSource.getNumber)
     def toJavaValue(pbScalaSource: EnforceNamingStyle): com.google.protobuf.DescriptorProtos.FeatureSet.EnforceNamingStyle = {
       _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
@@ -680,19 +680,19 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
       def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = throw new MatchError(__fieldNumber)
       def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = throw new MatchError(__field)
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion: com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.type = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature
+      def companion: _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.type = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FeatureSet.VisibilityFeature])
   }
   
-  object VisibilityFeature extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature, com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature] with scalapb.JavaProtoSupport[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature, com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature] = this
-    def toJavaProto(scalaPbSource: com.google.protobuf.descriptor.FeatureSet.VisibilityFeature): com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature = {
+  object VisibilityFeature extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature, com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature, com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature] = this
+    def toJavaProto(scalaPbSource: _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature): com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature = {
       val javaPbOut = com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature.newBuilder
       javaPbOut.build
     }
-    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature): com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
+    def fromJavaProto(javaPbSource: com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature): _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
     )
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = {
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = {
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
       var _done__ = false
       while (!_done__) {
@@ -706,34 +706,34 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
             val _ = _unknownFields__.parseField(tag, _input__)
         }
       }
-      com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
+      _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
           unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
-    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature] = _root_.scalapb.descriptors.Reads{
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-        com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
+        _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getNestedTypes().get(0)
-    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.nestedMessages(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.descriptor.FeatureSet.javaDescriptor.getNestedTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.descriptor.FeatureSet.scalaDescriptor.nestedMessages(0)
     def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-    lazy val defaultInstance = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
+    lazy val defaultInstance = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
     )
     sealed abstract class DefaultSymbolVisibility(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-      type EnumType = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility
-      type RecognizedType = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.Recognized
+      type EnumType = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility
+      type RecognizedType = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.Recognized
       def isDefaultSymbolVisibilityUnknown: _root_.scala.Boolean = false
       def isExportAll: _root_.scala.Boolean = false
       def isExportTopLevel: _root_.scala.Boolean = false
       def isLocalAll: _root_.scala.Boolean = false
       def isStrict: _root_.scala.Boolean = false
-      def companion: _root_.scalapb.GeneratedEnumCompanion[DefaultSymbolVisibility] = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility
-      final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.Recognized])
+      def companion: _root_.scalapb.GeneratedEnumCompanion[DefaultSymbolVisibility] = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility
+      final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.Recognized])
     }
     
     object DefaultSymbolVisibility extends _root_.scalapb.GeneratedEnumCompanion[DefaultSymbolVisibility] {
@@ -796,15 +796,15 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
         case 4 => STRICT
         case __other => Unrecognized(__other)
       }
-      def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.javaDescriptor.getEnumTypes().get(0)
-      def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.scalaDescriptor.enums(0)
+      def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.javaDescriptor.getEnumTypes().get(0)
+      def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.scalaDescriptor.enums(0)
       def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature.DefaultSymbolVisibility): DefaultSymbolVisibility = fromValue(pbJavaSource.getNumber)
       def toJavaValue(pbScalaSource: DefaultSymbolVisibility): com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature.DefaultSymbolVisibility = {
         _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")
         com.google.protobuf.DescriptorProtos.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.forNumber(pbScalaSource.value)
       }
     }
-    implicit class VisibilityFeatureLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.VisibilityFeature]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FeatureSet.VisibilityFeature](_l) {
+    implicit class VisibilityFeatureLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature](_l) {
     }
     def of(
     ): _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature = _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature(
@@ -812,23 +812,23 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
     // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.FeatureSet.VisibilityFeature])
   }
   
-  implicit class FeatureSetLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.FeatureSet](_l) {
-    def fieldPresence: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.FieldPresence] = field(_.getFieldPresence)((c_, f_) => c_.copy(fieldPresence = _root_.scala.Option(f_)))
-    def optionalFieldPresence: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.FieldPresence]] = field(_.fieldPresence)((c_, f_) => c_.copy(fieldPresence = f_))
-    def enumType: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.EnumType] = field(_.getEnumType)((c_, f_) => c_.copy(enumType = _root_.scala.Option(f_)))
-    def optionalEnumType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnumType]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
-    def repeatedFieldEncoding: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding] = field(_.getRepeatedFieldEncoding)((c_, f_) => c_.copy(repeatedFieldEncoding = _root_.scala.Option(f_)))
-    def optionalRepeatedFieldEncoding: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding]] = field(_.repeatedFieldEncoding)((c_, f_) => c_.copy(repeatedFieldEncoding = f_))
-    def utf8Validation: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.Utf8Validation] = field(_.getUtf8Validation)((c_, f_) => c_.copy(utf8Validation = _root_.scala.Option(f_)))
-    def optionalUtf8Validation: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.Utf8Validation]] = field(_.utf8Validation)((c_, f_) => c_.copy(utf8Validation = f_))
-    def messageEncoding: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.MessageEncoding] = field(_.getMessageEncoding)((c_, f_) => c_.copy(messageEncoding = _root_.scala.Option(f_)))
-    def optionalMessageEncoding: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.MessageEncoding]] = field(_.messageEncoding)((c_, f_) => c_.copy(messageEncoding = f_))
-    def jsonFormat: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.JsonFormat] = field(_.getJsonFormat)((c_, f_) => c_.copy(jsonFormat = _root_.scala.Option(f_)))
-    def optionalJsonFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.JsonFormat]] = field(_.jsonFormat)((c_, f_) => c_.copy(jsonFormat = f_))
-    def enforceNamingStyle: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle] = field(_.getEnforceNamingStyle)((c_, f_) => c_.copy(enforceNamingStyle = _root_.scala.Option(f_)))
-    def optionalEnforceNamingStyle: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle]] = field(_.enforceNamingStyle)((c_, f_) => c_.copy(enforceNamingStyle = f_))
-    def defaultSymbolVisibility: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility] = field(_.getDefaultSymbolVisibility)((c_, f_) => c_.copy(defaultSymbolVisibility = _root_.scala.Option(f_)))
-    def optionalDefaultSymbolVisibility: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility]] = field(_.defaultSymbolVisibility)((c_, f_) => c_.copy(defaultSymbolVisibility = f_))
+  implicit class FeatureSetLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet](_l) {
+    def fieldPresence: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence] = field(_.getFieldPresence)((c_, f_) => c_.copy(fieldPresence = _root_.scala.Option(f_)))
+    def optionalFieldPresence: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence]] = field(_.fieldPresence)((c_, f_) => c_.copy(fieldPresence = f_))
+    def enumType: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.EnumType] = field(_.getEnumType)((c_, f_) => c_.copy(enumType = _root_.scala.Option(f_)))
+    def optionalEnumType: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType]] = field(_.enumType)((c_, f_) => c_.copy(enumType = f_))
+    def repeatedFieldEncoding: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding] = field(_.getRepeatedFieldEncoding)((c_, f_) => c_.copy(repeatedFieldEncoding = _root_.scala.Option(f_)))
+    def optionalRepeatedFieldEncoding: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding]] = field(_.repeatedFieldEncoding)((c_, f_) => c_.copy(repeatedFieldEncoding = f_))
+    def utf8Validation: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation] = field(_.getUtf8Validation)((c_, f_) => c_.copy(utf8Validation = _root_.scala.Option(f_)))
+    def optionalUtf8Validation: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation]] = field(_.utf8Validation)((c_, f_) => c_.copy(utf8Validation = f_))
+    def messageEncoding: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding] = field(_.getMessageEncoding)((c_, f_) => c_.copy(messageEncoding = _root_.scala.Option(f_)))
+    def optionalMessageEncoding: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding]] = field(_.messageEncoding)((c_, f_) => c_.copy(messageEncoding = f_))
+    def jsonFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat] = field(_.getJsonFormat)((c_, f_) => c_.copy(jsonFormat = _root_.scala.Option(f_)))
+    def optionalJsonFormat: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat]] = field(_.jsonFormat)((c_, f_) => c_.copy(jsonFormat = f_))
+    def enforceNamingStyle: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle] = field(_.getEnforceNamingStyle)((c_, f_) => c_.copy(enforceNamingStyle = _root_.scala.Option(f_)))
+    def optionalEnforceNamingStyle: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle]] = field(_.enforceNamingStyle)((c_, f_) => c_.copy(enforceNamingStyle = f_))
+    def defaultSymbolVisibility: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility] = field(_.getDefaultSymbolVisibility)((c_, f_) => c_.copy(defaultSymbolVisibility = _root_.scala.Option(f_)))
+    def optionalDefaultSymbolVisibility: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility]] = field(_.defaultSymbolVisibility)((c_, f_) => c_.copy(defaultSymbolVisibility = f_))
   }
   final val FIELD_PRESENCE_FIELD_NUMBER = 1
   final val ENUM_TYPE_FIELD_NUMBER = 2
@@ -839,14 +839,14 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
   final val ENFORCE_NAMING_STYLE_FIELD_NUMBER = 7
   final val DEFAULT_SYMBOL_VISIBILITY_FIELD_NUMBER = 8
   def of(
-    fieldPresence: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.FieldPresence],
-    enumType: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnumType],
-    repeatedFieldEncoding: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding],
-    utf8Validation: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.Utf8Validation],
-    messageEncoding: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.MessageEncoding],
-    jsonFormat: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.JsonFormat],
-    enforceNamingStyle: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle],
-    defaultSymbolVisibility: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility]
+    fieldPresence: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence],
+    enumType: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType],
+    repeatedFieldEncoding: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding],
+    utf8Validation: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation],
+    messageEncoding: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding],
+    jsonFormat: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat],
+    enforceNamingStyle: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle],
+    defaultSymbolVisibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility]
   ): _root_.com.google.protobuf.descriptor.FeatureSet = _root_.com.google.protobuf.descriptor.FeatureSet(
     fieldPresence,
     enumType,

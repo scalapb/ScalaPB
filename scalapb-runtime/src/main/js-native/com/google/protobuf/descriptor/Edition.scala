@@ -6,8 +6,8 @@ package com.google.protobuf.descriptor
 /** The full set of known editions.
   */
 sealed abstract class Edition(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = com.google.protobuf.descriptor.Edition
-  type RecognizedType = com.google.protobuf.descriptor.Edition.Recognized
+  type EnumType = _root_.com.google.protobuf.descriptor.Edition
+  type RecognizedType = _root_.com.google.protobuf.descriptor.Edition.Recognized
   def isEditionUnknown: _root_.scala.Boolean = false
   def isEditionLegacy: _root_.scala.Boolean = false
   def isEditionProto2: _root_.scala.Boolean = false
@@ -20,8 +20,8 @@ sealed abstract class Edition(val value: _root_.scala.Int) extends _root_.scalap
   def isEdition99998TestOnly: _root_.scala.Boolean = false
   def isEdition99999TestOnly: _root_.scala.Boolean = false
   def isEditionMax: _root_.scala.Boolean = false
-  def companion: _root_.scalapb.GeneratedEnumCompanion[Edition] = com.google.protobuf.descriptor.Edition
-  final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.Edition.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.Edition.Recognized])
+  def companion: _root_.scalapb.GeneratedEnumCompanion[Edition] = _root_.com.google.protobuf.descriptor.Edition
+  final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.Edition.Recognized])
 }
 
 object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
@@ -151,6 +151,6 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
     case 2147483647 => EDITION_MAX
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getEnumTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.enums(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getEnumTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.enums(0)
 }

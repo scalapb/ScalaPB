@@ -68,13 +68,13 @@ final case class FloatValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.wrappers.FloatValue.type = com.google.protobuf.wrappers.FloatValue
+    def companion: _root_.com.google.protobuf.wrappers.FloatValue.type = _root_.com.google.protobuf.wrappers.FloatValue
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.FloatValue])
 }
 
-object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.FloatValue] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.FloatValue = {
+object FloatValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.FloatValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.FloatValue] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.FloatValue = {
     var __value: _root_.scala.Float = 0.0f
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -91,28 +91,28 @@ object FloatValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.wrappers.FloatValue(
+    _root_.com.google.protobuf.wrappers.FloatValue(
         value = __value,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.FloatValue] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.wrappers.FloatValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.wrappers.FloatValue(
+      _root_.com.google.protobuf.wrappers.FloatValue(
         value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Float]).getOrElse(0.0f)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(1)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(1)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.wrappers.FloatValue(
+  lazy val defaultInstance = _root_.com.google.protobuf.wrappers.FloatValue(
     value = 0.0f
   )
-  implicit class FloatValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.FloatValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.FloatValue](_l) {
+  implicit class FloatValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.wrappers.FloatValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.wrappers.FloatValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Float] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

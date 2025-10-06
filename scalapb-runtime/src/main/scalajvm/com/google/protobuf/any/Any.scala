@@ -196,23 +196,23 @@ final case class Any(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.any.Any.type = com.google.protobuf.any.Any
+    def companion: _root_.com.google.protobuf.any.Any.type = _root_.com.google.protobuf.any.Any
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Any])
 }
 
-object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods = this
-  def toJavaProto(scalaPbSource: com.google.protobuf.any.Any): com.google.protobuf.Any = {
+object Any extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.any.Any] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.any.Any, com.google.protobuf.Any] with scalapb.AnyCompanionMethods = this
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.any.Any): com.google.protobuf.Any = {
     val javaPbOut = com.google.protobuf.Any.newBuilder
     javaPbOut.setTypeUrl(scalaPbSource.typeUrl)
     javaPbOut.setValue(scalaPbSource.value)
     javaPbOut.build
   }
-  def fromJavaProto(javaPbSource: com.google.protobuf.Any): com.google.protobuf.any.Any = com.google.protobuf.any.Any(
+  def fromJavaProto(javaPbSource: com.google.protobuf.Any): _root_.com.google.protobuf.any.Any = _root_.com.google.protobuf.any.Any(
     typeUrl = javaPbSource.getTypeUrl,
     value = javaPbSource.getValue
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.any.Any = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.any.Any = {
     var __typeUrl: _root_.scala.Predef.String = ""
     var __value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -232,31 +232,31 @@ object Any extends scalapb.GeneratedMessageCompanion[com.google.protobuf.any.Any
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.any.Any(
+    _root_.com.google.protobuf.any.Any(
         typeUrl = __typeUrl,
         value = __value,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.any.Any] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.any.Any] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.any.Any(
+      _root_.com.google.protobuf.any.Any(
         typeUrl = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.any.AnyProto.javaDescriptor.getMessageTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.any.AnyProto.scalaDescriptor.messages(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.any.AnyProto.javaDescriptor.getMessageTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.any.AnyProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.any.Any(
+  lazy val defaultInstance = _root_.com.google.protobuf.any.Any(
     typeUrl = "",
     value = _root_.com.google.protobuf.ByteString.EMPTY
   )
-  implicit class AnyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.any.Any]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.any.Any](_l) {
+  implicit class AnyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.any.Any]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.any.Any](_l) {
     def typeUrl: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.typeUrl)((c_, f_) => c_.copy(typeUrl = f_))
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }

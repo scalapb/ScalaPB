@@ -78,13 +78,13 @@ final case class StringMessage(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: scalapb.perf.protos.StringMessage.type = scalapb.perf.protos.StringMessage
+    def companion: _root_.scalapb.perf.protos.StringMessage.type = _root_.scalapb.perf.protos.StringMessage
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.StringMessage])
 }
 
-object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.StringMessage] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.StringMessage = {
+object StringMessage extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.StringMessage] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.StringMessage] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.StringMessage = {
     var __str1: _root_.scala.Predef.String = ""
     var __str2: _root_.scala.Predef.String = ""
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -104,31 +104,31 @@ object StringMessage extends scalapb.GeneratedMessageCompanion[scalapb.perf.prot
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    scalapb.perf.protos.StringMessage(
+    _root_.scalapb.perf.protos.StringMessage(
         str1 = __str1,
         str2 = __str2,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.StringMessage] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.scalapb.perf.protos.StringMessage] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      scalapb.perf.protos.StringMessage(
+      _root_.scalapb.perf.protos.StringMessage(
         str1 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         str2 = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = scalapb.perf.protos.ProtosProto.javaDescriptor.getMessageTypes().get(5)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = scalapb.perf.protos.ProtosProto.scalaDescriptor.messages(5)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.scalapb.perf.protos.ProtosProto.javaDescriptor.getMessageTypes().get(5)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.scalapb.perf.protos.ProtosProto.scalaDescriptor.messages(5)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = scalapb.perf.protos.StringMessage(
+  lazy val defaultInstance = _root_.scalapb.perf.protos.StringMessage(
     str1 = "",
     str2 = ""
   )
-  implicit class StringMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.StringMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.StringMessage](_l) {
+  implicit class StringMessageLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.scalapb.perf.protos.StringMessage]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.scalapb.perf.protos.StringMessage](_l) {
     def str1: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.str1)((c_, f_) => c_.copy(str1 = f_))
     def str2: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.str2)((c_, f_) => c_.copy(str2 = f_))
   }

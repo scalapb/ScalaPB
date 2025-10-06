@@ -68,13 +68,13 @@ final case class Int64Value(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.wrappers.Int64Value.type = com.google.protobuf.wrappers.Int64Value
+    def companion: _root_.com.google.protobuf.wrappers.Int64Value.type = _root_.com.google.protobuf.wrappers.Int64Value
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Int64Value])
 }
 
-object Int64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int64Value] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.Int64Value] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.Int64Value = {
+object Int64Value extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.Int64Value] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.Int64Value] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.Int64Value = {
     var __value: _root_.scala.Long = 0L
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -91,28 +91,28 @@ object Int64Value extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.wrappers.Int64Value(
+    _root_.com.google.protobuf.wrappers.Int64Value(
         value = __value,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.Int64Value] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.wrappers.Int64Value] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.wrappers.Int64Value(
+      _root_.com.google.protobuf.wrappers.Int64Value(
         value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(2)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(2)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(2)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(2)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.wrappers.Int64Value(
+  lazy val defaultInstance = _root_.com.google.protobuf.wrappers.Int64Value(
     value = 0L
   )
-  implicit class Int64ValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.Int64Value]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.Int64Value](_l) {
+  implicit class Int64ValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.wrappers.Int64Value]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.wrappers.Int64Value](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

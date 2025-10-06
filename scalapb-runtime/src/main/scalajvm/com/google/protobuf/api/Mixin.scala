@@ -163,23 +163,23 @@ final case class Mixin(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.api.Mixin.type = com.google.protobuf.api.Mixin
+    def companion: _root_.com.google.protobuf.api.Mixin.type = _root_.com.google.protobuf.api.Mixin
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Mixin])
 }
 
-object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.api.Mixin] with scalapb.JavaProtoSupport[com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] = this
-  def toJavaProto(scalaPbSource: com.google.protobuf.api.Mixin): com.google.protobuf.Mixin = {
+object Mixin extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.api.Mixin] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.api.Mixin] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.api.Mixin, com.google.protobuf.Mixin] = this
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.api.Mixin): com.google.protobuf.Mixin = {
     val javaPbOut = com.google.protobuf.Mixin.newBuilder
     javaPbOut.setName(scalaPbSource.name)
     javaPbOut.setRoot(scalaPbSource.root)
     javaPbOut.build
   }
-  def fromJavaProto(javaPbSource: com.google.protobuf.Mixin): com.google.protobuf.api.Mixin = com.google.protobuf.api.Mixin(
+  def fromJavaProto(javaPbSource: com.google.protobuf.Mixin): _root_.com.google.protobuf.api.Mixin = _root_.com.google.protobuf.api.Mixin(
     name = javaPbSource.getName,
     root = javaPbSource.getRoot
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.api.Mixin = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.api.Mixin = {
     var __name: _root_.scala.Predef.String = ""
     var __root: _root_.scala.Predef.String = ""
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -199,31 +199,31 @@ object Mixin extends scalapb.GeneratedMessageCompanion[com.google.protobuf.api.M
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.api.Mixin(
+    _root_.com.google.protobuf.api.Mixin(
         name = __name,
         root = __root,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.api.Mixin] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.api.Mixin] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.api.Mixin(
+      _root_.com.google.protobuf.api.Mixin(
         name = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Predef.String]).getOrElse(""),
         root = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Predef.String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.api.ApiProto.javaDescriptor.getMessageTypes().get(2)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.api.ApiProto.scalaDescriptor.messages(2)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.api.ApiProto.javaDescriptor.getMessageTypes().get(2)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.api.ApiProto.scalaDescriptor.messages(2)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.api.Mixin(
+  lazy val defaultInstance = _root_.com.google.protobuf.api.Mixin(
     name = "",
     root = ""
   )
-  implicit class MixinLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.api.Mixin]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.api.Mixin](_l) {
+  implicit class MixinLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.api.Mixin]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.api.Mixin](_l) {
     def name: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.name)((c_, f_) => c_.copy(name = f_))
     def root: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.root)((c_, f_) => c_.copy(root = f_))
   }
