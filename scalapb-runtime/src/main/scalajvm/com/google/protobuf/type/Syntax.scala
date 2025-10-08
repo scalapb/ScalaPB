@@ -6,13 +6,13 @@ package com.google.protobuf.`type`
 /** The syntax in which a protocol buffer element is defined.
   */
 sealed abstract class Syntax(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = com.google.protobuf.`type`.Syntax
-  type RecognizedType = com.google.protobuf.`type`.Syntax.Recognized
+  type EnumType = _root_.com.google.protobuf.`type`.Syntax
+  type RecognizedType = _root_.com.google.protobuf.`type`.Syntax.Recognized
   def isSyntaxProto2: _root_.scala.Boolean = false
   def isSyntaxProto3: _root_.scala.Boolean = false
   def isSyntaxEditions: _root_.scala.Boolean = false
-  def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = com.google.protobuf.`type`.Syntax
-  final def asRecognized: _root_.scala.Option[com.google.protobuf.`type`.Syntax.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.`type`.Syntax.Recognized])
+  def companion: _root_.scalapb.GeneratedEnumCompanion[Syntax] = _root_.com.google.protobuf.`type`.Syntax
+  final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.`type`.Syntax.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.`type`.Syntax.Recognized])
 }
 
 object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
@@ -55,8 +55,8 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
     case 2 => SYNTAX_EDITIONS
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.`type`.TypeProto.javaDescriptor.getEnumTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.`type`.TypeProto.scalaDescriptor.enums(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.`type`.TypeProto.javaDescriptor.getEnumTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.`type`.TypeProto.scalaDescriptor.enums(0)
   def fromJavaValue(pbJavaSource: com.google.protobuf.Syntax): Syntax = fromValue(pbJavaSource.getNumber)
   def toJavaValue(pbScalaSource: Syntax): com.google.protobuf.Syntax = {
     _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")

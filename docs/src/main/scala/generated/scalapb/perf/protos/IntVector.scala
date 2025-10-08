@@ -63,13 +63,13 @@ final case class IntVector(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: scalapb.perf.protos.IntVector.type = scalapb.perf.protos.IntVector
+    def companion: _root_.scalapb.perf.protos.IntVector.type = _root_.scalapb.perf.protos.IntVector
     // @@protoc_insertion_point(GeneratedMessage[scalapb.perf.IntVector])
 }
 
-object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[scalapb.perf.protos.IntVector] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): scalapb.perf.protos.IntVector = {
+object IntVector extends scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.IntVector] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.scalapb.perf.protos.IntVector] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.scalapb.perf.protos.IntVector = {
     val __ints: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Int]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -94,28 +94,28 @@ object IntVector extends scalapb.GeneratedMessageCompanion[scalapb.perf.protos.I
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    scalapb.perf.protos.IntVector(
+    _root_.scalapb.perf.protos.IntVector(
         ints = __ints.result(),
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[scalapb.perf.protos.IntVector] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.scalapb.perf.protos.IntVector] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      scalapb.perf.protos.IntVector(
+      _root_.scalapb.perf.protos.IntVector(
         ints = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Seq[_root_.scala.Int]]).getOrElse(_root_.scala.Seq.empty)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = scalapb.perf.protos.ProtosProto.javaDescriptor.getMessageTypes().get(4)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = scalapb.perf.protos.ProtosProto.scalaDescriptor.messages(4)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.scalapb.perf.protos.ProtosProto.javaDescriptor.getMessageTypes().get(4)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.scalapb.perf.protos.ProtosProto.scalaDescriptor.messages(4)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = scalapb.perf.protos.IntVector(
+  lazy val defaultInstance = _root_.scalapb.perf.protos.IntVector(
     ints = _root_.scala.Vector.empty
   )
-  implicit class IntVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, scalapb.perf.protos.IntVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, scalapb.perf.protos.IntVector](_l) {
+  implicit class IntVectorLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.scalapb.perf.protos.IntVector]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.scalapb.perf.protos.IntVector](_l) {
     def ints: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Int]] = field(_.ints)((c_, f_) => c_.copy(ints = f_))
   }
   final val INTS_FIELD_NUMBER = 1

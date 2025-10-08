@@ -5,12 +5,12 @@ package com.thesamet.docs.json
 
 object JsonProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
-    com.google.protobuf.any.AnyProto
+    _root_.com.google.protobuf.any.AnyProto
   )
   lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
-      com.thesamet.docs.json.MyMessage,
-      com.thesamet.docs.json.MyContainer
+      _root_.com.thesamet.docs.json.MyMessage,
+      _root_.com.thesamet.docs.json.MyContainer
     )
   private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
@@ -25,7 +25,7 @@ object JsonProto extends _root_.scalapb.GeneratedFileObject {
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
     com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array(
-      com.google.protobuf.any.AnyProto.javaDescriptor
+      _root_.com.google.protobuf.any.AnyProto.javaDescriptor
     ))
   }
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")

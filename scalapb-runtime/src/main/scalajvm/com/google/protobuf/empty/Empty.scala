@@ -39,19 +39,19 @@ final case class Empty(
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = throw new MatchError(__fieldNumber)
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = throw new MatchError(__field)
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.empty.Empty.type = com.google.protobuf.empty.Empty
+    def companion: _root_.com.google.protobuf.empty.Empty.type = _root_.com.google.protobuf.empty.Empty
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Empty])
 }
 
-object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[com.google.protobuf.empty.Empty, com.google.protobuf.Empty] = this
-  def toJavaProto(scalaPbSource: com.google.protobuf.empty.Empty): com.google.protobuf.Empty = {
+object Empty extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.empty.Empty, com.google.protobuf.Empty] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.empty.Empty] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.empty.Empty, com.google.protobuf.Empty] = this
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.empty.Empty): com.google.protobuf.Empty = {
     val javaPbOut = com.google.protobuf.Empty.newBuilder
     javaPbOut.build
   }
-  def fromJavaProto(javaPbSource: com.google.protobuf.Empty): com.google.protobuf.empty.Empty = com.google.protobuf.empty.Empty(
+  def fromJavaProto(javaPbSource: com.google.protobuf.Empty): _root_.com.google.protobuf.empty.Empty = _root_.com.google.protobuf.empty.Empty(
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.empty.Empty = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.empty.Empty = {
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -65,25 +65,25 @@ object Empty extends scalapb.GeneratedMessageCompanion[com.google.protobuf.empty
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.empty.Empty(
+    _root_.com.google.protobuf.empty.Empty(
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.empty.Empty] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.empty.Empty] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.empty.Empty(
+      _root_.com.google.protobuf.empty.Empty(
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.empty.EmptyProto.javaDescriptor.getMessageTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.empty.EmptyProto.scalaDescriptor.messages(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.empty.EmptyProto.javaDescriptor.getMessageTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.empty.EmptyProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.empty.Empty(
+  lazy val defaultInstance = _root_.com.google.protobuf.empty.Empty(
   )
-  implicit class EmptyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.empty.Empty]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.empty.Empty](_l) {
+  implicit class EmptyLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.empty.Empty]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.empty.Empty](_l) {
   }
   def of(
   ): _root_.com.google.protobuf.empty.Empty = _root_.com.google.protobuf.empty.Empty(

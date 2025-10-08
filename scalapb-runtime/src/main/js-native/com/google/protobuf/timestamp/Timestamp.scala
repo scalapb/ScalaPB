@@ -178,13 +178,13 @@ final case class Timestamp(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.timestamp.Timestamp.type = com.google.protobuf.timestamp.Timestamp
+    def companion: _root_.com.google.protobuf.timestamp.Timestamp.type = _root_.com.google.protobuf.timestamp.Timestamp
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.Timestamp])
 }
 
-object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.timestamp.Timestamp = {
+object Timestamp extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.timestamp.Timestamp] with scalapb.TimestampCompanionMethods = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.timestamp.Timestamp = {
     var __seconds: _root_.scala.Long = 0L
     var __nanos: _root_.scala.Int = 0
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
@@ -204,31 +204,31 @@ object Timestamp extends scalapb.GeneratedMessageCompanion[com.google.protobuf.t
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.timestamp.Timestamp(
+    _root_.com.google.protobuf.timestamp.Timestamp(
         seconds = __seconds,
         nanos = __nanos,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.timestamp.Timestamp] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.timestamp.Timestamp] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.timestamp.Timestamp(
+      _root_.com.google.protobuf.timestamp.Timestamp(
         seconds = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Long]).getOrElse(0L),
         nanos = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Int]).getOrElse(0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.timestamp.TimestampProto.javaDescriptor.getMessageTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.timestamp.TimestampProto.scalaDescriptor.messages(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.timestamp.TimestampProto.javaDescriptor.getMessageTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.timestamp.TimestampProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.timestamp.Timestamp(
+  lazy val defaultInstance = _root_.com.google.protobuf.timestamp.Timestamp(
     seconds = 0L,
     nanos = 0
   )
-  implicit class TimestampLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.timestamp.Timestamp]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.timestamp.Timestamp](_l) {
+  implicit class TimestampLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.timestamp.Timestamp]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.timestamp.Timestamp](_l) {
     def seconds: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Long] = field(_.seconds)((c_, f_) => c_.copy(seconds = f_))
     def nanos: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.nanos)((c_, f_) => c_.copy(nanos = f_))
   }

@@ -18,10 +18,10 @@ package com.google.protobuf.descriptor
   */
 @SerialVersionUID(0L)
 final case class ExtensionRangeOptions(
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
-    declaration: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scala.Vector.empty,
-    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
-    verification: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None,
+    uninterpretedOption: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption] = _root_.scala.Vector.empty,
+    declaration: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scala.Vector.empty,
+    features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None,
+    verification: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[ExtensionRangeOptions] with _root_.scalapb.ExtendableMessage[ExtensionRangeOptions] {
     @transient
@@ -82,19 +82,19 @@ final case class ExtensionRangeOptions(
       unknownFields.writeTo(_output__)
     }
     def clearUninterpretedOption = copy(uninterpretedOption = _root_.scala.Vector.empty)
-    def addUninterpretedOption(__vs: com.google.protobuf.descriptor.UninterpretedOption *): ExtensionRangeOptions = addAllUninterpretedOption(__vs)
-    def addAllUninterpretedOption(__vs: Iterable[com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
-    def withUninterpretedOption(__v: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = __v)
+    def addUninterpretedOption(__vs: _root_.com.google.protobuf.descriptor.UninterpretedOption *): ExtensionRangeOptions = addAllUninterpretedOption(__vs)
+    def addAllUninterpretedOption(__vs: Iterable[_root_.com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = uninterpretedOption ++ __vs)
+    def withUninterpretedOption(__v: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption]): ExtensionRangeOptions = copy(uninterpretedOption = __v)
     def clearDeclaration = copy(declaration = _root_.scala.Vector.empty)
-    def addDeclaration(__vs: com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration *): ExtensionRangeOptions = addAllDeclaration(__vs)
-    def addAllDeclaration(__vs: Iterable[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = declaration ++ __vs)
-    def withDeclaration(__v: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = __v)
-    def getFeatures: com.google.protobuf.descriptor.FeatureSet = features.getOrElse(com.google.protobuf.descriptor.FeatureSet.defaultInstance)
+    def addDeclaration(__vs: _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration *): ExtensionRangeOptions = addAllDeclaration(__vs)
+    def addAllDeclaration(__vs: Iterable[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = declaration ++ __vs)
+    def withDeclaration(__v: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]): ExtensionRangeOptions = copy(declaration = __v)
+    def getFeatures: _root_.com.google.protobuf.descriptor.FeatureSet = features.getOrElse(_root_.com.google.protobuf.descriptor.FeatureSet.defaultInstance)
     def clearFeatures: ExtensionRangeOptions = copy(features = _root_.scala.None)
-    def withFeatures(__v: com.google.protobuf.descriptor.FeatureSet): ExtensionRangeOptions = copy(features = _root_.scala.Option(__v))
-    def getVerification: com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState = verification.getOrElse(com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.UNVERIFIED)
+    def withFeatures(__v: _root_.com.google.protobuf.descriptor.FeatureSet): ExtensionRangeOptions = copy(features = _root_.scala.Option(__v))
+    def getVerification: _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState = verification.getOrElse(_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.UNVERIFIED)
     def clearVerification: ExtensionRangeOptions = copy(verification = _root_.scala.None)
-    def withVerification(__v: com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState): ExtensionRangeOptions = copy(verification = _root_.scala.Option(__v))
+    def withVerification(__v: _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState): ExtensionRangeOptions = copy(verification = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -115,17 +115,17 @@ final case class ExtensionRangeOptions(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.descriptor.ExtensionRangeOptions.type = com.google.protobuf.descriptor.ExtensionRangeOptions
+    def companion: _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.type = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ExtensionRangeOptions])
 }
 
-object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions] = this
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions = {
-    val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.UninterpretedOption]
-    val __declaration: _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = new _root_.scala.collection.immutable.VectorBuilder[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]
-    var __features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
-    var __verification: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None
+object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions] = this
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = {
+    val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption]
+    val __declaration: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]
+    var __features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
+    var __verification: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -133,13 +133,13 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
       _tag__ match {
         case 0 => _done__ = true
         case 7994 =>
-          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.UninterpretedOption](_input__)
+          __uninterpretedOption += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.UninterpretedOption](_input__)
         case 18 =>
-          __declaration += _root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration](_input__)
+          __declaration += _root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration](_input__)
         case 402 =>
-          __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
+          __features = _root_.scala.Option(__features.fold(_root_.scalapb.LiteParser.readMessage[_root_.com.google.protobuf.descriptor.FeatureSet](_input__))(_root_.scalapb.LiteParser.readMessage(_input__, _)))
         case 24 =>
-          __verification = _root_.scala.Option(com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(_input__.readEnum()))
+          __verification = _root_.scala.Option(_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(_input__.readEnum()))
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -147,7 +147,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.descriptor.ExtensionRangeOptions(
+    _root_.com.google.protobuf.descriptor.ExtensionRangeOptions(
         uninterpretedOption = __uninterpretedOption.result(),
         declaration = __declaration.result(),
         features = __features,
@@ -155,25 +155,25 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.ExtensionRangeOptions] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.descriptor.ExtensionRangeOptions(
-        uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty),
-        declaration = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]]).getOrElse(_root_.scala.Seq.empty),
-        features = __fieldsMap.get(scalaDescriptor.findFieldByNumber(50).get).flatMap(_.as[_root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]]),
-        verification = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(__e.number))
+      _root_.com.google.protobuf.descriptor.ExtensionRangeOptions(
+        uninterpretedOption = __fieldsMap.get(scalaDescriptor.findFieldByNumber(999).get).map(_.as[_root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption]]).getOrElse(_root_.scala.Seq.empty),
+        declaration = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).map(_.as[_root_.scala.Seq[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]]).getOrElse(_root_.scala.Seq.empty),
+        features = __fieldsMap.get(scalaDescriptor.findFieldByNumber(50).get).flatMap(_.as[_root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet]]),
+        verification = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scalapb.descriptors.EnumValueDescriptor]]).map(__e => _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.fromValue(__e.number))
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(3)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.messages(3)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getMessageTypes().get(3)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.messages(3)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = {
     var __out: _root_.scalapb.GeneratedMessageCompanion[_] = null
     (__number: @_root_.scala.unchecked) match {
-      case 999 => __out = com.google.protobuf.descriptor.UninterpretedOption
-      case 2 => __out = com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration
-      case 50 => __out = com.google.protobuf.descriptor.FeatureSet
+      case 999 => __out = _root_.com.google.protobuf.descriptor.UninterpretedOption
+      case 2 => __out = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration
+      case 50 => __out = _root_.com.google.protobuf.descriptor.FeatureSet
     }
     __out
   }
@@ -183,10 +183,10 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     )
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = {
     (__fieldNumber: @_root_.scala.unchecked) match {
-      case 3 => com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
+      case 3 => _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
     }
   }
-  lazy val defaultInstance = com.google.protobuf.descriptor.ExtensionRangeOptions(
+  lazy val defaultInstance = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions(
     uninterpretedOption = _root_.scala.Vector.empty,
     declaration = _root_.scala.Vector.empty,
     features = _root_.scala.None,
@@ -195,12 +195,12 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
   /** The verification state of the extension range.
     */
   sealed abstract class VerificationState(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-    type EnumType = com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
-    type RecognizedType = com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized
+    type EnumType = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
+    type RecognizedType = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized
     def isDeclaration: _root_.scala.Boolean = false
     def isUnverified: _root_.scala.Boolean = false
-    def companion: _root_.scalapb.GeneratedEnumCompanion[VerificationState] = com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
-    final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized])
+    def companion: _root_.scalapb.GeneratedEnumCompanion[VerificationState] = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState
+    final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState.Recognized])
   }
   
   object VerificationState extends _root_.scalapb.GeneratedEnumCompanion[VerificationState] {
@@ -231,8 +231,8 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
       case 1 => UNVERIFIED
       case __other => Unrecognized(__other)
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.javaDescriptor.getEnumTypes().get(0)
-    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.scalaDescriptor.enums(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.javaDescriptor.getEnumTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.scalaDescriptor.enums(0)
   }
   /** @param number
     *   The extension number declared within the extension range.
@@ -356,13 +356,13 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
         }
       }
       def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-      def companion: com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration.type = com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration
+      def companion: _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration.type = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration
       // @@protoc_insertion_point(GeneratedMessage[google.protobuf.ExtensionRangeOptions.Declaration])
   }
   
-  object Declaration extends scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] {
-    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = this
-    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration = {
+  object Declaration extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] {
+    implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = this
+    def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration = {
       var __number: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __fullName: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
       var __type: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
@@ -391,7 +391,7 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
             val _ = _unknownFields__.parseField(tag, _input__)
         }
       }
-      com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
+      _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
           number = __number,
           fullName = __fullName,
           `type` = __type,
@@ -400,10 +400,10 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
           unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
       )
     }
-    implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scalapb.descriptors.Reads{
+    implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration] = _root_.scalapb.descriptors.Reads{
       case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
         _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-        com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
+        _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
           number = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Int]]),
           fullName = __fieldsMap.get(scalaDescriptor.findFieldByNumber(2).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
           `type` = __fieldsMap.get(scalaDescriptor.findFieldByNumber(3).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Predef.String]]),
@@ -412,19 +412,19 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
         )
       case _ => throw new RuntimeException("Expected PMessage")
     }
-    def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.javaDescriptor.getNestedTypes().get(0)
-    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.descriptor.ExtensionRangeOptions.scalaDescriptor.nestedMessages(0)
+    def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.javaDescriptor.getNestedTypes().get(0)
+    def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.scalaDescriptor.nestedMessages(0)
     def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
     lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
     def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-    lazy val defaultInstance = com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
+    lazy val defaultInstance = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration(
       number = _root_.scala.None,
       fullName = _root_.scala.None,
       `type` = _root_.scala.None,
       reserved = _root_.scala.None,
       repeated = _root_.scala.None
     )
-    implicit class DeclarationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration](_l) {
+    implicit class DeclarationLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration](_l) {
       def number: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Int] = field(_.getNumber)((c_, f_) => c_.copy(number = _root_.scala.Option(f_)))
       def optionalNumber: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Int]] = field(_.number)((c_, f_) => c_.copy(number = f_))
       def fullName: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Predef.String] = field(_.getFullName)((c_, f_) => c_.copy(fullName = _root_.scala.Option(f_)))
@@ -457,23 +457,23 @@ object ExtensionRangeOptions extends scalapb.GeneratedMessageCompanion[com.googl
     // @@protoc_insertion_point(GeneratedMessageCompanion[google.protobuf.ExtensionRangeOptions.Declaration])
   }
   
-  implicit class ExtensionRangeOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions](_l) {
-    def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
-    def declaration: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]] = field(_.declaration)((c_, f_) => c_.copy(declaration = f_))
-    def features: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))
-    def optionalFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet]] = field(_.features)((c_, f_) => c_.copy(features = f_))
-    def verification: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = field(_.getVerification)((c_, f_) => c_.copy(verification = _root_.scala.Option(f_)))
-    def optionalVerification: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState]] = field(_.verification)((c_, f_) => c_.copy(verification = f_))
+  implicit class ExtensionRangeOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.ExtensionRangeOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.descriptor.ExtensionRangeOptions](_l) {
+    def uninterpretedOption: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption]] = field(_.uninterpretedOption)((c_, f_) => c_.copy(uninterpretedOption = f_))
+    def declaration: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration]] = field(_.declaration)((c_, f_) => c_.copy(declaration = f_))
+    def features: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.FeatureSet] = field(_.getFeatures)((c_, f_) => c_.copy(features = _root_.scala.Option(f_)))
+    def optionalFeatures: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet]] = field(_.features)((c_, f_) => c_.copy(features = f_))
+    def verification: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState] = field(_.getVerification)((c_, f_) => c_.copy(verification = _root_.scala.Option(f_)))
+    def optionalVerification: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState]] = field(_.verification)((c_, f_) => c_.copy(verification = f_))
   }
   final val UNINTERPRETED_OPTION_FIELD_NUMBER = 999
   final val DECLARATION_FIELD_NUMBER = 2
   final val FEATURES_FIELD_NUMBER = 50
   final val VERIFICATION_FIELD_NUMBER = 3
   def of(
-    uninterpretedOption: _root_.scala.Seq[com.google.protobuf.descriptor.UninterpretedOption],
-    declaration: _root_.scala.Seq[com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration],
-    features: _root_.scala.Option[com.google.protobuf.descriptor.FeatureSet],
-    verification: _root_.scala.Option[com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState]
+    uninterpretedOption: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.UninterpretedOption],
+    declaration: _root_.scala.Seq[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.Declaration],
+    features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet],
+    verification: _root_.scala.Option[_root_.com.google.protobuf.descriptor.ExtensionRangeOptions.VerificationState]
   ): _root_.com.google.protobuf.descriptor.ExtensionRangeOptions = _root_.com.google.protobuf.descriptor.ExtensionRangeOptions(
     uninterpretedOption,
     declaration,

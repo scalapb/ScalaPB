@@ -113,7 +113,7 @@ private[compiler] class ParseFromGenerator(
   val requiredFieldMap: Map[FieldDescriptor, Int] =
     message.fields.filter(fd => fd.isRequired || fd.noBoxRequired).zipWithIndex.toMap
 
-  val myFullScalaName = message.scalaType.fullNameWithMaybeRoot(message)
+  val myFullScalaName = message.scalaType.fullName
 
   def generateParseFrom(printer: FunctionalPrinter): FunctionalPrinter = {
     printer
@@ -167,7 +167,7 @@ private[compiler] class ParseFromGenerator(
                   }
                 read
               } else if (field.isEnum)
-                s"${field.getEnumType.scalaType.fullNameWithMaybeRoot(message)}.fromValue(_input__.readEnum())"
+                s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
               else if (field.getType == Type.STRING) s"_input__.readStringRequireUtf8()"
               else s"_input__.read${Types.capitalizedType(field.getType)}()"
 

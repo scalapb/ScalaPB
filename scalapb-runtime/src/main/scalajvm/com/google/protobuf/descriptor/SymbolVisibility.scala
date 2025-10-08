@@ -10,13 +10,13 @@ package com.google.protobuf.descriptor
   * from other files.
   */
 sealed abstract class SymbolVisibility(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = com.google.protobuf.descriptor.SymbolVisibility
-  type RecognizedType = com.google.protobuf.descriptor.SymbolVisibility.Recognized
+  type EnumType = _root_.com.google.protobuf.descriptor.SymbolVisibility
+  type RecognizedType = _root_.com.google.protobuf.descriptor.SymbolVisibility.Recognized
   def isVisibilityUnset: _root_.scala.Boolean = false
   def isVisibilityLocal: _root_.scala.Boolean = false
   def isVisibilityExport: _root_.scala.Boolean = false
-  def companion: _root_.scalapb.GeneratedEnumCompanion[SymbolVisibility] = com.google.protobuf.descriptor.SymbolVisibility
-  final def asRecognized: _root_.scala.Option[com.google.protobuf.descriptor.SymbolVisibility.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.descriptor.SymbolVisibility.Recognized])
+  def companion: _root_.scalapb.GeneratedEnumCompanion[SymbolVisibility] = _root_.com.google.protobuf.descriptor.SymbolVisibility
+  final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.descriptor.SymbolVisibility.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.descriptor.SymbolVisibility.Recognized])
 }
 
 object SymbolVisibility extends _root_.scalapb.GeneratedEnumCompanion[SymbolVisibility] {
@@ -53,8 +53,8 @@ object SymbolVisibility extends _root_.scalapb.GeneratedEnumCompanion[SymbolVisi
     case 2 => VISIBILITY_EXPORT
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getEnumTypes().get(1)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.enums(1)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.javaDescriptor.getEnumTypes().get(1)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.descriptor.DescriptorProtoCompanion.scalaDescriptor.enums(1)
   def fromJavaValue(pbJavaSource: com.google.protobuf.DescriptorProtos.SymbolVisibility): SymbolVisibility = fromValue(pbJavaSource.getNumber)
   def toJavaValue(pbScalaSource: SymbolVisibility): com.google.protobuf.DescriptorProtos.SymbolVisibility = {
     _root_.scala.Predef.require(!pbScalaSource.isUnrecognized, "Unrecognized enum values can not be converted to Java")

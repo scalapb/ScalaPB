@@ -9,11 +9,11 @@ package com.google.protobuf.struct
   * The JSON representation for `NullValue` is JSON `null`.
   */
 sealed abstract class NullValue(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = com.google.protobuf.struct.NullValue
-  type RecognizedType = com.google.protobuf.struct.NullValue.Recognized
+  type EnumType = _root_.com.google.protobuf.struct.NullValue
+  type RecognizedType = _root_.com.google.protobuf.struct.NullValue.Recognized
   def isNullValue: _root_.scala.Boolean = false
-  def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = com.google.protobuf.struct.NullValue
-  final def asRecognized: _root_.scala.Option[com.google.protobuf.struct.NullValue.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[com.google.protobuf.struct.NullValue.Recognized])
+  def companion: _root_.scalapb.GeneratedEnumCompanion[NullValue] = _root_.com.google.protobuf.struct.NullValue
+  final def asRecognized: _root_.scala.Option[_root_.com.google.protobuf.struct.NullValue.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.com.google.protobuf.struct.NullValue.Recognized])
 }
 
 object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
@@ -36,6 +36,6 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
     case 0 => NULL_VALUE
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = com.google.protobuf.struct.StructProto.javaDescriptor.getEnumTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = com.google.protobuf.struct.StructProto.scalaDescriptor.enums(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.com.google.protobuf.struct.StructProto.javaDescriptor.getEnumTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.com.google.protobuf.struct.StructProto.scalaDescriptor.enums(0)
 }

@@ -4,14 +4,14 @@
 package scalapb.perf.protos
 
 sealed abstract class Color(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = scalapb.perf.protos.Color
-  type RecognizedType = scalapb.perf.protos.Color.Recognized
+  type EnumType = _root_.scalapb.perf.protos.Color
+  type RecognizedType = _root_.scalapb.perf.protos.Color.Recognized
   def isUnknown: _root_.scala.Boolean = false
   def isRed: _root_.scala.Boolean = false
   def isGreen: _root_.scala.Boolean = false
   def isBlue: _root_.scala.Boolean = false
-  def companion: _root_.scalapb.GeneratedEnumCompanion[Color] = scalapb.perf.protos.Color
-  final def asRecognized: _root_.scala.Option[scalapb.perf.protos.Color.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.perf.protos.Color.Recognized])
+  def companion: _root_.scalapb.GeneratedEnumCompanion[Color] = _root_.scalapb.perf.protos.Color
+  final def asRecognized: _root_.scala.Option[_root_.scalapb.perf.protos.Color.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.scalapb.perf.protos.Color.Recognized])
 }
 
 object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
@@ -56,6 +56,6 @@ object Color extends _root_.scalapb.GeneratedEnumCompanion[Color] {
     case 3 => BLUE
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.perf.protos.ProtosProto.javaDescriptor.getEnumTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.perf.protos.ProtosProto.scalaDescriptor.enums(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.scalapb.perf.protos.ProtosProto.javaDescriptor.getEnumTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.scalapb.perf.protos.ProtosProto.scalaDescriptor.enums(0)
 }

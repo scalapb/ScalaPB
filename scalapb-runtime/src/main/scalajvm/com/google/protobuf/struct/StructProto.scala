@@ -7,9 +7,9 @@ object StructProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq.empty
   lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
-      com.google.protobuf.struct.Struct,
-      com.google.protobuf.struct.Value,
-      com.google.protobuf.struct.ListValue
+      _root_.com.google.protobuf.struct.Struct,
+      _root_.com.google.protobuf.struct.Value,
+      _root_.com.google.protobuf.struct.ListValue
     )
   private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(

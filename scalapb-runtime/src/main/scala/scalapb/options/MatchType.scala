@@ -4,13 +4,13 @@
 package scalapb.options
 
 sealed abstract class MatchType(val value: _root_.scala.Int) extends _root_.scalapb.GeneratedEnum {
-  type EnumType = scalapb.options.MatchType
-  type RecognizedType = scalapb.options.MatchType.Recognized
+  type EnumType = _root_.scalapb.options.MatchType
+  type RecognizedType = _root_.scalapb.options.MatchType.Recognized
   def isContains: _root_.scala.Boolean = false
   def isExact: _root_.scala.Boolean = false
   def isPresence: _root_.scala.Boolean = false
-  def companion: _root_.scalapb.GeneratedEnumCompanion[MatchType] = scalapb.options.MatchType
-  final def asRecognized: _root_.scala.Option[scalapb.options.MatchType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[scalapb.options.MatchType.Recognized])
+  def companion: _root_.scalapb.GeneratedEnumCompanion[MatchType] = _root_.scalapb.options.MatchType
+  final def asRecognized: _root_.scala.Option[_root_.scalapb.options.MatchType.Recognized] = if (isUnrecognized) _root_.scala.None else _root_.scala.Some(this.asInstanceOf[_root_.scalapb.options.MatchType.Recognized])
 }
 
 object MatchType extends _root_.scalapb.GeneratedEnumCompanion[MatchType] {
@@ -47,6 +47,6 @@ object MatchType extends _root_.scalapb.GeneratedEnumCompanion[MatchType] {
     case 2 => PRESENCE
     case __other => Unrecognized(__other)
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = scalapb.options.ScalapbProto.javaDescriptor.getEnumTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = scalapb.options.ScalapbProto.scalaDescriptor.enums(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.EnumDescriptor = _root_.scalapb.options.ScalapbProto.javaDescriptor.getEnumTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.EnumDescriptor = _root_.scalapb.options.ScalapbProto.scalaDescriptor.enums(0)
 }

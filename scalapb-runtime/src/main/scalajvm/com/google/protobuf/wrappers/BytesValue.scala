@@ -68,21 +68,21 @@ final case class BytesValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.wrappers.BytesValue.type = com.google.protobuf.wrappers.BytesValue
+    def companion: _root_.com.google.protobuf.wrappers.BytesValue.type = _root_.com.google.protobuf.wrappers.BytesValue
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.BytesValue])
 }
 
-object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] = this
-  def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.BytesValue): com.google.protobuf.BytesValue = {
+object BytesValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.BytesValue] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.wrappers.BytesValue, com.google.protobuf.BytesValue] = this
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.wrappers.BytesValue): com.google.protobuf.BytesValue = {
     val javaPbOut = com.google.protobuf.BytesValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
     javaPbOut.build
   }
-  def fromJavaProto(javaPbSource: com.google.protobuf.BytesValue): com.google.protobuf.wrappers.BytesValue = com.google.protobuf.wrappers.BytesValue(
+  def fromJavaProto(javaPbSource: com.google.protobuf.BytesValue): _root_.com.google.protobuf.wrappers.BytesValue = _root_.com.google.protobuf.wrappers.BytesValue(
     value = javaPbSource.getValue
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.BytesValue = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.BytesValue = {
     var __value: _root_.com.google.protobuf.ByteString = _root_.com.google.protobuf.ByteString.EMPTY
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -99,28 +99,28 @@ object BytesValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.wrappers.BytesValue(
+    _root_.com.google.protobuf.wrappers.BytesValue(
         value = __value,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.BytesValue] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.wrappers.BytesValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.wrappers.BytesValue(
+      _root_.com.google.protobuf.wrappers.BytesValue(
         value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.com.google.protobuf.ByteString]).getOrElse(_root_.com.google.protobuf.ByteString.EMPTY)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(8)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(8)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(8)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(8)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.wrappers.BytesValue(
+  lazy val defaultInstance = _root_.com.google.protobuf.wrappers.BytesValue(
     value = _root_.com.google.protobuf.ByteString.EMPTY
   )
-  implicit class BytesValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.BytesValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.BytesValue](_l) {
+  implicit class BytesValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.wrappers.BytesValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.wrappers.BytesValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.ByteString] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

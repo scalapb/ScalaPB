@@ -68,21 +68,21 @@ final case class DoubleValue(
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
-    def companion: com.google.protobuf.wrappers.DoubleValue.type = com.google.protobuf.wrappers.DoubleValue
+    def companion: _root_.com.google.protobuf.wrappers.DoubleValue.type = _root_.com.google.protobuf.wrappers.DoubleValue
     // @@protoc_insertion_point(GeneratedMessage[google.protobuf.DoubleValue])
 }
 
-object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.DoubleValue, com.google.protobuf.DoubleValue] {
-  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[com.google.protobuf.wrappers.DoubleValue] with scalapb.JavaProtoSupport[com.google.protobuf.wrappers.DoubleValue, com.google.protobuf.DoubleValue] = this
-  def toJavaProto(scalaPbSource: com.google.protobuf.wrappers.DoubleValue): com.google.protobuf.DoubleValue = {
+object DoubleValue extends scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.DoubleValue] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.wrappers.DoubleValue, com.google.protobuf.DoubleValue] {
+  implicit def messageCompanion: scalapb.GeneratedMessageCompanion[_root_.com.google.protobuf.wrappers.DoubleValue] with scalapb.JavaProtoSupport[_root_.com.google.protobuf.wrappers.DoubleValue, com.google.protobuf.DoubleValue] = this
+  def toJavaProto(scalaPbSource: _root_.com.google.protobuf.wrappers.DoubleValue): com.google.protobuf.DoubleValue = {
     val javaPbOut = com.google.protobuf.DoubleValue.newBuilder
     javaPbOut.setValue(scalaPbSource.value)
     javaPbOut.build
   }
-  def fromJavaProto(javaPbSource: com.google.protobuf.DoubleValue): com.google.protobuf.wrappers.DoubleValue = com.google.protobuf.wrappers.DoubleValue(
+  def fromJavaProto(javaPbSource: com.google.protobuf.DoubleValue): _root_.com.google.protobuf.wrappers.DoubleValue = _root_.com.google.protobuf.wrappers.DoubleValue(
     value = javaPbSource.getValue.doubleValue
   )
-  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): com.google.protobuf.wrappers.DoubleValue = {
+  def parseFrom(`_input__`: _root_.com.google.protobuf.CodedInputStream): _root_.com.google.protobuf.wrappers.DoubleValue = {
     var __value: _root_.scala.Double = 0.0
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
@@ -99,28 +99,28 @@ object DoubleValue extends scalapb.GeneratedMessageCompanion[com.google.protobuf
           val _ = _unknownFields__.parseField(tag, _input__)
       }
     }
-    com.google.protobuf.wrappers.DoubleValue(
+    _root_.com.google.protobuf.wrappers.DoubleValue(
         value = __value,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
-  implicit def messageReads: _root_.scalapb.descriptors.Reads[com.google.protobuf.wrappers.DoubleValue] = _root_.scalapb.descriptors.Reads{
+  implicit def messageReads: _root_.scalapb.descriptors.Reads[_root_.com.google.protobuf.wrappers.DoubleValue] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       _root_.scala.Predef.require(__fieldsMap.keys.forall(_.containingMessage eq scalaDescriptor), "FieldDescriptor does not match message type.")
-      com.google.protobuf.wrappers.DoubleValue(
+      _root_.com.google.protobuf.wrappers.DoubleValue(
         value = __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[_root_.scala.Double]).getOrElse(0.0)
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(0)
-  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.javaDescriptor.getMessageTypes().get(0)
+  def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = _root_.com.google.protobuf.wrappers.WrappersProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__number: _root_.scala.Int): _root_.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__number)
   lazy val nestedMessagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] = Seq.empty
   def enumCompanionForFieldNumber(__fieldNumber: _root_.scala.Int): _root_.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = com.google.protobuf.wrappers.DoubleValue(
+  lazy val defaultInstance = _root_.com.google.protobuf.wrappers.DoubleValue(
     value = 0.0
   )
-  implicit class DoubleValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, com.google.protobuf.wrappers.DoubleValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, com.google.protobuf.wrappers.DoubleValue](_l) {
+  implicit class DoubleValueLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.com.google.protobuf.wrappers.DoubleValue]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.com.google.protobuf.wrappers.DoubleValue](_l) {
     def value: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Double] = field(_.value)((c_, f_) => c_.copy(value = f_))
   }
   final val VALUE_FIELD_NUMBER = 1

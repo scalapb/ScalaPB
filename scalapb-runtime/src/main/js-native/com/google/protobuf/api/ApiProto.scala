@@ -5,14 +5,14 @@ package com.google.protobuf.api
 
 object ApiProto extends _root_.scalapb.GeneratedFileObject {
   lazy val dependencies: Seq[_root_.scalapb.GeneratedFileObject] = Seq(
-    com.google.protobuf.source_context.SourceContextProto,
-    com.google.protobuf.`type`.TypeProto
+    _root_.com.google.protobuf.source_context.SourceContextProto,
+    _root_.com.google.protobuf.`type`.TypeProto
   )
   lazy val messagesCompanions: Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]] =
     Seq[_root_.scalapb.GeneratedMessageCompanion[_ <: _root_.scalapb.GeneratedMessage]](
-      com.google.protobuf.api.Api,
-      com.google.protobuf.api.Method,
-      com.google.protobuf.api.Mixin
+      _root_.com.google.protobuf.api.Api,
+      _root_.com.google.protobuf.api.Method,
+      _root_.com.google.protobuf.api.Mixin
     )
   private lazy val ProtoBytes: _root_.scala.Array[Byte] =
       scalapb.Encoding.fromBase64(scala.collection.immutable.Seq(
@@ -41,8 +41,8 @@ object ApiProto extends _root_.scalapb.GeneratedFileObject {
   lazy val javaDescriptor: com.google.protobuf.Descriptors.FileDescriptor = {
     val javaProto = com.google.protobuf.DescriptorProtos.FileDescriptorProto.parseFrom(ProtoBytes)
     com.google.protobuf.Descriptors.FileDescriptor.buildFrom(javaProto, _root_.scala.Array(
-      com.google.protobuf.source_context.SourceContextProto.javaDescriptor,
-      com.google.protobuf.`type`.TypeProto.javaDescriptor
+      _root_.com.google.protobuf.source_context.SourceContextProto.javaDescriptor,
+      _root_.com.google.protobuf.`type`.TypeProto.javaDescriptor
     ))
   }
   @deprecated("Use javaDescriptor instead. In a future version this will refer to scalaDescriptor.", "ScalaPB 0.5.47")
