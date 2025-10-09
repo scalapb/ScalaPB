@@ -162,8 +162,8 @@ class ProtobufGenerator(
     def defaultValue = field.getDefaultValue
 
     val baseDefaultValue: String = field.getJavaType match {
-      case FieldDescriptor.JavaType.INT  => defaultValue.toString
-      case FieldDescriptor.JavaType.LONG => defaultValue.toString + "L"
+      case FieldDescriptor.JavaType.INT   => defaultValue.toString
+      case FieldDescriptor.JavaType.LONG  => defaultValue.toString + "L"
       case FieldDescriptor.JavaType.FLOAT =>
         val f = defaultValue.asInstanceOf[Float]
         if (f.isPosInfinity) "Float.PositiveInfinity"
@@ -186,7 +186,7 @@ class ProtobufGenerator(
           d.asScala
             .map(_.toString)
             .mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
-      case FieldDescriptor.JavaType.STRING => escapeScalaString(defaultValue.asInstanceOf[String])
+      case FieldDescriptor.JavaType.STRING  => escapeScalaString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         field.getMessageType.scalaType.fullName + ".defaultInstance"
       case FieldDescriptor.JavaType.ENUM =>
@@ -214,7 +214,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.BOOLEAN     => MethodApplication("booleanValue")
       case FieldDescriptor.JavaType.BYTE_STRING => Identity
       case FieldDescriptor.JavaType.STRING      => Identity
-      case FieldDescriptor.JavaType.MESSAGE =>
+      case FieldDescriptor.JavaType.MESSAGE     =>
         FunctionApplication(
           field.getMessageType.scalaType.fullName + ".fromJavaProto"
         )
@@ -247,7 +247,7 @@ class ProtobufGenerator(
   }
 
   def javaFieldToScala(container: String, field: FieldDescriptor): String = {
-    val javaHazzer = container + ".has" + field.upperJavaName
+    val javaHazzer    = container + ".has" + field.upperJavaName
     val upperJavaName =
       if (field.isEnum && !field.legacyEnumFieldTreatedAsClosed()) (field.upperJavaName + "Value")
       else field.upperJavaName
@@ -291,7 +291,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.BOOLEAN     => maybeBox("_root_.scala.Boolean.box")
       case FieldDescriptor.JavaType.BYTE_STRING => Identity
       case FieldDescriptor.JavaType.STRING      => Identity
-      case FieldDescriptor.JavaType.MESSAGE =>
+      case FieldDescriptor.JavaType.MESSAGE     =>
         FunctionApplication(
           field.getMessageType.scalaType.fullName + ".toJavaProto"
         )
@@ -624,10 +624,10 @@ class ProtobufGenerator(
               ).add("}")
             case None =>
               val capTypeName = Types.capitalizedType(field.getType)
-              val sizeFunc = FunctionApplication(
+              val sizeFunc    = FunctionApplication(
                 s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}SizeNoTag"
               )
-              val fromEnum = if (field.isEnum) MethodApplication("value") else Identity
+              val fromEnum   = if (field.isEnum) MethodApplication("value") else Identity
               val fromCustom =
                 if (field.customSingleScalaTypeName.isDefined)
                   FunctionApplication(s"${field.typeMapper.fullName}.toBase")
@@ -737,7 +737,7 @@ class ProtobufGenerator(
 
     val regularFields = message.fields.collect {
       case field if !field.isInOneof =>
-        val typeName = field.scalaTypeName
+        val typeName                         = field.scalaTypeName
         val ctorDefaultValue: Option[String] =
           if (field.noDefaultValueInConstructor) None
           else if (field.isSingularOptional && field.supportsPresence) Some(C.None)
@@ -885,7 +885,7 @@ class ProtobufGenerator(
               else if (field.isRepeated) {
                 val empty = readsEnclosing match {
                   case EnclosingType.Collection(s, _) => s"$s.empty"
-                  case _ =>
+                  case _                              =>
                     throw new GeneratorException(
                       "Expected a collection enclosing. Pleae report this as a bug."
                     )
@@ -1209,7 +1209,7 @@ class ProtobufGenerator(
         case Type.INT32   => ("varintLens", MethodApplication("toInt"), MethodApplication("toLong"))
         case Type.FIXED64 => ("fixed64Lens", Identity, Identity)
         case Type.FIXED32 => ("fixed32Lens", Identity, Identity)
-        case Type.BOOL =>
+        case Type.BOOL    =>
           (
             "varintLens",
             OperatorApplication("!= 0"),
@@ -1221,7 +1221,7 @@ class ProtobufGenerator(
             MethodApplication("toStringUtf8()"),
             FunctionApplication("_root_.com.google.protobuf.ByteString.copyFromUtf8")
           )
-        case Type.GROUP => throw new RuntimeException("Not supported")
+        case Type.GROUP   => throw new RuntimeException("Not supported")
         case Type.MESSAGE =>
           (
             "lengthDelimitedLens",
@@ -1230,7 +1230,7 @@ class ProtobufGenerator(
             ),
             MethodApplication(s"toByteString")
           )
-        case Type.BYTES => ("lengthDelimitedLens", Identity, Identity)
+        case Type.BYTES  => ("lengthDelimitedLens", Identity, Identity)
         case Type.UINT32 =>
           ("varintLens", MethodApplication("toInt"), MethodApplication("toLong"))
         case Type.ENUM =>
@@ -1243,7 +1243,7 @@ class ProtobufGenerator(
           )
         case Type.SFIXED32 => ("fixed32Lens", Identity, Identity)
         case Type.SFIXED64 => ("fixed64Lens", Identity, Identity)
-        case Type.SINT32 =>
+        case Type.SINT32   =>
           (
             "varintLens",
             MethodApplication("toInt") andThen FunctionApplication(
@@ -1276,8 +1276,8 @@ class ProtobufGenerator(
             Seq(fd.getType match {
               case Type.DOUBLE | Type.FIXED64 | Type.SFIXED64 => "_.readFixed64()"
               case Type.FLOAT | Type.FIXED32 | Type.SFIXED32  => "_.readFixed32()"
-              case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM |
-                  Type.BOOL | Type.SINT32 | Type.SINT64 =>
+              case Type.UINT32 | Type.UINT64 | Type.INT32 | Type.INT64 | Type.ENUM | Type.BOOL |
+                  Type.SINT32 | Type.SINT64 =>
                 "_.readInt64()"
               case _ =>
                 throw new GeneratorException(s"Unexpected packable type: ${fd.getType.name()}")
@@ -1383,7 +1383,7 @@ class ProtobufGenerator(
 
   def printMessage(printer: FunctionalPrinter, message: Descriptor): FunctionalPrinter = {
     val fullName = message.scalaType.fullName
-    val derives =
+    val derives  =
       if (message.derives.nonEmpty) message.derives.mkString(" derives ", ", ", "") else ""
     printer
       .call(new SealedOneofsGenerator(message, implicits).generateSealedOneofTrait)
@@ -1544,7 +1544,7 @@ class ProtobufGenerator(
     def updateEnumValue(
         enumValue: EnumValueDescriptor
     ): DescriptorProtos.EnumValueDescriptorProto = {
-      val ev = enumValue.toProto().toBuilder()
+      val ev         = enumValue.toProto().toBuilder()
       val extBuilder =
         enumValue.getOptions().getExtension[Scalapb.EnumValueOptions](Scalapb.enumValue).toBuilder
       assert(!extBuilder.hasScalaName || extBuilder.getScalaName == enumValue.scalaName)
@@ -1631,7 +1631,7 @@ class ProtobufGenerator(
   def generateServiceFiles(file: FileDescriptor): Seq[CodeGeneratorResponse.File] = {
     if (params.grpc) {
       file.getServices.asScala.map { service =>
-        val p = new GrpcServicePrinter(service, implicits)
+        val p    = new GrpcServicePrinter(service, implicits)
         val code = scalaFileHeader(
           file,
           file.javaConversions && file.getMessageTypes.asScala.exists(
