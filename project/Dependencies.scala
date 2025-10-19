@@ -29,7 +29,7 @@ object Dependencies {
 
   val Scala3 = "3.3.7"
 
-  val protobufJava = "com.google.protobuf" % "protobuf-java" % versions.protobuf
+  val protobufJava          = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val scalaCollectionCompat = Def.setting {
     "org.scala-lang.modules" %%% "scala-collection-compat" % versions.collectionCompat
   }
@@ -55,7 +55,7 @@ object Dependencies {
   val grpcInprocess = "io.grpc" % "grpc-inprocess"       % versions.grpc
 
   // testing
-  val scalaTest = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
+  val scalaTest               = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
   val scalaTestPlusScalaCheck = Def.setting {
     "org.scalatestplus" %%% "scalacheck-1-17" % versions.scalaTestPlusScalaCheck
   }

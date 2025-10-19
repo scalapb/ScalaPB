@@ -101,7 +101,7 @@ object GraphGen {
       zeroDefined       <- if (syntax.isProto3) Gen.const(true) else Gen.oneOf(false, true)
       (enumName, state) <- state.generateName
       (myId, state)     <- Gen.const(state.nextEnumId(syntax, zeroDefined))
-      (names, state) <- GenUtils
+      (names, state)    <- GenUtils
         .listWithStatefulGen(state, minSize = 1, maxSize = 5)(_.generateName)
         .retryUntil { case (names, _) =>
           // In protoc there is a check that says:
@@ -180,8 +180,8 @@ object GraphGen {
   ): Gen[(MessageNode, State)] =
     sized { s =>
       for {
-        (myId, state) <- Gen.const(state.nextMessageId)
-        (name, state) <- state.generateSubspace
+        (myId, state)     <- Gen.const(state.nextMessageId)
+        (name, state)     <- state.generateSubspace
         (messages, state) <- listWithStatefulGen(state, maxSize = (3 - depth) max 0)(
           genMessageNode(depth + 1, Some(myId), protoSyntax)
         )
