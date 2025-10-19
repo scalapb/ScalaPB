@@ -170,7 +170,7 @@ object SchemaGenerators {
       file.getAbsolutePath
     }
     val scala3SourcesParam = if (isScala3Sources) ",scala3_sources" else ""
-    val args = Seq(
+    val args               = Seq(
       "--experimental_allow_proto3_optional",
       "--proto_path",
       (tmpDir.toString + ":protobuf:third_party"),
