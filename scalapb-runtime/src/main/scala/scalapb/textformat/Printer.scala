@@ -25,7 +25,7 @@ object Printer {
       case PRepeated(values) =>
         values.foreach(v => printSingleField(fd, v, out))
       case PEmpty =>
-      case _ =>
+      case _      =>
         printSingleField(fd, value, out); ()
     }
 
