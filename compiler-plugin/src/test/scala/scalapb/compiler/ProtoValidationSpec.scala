@@ -9,7 +9,7 @@ class ProtoValidationSpec extends AnyFlatSpec with Matchers with ProtocInvocatio
       secondaryOutput: SecondaryOutputProvider,
       files: (String, String)*
   ): Unit = {
-    val fileset = generateFileSet(files)
+    val fileset    = generateFileSet(files)
     val validation = new ProtoValidation(
       new DescriptorImplicits(generatorParams, fileset, secondaryOutput)
     )

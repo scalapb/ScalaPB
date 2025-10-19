@@ -44,15 +44,15 @@ object StructUtils {
         PLong(v.toLong)
       } match {
         case Success(pLong) => Right(pLong)
-        case Failure(_) =>
+        case Failure(_)     =>
           Left(
             StructParsingError(
               s"""Field "${fd.fullName}" is of type long but received invalid long value "$v""""
             )
           )
       }
-    case (Kind.NumberValue(v), ScalaType.Double) => Right(PDouble(v))
-    case (Kind.NumberValue(v), ScalaType.Float)  => Right(PFloat(v.toFloat))
+    case (Kind.NumberValue(v), ScalaType.Double)     => Right(PDouble(v))
+    case (Kind.NumberValue(v), ScalaType.Float)      => Right(PFloat(v.toFloat))
     case (Kind.StringValue(v), ScalaType.ByteString) =>
       Right(PByteString(ByteString.copyFrom(Base64.getDecoder.decode(v.getBytes))))
     case (Kind.StringValue(v), en @ ScalaType.Enum(_)) =>
@@ -64,13 +64,13 @@ object StructUtils {
             s"""Field "${fd.fullName}" is of type enum "${en.descriptor.fullName}" but received invalid enum value "$v""""
           )
         )
-    case (Kind.StringValue(v), ScalaType.String) => Right(PString(v))
-    case (Kind.BoolValue(v), ScalaType.Boolean)  => Right(PBoolean(v))
+    case (Kind.StringValue(v), ScalaType.String)   => Right(PString(v))
+    case (Kind.BoolValue(v), ScalaType.Boolean)    => Right(PBoolean(v))
     case (Kind.ListValue(v), _) if (fd.isRepeated) =>
       flatten(v.values.map(fromValue(fd))).map(PRepeated(_))
     case (Kind.StructValue(v), _: ScalaType.Message) =>
       structMapToFDMap(v.fields)(companion.messageCompanionForFieldNumber(fd.number))
-    case (Kind.Empty, _) => Right(PEmpty)
+    case (Kind.Empty, _)                    => Right(PEmpty)
     case (kind: Kind, scalaType: ScalaType) =>
       Left(
         StructParsingError(
@@ -94,11 +94,11 @@ object StructUtils {
 
   private def toValue(pValue: PValue): Value =
     Value(pValue match {
-      case PInt(value)    => Value.Kind.NumberValue(value.toDouble)
-      case PLong(value)   => Value.Kind.StringValue(value.toString)
-      case PDouble(value) => Value.Kind.NumberValue(value)
-      case PFloat(value)  => Value.Kind.NumberValue(value.toDouble)
-      case PString(value) => Value.Kind.StringValue(value)
+      case PInt(value)        => Value.Kind.NumberValue(value.toDouble)
+      case PLong(value)       => Value.Kind.StringValue(value.toString)
+      case PDouble(value)     => Value.Kind.NumberValue(value)
+      case PFloat(value)      => Value.Kind.NumberValue(value.toDouble)
+      case PString(value)     => Value.Kind.StringValue(value)
       case PByteString(value) =>
         Value.Kind.StringValue(
           new String(Base64.getEncoder.encode(value.toByteArray()))
