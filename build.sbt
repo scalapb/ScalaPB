@@ -152,7 +152,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
       (protocCacheCoursier  % "test").cross(CrossVersion.for3Use2_13),
       scalaTest.value       % "test"
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
+    mimaPreviousArtifacts  := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
     mimaBinaryIssueFilters := Seq(
       ProblemFilters.exclude[ReversedMissingMethodProblem]("scalapb.options.*"),
       ProblemFilters.exclude[DirectMissingMethodProblem]("scalapb.compiler.GeneratorParams.*"),
@@ -164,7 +164,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
         "scalapb.compiler.ProtobufGenerator.generateTypeMappers"
       )
     ),
-    PB.protocVersion := protobufCompilerVersion,
+    PB.protocVersion     := protobufCompilerVersion,
     Compile / PB.targets := Seq(
       PB.gens.java(protobufCompilerVersion) -> (Compile / sourceManaged).value / "java_out"
     ),
@@ -461,15 +461,18 @@ lazy val conformance = (projectMatrix in file("conformance"))
     ),
     codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.12.1" exclude ("com.thesamet.scalapb", "scalapb-runtime_2.13")
+      "com.thesamet.scalapb" %% "scalapb-json4s" % "0.12.1" exclude (
+        "com.thesamet.scalapb",
+        "scalapb-runtime_2.13"
+      )
     ),
-    maintainer                 := "thesamet@gmail.com",
-    Compile / mainClass        := Some("scalapb.ConformanceScala"),
-    assemblyJarName            := "conformance",
-    assemblyPrependShellScript := Some(defaultUniversalScript(shebang = true)),
+    maintainer                       := "thesamet@gmail.com",
+    Compile / mainClass              := Some("scalapb.ConformanceScala"),
+    assemblyJarName                  := "conformance",
+    assemblyPrependShellScript       := Some(defaultUniversalScript(shebang = true)),
     assembly / assemblyMergeStrategy := {
       case x if x.endsWith("module-info.class") => MergeStrategy.discard
-      case x =>
+      case x                                    =>
         val oldStrategy = (assembly / assemblyMergeStrategy).value
         oldStrategy(x)
     }
@@ -491,7 +494,7 @@ lazy val docs = project
       "com.lihaoyi"          %% "os-lib"           % "0.5.0",
       "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
     ),
-    mdocIn := baseDirectory.value / "src" / "main" / "markdown",
+    mdocIn                                     := baseDirectory.value / "src" / "main" / "markdown",
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
       lensesJVM2_12,
       runtimeJVM2_12,
@@ -501,7 +504,7 @@ lazy val docs = project
     cleanFiles += (ScalaUnidoc / unidoc / target).value,
     docusaurusCreateSite     := docusaurusCreateSite.dependsOn(Compile / unidoc).value,
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(Compile / unidoc).value,
-    mdocVariables := Map(
+    mdocVariables            := Map(
       "scalapb"          -> "0.11.11",
       "scalapb_latest"   -> "0.11.11",
       "scala3"           -> Dependencies.Scala3,
