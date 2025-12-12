@@ -41,7 +41,7 @@ final case class EnumVector(
       if (colors.nonEmpty) {
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(colorsSerializedSize)
-        colors.foreach((_output__.writeEnumNoTag _).compose((_: _root_.scalapb.perf.protos.Color).value))
+        colors.foreach((_output__.writeEnumNoTag(_)).compose((_: _root_.scalapb.perf.protos.Color).value))
       };
       unknownFields.writeTo(_output__)
     }
