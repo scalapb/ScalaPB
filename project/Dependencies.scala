@@ -23,7 +23,7 @@ object Dependencies {
     val utest                   = "0.7.10"
   }
 
-  val Scala212 = "2.12.19"
+  val Scala212 = "2.12.21"
 
   val Scala213 = "2.13.16"
 
