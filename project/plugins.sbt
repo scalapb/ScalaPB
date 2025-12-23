@@ -24,6 +24,6 @@ addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.8")
 
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.8.1")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.8.2")
 
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.3.4")
