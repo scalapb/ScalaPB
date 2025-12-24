@@ -33,7 +33,7 @@ object GenTypes {
       case b if b == '\''.toByte => builder.append("\\\'")
       case b if b == '\\'.toByte => builder.append("\\\\")
       case b if b >= 0x20        => builder.append(b.toChar)
-      case b =>
+      case b                     =>
         builder.append('\\')
         builder.append((48 + ((b >>> 6) & 3)).toChar)
         builder.append((48 + ((b >>> 3) & 7)).toChar)
@@ -56,7 +56,7 @@ object GenTypes {
   val ProtoDouble   = Primitive("double", Arbitrary.arbitrary[Double].map(_.toString))
   val ProtoFloat    = Primitive("float", Arbitrary.arbitrary[Float].map(_.toString))
   val ProtoBool     = Primitive("bool", Arbitrary.arbitrary[Boolean].map(_.toString))
-  val ProtoString = Primitive(
+  val ProtoString   = Primitive(
     "string",
     Arbitrary.arbitrary[String].map(_.getBytes("UTF-8").toSeq).map(escapeBytes),
     packable = false
@@ -138,7 +138,7 @@ object GenTypes {
       allowMaps: Boolean = true,
       enumMustHaveZeroDefined: Boolean = false
   ): Gen[ProtoType] = {
-    val baseFreq = List((5, generatePrimitive))
+    val baseFreq     = List((5, generatePrimitive))
     val withMessages =
       if (state._nextMessageId > 0)
         (1, Gen.chooseNum(0, state._nextMessageId - 1).map(MessageReference(_))) :: baseFreq
@@ -165,7 +165,7 @@ object GenTypes {
 
   def genMapType(state: State, syntax: ProtoSyntax): Gen[MapType] =
     for {
-      keyType <- generateMapKey
+      keyType   <- generateMapKey
       valueType <- genFieldType(
         state,
         syntax,
@@ -198,7 +198,7 @@ object GenTypes {
           Gen.const(FieldOptions(FieldModifier.REPEATED, isPacked = false, proto3Presence = false))
         case _ =>
           for {
-            mod <- genFieldModifier(allowRequired = protoSyntax.isProto2)
+            mod    <- genFieldModifier(allowRequired = protoSyntax.isProto2)
             packed <-
               if (fieldType.packable && mod == FieldModifier.REPEATED)
                 Gen.oneOf(true, false)
