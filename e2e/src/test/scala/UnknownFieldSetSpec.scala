@@ -9,7 +9,7 @@ class UnknownFieldSetSpec extends AnyFlatSpec with Matchers {
   val baseX = BaseCase(x = "x", y = 12)
   val baseY = BaseCase(x = "y", y = 31)
   val baseZ = BaseCase(x = "z", y = 47)
-  val ext = Extended(
+  val ext   = Extended(
     extInt = 4,
     extRepStr = Seq("foo", "bar"),
     extMsg = Some(baseX),
@@ -29,7 +29,7 @@ class UnknownFieldSetSpec extends AnyFlatSpec with Matchers {
   }
 
   "Unknown fields" should "be combined" in {
-    val mergedBase = BaseCase.parseFrom(baseX.toByteArray ++ ext.toByteArray)
+    val mergedBase     = BaseCase.parseFrom(baseX.toByteArray ++ ext.toByteArray)
     val mergedOnceMore =
       BaseCase.merge(mergedBase, CodedInputStream.newInstance(Extended(extInt = 35).toByteArray))
 
