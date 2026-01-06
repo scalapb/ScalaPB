@@ -1,4 +1,4 @@
-val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.20.1")
+val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.20.2")
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.3.1")
 
