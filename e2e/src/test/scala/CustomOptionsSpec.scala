@@ -149,7 +149,9 @@ class CustomOptionsSpec extends AnyFlatSpec with Matchers with OptionValues {
     barP3Options.extension(CustomOptionsP3Proto.p3OptEnum).value must be(GOOD_P3)
     barP3Options.extension(CustomOptionsP3Proto.p3OptBool).value must be(true)
     barP3Options.extension(CustomOptionsP3Proto.p3OptString).value must be("foo")
-    barP3Options.extension(CustomOptionsP3Proto.p3OptBytes).value must be(ByteString.copyFromUtf8("foo"))
+    barP3Options.extension(CustomOptionsP3Proto.p3OptBytes).value must be(
+      ByteString.copyFromUtf8("foo")
+    )
   }
 
   "setting proto3 primitives" should "work" in {
