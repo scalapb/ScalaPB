@@ -650,15 +650,11 @@ class ProtobufGenerator(
         })
     }
 
-  private def composeGen(funcs: Seq[String], emitScala3Sources: Boolean) = {
+  private def composeGen(funcs: Seq[String]) = {
     if (funcs.length == 1) {
       funcs(0)
     } else {
-      if (emitScala3Sources) {
-        s"(${funcs(0)})" + funcs.tail.map(func => s".compose($func)").mkString
-      } else {
-        s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
-      }
+      s"(${funcs(0)}(_))" + funcs.tail.map(func => s".compose($func)").mkString
     }
   }
 
@@ -684,8 +680,7 @@ class ProtobufGenerator(
               if (field.customSingleScalaTypeName.isDefined)
                 Seq(s"${field.typeMapper.fullName}.toBase")
               else Nil
-            ),
-            message.getFile.emitScala3Sources
+            )
           )
 
           printer.add(s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
