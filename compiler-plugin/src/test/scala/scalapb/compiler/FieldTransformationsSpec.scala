@@ -204,7 +204,7 @@ class FieldTransformationsSpec extends AnyFlatSpec with Matchers with ProtocInvo
   val inherits   = files.find(_.getFullName() == "inherits.proto").get
   val hasScalapb = files.find(_.getFullName() == "has_scalapb.proto").get
   val ignores    = files.find(_.getFullName() == "ignores.proto").get
-  val context =
+  val context    =
     ExtensionResolutionContext("-", FieldTransformations.fieldExtensionsForFile(inherits))
   val contextWithScalaPB =
     ExtensionResolutionContext("-", FieldTransformations.fieldExtensionsForFile(hasScalapb))
