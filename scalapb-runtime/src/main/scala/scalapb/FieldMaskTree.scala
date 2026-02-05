@@ -44,7 +44,7 @@ private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree
   private def isValidFor(descriptor: Descriptor): Boolean = {
     nodes.forall { case (field, tree) =>
       descriptor.findFieldByName(field) match {
-        case None => false
+        case None        => false
         case Some(field) =>
           if (tree == FieldMaskTree.Empty) {
             true
@@ -61,7 +61,7 @@ private[scalapb] case class FieldMaskTree(nodes: SortedMap[String, FieldMaskTree
   private def paths: Vector[String] = {
     nodes.toVector.flatMap {
       case (field, FieldMaskTree.Empty) => Vector(field)
-      case (field, subTree) =>
+      case (field, subTree)             =>
         subTree.paths.map(path => s"$field${FieldMaskTree.FieldSeparator}$path")
     }
   }
@@ -82,11 +82,11 @@ private[scalapb] object FieldMaskTree {
   }
 
   def union(tree1: FieldMaskTree, tree2: FieldMaskTree): FieldMaskTree = (tree1, tree2) match {
-    case (Empty, tree) => tree
-    case (tree, Empty) => tree
+    case (Empty, tree)                                  => tree
+    case (tree, Empty)                                  => tree
     case (FieldMaskTree(nodes1), FieldMaskTree(nodes2)) =>
       val fields: Seq[String] = (nodes1.keySet ++ nodes2.keySet).toSeq
-      val tree = SortedMap(fields.map { field =>
+      val tree                = SortedMap(fields.map { field =>
         val subTree = (nodes1.get(field), nodes2.get(field)) match {
           case (Some(Empty), _) => Empty
           case (_, Some(Empty)) => Empty
