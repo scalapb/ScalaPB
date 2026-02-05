@@ -24,7 +24,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
       val oneof           = message.getRealOneofs.get(0)
       val typeMapperName  = message.sealedOneofTypeMapper.name
       val baseClasses     = message.sealedOneofBaseClasses
-      val derives =
+      val derives         =
         if (message.sealedOneofDerives.nonEmpty)
           s"derives ${message.sealedOneofDerives.mkString(", ")} "
         else ""
@@ -42,7 +42,7 @@ class SealedOneofsGenerator(message: Descriptor, implicits: DescriptorImplicits)
         val sealedOneofNonEmptyName  = message.sealedOneofNonEmptyScalaType.nameSymbol
         val sealedOneofNonEmptyType  = message.sealedOneofNonEmptyScalaType.fullName
         val sealedOneofUniversalMark = if (message.isUniversalTrait) "Any with " else ""
-        val sealedOneofEmptyExtends =
+        val sealedOneofEmptyExtends  =
           (sealedOneofType +: message.sealedOneofEmptyExtendsOption).mkString(" with ")
 
         fp.add(
