@@ -94,4 +94,26 @@ object TestCases {
       )
     )
   }
+
+  def makeLargeNestedStringMessageScala: protos.LargeNestedStringMessage = {
+    def randomString(len: Int): String = Random.alphanumeric.take(len).mkString
+
+    def makeStrings10(level: Int): protos.LargeNestedStringMessage = {
+      val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
+      protos.LargeNestedStringMessage(
+        s1 = randomString(10 + Random.nextInt(91)),
+        s2 = randomString(10 + Random.nextInt(91)),
+        s3 = randomString(10 + Random.nextInt(91)),
+        s4 = randomString(10 + Random.nextInt(91)),
+        s5 = randomString(10 + Random.nextInt(91)),
+        s6 = randomString(10 + Random.nextInt(91)),
+        s7 = randomString(10 + Random.nextInt(91)),
+        s8 = randomString(10 + Random.nextInt(91)),
+        s9 = randomString(10 + Random.nextInt(91)),
+        s10 = randomString(10 + Random.nextInt(91)),
+        nested = nested
+      )
+    }
+    makeStrings10(1)
+  }
 }

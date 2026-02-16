@@ -79,3 +79,17 @@ message LargeStringMessage {
     LargeStringMessageNested1 nested1 = 2;
 }
 
+message LargeNestedStringMessage {
+    string s1 = 1;
+    string s2 = 2;
+    string s3 = 3;
+    string s4 = 4;
+    string s5 = 5;
+    string s6 = 6;
+    string s7 = 7;
+    string s8 = 8;
+    string s9 = 9;
+    string s10 = 10;
+    LargeNestedStringMessage nested = 11;
+}
+

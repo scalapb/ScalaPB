@@ -6,6 +6,7 @@ object TestNames {
     "MessageContainer",
     "SimpleMessage",
     "StringMessage",
-    "LargeStringMessage"
+    "LargeStringMessage",
+    "LargeNestedStringMessage"
   )
 }
