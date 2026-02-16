@@ -44,3 +44,38 @@ message StringMessage {
   string str1 = 1;
   string str2 = 2;
 }
+
+message Strings10 {
+    string s1 = 1;
+    string s2 = 2;
+    string s3 = 3;
+    string s4 = 4;
+    string s5 = 5;
+    string s6 = 6;
+    string s7 = 7;
+    string s8 = 8;
+    string s9 = 9;
+    string s10 = 10;
+}
+
+message LargeStringMessageNested2 {
+    Strings10 level3_1 = 1;
+    Strings10 level3_2 = 2;
+    Strings10 level3_3 = 3;
+    Strings10 level3_4 = 4;
+    Strings10 level3_5 = 5;
+    Strings10 level3_6 = 6;
+    Strings10 level3_7 = 7;
+    Strings10 level3_8 = 8;
+}
+
+message LargeStringMessageNested1 {
+    Strings10 level2 = 1;
+    LargeStringMessageNested2 nested2 = 2;
+}
+
+message LargeStringMessage {
+    Strings10 level1 = 1;
+    LargeStringMessageNested1 nested1 = 2;
+}
+

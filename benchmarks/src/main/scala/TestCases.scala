@@ -12,6 +12,7 @@ import scalapb.perf.{Protos => JavaProtos}
 import scalapb.GeneratedMessage
 import com.google.protobuf.ByteString
 import com.google.protobuf.{GeneratedMessageV3 => JGeneratedMessage}
+import scala.util.Random
 
 object TestCases {
   def makeMessageContainerScala =
@@ -53,4 +54,44 @@ object TestCases {
     "foobar",
     "foobaz"
   )
+
+  def makeLargeStringMessageScala: protos.LargeStringMessage = {
+    def randomString(len: Int): String = Random.alphanumeric.take(len).mkString
+
+    def makeStrings10(): protos.Strings10 = {
+      protos.Strings10(
+        s1 = randomString(10 + Random.nextInt(91)),
+        s2 = randomString(10 + Random.nextInt(91)),
+        s3 = randomString(10 + Random.nextInt(91)),
+        s4 = randomString(10 + Random.nextInt(91)),
+        s5 = randomString(10 + Random.nextInt(91)),
+        s6 = randomString(10 + Random.nextInt(91)),
+        s7 = randomString(10 + Random.nextInt(91)),
+        s8 = randomString(10 + Random.nextInt(91)),
+        s9 = randomString(10 + Random.nextInt(91)),
+        s10 = randomString(10 + Random.nextInt(91))
+      )
+    }
+
+    protos.LargeStringMessage(
+      level1 = Some(makeStrings10()),
+      nested1 = Some(
+        protos.LargeStringMessageNested1(
+          level2 = Some(makeStrings10()),
+          nested2 = Some(
+            protos.LargeStringMessageNested2(
+              level31 = Some(makeStrings10()),
+              level32 = Some(makeStrings10()),
+              level33 = Some(makeStrings10()),
+              level34 = Some(makeStrings10()),
+              level35 = Some(makeStrings10()),
+              level36 = Some(makeStrings10()),
+              level37 = Some(makeStrings10()),
+              level38 = Some(makeStrings10())
+            )
+          )
+        )
+      )
+    )
+  }
 }
