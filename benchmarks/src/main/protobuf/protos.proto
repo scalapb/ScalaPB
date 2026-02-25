@@ -93,3 +93,36 @@ message LargeNestedStringMessage {
     LargeNestedStringMessage nested = 11;
 }
 
+message Bytes10 {
+    bytes s1 = 1;
+    bytes s2 = 2;
+    bytes s3 = 3;
+    bytes s4 = 4;
+    bytes s5 = 5;
+    bytes s6 = 6;
+    bytes s7 = 7;
+    bytes s8 = 8;
+    bytes s9 = 9;
+    bytes s10 = 10;
+}
+
+message LargeByteMessageNested2 {
+    Bytes10 level3_1 = 1;
+    Bytes10 level3_2 = 2;
+    Bytes10 level3_3 = 3;
+    Bytes10 level3_4 = 4;
+    Bytes10 level3_5 = 5;
+    Bytes10 level3_6 = 6;
+    Bytes10 level3_7 = 7;
+    Bytes10 level3_8 = 8;
+}
+
+message LargeByteMessageNested1 {
+    Bytes10 level2 = 1;
+    LargeByteMessageNested2 nested2 = 2;
+}
+
+message LargeByteMessage {
+    Bytes10 level1 = 1;
+    LargeByteMessageNested1 nested1 = 2;
+}

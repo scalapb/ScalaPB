@@ -116,4 +116,48 @@ object TestCases {
     }
     makeStrings10(1)
   }
+
+  def makeLargeByteMessageScala: protos.LargeByteMessage = {
+    def randomBytes(len: Int): ByteString = {
+      val arr = new Array[Byte](len)
+      Random.nextBytes(arr)
+      ByteString.copyFrom(arr)
+    }
+
+    def makeBytes10(): protos.Bytes10 = {
+      protos.Bytes10(
+        s1 = randomBytes(10 + Random.nextInt(91)),
+        s2 = randomBytes(10 + Random.nextInt(91)),
+        s3 = randomBytes(10 + Random.nextInt(91)),
+        s4 = randomBytes(10 + Random.nextInt(91)),
+        s5 = randomBytes(10 + Random.nextInt(91)),
+        s6 = randomBytes(10 + Random.nextInt(91)),
+        s7 = randomBytes(10 + Random.nextInt(91)),
+        s8 = randomBytes(10 + Random.nextInt(91)),
+        s9 = randomBytes(10 + Random.nextInt(91)),
+        s10 = randomBytes(10 + Random.nextInt(91))
+      )
+    }
+
+    protos.LargeByteMessage(
+      level1 = Some(makeBytes10()),
+      nested1 = Some(
+        protos.LargeByteMessageNested1(
+          level2 = Some(makeBytes10()),
+          nested2 = Some(
+            protos.LargeByteMessageNested2(
+              level31 = Some(makeBytes10()),
+              level32 = Some(makeBytes10()),
+              level33 = Some(makeBytes10()),
+              level34 = Some(makeBytes10()),
+              level35 = Some(makeBytes10()),
+              level36 = Some(makeBytes10()),
+              level37 = Some(makeBytes10()),
+              level38 = Some(makeBytes10())
+            )
+          )
+        )
+      )
+    )
+  }
 }
