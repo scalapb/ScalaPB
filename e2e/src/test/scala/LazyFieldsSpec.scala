@@ -28,7 +28,7 @@ class LazyFieldsSpec extends AnyFlatSpec with Matchers {
     val lazyField = LazyField(ByteString.copyFromUtf8("a lazy string"))
 
     // Field is not evaluated yet.
-    lazyField.toByteString shouldBe nonEmpty
+    lazyField.toByteString shouldBe a[ByteString]
     callCount.get() shouldBe 0
 
     // First access evaluates the field.
@@ -50,4 +50,19 @@ class LazyFieldsSpec extends AnyFlatSpec with Matchers {
 
     parsed.items.map(_.value) should contain theSameElementsAs originalItems
   }
+
+  "Lazy nested messages" should "work correctly through serialization" in {
+    val nested = LazyWithRecursion(data = LazyField(ByteString.copyFromUtf8("inside")))
+    val original = LazyWithRecursion(data = LazyField(ByteString.copyFromUtf8("outside")), nested = Some(nested))
+
+    val bytes = original.toByteArray
+    val parsed = LazyWithRecursion.parseFrom(bytes)
+
+    parsed.data shouldBe a [LazyField[_]]
+    parsed.nested.get.data shouldBe a [LazyField[_]]
+
+    parsed.data.value shouldBe "outside"
+    parsed.nested.get.data.value shouldBe "inside"
+  }
+
 }

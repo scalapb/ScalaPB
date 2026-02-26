@@ -23,3 +23,8 @@ message NotLazyMessage {
 message LazyRepeated {
   repeated string items = 1;
 }
+
+message LazyWithRecursion {
+  string data = 1;
+  LazyWithRecursion nested = 2;
+}
