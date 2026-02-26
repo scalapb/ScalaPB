@@ -38,5 +38,5 @@ trait LazyDecoder[T] {
 }
 
 object LazyDecoder {
-  implicit val stringDecoder: LazyDecoder[String] = _.toStringUtf8
+  implicit val stringDecoder: LazyDecoder[String] = _.toStringUtf8()
 }

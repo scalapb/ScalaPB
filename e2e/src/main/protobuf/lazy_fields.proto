@@ -19,3 +19,7 @@ message NotLazyMessage {
   };
   string not_lazy_string = 1;
 }
+
+message LazyRepeated {
+  repeated string items = 1;
+}
