@@ -186,6 +186,8 @@ class ProtobufGenerator(
           d.asScala
             .map(_.toString)
             .mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
+      case FieldDescriptor.JavaType.STRING if field.getContainingType.lazyFields =>
+        "_root_.com.google.protobuf.ByteString.EMPTY"
       case FieldDescriptor.JavaType.STRING => escapeScalaString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         field.getMessageType.scalaType.fullName + ".defaultInstance"
@@ -419,6 +421,8 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.DOUBLE      => FunctionApplication(s"$d.PDouble")
       case FieldDescriptor.JavaType.BOOLEAN     => FunctionApplication(s"$d.PBoolean")
       case FieldDescriptor.JavaType.BYTE_STRING => FunctionApplication(s"$d.PByteString")
+      case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyFields =>
+        FunctionApplication(s"$d.PByteString")
       case FieldDescriptor.JavaType.STRING      => FunctionApplication(s"$d.PString")
       case FieldDescriptor.JavaType.ENUM        => FunctionApplication(s"$d.PEnum")
       case FieldDescriptor.JavaType.MESSAGE     => MethodApplication("toPMessage")
@@ -469,7 +473,9 @@ class ProtobufGenerator(
                 |_output__.writeUInt32NoTag($valueExpr.serializedSize)
                 |$valueExpr.writeTo(_output__)""".stripMargin)
     } else {
-      val capTypeName = Types.capitalizedType(field.getType)
+      val capTypeName =
+        if (field.getContainingType.lazyFields && field.isProtoString) "Bytes"
+        else Types.capitalizedType(field.getType)
       fp.add(s"_output__.write$capTypeName(${field.getNumber}, $valueExpr)")
     }
   }
@@ -481,7 +487,9 @@ class ProtobufGenerator(
         .computeTagSize(field.getNumber)
         .toString + s" + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag($size) + $size"
     } else {
-      val capTypeName = Types.capitalizedType(field.getType)
+      val capTypeName =
+        if (field.getContainingType.lazyFields && field.isProtoString) "Bytes"
+        else Types.capitalizedType(field.getType)
       s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}Size(${field.getNumber}, ${expr})"
     }
 

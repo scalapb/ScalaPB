@@ -345,6 +345,7 @@ class DescriptorImplicits private[compiler] (
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
+      else if (fd.getContainingType.lazyFields && fd.isProtoString) Some(LazyString)
       else if (isSealedOneofType) Some(fd.getMessageType.sealedOneofScalaType)
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
@@ -373,7 +374,9 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.DOUBLE      => "_root_.scala.Double"
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING      => "_root_.scala.Predef.String"
+      case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyFields =>
+        "_root_.com.google.protobuf.ByteString"
+      case FieldDescriptor.JavaType.STRING => "_root_.scala.Predef.String"
       case FieldDescriptor.JavaType.MESSAGE     => fd.getMessageType.scalaType.fullName
       case FieldDescriptor.JavaType.ENUM        => fd.getEnumType.scalaType.fullName
     }
@@ -398,6 +401,8 @@ class DescriptorImplicits private[compiler] (
     def isEnum = fd.getType == FieldDescriptor.Type.ENUM
 
     def isMessage = fd.getType == FieldDescriptor.Type.MESSAGE
+
+    def isProtoString: Boolean = fd.getType == FieldDescriptor.Type.STRING
 
     def isBytes = fd.getType == FieldDescriptor.Type.BYTES
 
@@ -525,6 +530,10 @@ class DescriptorImplicits private[compiler] (
     def noDefaultValueInConstructor: Boolean = if (messageOptions.hasNoDefaultValuesInConstructor)
       messageOptions.getNoDefaultValuesInConstructor
     else message.getFile.noDefaultValuesInConstructor
+
+    def lazyFields: Boolean =
+      if (messageOptions.hasLazyFields) messageOptions.getLazyFields
+      else message.getFile.scalaOptions.getLazyFields
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)
@@ -1090,6 +1099,8 @@ object DescriptorImplicits {
   val ScalaIterable = "_root_.scala.collection.immutable.Iterable"
   val ScalaIterator = "_root_.scala.collection.Iterator"
   val ScalaOption   = "_root_.scala.Option"
+
+  val LazyString = "_root_.scalapb.LazyField[_root_.scala.Predef.String]"
 
   def fromCodeGenRequest(
       params: GeneratorParams,
