@@ -252,6 +252,8 @@ class ProtobufGenerator(
     val javaHazzer = container + ".has" + field.upperJavaName
     val upperJavaName =
       if (field.isEnum && !field.legacyEnumFieldTreatedAsClosed()) (field.upperJavaName + "Value")
+      else if (field.getContainingType.lazyFields && field.isProtoString)
+        field.upperJavaName + "Bytes"
       else field.upperJavaName
     val javaGetter =
       if (field.isRepeated)
@@ -343,10 +345,15 @@ class ProtobufGenerator(
   ): String =
     if (field.isMapField) assignScalaMapToJava(scalaObject, javaObject, field)
     else {
+      val upperJavaName =
+        if (field.getContainingType.lazyFields && field.isProtoString)
+          field.upperJavaName + "Bytes"
+        else
+          field.upperJavaName
       val javaSetter = javaObject +
         (if (field.isRepeated) ".addAll"
          else
-           ".set") + field.upperJavaName + (if (
+           ".set") + upperJavaName + (if (
                                               field.isEnum && !field
                                                 .legacyEnumFieldTreatedAsClosed()
                                             ) "Value"
