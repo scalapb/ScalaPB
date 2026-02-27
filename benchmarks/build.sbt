@@ -1,4 +1,4 @@
-val ProtobufJavaVersion = "3.11.1"
+val ProtobufJavaVersion = "4.32.0"
 
 val Scala213 = "2.13.1"
 
