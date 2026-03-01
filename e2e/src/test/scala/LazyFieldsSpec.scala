@@ -4,6 +4,7 @@ import com.thesamet.proto.e2e.lazy_fields._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import scalapb.{LazyDecoder, LazyField}
+import scala.language.implicitConversions
 
 class LazyFieldsSpec extends AnyFlatSpec with Matchers {
   "NotLazyMessage" should "have normal string fields" in {

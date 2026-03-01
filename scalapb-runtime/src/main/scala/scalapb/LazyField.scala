@@ -1,40 +1,35 @@
 package scalapb
 
 import com.google.protobuf.ByteString
-import scala.language.implicitConversions
 
 /** A field that is lazily parsed from a ByteString.
-  * 
-  * Inspired by https://github.com/protocolbuffers/protobuf/blob/main/java/core/src/main/java/com/google/protobuf/LazyField.java
   *
-  * @param bytes the raw bytes of the field.
-  * @param decoder the decoder to use to parse the bytes.
-  * @tparam T the type of the field.
+  * Inspired by
+  * https://github.com/protocolbuffers/protobuf/blob/main/java/core/src/main/java/com/google/protobuf/LazyField.java
+  *
+  * @param bytes
+  *   the raw bytes of the field.
+  * @param decoder
+  *   the decoder to use to parse the bytes.
+  * @tparam T
+  *   the type of the field.
   */
 final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]) {
   lazy val value: T = decoder.decode(bytes)
 
   def toByteString: ByteString = bytes
 
-  override def toString: String = value.toString()
+  override def toString: String            = value.toString()
   override def equals(other: Any): Boolean = value == other
-  override def hashCode(): Int = value.hashCode()
+  override def hashCode(): Int             = value.hashCode()
 }
 
-object LazyField {
+object LazyField extends LazyFieldCompat {
   def apply[T](bytes: ByteString)(implicit decoder: LazyDecoder[T]): LazyField[T] =
     new LazyField(bytes, decoder)
 
   implicit val lazyStringMapper: TypeMapper[ByteString, LazyField[String]] =
     TypeMapper[ByteString, LazyField[String]](LazyField.apply[String])(_.toByteString)
-
-  implicit def lazyFieldToValue[T](lf: LazyField[T]): T = lf.value
-
-  implicit def valueToLazyField[T](value: T)(implicit
-      encoder: LazyEncoder[T],
-      decoder: LazyDecoder[T]
-  ): LazyField[T] =
-    LazyField(encoder.encode(value))
 }
 
 trait LazyDecoder[T] {
