@@ -376,9 +376,9 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyFields =>
         "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING => "_root_.scala.Predef.String"
-      case FieldDescriptor.JavaType.MESSAGE     => fd.getMessageType.scalaType.fullName
-      case FieldDescriptor.JavaType.ENUM        => fd.getEnumType.scalaType.fullName
+      case FieldDescriptor.JavaType.STRING  => "_root_.scala.Predef.String"
+      case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaType.fullName
+      case FieldDescriptor.JavaType.ENUM    => fd.getEnumType.scalaType.fullName
     }
 
     def singleScalaTypeName = customSingleScalaTypeName.getOrElse(baseSingleScalaTypeName)

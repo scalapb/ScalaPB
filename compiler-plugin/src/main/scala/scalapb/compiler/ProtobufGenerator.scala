@@ -354,10 +354,10 @@ class ProtobufGenerator(
         (if (field.isRepeated) ".addAll"
          else
            ".set") + upperJavaName + (if (
-                                              field.isEnum && !field
-                                                .legacyEnumFieldTreatedAsClosed()
-                                            ) "Value"
-                                            else "")
+                                        field.isEnum && !field
+                                          .legacyEnumFieldTreatedAsClosed()
+                                      ) "Value"
+                                      else "")
       val scalaGetter = scalaObject + "." + fieldAccessorSymbol(field)
 
       val scalaExpr =
@@ -430,9 +430,9 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.BYTE_STRING => FunctionApplication(s"$d.PByteString")
       case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyFields =>
         FunctionApplication(s"$d.PByteString")
-      case FieldDescriptor.JavaType.STRING      => FunctionApplication(s"$d.PString")
-      case FieldDescriptor.JavaType.ENUM        => FunctionApplication(s"$d.PEnum")
-      case FieldDescriptor.JavaType.MESSAGE     => MethodApplication("toPMessage")
+      case FieldDescriptor.JavaType.STRING  => FunctionApplication(s"$d.PString")
+      case FieldDescriptor.JavaType.ENUM    => FunctionApplication(s"$d.PEnum")
+      case FieldDescriptor.JavaType.MESSAGE => MethodApplication("toPMessage")
     }
   }
 
