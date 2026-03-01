@@ -65,4 +65,11 @@ class LazyFieldsSpec extends AnyFlatSpec with Matchers {
     parsed.nested.get.data.value shouldBe "inside"
   }
 
+  "LazyField" should "implicitly convert to and from its underlying type" in {
+    val original = LazyWithRecursion(data = "a lazy string")
+    original.data shouldBe a [LazyField[_]]
+
+    original.data shouldBe "a lazy string"
+    original.data.toUpperCase shouldBe "A LAZY STRING"
+  }
 }

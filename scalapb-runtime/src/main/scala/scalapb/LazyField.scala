@@ -1,6 +1,7 @@
 package scalapb
 
 import com.google.protobuf.ByteString
+import scala.language.implicitConversions
 
 /** A field that is lazily parsed from a ByteString.
   * 
@@ -15,14 +16,9 @@ final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]
 
   def toByteString: ByteString = bytes
 
-  override def toString: String = s"LazyField($bytes)"
-
-  override def equals(other: Any): Boolean = other match {
-    case that: LazyField[_] => this.bytes.equals(that.bytes)
-    case _ => false
-  }
-
-  override def hashCode(): Int = bytes.hashCode()
+  override def toString: String = value.toString()
+  override def equals(other: Any): Boolean = value == other
+  override def hashCode(): Int = value.hashCode()
 }
 
 object LazyField {
@@ -31,6 +27,14 @@ object LazyField {
 
   implicit val lazyStringMapper: TypeMapper[ByteString, LazyField[String]] =
     TypeMapper[ByteString, LazyField[String]](LazyField.apply[String])(_.toByteString)
+
+  implicit def lazyFieldToValue[T](lf: LazyField[T]): T = lf.value
+
+  implicit def valueToLazyField[T](value: T)(implicit
+      encoder: LazyEncoder[T],
+      decoder: LazyDecoder[T]
+  ): LazyField[T] =
+    LazyField(encoder.encode(value))
 }
 
 trait LazyDecoder[T] {
@@ -39,4 +43,12 @@ trait LazyDecoder[T] {
 
 object LazyDecoder {
   implicit val stringDecoder: LazyDecoder[String] = _.toStringUtf8()
+}
+
+trait LazyEncoder[T] {
+  def encode(value: T): ByteString
+}
+
+object LazyEncoder {
+  implicit val stringEncoder: LazyEncoder[String] = ByteString.copyFromUtf8(_)
 }
