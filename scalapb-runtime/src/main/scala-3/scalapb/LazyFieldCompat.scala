@@ -13,5 +13,4 @@ trait LazyFieldCompat {
     (value: T) => LazyField(encoder.encode(value))
 
   given [T]: CanEqual[LazyField[T], T] = CanEqual.derived
-  given [T]: CanEqual[T, LazyField[T]] = CanEqual.derived
 }

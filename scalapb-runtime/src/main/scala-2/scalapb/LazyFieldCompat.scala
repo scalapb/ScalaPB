@@ -2,7 +2,7 @@ package scalapb
 
 import scala.language.implicitConversions
 
-trait LazyFieldImplicits {
+trait LazyFieldCompat {
   implicit def lazyFieldToValue[T](lf: LazyField[T]): T = lf.value
 
   implicit def valueToLazyField[T](value: T)(implicit

@@ -561,6 +561,58 @@ package object c {
 }
 ```
 
+## Lazy Fields
+
+Since ScalaPB 0.11.???, you can designate fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can provide a significant performance benefit if a message contains a lot of string fields that are not always needed.
+
+You can toggle lazy fields parsing on file and message level with `lazy_fields` option:
+
+```protobuf
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  lazy_fields: true
+};
+
+message LazyMessage {
+  string str = 1;
+  int32 int = 2;
+}
+
+message NotLazyMessage {
+  option (scalapb.message) = {
+    lazy_fields: false
+  };
+  string not_lazy_string = 1;
+}
+```
+
+This will generate a case class `LazyMessage` where `str` is of type `scalapb.LazyField[String]`. This class acts as a proxy and will only decode the underlying string on the first access. Thanks to implicit conversions, you can often use the `LazyField` as if it were the underlying type itself.
+
+```scala
+val msg = LazyMessage.parseFrom(bytes)
+
+// No parsing has happened for lazy_field yet.
+
+val serialized = msg.toByteArray // <--- fast serialization without UTF-8 encoding
+
+val upper = msg.lazyField.toUpperCase  // <--- Parsing happens here, on first access.
+
+println(upper)
+```
+
+Thanks to implicit conversions, you can work in code with lazy fields in the usual way:
+
+```scala
+val created = LazyMessage(str = "hello!", int = 42) // <--- String to LazyField[String] conversion
+
+def f(input: String): Unit = ???
+
+f(created.str) // <--- LazyField[String] to String conversion
+```
+
+`toString`, `equals`, `hashCode` methods on `LazyField[T]` use a deserialized value.
+
 ## Message-level custom type and boxing
 
 In the previous section you saw how to customize the type generated for a

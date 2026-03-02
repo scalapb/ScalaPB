@@ -10,7 +10,7 @@ option (scalapb.options) = {
 
 message LazyMessage {
   string str = 1;
-  int32 int = 3;
+  int32 int = 2;
 }
 
 message NotLazyMessage {
