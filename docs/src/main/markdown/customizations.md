@@ -613,6 +613,19 @@ f(created.str) // <--- LazyField[String] to String conversion
 
 `toString`, `equals`, `hashCode` methods on `LazyField[T]` use a deserialized value.
 
+:::warning Equality
+Equality for `LazyField[T]` is not commutative. To avoid accidentally incorrect comparisons, it is strongly recommended to use `LazyField[T]` only with the `-language:strictEquality` compiler option enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
+
+Example:
+```scala
+val lf: LazyField[String] = "abc"
+val str: String = "abc"
+
+lf == str // <--- returns true
+str == lf // <--- returns false with compiler warning at Scala 2 or doesn't compile at Scala 3 with strictEquality option
+```
+:::
+
 ## Message-level custom type and boxing
 
 In the previous section you saw how to customize the type generated for a
