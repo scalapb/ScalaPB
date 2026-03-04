@@ -123,16 +123,16 @@ object TestCases {
     def makeStrings10(level: Int): protos.LazyLargeNestedStringMessage = {
       val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
       protos.LazyLargeNestedStringMessage(
-        s1 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s2 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s3 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s4 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s5 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s6 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s7 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s8 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s9 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
-        s10 = LazyField(ByteString.copyFromUtf8(randomString(10 + Random.nextInt(91)))),
+        s1 = randomString(10 + Random.nextInt(91)),
+        s2 = randomString(10 + Random.nextInt(91)),
+        s3 = randomString(10 + Random.nextInt(91)),
+        s4 = randomString(10 + Random.nextInt(91)),
+        s5 = randomString(10 + Random.nextInt(91)),
+        s6 = randomString(10 + Random.nextInt(91)),
+        s7 = randomString(10 + Random.nextInt(91)),
+        s8 = randomString(10 + Random.nextInt(91)),
+        s9 = randomString(10 + Random.nextInt(91)),
+        s10 = randomString(10 + Random.nextInt(91)),
         nested = nested
       )
     }
