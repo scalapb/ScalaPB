@@ -73,4 +73,13 @@ class LazyFieldsSpec extends AnyFlatSpec with Matchers {
     original.data shouldBe "a lazy string"
     original.data.toUpperCase shouldBe "A LAZY STRING"
   }
+
+  "Lenses" should "work with LazyField" in {
+    val original = LazyWithRecursion(data = "a lazy string", nested = Some(LazyWithRecursion(data = "nested string", nested = Some(LazyWithRecursion(data = "another one nested string")))))
+
+    val updated = original.update(_.nested.nested.data := "updated string")
+
+    updated.nested.get.nested.get.data shouldBe "updated string"
+
+  }
 }
