@@ -43,13 +43,29 @@ class LazyFieldsSpec extends AnyFlatSpec with Matchers {
 
   "Lazy repeated fields" should "work correctly through serialization" in {
     val originalItems = Seq("hello", "world", "again")
-    val lazyItems = originalItems.map(s => LazyField(ByteString.copyFromUtf8(s)))
-    val original = LazyRepeated(items = lazyItems)
+    val original = LazyRepeated(items = originalItems)
     
     val bytes = original.toByteArray
     val parsed = LazyRepeated.parseFrom(bytes)
 
-    parsed.items.map(_.value) should contain theSameElementsAs originalItems
+    def f(str: Seq[String]): Int = str.length
+
+    f(parsed.items) shouldBe parsed.items.length
+
+    parsed.items should contain theSameElementsAs originalItems
+  }
+
+  "Lazy dictionary fields" should "work correctly through serialization" in {
+    import scalapb.LazyEncoder
+    val originalStringToInt = Map("hello" -> 1, "world" -> 2)
+    val originalIntToString = Map(1 -> "hello", 2 -> "world")
+    val original = LazyDictionary(stringToInt = originalStringToInt, intToString = originalIntToString)
+    
+    val bytes = original.toByteArray
+    val parsed = LazyDictionary.parseFrom(bytes)
+
+    parsed.stringToInt should contain theSameElementsAs originalStringToInt
+    parsed.intToString should contain theSameElementsAs originalIntToString
   }
 
   "Lazy nested messages" should "work correctly through serialization" in {

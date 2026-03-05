@@ -24,6 +24,11 @@ message LazyRepeated {
   repeated string items = 1;
 }
 
+message LazyDictionary {
+  map<string, int32> string_to_int = 1;
+  map<int32, string> int_to_string = 2;
+}
+
 message LazyWithRecursion {
   string data = 1;
   LazyWithRecursion nested = 2;
