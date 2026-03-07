@@ -9,6 +9,6 @@ object TestNames {
     "LargeStringMessage",
     "LargeNestedStringMessage",
     "LargeByteMessage",
-    "LazyLargeNestedStringMessage"
+    "LazyFieldsStringMessage"
   )
 }

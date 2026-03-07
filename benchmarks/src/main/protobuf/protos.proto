@@ -127,7 +127,7 @@ message LargeByteMessage {
     LargeByteMessageNested1 nested1 = 2;
 }
 
-message LazyLargeNestedStringMessage {
+message LazyFieldsStringMessage {
     option (scalapb.message).lazy_fields = true;
     string s1 = 1;
     string s2 = 2;
@@ -139,5 +139,5 @@ message LazyLargeNestedStringMessage {
     string s8 = 8;
     string s9 = 9;
     string s10 = 10;
-    LazyLargeNestedStringMessage nested = 11;
+    LazyFieldsStringMessage nested = 11;
 }

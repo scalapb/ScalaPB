@@ -117,12 +117,12 @@ object TestCases {
     makeStrings10(1)
   }
 
-  def makeLazyLargeNestedStringMessageScala: protos.LazyLargeNestedStringMessage = {
+  def makeLazyFieldsStringMessageScala: protos.LazyFieldsStringMessage = {
     def randomString(len: Int): String = Random.alphanumeric.take(len).mkString
 
-    def makeStrings10(level: Int): protos.LazyLargeNestedStringMessage = {
+    def makeStrings10(level: Int): protos.LazyFieldsStringMessage = {
       val nested = if (level < 10) Some(makeStrings10(level + 1)) else None
-      protos.LazyLargeNestedStringMessage(
+      protos.LazyFieldsStringMessage(
         s1 = randomString(10 + Random.nextInt(91)),
         s2 = randomString(10 + Random.nextInt(91)),
         s3 = randomString(10 + Random.nextInt(91)),
