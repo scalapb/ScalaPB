@@ -1,4 +1,4 @@
-val ScalapbVersion = sys.env.getOrElse("SCALAPB", "0.0.0+2740-4e32bc69+20260305-2347-SNAPSHOT")
+val ScalapbVersion = sys.env.getOrElse("SCALAPB", "0.11.20")
 
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.4")
 
