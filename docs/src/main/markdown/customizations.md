@@ -563,7 +563,11 @@ package object c {
 
 ## Lazy Fields
 
-Since ScalaPB 0.11.???, you can designate fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can provide a significant performance benefit if a message contains a lot of string fields that are not always needed.
+Since ScalaPB 0.11.???, you can designate fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can significantly reduce serialization overhead if a message contains a lot of string fields that are not always needed.
+
+Lazy fields shows high perfomance improvement (up to 3x faster round-trip) when the following factors coincide:
+- message consists of a large number of `string` fields;
+- read access (calling a getter method) to only a small number of attributes (parse message → read a few of fields → serialize).
 
 You can toggle lazy fields parsing on file and message level with `lazy_fields` option:
 
