@@ -561,6 +561,75 @@ package object c {
 }
 ```
 
+## Lazy Fields
+
+Since ScalaPB 0.11.???, you can designate fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can significantly reduce serialization overhead if a message contains a lot of string fields that are not always needed.
+
+Lazy fields shows high perfomance improvement (up to 3x faster round-trip) when the following factors coincide:
+- message consists of a large number of `string` fields;
+- read access (calling a getter method) to only a small number of attributes (parse message → read a few of fields → serialize).
+
+You can toggle lazy fields parsing on file and message level with `lazy_fields` option:
+
+```protobuf
+import "scalapb/scalapb.proto";
+
+option (scalapb.options) = {
+  lazy_fields: true
+};
+
+message LazyMessage {
+  string str = 1;
+  int32 int = 2;
+}
+
+message NotLazyMessage {
+  option (scalapb.message) = {
+    lazy_fields: false
+  };
+  string not_lazy_string = 1;
+}
+```
+
+This will generate a case class `LazyMessage` where `str` is of type `scalapb.LazyField[String]`. This class acts as a proxy and will only decode the underlying string on the first access. Thanks to implicit conversions, you can often use the `LazyField` as if it were the underlying type itself.
+
+```scala
+val msg = LazyMessage.parseFrom(bytes)
+
+// No parsing has happened for lazy_field yet.
+
+val serialized = msg.toByteArray // <--- fast serialization without UTF-8 encoding
+
+val upper = msg.lazyField.toUpperCase  // <--- Parsing happens here, on first access.
+
+println(upper)
+```
+
+Thanks to implicit conversions, you can work in code with lazy fields in the usual way:
+
+```scala
+val created = LazyMessage(str = "hello!", int = 42) // <--- String to LazyField[String] conversion
+
+def f(input: String): Unit = ???
+
+f(created.str) // <--- LazyField[String] to String conversion
+```
+
+`toString`, `equals`, `hashCode` methods on `LazyField[T]` use a deserialized value.
+
+:::warning Equality
+Equality for `LazyField[T]` is not commutative. To avoid accidentally incorrect comparisons, it is strongly recommended to use `LazyField[T]` only with the `-language:strictEquality` compiler option enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
+
+Example:
+```scala
+val lf: LazyField[String] = "abc"
+val str: String = "abc"
+
+lf == str // <--- returns true
+str == lf // <--- returns false with compiler warning at Scala 2 or doesn't compile at Scala 3 with strictEquality option
+```
+:::
+
 ## Message-level custom type and boxing
 
 In the previous section you saw how to customize the type generated for a
