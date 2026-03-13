@@ -70,10 +70,10 @@ class ProtoInputStreamSpec extends AnyFunSpec with Matchers {
     it("fully readable in chunks") {
       new Setup {
         var offset = 0
-        var count = 0
-        var buf = newBuffer
+        var count  = 0
+        var buf    = newBuffer
         val res    = Array.newBuilder[Byte]
-        while({
+        while ({
           res ++= buf.slice(offset, offset + count)
           buf = newBuffer
           offset += count
