@@ -186,7 +186,7 @@ class ProtobufGenerator(
           d.asScala
             .map(_.toString)
             .mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
-      case FieldDescriptor.JavaType.STRING if field.getContainingType.lazyFields =>
+      case FieldDescriptor.JavaType.STRING if field.getContainingType.lazyStringFields =>
         "_root_.com.google.protobuf.ByteString.EMPTY"
       case FieldDescriptor.JavaType.STRING => escapeScalaString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
@@ -252,7 +252,7 @@ class ProtobufGenerator(
     val javaHazzer = container + ".has" + field.upperJavaName
     val upperJavaName =
       if (field.isEnum && !field.legacyEnumFieldTreatedAsClosed()) (field.upperJavaName + "Value")
-      else if (field.getContainingType.lazyFields && field.isProtoString)
+      else if (field.getContainingType.lazyStringFields && field.isProtoString)
         field.upperJavaName + "Bytes"
       else field.upperJavaName
     val javaGetter =
@@ -346,7 +346,7 @@ class ProtobufGenerator(
     if (field.isMapField) assignScalaMapToJava(scalaObject, javaObject, field)
     else {
       val upperJavaName =
-        if (field.getContainingType.lazyFields && field.isProtoString)
+        if (field.getContainingType.lazyStringFields && field.isProtoString)
           field.upperJavaName + "Bytes"
         else
           field.upperJavaName
@@ -428,7 +428,7 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.DOUBLE      => FunctionApplication(s"$d.PDouble")
       case FieldDescriptor.JavaType.BOOLEAN     => FunctionApplication(s"$d.PBoolean")
       case FieldDescriptor.JavaType.BYTE_STRING => FunctionApplication(s"$d.PByteString")
-      case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyFields =>
+      case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyStringFields =>
         FunctionApplication(s"$d.PByteString")
       case FieldDescriptor.JavaType.STRING  => FunctionApplication(s"$d.PString")
       case FieldDescriptor.JavaType.ENUM    => FunctionApplication(s"$d.PEnum")
@@ -481,7 +481,7 @@ class ProtobufGenerator(
                 |$valueExpr.writeTo(_output__)""".stripMargin)
     } else {
       val capTypeName =
-        if (field.getContainingType.lazyFields && field.isProtoString) "Bytes"
+        if (field.getContainingType.lazyStringFields && field.isProtoString) "Bytes"
         else Types.capitalizedType(field.getType)
       fp.add(s"_output__.write$capTypeName(${field.getNumber}, $valueExpr)")
     }
@@ -495,7 +495,7 @@ class ProtobufGenerator(
         .toString + s" + _root_.com.google.protobuf.CodedOutputStream.computeUInt32SizeNoTag($size) + $size"
     } else {
       val capTypeName =
-        if (field.getContainingType.lazyFields && field.isProtoString) "Bytes"
+        if (field.getContainingType.lazyStringFields && field.isProtoString) "Bytes"
         else Types.capitalizedType(field.getType)
       s"_root_.com.google.protobuf.CodedOutputStream.compute${capTypeName}Size(${field.getNumber}, ${expr})"
     }

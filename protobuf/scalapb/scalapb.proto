@@ -189,7 +189,7 @@ message ScalaPbOptions {
 
   // If true, string fields are generated as LazyField[String] to avoid
   // allocations when parsing.
-  optional bool lazy_fields = 30 [default = false];
+  optional bool lazy_string_fields = 30;
 
   // For use in tests only. Inhibit Java conversions even when when generator parameters
   // request for it.
@@ -250,7 +250,7 @@ message MessageOptions {
 
   // If true, string fields are generated as LazyField[String] to avoid
   // allocations when parsing. If set, this overrides the file-level setting.
-  optional bool lazy_fields = 14;
+  optional bool lazy_string_fields = 14;
 
   extensions 1000 to max;
 }

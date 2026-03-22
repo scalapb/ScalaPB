@@ -128,7 +128,7 @@ message LargeByteMessage {
 }
 
 message LazyFieldsStringMessage {
-    option (scalapb.message).lazy_fields = true;
+    option (scalapb.message).lazy_string_fields = true;
     string s1 = 1;
     string s2 = 2;
     string s3 = 3;

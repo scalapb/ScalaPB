@@ -345,7 +345,7 @@ class DescriptorImplicits private[compiler] (
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
-      else if (fd.getContainingType.lazyFields && fd.isProtoString) Some(LazyString)
+      else if (fd.getContainingType.lazyStringFields && fd.isProtoString) Some(LazyString)
       else if (isSealedOneofType) Some(fd.getMessageType.sealedOneofScalaType)
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
@@ -374,7 +374,7 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.DOUBLE      => "_root_.scala.Double"
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyFields =>
+      case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyStringFields =>
         "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING  => "_root_.scala.Predef.String"
       case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaType.fullName
@@ -531,9 +531,9 @@ class DescriptorImplicits private[compiler] (
       messageOptions.getNoDefaultValuesInConstructor
     else message.getFile.noDefaultValuesInConstructor
 
-    def lazyFields: Boolean =
-      if (messageOptions.hasLazyFields) messageOptions.getLazyFields
-      else message.getFile.scalaOptions.getLazyFields
+    def lazyStringFields: Boolean =
+      if (messageOptions.hasLazyStringFields) messageOptions.getLazyStringFields
+      else message.getFile.scalaOptions.getLazyStringFields
 
     private[this] def deprecatedAnnotation: Seq[String] = {
       if (message.getOptions.getDeprecated)

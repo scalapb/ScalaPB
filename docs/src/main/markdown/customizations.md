@@ -561,21 +561,21 @@ package object c {
 }
 ```
 
-## Lazy Fields
+## Lazy String Fields
 
-Since ScalaPB 0.11.???, you can designate fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can significantly reduce serialization overhead if a message contains a lot of string fields that are not always needed.
+Since ScalaPB 0.11.???, you can designate string fields to be lazily parsed. A lazy field is not parsed from its raw bytes until it is accessed for the first time. This can significantly reduce serialization overhead if a message contains a lot of string fields that are not always needed.
 
-Lazy fields shows high perfomance improvement (up to 3x faster round-trip) when the following factors coincide:
+Lazy string fields shows high perfomance improvement (up to 3x faster round-trip) when the following factors coincide:
 - message consists of a large number of `string` fields;
 - read access (calling a getter method) to only a small number of attributes (parse message → read a few of fields → serialize).
 
-You can toggle lazy fields parsing on file and message level with `lazy_fields` option:
+You can toggle lazy string fields parsing on file and message level with `lazy_string_fields` option:
 
 ```protobuf
 import "scalapb/scalapb.proto";
 
 option (scalapb.options) = {
-  lazy_fields: true
+  lazy_string_fields: true
 };
 
 message LazyMessage {
@@ -585,7 +585,7 @@ message LazyMessage {
 
 message NotLazyMessage {
   option (scalapb.message) = {
-    lazy_fields: false
+    lazy_string_fields: false
   };
   string not_lazy_string = 1;
 }
@@ -596,16 +596,16 @@ This will generate a case class `LazyMessage` where `str` is of type `scalapb.La
 ```scala
 val msg = LazyMessage.parseFrom(bytes)
 
-// No parsing has happened for lazy_field yet.
+// No parsing has happened for str yet.
 
 val serialized = msg.toByteArray // <--- fast serialization without UTF-8 encoding
 
-val upper = msg.lazyField.toUpperCase  // <--- Parsing happens here, on first access.
+val upper = msg.str.toUpperCase  // <--- Parsing happens here, on first access.
 
 println(upper)
 ```
 
-Thanks to implicit conversions, you can work in code with lazy fields in the usual way:
+Thanks to implicit conversions, you can work in code with lazy string fields in the usual way:
 
 ```scala
 val created = LazyMessage(str = "hello!", int = 42) // <--- String to LazyField[String] conversion

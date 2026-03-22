@@ -1,12 +1,12 @@
 import java.util.concurrent.atomic.AtomicInteger
 import com.google.protobuf.ByteString
-import com.thesamet.proto.e2e.lazy_fields._
+import com.thesamet.proto.e2e.lazy_string_fields._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import scalapb.{LazyDecoder, LazyField}
 import scala.language.implicitConversions
 
-class LazyFieldsSpec extends AnyFlatSpec with Matchers {
+class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
   "NotLazyMessage" should "have normal string fields" in {
     val notLazyMessage = NotLazyMessage(
       notLazyString = "not a lazy string"

@@ -1,16 +1,16 @@
-import com.thesamet.proto.e2e.lazy_fields._
-import com.thesamet.proto.e2e.LazyFields
+import com.thesamet.proto.e2e.lazy_string_fields._
+import com.thesamet.proto.e2e.LazyStringFields
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 import scalapb.{LazyDecoder, LazyField}
 import scala.language.implicitConversions
 
-class LazyFieldsSpec extends AnyFlatSpec with Matchers {
+class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
   "Lazy repeated fields" should "work correctly through java conversion" in {
     val original = LazyMessage(str = "hello", int = 42)
     
     val bytes = original.toByteArray
-    val javaParsed = LazyFields.LazyMessage.parseFrom(bytes)
+    val javaParsed = LazyStringFields.LazyMessage.parseFrom(bytes)
     val javaConverted = LazyMessage.toJavaProto(original)
 
     javaParsed.getStr() shouldBe "hello"
