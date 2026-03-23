@@ -99,6 +99,37 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
 
   }
 
+  "LazyField equality" should "work for LazyField ant case classes" in {
+    val lazy1 = LazyField(ByteString.copyFromUtf8("string"))
+    val lazy2 = LazyField(ByteString.copyFromUtf8("string"))
+    val lazy3 = LazyField(ByteString.copyFromUtf8("another"))
+    
+    (lazy1 == lazy2) shouldBe true
+    (lazy2 == lazy1) shouldBe true
+    (lazy1 == lazy3) shouldBe false
+    (lazy3 == lazy1) shouldBe false
+    
+    val decoded = LazyWithRecursion(data = "string")
+    decoded.data.value // force decoding
+    val encoded = LazyWithRecursion.parseFrom(decoded.toByteArray)
+    val another = LazyWithRecursion(data = "another")
+
+    (decoded == encoded) shouldBe true
+    (encoded == decoded) shouldBe true
+    (encoded == another) shouldBe false
+
+    val set1 = Set(decoded, encoded)
+    set1.size shouldBe 1
+    set1(decoded) shouldBe true
+    set1(encoded) shouldBe true
+    set1(another) shouldBe false
+    val set2 = Set(encoded, decoded)
+    set2.size shouldBe 1
+    set2(decoded) shouldBe true
+    set2(encoded) shouldBe true
+    set2(another) shouldBe false
+  }
+
   "LazyField in typed collections" should "behave correctly due to explicit conversion" in {
     val s: String = "foobar"
     val lazyS: LazyField[String] = LazyField(ByteString.copyFromUtf8(s))
@@ -114,6 +145,8 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
     scalaMap(s) shouldBe "lazy"
   }
 
+  // This test specifies counterintuitive behavior
+  // Set[Any] or Map[Any, T] is not recommended for usage with LazyField!
   "LazyField in untyped collections" should "exhibit asymmetric equality behavior" in {
     val s: String = "foobar"
     val lazyS: LazyField[String] = LazyField(ByteString.copyFromUtf8(s))
@@ -135,27 +168,5 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
     val anyMap2 = Map[Any, String](s -> "string", lazyS -> "lazy")
     anyMap2.size shouldBe 1
     anyMap2(s) shouldBe "lazy"
-  }
-
-  "LazyField in case class" should "work for sets or maps" in {
-    val decoded = LazyWithRecursion(data = "string")
-    decoded.data shouldBe "string" // decoding
-    val encoded = LazyWithRecursion.parseFrom(decoded.toByteArray)
-    val another = LazyWithRecursion(data = "another string")
-    val notInSet = LazyWithRecursion(data = "not in set")
-
-    decoded == encoded shouldBe true
-    encoded == decoded shouldBe true
-
-    val set1 = Set(decoded, encoded, another)
-    set1.size shouldBe 2
-    set1(encoded) shouldBe true
-    set1(notInSet) shouldBe false
-
-    val set2 = Set(encoded, decoded, another)
-    set2.size shouldBe 2
-    set2(encoded) shouldBe true
-    set2(notInSet) shouldBe false
-
   }
 }

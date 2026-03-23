@@ -22,8 +22,11 @@ final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]
   override def toString: String = value.toString()
   // Equality for LazyField[T] is not commutative!
   // It is extremely important to use LazyField[T] only with the `-language:strictEquality` enabled for Scala 3 or `-Xfatal-warnings` for Scala 2.
-  override def equals(other: Any): Boolean = value == other
-  override def hashCode(): Int             = value.hashCode()
+  override def equals(other: Any): Boolean = other match {
+    case that: LazyField[?] => this.bytes == that.bytes
+    case _                  => this.value == other
+  }
+  override def hashCode(): Int = value.hashCode()
 }
 
 object LazyField extends LazyFieldCompat {
