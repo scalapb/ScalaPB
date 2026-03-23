@@ -98,4 +98,64 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
     updated.nested.get.nested.get.data shouldBe "updated string"
 
   }
+
+  "LazyField in typed collections" should "behave correctly due to explicit conversion" in {
+    val s: String = "foobar"
+    val lazyS: LazyField[String] = LazyField(ByteString.copyFromUtf8(s))
+
+    val scalaSet = Set[String](s, lazyS)
+    scalaSet.size shouldBe 1
+
+    val scalaMap = Map[String, String](
+      s -> "string",
+      lazyS.toString -> "lazy" // compiler forces explicit conversion for tuples
+    )
+    scalaMap.size shouldBe 1
+    scalaMap(s) shouldBe "lazy"
+  }
+
+  "LazyField in untyped collections" should "exhibit asymmetric equality behavior" in {
+    val s: String = "foobar"
+    val lazyS: LazyField[String] = LazyField(ByteString.copyFromUtf8(s))
+
+    lazyS.equals(s) shouldBe true // LazyField is compared to a String
+    s.equals(lazyS) shouldBe false // String is compared to a LazyField
+
+    val anySet1 = Set[Any](lazyS, s)
+    anySet1.size shouldBe 2
+
+    val anySet2 = Set[Any](s, lazyS)
+    anySet2.size shouldBe 1 // equals is not commutative so, so the order of the arguments is important
+
+    val anyMap1 = Map[Any, String](lazyS -> "lazy", s -> "string")
+    anyMap1.size shouldBe 2
+    anyMap1(s) shouldBe "string"
+    anyMap1(lazyS) shouldBe "lazy"
+
+    val anyMap2 = Map[Any, String](s -> "string", lazyS -> "lazy")
+    anyMap2.size shouldBe 1
+    anyMap2(s) shouldBe "lazy"
+  }
+
+  "LazyField in case class" should "work for sets or maps" in {
+    val decoded = LazyWithRecursion(data = "string")
+    decoded.data shouldBe "string" // decoding
+    val encoded = LazyWithRecursion.parseFrom(decoded.toByteArray)
+    val another = LazyWithRecursion(data = "another string")
+    val notInSet = LazyWithRecursion(data = "not in set")
+
+    decoded == encoded shouldBe true
+    encoded == decoded shouldBe true
+
+    val set1 = Set(decoded, encoded, another)
+    set1.size shouldBe 2
+    set1(encoded) shouldBe true
+    set1(notInSet) shouldBe false
+
+    val set2 = Set(encoded, decoded, another)
+    set2.size shouldBe 2
+    set2(encoded) shouldBe true
+    set2(notInSet) shouldBe false
+
+  }
 }
