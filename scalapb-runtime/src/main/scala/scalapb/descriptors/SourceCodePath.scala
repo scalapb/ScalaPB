@@ -4,7 +4,7 @@ import com.google.protobuf.descriptor._
 
 object SourceCodePath {
   def get(fd: Descriptor): Seq[Int] = fd.containingMessage match {
-    case None => Seq(FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER, fd.index)
+    case None            => Seq(FileDescriptorProto.MESSAGE_TYPE_FIELD_NUMBER, fd.index)
     case Some(container) =>
       get(container) ++ Seq(DescriptorProto.NESTED_TYPE_FIELD_NUMBER, fd.index)
   }
