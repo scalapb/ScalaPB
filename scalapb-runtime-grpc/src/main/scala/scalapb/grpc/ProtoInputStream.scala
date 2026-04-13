@@ -27,12 +27,12 @@ class ProtoInputStream[T <: GeneratedMessage](msg: T) extends InputStream {
   }
 
   private case class Message(value: T) extends State {
-    override def available: Int = value.serializedSize
-    override def message: T     = value
-    override def read(): Int    = toStream.read()
+    override def available: Int                                = value.serializedSize
+    override def message: T                                    = value
+    override def read(): Int                                   = toStream.read()
     override def read(b: Array[Byte], off: Int, len: Int): Int = {
       value.serializedSize match {
-        case 0 => toDrained.read(b, off, len)
+        case 0                   => toDrained.read(b, off, len)
         case size if size <= len =>
           val stream = CodedOutputStream.newInstance(b, off, size)
           message.writeTo(stream)

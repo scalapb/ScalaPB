@@ -34,7 +34,9 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
     withManagedServer(
       InProcessServerBuilder
         .forName(channelName)
-        .addService(Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext))
+        .addService(
+          Service1GrpcScala.bindService(new Service1ScalaImpl, singleThreadExecutionContext)
+        )
         .build()
     ) {
       val channel = InProcessChannelBuilder
@@ -74,7 +76,7 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
   }
 
   protected[this] final def getObserverAndFuture[T]: (StreamObserver[T], Future[T]) = {
-    val promise = Promise[T]()
+    val promise  = Promise[T]()
     val observer = new StreamObserver[T] {
       override def onError(t: Throwable): Unit = {}
 
@@ -87,8 +89,8 @@ abstract class GrpcServiceSpecBase extends AnyFunSpec with Matchers {
 
   protected[this] final def getObserverAndFutureVector[T]
       : (StreamObserver[T], Future[Vector[T]]) = {
-    val promise = Promise[Vector[T]]()
-    val values  = Vector.newBuilder[T]
+    val promise  = Promise[Vector[T]]()
+    val values   = Vector.newBuilder[T]
     val observer = new StreamObserver[T] {
       override def onError(t: Throwable): Unit = {}
 

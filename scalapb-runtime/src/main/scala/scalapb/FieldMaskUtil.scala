@@ -154,7 +154,7 @@ object FieldMaskUtil {
       fieldNumbers: Int*
   ): Option[FieldMask] = {
     val companion = implicitly[GeneratedMessageCompanion[M]]
-    val fields = fieldNumbers.map { fieldNumber =>
+    val fields    = fieldNumbers.map { fieldNumber =>
       companion.scalaDescriptor.findFieldByNumber(fieldNumber)
     }
     val fieldNames = fields.foldLeft[Option[Vector[String]]](Some(Vector.empty)) {
