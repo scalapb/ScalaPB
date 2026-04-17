@@ -55,7 +55,14 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
     parsed.items should contain theSameElementsAs originalItems
   }
 
-  "Lazy dictionary fields" should "work correctly through serialization" in {
+  /**
+   * This is necessary for more intuitive dictionary behavior.
+   * We sacrifice potential performance to avoid potential problems
+   * with untyped collections: Map[Any, T] in this specifically.
+   *
+   * See related "LazyField untyped collections" spec.
+   * */
+  "Lazy dictionary fields" should "parse keys as raw strings" in {
     import scalapb.LazyEncoder
     val originalStringToInt = Map("hello" -> 1, "world" -> 2)
     val originalIntToString = Map(1 -> "hello", 2 -> "world")
@@ -64,7 +71,12 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
     val bytes = original.toByteArray
     val parsed = LazyDictionary.parseFrom(bytes)
 
+    // keys parses as raw strings
+    parsed.stringToInt.keys.head shouldBe a[String]
     parsed.stringToInt should contain theSameElementsAs originalStringToInt
+
+    // values parses as LazyField
+    parsed.intToString.values.head shouldBe a[LazyField[_]]
     parsed.intToString should contain theSameElementsAs originalIntToString
   }
 

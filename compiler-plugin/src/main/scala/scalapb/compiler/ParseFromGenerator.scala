@@ -169,7 +169,7 @@ private[compiler] class ParseFromGenerator(
               } else if (field.isEnum)
                 s"${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())"
               else if (field.getType == Type.STRING)
-                if (field.getContainingType.lazyStringFields) s"_input__.readBytes()"
+                if (field.shouldBeLazyString) s"_input__.readBytes()"
                 else s"_input__.readStringRequireUtf8()"
               else s"_input__.read${Types.capitalizedType(field.getType)}()"
 

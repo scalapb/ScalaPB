@@ -272,6 +272,10 @@ class DescriptorImplicits private[compiler] (
 
     def isMapField = isMessage && fd.isRepeated && fd.getMessageType.isMapEntry
 
+    def isMapKeyField: Boolean = fd.getContainingType.isMapEntry && fd.getNumber == 1
+
+    def shouldBeLazyString: Boolean = fd.getContainingType.lazyStringFields && !fd.isMapKeyField
+
     def mapType: ExtendedMessageDescriptor#MapType = {
       assert(isMapField)
       fd.getMessageType.mapType
@@ -345,7 +349,7 @@ class DescriptorImplicits private[compiler] (
       }
 
       if (isMapField) Some(s"(${mapType.keyType}, ${mapType.valueType})")
-      else if (fd.getContainingType.lazyStringFields && fd.isProtoString) Some(LazyString)
+      else if (fd.isProtoString && fd.shouldBeLazyString) Some(LazyString)
       else if (isSealedOneofType) Some(fd.getMessageType.sealedOneofScalaType)
       else if (fieldOptions.hasType) Some(fieldOptions.getType)
       else if (isMessage && fd.getMessageType.messageOptions.hasType)
@@ -374,7 +378,7 @@ class DescriptorImplicits private[compiler] (
       case FieldDescriptor.JavaType.DOUBLE      => "_root_.scala.Double"
       case FieldDescriptor.JavaType.BOOLEAN     => "_root_.scala.Boolean"
       case FieldDescriptor.JavaType.BYTE_STRING => "_root_.com.google.protobuf.ByteString"
-      case FieldDescriptor.JavaType.STRING if fd.getContainingType.lazyStringFields =>
+      case FieldDescriptor.JavaType.STRING if fd.shouldBeLazyString =>
         "_root_.com.google.protobuf.ByteString"
       case FieldDescriptor.JavaType.STRING  => "_root_.scala.Predef.String"
       case FieldDescriptor.JavaType.MESSAGE => fd.getMessageType.scalaType.fullName
