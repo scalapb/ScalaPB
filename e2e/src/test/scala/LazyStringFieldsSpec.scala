@@ -1,9 +1,12 @@
 import java.util.concurrent.atomic.AtomicInteger
 import com.google.protobuf.ByteString
 import com.thesamet.proto.e2e.lazy_string_fields._
+import com.thesamet.proto.e2e.lazy_string_fields_proto2._
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+import scalapb.descriptors.PString
 import scalapb.{LazyDecoder, LazyField}
+
 import scala.language.implicitConversions
 
 class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
@@ -180,5 +183,16 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
     val anyMap2 = Map[Any, String](s -> "string", lazyS -> "lazy")
     anyMap2.size shouldBe 1
     anyMap2(s) shouldBe "lazy"
+  }
+
+  "getField" should "get raw value" in {
+    val original = LazyWithRecursion(data = "a lazy string")
+    original.getFieldByNumber(1) shouldBe "a lazy string"
+    original.getField(LazyWithRecursion.scalaDescriptor.findFieldByNumber(1).get) shouldBe PString("a lazy string")
+  }
+
+  "defaults" should "work in proto2" in {
+    val lazyMessageProto2 = LazyMessageProto2.defaultInstance
+    lazyMessageProto2.str shouldBe "default"
   }
 }

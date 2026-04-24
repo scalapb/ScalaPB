@@ -453,6 +453,30 @@ lazy val e2e = (projectMatrix in file("e2e"))
     Compile / PB.protocOptions += "--experimental_allow_proto3_optional"
   )
 
+lazy val e2eJson = (projectMatrix in file("e2e-json"))
+  .defaultAxes()
+  .dependsOn(runtime)
+  .enablePlugins(LocalCodeGenPlugin)
+  .jvmPlatform(
+    Seq(Scala212, Scala213, Scala3),
+    settings = Seq(
+      Compile / PB.targets := Seq(
+        genModule("scalapb.ScalaPbCodeGenerator$") -> (Compile / sourceManaged).value
+      )
+    )
+  )
+  .settings(commonSettings)
+  .settings(
+    publish / skip          := true,
+    Compile / PB.recompile  := true,
+    codeGenClasspath        := (compilerPluginJVM2_12 / Compile / fullClasspath).value,
+    libraryDependencies ++= Seq(
+      scalaTest.value % Test
+    ),
+    libraryDependencies += ("com.thesamet.scalapb" %% "scalapb-json4s" % versions.scalapbJson4s % Test)
+      .exclude("com.thesamet.scalapb", "scalapb-runtime_" + scalaBinaryVersion.value)
+  )
+
 lazy val conformance = (projectMatrix in file("conformance"))
   .defaultAxes()
   .dependsOn(runtime)
@@ -466,7 +490,7 @@ lazy val conformance = (projectMatrix in file("conformance"))
     ),
     codeGenClasspath := (compilerPluginJVM2_12 / Compile / fullClasspath).value,
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "scalapb-json4s" % "1.0.0-alpha.1" exclude ("com.thesamet.scalapb", "scalapb-runtime_2.13")
+      "com.thesamet.scalapb" %% "scalapb-json4s" % versions.scalapbJson4s exclude ("com.thesamet.scalapb", "scalapb-runtime_2.13")
     ),
     maintainer                 := "thesamet@gmail.com",
     Compile / mainClass        := Some("scalapb.ConformanceScala"),

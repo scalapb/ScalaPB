@@ -11,6 +11,7 @@ import scala.jdk.CollectionConverters._
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import protocgen.CodeGenRequest
 import protocgen.CodeGenResponse
+import scalapb.compiler.DescriptorImplicits.LazyString
 
 // Exceptions that are caught and passed upstreams as errors.
 case class GeneratorException(message: String) extends Exception(message)
@@ -157,7 +158,7 @@ class ProtobufGenerator(
       .add("}")
   }
 
-  def defaultValueForGet(field: FieldDescriptor, uncustomized: Boolean = false) = {
+  def defaultValueForGet(field: FieldDescriptor, uncustomized: Boolean = false, ignoreLazyString: Boolean = false) = {
     // Needs to be 'def' and not val since for some of the cases it's invalid to call it.
     def defaultValue = field.getDefaultValue
 
@@ -186,8 +187,12 @@ class ProtobufGenerator(
           d.asScala
             .map(_.toString)
             .mkString("_root_.com.google.protobuf.ByteString.copyFrom(Array[Byte](", ", ", "))")
-      case FieldDescriptor.JavaType.STRING if field.shouldBeLazyString =>
-        "_root_.com.google.protobuf.ByteString.EMPTY"
+      case FieldDescriptor.JavaType.STRING if field.shouldBeLazyString && !ignoreLazyString =>
+        val d = defaultValue.asInstanceOf[String]
+        if (d.isEmpty)
+          "_root_.com.google.protobuf.ByteString.EMPTY"
+        else
+          s"_root_.com.google.protobuf.ByteString.copyFromUtf8(${escapeScalaString(d)})"
       case FieldDescriptor.JavaType.STRING => escapeScalaString(defaultValue.asInstanceOf[String])
       case FieldDescriptor.JavaType.MESSAGE =>
         field.getMessageType.scalaType.fullName + ".defaultInstance"
@@ -387,8 +392,11 @@ class ProtobufGenerator(
         .add("(__fieldNumber: @_root_.scala.unchecked) match {")
         .indent
         .print(message.fields) { case (fp, f) =>
-          val e = toBaseFieldType(f)
-            .apply(
+          val toBaseFieldTypeApplication =
+            if (f.isProtoString && f.shouldBeLazyString) MethodApplication("value")
+            else toBaseFieldType(f)
+
+            val e = toBaseFieldTypeApplication.apply(
               fieldAccessorSymbol(f),
               sourceType = f.enclosingType,
               targetType = f.fieldMapEnclosingType
@@ -403,7 +411,7 @@ class ProtobufGenerator(
               .add({
                 val cond =
                   if (!f.isEnum)
-                    s"__t != ${defaultValueForGet(f, uncustomized = true)}"
+                    s"__t != ${defaultValueForGet(f, uncustomized = true, ignoreLazyString = true)}"
                   else
                     s"__t.getNumber() != 0"
                 s"if ($cond) __t else null"
@@ -428,8 +436,6 @@ class ProtobufGenerator(
       case FieldDescriptor.JavaType.DOUBLE      => FunctionApplication(s"$d.PDouble")
       case FieldDescriptor.JavaType.BOOLEAN     => FunctionApplication(s"$d.PBoolean")
       case FieldDescriptor.JavaType.BYTE_STRING => FunctionApplication(s"$d.PByteString")
-      case FieldDescriptor.JavaType.STRING if fd.shouldBeLazyString =>
-        FunctionApplication(s"$d.PByteString")
       case FieldDescriptor.JavaType.STRING  => FunctionApplication(s"$d.PString")
       case FieldDescriptor.JavaType.ENUM    => FunctionApplication(s"$d.PEnum")
       case FieldDescriptor.JavaType.MESSAGE => MethodApplication("toPMessage")
@@ -446,7 +452,11 @@ class ProtobufGenerator(
         .add("(__field.number: @_root_.scala.unchecked) match {")
         .indent
         .print(message.fields) { case (fp, f) =>
-          val e = toBaseFieldTypeWithScalaDescriptors(f)
+          val toBaseFieldTypeApplication =
+            if (f.isProtoString && f.shouldBeLazyString) MethodApplication("value")
+            else toBaseFieldTypeWithScalaDescriptors(f)
+
+          val e = toBaseFieldTypeApplication
             .andThen(singleFieldAsPvalue(f))
             .apply(
               fieldAccessorSymbol(f),
@@ -869,7 +879,7 @@ class ProtobufGenerator(
        else
          (MethodApplication("number") andThen
            FunctionApplication(field.getEnumType.scalaType.fullName + ".fromValue"))) andThen
-        toCustomTypeExpr(field)
+        (if (field.isProtoString && field.shouldBeLazyString) Identity else toCustomTypeExpr(field))
 
     val myFullScalaName = message.scalaType.fullName
     printer
@@ -892,6 +902,7 @@ class ProtobufGenerator(
               else EnclosingType.None
             val baseTypeName = readsEnclosing.asType(
               if (field.isEnum) "_root_.scalapb.descriptors.EnumValueDescriptor"
+              else if (field.isProtoString && field.shouldBeLazyString) LazyString
               else field.baseSingleScalaTypeName
             )
             val value =
@@ -912,9 +923,10 @@ class ProtobufGenerator(
                 s"$value.get.as[$baseTypeName]"
               else {
                 // This is for proto3, no default value.
-                val t = defaultValueForGet(field, uncustomized = true) + (if (field.isEnum)
+                val defaultValue = defaultValueForGet(field, uncustomized = true) + (if (field.isEnum)
                                                                             ".scalaValueDescriptor"
                                                                           else "")
+                val t = if (field.isProtoString && field.shouldBeLazyString) s"$LazyString($defaultValue)" else defaultValue
                 s"$value.map(_.as[$baseTypeName]).getOrElse($t)"
               }
 

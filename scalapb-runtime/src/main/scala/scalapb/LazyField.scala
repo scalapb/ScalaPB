@@ -14,8 +14,8 @@ import com.google.protobuf.ByteString
   * @tparam T
   *   the type of the field.
   */
-final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]) {
-  lazy val value: T = decoder.decode(bytes)
+final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T], raw: Option[T]) {
+  lazy val value: T = raw.getOrElse(decoder.decode(bytes))
 
   def toByteString: ByteString = bytes
 
@@ -31,10 +31,16 @@ final class LazyField[T] private (val bytes: ByteString, decoder: LazyDecoder[T]
 
 object LazyField extends LazyFieldCompat {
   def apply[T](bytes: ByteString)(implicit decoder: LazyDecoder[T]): LazyField[T] =
-    new LazyField(bytes, decoder)
+    new LazyField(bytes, decoder, None)
+
+  def from[T](raw: T)(implicit decoder: LazyDecoder[T], encoder: LazyEncoder[T]): LazyField[T] =
+    new LazyField(encoder.encode(raw), decoder, Some(raw))
 
   implicit val lazyStringMapper: TypeMapper[ByteString, LazyField[String]] =
     TypeMapper[ByteString, LazyField[String]](LazyField.apply[String])(_.toByteString)
+
+  implicit val lazyStringMapperFromString: TypeMapper[String, LazyField[String]] =
+    TypeMapper[String, LazyField[String]](LazyField.from)(_.toString)
 }
 
 trait LazyDecoder[T] {
