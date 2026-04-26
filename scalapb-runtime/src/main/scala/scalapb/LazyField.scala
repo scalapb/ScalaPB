@@ -7,6 +7,29 @@ import com.google.protobuf.ByteString
   * Inspired by
   * https://github.com/protocolbuffers/protobuf/blob/main/java/core/src/main/java/com/google/protobuf/LazyField.java
   *
+  * Non-commutative equals
+  *
+  * `equals` on `LazyField[T]` is '''not commutative''':
+  *   - `lazyField.equals(plainValue)` returns `true` when the decoded value equals `plainValue`.
+  *   - `plainValue.equals(lazyField)` returns `false` because the plain type has no knowledge of `LazyField`.
+  *
+  * Compiler protection:
+  *   - Scala 3 — enable `-language:strictEquality`
+  *   - Scala 2 — there is no full compile-time protection, but `-Xfatal-warnings` would be helpful in some cases
+  *
+  * Any-typed collections problem:
+  * In typed collections (`Set[String]`, `Map[String, V]`) this asymmetry is hidden by implicit
+  * conversions that resolve `LazyField[T]` to `T` before insertion. With `Any`-typed collections
+  * the conversions are bypassed and insertion order silently changes the result:
+  *
+  * {{{
+  * val s:  String             = "hello"
+  * val ls: LazyField[String]  = LazyField.from("hello")
+  *
+  * Set[Any](ls, s).size  // 2 — s.equals(ls) is false, both are kept
+  * Set[Any](s, ls).size  // 1 — ls.equals(s)  is true, ls is deduplicated away
+  * }}}
+  *
   * @param bytes
   *   the raw bytes of the field.
   * @param decoder
