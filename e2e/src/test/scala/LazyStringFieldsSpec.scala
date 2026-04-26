@@ -105,6 +105,18 @@ class LazyStringFieldsSpec extends AnyFlatSpec with Matchers {
     original.data.toUpperCase shouldBe "A LAZY STRING"
   }
 
+  "LazyField for strings" should "concatenate with other strings" in {
+    val lazyString = LazyField.from("world")
+    val original = LazyWithRecursion(data = lazyString)
+
+    s"hello, $lazyString" shouldBe "hello, world"
+    "hello, " + lazyString shouldBe "hello, world"
+    original.toProtoString shouldBe
+      """data: "world"
+        |""".stripMargin
+    original.toString shouldBe "LazyWithRecursion(world,None,UnknownFieldSet(Map()))"
+  }
+
   "Lenses" should "work with LazyField" in {
     val original = LazyWithRecursion(data = "a lazy string", nested = Some(LazyWithRecursion(data = "nested string", nested = Some(LazyWithRecursion(data = "another one nested string")))))
 
