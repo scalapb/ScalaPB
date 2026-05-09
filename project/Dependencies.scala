@@ -10,15 +10,15 @@ object Dependencies {
     val coursier             = "2.1.24"
     val protocGen            = "0.9.9"
     val protobufRuntimeScala = "0.8.16"
-    val commonsCodec         = "1.21.0"
+    val commonsCodec         = "1.22.0"
     val scalapbJson4s        = "1.0.0-alpha.1"
 
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "5.21.0"
+    val mockito                 = "5.23.0"
     val munit                   = "1.2.0"
-    val scalaTest               = "3.2.19"
+    val scalaTest               = "3.2.20"
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.18.0"
     val utest                   = "0.7.10"
