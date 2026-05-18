@@ -10,7 +10,7 @@ val MimaPreviousVersion = "0.11.0"
 inThisBuild(
   List(
     scalaVersion := Scala212,
-    javacOptions ++= List("--release", "9"),
+    javacOptions ++= List("-target", "8", "-source", "8"),
     resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
     ConsoleHelper.welcomeMessage
   )
