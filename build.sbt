@@ -139,13 +139,6 @@ lazy val grpcRuntime = (projectMatrix in file("scalapb-runtime-grpc"))
       munit.value % "test",
       mockitoCore % "test"
     ),
-    scalacOptions ++= {
-      CrossVersion.partialVersion(scalaVersion.value) match {
-        case Some((2, _)) =>
-          Seq("-Wconf:msg=could not find MODULE in enum ElementType:s")
-        case _ => Seq.empty
-      }
-    },
     mimaPreviousArtifacts := Set(
       "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % MimaPreviousVersion
     )
@@ -288,8 +281,7 @@ lazy val proptest = (projectMatrix in file("proptest"))
           Seq(
             "-Wconf:msg=[Uu]nused&origin=scala[.]collection[.]compat._:s",
             "-Wconf:cat=deprecation&msg=.*[Jj]avaGenerateEqualsAndHash.*deprecated.*:s",
-            "-Wconf:cat=deprecation&msg=.*[dD]eprecatedLegacyJsonFieldConflicts:s",
-            "-Wconf:msg=could not find MODULE in enum ElementType:s"
+            "-Wconf:cat=deprecation&msg=.*[dD]eprecatedLegacyJsonFieldConflicts:s"
           )
         case _ => Seq.empty // Scala 2.12 or other (e.g. pre-2.13)
       }
@@ -348,8 +340,7 @@ val e2eCommonSettings = commonSettings ++ Seq(
           "-Wconf:cat=deprecation&src=.*CustomAnnotationProto.scala.*:s",
           "-Wconf:cat=deprecation&src=.*TestDeprecatedFields.scala.*:s",
           "-Wconf:cat=deprecation&origin=.*ServerReflectionProto.*:s",
-          "-Wconf:msg=Unused import:s,origin=com.thesamet.proto.e2e.custom_options_use.FooMessage:s",
-          "-Wconf:msg=could not find MODULE in enum ElementType:s"
+          "-Wconf:msg=Unused import:s,origin=com.thesamet.proto.e2e.custom_options_use.FooMessage:s"
         )
       case _ => Seq.empty
     }
