@@ -10,7 +10,7 @@ module.exports = {
   tagline: 'Protocol Buffer Compiler for Scala',
   url: 'https://scalapb.github.io/',
   baseUrl: '/',
-  onBrokenLinks: 'warn',
+  onBrokenLinks: 'throw',
   favicon: 'img/favicon.ico',
   organizationName: 'scalapb', // Usually your GitHub org/user name.
   projectName: 'scalapb.github.io',
@@ -86,7 +86,7 @@ module.exports = {
     },
     prism: {
       additionalLanguages: ['java', 'scala', 'protobuf'],
-      theme: prismThemes.github,
+      theme: prismThemes.nightOwlLight,
       darkTheme: prismThemes.dracula,
     },
   },
