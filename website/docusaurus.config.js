@@ -1,3 +1,5 @@
+const {themes: prismThemes} = require('prism-react-renderer');
+
 module.exports = {
   title: 'ScalaPB',
   tagline: 'Protocol Buffer Compiler for Scala',
@@ -8,7 +10,6 @@ module.exports = {
   organizationName: 'scalapb', // Usually your GitHub org/user name.
   projectName: 'scalapb.github.io',
   themeConfig: {
-    sidebarCollapsible: false,
     image: 'https://scalapb.github.io/img/scalapb-social-light.png',
     navbar: {
       logo: {
@@ -80,12 +81,9 @@ module.exports = {
     },
     prism: {
       additionalLanguages: ['scala', 'protobuf'],
-      theme: require('prism-react-renderer/themes/nightOwlLight'),
-      darkTheme: require('prism-react-renderer/themes/dracula')
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
     },
-    googleAnalytics: {
-      trackingID: 'UA-346180-20'
-    }
   },
   presets: [
     [
