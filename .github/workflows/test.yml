@@ -20,17 +20,17 @@ jobs:
           script: scala3_compat_test
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
-    - uses: actions/setup-java@v4
+    - uses: actions/setup-java@v5
       with:
-        java-version: 8
+        java-version: 11
         distribution: temurin
 
     - uses: sbt/setup-sbt@v1
 
     - name: Mount caches
-      uses: actions/cache@v4
+      uses: actions/cache@v5
       with:
         path: |
           ~/.sbt
@@ -48,8 +48,8 @@ jobs:
   conformance:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/cache@v4
+    - uses: actions/checkout@v6
+    - uses: actions/cache@v5
       id: conformance-cache
       with:
           key: conformance-${{ runner.os }}-${{hashFiles('conformance/build_test_runner.sh')}}
@@ -59,7 +59,7 @@ jobs:
     # Build conformance_test_runner on a cache miss
     - uses: bazelbuild/setup-bazelisk@v3
       if: steps.conformance-cache.outputs.cache-hit != 'true'
-    - uses: actions/cache@v4
+    - uses: actions/cache@v5
       if: steps.conformance-cache.outputs.cache-hit != 'true'
       with:
         path: |
@@ -68,7 +68,7 @@ jobs:
     - run: conformance/build_test_runner.sh
       if: steps.conformance-cache.outputs.cache-hit != 'true'
 
-    - uses: actions/cache@v4
+    - uses: actions/cache@v5
       with:
         path: |
           ~/.sbt
