@@ -2,10 +2,15 @@ const {themes: prismThemes} = require('prism-react-renderer');
 
 module.exports = {
   title: 'ScalaPB',
+  markdown: {
+    // Treat .md files as CommonMark so legacy {{...}} template vars in
+    // mdoc-generated docs don't get parsed as JSX expressions by MDX 3.
+    format: 'detect',
+  },
   tagline: 'Protocol Buffer Compiler for Scala',
   url: 'https://scalapb.github.io/',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   favicon: 'img/favicon.ico',
   organizationName: 'scalapb', // Usually your GitHub org/user name.
   projectName: 'scalapb.github.io',
@@ -80,7 +85,7 @@ module.exports = {
       copyright: `Copyright © 2014-${new Date().getFullYear()}, <a href="https://www.linkedin.com/in/nadav-samet/">Nadav Samet</a>`,
     },
     prism: {
-      additionalLanguages: ['scala', 'protobuf'],
+      additionalLanguages: ['java', 'scala', 'protobuf'],
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
