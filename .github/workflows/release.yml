@@ -27,7 +27,7 @@ jobs:
       - uses: sbt/setup-sbt@v1
       - uses: actions/setup-node@v6
         with:
-          node-version: "12.x"
+          node-version: "20.x"
       - uses: olafurpg/setup-gpg@v3
         if: startsWith(github.ref, 'refs/tags/v')
       - name: Publish ${{ github.ref }}
@@ -42,7 +42,7 @@ jobs:
 
   docs:
     runs-on: ubuntu-24.04
-    if: github.ref == '/refs/heads/master'
+    if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v6
         with:
@@ -62,7 +62,7 @@ jobs:
       - uses: sbt/setup-sbt@v1
       - uses: actions/setup-node@v6
         with:
-          node-version: "12.x"
+          node-version: "20.x"
       - name: Update docs
         run: |
           git config --global user.name "ScalaPB Docs"
