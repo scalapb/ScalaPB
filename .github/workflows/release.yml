@@ -9,25 +9,25 @@ jobs:
   publish:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Scala caches
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.sbt
             ~/.ivy2/cache
             ~/.cache/coursier
           key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 8
           distribution: temurin
       - uses: sbt/setup-sbt@v1
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: "12.x"
+          node-version: "22.x"
       - uses: olafurpg/setup-gpg@v3
         if: startsWith(github.ref, 'refs/tags/v')
       - name: Publish ${{ github.ref }}
@@ -44,25 +44,25 @@ jobs:
     runs-on: ubuntu-24.04
     if: github.ref == '/refs/heads/master'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Scala caches
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.sbt
             ~/.ivy2/cache
             ~/.cache/coursier
           key: ${{ runner.os }}-sbt-docs-${{ hashFiles('**/*.sbt') }}
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 11
           distribution: temurin
       - uses: sbt/setup-sbt@v1
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
-          node-version: "12.x"
+          node-version: "22.x"
       - name: Update docs
         run: |
           git config --global user.name "ScalaPB Docs"
@@ -81,17 +81,17 @@ jobs:
   scalapbc:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      - uses: actions/setup-java@v4
+      - uses: actions/setup-java@v5
         with:
           java-version: 8
           distribution: temurin
       - uses: sbt/setup-sbt@v1
       - run: |
           sbt scalapbcJVM2_12/universal:packageBin
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: scalapbc
           path: scalapbc/target/jvm-2.12/universal/scalapbc-*.zip
@@ -106,7 +106,7 @@ jobs:
             arch: osx-x86_64
     runs-on: ${{matrix.os}}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: olafurpg/setup-scala@v14
@@ -130,7 +130,7 @@ jobs:
           sbt protocGenScalaNativeImage/nativeImage
           zip -j $ASSET.zip target/protoc-gen-scala
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: ${{env.ASSET}}
           path: ${{env.ASSET}}.zip
@@ -140,11 +140,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: [native, scalapbc]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - name: Download artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: artifacts
       - name: Display structure of downloaded files
