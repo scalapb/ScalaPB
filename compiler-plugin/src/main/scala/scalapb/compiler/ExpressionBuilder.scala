@@ -68,9 +68,9 @@ object ExpressionBuilder {
   def convertCollection(expr: String, targetType: EnclosingType): String = {
     val convert = List(targetType match {
       case Collection(_, Some(tc)) => FunctionApplication(s"${tc}.fromIteratorUnsafe")
-      case Collection(DescriptorImplicits.ScalaVector, _) => MethodApplication("toVector")
-      case Collection(DescriptorImplicits.ScalaSeq, _)    => MethodApplication("toSeq")
-      case Collection(DescriptorImplicits.ScalaMap, _)    => MethodApplication("toMap")
+      case Collection(DescriptorImplicits.ScalaVector, _)   => MethodApplication("toVector")
+      case Collection(DescriptorImplicits.ScalaSeq, _)      => MethodApplication("toSeq")
+      case Collection(DescriptorImplicits.ScalaMap, _)      => MethodApplication("toMap")
       case Collection(DescriptorImplicits.ScalaIterable, _) =>
         FunctionApplication("_root_.scalapb.internal.compat.toIterable")
       case Collection(_, _) => FunctionApplication("_root_.scalapb.internal.compat.convertTo")
@@ -84,7 +84,7 @@ object ExpressionBuilder {
   )(e0: String, sourceType: EnclosingType, targetType: EnclosingType, mustCopy: Boolean): String = {
     require(sourceType != EnclosingType.None)
     val nontrivial: List[LiteralExpression] = es.filterNot(_.isIdentity)
-    val needVariable =
+    val needVariable                        =
       nontrivial
         .filterNot(_.isIdentity)
         .dropRight(1)
