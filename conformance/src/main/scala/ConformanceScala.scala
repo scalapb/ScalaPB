@@ -144,7 +144,7 @@ object ConformanceScala {
   def runTests(): Unit = {
     import ExitStatus._
     doTestIO() match {
-      case Right(()) => runTests
+      case Right(())              => runTests
       case Left(Error(throwable)) =>
         throwable.printStackTrace()
         sys.exit(1)

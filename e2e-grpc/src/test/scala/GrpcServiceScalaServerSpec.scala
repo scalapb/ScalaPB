@@ -31,7 +31,7 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
           val stub                       = ServerReflectionGrpc.stub(channel)
           val (responseObserver, future) = getObserverAndFutureVector[ServerReflectionResponse]
           val requestObserver            = stub.serverReflectionInfo(responseObserver)
-          val request = ServerReflectionRequest(
+          val request                    = ServerReflectionRequest(
             host = "localhost",
             messageRequest = MessageRequest.ListServices("services")
           )
@@ -214,11 +214,11 @@ class GrpcServiceScalaServerSpec extends GrpcServiceSpecBase {
       it("InProcessTransport skips serialization") {
         withInMemoryTransportScalaServer { channel =>
           val client = Service1GrpcScala.stub(channel)
-          val req = service.Req1(request = "AmIsraelChai")
+          val req    = service.Req1(request = "AmIsraelChai")
 
           val res = Await.result(client.echoRequest(req), 10.seconds)
 
-          res.req.get must be theSameInstanceAs(req)
+          res.req.get must be theSameInstanceAs (req)
         }
       }
 
