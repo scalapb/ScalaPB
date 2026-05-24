@@ -20,6 +20,7 @@ object Dependencies {
     val scalaTest               = "3.2.20"
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.18.0"
+    val guava                   = "33.6.0-jre"
     val utest                   = "0.7.10"
   }
 
@@ -66,6 +67,7 @@ object Dependencies {
   val mockitoCore          = "org.mockito"        % "mockito-core"  % versions.mockito
   val commonsCodec         = "commons-codec"      % "commons-codec" % versions.commonsCodec
   val cats                 = "org.typelevel"     %% "cats-core"     % versions.cats
+  val guava                = "com.google.guava"   % "guava"         % versions.guava
 
   val annotationApi =
     "javax.annotation" % "javax.annotation-api" % versions.annotationApi // needed for grpc-java on JDK9

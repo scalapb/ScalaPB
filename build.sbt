@@ -53,7 +53,8 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       munit.value           % "test",
       munitScalaCheck.value % "test",
       commonsCodec          % "test",
-      protobufJavaUtil      % "test"
+      protobufJavaUtil      % "test",
+      guava                 % "test"
     ),
     testFrameworks += new TestFramework("munit.Framework"),
     Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
