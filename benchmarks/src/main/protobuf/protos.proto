@@ -44,3 +44,100 @@ message StringMessage {
   string str1 = 1;
   string str2 = 2;
 }
+
+message Strings10 {
+    string s1 = 1;
+    string s2 = 2;
+    string s3 = 3;
+    string s4 = 4;
+    string s5 = 5;
+    string s6 = 6;
+    string s7 = 7;
+    string s8 = 8;
+    string s9 = 9;
+    string s10 = 10;
+}
+
+message LargeStringMessageNested2 {
+    Strings10 level3_1 = 1;
+    Strings10 level3_2 = 2;
+    Strings10 level3_3 = 3;
+    Strings10 level3_4 = 4;
+    Strings10 level3_5 = 5;
+    Strings10 level3_6 = 6;
+    Strings10 level3_7 = 7;
+    Strings10 level3_8 = 8;
+}
+
+message LargeStringMessageNested1 {
+    Strings10 level2 = 1;
+    LargeStringMessageNested2 nested2 = 2;
+}
+
+message LargeStringMessage {
+    Strings10 level1 = 1;
+    LargeStringMessageNested1 nested1 = 2;
+}
+
+message LargeNestedStringMessage {
+    string s1 = 1;
+    string s2 = 2;
+    string s3 = 3;
+    string s4 = 4;
+    string s5 = 5;
+    string s6 = 6;
+    string s7 = 7;
+    string s8 = 8;
+    string s9 = 9;
+    string s10 = 10;
+    LargeNestedStringMessage nested = 11;
+}
+
+message Bytes10 {
+    bytes s1 = 1;
+    bytes s2 = 2;
+    bytes s3 = 3;
+    bytes s4 = 4;
+    bytes s5 = 5;
+    bytes s6 = 6;
+    bytes s7 = 7;
+    bytes s8 = 8;
+    bytes s9 = 9;
+    bytes s10 = 10;
+}
+
+message LargeByteMessageNested2 {
+    Bytes10 level3_1 = 1;
+    Bytes10 level3_2 = 2;
+    Bytes10 level3_3 = 3;
+    Bytes10 level3_4 = 4;
+    Bytes10 level3_5 = 5;
+    Bytes10 level3_6 = 6;
+    Bytes10 level3_7 = 7;
+    Bytes10 level3_8 = 8;
+}
+
+message LargeByteMessageNested1 {
+    Bytes10 level2 = 1;
+    LargeByteMessageNested2 nested2 = 2;
+}
+
+message LargeByteMessage {
+    Bytes10 level1 = 1;
+    LargeByteMessageNested1 nested1 = 2;
+}
+
+message LazyFieldsStringMessage {
+    option (scalapb.message).lazy_string_fields = true;
+    string s1 = 1;
+    string s2 = 2;
+    string s3 = 3;
+    string s4 = 4;
+    string s5 = 5;
+    string s6 = 6;
+    string s7 = 7;
+    string s8 = 8;
+    string s9 = 9;
+    string s10 = 10;
+    LazyFieldsStringMessage nested = 11;
+}
