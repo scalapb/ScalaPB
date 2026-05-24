@@ -5,7 +5,6 @@ import com.google.protobuf.{CodedOutputStream, DescriptorProtos, ByteString => G
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scalapb.options.Scalapb
-import scalapb.options.Scalapb.FieldOptions
 
 import scala.jdk.CollectionConverters._
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
