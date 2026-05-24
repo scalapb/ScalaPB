@@ -142,7 +142,9 @@ object FileOptionsCache {
           .flatMap(name =>
             Option(preprocessorValues(name).getOptionsByFileMap.get(file.getFullName()))
           )
-          .foldRight(ProtobufExtensionHelper.getExtension(file.getOptions(), Scalapb.options))(mergeOptions(_, _))
+          .foldRight(ProtobufExtensionHelper.getExtension(file.getOptions(), Scalapb.options))(
+            mergeOptions(_, _)
+          )
     }.toMap
 
     val fileOptions = reducePackageOptions[ScalaPbOptions](

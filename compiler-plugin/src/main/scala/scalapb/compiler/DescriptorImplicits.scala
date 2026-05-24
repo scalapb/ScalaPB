@@ -458,7 +458,8 @@ class DescriptorImplicits private[compiler] (
 
     def empty = scalaType / "Empty"
 
-    def oneofOptions: OneofOptions = ProtobufExtensionHelper.getExtension(oneof.getOptions, Scalapb.oneof)
+    def oneofOptions: OneofOptions =
+      ProtobufExtensionHelper.getExtension(oneof.getOptions, Scalapb.oneof)
 
     def baseClasses = "_root_.scalapb.GeneratedOneof" +: oneofOptions.getExtendsList.asScala.toSeq
   }
@@ -754,7 +755,8 @@ class DescriptorImplicits private[compiler] (
     def parentMessage: Option[Descriptor] = Option(enumDescriptor.getContainingType)
 
     def scalaOptions: EnumOptions = {
-      val localOptions = ProtobufExtensionHelper.getExtension(enumDescriptor.getOptions, Scalapb.enumOptions)
+      val localOptions =
+        ProtobufExtensionHelper.getExtension(enumDescriptor.getOptions, Scalapb.enumOptions)
 
       enumDescriptor.getFile.scalaOptions.getAuxEnumOptionsList.asScala
         .filter(o => Helper.targetMatches(o.getTarget, enumDescriptor.getFullName()))
@@ -844,7 +846,8 @@ class DescriptorImplicits private[compiler] (
 
   implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {
     def scalaOptions: EnumValueOptions = {
-      val localOptions = ProtobufExtensionHelper.getExtension(enumValue.getOptions, Scalapb.enumValue)
+      val localOptions =
+        ProtobufExtensionHelper.getExtension(enumValue.getOptions, Scalapb.enumValue)
 
       enumValue.getFile.scalaOptions.getAuxEnumValueOptionsList.asScala
         .filter(o => Helper.targetMatches(o.getTarget, enumValue.getFullName()))
