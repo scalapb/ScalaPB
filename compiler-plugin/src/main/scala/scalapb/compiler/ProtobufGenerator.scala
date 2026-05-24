@@ -1543,7 +1543,7 @@ class ProtobufGenerator(
     def updateEnumValue(
         enumValue: EnumValueDescriptor
     ): DescriptorProtos.EnumValueDescriptorProto = {
-      val ev = enumValue.toProto().toBuilder()
+      val ev         = enumValue.toProto().toBuilder()
       val extBuilder = enumValue.getOptions().extension(Scalapb.enumValue).toBuilder
       assert(!extBuilder.hasScalaName || extBuilder.getScalaName == enumValue.scalaName)
       extBuilder.setScalaName(enumValue.scalaName)
