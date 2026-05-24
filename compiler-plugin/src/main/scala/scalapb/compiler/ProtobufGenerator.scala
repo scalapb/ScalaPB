@@ -5,7 +5,6 @@ import com.google.protobuf.{CodedOutputStream, DescriptorProtos, ByteString => G
 import com.google.protobuf.Descriptors.FieldDescriptor.Type
 import scalapb.compiler.FunctionalPrinter.PrinterEndo
 import scalapb.options.Scalapb
-import scalapb.options.Scalapb.FieldOptions
 
 import scala.jdk.CollectionConverters._
 import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
@@ -1523,7 +1522,7 @@ class ProtobufGenerator(
   def updateDescriptor(tmp: FileDescriptor): DescriptorProtos.FileDescriptorProto = {
     def updateField(field: FieldDescriptor): DescriptorProtos.FieldDescriptorProto = {
       val fb         = field.toProto.toBuilder
-      val extBuilder = fb.getOptions.getExtension[FieldOptions](Scalapb.field).toBuilder
+      val extBuilder = fb.getOptions.extension(Scalapb.field).toBuilder
       assert(!extBuilder.hasScalaName || extBuilder.getScalaName == field.scalaName)
       extBuilder.setScalaName(field.scalaName)
       fb.getOptionsBuilder.setExtension(Scalapb.field, extBuilder.build())
@@ -1544,9 +1543,8 @@ class ProtobufGenerator(
     def updateEnumValue(
         enumValue: EnumValueDescriptor
     ): DescriptorProtos.EnumValueDescriptorProto = {
-      val ev = enumValue.toProto().toBuilder()
-      val extBuilder =
-        enumValue.getOptions().getExtension[Scalapb.EnumValueOptions](Scalapb.enumValue).toBuilder
+      val ev         = enumValue.toProto().toBuilder()
+      val extBuilder = enumValue.getOptions().extension(Scalapb.enumValue).toBuilder
       assert(!extBuilder.hasScalaName || extBuilder.getScalaName == enumValue.scalaName)
       extBuilder.setScalaName(enumValue.scalaName)
       ev.getOptionsBuilder().setExtension(Scalapb.enumValue, extBuilder.build())

@@ -3,7 +3,7 @@ import BuildHelper._
 import Dependencies._
 import sbtassembly.AssemblyPlugin.defaultUniversalScript
 
-val protobufCompilerVersion = "4.32.0"
+val protobufCompilerVersion = "4.35.0"
 
 val MimaPreviousVersion = "0.11.0"
 
@@ -53,7 +53,8 @@ lazy val runtime = (projectMatrix in file("scalapb-runtime"))
       munit.value           % "test",
       munitScalaCheck.value % "test",
       commonsCodec          % "test",
-      protobufJavaUtil      % "test"
+      protobufJavaUtil      % "test",
+      guava                 % "test"
     ),
     testFrameworks += new TestFramework("munit.Framework"),
     Compile / unmanagedResourceDirectories += (LocalRootProject / baseDirectory).value / "protobuf",
