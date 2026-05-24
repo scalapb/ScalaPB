@@ -1,6 +1,6 @@
 package scalapb.compiler
 
-import com.google.protobuf.{ExtendableMessageOrBuilder, GeneratedMessage}
+import com.google.protobuf.GeneratedMessage
 
 /** Works around ambiguous getExtension overload introduced in protobuf 4.35.0.
   *
@@ -9,8 +9,8 @@ import com.google.protobuf.{ExtendableMessageOrBuilder, GeneratedMessage}
   * By typing the receiver as ExtendableMessageOrBuilder, only the interface overload is visible.
   */
 private[compiler] object ProtobufExtensionHelper {
-  def getExtension[ContainerT <: ExtendableMessageOrBuilder[ContainerT], T](
-      msg: ExtendableMessageOrBuilder[ContainerT],
+  def getExtension[ContainerT <: GeneratedMessage.ExtendableMessageOrBuilder[ContainerT], T](
+      msg: GeneratedMessage.ExtendableMessageOrBuilder[ContainerT],
       ext: GeneratedMessage.GeneratedExtension[ContainerT, T]
   ): T = msg.getExtension(ext)
 }
