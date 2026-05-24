@@ -57,7 +57,7 @@ private[compiler] object ResolvedFieldTransformation {
         FieldDescriptorProto.parseFrom(ft.getWhen.toByteArray()),
         context = context
       ),
-      ProtobufExtensionHelper.getExtension(ft.getSet(), Scalapb.field),
+      ft.getSet().extension(Scalapb.field),
       ft.getMatchType(),
       context.extensions
     )

@@ -85,7 +85,7 @@ object FileOptionsCache {
   // For each file, which preprocessors are enabled
   def preprocessorsForFile(files: Seq[FileDescriptor]): Map[FileDescriptor, Seq[String]] =
     reducePackageOptions[Seq[String]](
-      files.map(f => (f, ProtobufExtensionHelper.getExtension(f.getOptions, Scalapb.options))),
+      files.map(f => (f, f.getOptions.extension(Scalapb.options))),
       (_, opts) => opts.getPreprocessorsList.asScala.toSeq
     )((parent, child) => clearNegatedPreprocessors(parent ++ child))
 
@@ -142,9 +142,7 @@ object FileOptionsCache {
           .flatMap(name =>
             Option(preprocessorValues(name).getOptionsByFileMap.get(file.getFullName()))
           )
-          .foldRight(ProtobufExtensionHelper.getExtension(file.getOptions(), Scalapb.options))(
-            mergeOptions(_, _)
-          )
+          .foldRight(file.getOptions().extension(Scalapb.options))(mergeOptions(_, _))
     }.toMap
 
     val fileOptions = reducePackageOptions[ScalaPbOptions](
