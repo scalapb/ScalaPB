@@ -1523,7 +1523,7 @@ class ProtobufGenerator(
   def updateDescriptor(tmp: FileDescriptor): DescriptorProtos.FileDescriptorProto = {
     def updateField(field: FieldDescriptor): DescriptorProtos.FieldDescriptorProto = {
       val fb         = field.toProto.toBuilder
-      val extBuilder = fb.getOptions.getExtension[FieldOptions](Scalapb.field).toBuilder
+      val extBuilder = ProtobufExtensionHelper.getExtension(fb.getOptions, Scalapb.field).toBuilder
       assert(!extBuilder.hasScalaName || extBuilder.getScalaName == field.scalaName)
       extBuilder.setScalaName(field.scalaName)
       fb.getOptionsBuilder.setExtension(Scalapb.field, extBuilder.build())
@@ -1546,7 +1546,7 @@ class ProtobufGenerator(
     ): DescriptorProtos.EnumValueDescriptorProto = {
       val ev = enumValue.toProto().toBuilder()
       val extBuilder =
-        enumValue.getOptions().getExtension[Scalapb.EnumValueOptions](Scalapb.enumValue).toBuilder
+        ProtobufExtensionHelper.getExtension(enumValue.getOptions(), Scalapb.enumValue).toBuilder
       assert(!extBuilder.hasScalaName || extBuilder.getScalaName == enumValue.scalaName)
       extBuilder.setScalaName(enumValue.scalaName)
       ev.getOptionsBuilder().setExtension(Scalapb.enumValue, extBuilder.build())
