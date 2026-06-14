@@ -1,5 +1,12 @@
+const {themes: prismThemes} = require('prism-react-renderer');
+
 module.exports = {
   title: 'ScalaPB',
+  markdown: {
+    // Treat .md files as CommonMark so legacy {{...}} template vars in
+    // mdoc-generated docs don't get parsed as JSX expressions by MDX 3.
+    format: 'detect',
+  },
   tagline: 'Protocol Buffer Compiler for Scala',
   url: 'https://scalapb.github.io/',
   baseUrl: '/',
@@ -8,7 +15,6 @@ module.exports = {
   organizationName: 'scalapb', // Usually your GitHub org/user name.
   projectName: 'scalapb.github.io',
   themeConfig: {
-    sidebarCollapsible: false,
     image: 'https://scalapb.github.io/img/scalapb-social-light.png',
     navbar: {
       logo: {
@@ -79,13 +85,10 @@ module.exports = {
       copyright: `Copyright © 2014-${new Date().getFullYear()}, <a href="https://www.linkedin.com/in/nadav-samet/">Nadav Samet</a>`,
     },
     prism: {
-      additionalLanguages: ['scala', 'protobuf'],
-      theme: require('prism-react-renderer/themes/nightOwlLight'),
-      darkTheme: require('prism-react-renderer/themes/dracula')
+      additionalLanguages: ['java', 'scala', 'protobuf'],
+      theme: prismThemes.nightOwlLight,
+      darkTheme: prismThemes.dracula,
     },
-    googleAnalytics: {
-      trackingID: 'UA-346180-20'
-    }
   },
   presets: [
     [
@@ -99,12 +102,7 @@ module.exports = {
           // editUrl:
           //   'https://github.com/scalapb/ScalaPB/edit/master/docs/',
         },
-        blog: {
-          showReadingTime: true,
-          // Please change this to your repo.
-          // editUrl:
-          //   'https://github.com/facebook/docusaurus/edit/master/website/blog/',
-        },
+        blog: false,
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },

@@ -4,8 +4,8 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.75.0"
-    val protobuf             = "4.32.0"
+    val grpc                 = "1.82.0"
+    val protobuf             = "4.35.0"
     val collectionCompat     = "2.13.0"
     val coursier             = "2.1.24"
     val protocGen            = "0.9.9"
@@ -21,6 +21,7 @@ object Dependencies {
     val scalaTest               = "3.2.20"
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.18.0"
+    val guava                   = "33.6.0-jre"
     val utest                   = "0.7.10"
   }
 
@@ -28,9 +29,9 @@ object Dependencies {
 
   val Scala213 = "2.13.16"
 
-  val Scala3 = "3.3.7"
+  val Scala3 = "3.3.8"
 
-  val protobufJava = "com.google.protobuf" % "protobuf-java" % versions.protobuf
+  val protobufJava          = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val scalaCollectionCompat = Def.setting {
     "org.scala-lang.modules" %%% "scala-collection-compat" % versions.collectionCompat
   }
@@ -56,7 +57,7 @@ object Dependencies {
   val grpcInprocess = "io.grpc" % "grpc-inprocess"       % versions.grpc
 
   // testing
-  val scalaTest = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
+  val scalaTest               = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
   val scalaTestPlusScalaCheck = Def.setting {
     "org.scalatestplus" %%% "scalacheck-1-17" % versions.scalaTestPlusScalaCheck
   }
@@ -67,6 +68,7 @@ object Dependencies {
   val mockitoCore          = "org.mockito"        % "mockito-core"  % versions.mockito
   val commonsCodec         = "commons-codec"      % "commons-codec" % versions.commonsCodec
   val cats                 = "org.typelevel"     %% "cats-core"     % versions.cats
+  val guava                = "com.google.guava"   % "guava"         % versions.guava
 
   val annotationApi =
     "javax.annotation" % "javax.annotation-api" % versions.annotationApi // needed for grpc-java on JDK9

@@ -8,7 +8,7 @@ object gen {
     "scala",
     Artifact(
       "com.thesamet.scalapb",
-      "compilerplugin_2.12",
+      s"compilerplugin_${scalapb.compiler.Version.scalaBinaryVersion}",
       scalapb.compiler.Version.scalapbVersion
     ),
     "scalapb.ScalaPbCodeGenerator$",
