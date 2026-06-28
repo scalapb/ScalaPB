@@ -395,7 +395,7 @@ class ProtobufGenerator(
             if (f.isProtoString && f.shouldBeLazyString) MethodApplication("value")
             else toBaseFieldType(f)
 
-            val e = toBaseFieldTypeApplication.apply(
+          val e = toBaseFieldTypeApplication.apply(
               fieldAccessorSymbol(f),
               sourceType = f.enclosingType,
               targetType = f.fieldMapEnclosingType
