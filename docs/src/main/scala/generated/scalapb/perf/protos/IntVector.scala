@@ -41,7 +41,7 @@ final case class IntVector(
       if (ints.nonEmpty) {
         _output__.writeTag(1, 2)
         _output__.writeUInt32NoTag(intsSerializedSize)
-        ints.foreach(_output__.writeInt32NoTag)
+        ints.foreach(__v => _output__.writeInt32NoTag(__v))
       };
       unknownFields.writeTo(_output__)
     }
