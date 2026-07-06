@@ -673,11 +673,13 @@ class ProtobufGenerator(
             ExpressionBuilder.runSingleton(List(fromEnum, fromCustom))("__v")
           }
 
-          printer.add(s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
-                         |  _output__.writeTag(${field.getNumber}, 2)
-                         |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
-                         |  ${field.collection.foreach}(__v => _output__.write${capTypeName}NoTag($writeExpr))
-                         |};""".stripMargin)
+          printer.add(
+            s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
+               |  _output__.writeTag(${field.getNumber}, 2)
+               |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
+               |  ${field.collection.foreach}(__v => _output__.write${capTypeName}NoTag($writeExpr))
+               |};""".stripMargin
+          )
         } else if (field.isRequired || field.noBoxRequired) {
           printer
             .add("")
