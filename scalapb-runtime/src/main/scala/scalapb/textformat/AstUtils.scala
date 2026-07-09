@@ -33,7 +33,7 @@ private[scalapb] object AstUtils {
   ): Either[AstError, BigInt] = p match {
     case TIntLiteral(index, v) =>
       val negative = v.signum == -1
-      val maxBits = if (isLong) {
+      val maxBits  = if (isLong) {
         if (isSigned) 63 else 64
       } else {
         if (isSigned) 31 else 32
@@ -75,7 +75,7 @@ private[scalapb] object AstUtils {
           case "inf" | "infinity"   => Right(PDouble(Double.PositiveInfinity))
           case "-inf" | "-infinity" => Right(PDouble(Double.NegativeInfinity))
           case "nan"                => Right(PDouble(Double.NaN))
-          case _ =>
+          case _                    =>
             Try(PDouble(value.toDouble)).toOption
               .toRight(AstError(p.position, s"Invalid value for double: '$value'"))
         }
@@ -91,7 +91,7 @@ private[scalapb] object AstUtils {
           case "-inf" | "-inff" | "-infinity" | "-infinityf" =>
             Right(PFloat(Float.NegativeInfinity))
           case "nan" | "nanf" => Right(PFloat(Float.NaN))
-          case _ =>
+          case _              =>
             Try(PFloat(value.toFloat)).toOption
               .toRight(AstError(p.position, s"Invalid value for float: '$value'"))
         }
@@ -150,7 +150,7 @@ private[scalapb] object AstUtils {
         case FieldDescriptorProto.Type.TYPE_SFIXED64 => parseInt64(p)
         case FieldDescriptorProto.Type.TYPE_SINT32   => parseInt32(p)
         case FieldDescriptorProto.Type.TYPE_SINT64   => parseInt64(p)
-        case FieldDescriptorProto.Type.TYPE_GROUP =>
+        case FieldDescriptorProto.Type.TYPE_GROUP    =>
           Left(AstError(p.position, "groups are not supported"))
         case FieldDescriptorProto.Type.TYPE_ENUM => {
           val enumDesc = v.enumCompanionForFieldNumber(field.number).scalaDescriptor
