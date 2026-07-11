@@ -126,7 +126,7 @@ private[compiler] class ParseFromGenerator(
           def hexBits(n: Int): String = "0x%xL".format((0 to (n - 1)).map(i => (1L << i)).sum)
           val requiredFieldCount      = requiredFieldMap.size
           val fullWords               = (requiredFieldCount - 1) / 64
-          val bits: Seq[String] = (1 to fullWords).map(_ => hexBits(64)) :+ hexBits(
+          val bits: Seq[String]       = (1 to fullWords).map(_ => hexBits(64)) :+ hexBits(
             requiredFieldCount - 64 * fullWords
           )
           fp.print(bits.zipWithIndex) { case (fp, (bn, index)) =>
@@ -150,7 +150,7 @@ private[compiler] class ParseFromGenerator(
                 // since the references message may have been generated using an older version of
                 // ScalaPB.
                 val baseName = field.baseSingleScalaTypeName
-                val read =
+                val read     =
                   if (field.isRepeated)
                     s"_root_.scalapb.LiteParser.readMessage[$baseName](_input__)"
                   else if (usesBaseTypeInBuilder(field)) {
