@@ -17,7 +17,7 @@ class Parser(text: String) {
       val pos   = it.lastPosition
       closer match {
         case Some(cl) if token == cl => acc
-        case _ =>
+        case _                       =>
           if (!Tokenizer.isIdentifier(token)) throw {
             throw parseException(s"Expected identifier, got $token")
           }
