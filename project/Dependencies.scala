@@ -4,13 +4,13 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.82.0"
+    val grpc                 = "1.83.1"
     val protobuf             = "4.35.0"
     val collectionCompat     = "2.13.0"
     val coursier             = "2.1.24"
-    val protocGen            = "0.9.9"
+    val protocGen            = "0.9.10"
     val protobufRuntimeScala = "0.8.16"
-    val commonsCodec         = "1.22.0"
+    val commonsCodec         = "1.22.1"
     val scalapbJson4s        = "1.0.0-alpha.1"
 
     // For testing
@@ -27,7 +27,7 @@ object Dependencies {
 
   val Scala212 = "2.12.21"
 
-  val Scala213 = "2.13.16"
+  val Scala213 = "2.13.18"
 
   val Scala3 = "3.3.8"
 

@@ -10,7 +10,7 @@ addSbtPlugin("org.scala-js" % "sbt-scalajs" % scalaJSVersion)
 
 addSbtPlugin("org.scala-native" % "sbt-scala-native" % "0.5.12")
 
-addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.5")
+addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.1.6")
 
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.1")
 
@@ -18,12 +18,12 @@ addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.4")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.8")
 
-addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.11.2")
+addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.0")
 
 addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.8")
 
 addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
 
-addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.9.0")
+addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.9.1")
 
-addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.4.0")
+addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.5.0")

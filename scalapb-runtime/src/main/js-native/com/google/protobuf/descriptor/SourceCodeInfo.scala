@@ -302,12 +302,12 @@ object SourceCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.googl
         if (path.nonEmpty) {
           _output__.writeTag(1, 2)
           _output__.writeUInt32NoTag(pathSerializedSize)
-          path.foreach(_output__.writeInt32NoTag)
+          path.foreach(__v => _output__.writeInt32NoTag(__v))
         };
         if (span.nonEmpty) {
           _output__.writeTag(2, 2)
           _output__.writeUInt32NoTag(spanSerializedSize)
-          span.foreach(_output__.writeInt32NoTag)
+          span.foreach(__v => _output__.writeInt32NoTag(__v))
         };
         leadingComments.foreach { __v =>
           val __m = __v

@@ -2,14 +2,13 @@ import sbt._
 import sbt.internal.inc.ScalaInstance
 import Keys._
 import Dependencies.versions
+import sbtprojectmatrix.ProjectMatrixPlugin.autoImport._
 import sbtprotoc.ProtocPlugin.autoImport.PB
 import sbtassembly.AssemblyPlugin.autoImport._
 
 object BuildHelper {
   val commonScalacOptions = Seq(
     "-deprecation",
-    "-release",
-    "8",
     "-feature"
   )
 
@@ -60,6 +59,21 @@ object BuildHelper {
     scalacOptions ++= commonScalacOptions ++ (if (isScala3.value) scalac3Options
                                               else scalac2Options),
     libraryDependencies += Dependencies.scalaCollectionCompat.value,
+    scalacOptions ++= {
+      if (
+        scalaVersion.value.startsWith("3.3.") && !virtualAxes.?.value.toSeq.flatten
+          .contains(VirtualAxis.native)
+      ) {
+        Seq(
+          "-Yfuture-lazy-vals",
+          "-release:11"
+        )
+      } else {
+        Seq(
+          "-release:8"
+        )
+      }
+    },
     Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (
                                                                                              isScala3.value
                                                                                            )

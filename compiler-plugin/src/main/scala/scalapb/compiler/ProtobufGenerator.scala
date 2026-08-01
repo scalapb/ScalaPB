@@ -676,18 +676,6 @@ class ProtobufGenerator(
         })
     }
 
-  private def composeGen(funcs: Seq[String], emitScala3Sources: Boolean) = {
-    if (funcs.length == 1) {
-      funcs(0)
-    } else {
-      if (emitScala3Sources) {
-        s"(${funcs(0)})" + funcs.tail.map(func => s".compose($func)").mkString
-      } else {
-        s"(${funcs(0)} _)" + funcs.tail.map(func => s".compose($func)").mkString
-      }
-    }
-  }
-
   private def isNonEmpty(expr: String, field: FieldDescriptor): String = {
     if (field.getType == Type.BYTES | field.getType == Type.STRING) s"!${expr}.isEmpty"
     else if (field.getType == Type.ENUM) s"${expr} != 0"
@@ -703,22 +691,22 @@ class ProtobufGenerator(
         val fieldNameSymbol = fieldAccessorSymbol(field)
         val capTypeName     = Types.capitalizedType(field.getType)
         if (field.isPacked) {
-          val writeFunc = composeGen(
-            Seq(s"_output__.write${capTypeName}NoTag") ++ (
-              if (field.isEnum) Seq(s"(_: ${field.baseSingleScalaTypeName}).value") else Nil
-            ) ++ (
+          val writeExpr = {
+            val fromEnum   = if (field.isEnum) MethodApplication("value") else Identity
+            val fromCustom =
               if (field.customSingleScalaTypeName.isDefined)
-                Seq(s"${field.typeMapper.fullName}.toBase")
-              else Nil
-            ),
-            message.getFile.emitScala3Sources
-          )
+                FunctionApplication(s"${field.typeMapper.fullName}.toBase")
+              else Identity
+            ExpressionBuilder.runSingleton(List(fromEnum, fromCustom))("__v")
+          }
 
-          printer.add(s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
-                         |  _output__.writeTag(${field.getNumber}, 2)
-                         |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
-                         |  ${field.collection.foreach}($writeFunc)
-                         |};""".stripMargin)
+          printer.add(
+            s"""if (${field.collection.nonEmptyCheck(fieldNameSymbol)}) {
+               |  _output__.writeTag(${field.getNumber}, 2)
+               |  _output__.writeUInt32NoTag(${field.scalaName}SerializedSize)
+               |  ${field.collection.foreach}(__v => _output__.write${capTypeName}NoTag($writeExpr))
+               |};""".stripMargin
+          )
         } else if (field.isRequired || field.noBoxRequired) {
           printer
             .add("")
