@@ -110,8 +110,11 @@ private[compiler] class ParseFromGenerator(
 
   private def usesBaseTypeInBuilder(field: FieldDescriptor) = field.isSingular
 
-  val requiredFieldMap: Map[FieldDescriptor, Int] =
-    message.fields.filter(fd => fd.isRequired || fd.noBoxRequired).zipWithIndex.toMap
+  private val requiredFields: Seq[(FieldDescriptor, Int)] =
+    message.fields.filter(fd => fd.isRequired || fd.noBoxRequired).zipWithIndex
+
+  private val requiredFieldMap: Map[FieldDescriptor, Int] =
+    requiredFields.toMap
 
   val myFullScalaName = message.scalaType.fullName
 
@@ -228,9 +231,22 @@ private[compiler] class ParseFromGenerator(
             val r = (0 until (requiredFieldMap.size + 63) / 64)
               .map(i => s"__requiredFields$i != 0L")
               .mkString(" || ")
-            p.add(
-              s"""if (${r}) { throw new _root_.com.google.protobuf.InvalidProtocolBufferException("Message missing required fields.") } """
-            )
+            p.add(s"""if (${r}) {""")
+              .indent
+              .add("val __missingFields = Seq.newBuilder[_root_.scala.Predef.String]")
+              .print(requiredFields) { case (p, (fieldDescriptor, fieldNumber)) =>
+                val bitmask       = f"${1L << fieldNumber}%#018xL"
+                val fieldVariable = s"__requiredFields${fieldNumber / 64}"
+                p.add(
+                  s"""if (($fieldVariable & $bitmask) != 0L) __missingFields += "${fieldDescriptor.scalaName}""""
+                )
+              }
+              .add(
+                s"""val __message = s"Message missing required fields: $${__missingFields.result().mkString(", ")}"""",
+                s"""throw new _root_.com.google.protobuf.InvalidProtocolBufferException(__message)"""
+              )
+              .outdent
+              .add("}")
           }
           .add(s"$myFullScalaName(")
           .indented(
