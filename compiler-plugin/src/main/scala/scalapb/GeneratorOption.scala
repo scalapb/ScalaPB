@@ -3,6 +3,10 @@ package scalapb
 sealed trait GeneratorOption extends Product with Serializable
 
 object GeneratorOption {
+  @deprecated(
+    "Use package-scoped option instead. See https://scalapb.github.io/customizations.html#package-scoped-options.",
+    "0.11"
+  )
   case object FlatPackage extends GeneratorOption {
     override def toString = "flat_package"
   }
