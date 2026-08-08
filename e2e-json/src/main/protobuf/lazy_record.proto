@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "scalapb/scalapb.proto";
+
+package e2e.json;
+
+option java_package = "e2e.json";
+
+option (scalapb.options) = {
+  lazy_string_fields: true
+};
+
+enum Color {
+  COLOR_UNSPECIFIED = 0;
+  COLOR_RED         = 1;
+  COLOR_GREEN       = 2;
+  COLOR_BLUE        = 3;
+}
+
+message Address {
+  string street   = 1;
+  string city     = 2;
+  int32  zip_code = 3;
+}
+
+message LazyRecord {
+  string              name    = 1;
+  int32               count   = 2;
+  bool                enabled = 3;
+  bytes               data    = 4;
+  Color               color   = 5;
+  Address             address = 6;
+  repeated string     tags    = 7;
+  map<string, string> labels  = 8;
+  map<string, int32>  scores  = 9;
+}
