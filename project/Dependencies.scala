@@ -20,7 +20,7 @@ object Dependencies {
     val scalaTest               = "3.2.20"
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.19.0"
-    val guava                   = "33.6.0-jre"
+    val guava                   = "33.7.1-jre"
     val utest                   = "0.7.10"
   }
 
