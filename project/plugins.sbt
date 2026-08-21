@@ -2,7 +2,7 @@ val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.20.1"
 
 addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.4.2")
 
-addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.1")
+addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.2")
 
 addSbtPlugin("com.github.sbt" % "sbt-native-packager" % "1.11.7")
 
