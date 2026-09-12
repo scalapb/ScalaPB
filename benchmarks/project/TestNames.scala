@@ -5,6 +5,10 @@ object TestNames {
     "IntVector",
     "MessageContainer",
     "SimpleMessage",
-    "StringMessage"
+    "StringMessage",
+    "LargeStringMessage",
+    "LargeNestedStringMessage",
+    "LargeByteMessage",
+    "LazyFieldsStringMessage"
   )
 }
