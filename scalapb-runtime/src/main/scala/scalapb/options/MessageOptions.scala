@@ -33,6 +33,9 @@ package scalapb.options
   *   Additional classes and traits to add to the derives clause of a sealed oneof.
   * @param sealedOneofEmptyExtends
   *   Additional traits to mixin for the empty case object of sealed oneofs.
+  * @param lazyFields
+  *   If true, string fields are generated as LazyField[String] to avoid
+  *   allocations when parsing. If set, this overrides the file-level setting.
   */
 @SerialVersionUID(0L)
 final case class MessageOptions(
@@ -49,6 +52,7 @@ final case class MessageOptions(
     derives: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     sealedOneofDerives: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
     sealedOneofEmptyExtends: _root_.scala.Seq[_root_.scala.Predef.String] = _root_.scala.Vector.empty,
+    lazyFields: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None,
     unknownFields: _root_.scalapb.UnknownFieldSet = _root_.scalapb.UnknownFieldSet.empty
     ) extends scalapb.GeneratedMessage with scalapb.lenses.Updatable[MessageOptions] with _root_.scalapb.ExtendableMessage[MessageOptions] {
     @transient
@@ -107,6 +111,10 @@ final case class MessageOptions(
         val __value = __item
         __size += _root_.com.google.protobuf.CodedOutputStream.computeStringSize(13, __value)
       }
+      if (lazyFields.isDefined) {
+        val __value = lazyFields.get
+        __size += _root_.com.google.protobuf.CodedOutputStream.computeBoolSize(14, __value)
+      };
       __size += unknownFields.serializedSize
       __size
     }
@@ -172,6 +180,10 @@ final case class MessageOptions(
         val __m = __v
         _output__.writeString(13, __m)
       };
+      lazyFields.foreach { __v =>
+        val __m = __v
+        _output__.writeBool(14, __m)
+      };
       unknownFields.writeTo(_output__)
     }
     def clearExtends = copy(`extends` = _root_.scala.Vector.empty)
@@ -223,6 +235,9 @@ final case class MessageOptions(
     def addSealedOneofEmptyExtends(__vs: _root_.scala.Predef.String *): MessageOptions = addAllSealedOneofEmptyExtends(__vs)
     def addAllSealedOneofEmptyExtends(__vs: Iterable[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofEmptyExtends = sealedOneofEmptyExtends ++ __vs)
     def withSealedOneofEmptyExtends(__v: _root_.scala.Seq[_root_.scala.Predef.String]): MessageOptions = copy(sealedOneofEmptyExtends = __v)
+    def getLazyFields: _root_.scala.Boolean = lazyFields.getOrElse(false)
+    def clearLazyFields: MessageOptions = copy(lazyFields = _root_.scala.None)
+    def withLazyFields(__v: _root_.scala.Boolean): MessageOptions = copy(lazyFields = _root_.scala.Option(__v))
     def withUnknownFields(__v: _root_.scalapb.UnknownFieldSet) = copy(unknownFields = __v)
     def discardUnknownFields = copy(unknownFields = _root_.scalapb.UnknownFieldSet.empty)
     def getFieldByNumber(__fieldNumber: _root_.scala.Int): _root_.scala.Any = {
@@ -240,6 +255,7 @@ final case class MessageOptions(
         case 11 => derives
         case 12 => sealedOneofDerives
         case 13 => sealedOneofEmptyExtends
+        case 14 => lazyFields.orNull
       }
     }
     def getField(__field: _root_.scalapb.descriptors.FieldDescriptor): _root_.scalapb.descriptors.PValue = {
@@ -258,6 +274,7 @@ final case class MessageOptions(
         case 11 => _root_.scalapb.descriptors.PRepeated(derives.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 12 => _root_.scalapb.descriptors.PRepeated(sealedOneofDerives.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
         case 13 => _root_.scalapb.descriptors.PRepeated(sealedOneofEmptyExtends.iterator.map(_root_.scalapb.descriptors.PString(_)).toVector)
+        case 14 => lazyFields.map(_root_.scalapb.descriptors.PBoolean(_)).getOrElse(_root_.scalapb.descriptors.PEmpty)
       }
     }
     def toProtoString: _root_.scala.Predef.String = _root_.scalapb.TextFormat.printToUnicodeString(this)
@@ -281,6 +298,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     val __derives: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     val __sealedOneofDerives: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     val __sealedOneofEmptyExtends: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
+    var __lazyFields: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
     var _done__ = false
     while (!_done__) {
@@ -313,6 +331,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
           __sealedOneofDerives += _input__.readStringRequireUtf8()
         case 106 =>
           __sealedOneofEmptyExtends += _input__.readStringRequireUtf8()
+        case 112 =>
+          __lazyFields = _root_.scala.Option(_input__.readBool())
         case tag =>
           if (_unknownFields__ == null) {
             _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
@@ -334,6 +354,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         derives = __derives.result(),
         sealedOneofDerives = __sealedOneofDerives.result(),
         sealedOneofEmptyExtends = __sealedOneofEmptyExtends.result(),
+        lazyFields = __lazyFields,
         unknownFields = if (_unknownFields__ == null) _root_.scalapb.UnknownFieldSet.empty else _unknownFields__.result()
     )
   }
@@ -353,7 +374,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
         sealedOneofCompanionExtends = __fieldsMap.get(scalaDescriptor.findFieldByNumber(10).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         derives = __fieldsMap.get(scalaDescriptor.findFieldByNumber(11).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
         sealedOneofDerives = __fieldsMap.get(scalaDescriptor.findFieldByNumber(12).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
-        sealedOneofEmptyExtends = __fieldsMap.get(scalaDescriptor.findFieldByNumber(13).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty)
+        sealedOneofEmptyExtends = __fieldsMap.get(scalaDescriptor.findFieldByNumber(13).get).map(_.as[_root_.scala.Seq[_root_.scala.Predef.String]]).getOrElse(_root_.scala.Seq.empty),
+        lazyFields = __fieldsMap.get(scalaDescriptor.findFieldByNumber(14).get).flatMap(_.as[_root_.scala.Option[_root_.scala.Boolean]])
       )
     case _ => throw new RuntimeException("Expected PMessage")
   }
@@ -375,7 +397,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     sealedOneofCompanionExtends = _root_.scala.Vector.empty,
     derives = _root_.scala.Vector.empty,
     sealedOneofDerives = _root_.scala.Vector.empty,
-    sealedOneofEmptyExtends = _root_.scala.Vector.empty
+    sealedOneofEmptyExtends = _root_.scala.Vector.empty,
+    lazyFields = _root_.scala.None
   )
   implicit class MessageOptionsLens[UpperPB](_l: _root_.scalapb.lenses.Lens[UpperPB, _root_.scalapb.options.MessageOptions]) extends _root_.scalapb.lenses.ObjectLens[UpperPB, _root_.scalapb.options.MessageOptions](_l) {
     def `extends`: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.`extends`)((c_, f_) => c_.copy(`extends` = f_))
@@ -394,6 +417,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     def derives: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.derives)((c_, f_) => c_.copy(derives = f_))
     def sealedOneofDerives: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.sealedOneofDerives)((c_, f_) => c_.copy(sealedOneofDerives = f_))
     def sealedOneofEmptyExtends: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Seq[_root_.scala.Predef.String]] = field(_.sealedOneofEmptyExtends)((c_, f_) => c_.copy(sealedOneofEmptyExtends = f_))
+    def lazyFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Boolean] = field(_.getLazyFields)((c_, f_) => c_.copy(lazyFields = _root_.scala.Option(f_)))
+    def optionalLazyFields: _root_.scalapb.lenses.Lens[UpperPB, _root_.scala.Option[_root_.scala.Boolean]] = field(_.lazyFields)((c_, f_) => c_.copy(lazyFields = f_))
   }
   final val EXTENDS_FIELD_NUMBER = 1
   final val COMPANION_EXTENDS_FIELD_NUMBER = 2
@@ -408,6 +433,7 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
   final val DERIVES_FIELD_NUMBER = 11
   final val SEALED_ONEOF_DERIVES_FIELD_NUMBER = 12
   final val SEALED_ONEOF_EMPTY_EXTENDS_FIELD_NUMBER = 13
+  final val LAZY_FIELDS_FIELD_NUMBER = 14
   def of(
     `extends`: _root_.scala.Seq[_root_.scala.Predef.String],
     companionExtends: _root_.scala.Seq[_root_.scala.Predef.String],
@@ -421,7 +447,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     sealedOneofCompanionExtends: _root_.scala.Seq[_root_.scala.Predef.String],
     derives: _root_.scala.Seq[_root_.scala.Predef.String],
     sealedOneofDerives: _root_.scala.Seq[_root_.scala.Predef.String],
-    sealedOneofEmptyExtends: _root_.scala.Seq[_root_.scala.Predef.String]
+    sealedOneofEmptyExtends: _root_.scala.Seq[_root_.scala.Predef.String],
+    lazyFields: _root_.scala.Option[_root_.scala.Boolean]
   ): _root_.scalapb.options.MessageOptions = _root_.scalapb.options.MessageOptions(
     `extends`,
     companionExtends,
@@ -435,7 +462,8 @@ object MessageOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     sealedOneofCompanionExtends,
     derives,
     sealedOneofDerives,
-    sealedOneofEmptyExtends
+    sealedOneofEmptyExtends,
+    lazyFields
   )
   // @@protoc_insertion_point(GeneratedMessageCompanion[scalapb.MessageOptions])
 }

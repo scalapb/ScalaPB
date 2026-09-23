@@ -1,6 +1,7 @@
 package scalapb.descriptors
 
 import com.google.protobuf.ByteString
+import scalapb.LazyField
 
 sealed trait PValue extends Any with PValueCompat {
   def as[A](implicit reads: Reads[A]): A = reads.read(this)
@@ -71,6 +72,12 @@ object Reads extends ReadsCompat {
   implicit val enumReads: Reads[EnumValueDescriptor] = Reads[EnumValueDescriptor] {
     case PEnum(value) => value
     case _            => throw new ReadsException("Expected PEnum")
+  }
+
+  implicit val lazyStringReads: Reads[LazyField[String]] = Reads[LazyField[String]] {
+    case PByteString(value) => LazyField(value)
+    case PString(value) => LazyField.from(value)
+    case _               => throw new ReadsException("Expected PByteString or PString")
   }
 
   implicit def optional[A](implicit reads: Reads[A]): Reads[Option[A]] = Reads[Option[A]] {
