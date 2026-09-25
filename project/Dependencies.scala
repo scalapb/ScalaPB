@@ -27,7 +27,7 @@ object Dependencies {
 
   val Scala213 = "2.13.16"
 
-  val Scala3 = "3.3.8"
+  val Scala3 = "3.9.0"
 
   val protobufJava          = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val scalaCollectionCompat = Def.setting {
