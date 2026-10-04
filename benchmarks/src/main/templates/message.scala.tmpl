@@ -34,6 +34,22 @@ class ${Message}Test {
     def serializeScala: Unit = {
         ${Message}Test.scala.toByteArray
     }
+
+    @Benchmark
+    @BenchmarkMode(Array(Mode.AverageTime))
+    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    def roundTripScala: Unit = {
+        val msg = protos.${Message}.parseFrom(${Message}Test.bytes)
+        msg.toByteArray
+    }
+
+    @Benchmark
+    @BenchmarkMode(Array(Mode.AverageTime))
+    @OutputTimeUnit(TimeUnit.NANOSECONDS)
+    def roundTripJava: Unit = {
+        val msg = Protos.${Message}.parseFrom(${Message}Test.bytes)
+        msg.toByteArray
+    }
 }
 
 object ${Message}Test {
