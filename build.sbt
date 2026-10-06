@@ -147,7 +147,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
-      protocGen.cross(CrossVersion.for3Use2_13),
+      protocGen,
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
       (protocCacheCoursier  % "test").cross(CrossVersion.for3Use2_13),
       scalaTest.value       % "test"
