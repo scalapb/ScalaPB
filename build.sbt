@@ -149,7 +149,7 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
     libraryDependencies ++= Seq(
       protocGen,
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      (protocCacheCoursier  % "test").cross(CrossVersion.for3Use2_13),
+      protocCacheCoursier   % "test",
       scalaTest.value       % "test"
     ),
     mimaPreviousArtifacts  := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
