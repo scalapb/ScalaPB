@@ -45,6 +45,41 @@ PB.protocVersion := "-v3.11.4"
 
 See all available options in [sbt-protoc documentation](https://github.com/thesamet/sbt-protoc)
 
+## Caching in CI
+
+By default, sbt-protoc uses file timestamps to detect changed inputs. In CI
+pipelines that transfer build artifacts between jobs, a fresh checkout or archive
+extraction can change timestamps without changing file contents, causing protoc
+to run again unnecessarily.
+
+With **sbt-protoc 1.1.0 or later**, you can opt into content-hash caching. Set the
+plugin version in `project/plugins.sbt`:
+
+```scala
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.1.0")
+```
+
+Then add this to `build.sbt`:
+
+```scala
+Compile / PB.cacheStyle := PB.CacheStyle.ContentHash
+```
+
+This hashes proto and include-file contents, so timestamp-only changes do not
+invalidate generation. The default remains `PB.CacheStyle.LastModified`.
+Changes to generator options or missing generated files still cause regeneration.
+
+Preserve sbt-protoc's caches and generated outputs between jobs, restoring them
+at the same paths. This setting does not make caches portable across different
+workspace paths, and sandboxed generator classpaths are still tracked by timestamp.
+
+The `Compile` setting also controls extraction of shared protobuf dependencies.
+Setting `Test / PB.cacheStyle` affects generation in `Test`, but does not change
+the shared dependency extraction strategy.
+
+See [sbt-protoc's additional options](https://github.com/thesamet/sbt-protoc#additional-options)
+for the setting reference.
+
 ## Java Conversions
 
 To enable Java conversions add the following to your build.sbt:
