@@ -1,6 +1,7 @@
 # Change Log
 
 ## [Unreleased]
+- Correct Maven setup documentation to match the protoc-jar-maven-plugin example (#892).
 - Upgrade gRPC to 1.84.2 and protobuf to 3.25.9, retaining the protobuf 3 API.
 - Build on Java 11 while retaining Java 8 bytecode and Scala 3.3 compatibility.
 - Upgrade sbt-scalafmt to 2.5.6 and example/benchmark builds to sbt 1.13.0.
