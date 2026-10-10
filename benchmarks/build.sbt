@@ -1,8 +1,8 @@
 val ProtobufJavaVersion = "3.11.1"
 
-val Scala213 = "2.13.1"
+val Scala213 = "2.13.18"
 
-val Scala212 = "2.12.10"
+val Scala212 = "2.12.21"
 
 lazy val root = project
   .in(file("."))
@@ -11,7 +11,7 @@ lazy val root = project
     publish / skip             := true,
     crossScalaVersions         := Seq(Scala213, Scala212),
     scalaVersion               := Scala213,
-    Compile / PB.protocVersion := "-v" + ProtobufJavaVersion,
+    Compile / PB.protocVersion := ProtobufJavaVersion,
     Compile / PB.targets       := Seq(
       PB.gens.java(ProtobufJavaVersion)   -> (Compile / sourceManaged).value / "protos",
       scalapb.gen(javaConversions = true) -> (Compile / sourceManaged).value / "protos"
