@@ -78,7 +78,9 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
       Struct(
         Map(
           "optional_bytes" -> Value(
-            Value.Kind.StringValue(new String(Base64.getEncoder.encode(someBytesValue.toByteArray())))
+            Value.Kind.StringValue(
+              new String(Base64.getEncoder.encode(someBytesValue.toByteArray()))
+            )
           )
         )
       )
@@ -388,7 +390,7 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
   "fromStruct with repeated field of messages" should "pass" in {
     val someIntValueA = Random.nextInt()
     val someIntValueB = Random.nextInt()
-    val types = TestAllTypes().withRepeatedForeignMessage(
+    val types         = TestAllTypes().withRepeatedForeignMessage(
       Seq(ForeignMessage().withC(someIntValueA), ForeignMessage().withC(someIntValueB))
     )
     StructUtils.fromStruct(StructUtils.toStruct(types)).right.value must be(types)
@@ -403,7 +405,7 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
   // Tests added for precaution to verify recursion and companions is correct
   "fromStruct with two level deep message" should "pass" in {
     implicit val containerMessageCompanion = ContainerMessage.messageCompanion
-    val types = ContainerMessage().withImportMessage(
+    val types                              = ContainerMessage().withImportMessage(
       ContainerMessageImportMessage().withB(DeepMessage().withA(Random.nextInt()))
     )
     StructUtils.fromStruct[ContainerMessage](StructUtils.toStruct(types)).right.value must be(types)
@@ -411,7 +413,7 @@ class StructUtilsSpec extends AnyFlatSpec with Matchers with EitherValues {
 
   "fromStruct with two level deep enum" should "pass" in {
     implicit val containerMessageCompanion = ContainerMessage.messageCompanion
-    val types =
+    val types                              =
       ContainerMessage().withImportMessage(ContainerMessageImportMessage().withC(DeepEnum.DEEP_BAZ))
     StructUtils.fromStruct[ContainerMessage](StructUtils.toStruct(types)).right.value must be(types)
   }
