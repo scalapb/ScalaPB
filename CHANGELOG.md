@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Correct Maven setup documentation to match the protoc-jar-maven-plugin example (#892).
 - Bump protobuf and protoc to 4.28.2. Currently files must specify proto2 and
   proto3 syntax. Editions are not supported yet.
 - References to descriptors are fully qualified (#1724)
