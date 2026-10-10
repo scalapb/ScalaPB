@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Update Scala.js to 1.22.0 and pin MUnit 1.3.6 and munit-scalacheck 1.3.1 independently.
 - Correct Maven setup documentation to match the protoc-jar-maven-plugin example (#892).
 - Bump protobuf and protoc to 4.28.2. Currently files must specify proto2 and
   proto3 syntax. Editions are not supported yet.
