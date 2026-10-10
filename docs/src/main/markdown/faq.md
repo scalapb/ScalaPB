@@ -26,6 +26,15 @@ For example, to also enable Java conversions and flat packages, use:
 <outputOptions>grpc,java_conversions,flat_package</outputOptions>
 ```
 
+Java conversions also require the generated Java classes. Add a Java output target
+alongside the `scalapb` target inside `outputTargets`:
+
+```xml
+<outputTarget>
+  <type>java</type>
+</outputTarget>
+```
+
 See the supported generator parameters in the [ScalaPBC](scalapbc.md) documentation.
 
 ## I am getting "Import was not found or had errors"
