@@ -158,6 +158,11 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
   .defaultAxes()
   .settings(commonSettings)
   .settings(
+    scalacOptions ++= (if (!isDotty.value)
+                         Seq(
+                           "-P:silencer:globalFilters=object FlatPackage in object GeneratorOption is deprecated"
+                         )
+                       else Nil),
     libraryDependencies ++= Seq(
       protocGen,
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
