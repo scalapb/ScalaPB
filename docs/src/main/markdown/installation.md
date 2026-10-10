@@ -44,7 +44,8 @@ See [ScalaPBC](scalapbc.md).
 
 ## Running from Maven
 
-Using ScalaPBC, you can get maven to generate the code for you.
+Use `protoc-jar-maven-plugin` with the `protoc-gen-scala` plugin artifact to generate
+Scala code in your Maven build.
 Check out the [ScalaPB Maven example](https://github.com/thesamet/scalapb-maven-example).
 
 ## Next:
