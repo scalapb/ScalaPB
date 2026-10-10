@@ -36,7 +36,7 @@ class NoBoxSpec extends AnyFlatSpec with Matchers {
   "RequiredCar" should "fail validation if required field is missing" in {
     intercept[InvalidProtocolBufferException] {
       RequiredCar.parseFrom(Array.empty[Byte])
-    }.getMessage must be("Message missing required fields.")
+    }.getMessage must be("Message missing required fields: tyre1")
   }
 
   "RequiredCar" should "fail parsing from text if field is empty" in {
