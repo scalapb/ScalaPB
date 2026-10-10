@@ -200,7 +200,7 @@ class DescriptorImplicits private[compiler] (
         fd.getName match {
           case ("number" | "value") if fd.isInOneof => "_" + fd.getName
           case "serialized_size"                    => "_serializedSize"
-          case x =>
+          case x                                    =>
             getNameWithFallback(x, Case.CamelCase, Appendage.Prefix)
         }
 
@@ -311,7 +311,7 @@ class DescriptorImplicits private[compiler] (
     }
 
     def fieldOptions: FieldOptions = {
-      val localOptions = fd.getOptions.getExtension[FieldOptions](Scalapb.field)
+      val localOptions = fd.getOptions.extension(Scalapb.field)
 
       (fd.getFile.scalaOptions.getAuxFieldOptionsList.asScala
         .collect {
@@ -458,7 +458,7 @@ class DescriptorImplicits private[compiler] (
 
     def empty = scalaType / "Empty"
 
-    def oneofOptions: OneofOptions = oneof.getOptions.getExtension[OneofOptions](Scalapb.oneof)
+    def oneofOptions: OneofOptions = oneof.getOptions.extension(Scalapb.oneof)
 
     def baseClasses = "_root_.scalapb.GeneratedOneof" +: oneofOptions.getExtendsList.asScala.toSeq
   }
@@ -493,7 +493,7 @@ class DescriptorImplicits private[compiler] (
     def scalaType: ScalaName = {
       val name = message.getName match {
         case "Option" => "OptionProto"
-        case name =>
+        case name     =>
           if (message.isSealedOneofType) name + OneofMessageSuffix
           else name
       }
@@ -511,7 +511,7 @@ class DescriptorImplicits private[compiler] (
     def javaTypeName = message.getFile.fullJavaName(message.getFullName)
 
     def messageOptions: MessageOptions = {
-      val localOptions = message.getOptions.getExtension[MessageOptions](Scalapb.message)
+      val localOptions = message.getOptions.extension(Scalapb.message)
 
       message.getFile.scalaOptions.getAuxMessageOptionsList.asScala
         .filter(o => Helper.targetMatches(o.getTarget, message.getFullName()))
@@ -754,7 +754,7 @@ class DescriptorImplicits private[compiler] (
     def parentMessage: Option[Descriptor] = Option(enumDescriptor.getContainingType)
 
     def scalaOptions: EnumOptions = {
-      val localOptions = enumDescriptor.getOptions.getExtension[EnumOptions](Scalapb.enumOptions)
+      val localOptions = enumDescriptor.getOptions.extension(Scalapb.enumOptions)
 
       enumDescriptor.getFile.scalaOptions.getAuxEnumOptionsList.asScala
         .filter(o => Helper.targetMatches(o.getTarget, enumDescriptor.getFullName()))
@@ -765,7 +765,7 @@ class DescriptorImplicits private[compiler] (
 
     lazy val scalaType: ScalaName = {
       val name: String = enumDescriptor.getName match {
-        case "Option" => "OptionEnum"
+        case "Option"    => "OptionEnum"
         case "ValueType" =>
           "ValueTypeEnum" // Issue 348, conflicts with "type ValueType" in GeneratedEnumCompanion.
         case n => n
@@ -844,7 +844,7 @@ class DescriptorImplicits private[compiler] (
 
   implicit class ExtendedEnumValueDescriptor(val enumValue: EnumValueDescriptor) {
     def scalaOptions: EnumValueOptions = {
-      val localOptions = enumValue.getOptions.getExtension[EnumValueOptions](Scalapb.enumValue)
+      val localOptions = enumValue.getOptions.extension(Scalapb.enumValue)
 
       enumValue.getFile.scalaOptions.getAuxEnumValueOptionsList.asScala
         .filter(o => Helper.targetMatches(o.getTarget, enumValue.getFullName()))
@@ -1035,7 +1035,7 @@ class DescriptorImplicits private[compiler] (
 
     /** Returns a vector with all messages (both top-level and nested) in the file. */
     def allMessages: Vector[Descriptor] = {
-      val messages = Vector.newBuilder[Descriptor]
+      val messages                          = Vector.newBuilder[Descriptor]
       def visitMessage(d: Descriptor): Unit = {
         messages += d
         d.getNestedTypes.asScala.foreach(visitMessage)

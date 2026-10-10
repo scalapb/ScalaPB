@@ -104,4 +104,3 @@ We are very thankful to our sponsors:
 
 - [Evgeny Rubtsov (bikaras)](https://github.com/bikaras)
 - [Andrew Selvia](https://github.com/andrew-selvia)
-- [Ahmad Ragab](https://github.com/ASRagab)

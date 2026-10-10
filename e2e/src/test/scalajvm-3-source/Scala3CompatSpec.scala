@@ -6,7 +6,7 @@ import scalapb.lenses.{MessageLens, ObjectLens}
 
 class Scala3CompatSpec extends AnyFlatSpec with Matchers with OptionValues {
   "message lens" should "extend MessageLens and ObjectLens" in {
-    classOf[MessageLens[_, _]].isAssignableFrom(classOf[Foo.FooLens[_]]) must be(true)
-    classOf[ObjectLens[_, _]].isAssignableFrom(classOf[Foo.FooLens[_]]) must be(true)
+    classOf[MessageLens[?, ?]].isAssignableFrom(classOf[Foo.FooLens[?]]) must be(true)
+    classOf[ObjectLens[?, ?]].isAssignableFrom(classOf[Foo.FooLens[?]]) must be(true)
   }
 }
