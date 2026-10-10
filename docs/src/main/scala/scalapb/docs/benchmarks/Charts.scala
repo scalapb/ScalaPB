@@ -45,9 +45,9 @@ object Charts {
   def traceForKey(key: LineKey, showLegend: Boolean) = {
     val (x, y) = ts(key).toVector.sortBy(v => versionKey(v._1)).unzip
     Obj(
-      "x"    -> x,
-      "y"    -> y.map(_._1),
-      "name" -> ("Scala " + key.scalaVersion.split('.').dropRight(1).mkString(".")),
+      "x"       -> x,
+      "y"       -> y.map(_._1),
+      "name"    -> ("Scala " + key.scalaVersion.split('.').dropRight(1).mkString(".")),
       "error_y" -> Obj(
         "array"      -> y.map(t => t._3 - t._1),
         "arrayminus" -> y.map(t => t._1 - t._2),
@@ -77,7 +77,7 @@ object Charts {
     val java = LineKey(baseName + "Java", "java")
 
     val allVersions = (ts(key1).keySet ++ ts(key2).keySet).toVector
-    val data = Arr(
+    val data        = Arr(
       traceForKey(key1, showLegend),
       traceForKey(key2, showLegend),
       javaTraceForKey(java, allVersions, showLegend)

@@ -65,12 +65,7 @@ const features = [
   },
 ];
 
-const sponsors = [{
-  /*
-  name: <>Example Ltd</>,
-  profileUrl: 'https://github.com/example'
-  */
-}];
+const sponsors = [];
 
 function Feature({imageUrl, title, description}) {
   const imgUrl = useBaseUrl(imageUrl);
@@ -110,7 +105,6 @@ function Home() {
           <div className={styles.buttons}>
             <Link
               className={clsx(
-                // 'button button--outline button--secondary button--lg',
                 styles.indexCtasGetStartedButton,
               )}
               to={useBaseUrl('docs/')}>
@@ -118,6 +112,9 @@ function Home() {
             </Link>
           </div>
         </div>
+        <svg className={styles.heroWave} viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M0,30 C240,55 480,5 720,30 C960,55 1200,5 1440,30 L1440,65 C1200,40 960,90 720,65 C480,40 240,90 0,65 Z" fill="var(--hero-wave-fill)"/>
+        </svg>
       </header>
       <main>
         {features && features.length > 0 && (

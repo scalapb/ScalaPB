@@ -36,8 +36,8 @@ object CollectionAdapter {
       def newBuilder: scala.collection.mutable.Builder[T, scala.util.Either[
         com.google.protobuf.InvalidProtocolBufferException,
         Coll
-      ]] = internal.compat.newBuilder[T, Coll].mapResult(Right(_))
-      def size(value: Coll): Int               = value.size
+      ]]                         = internal.compat.newBuilder[T, Coll].mapResult(Right(_))
+      def size(value: Coll): Int = value.size
       def toIterator(value: Coll): Iterator[T] = value.iterator
     }
 }

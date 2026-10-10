@@ -4,32 +4,33 @@ import Keys._
 
 object Dependencies {
   object versions {
-    val grpc                 = "1.75.0"
-    val protobuf             = "4.32.0"
+    val grpc                 = "1.84.2"
+    val protobuf             = "4.35.0"
     val collectionCompat     = "2.13.0"
     val coursier             = "2.1.24"
-    val protocGen            = "0.9.9"
+    val protocGen            = "0.9.11"
     val protobufRuntimeScala = "0.8.16"
-    val commonsCodec         = "1.19.0"
+    val commonsCodec         = "1.22.1"
 
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "5.20.0"
+    val mockito                 = "5.24.0"
     val munit                   = "1.2.0"
-    val scalaTest               = "3.2.19"
+    val scalaTest               = "3.2.20"
     val scalaTestPlusMockito    = "3.1.0.0"
-    val scalaTestPlusScalaCheck = "3.2.18.0"
+    val scalaTestPlusScalaCheck = "3.2.20.0"
+    val guava                   = "33.7.2-jre"
     val utest                   = "0.7.10"
   }
 
-  val Scala212 = "2.12.19"
+  val Scala212 = "2.12.21"
 
-  val Scala213 = "2.13.16"
+  val Scala213 = "2.13.18"
 
-  val Scala3 = "3.3.7"
+  val Scala3 = "3.3.8"
 
-  val protobufJava = "com.google.protobuf" % "protobuf-java" % versions.protobuf
+  val protobufJava          = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val scalaCollectionCompat = Def.setting {
     "org.scala-lang.modules" %%% "scala-collection-compat" % versions.collectionCompat
   }
@@ -55,9 +56,9 @@ object Dependencies {
   val grpcInprocess = "io.grpc" % "grpc-inprocess"       % versions.grpc
 
   // testing
-  val scalaTest = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
+  val scalaTest               = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
   val scalaTestPlusScalaCheck = Def.setting {
-    "org.scalatestplus" %%% "scalacheck-1-17" % versions.scalaTestPlusScalaCheck
+    "org.scalatestplus" %%% "scalacheck-1-19" % versions.scalaTestPlusScalaCheck
   }
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10"  % versions.scalaTestPlusMockito
   val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }
@@ -66,6 +67,7 @@ object Dependencies {
   val mockitoCore          = "org.mockito"        % "mockito-core"  % versions.mockito
   val commonsCodec         = "commons-codec"      % "commons-codec" % versions.commonsCodec
   val cats                 = "org.typelevel"     %% "cats-core"     % versions.cats
+  val guava                = "com.google.guava"   % "guava"         % versions.guava
 
   val annotationApi =
     "javax.annotation" % "javax.annotation-api" % versions.annotationApi // needed for grpc-java on JDK9

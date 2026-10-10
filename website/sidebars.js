@@ -1,17 +1,31 @@
 module.exports = {
-  someSidebar: {
-    'Getting Started': [
+  someSidebar: [
+    {
+      type: 'category',
+      label: 'Getting Started',
+      collapsed: false,
+      items: [
         // 'benchmarks',
         'intro',
         'installation',
         'getting-started',
-    ],
-    'Customizing': [
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Customizing',
+      collapsed: false,
+      items: [
         'customizations',
         'sbt-settings',
         'transformations',
-    ],
-    'Guides': [
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Guides',
+      collapsed: false,
+      items: [
         'generated-code',
         'sealed-oneofs',
         'user_defined_options',
@@ -27,10 +41,16 @@ module.exports = {
         'generic',
         'writing-plugins',
         'upgrading',
-    ],
-    'Getting Help': [
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Getting Help',
+      collapsed: false,
+      items: [
         'faq',
         'contact',
-    ]
-  },
+      ],
+    },
+  ],
 };
