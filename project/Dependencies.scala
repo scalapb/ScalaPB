@@ -16,7 +16,8 @@ object Dependencies {
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
     val mockito                 = "5.24.0"
-    val munit                   = "1.2.0"
+    val munit                   = "1.3.6"
+    val munitScalaCheck         = "1.3.1"
     val scalaTest               = "3.2.20"
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.20.0"
@@ -60,14 +61,16 @@ object Dependencies {
   val scalaTestPlusScalaCheck = Def.setting {
     "org.scalatestplus" %%% "scalacheck-1-19" % versions.scalaTestPlusScalaCheck
   }
-  val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10"  % versions.scalaTestPlusMockito
+  val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % versions.scalaTestPlusMockito
   val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }
   val munit                = Def.setting { "org.scalameta" %%% "munit" % versions.munit }
-  val munitScalaCheck      = Def.setting { "org.scalameta" %%% "munit-scalacheck" % versions.munit }
-  val mockitoCore          = "org.mockito"        % "mockito-core"  % versions.mockito
-  val commonsCodec         = "commons-codec"      % "commons-codec" % versions.commonsCodec
-  val cats                 = "org.typelevel"     %% "cats-core"     % versions.cats
-  val guava                = "com.google.guava"   % "guava"         % versions.guava
+  val munitScalaCheck      = Def.setting {
+    "org.scalameta" %%% "munit-scalacheck" % versions.munitScalaCheck
+  }
+  val mockitoCore  = "org.mockito"      % "mockito-core"  % versions.mockito
+  val commonsCodec = "commons-codec"    % "commons-codec" % versions.commonsCodec
+  val cats         = "org.typelevel"   %% "cats-core"     % versions.cats
+  val guava        = "com.google.guava" % "guava"         % versions.guava
 
   val annotationApi =
     "javax.annotation" % "javax.annotation-api" % versions.annotationApi // needed for grpc-java on JDK9
