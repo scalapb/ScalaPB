@@ -10,15 +10,32 @@ Check out [ScalaPBC](scalapbc.md).
 
 ## How do I use ScalaPB with Maven?
 
-ScalaPB code generator can be invoked in your Maven build through the protobuf-maven-plugin. See [example project](https://github.com/thesamet/scalapb-maven-example).
+The ScalaPB code generator can be invoked in your Maven build through
+`protoc-jar-maven-plugin`. See the [example project](https://github.com/thesamet/scalapb-maven-example).
 
-The relevant parts are marked with "Add protobuf-maven-plugin..."
+Look for the `com.github.os72:protoc-jar-maven-plugin` configuration in its `pom.xml`.
 
 ## How do I get grpc, java conversions, flat packages, etc with Maven?
 
-The example maven project invokes ScalaPBC. To get these ScalaPB features, you need to pass a
-generator parameter to ScalaPBC. See the supported generator parameters and how to use them in
-[ScalaPBC](scalapbc.md) documentation.
+The example Maven project uses `protoc-gen-scala` as the ScalaPB code generation plugin.
+Set `outputOptions` in the `scalapb` output target to a comma-separated list of
+generator parameters. The example already enables gRPC with `<outputOptions>grpc</outputOptions>`.
+For example, to also enable Java conversions and flat packages, use:
+
+```xml
+<outputOptions>grpc,java_conversions,flat_package</outputOptions>
+```
+
+Java conversions also require the generated Java classes. Add a Java output target
+alongside the `scalapb` target inside `outputTargets`:
+
+```xml
+<outputTarget>
+  <type>java</type>
+</outputTarget>
+```
+
+See the supported generator parameters in the [ScalaPBC](scalapbc.md) documentation.
 
 ## I am getting "Import was not found or had errors"
 
