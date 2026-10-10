@@ -1,5 +1,8 @@
 # Change Log
 
+## [Unreleased]
+- Correct Maven setup documentation to match the protoc-jar-maven-plugin example (#892).
+
 ## [0.11.17]
 - Update to Scala 2.13.14
 - Update scala-native to 0.5.2
