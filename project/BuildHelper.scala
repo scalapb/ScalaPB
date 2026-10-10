@@ -16,6 +16,10 @@ object BuildHelper {
   val scalac2Options = Seq(
     "-explaintypes",
     "-Xfatal-warnings",
+    // JSpecify's NullMarked targets MODULE, absent from the Java 8 API exposed by
+    // -release 8. Scala 2 does not use this nullness annotation; keep the Java 8
+    // target and silence only its classfile-parser warning (scala/bug#7014).
+    "-Wconf:msg=While parsing annotations.*org/jspecify/annotations/NullMarked[.]class:s",
     "-Xlint:adapted-args", // Warn if an argument list is modified to match the receiver.
     "-Xlint:constant",     // Evaluation of a constant arithmetic expression results in an error.
     "-Xlint:delayedinit-select",     // Selecting member of DelayedInit.
