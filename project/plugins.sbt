@@ -1,6 +1,6 @@
 val scalaJSVersion = Option(System.getenv("SCALAJS_VERSION")).getOrElse("1.22.0")
 
-addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "0.14.10")
+addSbtPlugin("com.eed3si9n" % "sbt-assembly" % "2.5.0")
 
 addSbtPlugin("com.github.sbt" % "sbt-pgp" % "2.3.2")
 
@@ -14,16 +14,15 @@ addSbtPlugin("com.typesafe" % "sbt-mima-plugin" % "1.2.1")
 
 addSbtPlugin("com.github.sbt" % "sbt-unidoc" % "0.6.1")
 
-addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.5.4")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.2")
 
-addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.0.8")
+addSbtPlugin("com.thesamet" % "sbt-protoc" % "1.1.0-RC2")
 
 addSbtPlugin("com.github.sbt" % "sbt-ci-release" % "1.12.1")
-
-addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.8")
-
-addSbtPlugin("com.eed3si9n" % "sbt-projectmatrix" % "0.11.0")
 
 addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.9.2")
 
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.5.0")
+
+// Local integration snapshot; replace with the published plugin release before merging.
+addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.9-SNAPSHOT")

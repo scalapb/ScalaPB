@@ -84,7 +84,7 @@ jobs:
         /tmp/conformance-test-runner/conformance_test_runner --enforce_recommended \
           --failure_list conformance/failure_list_scalapb.txt \
           --text_format_failure_list conformance/text_format_failure_list_scalapb.txt \
-          conformance/target/jvm-2.13/conformance
+          target/out/jvm/scala-*/conformance/conformance
       shell: bash
 
   # Single final job for mergify.

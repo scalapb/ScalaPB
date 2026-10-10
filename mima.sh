@@ -7,8 +7,4 @@ then
     exit 0
 fi
 
-sbt \
-grpcRuntimeJVM${SCALA_VERSION}/mimaReportBinaryIssues \
-lensesJVM${SCALA_VERSION}/mimaReportBinaryIssues \
-runtimeJVM${SCALA_VERSION}/mimaReportBinaryIssues \
-compilerPluginJVM${SCALA_VERSION}/mimaReportBinaryIssues
+sbt "grpcRuntimeJVM${SCALA_VERSION}/mimaReportBinaryIssues; lensesJVM${SCALA_VERSION}/mimaReportBinaryIssues; runtimeJVM${SCALA_VERSION}/mimaReportBinaryIssues; compilerPluginJVM${SCALA_VERSION}/mimaReportBinaryIssues"

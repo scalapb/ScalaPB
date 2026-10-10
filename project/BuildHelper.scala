@@ -1,10 +1,9 @@
-import sbt._
+import sbt.*
 import sbt.internal.inc.ScalaInstance
-import Keys._
+import Keys.*
 import Dependencies.versions
-import sbtprojectmatrix.ProjectMatrixPlugin.autoImport._
 import sbtprotoc.ProtocPlugin.autoImport.PB
-import sbtassembly.AssemblyPlugin.autoImport._
+import sbtassembly.AssemblyPlugin.autoImport.*
 
 object BuildHelper {
   val commonScalacOptions = Seq(
@@ -56,14 +55,13 @@ object BuildHelper {
   def isScala3 = Def.setting[Boolean] { scalaVersion.value.startsWith("3.") }
 
   def commonSettings = Seq(
-    scalacOptions ++= commonScalacOptions ++ (if (isScala3.value) scalac3Options
+    scalacOptions ++= commonScalacOptions ++ (if isScala3.value then scalac3Options
                                               else scalac2Options),
     libraryDependencies += Dependencies.scalaCollectionCompat.value,
     scalacOptions ++= {
-      if (
-        scalaVersion.value.startsWith("3.3.") && !virtualAxes.?.value.toSeq.flatten
+      if scalaVersion.value.startsWith("3.3.") && !virtualAxes.?.value.toSeq.flatten
           .contains(VirtualAxis.native)
-      ) {
+      then {
         Seq(
           "-Yfuture-lazy-vals",
           "-release:11"
@@ -74,16 +72,13 @@ object BuildHelper {
         )
       }
     },
-    Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if (
-                                                                                             isScala3.value
-                                                                                           )
+    Compile / unmanagedSourceDirectories += (Compile / scalaSource).value.getParentFile / (if isScala3.value
+                                                                                           then
                                                                                              "scala-3"
                                                                                            else
                                                                                              "scala-2"),
-    Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if (
-                                                                                       isScala3.value
-                                                                                     )
-                                                                                       "scala-3"
+    Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if isScala3.value
+                                                                                     then "scala-3"
                                                                                      else
                                                                                        "scala-2"),
     assembly / assemblyMergeStrategy := {
@@ -131,7 +126,7 @@ object BuildHelper {
       .Process("git rev-parse HEAD")
       .lineStream_!
       .head
-    val flag = if (isScala3.value) "-scalajs-mapSourceURI" else "-P:scalajs:mapSourceURI"
+    val flag = if isScala3.value then "-scalajs-mapSourceURI" else "-P:scalajs:mapSourceURI"
     s"$flag:$a->$g/"
   }
 }

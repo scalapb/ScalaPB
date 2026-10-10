@@ -1,6 +1,5 @@
-import sbt._
-import org.portablescala.sbtplatformdeps.PlatformDepsPlugin.autoImport._
-import Keys._
+import sbt.*
+import Keys.*
 
 object Dependencies {
   object versions {
@@ -33,10 +32,10 @@ object Dependencies {
 
   val protobufJava          = "com.google.protobuf" % "protobuf-java" % versions.protobuf
   val scalaCollectionCompat = Def.setting {
-    "org.scala-lang.modules" %%% "scala-collection-compat" % versions.collectionCompat
+    "org.scala-lang.modules" %% "scala-collection-compat" % versions.collectionCompat
   }
   val protobufRuntimeScala = Def.setting {
-    "com.thesamet.scalapb" %%% "protobuf-runtime-scala" % versions.protobufRuntimeScala
+    "com.thesamet.scalapb" %% "protobuf-runtime-scala" % versions.protobufRuntimeScala
   }
 
   private val exclRule =
@@ -57,15 +56,15 @@ object Dependencies {
   val grpcInprocess = "io.grpc" % "grpc-inprocess"       % versions.grpc
 
   // testing
-  val scalaTest               = Def.setting { "org.scalatest" %%% "scalatest" % versions.scalaTest }
+  val scalaTest               = Def.setting { "org.scalatest" %% "scalatest" % versions.scalaTest }
   val scalaTestPlusScalaCheck = Def.setting {
-    "org.scalatestplus" %%% "scalacheck-1-19" % versions.scalaTestPlusScalaCheck
+    "org.scalatestplus" %% "scalacheck-1-19" % versions.scalaTestPlusScalaCheck
   }
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % versions.scalaTestPlusMockito
-  val utest                = Def.setting { "com.lihaoyi" %%% "utest" % versions.utest }
-  val munit                = Def.setting { "org.scalameta" %%% "munit" % versions.munit }
+  val utest                = Def.setting { "com.lihaoyi" %% "utest" % versions.utest }
+  val munit                = Def.setting { "org.scalameta" %% "munit" % versions.munit }
   val munitScalaCheck      = Def.setting {
-    "org.scalameta" %%% "munit-scalacheck" % versions.munitScalaCheck
+    "org.scalameta" %% "munit-scalacheck" % versions.munitScalaCheck
   }
   val mockitoCore  = "org.mockito"      % "mockito-core"  % versions.mockito
   val commonsCodec = "commons-codec"    % "commons-codec" % versions.commonsCodec

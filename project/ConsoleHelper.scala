@@ -1,4 +1,4 @@
-import sbt.Keys._
+import sbt.Keys.*
 
 object ConsoleHelper {
   def logo(text: String): String = s"${Console.CYAN}$text${Console.RESET}"
