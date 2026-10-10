@@ -245,7 +245,7 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends IdempotencyLevel(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.Recognized] = scala.collection.immutable.Seq(IDEMPOTENCY_UNKNOWN, NO_SIDE_EFFECTS, IDEMPOTENT)
     def fromValue(__value: _root_.scala.Int): IdempotencyLevel = __value match {
       case 0 => IDEMPOTENCY_UNKNOWN
       case 1 => NO_SIDE_EFFECTS

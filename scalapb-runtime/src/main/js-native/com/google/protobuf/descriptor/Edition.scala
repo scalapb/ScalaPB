@@ -135,7 +135,7 @@ object Edition extends _root_.scalapb.GeneratedEnumCompanion[Edition] {
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Edition(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(EDITION_UNKNOWN, EDITION_LEGACY, EDITION_PROTO2, EDITION_PROTO3, EDITION_2023, EDITION_2024, EDITION_1_TEST_ONLY, EDITION_2_TEST_ONLY, EDITION_99997_TEST_ONLY, EDITION_99998_TEST_ONLY, EDITION_99999_TEST_ONLY, EDITION_MAX)
+  lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.Edition.Recognized] = scala.collection.immutable.Seq(EDITION_UNKNOWN, EDITION_LEGACY, EDITION_PROTO2, EDITION_PROTO3, EDITION_2023, EDITION_2024, EDITION_1_TEST_ONLY, EDITION_2_TEST_ONLY, EDITION_99997_TEST_ONLY, EDITION_99998_TEST_ONLY, EDITION_99999_TEST_ONLY, EDITION_MAX)
   def fromValue(__value: _root_.scala.Int): Edition = __value match {
     case 0 => EDITION_UNKNOWN
     case 1 => EDITION_1_TEST_ONLY

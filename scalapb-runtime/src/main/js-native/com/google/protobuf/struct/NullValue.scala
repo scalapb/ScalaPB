@@ -31,7 +31,7 @@ object NullValue extends _root_.scalapb.GeneratedEnumCompanion[NullValue] {
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends NullValue(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(NULL_VALUE)
+  lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.struct.NullValue.Recognized] = scala.collection.immutable.Seq(NULL_VALUE)
   def fromValue(__value: _root_.scala.Int): NullValue = __value match {
     case 0 => NULL_VALUE
     case __other => Unrecognized(__other)

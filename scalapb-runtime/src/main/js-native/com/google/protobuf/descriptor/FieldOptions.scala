@@ -515,7 +515,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends CType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.CType.Recognized] = scala.collection.immutable.Seq(STRING, CORD, STRING_PIECE)
     def fromValue(__value: _root_.scala.Int): CType = __value match {
       case 0 => STRING
       case 1 => CORD
@@ -568,7 +568,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends JSType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.JSType.Recognized] = scala.collection.immutable.Seq(JS_NORMAL, JS_STRING, JS_NUMBER)
     def fromValue(__value: _root_.scala.Int): JSType = __value match {
       case 0 => JS_NORMAL
       case 1 => JS_STRING
@@ -617,7 +617,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionRetention(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(RETENTION_UNKNOWN, RETENTION_RUNTIME, RETENTION_SOURCE)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.OptionRetention.Recognized] = scala.collection.immutable.Seq(RETENTION_UNKNOWN, RETENTION_RUNTIME, RETENTION_SOURCE)
     def fromValue(__value: _root_.scala.Int): OptionRetention = __value match {
       case 0 => RETENTION_UNKNOWN
       case 1 => RETENTION_RUNTIME
@@ -724,7 +724,7 @@ object FieldOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google.
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionTargetType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(TARGET_TYPE_UNKNOWN, TARGET_TYPE_FILE, TARGET_TYPE_EXTENSION_RANGE, TARGET_TYPE_MESSAGE, TARGET_TYPE_FIELD, TARGET_TYPE_ONEOF, TARGET_TYPE_ENUM, TARGET_TYPE_ENUM_ENTRY, TARGET_TYPE_SERVICE, TARGET_TYPE_METHOD)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FieldOptions.OptionTargetType.Recognized] = scala.collection.immutable.Seq(TARGET_TYPE_UNKNOWN, TARGET_TYPE_FILE, TARGET_TYPE_EXTENSION_RANGE, TARGET_TYPE_MESSAGE, TARGET_TYPE_FIELD, TARGET_TYPE_ONEOF, TARGET_TYPE_ENUM, TARGET_TYPE_ENUM_ENTRY, TARGET_TYPE_SERVICE, TARGET_TYPE_METHOD)
     def fromValue(__value: _root_.scala.Int): OptionTargetType = __value match {
       case 0 => TARGET_TYPE_UNKNOWN
       case 1 => TARGET_TYPE_FILE

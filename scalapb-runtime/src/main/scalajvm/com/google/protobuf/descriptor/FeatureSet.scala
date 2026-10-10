@@ -324,7 +324,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends FieldPresence(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(FIELD_PRESENCE_UNKNOWN, EXPLICIT, IMPLICIT, LEGACY_REQUIRED)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.FieldPresence.Recognized] = scala.collection.immutable.Seq(FIELD_PRESENCE_UNKNOWN, EXPLICIT, IMPLICIT, LEGACY_REQUIRED)
     def fromValue(__value: _root_.scala.Int): FieldPresence = __value match {
       case 0 => FIELD_PRESENCE_UNKNOWN
       case 1 => EXPLICIT
@@ -377,7 +377,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends EnumType(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(ENUM_TYPE_UNKNOWN, OPEN, CLOSED)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.EnumType.Recognized] = scala.collection.immutable.Seq(ENUM_TYPE_UNKNOWN, OPEN, CLOSED)
     def fromValue(__value: _root_.scala.Int): EnumType = __value match {
       case 0 => ENUM_TYPE_UNKNOWN
       case 1 => OPEN
@@ -429,7 +429,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends RepeatedFieldEncoding(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(REPEATED_FIELD_ENCODING_UNKNOWN, PACKED, EXPANDED)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.RepeatedFieldEncoding.Recognized] = scala.collection.immutable.Seq(REPEATED_FIELD_ENCODING_UNKNOWN, PACKED, EXPANDED)
     def fromValue(__value: _root_.scala.Int): RepeatedFieldEncoding = __value match {
       case 0 => REPEATED_FIELD_ENCODING_UNKNOWN
       case 1 => PACKED
@@ -481,7 +481,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Utf8Validation(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(UTF8_VALIDATION_UNKNOWN, VERIFY, NONE)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.Utf8Validation.Recognized] = scala.collection.immutable.Seq(UTF8_VALIDATION_UNKNOWN, VERIFY, NONE)
     def fromValue(__value: _root_.scala.Int): Utf8Validation = __value match {
       case 0 => UTF8_VALIDATION_UNKNOWN
       case 2 => VERIFY
@@ -533,7 +533,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends MessageEncoding(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(MESSAGE_ENCODING_UNKNOWN, LENGTH_PREFIXED, DELIMITED)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.MessageEncoding.Recognized] = scala.collection.immutable.Seq(MESSAGE_ENCODING_UNKNOWN, LENGTH_PREFIXED, DELIMITED)
     def fromValue(__value: _root_.scala.Int): MessageEncoding = __value match {
       case 0 => MESSAGE_ENCODING_UNKNOWN
       case 1 => LENGTH_PREFIXED
@@ -585,7 +585,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends JsonFormat(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(JSON_FORMAT_UNKNOWN, ALLOW, LEGACY_BEST_EFFORT)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.JsonFormat.Recognized] = scala.collection.immutable.Seq(JSON_FORMAT_UNKNOWN, ALLOW, LEGACY_BEST_EFFORT)
     def fromValue(__value: _root_.scala.Int): JsonFormat = __value match {
       case 0 => JSON_FORMAT_UNKNOWN
       case 1 => ALLOW
@@ -637,7 +637,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends EnforceNamingStyle(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(ENFORCE_NAMING_STYLE_UNKNOWN, STYLE2024, STYLE_LEGACY)
+    lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.EnforceNamingStyle.Recognized] = scala.collection.immutable.Seq(ENFORCE_NAMING_STYLE_UNKNOWN, STYLE2024, STYLE_LEGACY)
     def fromValue(__value: _root_.scala.Int): EnforceNamingStyle = __value match {
       case 0 => ENFORCE_NAMING_STYLE_UNKNOWN
       case 1 => STYLE2024
@@ -787,7 +787,7 @@ object FeatureSet extends scalapb.GeneratedMessageCompanion[_root_.com.google.pr
       
       @SerialVersionUID(0L)
       final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends DefaultSymbolVisibility(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-      lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(DEFAULT_SYMBOL_VISIBILITY_UNKNOWN, EXPORT_ALL, EXPORT_TOP_LEVEL, LOCAL_ALL, STRICT)
+      lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.FeatureSet.VisibilityFeature.DefaultSymbolVisibility.Recognized] = scala.collection.immutable.Seq(DEFAULT_SYMBOL_VISIBILITY_UNKNOWN, EXPORT_ALL, EXPORT_TOP_LEVEL, LOCAL_ALL, STRICT)
       def fromValue(__value: _root_.scala.Int): DefaultSymbolVisibility = __value match {
         case 0 => DEFAULT_SYMBOL_VISIBILITY_UNKNOWN
         case 1 => EXPORT_ALL

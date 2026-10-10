@@ -46,7 +46,7 @@ object SymbolVisibility extends _root_.scalapb.GeneratedEnumCompanion[SymbolVisi
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends SymbolVisibility(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(VISIBILITY_UNSET, VISIBILITY_LOCAL, VISIBILITY_EXPORT)
+  lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.descriptor.SymbolVisibility.Recognized] = scala.collection.immutable.Seq(VISIBILITY_UNSET, VISIBILITY_LOCAL, VISIBILITY_EXPORT)
   def fromValue(__value: _root_.scala.Int): SymbolVisibility = __value match {
     case 0 => VISIBILITY_UNSET
     case 1 => VISIBILITY_LOCAL

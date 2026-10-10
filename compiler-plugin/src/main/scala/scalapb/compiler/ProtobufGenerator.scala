@@ -85,7 +85,7 @@ class ProtobufGenerator(
       .seq(e.unrecognizedAnnotationList)
       .add(
         s"""final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends $name(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-           |lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(${e.getValues.asScala
+           |lazy val values: scala.collection.immutable.Seq[${e.recognizedEnum.fullName}] = scala.collection.immutable.Seq(${e.getValues.asScala
             .map(_.scalaName.asSymbol)
             .mkString(", ")})
            |def fromValue(__value: _root_.scala.Int): $name = __value match {""".stripMargin

@@ -832,7 +832,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends OptionsScope(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(FILE, PACKAGE)
+    lazy val values: scala.collection.immutable.Seq[_root_.scalapb.options.ScalaPbOptions.OptionsScope.Recognized] = scala.collection.immutable.Seq(FILE, PACKAGE)
     def fromValue(__value: _root_.scala.Int): OptionsScope = __value match {
       case 0 => FILE
       case 1 => PACKAGE
@@ -876,7 +876,7 @@ object ScalaPbOptions extends scalapb.GeneratedMessageCompanion[_root_.scalapb.o
     
     @SerialVersionUID(0L)
     final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends EnumValueNaming(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-    lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
+    lazy val values: scala.collection.immutable.Seq[_root_.scalapb.options.ScalaPbOptions.EnumValueNaming.Recognized] = scala.collection.immutable.Seq(AS_IN_PROTO, CAMEL_CASE)
     def fromValue(__value: _root_.scala.Int): EnumValueNaming = __value match {
       case 0 => AS_IN_PROTO
       case 1 => CAMEL_CASE

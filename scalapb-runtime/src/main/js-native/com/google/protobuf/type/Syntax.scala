@@ -48,7 +48,7 @@ object Syntax extends _root_.scalapb.GeneratedEnumCompanion[Syntax] {
   
   @SerialVersionUID(0L)
   final case class Unrecognized(unrecognizedValue: _root_.scala.Int) extends Syntax(unrecognizedValue) with _root_.scalapb.UnrecognizedEnum
-  lazy val values: scala.collection.immutable.Seq[ValueType] = scala.collection.immutable.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3, SYNTAX_EDITIONS)
+  lazy val values: scala.collection.immutable.Seq[_root_.com.google.protobuf.`type`.Syntax.Recognized] = scala.collection.immutable.Seq(SYNTAX_PROTO2, SYNTAX_PROTO3, SYNTAX_EDITIONS)
   def fromValue(__value: _root_.scala.Int): Syntax = __value match {
     case 0 => SYNTAX_PROTO2
     case 1 => SYNTAX_PROTO3
