@@ -7,8 +7,8 @@ object GenData {
   import org.scalacheck.Gen.{sized, oneOf}
 
   sealed trait ProtoValue
-  case class PrimitiveValue(value: String) extends ProtoValue
-  case class EnumValue(value: String)      extends ProtoValue
+  case class PrimitiveValue(value: String)                   extends ProtoValue
+  case class EnumValue(value: String)                        extends ProtoValue
   case class MessageValue(values: Seq[(String, ProtoValue)]) extends ProtoValue {
     def toAscii: String =
       printAscii(new FunctionalPrinter()).result()
@@ -17,7 +17,7 @@ object GenData {
       values.foldLeft(printer) {
         case (printer, (name, PrimitiveValue(value))) => printer.add(s"$name: $value")
         case (printer, (name, EnumValue(value)))      => printer.add(s"$name: $value")
-        case (printer, (name, mv: MessageValue)) =>
+        case (printer, (name, mv: MessageValue))      =>
           printer
             .add(s"$name: <")
             .indent

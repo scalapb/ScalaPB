@@ -92,6 +92,7 @@ object BuildHelper {
            |  val scalapbVersion = "${version.value}"
            |  val protobufVersion = "${versions.protobuf}"
            |  val grpcJavaVersion = "${versions.grpc}"
+           |  val scalaBinaryVersion = "${scalaBinaryVersion.value}"
            |}""".stripMargin
       )
       Seq(file)
