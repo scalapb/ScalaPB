@@ -1635,9 +1635,7 @@ class ProtobufGenerator(
         val p    = new GrpcServicePrinter(service, implicits)
         val code = scalaFileHeader(
           file,
-          file.javaConversions && file.getMessageTypes.asScala.exists(
-            messageContainsRepeatedFields
-          ),
+          javaConverterImport = false,
           includePreamble = false
         ).call(p.printService).result()
         val b = CodeGeneratorResponse.File.newBuilder()
