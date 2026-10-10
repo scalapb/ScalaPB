@@ -147,9 +147,9 @@ lazy val compilerPlugin = (projectMatrix in file("compiler-plugin"))
   .settings(commonSettings)
   .settings(
     libraryDependencies ++= Seq(
-      protocGen.cross(CrossVersion.for3Use2_13),
+      protocGen,
       "com.google.protobuf" % "protobuf-java" % protobufCompilerVersion % "protobuf",
-      (protocCacheCoursier  % "test").cross(CrossVersion.for3Use2_13),
+      protocCacheCoursier   % "test",
       scalaTest.value       % "test"
     ),
     mimaPreviousArtifacts  := Set("com.thesamet.scalapb" %% "compilerplugin" % MimaPreviousVersion),
@@ -254,11 +254,11 @@ lazy val proptest = (projectMatrix in file("proptest"))
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
     libraryDependencies ++= Seq(
       protobufJava,
-      grpcNetty                                           % "test",
-      grpcProtobuf                                        % "test",
-      protocCacheCoursier.cross(CrossVersion.for3Use2_13) % "test",
-      scalaTest.value                                     % "test",
-      scalaTestPlusScalaCheck.value                       % "test"
+      grpcNetty                     % "test",
+      grpcProtobuf                  % "test",
+      protocCacheCoursier           % "test",
+      scalaTest.value               % "test",
+      scalaTestPlusScalaCheck.value % "test"
     ),
     libraryDependencies ++= (if (!isScala3.value)
                                Seq("org.scala-lang" % "scala-compiler" % scalaVersion.value)

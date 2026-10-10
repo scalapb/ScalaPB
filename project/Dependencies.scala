@@ -8,14 +8,14 @@ object Dependencies {
     val protobuf             = "3.25.8"
     val collectionCompat     = "2.13.0"
     val coursier             = "2.1.24"
-    val protocGen            = "0.9.9"
+    val protocGen            = "0.9.11"
     val protobufRuntimeScala = "0.8.16"
     val commonsCodec         = "1.22.1"
 
     // For testing
     val annotationApi           = "1.3.2"
     val cats                    = "2.6.1"
-    val mockito                 = "5.23.0"
+    val mockito                 = "5.24.0"
     val munit                   = "1.2.0"
     val scalaTest               = "3.2.20"
     val scalaTestPlusMockito    = "3.1.0.0"
@@ -25,7 +25,7 @@ object Dependencies {
 
   val Scala212 = "2.12.21"
 
-  val Scala213 = "2.13.16"
+  val Scala213 = "2.13.18"
 
   val Scala3 = "3.3.8"
 
