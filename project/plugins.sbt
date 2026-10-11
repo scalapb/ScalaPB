@@ -24,5 +24,7 @@ addSbtPlugin("org.scalameta" % "sbt-mdoc" % "2.9.2")
 
 addSbtPlugin("org.scalameta" % "sbt-native-image" % "0.5.0")
 
-// Local integration snapshot; replace with the published plugin release before merging.
-addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.9-SNAPSHOT")
+resolvers += "Sonatype Central Snapshots" at "https://central.sonatype.com/repository/maven-snapshots/"
+
+// Integration snapshot; replace with the published plugin release before merging.
+addSbtPlugin("com.thesamet" % "sbt-protoc-gen-project" % "0.1.8+7-b20d2ff3-SNAPSHOT")
