@@ -34,9 +34,10 @@ They are not part of these releases. The 0.10 line is frozen because its generat
 cannot handle the proto3 optional fields used by current Google schemas.
 
 The Google packages bring in protobuf-java 4.33.6 on the ScalaPB 0.11 line; the
-ScalaPB 1.0 line resolves protobuf-java 4.35.0. Do not force protobuf-java 3 onto
-these Google Java classes. Pub/Sub and Dataproc depend on the matching
-common-protos artifact.
+ScalaPB 1.0 line resolves protobuf-java 4.35.0. These Google packages require
+protobuf-java 4.x. No additional configuration is normally needed: sbt selects it
+transitively. If your build overrides protobuf-java to 3.x, remove that override
+before upgrading. Pub/Sub and Dataproc depend on the matching common-protos artifact.
 
 PGV remains available for existing consumers. Its upstream replacement,
 [Protovalidate](https://github.com/bufbuild/protovalidate), uses different schemas
