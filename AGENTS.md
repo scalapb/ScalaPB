@@ -24,6 +24,8 @@ Uses sbt-projectmatrix for cross-builds across Scala 2.12, 2.13, 3 and JVM/JS/Na
 
 ## Git
 - **Never push without explicit instruction.** Commit locally and wait to be asked.
+- Every commit that fixes a GitHub issue must include `Fixed #xyz` in its commit
+  message, replacing `xyz` with the issue number, so GitHub closes the issue.
 
 ## sbt
 

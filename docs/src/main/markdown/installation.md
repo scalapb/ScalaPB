@@ -14,11 +14,13 @@ addSbtPlugin("com.thesamet" % "sbt-protoc" % "@sbt_protoc@")
 libraryDependencies += "com.thesamet.scalapb" %% "compilerplugin" % "@scalapb@"
 ```
 
-Add the following line to your `build.sbt`:
+Add the following settings to your `build.sbt`:
 
 ```scala
 Compile / PB.targets := Seq(
-  scalapb.gen() -> (Compile / sourceManaged).value / "scalapb"
+  scalapb.gen(
+    scala3Sources = scalaBinaryVersion.value == "3"
+  ) -> (Compile / sourceManaged).value / "scalapb"
 )
 
 // (optional) If you need scalapb/scalapb.proto or anything from
@@ -28,6 +30,11 @@ libraryDependencies ++= Seq(
 )
 ```
 
+
+The `scala3Sources` setting selects Scala 3 syntax when the project uses Scala 3,
+and Scala 2 syntax otherwise, including when cross-building. It ensures that
+generated wildcard types use `?` on Scala 3, which is required with underscore
+kind-projector compiler settings such as those enabled by sbt-typelevel.
 
 ScalaPB will look for protocol buffer (`.proto`) files under `src/main/protobuf`, which can be customized. Running the `compile` command in sbt will generate Scala
 sources for your protos and compile them.
