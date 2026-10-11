@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Migrate example and benchmark builds to sbt 2.0.10 and check their formatting in CI.
 - Narrow generated enum companions' `values` type to `Seq[Recognized]` (#2179).
 - Omit unused JavaConverters imports from generated gRPC services (#358).
 - Update Scala.js to 1.22.0 and pin MUnit 1.3.6 and munit-scalacheck 1.3.1 independently.
