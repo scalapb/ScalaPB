@@ -27,6 +27,29 @@ jobs:
         java-version: 17
         distribution: temurin
     - uses: sbt/setup-sbt@v1
+    - name: Keep matrix projects distinct in the snapshot
+      # The submission plugin names manifests by Maven coordinates without the
+      # platform axis. Preserve each project instead of overwriting JVM/JS/Native
+      # variants (and alternate generated-source variants) with the same name.
+      run: |
+        cat > project/DependencySnapshotNames.scala <<'EOF'
+        import sbt.*
+        import sbt.Keys.*
+        import ch.epfl.scala.GithubDependencyGraphPlugin
+        import ch.epfl.scala.GithubDependencyGraphPlugin.autoImport.*
+
+        object DependencySnapshotNames extends AutoPlugin {
+          override def requires = GithubDependencyGraphPlugin
+          override def trigger = allRequirements
+          override def projectSettings = Seq(
+            githubDependencyManifest := {
+              val manifest = githubDependencyManifest.value
+              val projectId = thisProject.value.id
+              manifest.map(m => m.withName(s"${m.name} [$projectId]"))
+            }
+          )
+        }
+        EOF
     # Includes every Scala/platform matrix project and its transitive dependencies.
     - uses: scalacenter/sbt-dependency-submission@v3.2.3
       id: dependencies
