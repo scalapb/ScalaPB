@@ -8,6 +8,7 @@ val protobufCompilerVersion = "4.35.0"
 val MimaPreviousVersion = "0.11.0"
 
 scalaVersion := Scala212
+ThisBuild / dependencyOverrides ++= buildSecurityOverrides
 // Keep Java bytecode and JDK API usage compatible with Java 8 on newer build JDKs.
 javacOptions ++= List("--release", "8")
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
@@ -199,6 +200,7 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(commonSettings)
   .settings(
+    libraryDependencies ++= coursierSecurityDependencies,
     libraryDependencies ++= Seq(
       coursier,
       protocCacheCoursier
@@ -266,6 +268,7 @@ lazy val proptest = (projectMatrix in file("proptest"))
     )
   )
   .settings(commonSettings)
+  .settings(dependencyOverrides ++= grpcNettyOverrides)
   .settings(
     publishArtifact := false,
     publishTo := Some(Resolver.file("Unused transient repository", file("target/unusedrepo"))),
@@ -330,6 +333,7 @@ lazy val lenses = (projectMatrix in file("lenses"))
 lazy val lensesJVM2_12 = lenses.jvm(Scala212)
 
 val e2eCommonSettings = commonSettings ++ Seq(
+  dependencyOverrides ++= grpcNettyOverrides,
   publish / skip := true,
   javacOptions ++= Seq("-Xlint:deprecation"),
   libraryDependencies ++= Seq(
@@ -507,11 +511,12 @@ lazy val docs = project
     libraryDependencies ++= Seq(
       "com.thesamet.scalapb" %% "scalapb-json4s"         % "0.11.0",
       "com.thesamet.scalapb" %% "sparksql35-scalapb0_11" % "1.0.4",
-      "org.apache.spark"     %% "spark-sql"              % "3.5.6",
+      "org.apache.spark"     %% "spark-sql"              % "3.5.9",
       "com.lihaoyi"          %% "ujson"                  % "0.9.0",
-      "com.lihaoyi"          %% "os-lib"                 % "0.5.0",
-      "org.plotly-scala"     %% "plotly-render"          % "0.7.2"
+      "com.lihaoyi"          %% "os-lib"                 % "0.5.0"
     ),
+    libraryDependencies ++= docsSecurityDependencies,
+    excludeDependencies += ExclusionRule("org.lz4", "lz4-java"),
     mdocIn := baseDirectory.value / "src" / "main" / "markdown",
     // Keep the output path stable for Docusaurus across sbt versions.
     mdocOut := baseDirectory.value / "target" / "mdoc",
