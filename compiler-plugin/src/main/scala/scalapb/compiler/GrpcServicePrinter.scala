@@ -253,13 +253,13 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
           case StreamType.ServerStreaming =>
             p.add(
               s"""$call((request: ${method.inputType.scalaType}, observer: $streamObserver[${method.outputType.scalaType}]) => {
-                 |  $serviceImpl.${method.name}(request, observer)
+                 |  $serviceImpl.${method.name}(request, scalapb.grpc.Grpc.serverResponseObserver(observer))
                  |}))""".stripMargin
             )
           case _ =>
             p.add(
               s"""$call((observer: $streamObserver[${method.outputType.scalaType}]) => {
-                 |  $serviceImpl.${method.name}(observer)
+                 |  $serviceImpl.${method.name}(scalapb.grpc.Grpc.serverResponseObserver(observer))
                  |}))""".stripMargin
             )
         }
