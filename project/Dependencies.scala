@@ -21,7 +21,6 @@ object Dependencies {
     val scalaTestPlusMockito    = "3.1.0.0"
     val scalaTestPlusScalaCheck = "3.2.20.0"
     val guava                   = "33.7.2-jre"
-    val utest                   = "0.7.10"
   }
 
   val Scala212 = "2.12.21"
@@ -118,7 +117,6 @@ object Dependencies {
     "org.scalatestplus" %% "scalacheck-1-19" % versions.scalaTestPlusScalaCheck
   }
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-1-10" % versions.scalaTestPlusMockito
-  val utest                = Def.setting { "com.lihaoyi" %% "utest" % versions.utest }
   val munit                = Def.setting { "org.scalameta" %% "munit" % versions.munit }
   val munitScalaCheck      = Def.setting {
     "org.scalameta" %% "munit-scalacheck" % versions.munitScalaCheck
