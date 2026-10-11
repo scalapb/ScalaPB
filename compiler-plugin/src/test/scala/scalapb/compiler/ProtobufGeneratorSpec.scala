@@ -4,6 +4,48 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.must.Matchers
 
 class ProtobufGeneratorSpec extends AnyFlatSpec with Matchers with ProtocInvocationHelper {
+  "Scala 3 source generation" should "use question-mark wildcards in message and file companions" in {
+    val files = generateFileSet(
+      Seq(
+        "wildcards.proto" -> """
+                               |syntax = "proto3";
+                               |package issue1919;
+                               |message Outer {
+                               |  message Inner {}
+                               |  enum Kind { UNKNOWN = 0; }
+                               |  Inner inner = 1;
+                               |  Kind kind = 2;
+                               |}
+                               |""".stripMargin
+      )
+    )
+    val file = files.find(_.getName == "wildcards.proto").get
+    for (scala3Sources <- Seq(false, true)) {
+      val params    = GeneratorParams(scala3Sources = scala3Sources)
+      val implicits =
+        new DescriptorImplicits(params, files, SecondaryOutputProvider.fromMap(Map.empty))
+      val generated = new ProtobufGenerator(params, implicits)
+        .generateMultipleScalaFilesForFileDescriptor(file)
+      val message    = generated.find(_.getName.endsWith("/Outer.scala")).get.getContent
+      val descriptor = generated.find(_.getName.endsWith("/WildcardsProto.scala")).get.getContent
+      val wildcard   = if (scala3Sources) "?" else "_"
+      val companions =
+        s"Seq[_root_.scalapb.GeneratedMessageCompanion[$wildcard <: _root_.scalapb.GeneratedMessage]]"
+
+      message must include(s"nestedMessagesCompanions: $companions")
+      descriptor must include(s"messagesCompanions: $companions")
+      descriptor must include(s"$companions(")
+      message must include(s"_root_.scalapb.GeneratedMessageCompanion[$wildcard]")
+      message must include(s"_root_.scalapb.GeneratedEnumCompanion[$wildcard]")
+      if (scala3Sources) {
+        generated.foreach { source =>
+          source.getContent must not include "[_]"
+          source.getContent must not include "[_ <:"
+        }
+      }
+    }
+  }
+
   "gRPC service generation" should "omit collection converters while preserving configured imports" in {
     val files = generateFileSet(
       Seq(
