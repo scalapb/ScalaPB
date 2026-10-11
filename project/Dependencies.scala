@@ -6,7 +6,7 @@ object Dependencies {
     val grpc                 = "1.84.2"
     val protobuf             = "4.35.0"
     val collectionCompat     = "2.14.0"
-    val coursier             = "2.1.26"
+    val coursier             = "2.1.24"
     val protocGen            = "0.9.11"
     val protobufRuntimeScala = "0.8.16"
     val commonsCodec         = "1.22.1"
@@ -71,16 +71,21 @@ object Dependencies {
     "netty-transport-native-unix-common"
   ).map("io.netty" % _ % "4.2.19.Final")
 
+  // Keep the CLI POM safe as well as the local build. Coursier 2.1.24 is the
+  // supported cross-published version for Scala 2.12 and 2.13.
+  val coursierSecurityDependencies = Seq(
+    "io.airlift"          % "aircompressor" % "2.0.3",
+    "org.apache.commons"  % "commons-lang3" % "3.18.0",
+    "org.codehaus.plexus" % "plexus-utils"  % "4.0.3",
+    "org.jsoup"           % "jsoup"         % "1.23.2"
+  )
+
   // Build/test tools also bring these libraries transitively. Overrides do not
   // introduce JVM dependencies into the JS or Native projects.
-  val buildSecurityOverrides = Seq(
+  val buildSecurityOverrides = coursierSecurityDependencies ++ Seq(
     "com.fasterxml.jackson.core" % "jackson-annotations" % "2.18.11",
     "com.fasterxml.jackson.core" % "jackson-core"        % "2.18.11",
-    "com.fasterxml.jackson.core" % "jackson-databind"    % "2.18.11",
-    "io.airlift"                 % "aircompressor"       % "2.0.3",
-    "org.apache.commons"         % "commons-lang3"       % "3.18.0",
-    "org.codehaus.plexus"        % "plexus-utils"        % "4.0.3",
-    "org.jsoup"                  % "jsoup"               % "1.23.2"
+    "com.fasterxml.jackson.core" % "jackson-databind"    % "2.18.11"
   ) ++ Seq(
     "jline-reader",
     "jline-terminal",

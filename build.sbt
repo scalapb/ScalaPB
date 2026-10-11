@@ -200,6 +200,7 @@ lazy val scalapbc = (projectMatrix in file("scalapbc"))
   .jvmPlatform(scalaVersions = Seq(Scala212, Scala213))
   .settings(commonSettings)
   .settings(
+    libraryDependencies ++= coursierSecurityDependencies,
     libraryDependencies ++= Seq(
       coursier,
       protocCacheCoursier
