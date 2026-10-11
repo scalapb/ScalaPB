@@ -93,25 +93,17 @@ scalapb.gen(
 
 ## Scala 3 wildcard syntax
 
-When compiling generated sources with Scala 3, enable Scala 3 syntax explicitly:
+Select the generated syntax based on the project's Scala version:
 
 ```scala
 Compile / PB.targets := Seq(
-  scalapb.gen(scala3Sources = true) -> (Compile / sourceManaged).value
+  scalapb.gen(
+    scala3Sources = scalaBinaryVersion.value == "3"
+  ) -> (Compile / sourceManaged).value / "scalapb"
 )
 ```
 
-The default `scalapb.gen()` emits Scala 2 wildcard syntax such as
-`GeneratedMessageCompanion[_ <: GeneratedMessage]`. With
-`-Xkind-projector:underscores` (formerly `-Ykind-projector:underscores`), Scala 3
-interprets `_` as a type-lambda placeholder instead of a wildcard. This causes
-`']' expected, but '<:' found` in declarations such as `messagesCompanions` and
-`nestedMessagesCompanions`. Even an empty message produces a companion declaration,
-so a large schema such as TensorBoard's can produce this error in many files;
-the error does not depend on TensorBoard-specific protobuf features.
-
-`scala3Sources = true` emits `? <: GeneratedMessage` instead. Regenerate all
-affected sources after changing the setting, including any generated files checked
-into your source tree. Updating only the runtime dependency does not change the
-generated syntax. Value-discard warnings or other remaining diagnostics should be
-investigated separately.
+For a Scala 3-only project, you can also set `scala3Sources = true` directly.
+This emits `?` wildcards, which are required with underscore kind-projector mode.
+For the `']' expected, but '<:' found` error and instructions on regenerating old
+sources, see the [FAQ](faq.md#why-does-scala-3-report--expected-but--found-in-generated-code).

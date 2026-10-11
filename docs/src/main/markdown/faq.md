@@ -53,6 +53,42 @@ in the include path that is passed to protoc.
 If you are not using sbt (for example, spbc), then you need to make those
 files available on the file system.
 
+## Why does Scala 3 report `']' expected, but '<:' found` in generated code?
+
+The default `scalapb.gen()` emits Scala 2 wildcard syntax such as
+`GeneratedMessageCompanion[_ <: GeneratedMessage]`. With
+`-Xkind-projector:underscores` (formerly `-Ykind-projector:underscores`), Scala 3
+interprets `_` as a type-lambda placeholder instead of a wildcard and rejects
+this declaration. Build plugins such as sbt-typelevel can enable this compiler
+option; check `show Compile / scalacOptions` in sbt to see your effective settings.
+
+With ScalaPB 0.11.14 or newer, configure the generator to use syntax appropriate
+for your Scala version:
+
+```scala
+Compile / PB.targets := Seq(
+  scalapb.gen(
+    scala3Sources = scalaBinaryVersion.value == "3"
+  ) -> (Compile / sourceManaged).value / "scalapb"
+)
+```
+
+For Scala 3, this emits `? <: GeneratedMessage` instead. Even empty messages have
+companion declarations, so this error can appear in many generated files without
+depending on any particular protobuf feature.
+
+After changing the setting, run `sbt clean compile` to regenerate managed sources.
+If you previously checked generated files into `src/main/scala`, remove those old
+generated copies when switching to managed sources, or regenerate them with the
+same option if you continue checking them in. Keep your handwritten code and
+`.proto` files. `sbt clean` does not remove generated files from `src/main/scala`,
+so stale copies will still be compiled and may also conflict with managed sources.
+
+Updating only the runtime dependency does not change the generated syntax.
+Value-discard warnings or other remaining diagnostics should be investigated
+separately. See the [installation instructions](installation.md) for the complete
+sbt setup.
+
 ## How do I generate Scala code for protos from another jar?
 
 For some proto packages, we may already provide pre-compiled generated code in

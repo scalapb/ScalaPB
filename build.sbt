@@ -523,8 +523,8 @@ lazy val docs = project
     docusaurusCreateSite     := docusaurusCreateSite.dependsOn(Compile / unidoc).value,
     docusaurusPublishGhpages := docusaurusPublishGhpages.dependsOn(Compile / unidoc).value,
     mdocVariables            := Map(
-      "scalapb"          -> "0.11.11",
-      "scalapb_latest"   -> "0.11.11",
+      "scalapb"          -> "0.11.21",
+      "scalapb_latest"   -> "0.11.21",
       "scala3"           -> Dependencies.Scala3,
       "sbt_protoc"       -> "1.0.6",
       "protoc"           -> "3.15.6",
