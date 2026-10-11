@@ -1,0 +1,40 @@
+name: Dependency Graph
+
+on:
+  push:
+    branches: [master]
+  schedule:
+    - cron: '31 8 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: dependency-graph
+  cancel-in-progress: false
+
+jobs:
+  submit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: write # Required by GitHub's dependency submission API.
+    steps:
+    - uses: actions/checkout@v7
+    - uses: actions/setup-java@v6
+      with:
+        java-version: 17
+        distribution: temurin
+    - uses: sbt/setup-sbt@v1
+    # Includes every Scala/platform matrix project and its transitive dependencies.
+    - uses: scalacenter/sbt-dependency-submission@v3.2.3
+      id: dependencies
+      with:
+        on-resolve-failure: error
+    - name: Save submitted dependency snapshot
+      uses: actions/upload-artifact@v4
+      with:
+        name: dependency-snapshot
+        path: ${{ steps.dependencies.outputs.snapshot-json-path }}
+        if-no-files-found: error
