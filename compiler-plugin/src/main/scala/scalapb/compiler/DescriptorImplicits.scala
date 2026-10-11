@@ -1181,6 +1181,14 @@ object DescriptorImplicits {
 
 // For constants that depends on the Scala 2 or 3 mode.
 private[scalapb] class ScalaCompatConstants(emitScala3Sources: Boolean) {
+  val Then: String = if (emitScala3Sources) " then" else ""
+
+  val Do: String = if (emitScala3Sources) " do" else ""
+
+  val GivenDef: String = if (emitScala3Sources) "given" else "implicit def"
+
+  val GivenVal: String = if (emitScala3Sources) "given" else "implicit val"
+
   val WildcardType: String =
     if (emitScala3Sources) "?" else "_"
 

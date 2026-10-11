@@ -261,7 +261,7 @@ lazy val proptest = (projectMatrix in file("proptest"))
     settings = Seq()
   )
   .customRow(
-    scalaVersions = Seq(Scala213, Scala3),
+    scalaVersions = Seq(Scala3),
     axisValues = Seq(Scala3Sources, VirtualAxis.jvm),
     settings = Seq(
       Test / javaOptions += "-Dscala3_sources"
@@ -436,19 +436,13 @@ lazy val e2e = (projectMatrix in file("e2e"))
     )
   )
   .customRow(
-    scalaVersions = Seq(Scala213, Scala3),
+    scalaVersions = Seq(Scala3),
     axisValues = Seq(Scala3Sources, VirtualAxis.jvm),
     settings = Seq(
-      Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / (if isScala3.value
-                                                                                       then
-                                                                                         "scalajvm-3"
-                                                                                       else
-                                                                                         "scalajvm-2"),
+      Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / "scalajvm-3",
       Test / unmanagedSourceDirectories += (Test / scalaSource).value.getParentFile / "scalajvm-3-source",
-      scalacOptions ++=
-        (if isScala3.value then Seq("-source", "future") else Seq("-Xsource:3")),
-      Test / scalacOptions --=
-        (if isScala3.value then Seq("-source", "future") else Seq("-Xsource:3")),
+      scalacOptions ++= Seq("-source", "future"),
+      Test / scalacOptions --= Seq("-source", "future"),
       Compile / PB.targets := Seq(
         (
           genModule("scalapb.ScalaPbCodeGenerator$"),

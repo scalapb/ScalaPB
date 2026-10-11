@@ -37,7 +37,13 @@ class ProtobufGeneratorSpec extends AnyFlatSpec with Matchers with ProtocInvocat
       descriptor must include(s"$companions(")
       message must include(s"_root_.scalapb.GeneratedMessageCompanion[$wildcard]")
       message must include(s"_root_.scalapb.GeneratedEnumCompanion[$wildcard]")
+      val contextualDef = if (scala3Sources) "given" else "implicit def"
+      message must include(s"$contextualDef messageCompanion:")
+      message must include(s"$contextualDef messageReads:")
+      message must include(s"$contextualDef enumCompanion:")
       if (scala3Sources) {
+        message must include("extension [UpperPB](_l:")
+        message must not include "implicit class"
         generated.foreach { source =>
           source.getContent must not include "[_]"
           source.getContent must not include "[_ <:"
@@ -73,6 +79,10 @@ class ProtobufGeneratorSpec extends AnyFlatSpec with Matchers with ProtocInvocat
       val service   = generated.find(_.getName.endsWith("/TestGrpc.scala")).get.getContent
       val response  = generated.find(_.getName.endsWith("/Response.scala")).get.getContent
 
+      val contextualDef = if (scala3Sources) "given" else "implicit def"
+      val contextualVal = if (scala3Sources) "given" else "implicit val"
+      service must include(s"$contextualDef serviceCompanion:")
+      service must include(s"$contextualVal stubFactory:")
       service must not include "scalapb.internal.compat.JavaConverters"
       service must include("import example.CustomType")
       response must include("scalapb.internal.compat.JavaConverters")

@@ -55,7 +55,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       s"object ${service.name} extends _root_.scalapb.grpc.ServiceCompanion[${service.name}] {"
     ).indent
       .add(
-        s"implicit def serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = this"
+        s"${service.getFile.V.GivenDef} serviceCompanion: _root_.scalapb.grpc.ServiceCompanion[${service.name}] = this"
       )
       .add(
         s"def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = ${service.javaDescriptorSource}"
@@ -142,7 +142,7 @@ final class GrpcServicePrinter(service: ServiceDescriptor, implicits: Descriptor
       s"override def newStub(channel: $channel, options: $callOptions): $className = new $className(channel, options)"
 
     val implicitStub =
-      s"implicit val stubFactory: $stubFactory[$className] = this"
+      s"${service.getFile.V.GivenVal} stubFactory: $stubFactory[$className] = this"
 
     p.add(
       s"object $className extends $stubFactory[$className] {"

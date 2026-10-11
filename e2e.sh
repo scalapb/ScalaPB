@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 SCALA_VERSION=${SCALA_VERSION:-2_12}
-if [[ "$SCALA_VERSION" != "2_12" ]]; then
+if [[ "$SCALA_VERSION" == "3" ]]; then
     COMPAT_TARGET=e2eScala3SourcesJVM${SCALA_VERSION}/test;
 fi
 
