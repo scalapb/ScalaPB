@@ -1193,10 +1193,6 @@ private[scalapb] class ScalaCompatConstants(emitScala3Sources: Boolean) {
     if (emitScala3Sources) "private" else "private[this]"
 
   val WithOperator: String = if (emitScala3Sources) " & " else " with "
-
-  val MessageLens =
-    if (emitScala3Sources) "_root_.scalapb.lenses.MessageLens"
-    else "_root_.scalapb.lenses.ObjectLens"
 }
 
 object Helper {

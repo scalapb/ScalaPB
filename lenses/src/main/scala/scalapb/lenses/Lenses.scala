@@ -111,7 +111,7 @@ object Lens extends CompatLensImplicits {
   }
 }
 
-class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Container] {
+abstract class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Container] {
 
   /** Creates a sub-lens */
   def field[A](lens: Lens[Container, A]): Lens[U, A] = self.compose(lens)
@@ -128,9 +128,11 @@ class ObjectLens[U, Container](self: Lens[U, Container]) extends Lens[U, Contain
     u => set(ms.foldLeft[Container](get(u))((p, m) => m(Lens.unit[Container])(p)))(u)
 }
 
-// In Scala 3 source mode, message lenses extend this class to avoid an error of extending
-// non-open class.
-// TODO(thesamet): unify ObjectLens and MessageLens in next major release (#1581)
+/** Compatibility base class for lenses generated before ScalaPB 1.0.0 in Scala 3 source mode. */
+@deprecated(
+  "Extend ObjectLens instead. Regenerate ScalaPB sources with ScalaPB 1.0.0 or later.",
+  "1.0.0"
+)
 abstract class MessageLens[U, Container](self: Lens[U, Container]) extends ObjectLens(self)
 
 trait Updatable[A] extends Any {

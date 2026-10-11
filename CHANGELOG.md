@@ -2,6 +2,13 @@
 ## [1.0.0] (Not yet released)
 - Refresh website dependencies to address GitHub security alerts.
 - Update Coursier's transitive dependencies and the documentation/test dependency families to address GitHub security advisories; use the maintained LZ4 artifact for Spark documentation examples.
+- BREAKING CHANGE: Unify generated lens superclasses across Scala 2 and Scala 3 as
+  `scalapb.lenses.ObjectLens`, which is now abstract (#1581). Regenerate all ScalaPB
+  sources and recompile dependent code when upgrading to 1.0.0. Replace direct
+  `new ObjectLens(lens)` instantiation with `new ObjectLens(lens) {}` or a named
+  subclass. `MessageLens` remains as a deprecated compatibility class for older
+  generated code, but newly generated lenses no longer extend it; migrate explicit
+  `MessageLens` type references and handwritten subclasses to `ObjectLens`.
 - Refresh common-protos dependency examples, add Dataproc, and document the supported ScalaPB lines.
 - Select Scala 3 generation syntax in the installation instructions and document underscore kind-projector errors and stale generated sources in the FAQ (#1919).
 - Map non-status streaming gRPC response failures to `INTERNAL`, consistently with unary calls, while preserving explicit statuses and trailers (#1943).

@@ -314,7 +314,11 @@ lazy val lenses = (projectMatrix in file("lenses"))
     libraryDependencies ++= Seq(
       munit.value % "test"
     ),
-    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion)
+    mimaPreviousArtifacts := Set("com.thesamet.scalapb" %% "lenses" % MimaPreviousVersion),
+    // Intentional 1.0.0 API change: generated lenses share an abstract base (#1581).
+    mimaBinaryIssueFilters += ProblemFilters.exclude[AbstractClassProblem](
+      "scalapb.lenses.ObjectLens"
+    )
   )
   .jvmPlatform(
     scalaVersions = Seq(Scala212, Scala213, Scala3)
