@@ -1,5 +1,6 @@
 # Change Log
 ## [1.0.0] (Not yet released)
+- Refresh common-protos dependency examples, add Dataproc, and document the supported ScalaPB lines.
 - Select Scala 3 generation syntax in the installation instructions and document underscore kind-projector errors and stale generated sources in the FAQ (#1919).
 - Map non-status streaming gRPC response failures to `INTERNAL`, consistently with unary calls, while preserving explicit statuses and trailers (#1943).
 - Migrate example and benchmark builds to sbt 2.0.10 and check their formatting in CI.

@@ -24,6 +24,25 @@ If you don't see your favorite third-party proto package here, and there is alre
 
 ## Available packages
 
+These JVM artifacts are built for Scala 2.12.21, 2.13.18, and 3.3.8, using ScalaPB
+0.11.21 and 1.0.0-alpha.6. Match the artifact's ScalaPB line to your generator and
+runtime. The 1.0 line is experimental; Scala 3 consumers need Scala 3.3.8 or later.
+
+Older ScalaPB 0.9 and 0.10 artifacts remain available at their existing versions on
+[Maven Central](https://repo.maven.apache.org/maven2/com/thesamet/scalapb/common-protos/).
+They are not part of these releases. The 0.10 line is frozen because its generator
+cannot handle the proto3 optional fields used by current Google schemas.
+
+The Google packages bring in protobuf-java 4.33.6 on the ScalaPB 0.11 line; the
+ScalaPB 1.0 line resolves protobuf-java 4.35.0. These Google packages require
+protobuf-java 4.x. No additional configuration is normally needed: sbt selects it
+transitively. If your build overrides protobuf-java to 3.x, remove that override
+before upgrading. Pub/Sub and Dataproc depend on the matching common-protos artifact.
+
+PGV remains available for existing consumers. Its upstream replacement,
+[Protovalidate](https://github.com/bufbuild/protovalidate), uses different schemas
+and is not a drop-in replacement for these artifacts.
+
 ```scala mdoc:passthrough
 scalapb.docs.CommonProtos.printTable()
 ```
