@@ -20,10 +20,10 @@ object CommonProtos {
 
   def table: String = {
     Seq(
-      ("proto-google-common-protos", "2.78.0-0"),
+      ("proto-google-common-protos", "2.78.0-1"),
       ("proto-google-cloud-pubsub-v1", "1.157.0-0"),
       ("proto-google-cloud-dataproc-v1", "4.96.0-0"),
-      ("pgv-proto", "1.3.3-0")
+      ("pgv-proto", "1.3.3-1")
     ).map((row _).tupled).mkString("\n")
   }
 
