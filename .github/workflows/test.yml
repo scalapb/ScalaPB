@@ -24,7 +24,7 @@ jobs:
 
     - uses: actions/setup-java@v5
       with:
-        java-version: 11
+        java-version: ${{ matrix.script == 'examples_and_formatting' && '17' || '11' }}
         distribution: temurin
 
     - uses: sbt/setup-sbt@v1

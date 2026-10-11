@@ -487,14 +487,38 @@ lazy val docs = project
     scalaVersion       := Scala212,
     crossScalaVersions := Seq(Scala212),
     libraryDependencies ++= Seq(
-      "com.thesamet.scalapb" %% "scalapb-json4s"   % "0.11.0",
-      "com.thesamet.scalapb" %% "sparksql-scalapb" % "0.11.0",
-      "org.apache.spark"     %% "spark-sql"        % "3.1.1",
-      "com.lihaoyi"          %% "ujson"            % "0.9.0",
-      "com.lihaoyi"          %% "os-lib"           % "0.5.0",
-      "org.plotly-scala"     %% "plotly-render"    % "0.7.2"
+      "com.thesamet.scalapb" %% "scalapb-json4s"         % "0.11.0",
+      "com.thesamet.scalapb" %% "sparksql35-scalapb0_11" % "1.0.4",
+      "org.apache.spark"     %% "spark-sql"              % "3.5.6",
+      "com.lihaoyi"          %% "ujson"                  % "0.9.0",
+      "com.lihaoyi"          %% "os-lib"                 % "0.5.0",
+      "org.plotly-scala"     %% "plotly-render"          % "0.7.2"
     ),
-    mdocIn                                     := baseDirectory.value / "src" / "main" / "markdown",
+    mdocIn := baseDirectory.value / "src" / "main" / "markdown",
+    // Keep the output path stable for Docusaurus across sbt versions.
+    mdocOut := baseDirectory.value / "target" / "mdoc",
+    cleanFiles += mdocOut.value,
+    // mdoc runs Spark directly, bypassing spark-submit's Java 17 module options.
+    Compile / run / fork := true,
+    Compile / javaOptions ++= Seq(
+      "java.lang",
+      "java.lang.invoke",
+      "java.lang.reflect",
+      "java.io",
+      "java.net",
+      "java.nio",
+      "java.util",
+      "java.util.concurrent",
+      "java.util.concurrent.atomic",
+      "jdk.internal.ref",
+      "sun.nio.ch",
+      "sun.nio.cs",
+      "sun.security.action",
+      "sun.util.calendar"
+    ).map(module => s"--add-opens=java.base/$module=ALL-UNNAMED") ++ Seq(
+      "--add-opens=java.security.jgss/sun.security.krb5=ALL-UNNAMED",
+      "-Djdk.reflect.useDirectMethodHandle=false"
+    ),
     ScalaUnidoc / unidoc / unidocProjectFilter := inProjects(
       lensesJVM2_12,
       runtimeJVM2_12,
