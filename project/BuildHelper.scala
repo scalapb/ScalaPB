@@ -124,7 +124,7 @@ object BuildHelper {
     val a = (LocalRootProject / baseDirectory).value.toURI.toString
     val g = "https://raw.githubusercontent.com/scalapb/ScalaPB/" + sys.process
       .Process("git rev-parse HEAD")
-      .lineStream_!
+      .lazyLines_!
       .head
     val flag = if isScala3.value then "-scalajs-mapSourceURI" else "-P:scalajs:mapSourceURI"
     s"$flag:$a->$g/"
