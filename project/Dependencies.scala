@@ -77,7 +77,7 @@ object Dependencies {
   val coursierSecurityDependencies = Seq(
     "io.airlift"          % "aircompressor" % "2.0.3",
     "org.apache.commons"  % "commons-lang3" % "3.18.0",
-    "org.codehaus.plexus" % "plexus-utils"  % "4.0.3",
+    "org.codehaus.plexus" % "plexus-utils"  % "4.1.0",
     "org.jsoup"           % "jsoup"         % "1.23.2"
   )
 
