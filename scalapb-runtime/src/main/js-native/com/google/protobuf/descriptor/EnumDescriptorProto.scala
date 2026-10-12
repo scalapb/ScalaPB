@@ -157,6 +157,16 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
     val __reservedName: _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String] = new _root_.scala.collection.immutable.VectorBuilder[_root_.scala.Predef.String]
     var __visibility: _root_.scala.Option[_root_.com.google.protobuf.descriptor.SymbolVisibility] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
+      val value = companion.fromValue(_input__.readEnum())
+      if (value.isUnrecognized) {
+        if (_unknownFields__ == null) {
+          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+        }
+        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
+        null.asInstanceOf[A]
+      } else value
+    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -173,13 +183,8 @@ object EnumDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
         case 42 =>
           __reservedName += _input__.readStringRequireUtf8()
         case 48 =>
-          val _enumValue__ = _root_.com.google.protobuf.descriptor.SymbolVisibility.fromValue(_input__.readEnum())
-          if (_enumValue__.isUnrecognized) {
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.addVarint(6, _enumValue__.value.toLong)
-          } else {
+          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.SymbolVisibility, 6)
+          if (_enumValue__ != null) {
             __visibility = _root_.scala.Option(_enumValue__)
           }
         case tag =>

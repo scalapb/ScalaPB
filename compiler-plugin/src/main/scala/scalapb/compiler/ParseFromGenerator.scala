@@ -121,13 +121,13 @@ private[compiler] class ParseFromGenerator(
          |_unknownFields__.$method(${field.getNumber}, $value)""".stripMargin
     else "()"
 
-  private def readClosedEnum(field: FieldDescriptor, update: String): String =
-    s"""val _enumValue__ = ${field.getEnumType.scalaType.fullName}.fromValue(_input__.readEnum())
-       |if (_enumValue__.isUnrecognized)${message.V.Then} {
-       |  ${unknownValue(field, "addVarint", "_enumValue__.value.toLong").replace("\n", "\n  ")}
-       |} else {
+  private def readClosedEnum(field: FieldDescriptor, update: String): String = {
+    val fieldNumber = if (message.preservesUnknownFields) s", ${field.getNumber}" else ""
+    s"""val _enumValue__ = _readEnum__(${field.getEnumType.scalaType.fullName}$fieldNumber)
+       |if (_enumValue__ != null)${message.V.Then} {
        |  ${update.replace("\n", "\n  ")}
        |}""".stripMargin
+  }
 
   val requiredFieldMap: Map[FieldDescriptor, Int] =
     message.fields.filter(fd => fd.isRequired || fd.noBoxRequired).zipWithIndex.toMap
@@ -157,6 +157,27 @@ private[compiler] class ParseFromGenerator(
               s"${if (f.isRepeated) "val" else "var"} ${f.name}: ${f.typeName} = ${f.default}"
             )
           )
+          .when(message.fields.exists(isClosedEnum)) { fp =>
+            val fieldNumber =
+              if (message.preservesUnknownFields) ", fieldNumber: _root_.scala.Int" else ""
+            fp.add(
+              s"def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A]$fieldNumber): A = {",
+              "  val value = companion.fromValue(_input__.readEnum())",
+              s"  if (value.isUnrecognized)${message.V.Then} {"
+            ).when(message.preservesUnknownFields)(
+              _.add(
+                s"    if (_unknownFields__ == null)${message.V.Then} {",
+                "      _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()",
+                "    }",
+                "    _unknownFields__.addVarint(fieldNumber, value.value.toLong)"
+              )
+            ).add(
+              // Null is internal to this helper: callers only update fields for recognized values.
+              "    null.asInstanceOf[A]",
+              "  } else value",
+              "}"
+            )
+          }
           .add(s"""var _done__ = false
                   |while (!_done__)${message.V.Do} {
                   |  val _tag__ = _input__.readTag()

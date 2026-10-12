@@ -313,6 +313,16 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
     var __syntax: _root_.scala.Option[_root_.scala.Predef.String] = _root_.scala.None
     var __edition: _root_.scala.Option[_root_.com.google.protobuf.descriptor.Edition] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
+      val value = companion.fromValue(_input__.readEnum())
+      if (value.isUnrecognized) {
+        if (_unknownFields__ == null) {
+          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+        }
+        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
+        null.asInstanceOf[A]
+      } else value
+    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -361,13 +371,8 @@ object FileDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com.
         case 98 =>
           __syntax = _root_.scala.Option(_input__.readStringRequireUtf8())
         case 112 =>
-          val _enumValue__ = _root_.com.google.protobuf.descriptor.Edition.fromValue(_input__.readEnum())
-          if (_enumValue__.isUnrecognized) {
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.addVarint(14, _enumValue__.value.toLong)
-          } else {
+          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.Edition, 14)
+          if (_enumValue__ != null) {
             __edition = _root_.scala.Option(_enumValue__)
           }
         case tag =>

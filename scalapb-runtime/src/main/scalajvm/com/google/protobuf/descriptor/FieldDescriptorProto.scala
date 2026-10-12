@@ -265,6 +265,16 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com
     var __options: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FieldOptions] = _root_.scala.None
     var __proto3Optional: _root_.scala.Option[_root_.scala.Boolean] = _root_.scala.None
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
+      val value = companion.fromValue(_input__.readEnum())
+      if (value.isUnrecognized) {
+        if (_unknownFields__ == null) {
+          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+        }
+        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
+        null.asInstanceOf[A]
+      } else value
+    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -275,23 +285,13 @@ object FieldDescriptorProto extends scalapb.GeneratedMessageCompanion[_root_.com
         case 24 =>
           __number = _root_.scala.Option(_input__.readInt32())
         case 32 =>
-          val _enumValue__ = _root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label.fromValue(_input__.readEnum())
-          if (_enumValue__.isUnrecognized) {
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.addVarint(4, _enumValue__.value.toLong)
-          } else {
+          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Label, 4)
+          if (_enumValue__ != null) {
             __label = _root_.scala.Option(_enumValue__)
           }
         case 40 =>
-          val _enumValue__ = _root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type.fromValue(_input__.readEnum())
-          if (_enumValue__.isUnrecognized) {
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.addVarint(5, _enumValue__.value.toLong)
-          } else {
+          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.FieldDescriptorProto.Type, 5)
+          if (_enumValue__ != null) {
             __type = _root_.scala.Option(_enumValue__)
           }
         case 50 =>

@@ -126,6 +126,16 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google
     var __features: _root_.scala.Option[_root_.com.google.protobuf.descriptor.FeatureSet] = _root_.scala.None
     val __uninterpretedOption: _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption] = new _root_.scala.collection.immutable.VectorBuilder[_root_.com.google.protobuf.descriptor.UninterpretedOption]
     var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+    def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
+      val value = companion.fromValue(_input__.readEnum())
+      if (value.isUnrecognized) {
+        if (_unknownFields__ == null) {
+          _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+        }
+        _unknownFields__.addVarint(fieldNumber, value.value.toLong)
+        null.asInstanceOf[A]
+      } else value
+    }
     var _done__ = false
     while (!_done__) {
       val _tag__ = _input__.readTag()
@@ -134,13 +144,8 @@ object MethodOptions extends scalapb.GeneratedMessageCompanion[_root_.com.google
         case 264 =>
           __deprecated = _root_.scala.Option(_input__.readBool())
         case 272 =>
-          val _enumValue__ = _root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel.fromValue(_input__.readEnum())
-          if (_enumValue__.isUnrecognized) {
-            if (_unknownFields__ == null) {
-              _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-            }
-            _unknownFields__.addVarint(34, _enumValue__.value.toLong)
-          } else {
+          val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.MethodOptions.IdempotencyLevel, 34)
+          if (_enumValue__ != null) {
             __idempotencyLevel = _root_.scala.Option(_enumValue__)
           }
         case 282 =>

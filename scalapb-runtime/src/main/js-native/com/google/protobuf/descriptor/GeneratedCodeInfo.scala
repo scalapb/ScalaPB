@@ -258,6 +258,16 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
       var __end: _root_.scala.Option[_root_.scala.Int] = _root_.scala.None
       var __semantic: _root_.scala.Option[_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic] = _root_.scala.None
       var `_unknownFields__`: _root_.scalapb.UnknownFieldSet.Builder = null
+      def _readEnum__[A <: _root_.scalapb.GeneratedEnum](companion: _root_.scalapb.GeneratedEnumCompanion[A], fieldNumber: _root_.scala.Int): A = {
+        val value = companion.fromValue(_input__.readEnum())
+        if (value.isUnrecognized) {
+          if (_unknownFields__ == null) {
+            _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
+          }
+          _unknownFields__.addVarint(fieldNumber, value.value.toLong)
+          null.asInstanceOf[A]
+        } else value
+      }
       var _done__ = false
       while (!_done__) {
         val _tag__ = _input__.readTag()
@@ -280,13 +290,8 @@ object GeneratedCodeInfo extends scalapb.GeneratedMessageCompanion[_root_.com.go
           case 32 =>
             __end = _root_.scala.Option(_input__.readInt32())
           case 40 =>
-            val _enumValue__ = _root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic.fromValue(_input__.readEnum())
-            if (_enumValue__.isUnrecognized) {
-              if (_unknownFields__ == null) {
-                _unknownFields__ = new _root_.scalapb.UnknownFieldSet.Builder()
-              }
-              _unknownFields__.addVarint(5, _enumValue__.value.toLong)
-            } else {
+            val _enumValue__ = _readEnum__(_root_.com.google.protobuf.descriptor.GeneratedCodeInfo.Annotation.Semantic, 5)
+            if (_enumValue__ != null) {
               __semantic = _root_.scala.Option(_enumValue__)
             }
           case tag =>
