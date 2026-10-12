@@ -4,6 +4,9 @@
   including Edition 2024 file/type naming and correct Scala escaping of keyword
   outer class names and empty package names. Edition input support remains a
   separate prerequisite.
+- Reject negative, truncated and incompletely consumed length-delimited message frames, restore
+  coded input limits on parse failures, and add optional `maxFrameSize` parsing overloads.
+  Existing overloads retain their maximum frame size of `Int.MaxValue`.
 - BREAKING CHANGE: `scala3Sources = true` (or `scala3_sources`) now emits named
   givens, given-based lens conversions, and modern control-flow syntax for Scala 3
   `-source:future` (#2212). This output no longer supports Scala 2 with `-Xsource:3`;
