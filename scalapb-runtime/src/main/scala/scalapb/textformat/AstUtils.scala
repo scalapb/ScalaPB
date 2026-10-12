@@ -157,7 +157,7 @@ private[scalapb] object AstUtils {
           p match {
             case TIntLiteral(index, num) =>
               enumDesc.values
-                .find(_.number == num.toInt)
+                .find(v => num.isValidInt && v.number == num.toInt)
                 .map(PEnum(_))
                 .toRight(
                   AstError(
