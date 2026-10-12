@@ -48,7 +48,7 @@ class DescriptorFeaturesSpec extends FunSuite {
 
   test("proto2, proto3 and Edition 2023 defaults") {
     for (syntax <- Seq("proto2", "proto3", "editions")) {
-      val fd = build(
+      val fd: FileDescriptor = build(
         syntax,
         fields = Seq(
           field("value", 1),
